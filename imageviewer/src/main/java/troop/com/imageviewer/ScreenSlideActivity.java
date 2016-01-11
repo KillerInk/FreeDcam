@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +29,22 @@ public class ScreenSlideActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View appViewGroup = (ViewGroup) inflater.inflate(R.layout.imageviewer_activity, null);
-        setContentView(R.layout.screenslide_activity);
+
+        if (getSupportFragmentManager().findFragmentByTag(TAG) == null) {
+            ScreenSlideFragment fragment = new ScreenSlideFragment();
+            final int extraCurrentItem = getIntent().getIntExtra(EXTRA_IMAGE, -1);
+            final String path = getIntent().getStringExtra(IMAGE_PATH);
+            if (extraCurrentItem != -1) {
+                this.extra = extraCurrentItem;
+            }
+            if (path != null && !path.equals(""))
+                fragment.FilePathToLoad = path;
+            fragment.defitem = extra;
+            fragment.filestoshow = GridViewFragment.FormatTypes.valueOf(getIntent().getStringExtra(FileType));
+            final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(android.R.id.content, fragment, TAG);
+            ft.commit();
+        }
 
         flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -77,20 +91,7 @@ public class ScreenSlideActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ScreenSlideFragment fragment = new ScreenSlideFragment();
-        final int extraCurrentItem = getIntent().getIntExtra(EXTRA_IMAGE, -1);
-        final String path = getIntent().getStringExtra(IMAGE_PATH);
 
-        if (extraCurrentItem != -1) {
-            this.extra = extraCurrentItem;
-        }
-        if (path != null && !path.equals(""))
-            fragment.FilePathToLoad = path;
-        fragment.defitem = extra;
-        fragment.filestoshow = GridViewFragment.FormatTypes.valueOf(getIntent().getStringExtra(FileType));
-        android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(troop.com.imageviewer.R.id.screenslideFragment_holder, fragment, "Imageviewer");
-        transaction.commitAllowingStateLoss();
         HIDENAVBAR();
     }
 

@@ -76,6 +76,10 @@ public class ImageFragment extends Fragment
         View view = inflater.inflate(R.layout.imageframent, container, false);
         this.imageView = (TouchImageView)view.findViewById(R.id.imageView_PicView);
         this.spinner = (ProgressBar)view.findViewById(R.id.progressBar);
+        if(savedInstanceState != null && file == null)
+        {
+            file = new File((String) savedInstanceState.get(ScreenSlideFragment.SAVESTATE_FILEPATH));
+        }
 
         myHistogram = new MyHistogram(view.getContext());
         ll = (LinearLayout)view.findViewById(R.id.histoView);
@@ -143,6 +147,12 @@ public class ImageFragment extends Fragment
         });
 
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString(ScreenSlideFragment.SAVESTATE_FILEPATH, file.getAbsolutePath());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
