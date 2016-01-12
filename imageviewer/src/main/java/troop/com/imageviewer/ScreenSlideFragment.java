@@ -215,8 +215,13 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
         public ScreenSlidePagerAdapter(FragmentManager fm,FileHolder[] f)
         {
             super(fm);
-            Log.d(TAG, "loading screenslidePageAdapter: file count:" + f.length);
+
             this.f = f;
+            if (f != null)
+                Log.d(TAG, "loading screenslidePageAdapter: file count:" + f.length);
+            else
+                Log.d(TAG, "loading screenslidePageAdapter: No Files found");
+
         }
 
         @Override
