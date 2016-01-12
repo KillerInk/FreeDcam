@@ -58,7 +58,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         this.context = context;
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         output.setSurfaceTextureListener(previewSurfaceListner);
-
+        output.setAlpha(0);
     }
 
     public void Enable(boolean enable)
@@ -91,20 +91,23 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
 
     private void clear_preview()
     {
-        Log.d(TAG,"clear preview" + mWidth +"/"+mHeight);
+        Log.d(TAG, "clear preview" + mWidth + "/" + mHeight);
         if (mWidth == 0 || mHeight == 0) {
             Log.d(TAG,"Cant clear widht and height 0");
             return;
         }
-        final Bitmap map = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(map);
-        canvas.drawColor(Color.TRANSPARENT);
-        if ( mAllocationOut != null)
+
+
+        if (mAllocationOut != null && mRS != null)
         {
+            output.setAlpha(0);
+            /*final Bitmap map = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(map);
+            canvas.drawColor(Color.TRANSPARENT);
             Log.d(TAG, "use outalloc to draw");
             mAllocationOut.copyFrom(map);
             mAllocationOut.ioSend();
-            map.recycle();
+            map.recycle();*/
         }
         else
         {
