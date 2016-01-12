@@ -211,9 +211,6 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
             Log.d(TAG, "SurfaceDestroyed");
             clear_preview();
             mSurface = null;
-            if (mAllocationOut != null)
-                mAllocationOut.setSurface(mSurface);
-            else Log.d(TAG, "Allocout null");
 
 
             return false;
