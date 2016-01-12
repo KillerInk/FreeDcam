@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.AutoFocusCallback
 {
-
+    final String TAG = FocusHandler.class.getSimpleName();
     private final BaseCameraHolder cameraHolder;
     private final CameraUiWrapper cameraUiWrapper;
     private final AbstractParameterHandler parametersHandler;
@@ -207,6 +207,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
 
     private FocusRect getFocusRect(FocusRect rect, int width, int height)
     {
+        logFocusRect(rect);
         if (width == 0 || height == 0)
             return null;
         final FocusRect targetFocusRect = new FocusRect(
@@ -214,6 +215,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
                 rect.right * 2000 / width - 1000,
                 rect.top * 2000 / height - 1000,
                 rect.bottom * 2000 / height - 1000);
+        logFocusRect(targetFocusRect);
         //check if stuff is to big or to small and set it to min max value
         if (targetFocusRect.left < -1000)
         {
@@ -241,4 +243,6 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
         }
         return targetFocusRect;
     }
+
+
 }
