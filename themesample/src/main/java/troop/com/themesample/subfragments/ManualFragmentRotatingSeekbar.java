@@ -206,7 +206,14 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
                 currentButton = (ManualButton) v;
                 currentButton.SetActive(true);
                 currentButton.SetParameterListner(ManualFragmentRotatingSeekbar.this);
-                seekbar.SetStringValues(currentButton.getStringValues());
+                String[]vals = currentButton.getStringValues();
+                if (vals == null || vals.length == 0) {
+                    currentButton.SetActive(false);
+                    seekbar.setVisibility(View.GONE);
+                    Log.e(TAG, "Values returned from currentButton are NULL!");
+                    return;
+                }
+                seekbar.SetStringValues(vals);
                 seekbar.setProgress(currentButton.getCurrentItem());
                 currentValuePos = currentButton.getCurrentItem();
                 Log.d(TAG, "CurrentvaluePos " + currentValuePos);
