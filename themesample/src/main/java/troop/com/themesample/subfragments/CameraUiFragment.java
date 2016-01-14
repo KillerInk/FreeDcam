@@ -100,7 +100,6 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     {
         this.i_activity = i_activity;
         this.appSettingsManager = appSettingsManager;
-
     }
 
     @Override
@@ -119,11 +118,6 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
     private void setWrapper()
     {
-        if (wrapper == null || wrapper.camParametersHandler == null)
-            return;
-
-       // wbtest.SetParameter(wrapper.camParametersHandler.WhiteBalanceMode);
-
         flash.SetParameter(wrapper.camParametersHandler.FlashMode);
         //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(flash);
         iso.SetParameter(wrapper.camParametersHandler.IsoMode);
@@ -165,20 +159,28 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        super.onCreateView(inflater,container,savedInstanceState);
         Log.d(TAG, "####################ONCREATEDVIEW####################");
+        return inflater.inflate(R.layout.cameraui, container, false);
+    }
+
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
+        super.onViewCreated(view, savedInstanceState);
+        this.view = view;
+        Log.d(TAG, "####################VIEW CREATED####################");
         sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         manualsettingsIsOpen = sharedPref.getBoolean(KEY_MANUALMENUOPEN, false);
-        this.view = inflater.inflate(R.layout.cameraui, container, false);
         this.left_cameraUI_holder = (LinearLayout)view.findViewById(R.id.left_ui_holder);
         this.right_camerUI_holder = (RelativeLayout)view.findViewById(R.id.right_ui_holder);
         this.manualModes_holder = (FrameLayout)view.findViewById(R.id.manualModesHolder);
         this.ManualSettingsButton = (ImageView)view.findViewById(R.id.fastsettings_button);
         ManualSettingsButton.setOnClickListener(onSettingsClick);
 
-       // this.wbtest = (ImgItem)view.findViewById(R.id.testwb);
+        // this.wbtest = (ImgItem)view.findViewById(R.id.testwb);
         //wbtest.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_WHITEBALANCEMODE);
-       // wbtest.SetMenuItemListner(this);
+        // wbtest.SetMenuItemListner(this);
 
         this.flash = (UiSettingsChild)view.findViewById(R.id.Flash);
         flash.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_FLASHMODE);
@@ -229,7 +231,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         focuspeak.SetMenuItemListner(this);
 
 
-        
+
         if(!manualsettingsIsOpen)
             manualModes_holder.setVisibility(View.GONE);
 
@@ -254,20 +256,11 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         transaction.commitAllowingStateLoss();
         settingsmenuholer.setVisibility(View.GONE);
 
-
-        return view;
-    }
-
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        Log.d(TAG, "####################VIEW CREATED####################");
         manualModesFragment = new ManualFragmentRotatingSeekbar();
         manualModesFragment.SetStuff(appSettingsManager, i_activity);
         manualModesFragment.SetCameraUIWrapper(wrapper);
 
-        android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.bottom_to_top_enter, R.anim.empty);
         transaction.replace(R.id.manualModesHolder, manualModesFragment);
         transaction.commitAllowingStateLoss();

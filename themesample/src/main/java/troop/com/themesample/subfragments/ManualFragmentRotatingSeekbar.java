@@ -52,7 +52,12 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
     final String TAG = ManualFragmentRotatingSeekbar.class.getSimpleName();
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.manual_fragment_rotatingseekbar, container, false);
+        return inflater.inflate(R.layout.manual_fragment_rotatingseekbar, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         seekbar = (RotatingSeekbar)view.findViewById(R.id.seekbar);
         seekbar.setOnSeekBarChangeListener(this);
         seekbar.setVisibility(View.GONE);
@@ -120,12 +125,6 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
         convergence = (ManualButton)view.findViewById(R.id.manual_convergence);
         convergence.SetStuff(appSettingsManager, AppSettingsManager.MCONVERGENCE);
         convergence.setOnClickListener(manualButtonClickListner);
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         if (wrapper != null)
             setWrapper();
     }

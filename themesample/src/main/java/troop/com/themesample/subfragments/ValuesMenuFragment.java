@@ -23,7 +23,12 @@ public class ValuesMenuFragment extends Fragment implements ListView.OnItemClick
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        this.view = inflater.inflate(R.layout.valuesmenufragment, container, false);
+        return inflater.inflate(R.layout.valuesmenufragment, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         listView = (ListView)view.findViewById(R.id.values_fragment_listview);
 
 
@@ -32,7 +37,6 @@ public class ValuesMenuFragment extends Fragment implements ListView.OnItemClick
         //attach adapter to the listview and fill
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
-        return view;
     }
 
     public void SetMenuItem(String[] item, Interfaces.I_CloseNotice i_closeNotice)

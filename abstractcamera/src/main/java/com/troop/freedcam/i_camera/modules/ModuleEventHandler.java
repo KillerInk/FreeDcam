@@ -1,5 +1,8 @@
 package com.troop.freedcam.i_camera.modules;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -14,12 +17,14 @@ public class ModuleEventHandler
     ArrayList<I_WorkEvent> WorkFinishedListners;
     //holds all listner for recorstatechanged
     ArrayList<I_RecorderStateChanged> RecorderStateListners;
+    Handler uihandler;
 
     public  ModuleEventHandler()
     {
         moduleChangedListner = new ArrayList<I_ModuleEvent>();
         WorkFinishedListners = new ArrayList<I_WorkEvent>();
         RecorderStateListners = new ArrayList<I_RecorderStateChanged>();
+        uihandler = new Handler(Looper.getMainLooper());
     }
 
     /**
@@ -36,7 +41,7 @@ public class ModuleEventHandler
      * Gets thrown when the module has changed
      * @param module the new module that gets loaded
      */
-    public void ModuleHasChanged(String module)
+    public void ModuleHasChanged(final String module)
     {
         for (int i =0; i < moduleChangedListner.size(); i++)
         {
@@ -46,7 +51,15 @@ public class ModuleEventHandler
             }
             else
             {
-                moduleChangedListner.get(i).ModuleChanged(module);
+                final String mod = module;
+                final int toget = i;
+                uihandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        moduleChangedListner.get(toget).ModuleChanged(mod);
+                    }
+                });
+
             }
         }
     }

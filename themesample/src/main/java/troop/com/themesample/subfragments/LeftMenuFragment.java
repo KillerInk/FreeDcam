@@ -85,29 +85,91 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        this.view = inflater.inflate(R.layout.leftmenufragment, container, false);
-
-        return view;
+        return inflater.inflate(R.layout.leftmenufragment, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (wrapper != null)
-            setWrapper();
+        themeItem = (MenuItemTheme)view.findViewById(R.id.MenuItemTheme);
+        themeItem.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_Theme);
+
+        bayerFormatItem = (MenuItemBayerFormat) view.findViewById(R.id.MenuItemBayerFormat);
+        bayerFormatItem.SetStuff(i_activity, appSettingsManager, "");
+
+        pictureSize = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemPicSize);
+        pictureSize.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_PICTURESIZE);
+
+        sdSave = (MenuItemSDSave)view.findViewById(R.id.MenuItemSDSave);
+        sdSave.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_EXTERNALSD);
+
+        menuItemInterval = (MenuItemInterval)view.findViewById(R.id.MenuIntervalmeter);
+        menuItemInterval.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_INTERVAL);
+
+        menuItemIntervalDuration = (MenuItemIntervalDuration)view.findViewById(R.id.MenuIntervalmeterDuration);
+        menuItemIntervalDuration.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_INTERVAL_DURATION);
+
+        menuItemTimer = (MenuItemTimer)view.findViewById(R.id.MenuTimer);
+        menuItemTimer.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_TIMER);
+
+        menuItemGPS = (MenuItemGPS)view.findViewById(R.id.MenuItemGPS);
+        menuItemGPS.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_LOCATION);
+
+        guide = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemGuide);
+        guide.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_GUIDE);
+
+        api = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemApi);
+        api.SetStuff(i_activity, appSettingsManager, null);
+
+        externalShutter = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemExternalShutter);
+        externalShutter.SetStuff(i_activity, appSettingsManager, null);
+
+        orientationHack = (MenuItemOrientationHack)view.findViewById(R.id.MenuItemOrientationHack);
+        orientationHack.SetStuff(i_activity, appSettingsManager, null);
+
+        jpegQuality = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemJpegQuality);
+        jpegQuality.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_JPEGQUALITY);
+
+        aeBracket = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemAeBracket);
+        aeBracket.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_AEBRACKETACTIVE);
+
+        videoProfile = (MenuItemVideoProfile)view.findViewById(R.id.MenuItemVideoProfile);
+        videoProfile.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEPROFILE);
+
+        videoHDR = (troop.com.themesample.views.menu.MenuItemVideoHDR)view.findViewById(R.id.MenuItemVideHDR);
+        videoHDR.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOHDR);
+
+        HighFramerateVideo = (troop.com.themesample.views.menu.MenuItemHighFramerateVideo)view.findViewById(R.id.MenuItemHighFramerateVideo);
+        HighFramerateVideo.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HighFramerateVideo);
+
+        HighSpeedVideo = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemHighSpeedVideo);
+        HighSpeedVideo.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HighSpeedVideo);
+
+        VideoSize = (MenuItem) view.findViewById(R.id.MenuItemVideoSize);
+        VideoSize.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOSIZE);
+
+        videoStabilization =  (MenuItem)view.findViewById(R.id.MenuItemVideoStabilization);
+        videoStabilization.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOSTABILIZATION);
+
+        timeLapseFrames = (MenuItemTimeLapseFrames) view.findViewById(troop.com.themesample.R.id.MenuItemTimeLapseFrame);
+        timeLapseFrames.SetStuff(appSettingsManager, AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME);
+
+        saveCamParams = (MenuItemSaveCamParams)view.findViewById(R.id.MenuItemSaveParams);
+
+        PreviewFormat = (MenuItem)view.findViewById(R.id.MenuItemPreviewFormat);
+
+        PreviewSize = (MenuItem)view.findViewById(R.id.MenuItemPreviewSize);
+        setWrapper();
     }
 
     private void setWrapper()
     {
-        themeItem = (MenuItemTheme)view.findViewById(R.id.MenuItemTheme);
-        themeItem.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_Theme);
+        if (themeItem == null)
+            return;
         themeItem.SetParameter(wrapper.camParametersHandler.ThemeList);
         themeItem.SetMenuItemListner(this);
 
-        bayerFormatItem = (MenuItemBayerFormat) view.findViewById(R.id.MenuItemBayerFormat);
         if(wrapper instanceof CameraUiWrapper) {
-
-            bayerFormatItem.SetStuff(i_activity, appSettingsManager, "");
             bayerFormatItem.SetParameter(wrapper.camParametersHandler.PictureFormat);
             bayerFormatItem.SetMenuItemListner(this);
             bayerFormatItem.setVisibility(View.VISIBLE);
@@ -115,80 +177,42 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         else
             bayerFormatItem.setVisibility(View.GONE);
 
-        pictureSize = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemPicSize);
-        pictureSize.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_PICTURESIZE);
         pictureSize.SetParameter(wrapper.camParametersHandler.PictureSize);
         pictureSize.SetMenuItemListner(this);
 
-        sdSave = (MenuItemSDSave)view.findViewById(R.id.MenuItemSDSave);
-        sdSave.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_EXTERNALSD);
         sdSave.SetCameraUiWrapper(wrapper);
         sdSave.SetMenuItemListner(this);
 
-        menuItemInterval = (MenuItemInterval)view.findViewById(R.id.MenuIntervalmeter);
-        menuItemInterval.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_EXTERNALSD);
         menuItemInterval.SetCameraUIWrapper(wrapper);
         menuItemInterval.SetMenuItemListner(this);
 
-        menuItemIntervalDuration = (MenuItemIntervalDuration)view.findViewById(R.id.MenuIntervalmeterDuration);
-        menuItemIntervalDuration.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_EXTERNALSD);
         menuItemIntervalDuration.SetCameraUIWrapper(wrapper);
         menuItemIntervalDuration.SetMenuItemListner(this);
 
-        menuItemTimer = (MenuItemTimer)view.findViewById(R.id.MenuTimer);
-        menuItemTimer.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_EXTERNALSD);
         menuItemTimer.SetCameraUIWrapper(wrapper);
         menuItemTimer.SetMenuItemListner(this);
 
-        menuItemGPS = (MenuItemGPS)view.findViewById(R.id.MenuItemGPS);
-        menuItemGPS.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_LOCATION);
         menuItemGPS.SetCameraUIWrapper(wrapper);
         menuItemGPS.SetMenuItemListner(this);
 
-        guide = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemGuide);
-        guide.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_GUIDE);
         guide.SetParameter(wrapper.camParametersHandler.GuideList);
         guide.SetMenuItemListner(this);
 
-        api = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemApi);
-        api.SetStuff(i_activity, appSettingsManager, null);
         api.SetParameter(new ApiParameter(null, i_activity, appSettingsManager));
         api.SetMenuItemListner(this);
 
-        externalShutter = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemExternalShutter);
-        externalShutter.SetStuff(i_activity, appSettingsManager, null);
         externalShutter.SetParameter(new ParameterExternalShutter(appSettingsManager));
         externalShutter.SetMenuItemListner(this);
 
-        orientationHack = (MenuItemOrientationHack)view.findViewById(R.id.MenuItemOrientationHack);
-        orientationHack.SetStuff(i_activity, appSettingsManager, null);
         orientationHack.SetCameraUIWrapper(wrapper);
         orientationHack.SetMenuItemListner(this);
 
-        jpegQuality = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemJpegQuality);
-        jpegQuality.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_JPEGQUALITY);
         jpegQuality.SetParameter(wrapper.camParametersHandler.JpegQuality);
         jpegQuality.SetMenuItemListner(this);
 
-        /*histogram = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemHistogram);
-        histogram.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_HISTOGRAM);
-        histogram.SetParameter(new HistogramParameter(null, i_activity, appSettingsManager, wrapper));
-        histogram.SetMenuItemListner(this);*/
-
-        /*focuspeak = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemFocusPeak);
-        focuspeak.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_FOCUSPEAK);
-        focuspeak.SetParameter(wrapper.camParametersHandler.Focuspeak);
-        focuspeak.SetMenuItemListner(this);*/
-
-
-
-        aeBracket = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemAeBracket);
-        aeBracket.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_AEBRACKETACTIVE);
         aeBracket.SetParameter(wrapper.camParametersHandler.AE_Bracket);
         aeBracket.SetMenuItemListner(this);
 
-        videoProfile = (MenuItemVideoProfile)view.findViewById(R.id.MenuItemVideoProfile);
-        videoProfile.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEPROFILE);
         if (wrapper.camParametersHandler.VideoProfiles != null)
             videoProfile.SetParameter(wrapper.camParametersHandler.VideoProfiles);
         else if (wrapper.camParametersHandler.VideoProfilesG3 != null)
@@ -199,28 +223,20 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         }
         videoProfile.SetMenuItemListner(this);
 
-        videoHDR = (troop.com.themesample.views.menu.MenuItemVideoHDR)view.findViewById(R.id.MenuItemVideHDR);
-        videoHDR.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOHDR);
         videoHDR.SetParameter(wrapper.camParametersHandler.VideoHDR);
         videoHDR.SetMenuItemListner(this);
         videoHDR.SetModulesToShow(wrapper.moduleHandler.VideoModules, wrapper.moduleHandler);
         ///////////////////////////   Highspeed Recording //////////////////////////////////////////
 
-        HighFramerateVideo = (troop.com.themesample.views.menu.MenuItemHighFramerateVideo)view.findViewById(R.id.MenuItemHighFramerateVideo);
-        HighFramerateVideo.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HighFramerateVideo);
         HighFramerateVideo.SetParameter(wrapper.camParametersHandler.VideoHighFramerateVideo);
         HighFramerateVideo.SetMenuItemListner(this);
         HighFramerateVideo.SetModulesToShow(wrapper.moduleHandler.VideoModules, wrapper.moduleHandler);
 
-        HighSpeedVideo = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemHighSpeedVideo);
-        HighSpeedVideo.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HighSpeedVideo);
         HighSpeedVideo.SetParameter(wrapper.camParametersHandler.VideoHighSpeedVideo);
         HighSpeedVideo.SetMenuItemListner(this);
 
-        VideoSize = (MenuItem) view.findViewById(R.id.MenuItemVideoSize);
         if (!(wrapper instanceof CameraUiWrapper) && wrapper.camParametersHandler.VideoSize != null && wrapper.camParametersHandler.VideoSize.IsSupported()) {
 
-            VideoSize.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOSIZE);
             VideoSize.SetParameter(wrapper.camParametersHandler.VideoSize);
             VideoSize.SetMenuItemListner(this);
             VideoSize.setVisibility(View.VISIBLE);
@@ -228,45 +244,35 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         else
             VideoSize.setVisibility(View.GONE);
 
-        videoStabilization =  (MenuItem)view.findViewById(R.id.MenuItemVideoStabilization);
-        videoStabilization.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOSTABILIZATION);
         videoStabilization.SetParameter(wrapper.camParametersHandler.VideoStabilization);
         videoStabilization.SetMenuItemListner(this);
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
-        timeLapseFrames = (MenuItemTimeLapseFrames) view.findViewById(troop.com.themesample.R.id.MenuItemTimeLapseFrame);
         if (wrapper instanceof CameraUiWrapper) {
-            timeLapseFrames.SetStuff(appSettingsManager, AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME);
+
             timeLapseFrames.setVisibility(View.VISIBLE);
         }
         else
             timeLapseFrames.setVisibility(View.GONE);
 
-        saveCamParams = (MenuItemSaveCamParams)view.findViewById(R.id.MenuItemSaveParams);
         saveCamParams.setCameraUiWrapper(wrapper);
 
-        PreviewFormat = (MenuItem)view.findViewById(R.id.MenuItemPreviewFormat);
         if (DEBUG)
         {
             PreviewFormat.SetStuff(i_activity, appSettingsManager, null);
             PreviewFormat.SetParameter(wrapper.camParametersHandler.PreviewFormat);
             PreviewFormat.SetMenuItemListner(this);
             PreviewFormat.setVisibility(View.VISIBLE);
-        }
-        else
-            PreviewFormat.setVisibility(View.GONE);
-
-        PreviewSize = (MenuItem)view.findViewById(R.id.MenuItemPreviewSize);
-        if (DEBUG)
-        {
             PreviewSize.SetStuff(i_activity, appSettingsManager, null);
             PreviewSize.SetParameter(wrapper.camParametersHandler.PreviewSize);
             PreviewSize.SetMenuItemListner(this);
             PreviewSize.setVisibility(View.VISIBLE);
         }
-        else
+        else {
+            PreviewFormat.setVisibility(View.GONE);
             PreviewSize.setVisibility(View.GONE);
+        }
     }
 
     public void SetMenuItemClickListner(Interfaces.I_MenuItemClick menuItemClick)
@@ -284,7 +290,6 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     @Override
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper) {
         super.SetCameraUIWrapper(wrapper);
-        if (view != null)
             setWrapper();
     }
 }

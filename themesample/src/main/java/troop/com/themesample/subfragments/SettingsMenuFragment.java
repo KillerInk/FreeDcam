@@ -59,18 +59,15 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        this.view = inflater.inflate(R.layout.settingsmenufragment, container, false);
-        //this.closeTab = (TextView)view.findViewById(R.id.textView_Close);
-        //closeTab.setOnClickListener(onSettingsClickListner);
-        right_Holder = (LinearLayout)view.findViewById(R.id.right_holder);
-        left_Holder = (LinearLayout)view.findViewById(R.id.left_holder);
-
-        return view;
+        return inflater.inflate(R.layout.settingsmenufragment, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.view = view;
+        right_Holder = (LinearLayout)view.findViewById(R.id.right_holder);
+        left_Holder = (LinearLayout)view.findViewById(R.id.left_holder);
         setWrapper();
     }
 
