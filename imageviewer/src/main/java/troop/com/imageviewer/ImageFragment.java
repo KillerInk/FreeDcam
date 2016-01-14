@@ -73,7 +73,12 @@ public class ImageFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.imageframent, container, false);
+        return inflater.inflate(R.layout.imageframent, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         this.imageView = (TouchImageView)view.findViewById(R.id.imageView_PicView);
         this.spinner = (ProgressBar)view.findViewById(R.id.progressBar);
         if(savedInstanceState != null && file == null)
@@ -145,8 +150,6 @@ public class ImageFragment extends Fragment
                 }
             }
         });
-
-        return view;
     }
 
     @Override

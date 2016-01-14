@@ -2,6 +2,7 @@ package troop.com.imageviewer;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -60,10 +61,15 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
     public GridViewFragment.FormatTypes filestoshow = GridViewFragment.FormatTypes.all;
     SwipeMenuListner touchHandler;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.screenslide_fragment, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
-        view = inflater.inflate(R.layout.screenslide_fragment, container, false);
+        super.onViewCreated(view, savedInstanceState);
         touchHandler = new SwipeMenuListner(this);
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) view.findViewById(R.id.pager);
@@ -85,12 +91,6 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
                     getActivity().finish();
             }
         });
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         if(savedInstanceState != null){
             FilePathToLoad = (String) savedInstanceState.get(SAVESTATE_FILEPATH);
             defitem = (int)savedInstanceState.get(SAVESTATE_ITEMINT);
@@ -137,6 +137,7 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
         if(folder.listFiles() == null || folder.listFiles().length ==0)
         {
             Log.d(TAG, "readFiles failed, folder.listFiles empty");
+            files = null;
             return;
         }
         FileUtils.readFilesFromFolder(folder, images, filestoshow);
