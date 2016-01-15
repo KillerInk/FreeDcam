@@ -71,7 +71,10 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     {
         if (enabled)
         {
-            mRS = RenderScript.create(context.getApplicationContext());
+            if(mRS == null) {
+                mRS = RenderScript.create(context.getApplicationContext());
+                mRS.setPriority(RenderScript.Priority.LOW);
+            }
             final Size size = new Size(cameraUiWrapper.camParametersHandler.PreviewSize.GetValue());
             reset(size.width, size.height);
             Log.d(TAG, "Set PreviewCallback");
@@ -81,8 +84,8 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         {
             Log.d(TAG, "stop focuspeak");
             clear_preview();
-            mRS.destroy();
-            mRS = null;
+            mRS.finish();
+            //mRS = null;
 
         }
         if(cameraUiWrapper.camParametersHandler.Focuspeak != null && cameraUiWrapper.camParametersHandler.Focuspeak.IsSupported())
