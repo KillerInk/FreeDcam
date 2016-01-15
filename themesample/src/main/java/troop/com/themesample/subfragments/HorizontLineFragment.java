@@ -6,6 +6,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +26,7 @@ import troop.com.themesample.R;
 /**
  * Created by Ar4eR on 15.01.16.
  */
-public class HorizontLineFragment extends AbstractFragment implements AbstractModeParameter.I_ModeParameterEvent, SensorEventListener{
+public class HorizontLineFragment extends AbstractFragment implements AbstractModeParameter.I_ModeParameterEvent{
 
     View view;
     AbstractCameraUiWrapper cameraUiWrapper;
@@ -41,6 +43,15 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
     float[] mGeomagnetic;
     float roll;
     float pitch;
+    float rolldegree;
+    float pitchdegree;
+    final float rad2deg = (float)(180.0f/Math.PI);
+    final Handler handler = new Handler();
+    private HandlerThread sensorThread;
+    private Handler sensorHandler;
+    private MySensorListener msl =new MySensorListener();
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -52,6 +63,9 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
         downImage = (ImageView)view.findViewById(R.id.horizontleveldown);
         upImage.setVisibility(View.GONE);
         downImage.setVisibility(View.GONE);
+        sensorThread = new HandlerThread("Sensor thread", Thread.MAX_PRIORITY);
+        sensorThread.start();
+        sensorHandler = new Handler(sensorThread.getLooper());
         sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
@@ -91,57 +105,6 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
 
     }
 
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
-            mGravity = event.values.clone();
-        if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
-            mGeomagnetic = event.values.clone();
-        if (mGravity != null && mGeomagnetic != null) {
-            float R[] = new float[9];
-            float I[] = new float[9];
-            boolean success = sensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic);
-            if (success) {
-                float orientation[] = new float[3];
-                sensorManager.getOrientation(R, orientation);
-                roll = orientation[1];
-                pitch = orientation[2];
-            }
-            final float rad2deg = (float)(180.0f/Math.PI);
-            float rolldegree = roll * rad2deg;
-            float pitchdegree = pitch * rad2deg;
-            Log.d("Sometag", String.valueOf(pitchdegree));
-            if (RotateDegree != rolldegree) {
-                RotateAnimation rotateAnimation = new RotateAnimation(RotateDegree, rolldegree, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                rotateAnimation.setFillAfter(true);
-                lineImage.startAnimation(rotateAnimation);
-                RotateDegree = rolldegree;
-            }
-            if (pitchdegree > -89.5)
-            {
-                upImage.setVisibility(View.VISIBLE);
-                downImage.setVisibility(View.GONE);
-            }
-            if (pitchdegree < -90.5)
-            {
-                upImage.setVisibility(View.GONE);
-                downImage.setVisibility(View.VISIBLE);
-            }
-            if (pitchdegree >= -90.5 && pitchdegree <= -89.5)
-            {
-                upImage.setVisibility(View.GONE);
-                downImage.setVisibility(View.GONE);
-
-            }
-
-        }
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
-
     public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
     {
         this.cameraUiWrapper = cameraUiWrapper;
@@ -151,15 +114,16 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
     public void startSensorListing()
     {
         if (appSettingsManager.getString(AppSettingsManager.SETTING_HORIZONT).equals("On")) {
-            sensorManager.registerListener(this, accelerometer, 1000000);
-            sensorManager.registerListener(this, magnetometer, 1000000);
+            sensorManager.registerListener(msl, accelerometer, 1000000, sensorHandler);
+            sensorManager.registerListener(msl, magnetometer, 1000000, sensorHandler);
         }
     }
 
     public void stopSensorListing()
     {
         if (sensorManager != null)
-            sensorManager.unregisterListener(this);
+            sensorManager.unregisterListener(msl);
+
     }
     @Override
     public void onPause(){
@@ -172,4 +136,56 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
         startSensorListing();
     }
 
+    private class MySensorListener implements SensorEventListener {
+
+        public void onAccuracyChanged (Sensor sensor, int accuracy) {}
+
+        public void onSensorChanged(SensorEvent event) {
+            if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
+                mGravity = event.values.clone();
+            if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
+                mGeomagnetic = event.values.clone();
+            if (mGravity != null && mGeomagnetic != null) {
+                //hltheard.run();
+                float R[] = new float[9];
+                float I[] = new float[9];
+                boolean success = sensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic);
+                if (success) {
+                    float orientation[] = new float[3];
+                    sensorManager.getOrientation(R, orientation);
+                    roll = orientation[1];
+                    pitch = orientation[2];
+                    rolldegree = roll * rad2deg;
+                    pitchdegree = pitch * rad2deg;
+                   // Log.d("Sometag", String.valueOf(pitchdegree));
+                }
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (RotateDegree != rolldegree) {
+                            RotateAnimation rotateAnimation = new RotateAnimation(RotateDegree, rolldegree, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                            rotateAnimation.setFillAfter(true);
+                            rotateAnimation.setDuration(500);
+                            lineImage.startAnimation(rotateAnimation);
+                            RotateDegree = rolldegree;
+                        }
+                        if (pitchdegree > -89) {
+                            upImage.setVisibility(View.VISIBLE);
+                            downImage.setVisibility(View.GONE);
+                        }
+                        if (pitchdegree < -91) {
+                            upImage.setVisibility(View.GONE);
+                            downImage.setVisibility(View.VISIBLE);
+                        }
+                        if (pitchdegree >= -91 && pitchdegree <= -89) {
+                            upImage.setVisibility(View.GONE);
+                            downImage.setVisibility(View.GONE);
+                        }
+                    }
+                });
+
+
+            }
+        }
+    }
 }
