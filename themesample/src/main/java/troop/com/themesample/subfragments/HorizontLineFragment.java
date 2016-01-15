@@ -55,10 +55,9 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
         sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_HORIZONT).equals("On"))
-            startSensorListing();
-        else
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_HORIZONT).equals("Off"))
             view.setVisibility(View.GONE);
+        startSensorListing();
         return view;
     }
 
@@ -95,9 +94,9 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
-            mGravity = event.values;
+            mGravity = event.values.clone();
         if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
-            mGeomagnetic = event.values;
+            mGeomagnetic = event.values.clone();
         if (mGravity != null && mGeomagnetic != null) {
             float R[] = new float[9];
             float I[] = new float[9];
@@ -108,26 +107,27 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
                 roll = orientation[1];
                 pitch = orientation[2];
             }
-            float rolldegree = Math.round(roll * 57.2957795);
-            float pitchdegree = Math.round(pitch * 57.2957795);
-            Log.d("SOmetagg", String.valueOf(pitchdegree));
+            final float rad2deg = (float)(180.0f/Math.PI);
+            float rolldegree = roll * rad2deg;
+            float pitchdegree = pitch * rad2deg;
+            Log.d("Sometag", String.valueOf(pitchdegree));
             if (RotateDegree != rolldegree) {
                 RotateAnimation rotateAnimation = new RotateAnimation(RotateDegree, rolldegree, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                 rotateAnimation.setFillAfter(true);
                 lineImage.startAnimation(rotateAnimation);
                 RotateDegree = rolldegree;
             }
-            if (pitchdegree > -90)
+            if (pitchdegree > -89.5)
             {
                 upImage.setVisibility(View.VISIBLE);
                 downImage.setVisibility(View.GONE);
             }
-            if (pitchdegree < -90)
+            if (pitchdegree < -90.5)
             {
                 upImage.setVisibility(View.GONE);
                 downImage.setVisibility(View.VISIBLE);
             }
-            if (pitchdegree == -90)
+            if (pitchdegree >= -90.5 && pitchdegree <= -89.5)
             {
                 upImage.setVisibility(View.GONE);
                 downImage.setVisibility(View.GONE);
@@ -150,14 +150,26 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
     }
     public void startSensorListing()
     {
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_HORIZONT).equals("On")) {
+            sensorManager.registerListener(this, accelerometer, 1000000);
+            sensorManager.registerListener(this, magnetometer, 1000000);
+        }
     }
 
     public void stopSensorListing()
     {
         if (sensorManager != null)
             sensorManager.unregisterListener(this);
+    }
+    @Override
+    public void onPause(){
+        super.onPause();
+        stopSensorListing();
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        startSensorListing();
     }
 
 }
