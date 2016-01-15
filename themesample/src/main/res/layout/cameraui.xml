@@ -10,6 +10,12 @@
         android:layout_height="fill_parent"
         android:id="@+id/guideHolder"></LinearLayout>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/horHolder"></LinearLayout>
+
     <ImageView
         android:layout_width="80dp"
         android:layout_height="80dp"

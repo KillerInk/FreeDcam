@@ -116,6 +116,7 @@ public class AppSettingsManager
 
     final public static String CAMERA2FULLSUPPORTED = "camera2fullsupport";
 
+    final public static String SETTING_HORIZONT = "horizont";
 
 
     public AppSettingsManager(SharedPreferences appSettings, Context context)

@@ -36,6 +36,8 @@
     <string name="setting_location_header">Location: </string>
     <string name="setting_guide_description">Compositional Guides</string>
     <string name="setting_guide_header">Guide: </string>
+    <string name="setting_horizont_description">Show horizont line</string>
+    <string name="setting_horizont_header">Horizont Line: </string>
     <string name="setting_focuspeak_description">Enables FocusPeak on the Preview</string>
     <string name="setting_focuspeak_header">Focuspeak: </string>
     <string name="setting_orientation_header">Orientation Correction: </string>

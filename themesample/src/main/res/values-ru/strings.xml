@@ -32,6 +32,8 @@
     <string name="setting_location_header">Местоположение: </string>
     <string name="setting_guide_description">Композиционные линии</string>
     <string name="setting_guide_header">Линии:</string>
+    <string name="setting_horizont_description">Oтображение линии горизонта</string>
+    <string name="setting_horizont_header">Линия горизонта:</string>
     <string name="setting_focuspeak_description">Точки фокусировки</string>
     <string name="setting_focuspeak_header">Focuspeak: </string>
     <string name="setting_orientation_header">Коррекция ориентации: </string>

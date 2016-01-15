@@ -80,6 +80,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter VideoHighFramerateVideo;
     public AbstractModeParameter VideoHighSpeedVideo;
     public AbstractModeParameter CameraMode;
+    public AbstractModeParameter Horizont;
 
     //yet only seen on m9
     public AbstractModeParameter RdiMode;
@@ -132,6 +133,7 @@ public abstract class AbstractParameterHandler
         locationParameter = new LocationParameter(uiHandler, appSettingsManager,cameraHolder);
         IntervalDuration = new IntervalDurationParameter(uiHandler);
         IntervalShutterSleep = new IntervalShutterSleepParameter(uiHandler);
+        Horizont = new Horizont(uiHandler);
     }
 
     public void SetParametersToCamera() {};
@@ -187,6 +189,7 @@ public abstract class AbstractParameterHandler
         setMode(ControlMode, AppSettingsManager.SETTING_CONTROLMODE);
         setMode(IntervalDuration,AppSettingsManager.SETTING_INTERVAL_DURATION);
         setMode(IntervalShutterSleep, AppSettingsManager.SETTING_INTERVAL);
+        setMode(Horizont, AppSettingsManager.SETTING_HORIZONT);
 
         //setMode(Focuspeak, AppSettingsManager.SETTING_FOCUSPEAK);
         if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals(""))

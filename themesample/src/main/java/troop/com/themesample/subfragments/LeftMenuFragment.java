@@ -79,6 +79,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     troop.com.themesample.views.menu.MenuItem videoStabilization;
     troop.com.themesample.views.menu.MenuItem HighSpeedVideo;
 
+    troop.com.themesample.views.menu.MenuItem horizont;
 
     Interfaces.I_MenuItemClick onMenuItemClick;
 

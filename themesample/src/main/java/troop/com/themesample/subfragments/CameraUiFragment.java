@@ -95,6 +95,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     final String KEY_MANUALMENUOPEN = "key_manualmenuopen";
     SharedPreferences sharedPref;
 
+    HorizontLineFragment horizontLineFragment;
+
     @Override
     public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity)
     {
@@ -153,6 +155,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         focuspeak.SetCameraUiWrapper(wrapper);
         modeSwitch.SetCameraUiWrapper(wrapper);
+
+        horizontLineFragment.setCameraUiWrapper(wrapper, appSettingsManager);
 
     }
 
