@@ -31,6 +31,8 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
     AppSettingsManager appSettingsManager;
 
     private ImageView lineImage;
+    private ImageView upImage;
+    private ImageView downImage;
     private float RotateDegree = 0f;
     private SensorManager sensorManager;
     Sensor accelerometer;
@@ -38,7 +40,7 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
     float[] mGravity;
     float[] mGeomagnetic;
     float roll;
-    //float pitch;
+    float pitch;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -46,6 +48,10 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
         super.onCreateView(inflater,container,null);
         this.view = inflater.inflate(R.layout.horizontline, container, false);
         lineImage = (ImageView)view.findViewById(R.id.horizontlevelline);
+        upImage = (ImageView)view.findViewById(R.id.horizontlevelup);
+        downImage = (ImageView)view.findViewById(R.id.horizontleveldown);
+        upImage.setVisibility(View.GONE);
+        downImage.setVisibility(View.GONE);
         sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
@@ -100,16 +106,34 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
                 float orientation[] = new float[3];
                 sensorManager.getOrientation(R, orientation);
                 roll = orientation[1];
-                //pitch = orientation[0];
+                pitch = orientation[2];
             }
             float rolldegree = Math.round(roll * 57.2957795);
-            //float pitchdegree = Math.round(pitch * 57.2957795);
+            float pitchdegree = Math.round(pitch * 57.2957795);
+            Log.d("SOmetagg", String.valueOf(pitchdegree));
             if (RotateDegree != rolldegree) {
                 RotateAnimation rotateAnimation = new RotateAnimation(RotateDegree, rolldegree, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                 rotateAnimation.setFillAfter(true);
                 lineImage.startAnimation(rotateAnimation);
                 RotateDegree = rolldegree;
             }
+            if (pitchdegree > -90)
+            {
+                upImage.setVisibility(View.VISIBLE);
+                downImage.setVisibility(View.GONE);
+            }
+            if (pitchdegree < -90)
+            {
+                upImage.setVisibility(View.GONE);
+                downImage.setVisibility(View.VISIBLE);
+            }
+            if (pitchdegree == -90)
+            {
+                upImage.setVisibility(View.GONE);
+                downImage.setVisibility(View.GONE);
+
+            }
+
         }
     }
 
