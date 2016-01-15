@@ -14,8 +14,6 @@ import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.ui.AppSettingsManager;
 
-import java.util.Date;
-
 import troop.com.themesample.R;
 
 import troop.com.themesample.handler.UserMessageHandler;
@@ -27,15 +25,10 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
 {
     AbstractCameraUiWrapper cameraUiWrapper;
     AnimationDrawable shutterOpenAnimation;
-
-    AnimationDrawable repeatT;
-
     AppSettingsManager appSettingsManager;
     String TAG = ShutterButton.class.getSimpleName();
     Showstate currentShow = Showstate.image_capture_stopped;
     boolean contshot = false;
-    Handler handlerLoop;
-
 
     enum Showstate
     {
@@ -109,8 +102,6 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     }
 
     private void switchBackground(Showstate showstate, boolean animate)
-
-        if (appSettingsManager.GetCurrentModule().equals(AbstractModuleHandler.MODULE_VIDEO))
     {
         currentShow = showstate;
         Log.d(TAG, "switchBackground:" + currentShow);
@@ -149,6 +140,8 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
             case continouse_capture_close:
                 setBackgroundResource(R.drawable.contshot_cancel_shown_close);
                 break;
+
+
         }
         shutterOpenAnimation = (AnimationDrawable) getBackground();
         if (animate) {
@@ -158,45 +151,10 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
             shutterOpenAnimation.setOneShot(true);
             shutterOpenAnimation.start();
         }
-        handlerLoop = new Handler();
     }
-
-    private void startLooperThread(int delay)
-    {
-        if (isWorking)
-            handlerLoop.postDelayed(runner, delay);
-            //handlerLoop.post(runner);
-    }
-
-    Runnable runner = new Runnable() {
-        @Override
-        public void run()
-        {
-            if (cameraUiWrapper == null)
-                return;
-            animatE();
-
-            startLooperThread(1000);
-
-        }
-    };
-
 
     @Override
     public String ModuleChanged(String module) {
-        if (appSettingsManager.GetCurrentModule().equals(AbstractModuleHandler.MODULE_VIDEO))
-        {
-
-            setBackgroundResource(R.drawable.video_recording);
-           // repeatT = (AnimationDrawable) getBackground();
-        }
-        else
-        {
-
-            setBackgroundResource(R.drawable.shuttercloseanimation);
-            //getBackground().setAlpha(alpha);
-            shutterOpenAnimation = (AnimationDrawable) getBackground();
-        }
 
         Log.d(TAG, "Module Changed");
         if (cameraUiWrapper.camParametersHandler.ContShootMode != null && cameraUiWrapper.camParametersHandler.ContShootMode.IsSupported())
@@ -246,14 +204,13 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                 switchBackground(Showstate.continouse_capture_open,true);
                 break;
         }
-
-
         workerCounter++;
         finishcounter = 0;
     }
 
     @Override
     public void onWorkFinished(boolean finished)
+    {
         Log.d(TAG, "workstarted " + workerCounter + " worfinshed " + finishcounter++);
         Log.d(TAG, "onWorkFinished CurrentShow:" + currentShow);
         this.post(new Runnable() {
@@ -286,29 +243,14 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
 
                 }
 
-    private void registerAnimation(final Runnable cb){
-
-        final CustomAnimationDrawableNew aniDrawable = new CustomAnimationDrawableNew((AnimationDrawable) getBackground());
-
-        setBackgroundDrawable(aniDrawable);
-        aniDrawable.setDither(true);
-        aniDrawable.setOneShot(false);
-
-        aniDrawable.setOnFinishCallback(cb);
-
-
-        if(!aniDrawable.isRunning()){
-            aniDrawable.start();
-        }
-    }
-
-    private void doAnimP() {
 
             }
         });
+
         /*if (!appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL_DURATION).equals("off")) {
             currentShow =Showstate.continouse_capture_close;
         }*/
+
     }
 
     AbstractModeParameter.I_ModeParameterEvent contshotListner = new AbstractModeParameter.I_ModeParameterEvent() {
@@ -326,15 +268,15 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                 contshot = true;
             }
         }
+
         @Override
         public void onIsSupportedChanged(boolean isSupported) {
+
         }
 
         @Override
         public void onIsSetSupportedChanged(boolean isSupported) {
 
-                    //animatE();
-                    isWorking = false;
         }
 
         @Override

@@ -32,8 +32,6 @@ public class VideoModule extends AbstractVideoModule
     }
 
 
-        workstarted();
-        workfinished(true);
 
     protected MediaRecorder initRecorder()
     {
@@ -68,17 +66,17 @@ public class VideoModule extends AbstractVideoModule
         }
 
         if (hfr != null && !hfr.equals("") && !hfr.equals("off") && !hfr.equals("disable"))
-        {
+        if (!hfr.equals("off")) {
             try {
-                recorder.setCaptureRate(Integer.parseInt(hfr));
-            }
+            recorder.setCaptureRate(Integer.parseInt(hfr));
+        }
             catch (NumberFormatException ex)
             {
                 ex.printStackTrace();
             }
         }
 
-        if (hsr != null && !hsr.equals("") && !hsr.equals("off")) {
+        if (!hsr.equals("off")) {
             recorder.setCaptureRate(Integer.parseInt(hsr));
             recorder.setVideoFrameRate(Integer.parseInt(hsr));
         }
@@ -148,7 +146,7 @@ public class VideoModule extends AbstractVideoModule
             baseCameraHolder.StopPreview();
             baseCameraHolder.StartPreview();
         }
-       // camParametersHandler.UHDDO();
+        // camParametersHandler.UHDDO();
     }
 
     private void videoTime(int VB, int AB)
@@ -157,8 +155,8 @@ public class VideoModule extends AbstractVideoModule
         int j = AB;
 
         long l2 = (i + j >> 3) / 1000;
-       // long l3 = Environment.getExternalStorageDirectory().getUsableSpace() / l2;
-       Log.d("VideoCamera Remaing", getTimeString(Environment.getExternalStorageDirectory().getUsableSpace() / l2)) ;
+        // long l3 = Environment.getExternalStorageDirectory().getUsableSpace() / l2;
+        Log.d("VideoCamera Remaing", getTimeString(Environment.getExternalStorageDirectory().getUsableSpace() / l2)) ;
 
     }
 
