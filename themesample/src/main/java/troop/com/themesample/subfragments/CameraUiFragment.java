@@ -268,6 +268,13 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         transaction.setCustomAnimations(R.anim.bottom_to_top_enter, R.anim.empty);
         transaction.replace(R.id.manualModesHolder, manualModesFragment);
         transaction.commitAllowingStateLoss();
+
+        horizontLineFragment = new HorizontLineFragment();
+        transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
+        transaction.replace(R.id.horHolder, horizontLineFragment);
+        transaction.addToBackStack(null);
+        transaction.commitAllowingStateLoss();
         setWrapper();
     }
 
