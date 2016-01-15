@@ -138,11 +138,23 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
 
     private class MySensorListener implements SensorEventListener {
 
+        static final float ALPHA = 0.2f;
+
+        protected float[] lowPass( float[] input, float[] output ) {
+            if ( output == null ) return input;
+
+            for ( int i=0; i<input.length; i++ ) {
+                output[i] = (input[i] * ALPHA) + (output[i] * (1.0f - ALPHA));
+                //output[i] = output[i] + ALPHA * (input[i] - output[i]);
+            }
+            return output;
+        }
+
         public void onAccuracyChanged (Sensor sensor, int accuracy) {}
 
         public void onSensorChanged(SensorEvent event) {
             if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
-                mGravity = event.values.clone();
+                mGravity = lowPass(event.values.clone(),mGravity);
             if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
                 mGeomagnetic = event.values.clone();
             if (mGravity != null && mGeomagnetic != null) {
@@ -164,8 +176,9 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
                     public void run() {
                         if (RotateDegree != rolldegree) {
                             RotateAnimation rotateAnimation = new RotateAnimation(RotateDegree, rolldegree, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                            //rotateAnimation.setInterpolator(lineImage.getContext(), android.R.interpolator.accelerate_decelerate);
                             rotateAnimation.setFillAfter(true);
-                            rotateAnimation.setDuration(500);
+                            rotateAnimation.setDuration(400);
                             lineImage.startAnimation(rotateAnimation);
                             RotateDegree = rolldegree;
                         }
