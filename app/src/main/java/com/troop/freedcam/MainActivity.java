@@ -16,6 +16,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import com.troop.freedcam.apis.AbstractCameraFragment;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
@@ -92,7 +93,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     protected void onPause()
     {
         super.onPause();
-        orientationHandler.Stop();
+
         Log.d(TAGLIFE, "Activity onPause");
     }
 
@@ -132,7 +133,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
         apiHandler = new ApiHandler(appSettingsManager, this);
         apiHandler.CheckApi();
         hardwareKeyHandler = new HardwareKeyHandler(this, appSettingsManager);
-        themeHandler.GetThemeFragment(true,cameraFragment.GetCameraUiWrapper());
+        themeHandler.GetThemeFragment(true, cameraFragment.GetCameraUiWrapper());
     }
 
     /**
@@ -170,6 +171,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
             transaction.commitAllowingStateLoss();
             cameraFragment = null;
         }
+        orientationHandler.Stop();
     }
 
     //gets thrown when the cameraui wrapper is created sucessfull and all items are up like modulehandler
@@ -244,12 +246,22 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
         return haskey;
     }
 
+    private int currentorientation = 0;
 
     @Override
     public int OrientationChanged(int orientation)
     {
-        if (cameraFragment.GetCameraUiWrapper() != null && cameraFragment.GetCameraUiWrapper().cameraHolder != null && cameraFragment.GetCameraUiWrapper().camParametersHandler != null)
-            cameraFragment.GetCameraUiWrapper().camParametersHandler.SetPictureOrientation(orientation);
+        if (orientation != currentorientation)
+        {
+            currentorientation = orientation;
+            if (cameraFragment.GetCameraUiWrapper() != null && cameraFragment.GetCameraUiWrapper().cameraHolder != null && cameraFragment.GetCameraUiWrapper().camParametersHandler != null)
+                cameraFragment.GetCameraUiWrapper().camParametersHandler.SetPictureOrientation(orientation);
+            if (orientation == 0 || orientation == 180) {
+                LinearLayout uiholder = (LinearLayout) findViewById(R.id.themeFragmentholder);
+                uiholder.setRotation(orientation);
+                uiholder.requestLayout();
+            }
+        }
         return orientation;
     }
 
