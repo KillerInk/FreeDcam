@@ -79,6 +79,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     troop.com.themesample.views.menu.MenuItem videoStabilization;
     troop.com.themesample.views.menu.MenuItem HighSpeedVideo;
 
+    troop.com.themesample.views.menu.MenuItem horizont;
 
     Interfaces.I_MenuItemClick onMenuItemClick;
 
@@ -159,6 +160,10 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         PreviewFormat = (MenuItem)view.findViewById(R.id.MenuItemPreviewFormat);
 
         PreviewSize = (MenuItem)view.findViewById(R.id.MenuItemPreviewSize);
+
+        horizont = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemHorizont);
+        horizont.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HORIZONT);
+
         setWrapper();
     }
 
@@ -273,6 +278,12 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
             PreviewFormat.setVisibility(View.GONE);
             PreviewSize.setVisibility(View.GONE);
         }
+
+
+        horizont.SetParameter(wrapper.camParametersHandler.Horizont);
+        horizont.SetMenuItemListner(this);
+
+
     }
 
     public void SetMenuItemClickListner(Interfaces.I_MenuItemClick menuItemClick)

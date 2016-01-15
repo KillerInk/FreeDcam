@@ -95,6 +95,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     final String KEY_MANUALMENUOPEN = "key_manualmenuopen";
     SharedPreferences sharedPref;
 
+    HorizontLineFragment horizontLineFragment;
+
     @Override
     public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity)
     {
@@ -153,6 +155,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         focuspeak.SetCameraUiWrapper(wrapper);
         modeSwitch.SetCameraUiWrapper(wrapper);
+
+        horizontLineFragment.setCameraUiWrapper(wrapper, appSettingsManager);
 
     }
 
@@ -263,6 +267,13 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.bottom_to_top_enter, R.anim.empty);
         transaction.replace(R.id.manualModesHolder, manualModesFragment);
+        transaction.commitAllowingStateLoss();
+
+        horizontLineFragment = new HorizontLineFragment();
+        transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
+        transaction.replace(R.id.horHolder, horizontLineFragment);
+        transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
         setWrapper();
     }
