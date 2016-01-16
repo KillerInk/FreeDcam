@@ -183,14 +183,16 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
                             RotateDegree = rolldegree;
                         }
                         if (pitchdegree > -89) {
-                            upImage.setVisibility(View.VISIBLE);
+                            if(upImage.getVisibility() != View.VISIBLE)
+                                upImage.setVisibility(View.VISIBLE);
                             downImage.setVisibility(View.GONE);
                         }
-                        if (pitchdegree < -91) {
+                        else if (pitchdegree < -91) {
                             upImage.setVisibility(View.GONE);
-                            downImage.setVisibility(View.VISIBLE);
+                            if(downImage.getVisibility() != View.VISIBLE)
+                                downImage.setVisibility(View.VISIBLE);
                         }
-                        if (pitchdegree >= -91 && pitchdegree <= -89) {
+                        else if (pitchdegree >= -91 && pitchdegree <= -89) {
                             upImage.setVisibility(View.GONE);
                             downImage.setVisibility(View.GONE);
                         }
