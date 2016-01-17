@@ -30,7 +30,7 @@ public class MenuItemSDSave extends MenuItem
     public void SetCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        super.SetParameter(new SDModeParameter(null, appSettingsManager));
+        super.SetParameter(cameraUiWrapper.camParametersHandler.SdSaveLocation);
     }
 
     @Override

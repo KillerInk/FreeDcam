@@ -115,6 +115,8 @@ public abstract class AbstractParameterHandler
 
     public AbstractModeParameter oismode;
 
+    public AbstractModeParameter SdSaveLocation;
+
     public LocationParameter locationParameter;
 
     public boolean IntervalCapture = false;
@@ -134,6 +136,7 @@ public abstract class AbstractParameterHandler
         IntervalDuration = new IntervalDurationParameter(uiHandler);
         IntervalShutterSleep = new IntervalShutterSleepParameter(uiHandler);
         Horizont = new Horizont(uiHandler);
+        SdSaveLocation = new SDModeParameter(uiHandler,appSettingsManager);
     }
 
     public void SetParametersToCamera() {};
