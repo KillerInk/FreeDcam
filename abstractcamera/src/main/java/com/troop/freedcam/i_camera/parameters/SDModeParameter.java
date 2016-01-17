@@ -1,5 +1,7 @@
 package com.troop.freedcam.i_camera.parameters;
 
+import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
 
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -35,16 +37,27 @@ public class SDModeParameter extends AbstractModeParameter
     public boolean IsSupported()
     {
         try {
-            File file = new File(StringUtils.GetExternalSDCARD());
-            if (file.exists())
-                return true;
-            else
-                return false;
+            if (Build.VERSION.SDK_INT < 21) {
+                File file = new File(StringUtils.GetExternalSDCARD());
+                if (file.exists())
+                    return true;
+                else
+                    return false;
+            }
+            else if (Build.VERSION.SDK_INT > 21) {
+                File path = Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_DCIM);
+                if (path.exists())
+                    return true;
+                else
+                    return false;
+            }
         }
         catch (Exception ex)
         {
             return false;
         }
+        return false;
 
     }
 
