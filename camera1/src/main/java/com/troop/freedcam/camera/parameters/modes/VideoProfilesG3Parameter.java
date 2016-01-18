@@ -35,6 +35,7 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
     public void SetValue(String valueToSet, boolean setToCam)
     {
         profile = valueToSet;
+        BackgroundValueHasChanged(valueToSet);
         if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null && cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
             cameraUiWrapper.moduleHandler.GetCurrentModule().LoadNeededParameters();
 
