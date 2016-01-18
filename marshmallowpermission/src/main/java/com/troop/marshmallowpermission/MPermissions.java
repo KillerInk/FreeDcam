@@ -4,10 +4,12 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
 /**
  * Created by Ingo on 13.12.2015.
@@ -15,96 +17,18 @@ import android.support.v4.app.Fragment;
 public class MPermissions
 {
 
-    public static void requestCameraPermission(Fragment fragment) {
-        if (fragment.getActivity().shouldShowRequestPermissionRationale(Manifest.permission.CAMERA))
-        {
-            new ConfirmationDialog().show(fragment.getChildFragmentManager(), "dialog");
-        } else {
-            fragment.getActivity().requestPermissions(new String[]{Manifest.permission.CAMERA},
-                    1);
-        }
-    }
-
-    public static void requestSDPermission(Fragment fragment) {
-        if (fragment.getActivity().shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE))
-        {
-            new ConfirmationDialog().show(fragment.getChildFragmentManager(), "dialog");
-        } else {
-            fragment.getActivity().requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    1);
-        }
-    }
-    public static void requestAudioSDPermission(Fragment fragment) {
-        if (fragment.getActivity().shouldShowRequestPermissionRationale(Manifest.permission.CAPTURE_AUDIO_OUTPUT))
-        {
-            new ConfirmationDialog().show(fragment.getChildFragmentManager(), "dialog");
-        } else {
-            fragment.getActivity().requestPermissions(new String[]{Manifest.permission.CAPTURE_AUDIO_OUTPUT},
-                    1);
-        }
-    }
-    public static void requestAudioVideoPermission(Fragment fragment) {
-        if (fragment.getActivity().shouldShowRequestPermissionRationale(Manifest.permission.CAPTURE_VIDEO_OUTPUT))
-        {
-            new ConfirmationDialog().show(fragment.getChildFragmentManager(), "dialog");
-        } else {
-            fragment.getActivity().requestPermissions(new String[]{Manifest.permission.CAPTURE_VIDEO_OUTPUT},
-                    1);
-        }
-    }
-
-    public static void requestFineLocationPermission(Fragment fragment) {
-        if (fragment.getActivity().shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION))
-        {
-            new ConfirmationDialog().show(fragment.getChildFragmentManager(), "dialog");
-        } else {
-            fragment.getActivity().requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    1);
-        }
-    }
-    public static void requestCoarsePermission(Fragment fragment) {
-        if (fragment.getActivity().shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION))
-        {
-            new ConfirmationDialog().show(fragment.getChildFragmentManager(), "dialog");
-        } else {
-            fragment.getActivity().requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    1);
-        }
-    }
-
-    public static void requestMicPermission(Fragment fragment) {
-        if (fragment.getActivity().shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO))
-        {
-            new ConfirmationDialog().show(fragment.getChildFragmentManager(), "dialog");
-        } else {
-            fragment.getActivity().requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO},
-                    1);
-        }
-    }
-
-    public static void requestWifiPermission(Fragment fragment) {
-        if (fragment.getActivity().shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_WIFI_STATE))
-        {
-            new ConfirmationDialog().show(fragment.getChildFragmentManager(), "dialog");
-        } else {
-            fragment.getActivity().requestPermissions(new String[]{Manifest.permission.ACCESS_WIFI_STATE},
-                    1);
-        }
-    }
-    public static void requestchangeWifiPermission(Fragment fragment) {
-        if (fragment.getActivity().shouldShowRequestPermissionRationale(Manifest.permission.CHANGE_WIFI_STATE))
-        {
-            new ConfirmationDialog().show(fragment.getChildFragmentManager(), "dialog");
-        } else {
-            fragment.getActivity().requestPermissions(new String[]{Manifest.permission.CHANGE_WIFI_STATE},
-                    1);
-        }
+    public static void RequestPermission(FragmentManager fragment, String permission, DialogEvent event)
+    {
+        ConfirmationDialog dialog = new ConfirmationDialog();
+        dialog.SetPermission(permission,event);
+        dialog.show(fragment, "dialog");
     }
     /**
      * Shows OK/Cancel confirmation dialog about camera permission.
      */
     public static class ConfirmationDialog extends DialogFragment {
-
+        String permission;
+        DialogEvent event;
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             final Fragment parent = getParentFragment();
@@ -114,22 +38,31 @@ public class MPermissions
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             getActivity().requestPermissions(
-                                    new String[]{Manifest.permission.CAMERA},
+                                    new String[]{permission},
                                     1);
+                            event.onPermissionGranted(true, permission);
                         }
                     })
                     .setNegativeButton(android.R.string.cancel,
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Activity activity = parent.getActivity();
-                                    if (activity != null) {
-                                        activity.finish();
-                                    }
+                                    event.onPermissionGranted(false, permission);
                                 }
                             })
                     .create();
         }
+
+        public void SetPermission(String permission, DialogEvent event)
+        {
+            this.permission = permission;
+            this.event = event;
+        }
+    }
+
+    public interface DialogEvent
+    {
+        void onPermissionGranted(boolean permissiongranted, String permission);
     }
 
     /**

@@ -70,7 +70,7 @@ public class SonyCameraFragment extends AbstractCameraFragment
 
     private void checkMpermission()
     {
-        if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+        /*if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED)
         {
             MPermissions.requestFineLocationPermission(this);
@@ -79,7 +79,7 @@ public class SonyCameraFragment extends AbstractCameraFragment
                 != PackageManager.PERMISSION_GRANTED)
         {
             MPermissions.requestCoarsePermission(this);
-        }
+        }*/
     }
 
     private void setTextFromWifi(final String txt)

@@ -23,13 +23,13 @@ public class Camera1Fragment extends AbstractCameraFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            checkMarshmallowPermissions();
+
         return inflater.inflate(R.layout.cameraholder1, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
 
         extendedSurfaceView = (ExtendedSurfaceView) view.findViewById(R.id.exSurface);
         extendedSurfaceView.appSettingsManager = appSettingsManager;

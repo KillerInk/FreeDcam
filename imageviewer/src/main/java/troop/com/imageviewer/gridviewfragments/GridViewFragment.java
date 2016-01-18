@@ -64,6 +64,7 @@ public class GridViewFragment extends BaseGridViewFragment
     String savedInstanceFilePath;
     FormatTypes formatsToShow = FormatTypes.all;
     boolean pos0ret = false;
+    boolean PERMSISSIONGRANTED = false;
 
 
 
@@ -248,27 +249,51 @@ public class GridViewFragment extends BaseGridViewFragment
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         cacheHelper = new CacheHelper(getActivity());
-        if (Build.VERSION.SDK_INT > 22 &&getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED)
-        {
-            MPermissions.requestSDPermission(this);
-        }
+
         if(savedInstanceState != null){
             savedInstanceFilePath = (String) savedInstanceState.get(savedInstanceString);
 
         }
+        if (Build.VERSION.SDK_INT > 22 &&getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+
+            MPermissions.RequestPermission(getChildFragmentManager(), Manifest.permission.READ_EXTERNAL_STORAGE, new MPermissions.DialogEvent() {
+                @Override
+                public void onPermissionGranted(boolean permissiongranted, String permission)
+                {
+                    PERMSISSIONGRANTED = permissiongranted;
+                    if (!permissiongranted)
+                        getActivity().finish();
+                    else
+                    {
+                        if (savedInstanceFilePath == null)
+                            loadDefaultFolders();
+                        else
+                            loadFiles(new File(savedInstanceFilePath));
+                    }
+
+                }
+            });
+        }
+        else
+            PERMSISSIONGRANTED = true;
 
 
 
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
-        if (savedInstanceFilePath == null)
-            loadDefaultFolders();
-        else
-            loadFiles(new File(savedInstanceFilePath));
+
+        if (PERMSISSIONGRANTED) {
+            if (savedInstanceFilePath == null)
+                loadDefaultFolders();
+            else
+                loadFiles(new File(savedInstanceFilePath));
+        }
     }
 
 
