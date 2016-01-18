@@ -200,7 +200,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
             cameraFragment = apiHandler.getCameraFragment(appSettingsManager);
             cameraFragment.Init(appSettingsManager, this);
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
+            transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
             transaction.add(R.id.cameraFragmentHolder, cameraFragment, "CameraFragment");
             transaction.commitAllowingStateLoss();
             Log.d(TAG, "loaded cameraWrapper");

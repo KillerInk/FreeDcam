@@ -56,7 +56,7 @@ public class ThemeHandler implements I_ModuleEvent
     private void inflateFragment(AbstractFragment fragment)
     {
         android.support.v4.app.FragmentTransaction transaction = activity_v2.getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
+        transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
         transaction.replace(R.id.themeFragmentholder, fragment, "Main");
         transaction.commitAllowingStateLoss();
     }
