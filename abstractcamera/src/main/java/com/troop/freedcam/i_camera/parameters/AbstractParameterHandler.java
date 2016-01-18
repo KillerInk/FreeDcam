@@ -178,8 +178,10 @@ public abstract class AbstractParameterHandler
         setMode(NonZslManualMode, AppSettingsManager.SETTING_NONZSLMANUALMODE);
         setMode(AE_Bracket, AppSettingsManager.SETTING_AEBRACKET);
         setMode(Histogram, AppSettingsManager.SETTING_HISTOGRAM);
-        setMode(VideoProfiles, AppSettingsManager.SETTING_VIDEPROFILE);
-        setMode(VideoProfilesG3, AppSettingsManager.SETTING_VIDEPROFILE);
+        if(VideoProfiles != null)
+            setMode(VideoProfiles, AppSettingsManager.SETTING_VIDEPROFILE);
+        else if (VideoProfilesG3 != null)
+            setMode(VideoProfilesG3, AppSettingsManager.SETTING_VIDEPROFILE);
         setMode(VideoHDR, AppSettingsManager.SETTING_VIDEOHDR);
         setMode(VideoSize, AppSettingsManager.SETTING_VIDEOSIZE);
         setMode(VideoStabilization,AppSettingsManager.SETTING_VIDEOSTABILIZATION);
