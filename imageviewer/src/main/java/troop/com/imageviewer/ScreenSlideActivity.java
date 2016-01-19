@@ -42,7 +42,7 @@ public class ScreenSlideActivity extends FragmentActivity {
             fragment.defitem = extra;
             fragment.filestoshow = GridViewFragment.FormatTypes.valueOf(getIntent().getStringExtra(FileType));
             final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(R.id.screenslideFragment_holder, fragment, TAG);
+            ft.add(android.R.id.content, fragment, TAG);
             ft.commit();
         }
 
