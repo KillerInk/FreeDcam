@@ -8,7 +8,7 @@ import android.view.MotionEvent;
  */
 public class TouchHandler
 {
-    static final int distance = 300;
+    static final int distance = 350;
     static final int MAX_DURATION = 600;
     public int startX;
     public int startY;
@@ -27,6 +27,11 @@ public class TouchHandler
                 startY = (int) event.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
+                if (startX == 0 && startY == 0)
+                {
+                    startX = (int) event.getX();
+                    startY = (int) event.getY();
+                }
                 break;
             case MotionEvent.ACTION_UP:
                 currentX = (int) event.getX();
