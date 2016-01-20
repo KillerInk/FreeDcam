@@ -68,7 +68,7 @@ public class SampleThemeFragment extends AbstractFragment
         }
 
 
-        android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentholder, cameraUiFragment);
         transaction.commitAllowingStateLoss();
         return view;

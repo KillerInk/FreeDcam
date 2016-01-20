@@ -242,7 +242,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
 
         guideHandler = new GuideHandler();
-        android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.guideHolder, guideHandler, "Guide");
 
         transaction.commitAllowingStateLoss();
@@ -253,7 +253,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         settingsMenuFragment = new SettingsMenuFragment();
         settingsMenuFragment.SetStuff(appSettingsManager, i_activity);
         settingsMenuFragment.SetCameraUIWrapper(wrapper);
-        transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction = getChildFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
         transaction.replace(R.id.settingsMenuHolder, settingsMenuFragment);
         transaction.addToBackStack(null);
@@ -264,13 +264,13 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         manualModesFragment.SetStuff(appSettingsManager, i_activity);
         manualModesFragment.SetCameraUIWrapper(wrapper);
 
-        transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction = getChildFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.bottom_to_top_enter, R.anim.empty);
         transaction.replace(R.id.manualModesHolder, manualModesFragment);
         transaction.commitAllowingStateLoss();
 
         horizontLineFragment = new HorizontLineFragment();
-        transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction = getChildFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
         transaction.replace(R.id.horHolder, horizontLineFragment);
         transaction.addToBackStack(null);
@@ -362,7 +362,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
     private void infalteIntoHolder(int id, HorizontalValuesFragment fragment)
     {
-        android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.left_to_right_enter, 0);
         transaction.replace(id, fragment);
         transaction.commitAllowingStateLoss();
@@ -370,7 +370,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
     private void removeHorizontalFragment()
     {
-        getActivity().getSupportFragmentManager().beginTransaction().remove(horizontalValuesFragment).setCustomAnimations(0, R.anim.right_to_left_exit).commit();
+        getChildFragmentManager().beginTransaction().remove(horizontalValuesFragment).setCustomAnimations(0, R.anim.right_to_left_exit).commit();
     }
 
 
