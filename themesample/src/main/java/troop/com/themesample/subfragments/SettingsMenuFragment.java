@@ -92,7 +92,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         leftMenuFragment.SetCameraUIWrapper(wrapper);
         leftMenuFragment.SetMenuItemClickListner(this);
         try {
-            android.support.v4.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.replace(R.id.left_holder, leftMenuFragment);
             transaction.commitAllowingStateLoss();
@@ -107,7 +107,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         rightMenuFragment.SetCameraUIWrapper(wrapper);
         rightMenuFragment.SetMenuItemClickListner(this);
         try {
-            android.support.v4.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.replace(R.id.right_holder, rightMenuFragment);
             transaction.commitAllowingStateLoss();
@@ -176,7 +176,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         if (fromLeftFragment)
         {
             value_menu_status = VALUE_MENU_RIGHT_OPEN;
-            android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.replace(R.id.right_holder, valuesMenuFragment);
             transaction.commitAllowingStateLoss();
@@ -184,7 +184,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         else
         {
             value_menu_status = VALUE_MENU_LEFT_OPEN;
-            android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.replace(R.id.left_holder, valuesMenuFragment);
             transaction.commitAllowingStateLoss();
