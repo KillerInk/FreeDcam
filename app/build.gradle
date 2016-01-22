@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '23.0.1'
+    buildToolsVersion '23.0.2'
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 51
-        versionName "3.3.118"
+        versionCode 67
+        versionName "3.3.130"
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 19
     }
