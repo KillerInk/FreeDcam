@@ -328,6 +328,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public Surface getSurfaceHolder()
     {
+
         return  surfaceHolder;
     }
 
