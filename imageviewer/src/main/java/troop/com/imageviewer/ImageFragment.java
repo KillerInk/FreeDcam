@@ -153,8 +153,10 @@ public class ImageFragment extends Fragment
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putString(ScreenSlideFragment.SAVESTATE_FILEPATH, file.getAbsolutePath());
+    public void onSaveInstanceState(Bundle outState)
+    {
+        if (file != null && file.getAbsolutePath() != null)
+            outState.putString(ScreenSlideFragment.SAVESTATE_FILEPATH, file.getAbsolutePath());
         super.onSaveInstanceState(outState);
     }
 
