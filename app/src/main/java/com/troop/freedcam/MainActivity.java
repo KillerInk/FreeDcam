@@ -99,8 +99,6 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
             requestPermissions(new String[]{
                             Manifest.permission.CAMERA,
                             Manifest.permission.READ_EXTERNAL_STORAGE,
-                            Manifest.permission.CAPTURE_AUDIO_OUTPUT,
-                            Manifest.permission.CAPTURE_VIDEO_OUTPUT,
                             Manifest.permission.RECORD_AUDIO,
                             Manifest.permission.ACCESS_COARSE_LOCATION,
                             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -116,7 +114,13 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
     {
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED
+                && grantResults[1] == PackageManager.PERMISSION_GRANTED
+                && grantResults[2] == PackageManager.PERMISSION_GRANTED
+                && grantResults[3] == PackageManager.PERMISSION_GRANTED
+                && grantResults[4] == PackageManager.PERMISSION_GRANTED
+                && grantResults[5] == PackageManager.PERMISSION_GRANTED
+                && grantResults[6] == PackageManager.PERMISSION_GRANTED)
         {
             createHandlers();
         }
