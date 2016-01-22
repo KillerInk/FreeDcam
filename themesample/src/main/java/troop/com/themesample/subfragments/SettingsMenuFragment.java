@@ -98,7 +98,8 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
             transaction.commitAllowingStateLoss();
         }catch (NullPointerException ex)
         {}
-
+        catch (IllegalStateException ex)
+        {}
     }
     private void loadRightFragment() {
         if (rightMenuFragment == null)
@@ -114,9 +115,8 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         }
         catch (NullPointerException ex)
         {}
-
-
-
+        catch (IllegalStateException ex)
+        {}
     }
 
 
