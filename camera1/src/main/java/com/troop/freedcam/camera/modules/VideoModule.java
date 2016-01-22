@@ -33,9 +33,13 @@ public class VideoModule extends AbstractVideoModule
 
 
 
-    protected MediaRecorder initRecorder() {
-        String hfr = ParameterHandler.VideoHighFramerateVideo.GetValue();
-        String hsr = ParameterHandler.VideoHighSpeedVideo.GetValue();
+    protected MediaRecorder initRecorder()
+    {
+        String hfr = "",hsr = "";
+        if (ParameterHandler.VideoHighFramerateVideo != null && ParameterHandler.VideoHighFramerateVideo.IsSupported())
+            hfr = ParameterHandler.VideoHighFramerateVideo.GetValue();
+        if (ParameterHandler.VideoHighSpeedVideo != null && ParameterHandler.VideoHighSpeedVideo.IsSupported())
+            hsr = ParameterHandler.VideoHighSpeedVideo.GetValue();
         recorder = new MediaRecorder();
         recorder.reset();
         recorder.setCamera(baseCameraHolder.GetCamera());
@@ -49,48 +53,6 @@ public class VideoModule extends AbstractVideoModule
         if (!profile.contains("Timelapse")) {
             recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         }
-
-        /*if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("4kUHD")||Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kDCI")||Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("TimelapseHIGH"))
-        {
-
-            //camParametersHandler.UHDDO();
-          //  ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
-            //recorder.setMaxFileSize(3037822976L);
-            //recorder.setMaxDuration(7200000);
-            //recorder.setCaptureRate(30);
-            //recorder.setVideoFrameRate(30);
-
-            //ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
-            //  camParametersHandler.setString("preview-size", "3840x2160");
-            // camParametersHandler.setString("video-size", "3840x2160");
-
-           // ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
-           // ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
-           // ParameterHandler.Denoise.SetValue("denoise-off", true);
-            //  baseCameraHolder.StopPreview();
-            // baseCameraHolder.StartPreview();
-        }
-
-
-
-        /*recorder.setOutputFormat(prof.fileFormat);
-
-        if (!profile.contains("Timelapse")) {
-            recorder.setAudioChannels(prof.audioChannels);
-            recorder.setAudioEncoder(prof.audioCodec);
-            recorder.setAudioEncodingBitRate(prof.audioBitRate);
-            recorder.setAudioSamplingRate(prof.audioSampleRate);
-        }
-
-
-        recorder.setVideoEncoder(prof.videoCodec);
-        recorder.setVideoEncodingBitRate(prof.videoBitRate);
-        recorder.setVideoSize(prof.videoFrameWidth ,prof.videoFrameHeight);
-        if (!profile.contains("Timelapse"))
-            recorder.setVideoFrameRate(prof.videoFrameRate);*/
-
-
-
         recorder.setProfile(prof);
 
         if (profile.contains("Timelapse"))
@@ -103,15 +65,21 @@ public class VideoModule extends AbstractVideoModule
             recorder.setCaptureRate(frame);
         }
 
-
-           if (!hfr.equals("off")) {
-               recorder.setCaptureRate(Integer.parseInt(hfr));
+        if (hfr != null && !hfr.equals("") && !hfr.equals("off") && !hfr.equals("disable"))
+        {
+            try {
+                recorder.setCaptureRate(Integer.parseInt(hfr));
             }
+            catch (NumberFormatException ex)
+            {
+                ex.printStackTrace();
+            }
+        }
 
-           if (!hsr.equals("off")) {
-               recorder.setCaptureRate(Integer.parseInt(hsr));
-               recorder.setVideoFrameRate(Integer.parseInt(hsr));
-           }
+        if (hsr != null && !hsr.equals("") && !hsr.equals("off")) {
+            recorder.setCaptureRate(Integer.parseInt(hsr));
+            recorder.setVideoFrameRate(Integer.parseInt(hsr));
+        }
 
         return recorder;
     }
