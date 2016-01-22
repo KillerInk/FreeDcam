@@ -103,13 +103,13 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
     public void SetValue(int valueToSet)
     {
         if (valueToSet >= usedShutterValues.length)
-            valueToSet -= 1;
+            valueToSet = usedShutterValues.length - 1;
         current = valueToSet;
         long val = (long)(StringUtils.getMilliSecondStringFromShutterString(usedShutterValues[valueToSet]) * 1000f);
         Log.d(TAG, "ExposureTimeToSet:" + val);
         if (val > 800000000)
         {
-            Log.d(TAG, "ExposureTime Exceed 0,3sec for preview, set it to 0,3sec");
+            Log.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
             val = 800000000;
         }
         cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
