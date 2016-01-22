@@ -105,7 +105,7 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
             readFiles();
         }
         Log.d(TAG, "onResume" + FilePathToLoad);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager(),files);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),files);
         mPager.setAdapter(mPagerAdapter);
         if (files != null && files.length > 0 && defitem == -1) {
             mPager.setCurrentItem(0);
@@ -161,7 +161,7 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
         readFiles();
         if (files == null)
             return;
-        mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager(),files);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),files);
         int current = mPager.getCurrentItem();
         mPager.setAdapter(mPagerAdapter);
         if (current-1 >= 0 && current-1 <= files.length)
@@ -175,7 +175,7 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
         readFiles();
         if (files == null)
             return;
-        mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager(),files);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),files);
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(files.length);
         Log.d(TAG, "reloadFilesAndSetLast");
