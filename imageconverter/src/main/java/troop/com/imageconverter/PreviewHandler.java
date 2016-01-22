@@ -53,6 +53,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
 
     public PreviewHandler(I_AspectRatio output, AbstractCameraUiWrapper cameraUiWrapper, Context context)
     {
+        Log.d(TAG, "Ctor");
         this.output = output;
         this.cameraUiWrapper = cameraUiWrapper;
         this.context = context;
@@ -94,30 +95,8 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
 
     private void clear_preview()
     {
-        Log.d(TAG, "clear preview" + mWidth + "/" + mHeight);
-        if (mWidth == 0 || mHeight == 0) {
-            Log.d(TAG,"Cant clear widht and height 0");
-            return;
-        }
-
-
-        if (mAllocationOut != null && mRS != null)
-        {
-            output.setAlpha(0);
-            /*final Bitmap map = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(map);
-            canvas.drawColor(Color.TRANSPARENT);
-            Log.d(TAG, "use outalloc to draw");
-            mAllocationOut.copyFrom(map);
-            mAllocationOut.ioSend();
-            map.recycle();*/
-        }
-        else
-        {
-            Log.d(TAG,"direct draw canvas");
-            output.setAlpha(0);
-        }
-        Log.d(TAG,"Preview cleared");
+        output.setAlpha(0);
+        Log.d(TAG, "Preview cleared");
     }
 
     public boolean isEnable() { return  enable;}
@@ -128,6 +107,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         mWidth = width;
         if (mRS == null)
         {
+            Log.d(TAG, "rest called but mRS is null");
             clear_preview();
             return;
         }
