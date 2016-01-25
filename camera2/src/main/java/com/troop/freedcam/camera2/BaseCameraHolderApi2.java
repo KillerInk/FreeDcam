@@ -28,6 +28,7 @@ import android.media.ImageReader;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.renderscript.RenderScript;
 import android.util.Log;
 import android.util.Size;
@@ -44,6 +45,7 @@ import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
+import com.troop.freedcam.utils.VideoUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -84,6 +86,13 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
      */
     public CameraCaptureSession mCaptureSession;
     public StreamConfigurationMap map;
+
+    private HandlerThread mBackgroundThread;
+
+    /**
+     * A {@link Handler} for running tasks in the background.
+     */
+    private Handler mBackgroundHandler;
 
     public CaptureRequest mPreviewRequest;
 
@@ -267,8 +276,10 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         String s = Settings.GetCurrentModule();
         if (s.equals(AbstractModuleHandler.MODULE_PICTURE))
             startPreviewPicture();
-        else if (Settings.GetCurrentModule().equals(AbstractModuleHandler.MODULE_VIDEO))
+        else if (Settings.GetCurrentModule().equals(AbstractModuleHandler.MODULE_VIDEO)){
+            startBackgroundThread();
             startPreviewVideo();
+            }
 
     }
 
@@ -353,6 +364,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         Size video[] = map.getOutputSizes(MediaRecorder.class);
         Size re [] = map.getOutputSizes(TextureView.class);
         String[] split = VideoSize.split("x");
+
         int width, height;
         if (split.length < 2)
         {
@@ -367,21 +379,33 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
         mediaRecorder = new MediaRecorder();
         mediaRecorder.reset();
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+
         mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE);
+
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+
         mediaRecorder.setOutputFile(StringUtils.getFilePath(Settings.GetWriteExternal(), ".mp4"));
-        mediaRecorder.setVideoEncodingBitRate(10000000);
+
+        mediaRecorder.setVideoEncodingBitRate(VideoUtils.getVideoBitrate("Low"));
+
         mediaRecorder.setOnErrorListener(new MediaRecorder.OnErrorListener() {
             @Override
             public void onError(MediaRecorder mr, int what, int extra) {
-                Log.d(TAG,"error MediaRecorder:"+what+"extra:"+ extra);
+                Log.d(TAG, "error MediaRecorder:" + what + "extra:" + extra);
             }
         });
         mediaRecorder.setVideoFrameRate(30);
-        mediaRecorder.setVideoSize(mImageWidth, mImageHeight);
+        mediaRecorder.setVideoSize(1920, 1080);
         mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
+
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        mediaRecorder.setAudioChannels(2);
+        mediaRecorder.setAudioEncodingBitRate(VideoUtils.getAudioBitrate("Extreme"));
+        mediaRecorder.setAudioSamplingRate(VideoUtils.getAudioSample("Medium"));
+
+
         try {
             mediaRecorder.prepare();
         } catch (IOException e) {
@@ -389,26 +413,103 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         }
 
         previewSize = getSizeForPreviewDependingOnImageSize(map.getOutputSizes(ImageFormat.YUV_420_888));
+
         SurfaceTexture texture = textureView.getSurfaceTexture();
-        texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
+        assert texture != null;
+
+        texture.setDefaultBufferSize(1920,1080);
+
+
         previewsurface = new Surface(texture);
         try {
-            mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
         } catch (CameraAccessException e) {
             e.printStackTrace();
             cameraChangedListner.onCameraError("MediaRecorder Prepare failed");
             return;
         }
 
-        mPreviewRequestBuilder.addTarget(mediaRecorder.getSurface());
-        mPreviewRequestBuilder.addTarget(previewsurface);
+        List<Surface> surfaces = new ArrayList<Surface>();
+
+        Surface previewSurface = new Surface(texture);
+        surfaces.add(previewSurface);
+        mPreviewRequestBuilder.addTarget(previewSurface);
+
+        Surface recorderSurface = mediaRecorder.getSurface();
+        surfaces.add(recorderSurface);
+        mPreviewRequestBuilder.addTarget(recorderSurface);
+
+
+
+
         configureTransform();
 
         try {
-            mCameraDevice.createCaptureSession(Arrays.asList(previewsurface, mediaRecorder.getSurface()), previewStateCallBackFirstStart, null);
+
+
+            mCameraDevice.createCaptureSession(surfaces, new CameraCaptureSession.StateCallback() {
+
+                @Override
+                public void onConfigured(CameraCaptureSession cameraCaptureSession) {
+                    mCaptureSession = cameraCaptureSession;
+                    updatePreview();
+                }
+
+                @Override
+                public void onConfigureFailed(CameraCaptureSession cameraCaptureSession) {
+
+                }
+            }, mBackgroundHandler);
+
+    } catch (CameraAccessException e)
+        {};
+
+
+
+
+    }
+
+    /**
+     * Starts a background thread and its {@link Handler}.
+     */
+    private void startBackgroundThread() {
+        mBackgroundThread = new HandlerThread("CameraBackground");
+        mBackgroundThread.start();
+        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
+    }
+
+    /**
+     * Stops the background thread and its {@link Handler}.
+     */
+    private void stopBackgroundThread() {
+        mBackgroundThread.quitSafely();
+        try {
+            mBackgroundThread.join();
+            mBackgroundThread = null;
+            mBackgroundHandler = null;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    private void updatePreview() {
+        if (null == mCameraDevice) {
+            return;
+        }
+        try {
+            setUpCaptureRequestBuilder(mPreviewRequestBuilder);
+            HandlerThread thread = new HandlerThread("CameraPreview");
+            thread.start();
+            mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), null, mBackgroundHandler);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setUpCaptureRequestBuilder(CaptureRequest.Builder builder) {
+        builder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
     }
 
     public void SetBurst(int burst)
@@ -519,7 +620,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
     @Override
     public void StopPreview()
-    {
+    {stopBackgroundThread();
         Log.d(TAG,"Stop Preview");
         if (mCaptureSession != null)
             mCaptureSession.close();
