@@ -132,7 +132,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         jpegQuality.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_JPEGQUALITY);
 
         aeBracket = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemAeBracket);
-        aeBracket.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_AEBRACKETACTIVE);
+        aeBracket.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_AEBRACKET);
 
         videoProfile = (MenuItemVideoProfile)view.findViewById(R.id.MenuItemVideoProfile);
         videoProfile.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEPROFILE);

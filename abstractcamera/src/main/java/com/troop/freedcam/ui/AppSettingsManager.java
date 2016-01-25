@@ -118,6 +118,8 @@ public class AppSettingsManager
 
     final public static String SETTING_HORIZONT = "horizont";
 
+    final public static String SETTING_CAPTUREBURSTEXPOSURES = "captureburstexposures";
+
 
     public AppSettingsManager(SharedPreferences appSettings, Context context)
     {

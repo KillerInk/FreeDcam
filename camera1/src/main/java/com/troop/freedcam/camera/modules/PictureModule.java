@@ -43,6 +43,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     public String OverRidePath = "";
     BaseCameraHolder baseCameraHolder;
     boolean dngJpegShot = false;
+    boolean aeBrackethdr = false;
 
 
     public PictureModule(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler, Handler backgroundHandler)
@@ -78,6 +79,11 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
         if (!this.isWorking)
         {
             startworking();
+
+            if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported() && !ParameterHandler.AE_Bracket.GetValue().equals("Off")) {
+                aeBrackethdr = true;
+                ParameterHandler.AE_Bracket.SetValue("Off", true);
+            }
             if (ParameterHandler.Burst != null && ParameterHandler.Burst.IsSupported() && ParameterHandler.Burst.GetValue() > 1)
             {
                 handler.post(new Runnable() {
@@ -124,8 +130,10 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     {
         //startThread();
         ((CamParametersHandler)ParameterHandler).setString("preview-format", "yuv420sp");
-        if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
-            ParameterHandler.AE_Bracket.SetValue("false", true);
+         if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported() && !ParameterHandler.AE_Bracket.GetValue().equals("Off")) {
+            aeBrackethdr = true;
+            ParameterHandler.AE_Bracket.SetValue("Off", true);
+         }
         if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported() && !ParameterHandler.VideoHDR.GetValue().equals("off"))
             ParameterHandler.VideoHDR.SetValue("off", true);
         //if (ParameterHandler.CameraMode.IsSupported() && ParameterHandler.CameraMode.GetValue().equals("1"))
@@ -154,6 +162,8 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     @Override
     public void UnloadNeededParameters()
     {
+        if (aeBrackethdr)
+            ParameterHandler.AE_Bracket.SetValue("AE-Bracket", true);
         //stopThread();
     }
 

@@ -569,6 +569,13 @@ public class CamParametersHandler extends AbstractParameterHandler
         {
             ex.printStackTrace();
         }
+        try {
+            captureBurstExposures = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "capture-burst-exposures", "");
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
         Module = new ModuleParameters(uiHandler, appSettingsManager, cameraUiWrapper);
         ParametersEventHandler.ParametersHasLoaded();
         SetAppSettingsToParameters();

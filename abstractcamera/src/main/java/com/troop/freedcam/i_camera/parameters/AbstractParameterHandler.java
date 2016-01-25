@@ -125,6 +125,8 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter IntervalDuration;
     public AbstractModeParameter IntervalShutterSleep;
 
+    public AbstractModeParameter captureBurstExposures;
+
     public AbstractParameterHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
     {
         this.appSettingsManager = appSettingsManager;
@@ -195,6 +197,7 @@ public abstract class AbstractParameterHandler
         setMode(IntervalDuration,AppSettingsManager.SETTING_INTERVAL_DURATION);
         setMode(IntervalShutterSleep, AppSettingsManager.SETTING_INTERVAL);
         setMode(Horizont, AppSettingsManager.SETTING_HORIZONT);
+        setMode(captureBurstExposures, AppSettingsManager.SETTING_CAPTUREBURSTEXPOSURES);
 
         //setMode(Focuspeak, AppSettingsManager.SETTING_FOCUSPEAK);
         if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals(""))
