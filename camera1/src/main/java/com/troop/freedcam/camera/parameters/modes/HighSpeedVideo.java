@@ -27,7 +27,9 @@ public class HighSpeedVideo extends  BaseModeParameter {
         this.value = "video-hsr";
         //this.values="video-hfr-values";
         try {
-            parameters.get(value);
+            String hsr =  parameters.get(value);
+            if (hsr == null || hsr.equals(""))
+                this.isSupported = false;
         }
         catch (Exception ex) {
             this.isSupported = false;
