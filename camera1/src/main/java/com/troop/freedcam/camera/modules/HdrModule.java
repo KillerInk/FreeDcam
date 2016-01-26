@@ -100,6 +100,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
         if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported() && !ParameterHandler.AE_Bracket.GetValue().equals("Off"))
         {
             aeBrackethdr = true;
+            autohdr = false;
             if (ParameterHandler.AE_Bracket.GetValue().equals("HDR")) {
                 aeBrackethdr = false;
                 autohdr = true;
