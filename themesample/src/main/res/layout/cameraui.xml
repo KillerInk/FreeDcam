@@ -158,7 +158,6 @@
         android:background="@drawable/set_minimal_flat"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
         android:layout_marginBottom="12dp" />
 
     <LinearLayout

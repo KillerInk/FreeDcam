@@ -190,11 +190,11 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/setting_hdr_"
                     android:id="@+id/textView5"
                     android:textColor="@color/menuTextColor"
-                    android:background="#ffffffff"
+                    android:background="@color/uiSettingsBackground"
                     android:layout_marginBottom="1dp"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp" />
@@ -213,7 +213,7 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/setting_Automation"
                     android:id="@+id/textView13"
                     android:textColor="@color/menuTextColor"
