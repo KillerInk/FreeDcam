@@ -69,6 +69,6 @@ public class AE_Bracket_HdrModeParameter extends BaseModeParameter
         if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()||DeviceUtils.isXiaomiMI_Note_Pro()||DeviceUtils.isRedmiNote())
             return new String[] {"Off","HDR","AE-Bracket"};
         else
-           return new String[] {parameters.get("ae-bracket-hdr")};
+           return new String[] {parameters.get("ae-bracket-hdr-values")};
     }
 }
