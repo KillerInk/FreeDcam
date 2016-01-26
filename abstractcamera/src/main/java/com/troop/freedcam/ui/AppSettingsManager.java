@@ -119,7 +119,8 @@ public class AppSettingsManager
     final public static String SETTING_HORIZONT = "horizont";
 
     final public static String SETTING_CAPTUREBURSTEXPOSURES = "captureburstexposures";
-
+    final public static String SETTING_MORPHOHDR = "morphohdr";
+    final public static String SETTING_MORPHOHHT = "morphohht";
 
     public AppSettingsManager(SharedPreferences appSettings, Context context)
     {

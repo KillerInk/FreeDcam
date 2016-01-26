@@ -20,7 +20,7 @@ public class NightModeParameter extends BaseModeParameter
     public boolean IsSupported()
     {
         this.isSupported = false;
-        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234()||DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()||DeviceUtils.isXiaomiMI_Note_Pro()||DeviceUtils.isRedmiNote())
             this.isSupported = true;
         BackgroundSetIsSupportedHasChanged(isSupported);
         return  isSupported;
@@ -28,7 +28,23 @@ public class NightModeParameter extends BaseModeParameter
 
     @Override
     public void SetValue(String valueToSet, boolean setToCam) {
-        parameters.put("night_key", valueToSet);
+        if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()||DeviceUtils.isXiaomiMI_Note_Pro()||DeviceUtils.isRedmiNote())
+            if (valueToSet == "true")
+                {
+                    parameters.put("capture-burst-exposures","-10,0,10");
+                    parameters.put("ae-bracket-hdr","AE-Bracket");
+                    parameters.put("morpho-hdr", "false");
+                    parameters.put("morpho-hht", "true");
+                }
+            else
+                {
+                    //parameters.put("capture-burst-exposures","-10,0,10");
+                    parameters.put("ae-bracket-hdr","Off");
+                    parameters.put("morpho-hdr", "false");
+                    parameters.put("morpho-hht", "false");
+                }
+        else
+            parameters.put("night_key", valueToSet);
         try {
             baseCameraHolder.SetCameraParameters(parameters);
         }
@@ -41,11 +57,17 @@ public class NightModeParameter extends BaseModeParameter
 
     @Override
     public String GetValue() {
-        return parameters.get("night_key");
+        if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()||DeviceUtils.isXiaomiMI_Note_Pro()||DeviceUtils.isRedmiNote())
+            return parameters.get("morpho-hht");
+        else
+            return parameters.get("night_key");
     }
 
     @Override
     public String[] GetValues() {
+        if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()||DeviceUtils.isXiaomiMI_Note_Pro()||DeviceUtils.isRedmiNote())
+        return new String[] {"false","true"};
+    else
         return new String[] {"off","on","tripod"};
     }
 }

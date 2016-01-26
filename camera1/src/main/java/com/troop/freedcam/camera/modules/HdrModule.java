@@ -13,6 +13,7 @@ import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -29,6 +30,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
 
     int hdrCount = 0;
     boolean aeBrackethdr = false;
+    boolean autohdr = false;
     File[] files;
 
     public HdrModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler, Handler backgroundHandler) {
@@ -57,7 +59,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
             }
             LoadAEBracket();
             startworking();
-            if (aeBrackethdr)
+            if (aeBrackethdr || autohdr)
             {
                 baseCameraHolder.TakePicture(null, null, aeBracketCallback);
             }
@@ -97,10 +99,16 @@ public class HdrModule extends PictureModule implements I_WorkeDone
     {
         if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported() && !ParameterHandler.AE_Bracket.GetValue().equals("Off"))
         {
-           aeBrackethdr = true;
+            aeBrackethdr = true;
+            if (ParameterHandler.AE_Bracket.GetValue().equals("HDR")) {
+                aeBrackethdr = false;
+                autohdr = true;
+            }
         }
-        else
+        else {
             aeBrackethdr = false;
+            autohdr = false;
+        }
     }
 
     //I_Module END
@@ -200,7 +208,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
         @Override
         public void OnWorkDone(File file) {
             MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
-            if (hdrCount == 2) {
+            if (hdrCount == 2 || autohdr) {
                 stopworking();
                 baseCameraHolder.StartPreview();
             }
