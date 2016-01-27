@@ -21,7 +21,6 @@ public class SampleThemeFragment extends AbstractFragment
 {
     final String TAG = SampleThemeFragment.class.getSimpleName();
 
-    View view;
     I_Activity i_activity;
     AppSettingsManager appSettingsManager;
     CameraUiFragment cameraUiFragment;
@@ -31,16 +30,12 @@ public class SampleThemeFragment extends AbstractFragment
 
     public SampleThemeFragment()
     {
-
-
     }
 
     @Override
     public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity) {
         this.i_activity = i_activity;
         this.appSettingsManager = appSettingsManager;
-
-
     }
 
     @Override
@@ -49,9 +44,6 @@ public class SampleThemeFragment extends AbstractFragment
         this.wrapper = wrapper;
         if (cameraUiFragment != null)
             cameraUiFragment.SetCameraUIWrapper(wrapper);
-
-
-
     }
 
 
@@ -59,19 +51,21 @@ public class SampleThemeFragment extends AbstractFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container, null);
-        this.view = inflater.inflate(R.layout.samplethemefragment, container, false);
         if (cameraUiFragment == null)
         {
             cameraUiFragment = new CameraUiFragment();
             cameraUiFragment.SetStuff(appSettingsManager, i_activity);
-            cameraUiFragment.SetCameraUIWrapper(wrapper);
         }
+        return inflater.inflate(R.layout.samplethemefragment, container, false);
+    }
 
-
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        cameraUiFragment.SetCameraUIWrapper(wrapper);
         android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentholder, cameraUiFragment);
         transaction.commitAllowingStateLoss();
-        return view;
     }
 
     @Override
