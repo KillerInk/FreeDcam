@@ -71,7 +71,7 @@ public class RotatingSeekbar extends View
         paint.setStyle(Paint.Style.FILL);
         paint.setTextAlign(Paint.Align.RIGHT);
         textsize = (int)convertDpiToPixel(textsize);
-        setProgress(currentValue);
+        setProgress(currentValue, false);
     }
 
     private void log(String msg)
@@ -96,7 +96,7 @@ public class RotatingSeekbar extends View
         realMin = -viewHeight/2 -itemHeight/2;
         //calc the maximal pos that could drawn
         realMax = allItemsHeight - viewHeight/2 - itemHeight*2;
-        setProgress(currentValue);
+        setProgress(currentValue,false);
         invalidate();
     }
 
@@ -202,7 +202,7 @@ public class RotatingSeekbar extends View
                     }
                     else
                     {
-                        setProgress(currentValue);
+                        setProgress(currentValue,true);
                     }
                 }
                 break;
@@ -242,7 +242,7 @@ public class RotatingSeekbar extends View
                     {
                         checkifCurrentValueHasChanged();
                         distanceInPixelFromLastSwipe = 0;
-                        setProgress(currentValue);
+                        setProgress(currentValue,true);
                         rerun = false;
                     }
 
@@ -254,16 +254,16 @@ public class RotatingSeekbar extends View
                     autoscroll = false;
                     distanceInPixelFromLastSwipe = 0;
                     if(positivepos > realMax)
-                        setProgress(Values.length-1);
+                        setProgress(Values.length-1,true);
                     else if (positivepos < realMin)
-                        setProgress(0);
+                        setProgress(0,true);
                     else {
                         checkifCurrentValueHasChanged();
                         if (currentValue > Values.length -1)
                             currentValue = Values.length -1;
                         if (currentValue < 0)
                             currentValue = 0;
-                        setProgress(currentValue);
+                        setProgress(currentValue,true);
 
                     }
                     log("scroll pos:" + newpos + " max:" + realMax + " min:" + realMin);
@@ -295,14 +295,14 @@ public class RotatingSeekbar extends View
         return currentValue;
     }
 
-    public void setProgress(int progress)
+    public void setProgress(int progress, boolean throwevent)
     {
         //int item = ((currentPosToDraw + realMin) /itemHeight) *1;
         currentValue = progress;
         Log.d("RotatingSeekbar", "setprogres" +progress);
         currentPosToDraw = ((progress *itemHeight + itemHeight/2 ) + realMin) * -1;
         invalidate();
-        if (mListener != null)
+        if (mListener != null && throwevent)
             mListener.onProgressChanged(null, currentValue, true);
     }
     public String GetCurrentString()

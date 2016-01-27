@@ -213,7 +213,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
                     return;
                 }
                 seekbar.SetStringValues(vals);
-                seekbar.setProgress(currentButton.getCurrentItem());
+                seekbar.setProgress(currentButton.getCurrentItem(),false);
                 currentValuePos = currentButton.getCurrentItem();
                 Log.d(TAG, "CurrentvaluePos " + currentValuePos);
             }
