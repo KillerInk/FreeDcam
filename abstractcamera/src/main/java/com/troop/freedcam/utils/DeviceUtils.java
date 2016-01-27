@@ -203,6 +203,13 @@ public class DeviceUtils
     }
 
 
+    public static boolean VideoFpsKnown()
+    {
+        return isLG_G3() || isG2() || isG4() || isHTC_M8() || isZTEADV() || isZTEADVIMX214() || isZTEADV234() || isHTC_M9() || isHtc_One_SV() || isHtc_One_XL() || isLenovoK910() || isYureka() ||
+                isOnePlusOne() || isRedmiNote() || isXiaomiMI3W()||isXiaomiMI4W()|| isXperiaL() ||isXiaomiMI_Note_Pro() || isVivo_Xplay3s();
+    }
+
+
 
 
 }

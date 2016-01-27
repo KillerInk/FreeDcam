@@ -812,6 +812,17 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         //PreviewFormat.SetValue("yuv420sp", false);
     }
+    public void FPSRangeLock (int min,int max){
+
+        String mMin =String.valueOf(min*1000);
+        String mMax =String.valueOf(min*1000);
+
+
+
+        cameraParameters.put("preview-fps-range",mMin+","+mMax);
+
+    }
+
 
     public void UHDDO ()
     {

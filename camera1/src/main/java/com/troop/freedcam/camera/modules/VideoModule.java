@@ -53,7 +53,37 @@ public class VideoModule extends AbstractVideoModule
         if (!profile.contains("Timelapse")) {
             recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         }
-        recorder.setProfile(prof);
+        //recorder.setProfile(prof);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        if (!hfr.equals("Default")) {
+            int frame = Integer.parseInt(hfr.split("@")[1]);
+
+            if (frame != 30) {
+                camParametersHandler.FPSRangeLock(frame, frame);
+            }
+           // recorder.setCaptureRate(frame);
+            recorder.setVideoFrameRate(frame);
+        }
+        else
+        {
+            recorder.setVideoFrameRate(prof.videoFrameRate);
+        }
+        recorder.setVideoSize(prof.videoFrameWidth, prof.videoFrameHeight);
+        recorder.setVideoEncodingBitRate(prof.videoBitRate);
+        recorder.setVideoEncoder(prof.videoCodec);
+
+
+        recorder.setAudioSamplingRate(prof.audioSampleRate);
+        recorder.setAudioEncodingBitRate(prof.audioBitRate);
+        recorder.setAudioChannels(prof.audioChannels);
+        recorder.setAudioEncoder(prof.audioCodec);
+
+
+        //parameters.put("preview-fps-range", "15000,60000");
+
+        //recorder.setVideoFrameRate();
+        //recorder.setCaptureRate();
+
 
         if (profile.contains("Timelapse"))
         {
@@ -65,7 +95,7 @@ public class VideoModule extends AbstractVideoModule
             recorder.setCaptureRate(frame);
         }
 
-        if (hfr != null && !hfr.equals("") && !hfr.equals("off") && !hfr.equals("disable"))
+       /* if (hfr != null && !hfr.equals("") && !hfr.equals("off") && !hfr.equals("disable"))
         if (!hfr.equals("off")) {
             try {
             recorder.setCaptureRate(Integer.parseInt(hfr));
@@ -79,7 +109,10 @@ public class VideoModule extends AbstractVideoModule
         if (!hsr.equals("off")) {
             recorder.setCaptureRate(Integer.parseInt(hsr));
             recorder.setVideoFrameRate(Integer.parseInt(hsr));
-        }
+        }*/
+
+
+
 
         return recorder;
     }
