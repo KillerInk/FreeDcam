@@ -164,6 +164,12 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         Log.d(TAG, "####################ONCREATEDVIEW####################");
+        manualModesFragment = new ManualFragmentRotatingSeekbar();
+        manualModesFragment.SetStuff(appSettingsManager, i_activity);
+        settingsMenuFragment = new SettingsMenuFragment();
+        settingsMenuFragment.SetStuff(appSettingsManager, i_activity);
+        horizontLineFragment = new HorizontLineFragment();
+        guideHandler = new GuideHandler();
         return inflater.inflate(R.layout.cameraui, container, false);
     }
 
@@ -241,7 +247,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
 
 
-        guideHandler = new GuideHandler();
+
         android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.guideHolder, guideHandler, "Guide");
 
@@ -250,8 +256,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         guidHolder = (LinearLayout)view.findViewById(R.id.guideHolder);
 
         this.settingsmenuholer = (FrameLayout)view.findViewById(R.id.settingsMenuHolder);
-        settingsMenuFragment = new SettingsMenuFragment();
-        settingsMenuFragment.SetStuff(appSettingsManager, i_activity);
+
         settingsMenuFragment.SetCameraUIWrapper(wrapper);
         transaction = getChildFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
@@ -260,8 +265,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         transaction.commitAllowingStateLoss();
         settingsmenuholer.setVisibility(View.GONE);
 
-        manualModesFragment = new ManualFragmentRotatingSeekbar();
-        manualModesFragment.SetStuff(appSettingsManager, i_activity);
+
         manualModesFragment.SetCameraUIWrapper(wrapper);
 
         transaction = getChildFragmentManager().beginTransaction();
@@ -269,7 +273,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         transaction.replace(R.id.manualModesHolder, manualModesFragment);
         transaction.commitAllowingStateLoss();
 
-        horizontLineFragment = new HorizontLineFragment();
+
         transaction = getChildFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
         transaction.replace(R.id.horHolder, horizontLineFragment);
