@@ -22,17 +22,17 @@ public class ShutterManualParameterG4 extends BaseManualParameter
     */
     private static String TAG = "freedcam.ShutterManualParameterG4";
     String shutterValues[];
-    int current = 0;
+    private int current = 0;
     I_CameraHolder baseCameraHolder;
-    I_CameraChangedListner i_cameraChangedListner;
+    LG_G4AeHandler.AeManualEvent manualevent;
 
-    public ShutterManualParameterG4(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder baseCameraHolder, I_CameraChangedListner i_cameraChangedListner, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
+    public ShutterManualParameterG4(HashMap<String, String> parameters, I_CameraHolder baseCameraHolder, AbstractParameterHandler camParametersHandler, LG_G4AeHandler.AeManualEvent manualevent) {
+        super(parameters, "", "", "", camParametersHandler);
 
         this.baseCameraHolder = baseCameraHolder;
-        this.i_cameraChangedListner = i_cameraChangedListner;
         this.isSupported = true;
         shutterValues = ShutterManualParameter.LGG4Values.split(",");
+        this.manualevent =manualevent;
     }
 
     @Override
@@ -60,17 +60,28 @@ public class ShutterManualParameterG4 extends BaseManualParameter
     {
         if (valueToSet == 0)
         {
-
-            parameters.put("shutter-speed", "0");
-            parameters.put("lg-iso", "auto");
-            parameters.put("lg-manual-mode-reset", "0");
+            manualevent.onManualChanged(LG_G4AeHandler.AeManual.shutter, true, valueToSet);
         }
         else
         {
-            parameters.put("lg-manual-mode-reset", "1");
-            parameters.put("shutter-speed", shutterValues[valueToSet]);
+            manualevent.onManualChanged(LG_G4AeHandler.AeManual.shutter, false, valueToSet);
         }
-        baseCameraHolder.SetCameraParameters(parameters);
+
+    }
+
+    public void setValue(int value)
+    {
+
+        if (value == 0)
+        {
+            parameters.put("shutter-speed", "0");
+        }
+        else
+        {
+            current = value;
+            parameters.put("shutter-speed", shutterValues[value]);
+        }
+        ThrowCurrentValueStringCHanged(shutterValues[value]);
     }
 
 

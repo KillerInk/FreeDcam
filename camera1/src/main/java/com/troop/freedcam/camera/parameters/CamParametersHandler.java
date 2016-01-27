@@ -18,6 +18,7 @@ import com.troop.freedcam.camera.parameters.manual.FocusManualParameterHTC;
 import com.troop.freedcam.camera.parameters.manual.FocusManualParameterLG;
 import com.troop.freedcam.camera.parameters.manual.ISOManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ISOManualParameterG4;
+import com.troop.freedcam.camera.parameters.manual.LG_G4AeHandler;
 import com.troop.freedcam.camera.parameters.manual.SaturationManualParameter;
 import com.troop.freedcam.camera.parameters.manual.SharpnessManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ShutterManualParameter;
@@ -88,6 +89,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     public BaseCameraHolder baseCameraHolder;
     public BaseModeParameter DualMode;
     CameraUiWrapper cameraUiWrapper;
+    LG_G4AeHandler aeHandlerG4;
 
     //SetParameterRunner setParameterRunner;
 
@@ -193,13 +195,24 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try {
             if (DeviceUtils.isG4())
-                ManualShutter = new ShutterManualParameterG4(cameraParameters,"","","", cameraHolder, cameraChanged, this);
+                aeHandlerG4 = new LG_G4AeHandler(cameraParameters,baseCameraHolder,this);
             else if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
                 ManualShutter = new ShutterManualParameterHTC(cameraParameters,"","","", cameraHolder, cameraChanged,this);
             else if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
                 ManualShutter = new ShutterManualZTE(cameraParameters,"","","", cameraHolder, cameraChanged, this);
             else
                 ManualShutter = new ShutterManualParameter(cameraParameters,"","","", cameraHolder,cameraChanged, this);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+
+        try {
+            if (!DeviceUtils.isG4())
+            {
+                ISOManual = new ISOManualParameter(cameraParameters, "", "", "", this);
+            }
         }
         catch (Exception ex)
         {
@@ -233,19 +246,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         {
             ex.printStackTrace();
         }
-        try {
-            if (DeviceUtils.isG4())
-            {
-                ISOManual = new ISOManualParameterG4(cameraParameters,"", "","",baseCameraHolder, this);
-            }
-            else {
-                ISOManual = new ISOManualParameter(cameraParameters, "", "", "", this);
-            }
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
+
         try {
             Zoom = new ZoomManualParameter(cameraParameters,"", "", "", this);
         }
