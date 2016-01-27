@@ -35,6 +35,8 @@ public class WbCTManualSony extends BaseManualParameterSony
     @Override
     public int GetMaxValue()
     {
+        if (values == null)
+            return 0;
         return values.length;
     }
 
@@ -140,7 +142,7 @@ public class WbCTManualSony extends BaseManualParameterSony
         }
         if (this.val == -200)
             return;
-        ThrowCurrentValueStringCHanged(values[this.val]);
+        ThrowCurrentValueStringCHanged(val+"");
 
         ThrowCurrentValueChanged(this.val);
 
@@ -188,7 +190,10 @@ public class WbCTManualSony extends BaseManualParameterSony
     }
 
     @Override
-    public String GetStringValue() {
+    public String GetStringValue()
+    {
+        if (values == null)
+            return "";
         return values[this.val];
     }
 }
