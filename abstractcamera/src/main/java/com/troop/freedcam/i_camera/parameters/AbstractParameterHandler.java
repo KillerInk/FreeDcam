@@ -78,6 +78,8 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter VideoSize;
     public AbstractModeParameter VideoHDR;
     public AbstractModeParameter VideoHighFramerateVideo;
+    public AbstractModeParameter Video_Framerate_;
+    public AbstractModeParameter Video_Bitrate_;
     public AbstractModeParameter VideoHighSpeedVideo;
     public AbstractModeParameter CameraMode;
     public AbstractModeParameter Horizont;
