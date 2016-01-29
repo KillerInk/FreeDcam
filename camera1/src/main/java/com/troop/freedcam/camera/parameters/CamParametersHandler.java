@@ -794,10 +794,10 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     public boolean HDR_supported_Auto()
     {
-        if (cameraParameters.get("auto-hdr-supported").equals("true"))
+        if (cameraParameters.containsKey("auto-hdr-supported"))
             return true;
-        else
-            return false;
+
+      return false;
 
 
 
