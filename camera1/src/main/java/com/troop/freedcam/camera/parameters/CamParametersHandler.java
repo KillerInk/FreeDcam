@@ -167,7 +167,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             ex.printStackTrace();
         }
         try {
-            if (DeviceUtils.isG4() || (DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT < 21) || DeviceUtils.isG2())
+            if (DeviceUtils.isG4() || (DeviceUtils.isLG_G3() && (Build.VERSION.SDK_INT < 21 || Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) || DeviceUtils.isG2())
                 ManualFocus = new FocusManualParameterLG(cameraParameters,"","","", cameraHolder, this);
             else if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
                 ManualFocus = new FocusManualParameterHTC(cameraParameters,"","","", cameraHolder,this);
