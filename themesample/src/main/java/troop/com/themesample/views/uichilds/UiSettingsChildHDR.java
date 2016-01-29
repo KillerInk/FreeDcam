@@ -117,27 +117,57 @@ public class UiSettingsChildHDR extends UiSettingsChild
         public void SetValue(String valueToSet, boolean setToCamera)
         {
             if (cameraUiWrapper instanceof CameraUiWrapper) {
-                switch (valueToSet) {
-                    case "off":
+                if(DeviceUtils.isXiaomiMI3W() || DeviceUtils.isXiaomiMI4W()) {
+                    if(valueToSet.equals("on"))
+                    {
+                        ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("capture-burst-exposures", "-10,0,10");
+                        ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("morpho-hdr", "true");
+                        ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("ae-bracket-hdr", "AE-Bracket");
+                    }
+                    else
+                    {
+                        ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("morpho-hdr", "false");
+                        ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("ae-bracket-hdr", "off");
+                    }
+                }
+                else if(DeviceUtils.isLG_G3() || DeviceUtils.isG2())
+                {
+                    switch (valueToSet)
+                    {
+                        case "on":
+                            ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("hdr-mode", "1");
+                            break;
+                        case "off":
+                            ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("hdr-mode", "0");
+                            break;
+                        case "auto":
+                            ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("hdr-mode", "2");
+                    }
 
-                        if (((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Scene())
-                            ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setString("scene-mode", "auto");
-                        if (((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Auto())
-                            ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setString("auto-hdr-enable", "disable");
-                        break;
-                    case "on":
-                        if (((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Scene())
-                            ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setString("scene-mode", "on");
-                        if (((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Auto())
-                            ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setString("auto-hdr-enable", "disable");
-                        break;
-                    case "auto":
-                        if (((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Scene())
-                            ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setString("scene-mode", "auto");
-                        if (((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Auto())
-                            ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setString("auto-hdr-enable", "enable");
+                }
+                else {
+                    switch (valueToSet) {
+                        case "off":
+
+                            if (((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Scene())
+                                ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("scene-mode", "auto");
+                            if (((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Auto())
+                                ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("auto-hdr-enable", "disable");
+                            break;
+                        case "on":
+                            if (((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Scene())
+                                ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("scene-mode", "on");
+                            if (((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Auto())
+                                ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("auto-hdr-enable", "disable");
+                            break;
+                        case "auto":
+                            if (((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Scene())
+                                ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("scene-mode", "auto");
+                            if (((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Auto())
+                                ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("auto-hdr-enable", "enable");
 
 
+                    }
                 }
             }
 
@@ -156,10 +186,20 @@ public class UiSettingsChildHDR extends UiSettingsChild
             List<String> hdrVals =  new ArrayList<>();
             hdrVals.add("off");
             if (cameraUiWrapper instanceof CameraUiWrapper) {
-                if (((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Scene())
-                    hdrVals.add("on");
-                if (((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Auto())
-                    hdrVals.add("auto");
+            if(DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
+            {
+                hdrVals.add("on");
+            }
+            else if(DeviceUtils.isG2() || DeviceUtils.isLG_G3()) {
+                hdrVals.add("on");
+                hdrVals.add("auto");
+            }
+                else  {
+                    if (((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Scene())
+                        hdrVals.add("on");
+                    if (((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Auto())
+                        hdrVals.add("auto");
+                }
             }
 
             return hdrVals.toArray(new String[hdrVals.size()]);

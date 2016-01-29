@@ -792,6 +792,28 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     }
 
+    public void setHDR(final String key, final String value)
+    {
+        try
+        {
+
+            Handler handler = new Handler();
+            Runnable r = new Runnable() {
+                public void run() {
+                    setString(key,value);
+                    baseCameraHolder.SetCameraParameters(cameraParameters);
+                }
+            };
+            handler.postDelayed(r, 1);
+
+        }
+        catch (Exception ex)
+        {
+    ex.printStackTrace();
+        }
+    }
+
+
     public boolean HDR_supported_Auto()
     {
         if (cameraParameters.containsKey("auto-hdr-supported"))
