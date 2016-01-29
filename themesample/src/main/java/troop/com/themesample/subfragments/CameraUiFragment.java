@@ -386,7 +386,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         if (tmo != null && tmo.length >0)
             horizontalValuesFragment.SetStringValues(tmo, this);
         else
-           horizontalValuesFragment.ListenToParameter(item.GetParameter()); 
+           horizontalValuesFragment.ListenToParameter(item.GetParameter());
         infalteIntoHolder(R.id.cameraui_values_fragment_holder, horizontalValuesFragment);
 
     }
