@@ -78,6 +78,8 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter VideoSize;
     public AbstractModeParameter VideoHDR;
     public AbstractModeParameter VideoHighFramerateVideo;
+    public AbstractModeParameter Video_Framerate_;
+    public AbstractModeParameter Video_Bitrate_;
     public AbstractModeParameter VideoHighSpeedVideo;
     public AbstractModeParameter CameraMode;
     public AbstractModeParameter Horizont;
@@ -150,6 +152,7 @@ public abstract class AbstractParameterHandler
     public void SetFocusAREA(FocusRect focusAreas, FocusRect meteringAreas){};
     public void SetMeterAREA(FocusRect meteringAreas){};
     public void UHDDO (){};
+   // public void FPSRangeLock (){};
     public void SetPictureOrientation(int or){};
 
     public void SetAppSettingsToParameters()

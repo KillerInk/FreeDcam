@@ -12,7 +12,8 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/tap_ng">
 
             <TextView
                 android:layout_width="fill_parent"
@@ -21,7 +22,7 @@
                 android:text="@string/setting_camera_"
                 android:id="@+id/legcset"
                 android:textColor="@color/menuTextColor"
-                android:background="@color/uiSettingsBackground"
+                android:background="#ffffff"
                 android:layout_marginBottom="1dp"
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
@@ -35,7 +36,8 @@
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp"
                 android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp" />
+                android:layout_marginRight="0dp"
+                android:alpha="0.9" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"

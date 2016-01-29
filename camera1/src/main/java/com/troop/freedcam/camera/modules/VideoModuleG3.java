@@ -30,6 +30,7 @@ public class VideoModuleG3 extends AbstractVideoModule
 
     protected MediaRecorder initRecorder()
     {
+        String hfr = "",hsr = "";
 
         String profile = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
         VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter)ParameterHandler.VideoProfilesG3;
@@ -41,12 +42,45 @@ public class VideoModuleG3 extends AbstractVideoModule
         recorder.setCamera(baseCameraHolder.GetCamera());
         recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
 
+        if (ParameterHandler.VideoHighFramerateVideo != null && ParameterHandler.VideoHighFramerateVideo.IsSupported())
+            hfr = ParameterHandler.VideoHighFramerateVideo.GetValue();
+
+
+
 
         if (!profile.contains("Timelapse")) {
             recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         }
+        //recorder.setProfile(prof);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
 
-        recorder.setProfile(prof);
+        Log.e(TAG, "Index :" + hfr);
+        if (!hfr.equals("Default")) {
+            int frame = Integer.parseInt(hfr.split("@")[1]);
+
+            Log.e(TAG, "Index :" + frame);
+
+            camParametersHandler.FPSRangeLock(frame,frame);
+            recorder.setVideoFrameRate(frame);
+
+            //recorder.setCaptureRate(frame);
+
+
+
+        }
+        else
+        {
+            recorder.setVideoFrameRate(prof.videoFrameRate);
+        }
+        recorder.setVideoSize(prof.videoFrameWidth, prof.videoFrameHeight);
+        recorder.setVideoEncodingBitRate(prof.videoBitRate);
+        recorder.setVideoEncoder(prof.videoCodec);
+
+
+        recorder.setAudioSamplingRate(prof.audioSampleRate);
+        recorder.setAudioEncodingBitRate(prof.audioBitRate);
+        recorder.setAudioChannels(prof.audioChannels);
+        recorder.setAudioEncoder(prof.audioCodec);
 
         if (profile.contains("Timelapse"))
         {

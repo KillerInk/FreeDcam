@@ -203,6 +203,12 @@ public class DeviceUtils
     }
 
 
+    public static boolean isLGFrameWork()
+    {
+        return isLG_G3() || isG2() || isG4() ;
+    }
+
+
 
 
 }

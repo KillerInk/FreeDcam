@@ -68,6 +68,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
     ThumbView thumbView;
 
+    LinearLayout RC,LC;
+
     ImageView ManualSettingsButton;
     LinearLayout left_cameraUI_holder;
     RelativeLayout right_camerUI_holder;
@@ -140,6 +142,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         messageHandler.SetCameraUiWrapper(wrapper);
         shutterButton.SetCameraUIWrapper(wrapper, appSettingsManager, messageHandler);
 
+
         format.SetCameraUiWrapper(wrapper);
         format.SetParameter(wrapper.camParametersHandler.PictureFormat);
 
@@ -186,6 +189,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         this.right_camerUI_holder = (RelativeLayout)view.findViewById(R.id.right_ui_holder);
         this.manualModes_holder = (FrameLayout)view.findViewById(R.id.manualModesHolder);
         this.ManualSettingsButton = (ImageView)view.findViewById(R.id.fastsettings_button);
+        this.LC = (LinearLayout)view.findViewById(R.id.LCover);
+        this.RC = (LinearLayout)view.findViewById(R.id.Rcover);
         ManualSettingsButton.setOnClickListener(onSettingsClick);
 
         // this.wbtest = (ImgItem)view.findViewById(R.id.testwb);
@@ -315,10 +320,13 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         public void onClick(View v)
         {
             Log.d(TAG, "OnSettingsClick settings open:" + manualsettingsIsOpen);
-            if (manualsettingsIsOpen)
+            if (manualsettingsIsOpen) {
                 hide_ManualSettings();
-            else
+            }
+            else {
+
                 showManualSettings();
+            }
         }
     };
 
@@ -434,10 +442,41 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         @Override
         public void onClick(View v)
         {
-            if (!settingsOpen)
+            if (!settingsOpen) {
                 replaceCameraUIWithSettings();
-            else
+                LC.setVisibility(View.VISIBLE);
+                RC.setVisibility(View.VISIBLE);
+                focuspeak.setEnabled(false);
+                modeSwitch.setEnabled(false);
+                exit.setEnabled(false);
+                thumbView.setEnabled(false);
+                iso.setEnabled(false);
+                format.setEnabled(false);
+                night.setEnabled(false);
+                whitebalance.setEnabled(false);
+                focus.setEnabled(false);
+                flash.setEnabled(false);
+                autoexposure.setEnabled(false);
+                shutterButton.setEnabled(false);
+
+            }
+            else {
                 replaceSettingsWithCameraUI();
+                LC.setVisibility(View.GONE);
+                RC.setVisibility(View.GONE);
+                focuspeak.setEnabled(true);
+                modeSwitch.setEnabled(true);
+                exit.setEnabled(true);
+                thumbView.setEnabled(true);
+                iso.setEnabled(true);
+                format.setEnabled(true);
+                night.setEnabled(true);
+                whitebalance.setEnabled(true);
+                focus.setEnabled(true);
+                flash.setEnabled(true);
+                autoexposure.setEnabled(true);
+                shutterButton.setEnabled(true);
+            }
         }
     };
 

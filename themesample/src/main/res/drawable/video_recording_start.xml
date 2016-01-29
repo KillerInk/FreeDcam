@@ -6,4 +6,12 @@
     <item android:drawable="@drawable/shutter_rec_btn3" android:duration="20" />
     <item android:drawable="@drawable/shutter_rec_btn4" android:duration="20" />
     <item android:drawable="@drawable/shutter_rec_btn5" android:duration="20" />
+    <item android:drawable="@drawable/shutter_rec_btn6" android:duration="74" />
+    <item android:drawable="@drawable/shutter_rec_btn5" android:duration="74" />
+    <item android:drawable="@drawable/shutter_rec_btn4" android:duration="74" />
+    <item android:drawable="@drawable/shutter_rec_btn3" android:duration="74" />
+    <item android:drawable="@drawable/shutter_rec_btn2" android:duration="74" />
+    <item android:drawable="@drawable/shutter_rec_btn1" android:duration="74" />
+    <item android:drawable="@drawable/shutter_rec_btn0" android:duration="18" />
+
 </animation-list>

@@ -51,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:background="@color/menuBackgColor"
+        android:background="#da000000"
         android:layout_centerHorizontal="true">
 
         <TextView
@@ -62,7 +62,7 @@
             android:id="@+id/textView_time"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="@color/menuTextColor" />
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -72,7 +72,7 @@
             android:id="@+id/textView_format"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="@color/menuTextColor" />
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
             android:id="@+id/textView_size"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="@color/menuTextColor" />
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -92,7 +92,7 @@
             android:id="@+id/textView_storage"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="@color/menuTextColor" />
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -102,7 +102,7 @@
             android:id="@+id/textView_battery"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="@color/menuTextColor" />
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -112,7 +112,7 @@
             android:id="@+id/textView_dngsupported"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="@color/menuTextColor" />
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -122,7 +122,7 @@
             android:id="@+id/textView_buildmodel"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="@color/menuTextColor" />
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -132,7 +132,7 @@
             android:id="@+id/textView_appversion"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="@color/menuTextColor" />
+            android:textColor="#ffffff" />
     </LinearLayout>
 
     <LinearLayout
@@ -249,6 +249,17 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@+id/manualModesHolder"
+        android:layout_toStartOf="@+id/manualModesHolder"
+        android:layout_above="@+id/fastsettings_button"
+        android:background="#89000000"
+        android:id="@+id/LCover"
+        android:visibility="gone"></LinearLayout>
+
     <RelativeLayout
         android:orientation="vertical"
         android:layout_width="@dimen/shuttericon_size"
@@ -262,28 +273,43 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="false">
 
-            <troop.com.themesample.views.ThumbView
-                android:layout_width="@dimen/thumbviewsize"
-                android:layout_height="@dimen/thumbviewsize"
-                android:id="@+id/thumbview"
-                android:background="@drawable/thumbnail"
-                android:layout_gravity="center_horizontal"
-                android:layout_alignParentLeft="false"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="3dp"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <troop.com.themesample.views.uichilds.UiSettingsChildCameraSwitch
-                android:layout_width="32dp"
-                android:layout_height="39dp"
-                android:id="@+id/camera_switch"
-                android:layout_alignParentLeft="false"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="1dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/quck_set_cswitch" />
+                <troop.com.themesample.views.uichilds.UiSettingsChildExit
+                    android:layout_width="32dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/exit"
+                    app:HeaderText="@string/uisetting_exit_header"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/quck_set_exit"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp" />
+
+                <troop.com.themesample.views.uichilds.UiSettingsChildModuleSwitch
+                    android:layout_width="32dp"
+                    android:layout_height="39dp"
+                    android:id="@+id/mode_switch"
+                    app:HeaderText="@string/uisetting_mode_header"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/quck_set_mode"
+                    android:layout_gravity="center_horizontal" />
+
+                <troop.com.themesample.views.uichilds.UiSettingsFocusPeak
+                    android:layout_width="32dp"
+                    android:layout_height="39dp"
+                    android:id="@+id/ui_focuspeak"
+                    app:HeaderText="@string/setting_focuspeak_header"
+                    android:background="@drawable/quck_set_zebra"
+                    android:layout_marginTop="8dp"
+                    android:layout_gravity="center_horizontal" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -302,40 +328,28 @@
             android:layout_alignParentBottom="true"
             android:gravity="center|center_horizontal|bottom">
 
-            <troop.com.themesample.views.uichilds.UiSettingsFocusPeak
+            <troop.com.themesample.views.uichilds.UiSettingsChildCameraSwitch
                 android:layout_width="32dp"
                 android:layout_height="39dp"
-                android:id="@+id/ui_focuspeak"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_marginBottom="2dp"
-                app:HeaderText="@string/setting_focuspeak_header"
-                android:background="@drawable/quck_set_zebra" />
-
-            <troop.com.themesample.views.uichilds.UiSettingsChildModuleSwitch
-                android:layout_width="32dp"
-                android:layout_height="39dp"
-                android:id="@+id/mode_switch"
-                app:HeaderText="@string/uisetting_mode_header"
-                android:layout_alignParentLeft="true"
+                android:id="@+id/camera_switch"
+                android:layout_alignParentLeft="false"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_marginBottom="2dp"
-                android:background="@drawable/quck_set_mode" />
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/quck_set_cswitch" />
 
-            <troop.com.themesample.views.uichilds.UiSettingsChildExit
-                android:layout_width="32dp"
-                android:layout_height="40dp"
-                android:id="@+id/exit"
-                app:HeaderText="@string/uisetting_exit_header"
-                android:layout_alignParentLeft="true"
+            <troop.com.themesample.views.ThumbView
+                android:layout_width="@dimen/thumbviewsize"
+                android:layout_height="@dimen/thumbviewsize"
+                android:id="@+id/thumbview"
+                android:background="@drawable/thumbnail"
+                android:layout_gravity="center_horizontal"
+                android:layout_alignParentLeft="false"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_marginBottom="5dp"
-                android:gravity="center_vertical"
-                android:background="@drawable/quck_set_exit" />
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginBottom="5dp" />
+
         </LinearLayout>
 
     </RelativeLayout>
@@ -355,6 +369,16 @@
         android:layout_marginLeft="10dp"
         android:layout_toLeftOf="@+id/right_ui_holder"
         android:layout_toStartOf="@+id/right_ui_holder"></FrameLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#89ffffff"
+        android:id="@+id/Rcover"
+        android:visibility="gone"
+        android:layout_alignLeft="@+id/right_ui_holder"
+        android:layout_alignStart="@+id/right_ui_holder"></LinearLayout>
 
     <FrameLayout
         android:layout_width="fill_parent"
