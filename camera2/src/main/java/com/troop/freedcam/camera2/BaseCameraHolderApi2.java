@@ -87,13 +87,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     public CameraCaptureSession mCaptureSession;
     public StreamConfigurationMap map;
 
-    private HandlerThread mBackgroundThread;
-
-    /**
-     * A {@link Handler} for running tasks in the background.
-     */
-    private Handler mBackgroundHandler;
-
     public CaptureRequest mPreviewRequest;
 
     public int CurrentCamera;
@@ -277,7 +270,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         if (s.equals(AbstractModuleHandler.MODULE_PICTURE))
             startPreviewPicture();
         else if (Settings.GetCurrentModule().equals(AbstractModuleHandler.MODULE_VIDEO)){
-            startBackgroundThread();
             startPreviewVideo();
             }
 
@@ -459,7 +451,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 public void onConfigureFailed(CameraCaptureSession cameraCaptureSession) {
 
                 }
-            }, mBackgroundHandler);
+            }, null);
 
     } catch (CameraAccessException e)
         {};
@@ -469,31 +461,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
     }
 
-    /**
-     * Starts a background thread and its {@link Handler}.
-     */
-    private void startBackgroundThread() {
-        mBackgroundThread = new HandlerThread("CameraBackground");
-        mBackgroundThread.start();
-        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
-    }
-
-    /**
-     * Stops the background thread and its {@link Handler}.
-     */
-    private void stopBackgroundThread() {
-        mBackgroundThread.quitSafely();
-        try {
-            mBackgroundThread.join();
-            mBackgroundThread = null;
-            mBackgroundHandler = null;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
     private void updatePreview() {
         if (null == mCameraDevice) {
             return;
@@ -502,7 +469,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             setUpCaptureRequestBuilder(mPreviewRequestBuilder);
             HandlerThread thread = new HandlerThread("CameraPreview");
             thread.start();
-            mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), null, mBackgroundHandler);
+            mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), null, null);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -620,7 +587,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
     @Override
     public void StopPreview()
-    {stopBackgroundThread();
+    {
         Log.d(TAG,"Stop Preview");
         if (mCaptureSession != null)
             mCaptureSession.close();
