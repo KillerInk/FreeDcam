@@ -5,7 +5,6 @@ import android.graphics.Rect;
 import android.hardware.Camera;
 
 import android.location.Location;
-import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Surface;
@@ -84,13 +83,9 @@ public class BaseCameraHolder extends AbstractCameraHolder
     private void hasLGFramework()
     {
         try {
-            if (DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                DeviceFrameWork = Frameworks.Normal;
-            else {
-                Class c = Class.forName("com.lge.hardware.LGCamera");
-                Log.d(TAG, "Has Lg Framework");
-                DeviceFrameWork = Frameworks.LG;
-            }
+            Class c = Class.forName("com.lge.hardware.LGCamera");
+            Log.d(TAG, "Has Lg Framework");
+            DeviceFrameWork = Frameworks.LG;
 
         } catch (ExceptionInInitializerError e) {
 
@@ -113,13 +108,9 @@ public class BaseCameraHolder extends AbstractCameraHolder
             Log.d(TAG, "No LG Framework");
         }
         try {
-            if (DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                DeviceFrameWork = Frameworks.Normal;
-            else {
-                Class c = Class.forName("com.lge.media.CamcorderProfileEx");
-                Log.d(TAG, "Has Lg Framework");
-                DeviceFrameWork = Frameworks.LG;
-            }
+            Class c = Class.forName("com.lge.media.CamcorderProfileEx");
+            Log.d(TAG, "Has Lg Framework");
+            DeviceFrameWork = Frameworks.LG;
 
         } catch (ExceptionInInitializerError e) {
 
