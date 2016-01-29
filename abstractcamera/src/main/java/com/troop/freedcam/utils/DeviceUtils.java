@@ -13,6 +13,14 @@ public class DeviceUtils
 {
     public static Context contex;
 
+    public static boolean IsMarshMallowG3()
+    {
+        if (DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)
+            return true;
+        else
+            return false;
+    }
+
     private static boolean isDevice(String[] ar)
     {
         boolean supported = false;

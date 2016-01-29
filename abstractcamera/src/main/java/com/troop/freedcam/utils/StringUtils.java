@@ -45,6 +45,7 @@ public class StringUtils
         final String[] allvalues = ShutterValuesArray();
         boolean foundmin = false, foundmax = false;
         ArrayList<String> tmp = new ArrayList<>();
+        tmp.add("Auto");
         for (int i = 1; i< allvalues.length; i++ )
         {
             String s = allvalues[i];
