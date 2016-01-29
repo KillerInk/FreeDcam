@@ -51,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:background="@color/menuBackgColor"
+        android:background="#da000000"
         android:layout_centerHorizontal="true">
 
         <TextView
@@ -62,7 +62,7 @@
             android:id="@+id/textView_time"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="@color/menuTextColor" />
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -72,7 +72,7 @@
             android:id="@+id/textView_format"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="@color/menuTextColor" />
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
             android:id="@+id/textView_size"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="@color/menuTextColor" />
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -92,7 +92,7 @@
             android:id="@+id/textView_storage"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="@color/menuTextColor" />
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -102,7 +102,7 @@
             android:id="@+id/textView_battery"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="@color/menuTextColor" />
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -112,7 +112,7 @@
             android:id="@+id/textView_dngsupported"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="@color/menuTextColor" />
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -122,7 +122,7 @@
             android:id="@+id/textView_buildmodel"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="@color/menuTextColor" />
+            android:textColor="#ffffff" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -132,7 +132,7 @@
             android:id="@+id/textView_appversion"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="@color/menuTextColor" />
+            android:textColor="#ffffff" />
     </LinearLayout>
 
     <LinearLayout

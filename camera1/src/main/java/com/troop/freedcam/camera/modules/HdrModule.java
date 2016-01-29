@@ -70,12 +70,12 @@ public class HdrModule extends PictureModule implements I_WorkeDone
 
     @Override
     public String ShortName() {
-        return "HDR";
+        return "Bracket";
     }
 
     @Override
     public String LongName() {
-        return "HDR";
+        return "Bracketing";
     }
 
     @Override
