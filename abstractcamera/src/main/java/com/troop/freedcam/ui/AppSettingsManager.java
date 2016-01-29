@@ -29,6 +29,9 @@ public class AppSettingsManager
     final public static String SETTING_PICTUREFORMAT = "pictureformat";
     final public static String SETTING_JPEGQUALITY = "jpegquality";
     //defcomg was here
+    //1-29-2016 6:15
+    final public static String SETTING_HDR = "hdr";
+    //
     final public static String SETTING_GUIDE = "guide";
     //done
     final public static String SETTING_CURRENTMODULE = "currentmodule";

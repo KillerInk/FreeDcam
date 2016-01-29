@@ -778,6 +778,31 @@ public class CamParametersHandler extends AbstractParameterHandler
         cameraHolder.SetCameraParameters(cameraParameters);
     }
 
+    public boolean HDR_supported_Scene()
+    {
+       String[] hdrr = cameraParameters.get("scene-mode-values").split(",");
+
+        boolean stat = false;
+        for(String s:hdrr)
+        {
+            if(s.equals("hdr"))
+                stat= true;
+        }
+        return stat;
+
+    }
+
+    public boolean HDR_supported_Auto()
+    {
+        if (cameraParameters.containsKey("auto-hdr-supported") || cameraParameters.get("auto-hdr-supported").equals("true"))
+            return true;
+        else
+            return false;
+
+
+
+    }
+
     public void setString(String param, String value)
     {
         try

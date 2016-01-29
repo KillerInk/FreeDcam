@@ -46,6 +46,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter WhiteBalanceMode;
     public AbstractModeParameter PictureSize;
     public AbstractModeParameter PictureFormat;
+    public AbstractModeParameter HDR_State;
     public AbstractModeParameter JpegQuality;
     //defcomg was here
     public AbstractModeParameter GuideList;

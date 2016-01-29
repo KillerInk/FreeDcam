@@ -34,6 +34,7 @@ import troop.com.themesample.views.uichilds.UiSettingsChild;
 import troop.com.themesample.views.uichilds.UiSettingsChildCameraSwitch;
 import troop.com.themesample.views.uichilds.UiSettingsChildExit;
 import troop.com.themesample.views.uichilds.UiSettingsChildFormat;
+import troop.com.themesample.views.uichilds.UiSettingsChildHDR;
 import troop.com.themesample.views.uichilds.UiSettingsChildModuleSwitch;
 import troop.com.themesample.views.uichilds.UiSettingsFocusPeak;
 import troop.com.themesample.views.uichilds.UiSettingsMenu;
@@ -65,6 +66,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     UiSettingsFocusPeak focuspeak;
 
     UserMessageHandler messageHandler;
+
+    UiSettingsChildHDR hdr_switch;
 
     ThumbView thumbView;
 
@@ -146,6 +149,9 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         format.SetCameraUiWrapper(wrapper);
         format.SetParameter(wrapper.camParametersHandler.PictureFormat);
 
+
+
+
         contShot.SetParameter(wrapper.camParametersHandler.ContShootMode);
         if (manualModesFragment != null)
             manualModesFragment.SetCameraUIWrapper(wrapper);
@@ -158,6 +164,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         focuspeak.SetCameraUiWrapper(wrapper);
         modeSwitch.SetCameraUiWrapper(wrapper);
+        hdr_switch.SetCameraUiWrapper(wrapper);
+        hdr_switch.SetParameter(wrapper.camParametersHandler.HDR_State);
 
         horizontLineFragment.setCameraUiWrapper(wrapper, appSettingsManager);
 
@@ -222,9 +230,11 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         this.night = (UiSettingsChild)view.findViewById(R.id.night);
         night.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_NIGHTEMODE);
         night.SetMenuItemListner(this);
+
         this.format = (UiSettingsChildFormat)view.findViewById(R.id.format);
         format.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_PICTUREFORMAT);
         format.SetMenuItemListner(this);
+
         this.thumbView = (ThumbView)view.findViewById(R.id.thumbview);
         this.modeSwitch = (UiSettingsChildModuleSwitch)view.findViewById(R.id.mode_switch);
         modeSwitch.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_CURRENTMODULE);
@@ -242,8 +252,17 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         view.setOnTouchListener(onTouchListener);
 
         focuspeak = (UiSettingsFocusPeak)view.findViewById(R.id.ui_focuspeak);
+
         focuspeak.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_FOCUSPEAK);
         focuspeak.SetMenuItemListner(this);
+
+        //adding hdr switch log test v1.0 1-29-2016 6:13 - Defcomk
+        this.hdr_switch = (UiSettingsChildHDR)view.findViewById(R.id.hdr_toggle);
+
+        hdr_switch.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HDR);
+
+        hdr_switch.SetMenuItemListner(this);
+        ///
 
 
 
@@ -367,7 +386,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         if (tmo != null && tmo.length >0)
             horizontalValuesFragment.SetStringValues(tmo, this);
         else
-            horizontalValuesFragment.ListenToParameter(item.GetParameter());
+           horizontalValuesFragment.ListenToParameter(item.GetParameter()); 
         infalteIntoHolder(R.id.cameraui_values_fragment_holder, horizontalValuesFragment);
 
     }
