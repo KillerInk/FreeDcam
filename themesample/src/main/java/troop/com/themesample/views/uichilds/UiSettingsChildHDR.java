@@ -162,7 +162,7 @@ public class UiSettingsChildHDR extends UiSettingsChild
                             break;
                         case "auto":
                             if (((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Scene())
-                                ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("scene-mode", "auto");
+                                ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("scene-mode", "asd");
                             if (((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Auto())
                                 ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("auto-hdr-enable", "enable");
 
