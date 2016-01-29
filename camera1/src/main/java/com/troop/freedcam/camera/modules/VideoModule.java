@@ -48,6 +48,9 @@ public class VideoModule extends AbstractVideoModule
         VideoProfilesParameter videoProfilesParameter = (VideoProfilesParameter)ParameterHandler.VideoProfiles;
         CamcorderProfile prof = videoProfilesParameter.GetCameraProfile(profile);
 
+        boolean setCaprate = false;
+        Double frameFix = 0.0;
+
 
         recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
 
@@ -60,6 +63,8 @@ public class VideoModule extends AbstractVideoModule
         Log.e(TAG, "Index :" + hfr);
         if (!hfr.equals("Default")) {
             int frame = Integer.parseInt(hfr.split("@")[1]);
+            frameFix = Double.parseDouble(String.valueOf(frame));
+            setCaprate = true;
 
             Log.e(TAG, "Index :" + frame);
 
@@ -76,7 +81,10 @@ public class VideoModule extends AbstractVideoModule
             recorder.setVideoFrameRate(prof.videoFrameRate);
         }
         recorder.setVideoSize(prof.videoFrameWidth, prof.videoFrameHeight);
-        if(mBitare.equals("Default")) {
+        if(!mBitare.equals("200Mbps") || !mBitare.equals("150Mbps") || !mBitare.equals("100Mbps")
+                || !mBitare.equals("80Mbps")|| !mBitare.equals("60Mbps")|| !mBitare.equals("50Mbps")
+                || !mBitare.equals("40Mbps")|| !mBitare.equals("30Mbps")|| !mBitare.equals("10Mbps")
+                || !mBitare.equals("5Mbps")|| !mBitare.equals("5Mbps") ) {
             recorder.setVideoEncodingBitRate(prof.videoBitRate);
         }
         else {
@@ -127,6 +135,8 @@ public class VideoModule extends AbstractVideoModule
         }*/
 
 
+       // if(setCaprate)
+        //    recorder.setCaptureRate(frameFix);
 
 
         return recorder;
