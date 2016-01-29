@@ -257,7 +257,7 @@
         android:layout_toLeftOf="@+id/manualModesHolder"
         android:layout_toStartOf="@+id/manualModesHolder"
         android:layout_above="@+id/fastsettings_button"
-        android:background="#ef000000"
+        android:background="#89000000"
         android:id="@+id/LCover"
         android:visibility="gone"></LinearLayout>
 
@@ -375,7 +375,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ef000000"
+        android:background="#89ffffff"
         android:id="@+id/Rcover"
         android:visibility="gone"
         android:layout_alignLeft="@+id/right_ui_holder"

@@ -142,6 +142,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         messageHandler.SetCameraUiWrapper(wrapper);
         shutterButton.SetCameraUIWrapper(wrapper, appSettingsManager, messageHandler);
 
+
         format.SetCameraUiWrapper(wrapper);
         format.SetParameter(wrapper.camParametersHandler.PictureFormat);
 
@@ -441,12 +442,36 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
                 replaceCameraUIWithSettings();
                 LC.setVisibility(View.VISIBLE);
                 RC.setVisibility(View.VISIBLE);
+                focuspeak.setEnabled(false);
+                modeSwitch.setEnabled(false);
+                exit.setEnabled(false);
+                thumbView.setEnabled(false);
+                iso.setEnabled(false);
+                format.setEnabled(false);
+                night.setEnabled(false);
+                whitebalance.setEnabled(false);
+                focus.setEnabled(false);
+                flash.setEnabled(false);
+                autoexposure.setEnabled(false);
+                shutterButton.setEnabled(false);
 
             }
             else {
                 replaceSettingsWithCameraUI();
                 LC.setVisibility(View.GONE);
                 RC.setVisibility(View.GONE);
+                focuspeak.setEnabled(true);
+                modeSwitch.setEnabled(true);
+                exit.setEnabled(true);
+                thumbView.setEnabled(true);
+                iso.setEnabled(true);
+                format.setEnabled(true);
+                night.setEnabled(true);
+                whitebalance.setEnabled(true);
+                focus.setEnabled(true);
+                flash.setEnabled(true);
+                autoexposure.setEnabled(true);
+                shutterButton.setEnabled(true);
             }
         }
     };
