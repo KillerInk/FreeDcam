@@ -55,14 +55,20 @@ public class VideoModule extends AbstractVideoModule
         }
         //recorder.setProfile(prof);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+
+        Log.e(TAG, "Index :" + hfr);
         if (!hfr.equals("Default")) {
             int frame = Integer.parseInt(hfr.split("@")[1]);
 
-            if (frame != 30) {
-                camParametersHandler.FPSRangeLock(frame, frame);
-            }
-           // recorder.setCaptureRate(frame);
+            Log.e(TAG, "Index :" + frame);
+
+            camParametersHandler.FPSRangeLock(frame,frame);
             recorder.setVideoFrameRate(frame);
+
+            //recorder.setCaptureRate(frame);
+
+
+
         }
         else
         {

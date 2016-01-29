@@ -24,6 +24,8 @@ public class HighFramerateVideo extends  BaseModeParameter
     BaseCameraHolder cameraHolder;
     CameraUiWrapper cameraUiWrapper;
     static final String TAG ="Video FPS Class";
+    boolean FpsTriggered = false;
+    String FpEss = "";
 
 
 
@@ -69,7 +71,7 @@ public class HighFramerateVideo extends  BaseModeParameter
     @Override
     public String[] GetValues() {
 
-        if(parameters.get("hfr-size-values").split(",").length >= 1)
+        if(!DeviceUtils.isLGFrameWork() && parameters.get("hfr-size-values").split(",").length >= 1)
         {
             String[] split1 = parameters.get("hfr-size-values").split(",");
             String[] split2 = parameters.get("video-hfr-values").split(",");
@@ -250,7 +252,7 @@ public class HighFramerateVideo extends  BaseModeParameter
                 if (SizeV.equals("HIGH") || SizeV.equals("1080p")) {
                     return new String[]{"Default","1080p@30", "1080p@29", "1080p@25", "1080p@24", "1080p@15"};
                 } else if (SizeV.equals("LOW") || SizeV.equals("720p")) {
-                    return new String[]{"Default", "720p@120", "720p@60", "720p@50", "720p@48", "720p@30", "720p@29", "720p@25", "720p@24", "720@15"};
+                    return new String[]{"Default", "720p@120", "720p@60", "720p@50", "720p@48", "720p@30", "720p@29", "720p@25", "720p@24", "720p@15"};
 
                 } else if (SizeV.equals("4kUHD")) {
                     return new String[]{"Default", "UHDp@30", "UHD@29", "UHD@25", "UHD@24", "UHD@15"};
@@ -270,7 +272,7 @@ public class HighFramerateVideo extends  BaseModeParameter
                 if (SizeV.equals("HIGH") || SizeV.equals("1080p")) {
                     return new String[]{"Default", "1080p@60", "1080p@50", "1080p@48", "1080p@30", "1080p@29", "1080p@25", "1080p@24", "1080p@15"};
                 } else if (SizeV.equals("LOW") || SizeV.equals("720p")) {
-                    return new String[]{"Default", "720p@120", "720p@60", "720p@50", "720p@48", "720p@30", "720p@29", "720p@25", "720p@24", "720@15"};
+                    return new String[]{"Default", "720p@120", "720p@60", "720p@50", "720p@48", "720p@30", "720p@29", "720p@25", "720p@24", "720p@15"};
 
                 } else if (SizeV.equals("4kUHD")) {
                     return new String[]{"Default", "UHD@30", "UHD@29", "UHD@25", "UHD@24", "UHD@15"};
@@ -293,7 +295,7 @@ public class HighFramerateVideo extends  BaseModeParameter
                 if (SizeV.equals("HIGH") || SizeV.equals("1080p")) {
                     return new String[]{"Default", "1080p@60", "1080p@50", "1080p@48", "1080p@30", "1080p@29", "1080p@25", "1080p@24", "1080p@15"};
                 } else if (SizeV.equals("LOW") || SizeV.equals("720p")) {
-                    return new String[]{"Default", "720p@120", "720p@60", "720p@50", "720p@48", "720p@30", "720p@29", "720p@25", "720p@24", "720@15"};
+                    return new String[]{"Default", "720p@120", "720p@60", "720p@50", "720p@48", "720p@30", "720p@29", "720p@25", "720p@24", "720p@15"};
 
                 } else if (SizeV.equals("4kUHD")) {
                     return new String[]{"Default", "UHD@30", "UHD@29", "UHD@25", "UHD@24", "UHD@15"};
@@ -315,9 +317,13 @@ public class HighFramerateVideo extends  BaseModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        if(valueToSet.equals("Default") &&  parameters.containsKey("video-hfr"))
+        FpsTriggered = true;
+        FpEss = valueToSet;
+        super.IdentifySub = valueToSet;
+        if(valueToSet.equals("Default") ||Integer.parseInt(valueToSet.split("@")[1]) <= 30 )
         {
             super.SetValue("off", setToCam);
+           // super.BackgroundValueHasChanged(valueToSet.split("@")[1]);
         }
         else if(parameters.containsKey("video-hfr")) {
             if (Integer.parseInt(valueToSet.split("@")[1]) > 3 ) {
@@ -445,8 +451,11 @@ public class HighFramerateVideo extends  BaseModeParameter
     @Override
     public String GetValue()
     {
-
-
+        if(FpsTriggered)
+        {
+            return FpEss;
+        }
+        else
             return "Default";
 
     }
