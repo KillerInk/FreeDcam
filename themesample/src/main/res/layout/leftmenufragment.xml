@@ -13,8 +13,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/tap_ng"
-            android:alpha="0.9">
+            android:background="@drawable/tap_ng">
 
             <!--<troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
