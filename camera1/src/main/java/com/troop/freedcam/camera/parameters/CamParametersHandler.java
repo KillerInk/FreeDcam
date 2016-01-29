@@ -1,5 +1,6 @@
 package com.troop.freedcam.camera.parameters;
 
+import android.graphics.Camera;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
@@ -780,13 +781,15 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     public boolean HDR_supported_Scene()
     {
-       String[] hdrr = cameraParameters.get("scene-mode-values").split(",");
 
         boolean stat = false;
-        for(String s:hdrr)
-        {
-            if(s.equals("hdr"))
-                stat= true;
+        if(cameraParameters.containsKey(("scene-mode-values"))) {
+            String[] hdrr = cameraParameters.get("scene-mode-values").split(",");
+
+            for (String s : hdrr) {
+                if (s.equals("hdr"))
+                    stat = true;
+            }
         }
         return stat;
 
@@ -794,23 +797,8 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     public void setHDR(final String key, final String value)
     {
-        try
-        {
-
-            Handler handler = new Handler();
-            Runnable r = new Runnable() {
-                public void run() {
-                    setString(key,value);
-                    baseCameraHolder.SetCameraParameters(cameraParameters);
-                }
-            };
-            handler.postDelayed(r, 1);
-
-        }
-        catch (Exception ex)
-        {
-    ex.printStackTrace();
-        }
+        cameraParameters.put(key,value);
+        cameraHolder.SetCameraParameters(cameraParameters);
     }
 
 

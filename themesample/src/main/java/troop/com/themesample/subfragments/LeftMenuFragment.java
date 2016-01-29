@@ -25,6 +25,7 @@ import troop.com.themesample.views.menu.MenuItemTheme;
 import troop.com.themesample.views.menu.MenuItemTimeLapseFrames;
 import troop.com.themesample.views.menu.MenuItemTimer;
 import troop.com.themesample.views.menu.MenuItemVideoProfile;
+import troop.com.themesample.views.menu.MenuItemVideoBitrate;
 import troop.com.themesample.views.uichilds.UiSettingsChild;
 
 /**
@@ -39,6 +40,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     troop.com.themesample.views.menu.MenuItem pictureSize;
     MenuItemSDSave sdSave;
     MenuItemGPS menuItemGPS;
+    MenuItemVideoBitrate bitrate;
 
     MenuItemInterval menuItemInterval;
     MenuItemIntervalDuration menuItemIntervalDuration;
@@ -97,6 +99,9 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
         bayerFormatItem = (MenuItemBayerFormat) view.findViewById(R.id.MenuItemBayerFormat);
         bayerFormatItem.SetStuff(i_activity, appSettingsManager, "");
+
+        bitrate = (MenuItemVideoBitrate) view.findViewById(R.id.MenuItemVideoBitrate);
+        bitrate.SetStuff(i_activity, appSettingsManager, "");
 
         pictureSize = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemPicSize);
         pictureSize.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_PICTURESIZE);
@@ -181,6 +186,14 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         }
         else
             bayerFormatItem.setVisibility(View.GONE);
+
+        if(wrapper instanceof CameraUiWrapper) {
+            bitrate.SetParameter(wrapper.camParametersHandler.PictureFormat);
+            bitrate.SetMenuItemListner(this);
+            bitrate.setVisibility(View.VISIBLE);
+        }
+        else
+            bitrate.setVisibility(View.GONE);
 
         pictureSize.SetParameter(wrapper.camParametersHandler.PictureSize);
         pictureSize.SetMenuItemListner(this);

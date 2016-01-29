@@ -31,6 +31,9 @@ public class AppSettingsManager
     //defcomg was here
     //1-29-2016 6:15
     final public static String SETTING_HDR = "hdr";
+    // 1-29-2016 11:49
+    final public static String SETTING_VideoBitrate = "videobitrate";
+    //
     //
     final public static String SETTING_GUIDE = "guide";
     //done

@@ -18,10 +18,12 @@
     <string name="setting_videohdr_description">turn on to enable hdr video</string>
     <string name="setting_videohfr_description">Video FPS Selection</string>
     <string name="setting_videohsr_description">Enables Highspeed Video Recording</string>
+    <string name="setting_videobitrate_description">Video Bitrate Selection</string>
     <string name="setting_vs_description">Enables video stabilization</string>
     <string name="setting_videohdr_header">Video HDR: </string>
     <string name="setting_videohfr_header">Video Frame Rate: </string>
     <string name="setting_videohsr_header">Video HSR: </string>
+    <string name="setting_videobitrate_header">Video Bitrate: </string>
     <string name="setting_vs_header">Video Stabilization: </string>
     <string name="setting_hdr_">HDR</string>
     <string name="setting_aebracket_header">AE-Bracket: </string>

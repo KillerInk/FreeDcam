@@ -40,6 +40,7 @@ public class VideoModule extends AbstractVideoModule
             hfr = ParameterHandler.VideoHighFramerateVideo.GetValue();
         if (ParameterHandler.VideoHighSpeedVideo != null && ParameterHandler.VideoHighSpeedVideo.IsSupported())
             hsr = ParameterHandler.VideoHighSpeedVideo.GetValue();
+        String mBitare = Settings.getString(AppSettingsManager.SETTING_VideoBitrate);
         recorder = new MediaRecorder();
         recorder.reset();
         recorder.setCamera(baseCameraHolder.GetCamera());
@@ -75,7 +76,15 @@ public class VideoModule extends AbstractVideoModule
             recorder.setVideoFrameRate(prof.videoFrameRate);
         }
         recorder.setVideoSize(prof.videoFrameWidth, prof.videoFrameHeight);
-        recorder.setVideoEncodingBitRate(prof.videoBitRate);
+        if(mBitare.equals("Default")) {
+            recorder.setVideoEncodingBitRate(prof.videoBitRate);
+        }
+        else {
+
+            recorder.setVideoEncodingBitRate(Integer.parseInt(mBitare.split("M")[0]) * 1000000);
+
+        }
+
         recorder.setVideoEncoder(prof.videoCodec);
 
 
@@ -146,6 +155,7 @@ public class VideoModule extends AbstractVideoModule
         String hfr = ParameterHandler.VideoHighFramerateVideo.GetValue();
         String hsr = ParameterHandler.VideoHighSpeedVideo.GetValue();
         String profile = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
+
 
         if (profile.equals("4kUHD") || DeviceUtils.isXiaomiMI3W() && profile.contains("HIGH") || DeviceUtils.isXiaomiMI4W() && profile.contains("HIGH")) {
             camParametersHandler.MemoryColorEnhancement.SetValue("disable", true);

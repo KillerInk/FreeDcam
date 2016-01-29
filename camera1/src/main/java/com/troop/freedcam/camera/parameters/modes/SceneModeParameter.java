@@ -25,16 +25,16 @@ public class SceneModeParameter extends BaseModeParameter {
     }
 
     @Override
-    public String GetValue()
+    public String[] GetValues()
     {
-        List<String> Trimmed = new ArrayList<>(Arrays.asList(values.split(",")));
+        List<String> Trimmed = new ArrayList<>(Arrays.asList(parameters.get("scene-mode-values").split(",")));
 
         if(Trimmed.contains("hdr")) {
             Trimmed.remove("hdr");
-            return Trimmed.toString();
+            return Trimmed.toArray(new String[Trimmed.size()]);
         }
 
-        return values;
+        return Trimmed.toArray(new String[Trimmed.size()]);
 
 
 

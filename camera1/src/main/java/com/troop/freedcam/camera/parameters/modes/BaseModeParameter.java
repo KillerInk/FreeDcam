@@ -115,7 +115,7 @@ public class BaseModeParameter extends AbstractModeParameter {
                     }
                     catch (Exception ex)
                     {
-                        
+
                     }
                     parameters.put("slow-motion-version", ""+2);
                     parameters.put("cam-mode", ""+2);
