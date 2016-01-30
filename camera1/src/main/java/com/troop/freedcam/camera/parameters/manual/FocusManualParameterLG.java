@@ -32,10 +32,8 @@ public class FocusManualParameterLG extends  BaseManualParameter
     @Override
     public int GetMaxValue()
     {
-        if (DeviceUtils.isG4())
+        if (DeviceUtils.isG4() || DeviceUtils.IsMarshMallowG3())
             return 60;
-        else if (DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            return 102;
         else
             return 79;
     }
