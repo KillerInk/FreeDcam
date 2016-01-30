@@ -10,11 +10,6 @@ import java.util.HashMap;
 public class ISOManualParameter extends BaseManualParameter {
 
     BaseCameraHolder baseCameraHolder;
-    public ISOManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
-
-        //TODO add missing logic
-    }
     public ISOManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, BaseCameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
 

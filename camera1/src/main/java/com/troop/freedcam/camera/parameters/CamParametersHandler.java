@@ -211,7 +211,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         try {
             if (!DeviceUtils.isG4())
             {
-                ISOManual = new ISOManualParameter(cameraParameters, "", "", "", this);
+                ISOManual = new ISOManualParameter(cameraParameters, "", "", "",baseCameraHolder, this);
             }
         }
         catch (Exception ex)
