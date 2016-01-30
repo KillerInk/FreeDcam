@@ -79,6 +79,16 @@
                     android:layout_marginBottom="1dp"
                     android:layout_marginLeft="0dp" />
 
+                <troop.com.themesample.views.menu.MenuItemVideoBitrate
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    app:Description="@string/setting_videobitrate_description"
+                    app:HeaderText="@string/setting_videobitrate_header"
+                    app:ValueText="Profile Default"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="0dp"
+                    android:id="@+id/MenuItemVideoBitrate" />
+
                 <troop.com.themesample.views.menu.MenuItem
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
