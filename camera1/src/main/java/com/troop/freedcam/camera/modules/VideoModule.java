@@ -102,6 +102,7 @@ public class VideoModule extends AbstractVideoModule
         recorder.setAudioEncoder(prof.audioCodec);
 
 
+
         //parameters.put("preview-fps-range", "15000,60000");
 
         //recorder.setVideoFrameRate();

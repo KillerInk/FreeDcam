@@ -132,8 +132,8 @@ public class HighFramerateVideo extends  BaseModeParameter
             try {
                 String SizeV = cameraUiWrapper.appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
 
-                String[] f1080p = {"Default", "1080p@120","1080p@90", "1080p@60", "1080p@50", "1080p@48", "1080p@30", "1080p@29", "1080p@25", "1080p@24", "1080p@15"};
-                String[] f720p = {"Default","720p@480", "720p@240","720p@150","720p@120", "720p@60", "720p@50", "720p@48", "720p@30", "720p@29", "720p@25", "720p@24", "720@15"};
+                String[] f1080p = {"Default", "1080p@120","1080p@90", "1080p@60", "1080p@30", "1080p@29", "1080p@25", "1080p@24", "1080p@15"};
+                String[] f720p = {"Default","720p@480", "720p@240","720p@150","720p@120", "720p@60", "720p@30", "720p@29", "720p@25", "720p@24", "720@15"};
 
 
 
@@ -165,8 +165,6 @@ public class HighFramerateVideo extends  BaseModeParameter
                         DynamicFHD.remove("1080p@120");
                         DynamicFHD.remove("1080p@90");
                         DynamicFHD.remove("1080p@60");
-                        DynamicFHD.remove("1080p@50");
-                        DynamicFHD.remove("1080p@48");
                         return DynamicFHD.toArray(new String[DynamicFHD.size()]);
                     }
 
@@ -222,8 +220,6 @@ public class HighFramerateVideo extends  BaseModeParameter
                         DynamicHD.remove("720p@120");
                         DynamicHD.remove("720p@90");
                         DynamicHD.remove("720p@60");
-                        DynamicHD.remove("720p@50");
-                        DynamicHD.remove("720p@48");
 
                         return DynamicHD.toArray(new String[DynamicHD.size()]);
                     }
@@ -252,7 +248,7 @@ public class HighFramerateVideo extends  BaseModeParameter
                 if (SizeV.equals("HIGH") || SizeV.equals("1080p")) {
                     return new String[]{"Default","1080p@30", "1080p@29", "1080p@25", "1080p@24", "1080p@15"};
                 } else if (SizeV.equals("LOW") || SizeV.equals("720p")) {
-                    return new String[]{"Default", "720p@120", "720p@60", "720p@50", "720p@48", "720p@30", "720p@29", "720p@25", "720p@24", "720p@15"};
+                    return new String[]{"Default", "720p@120", "720p@60", "720p@30", "720p@29", "720p@25", "720p@24", "720p@15"};
 
                 } else if (SizeV.equals("4kUHD")) {
                     return new String[]{"Default", "UHDp@30", "UHD@29", "UHD@25", "UHD@24", "UHD@15"};
