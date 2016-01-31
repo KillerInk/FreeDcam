@@ -151,21 +151,12 @@
             android:textColor="@color/menuTextColor" />
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:id="@+id/fastsettings_button"
-        android:background="@drawable/set_minimal_flat"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="12dp" />
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="40dp"
         android:layout_height="match_parent"
         android:id="@+id/left_ui_holder"
-        android:layout_above="@+id/fastsettings_button">
+        android:gravity="center_vertical">
 
 
         <troop.com.themesample.views.uichilds.UiSettingsChild
@@ -244,21 +235,13 @@
             app:HeaderText="@string/uisetting_format_header"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/quck_set_format2"
-            android:layout_marginTop="3dp" />/>
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="10dp"/>/>
 
 
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_toLeftOf="@+id/manualModesHolder"
-        android:layout_toStartOf="@+id/manualModesHolder"
-        android:layout_above="@+id/fastsettings_button"
-        android:background="#89000000"
-        android:id="@+id/LCover"
-        android:visibility="gone"></LinearLayout>
+
 
     <RelativeLayout
         android:orientation="vertical"
@@ -353,6 +336,13 @@
         </LinearLayout>
 
     </RelativeLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#89000000"
+        android:id="@+id/LCover"
+        android:visibility="gone"></LinearLayout>
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -365,27 +355,18 @@
         android:layout_height="match_parent"
         android:id="@+id/manualModesHolder"
         android:foregroundGravity="center_horizontal"
-        android:layout_toRightOf="@+id/fastsettings_button"
+        android:layout_toRightOf="@+id/left_ui_holder"
         android:layout_marginLeft="10dp"
         android:layout_toLeftOf="@+id/right_ui_holder"
         android:layout_toStartOf="@+id/right_ui_holder"></FrameLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#89ffffff"
-        android:id="@+id/Rcover"
-        android:visibility="gone"
-        android:layout_alignLeft="@+id/right_ui_holder"
-        android:layout_alignStart="@+id/right_ui_holder"></LinearLayout>
 
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:id="@+id/settingsMenuHolder"
         android:foregroundGravity="center_horizontal"
-        android:layout_toRightOf="@+id/fastsettings_button"
+        android:layout_toRightOf="@+id/left_ui_holder"
         android:layout_marginLeft="10dp"
         android:layout_toLeftOf="@+id/right_ui_holder"
         android:layout_toStartOf="@+id/right_ui_holder" />

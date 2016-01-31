@@ -1,9 +1,18 @@
 package troop.com.themesample.subfragments;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
@@ -11,6 +20,8 @@ import com.troop.freedcam.i_camera.parameters.ApiParameter;
 import com.troop.freedcam.i_camera.parameters.ParameterExternalShutter;
 import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.I_swipe;
+import com.troop.freedcam.ui.SwipeMenuListner;
 
 import troop.com.themesample.R;
 import troop.com.themesample.views.menu.MenuItem;
@@ -30,7 +41,7 @@ import troop.com.themesample.views.uichilds.UiSettingsChild;
 /**
  * Created by troop on 15.06.2015.
  */
-public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_MenuItemClick
+public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_MenuItemClick, I_swipe
 {
 
     final boolean DEBUG = false;
@@ -82,6 +93,15 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     troop.com.themesample.views.menu.MenuItem horizont;
 
     Interfaces.I_MenuItemClick onMenuItemClick;
+
+    SwipeMenuListner touchHandler;
+    ScrollView scrollView;
+    LinearLayout LC;
+    FrameLayout settingsMenu;
+    final String KEY_SETTINGSOPEN = "key_settingsopen";
+    SharedPreferences sharedPref;
+    boolean settingsOpen;
+    LinearLayout leftholder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -163,6 +183,17 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
         horizont = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemHorizont);
         horizont.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HORIZONT);
+
+
+        scrollView = (ScrollView) view.findViewById(R.id.scrollView);
+        settingsMenu =  (FrameLayout)getActivity().findViewById(R.id.settingsMenuHolder);
+        LC = (LinearLayout)getActivity().findViewById(R.id.LCover);
+        touchHandler = new SwipeMenuListner(this);
+        scrollView.setOnTouchListener(onTouchListener);
+        sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        settingsOpen = sharedPref.getBoolean(KEY_SETTINGSOPEN, false);
+        leftholder = (LinearLayout) getActivity().findViewById(R.id.guideHolder);
+
 
         setWrapper();
     }
@@ -303,4 +334,56 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         super.SetCameraUIWrapper(wrapper);
             setWrapper();
     }
+
+    @Override
+    public void doLeftToRightSwipe() {
+
+    }
+
+    @Override
+    public void doRightToLeftSwipe() {
+        settingsOpen = false;
+        sharedPref.edit().putBoolean(KEY_SETTINGSOPEN, settingsOpen).commit();
+        float width = leftholder.getWidth();
+        settingsMenu.animate().translationX(-width).setDuration(300);
+        //settingsMenu.setVisibility(View.GONE);
+        LC.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void doTopToBottomSwipe() {
+
+    }
+
+    @Override
+    public void doBottomToTopSwipe() {
+
+    }
+
+    @Override
+    public void onClick(int x, int y) {
+
+    }
+
+    View.OnTouchListener onTouchListener = new View.OnTouchListener()
+    {
+        int move = 0;
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+
+            if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                move++;
+                if (move == 3)
+                    move =1;
+            }
+            if (move < 2 && event.getAction() == MotionEvent.ACTION_MOVE || event.getAction() != MotionEvent.ACTION_MOVE) {
+                touchHandler.onTouchEvent(event);
+                if (touchHandler.RightToLeft) {
+                    return touchHandler.onTouchEvent(event);
+                }
+            }
+            return touchHandler.RightToLeft;
+        }
+
+    };
 }
