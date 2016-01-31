@@ -14,6 +14,7 @@ import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
+import com.troop.freedcam.ui.SwipeMenuListner;
 
 import troop.com.themesample.R;
 import troop.com.themesample.views.menu.MenuItemTheme;
@@ -31,7 +32,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
     RightMenuFragment rightMenuFragment;
     ValuesMenuFragment valuesMenuFragment;
 
-    View.OnClickListener onSettingsClickListner;
+    SwipeMenuListner touchHandler;
 
     final int VALUE_MENU_CLOSED = 0;
     final int VALUE_MENU_RIGHT_OPEN = 1;
@@ -49,11 +50,15 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         //    setWrapper();
     }
 
-    public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity, View.OnClickListener onSettingsClickListner)
+    public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity, SwipeMenuListner touchHandler)
     {
-        SetStuff(appSettingsManager, i_activity);
-
-        this.onSettingsClickListner = onSettingsClickListner;
+        super.SetStuff(appSettingsManager, i_activity);
+        this.touchHandler = touchHandler;
+        if (leftMenuFragment != null && rightMenuFragment != null)
+        {
+            leftMenuFragment.touchHandler = touchHandler;
+            rightMenuFragment.touchHandler = touchHandler;
+        }
     }
 
     @Override
@@ -88,6 +93,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         {
             leftMenuFragment = new LeftMenuFragment();
         }
+        leftMenuFragment.touchHandler = touchHandler;
         leftMenuFragment.SetStuff(appSettingsManager, i_activity);
         leftMenuFragment.SetCameraUIWrapper(wrapper);
         leftMenuFragment.SetMenuItemClickListner(this);
@@ -104,6 +110,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
     private void loadRightFragment() {
         if (rightMenuFragment == null)
             rightMenuFragment = new RightMenuFragment();
+        rightMenuFragment.touchHandler = touchHandler;
         rightMenuFragment.SetStuff(appSettingsManager, i_activity);
         rightMenuFragment.SetCameraUIWrapper(wrapper);
         rightMenuFragment.SetMenuItemClickListner(this);

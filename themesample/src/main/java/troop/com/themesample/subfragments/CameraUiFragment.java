@@ -175,10 +175,11 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         Log.d(TAG, "####################ONCREATEDVIEW####################");
+        touchHandler = new SwipeMenuListner(this);
         manualModesFragment = new ManualFragmentRotatingSeekbar();
         manualModesFragment.SetStuff(appSettingsManager, i_activity);
         settingsMenuFragment = new SettingsMenuFragment();
-        settingsMenuFragment.SetStuff(appSettingsManager, i_activity);
+        settingsMenuFragment.SetStuff(appSettingsManager, i_activity,touchHandler);
         horizontLineFragment = new HorizontLineFragment();
         guideHandler = new GuideHandler();
         return inflater.inflate(R.layout.cameraui, container, false);
@@ -244,7 +245,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         infoOverlayHandler.setCameraUIWrapper(wrapper);
 
         focusImageHandler = new FocusImageHandler(view, this, i_activity);
-        touchHandler = new SwipeMenuListner(this);
+
         shutterButton = (ShutterButton)view.findViewById(R.id.shutter_button);
         view.setOnTouchListener(onTouchListener);
 
@@ -465,6 +466,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         settingsOpen = true;
         sharedPref.edit().putBoolean(KEY_SETTINGSOPEN,settingsOpen).commit();
         manualModes_holder.setVisibility(View.GONE);
+        settingsMenuFragment.touchHandler = touchHandler;
         LC.setVisibility(View.VISIBLE);
         LC.setOnTouchListener(onTouchListener);
         settingsmenuholer.animate().translationX(0).setDuration(300);

@@ -96,7 +96,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
     Interfaces.I_MenuItemClick onMenuItemClick;
 
-    SwipeMenuListner touchHandler;
+    public SwipeMenuListner touchHandler;
     ScrollView scrollView;
     LinearLayout LC;
     FrameLayout settingsMenu;
@@ -193,7 +193,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         scrollView = (ScrollView) view.findViewById(R.id.scrollView);
         settingsMenu =  (FrameLayout)getActivity().findViewById(R.id.settingsMenuHolder);
         LC = (LinearLayout)getActivity().findViewById(R.id.LCover);
-        touchHandler = new SwipeMenuListner(this);
+        //touchHandler = new SwipeMenuListner(this);
         scrollView.setOnTouchListener(onTouchListener);
         sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         settingsOpen = sharedPref.getBoolean(KEY_SETTINGSOPEN, false);
@@ -384,7 +384,9 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         @Override
         public boolean onTouch(View v, MotionEvent event) {
 
-            if (event.getAction() == MotionEvent.ACTION_MOVE) {
+            if (touchHandler != null)
+                touchHandler.onTouchEvent(event);
+           /* if (event.getAction() == MotionEvent.ACTION_MOVE) {
                 move++;
                 if (move == 3)
                     move =1;
@@ -395,7 +397,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
                     return touchHandler.onTouchEvent(event);
                 }
             }
-            return touchHandler.RightToLeft;
+            return touchHandler.RightToLeft;*/
+            return false;
         }
 
     };
