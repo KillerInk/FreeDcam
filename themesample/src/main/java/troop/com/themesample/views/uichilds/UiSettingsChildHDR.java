@@ -131,7 +131,7 @@ public class UiSettingsChildHDR extends UiSettingsChild
                     else
                     {
                         ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("morpho-hdr", "false");
-                        ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("ae-bracket-hdr", "off");
+                        ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("ae-bracket-hdr", "Off");
                     }
                 }
                 else if(DeviceUtils.isLG_G3() || DeviceUtils.isG2())
@@ -160,7 +160,7 @@ public class UiSettingsChildHDR extends UiSettingsChild
                             break;
                         case "on":
                             if (((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Scene())
-                                ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("scene-mode", "on");
+                                ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("scene-mode", "hdr");
                             if (((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Auto())
                                 ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("auto-hdr-enable", "disable");
                             break;
