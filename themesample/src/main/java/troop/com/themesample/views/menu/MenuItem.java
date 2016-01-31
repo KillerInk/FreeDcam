@@ -71,7 +71,7 @@ public class MenuItem extends UiSettingsChild implements View.OnClickListener, I
         valueText = (TextView)findViewById(R.id.textview_menuitem_header_value);
         description = (TextView)findViewById(R.id.textview_menuitem_description);
         toplayout = (LinearLayout)findViewById(R.id.menu_item_toplayout);
-        toplayout.setOnClickListener(this);
+        //toplayout.setOnClickListener(this);
         controlswipeListner = new SwipeMenuListner(this);
         toplayout.setOnTouchListener(new OnTouchListener() {
             @Override

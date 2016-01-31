@@ -55,7 +55,6 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
 
     public SwipeMenuListner touchHandler;
     ScrollView scrollView;
-    LinearLayout LC;
     FrameLayout settingsMenu;
     final String KEY_SETTINGSOPEN = "key_settingsopen";
     SharedPreferences sharedPref;
@@ -144,8 +143,7 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
 
         scrollView = (ScrollView) view.findViewById(R.id.scrollView2);
         settingsMenu =  (FrameLayout)getActivity().findViewById(R.id.settingsMenuHolder);
-        LC = (LinearLayout)getActivity().findViewById(R.id.LCover);
-        scrollView.setOnTouchListener(onTouchListener);
+
         sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         settingsOpen = sharedPref.getBoolean(KEY_SETTINGSOPEN, false);
         leftholder = (LinearLayout) getActivity().findViewById(R.id.guideHolder);
@@ -256,8 +254,6 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
         sharedPref.edit().putBoolean(KEY_SETTINGSOPEN, settingsOpen).commit();
         float width = leftholder.getWidth();
         settingsMenu.animate().translationX(-width).setDuration(300);
-        //settingsMenu.setVisibility(View.GONE);
-        LC.setVisibility(View.GONE);
     }
 
     @Override
@@ -275,22 +271,4 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
 
     }
 
-    View.OnTouchListener onTouchListener = new View.OnTouchListener()
-    {
-        int move = 0;
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-
-            if (touchHandler != null)
-                if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                    move++;
-                    if (move == 3)
-                        move = 1;
-                }
-                if (move == 1 && event.getAction() == MotionEvent.ACTION_MOVE || event.getAction() != MotionEvent.ACTION_MOVE) {
-                    touchHandler.onTouchEvent(event);}
-            return false;
-        }
-
-    };
 }

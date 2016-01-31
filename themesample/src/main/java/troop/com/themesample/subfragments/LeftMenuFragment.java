@@ -63,8 +63,6 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     MenuItemOrientationHack orientationHack;
 
     troop.com.themesample.views.menu.MenuItem jpegQuality;
-    //troop.com.themesample.views.menu.MenuItem histogram;
-    //troop.com.themesample.views.menu.MenuItem focuspeak;
     MenuItemSaveCamParams saveCamParams;
 
     troop.com.themesample.views.menu.MenuItem aeBracket;
@@ -74,17 +72,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     troop.com.themesample.views.menu.MenuItemHighFramerateVideo HighFramerateVideo;
     MenuItemTimeLapseFrames timeLapseFrames;
 
-    troop.com.themesample.views.menu.MenuItem OverrideVideoProfile;
     troop.com.themesample.views.menu.MenuItem VideoSize;
-    troop.com.themesample.views.menu.MenuItem VideoHeight;
-    troop.com.themesample.views.menu.MenuItem VideoFps;
-    troop.com.themesample.views.menu.MenuItem VideoBitrate;
-    troop.com.themesample.views.menu.MenuItem VideoHFR;
-    troop.com.themesample.views.menu.MenuItem VideoHSR;
-    troop.com.themesample.views.menu.MenuItem VideoCodec;
-    troop.com.themesample.views.menu.MenuItem AudioBitrate;
-    troop.com.themesample.views.menu.MenuItem AudioSampleRate;
-    troop.com.themesample.views.menu.MenuItem AudioCodec;
 
     troop.com.themesample.views.menu.MenuItem PreviewSize;
     troop.com.themesample.views.menu.MenuItem PreviewFormat;
@@ -98,7 +86,6 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
     public SwipeMenuListner touchHandler;
     ScrollView scrollView;
-    LinearLayout LC;
     FrameLayout settingsMenu;
     final String KEY_SETTINGSOPEN = "key_settingsopen";
     SharedPreferences sharedPref;
@@ -192,9 +179,6 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
         scrollView = (ScrollView) view.findViewById(R.id.scrollView);
         settingsMenu =  (FrameLayout)getActivity().findViewById(R.id.settingsMenuHolder);
-        LC = (LinearLayout)getActivity().findViewById(R.id.LCover);
-        //touchHandler = new SwipeMenuListner(this);
-        scrollView.setOnTouchListener(onTouchListener);
         sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         settingsOpen = sharedPref.getBoolean(KEY_SETTINGSOPEN, false);
         leftholder = (LinearLayout) getActivity().findViewById(R.id.guideHolder);
@@ -359,8 +343,6 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         sharedPref.edit().putBoolean(KEY_SETTINGSOPEN, settingsOpen).commit();
         float width = leftholder.getWidth();
         settingsMenu.animate().translationX(-width).setDuration(300);
-        //settingsMenu.setVisibility(View.GONE);
-        LC.setVisibility(View.GONE);
     }
 
     @Override
@@ -377,23 +359,4 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     public void onClick(int x, int y) {
 
     }
-
-    View.OnTouchListener onTouchListener = new View.OnTouchListener()
-    {
-        int move = 0;
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-
-            if (touchHandler != null)
-                if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                    move++;
-                    if (move == 3)
-                        move = 1;
-                }
-            if (move == 1 && event.getAction() == MotionEvent.ACTION_MOVE || event.getAction() != MotionEvent.ACTION_MOVE) {
-                touchHandler.onTouchEvent(event);}
-            return false;
-        }
-
-    };
 }
