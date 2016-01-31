@@ -385,19 +385,13 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         public boolean onTouch(View v, MotionEvent event) {
 
             if (touchHandler != null)
-                touchHandler.onTouchEvent(event);
-           /* if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                move++;
-                if (move == 3)
-                    move =1;
-            }
-            if (move < 2 && event.getAction() == MotionEvent.ACTION_MOVE || event.getAction() != MotionEvent.ACTION_MOVE) {
-                touchHandler.onTouchEvent(event);
-                if (touchHandler.RightToLeft) {
-                    return touchHandler.onTouchEvent(event);
+                if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                    move++;
+                    if (move == 3)
+                        move = 1;
                 }
-            }
-            return touchHandler.RightToLeft;*/
+            if (move == 1 && event.getAction() == MotionEvent.ACTION_MOVE || event.getAction() != MotionEvent.ACTION_MOVE) {
+                touchHandler.onTouchEvent(event);}
             return false;
         }
 
