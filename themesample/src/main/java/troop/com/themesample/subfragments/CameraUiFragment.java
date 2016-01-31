@@ -67,7 +67,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
     UserMessageHandler messageHandler;
 
-  //  UiSettingsChildHDR hdr_switch;
+    UiSettingsChildHDR hdr_switch;
 
     ThumbView thumbView;
 
@@ -164,8 +164,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         focuspeak.SetCameraUiWrapper(wrapper);
         modeSwitch.SetCameraUiWrapper(wrapper);
-      //  hdr_switch.SetCameraUiWrapper(wrapper);
-     //   hdr_switch.SetParameter(wrapper.camParametersHandler.HDR_State);
+        hdr_switch.SetCameraUiWrapper(wrapper);
+        hdr_switch.SetParameter(wrapper.camParametersHandler.HDR_State);
 
         horizontLineFragment.setCameraUiWrapper(wrapper, appSettingsManager);
 
@@ -255,11 +255,11 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         focuspeak.SetMenuItemListner(this);
 
         //adding hdr switch log test v1.0 1-29-2016 6:13 - Defcomk
-      //  this.hdr_switch = (UiSettingsChildHDR)view.findViewById(R.id.hdr_toggle);
+        this.hdr_switch = (UiSettingsChildHDR)view.findViewById(R.id.hdr_toggle);
 
-     //   hdr_switch.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HDR);
+        hdr_switch.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HDR);
 
-     //   hdr_switch.SetMenuItemListner(this);
+        hdr_switch.SetMenuItemListner(this);
         ///
 
 

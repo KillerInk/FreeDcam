@@ -227,6 +227,15 @@
             android:layout_gravity="center_horizontal"
             android:background="@drawable/quck_set_contin"
             android:layout_marginTop="3dp" />
+        <troop.com.themesample.views.uichilds.UiSettingsChildHDR
+            android:layout_width="32dp"
+            android:layout_height="39dp"
+            android:id="@+id/hdr_toggle"
+            android:layout_marginLeft="5dp"
+            app:HeaderText="@string/setting_hdr_"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/quck_set_hdr"
+            android:layout_marginTop="3dp" />
         <troop.com.themesample.views.uichilds.UiSettingsChildFormat
             android:layout_width="32dp"
             android:layout_height="39dp"
@@ -311,14 +320,6 @@
             android:layout_alignParentBottom="true"
             android:gravity="center|center_horizontal|bottom">
 
-            <troop.com.themesample.views.uichilds.UiSettingsChildHDR
-                android:layout_width="32dp"
-                android:layout_height="39dp"
-                android:id="@+id/hdr_toggle"
-                android:layout_gravity="center_horizontal"
-                android:background="#f10c0c"
-                android:layout_marginBottom="5dp"
-                android:visibility="gone" />
 
             <troop.com.themesample.views.uichilds.UiSettingsChildCameraSwitch
                 android:layout_width="32dp"
