@@ -8,18 +8,23 @@ import android.view.MotionEvent;
  */
 public class TouchHandler
 {
-    static final int distance = 350;
+    static final int distance = 300;
     static final int MAX_DURATION = 600;
-    public int startX;
-    public int startY;
-    public int currentX;
-    public int currentY;
-    public int x;
-    public int y;
+    private int startX;
+    private int startY;
+    private int currentX;
+    private int currentY;
+    private int x;
+    private int y;
+    public boolean LeftToRight;
+    public boolean RightToLeft;
+    public boolean TopToBottom;
+    public boolean BottomToTop;
 
     public boolean onTouchEvent(MotionEvent event)
     {
         boolean fireagain = true;
+
         switch (event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
@@ -34,6 +39,10 @@ public class TouchHandler
                 }
                 break;
             case MotionEvent.ACTION_UP:
+                LeftToRight = false;
+                RightToLeft = false;
+                TopToBottom = false;
+                BottomToTop = false;
                 currentX = (int) event.getX();
                 currentY = (int) event.getY();
                 x = getDistance(startX, currentX);
@@ -43,22 +52,46 @@ public class TouchHandler
                 {
                     Log.d("TouchHAndler", "currentX:" + currentX + " X:" + startX);
                     if (x >= y) {
-                        if (currentX > startX)
+                        if (currentX > startX) {
+                            LeftToRight = true;
+                            RightToLeft = false;
+                            TopToBottom = false;
+                            BottomToTop = false;
                             doLeftToRightSwipe();
-                        else
+                        }
+                        else {
+                            LeftToRight = false;
+                            RightToLeft = true;
+                            TopToBottom = false;
+                            BottomToTop = false;
                             doRightToLeftSwipe();
+                        }
                     }
                     else{
-                        if (currentY > startY)
+                        if (currentY > startY) {
+                            LeftToRight = false;
+                            RightToLeft = false;
+                            TopToBottom = true;
+                            BottomToTop = false;
                             doTopToBottomSwipe();
-                        else
+                        }
+                        else {
+                            LeftToRight = false;
+                            RightToLeft = false;
+                            TopToBottom = false;
+                            BottomToTop = true;
                             doBottomToTopSwipe();
+                        }
                     }
                 }
                 else if (x < distance && y < distance)
                 {
                     OnClick((int)event.getX(), (int)event.getY());
                 }
+                startX = 0;
+                currentX = 0;
+                startY = 0;
+                currentY = 0;
                 break;
         }
         return fireagain;

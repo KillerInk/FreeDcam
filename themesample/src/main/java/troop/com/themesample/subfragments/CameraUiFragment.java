@@ -71,9 +71,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
     ThumbView thumbView;
 
-    LinearLayout RC,LC;
+    LinearLayout LC;
 
-    ImageView ManualSettingsButton;
     LinearLayout left_cameraUI_holder;
     RelativeLayout right_camerUI_holder;
     ManualFragmentRotatingSeekbar manualModesFragment;
@@ -98,6 +97,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     File lastFile;
 
     final String KEY_MANUALMENUOPEN = "key_manualmenuopen";
+    final String KEY_SETTINGSOPEN = "key_settingsopen";
     SharedPreferences sharedPref;
 
     HorizontLineFragment horizontLineFragment;
@@ -196,10 +196,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         this.left_cameraUI_holder = (LinearLayout)view.findViewById(R.id.left_ui_holder);
         this.right_camerUI_holder = (RelativeLayout)view.findViewById(R.id.right_ui_holder);
         this.manualModes_holder = (FrameLayout)view.findViewById(R.id.manualModesHolder);
-        this.ManualSettingsButton = (ImageView)view.findViewById(R.id.fastsettings_button);
         this.LC = (LinearLayout)view.findViewById(R.id.LCover);
-        this.RC = (LinearLayout)view.findViewById(R.id.Rcover);
-        ManualSettingsButton.setOnClickListener(onSettingsClick);
 
         // this.wbtest = (ImgItem)view.findViewById(R.id.testwb);
         //wbtest.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_WHITEBALANCEMODE);
@@ -283,7 +280,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         settingsMenuFragment.SetCameraUIWrapper(wrapper);
         transaction = getChildFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
+        transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.empty);
         transaction.replace(R.id.settingsMenuHolder, settingsMenuFragment);
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
@@ -325,6 +322,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     {
         infoOverlayHandler.StopUpdating();
         sharedPref.edit().putBoolean(KEY_MANUALMENUOPEN,manualsettingsIsOpen).commit();
+        sharedPref.edit().putBoolean(KEY_SETTINGSOPEN,settingsOpen).commit();
         super.onPause();
 
     }
@@ -416,13 +414,17 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
     @Override
     public void  doRightToLeftSwipe() {
-
-        i_activity.loadImageViewerFragment(lastFile);
+        if (settingsOpen)
+            replaceSettingsWithCameraUI();
+        else
+            i_activity.loadImageViewerFragment(lastFile);
 
     }
 
     @Override
-    public void doLeftToRightSwipe(){}
+    public void doLeftToRightSwipe(){
+        replaceCameraUIWithSettings();
+    }
 
     @Override
     public void doTopToBottomSwipe(){
@@ -456,61 +458,28 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
     }
 
-    View.OnClickListener onSettingsClick = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View v)
-        {
-            if (!settingsOpen) {
-                replaceCameraUIWithSettings();
-                LC.setVisibility(View.VISIBLE);
-                RC.setVisibility(View.VISIBLE);
-                focuspeak.setEnabled(false);
-                modeSwitch.setEnabled(false);
-                exit.setEnabled(false);
-                thumbView.setEnabled(false);
-                iso.setEnabled(false);
-                format.setEnabled(false);
-                night.setEnabled(false);
-                whitebalance.setEnabled(false);
-                focus.setEnabled(false);
-                flash.setEnabled(false);
-                autoexposure.setEnabled(false);
-                shutterButton.setEnabled(false);
 
-            }
-            else {
-                replaceSettingsWithCameraUI();
-                LC.setVisibility(View.GONE);
-                RC.setVisibility(View.GONE);
-                focuspeak.setEnabled(true);
-                modeSwitch.setEnabled(true);
-                exit.setEnabled(true);
-                thumbView.setEnabled(true);
-                iso.setEnabled(true);
-                format.setEnabled(true);
-                night.setEnabled(true);
-                whitebalance.setEnabled(true);
-                focus.setEnabled(true);
-                flash.setEnabled(true);
-                autoexposure.setEnabled(true);
-                shutterButton.setEnabled(true);
-            }
-        }
-    };
 
     private void replaceCameraUIWithSettings()
     {
         settingsOpen = true;
+        sharedPref.edit().putBoolean(KEY_SETTINGSOPEN,settingsOpen).commit();
         manualModes_holder.setVisibility(View.GONE);
+        LC.setVisibility(View.VISIBLE);
+        LC.setOnTouchListener(onTouchListener);
+        settingsmenuholer.animate().translationX(0).setDuration(300);
         settingsmenuholer.setVisibility(View.VISIBLE);
     }
 
-    private void replaceSettingsWithCameraUI()
+    public void replaceSettingsWithCameraUI()
     {
         settingsOpen = false;
+        sharedPref.edit().putBoolean(KEY_SETTINGSOPEN,settingsOpen).commit();
+        float width = guidHolder.getWidth();
+        settingsmenuholer.animate().translationX(-width).setDuration(300);
         if(manualsettingsIsOpen)
             manualModes_holder.setVisibility(View.VISIBLE);
-        settingsmenuholer.setVisibility(View.GONE);
+        LC.setVisibility(View.GONE);
+        //settingsmenuholer.setVisibility(View.GONE);
     }
 }
