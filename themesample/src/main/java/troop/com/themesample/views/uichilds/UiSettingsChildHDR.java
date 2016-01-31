@@ -101,9 +101,13 @@ public class UiSettingsChildHDR extends UiSettingsChild
                 if (isPictureModule && !(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer") ||
                         appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("raw"))) {
 
-
-                    if (((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Scene() || ((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Auto())
-                        return true;
+                    try {
+                        if (((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Scene() || ((CamParametersHandler) cameraUiWrapper.camParametersHandler).HDR_supported_Auto())
+                            return true;
+                    }catch (Exception ex)
+                    {
+                        ex.printStackTrace();
+                    }
                 }
 
 
