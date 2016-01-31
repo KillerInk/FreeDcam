@@ -1,5 +1,6 @@
 package com.troop.freedcam.ui;
 
+import android.content.res.Resources;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -10,14 +11,14 @@ import javax.xml.parsers.FactoryConfigurationError;
  */
 public class TouchHandler
 {
-    static final int distance = 300;
+    static final int distance = 60;
     static final int MAX_DURATION = 600;
     private int startX;
     private int startY;
     private int currentX;
     private int currentY;
-    private int x;
-    private int y;
+    private float x;
+    private float y;
     private MotionEvent event;
     public boolean LeftToRight;
     public boolean RightToLeft;
@@ -129,12 +130,14 @@ public class TouchHandler
     {
     }
 
-    public static int getDistance(int startvalue, int currentvalue)
+    public static float getDistance(int startvalue, int currentvalue)
     {
         int dis = startvalue - currentvalue;
         if (dis < 0)
             dis = dis *-1;
-        return dis;
+        float dm = Resources.getSystem().getDisplayMetrics().density;
+        return dis/dm;
+
     }
 
     public static int getNegDistance(int startvalue, int currentvalue)
