@@ -19,27 +19,6 @@ public class AE_Bracket_HdrModeParameter extends BaseModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()||DeviceUtils.isXiaomiMI_Note_Pro()||DeviceUtils.isRedmiNote()) {
-            if (valueToSet == "HDR") {
-                parameters.put("capture-burst-exposures", "-10,0,10");
-                parameters.put("morpho-hdr", "true");
-                parameters.put("ae-bracket-hdr", "AE-Bracket");
-            } else if (valueToSet == "AE-Bracket") {
-                parameters.put("capture-burst-exposures", "-10,0,10");
-                parameters.put("morpho-hdr", "false");
-                parameters.put("ae-bracket-hdr", "AE-Bracket");
-            } else {
-                parameters.put("morpho-hdr", "false");
-                //parameters.put("capture-burst-exposures", "-10,0,10");
-                parameters.put("ae-bracket-hdr", "Off");
-            }
-            try {
-                baseCameraHolder.SetCameraParameters(parameters);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-        else
         if (valueToSet.equals("AE-Bracket")) {
             parameters.put("capture-burst-exposures", "-10,0,10");
             try {
@@ -51,24 +30,9 @@ public class AE_Bracket_HdrModeParameter extends BaseModeParameter
         }
     }
 
-    @Override
-    public String GetValue() {
-        if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()||DeviceUtils.isXiaomiMI_Note_Pro()||DeviceUtils.isRedmiNote()) {
-            if (parameters.get("morpho-hdr").equals("true"))
-                return "HDR";
-            else if (parameters.get("ae-bracket-hdr").equals("AE-Bracket"))
-                return "AE-Bracket";
-            else return "Off";
-        }
-        else
-            return parameters.get("ae-bracket-hdr");
-    }
 
     @Override
     public String[] GetValues() {
-        if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()||DeviceUtils.isXiaomiMI_Note_Pro()||DeviceUtils.isRedmiNote())
-            return new String[] {"Off","HDR","AE-Bracket"};
-        else
-           return new String[] {parameters.get("ae-bracket-hdr-values")};
+            return new String[] {"Off","AE-Bracket"};
     }
 }
