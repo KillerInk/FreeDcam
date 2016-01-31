@@ -74,78 +74,77 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         scene = (MenuItem)view.findViewById(R.id.MenuItemScene);
-        scene.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_SCENEMODE);
+        scene.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_SCENEMODE,touchHandler);
 
         color = (MenuItem)view.findViewById(R.id.MenuItemColor);
-        color.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_COLORMODE);
+        color.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_COLORMODE,touchHandler);
 
         cctMode = (MenuItem)view.findViewById(R.id.MenuItemCCTMode);
-        cctMode.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_COLORCORRECTION);
+        cctMode.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_COLORCORRECTION,touchHandler);
 
         objectTrackingMode = (MenuItem)view.findViewById(R.id.MenuItemObjectTracking);
-        objectTrackingMode.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_OBJECTTRACKING);
+        objectTrackingMode.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_OBJECTTRACKING,touchHandler);
 
         toneMapMode = (MenuItem)view.findViewById(R.id.MenuItemTonemap);
-        toneMapMode.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_TONEMAP);
+        toneMapMode.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_TONEMAP,touchHandler);
 
         postViewSize = (MenuItem)view.findViewById(R.id.MenuItemPostViewSize);
-        postViewSize.SetStuff(i_activity,appSettingsManager, "");
+        postViewSize.SetStuff(i_activity,appSettingsManager, "",touchHandler);
 
         controleMode = (MenuItem)view.findViewById(R.id.MenuItemControlMode);
-        controleMode.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_CONTROLMODE);
+        controleMode.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_CONTROLMODE,touchHandler);
 
         redeyeflash = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemRedEye);
-        redeyeflash.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_REDEYE_MODE);
+        redeyeflash.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_REDEYE_MODE,touchHandler);
 
         antiBanding = (MenuItem)view.findViewById(R.id.MenuItemAntiBanding);
-        antiBanding.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_ANTIBANDINGMODE);
+        antiBanding.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_ANTIBANDINGMODE,touchHandler);
 
         ipp = (MenuItem)view.findViewById(R.id.MenuItemIpp);
-        ipp.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE);
+        ipp.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE,touchHandler);
 
         lensShade = (MenuItem)view.findViewById(R.id.MenuItemLensShade);
-        lensShade.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_LENSSHADE_MODE);
+        lensShade.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_LENSSHADE_MODE,touchHandler);
 
         chromaFlash = (MenuItem)view.findViewById(R.id.MenuItemChromaFlash);
-        chromaFlash.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_CHROMAFLASH_MODE);
+        chromaFlash.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_CHROMAFLASH_MODE,touchHandler);
 
         sceneDetectMode = (MenuItem)view.findViewById(R.id.MenuItemSceneDetection);
-        sceneDetectMode.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_SCENEDETECT_MODE);
+        sceneDetectMode.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_SCENEDETECT_MODE,touchHandler);
 
         waveletdenoiseMode = (MenuItem)view.findViewById(R.id.MenuItemWaveletDenoise);
-        waveletdenoiseMode.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_DENOISE_MODE);
+        waveletdenoiseMode.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_DENOISE_MODE,touchHandler);
 
         digitalImageStabilization = (MenuItem)view.findViewById(R.id.MenuItemDigitalImageStab);
-        digitalImageStabilization.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_DIS_MODE);
+        digitalImageStabilization.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_DIS_MODE,touchHandler);
 
         memoryColorEnhancement = (MenuItem)view.findViewById(R.id.MenuItemMemoryColorEnhanc);
-        memoryColorEnhancement.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_MCE_MODE);
+        memoryColorEnhancement.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_MCE_MODE,touchHandler);
 
         ZeroShutterLag = (MenuItem)view.findViewById(R.id.MenuItemZSL);
-        ZeroShutterLag.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_ZEROSHUTTERLAG_MODE);
+        ZeroShutterLag.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_ZEROSHUTTERLAG_MODE,touchHandler);
 
         nonZSLmanualMode = (MenuItem)view.findViewById(R.id.MenuItemNonManualZSL);
-        nonZSLmanualMode.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_NONZSLMANUALMODE);
+        nonZSLmanualMode.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_NONZSLMANUALMODE,touchHandler);
 
         correlatedDoubleSampling = (MenuItem)view.findViewById(R.id.MenuItemCorrelatedDoubleSampling);
-        correlatedDoubleSampling.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_CDS);
+        correlatedDoubleSampling.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_CDS,touchHandler);
 
         temporalDenoise = (MenuItem)view.findViewById(R.id.MenuItemTemporalDenoise);
-        temporalDenoise.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_TNR);
+        temporalDenoise.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_TNR,touchHandler);
 
         edgeMode = (MenuItem)view.findViewById(R.id.MenuItemEdgeMode);
-        edgeMode.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_EDGE);
+        edgeMode.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_EDGE,touchHandler);
 
         hotPixelMode = (MenuItem)view.findViewById(R.id.MenuItemHotPixelMode);
-        hotPixelMode.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HOTPIXEL);
+        hotPixelMode.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HOTPIXEL,touchHandler);
 
         opticalImageStabilization = (MenuItem)view.findViewById(R.id.MenuItemOIS);
-        opticalImageStabilization.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_OIS);
+        opticalImageStabilization.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_OIS,touchHandler);
 
         scrollView = (ScrollView) view.findViewById(R.id.scrollView2);
         settingsMenu =  (FrameLayout)getActivity().findViewById(R.id.settingsMenuHolder);
         LC = (LinearLayout)getActivity().findViewById(R.id.LCover);
-        //touchHandler = new SwipeMenuListner(this);
         scrollView.setOnTouchListener(onTouchListener);
         sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         settingsOpen = sharedPref.getBoolean(KEY_SETTINGSOPEN, false);

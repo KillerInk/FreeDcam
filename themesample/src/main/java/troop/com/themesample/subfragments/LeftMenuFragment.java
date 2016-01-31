@@ -115,67 +115,67 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         themeItem = (MenuItemTheme)view.findViewById(R.id.MenuItemTheme);
-        themeItem.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_Theme);
+        themeItem.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_Theme,touchHandler);
 
         bayerFormatItem = (MenuItemBayerFormat) view.findViewById(R.id.MenuItemBayerFormat);
-        bayerFormatItem.SetStuff(i_activity, appSettingsManager, "");
+        bayerFormatItem.SetStuff(i_activity, appSettingsManager, "",touchHandler);
 
         bitrate = (MenuItemVideoBitrate) view.findViewById(R.id.MenuItemVideoBitrate);
-        bitrate.SetStuff(i_activity, appSettingsManager, "");
+        bitrate.SetStuff(i_activity, appSettingsManager, "",touchHandler);
 
         pictureSize = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemPicSize);
-        pictureSize.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_PICTURESIZE);
+        pictureSize.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_PICTURESIZE,touchHandler);
 
         sdSave = (MenuItemSDSave)view.findViewById(R.id.MenuItemSDSave);
-        sdSave.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_EXTERNALSD);
+        sdSave.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_EXTERNALSD,touchHandler);
 
         menuItemInterval = (MenuItemInterval)view.findViewById(R.id.MenuIntervalmeter);
-        menuItemInterval.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_INTERVAL);
+        menuItemInterval.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_INTERVAL,touchHandler);
 
         menuItemIntervalDuration = (MenuItemIntervalDuration)view.findViewById(R.id.MenuIntervalmeterDuration);
-        menuItemIntervalDuration.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_INTERVAL_DURATION);
+        menuItemIntervalDuration.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_INTERVAL_DURATION,touchHandler);
 
         menuItemTimer = (MenuItemTimer)view.findViewById(R.id.MenuTimer);
-        menuItemTimer.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_TIMER);
+        menuItemTimer.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_TIMER,touchHandler);
 
         menuItemGPS = (MenuItemGPS)view.findViewById(R.id.MenuItemGPS);
-        menuItemGPS.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_LOCATION);
+        menuItemGPS.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_LOCATION,touchHandler);
 
         guide = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemGuide);
-        guide.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_GUIDE);
+        guide.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_GUIDE,touchHandler);
 
         api = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemApi);
-        api.SetStuff(i_activity, appSettingsManager, null);
+        api.SetStuff(i_activity, appSettingsManager, null,touchHandler);
 
         externalShutter = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemExternalShutter);
-        externalShutter.SetStuff(i_activity, appSettingsManager, null);
+        externalShutter.SetStuff(i_activity, appSettingsManager, null,touchHandler);
 
         orientationHack = (MenuItemOrientationHack)view.findViewById(R.id.MenuItemOrientationHack);
-        orientationHack.SetStuff(i_activity, appSettingsManager, null);
+        orientationHack.SetStuff(i_activity, appSettingsManager, null,touchHandler);
 
         jpegQuality = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemJpegQuality);
-        jpegQuality.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_JPEGQUALITY);
+        jpegQuality.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_JPEGQUALITY,touchHandler);
 
         aeBracket = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemAeBracket);
-        aeBracket.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_AEBRACKET);
+        aeBracket.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_AEBRACKET,touchHandler);
 
         videoProfile = (MenuItemVideoProfile)view.findViewById(R.id.MenuItemVideoProfile);
-        videoProfile.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEPROFILE);
+        videoProfile.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEPROFILE,touchHandler);
 
         videoHDR = (troop.com.themesample.views.menu.MenuItemVideoHDR)view.findViewById(R.id.MenuItemVideHDR);
-        videoHDR.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOHDR);
+        videoHDR.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOHDR,touchHandler);
 
         HighFramerateVideo = (troop.com.themesample.views.menu.MenuItemHighFramerateVideo)view.findViewById(R.id.MenuItemHighFramerateVideo);
-        HighFramerateVideo.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HighFramerateVideo);
+        HighFramerateVideo.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HighFramerateVideo,touchHandler);
 
         HighSpeedVideo = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemHighSpeedVideo);
-        HighSpeedVideo.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HighSpeedVideo);
+        HighSpeedVideo.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HighSpeedVideo,touchHandler);
 
         VideoSize = (MenuItem) view.findViewById(R.id.MenuItemVideoSize);
-        VideoSize.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOSIZE);
+        VideoSize.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOSIZE,touchHandler);
 
         videoStabilization =  (MenuItem)view.findViewById(R.id.MenuItemVideoStabilization);
-        videoStabilization.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOSTABILIZATION);
+        videoStabilization.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOSTABILIZATION,touchHandler);
 
         timeLapseFrames = (MenuItemTimeLapseFrames) view.findViewById(troop.com.themesample.R.id.MenuItemTimeLapseFrame);
         timeLapseFrames.SetStuff(appSettingsManager, AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME);

@@ -41,4 +41,29 @@ public class SwipeMenuListner extends TouchHandler
     protected void OnClick(int x, int y) {
         swipehandler.onClick(x,y);
     }
+
+
+    public void LeftToRightSwipe()
+    {
+        if (swipehandler!= null)
+            swipehandler.doLeftToRightSwipe();
+    }
+
+    public void RightToLeftSwipe()
+    {
+        if (swipehandler!= null)
+            swipehandler.doRightToLeftSwipe();
+    }
+
+    public void TopToBottomSwipe()
+    {
+        if (swipehandler!= null)
+            swipehandler.doTopToBottomSwipe();
+    }
+
+    public void BottomToTopSwipe()
+    {
+        if (swipehandler!= null)
+            swipehandler.doBottomToTopSwipe();
+    }
 }

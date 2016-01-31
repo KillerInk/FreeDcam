@@ -3,6 +3,8 @@ package com.troop.freedcam.ui;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import javax.xml.parsers.FactoryConfigurationError;
+
 /**
  * Created by troop on 02.09.2014.
  */
@@ -16,10 +18,13 @@ public class TouchHandler
     private int currentY;
     private int x;
     private int y;
+    private MotionEvent event;
     public boolean LeftToRight;
     public boolean RightToLeft;
     public boolean TopToBottom;
     public boolean BottomToTop;
+
+    public MotionEvent getEvent(){return event;}
 
     public boolean onTouchEvent(MotionEvent event)
     {
@@ -57,6 +62,7 @@ public class TouchHandler
                             RightToLeft = false;
                             TopToBottom = false;
                             BottomToTop = false;
+                            fireagain = false;
                             doLeftToRightSwipe();
                         }
                         else {
@@ -64,6 +70,7 @@ public class TouchHandler
                             RightToLeft = true;
                             TopToBottom = false;
                             BottomToTop = false;
+                            fireagain = false;
                             doRightToLeftSwipe();
                         }
                     }
@@ -73,6 +80,7 @@ public class TouchHandler
                             RightToLeft = false;
                             TopToBottom = true;
                             BottomToTop = false;
+                            fireagain = false;
                             doTopToBottomSwipe();
                         }
                         else {
@@ -80,13 +88,16 @@ public class TouchHandler
                             RightToLeft = false;
                             TopToBottom = false;
                             BottomToTop = true;
+                            fireagain = false;
                             doBottomToTopSwipe();
                         }
                     }
                 }
                 else if (x < distance && y < distance)
                 {
+                    fireagain = false;
                     OnClick((int)event.getX(), (int)event.getY());
+
                 }
                 startX = 0;
                 currentX = 0;

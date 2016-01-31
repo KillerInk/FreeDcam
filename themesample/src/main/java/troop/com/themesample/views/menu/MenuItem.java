@@ -5,9 +5,15 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.I_Activity;
+import com.troop.freedcam.ui.I_swipe;
+import com.troop.freedcam.ui.SwipeMenuListner;
 
 import troop.com.themesample.R;
 import troop.com.themesample.views.uichilds.UiSettingsChild;
@@ -15,13 +21,16 @@ import troop.com.themesample.views.uichilds.UiSettingsChild;
 /**
  * Created by troop on 14.06.2015.
  */
-public class MenuItem extends UiSettingsChild implements View.OnClickListener
+public class MenuItem extends UiSettingsChild implements View.OnClickListener, I_swipe
 {
     TextView description;
 
     LinearLayout toplayout;
 
     TextView headerText;
+    SwipeMenuListner swipeMenuListner;
+
+    SwipeMenuListner controlswipeListner;
 
     public MenuItem(Context context) {
         super(context);
@@ -63,6 +72,13 @@ public class MenuItem extends UiSettingsChild implements View.OnClickListener
         description = (TextView)findViewById(R.id.textview_menuitem_description);
         toplayout = (LinearLayout)findViewById(R.id.menu_item_toplayout);
         toplayout.setOnClickListener(this);
+        controlswipeListner = new SwipeMenuListner(this);
+        toplayout.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return controlswipeListner.onTouchEvent(event);
+            }
+        });
     }
 
     @Override
@@ -82,5 +98,35 @@ public class MenuItem extends UiSettingsChild implements View.OnClickListener
             onItemClick.onMenuItemClick(this, false);
     }
 
+    public void SetStuff(I_Activity i_activity, AppSettingsManager appSettingsManager, String settingvalue,SwipeMenuListner swipeMenuListner) {
+        super.SetStuff(i_activity, appSettingsManager, settingvalue);
+        this.swipeMenuListner = swipeMenuListner;
+    }
 
+
+    @Override
+    public void doLeftToRightSwipe() {
+        swipeMenuListner.LeftToRightSwipe();
+    }
+
+    @Override
+    public void doRightToLeftSwipe() {
+        swipeMenuListner.RightToLeftSwipe();
+    }
+
+    @Override
+    public void doTopToBottomSwipe() {
+        swipeMenuListner.TopToBottomSwipe();
+    }
+
+    @Override
+    public void doBottomToTopSwipe() {
+        swipeMenuListner.BottomToTopSwipe();
+    }
+
+    @Override
+    public void onClick(int x, int y) {
+        if (onItemClick != null)
+            onItemClick.onMenuItemClick(this, false);
+    }
 }
