@@ -872,6 +872,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         cameraParameters.put("preview-fps-range",mMin+","+mMax);
 
         cameraParameters.put("preview-frame-rate", mMax);
+        baseCameraHolder.ParameterHandler.SetParametersToCamera();
 
     }
 
