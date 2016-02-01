@@ -88,10 +88,9 @@ public class VideoModule extends AbstractVideoModule
             recorder.setVideoFrameRate(prof.videoFrameRate);
         }
         recorder.setVideoSize(prof.videoFrameWidth, prof.videoFrameHeight);
-        if(!mBitare.equals("200Mbps") || !mBitare.equals("150Mbps") || !mBitare.equals("100Mbps")
-                || !mBitare.equals("80Mbps")|| !mBitare.equals("60Mbps")|| !mBitare.equals("50Mbps")
-                || !mBitare.equals("40Mbps")|| !mBitare.equals("30Mbps")|| !mBitare.equals("10Mbps")
-                || !mBitare.equals("5Mbps")|| !mBitare.equals("5Mbps") ) {
+
+        if (mBitare.equals("Default") || mBitare.equals(""))
+        {
             recorder.setVideoEncodingBitRate(prof.videoBitRate);
         }
         else {
