@@ -108,10 +108,10 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         switch (showstate)
         {
             case video_recording_stopped:
-                setBackgroundResource(R.drawable.video_recording_start);
+                setBackgroundResource(R.drawable.video_recording_stop);
                 break;
             case video_recording_started:
-                setBackgroundResource(R.drawable.video_recording_stop);
+                setBackgroundResource(R.drawable.video_recording_start);
                 break;
             case image_capture_stopped:
                 setBackgroundResource(R.drawable.shutteropenanimation);
