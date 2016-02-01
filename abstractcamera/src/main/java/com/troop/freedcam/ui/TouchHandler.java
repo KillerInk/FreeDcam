@@ -45,8 +45,6 @@ public class TouchHandler
                 //action down resets all already set values and get the new one from the event
                 startX = (int) event.getX();
                 startY = (int) event.getY();
-               // currentX = (int) event.getX();
-               // currentY = (int) event.getY();
                 //reset swipeDetected to false
                 swipeDetected = false;
                 L("ACTION_DOWN currentX:" + currentX + " X:" + startX);
@@ -78,10 +76,6 @@ public class TouchHandler
                 }
                 swipeDetected = false;
                 fireagain = false;
-                currentX = 0;
-                startX = 0;
-                currentY = 0;
-                startY = 0;
                 break;
         }
 
@@ -115,11 +109,6 @@ public class TouchHandler
                 else
                     doBottomToTopSwipe();
             }
-            //reset all values
-            currentX = 0;
-            startX = 0;
-            currentY = 0;
-            startY = 0;
             newActionBlocked = true;
             handler.postDelayed(resetActionBlock,blockTime);
             return false;
