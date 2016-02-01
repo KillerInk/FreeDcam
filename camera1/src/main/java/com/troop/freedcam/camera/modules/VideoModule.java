@@ -52,7 +52,14 @@ public class VideoModule extends AbstractVideoModule
         Double frameFix = 0.0;
 
 
-        recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+      //  if(ParameterHandler.SceneMode.GetValue().equals("AR"))
+       //     recorder.setVideoSource(MediaRecorder.VideoSource.SURFACE);
+      //  else
+      //  {
+            recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+      //  }
+
+
 
         if (!profile.contains("Timelapse")) {
             recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);

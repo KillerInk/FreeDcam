@@ -131,10 +131,10 @@ public class UiSettingsChildHDR extends UiSettingsChild
                     else
                     {
                         ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("morpho-hdr", "false");
-                        ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("ae-bracket-hdr", "off");
+                        ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("ae-bracket-hdr", "Off");
                     }
                 }
-                else if(DeviceUtils.isLG_G3() || DeviceUtils.isG2())
+                else if(DeviceUtils.isLG_G3() || DeviceUtils.isG2() || DeviceUtils.isG4())
                 {
                     switch (valueToSet)
                     {
