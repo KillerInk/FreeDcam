@@ -30,7 +30,6 @@ public class HdrModule extends PictureModule implements I_WorkeDone
 
     int hdrCount = 0;
     boolean aeBrackethdr = false;
-    boolean autohdr = false;
     File[] files;
 
     public HdrModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler, Handler backgroundHandler) {
@@ -57,9 +56,8 @@ public class HdrModule extends PictureModule implements I_WorkeDone
                 this.isWorking = false;
                 return false;
             }
-            LoadAEBracket();
             startworking();
-            if (aeBrackethdr || autohdr)
+            if (aeBrackethdr && baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg"))
             {
                 baseCameraHolder.TakePicture(null, null, aeBracketCallback);
             }
@@ -88,28 +86,18 @@ public class HdrModule extends PictureModule implements I_WorkeDone
     @Override
     public void LoadNeededParameters()
     {
-        LoadAEBracket();
+        if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
+        {
+            aeBrackethdr = true;
+            ParameterHandler.AE_Bracket.SetValue("AE-Bracket", true);
+
+        }
     }
 
     @Override
     public void UnloadNeededParameters(){
-    }
-
-    private void LoadAEBracket()
-    {
-        if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported() && !ParameterHandler.AE_Bracket.GetValue().equals("Off"))
-        {
-            aeBrackethdr = true;
-            autohdr = false;
-            if (ParameterHandler.AE_Bracket.GetValue().equals("HDR")) {
-                aeBrackethdr = false;
-                autohdr = true;
-            }
-        }
-        else {
-            aeBrackethdr = false;
-            autohdr = false;
-        }
+        if (aeBrackethdr)
+            ParameterHandler.AE_Bracket.SetValue("Off", true);
     }
 
     //I_Module END
@@ -209,7 +197,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
         @Override
         public void OnWorkDone(File file) {
             MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
-            if (hdrCount == 2 || autohdr) {
+            if (hdrCount == 2) {
                 stopworking();
                 baseCameraHolder.StartPreview();
             }

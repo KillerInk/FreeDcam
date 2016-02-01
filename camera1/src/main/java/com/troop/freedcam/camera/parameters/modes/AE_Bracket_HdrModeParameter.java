@@ -26,8 +26,8 @@ public class AE_Bracket_HdrModeParameter extends BaseModeParameter
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            super.SetValue(valueToSet, setToCam);
         }
+        super.SetValue(valueToSet, setToCam);
     }
 
 
