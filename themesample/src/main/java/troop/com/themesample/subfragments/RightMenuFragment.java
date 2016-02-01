@@ -2,6 +2,7 @@ package troop.com.themesample.subfragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Path;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -53,6 +54,8 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
     MenuItem opticalImageStabilization;
     troop.com.themesample.views.menu.MenuItem redeyeflash;
 
+    MenuItem LensFilter;
+
     public SwipeMenuListner touchHandler;
     ScrollView scrollView;
     FrameLayout settingsMenu;
@@ -73,7 +76,7 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         scene = (MenuItem)view.findViewById(R.id.MenuItemScene);
-        scene.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_SCENEMODE,touchHandler);
+        scene.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_SCENEMODE, touchHandler);
 
         color = (MenuItem)view.findViewById(R.id.MenuItemColor);
         color.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_COLORMODE,touchHandler);
@@ -141,6 +144,9 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
         opticalImageStabilization = (MenuItem)view.findViewById(R.id.MenuItemOIS);
         opticalImageStabilization.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_OIS,touchHandler);
 
+        LensFilter = (MenuItem)view.findViewById(R.id.LensFilter);
+        LensFilter.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_Filter,touchHandler);
+
         scrollView = (ScrollView) view.findViewById(R.id.scrollView2);
         settingsMenu =  (FrameLayout)getActivity().findViewById(R.id.settingsMenuHolder);
 
@@ -195,6 +201,9 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
 
         waveletdenoiseMode.SetParameter(wrapper.camParametersHandler.Denoise);
         waveletdenoiseMode.SetMenuItemListner(this);
+
+        LensFilter.SetParameter(wrapper.camParametersHandler.LensFilter);
+        LensFilter.SetMenuItemListner(this);
 
         digitalImageStabilization.SetParameter(wrapper.camParametersHandler.DigitalImageStabilization);
         digitalImageStabilization.SetMenuItemListner(this);

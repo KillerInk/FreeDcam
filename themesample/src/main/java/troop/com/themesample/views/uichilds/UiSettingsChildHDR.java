@@ -134,7 +134,7 @@ public class UiSettingsChildHDR extends UiSettingsChild
                         ((CamParametersHandler) cameraUiWrapper.camParametersHandler).setHDR("ae-bracket-hdr", "Off");
                     }
                 }
-                else if(DeviceUtils.isLG_G3() || DeviceUtils.isG2())
+                else if(DeviceUtils.isLG_G3() || DeviceUtils.isG2() || DeviceUtils.isG4())
                 {
                     switch (valueToSet)
                     {
@@ -194,7 +194,7 @@ public class UiSettingsChildHDR extends UiSettingsChild
             {
                 hdrVals.add("on");
             }
-            else if(DeviceUtils.isG2() || DeviceUtils.isLG_G3()) {
+            else if(DeviceUtils.isG2() || DeviceUtils.isLG_G3() || DeviceUtils.isZTEADV()) {
                 hdrVals.add("on");
                 hdrVals.add("auto");
             }

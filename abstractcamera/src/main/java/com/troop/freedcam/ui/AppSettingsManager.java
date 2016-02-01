@@ -100,6 +100,7 @@ public class AppSettingsManager
     final public static String SETTING_EXTERNALSD = "extSD";
 
     final public static String SETTING_OIS = "ois";
+    final public static String SETTING_Filter = "filter";
 
     final public static String API_SONY = "playmemories";
     final public static String API_1 = "camera1";

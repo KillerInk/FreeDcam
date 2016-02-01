@@ -42,6 +42,17 @@
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/LensFilter"
+                app:Description="Apply Lens Filtter Effect"
+                app:HeaderText="Virtual Lens Filter"
+                app:ValueText="Off"
+                android:layout_marginBottom="1dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"/>
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/MenuItemColor"
                 app:Description="@string/setting_color_description"
                 app:HeaderText="@string/setting_color_header"

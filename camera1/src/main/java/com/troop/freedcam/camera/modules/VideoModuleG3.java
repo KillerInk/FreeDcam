@@ -37,6 +37,7 @@ public class VideoModuleG3 extends AbstractVideoModule
         CamcorderProfileEx prof = videoProfilesG3Parameter.GetCameraProfile(profile);
         String size = prof.videoFrameWidth + "x"+prof.videoFrameHeight;
         String mBitare = Settings.getString(AppSettingsManager.SETTING_VideoBitrate);
+
         recorder = new MediaRecorderEx();
         recorder.reset();
         recorder.setCamera(baseCameraHolder.GetCamera());
@@ -73,6 +74,7 @@ public class VideoModuleG3 extends AbstractVideoModule
             recorder.setVideoFrameRate(prof.videoFrameRate);
         }
         recorder.setVideoSize(prof.videoFrameWidth, prof.videoFrameHeight);
+
 
         if(!mBitare.equals("200Mbps") || !mBitare.equals("150Mbps") || !mBitare.equals("100Mbps")
                 || !mBitare.equals("80Mbps")|| !mBitare.equals("60Mbps")|| !mBitare.equals("50Mbps")
