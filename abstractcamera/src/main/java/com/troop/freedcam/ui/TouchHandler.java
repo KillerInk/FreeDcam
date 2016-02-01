@@ -1,31 +1,26 @@
 package com.troop.freedcam.ui;
 
-import android.content.res.Resources;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 
-import javax.xml.parsers.FactoryConfigurationError;
+import java.util.Date;
 
 /**
  * Created by troop on 02.09.2014.
  */
 public class TouchHandler
 {
-    static final int distance = 60;
-    static final int MAX_DURATION = 600;
-    private int startX;
-    private int startY;
-    private int currentX;
-    private int currentY;
-    private float x;
-    private float y;
-    private MotionEvent event;
-    public boolean LeftToRight;
-    public boolean RightToLeft;
-    public boolean TopToBottom;
-    public boolean BottomToTop;
-
-    public MotionEvent getEvent(){return event;}
+    final int distance = 150;
+    public int startX;
+    public int startY;
+    public int currentX;
+    public int currentY;
+    boolean swipe = false;
+    long start;
+    private final long timetowait = 500;
+    private boolean swipeAllowed = true;
+    private boolean swipeWasThrown = false;
 
     public boolean onTouchEvent(MotionEvent event)
     {
@@ -34,81 +29,101 @@ public class TouchHandler
         switch (event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
+                //action down resets all already set values and get the new one from the event
                 startX = (int) event.getX();
                 startY = (int) event.getY();
+                currentX = (int) event.getX();
+                currentY = (int) event.getY();
+                //get start time when down happen.
+                start = System.currentTimeMillis();
+                //reset swipe to false
+                swipe = false;
+                swipeWasThrown = false;
+                Log.d("TouchHAndler", "currentX:" + currentX + " X:" + startX);
                 break;
+            // case MotionEvent.A
             case MotionEvent.ACTION_MOVE:
+                //in case action down never happend
                 if (startX == 0 && startY == 0)
                 {
                     startX = (int) event.getX();
                     startY = (int) event.getY();
+                    //get start time when down happen.
+                    start = System.currentTimeMillis();
+                    //reset swipe to false
+                    swipe = false;
                 }
-                break;
-            case MotionEvent.ACTION_UP:
-                LeftToRight = false;
-                RightToLeft = false;
-                TopToBottom = false;
-                BottomToTop = false;
                 currentX = (int) event.getX();
                 currentY = (int) event.getY();
-                x = getDistance(startX, currentX);
-                y = getDistance(startY, currentY);
-                long duration = event.getEventTime() - event.getDownTime();
-                if (x >= distance && duration <= MAX_DURATION || y >= distance && duration <= MAX_DURATION)
+                //detect swipe. if swipe detected return false else true
+                fireagain = detectSwipeDirection();
+                break;
+            case MotionEvent.ACTION_UP:
+                //in case no swipe happen swipe is false and it was a click
+                if (swipe == false)
                 {
-                    Log.d("TouchHAndler", "currentX:" + currentX + " X:" + startX);
-                    if (x >= y) {
-                        if (currentX > startX) {
-                            LeftToRight = true;
-                            RightToLeft = false;
-                            TopToBottom = false;
-                            BottomToTop = false;
-                            fireagain = false;
-                            doLeftToRightSwipe();
-                        }
-                        else {
-                            LeftToRight = false;
-                            RightToLeft = true;
-                            TopToBottom = false;
-                            BottomToTop = false;
-                            fireagain = false;
-                            doRightToLeftSwipe();
-                        }
-                    }
-                    else{
-                        if (currentY > startY) {
-                            LeftToRight = false;
-                            RightToLeft = false;
-                            TopToBottom = true;
-                            BottomToTop = false;
-                            fireagain = false;
-                            doTopToBottomSwipe();
-                        }
-                        else {
-                            LeftToRight = false;
-                            RightToLeft = false;
-                            TopToBottom = false;
-                            BottomToTop = true;
-                            fireagain = false;
-                            doBottomToTopSwipe();
-                        }
-                    }
-                }
-                else if (x < distance && y < distance)
-                {
-                    fireagain = false;
                     OnClick((int)event.getX(), (int)event.getY());
-
                 }
-                startX = 0;
+                swipe = false;
+                fireagain = false;
                 currentX = 0;
-                startY = 0;
+                startX = 0;
                 currentY = 0;
+                startY = 0;
                 break;
         }
+
+
         return fireagain;
     }
 
+    private boolean detectSwipeDirection()
+    {
+        //if last swipe is less then 500 ms it blocked
+        if (!swipeAllowed || swipeWasThrown)
+            return true;
+        int x = getDistance(startX, currentX);
+        int y = getDistance(startY, currentY);
+        //if we have a swipe
+        if (x >= distance || y >= distance)
+        {
+            //block swipe for next 500ms
+            swipeAllowed = false;
+            //its a swipe
+            swipe = true;
+            Log.d("TouchHAndler", "currentX:" + currentX + " X:" + startX);
+            if (x >= y)
+            {
+                if (currentX > startX)
+                    doLeftToRightSwipe();
+                else
+                    doRightToLeftSwipe();
+            }
+            else{
+                if (currentY > startY)
+                    doTopToBottomSwipe();
+                else
+                    doBottomToTopSwipe();
+            }
+            //reset all values
+            currentX = 0;
+            startX = 0;
+            currentY = 0;
+            startY = 0;
+            //release swipeAllowed after 500ms
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    TouchHandler.this.swipeAllowed = true;
+                }
+            },timetowait);
+            return false;
+        }
+        return true;
+    }
 
     protected void doLeftToRightSwipe()
     {
@@ -128,16 +143,15 @@ public class TouchHandler
 
     protected void OnClick(int x, int y)
     {
+
     }
 
-    public static float getDistance(int startvalue, int currentvalue)
+    public static int getDistance(int startvalue, int currentvalue)
     {
         int dis = startvalue - currentvalue;
         if (dis < 0)
             dis = dis *-1;
-        float dm = Resources.getSystem().getDisplayMetrics().density;
-        return dis/dm;
-
+        return dis;
     }
 
     public static int getNegDistance(int startvalue, int currentvalue)
@@ -145,4 +159,6 @@ public class TouchHandler
         int dis = startvalue - currentvalue;
         return dis;
     }
+
+
 }
