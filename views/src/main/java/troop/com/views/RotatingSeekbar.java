@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -29,18 +30,17 @@ public class RotatingSeekbar extends View
     private int realMin = 0;
     private int realMax = 0;
     private int currentPosToDraw = 0;
-    private Context context;
     private SeekBar.OnSeekBarChangeListener mListener;
     private int textsize = 8;
     //holds the distance from the last swipe(how faster it was how bigger is the vale) and is used as base gravity for autoscroll how fast it moves
     private int distanceInPixelFromLastSwipe = 0;
-    private Handler handler;
     private boolean autoscroll = false;
     private int textColor = Color.WHITE;
     boolean debug = true;
     final String TAG = RotatingSeekbar.class.getSimpleName();
     //this handels how much get added or substracted from @distanceInPixelFromLastSwipe when autoscroll = true
-    final int scrollsubstract = 2;
+    final int scrollsubstract = 1;
+    private Handler handler;
 
     final int VISIBLE_ITEMS_INVIEW = 16;
 
@@ -62,11 +62,9 @@ public class RotatingSeekbar extends View
 
     private void init(Context context, AttributeSet attrs)
     {
-        this.context = context;
         handler = new Handler();
         paint = new Paint();
         paint.setAntiAlias(true);
-
         paint.setColor(textColor);
         paint.setStyle(Paint.Style.FILL);
         paint.setTextAlign(Paint.Align.RIGHT);
@@ -78,6 +76,11 @@ public class RotatingSeekbar extends View
     {
         if (debug)
             Log.d(TAG, msg);
+    }
+
+    private void redraw()
+    {
+        invalidate();
     }
 
     @Override
@@ -96,8 +99,9 @@ public class RotatingSeekbar extends View
         realMin = -viewHeight/2 -itemHeight/2;
         //calc the maximal pos that could drawn
         realMax = allItemsHeight - viewHeight/2 - itemHeight*2;
-        setProgress(currentValue,false);
-        invalidate();
+        setProgress(currentValue, false);
+
+        redraw();
     }
 
     @Override
@@ -108,15 +112,17 @@ public class RotatingSeekbar extends View
         paint.setTextSize(textsize);
         for(int i = 0; i< Values.length; i++)
         {
+
             int dif = currentValue -i;
             if (dif < 0)
                 dif *= -1;
-            if (dif <= VISIBLE_ITEMS_INVIEW/2)
+            if (dif <= VISIBLE_ITEMS_INVIEW/2) {
                 paint.setAlpha(switchalpha(dif));
-            paint.setStrokeWidth(1);
-            int xpos = i*itemHeight+ textsize +currentPosToDraw + (itemHeight/2 - textsize/2);
-            canvas.drawLine(viewWidth -convertDpiToPixel(30),xpos - textsize/2, viewWidth -20, xpos -textsize/2, paint);
-            canvas.drawText(Values[i], viewWidth/2, xpos, paint);
+                paint.setStrokeWidth(1);
+                int xpos = i * itemHeight + textsize + currentPosToDraw + (itemHeight / 2 - textsize / 2);
+                canvas.drawLine(viewWidth - convertDpiToPixel(30), xpos - textsize / 2, viewWidth - 20, xpos - textsize / 2, paint);
+                canvas.drawText(Values[i], viewWidth / 2, xpos, paint);
+            }
         }
         paint.setAlpha(255);
         paint.setStrokeWidth(10);
@@ -182,9 +188,7 @@ public class RotatingSeekbar extends View
                         currentPosToDraw = newpos;
                         checkifCurrentValueHasChanged();
                         startY = (int) event.getY();
-
                     }
-                    invalidate();
                 }
                 throwevent =sliderMoving;
                 break;
@@ -207,16 +211,17 @@ public class RotatingSeekbar extends View
                 }
                 break;
         }
+        redraw();
         return throwevent;
     }
 
     private void handleAutoScroll()
     {
-        handler.postDelayed(new Runnable() {
+        handler.post(new Runnable()
+        {
             @Override
             public void run()
             {
-
                 if (!autoscroll)
                     return;
                 int newpos = currentPosToDraw - distanceInPixelFromLastSwipe -scrollsubstract;
@@ -230,13 +235,11 @@ public class RotatingSeekbar extends View
                         rerun = true;
                         currentPosToDraw -= distanceInPixelFromLastSwipe;
                         checkifCurrentValueHasChanged();
-                        invalidate();
                     } else if (distanceInPixelFromLastSwipe > 0 && distanceInPixelFromLastSwipe - scrollsubstract > 0) {
                         distanceInPixelFromLastSwipe -= scrollsubstract;
                         rerun = true;
                         currentPosToDraw -= distanceInPixelFromLastSwipe;
                         checkifCurrentValueHasChanged();
-                        invalidate();
                     }
                     else
                     {
@@ -245,7 +248,6 @@ public class RotatingSeekbar extends View
                         setProgress(currentValue,true);
                         rerun = false;
                     }
-
                     if (rerun)
                         handleAutoScroll();
                 }
@@ -268,8 +270,9 @@ public class RotatingSeekbar extends View
                     }
                     log("scroll pos:" + newpos + " max:" + realMax + " min:" + realMin);
                 }
+                redraw();
             }
-        },33);
+        });
     }
 
     private void checkifCurrentValueHasChanged() {
@@ -281,7 +284,13 @@ public class RotatingSeekbar extends View
             Log.d("RotatingSeekbar", "currentpos" + currentPosToDraw + "item " + item);
             currentValue = item;
             if (mListener != null)
-                mListener.onProgressChanged(null, currentValue, true);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mListener.onProgressChanged(null, currentValue, true);
+                    }
+                });
+
         }
     }
 
@@ -301,9 +310,15 @@ public class RotatingSeekbar extends View
         currentValue = progress;
         Log.d("RotatingSeekbar", "setprogres" +progress);
         currentPosToDraw = ((progress *itemHeight + itemHeight/2 ) + realMin) * -1;
-        invalidate();
+        redraw();
         if (mListener != null && throwevent)
-            mListener.onProgressChanged(null, currentValue, true);
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mListener.onProgressChanged(null, currentValue, true);
+                }
+            });
+
     }
     public String GetCurrentString()
     {
@@ -317,7 +332,7 @@ public class RotatingSeekbar extends View
         this.allItemsHeight = itemHeight * Values.length + itemHeight;
         realMin = -viewHeight/2 -itemHeight/2;
         realMax = allItemsHeight - viewHeight/2;
-        invalidate();
+        redraw();
     }
     public void setOnSeekBarChangeListener(SeekBar.OnSeekBarChangeListener mListener)
     {
