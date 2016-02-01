@@ -1,17 +1,16 @@
 package com.troop.freedcam.ui;
 
+import android.content.res.Resources;
 import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
-
-import java.util.Date;
 
 /**
  * Created by troop on 02.09.2014.
  */
 public class TouchHandler
 {
-    final int distance = 150;
+    final int distance = 90;
     public int startX;
     public int startY;
     public int currentX;
@@ -32,8 +31,8 @@ public class TouchHandler
                 //action down resets all already set values and get the new one from the event
                 startX = (int) event.getX();
                 startY = (int) event.getY();
-                currentX = (int) event.getX();
-                currentY = (int) event.getY();
+               // currentX = (int) event.getX();
+               // currentY = (int) event.getY();
                 //get start time when down happen.
                 start = System.currentTimeMillis();
                 //reset swipe to false
@@ -60,7 +59,7 @@ public class TouchHandler
                 break;
             case MotionEvent.ACTION_UP:
                 //in case no swipe happen swipe is false and it was a click
-                if (swipe == false)
+                if (!swipe)
                 {
                     OnClick((int)event.getX(), (int)event.getY());
                 }
@@ -82,8 +81,8 @@ public class TouchHandler
         //if last swipe is less then 500 ms it blocked
         if (!swipeAllowed || swipeWasThrown)
             return true;
-        int x = getDistance(startX, currentX);
-        int y = getDistance(startY, currentY);
+        float x = getDistance(startX, currentX);
+        float y = getDistance(startY, currentY);
         //if we have a swipe
         if (x >= distance || y >= distance)
         {
@@ -146,18 +145,20 @@ public class TouchHandler
 
     }
 
-    public static int getDistance(int startvalue, int currentvalue)
+    public static float getDistance(int startvalue, int currentvalue)
     {
         int dis = startvalue - currentvalue;
         if (dis < 0)
             dis = dis *-1;
-        return dis;
+        float density = Resources.getSystem().getDisplayMetrics().density;
+        return dis / density;
     }
 
-    public static int getNegDistance(int startvalue, int currentvalue)
+    public static float getNegDistance(int startvalue, int currentvalue)
     {
         int dis = startvalue - currentvalue;
-        return dis;
+        float density = Resources.getSystem().getDisplayMetrics().density;
+        return dis / density;
     }
 
 
