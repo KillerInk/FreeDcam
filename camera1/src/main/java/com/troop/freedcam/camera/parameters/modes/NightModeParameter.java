@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.parameters.modes;
 import android.os.Handler;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
@@ -28,25 +29,24 @@ public class NightModeParameter extends BaseModeParameter
 
     @Override
     public void SetValue(String valueToSet, boolean setToCam) {
-        if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()||DeviceUtils.isXiaomiMI_Note_Pro()||DeviceUtils.isRedmiNote())
-            if (valueToSet == "true")
-                {
-                    parameters.put("capture-burst-exposures","-10,0,10");
-                    parameters.put("ae-bracket-hdr","AE-Bracket");
-                    parameters.put("morpho-hdr", "false");
-                    parameters.put("morpho-hht", "true");
-                }
-            else
-                {
-                    //parameters.put("capture-burst-exposures","-10,0,10");
-                    parameters.put("ae-bracket-hdr","Off");
-                    parameters.put("morpho-hdr", "false");
-                    parameters.put("morpho-hht", "false");
-                }
+
+        if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()||DeviceUtils.isXiaomiMI_Note_Pro()||DeviceUtils.isRedmiNote()) {
+            if (valueToSet.equals("true")) {
+                parameters.put("capture-burst-exposures", "-10,0,10");
+                parameters.put("ae-bracket-hdr", "AE-Bracket");
+                parameters.put("morpho-hdr", "false");
+                parameters.put("morpho-hht", "true");
+            } else {
+                parameters.put("ae-bracket-hdr", "Off");
+                parameters.put("morpho-hdr", "false");
+                parameters.put("morpho-hht", "false");
+            }
+        }
         else
             parameters.put("night_key", valueToSet);
         try {
             baseCameraHolder.SetCameraParameters(parameters);
+            super.BackgroundValueHasChanged(value);
         }
         catch (Exception ex)
         {
