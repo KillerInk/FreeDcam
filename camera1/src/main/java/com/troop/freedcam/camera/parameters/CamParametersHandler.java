@@ -70,6 +70,7 @@ import com.troop.freedcam.i_camera.parameters.LocationParameter;
 import com.troop.freedcam.i_camera.parameters.ModuleParameters;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.DeviceUtils.Devices;
 import com.troop.freedcam.utils.StringUtils;
 
 import com.troop.freedcam.camera.FocusHandler;
@@ -135,7 +136,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     private void initParameters()
     {
-        if (DeviceUtils.isG4())
+        if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
             setupLg_G4Parameters();
 
         logParameters(cameraParameters);
@@ -170,7 +171,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             ex.printStackTrace();
         }
         try {
-            if (DeviceUtils.isG4() || (DeviceUtils.isLG_G3() && (Build.VERSION.SDK_INT < 21 || Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) || DeviceUtils.isG2())
+            if (DeviceUtils.IS(Devices.LG_G4) || (DeviceUtils.IS(Devices.LG_G3) && (Build.VERSION.SDK_INT < 21 || Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) || DeviceUtils.IS(Devices.LG_G2))
                 ManualFocus = new FocusManualParameterLG(cameraParameters,"","","", cameraHolder, this);
             else if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
                 ManualFocus = new FocusManualParameterHTC(cameraParameters,"","","", cameraHolder,this);
@@ -197,7 +198,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             ex.printStackTrace();
         }
         try {
-            if (DeviceUtils.isG4())
+            if (DeviceUtils.IS(Devices.LG_G4))
                 aeHandlerG4 = new LG_G4AeHandler(cameraParameters,baseCameraHolder,this);
             else if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
                 ManualShutter = new ShutterManualParameterHTC(cameraParameters,"","","", cameraHolder, cameraChanged,this);
@@ -212,7 +213,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            if (!DeviceUtils.isG4())
+            if (!DeviceUtils.IS(Devices.LG_G4))
             {
                 ISOManual = new ISOManualParameter(cameraParameters, "", "", "",baseCameraHolder, this);
             }

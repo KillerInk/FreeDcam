@@ -159,7 +159,7 @@ public class VideoModuleG3 extends AbstractVideoModule
 
             camParametersHandler.setString("dual-recorder", "0");
             //camParametersHandler.PreviewFormat.SetValue("nv12-venus", true);
-            if(!DeviceUtils.isG4())
+            if(!DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
                 camParametersHandler.setString("preview-format", "nv12-venus");
             camParametersHandler.setString("lge-camera", "1");
         }

@@ -61,6 +61,7 @@ public class DeviceUtils
     final public static Devices[] AlcatelIdol3_Moto_MSM8982_8994 = {Devices.Moto_MSM8982_8994, Devices.Alcatel_Idol3 };
     final public static Devices[] MOTOX = {Devices.Moto_MSM8982_8994, Devices.Moto_MSM8974 };
     final public static Devices[] MI3_4 = {Devices.XiaomiMI4W, Devices.XiaomiMI3W };
+    final public static Devices[] LG_G2_3 = {Devices.LG_G2, Devices.LG_G3};
 
     private static Devices getDevice()
     {
@@ -253,12 +254,17 @@ public class DeviceUtils
         return isDevice(contex.getResources().getStringArray(R.array.isX_Style_Pure_Play));
     }
 
-    public static boolean isG4()
+    private static boolean isG4()
     {
         return isDevice(contex.getResources().getStringArray(com.troop.freedcam.abstractcamera.R.array.g4));
     }
 
-    public static boolean isG2()
+    private static boolean isLG_G3()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.g3));
+    }
+
+    private static boolean isG2()
     {
         return isDevice(contex.getResources().getStringArray(com.troop.freedcam.abstractcamera.R.array.g2));
     }
@@ -284,12 +290,6 @@ public class DeviceUtils
     }
 
     public static boolean isHtc_One_XL() { return Build.MODEL.toLowerCase().contains("one xl");}
-
-    public static boolean isLG_G3()
-    {
-        return isDevice(contex.getResources().getStringArray(R.array.g3));
-    }
-
 
     public static boolean isZTEADV()
     {

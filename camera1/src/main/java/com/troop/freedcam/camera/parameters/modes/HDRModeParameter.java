@@ -34,7 +34,7 @@ public class HDRModeParameter extends BaseModeParameter
     {
         this.isSupported = false;
         if ((DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()||DeviceUtils.isXiaomiMI_Note_Pro()
-                ||DeviceUtils.isRedmiNote() || DeviceUtils.isG2() || DeviceUtils.isLG_G3() || DeviceUtils.isZTEADV())){
+                ||DeviceUtils.isRedmiNote() || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.isZTEADV())){
             if (visible)
                 this.isSupported = true;
             else
@@ -85,7 +85,7 @@ public class HDRModeParameter extends BaseModeParameter
                 parameters.put("ae-bracket-hdr","Off");
                 parameters.put("morpho-hdr", "false");
             }
-        else if(DeviceUtils.isLG_G3() || DeviceUtils.isG2() || DeviceUtils.isG4())
+        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
         {
             switch (valueToSet)
             {
@@ -134,7 +134,7 @@ public class HDRModeParameter extends BaseModeParameter
             else
                 return "off";
         }
-        else if (DeviceUtils.isG2() || DeviceUtils.isLG_G3() || DeviceUtils.isZTEADV())
+        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.isZTEADV())
         {
             if (!parameters.containsKey("hdr-mode"))
                 parameters.put("hdr-mode", "0");
@@ -162,7 +162,7 @@ public class HDRModeParameter extends BaseModeParameter
             {
                 hdrVals.add("on");
             }
-            else if(DeviceUtils.isG2() || DeviceUtils.isLG_G3() || DeviceUtils.isZTEADV()) {
+            else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.isZTEADV()) {
                 hdrVals.add("on");
                 hdrVals.add("auto");
             }
@@ -195,7 +195,7 @@ public class HDRModeParameter extends BaseModeParameter
                 BackgroundIsSupportedChanged(isSupported);
             }
         }
-        else if(DeviceUtils.isLG_G3() || DeviceUtils.isG2() || DeviceUtils.isG4() || supportauto || supporton) {
+        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4) || supportauto || supporton) {
             if (module.equals("module_video")|| module.equals("module_hdr")) {
                 state = GetValue();
                 visible = false;

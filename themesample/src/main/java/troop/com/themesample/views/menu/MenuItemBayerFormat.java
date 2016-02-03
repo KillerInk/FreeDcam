@@ -62,7 +62,7 @@ public class MenuItemBayerFormat extends MenuItem
         }
 
         bayerformats = new ArrayList<String>();
-        if (DeviceUtils.isG4())
+        if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
         {
             bayerformats.add("bayer-mipi-10bggr");
         }

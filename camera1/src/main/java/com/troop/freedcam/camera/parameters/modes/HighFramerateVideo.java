@@ -259,7 +259,7 @@ public class HighFramerateVideo extends  BaseModeParameter
             catch (NullPointerException e){ }
 
         }
-        else if(DeviceUtils.isG4())
+        else if(DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
         {
             try {
                 String SizeV = cameraUiWrapper.appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
@@ -282,7 +282,7 @@ public class HighFramerateVideo extends  BaseModeParameter
             }
 
         }
-        else if(DeviceUtils.isG2()||DeviceUtils.isLG_G3()||DeviceUtils.isZTEADV())
+        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3)||DeviceUtils.isZTEADV())
         {
             try {
                 String SizeV = cameraUiWrapper.appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);

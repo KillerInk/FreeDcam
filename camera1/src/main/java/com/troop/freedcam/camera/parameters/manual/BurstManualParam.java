@@ -31,7 +31,8 @@ public class BurstManualParam extends BaseManualParameter {
     @Override
     public boolean IsSupported()
     {
-        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isLG_G3()|| DeviceUtils.isG2()|| DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
+        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() ||
+                DeviceUtils.IS(DeviceUtils.Devices.LG_G3)|| DeviceUtils.IS(DeviceUtils.Devices.LG_G2)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
             return true;
         else
             return false;
@@ -39,9 +40,9 @@ public class BurstManualParam extends BaseManualParameter {
 
     @Override
     public int GetMaxValue() {
-        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234()|| DeviceUtils.isG2())
+        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234()|| DeviceUtils.IS(DeviceUtils.Devices.LG_G2))
             return 7;
-        if (DeviceUtils.isLG_G3()||DeviceUtils.isXiaomiMI4W())
+        if (DeviceUtils.IS(DeviceUtils.Devices.LG_G3)||DeviceUtils.isXiaomiMI4W())
             return 9;
         if (DeviceUtils.isXiaomiMI3W())
             if (Build.VERSION.SDK_INT < 23)
@@ -66,7 +67,7 @@ public class BurstManualParam extends BaseManualParameter {
     @Override
     public void SetValue(int valueToSet)
     {
-        if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
             parameters.put("num-snaps-per-shutter", String.valueOf(1));
         curr = valueToSet;
         parameters.put("snapshot-burst-num", String.valueOf(valueToSet));
