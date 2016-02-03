@@ -354,28 +354,28 @@ public class DeviceUtils
 
     }
 
-    public static boolean isNexus4() {return isDevice(contex.getResources().getStringArray(R.array.Nex4));}
+    private static boolean isNexus4() {return isDevice(contex.getResources().getStringArray(R.array.Nex4));}
 
-    public static boolean isGioneE7() {return isDevice(contex.getResources().getStringArray(R.array.GioneE7));}
+    private static boolean isGioneE7() {return isDevice(contex.getResources().getStringArray(R.array.GioneE7));}
 
-    public static boolean isOnePlusOne(){ return isDevice(contex.getResources().getStringArray(R.array.OnePlusOne));}
+    private static boolean isOnePlusOne(){ return isDevice(contex.getResources().getStringArray(R.array.OnePlusOne));}
 
-    public static boolean isOnePlusTwo(){ return isDevice(contex.getResources().getStringArray(R.array.OnePlusTwo));}
+    private static boolean isOnePlusTwo(){ return isDevice(contex.getResources().getStringArray(R.array.OnePlusTwo));}
 
-    public static boolean isRedmiNote() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_RedmiNote));}
-    public static boolean isRedmiNote2() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_RedmiNote2));}
+    private static boolean isRedmiNote() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_RedmiNote));}
+    private static boolean isRedmiNote2() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_RedmiNote2));}
 
-    public static boolean isXiaomiMI3W() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi3));}
-    public static boolean isXiaomiMI4W() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi4));}
+    private static boolean isXiaomiMI3W() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi3));}
+    private static boolean isXiaomiMI4W() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi4));}
 
-    public static boolean isXiaomiMI_Note_Pro() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi_Note_Pro));}
+    private static boolean isXiaomiMI_Note_Pro() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi_Note_Pro));}
 
     private static boolean isAlcatel_Idol3() { return isDevice(contex.getResources().getStringArray(R.array.Alcatel_Idol_3));}
 
-    public static boolean isVivo_Xplay3s() { return isDevice(contex.getResources().getStringArray(R.array.Vivo_Xplay3s));}
+    private static boolean isVivo_Xplay3s() { return isDevice(contex.getResources().getStringArray(R.array.Vivo_Xplay3s));}
 
-    public static boolean isSamsung_S6_edge_plus() { return isDevice(contex.getResources().getStringArray(R.array.Samsung_S6_edge_plus));}
-    public static boolean isSamsung_S6_edge() { return isDevice(contex.getResources().getStringArray(R.array.Samsung_S6_edge));}
+    private static boolean isSamsung_S6_edge_plus() { return isDevice(contex.getResources().getStringArray(R.array.Samsung_S6_edge_plus));}
+    private static boolean isSamsung_S6_edge() { return isDevice(contex.getResources().getStringArray(R.array.Samsung_S6_edge));}
 
     ///MTK DEVICES
 
@@ -385,30 +385,30 @@ public class DeviceUtils
         return isForwardArt() || isMeizuMX4() || isTHL5000() || isI_Mobile_I_StyleQ6() || isMeizuMX5() || isSonyM5_MTK()|| isRedmiNote2() || isRetro();
     }
 
-    public static boolean isI_Mobile_I_StyleQ6() { return isDevice(contex.getResources().getStringArray(R.array.I_Mobile_I_StyleQ6));}
+    private static boolean isI_Mobile_I_StyleQ6() { return isDevice(contex.getResources().getStringArray(R.array.I_Mobile_I_StyleQ6));}
 
-    public static boolean isMeizuMX4()
+    private static boolean isMeizuMX4()
     {
         return isDevice(contex.getResources().getStringArray(R.array.meizu_mx4));
     }
-    public static boolean isMeizuMX5()
+    private static boolean isMeizuMX5()
     {
         return isDevice(contex.getResources().getStringArray(R.array.meizu_mx5));
     }
-    public static boolean isTHL5000()
+    private static boolean isTHL5000()
     {
         return isDevice(contex.getResources().getStringArray(R.array.thl5000));
     }
-    public static boolean isForwardArt()
+    private static boolean isForwardArt()
     {
         return isDevice(contex.getResources().getStringArray(R.array.Forward_Art));
     }
 
 
-    public static boolean isLGFrameWork()
+    /*public static boolean isLGFrameWork()
     {
         return isLG_G3() || isG2() || isG4() ;
-    }
+    }*/
 
 
 

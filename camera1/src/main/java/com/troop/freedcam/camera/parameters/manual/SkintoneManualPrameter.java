@@ -26,7 +26,9 @@ public class SkintoneManualPrameter extends BaseManualParameter {
                 this.isSupported = true;
                 this.value = "skinToneEnhancement";
             }*/
-            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)||DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
+            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)
+                    ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)
+                    ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
                 this.isSupported = true;
         }
         catch (Exception ex)

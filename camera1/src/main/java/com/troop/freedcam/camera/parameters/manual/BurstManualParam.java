@@ -42,9 +42,9 @@ public class BurstManualParam extends BaseManualParameter {
     public int GetMaxValue() {
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) || DeviceUtils.IS(DeviceUtils.Devices.LG_G2))
             return 7;
-        if (DeviceUtils.IS(DeviceUtils.Devices.LG_G3)||DeviceUtils.isXiaomiMI4W())
+        if (DeviceUtils.IS(DeviceUtils.Devices.LG_G3)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4W))
             return 9;
-        if (DeviceUtils.isXiaomiMI3W())
+    if (DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W))
             if (Build.VERSION.SDK_INT < 23)
                 return 6;
             else

@@ -174,7 +174,7 @@ public class VideoModule extends AbstractVideoModule
         String profile = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
 
 
-        if (profile.equals("4kUHD") || DeviceUtils.isXiaomiMI3W() && profile.contains("HIGH") || DeviceUtils.isXiaomiMI4W() && profile.contains("HIGH")) {
+        if (profile.equals("4kUHD") || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && profile.contains("HIGH")) {
             camParametersHandler.MemoryColorEnhancement.SetValue("disable", true);
             camParametersHandler.DigitalImageStabilization.SetValue("disable", true);
             camParametersHandler.VideoStabilization.SetValue("false", true);

@@ -30,7 +30,8 @@ public class NightModeParameter extends BaseModeParameter
         this.isSupported = false;
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
             this.isSupported = true;
-        if ((DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()||DeviceUtils.isXiaomiMI_Note_Pro()||DeviceUtils.isRedmiNote())){
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)||DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
+        {
             if (visible)
                 this.isSupported = true;
             else
@@ -42,20 +43,19 @@ public class NightModeParameter extends BaseModeParameter
 
     @Override
     public void SetValue(String valueToSet, boolean setToCam) {
-        if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()||DeviceUtils.isXiaomiMI_Note_Pro()||DeviceUtils.isRedmiNote())
-            if (valueToSet.equals("on"))
-                {
-                    baseCameraHolder.ParameterHandler.morphoHDR.SetValue("false", true);
-                    baseCameraHolder.ParameterHandler.HDRMode.BackgroundValueHasChanged("off");
-                    parameters.put("ae-bracket-hdr","AE-Bracket");
-                    parameters.put("capture-burst-exposures","-10,0,10");
-                    parameters.put("morpho-hht", "true");
-                }
-            else
-                {
-                    parameters.put("ae-bracket-hdr","Off");
-                    parameters.put("morpho-hht", "false");
-                }
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)||DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
+        {
+            if (valueToSet.equals("on")) {
+                baseCameraHolder.ParameterHandler.morphoHDR.SetValue("false", true);
+                baseCameraHolder.ParameterHandler.HDRMode.BackgroundValueHasChanged("off");
+                parameters.put("ae-bracket-hdr", "AE-Bracket");
+                parameters.put("capture-burst-exposures", "-10,0,10");
+                parameters.put("morpho-hht", "true");
+            } else {
+                parameters.put("ae-bracket-hdr", "Off");
+                parameters.put("morpho-hht", "false");
+            }
+        }
         else
             parameters.put("night_key", valueToSet);
         try {
@@ -71,7 +71,8 @@ public class NightModeParameter extends BaseModeParameter
 
     @Override
     public String GetValue() {
-        if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()||DeviceUtils.isXiaomiMI_Note_Pro()||DeviceUtils.isRedmiNote()) {
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)||DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
+        {
             if (parameters.get("morpho-hht").equals("true") && parameters.get("ae-bracket-hdr").equals("AE-Bracket"))
                 return "on";
             else
@@ -83,7 +84,7 @@ public class NightModeParameter extends BaseModeParameter
 
     @Override
     public String[] GetValues() {
-        if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()||DeviceUtils.isXiaomiMI_Note_Pro()||DeviceUtils.isRedmiNote())
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)||DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
             return new String[] {"off","on"};
         else
             return new String[] {"off","on","tripod"};
@@ -91,7 +92,7 @@ public class NightModeParameter extends BaseModeParameter
 
     @Override
     public String ModuleChanged(String module) {
-        if(DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()) {
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)) {
             if (module.equals("module_video")|| module.equals("module_hdr")) {
                 state = GetValue();
                 visible = false;

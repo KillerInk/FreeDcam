@@ -63,7 +63,7 @@ public class CCTManualParameter extends BaseManualParameter {
             this.isSupported = true;
             createStringArray();
         } //&& !DeviceUtils.isZTEADV()
-        else if (DeviceUtils.isXiaomiMI3W() ||DeviceUtils.isXiaomiMI4W())
+        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
         {
             if (Build.VERSION.SDK_INT < 23)
             {
@@ -107,7 +107,7 @@ public class CCTManualParameter extends BaseManualParameter {
     {
         int min = Integer.parseInt(parameters.get(min_value));
         int max = Integer.parseInt(parameters.get(max_value));
-        if (DeviceUtils.isXiaomiMI3W() && Build.VERSION.SDK_INT < 23 || DeviceUtils.isXiaomiMI4W() && Build.VERSION.SDK_INT < 23)
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && Build.VERSION.SDK_INT < 23)
                     max = 7500;
         ArrayList<String> t = new ArrayList<String>();
         t.add("Auto");
@@ -134,7 +134,7 @@ public class CCTManualParameter extends BaseManualParameter {
             return 150;
         else if (DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8974))
             return 8000;
-         else if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
+         else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
             {
                 if (Build.VERSION.SDK_INT < 23)
                 {
@@ -194,10 +194,11 @@ public class CCTManualParameter extends BaseManualParameter {
             }
             else
             {
-                if ((DeviceUtils.isOnePlusOne() || DeviceUtils.isRedmiNote() ) && !camParametersHandler.WhiteBalanceMode.GetValue().equals("manual-cct"))
+                if ((DeviceUtils.IS(DeviceUtils.Devices.OnePlusOne) || DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
+                        && !camParametersHandler.WhiteBalanceMode.GetValue().equals("manual-cct"))
                     camParametersHandler.WhiteBalanceMode.SetValue("manual-cct", true);
 
-                else if (DeviceUtils.isXiaomiMI3W() || DeviceUtils.isXiaomiMI4W()   )
+                else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
                 {
                     if (Build.VERSION.SDK_INT < 23)
                     {

@@ -71,7 +71,7 @@ public class HighFramerateVideo extends  BaseModeParameter
     @Override
     public String[] GetValues() {
 
-        if(!DeviceUtils.isLGFrameWork() && parameters.get("hfr-size-values").split(",").length >= 1)
+        if(cameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.LG && parameters.get("hfr-size-values").split(",").length >= 1)
         {
             String[] split1 = parameters.get("hfr-size-values").split(",");
             String[] split2 = parameters.get("video-hfr-values").split(",");
@@ -239,7 +239,7 @@ public class HighFramerateVideo extends  BaseModeParameter
 
             }
         }
-        else if(DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
+        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
         {
             try {
                 String SizeV = cameraUiWrapper.appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
