@@ -62,9 +62,9 @@ public class VideoModuleG3 extends AbstractVideoModule
             Log.e(TAG, "Index :" + frame);
 
             camParametersHandler.FPSRangeLock(frame,frame);
-            recorder.setVideoFrameRate(frame);
+            //recorder.setVideoFrameRate(frame);
 
-            //recorder.setCaptureRate(frame);
+            recorder.setCaptureRate(frame);
 
 
 
@@ -75,11 +75,7 @@ public class VideoModuleG3 extends AbstractVideoModule
         }
         recorder.setVideoSize(prof.videoFrameWidth, prof.videoFrameHeight);
 
-
-        if(!mBitare.equals("200Mbps") || !mBitare.equals("150Mbps") || !mBitare.equals("100Mbps")
-                || !mBitare.equals("80Mbps")|| !mBitare.equals("60Mbps")|| !mBitare.equals("50Mbps")
-                || !mBitare.equals("40Mbps")|| !mBitare.equals("30Mbps")|| !mBitare.equals("10Mbps")
-                || !mBitare.equals("5Mbps")|| !mBitare.equals("5Mbps") ) {
+        if (mBitare.equals("Default") || mBitare.equals("")) {
             recorder.setVideoEncodingBitRate(prof.videoBitRate);
         }
         else {
