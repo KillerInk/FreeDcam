@@ -20,12 +20,14 @@ public class HDRModeParameter extends BaseModeParameter
     private boolean supportauto = false;
     private boolean supporton = false;
     private String state = "";
+    private String format = "";
 
     public HDRModeParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
         super(handler, parameters, parameterChanged, value, values);
 
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         ModuleChanged(cameraUiWrapper.moduleHandler.GetCurrentModuleName());
+        cameraUiWrapper.camParametersHandler.PictureFormat.addEventListner(this);
 
     }
 
@@ -185,37 +187,50 @@ public class HDRModeParameter extends BaseModeParameter
     public String ModuleChanged(String module) {
         if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)) {
             if (module.equals("module_video")|| module.equals("module_hdr")) {
-                state = GetValue();
-                visible = false;
-                this.isSupported = false;
-                baseCameraHolder.ParameterHandler.morphoHDR.SetValue("false", true);
-                BackgroundValueHasChanged("off");
-                if (module.equals("module_hdr"))
-                    parameters.put("ae-bracket-hdr","AE-Bracket");
-                BackgroundIsSupportedChanged(isSupported);
-            } else if (!visible){
-                visible = true;
-                this.isSupported = true;
-                SetValue(state,true);
-                BackgroundValueHasChanged(state);
-                BackgroundIsSupportedChanged(isSupported);
+                if (visible)
+                    Hide();
+            } else if (!visible && format.contains("jpeg")){
+                Show();
             }
         }
         else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4) || supportauto || supporton) {
             if (module.equals("module_video")|| module.equals("module_hdr")) {
-                state = GetValue();
-                visible = false;
-                this.isSupported = false;
-                BackgroundValueHasChanged("off");
-                BackgroundIsSupportedChanged(isSupported);
-            } else if (!visible){
-                visible = true;
-                this.isSupported = true;
-                SetValue(state,true);
-                BackgroundValueHasChanged(state);
-                BackgroundIsSupportedChanged(isSupported);
+                if (visible)
+                    Hide();
+            } else if (!visible && format.contains("jpeg")){
+                Show();
             }
         }
         return null;
     }
+
+    @Override
+    public void onValueChanged(String val) {
+        format = val;
+        if (val.contains("jpeg")&&!visible)
+             Show();
+
+        else if (!val.contains("jpeg")&&visible)
+            Hide();
+    }
+
+    private void Hide()
+    {
+        state = GetValue();
+        visible = false;
+        this.isSupported = false;
+        SetValue("off",true);
+        BackgroundValueHasChanged("off");
+        BackgroundIsSupportedChanged(isSupported);
+    }
+    private void Show()
+    {
+        visible = true;
+        this.isSupported = true;
+        SetValue(state,true);
+        BackgroundValueHasChanged(state);
+        BackgroundIsSupportedChanged(isSupported);
+    }
+
+
 }

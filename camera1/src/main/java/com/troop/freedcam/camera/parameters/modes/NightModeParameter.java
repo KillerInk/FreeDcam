@@ -16,11 +16,13 @@ public class NightModeParameter extends BaseModeParameter
 
     private boolean visible = true;
     private String state = "";
+    private String format = "";
     public NightModeParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
         super(handler, parameters, parameterChanged, value, values);
 
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         ModuleChanged(cameraUiWrapper.moduleHandler.GetCurrentModuleName());
+        cameraUiWrapper.camParametersHandler.PictureFormat.addEventListner(this);
 
     }
 
@@ -93,23 +95,42 @@ public class NightModeParameter extends BaseModeParameter
     @Override
     public String ModuleChanged(String module) {
         if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)) {
-            if (module.equals("module_video")|| module.equals("module_hdr")) {
-                state = GetValue();
-                visible = false;
-                this.isSupported = false;
-                baseCameraHolder.ParameterHandler.morphoHHT.SetValue("false", true);
-                BackgroundValueHasChanged("off");
-                if (module.equals("module_hdr"))
-                    parameters.put("ae-bracket-hdr","AE-Bracket");
-                BackgroundIsSupportedChanged(isSupported);
-            } else if (!visible){
-                visible = true;
-                this.isSupported = true;
-                SetValue(state,true);
-                BackgroundValueHasChanged(state);
-                BackgroundIsSupportedChanged(isSupported);
+            if (module.equals("module_video")|| module.equals("module_hdr"))
+            {  if (visible)
+                    Hide();
+            } else if (!visible && format.contains("jpeg")){
+                Show();
             }
         }
         return null;
     }
+
+    @Override
+    public void onValueChanged(String val) {
+        format = val;
+        if (val.contains("jpeg")&&!visible)
+            Show();
+
+        else if (!val.contains("jpeg")&&visible)
+            Hide();
+    }
+
+    private void Hide()
+    {
+        state = GetValue();
+        visible = false;
+        this.isSupported = false;
+        SetValue("off",true);
+        BackgroundValueHasChanged("off");
+        BackgroundIsSupportedChanged(isSupported);
+    }
+    private void Show()
+    {
+        visible = true;
+        this.isSupported = true;
+        SetValue(state,true);
+        BackgroundValueHasChanged(state);
+        BackgroundIsSupportedChanged(isSupported);
+    }
+
 }

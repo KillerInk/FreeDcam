@@ -14,7 +14,7 @@ import java.util.HashMap;
 /**
  * Created by troop on 17.08.2014.
  */
-public class BaseModeParameter extends AbstractModeParameter implements I_ModuleEvent {
+public class BaseModeParameter extends AbstractModeParameter implements I_ModuleEvent, AbstractModeParameter.I_ModeParameterEvent {
     protected String value;
     protected String values;
     boolean isSupported = false;
@@ -140,5 +140,25 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
     @Override
     public String ModuleChanged(String module) {
         return null;
+    }
+
+    @Override
+    public void onValueChanged(String val) {
+
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
     }
 }

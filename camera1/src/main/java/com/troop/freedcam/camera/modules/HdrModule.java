@@ -57,6 +57,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
                 return false;
             }
             startworking();
+            LoadAEB();
             if (aeBrackethdr && baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg"))
             {
                 baseCameraHolder.TakePicture(null, null, aeBracketCallback);
@@ -86,12 +87,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
     @Override
     public void LoadNeededParameters()
     {
-        if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
-        {
-            aeBrackethdr = true;
-            ParameterHandler.AE_Bracket.SetValue("AE-Bracket", true);
-
-        }
+        LoadAEB();
     }
 
     @Override
@@ -212,5 +208,15 @@ public class HdrModule extends PictureModule implements I_WorkeDone
             stopworking();
         }
     };
+    private void LoadAEB()
+    {
+        if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
+        {
+            aeBrackethdr = true;
+            ParameterHandler.AE_Bracket.SetValue("AE-Bracket", true);
+
+        }
+
+    }
 
 }
