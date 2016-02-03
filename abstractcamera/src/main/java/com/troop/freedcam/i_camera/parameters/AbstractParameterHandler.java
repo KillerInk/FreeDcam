@@ -46,7 +46,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter WhiteBalanceMode;
     public AbstractModeParameter PictureSize;
     public AbstractModeParameter PictureFormat;
-    public AbstractModeParameter HDR_State;
+    public AbstractModeParameter HDRMode;
     public AbstractModeParameter JpegQuality;
     //defcomg was here
     public AbstractModeParameter GuideList;
@@ -59,7 +59,6 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter FocusMode;
     public AbstractModeParameter RedEye;
     public AbstractModeParameter LensShade;
-    public AbstractModeParameter ChromaFlash;
     public AbstractModeParameter ZSL;
     public AbstractModeParameter SceneDetect;
     public AbstractModeParameter Denoise;
@@ -104,7 +103,6 @@ public abstract class AbstractParameterHandler
     private boolean isDngActive = false;
     public boolean IsDngActive(){ return this.isDngActive; };
     public void SetDngActive(boolean active) {this.isDngActive = active;}
-    public boolean isAeBracketActive = false;
 
     public AbstractCameraHolder cameraHolder;
     public AbstractCameraChanged cameraChanged;
@@ -177,7 +175,6 @@ public abstract class AbstractParameterHandler
         setMode(FocusMode, AppSettingsManager.SETTING_FOCUSMODE);
         setMode(RedEye,AppSettingsManager.SETTING_REDEYE_MODE);
         setMode(LensShade,AppSettingsManager.SETTING_LENSSHADE_MODE);
-        setMode(ChromaFlash,AppSettingsManager.SETTING_CHROMAFLASH_MODE);
         setMode(ZSL, AppSettingsManager.SETTING_ZEROSHUTTERLAG_MODE);
         setMode(SceneDetect, AppSettingsManager.SETTING_SCENEDETECT_MODE);
         setMode(Denoise, AppSettingsManager.SETTING_DENOISE_MODE);
@@ -206,6 +203,7 @@ public abstract class AbstractParameterHandler
         setMode(IntervalShutterSleep, AppSettingsManager.SETTING_INTERVAL);
         setMode(Horizont, AppSettingsManager.SETTING_HORIZONT);
         setMode(captureBurstExposures, AppSettingsManager.SETTING_CAPTUREBURSTEXPOSURES);
+        setMode(HDRMode, AppSettingsManager.SETTING_HDRMODE);
 
        // setMode(morphoHDR, AppSettingsManager.SETTING_MORPHOHDR);
        // setMode(morphoHHT, AppSettingsManager.SETTING_MORPHOHHT);

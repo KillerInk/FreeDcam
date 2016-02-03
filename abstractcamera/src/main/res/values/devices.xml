@@ -194,6 +194,9 @@
     <string-array name="LenovoK910">
         <item>Lenovo K910</item>
     </string-array>
+    <string-array name="LenovoK920">
+        <item>Lenovo K920</item>
+    </string-array>
 
     <string-array name="SonyM5">
         <item>E5663</item>

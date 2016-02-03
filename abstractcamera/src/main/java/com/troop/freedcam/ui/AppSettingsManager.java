@@ -30,7 +30,7 @@ public class AppSettingsManager
     final public static String SETTING_JPEGQUALITY = "jpegquality";
     //defcomg was here
     //1-29-2016 6:15
-    final public static String SETTING_HDR = "hdr";
+    final public static String SETTING_HDRMODE = "hdrmode";
     // 1-29-2016 11:49
     final public static String SETTING_VideoBitrate = "videobitrate";
     //
@@ -46,7 +46,6 @@ public class AppSettingsManager
     final public static String SETTING_FOCUSMODE = "focusmode";
     final public static String SETTING_REDEYE_MODE = "redeyemode";
     final public static String SETTING_LENSSHADE_MODE = "lenshademode";
-    final public static String SETTING_CHROMAFLASH_MODE = "chromaflashmode";
     final public static String SETTING_ZEROSHUTTERLAG_MODE = "zslmode";
     final public static String SETTING_SCENEDETECT_MODE = "scenedetectmode";
     final public static String SETTING_DENOISE_MODE = "denoisetmode";

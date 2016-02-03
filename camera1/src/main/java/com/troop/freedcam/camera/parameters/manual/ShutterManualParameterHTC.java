@@ -29,7 +29,7 @@ public class ShutterManualParameterHTC extends BaseManualParameter
 
         this.baseCameraHolder = baseCameraHolder;
         this.i_cameraChangedListner = i_cameraChangedListner;
-        if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
         {
             this.isSupported = true;
             shutterValues = HTCShutterValues.split(",");

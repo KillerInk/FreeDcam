@@ -64,7 +64,7 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
     public void SetValue(int valueToSet)
     {
         current = valueToSet;
-        if(valueToSet == -1)
+        if(valueToSet == 0)
         {
             camParametersHandler.FocusMode.SetValue("auto", true);
         }

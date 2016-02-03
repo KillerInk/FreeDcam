@@ -38,7 +38,7 @@ public class HighFramerateVideo extends  BaseModeParameter
 
         super(handler,parameters, parameterChanged, value, values);
 
-        if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADV234() ||DeviceUtils.isZTEADVIMX214() ||DeviceUtils.isMoto_MSM8974()||DeviceUtils.isMoto_MSM8982_8994()||DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()) {
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MOTOX)||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)) {
             String tmp = parameters.get("video-hfr");
             if (tmp != null && !tmp.equals("")) {
 
@@ -71,7 +71,7 @@ public class HighFramerateVideo extends  BaseModeParameter
     @Override
     public String[] GetValues() {
 
-        if(!DeviceUtils.isLGFrameWork() && parameters.get("hfr-size-values").split(",").length >= 1)
+        if(cameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.LG && parameters.get("hfr-size-values").split(",").length >= 1)
         {
             String[] split1 = parameters.get("hfr-size-values").split(",");
             String[] split2 = parameters.get("video-hfr-values").split(",");
@@ -239,7 +239,7 @@ public class HighFramerateVideo extends  BaseModeParameter
 
             }
         }
-        else if(DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
+        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
         {
             try {
                 String SizeV = cameraUiWrapper.appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
@@ -259,7 +259,7 @@ public class HighFramerateVideo extends  BaseModeParameter
             catch (NullPointerException e){ }
 
         }
-        else if(DeviceUtils.isG4())
+        else if(DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
         {
             try {
                 String SizeV = cameraUiWrapper.appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
@@ -282,7 +282,7 @@ public class HighFramerateVideo extends  BaseModeParameter
             }
 
         }
-        else if(DeviceUtils.isG2()||DeviceUtils.isLG_G3()||DeviceUtils.isZTEADV())
+        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3)||DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
         {
             try {
                 String SizeV = cameraUiWrapper.appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);

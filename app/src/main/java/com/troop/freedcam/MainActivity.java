@@ -70,7 +70,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     {
         super.onCreate(null);
         Log.d(TAGLIFE,"onCreate");
-        DeviceUtils.contex = this.getApplicationContext();
+        DeviceUtils.SETCONTEXT(getApplicationContext());
 
         orientationHandler = new OrientationHandler(this, this);
         checkStartLogging();

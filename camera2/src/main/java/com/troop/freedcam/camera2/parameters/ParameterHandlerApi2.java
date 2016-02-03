@@ -145,7 +145,6 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
                 {
 
                 }
-
             }
         });
         SetAppSettingsToParameters();
@@ -155,7 +154,6 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
     @Override
     public void SetAppSettingsToParameters()
     {
-
         setMode(ColorMode, AppSettingsManager.SETTING_COLORMODE);
         setMode(ExposureMode, AppSettingsManager.SETTING_EXPOSUREMODE);
         setMode(FlashMode, AppSettingsManager.SETTING_FLASHMODE);
@@ -200,7 +198,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         //setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
         setManualMode(ManualConvergence, AppSettingsManager.MCONVERGENCE);
         setManualMode(ManualExposure, AppSettingsManager.MEXPOSURE);
-        setManualMode(ManualFocus, AppSettingsManager.MF);
+        //setManualMode(ManualFocus, AppSettingsManager.MF);
         setManualMode(ManualSharpness,AppSettingsManager.MSHARPNESS);
         setManualMode(ManualShutter, AppSettingsManager.MSHUTTERSPEED);
         setManualMode(ManualBrightness, AppSettingsManager.MBRIGHTNESS);

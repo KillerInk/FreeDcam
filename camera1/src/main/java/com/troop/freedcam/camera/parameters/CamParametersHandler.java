@@ -61,6 +61,7 @@ import com.troop.freedcam.camera.parameters.modes.VideoStabilizationParameter;
 import com.troop.freedcam.camera.parameters.modes.VirtualLensFilter;
 import com.troop.freedcam.camera.parameters.modes.WhiteBalanceModeParameter;
 import com.troop.freedcam.camera.parameters.modes.ZeroShutterLagParameter;
+import com.troop.freedcam.camera.parameters.modes.HDRModeParameter;
 
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
@@ -69,6 +70,7 @@ import com.troop.freedcam.i_camera.parameters.LocationParameter;
 import com.troop.freedcam.i_camera.parameters.ModuleParameters;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.DeviceUtils.Devices;
 import com.troop.freedcam.utils.StringUtils;
 
 import com.troop.freedcam.camera.FocusHandler;
@@ -134,7 +136,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     private void initParameters()
     {
-        if (DeviceUtils.isG4())
+        if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
             setupLg_G4Parameters();
 
         logParameters(cameraParameters);
@@ -169,9 +171,9 @@ public class CamParametersHandler extends AbstractParameterHandler
             ex.printStackTrace();
         }
         try {
-            if (DeviceUtils.isG4() || (DeviceUtils.isLG_G3() && (Build.VERSION.SDK_INT < 21 || Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) || DeviceUtils.isG2())
+            if (DeviceUtils.IS(Devices.LG_G4) || (DeviceUtils.IS(Devices.LG_G3) && (Build.VERSION.SDK_INT < 21 || Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) || DeviceUtils.IS(Devices.LG_G2))
                 ManualFocus = new FocusManualParameterLG(cameraParameters,"","","", cameraHolder, this);
-            else if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
+            else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
                 ManualFocus = new FocusManualParameterHTC(cameraParameters,"","","", cameraHolder,this);
             else
                 ManualFocus = new FocusManualParameter(cameraParameters,"","","", cameraHolder, this);
@@ -196,11 +198,11 @@ public class CamParametersHandler extends AbstractParameterHandler
             ex.printStackTrace();
         }
         try {
-            if (DeviceUtils.isG4())
+            if (DeviceUtils.IS(Devices.LG_G4))
                 aeHandlerG4 = new LG_G4AeHandler(cameraParameters,baseCameraHolder,this);
-            else if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
+            else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
                 ManualShutter = new ShutterManualParameterHTC(cameraParameters,"","","", cameraHolder, cameraChanged,this);
-            else if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+            else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
                 ManualShutter = new ShutterManualZTE(cameraParameters,"","","", cameraHolder, cameraChanged, this);
             else
                 ManualShutter = new ShutterManualParameter(cameraParameters,"","","", cameraHolder,cameraChanged, this);
@@ -211,7 +213,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            if (!DeviceUtils.isG4())
+            if (!DeviceUtils.IS(Devices.LG_G4))
             {
                 ISOManual = new ISOManualParameter(cameraParameters, "", "", "",baseCameraHolder, this);
             }
@@ -385,13 +387,6 @@ public class CamParametersHandler extends AbstractParameterHandler
             ex.printStackTrace();
         }
         try {
-            ChromaFlash = new BaseModeParameter(uiHandler,cameraParameters, baseCameraHolder, "chroma-flash", "chroma-flash-values");
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-        try {
             VideoStabilization = new VideoStabilizationParameter(uiHandler,cameraParameters,baseCameraHolder,"video-stabilization","");
         }
         catch (Exception ex)
@@ -441,7 +436,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             ex.printStackTrace();
         }
         try {
-            NightMode = new NightModeParameter(uiHandler,cameraParameters, baseCameraHolder,"","");
+            NightMode = new NightModeParameter(uiHandler,cameraParameters, baseCameraHolder,"","", cameraUiWrapper);
         }
         catch (Exception ex)
         {
@@ -600,6 +595,13 @@ public class CamParametersHandler extends AbstractParameterHandler
         {
             ex.printStackTrace();
         }
+        try {
+            HDRMode = new HDRModeParameter(uiHandler,cameraParameters, baseCameraHolder,"","", cameraUiWrapper);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
         Module = new ModuleParameters(uiHandler, appSettingsManager, cameraUiWrapper);
         ParametersEventHandler.ParametersHasLoaded();
         SetAppSettingsToParametersx();
@@ -639,7 +641,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     //focus-areas=(0, 0, 0, 0, 0)
     public void SetMeterAREA(FocusRect meteringAreas)
     {
-        if(DeviceUtils.isZTEADV())
+        if(DeviceUtils.IS(Devices.ZTE_ADV))
         {
             try
             {
@@ -666,7 +668,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     public void SetFocusAREA(FocusRect focusAreas, FocusRect meteringAreas)
     {
-        if(DeviceUtils.isZTEADV())
+        if(DeviceUtils.IS(Devices.ZTE_ADV))
         {
             try
             {
@@ -785,39 +787,6 @@ public class CamParametersHandler extends AbstractParameterHandler
         Log.e(TAG, "MTK set rawfname" + filename);
         cameraParameters.put("rawfname", filename);
         cameraHolder.SetCameraParameters(cameraParameters);
-    }
-
-    boolean stat = false;
-    public boolean HDR_supported_Scene()
-    {
-
-        if(cameraParameters.containsKey("scene-mode-values") && !stat) {
-            String[] hdrr = cameraParameters.get("scene-mode-values").split(",");
-
-            for (String s : hdrr) {
-                if (s.equals("hdr"))
-                    stat = true;
-            }
-        }
-        return stat;
-    }
-
-    public void setHDR(final String key, final String value)
-    {
-        cameraParameters.put(key,value);
-        cameraHolder.SetCameraParameters(cameraParameters);
-    }
-
-
-    public boolean HDR_supported_Auto()
-    {
-        if (cameraParameters.containsKey("auto-hdr-supported"))
-            return true;
-
-      return false;
-
-
-
     }
 
     public void setString(String param, String value)

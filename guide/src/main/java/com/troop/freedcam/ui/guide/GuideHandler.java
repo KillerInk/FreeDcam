@@ -41,7 +41,7 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
     @Override
     public void onResume() {
         super.onResume();
-        //SetViewG(appSettingsManager.getString(AppSettingsManager.SETTING_GUIDE));
+        SetViewG(appSettingsManager.getString(AppSettingsManager.SETTING_GUIDE));
     }
 
     public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)

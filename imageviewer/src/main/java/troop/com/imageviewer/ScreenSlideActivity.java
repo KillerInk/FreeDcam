@@ -54,8 +54,8 @@ public class ScreenSlideActivity extends FragmentActivity {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
 
         HIDENAVBAR();
-        if (DeviceUtils.contex == null)
-            DeviceUtils.contex = getApplicationContext();
+        if (!DeviceUtils.HAS_CONTEXT())
+            DeviceUtils.SETCONTEXT(getApplicationContext());
 
 
     }

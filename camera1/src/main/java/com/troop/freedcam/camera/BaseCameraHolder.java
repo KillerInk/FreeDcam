@@ -185,7 +185,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             if (DeviceFrameWork == Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
             {
                 try {
-                    if (DeviceUtils.isG4())
+                    if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
                         lgCamera = new LGCamera(camera, 256);
                     else
                         lgCamera = new LGCamera(camera);

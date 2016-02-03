@@ -63,7 +63,7 @@ public class CCTManualParameter extends BaseManualParameter {
             this.isSupported = true;
             createStringArray();
         } //&& !DeviceUtils.isZTEADV()
-        else if (DeviceUtils.isXiaomiMI3W() ||DeviceUtils.isXiaomiMI4W())
+        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
         {
             if (Build.VERSION.SDK_INT < 23)
             {
@@ -82,7 +82,7 @@ public class CCTManualParameter extends BaseManualParameter {
                 createStringArray();
             }
         }
-        else if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) )
             isSupported = true;
         else if (parameters.containsKey(LG_Max) && parameters.containsKey(LG_Min) && parameters.containsKey(LG_WB))
         {
@@ -107,7 +107,7 @@ public class CCTManualParameter extends BaseManualParameter {
     {
         int min = Integer.parseInt(parameters.get(min_value));
         int max = Integer.parseInt(parameters.get(max_value));
-        if (DeviceUtils.isXiaomiMI3W() && Build.VERSION.SDK_INT < 23 || DeviceUtils.isXiaomiMI4W() && Build.VERSION.SDK_INT < 23)
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && Build.VERSION.SDK_INT < 23)
                     max = 7500;
         ArrayList<String> t = new ArrayList<String>();
         t.add("Auto");
@@ -130,11 +130,11 @@ public class CCTManualParameter extends BaseManualParameter {
     {
         if (wbvalues != null)
             return wbvalues.length-1;
-        else if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) )
             return 150;
-        else if (DeviceUtils.isMoto_MSM8974())
+        else if (DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8974))
             return 8000;
-         else if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
+         else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
             {
                 if (Build.VERSION.SDK_INT < 23)
                 {
@@ -155,7 +155,7 @@ public class CCTManualParameter extends BaseManualParameter {
     {
         if (wbvalues != null)
             return 0;
-        else if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) )
             return -1;
         else
             return 0;
@@ -183,7 +183,7 @@ public class CCTManualParameter extends BaseManualParameter {
             currentWBPos = valueToSet;
             if (currentWBPos == 0)
             {
-                if (DeviceUtils.isHTC_M9() || DeviceUtils.isHTC_M8())
+                if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
                 {
                     parameters.put(value, "-1");
                 }
@@ -194,10 +194,11 @@ public class CCTManualParameter extends BaseManualParameter {
             }
             else
             {
-                if ((DeviceUtils.isOnePlusOne() || DeviceUtils.isRedmiNote() ) && !camParametersHandler.WhiteBalanceMode.GetValue().equals("manual-cct"))
+                if ((DeviceUtils.IS(DeviceUtils.Devices.OnePlusOne) || DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
+                        && !camParametersHandler.WhiteBalanceMode.GetValue().equals("manual-cct"))
                     camParametersHandler.WhiteBalanceMode.SetValue("manual-cct", true);
 
-                else if (DeviceUtils.isXiaomiMI3W() || DeviceUtils.isXiaomiMI4W()   )
+                else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
                 {
                     if (Build.VERSION.SDK_INT < 23)
                     {
@@ -208,12 +209,12 @@ public class CCTManualParameter extends BaseManualParameter {
                         camParametersHandler.WhiteBalanceMode.SetValue("manual", true);
                     }
                 }
-                else if (!camParametersHandler.WhiteBalanceMode.GetValue().equals("manual") && (DeviceUtils.isAlcatel_Idol3() || DeviceUtils.isMoto_MSM8982_8994()))
+                else if (!camParametersHandler.WhiteBalanceMode.GetValue().equals("manual") && (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)))
                 camParametersHandler.WhiteBalanceMode.SetValue("manual", true);
                 parameters.put(value, wbvalues[currentWBPos]);
             }
         }
-        else if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) )
         {
             if(valueToSet != -1)
             {

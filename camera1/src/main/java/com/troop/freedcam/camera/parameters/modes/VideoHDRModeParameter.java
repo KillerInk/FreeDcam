@@ -18,7 +18,7 @@ public class VideoHDRModeParameter extends  BaseModeParameter
     public VideoHDRModeParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder baseCameraHolder)
     {
         super(handler,parameters, parameterChanged, value, values);
-        if (DeviceUtils.isLG_G3()) {
+        if (DeviceUtils.IS(DeviceUtils.Devices.LG_G3)) {
             this.value = "hdr-mode";
             this.isSupported = true;
         }
@@ -65,7 +65,7 @@ public class VideoHDRModeParameter extends  BaseModeParameter
     @Override
     public String[] GetValues()
     {
-        if (DeviceUtils.isLG_G3())
+        if (DeviceUtils.IS(DeviceUtils.Devices.LG_G3))
             return new String[] {"off","on", "auto" };
         else
             return super.GetValues();
@@ -75,7 +75,7 @@ public class VideoHDRModeParameter extends  BaseModeParameter
     public void SetValue(String valueToSet, boolean setToCam)
     {
         //baseCameraHolder.StopPreview();
-        if (DeviceUtils.isLG_G3())
+        if (DeviceUtils.IS(DeviceUtils.Devices.LG_G3))
         {
             if (valueToSet.equals("off"))
                 super.SetValue("0", setToCam);

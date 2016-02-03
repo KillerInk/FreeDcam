@@ -65,8 +65,6 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     troop.com.themesample.views.menu.MenuItem jpegQuality;
     MenuItemSaveCamParams saveCamParams;
 
-    troop.com.themesample.views.menu.MenuItem aeBracket;
-
     MenuItemVideoProfile videoProfile;
     troop.com.themesample.views.menu.MenuItemVideoHDR videoHDR;
     troop.com.themesample.views.menu.MenuItemHighFramerateVideo HighFramerateVideo;
@@ -142,9 +140,6 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
         jpegQuality = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemJpegQuality);
         jpegQuality.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_JPEGQUALITY,touchHandler);
-
-        aeBracket = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemAeBracket);
-        aeBracket.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_AEBRACKET,touchHandler);
 
         videoProfile = (MenuItemVideoProfile)view.findViewById(R.id.MenuItemVideoProfile);
         videoProfile.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEPROFILE,touchHandler);
@@ -242,9 +237,6 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
         jpegQuality.SetParameter(wrapper.camParametersHandler.JpegQuality);
         jpegQuality.SetMenuItemListner(this);
-
-        aeBracket.SetParameter(wrapper.camParametersHandler.AE_Bracket);
-        aeBracket.SetMenuItemListner(this);
 
         if (wrapper.camParametersHandler.VideoProfiles != null)
             videoProfile.SetParameter(wrapper.camParametersHandler.VideoProfiles);

@@ -4,6 +4,8 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -12,7 +14,7 @@ import java.util.HashMap;
 /**
  * Created by troop on 17.08.2014.
  */
-public class BaseModeParameter extends AbstractModeParameter {
+public class BaseModeParameter extends AbstractModeParameter implements I_ModuleEvent {
     protected String value;
     protected String values;
     boolean isSupported = false;
@@ -96,35 +98,6 @@ public class BaseModeParameter extends AbstractModeParameter {
         }
         else
         {
-            if(DeviceUtils.isHTC_M8()||DeviceUtils.isHTC_M9())
-            {
-                if(Integer.parseInt(valueToSet) == 60)
-                {
-                    parameters.put("video-hdr", "false");
-                    parameters.put("video-mode", "2");
-                    parameters.put("video-hfr", "off");
-                }
-
-                if(Integer.parseInt(valueToSet) == 120)
-                {
-                    parameters.put("video-hdr", "false");
-                    parameters.put("video-hfr", ""+120);
-                    try
-                    {
-                        parameters.put("video-hsr", ""+120);
-                    }
-                    catch (Exception ex)
-                    {
-
-                    }
-                    parameters.put("slow-motion-version", ""+2);
-                    parameters.put("cam-mode", ""+2);
-                }
-
-
-
-
-            }
             BackgroundValueHasChanged(IdentifySub);
             if (setToCam) {
                 try {
@@ -162,5 +135,10 @@ public class BaseModeParameter extends AbstractModeParameter {
     public String[] GetValues()
     {
         return parameters.get(values).split(",");
+    }
+
+    @Override
+    public String ModuleChanged(String module) {
+        return null;
     }
 }

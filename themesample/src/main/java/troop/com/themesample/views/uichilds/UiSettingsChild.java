@@ -168,7 +168,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
 
     public void setTextToTextBox(AbstractModeParameter parameter)
     {
-        if (parameter.IsSupported())
+        if (parameter != null && parameter.IsSupported())
         {
             onIsSupportedChanged(true);
             String campara = parameter.GetValue();

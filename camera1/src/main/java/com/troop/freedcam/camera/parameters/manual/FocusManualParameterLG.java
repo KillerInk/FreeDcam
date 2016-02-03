@@ -1,11 +1,11 @@
 package com.troop.freedcam.camera.parameters.manual;
 
-import android.os.Build;
 import android.util.Log;
 
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.DeviceUtils.Devices;
 
 import java.util.HashMap;
 
@@ -16,6 +16,8 @@ public class FocusManualParameterLG extends  BaseManualParameter
 {
     I_CameraHolder baseCameraHolder;
     private static String TAG ="freedcam.ManualFocusG4";
+
+    private final Devices[] g3m_g4 = {Devices.LG_G3, Devices.LG_G4};
 
     public FocusManualParameterLG(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
@@ -32,7 +34,7 @@ public class FocusManualParameterLG extends  BaseManualParameter
     @Override
     public int GetMaxValue()
     {
-        if (DeviceUtils.isG4() || DeviceUtils.IsMarshMallowG3())
+        if (DeviceUtils.IS_DEVICE_ONEOF(g3m_g4))
             return 60;
         else
             return 79;
@@ -62,7 +64,7 @@ public class FocusManualParameterLG extends  BaseManualParameter
     {
         if(valueToSet != 0)
         {
-            if (DeviceUtils.isLG_G3() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            if (DeviceUtils.IsMarshMallowG3())
             {
                 if (!camParametersHandler.FocusMode.GetValue().equals("manual")) {
                     camParametersHandler.FocusMode.SetValue("manual", true);
