@@ -15,6 +15,7 @@ public class NightModeParameter extends BaseModeParameter
 {
 
     private boolean visible = true;
+    private String state = "";
     public NightModeParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
         super(handler, parameters, parameterChanged, value, values);
 
@@ -92,6 +93,7 @@ public class NightModeParameter extends BaseModeParameter
     public String ModuleChanged(String module) {
         if(DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()) {
             if (module.equals("module_video")|| module.equals("module_hdr")) {
+                state = GetValue();
                 visible = false;
                 this.isSupported = false;
                 baseCameraHolder.ParameterHandler.morphoHHT.SetValue("false", true);
@@ -102,7 +104,8 @@ public class NightModeParameter extends BaseModeParameter
             } else if (!visible){
                 visible = true;
                 this.isSupported = true;
-                BackgroundValueHasChanged("off");
+                SetValue(state,true);
+                BackgroundValueHasChanged(state);
                 BackgroundIsSupportedChanged(isSupported);
             }
         }

@@ -19,6 +19,7 @@ public class HDRModeParameter extends BaseModeParameter
     private boolean visible = true;
     private boolean supportauto = false;
     private boolean supporton = false;
+    private String state = "";
 
     public HDRModeParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
         super(handler, parameters, parameterChanged, value, values);
@@ -178,6 +179,7 @@ public class HDRModeParameter extends BaseModeParameter
     public String ModuleChanged(String module) {
         if(DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()) {
             if (module.equals("module_video")|| module.equals("module_hdr")) {
+                state = GetValue();
                 visible = false;
                 this.isSupported = false;
                 baseCameraHolder.ParameterHandler.morphoHDR.SetValue("false", true);
@@ -188,12 +190,14 @@ public class HDRModeParameter extends BaseModeParameter
             } else if (!visible){
                 visible = true;
                 this.isSupported = true;
-                BackgroundValueHasChanged("off");
+                SetValue(state,true);
+                BackgroundValueHasChanged(state);
                 BackgroundIsSupportedChanged(isSupported);
             }
         }
         else if(DeviceUtils.isLG_G3() || DeviceUtils.isG2() || DeviceUtils.isG4() || supportauto || supporton) {
             if (module.equals("module_video")|| module.equals("module_hdr")) {
+                state = GetValue();
                 visible = false;
                 this.isSupported = false;
                 BackgroundValueHasChanged("off");
@@ -201,7 +205,8 @@ public class HDRModeParameter extends BaseModeParameter
             } else if (!visible){
                 visible = true;
                 this.isSupported = true;
-                BackgroundValueHasChanged("off");
+                SetValue(state,true);
+                BackgroundValueHasChanged(state);
                 BackgroundIsSupportedChanged(isSupported);
             }
         }
