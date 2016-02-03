@@ -106,7 +106,7 @@ public class HDRModeParameter extends BaseModeParameter
                     break;
                 case "on":
                     parameters.put("scene-mode", "hdr");
-                    parameters.put("auto-hdr-enable", "disable");
+                    parameters.put("auto-hdr-enable", "enable");
                     break;
                 case "auto":
                     parameters.put("scene-mode", "asd");
