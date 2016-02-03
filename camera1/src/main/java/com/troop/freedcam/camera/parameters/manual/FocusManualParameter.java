@@ -46,6 +46,13 @@ public class FocusManualParameter extends  BaseManualParameter
             this.value = "cur-focus-scale";
             this.min_value = "min-focus-pos-ratio";
         }
+        else if(DeviceUtils.isLenovoK920())
+        {
+            this.isSupported = true;
+            this.max_value = "max-focus-pos-index";
+            this.value = "manual-focus-position";
+            this.min_value = "min-focus-pos-index";
+        }
         else
             this.isSupported = false;
 }
@@ -113,22 +120,20 @@ public class FocusManualParameter extends  BaseManualParameter
     @Override
     protected void setvalue(final int valueToSet)
     {
-        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isXiaomiMI3W() || DeviceUtils.isRedmiNote()||DeviceUtils.isXiaomiMI4W())
+        //check/set auto/manual mode
+        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isXiaomiMI3W() || DeviceUtils.isRedmiNote()||DeviceUtils.isXiaomiMI4W()
+                || DeviceUtils.isLenovoK920())
         {
             if(valueToSet != 0)
             {
                 if (!camParametersHandler.FocusMode.GetValue().equals("manual")) //do not set "manual" to "manual"
-
-                    camParametersHandler.FocusMode.SetValue("manual", true);
-                    //if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
-
-//                if(!parameters.get("manual-focus-pos-type").equals("1"))
-                    parameters.put("manual-focus-pos-type", "1");
-
+                    camParametersHandler.FocusMode.SetValue("manual", false);
+                parameters.put("manual-focus-pos-type", "1");
+                camParametersHandler.SetParametersToCamera();
             }
             else
                 camParametersHandler.FocusMode.SetValue("auto", true);
-            camParametersHandler.SetParametersToCamera();
+
 
         }
         else if (DeviceUtils.isAlcatel_Idol3() ||DeviceUtils.isMoto_MSM8982_8994())
@@ -141,60 +146,52 @@ public class FocusManualParameter extends  BaseManualParameter
                 }
                 catch (Exception ex)
                 {
-                    System.out.println("Freedcam Error Settings Manual Focus SD64 HAL trying test 2"+ ex.toString());
-                    try {
-                        System.out.println("Freedcam Error Settings Manual Focus SD64 HAL trying test 2"+ ex.toString());
-                    }
-                    catch (Exception e)
-                    {
-                        System.out.println("Freedcam Error Settings Manual Focus SD64 HAL Test 2 Failure"+ ex.toString());
-                    }
+                    ex.printStackTrace();
                 }
             }
             else
                 camParametersHandler.FocusMode.SetValue("auto", true);
 
         }
+
+        //set value when no auto mode
         if (value != null && !value.equals("") && valueToSet != 0)
         {
-            if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
-                parameters.put(value, String.valueOf((valueToSet-1)*10));
+            if(DeviceUtils.isZTEADV())
+            {
+                setZteadvValue(valueToSet);
+            }
             else
-                parameters.put(value, (valueToSet-1) + "");
-
-        }
-
-        if(DeviceUtils.isZTEADV()) {
-
-
-            try
             {
-
-                Handler handler = new Handler();
-                Runnable r = new Runnable() {
-                    public void run() {
-
-                        camParametersHandlerx.setString("manual-focus-position", (valueToSet-1) + "");
-                        baseCameraHolder.SetCameraParameters(camParametersHandlerx.getParameters());
-                    }
-                };
-                handler.postDelayed(r, 1);
-
-            }
-            catch (Exception ex)
-            {
-
+                if (DeviceUtils.isXiaomiMI3W() || DeviceUtils.isXiaomiMI4W())
+                    parameters.put(value, String.valueOf((valueToSet - 1) * 10));
+                else
+                    parameters.put(value, (valueToSet - 1) + "");
+                camParametersHandler.SetParametersToCamera();
             }
         }
-        else
-            camParametersHandler.SetParametersToCamera();
 
     }
-    /* HTC M8 value -1 disable mf
-     *  May have to use this key "non-zsl-manual-mode" set to true
-     * 
-     * 
-     * 
-     * 
-     */
+
+    private void setZteadvValue(final int valueToSet) {
+        try
+        {
+            Handler handler = new Handler();
+            Runnable r = new Runnable() {
+                public void run() {
+
+                    camParametersHandlerx.setString("manual-focus-position", (valueToSet-1) + "");
+                    baseCameraHolder.SetCameraParameters(camParametersHandlerx.getParameters());
+                }
+            };
+            handler.postDelayed(r, 1);
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+
 }
