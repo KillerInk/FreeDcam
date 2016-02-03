@@ -104,22 +104,26 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
     {
         if (valueToSet >= usedShutterValues.length)
             valueToSet = usedShutterValues.length - 1;
+
+
         current = valueToSet;
-        long val = (long)(StringUtils.getMilliSecondStringFromShutterString(usedShutterValues[valueToSet]) * 1000f);
-        Log.d(TAG, "ExposureTimeToSet:" + val);
-        if (val > 800000000)
-        {
-            Log.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
-            val = 800000000;
+        if (valueToSet > 0) {
+            long val = (long) (StringUtils.getMilliSecondStringFromShutterString(usedShutterValues[valueToSet]) * 1000f);
+            Log.d(TAG, "ExposureTimeToSet:" + val);
+            if (val > 800000000) {
+                Log.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
+                val = 800000000;
+            }
+            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
+            try {
+                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
+                        null);
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            } catch (NullPointerException ex) {
+                ex.printStackTrace();
+            }
         }
-        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
-        try {
-            cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
-                    null);
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
-        }
-        catch (NullPointerException ex){ex.printStackTrace();}
     }
 
     @Override
