@@ -40,7 +40,6 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
     MenuItem antiBanding;
     MenuItem ipp;
     MenuItem lensShade;
-    MenuItem chromaFlash;
     MenuItem sceneDetectMode;
     MenuItem waveletdenoiseMode;
     MenuItem digitalImageStabilization;
@@ -107,9 +106,6 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
 
         lensShade = (MenuItem)view.findViewById(R.id.MenuItemLensShade);
         lensShade.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_LENSSHADE_MODE,touchHandler);
-
-        chromaFlash = (MenuItem)view.findViewById(R.id.MenuItemChromaFlash);
-        chromaFlash.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_CHROMAFLASH_MODE,touchHandler);
 
         sceneDetectMode = (MenuItem)view.findViewById(R.id.MenuItemSceneDetection);
         sceneDetectMode.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_SCENEDETECT_MODE,touchHandler);
@@ -192,9 +188,6 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
 
         lensShade.SetParameter(wrapper.camParametersHandler.LensShade);
         lensShade.SetMenuItemListner(this);
-
-        chromaFlash.SetParameter(wrapper.camParametersHandler.ChromaFlash);
-        chromaFlash.SetMenuItemListner(this);
 
         sceneDetectMode.SetParameter(wrapper.camParametersHandler.SceneDetect);
         sceneDetectMode.SetMenuItemListner(this);
