@@ -46,7 +46,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter WhiteBalanceMode;
     public AbstractModeParameter PictureSize;
     public AbstractModeParameter PictureFormat;
-    public AbstractModeParameter HDR_State;
+    public AbstractModeParameter HDRMode;
     public AbstractModeParameter JpegQuality;
     //defcomg was here
     public AbstractModeParameter GuideList;
@@ -208,6 +208,7 @@ public abstract class AbstractParameterHandler
         setMode(captureBurstExposures, AppSettingsManager.SETTING_CAPTUREBURSTEXPOSURES);
         setMode(morphoHDR, AppSettingsManager.SETTING_MORPHOHDR);
         setMode(morphoHHT, AppSettingsManager.SETTING_MORPHOHHT);
+        setMode(HDRMode, AppSettingsManager.SETTING_HDRMODE);
 
         //setMode(Focuspeak, AppSettingsManager.SETTING_FOCUSPEAK);
         if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals(""))

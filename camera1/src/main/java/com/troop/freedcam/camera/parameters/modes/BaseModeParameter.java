@@ -4,6 +4,8 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -12,7 +14,7 @@ import java.util.HashMap;
 /**
  * Created by troop on 17.08.2014.
  */
-public class BaseModeParameter extends AbstractModeParameter {
+public class BaseModeParameter extends AbstractModeParameter implements I_ModuleEvent {
     protected String value;
     protected String values;
     boolean isSupported = false;
@@ -162,5 +164,10 @@ public class BaseModeParameter extends AbstractModeParameter {
     public String[] GetValues()
     {
         return parameters.get(values).split(",");
+    }
+
+    @Override
+    public String ModuleChanged(String module) {
+        return null;
     }
 }

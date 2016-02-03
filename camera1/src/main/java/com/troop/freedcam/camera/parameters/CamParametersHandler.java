@@ -61,6 +61,7 @@ import com.troop.freedcam.camera.parameters.modes.VideoStabilizationParameter;
 import com.troop.freedcam.camera.parameters.modes.VirtualLensFilter;
 import com.troop.freedcam.camera.parameters.modes.WhiteBalanceModeParameter;
 import com.troop.freedcam.camera.parameters.modes.ZeroShutterLagParameter;
+import com.troop.freedcam.camera.parameters.modes.HDRModeParameter;
 
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
@@ -441,7 +442,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             ex.printStackTrace();
         }
         try {
-            NightMode = new NightModeParameter(uiHandler,cameraParameters, baseCameraHolder,"","");
+            NightMode = new NightModeParameter(uiHandler,cameraParameters, baseCameraHolder,"","", cameraUiWrapper);
         }
         catch (Exception ex)
         {
@@ -595,6 +596,13 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try {
             LensFilter = new VirtualLensFilter(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraUiWrapper);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        try {
+            HDRMode = new HDRModeParameter(uiHandler,cameraParameters, baseCameraHolder,"","", cameraUiWrapper);
         }
         catch (Exception ex)
         {
@@ -785,39 +793,6 @@ public class CamParametersHandler extends AbstractParameterHandler
         Log.e(TAG, "MTK set rawfname" + filename);
         cameraParameters.put("rawfname", filename);
         cameraHolder.SetCameraParameters(cameraParameters);
-    }
-
-    boolean stat = false;
-    public boolean HDR_supported_Scene()
-    {
-
-        if(cameraParameters.containsKey("scene-mode-values") && !stat) {
-            String[] hdrr = cameraParameters.get("scene-mode-values").split(",");
-
-            for (String s : hdrr) {
-                if (s.equals("hdr"))
-                    stat = true;
-            }
-        }
-        return stat;
-    }
-
-    public void setHDR(final String key, final String value)
-    {
-        cameraParameters.put(key,value);
-        cameraHolder.SetCameraParameters(cameraParameters);
-    }
-
-
-    public boolean HDR_supported_Auto()
-    {
-        if (cameraParameters.containsKey("auto-hdr-supported"))
-            return true;
-
-      return false;
-
-
-
     }
 
     public void setString(String param, String value)

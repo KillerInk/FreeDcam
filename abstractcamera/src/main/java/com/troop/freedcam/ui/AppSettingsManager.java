@@ -30,7 +30,7 @@ public class AppSettingsManager
     final public static String SETTING_JPEGQUALITY = "jpegquality";
     //defcomg was here
     //1-29-2016 6:15
-    final public static String SETTING_HDR = "hdr";
+    final public static String SETTING_HDRMODE = "hdrmode";
     // 1-29-2016 11:49
     final public static String SETTING_VideoBitrate = "videobitrate";
     //
