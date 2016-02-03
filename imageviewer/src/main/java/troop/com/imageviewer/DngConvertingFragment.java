@@ -47,7 +47,7 @@ public class DngConvertingFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DeviceUtils.contex = getActivity().getApplicationContext();
+        DeviceUtils.SETCONTEXT(getContext());
         handler = new Handler();
         view = inflater.inflate(R.layout.dngconvertingfragment, container, false);
         this.editTextwidth = (EditText)view.findViewById(R.id.editText_width);
@@ -149,7 +149,7 @@ public class DngConvertingFragment extends Fragment
         this.filesToConvert = getActivity().getIntent().getStringArrayExtra(EXTRA_FILESTOCONVERT);
         if (filesToConvert != null && filesToConvert.length > 0)
         {
-            DngSupportedDevices.SupportedDevices devices = DngSupportedDevices.getDevice();
+            DeviceUtils.Devices devices = DeviceUtils.DEVICE();
             dngprofile = new DngSupportedDevices().getProfile(devices,(int) new File(filesToConvert[0]).length());
             if(dngprofile == null)
             {

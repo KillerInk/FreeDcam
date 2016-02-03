@@ -49,15 +49,13 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
         Log.d(TAG, "max exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper());
         Log.d(TAG, "min exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower());
         //866 975 130 = 0,8sec
-        if (DeviceUtils.isG4() && Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1)
+        if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4) && Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1)
             millimax = 60000000;
-        else if (DeviceUtils.isG4() && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)
+        else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4) && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)
             millimax = 45000000;
-        else if (DeviceUtils.isSamsung_S6_edge_plus())
+        else if (DeviceUtils.IS(DeviceUtils.Devices.Samsung_S6_edge_plus))
             millimax = 10000000;
-        else if (DeviceUtils.isSamsung_S6_edge())
-            millimax = 1000000;
-        else if (DeviceUtils.isMoto_MSM8982_8994())
+        else if (DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8982_8994))
             millimax = 10000000;
         else
             millimax = (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper()).intValue() / 1000;

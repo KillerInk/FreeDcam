@@ -1,5 +1,6 @@
 package com.troop.freedcam.camera.parameters.manual;
 
+import android.bluetooth.BluetoothClass;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
@@ -8,6 +9,7 @@ import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.DeviceUtils.Devices;
 
 import java.util.HashMap;
 
@@ -28,18 +30,17 @@ public class FocusManualParameter extends  BaseManualParameter
 
         camParametersHandlerx = (CamParametersHandler) camParametersHandler;
         if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isRedmiNote()|| DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
-
         {
             this.isSupported = true;
             this.max_value = null;
             this.value = "manual-focus-position";
             this.min_value = null;
         }
-        else if( DeviceUtils.isMoto_MSM8982_8994())
+        else if( DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8982_8994))
         {
             this.isSupported = true;
         }
-        else if (DeviceUtils.isAlcatel_Idol3() )
+        else if (DeviceUtils.IS(Devices.Alcatel_Idol3))
         {
             this.isSupported = true;
             this.max_value = "max-focus-pos-ratio";
@@ -67,7 +68,7 @@ public class FocusManualParameter extends  BaseManualParameter
     public int GetMaxValue()
     {
         if (max_value == null)
-            if (DeviceUtils.isMoto_MSM8982_8994() || DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
+            if (DeviceUtils.IS_DEVICE_ONEOF(new DeviceUtils.Devices[]{DeviceUtils.Devices.Moto_MSM8982_8994, DeviceUtils.Devices.XiaomiMI3W, DeviceUtils.Devices.XiaomiMI4W }))
                 return 100;
             else
                 return 79;
@@ -85,7 +86,7 @@ public class FocusManualParameter extends  BaseManualParameter
     public int GetMinValue()
     {
         if (min_value == null)
-            if (DeviceUtils.isMoto_MSM8982_8994())
+            if (DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8982_8994))
                 return 100;
             else
                 return -1;
@@ -105,7 +106,7 @@ public class FocusManualParameter extends  BaseManualParameter
     public int GetValue()
     {
         try {
-            if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
+            if (DeviceUtils.IS_DEVICE_ONEOF(new Devices[]{Devices.XiaomiMI3W, Devices.XiaomiMI4W}))
                 return Integer.parseInt(parameters.get(value))/10;
             else
                 return Integer.parseInt(parameters.get(value));
@@ -121,8 +122,10 @@ public class FocusManualParameter extends  BaseManualParameter
     protected void setvalue(final int valueToSet)
     {
         //check/set auto/manual mode
-        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isXiaomiMI3W() || DeviceUtils.isRedmiNote()||DeviceUtils.isXiaomiMI4W()
-                || DeviceUtils.isLenovoK920())
+        if (DeviceUtils.IS_DEVICE_ONEOF(new DeviceUtils.Devices[]
+                {
+                        Devices.ZTE_ADV, Devices.ZTEADVIMX214, Devices.ZTEADV234, Devices.XiaomiMI3W, Devices.XiaomiMI4W, Devices.RedmiNote, Devices.LenovoK920
+                }))
         {
             if(valueToSet != 0)
             {
@@ -136,7 +139,7 @@ public class FocusManualParameter extends  BaseManualParameter
 
 
         }
-        else if (DeviceUtils.isAlcatel_Idol3() ||DeviceUtils.isMoto_MSM8982_8994())
+        else if (DeviceUtils.IS_DEVICE_ONEOF(new Devices[]{ Devices.Alcatel_Idol3, Devices.Moto_MSM8982_8994}))
         {
             if(valueToSet != 0)
             {
@@ -157,13 +160,13 @@ public class FocusManualParameter extends  BaseManualParameter
         //set value when no auto mode
         if (value != null && !value.equals("") && valueToSet != 0)
         {
-            if(DeviceUtils.isZTEADV())
+            if(DeviceUtils.IS(Devices.ZTE_ADV))
             {
                 setZteadvValue(valueToSet);
             }
             else
             {
-                if (DeviceUtils.isXiaomiMI3W() || DeviceUtils.isXiaomiMI4W())
+                if (DeviceUtils.IS_DEVICE_ONEOF(new Devices[]{Devices.XiaomiMI3W, Devices.XiaomiMI4W}))
                     parameters.put(value, String.valueOf((valueToSet - 1) * 10));
                 else
                     parameters.put(value, (valueToSet - 1) + "");

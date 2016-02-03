@@ -387,7 +387,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         }
 
 
-        if(DeviceUtils.isMoto_MSM8982_8994() || DeviceUtils.isOnePlusTwo())
+        if(DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8974) || DeviceUtils.IS(DeviceUtils.Devices.OnePlusTwo))
         {
             final RawToDng dngConverter = RawToDng.GetInstance();
             ByteBuffer buffer = image.getPlanes()[0].getBuffer();
@@ -406,7 +406,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
             dngConverter.setExifData(0, 0, 0, fnum, focal, "0", "0", 0);
 
-            dngConverter.WriteDNG(null);
+            dngConverter.WriteDNG(DeviceUtils.DEVICE());
             dngConverter.RELEASE();
             image.close();
             bytes = null;

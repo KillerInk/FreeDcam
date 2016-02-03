@@ -38,7 +38,7 @@ public class HighFramerateVideo extends  BaseModeParameter
 
         super(handler,parameters, parameterChanged, value, values);
 
-        if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADV234() ||DeviceUtils.isZTEADVIMX214() ||DeviceUtils.isMoto_MSM8974()||DeviceUtils.isMoto_MSM8982_8994()||DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()) {
+        if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADV234() ||DeviceUtils.isZTEADVIMX214() ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MOTOX)||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)) {
             String tmp = parameters.get("video-hfr");
             if (tmp != null && !tmp.equals("")) {
 

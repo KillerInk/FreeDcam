@@ -132,7 +132,7 @@ public class CCTManualParameter extends BaseManualParameter {
             return wbvalues.length-1;
         else if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
             return 150;
-        else if (DeviceUtils.isMoto_MSM8974())
+        else if (DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8974))
             return 8000;
          else if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
             {
@@ -208,7 +208,7 @@ public class CCTManualParameter extends BaseManualParameter {
                         camParametersHandler.WhiteBalanceMode.SetValue("manual", true);
                     }
                 }
-                else if (!camParametersHandler.WhiteBalanceMode.GetValue().equals("manual") && (DeviceUtils.isAlcatel_Idol3() || DeviceUtils.isMoto_MSM8982_8994()))
+                else if (!camParametersHandler.WhiteBalanceMode.GetValue().equals("manual") && (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)))
                 camParametersHandler.WhiteBalanceMode.SetValue("manual", true);
                 parameters.put(value, wbvalues[currentWBPos]);
             }
