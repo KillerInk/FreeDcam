@@ -15,7 +15,7 @@ public class ISOManualParameter extends BaseManualParameter {
 
         this.baseCameraHolder = cameraHolder;
         //TODO add missing logic
-        if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
             this.isSupported = false;
         else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994))
         {
@@ -44,12 +44,10 @@ public class ISOManualParameter extends BaseManualParameter {
     @Override
     public int GetMaxValue() {
 
-        if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9())
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
             return 6400;
         else
         try {
-
-
             return Integer.parseInt(max_value);
         }
         catch (NullPointerException ex)
@@ -62,7 +60,7 @@ public class ISOManualParameter extends BaseManualParameter {
     @Override
     public int GetMinValue() {
 
-            if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
+            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
                 return 64;
             else
                 try {
@@ -78,7 +76,7 @@ public class ISOManualParameter extends BaseManualParameter {
     @Override
     public int GetValue() {
 
-        if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9()) {
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9)) {
             return Integer.parseInt(parameters.get("iso-st"));
         } else {
             try {
@@ -93,7 +91,7 @@ public class ISOManualParameter extends BaseManualParameter {
 
     @Override
     protected void setvalue(int valueToSet)
-    {   if (DeviceUtils.isHTC_M8()|| DeviceUtils.isHTC_M9()) {
+    {   if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9)) {
         parameters.put("iso-st", valueToSet + "");
     }
 

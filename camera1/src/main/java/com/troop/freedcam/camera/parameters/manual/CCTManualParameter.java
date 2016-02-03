@@ -183,7 +183,7 @@ public class CCTManualParameter extends BaseManualParameter {
             currentWBPos = valueToSet;
             if (currentWBPos == 0)
             {
-                if (DeviceUtils.isHTC_M9() || DeviceUtils.isHTC_M8())
+                if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
                 {
                     parameters.put(value, "-1");
                 }

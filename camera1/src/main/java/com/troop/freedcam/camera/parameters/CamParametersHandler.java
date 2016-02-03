@@ -173,7 +173,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         try {
             if (DeviceUtils.IS(Devices.LG_G4) || (DeviceUtils.IS(Devices.LG_G3) && (Build.VERSION.SDK_INT < 21 || Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) || DeviceUtils.IS(Devices.LG_G2))
                 ManualFocus = new FocusManualParameterLG(cameraParameters,"","","", cameraHolder, this);
-            else if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
+            else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
                 ManualFocus = new FocusManualParameterHTC(cameraParameters,"","","", cameraHolder,this);
             else
                 ManualFocus = new FocusManualParameter(cameraParameters,"","","", cameraHolder, this);
@@ -200,7 +200,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         try {
             if (DeviceUtils.IS(Devices.LG_G4))
                 aeHandlerG4 = new LG_G4AeHandler(cameraParameters,baseCameraHolder,this);
-            else if (DeviceUtils.isHTC_M8() || DeviceUtils.isHTC_M9())
+            else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
                 ManualShutter = new ShutterManualParameterHTC(cameraParameters,"","","", cameraHolder, cameraChanged,this);
             else if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
                 ManualShutter = new ShutterManualZTE(cameraParameters,"","","", cameraHolder, cameraChanged, this);

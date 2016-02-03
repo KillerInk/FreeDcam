@@ -62,6 +62,7 @@ public class DeviceUtils
     final public static Devices[] MOTOX = {Devices.Moto_MSM8982_8994, Devices.Moto_MSM8974 };
     final public static Devices[] MI3_4 = {Devices.XiaomiMI4W, Devices.XiaomiMI3W };
     final public static Devices[] LG_G2_3 = {Devices.LG_G2, Devices.LG_G3};
+    final public static Devices[] HTC_m8_9 = {Devices.Htc_M8, Devices.Htc_M9};
 
     private static Devices getDevice()
     {
@@ -269,17 +270,17 @@ public class DeviceUtils
         return isDevice(contex.getResources().getStringArray(com.troop.freedcam.abstractcamera.R.array.g2));
     }
 
-    public static boolean isEvo3d()
+    private static boolean isEvo3d()
     {
         return isDevice(contex.getResources().getStringArray(com.troop.freedcam.abstractcamera.R.array.evo3d));
     }
 
-    public static boolean isHTC_M8()
+    private static boolean isHTC_M8()
     {
         return isDevice(contex.getResources().getStringArray(com.troop.freedcam.abstractcamera.R.array.htc_m8));
     }
 
-    public static boolean isHTC_M9()
+    private static boolean isHTC_M9()
     {
         return isDevice(contex.getResources().getStringArray(com.troop.freedcam.abstractcamera.R.array.htc_m9));
     }
