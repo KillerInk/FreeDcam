@@ -32,8 +32,8 @@ public class HDRModeParameter extends BaseModeParameter
     public boolean IsSupported()
     {
         this.isSupported = false;
-        if ((DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()||DeviceUtils.isXiaomiMI_Note_Pro()
-                ||DeviceUtils.isRedmiNote() || DeviceUtils.isG2() || DeviceUtils.isLG_G3() || DeviceUtils.isZTEADV())){
+        if (DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()||DeviceUtils.isXiaomiMI_Note_Pro())
+                //||DeviceUtils.isRedmiNote() || DeviceUtils.isG2() || DeviceUtils.isLG_G3() || DeviceUtils.isZTEADV())){
             if (visible)
                 this.isSupported = true;
             else
