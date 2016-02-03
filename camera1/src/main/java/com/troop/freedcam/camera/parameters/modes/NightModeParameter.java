@@ -46,7 +46,7 @@ public class NightModeParameter extends BaseModeParameter
             parameters.put("night_key", valueToSet);
         try {
             baseCameraHolder.SetCameraParameters(parameters);
-            super.BackgroundValueHasChanged(value);
+            super.BackgroundValueHasChanged(valueToSet);
         }
         catch (Exception ex)
         {

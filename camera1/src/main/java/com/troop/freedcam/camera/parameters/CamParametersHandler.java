@@ -162,7 +162,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             ex.printStackTrace();
         }
         try {
-            ManualExposure = new ExposureManualParameter(cameraParameters,"exposure-compensation","max-exposure-compensation","min-exposure-compensation", this);
+            ManualExposure = new ExposureManualParameter(cameraParameters,"","max-exposure-compensation","min-exposure-compensation", this);
         }
         catch (Exception ex)
         {
@@ -602,7 +602,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         Module = new ModuleParameters(uiHandler, appSettingsManager, cameraUiWrapper);
         ParametersEventHandler.ParametersHasLoaded();
-        SetAppSettingsToParameters();
+        SetAppSettingsToParametersx();
         cameraHolder.SetCameraParameters(cameraParameters);
         //camMode();
         if (((BaseCameraHolder) cameraHolder).DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)
@@ -862,8 +862,8 @@ public class CamParametersHandler extends AbstractParameterHandler
             return 0;
     }
 
-    @Override
-    public void SetAppSettingsToParameters() {
+
+    public void SetAppSettingsToParametersx() {
         super.SetAppSettingsToParameters();
         cameraUiWrapper.moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
 
