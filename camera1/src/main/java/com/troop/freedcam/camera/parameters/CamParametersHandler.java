@@ -386,13 +386,6 @@ public class CamParametersHandler extends AbstractParameterHandler
             ex.printStackTrace();
         }
         try {
-            ChromaFlash = new BaseModeParameter(uiHandler,cameraParameters, baseCameraHolder, "chroma-flash", "chroma-flash-values");
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-        try {
             VideoStabilization = new VideoStabilizationParameter(uiHandler,cameraParameters,baseCameraHolder,"video-stabilization","");
         }
         catch (Exception ex)
