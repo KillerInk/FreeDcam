@@ -98,35 +98,6 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
         }
         else
         {
-            if(DeviceUtils.isHTC_M8()||DeviceUtils.isHTC_M9())
-            {
-                if(Integer.parseInt(valueToSet) == 60)
-                {
-                    parameters.put("video-hdr", "false");
-                    parameters.put("video-mode", "2");
-                    parameters.put("video-hfr", "off");
-                }
-
-                if(Integer.parseInt(valueToSet) == 120)
-                {
-                    parameters.put("video-hdr", "false");
-                    parameters.put("video-hfr", ""+120);
-                    try
-                    {
-                        parameters.put("video-hsr", ""+120);
-                    }
-                    catch (Exception ex)
-                    {
-
-                    }
-                    parameters.put("slow-motion-version", ""+2);
-                    parameters.put("cam-mode", ""+2);
-                }
-
-
-
-
-            }
             BackgroundValueHasChanged(IdentifySub);
             if (setToCam) {
                 try {
