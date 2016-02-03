@@ -137,6 +137,10 @@ public class DeviceUtils
     {
         return isDevice(contex.getResources().getStringArray(R.array.LenovoK910));
     }
+    public static boolean isLenovoK920()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.LenovoK920));
+    }
 
     public static boolean isSonyM5_MTK()
     {

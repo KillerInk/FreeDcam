@@ -20,6 +20,7 @@ public class DngSupportedDevices
         LG_G3,
         LG_G2,
         Lenovo_k910,
+        Lenovo_K920,
         Gione_E7,
         Sony_XperiaL,
         HTC_One_Sv,
@@ -74,6 +75,8 @@ public class DngSupportedDevices
             return DngSupportedDevices.SupportedDevices.HTC_One_XL;
         if (DeviceUtils.isLenovoK910())
             return DngSupportedDevices.SupportedDevices.Lenovo_k910;
+        if (DeviceUtils.isLenovoK920())
+            return SupportedDevices.Lenovo_k910;
         if(DeviceUtils.isG2())
             return DngSupportedDevices.SupportedDevices.LG_G2;
         if (DeviceUtils.isG4())
@@ -411,6 +414,8 @@ public class DngSupportedDevices
                     Matrixes.Nexus6_reduction_matrix1,
                     Matrixes.Nexus6_reduction_matrix2,
                     Matrixes.OV_NREDUCTION_Matrix);
+            case 19992576:  //lenovo k920
+                return new Nexus6Profile(64, 5328,3000, Mipi, GRBG, 0);
             case 19976192: //g4 raw10 camera2
                 return new DngProfile(64, 5312,2988,Mipi, BGGR,0,
                 Matrixes.G4_identity_matrix1,
