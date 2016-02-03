@@ -133,7 +133,10 @@ public class HDRModeParameter extends BaseModeParameter
             else
                 return "off";
         }
-        else if (DeviceUtils.isG2() || DeviceUtils.isLG_G3() || DeviceUtils.isZTEADV()){
+        else if (DeviceUtils.isG2() || DeviceUtils.isLG_G3() || DeviceUtils.isZTEADV())
+        {
+            if (!parameters.containsKey("hdr-mode"))
+                parameters.put("hdr-mode", "0");
             if (parameters.get("hdr-mode").equals("0"))
                 return "off";
             else if (parameters.get("hdr-mode").equals("1"))
