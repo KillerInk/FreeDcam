@@ -39,7 +39,7 @@ public class HDRModeParameter extends BaseModeParameter
             else
                 this.isSupported = false;
         }
-        else {
+        /*else {
             String autohdr = parameters.get("auto-hdr-supported");
             if (autohdr != null && !autohdr.equals("") && autohdr.equals("true")) {
                 try {
@@ -61,7 +61,7 @@ public class HDRModeParameter extends BaseModeParameter
             }
             else
                 this.isSupported = false;
-        }
+        }*/
 
 
         BackgroundIsSupportedChanged(isSupported);
@@ -84,7 +84,7 @@ public class HDRModeParameter extends BaseModeParameter
                 parameters.put("ae-bracket-hdr","Off");
                 parameters.put("morpho-hdr", "false");
             }
-        else if(DeviceUtils.isLG_G3() || DeviceUtils.isG2() || DeviceUtils.isG4())
+        /*else if(DeviceUtils.isLG_G3() || DeviceUtils.isG2() || DeviceUtils.isG4())
         {
             switch (valueToSet)
             {
@@ -113,7 +113,7 @@ public class HDRModeParameter extends BaseModeParameter
                     parameters.put("auto-hdr-enable", "enable");
                     break;
             }
-        }
+        }*/
         try {
             baseCameraHolder.SetCameraParameters(parameters);
             super.BackgroundValueHasChanged(valueToSet);
@@ -133,7 +133,7 @@ public class HDRModeParameter extends BaseModeParameter
             else
                 return "off";
         }
-        else if (DeviceUtils.isG2() || DeviceUtils.isLG_G3() || DeviceUtils.isZTEADV()){
+        /*else if (DeviceUtils.isG2() || DeviceUtils.isLG_G3() || DeviceUtils.isZTEADV()){
             if (parameters.get("hdr-mode").equals("0"))
                 return "off";
             else if (parameters.get("hdr-mode").equals("1"))
@@ -146,7 +146,7 @@ public class HDRModeParameter extends BaseModeParameter
         else if (parameters.get("auto-hdr-enable").equals("enable") && parameters.get("scene-mode").equals("asd"))
             return "auto";
         else
-            return "off";
+            return "off";*/
 
     }
 
@@ -158,7 +158,7 @@ public class HDRModeParameter extends BaseModeParameter
             {
                 hdrVals.add("on");
             }
-            else if(DeviceUtils.isG2() || DeviceUtils.isLG_G3() || DeviceUtils.isZTEADV()) {
+            /*else if(DeviceUtils.isG2() || DeviceUtils.isLG_G3() || DeviceUtils.isZTEADV()) {
                 hdrVals.add("on");
                 hdrVals.add("auto");
             }
@@ -167,7 +167,7 @@ public class HDRModeParameter extends BaseModeParameter
                     hdrVals.add("on");
                 if (supportauto)
                     hdrVals.add("auto");
-            }
+            }*/
         return hdrVals.toArray(new String[hdrVals.size()]);
     }
 
@@ -189,7 +189,7 @@ public class HDRModeParameter extends BaseModeParameter
                 BackgroundIsSupportedChanged(isSupported);
             }
         }
-        else if(DeviceUtils.isLG_G3() || DeviceUtils.isG2() || DeviceUtils.isG4() || supportauto || supporton) {
+        /*else if(DeviceUtils.isLG_G3() || DeviceUtils.isG2() || DeviceUtils.isG4() || supportauto || supporton) {
             if (module.equals("module_video")|| module.equals("module_hdr")) {
                 visible = false;
                 this.isSupported = false;
@@ -201,7 +201,7 @@ public class HDRModeParameter extends BaseModeParameter
                 BackgroundValueHasChanged("off");
                 BackgroundIsSupportedChanged(isSupported);
             }
-        }
+        }*/
         return null;
     }
 }
