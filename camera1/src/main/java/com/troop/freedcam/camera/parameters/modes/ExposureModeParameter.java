@@ -59,7 +59,7 @@ public class ExposureModeParameter extends BaseModeParameter {
     @Override
     public String[] GetValues() {
 
-        if(DeviceUtils.isZTEADV() ||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
             return new String[]{"frame-average","center-weighted","spot-metering", "user-metering","smart-metering" };
 
         else

@@ -82,7 +82,7 @@ public class CCTManualParameter extends BaseManualParameter {
                 createStringArray();
             }
         }
-        else if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) )
             isSupported = true;
         else if (parameters.containsKey(LG_Max) && parameters.containsKey(LG_Min) && parameters.containsKey(LG_WB))
         {
@@ -130,7 +130,7 @@ public class CCTManualParameter extends BaseManualParameter {
     {
         if (wbvalues != null)
             return wbvalues.length-1;
-        else if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) )
             return 150;
         else if (DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8974))
             return 8000;
@@ -155,7 +155,7 @@ public class CCTManualParameter extends BaseManualParameter {
     {
         if (wbvalues != null)
             return 0;
-        else if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) )
             return -1;
         else
             return 0;
@@ -213,7 +213,7 @@ public class CCTManualParameter extends BaseManualParameter {
                 parameters.put(value, wbvalues[currentWBPos]);
             }
         }
-        else if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) )
         {
             if(valueToSet != -1)
             {

@@ -58,7 +58,7 @@ public class ShutterManualParameter extends BaseManualParameter
 
         this.baseCameraHolder = baseCameraHolder;
         this.i_cameraChangedListner = i_cameraChangedListner;
-        if (DeviceUtils.isSonyADV())
+        if (DeviceUtils.IS(DeviceUtils.Devices.SonyADV))
         {
             try {
                 if (!parameters.get("sony-max-shutter-speed").equals(""))
@@ -117,7 +117,7 @@ public class ShutterManualParameter extends BaseManualParameter
 
     @Override
     public int GetMaxValue() {
-        if (DeviceUtils.isSonyADV())
+        if (DeviceUtils.IS(DeviceUtils.Devices.SonyADV))
             return Integer.parseInt(parameters.get("sony-max-shutter-speed"));
         else if (shutterValues != null)
             return shutterValues.length-1;
@@ -129,7 +129,7 @@ public class ShutterManualParameter extends BaseManualParameter
 
     @Override
     public int GetMinValue() {
-        if (DeviceUtils.isSonyADV())
+        if (DeviceUtils.IS(DeviceUtils.Devices.SonyADV))
             return Integer.parseInt(parameters.get("sony-min-shutter-speed"));
         else if (shutterValues != null)
             return 0;
@@ -147,7 +147,7 @@ public class ShutterManualParameter extends BaseManualParameter
     @Override
     protected void setvalue(int valueToSet)
     {
-        if(DeviceUtils.isSonyADV())
+        if(DeviceUtils.IS(DeviceUtils.Devices.SonyADV))
         {
             parameters.put("sony-ae-mode", "manual");
             parameters.put("sony-shutter-speed", String.valueOf(valueToSet));

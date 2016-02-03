@@ -34,7 +34,7 @@ public class HDRModeParameter extends BaseModeParameter
     {
         this.isSupported = false;
         if ((DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()||DeviceUtils.isXiaomiMI_Note_Pro()
-                ||DeviceUtils.isRedmiNote() || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.isZTEADV())){
+                ||DeviceUtils.isRedmiNote() || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))){
             if (visible)
                 this.isSupported = true;
             else
@@ -134,7 +134,7 @@ public class HDRModeParameter extends BaseModeParameter
             else
                 return "off";
         }
-        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.isZTEADV())
+        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
         {
             if (!parameters.containsKey("hdr-mode"))
                 parameters.put("hdr-mode", "0");
@@ -162,7 +162,7 @@ public class HDRModeParameter extends BaseModeParameter
             {
                 hdrVals.add("on");
             }
-            else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.isZTEADV()) {
+            else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)) {
                 hdrVals.add("on");
                 hdrVals.add("auto");
             }

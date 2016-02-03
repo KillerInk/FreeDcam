@@ -28,7 +28,7 @@ public class NightModeParameter extends BaseModeParameter
     public boolean IsSupported()
     {
         this.isSupported = false;
-        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
             this.isSupported = true;
         if ((DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W()||DeviceUtils.isXiaomiMI_Note_Pro()||DeviceUtils.isRedmiNote())){
             if (visible)

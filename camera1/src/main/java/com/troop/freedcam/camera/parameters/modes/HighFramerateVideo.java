@@ -38,7 +38,7 @@ public class HighFramerateVideo extends  BaseModeParameter
 
         super(handler,parameters, parameterChanged, value, values);
 
-        if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADV234() ||DeviceUtils.isZTEADVIMX214() ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MOTOX)||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)) {
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MOTOX)||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)) {
             String tmp = parameters.get("video-hfr");
             if (tmp != null && !tmp.equals("")) {
 
@@ -282,7 +282,7 @@ public class HighFramerateVideo extends  BaseModeParameter
             }
 
         }
-        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3)||DeviceUtils.isZTEADV())
+        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3)||DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
         {
             try {
                 String SizeV = cameraUiWrapper.appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);

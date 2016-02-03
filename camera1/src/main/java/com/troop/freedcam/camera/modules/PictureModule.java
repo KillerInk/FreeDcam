@@ -141,7 +141,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
         //if (ParameterHandler.DigitalImageStabilization.IsSupported() && ParameterHandler.DigitalImageStabilization.GetValue().equals("enable"))
             //ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
 
-        if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()){
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)){
             ((CamParametersHandler)ParameterHandler).setString("slow_shutter", "-1");
             baseCameraHolder.SetCameraParameters(((CamParametersHandler)ParameterHandler).getParameters());}
        // if(DeviceUtils.isNexus4()){

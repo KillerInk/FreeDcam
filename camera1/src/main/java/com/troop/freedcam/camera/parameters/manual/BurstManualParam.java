@@ -31,7 +31,7 @@ public class BurstManualParam extends BaseManualParameter {
     @Override
     public boolean IsSupported()
     {
-        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() ||
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) ||
                 DeviceUtils.IS(DeviceUtils.Devices.LG_G3)|| DeviceUtils.IS(DeviceUtils.Devices.LG_G2)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
             return true;
         else
@@ -40,7 +40,7 @@ public class BurstManualParam extends BaseManualParameter {
 
     @Override
     public int GetMaxValue() {
-        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234()|| DeviceUtils.IS(DeviceUtils.Devices.LG_G2))
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) || DeviceUtils.IS(DeviceUtils.Devices.LG_G2))
             return 7;
         if (DeviceUtils.IS(DeviceUtils.Devices.LG_G3)||DeviceUtils.isXiaomiMI4W())
             return 9;

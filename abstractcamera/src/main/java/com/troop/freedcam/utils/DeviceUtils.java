@@ -63,6 +63,7 @@ public class DeviceUtils
     final public static Devices[] MI3_4 = {Devices.XiaomiMI4W, Devices.XiaomiMI3W };
     final public static Devices[] LG_G2_3 = {Devices.LG_G2, Devices.LG_G3};
     final public static Devices[] HTC_m8_9 = {Devices.Htc_M8, Devices.Htc_M9};
+    final public static Devices[] ZTE_DEVICES = {Devices.ZTE_ADV,Devices.ZTEADVIMX214,Devices.ZTEADV234};
 
     private static Devices getDevice()
     {
@@ -285,39 +286,39 @@ public class DeviceUtils
         return isDevice(contex.getResources().getStringArray(com.troop.freedcam.abstractcamera.R.array.htc_m9));
     }
 
-    public static boolean isHtc_One_SV()
+    private static boolean isHtc_One_SV()
     {
         return isDevice(contex.getResources().getStringArray(R.array.Htc_One_SV));
     }
 
-    public static boolean isHtc_One_XL() { return Build.MODEL.toLowerCase().contains("one xl");}
+    private static boolean isHtc_One_XL() { return Build.MODEL.toLowerCase().contains("one xl");}
 
-    public static boolean isZTEADV()
+    private static boolean isZTEADV()
     {
         return isDevice(contex.getResources().getStringArray(R.array.zteadv));
     }
 
-    public static boolean isZTEADVIMX214()
+    private static boolean isZTEADVIMX214()
     {
         return isDevice(contex.getResources().getStringArray(R.array.zteadvIMX214));
     }
 
-    public static boolean isZTEADV234()
+    private static boolean isZTEADV234()
     {
         return isDevice(contex.getResources().getStringArray(R.array.zteadvIMX234));
     }
 
-    public static boolean hasIMX135()
+    private static boolean hasIMX135()
     {
         return isDevice(contex.getResources().getStringArray(R.array.hasImx135));
     }
 
-    public static boolean hasIMX214()
+    private static boolean hasIMX214()
     {
         return isDevice(contex.getResources().getStringArray(R.array.hasImx214));
     }
 
-    public static boolean isSonyADV()
+    private static boolean isSonyADV()
     {
         return containsDevice(contex.getResources().getStringArray(R.array.sony_adv));
     }

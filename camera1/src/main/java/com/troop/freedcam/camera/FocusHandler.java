@@ -188,7 +188,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
     @Override
     public void SetMeteringAreas(FocusRect meteringRect, int width, int height)
     {
-        if (DeviceUtils.isZTEADV())
+        if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
         {
             final FocusRect targetFocusRect = getFocusRect(meteringRect, width, height);
             parametersHandler.SetMeterAREA(targetFocusRect);

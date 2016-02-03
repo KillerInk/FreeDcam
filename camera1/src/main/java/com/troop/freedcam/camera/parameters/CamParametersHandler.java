@@ -202,7 +202,7 @@ public class CamParametersHandler extends AbstractParameterHandler
                 aeHandlerG4 = new LG_G4AeHandler(cameraParameters,baseCameraHolder,this);
             else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
                 ManualShutter = new ShutterManualParameterHTC(cameraParameters,"","","", cameraHolder, cameraChanged,this);
-            else if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+            else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
                 ManualShutter = new ShutterManualZTE(cameraParameters,"","","", cameraHolder, cameraChanged, this);
             else
                 ManualShutter = new ShutterManualParameter(cameraParameters,"","","", cameraHolder,cameraChanged, this);
@@ -641,7 +641,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     //focus-areas=(0, 0, 0, 0, 0)
     public void SetMeterAREA(FocusRect meteringAreas)
     {
-        if(DeviceUtils.isZTEADV())
+        if(DeviceUtils.IS(Devices.ZTE_ADV))
         {
             try
             {
@@ -668,7 +668,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     public void SetFocusAREA(FocusRect focusAreas, FocusRect meteringAreas)
     {
-        if(DeviceUtils.isZTEADV())
+        if(DeviceUtils.IS(Devices.ZTE_ADV))
         {
             try
             {

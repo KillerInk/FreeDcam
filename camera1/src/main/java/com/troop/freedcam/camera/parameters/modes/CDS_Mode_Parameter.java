@@ -29,7 +29,7 @@ public class CDS_Mode_Parameter extends BaseModeParameter
         }
         if (!this.isSupported)
         {
-            if (DeviceUtils.isZTEADV() || DeviceUtils.isZTEADVIMX214()|| DeviceUtils.isZTEADV234()|| DeviceUtils.IS(DeviceUtils.Devices.Htc_M9) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
+            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)|| DeviceUtils.IS(DeviceUtils.Devices.Htc_M9) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
                 this.isSupported = true;
         }
     }
