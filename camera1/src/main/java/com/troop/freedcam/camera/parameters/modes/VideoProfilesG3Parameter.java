@@ -135,8 +135,14 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
                 e.printStackTrace();
             }
             try {
-                if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_1080P))
+                if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_1080P)) {
                     supportedProfiles.put("1080p", new VideoMediaProfile(CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_1080P), "1080p", VideoMediaProfile.VideoMode.Normal));
+                    VideoMediaProfile p108060fps = supportedProfiles.get("1080p").clone();
+                    p108060fps.videoFrameRate = 60;
+                    p108060fps.ProfileName = "1080p@60";
+                    supportedProfiles.put("1080p@60", p108060fps);
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -67,4 +67,27 @@ public class VideoMediaProfile
         this.ProfileName = ProfileName;
         this.Mode = mode;
     }
+
+    public VideoMediaProfile(int v1,int v2, int v3,int v4,int v5, int v6, int v7, int v8, int v9, int v10,int v11, int v12, String ProfileName, VideoMode mode)
+    {
+        this.audioBitRate = v1;
+        this.audioChannels = v2;
+        this.audioCodec = v3;
+        this.audioSampleRate = v4;
+        this.duration = v5;
+        this.fileFormat = v6;
+        this.quality = v7;
+        this.videoBitRate = v8;
+        this.videoCodec = v9;
+        this.videoFrameRate = v10;
+        this.videoFrameHeight = v11;
+        this.videoFrameWidth = v12;
+        this.ProfileName = ProfileName;
+        this.Mode = mode;
+    }
+
+    public VideoMediaProfile clone()
+    {
+        return new VideoMediaProfile(audioBitRate,audioChannels, audioCodec, audioSampleRate, duration, fileFormat,quality,videoBitRate,videoCodec,videoFrameRate, videoFrameHeight,videoFrameWidth, ProfileName, Mode);
+    }
 }

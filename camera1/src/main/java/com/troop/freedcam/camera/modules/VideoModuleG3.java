@@ -60,14 +60,11 @@ public class VideoModuleG3 extends AbstractVideoModule
             switch (prof.Mode)
             {
                 case Normal:
-                    recorder.setAudioSamplingRate(prof.audioSampleRate);
-                    recorder.setAudioEncodingBitRate(prof.audioBitRate);
-                    recorder.setAudioChannels(prof.audioChannels);
-                    recorder.setAudioEncoder(prof.audioCodec);
+                    setAudioStuff(prof);
+                    recorder.setCaptureRate(prof.videoFrameRate);
                     break;
                 case Highspeed:
-                    //recorder.setVideoFrameRate(120);
-                    recorder.setCaptureRate(120);
+                    recorder.setCaptureRate(prof.videoFrameRate);
                     break;
                 case Timelapse:
                     float frame = 30;
@@ -89,6 +86,13 @@ public class VideoModuleG3 extends AbstractVideoModule
             recorder.reset();
         }
         return recorder;
+    }
+
+    private void setAudioStuff(VideoMediaProfile prof) {
+        recorder.setAudioSamplingRate(prof.audioSampleRate);
+        recorder.setAudioEncodingBitRate(prof.audioBitRate);
+        recorder.setAudioChannels(prof.audioChannels);
+        recorder.setAudioEncoder(prof.audioCodec);
     }
 
     @Override
