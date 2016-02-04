@@ -388,7 +388,7 @@ public class DngSupportedDevices
                     Matrixes.Nexus6_reduction_matrix2,
                     Matrixes.OV_NREDUCTION_Matrix);
             case 19992576:  //lenovo k920
-                return new Nexus6Profile(64, 5328,3000, Mipi, GRBG, 0);
+                return new Nexus6Profile(64, 5328,3000, Mipi, GBRG, 0);
             case 19976192: //g4 raw10 camera2
                 return new DngProfile(64, 5312,2988,Mipi, BGGR,0,
                 Matrixes.G4_identity_matrix1,
