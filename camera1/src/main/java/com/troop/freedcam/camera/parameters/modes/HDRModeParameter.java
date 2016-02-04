@@ -39,13 +39,17 @@ public class HDRModeParameter extends BaseModeParameter
                 ||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)
                 ||DeviceUtils.IS(DeviceUtils.Devices.RedmiNote)
                 || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3)
-                || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))){
+                || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)))
+        {
             if (visible)
                 this.isSupported = true;
             else
                 this.isSupported = false;
         }
-        else {
+        else
+        {
+            if (!parameters.containsKey("auto-hdr-supported"))
+                this.isSupported = false;
             String autohdr = parameters.get("auto-hdr-supported");
             if (autohdr != null && !autohdr.equals("") && autohdr.equals("true")) {
                 try {
@@ -68,8 +72,6 @@ public class HDRModeParameter extends BaseModeParameter
             else
                 this.isSupported = false;
         }
-
-
         BackgroundIsSupportedChanged(isSupported);
         return  isSupported;
     }
@@ -153,13 +155,17 @@ public class HDRModeParameter extends BaseModeParameter
             else
                 return "auto";
         }
-        else if (parameters.get("auto-hdr-enable").equals("enable") && parameters.get("scene-mode").equals("hdr"))
-            return "on";
-        else if (parameters.get("auto-hdr-enable").equals("enable") && parameters.get("scene-mode").equals("asd"))
-            return "auto";
+        else if(parameters.containsKey("auto-hdr-enable"))
+        {
+            if (parameters.get("auto-hdr-enable").equals("enable") && parameters.get("scene-mode").equals("hdr"))
+                return "on";
+            else if (parameters.get("auto-hdr-enable").equals("enable") && parameters.get("scene-mode").equals("asd"))
+                return "auto";
+            else
+                return "off";
+        }
         else
             return "off";
-
     }
 
     @Override
