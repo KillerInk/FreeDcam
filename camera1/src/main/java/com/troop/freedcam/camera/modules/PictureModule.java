@@ -104,7 +104,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
                     DngSaver dngSaver = new DngSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                     dngSaver.TakePicture();
                 }
-                else if (ParameterHandler.IsDngActive() == false && (picFormat.contains("bayer") || picFormat.contains("raw") ||!DeviceUtils.isMediaTekDevice() )) {
+                else if (ParameterHandler.IsDngActive() == false && (picFormat.contains("bayer") || picFormat.contains("raw") ||baseCameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.MTK )) {
                     final RawSaver rawSaver = new RawSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                     rawSaver.TakePicture();
                 }
