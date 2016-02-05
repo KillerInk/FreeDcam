@@ -236,7 +236,7 @@
             android:layout_gravity="center_horizontal"
             android:background="@drawable/quck_set_hdr"
             android:layout_marginTop="3dp" />
-        <troop.com.themesample.views.uichilds.UiSettingsChildFormat
+        <troop.com.themesample.views.uichilds.UiSettingsChild
             android:layout_width="32dp"
             android:layout_height="39dp"
             android:id="@+id/format"

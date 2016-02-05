@@ -47,7 +47,7 @@ import com.troop.freedcam.camera.parameters.modes.JpegQualityParameter;
 import com.troop.freedcam.camera.parameters.modes.NightModeParameter;
 import com.troop.freedcam.camera.parameters.modes.NonZslManualModeParameter;
 import com.troop.freedcam.camera.parameters.modes.OisParameter;
-import com.troop.freedcam.camera.parameters.modes.PictureFormatParameter;
+import com.troop.freedcam.camera.parameters.modes.PictureFormatHandler;
 import com.troop.freedcam.camera.parameters.modes.PictureSizeParameter;
 import com.troop.freedcam.camera.parameters.modes.PreviewFormatParameter;
 import com.troop.freedcam.camera.parameters.modes.PreviewFpsParameter;
@@ -298,7 +298,8 @@ public class CamParametersHandler extends AbstractParameterHandler
             ex.printStackTrace();
         }
         try {
-            PictureFormat = new PictureFormatParameter(uiHandler,cameraParameters, baseCameraHolder, "", "", this, appSettingsManager);
+            PictureFormat = new PictureFormatHandler(uiHandler,cameraParameters, baseCameraHolder);
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner((PictureFormatHandler)PictureFormat);
         }
         catch (Exception ex)
         {

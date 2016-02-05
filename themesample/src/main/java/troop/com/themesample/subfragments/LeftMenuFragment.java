@@ -25,7 +25,6 @@ import com.troop.freedcam.ui.SwipeMenuListner;
 
 import troop.com.themesample.R;
 import troop.com.themesample.views.menu.MenuItem;
-import troop.com.themesample.views.menu.MenuItemBayerFormat;
 import troop.com.themesample.views.menu.MenuItemGPS;
 import troop.com.themesample.views.menu.MenuItemInterval;
 import troop.com.themesample.views.menu.MenuItemIntervalDuration;
@@ -47,7 +46,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
     final boolean DEBUG = false;
     MenuItemTheme themeItem;
-    MenuItemBayerFormat bayerFormatItem;
+    //MenuItemBayerFormat bayerFormatItem;
     troop.com.themesample.views.menu.MenuItem pictureSize;
     MenuItemSDSave sdSave;
     MenuItemGPS menuItemGPS;
@@ -102,8 +101,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         themeItem = (MenuItemTheme)view.findViewById(R.id.MenuItemTheme);
         themeItem.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_Theme,touchHandler);
 
-        bayerFormatItem = (MenuItemBayerFormat) view.findViewById(R.id.MenuItemBayerFormat);
-        bayerFormatItem.SetStuff(i_activity, appSettingsManager, "",touchHandler);
+        //bayerFormatItem = (MenuItemBayerFormat) view.findViewById(R.id.MenuItemBayerFormat);
+        //bayerFormatItem.SetStuff(i_activity, appSettingsManager, "",touchHandler);
 
         bitrate = (MenuItemVideoBitrate) view.findViewById(R.id.MenuItemVideoBitrate);
         bitrate.SetStuff(i_activity, appSettingsManager, "",touchHandler);
@@ -189,13 +188,13 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         themeItem.SetParameter(wrapper.camParametersHandler.ThemeList);
         themeItem.SetMenuItemListner(this);
 
-        if(wrapper instanceof CameraUiWrapper) {
+        /*if(wrapper instanceof CameraUiWrapper) {
             bayerFormatItem.SetParameter(wrapper.camParametersHandler.PictureFormat);
             bayerFormatItem.SetMenuItemListner(this);
             bayerFormatItem.setVisibility(View.VISIBLE);
         }
         else
-            bayerFormatItem.setVisibility(View.GONE);
+            bayerFormatItem.setVisibility(View.GONE);*/
 
         if(wrapper instanceof CameraUiWrapper) {
             bitrate.SetParameter(wrapper.camParametersHandler.PictureFormat);
