@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.modules.ModuleHandler;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
 
@@ -20,6 +21,9 @@ public class PictureFormatHandler extends BaseModeParameter
     private String captureMode = "jpeg";
     private String rawFormat;
 
+    final int JPEG= 0;
+    final int RAW = 1;
+    final int DNG = 2;
 
     final public String[] CaptureMode =
     {
@@ -123,10 +127,12 @@ public class PictureFormatHandler extends BaseModeParameter
     @Override
     public String[] GetValues()
     {
-        if (rawSupported)
-            return CaptureMode;
+        if (rawSupported && !DeviceUtils.isCamera1DNGSupportedDevice())
+            return new String[]{CaptureMode[JPEG],CaptureMode[RAW]};
+        else if(rawSupported && !DeviceUtils.isCamera1DNGSupportedDevice())
+                return new String[]{CaptureMode[JPEG],CaptureMode[DNG]};
         else
-            return new String[]{"jpeg"};
+            return new String[]{CaptureMode[JPEG]};
     }
 
     @Override
