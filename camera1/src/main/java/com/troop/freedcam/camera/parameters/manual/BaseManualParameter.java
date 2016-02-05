@@ -2,7 +2,9 @@ package com.troop.freedcam.camera.parameters.manual;
 
 import android.util.Log;
 
+import com.troop.freedcam.camera.parameters.modes.PictureFormatHandler;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -148,4 +150,37 @@ public abstract class BaseManualParameter extends AbstractManualParameter
     public void RestartPreview() {
 
     }
+
+    public AbstractModeParameter.I_ModeParameterEvent GetPicFormatListner()
+    {
+        return picformatListner;
+    }
+
+    private AbstractModeParameter.I_ModeParameterEvent picformatListner = new AbstractModeParameter.I_ModeParameterEvent()
+    {
+
+        @Override
+        public void onValueChanged(String val)
+        {
+           if (val.equals(PictureFormatHandler.CaptureMode[PictureFormatHandler.JPEG]) && isSupported)
+               BackgroundIsSupportedChanged(true);
+            else
+               BackgroundIsSupportedChanged(false);
+        }
+
+        @Override
+        public void onIsSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onIsSetSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onValuesChanged(String[] values) {
+
+        }
+    };
 }

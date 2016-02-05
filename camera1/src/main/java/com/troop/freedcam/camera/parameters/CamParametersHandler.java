@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.camera.parameters.manual.BaseManualParameter;
 import com.troop.freedcam.camera.parameters.manual.BrightnessManualParameter;
 import com.troop.freedcam.camera.parameters.manual.BurstManualParam;
 import com.troop.freedcam.camera.parameters.manual.CCTManualParameter;
@@ -129,10 +130,22 @@ public class CamParametersHandler extends AbstractParameterHandler
             setupLg_G4Parameters();
 
         logParameters(cameraParameters);
+        //setup first Pictureformat its needed for manual parameters to
+        // register their listners there if its postprocessing parameter
+        try {
+            PictureFormat = new PictureFormatHandler(uiHandler,cameraParameters, baseCameraHolder);
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner((PictureFormatHandler)PictureFormat);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+
         locationParameter = new LocationParameter(uiHandler, appSettingsManager, cameraHolder);
         try
         {
             ManualBrightness = new BrightnessManualParameter(cameraParameters, "","","", this);
+            PictureFormat.addEventListner(((BaseManualParameter)ManualBrightness).GetPicFormatListner());
         }
         catch (Exception ex)
         {
@@ -173,6 +186,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try {
             ManualSaturation = new SaturationManualParameter(cameraParameters,"","","", this);
+            PictureFormat.addEventListner(((BaseManualParameter)ManualSaturation).GetPicFormatListner());
         }
         catch (Exception x)
         {
@@ -181,6 +195,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         try
         {
             ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "", this);
+            PictureFormat.addEventListner(((BaseManualParameter)ManualSharpness).GetPicFormatListner());
         }
         catch (Exception ex)
         {
@@ -220,6 +235,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try{
             Skintone = new SkintoneManualPrameter(cameraParameters,"","","",this);
+            PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
         }
         catch (Exception ex)
         {
@@ -227,6 +243,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try {
             FX = new FXManualParameter(cameraParameters,"","","", this);
+            PictureFormat.addEventListner(((BaseManualParameter)FX).GetPicFormatListner());
         }
         catch (Exception ex)
         {
@@ -242,6 +259,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         try {
             Zoom = new ZoomManualParameter(cameraParameters,"", "", "", this);
+            PictureFormat.addEventListner(((BaseManualParameter)Zoom).GetPicFormatListner());
         }
         catch (Exception ex)
         {
@@ -297,14 +315,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         {
             ex.printStackTrace();
         }
-        try {
-            PictureFormat = new PictureFormatHandler(uiHandler,cameraParameters, baseCameraHolder);
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner((PictureFormatHandler)PictureFormat);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
+
         try {
             JpegQuality = new JpegQualityParameter(uiHandler,cameraParameters, baseCameraHolder, "jpeg-quality", "");
         }
