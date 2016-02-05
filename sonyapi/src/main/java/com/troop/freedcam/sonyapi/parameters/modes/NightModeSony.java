@@ -5,12 +5,14 @@ import android.os.Handler;
 
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
-import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView.NightPreviewModes;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.util.Set;
 
-import static com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView.NightPreviewModes.*;
+import static com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView.NightPreviewModes.grayscale;
+import static com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView.NightPreviewModes.off;
+import static com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView.NightPreviewModes.on;
+import static com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView.NightPreviewModes.zoompreview;
 
 /**
  * Created by troop on 04.12.2015.

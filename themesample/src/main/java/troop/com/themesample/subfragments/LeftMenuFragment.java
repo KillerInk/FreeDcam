@@ -1,17 +1,13 @@
 package troop.com.themesample.subfragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
@@ -34,8 +30,8 @@ import troop.com.themesample.views.menu.MenuItemSaveCamParams;
 import troop.com.themesample.views.menu.MenuItemTheme;
 import troop.com.themesample.views.menu.MenuItemTimeLapseFrames;
 import troop.com.themesample.views.menu.MenuItemTimer;
-import troop.com.themesample.views.menu.MenuItemVideoProfile;
 import troop.com.themesample.views.menu.MenuItemVideoBitrate;
+import troop.com.themesample.views.menu.MenuItemVideoProfile;
 import troop.com.themesample.views.uichilds.UiSettingsChild;
 
 /**

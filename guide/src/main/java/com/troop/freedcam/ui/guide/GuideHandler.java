@@ -1,16 +1,11 @@
 package com.troop.freedcam.ui.guide;
 
 import android.content.Context;
-import android.content.res.Configuration;
-import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;

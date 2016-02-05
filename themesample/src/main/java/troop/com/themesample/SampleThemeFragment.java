@@ -12,7 +12,6 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
 
 import troop.com.themesample.subfragments.CameraUiFragment;
-import troop.com.themesample.subfragments.SettingsMenuFragment;
 
 /**
  * Created by troop on 09.06.2015.

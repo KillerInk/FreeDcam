@@ -1,16 +1,6 @@
 package com.troop.freedcam.apis;
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
@@ -19,7 +9,6 @@ import android.view.ViewGroup;
 import com.troop.freedcam.camera2.AutoFitTextureView;
 import com.troop.freedcam.camera2.CameraUiWrapperApi2;
 import com.troop.freedcam.camera2.R;
-import com.troop.marshmallowpermission.MPermissions;
 
 /**
  * Created by troop on 06.06.2015.

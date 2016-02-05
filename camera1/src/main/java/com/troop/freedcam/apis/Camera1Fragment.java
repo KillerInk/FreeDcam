@@ -1,6 +1,5 @@
 package com.troop.freedcam.apis;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.SurfaceView;

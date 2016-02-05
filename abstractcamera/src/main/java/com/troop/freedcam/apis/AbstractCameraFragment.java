@@ -1,10 +1,6 @@
 package com.troop.freedcam.apis;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +10,6 @@ import android.view.ViewGroup;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.marshmallowpermission.MPermissions;
 
 /**
  * Created by troop on 06.06.2015.

@@ -9,7 +9,6 @@ import com.troop.freedcam.camera.modules.VideoMediaProfile;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;

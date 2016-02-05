@@ -2,9 +2,6 @@ package troop.com.imageconverter;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
@@ -16,7 +13,6 @@ import android.renderscript.Type;
 import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
-
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.Size;

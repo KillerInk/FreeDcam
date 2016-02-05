@@ -1,8 +1,6 @@
 package com.troop.freedcam.camera2.parameters.modes;
 
 import android.annotation.TargetApi;
-
-import android.hardware.Camera;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Handler;

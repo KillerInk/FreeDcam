@@ -3,9 +3,7 @@ package troop.com.themesample.views.menu;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
-import com.troop.freedcam.i_camera.parameters.IntervalDurationParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
 

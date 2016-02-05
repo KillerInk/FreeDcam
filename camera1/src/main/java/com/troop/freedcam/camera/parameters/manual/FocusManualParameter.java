@@ -1,7 +1,5 @@
 package com.troop.freedcam.camera.parameters.manual;
 
-import android.bluetooth.BluetoothClass;
-import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 

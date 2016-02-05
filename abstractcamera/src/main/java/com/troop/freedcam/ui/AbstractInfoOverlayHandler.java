@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.CamcorderProfile;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Environment;

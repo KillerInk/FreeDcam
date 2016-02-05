@@ -1,6 +1,5 @@
 package com.troop.androiddng;
 
-import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.DeviceUtils.Devices;
 
 /**

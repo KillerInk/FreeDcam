@@ -3,7 +3,6 @@ package com.troop.freedcam.camera.modules;
 import android.media.MediaRecorder;
 import android.util.Log;
 
-import com.lge.media.CamcorderProfileEx;
 import com.lge.media.MediaRecorderEx;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;

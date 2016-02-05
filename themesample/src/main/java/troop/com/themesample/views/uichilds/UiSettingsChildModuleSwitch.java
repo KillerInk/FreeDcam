@@ -1,16 +1,9 @@
 package troop.com.themesample.views.uichilds;
 
 import android.content.Context;
-import android.os.Handler;
 import android.util.AttributeSet;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
-import com.troop.freedcam.i_camera.modules.AbstractModule;
-import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by troop on 13.06.2015.

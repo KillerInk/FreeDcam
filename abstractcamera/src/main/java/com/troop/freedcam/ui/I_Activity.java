@@ -1,6 +1,5 @@
 package com.troop.freedcam.ui;
 
-import android.content.Context;
 import android.view.SurfaceView;
 
 import java.io.File;

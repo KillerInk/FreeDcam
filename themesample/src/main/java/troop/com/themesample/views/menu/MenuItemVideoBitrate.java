@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.ArrayList;
 import java.util.List;

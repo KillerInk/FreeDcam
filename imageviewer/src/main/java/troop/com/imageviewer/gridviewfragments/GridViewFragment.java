@@ -29,7 +29,7 @@ import android.widget.PopupMenu;
 
 import com.defcomk.jni.libraw.RawUtils;
 import com.troop.freedcam.utils.StringUtils;
-import com.troop.marshmallowpermission.MPermissions;
+
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -40,9 +40,9 @@ import java.util.Comparator;
 import troop.com.imageviewer.CacheHelper;
 import troop.com.imageviewer.DngConvertingActivity;
 import troop.com.imageviewer.DngConvertingFragment;
-import troop.com.imageviewer.gridimageviews.GridImageView;
 import troop.com.imageviewer.R;
 import troop.com.imageviewer.ScreenSlideActivity;
+import troop.com.imageviewer.gridimageviews.GridImageView;
 import troop.com.imageviewer.holder.FileHolder;
 
 /**
@@ -254,33 +254,6 @@ public class GridViewFragment extends BaseGridViewFragment
             savedInstanceFilePath = (String) savedInstanceState.get(savedInstanceString);
 
         }
-        if (Build.VERSION.SDK_INT > 22 &&getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED)
-        {
-
-            MPermissions.RequestPermission(getChildFragmentManager(), Manifest.permission.READ_EXTERNAL_STORAGE, new MPermissions.DialogEvent() {
-                @Override
-                public void onPermissionGranted(boolean permissiongranted, String permission)
-                {
-                    PERMSISSIONGRANTED = permissiongranted;
-                    if (!permissiongranted)
-                        getActivity().finish();
-                    else
-                    {
-                        if (savedInstanceFilePath == null)
-                            loadDefaultFolders();
-                        else
-                            loadFiles(new File(savedInstanceFilePath));
-                    }
-
-                }
-            });
-        }
-        else
-            PERMSISSIONGRANTED = true;
-
-
-
     }
 
     @Override

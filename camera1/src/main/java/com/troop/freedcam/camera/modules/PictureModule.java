@@ -1,6 +1,5 @@
 package com.troop.freedcam.camera.modules;
 
-import android.bluetooth.BluetoothClass;
 import android.os.Handler;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
@@ -8,7 +7,6 @@ import com.troop.freedcam.camera.modules.image_saver.DngSaver;
 import com.troop.freedcam.camera.modules.image_saver.I_WorkeDone;
 import com.troop.freedcam.camera.modules.image_saver.JpegSaver;
 import com.troop.freedcam.camera.modules.image_saver.JpsSaver;
-import com.troop.freedcam.camera.modules.image_saver.MediatekSaver;
 import com.troop.freedcam.camera.modules.image_saver.RawSaver;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.AbstractModule;

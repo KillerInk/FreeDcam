@@ -34,7 +34,6 @@ import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.ToneMapModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.VideoSizeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.WhiteBalanceApi2;
-import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;

@@ -2,10 +2,8 @@ package troop.com.themesample.subfragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Path;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;

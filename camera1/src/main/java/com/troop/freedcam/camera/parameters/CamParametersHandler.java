@@ -1,12 +1,12 @@
 package com.troop.freedcam.camera.parameters;
 
-import android.graphics.Camera;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.camera.FocusHandler;
 import com.troop.freedcam.camera.parameters.manual.BaseManualParameter;
 import com.troop.freedcam.camera.parameters.manual.BrightnessManualParameter;
 import com.troop.freedcam.camera.parameters.manual.BurstManualParam;
@@ -19,12 +19,10 @@ import com.troop.freedcam.camera.parameters.manual.FocusManualParameter;
 import com.troop.freedcam.camera.parameters.manual.FocusManualParameterHTC;
 import com.troop.freedcam.camera.parameters.manual.FocusManualParameterLG;
 import com.troop.freedcam.camera.parameters.manual.ISOManualParameter;
-import com.troop.freedcam.camera.parameters.manual.ISOManualParameterG4;
 import com.troop.freedcam.camera.parameters.manual.LG_G4AeHandler;
 import com.troop.freedcam.camera.parameters.manual.SaturationManualParameter;
 import com.troop.freedcam.camera.parameters.manual.SharpnessManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ShutterManualParameter;
-import com.troop.freedcam.camera.parameters.manual.ShutterManualParameterG4;
 import com.troop.freedcam.camera.parameters.manual.ShutterManualParameterHTC;
 import com.troop.freedcam.camera.parameters.manual.ShutterManualZTE;
 import com.troop.freedcam.camera.parameters.manual.SkintoneManualPrameter;
@@ -40,6 +38,7 @@ import com.troop.freedcam.camera.parameters.modes.ExposureModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FlashModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FocusModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FocusPeakModeParameter;
+import com.troop.freedcam.camera.parameters.modes.HDRModeParameter;
 import com.troop.freedcam.camera.parameters.modes.HighFramerateVideo;
 import com.troop.freedcam.camera.parameters.modes.HighSpeedVideo;
 import com.troop.freedcam.camera.parameters.modes.ImagePostProcessingParameter;
@@ -62,8 +61,6 @@ import com.troop.freedcam.camera.parameters.modes.VideoStabilizationParameter;
 import com.troop.freedcam.camera.parameters.modes.VirtualLensFilter;
 import com.troop.freedcam.camera.parameters.modes.WhiteBalanceModeParameter;
 import com.troop.freedcam.camera.parameters.modes.ZeroShutterLagParameter;
-import com.troop.freedcam.camera.parameters.modes.HDRModeParameter;
-
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
@@ -73,8 +70,6 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.DeviceUtils.Devices;
 import com.troop.freedcam.utils.StringUtils;
-
-import com.troop.freedcam.camera.FocusHandler;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,6 +1,6 @@
 package com.troop.freedcam.camera.parameters.modes;
+
 import android.os.Handler;
-import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
