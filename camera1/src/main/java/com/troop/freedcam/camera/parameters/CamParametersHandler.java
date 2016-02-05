@@ -153,6 +153,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try {
             ManualContrast = new ContrastManualParameter(cameraParameters, "", "", "",this);
+            PictureFormat.addEventListner(((BaseManualParameter)ManualContrast).GetPicFormatListner());
         }
         catch (Exception ex)
         {
