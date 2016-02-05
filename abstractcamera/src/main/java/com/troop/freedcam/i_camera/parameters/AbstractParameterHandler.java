@@ -206,14 +206,6 @@ public abstract class AbstractParameterHandler
         setMode(morphoHHT, AppSettingsManager.SETTING_MORPHOHHT);
         setMode(HDRMode, AppSettingsManager.SETTING_HDRMODE);
 
-        //setMode(Focuspeak, AppSettingsManager.SETTING_FOCUSPEAK);
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals(""))
-            appSettingsManager.setString(AppSettingsManager.SETTING_DNG, "false");
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
-            this.isDngActive = true;
-        else
-            this.isDngActive = false;
-
         setManualMode(ManualBrightness, AppSettingsManager.MWB);
         setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
         setManualMode(ManualConvergence,AppSettingsManager.MCONVERGENCE);

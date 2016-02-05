@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera.parameters.modes;
 
 import android.os.Handler;
+import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.modules.ModuleHandler;
@@ -12,6 +13,7 @@ import java.util.HashMap;
  */
 public class PictureFormatHandler extends BaseModeParameter
 {
+    private final String TAG = PictureFormatHandler.class.getSimpleName();
     private final String PICFORMATVALUES = "picture-format-values";
     private final String PICFORMAT = "picture-format";
     private boolean rawSupported = false;
@@ -62,11 +64,13 @@ public class PictureFormatHandler extends BaseModeParameter
                 rawSupported = true;
                 break;
         }
+        Log.d(TAG, "rawsupported:"+ rawSupported);
     }
 
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
+        Log.d(TAG,"SetValue:" + valueToSet);
         captureMode = valueToSet;
         switch (baseCameraHolder.DeviceFrameWork)
         {
@@ -91,20 +95,19 @@ public class PictureFormatHandler extends BaseModeParameter
                 //handeld due appsettings
                 break;
         }
-        if(baseCameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.LG && !firststart)
-        {
-            baseCameraHolder.StopPreview();
-            baseCameraHolder.StartPreview();
-
-        }
-        firststart = false;
         BackgroundValueHasChanged(valueToSet);
     }
 
     private void setString(String val)
     {
+        Log.d(TAG, "setString:" +val);
         parameters.put(PICFORMAT, val);
         baseCameraHolder.SetCameraParameters(parameters);
+        if(baseCameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.LG)
+        {
+            baseCameraHolder.StopPreview();
+            baseCameraHolder.StartPreview();
+        }
     }
 
     @Override

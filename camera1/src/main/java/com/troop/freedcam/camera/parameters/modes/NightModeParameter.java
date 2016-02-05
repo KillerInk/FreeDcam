@@ -34,17 +34,15 @@ public class NightModeParameter extends BaseModeParameter
             this.isSupported = true;
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)||DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
         {
-            if (visible)
-                this.isSupported = true;
-            else
-                this.isSupported = false;
+            this.isSupported = true;
         }
-        BackgroundIsSupportedChanged(isSupported);
+
         return  isSupported;
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam) {
+    public void SetValue(String valueToSet, boolean setToCam)
+    {
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)||DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
         {
             if (valueToSet.equals("on")) {
@@ -93,7 +91,8 @@ public class NightModeParameter extends BaseModeParameter
     }
 
     @Override
-    public String ModuleChanged(String module) {
+    public String ModuleChanged(String module)
+    {
         if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)) {
             if (module.equals("module_video")|| module.equals("module_hdr"))
             {  if (visible)
@@ -119,18 +118,16 @@ public class NightModeParameter extends BaseModeParameter
     {
         state = GetValue();
         visible = false;
-        this.isSupported = false;
         SetValue("off",true);
         BackgroundValueHasChanged("off");
-        BackgroundIsSupportedChanged(isSupported);
+        BackgroundIsSupportedChanged(visible);
     }
     private void Show()
     {
         visible = true;
-        this.isSupported = true;
         SetValue(state,true);
         BackgroundValueHasChanged(state);
-        BackgroundIsSupportedChanged(isSupported);
+        BackgroundIsSupportedChanged(visible);
     }
 
 }
