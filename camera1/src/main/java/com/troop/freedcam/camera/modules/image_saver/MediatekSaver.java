@@ -87,12 +87,12 @@ public class MediatekSaver extends JpegSaver {
 
                     }
                 }
-                else if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg+dng"))
+                else if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("dng"))
                 {
                     saveBytesToFile(data, holdFile);
                     CreateDNG_DeleteRaw();
                 }
-                else if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg+raw"))
+                else if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("raw"))
                 {
                     saveBytesToFile(data, holdFile);
 

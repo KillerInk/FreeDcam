@@ -114,10 +114,10 @@ public class HdrModule extends PictureModule implements I_WorkeDone
                 if (picFormat.equals("jpeg")) {
                     final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, HdrModule.this, handler,Settings.GetWriteExternal());
                     jpegSaver.TakePicture();
-                } else if (!ParameterHandler.IsDngActive() && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+                } else if (!ParameterHandler.IsDngActive() && picFormat.contains("raw")) {
                     final RawSaver rawSaver = new RawSaver(baseCameraHolder, HdrModule.this, handler,Settings.GetWriteExternal());
                     rawSaver.TakePicture();
-                } else if (ParameterHandler.IsDngActive() && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+                } else if (ParameterHandler.IsDngActive() && picFormat.contains("dng")) {
                     DngSaver dngSaver = new DngSaver(baseCameraHolder, HdrModule.this, handler,Settings.GetWriteExternal());
                     dngSaver.TakePicture();
                 }
