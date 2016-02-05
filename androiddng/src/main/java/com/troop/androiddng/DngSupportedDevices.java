@@ -129,17 +129,6 @@ public class DngSupportedDevices
 
     public DngProfile getProfile(Devices device, int filesize)
     {
-        if (device == Devices.LG_G4)
-            return new DngProfile(64, 5312,2988,Mipi, BGGR,0,
-                    Matrixes.G4_identity_matrix1,
-                    Matrixes.G4_identity_matrix2,
-                    Matrixes.G4_identity_neutra,
-                    Matrixes.G4_foward_matrix1,
-                    Matrixes.G4_foward_matrix2,
-                    Matrixes.G4_reduction_matrix1,
-                    Matrixes.G4_reduction_matrix2,
-                    Matrixes.G4_noise_3x1_matrix);
-
         switch (filesize) {
             case 9830400: //NGM Forward Art
 				return new DngProfile(16, 2560, 1920, Plain, BGGR, 0,
@@ -389,8 +378,8 @@ public class DngSupportedDevices
                     Matrixes.OV_NREDUCTION_Matrix);
             case 19992576:  //lenovo k920
                 return new Nexus6Profile(64, 5328,3000, Mipi, GBRG, 0);
-            case 19976192: //g4 raw10 camera2
-                return new DngProfile(64, 5312,2988,Mipi, BGGR,0,
+            case 19976192: //g4 bayer mipi camera1
+                return new DngProfile(64, 5312,2988,Mipi16, BGGR,0,
                 Matrixes.G4_identity_matrix1,
                         Matrixes.G4_identity_matrix2,
                         Matrixes.G4_identity_neutra,
@@ -440,6 +429,16 @@ public class DngSupportedDevices
 
 
         }
+        if (device == Devices.LG_G4)
+            return new DngProfile(64, 5312,2988,Mipi, BGGR,0,
+                    Matrixes.G4_identity_matrix1,
+                    Matrixes.G4_identity_matrix2,
+                    Matrixes.G4_identity_neutra,
+                    Matrixes.G4_foward_matrix1,
+                    Matrixes.G4_foward_matrix2,
+                    Matrixes.G4_reduction_matrix1,
+                    Matrixes.G4_reduction_matrix2,
+                    Matrixes.G4_noise_3x1_matrix);
         if (device == Devices.Htc_M8)
         {
             if (filesize < 6000000 && filesize > 5382641)
