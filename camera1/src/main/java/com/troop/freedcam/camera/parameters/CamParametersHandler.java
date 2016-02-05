@@ -697,8 +697,6 @@ public class CamParametersHandler extends AbstractParameterHandler
             ((BaseCameraHolder)cameraHolder).SetCameraRotation(180);
     }
 
-
-
     public void LockExposureAndWhiteBalance(boolean value)
     {
         isExposureAndWBLocked = value;
@@ -718,8 +716,6 @@ public class CamParametersHandler extends AbstractParameterHandler
         {
             ex.printStackTrace();
         }
-
-
     }
 
     public float GetFnumber()

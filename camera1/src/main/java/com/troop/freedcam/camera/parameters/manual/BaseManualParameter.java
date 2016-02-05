@@ -40,6 +40,18 @@ public abstract class BaseManualParameter extends AbstractManualParameter
      */
     boolean isSupported = false;
 
+    private int default_value = 0;
+    public void Set_Default_Value(int val){default_value = val;}
+    public int Get_Default_Value(){return default_value;}
+
+    public void ResetToDefault()
+    {
+        if (isSupported)
+        {
+            setvalue(default_value);
+            ThrowCurrentValueChanged(default_value);
+        }
+    }
 
     /**
      *
@@ -164,8 +176,10 @@ public abstract class BaseManualParameter extends AbstractManualParameter
         {
            if (val.equals(PictureFormatHandler.CaptureMode[PictureFormatHandler.JPEG]) && isSupported)
                BackgroundIsSupportedChanged(true);
-            else
+            else {
                BackgroundIsSupportedChanged(false);
+               ResetToDefault();
+           }
         }
 
         @Override

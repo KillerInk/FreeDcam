@@ -23,6 +23,7 @@ public class ContrastManualParameter extends BaseManualParameter
                 this.isSupported = false;
                 return;
             }
+            Set_Default_Value(GetValue());
             int max = 100;
             try {
                 max = Integer.parseInt(parameters.get("max-contrast"));
