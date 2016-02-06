@@ -116,6 +116,11 @@ public class ShutterManualParameter extends BaseManualParameter
     }
 
     @Override
+    public boolean IsVisible() {
+        return super.IsSupported();
+    }
+
+    @Override
     public int GetMaxValue() {
         if (DeviceUtils.IS(DeviceUtils.Devices.SonyADV))
             return Integer.parseInt(parameters.get("sony-max-shutter-speed"));

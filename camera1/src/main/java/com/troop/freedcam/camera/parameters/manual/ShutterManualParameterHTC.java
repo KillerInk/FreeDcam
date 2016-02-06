@@ -40,6 +40,11 @@ public class ShutterManualParameterHTC extends BaseManualParameter
     }
 
     @Override
+    public boolean IsVisible() {
+        return IsSupported();
+    }
+
+    @Override
     public int GetMaxValue() {
        if (shutterValues != null)
             return shutterValues.length-1;

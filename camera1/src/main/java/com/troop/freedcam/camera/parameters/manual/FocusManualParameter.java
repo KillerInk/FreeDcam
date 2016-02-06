@@ -118,6 +118,11 @@ public class FocusManualParameter extends  BaseManualParameter
     }
 
     @Override
+    public boolean IsVisible() {
+        return super.IsSupported();
+    }
+
+    @Override
     protected void setvalue(final int valueToSet)
     {
         //check/set auto/manual mode

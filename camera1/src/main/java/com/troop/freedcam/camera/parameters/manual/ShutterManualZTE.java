@@ -52,6 +52,11 @@ public class ShutterManualZTE extends BaseManualParameter
     }
 
     @Override
+    public boolean IsVisible() {
+        return  IsSupported();
+    }
+
+    @Override
     public int GetMaxValue()
     {
         return shutterValues.length-1;
