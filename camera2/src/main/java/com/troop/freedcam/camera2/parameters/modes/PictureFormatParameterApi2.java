@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Handler;
 
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
-import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.ArrayList;
 

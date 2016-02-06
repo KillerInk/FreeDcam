@@ -30,5 +30,4 @@ dependencies {
     compile project(':longexposure')
     provided files('libs/mtk.jar')
     provided project(':imageconverter')
-    provided project(':marshmallowpermission')
 }

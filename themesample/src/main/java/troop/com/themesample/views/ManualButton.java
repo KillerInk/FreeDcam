@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
-import com.troop.freedcam.sonyapi.sonystuff.DataExtractor;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.util.ArrayList;
@@ -21,7 +20,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import troop.com.themesample.R;
-import troop.com.themesample.subfragments.Interfaces;
 
 /**
  * Created by troop on 08.12.2015.
@@ -118,7 +116,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
                 else
                     valueTextView.setText(parameter.GetValue()+"");
 
-                onIsSupportedChanged(parameter.IsSupported());
+                onIsSupportedChanged(parameter.IsVisible());
                 onIsSetSupportedChanged(parameter.IsSetSupported());
 
                     realMax = parameter.GetMaxValue();

@@ -14,6 +14,8 @@ public abstract class AbstractManualParameter implements I_ManualParameter
     private List<I_ManualParameterEvent> events;
     protected AbstractParameterHandler camParametersHandler;
 
+    protected boolean isVisible = false;
+
     public AbstractManualParameter(AbstractParameterHandler camParametersHandler)
     {
         this.camParametersHandler = camParametersHandler;
@@ -157,6 +159,11 @@ public abstract class AbstractManualParameter implements I_ManualParameter
     }
 
     public boolean IsSetSupported() {return false;}
+
+    @Override
+    public boolean IsVisible() {
+        return isVisible;
+    }
 
     /**
      *

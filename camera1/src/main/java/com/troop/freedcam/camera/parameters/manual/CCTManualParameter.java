@@ -3,13 +3,11 @@ package com.troop.freedcam.camera.parameters.manual;
 import android.hardware.Camera;
 import android.os.Build;
 
-import com.lge.media.TimedTextEx;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -123,6 +121,11 @@ public class CCTManualParameter extends BaseManualParameter {
     public boolean IsSupported()
     {
         return this.isSupported;
+    }
+
+    @Override
+    public boolean IsVisible() {
+        return IsSupported();
     }
 
     @Override

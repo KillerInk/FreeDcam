@@ -577,6 +577,11 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
     }
 
+    @Override
+    public void onVisibilityChanged(boolean visible) {
+
+    }
+
     public interface StreamErrorListener {
 
         enum StreamErrorReason {

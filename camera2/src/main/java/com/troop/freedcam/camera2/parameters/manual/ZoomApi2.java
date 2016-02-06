@@ -39,6 +39,11 @@ public class ZoomApi2 extends AbstractManualParameter
     }
 
     @Override
+    public boolean IsVisible() {
+        return true;
+    }
+
+    @Override
     public int GetMaxValue() {
         return (int)(cameraHolder.characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM) *10);
     }

@@ -1,6 +1,5 @@
 package com.troop.freedcam.camera.modules;
 
-import android.bluetooth.BluetoothClass;
 import android.os.Handler;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
@@ -8,7 +7,6 @@ import com.troop.freedcam.camera.modules.image_saver.DngSaver;
 import com.troop.freedcam.camera.modules.image_saver.I_WorkeDone;
 import com.troop.freedcam.camera.modules.image_saver.JpegSaver;
 import com.troop.freedcam.camera.modules.image_saver.JpsSaver;
-import com.troop.freedcam.camera.modules.image_saver.MediatekSaver;
 import com.troop.freedcam.camera.modules.image_saver.RawSaver;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
@@ -100,11 +98,11 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
                     final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                     jpsSaver.TakePicture();
                 }
-                else if (ParameterHandler.IsDngActive() && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+                else if (ParameterHandler.IsDngActive() && picFormat.equals("dng")) {
                     DngSaver dngSaver = new DngSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                     dngSaver.TakePicture();
                 }
-                else if (ParameterHandler.IsDngActive() == false && (picFormat.contains("bayer") || picFormat.contains("raw") ||!DeviceUtils.isMediaTekDevice() )) {
+                else if (ParameterHandler.IsDngActive() == false && picFormat.equals("raw")) {
                     final RawSaver rawSaver = new RawSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                     rawSaver.TakePicture();
                 }

@@ -3,9 +3,6 @@ package com.troop.freedcam.i_camera.modules;
 import android.os.Handler;
 import android.util.Log;
 
-import com.troop.freedcam.i_camera.AbstractCameraHolder;
-import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
-import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.util.Date;

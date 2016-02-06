@@ -50,6 +50,7 @@ public class SaturationManualParameter extends BaseManualParameter
             }
             catch (Exception ex)
             {}
+            Set_Default_Value(GetValue());
         }
     }
 }

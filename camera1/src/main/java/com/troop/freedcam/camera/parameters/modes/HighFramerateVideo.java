@@ -5,9 +5,7 @@ import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
-import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
-import com.troop.freedcam.i_camera.parameters.IntervalDurationParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -315,7 +313,6 @@ public class HighFramerateVideo extends  BaseModeParameter
     {
         FpsTriggered = true;
         FpEss = valueToSet;
-        super.IdentifySub = valueToSet;
         if(valueToSet.equals("Default") ||Integer.parseInt(valueToSet.split("@")[1]) <= 30 )
         {
             super.SetValue("off", setToCam);

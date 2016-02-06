@@ -1,6 +1,5 @@
 package com.troop.freedcam.camera.modules.image_saver;
 
-import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
@@ -8,15 +7,12 @@ import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
-import com.troop.freedcam.manager.MediaScannerManager;
-import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 
 /**
  * Created by GeorgeKiarie on 11/29/2015.
@@ -48,7 +44,7 @@ public class MediatekSaver extends JpegSaver {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg+raw"))
+                if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("raw"))
                 {
                     String timestamp = String.valueOf(System.currentTimeMillis());
                             ((CamParametersHandler) ParameterHandlerx).setString("rawfname", "/mnt/sdcard/DCIM/FreeDCam/"+timestamp+".raw");
@@ -87,12 +83,12 @@ public class MediatekSaver extends JpegSaver {
 
                     }
                 }
-                else if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg+dng"))
+                else if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("dng"))
                 {
                     saveBytesToFile(data, holdFile);
                     CreateDNG_DeleteRaw();
                 }
-                else if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg+raw"))
+                else if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("raw"))
                 {
                     saveBytesToFile(data, holdFile);
 

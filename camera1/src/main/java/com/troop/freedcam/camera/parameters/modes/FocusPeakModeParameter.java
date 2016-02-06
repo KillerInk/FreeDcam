@@ -3,9 +3,10 @@ package com.troop.freedcam.camera.parameters.modes;
 import android.os.Build;
 import android.os.Handler;
 
-import troop.com.imageconverter.PreviewHandler;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.utils.StringUtils;
+
+import troop.com.imageconverter.PreviewHandler;
 
 /**
  * Created by troop on 27.08.2015.

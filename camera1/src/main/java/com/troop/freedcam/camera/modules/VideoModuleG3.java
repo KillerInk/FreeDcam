@@ -3,7 +3,6 @@ package com.troop.freedcam.camera.modules;
 import android.media.MediaRecorder;
 import android.util.Log;
 
-import com.lge.media.CamcorderProfileEx;
 import com.lge.media.MediaRecorderEx;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
@@ -30,105 +29,75 @@ public class VideoModuleG3 extends AbstractVideoModule
 
     protected MediaRecorder initRecorder()
     {
-        String hfr = "",hsr = "";
-
         String profile = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
         VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter)ParameterHandler.VideoProfilesG3;
-        CamcorderProfileEx prof = videoProfilesG3Parameter.GetCameraProfile(profile);
-        String size = prof.videoFrameWidth + "x"+prof.videoFrameHeight;
-        String mBitare = Settings.getString(AppSettingsManager.SETTING_VideoBitrate);
+        VideoMediaProfile prof = videoProfilesG3Parameter.GetCameraProfile(profile);
 
-        recorder = new MediaRecorderEx();
-        recorder.reset();
-        recorder.setCamera(baseCameraHolder.GetCamera());
-        recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+        try {
+            recorder = new MediaRecorderEx();
+            recorder.reset();
+            recorder.setCamera(baseCameraHolder.GetCamera());
+            recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+            switch (prof.Mode)
+            {
 
-        if (ParameterHandler.VideoHighFramerateVideo != null && ParameterHandler.VideoHighFramerateVideo.IsSupported())
-            hfr = ParameterHandler.VideoHighFramerateVideo.GetValue();
+                case Normal:
+                    recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+                    break;
+                case Highspeed:
+                    break;
+                case Timelapse:
+                    break;
+            }
 
-
-
-
-        if (!profile.contains("Timelapse")) {
-            recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
-        }
-        //recorder.setProfile(prof);
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-
-        Log.e(TAG, "Index :" + hfr);
-        if (!hfr.equals("Default")) {
-            int frame = Integer.parseInt(hfr.split("@")[1]);
-
-            Log.e(TAG, "Index :" + frame);
-
-            camParametersHandler.FPSRangeLock(frame,frame);
-            //recorder.setVideoFrameRate(frame);
-
-            recorder.setCaptureRate(frame);
-
-
-
-        }
-        else
-        {
+            recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
             recorder.setVideoFrameRate(prof.videoFrameRate);
-        }
-        recorder.setVideoSize(prof.videoFrameWidth, prof.videoFrameHeight);
-
-        if (mBitare.equals("Default") || mBitare.equals("")) {
+            recorder.setVideoSize(prof.videoFrameWidth, prof.videoFrameHeight);
             recorder.setVideoEncodingBitRate(prof.videoBitRate);
+            recorder.setVideoEncoder(prof.videoCodec);
+
+            switch (prof.Mode)
+            {
+                case Normal:
+                    setAudioStuff(prof);
+                    recorder.setCaptureRate(prof.videoFrameRate);
+                    break;
+                case Highspeed:
+                    recorder.setCaptureRate(prof.videoFrameRate);
+                    break;
+                case Timelapse:
+                    float frame = 30;
+                    if (!Settings.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).equals(""))
+                        frame = Float.parseFloat(Settings.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).replace(",", "."));
+                    else
+                        Settings.setString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, "" + frame);
+                    recorder.setCaptureRate(frame);
+                    break;
+            }
+            if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD")) {
+
+                recorder.setMaxFileSize(3037822976L);
+                recorder.setMaxDuration(7200000);
+            }
         }
-        else {
-
-            recorder.setVideoEncodingBitRate(Integer.parseInt(mBitare.split("M")[0]) * 1000000);
-
+        catch (IllegalStateException ex)
+        {
+            recorder.reset();
         }
-        recorder.setVideoEncoder(prof.videoCodec);
+        return recorder;
+    }
 
-
+    private void setAudioStuff(VideoMediaProfile prof) {
         recorder.setAudioSamplingRate(prof.audioSampleRate);
         recorder.setAudioEncodingBitRate(prof.audioBitRate);
         recorder.setAudioChannels(prof.audioChannels);
         recorder.setAudioEncoder(prof.audioCodec);
-
-
-        if (profile.contains("Timelapse"))
-        {
-            float frame = 30;
-            if(!Settings.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).equals(""))
-                frame = Float.parseFloat(Settings.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).replace(",", "."));
-            else
-                Settings.setString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, ""+frame);
-            recorder.setCaptureRate(frame);
-        }
-        if (profile.contains("HFR"))
-        {
-            recorder.setCaptureRate(120);
-        }
-
-        if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD"))
-        {
-
-            recorder.setMaxFileSize(3037822976L);
-            recorder.setMaxDuration(7200000);
-        }
-        return recorder;
     }
 
     @Override
     protected void setRecorderOutPutFile(String s)
     {
         super.setRecorderOutPutFile(s);
-        /*FileOutputStream out;
-        try {
-            out = new FileOutputStream(s);
-            recorder.setOutputFileFD(out.getFD());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
     }
 
     @Override
@@ -172,12 +141,8 @@ public class VideoModuleG3 extends AbstractVideoModule
         //baseCameraHolder.SetCameraParameters(camParametersHandler.getParameters());
         VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter)ParameterHandler.VideoProfilesG3;
         String sprof = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
-        if (sprof.equals(""))
-        {
-            sprof = "HIGH";
-            Settings.setString(AppSettingsManager.SETTING_VIDEPROFILE, sprof);
-        }
-        CamcorderProfileEx prof = videoProfilesG3Parameter.GetCameraProfile(sprof);
+
+        VideoMediaProfile prof = videoProfilesG3Parameter.GetCameraProfile(sprof);
         String size;
         if (prof == null)
         {

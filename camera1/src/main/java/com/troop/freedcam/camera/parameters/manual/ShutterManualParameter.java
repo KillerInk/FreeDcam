@@ -112,7 +112,12 @@ public class ShutterManualParameter extends BaseManualParameter
 
     @Override
     public boolean IsSupported() {
-        return super.IsSupported();
+        return isSupported;
+    }
+
+    @Override
+    public boolean IsVisible() {
+        return IsSupported();
     }
 
     @Override

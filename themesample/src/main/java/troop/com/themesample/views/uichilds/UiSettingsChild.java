@@ -149,8 +149,9 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
             }
             return;
         }
-        else {
-            onIsSupportedChanged(true);
+        else
+        {
+            onIsSupportedChanged(parameter.IsVisible());
             if (parameter != null) {
                 parameter.addEventListner(this);
                 this.parameter = parameter;
@@ -231,6 +232,11 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
 
     @Override
     public void onValuesChanged(String[] values) {
+
+    }
+
+    @Override
+    public void onVisibilityChanged(boolean visible) {
 
     }
 

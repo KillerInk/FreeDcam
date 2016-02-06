@@ -151,8 +151,7 @@ public abstract class AbstractParameterHandler
 
     public void SetFocusAREA(FocusRect focusAreas, FocusRect meteringAreas){};
     public void SetMeterAREA(FocusRect meteringAreas){};
-    public void UHDDO (){};
-   // public void FPSRangeLock (){};
+
     public void SetPictureOrientation(int or){};
 
     public void SetAppSettingsToParameters()
@@ -207,14 +206,6 @@ public abstract class AbstractParameterHandler
 
        // setMode(morphoHDR, AppSettingsManager.SETTING_MORPHOHDR);
        // setMode(morphoHHT, AppSettingsManager.SETTING_MORPHOHHT);
-        //setMode(Focuspeak, AppSettingsManager.SETTING_FOCUSPEAK);
-
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals(""))
-            appSettingsManager.setString(AppSettingsManager.SETTING_DNG, "false");
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
-            this.isDngActive = true;
-        else
-            this.isDngActive = false;
 
         setManualMode(ManualBrightness, AppSettingsManager.MWB);
         setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);

@@ -1,6 +1,5 @@
 package com.troop.freedcam.ui.menu;
 
-import android.app.Activity;
 import android.hardware.SensorManager;
 import android.support.v4.app.FragmentActivity;
 import android.view.OrientationEventListener;

@@ -14,6 +14,7 @@ public class BrightnessManualParameter extends BaseManualParameter
 {
     private static  String TAG = "freedcam.ManualBrightnessParameter";
 
+
     public BrightnessManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler)
     {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
@@ -42,11 +43,9 @@ public class BrightnessManualParameter extends BaseManualParameter
         {
             max_value = "max-brightness";
             min_value = "min-brightness";
-
+            Set_Default_Value(GetValue());
         }
         Log.d(TAG, "support brightness:" + isSupported);
-
-
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.troop.freedcam.camera.parameters.manual;
 
-import android.bluetooth.BluetoothClass;
-import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
@@ -56,6 +54,7 @@ public class FocusManualParameter extends  BaseManualParameter
         }
         else
             this.isSupported = false;
+        isVisible = isSupported;
 }
 
     @Override
@@ -116,6 +115,11 @@ public class FocusManualParameter extends  BaseManualParameter
             Log.d(TAG, "get ManualFocus value failed");
             return -1;
         }
+    }
+
+    @Override
+    public boolean IsVisible() {
+        return super.IsSupported();
     }
 
     @Override

@@ -232,10 +232,16 @@ public class DeviceUtils
             Devices.LenovoK910,Devices.LenovoK920,
             Devices.Yu_Yureka,
             Devices.OnePlusOne, Devices.OnePlusTwo,
-            Devices.RedmiNote, Devices.XiaomiMI3W, Devices.XiaomiMI4W, Devices.XiaomiMI_Note_Pro,
+            Devices.RedmiNote, Devices.XiaomiMI3W, Devices.XiaomiMI4W, Devices.XiaomiMI_Note_Pro, Devices.RedmiNote, Devices.RedmiNote2_MTK,
             Devices.Vivo_Xplay3s,
             Devices.GioneE7,
-            Devices.Sony_XperiaL,
+            Devices.Sony_XperiaL, Devices.SonyM5_MTK,
+            Devices.Alcatel_Idol3,
+            Devices.MeizuMX4_MTK, Devices.MeizuMX5_MTK,
+            Devices.Moto_MSM8982_8994, Devices.Moto_MSM8974,
+            Devices.Retro_MTK,
+            Devices.THL5000_MTK,
+
 
 
     };

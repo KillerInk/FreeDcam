@@ -2,9 +2,6 @@ package troop.com.imageconverter;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
@@ -16,7 +13,6 @@ import android.renderscript.Type;
 import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
-
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.Size;
@@ -304,16 +300,18 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         setEnable(false);
         setEnable(enable);
         setDoWork(true);
-        System.out.println("Preview Handler "+"Interface active");
 
     }
 
     @Override
     public void onModuleChanged(I_Module module)
     {
-        if (module.ModuleName().equals(AbstractModuleHandler.MODULE_PICTURE))
+        String n = module.ModuleName();
+        if (module.ModuleName().equals(AbstractModuleHandler.MODULE_PICTURE)
+                ||module.ModuleName().equals(AbstractModuleHandler.MODULE_HDR)
+                ||module.ModuleName().equals(AbstractModuleHandler.MODULE_INTERVAL))
             setEnable(enable);
-        else if (module.ModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
+        else
             setEnable(false);
 
     }
@@ -322,11 +320,13 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     public String ModuleChanged(String module)
     {
 
-        if (module.equals(AbstractModuleHandler.MODULE_PICTURE)) {
+        if (module.equals(AbstractModuleHandler.MODULE_PICTURE)
+                ||module.equals(AbstractModuleHandler.MODULE_HDR)
+                ||module.equals(AbstractModuleHandler.MODULE_INTERVAL)) {
             setEnable(enable);
             setDoWork(true);
         }
-        else if (module.equals(AbstractModuleHandler.MODULE_VIDEO)) {
+        else {
             setDoWork(false);
             setEnable(false);
         }

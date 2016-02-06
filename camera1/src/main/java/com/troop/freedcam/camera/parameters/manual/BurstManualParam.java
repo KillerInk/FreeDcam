@@ -7,6 +7,8 @@ package com.troop.freedcam.camera.parameters.manual;
 import android.os.Build;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
+import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -18,6 +20,9 @@ public class BurstManualParam extends BaseManualParameter {
     int curr = 0;
     public BurstManualParam(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) ||
+                DeviceUtils.IS(DeviceUtils.Devices.LG_G3)|| DeviceUtils.IS(DeviceUtils.Devices.LG_G2)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
+            isSupported = true;
 
         //TODO add missing logic
     }
@@ -31,11 +36,12 @@ public class BurstManualParam extends BaseManualParameter {
     @Override
     public boolean IsSupported()
     {
-        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) ||
-                DeviceUtils.IS(DeviceUtils.Devices.LG_G3)|| DeviceUtils.IS(DeviceUtils.Devices.LG_G2)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
-            return true;
-        else
-            return false;
+        return isSupported;
+    }
+
+    @Override
+    public boolean IsVisible() {
+        return IsSupported();
     }
 
     @Override
@@ -79,4 +85,26 @@ public class BurstManualParam extends BaseManualParameter {
     public String GetStringValue() {
         return curr +"";
     }
+
+    @Override
+    public I_ModuleEvent GetModuleListner() {
+        return moduleListner;
+    }
+
+    private I_ModuleEvent moduleListner =new I_ModuleEvent() {
+        @Override
+        public String ModuleChanged(String module)
+        {
+            if ((module.equals(AbstractModuleHandler.MODULE_VIDEO) || module.equals(AbstractModuleHandler.MODULE_HDR)) && isSupported)
+                BackgroundIsSupportedChanged(false);
+            else if ((module.equals(AbstractModuleHandler.MODULE_PICTURE)
+                    || module.equals(AbstractModuleHandler.MODULE_INTERVAL)
+                    )&& isSupported)
+            {
+                BackgroundIsSupportedChanged(true);
+            }
+            return null;
+        }
+    };
+
 }

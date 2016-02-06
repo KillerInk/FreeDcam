@@ -8,7 +8,6 @@ import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.IntervalModule;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.DeviceUtils;
 
 /**
  * Created by troop on 16.08.2014.
@@ -32,7 +31,7 @@ public class ModuleHandler extends AbstractModuleHandler
     {
         //init the Modules DeviceDepending
         //splitting modules make the code foreach device cleaner
-        if (cameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.MTK || DeviceUtils.isMediaTekDevice())
+        if (cameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)
         {
             Log.d(TAG, "load mtk picmodule");
             PictureModuleMTK thl5000 = new PictureModuleMTK(this.cameraHolder, appSettingsManager, moduleEventHandler, backgroundHandler);

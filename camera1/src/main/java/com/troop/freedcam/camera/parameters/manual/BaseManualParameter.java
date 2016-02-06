@@ -2,7 +2,11 @@ package com.troop.freedcam.camera.parameters.manual;
 
 import android.util.Log;
 
+import com.troop.freedcam.camera.parameters.modes.PictureFormatHandler;
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
+import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -39,6 +43,19 @@ public abstract class BaseManualParameter extends AbstractManualParameter
     boolean isSupported = false;
 
 
+    private int default_value = 0;
+    public void Set_Default_Value(int val){default_value = val;}
+    public int Get_Default_Value(){return default_value;}
+
+    public void ResetToDefault()
+    {
+        if (isSupported)
+        {
+            setvalue(default_value);
+            ThrowCurrentValueChanged(default_value);
+        }
+    }
+
     /**
      *
      * @param @parameters
@@ -65,6 +82,11 @@ public abstract class BaseManualParameter extends AbstractManualParameter
     @Override
     public boolean IsSetSupported() {
         return true;
+    }
+
+    @Override
+    public boolean IsVisible() {
+        return super.IsVisible();
     }
 
     public int GetMaxValue()
@@ -135,6 +157,7 @@ public abstract class BaseManualParameter extends AbstractManualParameter
                 isSupported = true;
             else
                 isSupported = false;
+            isVisible = isSupported;
         }
         catch (Exception ex)
         {
@@ -148,4 +171,69 @@ public abstract class BaseManualParameter extends AbstractManualParameter
     public void RestartPreview() {
 
     }
+
+    public AbstractModeParameter.I_ModeParameterEvent GetPicFormatListner()
+    {
+        return picformatListner;
+    }
+
+    private AbstractModeParameter.I_ModeParameterEvent picformatListner = new AbstractModeParameter.I_ModeParameterEvent()
+    {
+
+        @Override
+        public void onValueChanged(String val)
+        {
+           if (val.equals(PictureFormatHandler.CaptureMode[PictureFormatHandler.JPEG]) && isSupported)
+           {
+               isVisible = true;
+               BackgroundIsSupportedChanged(true);
+           }
+            else {
+               isVisible = false;
+               BackgroundIsSupportedChanged(false);
+               ResetToDefault();
+           }
+        }
+
+        @Override
+        public void onIsSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onIsSetSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onValuesChanged(String[] values) {
+
+        }
+
+        @Override
+        public void onVisibilityChanged(boolean visible) {
+
+        }
+    };
+
+    public I_ModuleEvent GetModuleListner()
+    {
+        return moduleListner;
+    }
+
+    private I_ModuleEvent moduleListner =new I_ModuleEvent() {
+        @Override
+        public String ModuleChanged(String module)
+        {
+            if (module.equals(AbstractModuleHandler.MODULE_VIDEO) && isSupported)
+                BackgroundIsSupportedChanged(true);
+            else if (module.equals(AbstractModuleHandler.MODULE_PICTURE)
+                    || module.equals(AbstractModuleHandler.MODULE_INTERVAL)
+                    || module.equals(AbstractModuleHandler.MODULE_HDR))
+            {
+                BackgroundIsSupportedChanged(isVisible);
+            }
+            return null;
+        }
+    };
 }

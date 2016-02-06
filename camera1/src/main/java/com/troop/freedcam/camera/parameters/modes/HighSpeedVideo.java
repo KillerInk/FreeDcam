@@ -4,9 +4,7 @@ import android.os.Handler;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
-import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
-import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
 

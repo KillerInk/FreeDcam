@@ -1,12 +1,13 @@
 package com.troop.freedcam.camera.parameters;
 
-import android.graphics.Camera;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.camera.FocusHandler;
+import com.troop.freedcam.camera.parameters.manual.BaseManualParameter;
 import com.troop.freedcam.camera.parameters.manual.BrightnessManualParameter;
 import com.troop.freedcam.camera.parameters.manual.BurstManualParam;
 import com.troop.freedcam.camera.parameters.manual.CCTManualParameter;
@@ -18,12 +19,10 @@ import com.troop.freedcam.camera.parameters.manual.FocusManualParameter;
 import com.troop.freedcam.camera.parameters.manual.FocusManualParameterHTC;
 import com.troop.freedcam.camera.parameters.manual.FocusManualParameterLG;
 import com.troop.freedcam.camera.parameters.manual.ISOManualParameter;
-import com.troop.freedcam.camera.parameters.manual.ISOManualParameterG4;
 import com.troop.freedcam.camera.parameters.manual.LG_G4AeHandler;
 import com.troop.freedcam.camera.parameters.manual.SaturationManualParameter;
 import com.troop.freedcam.camera.parameters.manual.SharpnessManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ShutterManualParameter;
-import com.troop.freedcam.camera.parameters.manual.ShutterManualParameterG4;
 import com.troop.freedcam.camera.parameters.manual.ShutterManualParameterHTC;
 import com.troop.freedcam.camera.parameters.manual.ShutterManualZTE;
 import com.troop.freedcam.camera.parameters.manual.SkintoneManualPrameter;
@@ -39,6 +38,7 @@ import com.troop.freedcam.camera.parameters.modes.ExposureModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FlashModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FocusModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FocusPeakModeParameter;
+import com.troop.freedcam.camera.parameters.modes.HDRModeParameter;
 import com.troop.freedcam.camera.parameters.modes.HighFramerateVideo;
 import com.troop.freedcam.camera.parameters.modes.HighSpeedVideo;
 import com.troop.freedcam.camera.parameters.modes.ImagePostProcessingParameter;
@@ -47,7 +47,7 @@ import com.troop.freedcam.camera.parameters.modes.JpegQualityParameter;
 import com.troop.freedcam.camera.parameters.modes.NightModeParameter;
 import com.troop.freedcam.camera.parameters.modes.NonZslManualModeParameter;
 import com.troop.freedcam.camera.parameters.modes.OisParameter;
-import com.troop.freedcam.camera.parameters.modes.PictureFormatParameter;
+import com.troop.freedcam.camera.parameters.modes.PictureFormatHandler;
 import com.troop.freedcam.camera.parameters.modes.PictureSizeParameter;
 import com.troop.freedcam.camera.parameters.modes.PreviewFormatParameter;
 import com.troop.freedcam.camera.parameters.modes.PreviewFpsParameter;
@@ -61,8 +61,6 @@ import com.troop.freedcam.camera.parameters.modes.VideoStabilizationParameter;
 import com.troop.freedcam.camera.parameters.modes.VirtualLensFilter;
 import com.troop.freedcam.camera.parameters.modes.WhiteBalanceModeParameter;
 import com.troop.freedcam.camera.parameters.modes.ZeroShutterLagParameter;
-import com.troop.freedcam.camera.parameters.modes.HDRModeParameter;
-
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
@@ -72,8 +70,6 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.DeviceUtils.Devices;
 import com.troop.freedcam.utils.StringUtils;
-
-import com.troop.freedcam.camera.FocusHandler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -88,14 +84,10 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     HashMap<String, String> cameraParameters;
     public HashMap<String, String> getParameters(){return cameraParameters;}
-
-    boolean moreParametersToSet = false;
     public BaseCameraHolder baseCameraHolder;
     public BaseModeParameter DualMode;
     CameraUiWrapper cameraUiWrapper;
     LG_G4AeHandler aeHandlerG4;
-
-    //SetParameterRunner setParameterRunner;
 
     public CamParametersHandler(CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, Handler uiHandler)
     {
@@ -103,11 +95,6 @@ public class CamParametersHandler extends AbstractParameterHandler
         ParametersEventHandler = new CameraParametersEventHandler(uiHandler);
         baseCameraHolder = (BaseCameraHolder) cameraHolder;
         this.cameraUiWrapper = cameraUiWrapper;
-    }
-
-    public void GetParametersFromCamera()
-    {
-        cameraParameters = baseCameraHolder.GetCameraParameters();
     }
 
     public void SetParametersToCamera()
@@ -118,7 +105,6 @@ public class CamParametersHandler extends AbstractParameterHandler
     public void LoadParametersFromCamera()
     {
         cameraParameters = baseCameraHolder.GetCameraParameters();
-        //setParameterRunner = new SetParameterRunner();
         initParameters();
     }
 
@@ -133,17 +119,29 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
     }
 
-
     private void initParameters()
     {
         if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
             setupLg_G4Parameters();
 
         logParameters(cameraParameters);
+        //setup first Pictureformat its needed for manual parameters to
+        // register their listners there if its postprocessing parameter
+        try {
+            PictureFormat = new PictureFormatHandler(uiHandler,cameraParameters, baseCameraHolder);
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner((PictureFormatHandler)PictureFormat);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+
         locationParameter = new LocationParameter(uiHandler, appSettingsManager, cameraHolder);
         try
         {
             ManualBrightness = new BrightnessManualParameter(cameraParameters, "","","", this);
+            PictureFormat.addEventListner(((BaseManualParameter)ManualBrightness).GetPicFormatListner());
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter)ManualBrightness).GetModuleListner());
         }
         catch (Exception ex)
         {
@@ -151,6 +149,8 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try {
             ManualContrast = new ContrastManualParameter(cameraParameters, "", "", "",this);
+            PictureFormat.addEventListner(((BaseManualParameter)ManualContrast).GetPicFormatListner());
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualContrast).GetModuleListner());
         }
         catch (Exception ex)
         {
@@ -184,6 +184,8 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try {
             ManualSaturation = new SaturationManualParameter(cameraParameters,"","","", this);
+            PictureFormat.addEventListner(((BaseManualParameter)ManualSaturation).GetPicFormatListner());
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualSaturation).GetModuleListner());
         }
         catch (Exception x)
         {
@@ -192,6 +194,8 @@ public class CamParametersHandler extends AbstractParameterHandler
         try
         {
             ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "", this);
+            PictureFormat.addEventListner(((BaseManualParameter)ManualSharpness).GetPicFormatListner());
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualSharpness).GetModuleListner());
         }
         catch (Exception ex)
         {
@@ -224,6 +228,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try {
             CCT = new CCTManualParameter(cameraParameters,"","","", this);
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) CCT).GetModuleListner());
         }
         catch (Exception ex)
         {
@@ -231,6 +236,8 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try{
             Skintone = new SkintoneManualPrameter(cameraParameters,"","","",this);
+            PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Skintone).GetModuleListner());
         }
         catch (Exception ex)
         {
@@ -238,6 +245,8 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try {
             FX = new FXManualParameter(cameraParameters,"","","", this);
+            PictureFormat.addEventListner(((BaseManualParameter)FX).GetPicFormatListner());
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) FX).GetModuleListner());
         }
         catch (Exception ex)
         {
@@ -245,6 +254,8 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try {
             Burst = new BurstManualParam(cameraParameters,"","","",this);
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Burst).GetModuleListner());
+
         }
         catch (Exception ex)
         {
@@ -253,6 +264,8 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         try {
             Zoom = new ZoomManualParameter(cameraParameters,"", "", "", this);
+            PictureFormat.addEventListner(((BaseManualParameter)Zoom).GetPicFormatListner());
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Zoom).GetModuleListner());
         }
         catch (Exception ex)
         {
@@ -308,13 +321,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         {
             ex.printStackTrace();
         }
-        try {
-            PictureFormat = new PictureFormatParameter(uiHandler,cameraParameters, baseCameraHolder, "", "", this, appSettingsManager);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
+
         try {
             JpegQuality = new JpegQualityParameter(uiHandler,cameraParameters, baseCameraHolder, "jpeg-quality", "");
         }
@@ -613,32 +620,6 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     }
 
-    /*class SetParameterRunner implements Runnable
-    {
-        private boolean isRunning = false;
-
-        @Override
-        public void run()
-        {
-            isRunning = true;
-            cameraHolder.SetCameraParameters(cameraParameters);
-            try {
-                //maybe need to incrase the sleeptime if a device crash when setting the manual parameters like manual exposure or manual saturation
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            isRunning = false;
-            //logParameters(cameraHolder.GetCamera().getParameters());
-            if (moreParametersToSet)
-            {
-                moreParametersToSet = false;
-                run();
-            }
-        }
-    }*/
-
-    //focus-areas=(0, 0, 0, 0, 0)
     public void SetMeterAREA(FocusRect meteringAreas)
     {
         if(DeviceUtils.IS(Devices.ZTE_ADV))
@@ -660,10 +641,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             {
 
             }
-
         }
-
-
     }
 
     public void SetFocusAREA(FocusRect focusAreas, FocusRect meteringAreas)
@@ -681,23 +659,16 @@ public class CamParametersHandler extends AbstractParameterHandler
                     }
                 };
                 handler.postDelayed(r, 1);
-
             }
             catch (Exception ex)
             {
-
             }
-
         }
         else
         {
             cameraParameters.put("focus-areas", "("+focusAreas.left+ ","+ focusAreas.top+","+ focusAreas.right+ ","+ focusAreas.bottom +",1000)");
-
             SetParametersToCamera();
-
         }
-        //((BaseCameraHolder)cameraHolder).SetFocusAreas(focusAreas, meteringAreas);
-
     }
 
     public void SetPictureOrientation(int orientation)
@@ -712,7 +683,6 @@ public class CamParametersHandler extends AbstractParameterHandler
         try
         {
             ((BaseCameraHolder)cameraHolder).SetOrientation(orientation);
-            
         }
         catch (Exception ex)
         {
@@ -732,61 +702,12 @@ public class CamParametersHandler extends AbstractParameterHandler
             ((BaseCameraHolder)cameraHolder).SetCameraRotation(180);
     }
 
-
-
     public void LockExposureAndWhiteBalance(boolean value)
     {
         isExposureAndWBLocked = value;
         if (ExposureLock.IsSupported())
             ExposureLock.SetValue(value + "", false);
         SetParametersToCamera();
-    }
-
-    public String GetRawSize()
-    {
-        return cameraParameters.get("raw-size");
-    }
-
-    //rawsave-mode=2
-    //rawfname=/storage/emulated/0/DCIM/CameraEM/Capture20150830-234030ISOAuto.raw;rawsave-mode=2
-    //rawsave-mode=2;
-    public void setMTKRaw(boolean raw)
-    {
-        Log.d(TAG, "MTK try to set mode");
-        if (!raw) {
-            cameraParameters.put("afeng_raw_dump_flag", "0");
-            cameraParameters.put("rawsave-mode", "0");
-            cameraParameters.put("zsd-mode", "off");
-            Log.e(TAG, "MTK set mode to jpeg");
-        }
-        else
-        {
-            //baseCameraHolder.StopPreview();
-            cameraParameters.put("afeng_raw_dump_flag", "1");
-            cameraParameters.put("isp-mode", "1");
-            cameraParameters.put("rawsave-mode", "2");
-            cameraParameters.put("rawfname", "/mnt/sdcard/DCIM/FreeDCam/1_.raw");
-            cameraParameters.put("zsd-mode", "on");
-           // baseCameraHolder.StartPreview();
-            Log.e(TAG, "MTK set mode to RAW");
-        }
-        cameraHolder.SetCameraParameters(cameraParameters);
-    }
-
-    public void simpleRawTest()
-
-    {
-        cameraParameters.put("rawsave-mode", "1");
-        cameraParameters.put("rawfname", "/mnt/sdcard/test.raw");
-        cameraHolder.SetCameraParameters(cameraParameters);
-    }
-
-    //rawfname=/storage/sdcard0/DCIM/CameraEM/Capture20141230-160133ISOAuto.raw;
-    public void setMTKrawFilename(String filename)
-    {
-        Log.e(TAG, "MTK set rawfname" + filename);
-        cameraParameters.put("rawfname", filename);
-        cameraHolder.SetCameraParameters(cameraParameters);
     }
 
     public void setString(String param, String value)
@@ -800,16 +721,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         {
             ex.printStackTrace();
         }
-
-
     }
-
-    public void setRawSize(String size)
-    {
-        cameraParameters.put("raw-size", size);
-        cameraHolder.SetCameraParameters(cameraParameters);
-    }
-
 
     public float GetFnumber()
     {
@@ -835,67 +747,17 @@ public class CamParametersHandler extends AbstractParameterHandler
     public void SetAppSettingsToParametersx() {
         super.SetAppSettingsToParameters();
         cameraUiWrapper.moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
-
-        //PreviewFormat.SetValue("yuv420sp", false);
     }
     public void FPSRangeLock (int min,int max){
 
         String mMin =String.valueOf(min*1000);
         String mMax =String.valueOf(max*1000);
-
-
-
         cameraParameters.put("preview-fps-range",mMin+","+mMax);
-
         cameraParameters.put("preview-frame-rate", mMax);
         baseCameraHolder.ParameterHandler.SetParametersToCamera();
 
     }
 
-
-    public void UHDDO ()
-    {
-        //cameraParameters.put("","")
-        //baseCameraHolder.StopPreview();
-      /*  cameraParameters.put("recording-hint", "true");
-        cameraParameters.put("preview-frame-rate", "30");
-        cameraParameters.put("preview-size", "3840x2160");
-        cameraParameters.put("preview-fps-range","24000, 30000");
-        cameraParameters.put("preview-format","nv12-venus");
-        cameraHolder.SetCameraParameters(cameraParameters);*/
-        //baseCameraHolder.StartPreview();
-
-        try
-        {
-
-            Handler handler = new Handler();
-            Runnable r = new Runnable() {
-                public void run() {
-
-                    setString("recording-hint", "true");
-                    setString("preview-frame-rate", "30");
-                    setString("preview-size", "3840x2160");
-                    setString("preview-fps-range", "24000, 30000");
-                    setString("preview-format", "nv12-venus");
-                    baseCameraHolder.SetCameraParameters(cameraParameters);
-                }
-            };
-            handler.postDelayed(r, 1);
-
-        }
-        catch (Exception ex)
-        {
-
-        }
-    }
-
-    private void camMode()
-    {
-        cameraParameters.put("camera-mode","0");
-        cameraHolder.SetCameraParameters(cameraParameters);
-        baseCameraHolder.StopPreview();
-        baseCameraHolder.StartPreview();
-    }
     private void Mediatek()
     {
        // cameraParameters.put("zsd-mode","on");
@@ -914,15 +776,6 @@ public class CamParametersHandler extends AbstractParameterHandler
     private void setupLg_G4Parameters()
     {
         cameraParameters.put("lge-camera", "1");
-        /*cameraParameters.put("ae-bracket-hdr","Off");
-        cameraParameters.put("ae-bracket-hdr-values","Off,AE-Bracket");
-        cameraParameters.put("dng-capture", "1"); // 0 diasbled 1 enable
-        cameraParameters.put("dng-size","20027632");
-        cameraParameters.put("lg-manual-mode-reset","1"); // 0 diasbled 1 enable
-        cameraParameters.put("lg-iso","-1000"); //-1000 disable?
-        cameraParameters.put("shutter-speed","-1000"); // -1000 disable
-        cameraParameters.put("lg-wb","-1000");
-        cameraParameters.put("manualfocus_step","0");*/
     }
 
 

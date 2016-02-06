@@ -4,25 +4,23 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
-import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
-import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
 
 /**
  * Created by troop on 17.08.2014.
  */
-public class BaseModeParameter extends AbstractModeParameter implements I_ModuleEvent {
+public class BaseModeParameter extends AbstractModeParameter implements I_ModuleEvent, AbstractModeParameter.I_ModeParameterEvent {
     protected String value;
     protected String values;
     boolean isSupported = false;
+    boolean isVisible = true;
     HashMap<String, String> parameters;
     BaseCameraHolder baseCameraHolder;
     protected boolean firststart = true;
     private static String TAG = BaseModeParameter.class.getSimpleName();
-    public String IdentifySub = "Ignore";
 
     /***
      *
@@ -64,64 +62,38 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
         return isSupported;
     }
 
+    @Override
+    public boolean IsVisible() {
+        return isVisible;
+    }
+
     public void SetValue(String valueToSet,  boolean setToCam)
     {
-        Log.e(TAG,"Index :" + IdentifySub);
         if (valueToSet == null)
             return;
         String tmp = parameters.get(value);
         parameters.put(value, valueToSet);
         Log.d(TAG, "set " + value + " from " + tmp + " to " + valueToSet);
+        BackgroundValueHasChanged(valueToSet);
+        if (setToCam) {
+            try {
+                baseCameraHolder.SetCameraParameters(parameters);
 
-        if(IdentifySub.equals("Ignore")) {
-
-            BackgroundValueHasChanged(valueToSet);
-            if (setToCam) {
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                Log.e(TAG, "set " + value + " to " + valueToSet + " failed set back to: " + tmp);
+                if (tmp == null)
+                    return;
+                parameters.put(value, tmp);
                 try {
                     baseCameraHolder.SetCameraParameters(parameters);
-
-                } catch (Exception ex) {
+                    BackgroundValueHasChanged(valueToSet);
+                } catch (Exception ex2) {
                     ex.printStackTrace();
-                    Log.e(TAG, "set " + value + " to " + valueToSet + " failed set back to: " + tmp);
-                    if (tmp == null)
-                        return;
-                    parameters.put(value, tmp);
-                    try {
-                        baseCameraHolder.SetCameraParameters(parameters);
-                        BackgroundValueHasChanged(valueToSet);
-                    } catch (Exception ex2) {
-                        ex.printStackTrace();
-                        Log.e(TAG, "set " + value + " back to " + tmp + " failed");
-                    }
+                    Log.e(TAG, "set " + value + " back to " + tmp + " failed");
                 }
             }
         }
-        else
-        {
-            BackgroundValueHasChanged(IdentifySub);
-            if (setToCam) {
-                try {
-                    baseCameraHolder.SetCameraParameters(parameters);
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    Log.e(TAG, "set " + value + " to " + IdentifySub + " failed set back to: " + tmp);
-                    if (tmp == null)
-                        return;
-                    parameters.put(value, tmp);
-                    try {
-                        baseCameraHolder.SetCameraParameters(parameters);
-                        BackgroundValueHasChanged(IdentifySub);
-                    } catch (Exception ex2) {
-                        ex.printStackTrace();
-                        Log.e(TAG, "set " + value + " back to " + tmp + " failed");
-                    }
-                }
-            }
-        }
-        //here
-
-
         firststart = false;
     }
 
@@ -140,5 +112,30 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
     @Override
     public String ModuleChanged(String module) {
         return null;
+    }
+
+    @Override
+    public void onValueChanged(String val) {
+
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
+
+    @Override
+    public void onVisibilityChanged(boolean visible) {
+
     }
 }

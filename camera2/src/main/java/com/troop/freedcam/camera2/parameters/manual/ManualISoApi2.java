@@ -41,6 +41,10 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
         }
     }
 
+    @Override
+    public boolean IsVisible() {
+        return true;
+    }
 
     @Override
     public boolean IsSupported() {

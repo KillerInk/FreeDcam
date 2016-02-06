@@ -4,6 +4,7 @@ import android.os.Handler;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
@@ -16,33 +17,33 @@ public class NightModeParameter extends BaseModeParameter
 
     private boolean visible = true;
     private String state = "";
+    private String format = "";
     public NightModeParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
         super(handler, parameters, parameterChanged, value, values);
 
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
-        ModuleChanged(cameraUiWrapper.moduleHandler.GetCurrentModuleName());
+        this.isSupported = false;
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
+            this.isSupported = true;
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)||DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
+        {
+            this.isSupported = true;
+        }
+        if (isSupported) {
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
+            cameraUiWrapper.camParametersHandler.PictureFormat.addEventListner(this);
+        }
 
     }
 
     @Override
     public boolean IsSupported()
     {
-        this.isSupported = false;
-        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
-            this.isSupported = true;
-        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)||DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
-        {
-            if (visible)
-                this.isSupported = true;
-            else
-                this.isSupported = false;
-        }
-        BackgroundIsSupportedChanged(isSupported);
         return  isSupported;
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam) {
+    public void SetValue(String valueToSet, boolean setToCam)
+    {
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)||DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
         {
             if (valueToSet.equals("on")) {
@@ -91,25 +92,49 @@ public class NightModeParameter extends BaseModeParameter
     }
 
     @Override
-    public String ModuleChanged(String module) {
-        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)) {
-            if (module.equals("module_video")|| module.equals("module_hdr")) {
-                state = GetValue();
-                visible = false;
-                this.isSupported = false;
-                baseCameraHolder.ParameterHandler.morphoHHT.SetValue("false", true);
-                BackgroundValueHasChanged("off");
-                if (module.equals("module_hdr"))
-                    parameters.put("ae-bracket-hdr","AE-Bracket");
-                BackgroundIsSupportedChanged(isSupported);
-            } else if (!visible){
-                visible = true;
-                this.isSupported = true;
-                SetValue(state,true);
-                BackgroundValueHasChanged(state);
-                BackgroundIsSupportedChanged(isSupported);
+    public String ModuleChanged(String module)
+    {
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
+        {
+            switch (module)
+            {
+                case AbstractModuleHandler.MODULE_VIDEO:
+                case AbstractModuleHandler.MODULE_HDR:
+                    Hide();
+                    break;
+                default:
+                    Show();
+                    BackgroundIsSupportedChanged(true);
             }
         }
         return null;
     }
+
+    @Override
+    public void onValueChanged(String val)
+    {
+        format = val;
+        if (val.contains("jpeg")&&!visible)
+            Show();
+
+        else if (!val.contains("jpeg")&&visible)
+            Hide();
+    }
+
+    private void Hide()
+    {
+        state = GetValue();
+        visible = false;
+        SetValue("off",true);
+        BackgroundValueHasChanged("off");
+        BackgroundIsSupportedChanged(visible);
+    }
+    private void Show()
+    {
+        visible = true;
+        SetValue(state,true);
+        BackgroundValueHasChanged(state);
+        BackgroundIsSupportedChanged(visible);
+    }
+
 }

@@ -7,7 +7,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
-
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
@@ -330,6 +329,11 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
 
         @Override
         public void onValuesChanged(String[] values) {
+
+        }
+
+        @Override
+        public void onVisibilityChanged(boolean visible) {
 
         }
     };

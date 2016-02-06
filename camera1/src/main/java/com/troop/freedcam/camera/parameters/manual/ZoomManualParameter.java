@@ -12,15 +12,19 @@ public class ZoomManualParameter extends  BaseManualParameter
     public ZoomManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
         this.value = "zoom";
+        isSupported = false;
+        if (parameters.containsKey("zoom-supported"))
+            if (parameters.get("zoom-supported").equals("true")) {
+                isSupported = true;
+                Set_Default_Value(GetValue());
+            }
     }
 
     @Override
     public boolean IsSupported()
     {
-        if (parameters.containsKey("zoom-supported"))
-            if (parameters.get("zoom-supported").equals("true"))
-                return true;
-        return false;
+
+        return isSupported;
     }
 
     @Override

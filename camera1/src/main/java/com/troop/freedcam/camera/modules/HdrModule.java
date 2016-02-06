@@ -13,7 +13,6 @@ import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -57,6 +56,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
                 return false;
             }
             startworking();
+            LoadAEB();
             if (aeBrackethdr && baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg"))
             {
                 baseCameraHolder.TakePicture(null, null, aeBracketCallback);
@@ -86,12 +86,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
     @Override
     public void LoadNeededParameters()
     {
-        if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
-        {
-            aeBrackethdr = true;
-            ParameterHandler.AE_Bracket.SetValue("AE-Bracket", true);
-
-        }
+        LoadAEB();
     }
 
     @Override
@@ -118,10 +113,10 @@ public class HdrModule extends PictureModule implements I_WorkeDone
                 if (picFormat.equals("jpeg")) {
                     final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, HdrModule.this, handler,Settings.GetWriteExternal());
                     jpegSaver.TakePicture();
-                } else if (!ParameterHandler.IsDngActive() && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+                } else if (!ParameterHandler.IsDngActive() && picFormat.contains("raw")) {
                     final RawSaver rawSaver = new RawSaver(baseCameraHolder, HdrModule.this, handler,Settings.GetWriteExternal());
                     rawSaver.TakePicture();
-                } else if (ParameterHandler.IsDngActive() && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+                } else if (ParameterHandler.IsDngActive() && picFormat.contains("dng")) {
                     DngSaver dngSaver = new DngSaver(baseCameraHolder, HdrModule.this, handler,Settings.GetWriteExternal());
                     dngSaver.TakePicture();
                 }
@@ -212,5 +207,15 @@ public class HdrModule extends PictureModule implements I_WorkeDone
             stopworking();
         }
     };
+    private void LoadAEB()
+    {
+        if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
+        {
+            aeBrackethdr = true;
+            ParameterHandler.AE_Bracket.SetValue("AE-Bracket", true);
+
+        }
+
+    }
 
 }

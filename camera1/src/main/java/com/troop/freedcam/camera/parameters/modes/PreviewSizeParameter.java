@@ -4,7 +4,6 @@ import android.os.Handler;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
-import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
 
@@ -43,6 +42,14 @@ public class PreviewSizeParameter extends BaseModeParameter
         }*/
         //baseCameraHolder.SetCameraParameters(parameters);
         //if (!baseCameraHolder.IsPreviewRunning())
+        try {
+            baseCameraHolder.SetCameraParameters(parameters);
+            super.BackgroundValueHasChanged(valueToSet);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
         if (setToCam)
             baseCameraHolder.StartPreview();
         firststart = false;

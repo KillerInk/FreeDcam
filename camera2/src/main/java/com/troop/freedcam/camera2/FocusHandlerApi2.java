@@ -75,6 +75,11 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
         public void onValuesChanged(String[] values) {
 
         }
+
+        @Override
+        public void onVisibilityChanged(boolean visible) {
+
+        }
     };
 
     @Override
@@ -183,6 +188,11 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
         public void onValuesChanged(String[] values) {
 
         }
+
+        @Override
+        public void onVisibilityChanged(boolean visible) {
+
+        }
     };
 
     private void lockAE() {
@@ -243,6 +253,11 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
 
         @Override
         public void onValuesChanged(String[] values) {
+
+        }
+
+        @Override
+        public void onVisibilityChanged(boolean visible) {
 
         }
     };
