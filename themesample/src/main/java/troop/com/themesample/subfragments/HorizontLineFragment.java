@@ -104,6 +104,11 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
 
     }
 
+    @Override
+    public void onVisibilityChanged(boolean visible) {
+
+    }
+
     public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
     {
         this.cameraUiWrapper = cameraUiWrapper;

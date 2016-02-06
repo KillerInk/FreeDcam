@@ -109,4 +109,9 @@ public class HorizontalValuesFragment extends Fragment implements Interfaces.I_C
         this.values = values;
         setValueToView();
     }
+
+    @Override
+    public void onVisibilityChanged(boolean visible) {
+
+    }
 }

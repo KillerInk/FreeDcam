@@ -281,5 +281,10 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         public void onValuesChanged(String[] values) {
 
         }
+
+        @Override
+        public void onVisibilityChanged(boolean visible) {
+
+        }
     };
 }

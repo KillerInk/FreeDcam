@@ -235,6 +235,11 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     }
 
     @Override
+    public void onVisibilityChanged(boolean visible) {
+
+    }
+
+    @Override
     public String ModuleChanged(String module) {
         return null;
     }

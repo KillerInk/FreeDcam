@@ -236,6 +236,11 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
         public void onValuesChanged(String[] values) {
 
         }
+
+        @Override
+        public void onVisibilityChanged(boolean visible) {
+
+        }
     };
 
     @Override
