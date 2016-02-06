@@ -59,6 +59,11 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
         public void onValuesChanged(String[] values) {
 
         }
+
+        @Override
+        public void onVisibilityChanged(boolean visible) {
+
+        }
     };
     public AbstractModeParameter.I_ModeParameterEvent aeModeListner = new AbstractModeParameter.I_ModeParameterEvent() {
         @Override
@@ -94,6 +99,11 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
 
         @Override
         public void onValuesChanged(String[] values) {
+
+        }
+
+        @Override
+        public void onVisibilityChanged(boolean visible) {
 
         }
     };

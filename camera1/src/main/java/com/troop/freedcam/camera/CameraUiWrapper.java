@@ -331,6 +331,11 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         public void onValuesChanged(String[] values) {
 
         }
+
+        @Override
+        public void onVisibilityChanged(boolean visible) {
+
+        }
     };
 
     private Size getOptimalPreviewSize(List<Size> sizes, int w, int h) {

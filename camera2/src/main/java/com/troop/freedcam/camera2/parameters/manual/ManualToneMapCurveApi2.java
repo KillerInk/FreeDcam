@@ -71,6 +71,11 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
 
     }
 
+    @Override
+    public void onVisibilityChanged(boolean visible) {
+
+    }
+
 
     public class Contrast extends ManualExposureApi2
     {

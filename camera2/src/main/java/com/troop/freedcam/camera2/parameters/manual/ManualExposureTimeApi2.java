@@ -168,6 +168,11 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
 
     }
 
+    @Override
+    public void onVisibilityChanged(boolean visible) {
+
+    }
+
     //implementation I_ModeParameterEvent END
 
 }

@@ -52,6 +52,8 @@ public class AbstractModeParameter implements I_ModeParameter
          * @param values the string array with new values
          */
         void onValuesChanged(String[] values);
+
+        void onVisibilityChanged(boolean visible);
     }
 
     private List<I_ModeParameterEvent> events;
@@ -94,6 +96,11 @@ public class AbstractModeParameter implements I_ModeParameter
     @Override
     public String[] GetValues() {
         return new String[0];
+    }
+
+    @Override
+    public boolean IsVisible() {
+        return true;
     }
 
     /**
@@ -192,6 +199,28 @@ public class AbstractModeParameter implements I_ModeParameter
                     }
                     else
                         events.get(i).onIsSetSupportedChanged(value);
+                }
+            }
+        });
+
+    }
+
+    public void BackgroundVisibilityChanged(final boolean value)
+    {
+        uihandler.post(new Runnable() {
+            @Override
+            public void run() {
+                //Log.d(TAG, "BackgroundSetSupportedCHanged:" + value);
+                for (int i= 0; i< events.size(); i ++)
+                {
+                    if (events.get(i) == null)
+                    {
+                        events.remove(i);
+                        i--;
+
+                    }
+                    else
+                        events.get(i).onVisibilityChanged(value);
                 }
             }
         });

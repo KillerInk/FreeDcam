@@ -159,4 +159,9 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
     public void onValuesChanged(String[] values) {
 
     }
+
+    @Override
+    public void onVisibilityChanged(boolean visible) {
+
+    }
 }

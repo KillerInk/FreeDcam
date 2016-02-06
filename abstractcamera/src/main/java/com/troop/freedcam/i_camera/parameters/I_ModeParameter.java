@@ -13,4 +13,6 @@ public interface I_ModeParameter
 
     public String[] GetValues();
 
+    public boolean IsVisible();
+
 }

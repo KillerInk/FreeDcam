@@ -196,5 +196,10 @@ public abstract class BaseManualParameter extends AbstractManualParameter
         public void onValuesChanged(String[] values) {
 
         }
+
+        @Override
+        public void onVisibilityChanged(boolean visible) {
+
+        }
     };
 }

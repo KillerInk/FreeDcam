@@ -187,6 +187,11 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
 
     }
 
+    @Override
+    public void onVisibilityChanged(boolean visible) {
+
+    }
+
     private int getCctFromRGB(int R, int G, int B)
     {
         double n=((0.23881)*R+(0.25499)*G+(-0.58291)*B)/((0.11109)*R+(-0.85406)*G+(0.52289)*B);

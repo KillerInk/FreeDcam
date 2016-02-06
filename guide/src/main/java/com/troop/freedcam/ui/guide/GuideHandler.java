@@ -206,6 +206,11 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
 
     }
 
+    @Override
+    public void onVisibilityChanged(boolean visible) {
+
+    }
+
     AbstractModeParameter.I_ModeParameterEvent previewSizeChanged = new AbstractModeParameter.I_ModeParameterEvent() {
         @Override
         public void onValueChanged(String val) {
