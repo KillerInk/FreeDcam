@@ -75,4 +75,9 @@ public class ManualExposureApi2 extends AbstractManualParameter
     public boolean IsSetSupported() {
         return true;
     }
+
+    @Override
+    public boolean IsVisible() {
+        return super.IsVisible();
+    }
 }

@@ -35,9 +35,7 @@ public class ISOManualParameterG4 extends BaseManualParameter
     @Override
     public boolean IsSupported()
     {
-
         return isSupported;
-
     }
 
     @Override

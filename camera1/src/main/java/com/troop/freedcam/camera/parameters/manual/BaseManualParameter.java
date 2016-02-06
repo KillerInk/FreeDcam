@@ -40,6 +40,7 @@ public abstract class BaseManualParameter extends AbstractManualParameter
      */
     boolean isSupported = false;
 
+
     private int default_value = 0;
     public void Set_Default_Value(int val){default_value = val;}
     public int Get_Default_Value(){return default_value;}
@@ -79,6 +80,11 @@ public abstract class BaseManualParameter extends AbstractManualParameter
     @Override
     public boolean IsSetSupported() {
         return true;
+    }
+
+    @Override
+    public boolean IsVisible() {
+        return super.IsVisible();
     }
 
     public int GetMaxValue()
