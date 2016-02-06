@@ -181,8 +181,12 @@ public abstract class BaseManualParameter extends AbstractManualParameter
         public void onValueChanged(String val)
         {
            if (val.equals(PictureFormatHandler.CaptureMode[PictureFormatHandler.JPEG]) && isSupported)
+           {
+               isVisible = true;
                BackgroundIsSupportedChanged(true);
+           }
             else {
+               isVisible = false;
                BackgroundIsSupportedChanged(false);
                ResetToDefault();
            }

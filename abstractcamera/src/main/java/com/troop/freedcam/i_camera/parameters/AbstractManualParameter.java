@@ -14,7 +14,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
     private List<I_ManualParameterEvent> events;
     protected AbstractParameterHandler camParametersHandler;
 
-    boolean isVisible = false;
+    protected boolean isVisible = true;
 
     public AbstractManualParameter(AbstractParameterHandler camParametersHandler)
     {

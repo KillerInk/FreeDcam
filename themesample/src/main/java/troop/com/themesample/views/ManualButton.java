@@ -116,7 +116,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
                 else
                     valueTextView.setText(parameter.GetValue()+"");
 
-                onIsSupportedChanged(parameter.IsSupported());
+                onIsSupportedChanged(parameter.IsVisible());
                 onIsSetSupportedChanged(parameter.IsSetSupported());
 
                     realMax = parameter.GetMaxValue();
