@@ -20,6 +20,9 @@ public class BurstManualParam extends BaseManualParameter {
     int curr = 0;
     public BurstManualParam(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) ||
+                DeviceUtils.IS(DeviceUtils.Devices.LG_G3)|| DeviceUtils.IS(DeviceUtils.Devices.LG_G2)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
+            isSupported = true;
 
         //TODO add missing logic
     }
@@ -33,11 +36,7 @@ public class BurstManualParam extends BaseManualParameter {
     @Override
     public boolean IsSupported()
     {
-        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) ||
-                DeviceUtils.IS(DeviceUtils.Devices.LG_G3)|| DeviceUtils.IS(DeviceUtils.Devices.LG_G2)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
-            return true;
-        else
-            return false;
+        return isSupported;
     }
 
     @Override
