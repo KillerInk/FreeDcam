@@ -7,6 +7,8 @@ package com.troop.freedcam.camera.parameters.manual;
 import android.os.Build;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
+import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -84,4 +86,26 @@ public class BurstManualParam extends BaseManualParameter {
     public String GetStringValue() {
         return curr +"";
     }
+
+    @Override
+    public I_ModuleEvent GetModuleListner() {
+        return moduleListner;
+    }
+
+    private I_ModuleEvent moduleListner =new I_ModuleEvent() {
+        @Override
+        public String ModuleChanged(String module)
+        {
+            if (module.equals(AbstractModuleHandler.MODULE_VIDEO) && isSupported)
+                BackgroundIsSupportedChanged(false);
+            else if ((module.equals(AbstractModuleHandler.MODULE_PICTURE)
+                    || module.equals(AbstractModuleHandler.MODULE_INTERVAL)
+                    || module.equals(AbstractModuleHandler.MODULE_HDR))&& isSupported)
+            {
+                BackgroundIsSupportedChanged(true);
+            }
+            return null;
+        }
+    };
+
 }

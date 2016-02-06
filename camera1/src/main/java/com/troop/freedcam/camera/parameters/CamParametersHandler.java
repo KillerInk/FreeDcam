@@ -253,6 +253,8 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try {
             Burst = new BurstManualParam(cameraParameters,"","","",this);
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Burst).GetModuleListner());
+
         }
         catch (Exception ex)
         {
