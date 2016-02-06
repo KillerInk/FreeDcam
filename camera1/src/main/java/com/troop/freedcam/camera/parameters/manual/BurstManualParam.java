@@ -96,11 +96,11 @@ public class BurstManualParam extends BaseManualParameter {
         @Override
         public String ModuleChanged(String module)
         {
-            if (module.equals(AbstractModuleHandler.MODULE_VIDEO) && isSupported)
+            if ((module.equals(AbstractModuleHandler.MODULE_VIDEO) || module.equals(AbstractModuleHandler.MODULE_HDR)) && isSupported)
                 BackgroundIsSupportedChanged(false);
             else if ((module.equals(AbstractModuleHandler.MODULE_PICTURE)
                     || module.equals(AbstractModuleHandler.MODULE_INTERVAL)
-                    || module.equals(AbstractModuleHandler.MODULE_HDR))&& isSupported)
+                    )&& isSupported)
             {
                 BackgroundIsSupportedChanged(true);
             }
