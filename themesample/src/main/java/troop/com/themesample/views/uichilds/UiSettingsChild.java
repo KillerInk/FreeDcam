@@ -149,8 +149,9 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
             }
             return;
         }
-        else {
-            onIsSupportedChanged(true);
+        else
+        {
+            onIsSupportedChanged(parameter.IsVisible());
             if (parameter != null) {
                 parameter.addEventListner(this);
                 this.parameter = parameter;

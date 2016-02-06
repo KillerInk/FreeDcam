@@ -16,6 +16,7 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
     protected String value;
     protected String values;
     boolean isSupported = false;
+    boolean isVisible = true;
     HashMap<String, String> parameters;
     BaseCameraHolder baseCameraHolder;
     protected boolean firststart = true;
@@ -60,6 +61,11 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
         //Log.d(TAG, "is Supported :" + isSupported);
         BackgroundSetIsSupportedHasChanged(isSupported);
         return isSupported;
+    }
+
+    @Override
+    public boolean IsVisible() {
+        return isVisible;
     }
 
     public void SetValue(String valueToSet,  boolean setToCam)
