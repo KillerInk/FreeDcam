@@ -313,7 +313,6 @@ public class HighFramerateVideo extends  BaseModeParameter
     {
         FpsTriggered = true;
         FpEss = valueToSet;
-        super.IdentifySub = valueToSet;
         if(valueToSet.equals("Default") ||Integer.parseInt(valueToSet.split("@")[1]) <= 30 )
         {
             super.SetValue("off", setToCam);

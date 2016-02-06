@@ -21,7 +21,6 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
     BaseCameraHolder baseCameraHolder;
     protected boolean firststart = true;
     private static String TAG = BaseModeParameter.class.getSimpleName();
-    public String IdentifySub = "Ignore";
 
     /***
      *
@@ -70,62 +69,31 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
 
     public void SetValue(String valueToSet,  boolean setToCam)
     {
-        Log.e(TAG,"Index :" + IdentifySub);
         if (valueToSet == null)
             return;
         String tmp = parameters.get(value);
         parameters.put(value, valueToSet);
         Log.d(TAG, "set " + value + " from " + tmp + " to " + valueToSet);
+        BackgroundValueHasChanged(valueToSet);
+        if (setToCam) {
+            try {
+                baseCameraHolder.SetCameraParameters(parameters);
 
-        if(IdentifySub.equals("Ignore")) {
-
-            BackgroundValueHasChanged(valueToSet);
-            if (setToCam) {
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                Log.e(TAG, "set " + value + " to " + valueToSet + " failed set back to: " + tmp);
+                if (tmp == null)
+                    return;
+                parameters.put(value, tmp);
                 try {
                     baseCameraHolder.SetCameraParameters(parameters);
-
-                } catch (Exception ex) {
+                    BackgroundValueHasChanged(valueToSet);
+                } catch (Exception ex2) {
                     ex.printStackTrace();
-                    Log.e(TAG, "set " + value + " to " + valueToSet + " failed set back to: " + tmp);
-                    if (tmp == null)
-                        return;
-                    parameters.put(value, tmp);
-                    try {
-                        baseCameraHolder.SetCameraParameters(parameters);
-                        BackgroundValueHasChanged(valueToSet);
-                    } catch (Exception ex2) {
-                        ex.printStackTrace();
-                        Log.e(TAG, "set " + value + " back to " + tmp + " failed");
-                    }
+                    Log.e(TAG, "set " + value + " back to " + tmp + " failed");
                 }
             }
         }
-        else
-        {
-            BackgroundValueHasChanged(IdentifySub);
-            if (setToCam) {
-                try {
-                    baseCameraHolder.SetCameraParameters(parameters);
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    Log.e(TAG, "set " + value + " to " + IdentifySub + " failed set back to: " + tmp);
-                    if (tmp == null)
-                        return;
-                    parameters.put(value, tmp);
-                    try {
-                        baseCameraHolder.SetCameraParameters(parameters);
-                        BackgroundValueHasChanged(IdentifySub);
-                    } catch (Exception ex2) {
-                        ex.printStackTrace();
-                        Log.e(TAG, "set " + value + " back to " + tmp + " failed");
-                    }
-                }
-            }
-        }
-        //here
-
-
         firststart = false;
     }
 
