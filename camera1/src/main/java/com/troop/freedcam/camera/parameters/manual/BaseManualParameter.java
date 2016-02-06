@@ -3,6 +3,8 @@ package com.troop.freedcam.camera.parameters.manual;
 import android.util.Log;
 
 import com.troop.freedcam.camera.parameters.modes.PictureFormatHandler;
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
+import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
@@ -211,6 +213,27 @@ public abstract class BaseManualParameter extends AbstractManualParameter
         @Override
         public void onVisibilityChanged(boolean visible) {
 
+        }
+    };
+
+    public I_ModuleEvent GetModuleListner()
+    {
+        return moduleListner;
+    }
+
+    private I_ModuleEvent moduleListner =new I_ModuleEvent() {
+        @Override
+        public String ModuleChanged(String module)
+        {
+            if (module.equals(AbstractModuleHandler.MODULE_VIDEO) && isSupported)
+                BackgroundIsSupportedChanged(true);
+            else if (module.equals(AbstractModuleHandler.MODULE_PICTURE)
+                    || module.equals(AbstractModuleHandler.MODULE_INTERVAL)
+                    || module.equals(AbstractModuleHandler.MODULE_HDR))
+            {
+                BackgroundIsSupportedChanged(isVisible);
+            }
+            return null;
         }
     };
 }

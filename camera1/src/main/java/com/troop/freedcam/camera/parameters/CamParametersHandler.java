@@ -141,6 +141,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         {
             ManualBrightness = new BrightnessManualParameter(cameraParameters, "","","", this);
             PictureFormat.addEventListner(((BaseManualParameter)ManualBrightness).GetPicFormatListner());
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter)ManualBrightness).GetModuleListner());
         }
         catch (Exception ex)
         {
@@ -149,6 +150,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         try {
             ManualContrast = new ContrastManualParameter(cameraParameters, "", "", "",this);
             PictureFormat.addEventListner(((BaseManualParameter)ManualContrast).GetPicFormatListner());
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualContrast).GetModuleListner());
         }
         catch (Exception ex)
         {
@@ -183,6 +185,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         try {
             ManualSaturation = new SaturationManualParameter(cameraParameters,"","","", this);
             PictureFormat.addEventListner(((BaseManualParameter)ManualSaturation).GetPicFormatListner());
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualSaturation).GetModuleListner());
         }
         catch (Exception x)
         {
@@ -192,6 +195,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         {
             ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "", this);
             PictureFormat.addEventListner(((BaseManualParameter)ManualSharpness).GetPicFormatListner());
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualSharpness).GetModuleListner());
         }
         catch (Exception ex)
         {
@@ -232,6 +236,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         try{
             Skintone = new SkintoneManualPrameter(cameraParameters,"","","",this);
             PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Skintone).GetModuleListner());
         }
         catch (Exception ex)
         {
@@ -240,6 +245,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         try {
             FX = new FXManualParameter(cameraParameters,"","","", this);
             PictureFormat.addEventListner(((BaseManualParameter)FX).GetPicFormatListner());
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) FX).GetModuleListner());
         }
         catch (Exception ex)
         {
@@ -256,6 +262,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         try {
             Zoom = new ZoomManualParameter(cameraParameters,"", "", "", this);
             PictureFormat.addEventListner(((BaseManualParameter)Zoom).GetPicFormatListner());
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Zoom).GetModuleListner());
         }
         catch (Exception ex)
         {
