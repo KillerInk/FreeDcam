@@ -132,6 +132,11 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
     }
 
     @Override
+    public boolean IsVisible() {
+        return isSupported;
+    }
+
+    @Override
     public boolean IsSetSupported() {
         return canSet;
     }

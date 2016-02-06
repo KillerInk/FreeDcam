@@ -67,7 +67,8 @@ public class ManualExposureApi2 extends AbstractManualParameter
     }
 
     @Override
-    public boolean IsSupported() {
+    public boolean IsSupported()
+    {
         return cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE) != null;
     }
 
@@ -78,6 +79,6 @@ public class ManualExposureApi2 extends AbstractManualParameter
 
     @Override
     public boolean IsVisible() {
-        return super.IsVisible();
+        return true;
     }
 }

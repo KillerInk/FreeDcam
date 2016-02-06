@@ -39,6 +39,11 @@ public class ISOManualParameterG4 extends BaseManualParameter
     }
 
     @Override
+    public boolean IsVisible() {
+        return isSupported;
+    }
+
+    @Override
     public int GetMaxValue() {
 
         return isovalues.length -1;

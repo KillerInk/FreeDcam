@@ -35,6 +35,11 @@ public class ShutterManualParameterG4 extends BaseManualParameter
     }
 
     @Override
+    public boolean IsVisible() {
+        return super.IsSupported();
+    }
+
+    @Override
     public int GetMaxValue() {
             return shutterValues.length-1;
     }

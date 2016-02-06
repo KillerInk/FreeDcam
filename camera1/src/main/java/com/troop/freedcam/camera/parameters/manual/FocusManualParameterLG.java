@@ -23,6 +23,7 @@ public class FocusManualParameterLG extends  BaseManualParameter
         super(parameters, value, maxValue, MinValue, camParametersHandler);
         this.baseCameraHolder = cameraHolder;
         isSupported = true;
+        isVisible = isSupported;
 }
 
     @Override

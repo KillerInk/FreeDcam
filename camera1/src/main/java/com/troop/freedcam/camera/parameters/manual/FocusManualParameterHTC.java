@@ -25,6 +25,7 @@ public class FocusManualParameterHTC extends  BaseManualParameter
         this.max_value = "max-focus";
         this.value = "focus";
         this.min_value = "min-focus";
+        isVisible = isSupported;
 }
 
     @Override

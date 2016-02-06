@@ -54,6 +54,7 @@ public class FocusManualParameter extends  BaseManualParameter
         }
         else
             this.isSupported = false;
+        isVisible = isSupported;
 }
 
     @Override

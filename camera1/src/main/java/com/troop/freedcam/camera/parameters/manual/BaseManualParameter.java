@@ -155,6 +155,7 @@ public abstract class BaseManualParameter extends AbstractManualParameter
                 isSupported = true;
             else
                 isSupported = false;
+            isVisible = isSupported;
         }
         catch (Exception ex)
         {
