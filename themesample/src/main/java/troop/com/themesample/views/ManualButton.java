@@ -1,5 +1,6 @@
 package troop.com.themesample.views;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -7,6 +8,7 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -160,13 +162,39 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
             public void run() {
                 final String txt = headerTextView.getText().toString();
                 Log.d(txt, "isSupported:" + value);
-                if (value)
+                if (value) {
                     ManualButton.this.setVisibility(VISIBLE);
+                    ManualButton.this.animate().setListener(null).scaleX(1f).setDuration(300);
+                }
                 else
-                    ManualButton.this.setVisibility(GONE);
+                {
+                    ManualButton.this.animate().setListener(hideListner).scaleX(0f).setDuration(300);
+                }
             }
         });
     }
+
+    private Animator.AnimatorListener hideListner = new Animator.AnimatorListener() {
+        @Override
+        public void onAnimationStart(Animator animation) {
+
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            ManualButton.this.setVisibility(GONE);
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animation) {
+
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animation) {
+
+        }
+    };
 
     @Override
     public void onIsSetSupportedChanged(final boolean value) {
