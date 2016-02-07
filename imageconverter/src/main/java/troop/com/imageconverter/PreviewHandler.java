@@ -28,7 +28,7 @@ import com.troop.freedcam.ui.I_AspectRatio;
  * Created by troop on 24.08.2015.
  */
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedListner, I_ModuleEvent,I_Shutter_Changed
+public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedListner,I_ModuleEvent
 {
     final String TAG = PreviewHandler.class.getSimpleName();
     private I_AspectRatio output;
@@ -43,8 +43,8 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     private boolean mHaveSurface;
     private Surface mSurface;
     private ScriptC_focus_peak_cam1 mScriptFocusPeak;
-    boolean enable = false;
-    boolean doWork = false;
+    private boolean enable = false;
+    private boolean doWork = false;
     Context context;
 
     public PreviewHandler(I_AspectRatio output, AbstractCameraUiWrapper cameraUiWrapper, Context context)
@@ -60,6 +60,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
 
     public void Enable(boolean enable)
     {
+        Log.d(TAG, "Enable:" +enable);
         this.enable = enable;
         setEnable(this.enable);
     }
@@ -204,8 +205,9 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
 
     public void SetAspectRatio(int w, int h)
     {
-        output.setAspectRatio(w,h);
-        reset(w,h);
+        output.setAspectRatio(w, h);
+        if (enable)
+            reset(w,h);
     }
 
     boolean isWorking = false;
@@ -271,10 +273,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     public void onPreviewOpen(String message)
     {
         clear_preview();
-        if(message.equals("restart"))
-        {
-            setEnable(enable);
-        }
+        setEnable(enable);
     }
 
     @Override
@@ -293,20 +292,18 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     public void onCameraStatusChanged(String status) {
 
     }
+
     @Override
-    public void PreviewWasRestarted()
-    {
-        setDoWork(false);
-        setEnable(false);
-        setEnable(enable);
-        setDoWork(true);
+    public void onModuleChanged(I_Module module) {
 
     }
 
-    @Override
+    /*@Override
     public void onModuleChanged(I_Module module)
     {
+
         String n = module.ModuleName();
+        Log.d(TAG, "onModuleChanged(I_Module):" + n + " enabled:" +enable);
         if (module.ModuleName().equals(AbstractModuleHandler.MODULE_PICTURE)
                 ||module.ModuleName().equals(AbstractModuleHandler.MODULE_HDR)
                 ||module.ModuleName().equals(AbstractModuleHandler.MODULE_INTERVAL))
@@ -314,12 +311,12 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         else
             setEnable(false);
 
-    }
+    }*/
 
     @Override
     public String ModuleChanged(String module)
     {
-
+        Log.d(TAG, "ModuleChanged(String):" + module + " enabled:" +enable);
         if (module.equals(AbstractModuleHandler.MODULE_PICTURE)
                 ||module.equals(AbstractModuleHandler.MODULE_HDR)
                 ||module.equals(AbstractModuleHandler.MODULE_INTERVAL)) {
