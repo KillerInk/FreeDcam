@@ -162,6 +162,7 @@ public class VideoModule extends AbstractVideoModule
 
     private void loadProfileSpecificParameters()
     {
+        //TODO fixup that stuff, it will fc on devices wich doesnt support that parameters
         String hfr = ParameterHandler.VideoHighFramerateVideo.GetValue();
         String hsr = ParameterHandler.VideoHighSpeedVideo.GetValue();
         String profile = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
