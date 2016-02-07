@@ -59,8 +59,9 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements Interfaces.I
     }
 
     @Override
-    public String ModuleChanged(String module) {
-        if (module.equals(AbstractModuleHandler.MODULE_PICTURE) || module.equals(AbstractModuleHandler.MODULE_HDR)|| module.equals(AbstractModuleHandler.MODULE_INTERVAL))
+    public String ModuleChanged(String module)
+    {
+        if ((module.equals(AbstractModuleHandler.MODULE_PICTURE) || module.equals(AbstractModuleHandler.MODULE_HDR)|| module.equals(AbstractModuleHandler.MODULE_INTERVAL)) && parameter.IsSupported())
             this.setVisibility(VISIBLE);
         else
             this.setVisibility(GONE);
