@@ -36,6 +36,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     protected String settingsname;
     protected Interfaces.I_MenuItemClick onItemClick;
     final protected boolean logging =false;
+    private boolean fromleft = false;
 
     public UiSettingsChild(Context context) {
         super(context);
@@ -131,6 +132,12 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     protected void inflateTheme(LayoutInflater inflater)
     {
         inflater.inflate(R.layout.ui_settingschild, this);
+    }
+
+    public void SetMenuItemListner(Interfaces.I_MenuItemClick menuItemClick, boolean fromleft)
+    {
+        this.onItemClick = menuItemClick;
+        this.fromleft = fromleft;
     }
 
     public void SetMenuItemListner(Interfaces.I_MenuItemClick menuItemClick)
@@ -285,6 +292,6 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     @Override
     public void onClick(View v) {
         if (onItemClick != null)
-            onItemClick.onMenuItemClick(this, false);
+            onItemClick.onMenuItemClick(this, fromleft);
     }
 }

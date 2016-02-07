@@ -39,19 +39,20 @@ public class HorizontalValuesFragment extends Fragment implements Interfaces.I_C
         setValueToView();
     }
 
+    public void Clear()
+    {
+        if (valuesHolder != null)
+            valuesHolder.removeAllViews();
+    }
+
     private void setValueToView() {
-        int i = 0;
-        LinearLayout linearLayout = getNewLayout();
         if (values == null)
             return;
         for (String s : values)
         {
-            if (i == 3 || i == 6 || i == 9)
-                linearLayout = getNewLayout();
             SimpleValueChild child = new SimpleValueChild(view.getContext());
             child.SetString(s, this);
-            linearLayout.addView(child);
-            i++;
+            valuesHolder.addView(child);
         }
     }
 
@@ -105,7 +106,8 @@ public class HorizontalValuesFragment extends Fragment implements Interfaces.I_C
     }
 
     @Override
-    public void onValuesChanged(String[] values) {
+    public void onValuesChanged(String[] values)
+    {
         this.values = values;
         setValueToView();
     }

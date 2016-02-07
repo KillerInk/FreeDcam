@@ -26,9 +26,8 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements Interfaces.I
         super(context, attrs, defStyleAttr);
     }
 
-    @Override
     public void SetMenuItemListner(Interfaces.I_MenuItemClick menuItemClick) {
-        super.SetMenuItemListner(this);
+        super.SetMenuItemListner(this,false);
     }
 
     public void SetCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
