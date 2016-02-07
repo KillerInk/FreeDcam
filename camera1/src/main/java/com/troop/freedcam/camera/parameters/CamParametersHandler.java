@@ -228,6 +228,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try {
             CCT = new CCTManualParameter(cameraParameters,"","","", this);
+            PictureFormat.addEventListner(((BaseManualParameter)CCT).GetPicFormatListner());
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) CCT).GetModuleListner());
         }
         catch (Exception ex)
