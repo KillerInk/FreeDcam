@@ -18,8 +18,6 @@ public class VideoModule extends AbstractVideoModule
 {
     private static String TAG = VideoModule.class.getSimpleName();
 
-
-
     public VideoModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
         super(cameraHandler, Settings, eventHandler);
     }
@@ -162,13 +160,17 @@ public class VideoModule extends AbstractVideoModule
 
     private void loadProfileSpecificParameters()
     {
+        String hfr = "";
+        String hsr = "";
         //TODO fixup that stuff, it will fc on devices wich doesnt support that parameters
-        String hfr = ParameterHandler.VideoHighFramerateVideo.GetValue();
-        String hsr = ParameterHandler.VideoHighSpeedVideo.GetValue();
+        if (ParameterHandler.VideoHighFramerateVideo != null && ParameterHandler.VideoHighFramerateVideo.IsSupported())
+            hfr = ParameterHandler.VideoHighFramerateVideo.GetValue();
+        if (ParameterHandler.VideoHighSpeedVideo != null && ParameterHandler.VideoHighSpeedVideo.IsSupported())
+            hsr = ParameterHandler.VideoHighSpeedVideo.GetValue();
         String profile = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
 
 
-        if (profile.equals("4kUHD") || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && profile.contains("HIGH")) {
+        if (profile.equals("4kUHD") || (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && profile.contains("HIGH"))) {
             camParametersHandler.MemoryColorEnhancement.SetValue("disable", true);
             camParametersHandler.DigitalImageStabilization.SetValue("disable", true);
             camParametersHandler.VideoStabilization.SetValue("false", true);
@@ -176,7 +178,7 @@ public class VideoModule extends AbstractVideoModule
             camParametersHandler.setString("dual-recorder", "0");
             camParametersHandler.setString("preview-format", "nv12-venus");
         }
-        else if (!hfr.equals("off") || !hsr.equals("off") || profile.contains("HFR")) {
+        else if ((!hfr.equals("") && !hfr.equals("off")) || (!hsr.equals("") && !hsr.equals("off")) || profile.contains("HFR")) {
             camParametersHandler.MemoryColorEnhancement.SetValue("disable", true);
             camParametersHandler.DigitalImageStabilization.SetValue("disable", true);
             camParametersHandler.VideoStabilization.SetValue("false", true);
