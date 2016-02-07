@@ -1,5 +1,6 @@
 package troop.com.themesample.views.uichilds;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -217,11 +218,35 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     public void onIsSupportedChanged(boolean isSupported)
     {
         sendLog("isSupported:" + isSupported);
-        if (isSupported)
+        if (isSupported) {
             this.setVisibility(VISIBLE);
+            this.animate().setListener(null).scaleY(1f).setDuration(300);
+        }
         else
-            this.setVisibility(GONE);
+            this.animate().setListener(hideListner).scaleY(0f).setDuration(300);
     }
+
+    private Animator.AnimatorListener hideListner = new Animator.AnimatorListener() {
+        @Override
+        public void onAnimationStart(Animator animation) {
+
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            UiSettingsChild.this.setVisibility(GONE);
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animation) {
+
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animation) {
+
+        }
+    };
 
     @Override
     public void onIsSetSupportedChanged(boolean isSupported)
