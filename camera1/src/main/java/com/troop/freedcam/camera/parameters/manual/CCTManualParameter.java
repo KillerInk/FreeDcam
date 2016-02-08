@@ -211,7 +211,7 @@ public class CCTManualParameter extends BaseManualParameter {
         }
         else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) )
         {
-            if(valueToSet != -1)
+            if(valueToSet != 0)
             {
                 try {
                     camParametersHandler.WhiteBalanceMode.SetValue("manual-cct", true);
