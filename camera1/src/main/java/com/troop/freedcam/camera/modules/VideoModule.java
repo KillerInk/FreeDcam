@@ -170,20 +170,29 @@ public class VideoModule extends AbstractVideoModule
         String profile = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
 
 
-        if (profile.equals("4kUHD") || (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && profile.contains("HIGH"))) {
-            camParametersHandler.MemoryColorEnhancement.SetValue("disable", true);
-            camParametersHandler.DigitalImageStabilization.SetValue("disable", true);
-            camParametersHandler.VideoStabilization.SetValue("false", true);
-            camParametersHandler.Denoise.SetValue("denoise-off", true);
-            camParametersHandler.setString("dual-recorder", "0");
-            camParametersHandler.setString("preview-format", "nv12-venus");
+        if (profile.equals("4kUHD") || (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && profile.contains("HIGH")))
+        {
+            if (camParametersHandler.MemoryColorEnhancement != null && camParametersHandler.MemoryColorEnhancement.IsSupported())
+                camParametersHandler.MemoryColorEnhancement.SetValue("disable", true);
+            if (camParametersHandler.DigitalImageStabilization != null && camParametersHandler.DigitalImageStabilization.IsSupported())
+                camParametersHandler.DigitalImageStabilization.SetValue("disable", true);
+            if (camParametersHandler.VideoStabilization != null && camParametersHandler.VideoStabilization.IsSupported())
+                camParametersHandler.VideoStabilization.SetValue("false", true);
+            if (camParametersHandler.Denoise != null && camParametersHandler.Denoise.IsSupported())
+                camParametersHandler.Denoise.SetValue("denoise-off", true);
+            if (!DeviceUtils.IS(DeviceUtils.Devices.LenovoK920))
+                camParametersHandler.setString("preview-format", "nv12-venus");
         }
-        else if ((!hfr.equals("") && !hfr.equals("off")) || (!hsr.equals("") && !hsr.equals("off")) || profile.contains("HFR")) {
-            camParametersHandler.MemoryColorEnhancement.SetValue("disable", true);
+        else if ((!hfr.equals("") && !hfr.equals("off")) || (!hsr.equals("") && !hsr.equals("off")) || profile.contains("HFR"))
+        {
+            if (camParametersHandler.MemoryColorEnhancement != null && camParametersHandler.MemoryColorEnhancement.IsSupported())
+                camParametersHandler.MemoryColorEnhancement.SetValue("disable", true);
+            if (camParametersHandler.DigitalImageStabilization != null && camParametersHandler.DigitalImageStabilization.IsSupported())
             camParametersHandler.DigitalImageStabilization.SetValue("disable", true);
-            camParametersHandler.VideoStabilization.SetValue("false", true);
-            camParametersHandler.Denoise.SetValue("denoise-off", true);
-            camParametersHandler.setString("dual-recorder", "0");
+            if (camParametersHandler.VideoStabilization != null && camParametersHandler.VideoStabilization.IsSupported())
+                camParametersHandler.VideoStabilization.SetValue("false", true);
+            if (camParametersHandler.Denoise != null && camParametersHandler.Denoise.IsSupported())
+                camParametersHandler.Denoise.SetValue("denoise-off", true);
             camParametersHandler.setString("preview-format", "yuv420sp");
         }
         else
