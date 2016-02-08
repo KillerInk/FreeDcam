@@ -21,7 +21,8 @@ public class BurstManualParam extends BaseManualParameter {
     public BurstManualParam(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) ||
-                DeviceUtils.IS(DeviceUtils.Devices.LG_G3)|| DeviceUtils.IS(DeviceUtils.Devices.LG_G2)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
+                DeviceUtils.IS(DeviceUtils.Devices.LG_G3)|| DeviceUtils.IS(DeviceUtils.Devices.LG_G2)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)
+                || DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
             isSupported = true;
 
         //TODO add missing logic
@@ -45,16 +46,19 @@ public class BurstManualParam extends BaseManualParameter {
     }
 
     @Override
-    public int GetMaxValue() {
+    public int GetMaxValue()
+    {
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) || DeviceUtils.IS(DeviceUtils.Devices.LG_G2))
             return 7;
-        if (DeviceUtils.IS(DeviceUtils.Devices.LG_G3)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4W))
+        else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G3)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4W) )
             return 9;
-    if (DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W))
+        else if (DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W))
             if (Build.VERSION.SDK_INT < 23)
                 return 6;
             else
                 return 10;
+        else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
+            return 6;
         else
             return 0;
     }
