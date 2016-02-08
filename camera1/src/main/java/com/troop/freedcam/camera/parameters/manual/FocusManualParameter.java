@@ -170,7 +170,7 @@ public class FocusManualParameter extends  BaseManualParameter
             }
             else
             {
-                if (DeviceUtils.IS_DEVICE_ONEOF(new Devices[]{Devices.XiaomiMI3W, Devices.XiaomiMI4W}))
+                if (DeviceUtils.IS_DEVICE_ONEOF(new Devices[]{Devices.XiaomiMI3W, Devices.XiaomiMI4W}) || DeviceUtils.IS(Devices.LenovoK920))
                     parameters.put(value, String.valueOf((valueToSet - 1) * 10));
                 else
                     parameters.put(value, (valueToSet - 1) + "");
