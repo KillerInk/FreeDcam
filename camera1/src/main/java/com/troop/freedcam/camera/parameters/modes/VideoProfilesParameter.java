@@ -247,7 +247,7 @@ public class VideoProfilesParameter extends BaseModeParameter
                 uhd.videoFrameHeight = 2160;
                 uhd.Mode = VideoMediaProfile.VideoMode.Normal;
                 uhd.ProfileName = "4kUHD";
-                supportedProfiles.put("4kUHD",t);
+                supportedProfiles.put("4kUHD",uhd);
             }
         }
     }
