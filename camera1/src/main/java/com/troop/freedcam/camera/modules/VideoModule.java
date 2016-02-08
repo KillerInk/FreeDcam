@@ -159,24 +159,23 @@ public class VideoModule extends AbstractVideoModule
 
 
         VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter)ParameterHandler.VideoProfiles;
-        if (videoProfilesG3Parameter != null) {
-            String sprof = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
-            if (sprof.equals(""))
-            {
-                sprof = "HIGH";
-                Settings.setString(AppSettingsManager.SETTING_VIDEPROFILE, sprof);
-            }
-            VideoMediaProfile prof = videoProfilesG3Parameter.GetCameraProfile(sprof);
-            if (prof == null)
-                return;
-            String size = prof.videoFrameWidth + "x" + prof.videoFrameHeight;
-            camParametersHandler.setString("preview-size", size);
-            camParametersHandler.setString("video-size", size);
-            camParametersHandler.SetParametersToCamera();
-            baseCameraHolder.StopPreview();
-            baseCameraHolder.StartPreview();
+        String sprof = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
+
+        VideoMediaProfile prof = videoProfilesG3Parameter.GetCameraProfile(sprof);
+        String size;
+        if (prof == null)
+        {
+            Log.e(TAG , "Error: CamcorderProfileEx is NULL!!!!!!!!!");
+            size = camParametersHandler.VideoSize.GetValue();
         }
-        // camParametersHandler.UHDDO();
+        else {
+            size = prof.videoFrameWidth + "x" + prof.videoFrameHeight;
+        }
+        camParametersHandler.setString("preview-size", size);
+        camParametersHandler.setString("video-size", size);
+        camParametersHandler.SetParametersToCamera();
+        baseCameraHolder.StopPreview();
+        baseCameraHolder.StartPreview();
     }
 
     private void videoTime(int VB, int AB)

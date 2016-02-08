@@ -62,6 +62,11 @@ public class VideoProfilesParameter extends BaseModeParameter
 
     public VideoMediaProfile GetCameraProfile(String profile)
     {
+        if (profile == null || profile.equals(""))
+        {
+            String t[] = supportedProfiles.keySet().toArray(new String[supportedProfiles.keySet().size()]);
+            return supportedProfiles.get(t[0]);
+        }
         return supportedProfiles.get(profile);
     }
 
