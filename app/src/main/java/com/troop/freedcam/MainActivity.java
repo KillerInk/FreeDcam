@@ -62,6 +62,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     static AbstractCameraFragment cameraFragment;
     ScreenSlideFragment imageViewerFragment;
     private boolean debuglogging = false;
+    FileLogger logger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -153,11 +154,6 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     protected void onDestroy()
     {
         super.onDestroy();
-        Log.d(TAGLIFE, "Activity onDestroy");
-        if (debuglogging) {
-            debuglogging = false;
-            FileLogger.StopLogging();
-        }
     }
 
     private void checkStartLogging()
@@ -165,7 +161,8 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
         File debugfile = new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder +"DEBUG");
         if (debugfile.exists()) {
             debuglogging = true;
-            FileLogger.StartLogging();
+            logger = new FileLogger();
+            logger.StartLogging();
         }
     }
 
@@ -462,8 +459,10 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     }
 
     @Override
-    public void closeActivity() {
+    public void closeActivity()
+    {
         this.finish();
+        logger.StopLogging();
     }
 
     @Override
