@@ -37,7 +37,7 @@ public class VideoModule extends AbstractVideoModule
         recorder.setCamera(baseCameraHolder.GetCamera());
         String profile = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
         VideoProfilesParameter videoProfilesParameter = (VideoProfilesParameter)ParameterHandler.VideoProfiles;
-        CamcorderProfile prof = videoProfilesParameter.GetCameraProfile(profile);
+        VideoMediaProfile prof = videoProfilesParameter.GetCameraProfile(profile);
 
         boolean setCaprate = false;
         Double frameFix = 0.0;
@@ -180,8 +180,7 @@ public class VideoModule extends AbstractVideoModule
                 camParametersHandler.VideoStabilization.SetValue("false", true);
             if (camParametersHandler.Denoise != null && camParametersHandler.Denoise.IsSupported())
                 camParametersHandler.Denoise.SetValue("denoise-off", true);
-            if (!DeviceUtils.IS(DeviceUtils.Devices.LenovoK920))
-                camParametersHandler.setString("preview-format", "nv12-venus");
+            camParametersHandler.setString("preview-format", "nv12-venus");
         }
         else if ((!hfr.equals("") && !hfr.equals("off")) || (!hsr.equals("") && !hsr.equals("off")) || profile.contains("HFR"))
         {
@@ -207,7 +206,7 @@ public class VideoModule extends AbstractVideoModule
                 sprof = "HIGH";
                 Settings.setString(AppSettingsManager.SETTING_VIDEPROFILE, sprof);
             }
-            CamcorderProfile prof = videoProfilesG3Parameter.GetCameraProfile(sprof);
+            VideoMediaProfile prof = videoProfilesG3Parameter.GetCameraProfile(sprof);
             if (prof == null)
                 return;
             String size = prof.videoFrameWidth + "x" + prof.videoFrameHeight;
