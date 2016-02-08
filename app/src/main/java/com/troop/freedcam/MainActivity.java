@@ -462,7 +462,8 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     public void closeActivity()
     {
         this.finish();
-        logger.StopLogging();
+        if (logger != null)
+            logger.StopLogging();
     }
 
     @Override
