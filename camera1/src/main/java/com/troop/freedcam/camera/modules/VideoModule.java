@@ -39,40 +39,26 @@ public class VideoModule extends AbstractVideoModule
         VideoProfilesParameter videoProfilesParameter = (VideoProfilesParameter)ParameterHandler.VideoProfiles;
         VideoMediaProfile prof = videoProfilesParameter.GetCameraProfile(profile);
 
-        boolean setCaprate = false;
-        Double frameFix = 0.0;
+        recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
 
-
-      //  if(ParameterHandler.SceneMode.GetValue().equals("AR"))
-       //     recorder.setVideoSource(MediaRecorder.VideoSource.SURFACE);
-      //  else
-      //  {
-            recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-      //  }
-
-
-
-        if (!profile.contains("Timelapse")) {
-            recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+        switch (prof.Mode)
+        {
+            case Normal:
+                recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+                break;
+            case Highspeed:
+                break;
+            case Timelapse:
+                break;
         }
-        //recorder.setProfile(prof);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
 
         Log.e(TAG, "Index :" + hfr);
         if (!hfr.equals("Default")) {
             int frame = Integer.parseInt(hfr.split("@")[1]);
-            frameFix = Double.parseDouble(String.valueOf(frame));
-            setCaprate = true;
-
             Log.e(TAG, "Index :" + frame);
-
             camParametersHandler.FPSRangeLock(frame,frame);
             recorder.setVideoFrameRate(frame);
-
-            //recorder.setCaptureRate(frame);
-
-
-
         }
         else
         {
@@ -92,51 +78,25 @@ public class VideoModule extends AbstractVideoModule
 
         recorder.setVideoEncoder(prof.videoCodec);
 
-
-        recorder.setAudioSamplingRate(prof.audioSampleRate);
-        recorder.setAudioEncodingBitRate(prof.audioBitRate);
-        recorder.setAudioChannels(prof.audioChannels);
-        recorder.setAudioEncoder(prof.audioCodec);
-
-
-
-        //parameters.put("preview-fps-range", "15000,60000");
-
-        //recorder.setVideoFrameRate();
-        //recorder.setCaptureRate();
-
-
-        if (profile.contains("Timelapse"))
+        switch (prof.Mode)
         {
-            float frame = 30;
-            if(!Settings.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).equals(""))
-                frame = Float.parseFloat(Settings.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).replace(",", "."));
-            else
-                Settings.setString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, ""+frame);
-            recorder.setCaptureRate(frame);
+            case Normal:
+                recorder.setAudioSamplingRate(prof.audioSampleRate);
+                recorder.setAudioEncodingBitRate(prof.audioBitRate);
+                recorder.setAudioChannels(prof.audioChannels);
+                recorder.setAudioEncoder(prof.audioCodec);
+                break;
+            case Highspeed:
+                break;
+            case Timelapse:
+                float frame = 30;
+                if(!Settings.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).equals(""))
+                    frame = Float.parseFloat(Settings.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).replace(",", "."));
+                else
+                    Settings.setString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, ""+frame);
+                recorder.setCaptureRate(frame);
+                break;
         }
-
-       /* if (hfr != null && !hfr.equals("") && !hfr.equals("off") && !hfr.equals("disable"))
-        if (!hfr.equals("off")) {
-            try {
-            recorder.setCaptureRate(Integer.parseInt(hfr));
-        }
-            catch (NumberFormatException ex)
-            {
-                ex.printStackTrace();
-            }
-        }
-
-        if (!hsr.equals("off")) {
-            recorder.setCaptureRate(Integer.parseInt(hsr));
-            recorder.setVideoFrameRate(Integer.parseInt(hsr));
-        }*/
-
-
-       // if(setCaprate)
-        //    recorder.setCaptureRate(frameFix);
-
-
         return recorder;
     }
 
