@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -167,9 +168,9 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "####################ONCREATEDVIEW####################");
+
         touchHandler = new SwipeMenuListner(this);
         manualModesFragment = new ManualFragmentRotatingSeekbar();
         manualModesFragment.SetStuff(appSettingsManager, i_activity);
@@ -200,38 +201,38 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         this.flash = (UiSettingsChild)view.findViewById(R.id.Flash);
         flash.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_FLASHMODE);
-        flash.SetMenuItemListner(this);
+        flash.SetMenuItemListner(this, true);
 
 
         this.iso = (UiSettingsChild)view.findViewById(R.id.ui_settings_iso);
         iso.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_ISOMODE);
 
-        iso.SetMenuItemListner(this);
+        iso.SetMenuItemListner(this,true);
 
         this.autoexposure =(UiSettingsChild)view.findViewById(R.id.Ae);
         autoexposure.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_EXPOSUREMODE);
-        autoexposure.SetMenuItemListner(this);
+        autoexposure.SetMenuItemListner(this,true);
         this.whitebalance = (UiSettingsChild)view.findViewById(R.id.wb);
         whitebalance.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_WHITEBALANCEMODE);
-        whitebalance.SetMenuItemListner(this);
+        whitebalance.SetMenuItemListner(this,true);
         this.focus = (UiSettingsChild)view.findViewById(R.id.focus_uisetting);
         focus.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_FOCUSMODE);
-        focus.SetMenuItemListner(this);
+        focus.SetMenuItemListner(this,true);
         this.contShot = (UiSettingsChild)view.findViewById(R.id.continousShot);
         contShot.SetStuff(i_activity, appSettingsManager, null);
-        contShot.SetMenuItemListner(this);
+        contShot.SetMenuItemListner(this,true);
         this.night = (UiSettingsChild)view.findViewById(R.id.night);
         night.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_NIGHTEMODE);
-        night.SetMenuItemListner(this);
+        night.SetMenuItemListner(this,true);
 
         this.format = (UiSettingsChild)view.findViewById(R.id.format);
         format.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_PICTUREFORMAT);
-        format.SetMenuItemListner(this);
+        format.SetMenuItemListner(this,true);
 
         this.thumbView = (ThumbView)view.findViewById(R.id.thumbview);
         this.modeSwitch = (UiSettingsChildModuleSwitch)view.findViewById(R.id.mode_switch);
         modeSwitch.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_CURRENTMODULE);
-        modeSwitch.SetMenuItemListner(this);
+        modeSwitch.SetMenuItemListner(this,false);
         exit = (UiSettingsChildExit)view.findViewById(R.id.exit);
         exit.SetStuff(i_activity, appSettingsManager, "");
         cameraSwitch = (UiSettingsChildCameraSwitch)view.findViewById(R.id.camera_switch);
@@ -252,16 +253,11 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         //adding hdr switch log test v1.0 1-29-2016 6:13 - Defcomk
         this.hdr_switch = (UiSettingsChild)view.findViewById(R.id.hdr_toggle);
         hdr_switch.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HDRMODE);
-        hdr_switch.SetMenuItemListner(this);
+        hdr_switch.SetMenuItemListner(this,true);
         ///
-
-
 
         if(!manualsettingsIsOpen)
             manualModes_holder.setVisibility(View.GONE);
-
-
-
 
         android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.guideHolder, guideHandler, "Guide");
@@ -361,6 +357,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     @Override
     public void onMenuItemClick(UiSettingsChild item, boolean fromLeftFragment)
     {
+
         if (currentOpendChild == item)
         {
             removeHorizontalFragment();
@@ -372,6 +369,23 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
             removeHorizontalFragment();
             currentOpendChild = null;
         }
+        if (horizontalValuesFragment != null)
+            horizontalValuesFragment.Clear();
+        View l = (View)view.findViewById(R.id.cameraui_values_fragment_holder);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftMargin = getResources().getDimensionPixelSize(R.dimen.manualitemwidth);
+        params.rightMargin = getResources().getDimensionPixelSize(R.dimen.shuttericon_size);
+        //params.addRule(RelativeLayout.CENTER_VERTICAL);
+
+        if (manualsettingsIsOpen)
+            params.bottomMargin = getResources().getDimensionPixelSize(R.dimen.manualSettingsHeight);
+
+        if (fromLeftFragment)
+            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        else  params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        l.setLayoutParams(params);
+
         currentOpendChild = item;
         horizontalValuesFragment = new HorizontalValuesFragment();
         String[] tmo = item.GetValues();
@@ -385,6 +399,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
     private void infalteIntoHolder(int id, HorizontalValuesFragment fragment)
     {
+
         android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.left_to_right_enter, 0);
         transaction.replace(id, fragment);

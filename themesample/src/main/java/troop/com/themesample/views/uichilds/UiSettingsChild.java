@@ -1,5 +1,6 @@
 package troop.com.themesample.views.uichilds;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -35,6 +36,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     protected String settingsname;
     protected Interfaces.I_MenuItemClick onItemClick;
     final protected boolean logging =false;
+    private boolean fromleft = false;
 
     public UiSettingsChild(Context context) {
         super(context);
@@ -132,6 +134,12 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         inflater.inflate(R.layout.ui_settingschild, this);
     }
 
+    public void SetMenuItemListner(Interfaces.I_MenuItemClick menuItemClick, boolean fromleft)
+    {
+        this.onItemClick = menuItemClick;
+        this.fromleft = fromleft;
+    }
+
     public void SetMenuItemListner(Interfaces.I_MenuItemClick menuItemClick)
     {
         this.onItemClick = menuItemClick;
@@ -217,11 +225,35 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     public void onIsSupportedChanged(boolean isSupported)
     {
         sendLog("isSupported:" + isSupported);
-        if (isSupported)
+        if (isSupported) {
             this.setVisibility(VISIBLE);
+            this.animate().setListener(null).scaleY(1f).setDuration(300);
+        }
         else
-            this.setVisibility(GONE);
+            this.animate().setListener(hideListner).scaleY(0f).setDuration(300);
     }
+
+    private Animator.AnimatorListener hideListner = new Animator.AnimatorListener() {
+        @Override
+        public void onAnimationStart(Animator animation) {
+
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            UiSettingsChild.this.setVisibility(GONE);
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animation) {
+
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animation) {
+
+        }
+    };
 
     @Override
     public void onIsSetSupportedChanged(boolean isSupported)
@@ -260,6 +292,6 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     @Override
     public void onClick(View v) {
         if (onItemClick != null)
-            onItemClick.onMenuItemClick(this, false);
+            onItemClick.onMenuItemClick(this, fromleft);
     }
 }

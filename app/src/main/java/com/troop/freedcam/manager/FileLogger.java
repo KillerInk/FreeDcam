@@ -14,11 +14,11 @@ import java.util.Date;
  */
 public class FileLogger
 {
-    private static boolean LOGTOFILE = false;
-    private static boolean isrunning = false;
-    private static Process process;
+    private  boolean LOGTOFILE = false;
+    private  boolean isrunning = false;
+    private  Process process;
 
-    public static void StartLogging()
+    public void StartLogging()
     {
         if (isrunning)
             return;
@@ -39,7 +39,7 @@ public class FileLogger
         }).start();
     }
 
-    public static void StopLogging()
+    public void StopLogging()
     {
         LOGTOFILE = false;
         process.destroy();

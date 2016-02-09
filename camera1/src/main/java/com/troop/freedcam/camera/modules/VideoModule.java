@@ -18,8 +18,6 @@ public class VideoModule extends AbstractVideoModule
 {
     private static String TAG = VideoModule.class.getSimpleName();
 
-
-
     public VideoModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
         super(cameraHandler, Settings, eventHandler);
     }
@@ -39,42 +37,28 @@ public class VideoModule extends AbstractVideoModule
         recorder.setCamera(baseCameraHolder.GetCamera());
         String profile = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
         VideoProfilesParameter videoProfilesParameter = (VideoProfilesParameter)ParameterHandler.VideoProfiles;
-        CamcorderProfile prof = videoProfilesParameter.GetCameraProfile(profile);
+        VideoMediaProfile prof = videoProfilesParameter.GetCameraProfile(profile);
 
-        boolean setCaprate = false;
-        Double frameFix = 0.0;
+        recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
 
-
-      //  if(ParameterHandler.SceneMode.GetValue().equals("AR"))
-       //     recorder.setVideoSource(MediaRecorder.VideoSource.SURFACE);
-      //  else
-      //  {
-            recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-      //  }
-
-
-
-        if (!profile.contains("Timelapse")) {
-            recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+        switch (prof.Mode)
+        {
+            case Normal:
+                recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+                break;
+            case Highspeed:
+                break;
+            case Timelapse:
+                break;
         }
-        //recorder.setProfile(prof);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
 
         Log.e(TAG, "Index :" + hfr);
         if (!hfr.equals("Default")) {
             int frame = Integer.parseInt(hfr.split("@")[1]);
-            frameFix = Double.parseDouble(String.valueOf(frame));
-            setCaprate = true;
-
             Log.e(TAG, "Index :" + frame);
-
             camParametersHandler.FPSRangeLock(frame,frame);
             recorder.setVideoFrameRate(frame);
-
-            //recorder.setCaptureRate(frame);
-
-
-
         }
         else
         {
@@ -94,51 +78,25 @@ public class VideoModule extends AbstractVideoModule
 
         recorder.setVideoEncoder(prof.videoCodec);
 
-
-        recorder.setAudioSamplingRate(prof.audioSampleRate);
-        recorder.setAudioEncodingBitRate(prof.audioBitRate);
-        recorder.setAudioChannels(prof.audioChannels);
-        recorder.setAudioEncoder(prof.audioCodec);
-
-
-
-        //parameters.put("preview-fps-range", "15000,60000");
-
-        //recorder.setVideoFrameRate();
-        //recorder.setCaptureRate();
-
-
-        if (profile.contains("Timelapse"))
+        switch (prof.Mode)
         {
-            float frame = 30;
-            if(!Settings.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).equals(""))
-                frame = Float.parseFloat(Settings.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).replace(",", "."));
-            else
-                Settings.setString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, ""+frame);
-            recorder.setCaptureRate(frame);
+            case Normal:
+                recorder.setAudioSamplingRate(prof.audioSampleRate);
+                recorder.setAudioEncodingBitRate(prof.audioBitRate);
+                recorder.setAudioChannels(prof.audioChannels);
+                recorder.setAudioEncoder(prof.audioCodec);
+                break;
+            case Highspeed:
+                break;
+            case Timelapse:
+                float frame = 30;
+                if(!Settings.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).equals(""))
+                    frame = Float.parseFloat(Settings.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).replace(",", "."));
+                else
+                    Settings.setString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, ""+frame);
+                recorder.setCaptureRate(frame);
+                break;
         }
-
-       /* if (hfr != null && !hfr.equals("") && !hfr.equals("off") && !hfr.equals("disable"))
-        if (!hfr.equals("off")) {
-            try {
-            recorder.setCaptureRate(Integer.parseInt(hfr));
-        }
-            catch (NumberFormatException ex)
-            {
-                ex.printStackTrace();
-            }
-        }
-
-        if (!hsr.equals("off")) {
-            recorder.setCaptureRate(Integer.parseInt(hsr));
-            recorder.setVideoFrameRate(Integer.parseInt(hsr));
-        }*/
-
-
-       // if(setCaprate)
-        //    recorder.setCaptureRate(frameFix);
-
-
         return recorder;
     }
 
@@ -162,25 +120,38 @@ public class VideoModule extends AbstractVideoModule
 
     private void loadProfileSpecificParameters()
     {
-        String hfr = ParameterHandler.VideoHighFramerateVideo.GetValue();
-        String hsr = ParameterHandler.VideoHighSpeedVideo.GetValue();
+        String hfr = "";
+        String hsr = "";
+        //TODO fixup that stuff, it will fc on devices wich doesnt support that parameters
+        if (ParameterHandler.VideoHighFramerateVideo != null && ParameterHandler.VideoHighFramerateVideo.IsSupported())
+            hfr = ParameterHandler.VideoHighFramerateVideo.GetValue();
+        if (ParameterHandler.VideoHighSpeedVideo != null && ParameterHandler.VideoHighSpeedVideo.IsSupported())
+            hsr = ParameterHandler.VideoHighSpeedVideo.GetValue();
         String profile = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
 
 
-        if (profile.equals("4kUHD") || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && profile.contains("HIGH")) {
-            camParametersHandler.MemoryColorEnhancement.SetValue("disable", true);
-            camParametersHandler.DigitalImageStabilization.SetValue("disable", true);
-            camParametersHandler.VideoStabilization.SetValue("false", true);
-            camParametersHandler.Denoise.SetValue("denoise-off", true);
-            camParametersHandler.setString("dual-recorder", "0");
+        if (profile.equals("4kUHD") || (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && profile.contains("HIGH")))
+        {
+            if (camParametersHandler.MemoryColorEnhancement != null && camParametersHandler.MemoryColorEnhancement.IsSupported())
+                camParametersHandler.MemoryColorEnhancement.SetValue("disable", true);
+            if (camParametersHandler.DigitalImageStabilization != null && camParametersHandler.DigitalImageStabilization.IsSupported())
+                camParametersHandler.DigitalImageStabilization.SetValue("disable", true);
+            if (camParametersHandler.VideoStabilization != null && camParametersHandler.VideoStabilization.IsSupported())
+                camParametersHandler.VideoStabilization.SetValue("false", true);
+            if (camParametersHandler.Denoise != null && camParametersHandler.Denoise.IsSupported())
+                camParametersHandler.Denoise.SetValue("denoise-off", true);
             camParametersHandler.setString("preview-format", "nv12-venus");
         }
-        else if (!hfr.equals("off") || !hsr.equals("off") || profile.contains("HFR")) {
-            camParametersHandler.MemoryColorEnhancement.SetValue("disable", true);
+        else if ((!hfr.equals("") && !hfr.equals("off")) || (!hsr.equals("") && !hsr.equals("off")) || profile.contains("HFR"))
+        {
+            if (camParametersHandler.MemoryColorEnhancement != null && camParametersHandler.MemoryColorEnhancement.IsSupported())
+                camParametersHandler.MemoryColorEnhancement.SetValue("disable", true);
+            if (camParametersHandler.DigitalImageStabilization != null && camParametersHandler.DigitalImageStabilization.IsSupported())
             camParametersHandler.DigitalImageStabilization.SetValue("disable", true);
-            camParametersHandler.VideoStabilization.SetValue("false", true);
-            camParametersHandler.Denoise.SetValue("denoise-off", true);
-            camParametersHandler.setString("dual-recorder", "0");
+            if (camParametersHandler.VideoStabilization != null && camParametersHandler.VideoStabilization.IsSupported())
+                camParametersHandler.VideoStabilization.SetValue("false", true);
+            if (camParametersHandler.Denoise != null && camParametersHandler.Denoise.IsSupported())
+                camParametersHandler.Denoise.SetValue("denoise-off", true);
             camParametersHandler.setString("preview-format", "yuv420sp");
         }
         else
@@ -188,24 +159,23 @@ public class VideoModule extends AbstractVideoModule
 
 
         VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter)ParameterHandler.VideoProfiles;
-        if (videoProfilesG3Parameter != null) {
-            String sprof = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
-            if (sprof.equals(""))
-            {
-                sprof = "HIGH";
-                Settings.setString(AppSettingsManager.SETTING_VIDEPROFILE, sprof);
-            }
-            CamcorderProfile prof = videoProfilesG3Parameter.GetCameraProfile(sprof);
-            if (prof == null)
-                return;
-            String size = prof.videoFrameWidth + "x" + prof.videoFrameHeight;
-            camParametersHandler.setString("preview-size", size);
-            camParametersHandler.setString("video-size", size);
-            camParametersHandler.SetParametersToCamera();
-            baseCameraHolder.StopPreview();
-            baseCameraHolder.StartPreview();
+        String sprof = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
+
+        VideoMediaProfile prof = videoProfilesG3Parameter.GetCameraProfile(sprof);
+        String size;
+        if (prof == null)
+        {
+            Log.e(TAG , "Error: CamcorderProfileEx is NULL!!!!!!!!!");
+            size = camParametersHandler.VideoSize.GetValue();
         }
-        // camParametersHandler.UHDDO();
+        else {
+            size = prof.videoFrameWidth + "x" + prof.videoFrameHeight;
+        }
+        camParametersHandler.setString("preview-size", size);
+        camParametersHandler.setString("video-size", size);
+        camParametersHandler.SetParametersToCamera();
+        baseCameraHolder.StopPreview();
+        baseCameraHolder.StartPreview();
     }
 
     private void videoTime(int VB, int AB)

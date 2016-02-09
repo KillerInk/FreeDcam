@@ -15,7 +15,6 @@ import java.util.HashMap;
 
 public class CCTManualParameter extends BaseManualParameter {
 
-    I_CameraHolder baseCameraHolder;
     final String WBCURRENT = "wb-current-cct";
     final String WB_CCT = "wb-cct";
     final String WB_CT = "wb-ct";
@@ -92,13 +91,6 @@ public class CCTManualParameter extends BaseManualParameter {
         }
         else
             this.isSupported=false;
-    }
-
-    public CCTManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
-
-        this.baseCameraHolder = cameraHolder;
-        //TODO add missing logic
     }
 
     private void createStringArray()
@@ -219,7 +211,7 @@ public class CCTManualParameter extends BaseManualParameter {
         }
         else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) )
         {
-            if(valueToSet != -1)
+            if(valueToSet != 0)
             {
                 try {
                     camParametersHandler.WhiteBalanceMode.SetValue("manual-cct", true);

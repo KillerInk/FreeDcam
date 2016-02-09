@@ -260,13 +260,45 @@ public class GridViewFragment extends BaseGridViewFragment
     public void onResume()
     {
         super.onResume();
-
-        if (PERMSISSIONGRANTED) {
-            if (savedInstanceFilePath == null)
-                loadDefaultFolders();
-            else
-                loadFiles(new File(savedInstanceFilePath));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            checkMarshmallowPermissions();
         }
+        else
+            load();
+    }
+
+    private void load()
+    {
+        if (savedInstanceFilePath == null)
+            loadDefaultFolders();
+        else
+            loadFiles(new File(savedInstanceFilePath));
+    }
+
+    private void checkMarshmallowPermissions() {
+        if (getActivity().checkSelfPermission(Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+
+                    },
+                    1);
+        }
+        else
+            load();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+    {
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+        {
+            load();
+        }
+        else
+            getActivity().finish();
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
 
