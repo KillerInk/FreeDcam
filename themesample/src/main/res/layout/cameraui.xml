@@ -355,15 +355,6 @@
         android:visibility="gone"></LinearLayout>
 
     <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/cameraui_values_fragment_holder"
-        android:layout_marginLeft="@dimen/uiSettingsWidth"
-        android:layout_marginRight="@dimen/shuttericon_size"
-        android:layout_alignParentTop="false"
-        android:layout_centerVertical="true"></FrameLayout>
-
-    <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/manualModesHolder"
@@ -374,6 +365,15 @@
         android:layout_toStartOf="@+id/right_ui_holder"
         android:layout_alignParentBottom="true"></FrameLayout>
 
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cameraui_values_fragment_holder"
+        android:layout_marginLeft="@dimen/uiSettingsWidth"
+        android:layout_marginRight="@dimen/shuttericon_size"
+        android:layout_alignParentTop="false"
+        android:layout_centerVertical="true"></FrameLayout>
 
     <FrameLayout
         android:layout_width="fill_parent"
