@@ -26,9 +26,9 @@ public class DngSaver extends JpegSaver
 {
     final public String fileEnding = ".dng";
     private String lastBayerFormat;
-    final RawToDng dngConverter;
+    private final RawToDng dngConverter;
 
-    final String TAG = DngSaver.class.getSimpleName();
+    private final String TAG = DngSaver.class.getSimpleName();
     public DngSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler, boolean externalSD)
     {
         super(cameraHolder, i_workeDone, handler, externalSD);
@@ -50,7 +50,7 @@ public class DngSaver extends JpegSaver
         handler.post(new Runnable() {
             @Override
             public void run() {
-                cameraHolder.TakePicture(null, null, DngSaver.this);
+                cameraHolder.TakePicture(null, DngSaver.this);
             }
         });
     }
@@ -58,7 +58,7 @@ public class DngSaver extends JpegSaver
     @Override
     public void onPictureTaken(final byte[] data)
     {
-        if (awaitpicture == false)
+        if (!awaitpicture)
             return;
         awaitpicture =false;
         Log.d(TAG, "Take Picture Callback");
@@ -125,7 +125,7 @@ public class DngSaver extends JpegSaver
         float fnum, focal = 0;
         fnum = ((CamParametersHandler)cameraHolder.ParameterHandler).GetFnumber();
         focal = ((CamParametersHandler)cameraHolder.ParameterHandler).GetFocal();
-        dngConverter.setExifData(0, 0, 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
+        dngConverter.setExifData(0, 0, 0, fnum, focal, "0", cameraHolder.Orientation + "");
         dngConverter.WriteDNG(DeviceUtils.DEVICE());
         dngConverter.RELEASE();
         iWorkeDone.OnWorkDone(file);
@@ -186,6 +186,6 @@ public class DngSaver extends JpegSaver
         }
         String IMGDESC = "ISO:" + String.valueOf(iso) + " Exposure Time:" + exposureIndex + " F Number:" + String.valueOf(fNumber) + " Focal Length:" + focalLength;
 
-        dngConverter.setExifData(iso, exposureIndex, flash, fNumber, focalLength,IMGDESC, cameraHolder.Orientation +"", 0);
+        dngConverter.setExifData(iso, exposureIndex, flash, fNumber, focalLength,IMGDESC, cameraHolder.Orientation +"");
     }
 }

@@ -15,7 +15,7 @@ import com.troop.freedcam.camera2.R;
  */
 public class Camera2Fragment extends AbstractCameraFragment
 {
-    AutoFitTextureView textureView;
+    private AutoFitTextureView textureView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

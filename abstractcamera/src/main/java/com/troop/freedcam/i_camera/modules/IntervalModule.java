@@ -8,8 +8,8 @@ import com.troop.freedcam.ui.AppSettingsManager;
  */
 public class IntervalModule extends AbstractModule implements AbstractModuleHandler.I_worker
 {
-    AbstractModule picModule;
-    IntervalHandler intervalHandler;
+    private AbstractModule picModule;
+    private IntervalHandler intervalHandler;
 
     public IntervalModule(AbstractCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler, AbstractModule picModule) {
         super(cameraHandler, Settings, eventHandler);

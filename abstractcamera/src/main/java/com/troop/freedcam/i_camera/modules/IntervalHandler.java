@@ -10,18 +10,18 @@ import java.util.Date;
 /**
  * Created by Ingo on 04.10.2015.
  */
-public class IntervalHandler
+class IntervalHandler
 {
-    AppSettingsManager appSettingsManager;
-    AbstractModule picmodule;
+    private AppSettingsManager appSettingsManager;
+    private AbstractModule picmodule;
 
-    final String TAG = IntervalHandler.class.getSimpleName();
+    private final String TAG = IntervalHandler.class.getSimpleName();
 
-    int intervalDuration = 0;
-    int shutterDelay = 0;
-    int intervalToEndDuration = 0;
-    Handler handler;
-    long startTime = 0;
+    private int intervalDuration = 0;
+    private int shutterDelay = 0;
+    private int intervalToEndDuration = 0;
+    private Handler handler;
+    private long startTime = 0;
     private boolean working = false;
 
     public boolean IsWorking() {return  this.working;}
@@ -69,7 +69,7 @@ public class IntervalHandler
 
     }
 
-    int shuttercounter = 0;
+    private int shuttercounter = 0;
     public void DoNextInterval()
     {
         long dif = new Date().getTime() - IntervalHandler.this.startTime;
@@ -87,7 +87,7 @@ public class IntervalHandler
         handler.post(intervalDelayRunner);
     }
 
-    int intervalDelayCounter;
+    private int intervalDelayCounter;
     private Runnable intervalDelayRunner =new Runnable() {
         @Override
         public void run()
@@ -119,7 +119,7 @@ public class IntervalHandler
         picmodule.baseCameraHolder.SendUIMessage(shutterWaitCounter+"");
     }
 
-    int shutterWaitCounter =0;
+    private int shutterWaitCounter =0;
     private void startShutterDelay()
     {
         Log.d(TAG, "Start ShutterDelay in " + IntervalHandler.this.shutterDelay);

@@ -10,29 +10,29 @@ import java.util.List;
  */
 public class DataExtractor
 {
-    public static int commonHeaderlength = 1 + 1 + 2 + 4;
-    public static int payloadHeaderlength = 128;
+    private static int commonHeaderlength = 1 + 1 + 2 + 4;
+    private static int payloadHeaderlength = 128;
     private static String TAG = DataExtractor.class.getSimpleName();
 
     public byte[] jpegData;
-    public byte[] paddingData;
+    private byte[] paddingData;
     public List<FrameInfo> frameInfoList;
-    public int jpegSize;
-    public int paddingSize;
-    public int frameCount;
-    public String version;
+    private int jpegSize;
+    private int paddingSize;
+    private int frameCount;
+    private String version;
 
-    public int frameDataSize;
-    public int singelFrameDataSize;
+    private int frameDataSize;
+    private int singelFrameDataSize;
 
     public DataExtractor(InputStream mInputStream) throws IOException {
         ExtractData(mInputStream);
     }
 
     public CommonHeader commonHeader;
-    public PayLoadHeader payLoadHeader;
+    private PayLoadHeader payLoadHeader;
 
-    public void ExtractData(InputStream mInputStream) throws IOException
+    private void ExtractData(InputStream mInputStream) throws IOException
     {
 
         try {

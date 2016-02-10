@@ -15,11 +15,11 @@ import com.troop.freedcam.utils.StringUtils;
 public class VideoModuleApi2 extends AbstractModuleApi2
 {
     private static String TAG = StringUtils.TAG +PictureModuleApi2.class.getSimpleName();
-    BaseCameraHolderApi2 cameraHolder;
-    boolean isRecording = false;
+    private BaseCameraHolderApi2 cameraHolder;
+    private boolean isRecording = false;
 
     public VideoModuleApi2(BaseCameraHolderApi2 cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
-        super(cameraHandler, Settings, eventHandler);
+        super(cameraHandler, eventHandler);
         this.cameraHolder = cameraHandler;
         this.Settings = Settings;
         this.name = AbstractModuleHandler.MODULE_VIDEO;

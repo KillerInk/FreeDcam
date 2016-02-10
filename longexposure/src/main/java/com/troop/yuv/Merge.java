@@ -21,8 +21,8 @@ public class Merge
     }
 
     private ByteBuffer nativeHandler = null;
-    int width;
-    int height;
+    private int width;
+    private int height;
 
     private static native ByteBuffer storeYuvFrame(byte data[], int widht, int height);
     private static native void release(ByteBuffer nativeHandler);

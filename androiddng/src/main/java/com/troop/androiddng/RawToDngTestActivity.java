@@ -90,7 +90,7 @@ public class RawToDngTestActivity extends Activity {
 		return null;
 	}
 	
-	Button.OnClickListener buttonclick = new Button.OnClickListener() {
+	private Button.OnClickListener buttonclick = new Button.OnClickListener() {
 		
 		@Override
 		public void onClick(View v) {
@@ -120,7 +120,7 @@ public class RawToDngTestActivity extends Activity {
 						String out = file.getAbsolutePath().replace(".raw", ".dng");
 						RawToDng dng = RawToDng.GetInstance();
 						dng.SetBayerData(data, out);
-						dng.setExifData(100, 0, 0, 0, 0, "", "0", 0);
+						dng.setExifData(100, 0, 0, 0, 0, "", "0");
 						dng.WriteDNG(devices);
 						data = null;
 						Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);

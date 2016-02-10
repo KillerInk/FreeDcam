@@ -33,15 +33,16 @@ import troop.com.themesample.R;
 /**
  * Created by troop on 13.06.2015.
  */
+@SuppressWarnings("ALL")
 public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickListener
 {
-    final  String TAG = ThumbView.class.getSimpleName();
-    boolean hasWork = false;
-    I_Activity i_activity;
-    AbstractCameraUiWrapper cameraUiWrapper;
-    Bitmap bitmap;
-    File lastFile;
-    Bitmap mask;
+    private final  String TAG = ThumbView.class.getSimpleName();
+    private boolean hasWork = false;
+    private I_Activity i_activity;
+    private AbstractCameraUiWrapper cameraUiWrapper;
+    private Bitmap bitmap;
+    private File lastFile;
+    private Bitmap mask;
     public ThumbView(Context context) {
         super(context);
         this.setOnClickListener(this);
@@ -80,7 +81,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
     }
 
     @Override
-    public String WorkHasFinished(final File filePath)
+    public void WorkHasFinished(final File filePath)
     {
         new Thread(new Runnable() {
             @Override
@@ -98,7 +99,6 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
                 }
             }
         }).start();
-        return null;
     }
 
     private Bitmap loadThumbViewImage(File file)
@@ -165,7 +165,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
     @Override
     public void onClick(View v)
     {
-        i_activity.loadImageViewerFragment(lastFile);
+        i_activity.loadImageViewerFragment();
 
 
     }

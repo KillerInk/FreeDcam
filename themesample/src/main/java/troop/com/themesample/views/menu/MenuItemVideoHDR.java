@@ -13,9 +13,9 @@ import java.util.ArrayList;
 public class MenuItemVideoHDR extends MenuItem
 {
 
-    protected ArrayList<String> modulesToShow;
-    String currentModule;
-    AbstractModuleHandler moduleHandler;
+    private ArrayList<String> modulesToShow;
+    private String currentModule;
+    private AbstractModuleHandler moduleHandler;
     public MenuItemVideoHDR(Context context) {
         super(context);
     }

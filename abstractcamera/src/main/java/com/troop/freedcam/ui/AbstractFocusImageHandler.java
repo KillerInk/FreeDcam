@@ -22,12 +22,11 @@ public abstract class AbstractFocusImageHandler implements I_Focus
     protected Fragment fragment;
 
     /**
-     *
-     * @param view the view that contains the focus imageviews
+     *  @param view the view that contains the focus imageviews
      * @param fragment the toplayerd fragment wich create this
      * @param activity Holds a referenz to the activity to get the size of the preview etc
      */
-    public AbstractFocusImageHandler(View view, Fragment fragment, I_Activity activity)
+    protected AbstractFocusImageHandler(Fragment fragment, I_Activity activity)
     {
         this.activity = activity;
         this.fragment = fragment;

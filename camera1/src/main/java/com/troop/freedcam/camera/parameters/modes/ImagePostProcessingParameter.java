@@ -11,8 +11,8 @@ import java.util.HashMap;
  */
 public class ImagePostProcessingParameter extends BaseModeParameter
 {
-    public ImagePostProcessingParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
-        super(handler, parameters,parameterChanged, value, values);
+    public ImagePostProcessingParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value) {
+        super(handler, parameters,parameterChanged, "ipp", "ipp-values");
         try {
             String ipps = parameters.get("ipp-values");
             if (!ipps.isEmpty())

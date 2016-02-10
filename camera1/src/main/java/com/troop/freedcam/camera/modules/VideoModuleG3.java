@@ -14,12 +14,13 @@ import com.troop.freedcam.utils.DeviceUtils;
 /**
  * Created by troop on 18.11.2014.
  */
+@SuppressWarnings("ALL")
 public class VideoModuleG3 extends AbstractVideoModule
 {
-    protected MediaRecorderEx recorder;
-    CamParametersHandler camParametersHandler;
+    private MediaRecorderEx recorder;
+    private CamParametersHandler camParametersHandler;
 
-    final static String TAG = VideoModuleG3.class.getSimpleName();
+    private final static String TAG = VideoModuleG3.class.getSimpleName();
 
     public VideoModuleG3(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
         super(cameraHandler, Settings, eventHandler);

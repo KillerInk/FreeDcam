@@ -15,12 +15,12 @@ import troop.com.themesample.R;
  */
 public class SampleInfoOverlayHandler extends AbstractInfoOverlayHandler
 {
-    TextView tbattery;
-    TextView tsize;
-    TextView tformat;
-    TextView tTime;
-    TextView tStorage;
-    TextView tdngsupported;
+    private TextView tbattery;
+    private TextView tsize;
+    private TextView tformat;
+    private TextView tTime;
+    private TextView tStorage;
+    private TextView tdngsupported;
     TextView tbuidlmodel;
     TextView tappversion;
     public SampleInfoOverlayHandler(View view, AppSettingsManager appSettingsManager)

@@ -335,7 +335,7 @@ public class SimpleRemoteApi {
      * @throws java.io.IOException all errors and exception are wrapped by this
      *             Exception.
      */
-    public JSONObject stopLiveview() throws IOException {
+    public void stopLiveview() throws IOException {
         String service = "camera";
         try {
             JSONObject requestJson =
@@ -403,7 +403,7 @@ public class SimpleRemoteApi {
      * @throws java.io.IOException all errors and exception are wrapped by this
      *             Exception.
      */
-    public JSONObject stopRecMode() throws IOException {
+    public void stopRecMode() throws IOException {
         String service = "camera";
         try {
             JSONObject requestJson =
@@ -660,17 +660,16 @@ public class SimpleRemoteApi {
      * }
      * </pre>
      *
-     * @param cameraFunction camera function to set
      * @return JSON data of response
      * @throws java.io.IOException all errors and exception are wrapped by this
      *             Exception.
      */
-    public JSONObject setCameraFunction(String cameraFunction) throws IOException {
+    public JSONObject setCameraFunction() throws IOException {
         String service = "camera";
         try {
             JSONObject requestJson =
                     new JSONObject().put("method", "setCameraFunction") //
-                            .put("params", new JSONArray().put(cameraFunction)) //
+                            .put("params", new JSONArray().put("Remote Shooting")) //
                             .put("id", id()).put("version", "1.0");
             String url = findActionListUrl(service) + "/" + service;
 
@@ -997,8 +996,7 @@ public class SimpleRemoteApi {
      * @return return true if JSON has error. otherwise return false.
      */
     public static boolean isErrorReply(JSONObject replyJson) {
-        boolean hasError = (replyJson != null && replyJson.has("error"));
-        return hasError;
+        return (replyJson != null && replyJson.has("error"));
     }
 
 
@@ -1081,13 +1079,13 @@ public class SimpleRemoteApi {
         }
     }
 
-    public JSONObject setLiveviewFrameInfo(boolean value) throws IOException
+    public void setLiveviewFrameInfo() throws IOException
     {
         String service = "camera";
         try {
             JSONObject requestJson =
                     new JSONObject().put("method", "setLiveviewFrameInfo") //
-                            .put("params", new JSONArray().put(new JSONObject().put("frameInfo", value))).put("id", id()) //
+                            .put("params", new JSONArray().put(new JSONObject().put("frameInfo", true))).put("id", id()) //
                             .put("version", "1.0");
             String url = findActionListUrl(service) + "/" + service;
 

@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class PictureFormatParameterApi2 extends BaseModeApi2
 {
-    BaseCameraHolderApi2 cameraHolder;
+    private BaseCameraHolderApi2 cameraHolder;
     boolean firststart = true;
     public PictureFormatParameterApi2(Handler handler,BaseCameraHolderApi2 baseCameraHolderApi2)
     {

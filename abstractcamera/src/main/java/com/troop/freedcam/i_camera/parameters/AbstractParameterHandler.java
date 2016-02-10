@@ -53,7 +53,7 @@ public abstract class AbstractParameterHandler
     //done
     public AbstractModeParameter ImagePostProcessing;
     public AbstractModeParameter PreviewSize;
-    public AbstractModeParameter PreviewFPS;
+    protected AbstractModeParameter PreviewFPS;
     public AbstractModeParameter PreviewFormat;
     public AbstractModeParameter SceneMode;
     public AbstractModeParameter FocusMode;
@@ -65,11 +65,11 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter DigitalImageStabilization;
     public AbstractModeParameter VideoStabilization;
     public AbstractModeParameter MemoryColorEnhancement;
-    public AbstractModeParameter SkinToneEnhancment;
+    protected AbstractModeParameter SkinToneEnhancment;
     public AbstractModeParameter NightMode;
     public AbstractModeParameter NonZslManualMode;
     public AbstractModeParameter AE_Bracket;
-    public AbstractModeParameter Histogram;
+    protected AbstractModeParameter Histogram;
     public AbstractModeParameter ExposureLock;
     public AbstractModeParameter CDS_Mode;
 
@@ -82,30 +82,30 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter Video_Bitrate_;
     public AbstractModeParameter LensFilter;
     public AbstractModeParameter VideoHighSpeedVideo;
-    public AbstractModeParameter CameraMode;
+    protected AbstractModeParameter CameraMode;
     public AbstractModeParameter Horizont;
 
     //yet only seen on m9
-    public AbstractModeParameter RdiMode;
+    protected AbstractModeParameter RdiMode;
     public AbstractModeParameter TnrMode;
-    public AbstractModeParameter SecureMode;
+    protected AbstractModeParameter SecureMode;
 
     //SonyApi
     public AbstractModeParameter ContShootMode;
-    public AbstractModeParameter ContShootModeSpeed;
+    protected AbstractModeParameter ContShootModeSpeed;
     public AbstractModeParameter ObjectTracking;
     public AbstractModeParameter PostViewSize;
     public AbstractModeParameter Focuspeak;
     public AbstractModeParameter Module;
     //
     public AbstractModeParameter ThemeList;
-    public boolean isExposureAndWBLocked = false;
+    protected boolean isExposureAndWBLocked = false;
     private boolean isDngActive = false;
     public boolean IsDngActive(){ return this.isDngActive; };
     public void SetDngActive(boolean active) {this.isDngActive = active;}
 
-    public AbstractCameraHolder cameraHolder;
-    public AbstractCameraChanged cameraChanged;
+    protected AbstractCameraHolder cameraHolder;
+    protected AbstractCameraChanged cameraChanged;
     protected AppSettingsManager appSettingsManager;
 
     //camera2 modes
@@ -127,12 +127,12 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter IntervalDuration;
     public AbstractModeParameter IntervalShutterSleep;
 
-    public AbstractModeParameter captureBurstExposures;
+    protected AbstractModeParameter captureBurstExposures;
 
     public AbstractModeParameter morphoHDR;
     public AbstractModeParameter morphoHHT;
 
-    public AbstractParameterHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
+    protected AbstractParameterHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
     {
         this.appSettingsManager = appSettingsManager;
         this.cameraHolder = cameraHolder;
@@ -147,9 +147,9 @@ public abstract class AbstractParameterHandler
     }
 
     public void SetParametersToCamera() {};
-    public void LockExposureAndWhiteBalance(boolean lock){};
+    protected void LockExposureAndWhiteBalance(boolean lock){};
 
-    public void SetFocusAREA(FocusRect focusAreas, FocusRect meteringAreas){};
+    public void SetFocusAREA(FocusRect focusAreas){};
     public void SetMeterAREA(FocusRect meteringAreas){};
 
     public void SetPictureOrientation(int or){};

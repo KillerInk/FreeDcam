@@ -12,7 +12,7 @@ import java.util.HashMap;
  */
 public class IsoModeParameter extends BaseModeParameter
 {
-    I_CameraHolder baseCameraHolder;
+    private I_CameraHolder baseCameraHolder;
 
     public IsoModeParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values)
     {
@@ -20,9 +20,9 @@ public class IsoModeParameter extends BaseModeParameter
         isIso();
     }
 
-    public IsoModeParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder baseCameraHolder)
+    public IsoModeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, I_CameraHolder baseCameraHolder)
     {
-        super(handler, parameters, parameterChanged, value, values);
+        super(handler, parameters, parameterChanged, "", "");
         isIso();
         this.baseCameraHolder = baseCameraHolder;
     }

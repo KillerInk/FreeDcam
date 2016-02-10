@@ -23,7 +23,7 @@ import java.util.Map;
  */
 public class XmlElement {
 
-    public static final XmlElement NULL_ELEMENT = new XmlElement();
+    private static final XmlElement NULL_ELEMENT = new XmlElement();
 
     private static final String TAG = XmlElement.class.getSimpleName();
 
@@ -40,7 +40,7 @@ public class XmlElement {
     /**
      * Constructor. Creates new empty element.
      */
-    public XmlElement() {
+    private XmlElement() {
         mParentElement = null;
         mChildElements = new LinkedList<XmlElement>();
         mAttributes = new HashMap<String, String>();
@@ -178,7 +178,7 @@ public class XmlElement {
      * 
      * @return the parent element.
      */
-    public XmlElement getParent() {
+    private XmlElement getParent() {
         return mParentElement;
     }
 
@@ -201,7 +201,7 @@ public class XmlElement {
      * @param xmlPullParser parser
      * @return root element
      */
-    public static XmlElement parse(XmlPullParser xmlPullParser) {
+    private static XmlElement parse(XmlPullParser xmlPullParser) {
 
         XmlElement rootElement = XmlElement.NULL_ELEMENT;
         try {

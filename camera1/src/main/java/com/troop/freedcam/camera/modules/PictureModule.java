@@ -31,7 +31,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     private static String TAG = PictureModule.class.getSimpleName();
     boolean dngcapture = false;
 
-    int burstcount = 0;
+    private int burstcount = 0;
 
     //private HandlerThread backgroundThread;
     Handler handler;
@@ -84,7 +84,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
                     @Override
                     public void run() {
                         burstcount = 0;
-                        baseCameraHolder.TakePicture(null,null, burstCallback);
+                        baseCameraHolder.TakePicture(null, burstCallback);
                     }
                 });
 
@@ -102,7 +102,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
                     DngSaver dngSaver = new DngSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                     dngSaver.TakePicture();
                 }
-                else if (ParameterHandler.IsDngActive() == false && picFormat.equals("raw")) {
+                else if (!ParameterHandler.IsDngActive() && picFormat.equals("raw")) {
                     final RawSaver rawSaver = new RawSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                     rawSaver.TakePicture();
                 }
@@ -175,13 +175,13 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
         }
     }*/
 
-    protected void startworking()
+    void startworking()
     {
         isWorking = true;
         workstarted();
     }
 
-    protected void stopworking()
+    void stopworking()
     {
         isWorking = false;
         workfinished(true);
@@ -212,7 +212,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
 
     }
 
-    I_Callbacks.PictureCallback burstCallback = new I_Callbacks.PictureCallback() {
+    private I_Callbacks.PictureCallback burstCallback = new I_Callbacks.PictureCallback() {
         @Override
         public void onPictureTaken(final byte[] data)
         {
@@ -241,7 +241,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
         }
     };
 
-    I_WorkeDone burstDone = new I_WorkeDone() {
+    private I_WorkeDone burstDone = new I_WorkeDone() {
         @Override
         public void OnWorkDone(File file) {
             MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);

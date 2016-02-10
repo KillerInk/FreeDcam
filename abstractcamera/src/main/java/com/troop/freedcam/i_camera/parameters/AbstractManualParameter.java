@@ -16,7 +16,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
 
     protected boolean isVisible = false;
 
-    public AbstractManualParameter(AbstractParameterHandler camParametersHandler)
+    protected AbstractManualParameter(AbstractParameterHandler camParametersHandler)
     {
         this.camParametersHandler = camParametersHandler;
         events = new ArrayList<I_ManualParameterEvent>();

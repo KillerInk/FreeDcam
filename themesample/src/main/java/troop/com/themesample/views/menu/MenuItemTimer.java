@@ -13,7 +13,7 @@ import com.troop.freedcam.ui.I_Activity;
  */
 public class MenuItemTimer extends MenuItem
 {
-    AbstractCameraUiWrapper cameraUiWrapper;
+    private AbstractCameraUiWrapper cameraUiWrapper;
 
     public MenuItemTimer(Context context) {
         super(context);
@@ -42,9 +42,8 @@ public class MenuItemTimer extends MenuItem
 
     @Override
     public String[] GetValues() {
-        String [] intv = {"0 sec","5 sec","10 sec","15 sec","20 sec"};
         //return new String[] {StringUtils.ON, StringUtils.OFF};
-        return intv;
+        return new String[]{"0 sec","5 sec","10 sec","15 sec","20 sec"};
     }
 
     @Override

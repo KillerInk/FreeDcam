@@ -11,8 +11,8 @@ import java.util.HashMap;
  */
 public class AE_Bracket_HdrModeParameter extends BaseModeParameter
 {
-    public AE_Bracket_HdrModeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value, String values) {
-        super(handler, parameters, cameraHolder, value, values);
+    public AE_Bracket_HdrModeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder) {
+        super(handler, parameters, cameraHolder, "ae-bracket-hdr", "ae-bracket-hdr-values");
     }
 
     @Override

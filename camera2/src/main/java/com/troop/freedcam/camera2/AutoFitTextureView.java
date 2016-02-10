@@ -27,7 +27,7 @@ public class AutoFitTextureView extends TextureView /*implements  AbstractModePa
 
     private int mRatioWidth = 0;
     private int mRatioHeight = 0;
-    Context context;
+    private Context context;
 
     public AutoFitTextureView(Context context) {
         this(context, null);

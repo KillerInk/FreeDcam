@@ -16,10 +16,9 @@ public class OisParameter extends BaseModeParameter {
      * @param parameters   Hold the Camera Parameters
      * @param cameraHolder Hold the camera object
      * @param value        The String to get/set the value from the parameters
-     * @param values
      */
-    public OisParameter(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value, String values) {
-        super(uihandler, parameters, cameraHolder, value, values);
+    public OisParameter(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value) {
+        super(uihandler, parameters, cameraHolder, "", "");
     }
 
     @Override

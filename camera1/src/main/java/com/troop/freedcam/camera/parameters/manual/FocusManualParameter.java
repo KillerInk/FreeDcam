@@ -16,14 +16,14 @@ import java.util.HashMap;
  */
 public class FocusManualParameter extends  BaseManualParameter
 {
-    I_CameraHolder baseCameraHolder;
+    private I_CameraHolder baseCameraHolder;
 
-    CamParametersHandler camParametersHandlerx;
+    private CamParametersHandler camParametersHandlerx;
 
     private static String TAG ="freedcam.ManualFocus";
 
-    public FocusManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
+    public FocusManualParameter(HashMap<String, String> parameters, String value, String maxValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
+        super(parameters, "", "", "", camParametersHandler);
         this.baseCameraHolder = cameraHolder;
 
         camParametersHandlerx = (CamParametersHandler) camParametersHandler;

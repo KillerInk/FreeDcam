@@ -8,9 +8,9 @@ import troop.com.imageviewer.gridviewfragments.GridViewFragment;
  */
 public class BaseHolder
 {
-    protected BaseGridViewFragment.ViewStates currentstate = GridViewFragment.ViewStates.normal;
-    protected EventHandler handler;
-    protected boolean selected = false;
+    private BaseGridViewFragment.ViewStates currentstate = GridViewFragment.ViewStates.normal;
+    private EventHandler handler;
+    private boolean selected = false;
 
 
     public GridViewFragment.ViewStates GetCurrentViewState()

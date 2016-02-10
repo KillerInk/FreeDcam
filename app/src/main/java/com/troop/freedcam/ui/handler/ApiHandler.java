@@ -16,9 +16,9 @@ import com.troop.freedcam.ui.AppSettingsManager;
 public class ApiHandler
 {
     private static String TAG = ApiHandler.class.getSimpleName();
-    AppSettingsManager appSettingsManager;
+    private AppSettingsManager appSettingsManager;
 
-    ApiEvent event;
+    private ApiEvent event;
 
     public ApiHandler(final AppSettingsManager appSettingsManager, ApiEvent event) {
         this.appSettingsManager = appSettingsManager;

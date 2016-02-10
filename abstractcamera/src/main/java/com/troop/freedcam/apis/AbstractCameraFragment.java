@@ -16,12 +16,12 @@ import com.troop.freedcam.ui.AppSettingsManager;
  */
 public abstract class AbstractCameraFragment extends Fragment
 {
-    final static String TAG = AbstractCameraFragment.class.getSimpleName();
+    private final static String TAG = AbstractCameraFragment.class.getSimpleName();
 
     protected AbstractCameraUiWrapper cameraUiWrapper;
     protected View view;
     protected AppSettingsManager appSettingsManager;
-    protected CamerUiWrapperRdy onrdy;
+    private CamerUiWrapperRdy onrdy;
     public AbstractCameraFragment()
     {
     }

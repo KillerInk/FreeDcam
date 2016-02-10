@@ -14,8 +14,8 @@ import troop.com.imageviewer.gridviewfragments.GridViewFragment;
  */
 public class GridViewActivity extends FragmentActivity
 {
-    final String TAG = GridViewActivity.class.getSimpleName();
-    int flags;
+    private final String TAG = GridViewActivity.class.getSimpleName();
+    private int flags;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +49,7 @@ public class GridViewActivity extends FragmentActivity
             HIDENAVBAR();
     }
 
-    public void HIDENAVBAR()
+    private void HIDENAVBAR()
     {
         if (Build.VERSION.SDK_INT < 16) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,

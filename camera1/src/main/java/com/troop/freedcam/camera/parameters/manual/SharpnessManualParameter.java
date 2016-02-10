@@ -9,9 +9,9 @@ import java.util.HashMap;
  */
 public class SharpnessManualParameter extends BaseManualParameter
 {
-    public SharpnessManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue,AbstractParameterHandler camParametersHandler)
+    public SharpnessManualParameter(HashMap<String, String> parameters, String value, String maxValue, AbstractParameterHandler camParametersHandler)
     {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
+        super(parameters, "", "", "", camParametersHandler);
         this.value = "sharpness";
         if (hasSupport()) {
             int max = 0;

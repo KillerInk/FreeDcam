@@ -26,14 +26,14 @@ public class MyHistogram extends View {
         super(context, attrs, defStyleAttr);
     }
 
-    Paint mPaint = new Paint ();
-    int [] redHistogram = new int [ 256 ];
-    int [] greenHistogram = new int [ 256 ];
-    int [] blueHistogram = new int [ 256 ];
-    Path mHistoPath = new Path ();
+    private Paint mPaint = new Paint ();
+    private int [] redHistogram = new int [ 256 ];
+    private int [] greenHistogram = new int [ 256 ];
+    private int [] blueHistogram = new int [ 256 ];
+    private Path mHistoPath = new Path ();
 
 
-    class ComputeHistogramTask extends AsyncTask< Bitmap , Void , int []> {
+    private class ComputeHistogramTask extends AsyncTask< Bitmap , Void , int []> {
         @Override
         protected int [] doInBackground ( Bitmap ... params ) {
 
@@ -118,7 +118,7 @@ public class MyHistogram extends View {
 
     }
 
-    private void drawHistogram ( Canvas canvas , int [] histogram , int color , PorterDuff. Mode mode ) {
+    private void drawHistogram(Canvas canvas, int[] histogram, int color) {
         int max = 0 ;
         //System.out.println("Histogram drawin");
         for ( int i = 0 ; i < histogram . length ; i ++) {
@@ -146,7 +146,7 @@ public class MyHistogram extends View {
         mPaint . setStyle ( Paint . Style . FILL );
         mPaint . setColor ( color );
         mPaint . setStrokeWidth ( 6 );
-        mPaint . setXfermode ( new PorterDuffXfermode( mode ));
+        mPaint . setXfermode ( new PorterDuffXfermode(PorterDuff.Mode.SCREEN));
         mHistoPath . reset ();
         mHistoPath . moveTo ( dx , h );
         boolean firstPointEncountered = false ;
@@ -186,9 +186,9 @@ public class MyHistogram extends View {
 
     public void onDraw ( Canvas canvas ) {
         canvas . drawARGB ( 0 , 0 , 0 , 0 );
-        drawHistogram ( canvas , redHistogram , Color . RED , PorterDuff . Mode . SCREEN );
-        drawHistogram ( canvas , greenHistogram , Color . GREEN , PorterDuff . Mode . SCREEN );
-        drawHistogram ( canvas , blueHistogram , Color . BLUE , PorterDuff . Mode . SCREEN );
+        drawHistogram ( canvas , redHistogram , Color . RED);
+        drawHistogram ( canvas , greenHistogram , Color . GREEN);
+        drawHistogram ( canvas , blueHistogram , Color . BLUE);
         // this.canvasx = canvas;
     }
 

@@ -20,18 +20,18 @@ import java.util.Set;
 public class BaseModeParameterSony extends AbstractModeParameter implements I_SonyApi
 {
 
-    protected String VALUE_TO_GET = "";
-    protected String VALUE_TO_SET ="";
-    protected String VALUES_TO_GET ="";
+    private String VALUE_TO_GET = "";
+    String VALUE_TO_SET ="";
+    String VALUES_TO_GET ="";
 
-    protected SimpleRemoteApi mRemoteApi;
-    protected Set<String> mAvailableCameraApiSet;
+    SimpleRemoteApi mRemoteApi;
+    private Set<String> mAvailableCameraApiSet;
     JSONObject jsonObject;
 
-    protected boolean isSupported =false;
+    private boolean isSupported =false;
     protected boolean isSetSupported = false;
-    protected String value ="";
-    protected String[] values;
+    private String value ="";
+    String[] values;
     private static String TAG = BaseModeParameterSony.class.getSimpleName();
 
     public BaseModeParameterSony(Handler handler,String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi)
@@ -83,7 +83,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
         }).start();
     }
 
-    protected void processValuesToSet(String valueToSet)
+    void processValuesToSet(String valueToSet)
     {
         try
         {

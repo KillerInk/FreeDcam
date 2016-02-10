@@ -32,22 +32,23 @@ import java.util.Map;
 /**
  * Created by troop on 15.08.2014.
  */
+@SuppressWarnings("ALL")
 public class BaseCameraHolder extends AbstractCameraHolder
 {
 
-    final int BUFFERCOUNT = 5;
-    Camera mCamera;
+    private final int BUFFERCOUNT = 5;
+    private Camera mCamera;
 
     private Camera.Parameters mCameraParam;
-    LGCamera lgCamera;
-    LGCamera.LGParameters lgParameters;
+    private LGCamera lgCamera;
+    private LGCamera.LGParameters lgParameters;
     private static String TAG = BaseCameraHolder.class.getSimpleName();
     public I_error errorHandler;
-    I_Callbacks.PictureCallback pictureCallback;
-    I_Callbacks.PictureCallback rawCallback;
-    I_Callbacks.ShutterCallback shutterCallback;
-    I_Callbacks.PreviewCallback previewCallback;
-    Surface surfaceHolder;
+    private I_Callbacks.PictureCallback pictureCallback;
+    private I_Callbacks.PictureCallback rawCallback;
+    private I_Callbacks.ShutterCallback shutterCallback;
+    private I_Callbacks.PreviewCallback previewCallback;
+    private Surface surfaceHolder;
 
     //public boolean hasLGFrameWork = false;
     public Frameworks DeviceFrameWork = Frameworks.Normal;
@@ -55,7 +56,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public int Orientation;
 
 
-    TextureView textureView;
+    private TextureView textureView;
 
 
     public int CurrentCamera;
@@ -255,7 +256,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     }
 
     @Override
-    public boolean SetCameraParameters(final HashMap<String, String> parameters)
+    public void SetCameraParameters(final HashMap<String, String> parameters)
     {
         try {
             String ret = "";
@@ -280,9 +281,6 @@ public class BaseCameraHolder extends AbstractCameraHolder
         }
 
 
-
-
-        return true;
     }
 
     @Override
@@ -418,10 +416,10 @@ public class BaseCameraHolder extends AbstractCameraHolder
         return map;
     }
 
-    public void TakePicture(final I_Callbacks.ShutterCallback shutter, final I_Callbacks.PictureCallback raw, final I_Callbacks.PictureCallback picture)
+    public void TakePicture(final I_Callbacks.PictureCallback raw, final I_Callbacks.PictureCallback picture)
     {
         this.pictureCallback = picture;
-        this.shutterCallback = shutter;
+        this.shutterCallback = null;
         this.rawCallback = raw;
 
 

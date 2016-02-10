@@ -20,19 +20,19 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
         void onWorkFinished(boolean finished);
     }
 
-    ArrayList<I_worker> workers;
+    private ArrayList<I_worker> workers;
 
     private static String TAG = AbstractModuleHandler.class.getSimpleName();
     public ModuleEventHandler moduleEventHandler;
-    public ArrayList<String> PictureModules;
-    public ArrayList<String> LongeExpoModules;
+    private ArrayList<String> PictureModules;
+    private ArrayList<String> LongeExpoModules;
     public ArrayList<String> VideoModules;
-    public ArrayList<String> AllModules;
-    public ArrayList<String> HDRModule;
+    private ArrayList<String> AllModules;
+    private ArrayList<String> HDRModule;
     public HashMap<String, AbstractModule> moduleList;
     protected AppSettingsManager appSettingsManager;
     protected AbstractModule currentModule;
-    AbstractCameraHolder cameraHolder;
+    private AbstractCameraHolder cameraHolder;
 
     protected I_worker workerListner;
 
@@ -42,9 +42,9 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
     public static final String MODULE_BURST = "module_burst";
     public static final String MODULE_LONGEXPO = "module_longexposure";
     public static final String MODULE_INTERVAL = "module_interval";
-    public static final String MODULE_ALL = "module_all";
+    private static final String MODULE_ALL = "module_all";
 
-    public AbstractModuleHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager)
+    protected AbstractModuleHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager)
     {
         this.cameraHolder = cameraHolder;
         this.appSettingsManager = appSettingsManager;

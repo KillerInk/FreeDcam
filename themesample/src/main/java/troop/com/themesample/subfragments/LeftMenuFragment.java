@@ -40,50 +40,50 @@ import troop.com.themesample.views.uichilds.UiSettingsChild;
 public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_MenuItemClick, I_swipe
 {
 
-    final boolean DEBUG = false;
-    MenuItemTheme themeItem;
+    private final boolean DEBUG = false;
+    private MenuItemTheme themeItem;
     //MenuItemBayerFormat bayerFormatItem;
-    troop.com.themesample.views.menu.MenuItem pictureSize;
-    MenuItemSDSave sdSave;
-    MenuItemGPS menuItemGPS;
-    MenuItemVideoBitrate bitrate;
+    private troop.com.themesample.views.menu.MenuItem pictureSize;
+    private MenuItemSDSave sdSave;
+    private MenuItemGPS menuItemGPS;
+    private MenuItemVideoBitrate bitrate;
 
-    MenuItemInterval menuItemInterval;
-    MenuItemIntervalDuration menuItemIntervalDuration;
-    MenuItemTimer menuItemTimer;
+    private MenuItemInterval menuItemInterval;
+    private MenuItemIntervalDuration menuItemIntervalDuration;
+    private MenuItemTimer menuItemTimer;
 
-    troop.com.themesample.views.menu.MenuItem guide;
-    troop.com.themesample.views.menu.MenuItem api;
-    troop.com.themesample.views.menu.MenuItem externalShutter;
-    MenuItemOrientationHack orientationHack;
+    private troop.com.themesample.views.menu.MenuItem guide;
+    private troop.com.themesample.views.menu.MenuItem api;
+    private troop.com.themesample.views.menu.MenuItem externalShutter;
+    private MenuItemOrientationHack orientationHack;
 
-    troop.com.themesample.views.menu.MenuItem jpegQuality;
-    MenuItemSaveCamParams saveCamParams;
+    private troop.com.themesample.views.menu.MenuItem jpegQuality;
+    private MenuItemSaveCamParams saveCamParams;
 
-    MenuItemVideoProfile videoProfile;
-    troop.com.themesample.views.menu.MenuItemVideoHDR videoHDR;
-    troop.com.themesample.views.menu.MenuItemHighFramerateVideo HighFramerateVideo;
-    MenuItemTimeLapseFrames timeLapseFrames;
+    private MenuItemVideoProfile videoProfile;
+    private troop.com.themesample.views.menu.MenuItemVideoHDR videoHDR;
+    private troop.com.themesample.views.menu.MenuItemHighFramerateVideo HighFramerateVideo;
+    private MenuItemTimeLapseFrames timeLapseFrames;
 
-    troop.com.themesample.views.menu.MenuItem VideoSize;
+    private troop.com.themesample.views.menu.MenuItem VideoSize;
 
-    troop.com.themesample.views.menu.MenuItem PreviewSize;
-    troop.com.themesample.views.menu.MenuItem PreviewFormat;
+    private troop.com.themesample.views.menu.MenuItem PreviewSize;
+    private troop.com.themesample.views.menu.MenuItem PreviewFormat;
 
-    troop.com.themesample.views.menu.MenuItem videoStabilization;
-    troop.com.themesample.views.menu.MenuItem HighSpeedVideo;
+    private troop.com.themesample.views.menu.MenuItem videoStabilization;
+    private troop.com.themesample.views.menu.MenuItem HighSpeedVideo;
 
-    troop.com.themesample.views.menu.MenuItem horizont;
+    private troop.com.themesample.views.menu.MenuItem horizont;
 
-    Interfaces.I_MenuItemClick onMenuItemClick;
+    private Interfaces.I_MenuItemClick onMenuItemClick;
 
     public SwipeMenuListner touchHandler;
-    ScrollView scrollView;
-    FrameLayout settingsMenu;
-    final String KEY_SETTINGSOPEN = "key_settingsopen";
-    SharedPreferences sharedPref;
-    boolean settingsOpen;
-    LinearLayout leftholder;
+    private ScrollView scrollView;
+    private FrameLayout settingsMenu;
+    private final String KEY_SETTINGSOPEN = "key_settingsopen";
+    private SharedPreferences sharedPref;
+    private boolean settingsOpen;
+    private LinearLayout leftholder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -155,7 +155,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         videoStabilization.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOSTABILIZATION,touchHandler);
 
         timeLapseFrames = (MenuItemTimeLapseFrames) view.findViewById(troop.com.themesample.R.id.MenuItemTimeLapseFrame);
-        timeLapseFrames.SetStuff(appSettingsManager, AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME);
+        timeLapseFrames.SetStuff(appSettingsManager);
 
         saveCamParams = (MenuItemSaveCamParams)view.findViewById(R.id.MenuItemSaveParams);
 
@@ -221,7 +221,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         guide.SetParameter(wrapper.camParametersHandler.GuideList);
         guide.SetMenuItemListner(this);
 
-        api.SetParameter(new ApiParameter(null, i_activity, appSettingsManager));
+        api.SetParameter(new ApiParameter(i_activity, appSettingsManager));
         api.SetMenuItemListner(this);
 
         externalShutter.SetParameter(new ParameterExternalShutter(appSettingsManager));

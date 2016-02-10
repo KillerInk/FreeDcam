@@ -20,12 +20,12 @@ import static com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView.Night
 public class NightModeSony extends BaseModeParameterSony
 {
     private String currentval = StringUtils.OFF;
-    SimpleStreamSurfaceView simpleStreamSurfaceView;
-    final String GRAYSCALE = "GrayScale";
-    final String ZOOMPREVIEW = "ZoomPreview";
+    private SimpleStreamSurfaceView simpleStreamSurfaceView;
+    private final String GRAYSCALE = "GrayScale";
+    private final String ZOOMPREVIEW = "ZoomPreview";
 
-    public NightModeSony(Handler handler, String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi, SimpleStreamSurfaceView simpleStreamSurfaceView) {
-        super(handler, VALUE_TO_GET, VALUE_TO_SET, VALUES_TO_GET, mRemoteApi);
+    public NightModeSony(Handler handler, String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleStreamSurfaceView simpleStreamSurfaceView) {
+        super(handler, null, null, null, null);
         this.simpleStreamSurfaceView = simpleStreamSurfaceView;
     }
 

@@ -16,12 +16,12 @@ import java.util.HashMap;
  */
 public class ShutterManualZTE extends BaseManualParameter
 {
-    I_CameraHolder baseCameraHolder;
-    CamParametersHandler camParametersHandlerx;
-    I_CameraChangedListner i_cameraChangedListner;
-    String[] shutterValues;
-    int current =0;
-    final String TAG = ShutterManualZTE.class.getSimpleName();
+    private I_CameraHolder baseCameraHolder;
+    private CamParametersHandler camParametersHandlerx;
+    private I_CameraChangedListner i_cameraChangedListner;
+    private String[] shutterValues;
+    private int current =0;
+    private final String TAG = ShutterManualZTE.class.getSimpleName();
 
     private I_Shutter_Changed i_shutter_changed;
 
@@ -34,11 +34,10 @@ public class ShutterManualZTE extends BaseManualParameter
      * @param parameters
      * @param value
      * @param maxValue
-     * @param MinValue
      * @param camParametersHandler
      */
-    public ShutterManualZTE(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder baseCameraHolder, I_CameraChangedListner i_cameraChangedListner, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
+    public ShutterManualZTE(HashMap<String, String> parameters, String value, String maxValue, I_CameraHolder baseCameraHolder, I_CameraChangedListner i_cameraChangedListner, AbstractParameterHandler camParametersHandler) {
+        super(parameters, "", "", "", camParametersHandler);
         this.baseCameraHolder = baseCameraHolder;
         camParametersHandlerx = (CamParametersHandler) camParametersHandler;
         this.i_cameraChangedListner = i_cameraChangedListner;

@@ -16,8 +16,8 @@ import java.io.IOException;
  */
 public class ContShootModeParameterSony extends BaseModeParameterSony
 {
-    public ContShootModeParameterSony(Handler handler,String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi) {
-        super(handler,VALUE_TO_GET, VALUE_TO_SET, VALUES_TO_GET, mRemoteApi);
+    public ContShootModeParameterSony(Handler handler, String VALUE_TO_GET, String VALUE_TO_SET, SimpleRemoteApi mRemoteApi) {
+        super(handler, "getContShootingMode", "setContShootingMode", "getAvailableContShootingMode", mRemoteApi);
     }
 
     protected String[] processValuesToReturn() {

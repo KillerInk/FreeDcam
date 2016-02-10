@@ -14,10 +14,10 @@ import java.util.List;
 public class AbstractModeParameter implements I_ModeParameter
 {
     //Holds the ui thread to invoke ui items
-    Handler uihandler;
+    private Handler uihandler;
     private static String TAG = AbstractModeParameter.class.getSimpleName();
 
-    public AbstractModeParameter(Handler uiHandler)
+    protected AbstractModeParameter(Handler uiHandler)
     {
         events = new ArrayList<I_ModeParameterEvent>();
         this.uihandler = uiHandler;
@@ -53,7 +53,7 @@ public class AbstractModeParameter implements I_ModeParameter
          */
         void onValuesChanged(String[] values);
 
-        void onVisibilityChanged(boolean visible);
+        void onVisibilityChanged();
     }
 
     private List<I_ModeParameterEvent> events;
@@ -63,7 +63,7 @@ public class AbstractModeParameter implements I_ModeParameter
         if (!events.contains(eventListner))
             events.add(eventListner);
     }
-    public void removeEventListner(I_ModeParameterEvent parameterEvent)
+    protected void removeEventListner(I_ModeParameterEvent parameterEvent)
     {
         if (events.contains(parameterEvent))
             events.remove(parameterEvent);
@@ -183,7 +183,7 @@ public class AbstractModeParameter implements I_ModeParameter
      * @param value if true the value can set to the camera, if false the value is read only
      * this affects only sonyapi and camera2
      */
-    public void BackgroundSetIsSupportedHasChanged(final boolean value)
+    protected void BackgroundSetIsSupportedHasChanged(final boolean value)
     {
         uihandler.post(new Runnable() {
             @Override
@@ -220,7 +220,7 @@ public class AbstractModeParameter implements I_ModeParameter
 
                     }
                     else
-                        events.get(i).onVisibilityChanged(value);
+                        events.get(i).onVisibilityChanged();
                 }
             }
         });

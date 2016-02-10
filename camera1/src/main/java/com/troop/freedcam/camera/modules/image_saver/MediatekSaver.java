@@ -19,16 +19,16 @@ import java.io.IOException;
  */
 public class MediatekSaver extends JpegSaver {
 
-    File holdFile = null;
-    protected AbstractParameterHandler ParameterHandlerx;
+    private File holdFile = null;
+    private AbstractParameterHandler ParameterHandlerx;
 
-    final public String fileEnding = ".jpg";
+    private final String fileEnding = ".jpg";
     public MediatekSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler, boolean externalSD) {
         super(cameraHolder, i_workeDone, handler, externalSD);
         this.ParameterHandlerx = cameraHolder.ParameterHandler;
     }
 
-    final String TAG = "MediatekIMG";
+    private final String TAG = "MediatekIMG";
 
     @Override
     public void TakePicture()
@@ -50,7 +50,7 @@ public class MediatekSaver extends JpegSaver {
                             ((CamParametersHandler) ParameterHandlerx).setString("rawfname", "/mnt/sdcard/DCIM/FreeDCam/"+timestamp+".raw");
                     cameraHolder.SetCameraParameters(((CamParametersHandler) ParameterHandlerx).getParameters());
                 }
-                cameraHolder.TakePicture(null, null, MediatekSaver.this);
+                cameraHolder.TakePicture(null, MediatekSaver.this);
             }
         });
     }
@@ -58,7 +58,7 @@ public class MediatekSaver extends JpegSaver {
     @Override
     public void onPictureTaken(final byte[] data)
     {
-        if (awaitpicture == false)
+        if (!awaitpicture)
             return;
         awaitpicture =false;
         Log.d(TAG, "Take Picture CallBack");
@@ -143,7 +143,7 @@ public class MediatekSaver extends JpegSaver {
         int mFlash;
 
 
-        dngConverter.setExifData(0, 0, 0, fnum, focal, "0", "0", 0);
+        dngConverter.setExifData(0, 0, 0, fnum, focal, "0", "0");
 
         dngConverter.WriteDNG(null);
         dngConverter.RELEASE();
@@ -205,7 +205,7 @@ public class MediatekSaver extends JpegSaver {
         return dump;*/
     }
 
-    public boolean checkFileCanRead(File file)
+    private boolean checkFileCanRead(File file)
     {
         try {
             if (!file.exists())

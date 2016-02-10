@@ -13,13 +13,13 @@ import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
  */
 public class FocusHandlerSony extends AbstractFocusHandler implements I_Callbacks.AutoFocusCallback
 {
-    CameraUiWrapperSony cameraUiWrapper;
-    CameraHolderSony cameraHolder;
-    ParameterHandlerSony parametersHandler;
+    private CameraUiWrapperSony cameraUiWrapper;
+    private CameraHolderSony cameraHolder;
+    private ParameterHandlerSony parametersHandler;
     private static String TAG = FocusHandlerSony.class.getSimpleName();
 
-    boolean isFocusing = false;
-    boolean isFocusLocked = false;
+    private boolean isFocusing = false;
+    private boolean isFocusLocked = false;
 
     public FocusHandlerSony(CameraUiWrapperSony cameraUiWrapper)
     {
@@ -63,7 +63,7 @@ public class FocusHandlerSony extends AbstractFocusHandler implements I_Callback
     }
 
     @Override
-    public void SetAwbAreas(FocusRect awbRect, int width, int height) {
+    public void SetAwbAreas(FocusRect awbRect) {
 
     }
 

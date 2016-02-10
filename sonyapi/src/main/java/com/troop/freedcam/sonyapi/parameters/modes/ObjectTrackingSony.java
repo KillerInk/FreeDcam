@@ -15,8 +15,8 @@ import java.io.IOException;
  * Created by troop on 31.01.2015.
  */
 public class ObjectTrackingSony extends BaseModeParameterSony {
-    public ObjectTrackingSony(Handler handler,String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi) {
-        super(handler,VALUE_TO_GET, VALUE_TO_SET, VALUES_TO_GET, mRemoteApi);
+    public ObjectTrackingSony(Handler handler, String VALUE_TO_GET, String VALUE_TO_SET, SimpleRemoteApi mRemoteApi) {
+        super(handler, "getTrackingFocus", "setTrackingFocus", "getAvailableTrackingFocus", mRemoteApi);
     }
 
     protected String[] processValuesToReturn() {

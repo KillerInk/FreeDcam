@@ -16,15 +16,15 @@ import troop.com.themesample.SampleThemeFragment;
  */
 public class ThemeHandler implements I_ModuleEvent
 {
-    AppSettingsManager appSettingsManager;
-    static MainActivity activity_v2;
-    LinearLayout uiLayout;
-    AbstractFragment uiFragment;
+    private AppSettingsManager appSettingsManager;
+    private static MainActivity activity_v2;
+    private LinearLayout uiLayout;
+    private AbstractFragment uiFragment;
 
     public ThemeHandler(MainActivity activity_v2, AppSettingsManager appSettingsManager)
     {
         this.appSettingsManager = appSettingsManager;
-        this.activity_v2 = activity_v2;
+        ThemeHandler.activity_v2 = activity_v2;
         uiLayout = (LinearLayout) activity_v2.findViewById(R.id.themeFragmentholder);
     }
 
@@ -34,7 +34,7 @@ public class ThemeHandler implements I_ModuleEvent
     }
 
 
-    public AbstractFragment GetThemeFragment(boolean infalte, AbstractCameraUiWrapper cameraUiWrapper)
+    public void GetThemeFragment(AbstractCameraUiWrapper cameraUiWrapper)
     {
         String theme = appSettingsManager.GetTheme();
         if(theme.equals("Ambient") || theme.equals("Material")|| theme.equals("Minimal") || theme.equals("Nubia") || theme.equals("Classic")) {
@@ -48,9 +48,9 @@ public class ThemeHandler implements I_ModuleEvent
             sampleThemeFragment.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = sampleThemeFragment;
         }
-        if (infalte)
+        if (true)
             inflateFragment(uiFragment);
-        return uiFragment;
+
     }
 
     private void inflateFragment(AbstractFragment fragment)

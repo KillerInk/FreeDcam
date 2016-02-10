@@ -18,9 +18,9 @@ import java.io.IOException;
 public class JpegSaver implements I_Callbacks.PictureCallback
 {
 
-    String TAG = JpegSaver.class.getSimpleName();
+    private String TAG = JpegSaver.class.getSimpleName();
 
-    protected BaseCameraHolder cameraHolder;
+    BaseCameraHolder cameraHolder;
     I_WorkeDone iWorkeDone;
     Handler handler;
     boolean externalSd = false;
@@ -42,7 +42,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
         handler.post(new Runnable() {
             @Override
             public void run() {
-                cameraHolder.TakePicture(null, raw, JpegSaver.this);
+                cameraHolder.TakePicture(raw, JpegSaver.this);
             }
         });
 
@@ -51,7 +51,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
     @Override
     public void onPictureTaken(final byte[] data)
     {
-        if (awaitpicture == false)
+        if (!awaitpicture)
             return;
         awaitpicture =false;
         handler.post(new Runnable() {
@@ -64,7 +64,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
 
     }
 
-    I_Callbacks.PictureCallback raw = new I_Callbacks.PictureCallback() {
+    private I_Callbacks.PictureCallback raw = new I_Callbacks.PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data)
         {
@@ -100,7 +100,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
 
     }
 
-    public void checkFileExists(File fileName) {
+    void checkFileExists(File fileName) {
         if(!fileName.getParentFile().exists())
             fileName.getParentFile().mkdirs();
         if (!fileName.exists())

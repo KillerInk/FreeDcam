@@ -11,7 +11,7 @@ import troop.com.themesample.R;
 /**
  * Created by GeorgeKiarie on 9/15/2015.
  */
-public class NumberPicker  {
+class NumberPicker  {
 private Object picker;
 private Class<?> classPicker;
 

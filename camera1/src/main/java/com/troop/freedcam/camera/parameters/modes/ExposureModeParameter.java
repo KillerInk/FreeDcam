@@ -11,8 +11,8 @@ import java.util.HashMap;
  * Created by troop on 17.08.2014.
  */
 public class ExposureModeParameter extends BaseModeParameter {
-    public ExposureModeParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
-        super(handler,parameters,parameterChanged, value, values);
+    public ExposureModeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value) {
+        super(handler,parameters,parameterChanged, "", "");
 
         try
         {
@@ -27,7 +27,7 @@ public class ExposureModeParameter extends BaseModeParameter {
         {
 
         }
-        if (isSupported == false)
+        if (!isSupported)
         {
             try
             {

@@ -13,9 +13,9 @@ import java.util.ArrayList;
 public class MenuItemHighFramerateVideo extends MenuItem
 {
 
-    protected ArrayList<String> modulesToShow;
-    String currentModule;
-    AbstractModuleHandler moduleHandler;
+    private ArrayList<String> modulesToShow;
+    private String currentModule;
+    private AbstractModuleHandler moduleHandler;
     public MenuItemHighFramerateVideo(Context context) {
         super(context);
     }

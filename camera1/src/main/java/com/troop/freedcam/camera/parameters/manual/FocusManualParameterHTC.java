@@ -12,16 +12,13 @@ import java.util.HashMap;
  */
 public class FocusManualParameterHTC extends  BaseManualParameter
 {
-    I_CameraHolder baseCameraHolder;
+    private I_CameraHolder baseCameraHolder;
     private static String TAG ="freedcam.ManualFocusHTC";
 
-    public FocusManualParameterHTC(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
+    public FocusManualParameterHTC(HashMap<String, String> parameters, String value, String maxValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
+        super(parameters, "", "", "", camParametersHandler);
         this.baseCameraHolder = cameraHolder;
-        if (!parameters.containsKey("min-focus") || !parameters.containsKey("max-focus") || !parameters.containsKey("focus"))
-            this.isSupported = false;
-        else
-            this.isSupported = true;
+        this.isSupported = !(!parameters.containsKey("min-focus") || !parameters.containsKey("max-focus") || !parameters.containsKey("focus"));
         this.max_value = "max-focus";
         this.value = "focus";
         this.min_value = "min-focus";

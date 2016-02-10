@@ -16,10 +16,10 @@ import troop.com.imageviewer.R;
  */
 public class BaseGridViewFragment extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
-    protected GridView gridView;
-    protected View view;
-    protected boolean pos0ret = false;
-    protected ViewStates currentViewState = ViewStates.normal;
+    GridView gridView;
+    View view;
+    boolean pos0ret = false;
+    ViewStates currentViewState = ViewStates.normal;
 
     public enum ViewStates
     {
@@ -39,7 +39,7 @@ public class BaseGridViewFragment extends Fragment implements AdapterView.OnItem
         return view;
     }
 
-    protected void inflate(LayoutInflater inflater, ViewGroup container)
+    void inflate(LayoutInflater inflater, ViewGroup container)
     {
         view = inflater.inflate(R.layout.basegridview, container, false);
     }

@@ -15,8 +15,8 @@ import java.util.List;
  */
 public class ModuleParameters extends AbstractModeParameter {
 
-    AppSettingsManager appSettingsManager;
-    AbstractCameraUiWrapper cameraUiWrapper;
+    private AppSettingsManager appSettingsManager;
+    private AbstractCameraUiWrapper cameraUiWrapper;
     public ModuleParameters(Handler uiHandler, AppSettingsManager appSettingsManager, AbstractCameraUiWrapper cameraUiWrapper) {
         super(uiHandler);
         this.cameraUiWrapper = cameraUiWrapper;

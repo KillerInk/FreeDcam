@@ -83,7 +83,7 @@ public class RawToDng
         return new RawToDng();
     }
 
-    public long GetRawSize()
+    private long GetRawSize()
     {
         return GetRawBytesSize(nativeHandler);
     }
@@ -101,11 +101,10 @@ public class RawToDng
                             float fNum,
                             float focalL,
                             String imagedescription,
-                            String orientation,
-                            double exposureIndex)
+                            String orientation)
     {
         if (nativeHandler != null)
-        SetExifData(nativeHandler, iso, expo, flash, fNum, focalL, imagedescription, orientation, exposureIndex);
+        SetExifData(nativeHandler, iso, expo, flash, fNum, focalL, imagedescription, orientation, (double) 0);
     }
 
     private float[] parseGpsvalue(double val)
@@ -117,8 +116,7 @@ public class RawToDng
         final double dm = Double.parseDouble(sec[1]);
         final double ds = Double.parseDouble(sec[2].replace(",","."));
 
-        final float[] Longitudear = { (float)dd ,(float)dm,(float)ds};
-        return Longitudear;
+        return new float[]{ (float)dd ,(float)dm,(float)ds};
     }
 
     public void SetThumbData(byte[] mThumb, int widht, int height)
@@ -129,10 +127,10 @@ public class RawToDng
         }
     }
 
-    public void SetModelAndMake(String model, String make)
+    private void SetModelAndMake(String model)
     {
         if (nativeHandler !=null)
-            SetModelAndMake(nativeHandler, model, make);
+            SetModelAndMake(nativeHandler, Build.MODEL, Build.MANUFACTURER);
     }
 
     public void SetBayerData(final byte[] fileBytes, String fileout) throws NullPointerException
@@ -145,21 +143,20 @@ public class RawToDng
     }
 
     private void SetBayerInfo(float[] colorMatrix1,
-                             float[] colorMatrix2,
-                             float[] neutralColor,
+                              float[] colorMatrix2,
+                              float[] neutralColor,
                               float[] fowardMatrix1,
                               float[] fowardMatrix2,
                               float[] reductionMatrix1,
                               float[] reductionMatrix2,
                               float[] noise,
-                             int blacklevel,
-                             String bayerformat,
-                             int rowSize,
-                             String devicename,
-                             int tight,int width,int height)
+                              int blacklevel,
+                              String bayerformat,
+                              int rowSize,
+                              int tight, int width, int height)
     {
         if (nativeHandler != null)
-            SetBayerInfo(nativeHandler, colorMatrix1, colorMatrix2, neutralColor, fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel, bayerformat, rowSize, devicename, tight, width, height);
+            SetBayerInfo(nativeHandler, colorMatrix1, colorMatrix2, neutralColor, fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel, bayerformat, rowSize, Build.MODEL, tight, width, height);
     }
 
     public void RELEASE()
@@ -181,10 +178,9 @@ public class RawToDng
 
     public void WriteDNG(DeviceUtils.Devices device)
     {
-        DeviceUtils.Devices devices = device;
-        if (devices != null)
+        if (device != null)
         {
-            DngSupportedDevices.DngProfile profile = new DngSupportedDevices().getProfile(devices, (int)GetRawSize());
+            DngSupportedDevices.DngProfile profile = new DngSupportedDevices().getProfile(device, (int)GetRawSize());
             //if (profile.rowsize == 0)
                 //profile.rowsize = Calculate_rowSize((int)GetRawSize(), profile.height);
             if (profile == null)
@@ -192,8 +188,8 @@ public class RawToDng
                 RELEASE();
                 return;
             }
-            SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
-            SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.fowardmatrix1,profile.fowardmatrix2,profile.reductionmatrix1,profile.reductionmatrix2,profile.noiseprofile,profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.rawType,profile.widht,profile.height);
+            SetModelAndMake(Build.MODEL);
+            SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.fowardmatrix1,profile.fowardmatrix2,profile.reductionmatrix1,profile.reductionmatrix2,profile.noiseprofile,profile.blacklevel, profile.BayerPattern, profile.rowsize, profile.rawType,profile.widht,profile.height);
             WriteDNG(nativeHandler);
             RELEASE();
         }
@@ -203,18 +199,17 @@ public class RawToDng
     {
         if (profile == null)
             return;
-        SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
-        SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.fowardmatrix1,profile.fowardmatrix2,profile.reductionmatrix1,profile.reductionmatrix2,profile.noiseprofile,profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.rawType,profile.widht,profile.height);
+        SetModelAndMake(Build.MODEL);
+        SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.fowardmatrix1,profile.fowardmatrix2,profile.reductionmatrix1,profile.reductionmatrix2,profile.noiseprofile,profile.blacklevel, profile.BayerPattern, profile.rowsize, profile.rawType,profile.widht,profile.height);
         WriteDNG(nativeHandler);
         RELEASE();
     }
 
     public void Write10BitDNG(DeviceUtils.Devices device)
     {
-        DeviceUtils.Devices devices = device;
-        if (devices != null)
+        if (device != null)
         {
-            DngSupportedDevices.DngProfile profile = new DngSupportedDevices().getProfile(devices, (int)GetRawSize());
+            DngSupportedDevices.DngProfile profile = new DngSupportedDevices().getProfile(device, (int)GetRawSize());
             //if (profile.rowsize == 0)
             //profile.rowsize = Calculate_rowSize((int)GetRawSize(), profile.height);
             if (profile == null)
@@ -222,8 +217,8 @@ public class RawToDng
                 RELEASE();
                 return;
             }
-            SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
-            SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.fowardmatrix1,profile.fowardmatrix2,profile.reductionmatrix1,profile.reductionmatrix2,profile.noiseprofile,profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.rawType,profile.widht,profile.height);
+            SetModelAndMake(Build.MODEL);
+            SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.fowardmatrix1,profile.fowardmatrix2,profile.reductionmatrix1,profile.reductionmatrix2,profile.noiseprofile,profile.blacklevel, profile.BayerPattern, profile.rowsize, profile.rawType,profile.widht,profile.height);
             Write10bitDNG(nativeHandler);
             RELEASE();
         }

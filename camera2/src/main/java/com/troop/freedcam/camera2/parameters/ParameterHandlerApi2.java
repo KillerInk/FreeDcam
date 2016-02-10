@@ -51,9 +51,9 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 {
     private static String TAG = StringUtils.TAG + ParameterHandlerApi2.class.getSimpleName();
     private ManualToneMapCurveApi2 manualToneMapCurveApi2;
-    AbstractCameraUiWrapper wrapper;
+    private AbstractCameraUiWrapper wrapper;
 
-    BaseCameraHolderApi2 cameraHolder;
+    private BaseCameraHolderApi2 cameraHolder;
 
     public ParameterHandlerApi2(AbstractCameraUiWrapper cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
     {

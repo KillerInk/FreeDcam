@@ -17,9 +17,9 @@ import java.io.IOException;
 public class WhiteBalanceModeSony extends BaseModeParameterSony
 {
 
-    WbCTManualSony wb;
-    public WhiteBalanceModeSony(Handler handler,String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi,WbCTManualSony wb) {
-        super(handler,VALUE_TO_GET, VALUE_TO_SET, VALUES_TO_GET, mRemoteApi);
+    private WbCTManualSony wb;
+    public WhiteBalanceModeSony(Handler handler, String VALUE_TO_GET, String VALUE_TO_SET, SimpleRemoteApi mRemoteApi, WbCTManualSony wb) {
+        super(handler, "getWhiteBalance", "setWhiteBalance", "getAvailableWhiteBalance", mRemoteApi);
         this.wb = wb;
     }
 

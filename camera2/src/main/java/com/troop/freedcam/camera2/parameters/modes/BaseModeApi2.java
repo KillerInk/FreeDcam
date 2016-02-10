@@ -16,7 +16,7 @@ public class BaseModeApi2 extends AbstractModeParameter {
     BaseCameraHolderApi2 cameraHolder;
     boolean isSupported = false;
 
-    public BaseModeApi2(Handler handler, BaseCameraHolderApi2 baseCameraHolderApi2)
+    BaseModeApi2(Handler handler, BaseCameraHolderApi2 baseCameraHolderApi2)
     {
         super(handler);
         this.cameraHolder = baseCameraHolderApi2;

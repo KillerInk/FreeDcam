@@ -12,11 +12,11 @@ import java.util.HashMap;
  */
 public class PreviewSizeParameter extends BaseModeParameter
 {
-    AbstractCameraHolder baseCameraHolder;
+    private AbstractCameraHolder baseCameraHolder;
 
-    public PreviewSizeParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, AbstractCameraHolder cameraHolder)
+    public PreviewSizeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, AbstractCameraHolder cameraHolder)
     {
-        super(handler, parameters, parameterChanged, value, values);
+        super(handler, parameters, parameterChanged, "preview-size", "preview-size-values");
         this.baseCameraHolder = cameraHolder;
     }
 

@@ -22,8 +22,8 @@ public class PictureFormatHandler extends BaseModeParameter
     private String rawFormat;
 
     final public static int JPEG= 0;
-    final public static int RAW = 1;
-    final public static int DNG = 2;
+    private final static int RAW = 1;
+    private final static int DNG = 2;
 
     final static public String[] CaptureMode =
     {

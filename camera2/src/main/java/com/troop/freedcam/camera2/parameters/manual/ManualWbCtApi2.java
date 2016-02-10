@@ -19,15 +19,15 @@ import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class ManualWbCtApi2  extends  AbstractManualParameter implements AbstractModeParameter.I_ModeParameterEvent
 {
-    int current = 5000;
+    private int current = 5000;
     public ColorSpaceTransform colorSpaceTransform;
     public RggbChannelVector rggbChannelVector;
     private RggbChannelVector wbChannelVector;
-    boolean isSupported = false;
-    BaseCameraHolderApi2 cameraHolder;
-    boolean canSet = false;
+    private boolean isSupported = false;
+    private BaseCameraHolderApi2 cameraHolder;
+    private boolean canSet = false;
 
-    final String TAG = ManualWbCtApi2.class.getSimpleName();
+    private final String TAG = ManualWbCtApi2.class.getSimpleName();
 
     public ManualWbCtApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
         super(camParametersHandler);
@@ -193,14 +193,13 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
     }
 
     @Override
-    public void onVisibilityChanged(boolean visible) {
+    public void onVisibilityChanged() {
 
     }
 
     private int getCctFromRGB(int R, int G, int B)
     {
         double n=((0.23881)*R+(0.25499)*G+(-0.58291)*B)/((0.11109)*R+(-0.85406)*G+(0.52289)*B);
-        int CCT=(int)(449*Math.pow(n,3)+3525*Math.pow(n,2)+Math.pow(n,6823.3)+5520.33);
-        return CCT;
+        return (int)(449*Math.pow(n,3)+3525*Math.pow(n,2)+Math.pow(n,6823.3)+5520.33);
     }
 }

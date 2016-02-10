@@ -31,23 +31,24 @@ import troop.com.views.MyHistogram;
 /**
  * Created by George on 3/26/2015.
  */
+@SuppressWarnings("ALL")
 public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCallback, I_ModuleEvent, I_CameraChangedListner, AbstractModuleHandler.I_worker {
 
     private AppSettingsManager appSettingsManager;
-    AbstractCameraUiWrapper cameraUiWrapper;
-    boolean fragmentloaded = false;
-    View view;
-    MyHistogram histogram;
+    private AbstractCameraUiWrapper cameraUiWrapper;
+    private boolean fragmentloaded = false;
+    private View view;
+    private MyHistogram histogram;
     private final BlockingQueue<byte[]> mYuvFrameQueue = new ArrayBlockingQueue<byte[]>(2);
-    LinearLayout ll;
-    I_Activity i_activity;
+    private LinearLayout ll;
+    private I_Activity i_activity;
 
-    boolean doWork = false;
-    boolean stoppedOnModuleChange = false;
+    private boolean doWork = false;
+    private boolean stoppedOnModuleChange = false;
 
-    int width;
-    int height;
-    int imageFormat = 0;
+    private int width;
+    private int height;
+    private int imageFormat = 0;
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -120,7 +121,7 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         cameraUiWrapper.SetCameraChangedListner(this);
     }
-    public void strtLsn()
+    private void strtLsn()
     {
         if (cameraUiWrapper != null && cameraUiWrapper.cameraHolder != null && cameraUiWrapper.cameraHolder.isPreviewRunning) {
             try {
@@ -170,7 +171,7 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
 
     }
 
-    void stopLsn()
+    private void stopLsn()
     {
         doWork = false;
         if (cameraUiWrapper != null && cameraUiWrapper.cameraHolder != null)

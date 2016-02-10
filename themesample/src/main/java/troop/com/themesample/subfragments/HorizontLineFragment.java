@@ -27,25 +27,25 @@ import troop.com.themesample.R;
  */
 public class HorizontLineFragment extends AbstractFragment implements AbstractModeParameter.I_ModeParameterEvent{
 
-    View view;
-    AbstractCameraUiWrapper cameraUiWrapper;
-    AppSettingsManager appSettingsManager;
+    private View view;
+    private AbstractCameraUiWrapper cameraUiWrapper;
+    private AppSettingsManager appSettingsManager;
 
     private ImageView lineImage;
     private ImageView upImage;
     private ImageView downImage;
     private float RotateDegree = 0f;
     private SensorManager sensorManager;
-    Sensor accelerometer;
-    Sensor magnetometer;
-    float[] mGravity;
-    float[] mGeomagnetic;
-    float roll;
-    float pitch;
-    float rolldegree;
-    float pitchdegree;
-    final float rad2deg = (float)(180.0f/Math.PI);
-    final Handler handler = new Handler();
+    private Sensor accelerometer;
+    private Sensor magnetometer;
+    private float[] mGravity;
+    private float[] mGeomagnetic;
+    private float roll;
+    private float pitch;
+    private float rolldegree;
+    private float pitchdegree;
+    private final float rad2deg = (float)(180.0f/Math.PI);
+    private final Handler handler = new Handler();
     private HandlerThread sensorThread;
     private Handler sensorHandler;
     private MySensorListener msl =new MySensorListener();
@@ -105,7 +105,7 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
     }
 
     @Override
-    public void onVisibilityChanged(boolean visible) {
+    public void onVisibilityChanged() {
 
     }
 
@@ -115,7 +115,7 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
         this.appSettingsManager = appSettingsManager;
         cameraUiWrapper.camParametersHandler.Horizont.addEventListner(this);
     }
-    public void startSensorListing()
+    private void startSensorListing()
     {
         if (appSettingsManager.getString(AppSettingsManager.SETTING_HORIZONT).equals("On")) {
             sensorManager.registerListener(msl, accelerometer, 1000000, sensorHandler);
@@ -123,7 +123,7 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
         }
     }
 
-    public void stopSensorListing()
+    private void stopSensorListing()
     {
         if (sensorManager != null)
             sensorManager.unregisterListener(msl);
@@ -144,7 +144,7 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
 
         static final float ALPHA = 0.2f;
 
-        protected float[] lowPass( float[] input, float[] output ) {
+        float[] lowPass(float[] input, float[] output) {
             if ( output == null ) return input;
 
             for ( int i=0; i<input.length; i++ ) {
@@ -165,9 +165,10 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
                 //hltheard.run();
                 float R[] = new float[9];
                 float I[] = new float[9];
-                boolean success = sensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic);
+                @SuppressWarnings("AccessStaticViaInstance") boolean success = sensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic);
                 if (success) {
                     float orientation[] = new float[3];
+                    //noinspection AccessStaticViaInstance
                     sensorManager.getOrientation(R, orientation);
                     roll = orientation[1];
                     pitch = orientation[2];

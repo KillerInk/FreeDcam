@@ -16,12 +16,12 @@ import troop.com.imageviewer.gridviewfragments.GridViewFragment;
  */
 public class ScreenSlideActivity extends FragmentActivity {
 
-    final static String TAG = ScreenSlideActivity.class.getSimpleName();
-    int flags;
+    private final static String TAG = ScreenSlideActivity.class.getSimpleName();
+    private int flags;
     public static final String EXTRA_IMAGE = "extra_image";
     public static final String IMAGE_PATH = "image_path";
     public static final String FileType = "filetype";
-    int extra = 0;
+    private int extra = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class ScreenSlideActivity extends FragmentActivity {
 
     }
 
-    public void HIDENAVBAR()
+    private void HIDENAVBAR()
     {
         if (Build.VERSION.SDK_INT < 16) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,

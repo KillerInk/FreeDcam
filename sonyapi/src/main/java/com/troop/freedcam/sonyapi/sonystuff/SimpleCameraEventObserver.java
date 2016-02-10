@@ -25,7 +25,7 @@ public class SimpleCameraEventObserver {
 
     private static final String TAG = SimpleCameraEventObserver.class.getSimpleName();
 
-    boolean LOGGING = true;
+    private boolean LOGGING = true;
 
     private void sendLog(String msg)
     {
@@ -55,10 +55,9 @@ public class SimpleCameraEventObserver {
 
         /**
          * Called when the value of "Liveview Status" is changed.
-         * 
-         * @param status liveview status (ex.true)
+         *
          */
-        void onLiveviewStatusChanged(boolean status);
+        void onLiveviewStatusChanged();
 
         /**
          * Called when the value of "Shoot Mode" is changed.
@@ -76,10 +75,9 @@ public class SimpleCameraEventObserver {
 
         /**
          * Called when the value of "storageId" is changed.
-         * 
-         * @param storageId storageId (ex. "Memory Card 1")
+         *
          */
-        void onStorageIdChanged(String storageId);
+        void onStorageIdChanged();
 
         // :
         // : add methods for Event data as necessary.
@@ -99,12 +97,12 @@ public class SimpleCameraEventObserver {
         void onFlashChanged(String flash);
         void onFocusLocked(boolean locked);
         void onWhiteBalanceValueChanged(String wb);
-        void onWbColorTemperatureChanged(int colortemp);
-        void onPostViewImageRevieved(String url);
-        void onImageRecieved(String url);
+        void onWbColorTemperatureChanged();
+        void onPostViewImageRevieved();
+        void onImageRecieved();
         void onImagesRecieved(String[] url);
-        void onProgramShiftValueChanged(int shift);
-        void onProgramShiftValuesChanged(String[] shift);
+        void onProgramShiftValueChanged();
+        void onProgramShiftValuesChanged();
         void onExposureModeChanged(String expomode);
         void onExposureModesChanged(String[] expomode);
         void onImageFormatChanged(String imagesize);
@@ -135,7 +133,7 @@ public class SimpleCameraEventObserver {
         }
 
         @Override
-        public void onLiveviewStatusChanged(boolean status) {
+        public void onLiveviewStatusChanged() {
         }
 
         @Override
@@ -147,7 +145,7 @@ public class SimpleCameraEventObserver {
         }
 
         @Override
-        public void onStorageIdChanged(String storageId) {
+        public void onStorageIdChanged() {
         }
 
         public void onTimout()
@@ -176,11 +174,11 @@ public class SimpleCameraEventObserver {
         }
     }
 
-    protected final Handler mUiHandler;
+    private final Handler mUiHandler;
 
     private SimpleRemoteApi mRemoteApi;
 
-    protected ChangeListener mListener;
+    private ChangeListener mListener;
 
     private boolean mWhileEventMonitoring = false;
 
@@ -197,20 +195,20 @@ public class SimpleCameraEventObserver {
 
     private String iso;
 
-    String[] mIsovals;
+    private String[] mIsovals;
 
     private String fnumber;
-    String[] mFnumbervals;
+    private String[] mFnumbervals;
 
-    String[] mShuttervals;
+    private String[] mShuttervals;
     private String shutter;
 
     private String flash;
 
-    int mExposureComp;
-    int mExposureCompMax;
-    int mExposureCompMin;
-    String version;
+    private int mExposureComp;
+    private int mExposureCompMax;
+    private int mExposureCompMin;
+    private String version;
 
     // :
     // : add attributes for Event data as necessary.
@@ -249,15 +247,15 @@ public class SimpleCameraEventObserver {
      * @return true if it successfully started, false if a monitoring is already
      *         started.
      */
-    public boolean start() {
+    public void start() {
         if (!mIsActive) {
             sendLog("start() observer is not active.");
-            return false;
+            return;
         }
 
         if (mWhileEventMonitoring) {
             sendLog("start() already starting.");
-            return false;
+            return;
         }
 
         mWhileEventMonitoring = true;
@@ -335,7 +333,6 @@ public class SimpleCameraEventObserver {
 
         }.start();
 
-        return true;
     }
 
     public void processEvents(JSONObject replyJson) throws JSONException
@@ -361,7 +358,7 @@ public class SimpleCameraEventObserver {
         if (zoomPosition != -1) {
             mZoomPosition = zoomPosition;
             sendLog("getEvent zoomPosition: " + zoomPosition);
-            fireZoomInformationChangeListener(0, 0, zoomPosition, 0);
+            fireZoomInformationChangeListener(zoomPosition);
         }
 
         //3 LiveviewStatus
@@ -432,7 +429,7 @@ public class SimpleCameraEventObserver {
         String postview = JsonUtils.findStringInformation(replyJson, 19, "postviewImageSize", "currentPostviewImageSize");
         if (postview != null && !postview.equals(""))
         {
-            sendLog("getEvent postviewSize: " + postview.toString());
+            sendLog("getEvent postviewSize: " + postview);
             firePostviewChangedListener(postview);
         }
 
@@ -456,7 +453,7 @@ public class SimpleCameraEventObserver {
         //22-24 reserved/emtpy
 
         //25 exposure comepensation
-        int minexpo = JsonUtils.findIntInformation(replyJson, 25, "exposureCompensation", "minExposureCompensation");
+        int minexpo = JsonUtils.findIntInformation(replyJson, 25, "minExposureCompensation");
 
         if (minexpo != -5000 && minexpo != mExposureCompMin)
         {
@@ -464,7 +461,7 @@ public class SimpleCameraEventObserver {
             mExposureCompMin = minexpo;
             fireExposurCompMinChangeListener(minexpo);
         }
-        int maxexpo = JsonUtils.findIntInformation(replyJson, 25, "exposureCompensation", "maxExposureCompensation");
+        int maxexpo = JsonUtils.findIntInformation(replyJson, 25, "maxExposureCompensation");
 
         if (maxexpo != -5000 && maxexpo != mExposureCompMax)
         {
@@ -473,7 +470,7 @@ public class SimpleCameraEventObserver {
             fireExposurCompMaxChangeListener(maxexpo);
         }
 
-        int cexpo = JsonUtils.findIntInformation(replyJson, 25, "exposureCompensation", "currentExposureCompensation");
+        int cexpo = JsonUtils.findIntInformation(replyJson, 25, "currentExposureCompensation");
 
         if (cexpo != -5000)
         {
@@ -570,7 +567,7 @@ public class SimpleCameraEventObserver {
         String[] contshots = JsonUtils.findStringArrayInformation(replyJson, 38, "contShootingMode", "candidate");
         if (contshots != null && contshots.length > 0)
         {
-            sendLog("getEvent contshots: " +contshot.toString());
+            sendLog("getEvent contshots: " + contshot);
             fireContShotModesChangedListener(contshots);
         }
 
@@ -958,7 +955,7 @@ public class SimpleCameraEventObserver {
             @Override
             public void run() {
                 if (mListener != null) {
-                    mListener.onLiveviewStatusChanged(status);
+                    mListener.onLiveviewStatusChanged();
                 }
             }
         });
@@ -983,15 +980,10 @@ public class SimpleCameraEventObserver {
 
     /**
      * Notify the change of Zoom Information
-     * 
-     * @param zoomIndexCurrentBox
-     * @param zoomNumberBox
-     * @param zoomPosition
-     * @param zoomPositionCurrentBox
+     *  @param zoomPosition
+     *
      */
-    private void fireZoomInformationChangeListener(final int zoomIndexCurrentBox,
-            final int zoomNumberBox,
-            final int zoomPosition, final int zoomPositionCurrentBox) {
+    private void fireZoomInformationChangeListener(final int zoomPosition) {
         mUiHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -1012,7 +1004,7 @@ public class SimpleCameraEventObserver {
             @Override
             public void run() {
                 if (mListener != null) {
-                    mListener.onStorageIdChanged(storageId);
+                    mListener.onStorageIdChanged();
                 }
             }
         });

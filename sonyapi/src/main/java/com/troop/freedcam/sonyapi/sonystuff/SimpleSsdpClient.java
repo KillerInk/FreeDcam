@@ -67,10 +67,10 @@ public class SimpleSsdpClient {
      * @param handler result handler
      * @return true: start successfully, false: already searching now
      */
-    public synchronized boolean search(final SearchResultHandler handler) {
+    public synchronized void search(final SearchResultHandler handler) {
         if (mSearching) {
             Log.w(TAG, "search() already searching.");
-            return false;
+            return;
         }
         if (handler == null) {
             throw new NullPointerException("handler is null.");
@@ -150,7 +150,7 @@ public class SimpleSsdpClient {
                             device = ServerDevice.fetch(ddLocation);
                             // Note that it's a irresponsible rule
                             // for the sample application.
-                            if (device != null && device.hasApiService("camera")) {
+                            if (device != null && device.hasApiService()) {
                                 handler.onDeviceFound(device);
                             }
                         }
@@ -184,7 +184,6 @@ public class SimpleSsdpClient {
             };
         }.start();
 
-        return true;
     }
 
     /**

@@ -27,22 +27,22 @@ import com.troop.freedcam.sonyapi.sonystuff.WifiUtils;
  */
 public class SonyCameraFragment extends AbstractCameraFragment
 {
-    SimpleStreamSurfaceView surfaceView;
-    WifiUtils wifiUtils;
-    WifiScanReceiver wifiReciever;
-    WifiConnectedReceiver wifiConnectedReceiver;
+    private SimpleStreamSurfaceView surfaceView;
+    private WifiUtils wifiUtils;
+    private WifiScanReceiver wifiReciever;
+    private WifiConnectedReceiver wifiConnectedReceiver;
     private SimpleSsdpClient mSsdpClient;
     ServerDevice serverDevice;
-    CameraUiWrapperSony wrapperSony;
+    private CameraUiWrapperSony wrapperSony;
 
-    TextView textView_wifi;
+    private TextView textView_wifi;
     private final int IDEL = 0;
     private final int WAITING_FOR_SCANRESULT = 1;
     private final int WAITING_FOR_DEVICECONNECTION = 2;
     private int STATE = IDEL;
 
-    String[] configuredNetworks = null;
-    String deviceNetworkToConnect;
+    private String[] configuredNetworks = null;
+    private String deviceNetworkToConnect;
     private boolean connected = false;
 
     @Override
@@ -136,50 +136,48 @@ public class SonyCameraFragment extends AbstractCameraFragment
     //WIFI STUFF START
 
 
+    @SuppressWarnings("ConstantIfStatement")
     private void searchSsdpClient()
     {
         if(connected)
             return;
         setTextFromWifi("Search SSDP Client...");
-        if (true)//wifiUtils.getWifiConnected())
+        while (!wifiUtils.getWifiConnected())
         {
-            while (!wifiUtils.getWifiConnected())
-            {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            mSsdpClient.search(new SimpleSsdpClient.SearchResultHandler()
-            {
-                @Override
-                public void onDeviceFound(ServerDevice device)
-                {
-                    if(connected)
-                        return;
-                    setTextFromWifi("Found SSDP Client... Connecting");
-                    connected = true;
-                    wrapperSony.serverDevice = device;
-                    wrapperSony.StartCamera();
-                    hideTextViewWifi(true);
-                }
-                @Override
-                public void onFinished()
-                {
-                    if (wrapperSony.serverDevice == null)
-                       setTextFromWifi("Cant find a sony remote Device");
-
-                }
-
-                @Override
-                public void onErrorFinished()
-                {
-                    if (wrapperSony.serverDevice == null)
-                        setTextFromWifi("Error happend while searching for sony remote device \n pls restart remote");
-                }
-            });
         }
+        mSsdpClient.search(new SimpleSsdpClient.SearchResultHandler()
+        {
+            @Override
+            public void onDeviceFound(ServerDevice device)
+            {
+                if(connected)
+                    return;
+                setTextFromWifi("Found SSDP Client... Connecting");
+                connected = true;
+                wrapperSony.serverDevice = device;
+                wrapperSony.StartCamera();
+                hideTextViewWifi(true);
+            }
+            @Override
+            public void onFinished()
+            {
+                if (wrapperSony.serverDevice == null)
+                   setTextFromWifi("Cant find a sony remote Device");
+
+            }
+
+            @Override
+            public void onErrorFinished()
+            {
+                if (wrapperSony.serverDevice == null)
+                    setTextFromWifi("Error happend while searching for sony remote device \n pls restart remote");
+            }
+        });
     }
 
     @Override

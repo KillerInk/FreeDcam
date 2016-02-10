@@ -20,7 +20,7 @@ import java.net.URL;
 /**
  * Simple HTTP Client for sample application.
  */
-public final class SimpleHttpClient {
+final class SimpleHttpClient {
 
     private static final String TAG = SimpleHttpClient.class.getSimpleName();
 
@@ -42,20 +42,20 @@ public final class SimpleHttpClient {
      *             Exception.
      */
     public static String httpGet(String url) throws IOException {
-        return httpGet(url, DEFAULT_READ_TIMEOUT);
+        return httpGet(url);
     }
 
     /**
      * Send HTTP GET request to the indicated url. Then returns response as
      * string.
      *
-     * @param url request target
      * @param timeout Request timeout
+     * @param url request target
      * @return response as string
      * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
-    public static String httpGet(String url, int timeout) throws IOException {
+    private static String httpGet(String url) throws IOException {
         HttpURLConnection httpConn = null;
         InputStream inputStream = null;
 
@@ -65,7 +65,7 @@ public final class SimpleHttpClient {
             httpConn = (HttpURLConnection) urlObj.openConnection();
             httpConn.setRequestMethod("GET");
             httpConn.setConnectTimeout(DEFAULT_CONNECTION_TIMEOUT);
-            httpConn.setReadTimeout(timeout);
+            httpConn.setReadTimeout(SimpleHttpClient.DEFAULT_READ_TIMEOUT);
             httpConn.connect();
 
             int responseCode = httpConn.getResponseCode();

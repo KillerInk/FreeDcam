@@ -19,11 +19,12 @@ import troop.com.imageviewer.holder.FileHolder;
 /**
  * Created by troop on 11.12.2015.
  */
+@SuppressWarnings("ALL")
 public class GridImageView extends AbsoluteLayout implements FileHolder.EventHandler
 {
-    ImageView imageView;
-    TextView textView;
-    CheckBox checkBox;
+    private ImageView imageView;
+    private TextView textView;
+    private CheckBox checkBox;
     private BaseHolder fileHolder;
     public GridImageView(Context context) {
         super(context);
@@ -93,7 +94,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
        return imageView.getDrawable();
     }
 
-    public void SetViewState(GridViewFragment.ViewStates state)
+    private void SetViewState(GridViewFragment.ViewStates state)
     {
         switch (state)
         {

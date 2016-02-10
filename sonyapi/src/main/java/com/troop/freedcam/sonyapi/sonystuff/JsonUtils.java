@@ -15,7 +15,7 @@ import java.util.Set;
  */
 public class JsonUtils
 {
-    final static String TAG = JsonUtils.class.getSimpleName();
+    private final static String TAG = JsonUtils.class.getSimpleName();
     /**
      * Retrieve a list of APIs that are supported by the target device.
      *
@@ -111,17 +111,17 @@ public class JsonUtils
         return ret;
     }
 
-    public static int findIntInformation(JSONObject replyJson,int indexpos, String typeS, String subtype ) throws JSONException {
+    public static int findIntInformation(JSONObject replyJson, int indexpos, String subtype) throws JSONException {
 
         int ret = -5000;
         JSONArray resultsObj = replyJson.getJSONArray("result");
-        if (!resultsObj.isNull(indexpos)) {
-            JSONObject intInformationObj = resultsObj.getJSONObject(indexpos);
+        if (!resultsObj.isNull(25)) {
+            JSONObject intInformationObj = resultsObj.getJSONObject(25);
             String type = intInformationObj.getString("type");
-            if (typeS.equals(type)) {
+            if ("exposureCompensation".equals(type)) {
                 ret = intInformationObj.getInt(subtype);
             } else {
-                Log.w(TAG, "Event reply: Illegal Index " + typeS+ " "+ subtype  + " " +type);
+                Log.w(TAG, "Event reply: Illegal Index " + "exposureCompensation" + " "+ subtype  + " " +type);
             }
         }
         return ret;

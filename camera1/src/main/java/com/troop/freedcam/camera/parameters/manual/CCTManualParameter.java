@@ -4,7 +4,6 @@ import android.hardware.Camera;
 import android.os.Build;
 
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
-import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -13,27 +12,28 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+@SuppressWarnings("ALL")
 public class CCTManualParameter extends BaseManualParameter {
 
-    final String WBCURRENT = "wb-current-cct";
-    final String WB_CCT = "wb-cct";
-    final String WB_CT = "wb-ct";
-    final String WB_MANUAL = "wb-manual-cct";
-    final String MAX_WB_CCT = "max-wb-cct";
-    final String MIN_WB_CCT = "min-wb-cct";
-    final String MAX_WB_CT = "max-wb-ct";
-    final String MIN_WB_CT = "min-wb-ct";
-    final String LG_Min = "lg-wb-supported-min";
-    final String LG_Max = "lg-wb-supported-max";
-    final String LG_WB = "lg-wb";
+    private final String WBCURRENT = "wb-current-cct";
+    private final String WB_CCT = "wb-cct";
+    private final String WB_CT = "wb-ct";
+    private final String WB_MANUAL = "wb-manual-cct";
+    private final String MAX_WB_CCT = "max-wb-cct";
+    private final String MIN_WB_CCT = "min-wb-cct";
+    private final String MAX_WB_CT = "max-wb-ct";
+    private final String MIN_WB_CT = "min-wb-ct";
+    private final String LG_Min = "lg-wb-supported-min";
+    private final String LG_Max = "lg-wb-supported-max";
+    private final String LG_WB = "lg-wb";
 
 
 
-    String[] wbvalues;
-    int currentWBPos = 0;
-    public CCTManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue,AbstractParameterHandler camParametersHandler)
+    private String[] wbvalues;
+    private int currentWBPos = 0;
+    public CCTManualParameter(HashMap<String, String> parameters, String value, String maxValue, AbstractParameterHandler camParametersHandler)
     {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
+        super(parameters, "", "", "", camParametersHandler);
 
         this.isSupported = false;
         if (parameters.containsKey(WBCURRENT) && parameters.containsKey(MAX_WB_CCT) && parameters.containsKey(MIN_WB_CCT))

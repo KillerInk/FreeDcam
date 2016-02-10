@@ -15,15 +15,15 @@ import java.util.HashMap;
 public class ShutterManualParameterHTC extends BaseManualParameter
 {
     private static String TAG = "freedcam.ShutterManualParameterHTC";
-    Double Cur;
-    public static String HTCShutterValues = "Auto,1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000,1/800,1/640,1/500,1/400,1/320,1/250,1/200,1/125,1/100,1/80,1/60,1/50,1/40,1/30,1/25,1/20,1/15,1/13,1/10,1/8,1/6,1/5,1/4,0.3,0.4,0.5,0.6,0.8,1,1.3,1.6,2,2.5,3.2,4";
-    String shutterValues[];
-    int current = 0;
-    I_CameraHolder baseCameraHolder;
-    I_CameraChangedListner i_cameraChangedListner;
+    private Double Cur;
+    private static String HTCShutterValues = "Auto,1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000,1/800,1/640,1/500,1/400,1/320,1/250,1/200,1/125,1/100,1/80,1/60,1/50,1/40,1/30,1/25,1/20,1/15,1/13,1/10,1/8,1/6,1/5,1/4,0.3,0.4,0.5,0.6,0.8,1,1.3,1.6,2,2.5,3.2,4";
+    private String[] shutterValues;
+    private int current = 0;
+    private I_CameraHolder baseCameraHolder;
+    private I_CameraChangedListner i_cameraChangedListner;
 
-    public ShutterManualParameterHTC(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder baseCameraHolder, I_CameraChangedListner i_cameraChangedListner, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
+    public ShutterManualParameterHTC(HashMap<String, String> parameters, String value, String maxValue, I_CameraHolder baseCameraHolder, I_CameraChangedListner i_cameraChangedListner, AbstractParameterHandler camParametersHandler) {
+        super(parameters, "", "", "", camParametersHandler);
 
         this.baseCameraHolder = baseCameraHolder;
         this.i_cameraChangedListner = i_cameraChangedListner;

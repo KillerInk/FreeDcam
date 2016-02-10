@@ -15,9 +15,9 @@ import java.io.IOException;
  */
 public class PictureSizeSony extends BaseModeParameterSony
 {
-    public PictureSizeSony(Handler handler,String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi api)
+    public PictureSizeSony(Handler handler, String VALUE_TO_GET, String VALUE_TO_SET, SimpleRemoteApi api)
     {
-        super(handler,VALUE_TO_GET, VALUE_TO_SET, VALUES_TO_GET, api);
+        super(handler, "getStillSize", "setStillSize", "getAvailableStillSize", api);
     }
 
     @Override

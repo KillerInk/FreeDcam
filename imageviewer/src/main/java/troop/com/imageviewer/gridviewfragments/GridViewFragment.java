@@ -51,19 +51,19 @@ import troop.com.imageviewer.holder.FileHolder;
 public class GridViewFragment extends BaseGridViewFragment
 {
     private ImageAdapter mPagerAdapter;
-    FileHolder[] files;
-    int mImageThumbSize = 0;
-    CacheHelper cacheHelper;
-    final String TAG = GridViewFragment.class.getSimpleName();
+    private FileHolder[] files;
+    private int mImageThumbSize = 0;
+    private CacheHelper cacheHelper;
+    private final String TAG = GridViewFragment.class.getSimpleName();
 
     private Button deleteButton;
     private Button gobackButton;
     private Button filetypeButton;
     private Button rawToDngButton;
-    final String savedInstanceString = "lastpath";
-    String savedInstanceFilePath;
-    FormatTypes formatsToShow = FormatTypes.all;
-    boolean pos0ret = false;
+    private final String savedInstanceString = "lastpath";
+    private String savedInstanceFilePath;
+    private FormatTypes formatsToShow = FormatTypes.all;
+    private boolean pos0ret = false;
     boolean PERMSISSIONGRANTED = false;
 
 
@@ -218,7 +218,7 @@ public class GridViewFragment extends BaseGridViewFragment
         super.onSaveInstanceState(outState);
     }
 
-    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+    private DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
@@ -484,7 +484,7 @@ public class GridViewFragment extends BaseGridViewFragment
         return null;
     }
 
-    public void loadBitmap(File file, GridImageView imageView)
+    private void loadBitmap(File file, GridImageView imageView)
     {
         if (cancelPotentialWork(file, imageView))
         {
@@ -526,7 +526,7 @@ public class GridViewFragment extends BaseGridViewFragment
         }
     }
 
-    public static boolean cancelPotentialWork(File file, GridImageView imageView) {
+    private static boolean cancelPotentialWork(File file, GridImageView imageView) {
         final BitmapWorkerTask bitmapWorkerTask = getBitmapWorkerTask(imageView);
 
         if (bitmapWorkerTask != null) {
@@ -655,7 +655,7 @@ public class GridViewFragment extends BaseGridViewFragment
         }
     }
 
-    public void showPopup(View v) {
+    private void showPopup(View v) {
         PopupMenu popup = new PopupMenu(this.getContext(), v);
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override

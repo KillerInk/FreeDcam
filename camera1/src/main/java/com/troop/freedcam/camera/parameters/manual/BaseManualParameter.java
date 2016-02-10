@@ -26,16 +26,16 @@ public abstract class BaseManualParameter extends AbstractManualParameter
     /*
      * The name of the current value to get like brightness
      */
-    protected String value;
+    String value;
 
     /**
      * The name of the current value to get like brightness-max
      */
-    protected String max_value;
+    String max_value;
     /**
      * The name of the current value to get like brightness-min
      */
-    protected String  min_value;
+    String  min_value;
 
     /**
      * holds the state if the parameter is supported
@@ -44,10 +44,10 @@ public abstract class BaseManualParameter extends AbstractManualParameter
 
 
     private int default_value = 0;
-    public void Set_Default_Value(int val){default_value = val;}
+    void Set_Default_Value(int val){default_value = val;}
     public int Get_Default_Value(){return default_value;}
 
-    public void ResetToDefault()
+    private void ResetToDefault()
     {
         if (isSupported)
         {
@@ -64,7 +64,7 @@ public abstract class BaseManualParameter extends AbstractManualParameter
      * @param @min_value
      * @param @camParametersHandler
      */
-    public BaseManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler)
+    BaseManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler)
     {
         super(camParametersHandler);
         this.parameters = parameters;
@@ -149,14 +149,11 @@ public abstract class BaseManualParameter extends AbstractManualParameter
 
     }
 
-    protected boolean hasSupport()
+    boolean hasSupport()
     {
         try
         {
-            if (parameters.containsKey(value))
-                isSupported = true;
-            else
-                isSupported = false;
+            isSupported = parameters.containsKey(value);
             isVisible = isSupported;
         }
         catch (Exception ex)
@@ -211,7 +208,7 @@ public abstract class BaseManualParameter extends AbstractManualParameter
         }
 
         @Override
-        public void onVisibilityChanged(boolean visible) {
+        public void onVisibilityChanged() {
 
         }
     };

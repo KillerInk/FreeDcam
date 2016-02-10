@@ -13,11 +13,12 @@ import java.util.List;
 /**
  * Created by troop on 29.12.2014.
  */
+@SuppressWarnings("ALL")
 public class WifiUtils
 {
-    Context context;
-    WifiManager wifiManager;
-    ConnectivityManager connManager;
+    private Context context;
+    private WifiManager wifiManager;
+    private ConnectivityManager connManager;
 
     public WifiUtils(Context context)
     {

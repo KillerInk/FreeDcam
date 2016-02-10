@@ -23,8 +23,8 @@ import java.net.URL;
 public class PictureModuleSony extends AbstractModule implements I_PictureCallback, I_CameraStatusChanged
 {
     private static String TAG = PictureModuleSony.class.getSimpleName();
-    CameraHolderSony cameraHolder;
-    public PictureModuleSony() {
+    private CameraHolderSony cameraHolder;
+    private PictureModuleSony() {
         super();
     }
 
@@ -49,10 +49,10 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
             if (!this.isWorking && shootmode.equals("Single"))
                 takePicture();
             else if (!this.isWorking) {
-                cameraHolder.startContShoot(this);
+                cameraHolder.startContShoot();
                 return true;
             } else {
-                cameraHolder.stopContShoot(this);
+                cameraHolder.stopContShoot();
                 return false;
             }
         }

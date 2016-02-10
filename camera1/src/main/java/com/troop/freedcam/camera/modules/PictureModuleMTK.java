@@ -15,7 +15,7 @@ public class PictureModuleMTK extends PictureModule
 {
     private static String TAG = PictureModuleMTK.class.getSimpleName();
     String lastFile;
-    CamParametersHandler parametersHandler;
+    private CamParametersHandler parametersHandler;
     String file;
     public PictureModuleMTK(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler, Handler backgroundHandler)
     {

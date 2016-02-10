@@ -16,10 +16,10 @@ import troop.com.themesample.R;
  */
 public class ValuesMenuFragment extends Fragment implements ListView.OnItemClickListener
 {
-    String[] item;
-    ListView listView;
+    private String[] item;
+    private ListView listView;
     View view;
-    Interfaces.I_CloseNotice i_closeNotice;
+    private Interfaces.I_CloseNotice i_closeNotice;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -23,7 +23,7 @@ public class JpsSaver extends JpegSaver
         handler.post(new Runnable() {
             @Override
             public void run() {
-                cameraHolder.TakePicture(null, null, JpsSaver.this);
+                cameraHolder.TakePicture(null, JpsSaver.this);
             }
         });
     }
@@ -31,7 +31,7 @@ public class JpsSaver extends JpegSaver
     @Override
     public void onPictureTaken(final byte[] data)
     {
-        if (awaitpicture == false)
+        if (!awaitpicture)
             return;
         awaitpicture =false;
         handler.post(new Runnable() {

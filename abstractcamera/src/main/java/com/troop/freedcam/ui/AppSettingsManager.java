@@ -13,10 +13,10 @@ import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
  */
 public class AppSettingsManager
 {
-    SharedPreferences appSettings;
+    private SharedPreferences appSettings;
     public Context context;
     private int currentcamera = 0;
-    String camApiString = API_1;
+    private String camApiString = API_1;
 
     final public static String SETTING_CURRENTCAMERA = "currentcamera";
     final public static String SETTING_ANTIBANDINGMODE = "antibandingmode";
@@ -70,7 +70,7 @@ public class AppSettingsManager
 
     ////////// overide end
     final public static String SETTING_VIDEOTIMELAPSEFRAME = "timelapseframe";
-    final public static String SETTING_SONYAPI = "sonyapi";
+    private final static String SETTING_SONYAPI = "sonyapi";
     final public static String SETTING_DNG = "dng";
     final public static String SETTING_AEBRACKETACTIVE = "aebracketactive";
     final public static String SETTING_OBJECTTRACKING = "objecttracking";
@@ -118,9 +118,9 @@ public class AppSettingsManager
     final public static String MSATURATION = "msaturation";
     final public static String MCCT = "mcct";
 
-    final public static String APPVERSION = "appversion";
+    private final static String APPVERSION = "appversion";
 
-    final public static String CAMERA2FULLSUPPORTED = "camera2fullsupport";
+    private final static String CAMERA2FULLSUPPORTED = "camera2fullsupport";
 
     final public static String SETTING_HORIZONT = "horizont";
 

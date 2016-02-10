@@ -14,9 +14,9 @@ import com.troop.freedcam.ui.AppSettingsManager;
  */
 public class ModuleHandler extends AbstractModuleHandler
 {
-    BaseCameraHolder cameraHolder;
+    private BaseCameraHolder cameraHolder;
     private static String TAG = "freedcam.ModuleHandler";
-    android.os.Handler backgroundHandler;
+    private android.os.Handler backgroundHandler;
 
     public  ModuleHandler (AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager , android.os.Handler backgroundHandler)
     {

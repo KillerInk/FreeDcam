@@ -15,9 +15,9 @@ public class BrightnessManualParameter extends BaseManualParameter
     private static  String TAG = "freedcam.ManualBrightnessParameter";
 
 
-    public BrightnessManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler)
+    public BrightnessManualParameter(HashMap<String, String> parameters, String value, String maxValue, AbstractParameterHandler camParametersHandler)
     {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
+        super(parameters, "", "", "", camParametersHandler);
         if (DeviceUtils.isSonyM5_MTK())
         {
             //temp disable

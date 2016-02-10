@@ -14,6 +14,7 @@ import android.widget.SeekBar;
 /**
  * Created by troop on 06.09.2015.
  */
+@SuppressWarnings("ALL")
 public class FreeVerticalSeekbar extends View
 {
     //the activity context
@@ -27,7 +28,7 @@ public class FreeVerticalSeekbar extends View
     //Paint object for drawing
     private Paint paint;
     // size of one value in pixel
-    float pixelProValue;
+    private float pixelProValue;
     //current position in pixel of the current slider value
     private float currentValuePixelPos;
     //the sliderimage stored in memory
@@ -36,26 +37,26 @@ public class FreeVerticalSeekbar extends View
     private Rect drawPosition;
     //touch area is bigger then the drawPositonarea.
     private Rect touchArea;
-    boolean sliderMoving = false;
+    private boolean sliderMoving = false;
 
-    SeekBar.OnSeekBarChangeListener mListener;
+    private SeekBar.OnSeekBarChangeListener mListener;
 
     private int viewWidth =0;
     private int viewHeight = 0;
 
     public FreeVerticalSeekbar(Context context) {
         super(context);
-        init(context, null);
+        init(context);
     }
 
     public FreeVerticalSeekbar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context, attrs);
+        init(context);
     }
 
     public FreeVerticalSeekbar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context, attrs);
+        init(context);
     }
 
     @Override
@@ -66,7 +67,7 @@ public class FreeVerticalSeekbar extends View
         pixelProValue = (viewHeight-viewWidth)  / max;
     }
 
-    private void init(Context context, AttributeSet attrs)
+    private void init(Context context)
     {
         this.context = context;
         paint = new Paint();
@@ -102,17 +103,17 @@ public class FreeVerticalSeekbar extends View
         return getBottom() - getTop();
     }
 
-    private Rect getPosToDraw()
+    private void getPosToDraw()
     {
         if (max == 0)
-            return null;
+            return;
 
         currentValuePixelPos = currentValue * pixelProValue;
         int half = viewWidth / 2;
         Rect tmp = new Rect(half/2, (int)currentValuePixelPos, half/2+half, half + (int)currentValuePixelPos);
         drawPosition = tmp;
         touchArea = new Rect(0, (int)currentValuePixelPos - 10, viewWidth, viewWidth + (int)currentValuePixelPos +10);
-        return tmp;
+
     }
 
     private int getValueFromDrawingPos(int posi)
@@ -139,11 +140,10 @@ public class FreeVerticalSeekbar extends View
             if (mListener != null)
                 mListener.onProgressChanged(null,currentValue, true);
         }
-        int r = val;
-        if (r >= 0 && r <= viewHeight-viewWidth/2)
+        if (val >= 0 && val <= viewHeight-viewWidth/2)
         {
 
-            currentValuePixelPos = r;
+            currentValuePixelPos = val;
             int half = viewWidth/2;
             Rect tmp = new Rect(half/2,(int) currentValuePixelPos , half/2+half, half +(int)currentValuePixelPos);
             touchArea = new Rect(0, (int)currentValuePixelPos - 10, viewWidth, viewWidth + (int)currentValuePixelPos +10);
@@ -153,8 +153,8 @@ public class FreeVerticalSeekbar extends View
         }
     }
 
-    int startY;
-    int startX;
+    private int startY;
+    private int startX;
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
@@ -214,7 +214,7 @@ public class FreeVerticalSeekbar extends View
         return throwevent;
     }
 
-    public static int getDistance(int startvalue, int currentvalue)
+    private static int getDistance(int startvalue, int currentvalue)
     {
         int dis = startvalue - currentvalue;
         if (dis < 0)

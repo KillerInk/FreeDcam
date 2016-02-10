@@ -12,9 +12,9 @@ import java.util.HashMap;
 public class ContrastManualParameter extends BaseManualParameter
 {
     private static String TAG = ContrastManualParameter.class.getSimpleName();
-    public ContrastManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler)
+    public ContrastManualParameter(HashMap<String, String> parameters, String value, String maxValue, AbstractParameterHandler camParametersHandler)
     {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
+        super(parameters, "", "", "", camParametersHandler);
         this.value = "contrast";
         if (hasSupport())
         {

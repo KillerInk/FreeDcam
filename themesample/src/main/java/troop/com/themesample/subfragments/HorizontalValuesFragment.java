@@ -18,10 +18,10 @@ import troop.com.themesample.views.uichilds.SimpleValueChild;
  */
 public class HorizontalValuesFragment extends Fragment implements Interfaces.I_CloseNotice, AbstractModeParameter.I_ModeParameterEvent
 {
-    View view;
-    LinearLayout valuesHolder;
-    String[] values;
-    Interfaces.I_CloseNotice rdytoclose;
+    private View view;
+    private LinearLayout valuesHolder;
+    private String[] values;
+    private Interfaces.I_CloseNotice rdytoclose;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -113,7 +113,7 @@ public class HorizontalValuesFragment extends Fragment implements Interfaces.I_C
     }
 
     @Override
-    public void onVisibilityChanged(boolean visible) {
+    public void onVisibilityChanged() {
 
     }
 }

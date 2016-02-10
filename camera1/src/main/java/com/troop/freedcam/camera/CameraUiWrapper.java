@@ -30,13 +30,13 @@ import troop.com.imageconverter.PreviewHandler;
  */
 public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoaded, I_Callbacks.ErrorCallback, I_ModuleEvent
 {
-    protected ExtendedSurfaceView preview;
-    protected I_error errorHandler;
+    private ExtendedSurfaceView preview;
+    private I_error errorHandler;
     public AppSettingsManager appSettingsManager;
     private static String TAG = CameraUiWrapper.class.getSimpleName();
     public BaseCameraHolder cameraHolder;
     public PreviewHandler previewHandler;
-    boolean cameraRdy = false;
+    private boolean cameraRdy = false;
 
     @Override
     public String CameraApiName() {
@@ -264,7 +264,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         super.onCameraError(error);
     }
 
-    AbstractModeParameter.I_ModeParameterEvent onPreviewSizeShouldChange = new AbstractModeParameter.I_ModeParameterEvent() {
+    private AbstractModeParameter.I_ModeParameterEvent onPreviewSizeShouldChange = new AbstractModeParameter.I_ModeParameterEvent() {
 
         @Override
         public void onValueChanged(String val)
@@ -333,18 +333,18 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         }
 
         @Override
-        public void onVisibilityChanged(boolean visible) {
+        public void onVisibilityChanged() {
 
         }
     };
 
+    @SuppressWarnings("UnnecessaryLocalVariable")
     private Size getOptimalPreviewSize(List<Size> sizes, int w, int h) {
         final double ASPECT_TOLERANCE = 0.2;
         double targetRatio = (double) w / h;
         if (sizes == null) return null;
         Size optimalSize = null;
         double minDiff = Double.MAX_VALUE;
-        int targetHeight = h;
         // Try to find an size match aspect ratio and size
         for (Size size : sizes)
         {
@@ -353,7 +353,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
                 if (ratio < targetRatio +  ASPECT_TOLERANCE && ratio > targetRatio - ASPECT_TOLERANCE )
                 {
                     optimalSize = size;
-                    minDiff = Math.abs(size.height - targetHeight);
+                    minDiff = Math.abs(size.height - h);
                     break;
                 }
 
@@ -365,9 +365,9 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
             for (Size size : sizes)
             {
                 if (size.width <= 1280 && size.height <= 720 && size.width >= 640 && size.height >= 480)  {
-                    if (Math.abs(size.height - targetHeight) < minDiff) {
+                    if (Math.abs(size.height - h) < minDiff) {
                         optimalSize = size;
-                        minDiff = Math.abs(size.height - targetHeight);
+                        minDiff = Math.abs(size.height - h);
                     }
                 }
             }

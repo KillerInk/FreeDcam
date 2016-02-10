@@ -14,19 +14,18 @@ import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import troop.com.themesample.R;
-import troop.com.themesample.handler.UserMessageHandler;
 
 /**
  * Created by troop on 20.06.2015.
  */
 public class ShutterButton extends Button implements I_ModuleEvent, AbstractModuleHandler.I_worker
 {
-    AbstractCameraUiWrapper cameraUiWrapper;
-    AnimationDrawable shutterOpenAnimation;
-    AppSettingsManager appSettingsManager;
-    String TAG = ShutterButton.class.getSimpleName();
-    Showstate currentShow = Showstate.image_capture_stopped;
-    boolean contshot = false;
+    private AbstractCameraUiWrapper cameraUiWrapper;
+    private AnimationDrawable shutterOpenAnimation;
+    private AppSettingsManager appSettingsManager;
+    private String TAG = ShutterButton.class.getSimpleName();
+    private Showstate currentShow = Showstate.image_capture_stopped;
+    private boolean contshot = false;
 
     enum Showstate
     {
@@ -84,7 +83,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
 
 
 
-    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, UserMessageHandler messageHandler)
+    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
     {
         if (this.cameraUiWrapper == cameraUiWrapper)
             return;
@@ -181,8 +180,8 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
 
     }
 
-    int workerCounter = 0;
-    int finishcounter = 0;
+    private int workerCounter = 0;
+    private int finishcounter = 0;
     @Override
     public void onWorkStarted()
     {
@@ -251,7 +250,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
 
     }
 
-    AbstractModeParameter.I_ModeParameterEvent contshotListner = new AbstractModeParameter.I_ModeParameterEvent() {
+    private AbstractModeParameter.I_ModeParameterEvent contshotListner = new AbstractModeParameter.I_ModeParameterEvent() {
         @Override
         public void onValueChanged(String val)
         {
@@ -283,7 +282,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         }
 
         @Override
-        public void onVisibilityChanged(boolean visible) {
+        public void onVisibilityChanged() {
 
         }
     };

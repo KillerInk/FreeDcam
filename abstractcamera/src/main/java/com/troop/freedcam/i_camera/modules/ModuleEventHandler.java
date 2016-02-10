@@ -12,12 +12,12 @@ import java.util.ArrayList;
 public class ModuleEventHandler
 {
     //holds all listner for the modulechanged event
-    ArrayList<I_ModuleEvent> moduleChangedListner;
+    private ArrayList<I_ModuleEvent> moduleChangedListner;
     //holds all listner for workfinishedlistner
-    ArrayList<I_WorkEvent> WorkFinishedListners;
+    private ArrayList<I_WorkEvent> WorkFinishedListners;
     //holds all listner for recorstatechanged
-    ArrayList<I_RecorderStateChanged> RecorderStateListners;
-    Handler uihandler;
+    private ArrayList<I_RecorderStateChanged> RecorderStateListners;
+    private Handler uihandler;
 
     public  ModuleEventHandler()
     {
@@ -51,12 +51,11 @@ public class ModuleEventHandler
             }
             else
             {
-                final String mod = module;
                 final int toget = i;
                 uihandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        moduleChangedListner.get(toget).ModuleChanged(mod);
+                        moduleChangedListner.get(toget).ModuleChanged(module);
                     }
                 });
 

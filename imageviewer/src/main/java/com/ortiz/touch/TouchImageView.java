@@ -63,7 +63,7 @@ public class TouchImageView extends ImageView {
     //
     private Matrix matrix, prevMatrix;
 
-    private static enum State { NONE, DRAG, ZOOM, FLING, ANIMATE_ZOOM };
+    private enum State { NONE, DRAG, ZOOM, FLING, ANIMATE_ZOOM };
     private State state;
 
     private float minScale;
@@ -212,7 +212,7 @@ public class TouchImageView extends ImageView {
      * Returns false if image is in initial, unzoomed state. False, otherwise.
      * @return true if image is zoomed
      */
-    public boolean isZoomed() {
+    private boolean isZoomed() {
         return normalizedScale != 1;
     }
 
@@ -328,7 +328,7 @@ public class TouchImageView extends ImageView {
      * scale, not the original resource.
      * @return current zoom multiplier.
      */
-    public float getCurrentZoom() {
+    private float getCurrentZoom() {
         return normalizedScale;
     }
 
@@ -344,7 +344,7 @@ public class TouchImageView extends ImageView {
     /**
      * Reset zoom and translation to initial state.
      */
-    public void resetZoom() {
+    private void resetZoom() {
         normalizedScale = 1;
         fitImageToView();
     }
@@ -366,7 +366,7 @@ public class TouchImageView extends ImageView {
      * @param focusX
      * @param focusY
      */
-    public void setZoom(float scale, float focusX, float focusY) {
+    private void setZoom(float scale, float focusX, float focusY) {
         setZoom(scale, focusX, focusY, mScaleType);
     }
 
@@ -380,7 +380,7 @@ public class TouchImageView extends ImageView {
      * @param focusY
      * @param scaleType
      */
-    public void setZoom(float scale, float focusX, float focusY, ScaleType scaleType) {
+    private void setZoom(float scale, float focusX, float focusY, ScaleType scaleType) {
         //
         // setZoom can be called before the image is on the screen, but at this point,
         // image and view sizes have not yet been calculated in onMeasure. Thus, we should
@@ -409,7 +409,7 @@ public class TouchImageView extends ImageView {
      * and ScaleType.
      * @param TouchImageView
      */
-    public void setZoom(TouchImageView img) {
+    private void setZoom(TouchImageView img) {
         PointF center = img.getScrollPosition();
         setZoom(img.getCurrentZoom(), center.x, center.y, img.getScaleType());
     }
@@ -421,7 +421,7 @@ public class TouchImageView extends ImageView {
      * And the bottom right corner would be (1, 1).
      * @return PointF representing the scroll position of the zoomed image.
      */
-    public PointF getScrollPosition() {
+    private PointF getScrollPosition() {
         Drawable drawable = getDrawable();
         if (drawable == null) {
             return null;
@@ -808,10 +808,7 @@ public class TouchImageView extends ImageView {
 
         @Override
         public boolean onDoubleTapEvent(MotionEvent e) {
-            if(doubleTapListener != null) {
-                return doubleTapListener.onDoubleTapEvent(e);
-            }
-            return false;
+            return doubleTapListener != null && doubleTapListener.onDoubleTapEvent(e);
         }
     }
 
@@ -1153,7 +1150,7 @@ public class TouchImageView extends ImageView {
         public void cancelFling() {
             if (scroller != null) {
                 setState(State.NONE);
-                scroller.forceFinished(true);
+                scroller.forceFinished();
             }
         }
 
@@ -1213,11 +1210,11 @@ public class TouchImageView extends ImageView {
             }
         }
 
-        public void forceFinished(boolean finished) {
+        public void forceFinished() {
             if (isPreGingerbread) {
-                scroller.forceFinished(finished);
+                scroller.forceFinished(true);
             } else {
-                overScroller.forceFinished(finished);
+                overScroller.forceFinished(true);
             }
         }
 

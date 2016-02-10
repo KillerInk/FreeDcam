@@ -19,13 +19,13 @@ import java.io.File;
  */
 public abstract class AbstractVideoModule extends AbstractModule
 {
-    protected MediaRecorder recorder;
-    protected String mediaSavePath;
-    protected BaseCameraHolder baseCameraHolder;
-    protected CamParametersHandler camParametersHandler;
+    MediaRecorder recorder;
+    private String mediaSavePath;
+    BaseCameraHolder baseCameraHolder;
+    CamParametersHandler camParametersHandler;
     private static String TAG = AbstractVideoModule.class.getSimpleName();
 
-    public AbstractVideoModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
+    AbstractVideoModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
         super(cameraHandler, Settings, eventHandler);
         name  = ModuleHandler.MODULE_VIDEO;
         this.baseCameraHolder = cameraHandler;
@@ -66,14 +66,14 @@ public abstract class AbstractVideoModule extends AbstractModule
 //I_Module END
 
 
-    protected void startRecording()
+    private void startRecording()
     {
         prepareRecorder();
         workstarted();
 
     }
 
-    protected void prepareRecorder()
+    private void prepareRecorder()
     {
         try
         {
@@ -137,7 +137,7 @@ public abstract class AbstractVideoModule extends AbstractModule
 
     protected abstract MediaRecorder initRecorder();
 
-    protected void stopRecording()
+    private void stopRecording()
     {
         try {
             recorder.stop();
@@ -163,7 +163,7 @@ public abstract class AbstractVideoModule extends AbstractModule
         workfinished(true);
     }
 
-    protected void setRecorderOutPutFile(String s)
+    void setRecorderOutPutFile(String s)
     {
         recorder.setOutputFile(s);
     }

@@ -8,9 +8,9 @@ import java.util.HashMap;
 
 public class FXManualParameter extends BaseManualParameter {
 	
-	BaseCameraHolder baseCameraHolder;
-    public FXManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
+	private BaseCameraHolder baseCameraHolder;
+    public FXManualParameter(HashMap<String, String> parameters, String value, String maxValue, AbstractParameterHandler camParametersHandler) {
+        super(parameters, "", "", "", camParametersHandler);
 
         //TODO add missing logic
     }
@@ -24,10 +24,7 @@ public class FXManualParameter extends BaseManualParameter {
     @Override
     public boolean IsSupported()
     {
-        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) )
-            return true;
-        else
-            return false;
+        return DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES);
     }
 
     @Override

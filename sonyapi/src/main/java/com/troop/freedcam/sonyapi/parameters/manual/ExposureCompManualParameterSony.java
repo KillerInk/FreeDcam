@@ -15,12 +15,12 @@ import java.io.IOException;
  */
 public class ExposureCompManualParameterSony extends BaseManualParameterSony
 {
-    int min = -1;
-    int max = -1;
+    private int min = -1;
+    private int max = -1;
 
     private static String TAG = ExposureCompManualParameterSony.class.getSimpleName();
-    public ExposureCompManualParameterSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, ParameterHandlerSony parameterHandlerSony) {
-        super(VALUE_TO_GET, VALUES_TO_GET, VALUE_TO_SET, parameterHandlerSony);
+    public ExposureCompManualParameterSony(String VALUE_TO_GET, String VALUES_TO_GET, ParameterHandlerSony parameterHandlerSony) {
+        super("getExposureCompensation", "getAvailableExposureCompensation", "setExposureCompensation", parameterHandlerSony);
         val = -200;
     }
 

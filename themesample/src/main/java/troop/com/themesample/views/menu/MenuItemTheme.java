@@ -50,7 +50,7 @@ public class MenuItemTheme extends MenuItem {
     @Override
     public void SetValue(String value) {
         appSettingsManager.SetTheme(value);
-        i_activity.SetTheme(value);
+        i_activity.SetTheme();
         onValueChanged(value);
     }
 }

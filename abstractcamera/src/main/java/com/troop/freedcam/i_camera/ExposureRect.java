@@ -4,10 +4,10 @@ package com.troop.freedcam.i_camera;
  * Created by George on 1/21/2015.
  */
 public class ExposureRect {
-    public int left;
-    public int right;
-    public int bottom;
-    public int top;
+    private int left;
+    private int right;
+    private int bottom;
+    private int top;
 
     public ExposureRect(){};
 

@@ -26,40 +26,40 @@ import troop.com.themesample.views.uichilds.UiSettingsChild;
 public class RightMenuFragment extends AbstractFragment implements Interfaces.I_MenuItemClick, I_swipe
 {
 
-    Interfaces.I_MenuItemClick onMenuItemClick;
-    MenuItem scene;
-    MenuItem color;
-    MenuItem cctMode;
-    MenuItem objectTrackingMode;
-    MenuItem toneMapMode;
-    MenuItem postViewSize;
-    MenuItem controleMode;
+    private Interfaces.I_MenuItemClick onMenuItemClick;
+    private MenuItem scene;
+    private MenuItem color;
+    private MenuItem cctMode;
+    private MenuItem objectTrackingMode;
+    private MenuItem toneMapMode;
+    private MenuItem postViewSize;
+    private MenuItem controleMode;
 
-    MenuItem antiBanding;
-    MenuItem ipp;
-    MenuItem lensShade;
-    MenuItem sceneDetectMode;
-    MenuItem waveletdenoiseMode;
-    MenuItem digitalImageStabilization;
-    MenuItem memoryColorEnhancement;
-    MenuItem ZeroShutterLag;
-    MenuItem nonZSLmanualMode;
-    MenuItem correlatedDoubleSampling;
-    MenuItem temporalDenoise;
-    MenuItem edgeMode;
-    MenuItem hotPixelMode;
-    MenuItem opticalImageStabilization;
-    troop.com.themesample.views.menu.MenuItem redeyeflash;
+    private MenuItem antiBanding;
+    private MenuItem ipp;
+    private MenuItem lensShade;
+    private MenuItem sceneDetectMode;
+    private MenuItem waveletdenoiseMode;
+    private MenuItem digitalImageStabilization;
+    private MenuItem memoryColorEnhancement;
+    private MenuItem ZeroShutterLag;
+    private MenuItem nonZSLmanualMode;
+    private MenuItem correlatedDoubleSampling;
+    private MenuItem temporalDenoise;
+    private MenuItem edgeMode;
+    private MenuItem hotPixelMode;
+    private MenuItem opticalImageStabilization;
+    private troop.com.themesample.views.menu.MenuItem redeyeflash;
 
-    MenuItem LensFilter;
+    private MenuItem LensFilter;
 
     public SwipeMenuListner touchHandler;
-    ScrollView scrollView;
-    FrameLayout settingsMenu;
-    final String KEY_SETTINGSOPEN = "key_settingsopen";
-    SharedPreferences sharedPref;
-    boolean settingsOpen;
-    LinearLayout leftholder;
+    private ScrollView scrollView;
+    private FrameLayout settingsMenu;
+    private final String KEY_SETTINGSOPEN = "key_settingsopen";
+    private SharedPreferences sharedPref;
+    private boolean settingsOpen;
+    private LinearLayout leftholder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

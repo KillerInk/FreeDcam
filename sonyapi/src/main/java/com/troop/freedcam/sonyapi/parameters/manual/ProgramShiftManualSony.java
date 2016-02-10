@@ -18,14 +18,14 @@ import java.util.Set;
  */
 public class ProgramShiftManualSony extends BaseManualParameterSony
 {
-    final String TAG = ProgramShiftManualSony.class.getSimpleName();
-    int min =-1000;
-    int max =-1000;
+    private final String TAG = ProgramShiftManualSony.class.getSimpleName();
+    private int min =-1000;
+    private int max =-1000;
     private String[] values;
     private BaseManualParameterSony shutter;
     private BaseManualParameterSony fnumber;
-    public ProgramShiftManualSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, ParameterHandlerSony parameterHandlerSony) {
-        super(VALUE_TO_GET, VALUES_TO_GET, VALUE_TO_SET, parameterHandlerSony);
+    public ProgramShiftManualSony(String VALUE_TO_GET, String VALUES_TO_GET, ParameterHandlerSony parameterHandlerSony) {
+        super("", "getSupportedProgramShift", "setProgramShift", parameterHandlerSony);
         this.shutter = (BaseManualParameterSony)parameterHandlerSony.ManualShutter;
         this.fnumber = (BaseManualParameterSony)parameterHandlerSony.ManualFNumber;
     }

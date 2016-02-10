@@ -28,13 +28,13 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
     private final BaseCameraHolderApi2 cameraHolder;
     private final CameraUiWrapperApi2 cameraUiWrapper;
     private final ParameterHandlerApi2 parametersHandler;
-    int mState;
-    FocusRect focusRect;
-    boolean focusenabled = false;
+    private int mState;
+    private FocusRect focusRect;
+    private boolean focusenabled = false;
 
 
 
-    final String TAG = FocusHandlerApi2.class.getSimpleName();
+    private final String TAG = FocusHandlerApi2.class.getSimpleName();
 
     public FocusHandlerApi2(AbstractCameraUiWrapper cameraUiWrapper)
     {
@@ -77,7 +77,7 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
         }
 
         @Override
-        public void onVisibilityChanged(boolean visible) {
+        public void onVisibilityChanged() {
 
         }
     };
@@ -190,7 +190,7 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
         }
 
         @Override
-        public void onVisibilityChanged(boolean visible) {
+        public void onVisibilityChanged() {
 
         }
     };
@@ -257,13 +257,13 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
         }
 
         @Override
-        public void onVisibilityChanged(boolean visible) {
+        public void onVisibilityChanged() {
 
         }
     };
 
     @Override
-    public void SetAwbAreas(FocusRect rect, int width, int height)
+    public void SetAwbAreas(FocusRect rect)
     {
         /*cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AWB_LOCK, false);
         try {

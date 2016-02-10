@@ -18,12 +18,10 @@ public class NightModeParameter extends BaseModeParameter
     private boolean visible = true;
     private String state = "";
     private String format = "";
-    public NightModeParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
-        super(handler, parameters, parameterChanged, value, values);
+    public NightModeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, CameraUiWrapper cameraUiWrapper) {
+        super(handler, parameters, parameterChanged, "", "");
 
-        this.isSupported = false;
-        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
-            this.isSupported = true;
+        this.isSupported = DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES);
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)||DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
         {
             this.isSupported = true;

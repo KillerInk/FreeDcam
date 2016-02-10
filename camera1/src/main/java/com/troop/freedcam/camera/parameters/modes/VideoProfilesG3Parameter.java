@@ -19,13 +19,13 @@ import java.util.List;
 public class VideoProfilesG3Parameter extends BaseModeParameter
 {
 
-    HashMap<String, VideoMediaProfile> supportedProfiles;
-    BaseCameraHolder cameraHolder;
-    CameraUiWrapper cameraUiWrapper;
-    String profile = "HIGH";
+    private HashMap<String, VideoMediaProfile> supportedProfiles;
+    private BaseCameraHolder cameraHolder;
+    private CameraUiWrapper cameraUiWrapper;
+    private String profile = "HIGH";
 
-    public VideoProfilesG3Parameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
-        super(handler,parameters, parameterChanged, value, values);
+    public VideoProfilesG3Parameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, CameraUiWrapper cameraUiWrapper) {
+        super(handler,parameters, parameterChanged, "", "");
         this.cameraHolder = parameterChanged;
         this.cameraUiWrapper = cameraUiWrapper;
         this.isSupported =true;

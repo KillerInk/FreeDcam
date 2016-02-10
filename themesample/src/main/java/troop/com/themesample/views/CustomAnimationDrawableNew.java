@@ -6,7 +6,7 @@ import android.os.SystemClock;
 /**
  * Created by GeorgeKiarie on 12/15/2015.
  */
-public class CustomAnimationDrawableNew extends AnimationDrawable {
+class CustomAnimationDrawableNew extends AnimationDrawable {
 
     // We need to keep our own frame count because mCurFrame in AnimationDrawable is private
     private int mCurFrameHack = -1;

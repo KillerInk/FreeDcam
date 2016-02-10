@@ -22,8 +22,8 @@ public class HDRModeParameter extends BaseModeParameter
     private String state = "";
     private String format = "";
 
-    public HDRModeParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
-        super(handler, parameters, parameterChanged, value, values);
+    public HDRModeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, CameraUiWrapper cameraUiWrapper) {
+        super(handler, parameters, parameterChanged, "", "");
 
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         ModuleChanged(cameraUiWrapper.moduleHandler.GetCurrentModuleName());
@@ -41,10 +41,7 @@ public class HDRModeParameter extends BaseModeParameter
                 || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3)
                 || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)))
         {
-            if (visible)
-                this.isSupported = true;
-            else
-                this.isSupported = false;
+            this.isSupported = visible;
         }
         else
         {

@@ -6,7 +6,7 @@ package com.troop.freedcam.ui;
  */
 public class SwipeMenuListner extends TouchHandler
 {
-    I_swipe swipehandler;
+    private I_swipe swipehandler;
 
     public SwipeMenuListner(I_swipe swipehandler)
     {

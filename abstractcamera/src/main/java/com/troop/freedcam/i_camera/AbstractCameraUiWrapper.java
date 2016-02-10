@@ -29,17 +29,17 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
 
     protected boolean PreviewSurfaceRdy = false;
 
-    protected List<I_CameraChangedListner> cameraChangedListners;
+    private List<I_CameraChangedListner> cameraChangedListners;
 
     protected Handler uiHandler;
     //background threading
-    protected HandlerThread backgroundThread;
+    private HandlerThread backgroundThread;
     protected Handler backgroundHandler;
 
     public abstract String CameraApiName();
 
-    public AbstractCameraUiWrapper(){ cameraChangedListners = new ArrayList<I_CameraChangedListner>();};
-    public AbstractCameraUiWrapper(AppSettingsManager appSettingsManager)
+    protected AbstractCameraUiWrapper(){ cameraChangedListners = new ArrayList<I_CameraChangedListner>();};
+    protected AbstractCameraUiWrapper(AppSettingsManager appSettingsManager)
     {
         this();
         /*if (backGroundThread == null) {
