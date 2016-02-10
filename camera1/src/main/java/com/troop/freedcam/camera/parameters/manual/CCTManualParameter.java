@@ -2,6 +2,7 @@ package com.troop.freedcam.camera.parameters.manual;
 
 import android.hardware.Camera;
 import android.os.Build;
+import android.util.Log;
 
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
@@ -15,7 +16,7 @@ import java.util.HashMap;
 
 public class CCTManualParameter extends BaseManualParameter
 {
-
+    final String TAG = CCTManualParameter.class.getSimpleName();
     final String WBCURRENT = "wb-current-cct";
     final String WB_CCT = "wb-cct";
     final String WB_CT = "wb-ct";
@@ -109,6 +110,7 @@ public class CCTManualParameter extends BaseManualParameter
                 createStringArray();
             }
         }
+        Log.d(TAG, "value:"+value + " max value:"+maxValue +" min value:" +min_value);
     }
 
     private boolean arrayContainsString(String[] ar,String dif)
