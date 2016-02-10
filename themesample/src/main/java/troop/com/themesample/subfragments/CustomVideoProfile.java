@@ -3,7 +3,7 @@ package troop.com.themesample.subfragments;
 /**
  * Created by GeorgeKiarie on 1/23/2016.
  */
-abstract class  CustomVideoProfile  {
+public abstract class  CustomVideoProfile  {
 
 
  //   private String[] getSupportedRes()
@@ -16,12 +16,12 @@ abstract class  CustomVideoProfile  {
 
  //   }
 
-   private void setRes()
+   private void setRes (int[] res)
    {
 
    }
 
-    private void setFPS()
+    private void setFPS (int fps)
     {
 
     }
@@ -31,27 +31,27 @@ abstract class  CustomVideoProfile  {
 
     }
 
-    private void setAudioChannels()
+    private void setAudioChannels (boolean stereo)
     {
 
     }
 
-    private void setAudioSampleRate()
+    private void setAudioSampleRate (int rate)
     {
 
     }
 
-    private void setAudioBitRate()
+    private void setAudioBitRate (int rate)
     {
 
     }
 
-    private void setVideoContainer()
+    private void setVideoContainer (String codec)
     {
 
     }
 
-    private void setAudioContainer()
+    private void setAudioContainer (String codec)
     {
 
     }

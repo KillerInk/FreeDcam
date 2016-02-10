@@ -11,7 +11,7 @@ import java.util.HashMap;
  */
 public class FocusModeParameter extends BaseModeParameter
 {
-    public FocusModeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value) {
-        super(handler, parameters, parameterChanged, "focus-mode", "focus-mode-values");
+    public FocusModeParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
+        super(handler, parameters, parameterChanged, value, values);
     }
 }

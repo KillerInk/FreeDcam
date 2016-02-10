@@ -27,27 +27,27 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
 {
     private int currentValuePos = 0;
 
-    private RotatingSeekbar seekbar;
-    private ManualButton mf;
-    private ManualButton iso;
-    private ManualButton shutter;
-    private ManualButton aperture;
-    private ManualButton exposure;
-    private ManualButton brightness;
-    private ManualButton burst;
-    private ManualButton wb;
-    private ManualButton contrast;
-    private ManualButton saturation;
-    private ManualButton sharpness;
-    private ManualButton programshift;
-    private ManualButton zoom;
-    private ManualButton skintone;
-    private ManualButton fx;
-    private ManualButton convergence;
+    RotatingSeekbar seekbar;
+    ManualButton mf;
+    ManualButton iso;
+    ManualButton shutter;
+    ManualButton aperture;
+    ManualButton exposure;
+    ManualButton brightness;
+    ManualButton burst;
+    ManualButton wb;
+    ManualButton contrast;
+    ManualButton saturation;
+    ManualButton sharpness;
+    ManualButton programshift;
+    ManualButton zoom;
+    ManualButton skintone;
+    ManualButton fx;
+    ManualButton convergence;
 
-    private ManualButton currentButton;
+    ManualButton currentButton;
 
-    private final String TAG = ManualFragmentRotatingSeekbar.class.getSimpleName();
+    final String TAG = ManualFragmentRotatingSeekbar.class.getSimpleName();
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         return inflater.inflate(R.layout.manual_fragment_rotatingseekbar, container, false);
@@ -178,7 +178,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
     }
 
     //######## ManualButton Stuff#####
-    private View.OnClickListener manualButtonClickListner = new View.OnClickListener() {
+    View.OnClickListener manualButtonClickListner = new View.OnClickListener() {
         @Override
         public void onClick(View v)
         {

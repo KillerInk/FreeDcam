@@ -10,7 +10,7 @@ import java.util.HashMap;
  * Created by troop on 17.08.2014.
  */
 public class ColorModeParameter extends BaseModeParameter {
-    public ColorModeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value) {
-        super(handler,parameters,parameterChanged, "effect", "effect-values");
+    public ColorModeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
+        super(handler,parameters,parameterChanged, value, values);
     }
 }

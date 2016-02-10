@@ -7,7 +7,7 @@ import android.os.Handler;
  */
 public class IntervalShutterSleepParameter extends AbstractModeParameter
 {
-    private String current = "1 sec";
+    String current = "1 sec";
     public IntervalShutterSleepParameter(Handler uiHandler) {
         super(uiHandler);
     }

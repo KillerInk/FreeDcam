@@ -17,31 +17,31 @@ import troop.com.themesample.R;
  */
 public class MenuItemTimeLapseFrames extends LinearLayout
 {
-    private Button plus;
-    private Button minus;
-    private EditText editText;
-    private Context context;
+    Button plus;
+    Button minus;
+    EditText editText;
+    Context context;
 
-    private final float min = 0.1f;
-    private final float max = 30;
-    private float current;
-    private final float mover = 0.1f;
-    private final float bigmover = 1;
-    private AppSettingsManager appSettingsManager;
-    private String settingsname;
+    final float min = 0.1f;
+    final float max = 30;
+    float current;
+    final float mover = 0.1f;
+    final float bigmover = 1;
+    AppSettingsManager appSettingsManager;
+    String settingsname;
 
 
     public MenuItemTimeLapseFrames(Context context) {
         super(context);
-        init(context);
+        init(context, null);
     }
 
     public MenuItemTimeLapseFrames(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        init(context);
+        init(context, null);
     }
-    private void init(Context context)
+    protected void init(Context context, AttributeSet attributeSet)
     {
         this.context = context;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -80,7 +80,7 @@ public class MenuItemTimeLapseFrames extends LinearLayout
 
     }
 
-    private void setCurrent(float current)
+    public void setCurrent(float current)
     {
         String form = String.format("%.1f", current).replace(",", ".");
         try {
@@ -95,9 +95,9 @@ public class MenuItemTimeLapseFrames extends LinearLayout
         editText.setText(current + " fps");
     }
 
-    public void SetStuff(AppSettingsManager appSettingsManager) {
+    public void SetStuff(AppSettingsManager appSettingsManager, String settingvalue) {
         this.appSettingsManager = appSettingsManager;
-        this.settingsname = AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME;
+        this.settingsname = settingvalue;
 
         String fps = this.appSettingsManager.getString(settingsname);
         if (fps == null || fps.equals(""))

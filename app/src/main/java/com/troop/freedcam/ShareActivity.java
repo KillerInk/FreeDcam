@@ -15,8 +15,8 @@ import java.io.File;
  */
 public class ShareActivity extends MainActivity implements I_WorkEvent
 {
-    private Intent callerIntent;
-    private Uri data;
+    Intent callerIntent;
+    Uri data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class ShareActivity extends MainActivity implements I_WorkEvent
     }
 
     @Override
-    public void WorkHasFinished(File filePath)
+    public String WorkHasFinished(File filePath)
     {
 
         //shareIntent.setData(Uri.fromFile(filePath));
@@ -64,5 +64,6 @@ public class ShareActivity extends MainActivity implements I_WorkEvent
 
         setResult(Activity.RESULT_OK, callerIntent);
         this.finish();
+        return null;
     }
 }

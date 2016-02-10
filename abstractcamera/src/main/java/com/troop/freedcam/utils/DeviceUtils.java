@@ -19,10 +19,12 @@ public class DeviceUtils
         return currentdevice;
     }
 
-    @SuppressWarnings("RedundantIfStatement")
     public static boolean IS(Devices device)
     {
-        return currentdevice == device;
+        if (currentdevice == device)
+            return  true;
+        else
+            return false;
     }
 
     public static boolean IS_DEVICE_ONEOF(Devices[] device)
@@ -48,10 +50,12 @@ public class DeviceUtils
 
     }
 
-    @SuppressWarnings("RedundantIfStatement")
     public static boolean HAS_CONTEXT()
     {
-        return contex != null;
+        if (contex == null)
+            return false;
+        else
+            return true;
     }
 
     final public static Devices[] AlcatelIdol3_Moto_MSM8982_8994 = {Devices.Moto_MSM8982_8994, Devices.Alcatel_Idol3 };
@@ -185,10 +189,12 @@ public class DeviceUtils
         ZTEADV234,
     }
 
-    @SuppressWarnings("RedundantIfStatement")
     public static boolean IsMarshMallowG3()
     {
-        return currentdevice == Devices.LG_G3 && Build.VERSION.SDK_INT == Build.VERSION_CODES.M;
+        if (currentdevice == Devices.LG_G3 && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)
+            return true;
+        else
+            return false;
     }
 
     private static boolean isDevice(String[] ar)
@@ -323,7 +329,7 @@ public class DeviceUtils
         return containsDevice(contex.getResources().getStringArray(R.array.sony_adv));
     }
 
-    private static boolean isLenovoK910()
+    public static boolean isLenovoK910()
     {
         return isDevice(contex.getResources().getStringArray(R.array.LenovoK910));
     }
@@ -337,18 +343,18 @@ public class DeviceUtils
         return isDevice(contex.getResources().getStringArray(R.array.SonyM5));
     }
 
-    private static boolean isRetro()
+    public static boolean isRetro()
     {
         return isDevice(contex.getResources().getStringArray(R.array.Retro));
     }
 
 
-    private static  boolean isXperiaL()
+    public static  boolean isXperiaL()
     {
         return isDevice(contex.getResources().getStringArray(R.array.Sony_XperiaL));
     }
 
-    private static boolean isYureka()
+    public static boolean isYureka()
     {
         return isDevice(contex.getResources().getStringArray(R.array.YuYureka));
 

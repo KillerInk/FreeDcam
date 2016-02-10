@@ -19,16 +19,16 @@ import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParameterEvent
 {
-    private final String TAG = ManualToneMapCurveApi2.class.getSimpleName();
+    final String TAG = ManualToneMapCurveApi2.class.getSimpleName();
     //  linearcurve       x/y
-    private float[] blackpoint = { 0f,0f};
-    private float[] shadows = {0.25f,0.25f};
-    private float[] midtones = {0.5f,0.5f};
-    private float[] highlights = { 0.75f,0.75f};
-    private float[] whitepoint = {1.0f,1.0f};
+    float[] blackpoint = { 0f,0f};
+    float[] shadows = {0.25f,0.25f};
+    float[] midtones = {0.5f,0.5f};
+    float[] highlights = { 0.75f,0.75f};
+    float[] whitepoint = {1.0f,1.0f};
     public Contrast contrast;
     public Brightness brightness;
-    private boolean visible = false;
+    boolean visible = false;
 
 
     public ManualToneMapCurveApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder)
@@ -37,8 +37,8 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
         this.brightness = new Brightness(camParametersHandler,cameraHolder);
     }
 
-    private boolean canSet = false;
-    private boolean isSupported = false;
+    boolean canSet = false;
+    boolean isSupported = false;
 
     @Override
     public void onValueChanged(String val) {
@@ -75,7 +75,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
     }
 
     @Override
-    public void onVisibilityChanged() {
+    public void onVisibilityChanged(boolean visible) {
 
     }
 
@@ -178,8 +178,10 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
 
         @Override
         public boolean IsSupported() {
-            return cameraHolder.characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null
-                    && cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
+            if (cameraHolder.characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null
+                    && cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE)
+                return true;
+            else return false;
         }
 
         @Override
@@ -272,8 +274,10 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
         @Override
         public boolean IsSupported()
         {
-            return cameraHolder.characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null
-                    && cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
+            if (cameraHolder.characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null
+                    && cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE)
+                return true;
+            else return false;
         }
 
         @Override

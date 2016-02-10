@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class FlashModeParameter extends BaseModeParameter
 {
     private static String TAG = FlashModeParameter.class.getSimpleName();
-    public FlashModeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value) {
-        super(handler,parameters,parameterChanged, "flash-mode", "flash-mode-values");
+    public FlashModeParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
+        super(handler,parameters,parameterChanged, value, values);
     }
 }

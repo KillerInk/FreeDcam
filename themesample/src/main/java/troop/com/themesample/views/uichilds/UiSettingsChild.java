@@ -23,20 +23,19 @@ import troop.com.themesample.subfragments.Interfaces;
 /**
  * Created by troop on 11.06.2015.
  */
-@SuppressWarnings("ALL")
 public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, AbstractModeParameter.I_ModeParameterEvent ,I_ParametersLoaded ,View.OnClickListener
 {
     protected Context context;
     private String headerText;
-    private LinearLayout laybg;
+    protected LinearLayout laybg;
     protected TextView valueText;
     protected AbstractModeParameter parameter;
     protected I_Activity i_activity;
-    private String TAG;
+    protected String TAG;
     protected AppSettingsManager appSettingsManager;
     protected String settingsname;
     protected Interfaces.I_MenuItemClick onItemClick;
-    private final boolean logging =false;
+    final protected boolean logging =false;
     private boolean fromleft = false;
 
     public UiSettingsChild(Context context) {
@@ -176,7 +175,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         return parameter;
     }
 
-    protected void setTextToTextBox(AbstractModeParameter parameter)
+    public void setTextToTextBox(AbstractModeParameter parameter)
     {
         if (parameter != null && parameter.IsSupported())
         {
@@ -269,7 +268,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     }
 
     @Override
-    public void onVisibilityChanged() {
+    public void onVisibilityChanged(boolean visible) {
 
     }
 

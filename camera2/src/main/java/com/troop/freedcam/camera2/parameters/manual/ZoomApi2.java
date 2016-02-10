@@ -17,8 +17,8 @@ import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class ZoomApi2 extends AbstractManualParameter
 {
-    private ParameterHandlerApi2 camParametersHandler;
-    private BaseCameraHolderApi2 cameraHolder;
+    ParameterHandlerApi2 camParametersHandler;
+    BaseCameraHolderApi2 cameraHolder;
     public ZoomApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder)  {
         super(camParametersHandler);
         this.cameraHolder = cameraHolder;
@@ -26,7 +26,7 @@ public class ZoomApi2 extends AbstractManualParameter
     }
 
 
-    private int zoom = 0;
+    int zoom = 0;
 
     @Override
     public boolean IsSupported() {
@@ -102,12 +102,16 @@ public class ZoomApi2 extends AbstractManualParameter
 
         int cropWidth = (int) ((imgWidth / 100) * zoom);
         int cropHeight = (int) ((imgHeight / 100)* zoom);
+        int newX = cropWidth;
         int newW = imgWidth -cropWidth;
+        int newY = cropHeight;
         int newH = imgHeight-cropHeight;
 // ensure crop w,h divisible by 4 (SZ requirement)
         //cropWidth -= cropWidth & 3;
         //cropHeight -= cropHeight & 3;
 // crop area for standard frame
-        return new Rect(cropWidth, cropHeight, newW,newH);
+        int cropWidthStd = cropWidth;
+        int cropHeightStd = cropHeight;
+        return new Rect(newX, newY, newW,newH);
     }
 }

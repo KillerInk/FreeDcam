@@ -17,10 +17,10 @@ import java.io.InputStream;
 /**
  * Created by troop on 24.11.2014.
  */
-class PictureModuleO3D extends PictureModule
+public class PictureModuleO3D extends PictureModule
 {
     private static String TAG = StringUtils.TAG+PictureModuleO3D.class.getSimpleName();
-    private PictureModuleO3D(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler, Handler backHandler)
+    public PictureModuleO3D(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler, Handler backHandler)
     {
         super(baseCameraHolder, appSettingsManager, eventHandler, backHandler);
     }

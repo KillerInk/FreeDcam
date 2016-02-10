@@ -53,23 +53,23 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private final Paint mFramePaint;
     private  Paint paint;
     private StreamErrorListener mErrorListener;
-    private I_Callbacks.PreviewCallback previewFrameCallback;
+    I_Callbacks.PreviewCallback previewFrameCallback;
     public boolean focuspeak = false;
     public NightPreviewModes nightmode = NightPreviewModes.off;
-    private int currentImageStackCount = 0;
+    int currentImageStackCount = 0;
 
-    private RenderScript mRS;
+    RenderScript mRS;
     private Allocation mInputAllocation;
     private Allocation mInputAllocation2;
     private Allocation mOutputAllocation;
-    private ScriptC_focuspeak_argb focuspeak_argb;
-    private ScriptC_imagestack_argb imagestack_argb;
-    private ScriptC_brightness brightnessRS;
-    private ScriptC_contrast contrastRS;
-    private ScriptC_starfinder starfinderRS;
-    private ScriptIntrinsicBlur blurRS;
-    private Bitmap drawBitmap;
-    private Bitmap stackBitmap;
+    ScriptC_focuspeak_argb focuspeak_argb;
+    ScriptC_imagestack_argb imagestack_argb;
+    ScriptC_brightness brightnessRS;
+    ScriptC_contrast contrastRS;
+    ScriptC_starfinder starfinderRS;
+    ScriptIntrinsicBlur blurRS;
+    Bitmap drawBitmap;
+    Bitmap stackBitmap;
 
     public enum NightPreviewModes
     {
@@ -188,18 +188,18 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
      * @return true if the starting is completed successfully, false otherwise.
 
      */
-    public void start(final String streamUrl, StreamErrorListener listener) {
+    public boolean start(final String streamUrl, StreamErrorListener listener) {
         mErrorListener = listener;
 
         if (streamUrl == null) {
             Log.e(TAG, "start() streamUrl is null.");
             mWhileFetching = false;
-            mErrorListener.onError();
-            return;
+            mErrorListener.onError(StreamErrorListener.StreamErrorReason.OPEN_ERROR);
+            return false;
         }
         if (mWhileFetching) {
             Log.w(TAG, "start() already starting.");
-            return;
+            return false;
         }
 
         mWhileFetching = true;
@@ -228,7 +228,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                     }
                 } catch (IOException e) {
                     Log.w(TAG, "IOException while fetching: " + e.getMessage());
-                    mErrorListener.onError();
+                    mErrorListener.onError(StreamErrorListener.StreamErrorReason.IO_EXCEPTION);
                 } finally {
                     if (slicer != null) {
                         slicer.close();
@@ -283,7 +283,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                     }
                     frameBitmap = BitmapFactory.decodeByteArray(dataExtractor.jpegData, 0, dataExtractor.jpegData.length, factoryOptions);
 
-                    drawFrame(frameBitmap, frameExtractor);
+                    drawFrame(frameBitmap, dataExtractor, frameExtractor);
                 }
 
                 if (frameBitmap != null) {
@@ -293,6 +293,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             }
         };
         mDrawerThread.start();
+        return true;
     }
 
     private boolean fetchPayLoad(SimpleLiveviewSlicer slicer) throws IOException {
@@ -366,10 +367,10 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
     /**
      * Draw frame bitmap onto a canvas.
-     *
+     * 
      * @param frame
      */
-    private void drawFrame(Bitmap frame, DataExtractor frameExtractor)
+    private void drawFrame(Bitmap frame, DataExtractor dataExtractor, DataExtractor frameExtractor)
     {
         try {
             if (frame.getWidth() != mPreviousWidth || frame.getHeight() != mPreviousHeight) {
@@ -400,7 +401,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             Rect dst = new Rect(offsetX, offsetY, getWidth() - offsetX, getHeight() - offsetY);
             if (nightmode == NightPreviewModes.on)
             {
-                if(!drawNightPreview(frame))
+                if(!drawNightPreview(frame, frameExtractor, src, dst))
                     return;
             }
             else if (nightmode == NightPreviewModes.grayscale)
@@ -434,7 +435,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             else
                 canvas.drawBitmap(frame, src, dst, mFramePaint);
             if (frameExtractor != null)
-                drawFrameInformation(frameExtractor, canvas);
+                drawFrameInformation(frameExtractor, canvas, dst);
 
             getHolder().unlockCanvasAndPost(canvas);
         }
@@ -442,7 +443,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         {}
     }
 
-    private boolean drawNightPreview(Bitmap frame) {
+    private boolean drawNightPreview(Bitmap frame, DataExtractor frameExtractor, Rect src, Rect dst) {
         mInputAllocation.copyFrom(frame);
         blurRS.setInput(mInputAllocation);
         blurRS.setRadius(1.5f);
@@ -479,7 +480,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         }
     }
 
-    private void drawFrameInformation(DataExtractor dataExtractor, Canvas canvas)
+    private void drawFrameInformation(DataExtractor dataExtractor, Canvas canvas, Rect dst)
     {
         if (dataExtractor.frameInfoList == null)
             return;
@@ -577,7 +578,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     }
 
     @Override
-    public void onVisibilityChanged() {
+    public void onVisibilityChanged(boolean visible) {
 
     }
 
@@ -588,6 +589,6 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             OPEN_ERROR,
         }
 
-        void onError();
+        void onError(StreamErrorReason reason);
     }
 }

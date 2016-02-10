@@ -10,11 +10,11 @@ import com.troop.freedcam.i_camera.interfaces.I_Focus;
  */
 public abstract class AbstractFocusHandler
 {
-    private final String TAG = AbstractFocusHandler.class.getSimpleName();
-    protected void StartFocus(){};
+    final String TAG = AbstractFocusHandler.class.getSimpleName();
+    public void StartFocus(){};
     public void StartTouchToFocus(FocusRect rect, FocusRect meteringarea, int width, int height){};
     public void SetMeteringAreas(FocusRect meteringRect, int width, int height){};
-    public abstract void SetAwbAreas(FocusRect awbRect);
+    public abstract void SetAwbAreas(FocusRect awbRect, int width, int height);
     public I_Focus focusEvent;
     public abstract boolean isAeMeteringSupported();
     public abstract boolean isWbMeteringSupported();

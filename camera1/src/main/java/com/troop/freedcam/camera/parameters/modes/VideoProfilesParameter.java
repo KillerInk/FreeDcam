@@ -20,13 +20,13 @@ import java.util.List;
 public class VideoProfilesParameter extends BaseModeParameter
 {
 
-    private HashMap<String, VideoMediaProfile> supportedProfiles;
-    private BaseCameraHolder cameraHolder;
-    private CameraUiWrapper cameraUiWrapper;
-    private String profile = "HIGH";
+    HashMap<String, VideoMediaProfile> supportedProfiles;
+    BaseCameraHolder cameraHolder;
+    CameraUiWrapper cameraUiWrapper;
+    String profile = "HIGH";
 
-    public VideoProfilesParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, CameraUiWrapper cameraUiWrapper) {
-        super(handler,parameters, parameterChanged, "", "");
+    public VideoProfilesParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
+        super(handler,parameters, parameterChanged, value, values);
         this.cameraHolder = parameterChanged;
         this.cameraUiWrapper = cameraUiWrapper;
         this.isSupported =true;

@@ -22,7 +22,7 @@ public class ShutterManualParameter extends BaseManualParameter
     //return cameraController.getStringCameraParameter("shutter-threshold");
     */
     private static String TAG = "freedcam.ShutterManualParameter";
-    private Double Cur;
+    Double Cur;
     public static String HTCShutterValues = "Auto,1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000,1/800,1/640,1/500,1/400,1/320,1/250,1/200,1/125,1/100,1/80,1/60,1/50,1/40,1/30,1/25,1/20,1/15,1/13,1/10,1/8,1/6,1/5,1/4,0.3,0.4,0.5,0.6,0.8,1,1.3,1.6,2,2.5,3.2,4";
 
     public static String Z5SShutterValues = "Auto,1/90000,1/75000,1/50000,1/45000,1/30000,1/20000,1/12000,1/10000"+
@@ -37,24 +37,24 @@ public class ShutterManualParameter extends BaseManualParameter
 
     public static String xIMX214_IMX230 = "Auto,1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,1/1.9,1/1.8,1/1.7,1/1.6,1/1.5,1/1.4,1";
 
-    private static String IMX214_IMX230 = "Auto,1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000,1/800,1/700,1/600,1/500,1/400,1/300,1/200,1/125,1/100,1/85,1/75,1/65\"+\n" +
+    public static String IMX214_IMX230 = "Auto,1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000,1/800,1/700,1/600,1/500,1/400,1/300,1/200,1/125,1/100,1/85,1/75,1/65\"+\n" +
             "            \",1/55,1/45,1/35,1/25,1/20,1/15,1/13,1/10,1/9,1/8,1/7,1/6,1/5,1/4,1/3,1/2,1/1.9,1/1.8,1/1.7,1/1.6";
-    private static String Mi3WValues = "Auto,1/5000,1/2500,1/2000,1/1600,1/1250,1/1000"+
+    public static String Mi3WValues = "Auto,1/5000,1/2500,1/2000,1/1600,1/1250,1/1000"+
                    ",1/800,1/700,1/600,1/500,1/400,1/300,1/200,1/125,1/100,1/85,1/75,1/65"+
                    ",1/55,1/45,1/35,1/25,1/20,1/15,1/13,1/10,1/9,1/8,1/7,1/6,1/5,1/4,1/3,1/2"+
                    ",1.0,2.0";
-    private static String Mi4WValues = "Auto,1/5000,1/2500,1/2000,1/1600,1/1250,1/1000"+
+    public static String Mi4WValues = "Auto,1/5000,1/2500,1/2000,1/1600,1/1250,1/1000"+
             ",1/800,1/700,1/600,1/500,1/400,1/300,1/200,1/125,1/100,1/85,1/75,1/65"+
             ",1/55,1/45,1/35,1/25,1/20,1/15,1/13,1/10,1/9,1/8,1/7,1/6,1/5,1/4,1/3,1/2"+
             ",1.0,2.0,4.0,8.0,16.0,32.0";
 
-    private String[] shutterValues;
-    private int current = 0;
-    private I_CameraHolder baseCameraHolder;
-    private I_CameraChangedListner i_cameraChangedListner;
+    String shutterValues[];
+    int current = 0;
+    I_CameraHolder baseCameraHolder;
+    I_CameraChangedListner i_cameraChangedListner;
 
-    public ShutterManualParameter(HashMap<String, String> parameters, String value, String maxValue, I_CameraHolder baseCameraHolder, I_CameraChangedListner i_cameraChangedListner, AbstractParameterHandler camParametersHandler) {
-        super(parameters, "", "", "", camParametersHandler);
+    public ShutterManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder baseCameraHolder,I_CameraChangedListner i_cameraChangedListner, AbstractParameterHandler camParametersHandler) {
+        super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         this.baseCameraHolder = baseCameraHolder;
         this.i_cameraChangedListner = i_cameraChangedListner;
@@ -105,7 +105,7 @@ public class ShutterManualParameter extends BaseManualParameter
 
     private I_Shutter_Changed i_shutter_changed;
 
-    private void setTheListener(I_Shutter_Changed i_shutter_changedx) {
+    public void setTheListener(I_Shutter_Changed i_shutter_changedx) {
         i_shutter_changed = i_shutter_changedx;
 
     }
@@ -234,7 +234,7 @@ public class ShutterManualParameter extends BaseManualParameter
  * Sony values Untested
  *
  */
-private Double getMicroSec(String shutterString)
+    public Double getMicroSec(String shutterString)
     {
         Double a = Double.parseDouble(shutterString);
 
@@ -242,7 +242,7 @@ private Double getMicroSec(String shutterString)
 
     }
 
-    private String FLOATtoSixty4(String a)
+    public String FLOATtoSixty4(String a)
     {
         float b =  Float.parseFloat(a);
         float c = b * 1000000;

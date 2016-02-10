@@ -12,10 +12,10 @@ import java.util.HashMap;
  */
 public class ZeroShutterLagParameter extends BaseModeParameter
 {
-    private I_CameraHolder baseCameraHolder;
+    I_CameraHolder baseCameraHolder;
 
-    public ZeroShutterLagParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, I_CameraHolder baseCameraHolder) {
-        super(handler,parameters, parameterChanged, "", "");
+    public ZeroShutterLagParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder baseCameraHolder) {
+        super(handler,parameters, parameterChanged, value, values);
         this.baseCameraHolder = baseCameraHolder;
 
         try

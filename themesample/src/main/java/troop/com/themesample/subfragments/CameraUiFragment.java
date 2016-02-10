@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,63 +42,63 @@ import troop.com.themesample.views.uichilds.UiSettingsMenu;
  */
 public class CameraUiFragment extends AbstractFragment implements I_ParametersLoaded, Interfaces.I_MenuItemClick, Interfaces.I_CloseNotice, I_swipe, View.OnClickListener
 {
-    private final String TAG = CameraUiFragment.class.getSimpleName();
-    private UiSettingsChild flash;
-    private UiSettingsChild iso;
-    private UiSettingsChild autoexposure;
-    private UiSettingsChild whitebalance;
-    private UiSettingsChild focus;
-    private UiSettingsChild night;
-    private UiSettingsChild format;
-    private UiSettingsChildCameraSwitch cameraSwitch;
-    private UiSettingsChildExit exit;
-    private UiSettingsChildModuleSwitch modeSwitch;
+    final String TAG = CameraUiFragment.class.getSimpleName();
+    UiSettingsChild flash;
+    UiSettingsChild iso;
+    UiSettingsChild autoexposure;
+    UiSettingsChild whitebalance;
+    UiSettingsChild focus;
+    UiSettingsChild night;
+    UiSettingsChild format;
+    UiSettingsChildCameraSwitch cameraSwitch;
+    UiSettingsChildExit exit;
+    UiSettingsChildModuleSwitch modeSwitch;
     UiSettingsMenu menu;
-    private UiSettingsChild contShot;
+    UiSettingsChild contShot;
 
-    private UiSettingsChild currentOpendChild;
-    private HorizontalValuesFragment horizontalValuesFragment;
-    private SwipeMenuListner touchHandler;
-    private ShutterButton shutterButton;
+    UiSettingsChild currentOpendChild;
+    HorizontalValuesFragment horizontalValuesFragment;
+    SwipeMenuListner touchHandler;
+    ShutterButton shutterButton;
 
-    private UiSettingsFocusPeak focuspeak;
+    UiSettingsFocusPeak focuspeak;
 
-    private UserMessageHandler messageHandler;
+    UserMessageHandler messageHandler;
 
-    private UiSettingsChild hdr_switch;
+    UiSettingsChild hdr_switch;
 
-    private ThumbView thumbView;
+    ThumbView thumbView;
 
-    private LinearLayout LC;
+    LinearLayout LC;
 
-    private LinearLayout left_cameraUI_holder;
-    private RelativeLayout right_camerUI_holder;
-    private ManualFragmentRotatingSeekbar manualModesFragment;
-    private FrameLayout manualModes_holder;
-    private boolean manualsettingsIsOpen = false;
-    private boolean settingsOpen = false;
+    LinearLayout left_cameraUI_holder;
+    RelativeLayout right_camerUI_holder;
+    ManualFragmentRotatingSeekbar manualModesFragment;
+    FrameLayout manualModes_holder;
+    boolean manualsettingsIsOpen = false;
+    boolean settingsOpen = false;
     final int animationTime = 500;
 
-    private FocusImageHandler focusImageHandler;
+    FocusImageHandler focusImageHandler;
 
 
-    private View view;
-    private I_Activity i_activity;
-    private AppSettingsManager appSettingsManager;
-    private SampleInfoOverlayHandler infoOverlayHandler;
+    View view;
+    I_Activity i_activity;
+    AppSettingsManager appSettingsManager;
+    SampleInfoOverlayHandler infoOverlayHandler;
 
-    private GuideHandler guideHandler;
-    private LinearLayout guidHolder;
+    GuideHandler guideHandler;
+    LinearLayout guidHolder;
 
-    private SettingsMenuFragment settingsMenuFragment;
-    private FrameLayout settingsmenuholer;
-    private File lastFile;
+    SettingsMenuFragment settingsMenuFragment;
+    FrameLayout settingsmenuholer;
+    File lastFile;
 
-    private final String KEY_MANUALMENUOPEN = "key_manualmenuopen";
-    private final String KEY_SETTINGSOPEN = "key_settingsopen";
-    private SharedPreferences sharedPref;
+    final String KEY_MANUALMENUOPEN = "key_manualmenuopen";
+    final String KEY_SETTINGSOPEN = "key_settingsopen";
+    SharedPreferences sharedPref;
 
-    private HorizontLineFragment horizontLineFragment;
+    HorizontLineFragment horizontLineFragment;
 
     @Override
     public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity)
@@ -138,9 +139,9 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         cameraSwitch.SetCameraUiWrapper(wrapper);
         focusImageHandler.SetCamerUIWrapper(wrapper);
-        this.messageHandler = new UserMessageHandler(view);
+        this.messageHandler = new UserMessageHandler(view, appSettingsManager);
         messageHandler.SetCameraUiWrapper(wrapper);
-        shutterButton.SetCameraUIWrapper(wrapper, appSettingsManager);
+        shutterButton.SetCameraUIWrapper(wrapper, appSettingsManager, messageHandler);
 
         format.SetParameter(wrapper.camParametersHandler.PictureFormat);
 
@@ -425,7 +426,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         if (settingsOpen)
             replaceSettingsWithCameraUI();
         else
-            i_activity.loadImageViewerFragment();
+            i_activity.loadImageViewerFragment(lastFile);
 
     }
 
@@ -451,7 +452,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
             focusImageHandler.OnClick(x,y);
     }
 
-    private View.OnTouchListener onTouchListener = new View.OnTouchListener()
+    View.OnTouchListener onTouchListener = new View.OnTouchListener()
     {
         public boolean onTouch(View v, MotionEvent event)
         {
@@ -480,7 +481,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         settingsmenuholer.setVisibility(View.VISIBLE);
     }
 
-    private void replaceSettingsWithCameraUI()
+    public void replaceSettingsWithCameraUI()
     {
         settingsOpen = false;
         sharedPref.edit().putBoolean(KEY_SETTINGSOPEN,settingsOpen).commit();

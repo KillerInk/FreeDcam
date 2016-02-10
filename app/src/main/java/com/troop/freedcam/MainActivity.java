@@ -48,21 +48,21 @@ import troop.com.imageviewer.ScreenSlideFragment;
  */
 public class MainActivity extends FragmentActivity implements I_orientation, I_error, I_CameraChangedListner, I_Activity, I_ModuleEvent, AbstractCameraFragment.CamerUiWrapperRdy, ApiEvent
 {
-    private ViewGroup appViewGroup;
-    private static OrientationHandler orientationHandler;
-    private int flags;
+    protected ViewGroup appViewGroup;
+    static OrientationHandler orientationHandler;
+    int flags;
     private static String TAG = StringUtils.TAG + MainActivity.class.getSimpleName();
     private static String TAGLIFE = StringUtils.TAG + "LifeCycle";
-    private static AppSettingsManager appSettingsManager;
-    private static HardwareKeyHandler hardwareKeyHandler;
-    private MainActivity activity;
-    private static ApiHandler apiHandler;
-    private static TimerHandler timerHandler;
-    private ThemeHandler themeHandler;
-    private static AbstractCameraFragment cameraFragment;
-    private ScreenSlideFragment imageViewerFragment;
+    static AppSettingsManager appSettingsManager;
+    static HardwareKeyHandler hardwareKeyHandler;
+    MainActivity activity;
+    static ApiHandler apiHandler;
+    static TimerHandler timerHandler;
+    public ThemeHandler themeHandler;
+    static AbstractCameraFragment cameraFragment;
+    ScreenSlideFragment imageViewerFragment;
     private boolean debuglogging = false;
-    private FileLogger logger;
+    FileLogger logger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -176,9 +176,9 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
         apiHandler.CheckApi();
         hardwareKeyHandler = new HardwareKeyHandler(this, appSettingsManager);
         if (cameraFragment != null)
-            themeHandler.GetThemeFragment(cameraFragment.GetCameraUiWrapper());
+            themeHandler.GetThemeFragment(true, cameraFragment.GetCameraUiWrapper());
         else
-            themeHandler.GetThemeFragment(null);
+            themeHandler.GetThemeFragment(true, null);
     }
 
     /**
@@ -244,7 +244,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
 
     }
 
-    private void HIDENAVBAR()
+    public void HIDENAVBAR()
     {
         if (Build.VERSION.SDK_INT < 16) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -270,7 +270,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event)
     {
-        boolean haskey = hardwareKeyHandler.OnKeyUp(keyCode);
+        boolean haskey = hardwareKeyHandler.OnKeyUp(keyCode, event);
         if (!haskey)
             haskey = super.onKeyUp(keyCode, event);
         return haskey;
@@ -279,14 +279,14 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
-        hardwareKeyHandler.OnKeyDown();
+        hardwareKeyHandler.OnKeyDown(keyCode, event);
         return true;
     }
 
     @Override
     public boolean onKeyLongPress(int keyCode, KeyEvent event)
     {
-        boolean haskey = hardwareKeyHandler.OnKeyLongPress(keyCode);
+        boolean haskey = hardwareKeyHandler.OnKeyLongPress(keyCode, event);
         if (!haskey)
             haskey = super.onKeyLongPress(keyCode, event);
         return haskey;
@@ -295,7 +295,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     private int currentorientation = 0;
 
     @Override
-    public void OrientationChanged(int orientation)
+    public int OrientationChanged(int orientation)
     {
         if (orientation != currentorientation)
         {
@@ -316,15 +316,15 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     {
     }
 
-    public void SwitchCameraAPI()
+    public void SwitchCameraAPI(String value)
     {
         loadCameraUiWrapper();
     }
 
     @Override
-    public void SetTheme()
+    public void SetTheme(String Theme)
     {
-        themeHandler.GetThemeFragment(cameraFragment.GetCameraUiWrapper());
+        themeHandler.GetThemeFragment(true, cameraFragment.GetCameraUiWrapper());
     }
 
 
@@ -433,10 +433,10 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
 
     @Override
     public void
-    ShowHistogram() {}
+    ShowHistogram(boolean enable) {}
 
     @Override
-    public void loadImageViewerFragment()
+    public void loadImageViewerFragment(File file)
     {
         try {
             imageViewerFragment = new ScreenSlideFragment();
@@ -455,7 +455,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     @Override
     public void loadCameraUiFragment()
     {
-        themeHandler.GetThemeFragment(cameraFragment.GetCameraUiWrapper());
+        themeHandler.GetThemeFragment(true, cameraFragment.GetCameraUiWrapper());
     }
 
     @Override

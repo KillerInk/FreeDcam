@@ -29,7 +29,7 @@ import troop.com.themesample.subfragments.Interfaces;
  */
 public class MenuItemSaveCamParams extends MenuItem
 {
-    private AbstractCameraUiWrapper cameraUiWrapper;
+    AbstractCameraUiWrapper cameraUiWrapper;
     public MenuItemSaveCamParams(Context context) {
         super(context);
     }

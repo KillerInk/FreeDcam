@@ -11,8 +11,8 @@ import com.troop.freedcam.ui.AppSettingsManager;
  */
 public class ModuleHandlerSony extends AbstractModuleHandler implements CameraHolderSony.I_CameraShotMode
 {
-    private CameraHolderSony cameraHolder;
-    private final String TAG = ModuleHandlerSony.class.getSimpleName();
+    CameraHolderSony cameraHolder;
+    final String TAG = ModuleHandlerSony.class.getSimpleName();
 
     public ModuleHandlerSony(CameraHolderSony cameraHolder, AppSettingsManager appSettingsManager)
     {
@@ -67,7 +67,7 @@ public class ModuleHandlerSony extends AbstractModuleHandler implements CameraHo
     }
 
     @Override
-    public void onShootModeValuesChanged() {
+    public void onShootModeValuesChanged(String[] modes) {
 
     }
 }

@@ -9,7 +9,7 @@ import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
  */
 public class SimpleModeParameter extends AbstractModeParameter
 {
-    private boolean isSupported;
+    boolean isSupported;
 
     public SimpleModeParameter(Handler uiHandler) {
         super(uiHandler);

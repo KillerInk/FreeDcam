@@ -15,7 +15,7 @@ import com.troop.freedcam.utils.StringUtils;
  */
 public class MenuItemOrientationHack extends MenuItem
 {
-    private AbstractCameraUiWrapper cameraUiWrapper;
+    AbstractCameraUiWrapper cameraUiWrapper;
 
     public MenuItemOrientationHack(Context context) {
         super(context);

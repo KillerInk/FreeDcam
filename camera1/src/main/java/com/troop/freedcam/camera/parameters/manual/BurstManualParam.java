@@ -16,10 +16,10 @@ import java.util.HashMap;
 
 public class BurstManualParam extends BaseManualParameter {
 
-    private BaseCameraHolder baseCameraHolder;
-    private int curr = 0;
-    public BurstManualParam(HashMap<String, String> parameters, String value, String maxValue, AbstractParameterHandler camParametersHandler) {
-        super(parameters, "", "", "", camParametersHandler);
+    BaseCameraHolder baseCameraHolder;
+    int curr = 0;
+    public BurstManualParam(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
+        super(parameters, value, maxValue, MinValue, camParametersHandler);
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) ||
                 DeviceUtils.IS(DeviceUtils.Devices.LG_G3)|| DeviceUtils.IS(DeviceUtils.Devices.LG_G2)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)
                 || DeviceUtils.IS(DeviceUtils.Devices.LG_G4))

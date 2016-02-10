@@ -8,9 +8,9 @@ import java.util.HashMap;
 
 public class ISOManualParameter extends BaseManualParameter {
 
-    private BaseCameraHolder baseCameraHolder;
-    public ISOManualParameter(HashMap<String, String> parameters, String value, String maxValue, BaseCameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
-        super(parameters, "", "", "", camParametersHandler);
+    BaseCameraHolder baseCameraHolder;
+    public ISOManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, BaseCameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
+        super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         this.baseCameraHolder = cameraHolder;
         //TODO add missing logic

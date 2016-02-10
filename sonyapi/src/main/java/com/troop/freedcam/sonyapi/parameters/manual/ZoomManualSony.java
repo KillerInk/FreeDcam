@@ -15,14 +15,14 @@ import java.util.Set;
  */
 public class ZoomManualSony extends BaseManualParameterSony
 {
-    private int currentzoomPos = -1;
-    private int zoomToSet;
+    int currentzoomPos = -1;
+    int zoomToSet;
     private boolean isZooming = false;
 
-    private boolean fromUser = false;
+    public boolean fromUser = false;
 
-    public ZoomManualSony(String MAX_TO_GET, String MIN_TO_GET, ParameterHandlerSony parameterHandlerSony) {
-        super("actZoom", "", "actZoom", parameterHandlerSony);
+    public ZoomManualSony(String MAX_TO_GET, String MIN_TO_GET, String CURRENT_TO_GET, ParameterHandlerSony parameterHandlerSony) {
+        super(MAX_TO_GET, MIN_TO_GET, CURRENT_TO_GET, parameterHandlerSony);
     }
 
     @Override
@@ -40,8 +40,11 @@ public class ZoomManualSony extends BaseManualParameterSony
     }
 
     @Override
-    public boolean IsSupported() {
-        return ParameterHandler.mAvailableCameraApiSet != null && JsonUtils.isCameraApiAvailable("actZoom", ParameterHandler.mAvailableCameraApiSet);
+    public boolean IsSupported()
+    {
+        if (ParameterHandler.mAvailableCameraApiSet != null)
+            return JsonUtils.isCameraApiAvailable("actZoom", ParameterHandler.mAvailableCameraApiSet);
+        return false;
     }
 
     @Override
@@ -144,7 +147,10 @@ public class ZoomManualSony extends BaseManualParameterSony
         if (a == b)
             return  true;
             //1 = 3
-        else return a - 5 <= b && a + 5 >= b;
+        else if (a - 5 <= b && a + 5 >= b)
+            return  true;
+        else
+            return false;
     }
 
     public String GetStringValue()

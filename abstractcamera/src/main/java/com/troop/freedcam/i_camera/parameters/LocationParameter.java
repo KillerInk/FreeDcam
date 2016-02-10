@@ -21,11 +21,11 @@ import com.troop.freedcam.utils.StringUtils;
 public class LocationParameter extends AbstractModeParameter implements LocationListener
 {
     private final AbstractCameraHolder cameraHolder;
-    private AppSettingsManager appSettingsManager;
-    private LocationManager locationManager;
+    AppSettingsManager appSettingsManager;
+    LocationManager locationManager;
 
-    private final int updateTime = 60*1000;
-    private final int updateDistance = 15;
+    final int updateTime = 60*1000;
+    final int updateDistance = 15;
 
 
     public LocationParameter(Handler uiHandler, AppSettingsManager appSettingsManager, AbstractCameraHolder cameraHolder) {
@@ -98,7 +98,7 @@ public class LocationParameter extends AbstractModeParameter implements Location
         }
     }
 
-    private void startLocationListing()
+    public void startLocationListing()
     {
         Log.d("Location", "start location");
         boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);

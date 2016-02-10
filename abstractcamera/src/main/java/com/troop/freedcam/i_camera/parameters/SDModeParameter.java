@@ -15,7 +15,7 @@ public class SDModeParameter extends AbstractModeParameter
     final public static String internal = "Internal";
     final public static String external ="External";
 
-    private AppSettingsManager appSettingsManager;
+    AppSettingsManager appSettingsManager;
     public SDModeParameter(Handler uiHandler, AppSettingsManager appSettingsManager) {
         super(uiHandler);
         this.appSettingsManager = appSettingsManager;
@@ -36,7 +36,10 @@ public class SDModeParameter extends AbstractModeParameter
     {
         try {
             File file = new File(StringUtils.GetExternalSDCARD());
-            return file.exists();
+            if (file.exists())
+                return true;
+            else
+                return false;
         }
         catch (Exception ex)
         {

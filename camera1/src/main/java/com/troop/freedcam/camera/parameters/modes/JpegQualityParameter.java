@@ -11,8 +11,8 @@ import java.util.HashMap;
  * Created by troop on 24.08.2014.
  */
 public class JpegQualityParameter extends BaseModeParameter {
-    public JpegQualityParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value) {
-        super(handler,parameters, parameterChanged, "jpeg-quality", "");
+    public JpegQualityParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
+        super(handler,parameters, parameterChanged, value, values);
     }
 
     @Override

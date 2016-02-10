@@ -29,7 +29,7 @@ import java.util.concurrent.BlockingQueue;
  */
 public class LongExposureModule extends AbstractModule implements I_Callbacks.PreviewCallback
 {
-    private BaseCameraHolder baseCameraHolder;
+    BaseCameraHolder baseCameraHolder;
     private final BlockingQueue<byte[]> mYuvFrameQueue = new ArrayBlockingQueue<byte[]>(2);
 
     public LongExposureModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
@@ -49,26 +49,26 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
 
     YuvHolder yuvIntHolder[];
 
-    private LongExposureModule exposureModule;
+    LongExposureModule exposureModule;
     //if true the the preview frames are grabed
-    private boolean doWork = false;
+    boolean doWork = false;
     //if true a preview frame merge is in progress
-    private boolean hasWork = false;
+    boolean hasWork = false;
     //stores the basyuv data wich get merged with the other frames
     //byte[] baseYuv;
     //stores the actual frame to merge
     //byte[] mergeYuv;
     //preview size height
-    private int height;
+    int height;
     //preview size width
-    private int width;
+    int width;
     //handler to process the merge
-    private Handler handler;
+    Handler handler;
 
     private static String TAG = "freedcam.LongExposure";
-    private int count;
+    int count;
 
-    private Merge nativeYuvMerge;
+    Merge nativeYuvMerge;
 
     @Override
     public String ShortName() {
@@ -145,7 +145,7 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
     }
 
     //this runs when the time is gone and stops listen to the preview and convert then the yuv data into an bitmap and saves it
-    private Runnable runnableFinishWork = new Runnable() {
+    Runnable runnableFinishWork = new Runnable() {
         @Override
         public void run()
         {

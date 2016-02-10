@@ -16,22 +16,21 @@ import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 /**
  * Created by troop on 21.08.2014.
  */
-@SuppressWarnings("ALL")
 public class ExtendedSurfaceView extends SurfaceView
 {
-    private boolean hasReal3d = false;
-    private boolean hasOpenSense = false;
+    boolean hasReal3d = false;
+    boolean hasOpenSense = false;
     private static String TAG = ExtendedSurfaceView.class.getSimpleName();
-    private Context context;
+    Context context;
 
-    private SurfaceHolder mHolder;
-    private SharedPreferences preferences;
+    public SurfaceHolder mHolder;
+    SharedPreferences preferences;
 
     static int CX;
     static int CY;
 
-    private Real3D mReal3D;
-    private boolean is3D = false;
+    Real3D mReal3D;
+    boolean is3D = false;
 
     private int mRatioWidth = 0;
     private int mRatioHeight = 0;

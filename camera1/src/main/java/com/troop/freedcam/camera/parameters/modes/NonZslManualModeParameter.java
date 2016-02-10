@@ -13,16 +13,19 @@ import java.util.HashMap;
  */
 public class NonZslManualModeParameter extends BaseModeParameter
 {
-    private BaseCameraHolder baseCameraHolder;
+    BaseCameraHolder baseCameraHolder;
 
-    public NonZslManualModeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, I_CameraHolder baseCameraHolder) {
-        super(handler,parameters, parameterChanged, "non-zsl-manual-mode", "");
+    public NonZslManualModeParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder baseCameraHolder) {
+        super(handler,parameters, parameterChanged, value, values);
         this.baseCameraHolder = (BaseCameraHolder) baseCameraHolder;
     }
 
     @Override
     public boolean IsSupported() {
-        return DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9);
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
+            return true;
+        else
+            return false;
     }
 
     @Override

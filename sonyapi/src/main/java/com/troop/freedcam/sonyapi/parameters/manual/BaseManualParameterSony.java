@@ -20,18 +20,18 @@ import java.util.Set;
  */
 public class BaseManualParameterSony extends AbstractManualParameter implements I_SonyApi, AbstractManualParameter.I_ManualParameterEvent
 {
-    String VALUE_TO_GET;
-    String VALUES_TO_GET;
-    String VALUE_TO_SET;
-    ParameterHandlerSony ParameterHandler;
-    SimpleRemoteApi mRemoteApi;
-    Set<String> mAvailableCameraApiSet;
+    protected String VALUE_TO_GET;
+    protected String VALUES_TO_GET;
+    protected String VALUE_TO_SET;
+    protected ParameterHandlerSony ParameterHandler;
+    protected SimpleRemoteApi mRemoteApi;
+    protected Set<String> mAvailableCameraApiSet;
     boolean isSupported = false;
     boolean isSetSupported = false;
-    private String[] values;
+    String[] values;
     int val = -200;
-    private String value;
-    private final boolean logging =false;
+    String value;
+    final boolean logging =false;
 
     private static String TAG = BaseManualParameterSony.class.getSimpleName();
 
@@ -278,7 +278,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
         }
     }
 
-    private void sendLog(String log)
+    protected void sendLog(String log)
     {
         if (logging)
             Log.d(TAG,VALUE_TO_SET + ":"+log);

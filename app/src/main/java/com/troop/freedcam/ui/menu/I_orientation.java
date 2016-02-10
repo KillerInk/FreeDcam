@@ -5,5 +5,5 @@ package com.troop.freedcam.ui.menu;
  */
 public interface I_orientation
 {
-    public void OrientationChanged(int orientation);
+    public int OrientationChanged(int orientation);
 }

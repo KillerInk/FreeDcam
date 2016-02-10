@@ -10,7 +10,7 @@ import android.view.MotionEvent;
  */
 public class TouchHandler
 {
-    private final int distance = 90;
+    final int distance = 90;
     private final String TAG = TouchHandler.class.getSimpleName();
     private final boolean DEBUG = true;
 
@@ -20,17 +20,17 @@ public class TouchHandler
             Log.d(TAG,log);
     }
 
-    private int startX;
-    private int startY;
-    private int currentX;
-    private int currentY;
+    public int startX;
+    public int startY;
+    public int currentX;
+    public int currentY;
     private boolean swipeDetected = false;
     private boolean newActionBlocked = false;
     private final int blockTime = 500;
     private Handler handler;
 
 
-    TouchHandler()
+    public TouchHandler()
     {
         handler = new Handler();
     }
@@ -123,28 +123,28 @@ public class TouchHandler
         }
     };
 
-    void doLeftToRightSwipe()
+    protected void doLeftToRightSwipe()
     {
     }
 
-    void doRightToLeftSwipe()
+    protected void doRightToLeftSwipe()
     {
     }
 
-    void doTopToBottomSwipe()
+    protected void doTopToBottomSwipe()
     {
     }
 
-    void doBottomToTopSwipe()
+    protected void doBottomToTopSwipe()
     {
     }
 
-    void OnClick(int x, int y)
+    protected void OnClick(int x, int y)
     {
 
     }
 
-    private static float getDistance(int startvalue, int currentvalue)
+    public static float getDistance(int startvalue, int currentvalue)
     {
         int dis = startvalue - currentvalue;
         if (dis < 0)

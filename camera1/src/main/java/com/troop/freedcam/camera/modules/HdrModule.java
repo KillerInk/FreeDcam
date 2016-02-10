@@ -27,9 +27,9 @@ public class HdrModule extends PictureModule implements I_WorkeDone
 
     private static String TAG = "freedcam.HdrModule";
 
-    private int hdrCount = 0;
-    private boolean aeBrackethdr = false;
-    private File[] files;
+    int hdrCount = 0;
+    boolean aeBrackethdr = false;
+    File[] files;
 
     public HdrModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler, Handler backgroundHandler) {
         super(cameraHandler, Settings, eventHandler, backgroundHandler);
@@ -59,7 +59,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
             LoadAEB();
             if (aeBrackethdr && baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg"))
             {
-                baseCameraHolder.TakePicture(null, aeBracketCallback);
+                baseCameraHolder.TakePicture(null, null, aeBracketCallback);
             }
             else {
                 takePicture();
@@ -97,7 +97,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
 
     //I_Module END
 
-    private void takePicture()
+    protected void takePicture()
     {
         handler.post(new Runnable() {
             @Override
@@ -166,7 +166,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
         Log.d(TAG, "HDR Exposure SET");
     }
 
-    private I_Callbacks.PictureCallback aeBracketCallback = new I_Callbacks.PictureCallback() {
+    I_Callbacks.PictureCallback aeBracketCallback = new I_Callbacks.PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data) {
             final String picFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
@@ -188,7 +188,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
         }
     };
 
-    private I_WorkeDone aeBracketDone = new I_WorkeDone() {
+    I_WorkeDone aeBracketDone = new I_WorkeDone() {
         @Override
         public void OnWorkDone(File file) {
             MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);

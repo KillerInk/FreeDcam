@@ -12,10 +12,10 @@ import java.util.HashMap;
  */
 public class CDS_Mode_Parameter extends BaseModeParameter
 {
-    private final String[] cds_values = {"auto", "on", "off"};
-    public CDS_Mode_Parameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value)
+    final String[] cds_values = {"auto", "on", "off"};
+    public CDS_Mode_Parameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value, String values)
     {
-        super(handler,parameters, cameraHolder, "", "");
+        super(handler,parameters, cameraHolder, value, values);
         try {
             final String cds = parameters.get("cds-mode");
             if (cds != null && !cds.equals(""))

@@ -7,9 +7,9 @@ import com.troop.freedcam.i_camera.FocusRect;
  */
 public interface I_Focus
 {
-    void FocusStarted(FocusRect rect);
-    void FocusFinished(boolean success);
-    void FocusLocked(boolean locked);
+    public void FocusStarted(FocusRect rect);
+    public void FocusFinished(boolean success);
+    public void FocusLocked(boolean locked);
     void TouchToFocusSupported(boolean isSupported);
     void AEMeteringSupported(boolean isSupported);
     void AWBMeteringSupported(boolean isSupported);

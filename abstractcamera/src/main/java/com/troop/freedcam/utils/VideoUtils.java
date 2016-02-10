@@ -44,14 +44,15 @@ public class VideoUtils {
                 break;
 
         }
-        return new int[]{x,y};
+        int z[] = {x,y};
+        return z;
     }
 
 
-    public static int getVideoBitrate()
+    public static int getVideoBitrate(String Q)
     {
         int Qv = 0;
-        switch ("Low") {
+        switch (Q) {
             case "Extreme":
                 Qv = 150000000;
                 break;
@@ -69,10 +70,10 @@ public class VideoUtils {
         return Qv;
     }
 
-    public static int getAudioBitrate()
+    public static int getAudioBitrate(String Q)
     {
         int Qv = 0;
-        switch ("Extreme") {
+        switch (Q) {
             case "Extreme":
                 Qv = 384000;
                 break;
@@ -90,10 +91,10 @@ public class VideoUtils {
         return Qv;
     }
 
-    public static int getAudioSample()
+    public static int getAudioSample(String Q)
     {
         int Qv = 0;
-        switch ("Medium") {
+        switch (Q) {
             case "Extreme":
                 Qv = 96000;
                 break;

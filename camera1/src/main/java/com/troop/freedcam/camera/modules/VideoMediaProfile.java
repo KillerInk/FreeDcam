@@ -13,9 +13,9 @@ public class VideoMediaProfile
     public int audioChannels;
     public int audioCodec;
     public int audioSampleRate;
-    private int duration;
-    private int fileFormat;
-    private int quality;
+    public int duration;
+    public int fileFormat;
+    public int quality;
     public int videoBitRate;
     public int videoCodec;
     public int videoFrameHeight;
@@ -68,7 +68,7 @@ public class VideoMediaProfile
         this.Mode = mode;
     }
 
-    private VideoMediaProfile(int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8, int v9, int v10, int v11, int v12, String ProfileName, VideoMode mode)
+    public VideoMediaProfile(int v1,int v2, int v3,int v4,int v5, int v6, int v7, int v8, int v9, int v10,int v11, int v12, String ProfileName, VideoMode mode)
     {
         this.audioBitRate = v1;
         this.audioChannels = v2;

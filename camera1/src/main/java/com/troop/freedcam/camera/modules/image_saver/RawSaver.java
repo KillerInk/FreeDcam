@@ -18,7 +18,7 @@ public class RawSaver extends JpegSaver
         super(cameraHolder, i_workeDone, handler, externalSD);
     }
 
-    private final String TAG = "RawSaver";
+    final String TAG = "RawSaver";
 
     @Override
     public void TakePicture()
@@ -34,7 +34,7 @@ public class RawSaver extends JpegSaver
         handler.post(new Runnable() {
             @Override
             public void run() {
-                cameraHolder.TakePicture(null, RawSaver.this);
+                cameraHolder.TakePicture(null, null, RawSaver.this);
             }
         });
     }
@@ -42,7 +42,7 @@ public class RawSaver extends JpegSaver
     @Override
     public void onPictureTaken(final byte[] data)
     {
-        if (!awaitpicture)
+        if (awaitpicture == false)
             return;
         awaitpicture =false;
         Log.d(TAG, "Take Picture CallBack");

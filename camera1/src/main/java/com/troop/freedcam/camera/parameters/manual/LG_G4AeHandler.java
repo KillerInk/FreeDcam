@@ -18,9 +18,9 @@ public class LG_G4AeHandler
     private int currentShutter = 0;
     private BaseCameraHolder cameraHolder;
     private HashMap<String, String> parameters;
-    private boolean auto = true;
+    boolean auto = true;
 
-    private final String TAG = LG_G4AeHandler.class.getSimpleName();
+    final String TAG = LG_G4AeHandler.class.getSimpleName();
 
     enum AeManual
     {
@@ -43,7 +43,7 @@ public class LG_G4AeHandler
         void onManualChanged(AeManual fromManual, boolean automode, int value);
     }
 
-    private AeManualEvent aeevent =  new AeManualEvent() {
+    AeManualEvent aeevent =  new AeManualEvent() {
         @Override
         public void onManualChanged(AeManual fromManual, boolean automode, int value)
         {

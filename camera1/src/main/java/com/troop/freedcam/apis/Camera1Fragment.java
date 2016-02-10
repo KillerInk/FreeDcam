@@ -17,8 +17,8 @@ import com.troop.freedcam.camera.TextureViewRatio;
 public class Camera1Fragment extends AbstractCameraFragment
 {
 
-    private ExtendedSurfaceView extendedSurfaceView;
-    private TextureViewRatio preview;
+    ExtendedSurfaceView extendedSurfaceView;
+    TextureViewRatio preview;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {

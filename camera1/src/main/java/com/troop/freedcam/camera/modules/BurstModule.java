@@ -27,10 +27,10 @@ import java.util.Date;
 public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCallback
 {
     private static String TAG = "freedcam.BurstModule";
-    private boolean doBurst = false;
-    private String currentBurstFolder;
-    private int count;
-    private BaseCameraHolder baseCameraHolder;
+    boolean doBurst = false;
+    String currentBurstFolder;
+    int count;
+    BaseCameraHolder baseCameraHolder;
     public BurstModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler)
     {
         super(cameraHandler, Settings, eventHandler);
@@ -112,25 +112,28 @@ public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCa
     {
         File file = createFileName();
         Log.d(TAG, "Saving file: " + file.getAbsolutePath());
-        PreviewSizeParameter previewSizeParameter = (PreviewSizeParameter)baseCameraHolder.ParameterHandler.PreviewSize;
-        String[] split = baseCameraHolder.ParameterHandler.PreviewSize.GetValue().split("x");
-        Rect rect = new Rect(0,0,Integer.parseInt(split[0]),Integer.parseInt(split[1]));
-        YuvImage img = new YuvImage(bytes, ImageFormat.NV21, Integer.parseInt(split[0]), Integer.parseInt(split[1]), null);
-        OutputStream outStream = null;
-        try
+        if (true/*baseCameraHolder.ParameterHandler.PreviewFormat.GetFormat() == ImageFormat.NV21*/)
         {
-            outStream = new FileOutputStream(file);
-            img.compressToJpeg(rect, 100, outStream);
-            outStream.flush();
-            outStream.close();
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
+            PreviewSizeParameter previewSizeParameter = (PreviewSizeParameter)baseCameraHolder.ParameterHandler.PreviewSize;
+            String[] split = baseCameraHolder.ParameterHandler.PreviewSize.GetValue().split("x");
+            Rect rect = new Rect(0,0,Integer.parseInt(split[0]),Integer.parseInt(split[1]));
+            YuvImage img = new YuvImage(bytes, ImageFormat.NV21, Integer.parseInt(split[0]), Integer.parseInt(split[1]), null);
+            OutputStream outStream = null;
+            try
+            {
+                outStream = new FileOutputStream(file);
+                img.compressToJpeg(rect, 100, outStream);
+                outStream.flush();
+                outStream.close();
+            }
+            catch (FileNotFoundException e)
+            {
+                e.printStackTrace();
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -166,6 +169,7 @@ public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCa
     private String getTimeFolderName()
     {
         Date date = new Date();
-        return (new SimpleDateFormat("yyyyMMdd_HHmmss")).format(date);
+        String s = (new SimpleDateFormat("yyyyMMdd_HHmmss")).format(date);
+        return  s;
     }
 }

@@ -5,6 +5,7 @@ import android.graphics.ImageFormat;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.DngCreator;
@@ -46,8 +47,8 @@ import java.util.List;
 public class PictureModuleApi2 extends AbstractModuleApi2
 {
     private static String TAG = StringUtils.TAG +PictureModuleApi2.class.getSimpleName();
-    private BaseCameraHolderApi2 cameraHolder;
-    private int mState;
+    BaseCameraHolderApi2 cameraHolder;
+    int mState;
     /**
      * Camera state: Showing camera preview.
      */
@@ -69,12 +70,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2
      */
     public static final int STATE_PICTURE_TAKEN = 4;
     private TotalCaptureResult mDngResult;
-    private Handler backgroundHandler;
+    Handler backgroundHandler;
 
-    private int imagecount = 0;
+    int imagecount = 0;
 
     public PictureModuleApi2(BaseCameraHolderApi2 cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler, Handler backgroundHandler) {
-        super(cameraHandler, eventHandler);
+        super(cameraHandler, Settings, eventHandler);
         this.cameraHolder = (BaseCameraHolderApi2)cameraHandler;
         this.Settings = Settings;
         this.backgroundHandler = backgroundHandler;
@@ -103,7 +104,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         return true;
     }
 
-    private void TakePicture()
+    public void TakePicture()
     {
         isWorking = true;
         Log.d(TAG, Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
@@ -129,7 +130,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         try {
             Log.d(TAG, "StartStillCapture");
             // This is the CaptureRequest.Builder that we use to take a picture.
-            final CaptureRequest.Builder captureBuilder = cameraHolder.createCaptureRequest();
+            final CaptureRequest.Builder captureBuilder = cameraHolder.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
 
             captureBuilder.addTarget(cameraHolder.mImageReader.getSurface());
 
@@ -210,7 +211,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         }
     }
 
-    private CameraCaptureSession.CaptureCallback CaptureCallback
+    CameraCaptureSession.CaptureCallback CaptureCallback
             = new CameraCaptureSession.CaptureCallback()
     {
 
@@ -290,7 +291,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         isWorking = false;
     }
 
-    private void checkFileExists(File fileName) {
+    public void checkFileExists(File fileName) {
         if(!fileName.getParentFile().exists())
             fileName.getParentFile().mkdirs();
         if (!fileName.exists())
@@ -403,7 +404,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             int mFlash;
 
 
-            dngConverter.setExifData(0, 0, 0, fnum, focal, "0", "0");
+            dngConverter.setExifData(0, 0, 0, fnum, focal, "0", "0", 0);
 
             dngConverter.WriteDNG(DeviceUtils.DEVICE());
             dngConverter.RELEASE();
@@ -451,7 +452,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         double mExposuretime = mDngResult.get(CaptureResult.SENSOR_EXPOSURE_TIME).doubleValue();
         int mFlash = mDngResult.get(CaptureResult.FLASH_STATE).intValue();
 
-        dngConverter.setExifData(mISO, mExposuretime, mFlash, fnum, focal, "0", "0");
+        dngConverter.setExifData(mISO, mExposuretime, mFlash, fnum, focal, "0", "0", 0);
 
         int black  = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_BLACK_LEVEL_PATTERN).getOffsetForIndex(0,0);
         int c= cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_COLOR_FILTER_ARRANGEMENT);
@@ -488,8 +489,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 f1,
                 f2,
                 Matrixes.G4_reduction_matrix1,
-                Matrixes.G4_reduction_matrix2
-        );
+                Matrixes.G4_reduction_matrix2,
+                Matrixes.G4_noise_3x1_matrix
+                );
 
         dngConverter.WriteDngWithProfile(prof);
         dngConverter.RELEASE();

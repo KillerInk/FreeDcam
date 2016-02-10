@@ -22,14 +22,14 @@ import troop.com.themesample.views.uichilds.UiSettingsChild;
  */
 public class MenuItem extends UiSettingsChild implements View.OnClickListener, I_swipe
 {
-    private TextView description;
+    TextView description;
 
-    private LinearLayout toplayout;
+    LinearLayout toplayout;
 
-    private TextView headerText;
-    private SwipeMenuListner swipeMenuListner;
+    TextView headerText;
+    SwipeMenuListner swipeMenuListner;
 
-    private SwipeMenuListner controlswipeListner;
+    SwipeMenuListner controlswipeListner;
 
     public MenuItem(Context context) {
         super(context);

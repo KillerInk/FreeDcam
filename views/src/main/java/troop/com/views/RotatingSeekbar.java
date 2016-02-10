@@ -34,31 +34,31 @@ public class RotatingSeekbar extends View
     private int distanceInPixelFromLastSwipe = 0;
     private boolean autoscroll = false;
     private int textColor = Color.WHITE;
-    private boolean debug = true;
-    private final String TAG = RotatingSeekbar.class.getSimpleName();
+    boolean debug = true;
+    final String TAG = RotatingSeekbar.class.getSimpleName();
     //this handels how much get added or substracted from @distanceInPixelFromLastSwipe when autoscroll = true
-    private final int scrollsubstract = 1;
+    final int scrollsubstract = 1;
     private Handler handler;
 
-    private final int VISIBLE_ITEMS_INVIEW = 16;
+    final int VISIBLE_ITEMS_INVIEW = 16;
 
     public RotatingSeekbar(Context context) {
         super(context);
-        init();
+        init(context,null);
     }
 
     public RotatingSeekbar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context,attrs);
     }
 
     public RotatingSeekbar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context, attrs);
 
     }
 
-    private void init()
+    private void init(Context context, AttributeSet attrs)
     {
         handler = new Handler();
         paint = new Paint();

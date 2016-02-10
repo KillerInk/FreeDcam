@@ -16,11 +16,11 @@ import com.troop.freedcam.ui.AppSettingsManager;
  */
 public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements SurfaceHolder.Callback
 {
-    private SimpleStreamSurfaceView surfaceView;
+    protected SimpleStreamSurfaceView surfaceView;
 
     public ServerDevice serverDevice;
     CameraHolderSony cameraHolder;
-    private AppSettingsManager appSettingsManager;
+    AppSettingsManager appSettingsManager;
 
 
     @Override

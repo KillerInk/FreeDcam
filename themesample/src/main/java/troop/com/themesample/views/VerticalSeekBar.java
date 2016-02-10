@@ -12,8 +12,8 @@ import android.widget.SeekBar;
 public class VerticalSeekBar extends SeekBar
 {
     private OnSeekBarChangeListener listner;
-    private boolean fromUser = false;
-    private int lastcurrent = 0;
+    boolean fromUser = false;
+    int lastcurrent = 0;
 
     public VerticalSeekBar(Context context) {
         super(context);

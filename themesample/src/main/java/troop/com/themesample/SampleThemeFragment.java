@@ -20,9 +20,9 @@ public class SampleThemeFragment extends AbstractFragment
 {
     final String TAG = SampleThemeFragment.class.getSimpleName();
 
-    private I_Activity i_activity;
-    private AppSettingsManager appSettingsManager;
-    private CameraUiFragment cameraUiFragment;
+    I_Activity i_activity;
+    AppSettingsManager appSettingsManager;
+    CameraUiFragment cameraUiFragment;
 
     FrameLayout fragmentHolder;
     boolean settingsOpen= false;

@@ -12,10 +12,10 @@ import com.troop.freedcam.utils.StringUtils;
  */
 public class HistogramParameter extends AbstractModeParameter
 {
-    private I_Activity i_activity;
-    private AppSettingsManager appSettingsManager;
-    private AbstractCameraUiWrapper cameraUiWrapper;
-    private boolean isSupported = false;
+    I_Activity i_activity;
+    AppSettingsManager appSettingsManager;
+    AbstractCameraUiWrapper cameraUiWrapper;
+    boolean isSupported = false;
 
     public HistogramParameter(Handler uiHandler, I_Activity i_activity, AppSettingsManager appSettingsManager, AbstractCameraUiWrapper cameraUiWrapper) {
         super(uiHandler);
@@ -25,7 +25,7 @@ public class HistogramParameter extends AbstractModeParameter
         if (cameraUiWrapper.CameraApiName().equals(AppSettingsManager.API_1) || cameraUiWrapper.CameraApiName().equals(AppSettingsManager.API_SONY)) {
             this.isSupported = true;
             if (appSettingsManager.getString(AppSettingsManager.SETTING_HISTOGRAM).equals(StringUtils.ON))
-                i_activity.ShowHistogram();
+                i_activity.ShowHistogram(true);
         }
     }
 
@@ -47,7 +47,7 @@ public class HistogramParameter extends AbstractModeParameter
         if (valueToSet.equals(StringUtils.OFF))
             show = false;
         appSettingsManager.setString(AppSettingsManager.SETTING_HISTOGRAM,  valueToSet);
-        i_activity.ShowHistogram();
+        i_activity.ShowHistogram(show);
     }
 
     @Override

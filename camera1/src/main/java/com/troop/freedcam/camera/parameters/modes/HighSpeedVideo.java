@@ -13,19 +13,19 @@ import java.util.HashMap;
  */
 public class HighSpeedVideo extends  BaseModeParameter {
 
-    private BaseCameraHolder cameraHolder;
-    private CameraUiWrapper cameraUiWrapper;
+    BaseCameraHolder cameraHolder;
+    CameraUiWrapper cameraUiWrapper;
 
-    private final String[] hsr_values = {"off","60","90","120"};
-    public HighSpeedVideo(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, CameraUiWrapper cameraUiWrapper)
+    final String[] hsr_values = {"off","60","90","120"};
+    public HighSpeedVideo(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper)
     {
-        super(handler, parameters, parameterChanged, "", "");
+        super(handler, parameters, parameterChanged, value, values);
 
         this.isSupported = true;
         this.value = "video-hsr";
         //this.values="video-hfr-values";
         try {
-            String hsr =  parameters.get("");
+            String hsr =  parameters.get(value);
             if (hsr == null || hsr.equals(""))
                 this.isSupported = false;
         }

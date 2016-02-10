@@ -13,13 +13,13 @@ import java.util.HashMap;
  * Created by troop on 17.08.2014.
  */
 public class BaseModeParameter extends AbstractModeParameter implements I_ModuleEvent, AbstractModeParameter.I_ModeParameterEvent {
-    String value;
-    String values;
+    protected String value;
+    protected String values;
     boolean isSupported = false;
-    private boolean isVisible = true;
+    boolean isVisible = true;
     HashMap<String, String> parameters;
     BaseCameraHolder baseCameraHolder;
-    boolean firststart = true;
+    protected boolean firststart = true;
     private static String TAG = BaseModeParameter.class.getSimpleName();
 
     /***
@@ -135,7 +135,7 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
     }
 
     @Override
-    public void onVisibilityChanged() {
+    public void onVisibilityChanged(boolean visible) {
 
     }
 }

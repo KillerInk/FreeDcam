@@ -33,9 +33,9 @@ import troop.com.imageviewer.holder.FileHolder;
  */
 public class ScreenSlideFragment extends Fragment implements I_swipe
 {
-    private final static String TAG = ScreenSlideFragment.class.getSimpleName();
+    final static String TAG = ScreenSlideFragment.class.getSimpleName();
     final public static String SAVESTATE_FILEPATH = "savestae_filepath";
-    private final static String SAVESTATE_ITEMINT = "savestate_itemint";
+    final public static String SAVESTATE_ITEMINT = "savestate_itemint";
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -48,17 +48,17 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
      */
     private PagerAdapter mPagerAdapter;
 
-    private FileHolder[] files;
-    private Button closeButton;
+    FileHolder[] files;
+    Button closeButton;
 
-    private File currentFile;
+    File currentFile;
     int flags;
     View view;
-    private I_Activity activity;
+    I_Activity activity;
     public int defitem = -1;
     public String FilePathToLoad = "";
     public GridViewFragment.FormatTypes filestoshow = GridViewFragment.FormatTypes.all;
-    private SwipeMenuListner touchHandler;
+    SwipeMenuListner touchHandler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

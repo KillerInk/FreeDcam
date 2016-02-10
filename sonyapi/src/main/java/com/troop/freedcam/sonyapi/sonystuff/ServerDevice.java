@@ -180,14 +180,15 @@ public final class ServerDevice {
     /**
      * Checks to see whether the server supports the category.
      * 
+     * @param serviceName category name
      * @return true if it's supported.
      */
-    public boolean hasApiService() {
-        if ("camera" == null) {
+    public boolean hasApiService(String serviceName) {
+        if (serviceName == null) {
             return false;
         }
         for (ApiService apiService : mApiServices) {
-            if ("camera".equals(apiService.getName())) {
+            if (serviceName.equals(apiService.getName())) {
                 return true;
             }
         }
@@ -297,7 +298,8 @@ public final class ServerDevice {
             return "";
         }
 
-        return url.substring(0, j);
+        String hostUrl = url.substring(0, j);
+        return hostUrl;
     }
 
     private static String toHost(String url) {
@@ -311,6 +313,7 @@ public final class ServerDevice {
             return "";
         }
 
-        return url.substring(i + 3, j);
+        String host = url.substring(i + 3, j);
+        return host;
     }
 }

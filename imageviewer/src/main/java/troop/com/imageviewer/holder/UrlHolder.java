@@ -5,7 +5,7 @@ import java.net.URL;
 /**
  * Created by Ingo on 27.12.2015.
  */
-class UrlHolder extends BaseHolder
+public class UrlHolder extends BaseHolder
 {
     private URL url;
 

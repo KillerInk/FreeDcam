@@ -8,7 +8,7 @@ import android.os.Handler;
 public class IntervalDurationParameter extends AbstractModeParameter
 {
 
-    private String current = "1 min";
+    String current = "1 min";
 
     public IntervalDurationParameter(Handler uiHandler) {
         super(uiHandler);

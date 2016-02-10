@@ -18,12 +18,12 @@ import troop.com.themesample.R;
  */
 public class UserMessageHandler implements I_CameraChangedListner
 {
-    private LinearLayout messageHolder;
-    private TextView messageTextView;
-    private AbstractCameraUiWrapper cameraUiWrapper;
-    private Handler handler;
+    LinearLayout messageHolder;
+    TextView messageTextView;
+    AbstractCameraUiWrapper cameraUiWrapper;
+    Handler handler;
 
-    public UserMessageHandler(View view)
+    public UserMessageHandler(View view, AppSettingsManager appSettingsManager)
     {
         this.messageHolder = (LinearLayout)view.findViewById(R.id.userMessageHolder);
         this.messageTextView = (TextView)view.findViewById(R.id.textView_usermessage);
@@ -38,7 +38,7 @@ public class UserMessageHandler implements I_CameraChangedListner
         cameraUiWrapper.SetCameraChangedListner(this);
     }
 
-    private void SetUserMessage(String msg)
+    public void SetUserMessage(String msg)
     {
         handler.removeCallbacks(hideTextView);
         messageHolder.setVisibility(View.VISIBLE);
@@ -46,7 +46,7 @@ public class UserMessageHandler implements I_CameraChangedListner
         handler.postDelayed(hideTextView, 3000);
     }
 
-    private Runnable hideTextView = new Runnable() {
+    Runnable hideTextView = new Runnable() {
         @Override
         public void run()
         {

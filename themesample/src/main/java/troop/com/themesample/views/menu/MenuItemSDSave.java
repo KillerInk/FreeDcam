@@ -17,7 +17,7 @@ public class MenuItemSDSave extends MenuItem
 {
     final String internal = "Internal";
     final String external ="External";
-    private AbstractCameraUiWrapper cameraUiWrapper;
+    AbstractCameraUiWrapper cameraUiWrapper;
 
     public MenuItemSDSave(Context context) {
         super(context);

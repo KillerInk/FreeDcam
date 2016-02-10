@@ -453,7 +453,7 @@ public class Matrixes
         static float[] CC_A_FRONT = {1.487381f, -0.50427997f,1.1347656f,-0.2105f, 1.392174f,-0.18192001f, 1.1513672f,-0.49362999f,1.474659f };
     }
 
-    private static class HTC_M8Device
+    static class HTC_M8Device
     {
         static public float[] wb_neutral = {1f, 1f, 1f};
         /*
@@ -505,7 +505,7 @@ public class Matrixes
 
     }
 
-    private static class Redmi_Note {
+    static class Redmi_Note {
         static public float[] wb_neutral = {0.54589802f, 1f, 0.57421899f};
 
         /*

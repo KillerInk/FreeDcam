@@ -9,8 +9,8 @@ import java.util.HashMap;
  */
 public class SaturationManualParameter extends BaseManualParameter
 {
-    public SaturationManualParameter(HashMap<String, String> parameters, String value, String maxValue, AbstractParameterHandler camParametersHandler) {
-        super(parameters, "", "", "", camParametersHandler);
+    public SaturationManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue,AbstractParameterHandler camParametersHandler) {
+        super(parameters, value, maxValue, MinValue, camParametersHandler);
         this.value = "saturation";
         if (hasSupport())
         {

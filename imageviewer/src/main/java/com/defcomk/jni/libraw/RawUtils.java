@@ -87,7 +87,7 @@ public class RawUtils {
      * @param width
      * @return
      */
-    private static Bitmap unpackThumbnailBitmapToFit(String fileName, int width, int height) {
+    public static Bitmap unpackThumbnailBitmapToFit(String fileName, int width, int height) {
         //TimeChecker t = TimeChecker.newInstance();
         //t.prepare();
         Bitmap thumbnail;
@@ -104,8 +104,9 @@ public class RawUtils {
 
         int scaleWidth = (int) Math.ceil(originWidth / (float) width);
         int scaleHeight = (int) Math.ceil(originHeight / (float) height);
+        int scale = (scaleWidth < scaleHeight ? scaleWidth : scaleHeight);
 
-        options.inSampleSize = (scaleWidth < scaleHeight ? scaleWidth : scaleHeight);
+        options.inSampleSize = scale;
        // t.check("");
 
         thumbnail = BitmapFactory.decodeByteArray(thumbnailBytes, 0, thumbnailBytes.length, options);
@@ -135,7 +136,7 @@ public class RawUtils {
         if (bitmap == null || bitmap.getByteCount() == 0) {
             return false;
         }
-        HashMap exifMap = RawUtils.parseExif(rawFileName);
+        HashMap exifMap = RawUtils.parseExif(rawFileName, false);
         int flip = Integer.valueOf((String)exifMap.get(ExifInterface.TAG_ORIENTATION));
         if (flip != 0) {
             Matrix matrix = new Matrix();
@@ -154,8 +155,9 @@ public class RawUtils {
             //t.check("");
         }
 
-        // t.check("JPG");
-        return compressBitmapAndSave(bitmap, scaledFileName);
+        boolean result = compressBitmapAndSave(bitmap, scaledFileName);
+       // t.check("JPG");
+        return result;
     }
 
     public static boolean scaleJPGAndSave(String originFileName, String scaledFileName, int width, int height) {
@@ -184,7 +186,7 @@ public class RawUtils {
         return compressBitmapAndSave(bitmap, scaledFileName);
     }
 
-    private static boolean compressBitmapAndSave(Bitmap bitmap, String savedFileName) {
+    public static boolean compressBitmapAndSave(Bitmap bitmap, String savedFileName) {
         boolean result = false;
 
         if (bitmap == null) {
@@ -217,10 +219,10 @@ public class RawUtils {
     }
 
 
-    private static HashMap<String, String> parseExif(String fileName) {
+    public static HashMap<String, String> parseExif(String fileName, boolean isJPEG) {
         HashMap<String, String> exif = new HashMap<String, String>();
         try {
-            if (false) {
+            if (isJPEG) {
                 ExifInterface oldExif = new ExifInterface(fileName);
                
             }

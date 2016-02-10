@@ -10,8 +10,8 @@ import java.util.HashMap;
  * Created by troop on 24.08.2014.
  */
 public class WhiteBalanceModeParameter extends BaseModeParameter {
-    public WhiteBalanceModeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value) {
-        super(handler,parameters, parameterChanged, "whitebalance", "whitebalance-values");
+    public WhiteBalanceModeParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
+        super(handler,parameters, parameterChanged, value, values);
         if (!parameters.get("whitebalance").equals(""))
             isSupported = true;
     }

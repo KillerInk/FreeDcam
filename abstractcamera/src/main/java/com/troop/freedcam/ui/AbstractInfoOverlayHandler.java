@@ -21,19 +21,18 @@ import java.util.Date;
 /**
  * Created by troop on 14.06.2015.
  */
-@SuppressWarnings("ALL")
 public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
 {
-    private AppSettingsManager appSettingsManager;
-    private Handler handler;
+    protected AppSettingsManager appSettingsManager;
+    Handler handler;
     protected AbstractCameraUiWrapper cameraUiWrapper;
-    private boolean started = false;
-    private Context context;
+    boolean started = false;
+    Context context;
 
     protected String batteryLevel;
-    private BatteryBroadCastListner batteryBroadCastListner;
+    BatteryBroadCastListner batteryBroadCastListner;
 
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
     protected String timeString;
 
     //this holds the format for video or picture
@@ -43,7 +42,7 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
 
     protected String storageSpace;
 
-    protected AbstractInfoOverlayHandler(Context context, AppSettingsManager appSettingsManager)
+    public AbstractInfoOverlayHandler(Context context, AppSettingsManager appSettingsManager)
     {
         this.context = context;
         this.appSettingsManager = appSettingsManager;
@@ -97,7 +96,7 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
         }
     }
 
-    private Runnable runner = new Runnable() {
+    Runnable runner = new Runnable() {
         @Override
         public void run()
         {
@@ -146,7 +145,7 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
 
     }
 
-    private void getStorageSpace()
+    public void getStorageSpace()
     {
         try {
             //Storage.setText(StringUtils.readableFileSize(Environment.getExternalStorageDirectory().getUsableSpace()));

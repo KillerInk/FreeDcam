@@ -13,7 +13,7 @@ import troop.com.imageconverter.PreviewHandler;
  */
 public class FocusPeakModeParameter extends BaseModeParameter {
 
-    private PreviewHandler previewHandler;
+    PreviewHandler previewHandler;
     public FocusPeakModeParameter(Handler uihandler, BaseCameraHolder cameraHolder, PreviewHandler previewHandler)
     {
         super(uihandler, null, cameraHolder, null, null);

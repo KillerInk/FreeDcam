@@ -29,7 +29,7 @@ public class DigitalImageStabilizationParameter extends  BaseModeParameter {
         {
             this.isSupported = false;
         }
-        if (!isSupported)
+        if (isSupported == false)
         {
             try
             {

@@ -15,7 +15,7 @@ import java.net.URL;
 /**
  * A parser class for Liveview data Packet defined by Camera Remote API
  */
-class SimpleLiveviewSlicer {
+public class SimpleLiveviewSlicer {
 
     private static final String TAG = SimpleLiveviewSlicer.class.getSimpleName();
 

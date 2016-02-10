@@ -9,14 +9,14 @@ import java.util.HashMap;
  */
 public interface I_CameraHolder
 {
-    boolean OpenCamera(int camera);
-    void CloseCamera();
+    public boolean OpenCamera(int camera);
+    public void CloseCamera();
 
-    int CameraCout();
-     boolean IsRdy();
-     void SetCameraParameters(HashMap<String, String> parameters);
-     boolean SetSurface(SurfaceHolder texture);
-     void StartPreview();
-     void StopPreview();
+    public int CameraCout();
+    public boolean IsRdy();
+    public boolean SetCameraParameters(HashMap<String, String> parameters);
+    public boolean SetSurface(SurfaceHolder texture);
+    public void StartPreview();
+    public void StopPreview();
 
 }

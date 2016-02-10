@@ -24,20 +24,20 @@ import troop.com.themesample.views.uichilds.UiSettingsChild;
 public class SettingsMenuFragment extends AbstractFragment implements Interfaces.I_CloseNotice, Interfaces.I_MenuItemClick, I_ParametersLoaded
 {
     //TextView closeTab;
-    private LinearLayout left_Holder;
-    private LinearLayout right_Holder;
-    private LeftMenuFragment leftMenuFragment;
-    private RightMenuFragment rightMenuFragment;
-    private ValuesMenuFragment valuesMenuFragment;
+    LinearLayout left_Holder;
+    LinearLayout right_Holder;
+    LeftMenuFragment leftMenuFragment;
+    RightMenuFragment rightMenuFragment;
+    ValuesMenuFragment valuesMenuFragment;
 
     SwipeMenuListner touchHandler;
 
-    private final int VALUE_MENU_CLOSED = 0;
-    private final int VALUE_MENU_RIGHT_OPEN = 1;
-    private final int VALUE_MENU_LEFT_OPEN = 2;
-    private int value_menu_status = VALUE_MENU_CLOSED;
+    final int VALUE_MENU_CLOSED = 0;
+    final int VALUE_MENU_RIGHT_OPEN = 1;
+    final int VALUE_MENU_LEFT_OPEN = 2;
+    int value_menu_status = VALUE_MENU_CLOSED;
 
-    private UiSettingsChild currentOpendItem;
+    UiSettingsChild currentOpendItem;
 
     @Override
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper) {

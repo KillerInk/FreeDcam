@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentTransaction;
  */
 public class DngConvertingActivity extends FragmentActivity
 {
-    private final String TAG = DngConvertingActivity.class.getSimpleName();
+    final String TAG = DngConvertingActivity.class.getSimpleName();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 

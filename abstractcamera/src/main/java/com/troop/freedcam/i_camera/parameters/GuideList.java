@@ -10,7 +10,7 @@ import android.os.Handler;
 public class GuideList extends AbstractModeParameter
 {
 
-    private String value;
+    String value;
     public GuideList(Handler uiHandler) {
         super(uiHandler);
         //this.appSettingsManager = appSettingsManager;

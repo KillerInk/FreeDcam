@@ -14,11 +14,11 @@ import com.troop.freedcam.ui.AppSettingsManager;
 public class ModuleHandlerApi2 extends AbstractModuleHandler
 {
 
-    private BaseCameraHolderApi2 cameraHolder;
+    BaseCameraHolderApi2 cameraHolder;
 
     private static String TAG = "freedcam.ModuleHandler";
-    private AppSettingsManager appSettingsManager;
-    private Handler backgroundHandler;
+    AppSettingsManager appSettingsManager;
+    Handler backgroundHandler;
 
     public  ModuleHandlerApi2 (AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler backgroundHandler)
     {
@@ -30,7 +30,7 @@ public class ModuleHandlerApi2 extends AbstractModuleHandler
     }
 
 
-    private void initModules(AppSettingsManager appSettingsManager)
+    protected void initModules(AppSettingsManager appSettingsManager)
     {
         PictureModuleApi2 pictureModuleApi2 = new PictureModuleApi2(cameraHolder, appSettingsManager, moduleEventHandler, backgroundHandler);
         moduleList.put(pictureModuleApi2.ModuleName(), pictureModuleApi2);

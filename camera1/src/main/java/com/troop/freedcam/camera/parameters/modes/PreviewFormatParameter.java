@@ -12,10 +12,10 @@ import java.util.HashMap;
  */
 public class PreviewFormatParameter extends BaseModeParameter
 {
-    private I_CameraHolder cameraHolder;
+    I_CameraHolder cameraHolder;
 
-    public PreviewFormatParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, I_CameraHolder cameraHolder) {
-        super(handler,parameters, parameterChanged, "preview-format", "preview-format-values");
+    public PreviewFormatParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder cameraHolder) {
+        super(handler,parameters, parameterChanged, value, values);
         this.cameraHolder = cameraHolder;
     }
 

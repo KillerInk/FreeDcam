@@ -9,7 +9,7 @@ import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
  * Created by troop on 13.06.2015.
  */
 public class UiSettingsChildModuleSwitch extends UiSettingsChild {
-    private AbstractCameraUiWrapper cameraUiWrapper;
+    AbstractCameraUiWrapper cameraUiWrapper;
 
     public UiSettingsChildModuleSwitch(Context context) {
         super(context);

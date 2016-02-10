@@ -12,12 +12,12 @@ import com.troop.freedcam.utils.DeviceUtils;
  */
 public class ApiParameter extends AbstractModeParameter
 {
-    private I_Activity i_activity;
-    private AppSettingsManager appSettingsManager;
-    private boolean DEBUG = false;
+    I_Activity i_activity;
+    AppSettingsManager appSettingsManager;
+    boolean DEBUG = false;
 
-    public ApiParameter(I_Activity i_activity, AppSettingsManager appSettingsManager) {
-        super(null);
+    public ApiParameter(Handler uiHandler, I_Activity i_activity, AppSettingsManager appSettingsManager) {
+        super(uiHandler);
         this.i_activity = i_activity;
         this.appSettingsManager = appSettingsManager;
     }
@@ -51,7 +51,7 @@ public class ApiParameter extends AbstractModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
         appSettingsManager.setCamApi(valueToSet);
-        i_activity.SwitchCameraAPI();
+        i_activity.SwitchCameraAPI(valueToSet);
     }
 
     @Override

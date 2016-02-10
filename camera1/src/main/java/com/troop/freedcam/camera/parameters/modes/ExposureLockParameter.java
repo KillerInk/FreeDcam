@@ -10,8 +10,8 @@ import java.util.HashMap;
  * Created by Ingo on 25.12.2014.
  */
 public class ExposureLockParameter extends BaseModeParameter {
-    public ExposureLockParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value) {
-        super(handler, parameters, parameterChanged, "", "");
+    public ExposureLockParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
+        super(handler, parameters, parameterChanged, value, values);
     }
 
     @Override

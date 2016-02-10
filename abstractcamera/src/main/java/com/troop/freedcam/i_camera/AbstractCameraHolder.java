@@ -15,10 +15,9 @@ import java.util.HashMap;
 /**
  * Created by troop on 12.12.2014.
  */
-@SuppressWarnings("ALL")
 public abstract class AbstractCameraHolder implements I_CameraHolder
 {
-    protected boolean isRdy = false;
+    public boolean isRdy = false;
 
     public boolean isPreviewRunning = false;
     public AbstractParameterHandler ParameterHandler;
@@ -39,7 +38,7 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     }
 
 
-    protected AbstractCameraHolder(I_CameraChangedListner cameraChangedListner, Handler UIHandler)
+    public AbstractCameraHolder(I_CameraChangedListner cameraChangedListner,Handler UIHandler)
     {
         this.cameraChangedListner = cameraChangedListner;
 
@@ -75,7 +74,8 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     }
 
     @Override
-    public void SetCameraParameters(HashMap<String, String> parameters) {
+    public boolean SetCameraParameters(HashMap<String, String> parameters) {
+        return false;
     }
 
     @Override

@@ -19,11 +19,11 @@ import java.util.List;
  */
 public class HighFramerateVideo extends  BaseModeParameter
 {
-    private BaseCameraHolder cameraHolder;
-    private CameraUiWrapper cameraUiWrapper;
-    private static final String TAG ="Video FPS Class";
-    private boolean FpsTriggered = false;
-    private String FpEss = "";
+    BaseCameraHolder cameraHolder;
+    CameraUiWrapper cameraUiWrapper;
+    static final String TAG ="Video FPS Class";
+    boolean FpsTriggered = false;
+    String FpEss = "";
 
 
 
@@ -31,10 +31,10 @@ public class HighFramerateVideo extends  BaseModeParameter
     private List<String>  HD;
     private List<String>  SD;
 
-    public HighFramerateVideo(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, CameraUiWrapper cameraUiWrapper)
+    public HighFramerateVideo(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values,  CameraUiWrapper cameraUiWrapper)
     {
 
-        super(handler,parameters, parameterChanged, "", "");
+        super(handler,parameters, parameterChanged, value, values);
 
         if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MOTOX)||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)) {
             String tmp = parameters.get("video-hfr");

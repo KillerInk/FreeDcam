@@ -13,13 +13,13 @@ import java.util.HashMap;
  */
 public class VideoSizeParameter extends BaseModeParameter
 {
-    private String[] sizeString;
+    String[] sizeString;
     public final String UHDSIZE = "3840x2160";
     private static String TAG = StringUtils.TAG + VideoSizeParameter.class.getSimpleName();
 
-    public VideoSizeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value)
+    public VideoSizeParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values)
     {
-        super(handler,parameters, parameterChanged, "video-size", "video-size");
+        super(handler,parameters, parameterChanged, value, values);
         String[] sizes = null;
         try {
             sizes = parameters.get("video-size-values").split(",");
@@ -40,7 +40,10 @@ public class VideoSizeParameter extends BaseModeParameter
                 ex.printStackTrace();
             }
         }
-        this.isSupported = !(sizes == null || sizes.length == 0);
+        if (sizes == null || sizes.length == 0)
+            this.isSupported = false;
+        else
+            this.isSupported = true;
     }
 
     @Override

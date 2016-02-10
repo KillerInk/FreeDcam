@@ -13,11 +13,11 @@ import java.util.HashMap;
  */
 public class VideoHDRModeParameter extends  BaseModeParameter
 {
-    private BaseCameraHolder baseCameraHolder;
+    BaseCameraHolder baseCameraHolder;
 
-    public VideoHDRModeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, I_CameraHolder baseCameraHolder)
+    public VideoHDRModeParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, I_CameraHolder baseCameraHolder)
     {
-        super(handler,parameters, parameterChanged, "", "");
+        super(handler,parameters, parameterChanged, value, values);
         if (DeviceUtils.IS(DeviceUtils.Devices.LG_G3)) {
             this.value = "hdr-mode";
             this.isSupported = true;
@@ -37,7 +37,7 @@ public class VideoHDRModeParameter extends  BaseModeParameter
             {
 
             }
-            if (!isSupported)
+            if (isSupported == false)
             {
                 try
                 {

@@ -27,53 +27,49 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
      *
      * @param imageView the view that should get moved
      */
-    public ImageViewTouchAreaHandler(ImageView imageView, I_Activity i_activity, I_TouchListnerEvent touchListnerEvent)
+    public ImageViewTouchAreaHandler(ImageView imageView, I_Activity i_activity, I_TouchListnerEvent touchListnerEvent, boolean allowDrag)
     {
         this.imageView = imageView;
         this.recthalf = imageView.getWidth()/2;
         this.i_activity = i_activity;
         this.touchListnerEvent = touchListnerEvent;
-        this.allowDrag = true;
+        this.allowDrag = allowDrag;
     }
-    private I_TouchListnerEvent touchListnerEvent;
-    private I_Activity i_activity;
-    private ImageView imageView;
-    private float x;
-    private float y;
-    private float difx;
-    private float dify;
+    I_TouchListnerEvent touchListnerEvent;
+    I_Activity i_activity;
+    ImageView imageView;
+    float x, y, difx, dify;
 
     /**
      * if set to true the imageview is dragable
      */
-    private boolean allowDrag = false;
+    boolean allowDrag = false;
     /**
      * distance in pixel? to move bevor it gets detected as move
      */
-    private int distance = 10;
+    int distance = 10;
     /**
      * the start values that gets set on action down
      */
-    private int startX;
-    private int startY;
+    int startX, startY;
     /**
      * holdes the time when last action down happend
      */
-    private long start;
-    private long duration;
-    private static final int MAX_DURATION = 3500;
+    long start;
+    long duration;
+    static final int MAX_DURATION = 3500;
     /*
     the area where the imageview is on screen
      */
-    private FocusRect imageRect;
+    FocusRect imageRect;
     /**
      * true if a move was detected
      */
-    private boolean moving = false;
+    boolean moving = false;
     /**
      * half size from the imageview to calculate the center postion
      */
-    private int recthalf;
+    int recthalf;
 
     private int getDistance(int startvalue, int currentvalue)
     {

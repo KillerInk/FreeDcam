@@ -11,8 +11,8 @@ import java.util.HashMap;
  */
 public class PictureSizeParameter extends BaseModeParameter
 {
-    public PictureSizeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value) {
-        super(handler, parameters, parameterChanged, "picture-size", "picture-size-values");
+    public PictureSizeParameter(Handler handler,HashMap<String, String> parameters,BaseCameraHolder parameterChanged, String value, String values) {
+        super(handler, parameters, parameterChanged, value, values);
     }
 
     @Override

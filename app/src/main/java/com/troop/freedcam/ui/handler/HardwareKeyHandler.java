@@ -17,9 +17,9 @@ public class HardwareKeyHandler
 {
     private final MainActivity activity;
     private AbstractCameraUiWrapper cameraUiWrapper;
-    private boolean longKeyPress = false;
+    boolean longKeyPress = false;
     private static String TAG = "freedcam.HardwareKeyHandler";
-    private AppSettingsManager appSettingsManager;
+    AppSettingsManager appSettingsManager;
 
 
     public HardwareKeyHandler(MainActivity activity, AppSettingsManager appSettingsManager)
@@ -33,7 +33,7 @@ public class HardwareKeyHandler
         this.cameraUiWrapper = cameraUiWrapper;
     }
 
-    public boolean OnKeyUp(int keyCode)
+    public boolean OnKeyUp(int keyCode, KeyEvent event)
     {
         boolean set = false;
         longKeyPress = false;
@@ -70,7 +70,7 @@ public class HardwareKeyHandler
         return true;
     }
 
-    public boolean OnKeyLongPress(int keyCode)
+    public boolean OnKeyLongPress(int keyCode, KeyEvent event)
     {
         boolean set = false;
         if(keyCode == KeyEvent.KEYCODE_3D_MODE ||keyCode == KeyEvent.KEYCODE_POWER || keyCode == KeyEvent.KEYCODE_HEADSETHOOK)
@@ -83,7 +83,7 @@ public class HardwareKeyHandler
         return set;
     }
 
-    public void OnKeyDown()
+    public boolean OnKeyDown(int keyCode, KeyEvent event)
     {
         /*if (event.isLongPress() && !longKeyPress) {
             if (keyCode == KeyEvent.KEYCODE_HEADSETHOOK) {
@@ -101,5 +101,6 @@ public class HardwareKeyHandler
                 activity.manualMenuHandler.Incrase();
         }*/
 
+        return true;
     }
 }

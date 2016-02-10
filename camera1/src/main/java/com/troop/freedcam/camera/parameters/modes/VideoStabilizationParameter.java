@@ -11,11 +11,11 @@ import java.util.HashMap;
  */
 public class VideoStabilizationParameter extends  BaseModeParameter {
     I_CameraHolder baseCameraHolder;
-    private final String[] vs_values = {"true", "false"};
-    public VideoStabilizationParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value)
+    final String[] vs_values = {"true", "false"};
+    public VideoStabilizationParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values)
     {
 
-        super(handler, parameters, parameterChanged, "video-stabilization", "");
+        super(handler, parameters, parameterChanged, value, values);
 
 
         if (parameters.get("video-stabilization-supported").equals("true"))

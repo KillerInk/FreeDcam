@@ -13,8 +13,8 @@ import java.util.List;
  * Created by troop on 27.04.2015.
  */
 public class SceneModeParameter extends BaseModeParameter {
-    public SceneModeParameter(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value) {
-        super(uihandler, parameters, cameraHolder, "scene-mode", "scene-mode-values");
+    public SceneModeParameter(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value, String values) {
+        super(uihandler, parameters, cameraHolder, value, values);
     }
 
     @Override

@@ -17,13 +17,13 @@ import java.util.Set;
  */
 public class WbCTManualSony extends BaseManualParameterSony
 {
-    private int min =0;
-    private int max = 0;
-    private int step = 0;
+    int min =0;
+    int max = 0;
+    int step = 0;
 
     private String[] values;
-    public WbCTManualSony(String VALUE_TO_GET, String VALUES_TO_GET, ParameterHandlerSony parameterHandlerSony) {
-        super("", "", "", parameterHandlerSony);
+    public WbCTManualSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, ParameterHandlerSony parameterHandlerSony) {
+        super(VALUE_TO_GET, VALUES_TO_GET, VALUE_TO_SET, parameterHandlerSony);
     }
 
     @Override
@@ -58,7 +58,8 @@ public class WbCTManualSony extends BaseManualParameterSony
 
                     try {
                         array = object.getJSONArray("result");
-                        val = array.getJSONObject(0).getInt("colorTemperature");
+                        int ret = array.getJSONObject(0).getInt("colorTemperature");
+                        val = ret;
                         if (step == 0) {
                             getMinMax();
                             return;

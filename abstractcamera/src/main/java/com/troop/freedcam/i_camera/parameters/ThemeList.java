@@ -8,7 +8,7 @@ import android.os.Handler;
 public class ThemeList extends AbstractModeParameter
 {
 
-    private String value;
+    String value;
     public ThemeList(Handler uiHandler)
     {
         super(uiHandler);

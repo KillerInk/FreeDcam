@@ -31,17 +31,17 @@ import java.io.IOException;
  */
 public class DngConvertingFragment extends Fragment
 {
-    private View view;
-    private EditText editTextwidth;
-    private EditText editTextheight;
-    private EditText editTextblacklvl;
-    private Spinner spinnerMatrixProfile;
-    private Spinner spinnerColorPattern;
-    private Spinner spinnerrawFormat;
-    private Button buttonconvertToDng;
-    private String[] filesToConvert;
-    private DngSupportedDevices.DngProfile dngprofile;
-    private Handler handler;
+    View view;
+    EditText editTextwidth;
+    EditText editTextheight;
+    EditText editTextblacklvl;
+    Spinner spinnerMatrixProfile;
+    Spinner spinnerColorPattern;
+    Spinner spinnerrawFormat;
+    Button buttonconvertToDng;
+    String[] filesToConvert;
+    DngSupportedDevices.DngProfile dngprofile;
+    Handler handler;
 
     public static final String EXTRA_FILESTOCONVERT = "extra_files_to_convert";
     @Override
@@ -233,7 +233,7 @@ public class DngConvertingFragment extends Fragment
         String out = file.getAbsolutePath().replace(".raw", ".dng");
         RawToDng dng = RawToDng.GetInstance();
         dng.SetBayerData(data, out);
-        dng.setExifData(100, 0, 0, 0, 0, "", "0");
+        dng.setExifData(100, 0, 0, 0, 0, "", "0", 0);
         dng.WriteDngWithProfile(dngprofile);
         data = null;
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);

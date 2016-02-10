@@ -13,7 +13,7 @@ import com.troop.freedcam.ui.AppSettingsManager;
  */
 public abstract class AbstractModule implements I_Module
 {
-    AbstractCameraHolder baseCameraHolder;
+    protected AbstractCameraHolder baseCameraHolder;
     protected AppSettingsManager Settings;
     protected AbstractParameterHandler ParameterHandler;
 
@@ -21,12 +21,12 @@ public abstract class AbstractModule implements I_Module
     public String name;
 
     protected ModuleEventHandler eventHandler;
-    private AbstractModuleHandler.I_worker workerListner;
-    private final static String TAG = AbstractModule.class.getSimpleName();
+    protected AbstractModuleHandler.I_worker workerListner;
+    final static String TAG = AbstractModule.class.getSimpleName();
 
-    protected AbstractModule(){};
+    public AbstractModule(){};
 
-    protected AbstractModule(AbstractCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler)
+    public AbstractModule(AbstractCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler)
     {
         this.baseCameraHolder = cameraHandler;
         this.Settings = Settings;

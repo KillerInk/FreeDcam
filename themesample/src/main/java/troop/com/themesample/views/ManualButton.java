@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,23 +29,23 @@ import troop.com.themesample.R;
 public class ManualButton extends LinearLayout implements AbstractManualParameter.I_ManualParameterEvent
 {
 
-    private final String TAG = ManualButton.class.getSimpleName();
-    private String[] parameterValues;
-    private AbstractManualParameter parameter;
-    private AppSettingsManager appSettingsManager;
-    private String settingsname;
-    private TextView headerTextView;
-    private TextView valueTextView;
+    final String TAG = ManualButton.class.getSimpleName();
+    String[] parameterValues;
+    AbstractManualParameter parameter;
+    AppSettingsManager appSettingsManager;
+    String settingsname;
+    TextView headerTextView;
+    TextView valueTextView;
     private ImageView imageView;
-    private Handler handler;
-    private int realMin;
-    private int realMax;
-    private final int backgroundColorActive = Color.parseColor("#46FFFFFF");
-    private final int backgroundColor = Color.parseColor("#00000000");
-    private final int stringColor = Color.parseColor("#FFFFFFFF");
-    private final int stringColorActive = Color.parseColor("#FF000000");
-    private boolean imageusing = false;
-    private int pos = 0;
+    Handler handler;
+    int realMin;
+    int realMax;
+    final int backgroundColorActive = Color.parseColor("#46FFFFFF");
+    final int backgroundColor = Color.parseColor("#00000000");
+    final int stringColor = Color.parseColor("#FFFFFFFF");
+    final int stringColorActive = Color.parseColor("#FF000000");
+    boolean imageusing = false;
+    int pos = 0;
 
     private final BlockingQueue<Integer> valueQueue = new ArrayBlockingQueue<Integer>(3);
 
@@ -263,7 +264,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
 
     }
 
-    private String getStringValue(int pos)
+    public String getStringValue(int pos)
     {
         if (parameterValues != null && parameterValues.length > 0)
         {
@@ -293,7 +294,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
             return parameter.GetValue();
     }
 
-    private boolean currentlysettingsparameter = false;
+    boolean currentlysettingsparameter = false;
     public void setValueToParameters(final int value)
     {
         if (valueQueue.size() == 3)

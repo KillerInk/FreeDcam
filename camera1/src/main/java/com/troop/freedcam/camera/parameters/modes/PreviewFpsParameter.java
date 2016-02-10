@@ -11,10 +11,10 @@ import java.util.HashMap;
  */
 public class PreviewFpsParameter extends  BaseModeParameter
 {
-    private BaseCameraHolder cameraHolder;
+    BaseCameraHolder cameraHolder;
 
-    public PreviewFpsParameter(Handler handler, HashMap<String, String> parameters, String value, BaseCameraHolder holder) {
-        super(handler ,parameters, holder, "preview-frame-rate", "preview-frame-rate-values");
+    public PreviewFpsParameter(Handler handler,HashMap<String, String> parameters, String value, String values, BaseCameraHolder holder) {
+        super(handler ,parameters, holder, value, values);
         this.cameraHolder = holder;
     }
 

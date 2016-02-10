@@ -9,5 +9,5 @@ import java.io.File;
  */
 public interface I_WorkEvent
 {
-    public void WorkHasFinished(File filePath);
+    public String WorkHasFinished(File filePath);
 }

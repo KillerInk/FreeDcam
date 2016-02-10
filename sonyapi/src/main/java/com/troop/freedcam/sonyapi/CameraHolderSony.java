@@ -40,11 +40,11 @@ public class CameraHolderSony extends AbstractCameraHolder
 {
     private static String TAG =CameraHolderSony.class.getSimpleName();
 
-    private Context context;
+    Context context;
 
-    private ServerDevice serverDevice;
+    ServerDevice serverDevice;
     public I_CameraStatusChanged CameraStatusListner;
-    private I_Callbacks.AutoFocusCallback autoFocusCallback;
+    I_Callbacks.AutoFocusCallback autoFocusCallback;
     public FocusHandlerSony focusHandlerSony;
 
     private SimpleCameraEventObserver mEventObserver;
@@ -53,12 +53,12 @@ public class CameraHolderSony extends AbstractCameraHolder
     private String cameraStatus = "IDLE";
 
     public I_CameraShotMode cameraShotMode;
-    private JSONObject FullUiSetup;
+    JSONObject FullUiSetup;
 
     public interface I_CameraShotMode
     {
         void onShootModeChanged(String mode);
-        void onShootModeValuesChanged();
+        void onShootModeValuesChanged(String[] modes);
     }
 
     public String GetCameraStatus()
@@ -178,17 +178,17 @@ public class CameraHolderSony extends AbstractCameraHolder
         }
 
         @Override
-        public void onWbColorTemperatureChanged() {
+        public void onWbColorTemperatureChanged(int colortemp) {
 
         }
 
         @Override
-        public void onPostViewImageRevieved() {
+        public void onPostViewImageRevieved(String url) {
 
         }
 
         @Override
-        public void onImageRecieved() {
+        public void onImageRecieved(String url) {
 
         }
 
@@ -219,12 +219,12 @@ public class CameraHolderSony extends AbstractCameraHolder
         }
 
         @Override
-        public void onProgramShiftValueChanged() {
+        public void onProgramShiftValueChanged(int shift) {
 
         }
 
         @Override
-        public void onProgramShiftValuesChanged() {
+        public void onProgramShiftValuesChanged(String[] shift) {
 
         }
 
@@ -234,12 +234,12 @@ public class CameraHolderSony extends AbstractCameraHolder
         }
 
         @Override
-        public void onLiveviewStatusChanged() {
+        public void onLiveviewStatusChanged(boolean status) {
 
         }
 
         @Override
-        public void onStorageIdChanged() {
+        public void onStorageIdChanged(String storageId) {
 
         }
 
@@ -334,7 +334,7 @@ public class CameraHolderSony extends AbstractCameraHolder
     }
 
 
-    public void OpenCamera(ServerDevice serverDevice)
+    public boolean OpenCamera(ServerDevice serverDevice)
     {
         this.serverDevice = serverDevice;
         mRemoteApi = new SimpleRemoteApi(serverDevice);
@@ -344,6 +344,7 @@ public class CameraHolderSony extends AbstractCameraHolder
 
 
         StartPreview();
+        return false;
     }
 
     @Override
@@ -401,7 +402,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                                     new SimpleStreamSurfaceView.StreamErrorListener() {
 
                                         @Override
-                                        public void onError()
+                                        public void onError(StreamErrorReason reason)
                                         {
                                             Log.e(TAG, "Error StartingLiveView");
                                             stopLiveview();
@@ -494,7 +495,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                             startOpenConnectionAfterChangeCameraState();
 
                             // set Camera function to Remote Shooting
-                            replyJson = mRemoteApi.setCameraFunction();
+                            replyJson = mRemoteApi.setCameraFunction("Remote Shooting");
                         }
                     }
                 } catch (IOException e) {
@@ -550,7 +551,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                             && JsonUtils.isApiSupported("setLiveviewFrameInfo", mAvailableCameraApiSet)
                             && cameraStatus.equals("IDLE"))
                     {
-                        SetLiveViewFrameInfo();
+                        SetLiveViewFrameInfo(true);
                     }
 
                     Log.d(TAG, "openConnection(): completed.");
@@ -578,7 +579,7 @@ public class CameraHolderSony extends AbstractCameraHolder
         {
             if((serverDevice.getFriendlyName().contains("ILCE-QX1") || serverDevice.getFriendlyName().contains("ILCE-QX30")) && JsonUtils.isApiSupported("setLiveviewFrameInfo", mAvailableCameraApiSet))
             {
-                SetLiveViewFrameInfo();
+                SetLiveViewFrameInfo(false);
             }
             mLiveviewSurface.stop();
             mLiveviewSurface = null;
@@ -634,7 +635,7 @@ public class CameraHolderSony extends AbstractCameraHolder
         actTakePicture(pictureCallback);
     }
 
-    public void startContShoot()
+    public void startContShoot(final I_PictureCallback pictureCallback)
     {
         new Thread() {
 
@@ -657,7 +658,7 @@ public class CameraHolderSony extends AbstractCameraHolder
         }.start();
     }
 
-    public void stopContShoot()
+    public void stopContShoot(final I_PictureCallback pictureCallback)
     {
         new Thread() {
 
@@ -967,13 +968,13 @@ public class CameraHolderSony extends AbstractCameraHolder
         }.start();
     }
 
-    private void SetLiveViewFrameInfo()
+    public void SetLiveViewFrameInfo(boolean val)
     {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    mRemoteApi.setLiveviewFrameInfo();
+                    mRemoteApi.setLiveviewFrameInfo(true);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

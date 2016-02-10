@@ -15,7 +15,6 @@ import java.util.List;
 /**
  * Created by troop on 02.09.2014.
  */
-@SuppressWarnings("ALL")
 public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.AutoFocusCallback
 {
     final String TAG = FocusHandler.class.getSimpleName();
@@ -25,7 +24,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
 
     int count;
     List<Camera.Area> areas;
-    private boolean isFocusing = false;
+    boolean isFocusing = false;
 
     private boolean aeMeteringSupported =false;
 
@@ -62,7 +61,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
         }
 
         @Override
-        public void onVisibilityChanged() {
+        public void onVisibilityChanged(boolean visible) {
 
         }
     };
@@ -104,7 +103,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
         }
 
         @Override
-        public void onVisibilityChanged() {
+        public void onVisibilityChanged(boolean visible) {
 
         }
     };
@@ -185,7 +184,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
                     && targetFocusRect.right <= 1000)
             {
 
-                parametersHandler.SetFocusAREA(targetFocusRect);
+                parametersHandler.SetFocusAREA(targetFocusRect, meteringarea);
                 if (cameraHolder != null)
                     cameraHolder.StartFocus(this);
                 isFocusing = true;
@@ -212,7 +211,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
     }
 
     @Override
-    public void SetAwbAreas(FocusRect awbRect) {
+    public void SetAwbAreas(FocusRect awbRect, int width, int height) {
 
     }
 

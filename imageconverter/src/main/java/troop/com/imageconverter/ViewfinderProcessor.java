@@ -32,19 +32,19 @@ import android.view.Surface;
  */
 @TargetApi(Build.VERSION_CODES.KITKAT)
 public class ViewfinderProcessor {
-    private int mCount;
+    int mCount;
     long mLastTime;
-    private float mFps;
+    float mFps;
     private Allocation mInputAllocation;
     private Allocation mOutputAllocation;
     private HandlerThread mProcessingThread;
     private Handler mProcessingHandler;
     private ScriptC_focus_peak mScriptFocusPeak;
     private ScriptIntrinsicYuvToRGB yuvToRgbIntrinsic;
-    private ProcessingTask mProcessingTask;
+    public ProcessingTask mProcessingTask;
     public boolean peak = false;
 
-    private RenderScript rs;
+    RenderScript rs;
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public ViewfinderProcessor(RenderScript rs)
     {

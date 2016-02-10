@@ -40,23 +40,23 @@ import troop.com.views.MyHistogram;
  */
 public class ImageFragment extends Fragment
 {
-    private TouchImageView imageView;
+    TouchImageView imageView;
     private File file;
-    private ProgressBar spinner;
-    private TextView iso;
-    private TextView shutter;
-    private TextView focal;
-    private TextView fnumber;
-    private TextView filename;
-    private LinearLayout exifinfo;
-    private MyHistogram myHistogram;
-    private Button play;
+    ProgressBar spinner;
+    TextView iso;
+    TextView shutter;
+    TextView focal;
+    TextView fnumber;
+    TextView filename;
+    LinearLayout exifinfo;
+    MyHistogram myHistogram;
+    Button play;
 
-    private Button deleteButton;
+    Button deleteButton;
 
     public ScreenSlideFragment activity;
 
-    private LinearLayout ll;
+    LinearLayout ll;
 
     private final int animationTime = 500;
 
@@ -303,7 +303,7 @@ public class ImageFragment extends Fragment
         void onWorkDone(boolean success, File file);
     }
 
-    private WorkeDoneInterface workDone = new WorkeDoneInterface() {
+    WorkeDoneInterface workDone = new WorkeDoneInterface() {
         @Override
         public void onWorkDone(final boolean success, final File file)
         {
@@ -338,7 +338,7 @@ public class ImageFragment extends Fragment
         }
     };
 
-    private DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
@@ -371,7 +371,7 @@ public class ImageFragment extends Fragment
         String out = file.getAbsolutePath().replace(".raw", ".dng");
         RawToDng dng = RawToDng.GetInstance();
         dng.SetBayerData(data, out);
-        dng.setExifData(100, 0, 0, 0, 0, "", "0");
+        dng.setExifData(100, 0, 0, 0, 0, "", "0", 0);
         dng.WriteDNG(null);
         data = null;
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);

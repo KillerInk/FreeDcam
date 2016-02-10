@@ -11,8 +11,8 @@ import java.util.HashMap;
  */
 public class AntiBandingModeParameter extends BaseModeParameter
 {
-    public AntiBandingModeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value) {
-        super(handler,parameters,parameterChanged, "antibanding", "antibanding-values");
+    public AntiBandingModeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
+        super(handler,parameters,parameterChanged, value, values);
 
     }
 }

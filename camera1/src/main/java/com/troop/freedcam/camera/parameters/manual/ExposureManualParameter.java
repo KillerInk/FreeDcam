@@ -9,8 +9,8 @@ import java.util.HashMap;
  */
 public class ExposureManualParameter extends BaseManualParameter
 {
-    public ExposureManualParameter(HashMap<String, String> parameters, String value, String maxValue, AbstractParameterHandler camParametersHandler) {
-        super(parameters, "exposure-compensation", "max-exposure-compensation", "min-exposure-compensation", camParametersHandler);
+    public ExposureManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
+        super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         this.value = "exposure-compensation";
         super.hasSupport();

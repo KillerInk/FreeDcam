@@ -26,7 +26,7 @@ public class CacheHelper
     private static final int DISK_CACHE_SIZE = 1024 * 1024 * 50; // 10MB
     private static final String DISK_CACHE_SUBDIR = "thumbnails";
     private LruCache<String, Bitmap> mMemoryCache;
-    private final String TAG = CacheHelper.class.getSimpleName();
+    final String TAG = CacheHelper.class.getSimpleName();
 
     public CacheHelper(Activity activity)
     {
@@ -47,18 +47,18 @@ public class CacheHelper
             }
         };
 
-        File cacheDir = getDiskCacheDir(activity);
+        File cacheDir = getDiskCacheDir(activity, DISK_CACHE_SUBDIR);
         new InitDiskCacheTask().execute(cacheDir);
 
     }
 
-    private class InitDiskCacheTask extends AsyncTask<File, Void, Void> {
+    class InitDiskCacheTask extends AsyncTask<File, Void, Void> {
         @Override
         protected Void doInBackground(File... params) {
             synchronized (mDiskCacheLock) {
                 File cacheDir = params[0];
                 try {
-                    mDiskLruCache = DiskLruCache.open(cacheDir, 1,1);
+                    mDiskLruCache = DiskLruCache.open(cacheDir, 1,1, DISK_CACHE_SIZE);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -175,12 +175,12 @@ public class CacheHelper
 
     // Creates a unique subdirectory of the designated app cache directory. Tries to use external
 // but if not mounted, falls back on internal storage.
-    private static File getDiskCacheDir(Context context) {
+    public static File getDiskCacheDir(Context context, String uniqueName) {
         // Check if media is mounted or storage is built-in, if so, try and use external cache dir
         // otherwise use internal cache dir
         final String cachePath = context.getCacheDir().getPath();
 
-        return new File(cachePath + File.separator + CacheHelper.DISK_CACHE_SUBDIR);
+        return new File(cachePath + File.separator + uniqueName);
     }
 
 

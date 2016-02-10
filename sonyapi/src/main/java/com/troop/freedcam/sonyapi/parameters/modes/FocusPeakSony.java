@@ -15,17 +15,20 @@ import java.util.Set;
 public class FocusPeakSony extends BaseModeParameterSony {
 
     private String currentval = StringUtils.OFF;
-    private SimpleStreamSurfaceView simpleStreamSurfaceView;
+    SimpleStreamSurfaceView simpleStreamSurfaceView;
 
 
-    public FocusPeakSony(Handler handler, String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleStreamSurfaceView simpleStreamSurfaceView) {
-        super(handler, null, null, null, null);
+    public FocusPeakSony(Handler handler, String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi, SimpleStreamSurfaceView simpleStreamSurfaceView) {
+        super(handler, VALUE_TO_GET, VALUE_TO_SET, VALUES_TO_GET, mRemoteApi);
         this.simpleStreamSurfaceView = simpleStreamSurfaceView;
     }
 
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        simpleStreamSurfaceView.focuspeak = valueToSet.equals(StringUtils.ON);
+        if (valueToSet.equals(StringUtils.ON))
+            simpleStreamSurfaceView.focuspeak = true;
+        else
+            simpleStreamSurfaceView.focuspeak = false;
     }
 
     @Override

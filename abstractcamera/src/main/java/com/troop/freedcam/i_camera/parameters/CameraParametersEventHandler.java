@@ -10,8 +10,8 @@ import java.util.ArrayList;
  */
 public class CameraParametersEventHandler
 {
-    private ArrayList<I_ParametersLoaded> parametersLoadedListner;
-    private Handler uiHandler;
+    ArrayList<I_ParametersLoaded> parametersLoadedListner;
+    Handler uiHandler;
 
     public CameraParametersEventHandler(Handler uiHandler)
     {

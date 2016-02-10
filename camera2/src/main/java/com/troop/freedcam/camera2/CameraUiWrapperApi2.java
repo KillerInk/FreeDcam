@@ -23,10 +23,10 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
 
 {
     public BaseCameraHolderApi2 cameraHolder;
-    private Context context;
-    private AppSettingsManager appSettingsManager;
-    private AutoFitTextureView preview;
-    private I_error errorHandler;
+    Context context;
+    AppSettingsManager appSettingsManager;
+    AutoFitTextureView preview;
+    protected I_error errorHandler;
 
 
 
@@ -37,7 +37,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
         return AppSettingsManager.API_2;
     }
 
-    private CameraUiWrapperApi2()
+    public CameraUiWrapperApi2()
     {
 
     }

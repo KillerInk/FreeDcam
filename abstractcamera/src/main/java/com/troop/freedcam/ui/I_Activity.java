@@ -9,8 +9,8 @@ import java.io.File;
  */
 public interface I_Activity
 {
-    void SwitchCameraAPI();
-    void SetTheme();
+    void SwitchCameraAPI(String Api);
+    void SetTheme(String Theme);
     SurfaceView GetSurfaceView();
     int GetPreviewWidth();
     int GetPreviewHeight();
@@ -18,8 +18,8 @@ public interface I_Activity
     int GetPreviewRightMargine();
     int GetPreviewTopMargine();
     int[] GetScreenSize();
-    void ShowHistogram();
-    void loadImageViewerFragment();
+    void ShowHistogram(boolean enable);
+    void loadImageViewerFragment(File file);
     void loadCameraUiFragment();
     void closeActivity();
 }
