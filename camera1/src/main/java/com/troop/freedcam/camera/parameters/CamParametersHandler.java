@@ -227,6 +227,13 @@ public class CamParametersHandler extends AbstractParameterHandler
             ex.printStackTrace();
         }
         try {
+            WhiteBalanceMode = new WhiteBalanceModeParameter(uiHandler,cameraParameters, baseCameraHolder, "whitebalance", "whitebalance-values");
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        try {
             CCT = new CCTManualParameter(cameraParameters,"","","", this);
             PictureFormat.addEventListner(((BaseManualParameter)CCT).GetPicFormatListner());
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) CCT).GetModuleListner());
@@ -303,13 +310,6 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try {
             AntiBandingMode = new AntiBandingModeParameter(uiHandler,cameraParameters,baseCameraHolder, "antibanding", "antibanding-values");
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-        try {
-            WhiteBalanceMode = new WhiteBalanceModeParameter(uiHandler,cameraParameters, baseCameraHolder, "whitebalance", "whitebalance-values");
         }
         catch (Exception ex)
         {
