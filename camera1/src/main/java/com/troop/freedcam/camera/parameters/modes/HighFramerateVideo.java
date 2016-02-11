@@ -77,6 +77,7 @@ public class HighFramerateVideo extends  BaseModeParameter
             Trimmed.remove("off");
             if (!Trimmed.isEmpty())
             {
+
                 for (String s:Trimmed)
                 {
                     Log.e(TAG,"Index :"+Trimmed.indexOf(s)+" "+ s);
@@ -163,6 +164,9 @@ public class HighFramerateVideo extends  BaseModeParameter
                         DynamicFHD.remove("1080p@120");
                         DynamicFHD.remove("1080p@90");
                         DynamicFHD.remove("1080p@60");
+                        //INJECT MICODE test for HFR FHD
+                        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
+                            DynamicFHD.add("1080p@60");
                         return DynamicFHD.toArray(new String[DynamicFHD.size()]);
                     }
 
