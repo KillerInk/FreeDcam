@@ -77,9 +77,9 @@ public class MainActivity extends AppCompatActivity {
             String[] split1 = split0[0].split(":");
             String[] split2 = split1[3].split(" ");
 
-            float exposureTime = Float.parseFloat(split2[2]);
+            float exposureTime = Float.parseFloat(split2[3]);
             //int iso = Integer.parseInt(split0[1].split(":")[1]);
-            int iso = Integer.parseInt(split2[2]);
+            int iso = Integer.parseInt(split2[5]);
            // int flash = Integer.parseInt(split0[2].split(":")[1]);
            // float ActualISO = Float.parseFloat(split0[5].split(":")[1]);
            // int isoActual = Math.round(ActualISO*100);
