@@ -121,6 +121,8 @@ public class DeviceUtils
             return Devices.SonyADV;
         else if (isSonyM5_MTK())
             return Devices.SonyM5_MTK;
+        else if(isSonyC5_MTK())
+            return Devices.SonyC5_MTK;
         else if (isXperiaL())
             return Devices.Sony_XperiaL;
         else if (isTHL5000())
@@ -177,6 +179,7 @@ public class DeviceUtils
         Samsung_S6_edge_plus,
         SonyADV,
         SonyM5_MTK,
+        SonyC5_MTK,
         Sony_XperiaL,
         THL5000_MTK,
         Vivo_Xplay3s,
@@ -235,7 +238,7 @@ public class DeviceUtils
             Devices.RedmiNote, Devices.XiaomiMI3W, Devices.XiaomiMI4W, Devices.XiaomiMI_Note_Pro, Devices.RedmiNote, Devices.RedmiNote2_MTK,
             Devices.Vivo_Xplay3s,
             Devices.GioneE7,
-            Devices.Sony_XperiaL, Devices.SonyM5_MTK,
+            Devices.Sony_XperiaL, Devices.SonyM5_MTK,Devices.SonyC5_MTK,
             Devices.Alcatel_Idol3,
             Devices.MeizuMX4_MTK, Devices.MeizuMX5_MTK,
             Devices.Moto_MSM8982_8994, Devices.Moto_MSM8974,
@@ -339,6 +342,10 @@ public class DeviceUtils
     }
 
     public static boolean isSonyM5_MTK()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.SonyM5));
+    }
+    public static boolean isSonyC5_MTK()
     {
         return isDevice(contex.getResources().getStringArray(R.array.SonyM5));
     }
