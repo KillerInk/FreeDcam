@@ -63,6 +63,7 @@ public class MetaDataExtractor {
 
                         exp = Float.parseFloat(split2[3]);
                         iso = Integer.parseInt(split2[5]);
+                        Description = metadata.get(metadata.size() - 1);
 
 
                         process.destroy();
@@ -159,6 +160,7 @@ public class MetaDataExtractor {
 
     public int getFlash()
     {
+
         return flash;
     }
     public int getIsoActual()

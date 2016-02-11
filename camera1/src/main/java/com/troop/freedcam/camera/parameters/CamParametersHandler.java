@@ -164,7 +164,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             ex.printStackTrace();
         }
         try {
-            ManualExposure = new ExposureManualParameter(cameraParameters,"","max-exposure-compensation","min-exposure-compensation", this);
+            ManualExposure = new ExposureManualParameter(cameraParameters,"exposure-compensation","max-exposure-compensation","min-exposure-compensation", this);
         }
         catch (Exception ex)
         {
