@@ -59,6 +59,16 @@ public class MainActivity extends AppCompatActivity {
                 //log.append(line);
                 metada.add(line);
             }
+            //  02-11 18:47:36.260   396 15501 E AEC_PORT
+            // :
+            // aec_port_proc_get_aec_data
+            // exp
+            // 0.043699
+            // iso
+            // 812
+            // , exp-idx: 347
+            // , lc: 3440
+            // , gain: 8.128906
 
 
 
