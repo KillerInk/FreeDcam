@@ -81,6 +81,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         else
         {
             Log.d(TAG, "stop focuspeak");
+            cameraUiWrapper.cameraHolder.ResetPreviewCallback();
             clear_preview("setEnable");
             if (mRS != null)
                 mRS.finish();

@@ -24,6 +24,7 @@ import android.hardware.camera2.params.BlackLevelPattern;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.hardware.display.DisplayManager;
 import android.location.Location;
+import android.media.CamcorderProfile;
 import android.media.ImageReader;
 import android.media.MediaRecorder;
 import android.os.Build;
@@ -266,7 +267,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         if (textureView == null)
             return;
         String s = Settings.GetCurrentModule();
-        if (s.equals(AbstractModuleHandler.MODULE_PICTURE))
+        if (s.equals(AbstractModuleHandler.MODULE_PICTURE) || s.equals(AbstractModuleHandler.MODULE_INTERVAL))
             startPreviewPicture();
         else if (Settings.GetCurrentModule().equals(AbstractModuleHandler.MODULE_VIDEO)){
             startPreviewVideo();
@@ -395,7 +396,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         mediaRecorder.setAudioChannels(2);
         mediaRecorder.setAudioEncodingBitRate(VideoUtils.getAudioBitrate("Extreme"));
         mediaRecorder.setAudioSamplingRate(VideoUtils.getAudioSample("Medium"));
-
 
         try {
             mediaRecorder.prepare();

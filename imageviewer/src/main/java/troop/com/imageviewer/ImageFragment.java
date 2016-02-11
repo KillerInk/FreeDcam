@@ -104,6 +104,7 @@ public class ImageFragment extends Fragment
 
 
         this.deleteButton = (Button)view.findViewById(R.id.button_delete);
+        deleteButton.setVisibility(View.GONE);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -332,6 +333,7 @@ public class ImageFragment extends Fragment
                     {
                         play.setVisibility(View.GONE);
                     }
+                    deleteButton.setVisibility(View.VISIBLE);
                 }
             });
 
