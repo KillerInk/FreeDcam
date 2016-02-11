@@ -34,9 +34,60 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-                getLog();
+                getLogMi3();
             }
         });
+    }
+
+    private void getLogMi3()
+    {Process process;
+        List<String> metada =  new ArrayList<>();
+        try {
+            process = new ProcessBuilder()
+                    .command("su", "-c", "logcat -d -s AEC_PORT | grep -E iso")
+                    .redirectErrorStream(true)
+                    .start();
+
+
+            BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()));
+
+            StringBuilder log=new StringBuilder();
+            String line = "";
+
+            while ((line = bufferedReader.readLine()) != null) {
+                //log.append(line);
+                metada.add(line);
+            }
+            //  02-11 18:47:36.260   396 15501 E AEC_PORT
+            // :
+            // aec_port_proc_get_aec_data
+            // exp
+            // 0.043699
+            // iso
+            // 812
+            // , exp-idx: 347
+            // , lc: 3440
+            // , gain: 8.128906
+
+
+
+            TextView tv = (TextView)findViewById(R.id.textView1);
+            String[] split0 = metada.get(metada.size()-1).split(",");
+            String[] split1 = split0[0].split(":");
+            String[] split2 = split1[3].split(" ");
+
+            float exposureTime = Float.parseFloat(split2[2]);
+            //int iso = Integer.parseInt(split0[1].split(":")[1]);
+            int iso = Integer.parseInt(split2[2]);
+           // int flash = Integer.parseInt(split0[2].split(":")[1]);
+           // float ActualISO = Float.parseFloat(split0[5].split(":")[1]);
+           // int isoActual = Math.round(ActualISO*100);
+
+            //tv.setText(split1[3] + " " + split0[1] + " " + split0[2] + " " + split0[5]);
+            tv.setText(exposureTime+" "+ iso+" ");
+        }
+        catch (IOException e) {}
     }
 
     private void getLog()
