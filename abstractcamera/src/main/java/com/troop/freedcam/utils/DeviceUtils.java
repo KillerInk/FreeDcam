@@ -238,7 +238,9 @@ public class DeviceUtils
             Devices.RedmiNote, Devices.XiaomiMI3W, Devices.XiaomiMI4W, Devices.XiaomiMI_Note_Pro, Devices.RedmiNote, Devices.RedmiNote2_MTK,
             Devices.Vivo_Xplay3s,
             Devices.GioneE7,
-            Devices.Sony_XperiaL, Devices.SonyM5_MTK,Devices.SonyC5_MTK,
+            Devices.Sony_XperiaL,
+            Devices.SonyM5_MTK,
+            Devices.SonyC5_MTK,
             Devices.Alcatel_Idol3,
             Devices.MeizuMX4_MTK, Devices.MeizuMX5_MTK,
             Devices.Moto_MSM8982_8994, Devices.Moto_MSM8974,
@@ -347,7 +349,7 @@ public class DeviceUtils
     }
     public static boolean isSonyC5_MTK()
     {
-        return isDevice(contex.getResources().getStringArray(R.array.SonyM5));
+        return isDevice(contex.getResources().getStringArray(R.array.SonyC5));
     }
 
     public static boolean isRetro()

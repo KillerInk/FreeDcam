@@ -244,7 +244,7 @@ public class HighFramerateVideo extends  BaseModeParameter
 
 
                 if (SizeV.equals("HIGH") || SizeV.equals("1080p")) {
-                    return new String[]{"Default","1080p@30", "1080p@29", "1080p@25", "1080p@24", "1080p@15"};
+                    return new String[]{"Default","1080p@60","1080p@30", "1080p@29", "1080p@25", "1080p@24", "1080p@15"};
                 } else if (SizeV.equals("LOW") || SizeV.equals("720p")) {
                     return new String[]{"Default", "720p@120", "720p@60", "720p@30", "720p@29", "720p@25", "720p@24", "720p@15"};
 
