@@ -132,8 +132,14 @@ public class DngSaver extends JpegSaver
 
         dngConverter.SetBayerData(data, file.getAbsolutePath());
         float fnum, focal = 0;
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
+        {
+            fnum = 2.0f;
+            focal = 28.342f;
+        }
+        else {
         fnum = ((CamParametersHandler)cameraHolder.ParameterHandler).GetFnumber();
-        focal = ((CamParametersHandler)cameraHolder.ParameterHandler).GetFocal();
+        focal = ((CamParametersHandler)cameraHolder.ParameterHandler).GetFocal();}
         if(isDebug){
             dngConverter.setExifData(meta.getIso(), meta.getExp(), meta.getFlash(), fnum, focal, meta.getDescription(), cameraHolder.Orientation + "", 0);}
         else
