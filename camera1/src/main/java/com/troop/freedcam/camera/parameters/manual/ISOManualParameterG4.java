@@ -2,8 +2,6 @@ package com.troop.freedcam.camera.parameters.manual;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
-import com.troop.freedcam.utils.DeviceUtils;
-import com.troop.freedcam.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,13 +11,10 @@ public class ISOManualParameterG4 extends BaseManualParameter
     String[] isovalues;
     int current = 0;
     BaseCameraHolder baseCameraHolder;
-    public ISOManualParameterG4(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
+    LG_G4AeHandler.AeManualEvent manualEvent;
 
-        //TODO add missing logic
-    }
-    public ISOManualParameterG4(HashMap<String, String> parameters, String value, String maxValue, String MinValue, BaseCameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
+    public ISOManualParameterG4(HashMap<String, String> parameters, BaseCameraHolder cameraHolder, AbstractParameterHandler camParametersHandler, LG_G4AeHandler.AeManualEvent manualevent) {
+        super(parameters, "", "", "", camParametersHandler);
 
         this.baseCameraHolder = cameraHolder;
 
@@ -34,14 +29,18 @@ public class ISOManualParameterG4 extends BaseManualParameter
         }
         isovalues = new String[s.size()];
         s.toArray(isovalues);
+        this.manualEvent = manualevent;
     }
 
     @Override
     public boolean IsSupported()
     {
-
         return isSupported;
+    }
 
+    @Override
+    public boolean IsVisible() {
+        return isSupported;
     }
 
     @Override
@@ -66,17 +65,29 @@ public class ISOManualParameterG4 extends BaseManualParameter
     protected void setvalue(int valueToSet)
     {
         current = valueToSet;
-        if (valueToSet == 0) {
+        if (valueToSet == 0)
+        {
+            manualEvent.onManualChanged(LG_G4AeHandler.AeManual.iso, true, valueToSet);
+        }
+        else
+        {
+            manualEvent.onManualChanged(LG_G4AeHandler.AeManual.iso, false,valueToSet);
+        }
+    }
 
+    public void setValue(int value)
+    {
+
+        if (value == 0)
+        {
             parameters.put("lg-iso", "auto");
-            parameters.put("shutter-speed", "0");
-            parameters.put("lg-manual-mode-reset", "0");
         }
-        else {
-            parameters.put("lg-manual-mode-reset", "1");
-            parameters.put("lg-iso", isovalues[valueToSet]);
+        else
+        {
+            current = value;
+            parameters.put("lg-iso", isovalues[value]);
         }
-        baseCameraHolder.ParameterHandler.SetParametersToCamera();
+        ThrowCurrentValueStringCHanged(isovalues[value]);
     }
 
     @Override
@@ -86,6 +97,11 @@ public class ISOManualParameterG4 extends BaseManualParameter
         } catch (NullPointerException ex) {
             return "Auto";
         }
+    }
+
+    @Override
+    public String[] getStringValues() {
+        return isovalues;
     }
 }
 

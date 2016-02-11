@@ -1,7 +1,9 @@
 package troop.com.themesample.views.uichilds;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,7 +26,8 @@ import troop.com.themesample.subfragments.Interfaces;
 public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, AbstractModeParameter.I_ModeParameterEvent ,I_ParametersLoaded ,View.OnClickListener
 {
     protected Context context;
-    protected TextView headerText;
+    private String headerText;
+    protected LinearLayout laybg;
     protected TextView valueText;
     protected AbstractModeParameter parameter;
     protected I_Activity i_activity;
@@ -32,6 +35,8 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     protected AppSettingsManager appSettingsManager;
     protected String settingsname;
     protected Interfaces.I_MenuItemClick onItemClick;
+    final protected boolean logging =false;
+    private boolean fromleft = false;
 
     public UiSettingsChild(Context context) {
         super(context);
@@ -61,13 +66,21 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         try
         {
             TAG = (String)a.getText(R.styleable.UiSettingsChild_HeaderText);
-            headerText.setText(a.getText(R.styleable.UiSettingsChild_HeaderText));
+
+            headerText = String.valueOf(a.getText(R.styleable.UiSettingsChild_HeaderText));
+
             valueText.setText(a.getText(R.styleable.UiSettingsChild_ValueText));
         }
         finally {
             a.recycle();
         }
-        Log.d(TAG, "Ctor done");
+        sendLog("Ctor done");
+    }
+
+    protected void sendLog(String log)
+    {
+        if (logging)
+            Log.d(TAG,log);
     }
 
     public UiSettingsChild(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -82,17 +95,49 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflateTheme(inflater);
-        headerText = (TextView)findViewById(R.id.textView);
-        headerText.setSelected(true);
+
+        //headerText = (TextView)findViewById(R.id.textView);
+        //headerText.setSelected(true);
+
+        laybg = (LinearLayout)findViewById(R.id.LAYbg);
+       // laybg.setBackgroundDrawable(switchICOn(headerText));
+
+        if(context.getResources().getString(R.string.uisetting_wb_header) == headerText)
+        {
+            laybg.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.quck_set_wb));
+        }
+
         valueText = (TextView)findViewById(R.id.textView2);
         valueText.setSelected(true);
         this.setOnClickListener(this);
 
     }
 
+    private Drawable switchICOn(String param)
+    {
+        Drawable CurrentICon;
+
+        switch (param)
+        {
+            case "WB":
+                //CurrentICon = context.getDrawable(R.drawable.quck_set_focus);
+                break;
+
+        }
+
+        return context.getResources().getDrawable(R.drawable.quck_set_focus);
+
+    }
+
     protected void inflateTheme(LayoutInflater inflater)
     {
         inflater.inflate(R.layout.ui_settingschild, this);
+    }
+
+    public void SetMenuItemListner(Interfaces.I_MenuItemClick menuItemClick, boolean fromleft)
+    {
+        this.onItemClick = menuItemClick;
+        this.fromleft = fromleft;
     }
 
     public void SetMenuItemListner(Interfaces.I_MenuItemClick menuItemClick)
@@ -105,15 +150,16 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         if (parameter == null || !parameter.IsSupported())
         {
             onIsSupportedChanged(false);
-            Log.d(TAG, "Paramters is null or Unsupported");
+            sendLog("Paramters is null or Unsupported");
             if (parameter != null) {
                 parameter.addEventListner(this);
                 this.parameter = parameter;
             }
             return;
         }
-        else {
-            onIsSupportedChanged(true);
+        else
+        {
+            onIsSupportedChanged(parameter.IsVisible());
             if (parameter != null) {
                 parameter.addEventListner(this);
                 this.parameter = parameter;
@@ -124,9 +170,14 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         setTextToTextBox(parameter);
     }
 
+    public AbstractModeParameter GetParameter()
+    {
+        return parameter;
+    }
+
     public void setTextToTextBox(AbstractModeParameter parameter)
     {
-        if (parameter.IsSupported())
+        if (parameter != null && parameter.IsSupported())
         {
             onIsSupportedChanged(true);
             String campara = parameter.GetValue();
@@ -166,29 +217,58 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     @Override
     public void onValueChanged(String val)
     {
-        Log.d(TAG, "Set Value to:" + val);
+        sendLog("Set Value to:" + val);
         valueText.setText(val);
     }
 
     @Override
     public void onIsSupportedChanged(boolean isSupported)
     {
-        Log.d(TAG, "isSupported:" + isSupported);
-        if (isSupported)
+        sendLog("isSupported:" + isSupported);
+        if (isSupported) {
             this.setVisibility(VISIBLE);
+            this.animate().setListener(null).scaleY(1f).setDuration(300);
+        }
         else
-            this.setVisibility(GONE);
+            this.animate().setListener(hideListner).scaleY(0f).setDuration(300);
     }
+
+    private Animator.AnimatorListener hideListner = new Animator.AnimatorListener() {
+        @Override
+        public void onAnimationStart(Animator animation) {
+
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            UiSettingsChild.this.setVisibility(GONE);
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animation) {
+
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animation) {
+
+        }
+    };
 
     @Override
     public void onIsSetSupportedChanged(boolean isSupported)
     {
-        Log.d(TAG, "isSetSupported:" + isSupported);
+        sendLog("isSetSupported:" + isSupported);
         this.setEnabled(isSupported);
     }
 
     @Override
     public void onValuesChanged(String[] values) {
+
+    }
+
+    @Override
+    public void onVisibilityChanged(boolean visible) {
 
     }
 
@@ -200,7 +280,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     @Override
     public void ParametersLoaded()
     {
-        Log.d(TAG, "Parameters Loaded");
+        sendLog("Parameters Loaded");
         if (parameter != null && parameter.IsSupported()) {
             setTextToTextBox(parameter);
             onIsSupportedChanged(true);
@@ -212,6 +292,6 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     @Override
     public void onClick(View v) {
         if (onItemClick != null)
-            onItemClick.onMenuItemClick(this, false);
+            onItemClick.onMenuItemClick(this, fromleft);
     }
 }

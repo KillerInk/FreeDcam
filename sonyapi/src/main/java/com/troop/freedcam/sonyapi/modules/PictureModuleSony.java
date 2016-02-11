@@ -33,6 +33,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
         name = AbstractModuleHandler.MODULE_PICTURE;
         this.cameraHolder = cameraHandler;
 
+
     }
 
     @Override
@@ -41,7 +42,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     }
 
     @Override
-    public void DoWork()
+    public boolean DoWork()
     {
         if (cameraHolder.ParameterHandler.ContShootMode != null && cameraHolder.ParameterHandler.ContShootMode.IsSupported()) {
             String shootmode = cameraHolder.ParameterHandler.ContShootMode.GetValue();
@@ -49,13 +50,16 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
                 takePicture();
             else if (!this.isWorking) {
                 cameraHolder.startContShoot(this);
+                return true;
             } else {
                 cameraHolder.stopContShoot(this);
+                return false;
             }
         }
         else
             if (!this.isWorking)
                 takePicture();
+        return true;
     }
 
     @Override
@@ -66,7 +70,9 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     @Override
     public void LoadNeededParameters()
     {
+        Log.d(TAG,"LoadNeededParameters");
         cameraHolder.CameraStatusListner = this;
+        onCameraStatusChanged(cameraHolder.GetCameraStatus());
     }
 
     @Override
@@ -146,7 +152,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
             this.isWorking = false;
             workfinished(true);
         }
-        else if (status.equals("StillCapturing") && !isWorking) {
+        else if ((status.equals("StillCapturing") || status.equals("StillSaving")) && !isWorking) {
             this.isWorking = true;
             workstarted();
         }

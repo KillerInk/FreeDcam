@@ -7,6 +7,7 @@ public interface I_ManualParameter
 {
     public boolean IsSupported();
     public boolean IsSetSupported();
+    public boolean IsVisible();
 
     public int GetMaxValue();
 

@@ -13,7 +13,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/menu_header_color">
+            android:background="@drawable/tap_ng">
 
             <TextView
                 android:layout_width="fill_parent"
@@ -22,10 +22,10 @@
                 android:text="@string/setting_camera_"
                 android:id="@+id/legcset"
                 android:textColor="@color/menuTextColor"
-                android:background="@color/menu_header_color"
+                android:background="#ffffff"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -35,8 +35,20 @@
                 app:HeaderText="@string/setting_antiflicker_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:alpha="0.9" />
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/LensFilter"
+                app:Description="Apply Lens Filtter Effect"
+                app:HeaderText="Virtual Lens Filter"
+                app:ValueText="Off"
+                android:layout_marginBottom="1dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"/>
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -46,8 +58,8 @@
                 app:HeaderText="@string/setting_color_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -57,8 +69,8 @@
                 app:HeaderText="@string/setting_scene_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -68,8 +80,8 @@
                 app:HeaderText="@string/setting_cds_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -79,8 +91,8 @@
                 app:HeaderText="@string/setting_dis_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -90,8 +102,8 @@
                 app:HeaderText="@string/setting_ois_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
 
             <troop.com.themesample.views.menu.MenuItem
             android:layout_width="fill_parent"
@@ -101,19 +113,8 @@
             app:HeaderText="@string/setting_lensshade_header"
             app:ValueText="Test"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
-
-            <troop.com.themesample.views.menu.MenuItem
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/MenuItemChromaFlash"
-            app:Description="@string/setting_chromaflash.description"
-            app:HeaderText="@string/setting_chromaflash.header"
-            app:ValueText="Test"
-                android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -123,8 +124,8 @@
                 app:HeaderText="@string/setting_mce_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -134,8 +135,8 @@
                 app:HeaderText="@string/setting_redeye_header"
                 app:ValueText="OFF"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -145,8 +146,8 @@
                 app:HeaderText="@string/setting_scenedec_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -156,8 +157,8 @@
                 app:HeaderText="@string/setting_temporaldenoise_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -168,8 +169,8 @@
                 app:ValueText="Test"
 
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -179,8 +180,8 @@
                 app:HeaderText="@string/setting_zsl_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -190,8 +191,8 @@
                 app:HeaderText="ColorCorrectionMode: "
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -201,8 +202,8 @@
                 app:HeaderText="@string/setting_controlmode_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -212,8 +213,8 @@
                 app:HeaderText="@string/setting_edge_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -223,8 +224,8 @@
                 app:HeaderText="@string/setting_hotpixel_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -234,8 +235,8 @@
                 app:HeaderText="@string/setting_tonemap_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -245,8 +246,8 @@
                 app:HeaderText="@string/setting_objecttrack_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -256,8 +257,8 @@
                 app:HeaderText="@string/setting_postview_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -267,8 +268,8 @@
                 app:HeaderText="@string/setting_ipp_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
 
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
@@ -278,8 +279,8 @@
                 app:HeaderText="@string/setting_nonzsl_header"
                 app:ValueText="Test"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
 
         </LinearLayout>
     </ScrollView>

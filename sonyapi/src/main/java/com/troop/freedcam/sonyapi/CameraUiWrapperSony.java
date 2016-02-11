@@ -34,7 +34,7 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
         this.surfaceView.getHolder().addCallback(this);
         this.appSettingsManager = appSettingsManager;
         this.cameraHolder = new CameraHolderSony(preview.getContext(), surfaceView, this, uiHandler);
-        camParametersHandler = new ParameterHandlerSony(cameraHolder, appSettingsManager, uiHandler, (SimpleStreamSurfaceView)surfaceView);
+        camParametersHandler = new ParameterHandlerSony(this, appSettingsManager, uiHandler, (SimpleStreamSurfaceView)surfaceView);
         cameraHolder.ParameterHandler = (ParameterHandlerSony)camParametersHandler;
 
         moduleHandler = new ModuleHandlerSony(cameraHolder, appSettingsManager);

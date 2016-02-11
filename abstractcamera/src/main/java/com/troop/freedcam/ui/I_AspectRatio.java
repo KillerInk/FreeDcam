@@ -11,4 +11,5 @@ public interface I_AspectRatio
     void setAspectRatio(int width, int height);
     void setSurfaceTextureListener(TextureView.SurfaceTextureListener listner);
     void draw(Canvas canvas);
+    void setAlpha(float alpha);
 }

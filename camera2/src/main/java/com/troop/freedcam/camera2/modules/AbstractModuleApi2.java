@@ -32,8 +32,8 @@ public abstract class AbstractModuleApi2 extends AbstractModule
     }
 
     @Override
-    public void DoWork() {
-
+    public boolean DoWork() {
+        return true;
     }
 
     @Override

@@ -42,6 +42,11 @@ public class BurstApi2 extends AbstractManualParameter implements AbstractModePa
     }
 
     @Override
+    public void onVisibilityChanged(boolean visible) {
+
+    }
+
+    @Override
     public boolean IsSupported() {
         return false;
     }

@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 
 import java.util.HashMap;
@@ -11,10 +12,11 @@ import java.util.HashMap;
 /**
  * Created by troop on 17.08.2014.
  */
-public class BaseModeParameter extends AbstractModeParameter {
+public class BaseModeParameter extends AbstractModeParameter implements I_ModuleEvent, AbstractModeParameter.I_ModeParameterEvent {
     protected String value;
     protected String values;
     boolean isSupported = false;
+    boolean isVisible = true;
     HashMap<String, String> parameters;
     BaseCameraHolder baseCameraHolder;
     protected boolean firststart = true;
@@ -60,15 +62,20 @@ public class BaseModeParameter extends AbstractModeParameter {
         return isSupported;
     }
 
+    @Override
+    public boolean IsVisible() {
+        return isVisible;
+    }
+
     public void SetValue(String valueToSet,  boolean setToCam)
     {
         if (valueToSet == null)
             return;
         String tmp = parameters.get(value);
         parameters.put(value, valueToSet);
-        Log.d(TAG, "set "+value+" from " + tmp + " to "+ valueToSet);
+        Log.d(TAG, "set " + value + " from " + tmp + " to " + valueToSet);
         BackgroundValueHasChanged(valueToSet);
-        if(setToCam) {
+        if (setToCam) {
             try {
                 baseCameraHolder.SetCameraParameters(parameters);
 
@@ -87,8 +94,6 @@ public class BaseModeParameter extends AbstractModeParameter {
                 }
             }
         }
-
-
         firststart = false;
     }
 
@@ -102,5 +107,35 @@ public class BaseModeParameter extends AbstractModeParameter {
     public String[] GetValues()
     {
         return parameters.get(values).split(",");
+    }
+
+    @Override
+    public String ModuleChanged(String module) {
+        return null;
+    }
+
+    @Override
+    public void onValueChanged(String val) {
+
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
+
+    @Override
+    public void onVisibilityChanged(boolean visible) {
+
     }
 }

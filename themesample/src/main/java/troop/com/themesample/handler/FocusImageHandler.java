@@ -36,6 +36,8 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     final int crosshairShowTime = 5000;
     int disHeight;
     int disWidth;
+    int marginLeft;
+    int marginRight;
     int recthalf;
     protected ImageView cancelFocus;
     protected ImageView meteringArea;
@@ -118,7 +120,10 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         this.wrapper = cameraUiWrapper;
         if(cameraUiWrapper instanceof CameraUiWrapper || cameraUiWrapper instanceof CameraUiWrapperApi2) {
             meteringRect = centerImageView(meteringArea);
-            meteringArea.setVisibility(View.VISIBLE);
+            if (wrapper.Focus.isAeMeteringSupported())
+                meteringArea.setVisibility(View.VISIBLE);
+            else
+                meteringArea.setVisibility(View.GONE);
         }
         else
         {
@@ -127,7 +132,10 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         if(cameraUiWrapper instanceof CameraUiWrapperApi2)
         {
             awbRect = centerImageView(awbArea);
-            awbArea.setVisibility(View.VISIBLE);
+            if(wrapper.Focus.isWbMeteringSupported())
+                awbArea.setVisibility(View.VISIBLE);
+            else
+                awbArea.setVisibility(View.GONE);
         }
         else
             awbArea.setVisibility(View.GONE);
@@ -283,10 +291,21 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             return;
         disWidth = activity.GetPreviewWidth();
         disHeight = activity.GetPreviewHeight();
-
-        FocusRect rect = new FocusRect(x - recthalf, x + recthalf, y - recthalf, y + recthalf);
-        if (wrapper.Focus != null)
-            wrapper.Focus.StartTouchToFocus(rect, meteringRect, disWidth, disHeight);
+        marginLeft = activity.GetPreviewLeftMargine();
+        marginRight = activity.GetPreviewRightMargine();
+        if (x > marginLeft && x < disWidth + marginLeft ) {
+            if (x < marginLeft + recthalf)
+                x = marginLeft + recthalf;
+            if (x > marginRight - recthalf)
+                x = marginRight - recthalf;
+            if (y < recthalf)
+                y = recthalf;
+            if (y > disHeight - recthalf)
+                y = disHeight - recthalf;
+            FocusRect rect = new FocusRect(x - recthalf, x + recthalf, y - recthalf, y + recthalf);
+            if (wrapper.Focus != null)
+                wrapper.Focus.StartTouchToFocus(rect, meteringRect, disWidth, disHeight);
+        }
     }
 
     /*

@@ -30,63 +30,63 @@ public class RawToDngTestActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		Button button = (Button)findViewById(R.id.button1);
 		button.setOnClickListener(buttonclick);
-		DeviceUtils.contex = getApplicationContext();
+		DeviceUtils.SETCONTEXT(getApplicationContext());
 	}
 
-	private DngSupportedDevices.SupportedDevices getDevice(String filename)
+	private DeviceUtils.Devices getDevice(String filename)
 	{
 		if (filename.toLowerCase().contains("yureka"))
-			return DngSupportedDevices.SupportedDevices.yureka;
+			return DeviceUtils.Devices.Yu_Yureka;
 		if (filename.toLowerCase().contains("lg_g3"))
-			return DngSupportedDevices.SupportedDevices.LG_G3;
+			return DeviceUtils.Devices.LG_G3;
 		if (filename.toLowerCase().contains("gione_e7"))
-			return DngSupportedDevices.SupportedDevices.Gione_E7;
+			return DeviceUtils.Devices.GioneE7;
 		if (filename.toLowerCase().contains("one_m8"))
-			return DngSupportedDevices.SupportedDevices.HTC_One_m8;
+			return DeviceUtils.Devices.Htc_M8;
 		if (filename.toLowerCase().contains("one_m9"))
-			return DngSupportedDevices.SupportedDevices.HTC_One_m9;
+			return DeviceUtils.Devices.Htc_M9;
 		if (filename.toLowerCase().contains("htc_one_sv"))
-			return DngSupportedDevices.SupportedDevices.HTC_One_Sv;
+			return DeviceUtils.Devices.Htc_One_Sv;
 		if (filename.toLowerCase().contains("k910"))
-			return DngSupportedDevices.SupportedDevices.Lenovo_k910;
+			return DeviceUtils.Devices.LenovoK910;
 		if(filename.toLowerCase().contains("lg_g2"))
-			return DngSupportedDevices.SupportedDevices.LG_G2;
+			return DeviceUtils.Devices.LG_G2;
 		if (filename.toLowerCase().contains("zte"))
-			return DngSupportedDevices.SupportedDevices.zteAdv;
+			return DeviceUtils.Devices.ZTE_ADV;
 		if (filename.toLowerCase().contains("xperial"))
-			return DngSupportedDevices.SupportedDevices.Sony_XperiaL;
+			return DeviceUtils.Devices.Sony_XperiaL;
 		if (filename.toLowerCase().contains("htc_one_xl"))
-			return DngSupportedDevices.SupportedDevices.HTC_One_XL;
+			return DeviceUtils.Devices.Htc_One_Xl;
 		if (filename.toLowerCase().contains("one_plus_one"))
-			return DngSupportedDevices.SupportedDevices.OnePlusOne;
+			return DeviceUtils.Devices.OnePlusOne;
 		if (filename.toLowerCase().contains("xiaomi_redmi_note"))
-			return DngSupportedDevices.SupportedDevices.Xiaomi_Redmi_Note;
+			return DeviceUtils.Devices.RedmiNote;
 		if (filename.toLowerCase().contains("xiaomi_mi3w"))
-			return DngSupportedDevices.SupportedDevices.Xiaomi_mi3;
+			return DeviceUtils.Devices.XiaomiMI3W;
 		if (filename.toLowerCase().contains("xiaomi_mi4w"))
-			return DngSupportedDevices.SupportedDevices.Xiaomi_mi4;
+			return DeviceUtils.Devices.XiaomiMI4W;
 		if (filename.contains("Meizu_Mx4"))
-			return DngSupportedDevices.SupportedDevices.Meizu_Mx4;
+			return DeviceUtils.Devices.MeizuMX4_MTK;
 		if (filename.contains("Meizu_MX5"))
-			return DngSupportedDevices.SupportedDevices.Meizu_Mx5;
+			return DeviceUtils.Devices.MeizuMX5_MTK;
 		if (filename.contains("MTK_THL5000"))
-			return DngSupportedDevices.SupportedDevices.THL5000;
+			return DeviceUtils.Devices.THL5000_MTK;
 		if (filename.contains("Xiaomi_MI_NOTE_Pro"))
-			return DngSupportedDevices.SupportedDevices.Xiaomi_mi_note_pro;
+			return DeviceUtils.Devices.XiaomiMI_Note_Pro;
 		if (filename.contains("alcatel idol 3 "))
-			return DngSupportedDevices.SupportedDevices.Alcatel_Idol3;
+			return DeviceUtils.Devices.Alcatel_Idol3;
 		if (filename.contains("vivo Xplay3S"))
-			return DngSupportedDevices.SupportedDevices.Vivo_Xplay3s;
+			return DeviceUtils.Devices.Vivo_Xplay3s;
 		if (filename.contains("I_Mobile_I_StyleQ6"))
-			return DngSupportedDevices.SupportedDevices.I_Mobile_I_StyleQ6;
-		if (filename.contains("MotoX_pure")|| DeviceUtils.isMoto_MSM8982_8994())
-			return DngSupportedDevices.SupportedDevices.MotoX_pure;
+			return DeviceUtils.Devices.I_Mobile_I_StyleQ6;
+		if (filename.contains("MotoX_pure"))
+			return DeviceUtils.Devices.Moto_MSM8982_8994;
 		if(filename.contains("SonyM5"))
-			return DngSupportedDevices.SupportedDevices.SonyM5;
+			return DeviceUtils.Devices.SonyM5_MTK;
 		if(filename.contains("Xiaomi_RedmiNote2"))
-			return DngSupportedDevices.SupportedDevices.Xiaomi_Redmi_Note2;
+			return DeviceUtils.Devices.RedmiNote2_MTK;
 		if(filename.contains("g4_raw10"))
-			return DngSupportedDevices.SupportedDevices.Lg_G4;
+			return DeviceUtils.Devices.LG_G4;
 		return null;
 	}
 	
@@ -101,7 +101,7 @@ public class RawToDngTestActivity extends Activity {
 			{
 				if (!file.isDirectory() && file.getAbsolutePath().endsWith(".raw")) {
 
-					DngSupportedDevices.SupportedDevices devices = getDevice(file.getName());
+					DeviceUtils.Devices devices = getDevice(file.getName());
 					if (devices == null) {
 						//Toast.makeText(null, "Unkown RAWFILE: " + file.getName(), Toast.LENGTH_LONG).show();
 						Log.d("rawtodng", "Unkown RAWFILE: " + file.getName());

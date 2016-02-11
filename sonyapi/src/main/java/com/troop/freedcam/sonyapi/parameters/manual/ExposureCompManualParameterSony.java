@@ -60,7 +60,8 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                     Log.d(TAG, "SetValue " + valueToSet);
                     array = new JSONArray().put(0, valueToSet);
                     JSONObject object =  ParameterHandler.mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
-                    currentValueChanged(valueToSet);
+
+                        //ThrowCurrentValueChanged(valueToSet);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.e(TAG, "Error SetValue " + valueToSet);
@@ -118,33 +119,34 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
     @Override
     public int GetValue()
     {
-        new Thread(new Runnable() {
-            @Override
-            public void run()
-            {
-                try {
-                    JSONObject object = mRemoteApi.getParameterFromCamera(VALUE_TO_GET);
-                    JSONArray array = object.getJSONArray("result");
-                    val = array.getInt(0);
-                    onCurrentValueChanged(val);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.e(TAG, "Error GetValue() ");
+        if (val == -100) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        JSONObject object = mRemoteApi.getParameterFromCamera(VALUE_TO_GET);
+                        JSONArray array = object.getJSONArray("result");
+                        val = array.getInt(0);
+                        //onCurrentValueChanged(val);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.e(TAG, "Error GetValue() ");
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.e(TAG, "Error GetValue() ");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.e(TAG, "Error GetValue() ");
 
+                    }
                 }
-            }
-        }).start();
-        while (val == -200)
-            try {
-                Thread.sleep(10);
-                Log.d(TAG, "Wait for getValues");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            }).start();
+            while (val == -200)
+                try {
+                    Thread.sleep(10);
+                    Log.d(TAG, "Wait for getValues");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+        }
         return val;
     }
 
@@ -158,8 +160,15 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
         this.min = min;
     }
 
+    @Override
+    public void onCurrentValueChanged(int current) {
+        this.val = current;
+    }
+
     public String[] getStringValues()
     {
         return null;
     }
+
+
 }

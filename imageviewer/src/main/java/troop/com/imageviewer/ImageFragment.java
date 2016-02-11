@@ -73,9 +73,18 @@ public class ImageFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.imageframent, container, false);
+        return inflater.inflate(R.layout.imageframent, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         this.imageView = (TouchImageView)view.findViewById(R.id.imageView_PicView);
         this.spinner = (ProgressBar)view.findViewById(R.id.progressBar);
+        if(savedInstanceState != null && file == null)
+        {
+            file = new File((String) savedInstanceState.get(ScreenSlideFragment.SAVESTATE_FILEPATH));
+        }
 
         myHistogram = new MyHistogram(view.getContext());
         ll = (LinearLayout)view.findViewById(R.id.histoView);
@@ -95,6 +104,7 @@ public class ImageFragment extends Fragment
 
 
         this.deleteButton = (Button)view.findViewById(R.id.button_delete);
+        deleteButton.setVisibility(View.GONE);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,8 +151,14 @@ public class ImageFragment extends Fragment
                 }
             }
         });
+    }
 
-        return view;
+    @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+        if (file != null && file.getAbsolutePath() != null)
+            outState.putString(ScreenSlideFragment.SAVESTATE_FILEPATH, file.getAbsolutePath());
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -232,7 +248,7 @@ public class ImageFragment extends Fragment
     private Bitmap getBitmap()
     {
         Bitmap response;
-        if (file.getAbsolutePath().endsWith(".jpg"))
+        if (file.getAbsolutePath().endsWith(".jpg") || file.getAbsolutePath().endsWith(".jps"))
         {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = 2;
@@ -299,29 +315,25 @@ public class ImageFragment extends Fragment
                     {
                         if (file.getAbsolutePath().endsWith(".jpg")) {
                             play.setVisibility(View.VISIBLE);
-                            play.setText("Open");
                         }
-                        if (file.getAbsolutePath().endsWith(".mp4")) {
-                            play.setText("Play");
+                        else if (file.getAbsolutePath().endsWith(".jps")) {
                             play.setVisibility(View.VISIBLE);
                         }
-                        if (file.getAbsolutePath().endsWith(".dng")) {
-                            play.setText("Open DNG");
+                        else if (file.getAbsolutePath().endsWith(".mp4")) {
                             play.setVisibility(View.VISIBLE);
                         }
-                        if (file.getAbsolutePath().endsWith(".raw")) {
-                            play.setText("Convert to DNG");
+                        else if (file.getAbsolutePath().endsWith(".dng")) {
                             play.setVisibility(View.VISIBLE);
+                        }
+                        else if (file.getAbsolutePath().endsWith(".raw")) {
+                            play.setVisibility(View.GONE);
                         }
                     }
                     else
                     {
-                        if (file.getAbsolutePath().endsWith(".raw")) {
-                            play.setText("Try Convert to DNG");
-                            play.setVisibility(View.VISIBLE);
-                        } else
-                            play.setVisibility(View.GONE);
+                        play.setVisibility(View.GONE);
                     }
+                    deleteButton.setVisibility(View.VISIBLE);
                 }
             });
 

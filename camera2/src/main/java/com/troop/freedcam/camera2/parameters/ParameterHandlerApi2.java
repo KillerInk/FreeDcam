@@ -34,9 +34,10 @@ import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.ToneMapModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.VideoSizeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.WhiteBalanceApi2;
-import com.troop.freedcam.i_camera.AbstractCameraHolder;
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
+import com.troop.freedcam.i_camera.parameters.ModuleParameters;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -50,13 +51,15 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 {
     private static String TAG = StringUtils.TAG + ParameterHandlerApi2.class.getSimpleName();
     private ManualToneMapCurveApi2 manualToneMapCurveApi2;
+    AbstractCameraUiWrapper wrapper;
 
     BaseCameraHolderApi2 cameraHolder;
 
-    public ParameterHandlerApi2(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
+    public ParameterHandlerApi2(AbstractCameraUiWrapper cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
     {
-        super(cameraHolder, appSettingsManager, uiHandler);
-        this.cameraHolder = (BaseCameraHolderApi2) cameraHolder;
+        super(cameraHolder.cameraHolder, appSettingsManager, uiHandler);
+        this.wrapper = cameraHolder;
+        this.cameraHolder = (BaseCameraHolderApi2) cameraHolder.cameraHolder;
         ParametersEventHandler = new CameraParametersEventHandler(uiHandler);
     }
 
@@ -68,6 +71,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         {
             Log.d(TAG, keys.get(i).getName());
         }
+        Module = new ModuleParameters(uiHandler, appSettingsManager, wrapper);
         FlashMode = new FlashModeApi2(uiHandler,this.cameraHolder);
         SceneMode = new SceneModeApi2(uiHandler,this.cameraHolder);
         ColorMode = new ColorModeApi2(uiHandler,this.cameraHolder);
@@ -140,10 +144,10 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
                 {
 
                 }
-
             }
         });
         SetAppSettingsToParameters();
+        wrapper.moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
     }
 
     @Override
@@ -193,7 +197,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         //setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
         setManualMode(ManualConvergence, AppSettingsManager.MCONVERGENCE);
         setManualMode(ManualExposure, AppSettingsManager.MEXPOSURE);
-        setManualMode(ManualFocus, AppSettingsManager.MF);
+        //setManualMode(ManualFocus, AppSettingsManager.MF);
         setManualMode(ManualSharpness,AppSettingsManager.MSHARPNESS);
         setManualMode(ManualShutter, AppSettingsManager.MSHUTTERSPEED);
         setManualMode(ManualBrightness, AppSettingsManager.MBRIGHTNESS);

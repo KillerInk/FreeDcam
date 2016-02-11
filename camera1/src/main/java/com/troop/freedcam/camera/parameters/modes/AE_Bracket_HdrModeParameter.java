@@ -18,19 +18,20 @@ public class AE_Bracket_HdrModeParameter extends BaseModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        if (valueToSet.equals("false"))
-            super.SetValue("Off", setToCam);
-        else
-            super.SetValue("AE-Bracket", setToCam);
+        if (valueToSet.equals("AE-Bracket")) {
+            parameters.put("capture-burst-exposures", "-10,0,10");
+            try {
+                baseCameraHolder.SetCameraParameters(parameters);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        super.SetValue(valueToSet, setToCam);
     }
 
+
     @Override
-    public String GetValue()
-    {
-        if (super.GetValue().equals("Off"))
-            return "false";
-        else if (super.GetValue().equals("AE-Bracket"))
-            return "true";
-        return super.GetValue();
+    public String[] GetValues() {
+            return new String[] {"Off","AE-Bracket"};
     }
 }

@@ -1,6 +1,5 @@
 package com.troop.freedcam.camera.modules;
 
-import android.bluetooth.BluetoothClass;
 import android.os.Handler;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
@@ -8,7 +7,6 @@ import com.troop.freedcam.camera.modules.image_saver.DngSaver;
 import com.troop.freedcam.camera.modules.image_saver.I_WorkeDone;
 import com.troop.freedcam.camera.modules.image_saver.JpegSaver;
 import com.troop.freedcam.camera.modules.image_saver.JpsSaver;
-import com.troop.freedcam.camera.modules.image_saver.MediatekSaver;
 import com.troop.freedcam.camera.modules.image_saver.RawSaver;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
@@ -43,6 +41,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     public String OverRidePath = "";
     BaseCameraHolder baseCameraHolder;
     boolean dngJpegShot = false;
+    //public String aeBrackethdr = "";
 
 
     public PictureModule(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler, Handler backgroundHandler)
@@ -73,11 +72,12 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     }
 
     @Override
-    public void DoWork()
+    public boolean DoWork()
     {
         if (!this.isWorking)
         {
             startworking();
+
             if (ParameterHandler.Burst != null && ParameterHandler.Burst.IsSupported() && ParameterHandler.Burst.GetValue() > 1)
             {
                 handler.post(new Runnable() {
@@ -98,16 +98,17 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
                     final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                     jpsSaver.TakePicture();
                 }
-                else if (ParameterHandler.IsDngActive() && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+                else if (ParameterHandler.IsDngActive() && picFormat.equals("dng")) {
                     DngSaver dngSaver = new DngSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                     dngSaver.TakePicture();
                 }
-                else if (ParameterHandler.IsDngActive() == false && (picFormat.contains("bayer") || picFormat.contains("raw") ||!DeviceUtils.isMediaTekDevice() )) {
+                else if (ParameterHandler.IsDngActive() == false && picFormat.equals("raw")) {
                     final RawSaver rawSaver = new RawSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                     rawSaver.TakePicture();
                 }
             }
         }
+        return true;
 
     }
 
@@ -122,8 +123,11 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     public void LoadNeededParameters()
     {
         //startThread();
-        if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
-            ParameterHandler.AE_Bracket.SetValue("false", true);
+        ((CamParametersHandler)ParameterHandler).setString("preview-format", "yuv420sp");
+         //if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported() && !ParameterHandler.AE_Bracket.GetValue().equals("Off")) {
+            //aeBrackethdr = ParameterHandler.AE_Bracket.GetValue();
+           // ParameterHandler.AE_Bracket.SetValue("Off", true);
+         //}
         if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported() && !ParameterHandler.VideoHDR.GetValue().equals("off"))
             ParameterHandler.VideoHDR.SetValue("off", true);
         //if (ParameterHandler.CameraMode.IsSupported() && ParameterHandler.CameraMode.GetValue().equals("1"))
@@ -135,7 +139,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
         //if (ParameterHandler.DigitalImageStabilization.IsSupported() && ParameterHandler.DigitalImageStabilization.GetValue().equals("enable"))
             //ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
 
-        if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()){
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)){
             ((CamParametersHandler)ParameterHandler).setString("slow_shutter", "-1");
             baseCameraHolder.SetCameraParameters(((CamParametersHandler)ParameterHandler).getParameters());}
        // if(DeviceUtils.isNexus4()){
@@ -152,6 +156,8 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     @Override
     public void UnloadNeededParameters()
     {
+        //if (aeBrackethdr != "" && aeBrackethdr != "Off" )
+        //    ParameterHandler.AE_Bracket.SetValue(aeBrackethdr, true);
         //stopThread();
     }
 
@@ -222,10 +228,10 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
                         final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, burstDone, handler,Settings.GetWriteExternal());
                         jpsSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathBurst(Settings.GetWriteExternal(), jpsSaver.fileEnding, burstcount)));
                     }
-                    else if (!ParameterHandler.IsDngActive() && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+                    else if (!ParameterHandler.IsDngActive() && picFormat.contains("raw")) {
                         final RawSaver rawSaver = new RawSaver(baseCameraHolder, burstDone, handler,Settings.GetWriteExternal());
                         rawSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathBurst(Settings.GetWriteExternal(), rawSaver.fileEnding, burstcount)));
-                    } else if (ParameterHandler.IsDngActive() && (picFormat.contains("bayer") || picFormat.contains("raw"))) {
+                    } else if (ParameterHandler.IsDngActive() && picFormat.contains("dng")) {
                         DngSaver dngSaver = new DngSaver(baseCameraHolder, burstDone, handler,Settings.GetWriteExternal());
                         dngSaver.processData(data, new File(StringUtils.getFilePathBurst(Settings.GetWriteExternal(), dngSaver.fileEnding, burstcount)));
                     }

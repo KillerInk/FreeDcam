@@ -194,6 +194,9 @@
     <string-array name="LenovoK910">
         <item>Lenovo K910</item>
     </string-array>
+    <string-array name="LenovoK920">
+        <item>Lenovo K920</item>
+    </string-array>
 
     <string-array name="SonyM5">
         <item>E5663</item>
@@ -292,5 +295,8 @@
     </string-array>
     <string-array name="Samsung_S6_edge">
         <item>SM-G925F</item>
+    </string-array>
+    <string-array name="Forward_Art">
+        <item>Forward_Art</item>
     </string-array>
 </resources>

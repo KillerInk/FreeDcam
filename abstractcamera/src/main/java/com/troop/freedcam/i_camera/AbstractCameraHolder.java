@@ -45,6 +45,12 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
         this.UIHandler = UIHandler;
     }
 
+    public void SendUIMessage(String msg)
+    {
+        if (cameraChangedListner != null)
+            cameraChangedListner.onCameraError(msg);
+    }
+
     @Override
     public boolean OpenCamera(int camera)
     {

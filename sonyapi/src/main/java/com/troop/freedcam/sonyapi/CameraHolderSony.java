@@ -53,6 +53,7 @@ public class CameraHolderSony extends AbstractCameraHolder
     private String cameraStatus = "IDLE";
 
     public I_CameraShotMode cameraShotMode;
+    JSONObject FullUiSetup;
 
     public interface I_CameraShotMode
     {
@@ -60,20 +61,25 @@ public class CameraHolderSony extends AbstractCameraHolder
         void onShootModeValuesChanged(String[] modes);
     }
 
+    public String GetCameraStatus()
+    { return cameraStatus;}
+
 
     private SimpleCameraEventObserver.ChangeListener mEventListener = new SimpleCameraEventObserver.ChangeListenerTmpl()
     {
 
         @Override
         public void onShootModeChanged(String shootMode) {
-            if(cameraShotMode != null)
+            if(cameraShotMode != null )
                 cameraShotMode.onShootModeChanged(shootMode);
         }
 
         @Override
         public void onCameraStatusChanged(String status)
         {
-            cameraStatus = status;
+            //if (cameraStatus.equals(status))
+            //    return;
+            CameraHolderSony.this.cameraStatus = status;
             Log.d(TAG, "Camerastatus:" + cameraStatus);
             if (CameraStatusListner != null)
                 CameraStatusListner.onCameraStatusChanged(status);
@@ -99,12 +105,6 @@ public class CameraHolderSony extends AbstractCameraHolder
                         startLiveview();
                     }
                 }
-                if (JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet)) {
-
-
-                } else {
-
-                }
             }
         }
 
@@ -117,7 +117,7 @@ public class CameraHolderSony extends AbstractCameraHolder
         @Override
         public void onIsoChanged(String iso)
         {
-            ParameterHandler.ISOManual.currentValueStringCHanged(iso);
+            ParameterHandler.ISOManual.ThrowCurrentValueStringCHanged(iso);
         }
 
         @Override
@@ -141,8 +141,13 @@ public class CameraHolderSony extends AbstractCameraHolder
         }
 
         @Override
+        public void onExposureCompensationChanged(int epxosurecomp) {
+            ParameterHandler.ManualExposure.ThrowCurrentValueChanged(epxosurecomp);
+        }
+
+        @Override
         public void onShutterSpeedChanged(String shutter) {
-            ParameterHandler.ManualShutter.currentValueStringCHanged(shutter);
+            ParameterHandler.ManualShutter.ThrowCurrentValueStringCHanged(shutter);
         }
 
         @Override
@@ -214,8 +219,18 @@ public class CameraHolderSony extends AbstractCameraHolder
         }
 
         @Override
+        public void onProgramShiftValueChanged(int shift) {
+
+        }
+
+        @Override
+        public void onProgramShiftValuesChanged(String[] shift) {
+
+        }
+
+        @Override
         public void onFnumberChanged(String fnumber) {
-            ParameterHandler.ManualFNumber.currentValueStringCHanged(fnumber);
+            ParameterHandler.ManualFNumber.ThrowCurrentValueStringCHanged(fnumber);
         }
 
         @Override
@@ -228,9 +243,76 @@ public class CameraHolderSony extends AbstractCameraHolder
 
         }
 
+        @Override
+        public void onExposureModesChanged(String[] expomode)
+        {
+            ParameterHandler.ExposureMode.BackgroundValuesHasChanged(expomode);
+        }
 
+        @Override
+        public void onImageFormatChanged(String imagesize) {
+            ParameterHandler.PictureFormat.BackgroundValueHasChanged(imagesize);
+        }
 
+        @Override
+        public void onImageFormatsChanged(String[] imagesize) {
+            ParameterHandler.PictureFormat.BackgroundValuesHasChanged(imagesize);
+        }
 
+        @Override
+        public void onImageSizeChanged(String imagesize) {
+            ParameterHandler.PictureSize.BackgroundValueHasChanged(imagesize);
+        }
+
+        @Override
+        public void onContshotModeChanged(String imagesize) {
+            ParameterHandler.ContShootMode.BackgroundValueHasChanged(imagesize);
+        }
+
+        @Override
+        public void onContshotModesChanged(String[] imagesize) {
+            ParameterHandler.ContShootMode.BackgroundValuesHasChanged(imagesize);
+        }
+
+        @Override
+        public void onFocusModeChanged(String imagesize) {
+            ParameterHandler.FocusMode.BackgroundValueHasChanged(imagesize);
+        }
+
+        @Override
+        public void onFocusModesChanged(String[] imagesize) {
+            ParameterHandler.FocusMode.BackgroundValuesHasChanged(imagesize);
+        }
+
+        @Override
+        public void onPostviewModeChanged(String imagesize) {
+            ParameterHandler.PostViewSize.BackgroundValueHasChanged(imagesize);
+        }
+
+        @Override
+        public void onPostviewModesChanged(String[] imagesize) {
+            ParameterHandler.PostViewSize.BackgroundValuesHasChanged(imagesize);
+        }
+
+        @Override
+        public void onTrackingFocusModeChanged(String imagesize) {
+            ParameterHandler.ObjectTracking.BackgroundValueHasChanged(imagesize);
+        }
+
+        @Override
+        public void onTrackingFocusModesChanged(String[] imagesize) {
+            ParameterHandler.ObjectTracking.BackgroundValuesHasChanged(imagesize);
+        }
+
+        @Override
+        public void onExposureModeChanged(String expomode) {
+            if (!ParameterHandler.ExposureMode.GetValue().equals(expomode))
+                ParameterHandler.ExposureMode.BackgroundValueHasChanged(expomode);
+            if (expomode.equals("Intelligent Auto")|| expomode.equals("Superior Auto"))
+                ParameterHandler.WhiteBalanceMode.BackgroundIsSupportedChanged(false);
+            else
+                ParameterHandler.WhiteBalanceMode.BackgroundIsSupportedChanged(true);
+        }
     };
 
     private SimpleRemoteApi mRemoteApi;
@@ -315,12 +397,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                         if (1 <= resultsObj.length()) {
                             // Obtain liveview URL from the result.
                             final String liveviewUrl = resultsObj.getString(0);
-                            /*context.runOnUiThread(new Runnable()
-                            {
-
-                                @Override
-                                public void run() {*/
-
+                            Log.d(TAG,"startLiveview");
                             mLiveviewSurface.start(liveviewUrl, //
                                     new SimpleStreamSurfaceView.StreamErrorListener() {
 
@@ -331,8 +408,6 @@ public class CameraHolderSony extends AbstractCameraHolder
                                             stopLiveview();
                                         }
                                     });
-                                /*}
-                            });*/
                             isPreviewRunning = true;
                         }
                     }
@@ -370,25 +445,17 @@ public class CameraHolderSony extends AbstractCameraHolder
             public void run() {
                 try {
                     // Get supported API list (Camera API)
-                    JSONObject replyJsonCamera = mRemoteApi.getCameraMethodTypes();
-                    JsonUtils.loadSupportedApiList(replyJsonCamera, mSupportedApiSet);
-                    ParameterHandler.SetSupportedApiSet(mSupportedApiSet);
+                    Log.d(TAG, "get event longpool false");
+                    JSONObject replyJson = mRemoteApi.getEvent(false, "1.0");
+                    JSONArray resultsObj = replyJson.getJSONArray("result");
+                    JsonUtils.loadSupportedApiListFromEvent(resultsObj.getJSONObject(0), mAvailableCameraApiSet);
+                    ParameterHandler.SetCameraApiSet(mAvailableCameraApiSet);
 
-                    try {
-                        // Get supported API list (AvContent API)
-                        JSONObject replyJsonAvcontent = mRemoteApi.getAvcontentMethodTypes();
-                        JsonUtils.loadSupportedApiList(replyJsonAvcontent, mSupportedApiSet);
-                    } catch (IOException e) {
-                        Log.d(TAG, "AvContent is not support.");
-                    }
-
-
-
-                    if (!JsonUtils.isApiSupported("setCameraFunction", mSupportedApiSet)) {
+                    if (!JsonUtils.isApiSupported("setCameraFunction", mAvailableCameraApiSet)) {
 
                         // this device does not support setCameraFunction.
                         // No need to check camera status.
-
+                        Log.d(TAG, "prepareOpenConnection->openconnection, no setCameraFunciton");
                         openConnection();
 
                     } else {
@@ -397,7 +464,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                         // after confirmation of camera state, open connection.
                         Log.d(TAG, "this device support set camera function");
 
-                        if (!JsonUtils.isApiSupported("getEvent", mSupportedApiSet)) {
+                        if (!JsonUtils.isApiSupported("getEvent", mAvailableCameraApiSet)) {
                             Log.e(TAG, "this device is not support getEvent");
                             openConnection();
                             return;
@@ -405,12 +472,16 @@ public class CameraHolderSony extends AbstractCameraHolder
 
                         // confirm current camera status
                         String cameraStatus = null;
-                        JSONObject replyJson = mRemoteApi.getEvent(false, "1.0");
-                        JSONArray resultsObj = replyJson.getJSONArray("result");
+
+                        FullUiSetup = replyJson;
                         JSONObject cameraStatusObj = resultsObj.getJSONObject(1);
                         String type = cameraStatusObj.getString("type");
                         if ("cameraStatus".equals(type)) {
                             cameraStatus = cameraStatusObj.getString("cameraStatus");
+                            if (cameraChangedListner != null) {
+                                Log.d(TAG,"prepareOpenConnection camerastatusChanged" + cameraStatus );
+                                cameraChangedListner.onCameraStatusChanged(cameraStatus);
+                            }
                         } else {
                             throw new IOException();
                         }
@@ -420,6 +491,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                             openConnection();
                         } else {
                             // set Listener
+                            Log.d(TAG,"Change function to remote shooting");
                             startOpenConnectionAfterChangeCameraState();
 
                             // set Camera function to Remote Shooting
@@ -448,23 +520,8 @@ public class CameraHolderSony extends AbstractCameraHolder
 
                 try {
                     JSONObject replyJson = null;
-
-                    // getAvailableApiList
-                    replyJson = mRemoteApi.getAvailableApiList();
-                    JsonUtils.loadAvailableCameraApiList(replyJson, mAvailableCameraApiSet);
-                    ParameterHandler.SetCameraApiSet(mAvailableCameraApiSet);
-
-                    // check version of the server device
-                    if (JsonUtils.isCameraApiAvailable("getApplicationInfo", mAvailableCameraApiSet)) {
-                        Log.d(TAG, "openConnection(): getApplicationInfo()");
-                        replyJson = mRemoteApi.getApplicationInfo();
-
-                    } else {
-                        // never happens;
-                        return;
-                    }
-
                     // startRecMode if necessary.
+                    Log.d(TAG, "openConnection(): startRecMode");
                     if (JsonUtils.isCameraApiAvailable("startRecMode", mAvailableCameraApiSet)) {
                         Log.d(TAG, "openConnection(): startRecMode()");
                         replyJson = mRemoteApi.startRecMode();
@@ -472,39 +529,29 @@ public class CameraHolderSony extends AbstractCameraHolder
                         // Call again.
                         replyJson = mRemoteApi.getAvailableApiList();
                         JsonUtils.loadAvailableCameraApiList(replyJson, mAvailableCameraApiSet);
-                        ParameterHandler.SetCameraApiSet(mAvailableCameraApiSet);
                     }
 
                     // getEvent start
+                    Log.d(TAG, "openConnection(): getEvent");
                     if (JsonUtils.isCameraApiAvailable("getEvent", mAvailableCameraApiSet)) {
                         Log.d(TAG, "openConnection(): EventObserver.start()");
                         mEventObserver.start();
+
                     }
 
                     // Liveview start
-                    if (JsonUtils.isCameraApiAvailable("startLiveview", mAvailableCameraApiSet)) {
+                    Log.d(TAG, "openConnection(): startLiveView");
+                    if (JsonUtils.isCameraApiAvailable("startLiveview", mAvailableCameraApiSet) && cameraStatus.equals("IDLE")) {
                         Log.d(TAG, "openConnection(): LiveviewSurface.start()");
                         startLiveview();
                     }
-
-                    if((serverDevice.getFriendlyName().contains("ILCE-QX1") || serverDevice.getFriendlyName().contains("ILCE-QX30")) && JsonUtils.isApiSupported("setLiveviewFrameInfo", mAvailableCameraApiSet))
+                    Log.d(TAG, "openConnection(): setLiveViewFrameInfo");
+                    if((serverDevice.getFriendlyName().contains("ILCE-QX1")
+                            || serverDevice.getFriendlyName().contains("ILCE-QX30"))
+                            && JsonUtils.isApiSupported("setLiveviewFrameInfo", mAvailableCameraApiSet)
+                            && cameraStatus.equals("IDLE"))
                     {
                         SetLiveViewFrameInfo(true);
-                    }
-
-                    // prepare UIs
-                    if (JsonUtils.isCameraApiAvailable("getAvailableShootMode", mAvailableCameraApiSet)) {
-                        Log.d(TAG, "openConnection(): prepareShootModeSpinner()");
-
-                        // Note: hide progress bar on title after this calling.
-                    }
-
-                    // prepare UIs
-                    if (JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet)) {
-                        Log.d(TAG, "openConnection(): prepareActZoomButtons()");
-
-                    } else {
-
                     }
 
                     Log.d(TAG, "openConnection(): completed.");
@@ -573,6 +620,11 @@ public class CameraHolderSony extends AbstractCameraHolder
         //public void run() {
         mEventObserver.setEventChangeListener(mEventListener);
         mEventObserver.start();
+        try {
+            mEventObserver.processEvents(FullUiSetup);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         //}
         //});
     }

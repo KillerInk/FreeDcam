@@ -20,7 +20,6 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
 {
 
     int current = -1;
-    boolean supported = false;
     public ManualFocus(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder)
     {
         super(camParametersHandler, cameraHolder);
@@ -47,7 +46,7 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
         if (current == -1)
             return "Auto";
         else {
-            if (supported)
+            if (isSupported)
                 return StringUtils.TrimmFloatString(cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE) + "");
         }
         return "";
@@ -64,7 +63,7 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
     public void SetValue(int valueToSet)
     {
         current = valueToSet;
-        if(valueToSet == -1)
+        if(valueToSet == 0)
         {
             camParametersHandler.FocusMode.SetValue("auto", true);
         }
@@ -90,11 +89,11 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
     public boolean IsSupported()
     {
         int af[] = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
-        boolean supported = false;
+        isSupported = false;
         for (int i : af)
         {
             if (i == CameraCharacteristics.CONTROL_AF_MODE_OFF)
-                supported = true;
+                isSupported = true;
         }
         try {
             Log.d(TAG, "LensFocusDistance" + cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE));
@@ -108,8 +107,13 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
 
         if (cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE) == null
                 || cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE) == 0)
-            supported = false;
-        return  supported;
+            isSupported = false;
+        return  isSupported;
+    }
+
+    @Override
+    public boolean IsVisible() {
+        return isSupported;
     }
 
     //implementation I_ModeParameterEvent

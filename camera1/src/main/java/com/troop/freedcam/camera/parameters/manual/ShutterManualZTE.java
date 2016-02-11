@@ -8,7 +8,6 @@ import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_Shutter_Changed;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
-import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
 
@@ -50,6 +49,11 @@ public class ShutterManualZTE extends BaseManualParameter
     @Override
     public boolean IsSupported() {
         return super.IsSupported();
+    }
+
+    @Override
+    public boolean IsVisible() {
+        return  IsSupported();
     }
 
     @Override

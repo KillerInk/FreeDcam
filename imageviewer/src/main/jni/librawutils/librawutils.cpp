@@ -5,6 +5,7 @@
 #include <android/bitmap.h>
 
 #include "../libraw/libraw.h"
+#include "../libraw/libraw_types.h"
 
 #define TAG_DEBUG "RAW"
 
@@ -308,6 +309,8 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
 	libraw_processed_image_t *image = raw.dcraw_make_mem_image(&ret);
 
 	LOGD("processed image, creating bitmap");
+	if(image->width == 0 || image->height == 0)
+		return NULL;
 
 	jclass bitmapCls = env->FindClass("android/graphics/Bitmap");
     jmethodID createBitmapFunction = env->GetStaticMethodID(bitmapCls, "createBitmap", "(IILandroid/graphics/Bitmap$Config;)Landroid/graphics/Bitmap;");
@@ -316,7 +319,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
     jmethodID valueOfBitmapConfigFunction = env->GetStaticMethodID(bitmapConfigClass, "valueOf", "(Ljava/lang/String;)Landroid/graphics/Bitmap$Config;");
     jobject bitmapConfig = env->CallStaticObjectMethod(bitmapConfigClass, valueOfBitmapConfigFunction, configName);
     jobject newBitmap = env->CallStaticObjectMethod(bitmapCls, createBitmapFunction, image->width, image->height, bitmapConfig);
-	if(image)
+	if(image->data_size > 0)
 	{
     	LOGD("orginal size: %i",image->data_size);
 

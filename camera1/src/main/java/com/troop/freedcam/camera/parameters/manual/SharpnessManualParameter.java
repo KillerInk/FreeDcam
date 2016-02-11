@@ -36,6 +36,7 @@ public class SharpnessManualParameter extends BaseManualParameter
                 min_value = "min-sharpness";
             } catch (Exception ex) {
             }
+            Set_Default_Value(GetValue());
         }
     }
 }

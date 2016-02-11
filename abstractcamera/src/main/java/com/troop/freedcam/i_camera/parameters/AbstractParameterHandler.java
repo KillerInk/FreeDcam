@@ -46,6 +46,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter WhiteBalanceMode;
     public AbstractModeParameter PictureSize;
     public AbstractModeParameter PictureFormat;
+    public AbstractModeParameter HDRMode;
     public AbstractModeParameter JpegQuality;
     //defcomg was here
     public AbstractModeParameter GuideList;
@@ -58,11 +59,11 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter FocusMode;
     public AbstractModeParameter RedEye;
     public AbstractModeParameter LensShade;
-    public AbstractModeParameter ChromaFlash;
     public AbstractModeParameter ZSL;
     public AbstractModeParameter SceneDetect;
     public AbstractModeParameter Denoise;
     public AbstractModeParameter DigitalImageStabilization;
+    public AbstractModeParameter VideoStabilization;
     public AbstractModeParameter MemoryColorEnhancement;
     public AbstractModeParameter SkinToneEnhancment;
     public AbstractModeParameter NightMode;
@@ -76,8 +77,13 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter VideoProfilesG3;
     public AbstractModeParameter VideoSize;
     public AbstractModeParameter VideoHDR;
+    public AbstractModeParameter VideoHighFramerateVideo;
+    public AbstractModeParameter Video_Framerate_;
+    public AbstractModeParameter Video_Bitrate_;
+    public AbstractModeParameter LensFilter;
     public AbstractModeParameter VideoHighSpeedVideo;
     public AbstractModeParameter CameraMode;
+    public AbstractModeParameter Horizont;
 
     //yet only seen on m9
     public AbstractModeParameter RdiMode;
@@ -90,13 +96,13 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter ObjectTracking;
     public AbstractModeParameter PostViewSize;
     public AbstractModeParameter Focuspeak;
+    public AbstractModeParameter Module;
     //
     public AbstractModeParameter ThemeList;
     public boolean isExposureAndWBLocked = false;
     private boolean isDngActive = false;
     public boolean IsDngActive(){ return this.isDngActive; };
     public void SetDngActive(boolean active) {this.isDngActive = active;}
-    public boolean isAeBracketActive = false;
 
     public AbstractCameraHolder cameraHolder;
     public AbstractCameraChanged cameraChanged;
@@ -111,10 +117,20 @@ public abstract class AbstractParameterHandler
 
     public AbstractModeParameter oismode;
 
+    public AbstractModeParameter SdSaveLocation;
+
     public LocationParameter locationParameter;
 
     public boolean IntervalCapture = false;
     public boolean IntervalCaptureFocusSet = false;
+
+    public AbstractModeParameter IntervalDuration;
+    public AbstractModeParameter IntervalShutterSleep;
+
+    public AbstractModeParameter captureBurstExposures;
+
+    public AbstractModeParameter morphoHDR;
+    public AbstractModeParameter morphoHHT;
 
     public AbstractParameterHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
     {
@@ -124,6 +140,10 @@ public abstract class AbstractParameterHandler
         GuideList = new GuideList(uiHandler);
         ThemeList = new ThemeList(uiHandler);
         locationParameter = new LocationParameter(uiHandler, appSettingsManager,cameraHolder);
+        IntervalDuration = new IntervalDurationParameter(uiHandler);
+        IntervalShutterSleep = new IntervalShutterSleepParameter(uiHandler);
+        Horizont = new Horizont(uiHandler);
+        SdSaveLocation = new SDModeParameter(uiHandler,appSettingsManager);
     }
 
     public void SetParametersToCamera() {};
@@ -131,7 +151,7 @@ public abstract class AbstractParameterHandler
 
     public void SetFocusAREA(FocusRect focusAreas, FocusRect meteringAreas){};
     public void SetMeterAREA(FocusRect meteringAreas){};
-    public void UHDDO (){};
+
     public void SetPictureOrientation(int or){};
 
     public void SetAppSettingsToParameters()
@@ -154,7 +174,6 @@ public abstract class AbstractParameterHandler
         setMode(FocusMode, AppSettingsManager.SETTING_FOCUSMODE);
         setMode(RedEye,AppSettingsManager.SETTING_REDEYE_MODE);
         setMode(LensShade,AppSettingsManager.SETTING_LENSSHADE_MODE);
-        setMode(ChromaFlash,AppSettingsManager.SETTING_CHROMAFLASH_MODE);
         setMode(ZSL, AppSettingsManager.SETTING_ZEROSHUTTERLAG_MODE);
         setMode(SceneDetect, AppSettingsManager.SETTING_SCENEDETECT_MODE);
         setMode(Denoise, AppSettingsManager.SETTING_DENOISE_MODE);
@@ -165,10 +184,13 @@ public abstract class AbstractParameterHandler
         setMode(NonZslManualMode, AppSettingsManager.SETTING_NONZSLMANUALMODE);
         setMode(AE_Bracket, AppSettingsManager.SETTING_AEBRACKET);
         setMode(Histogram, AppSettingsManager.SETTING_HISTOGRAM);
-        setMode(VideoProfiles, AppSettingsManager.SETTING_VIDEPROFILE);
-        setMode(VideoProfilesG3, AppSettingsManager.SETTING_VIDEPROFILE);
+        if(VideoProfiles != null)
+            setMode(VideoProfiles, AppSettingsManager.SETTING_VIDEPROFILE);
+        else if (VideoProfilesG3 != null)
+            setMode(VideoProfilesG3, AppSettingsManager.SETTING_VIDEPROFILE);
         setMode(VideoHDR, AppSettingsManager.SETTING_VIDEOHDR);
         setMode(VideoSize, AppSettingsManager.SETTING_VIDEOSIZE);
+        setMode(VideoStabilization,AppSettingsManager.SETTING_VIDEOSTABILIZATION);
         setMode(WhiteBalanceMode,AppSettingsManager.SETTING_WHITEBALANCEMODE);
         setMode(ImagePostProcessing,AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE);
         setMode(ColorCorrectionMode, AppSettingsManager.SETTING_COLORCORRECTION);
@@ -176,13 +198,13 @@ public abstract class AbstractParameterHandler
         setMode(HotPixelMode, AppSettingsManager.SETTING_HOTPIXEL);
         setMode(ToneMapMode, AppSettingsManager.SETTING_TONEMAP);
         setMode(ControlMode, AppSettingsManager.SETTING_CONTROLMODE);
-        //setMode(Focuspeak, AppSettingsManager.SETTING_FOCUSPEAK);
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals(""))
-            appSettingsManager.setString(AppSettingsManager.SETTING_DNG, "false");
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_DNG).equals("true"))
-            this.isDngActive = true;
-        else
-            this.isDngActive = false;
+        setMode(IntervalDuration,AppSettingsManager.SETTING_INTERVAL_DURATION);
+        setMode(IntervalShutterSleep, AppSettingsManager.SETTING_INTERVAL);
+        setMode(Horizont, AppSettingsManager.SETTING_HORIZONT);
+        setMode(captureBurstExposures, AppSettingsManager.SETTING_CAPTUREBURSTEXPOSURES);
+        setMode(morphoHDR, AppSettingsManager.SETTING_MORPHOHDR);
+        setMode(morphoHHT, AppSettingsManager.SETTING_MORPHOHHT);
+        setMode(HDRMode, AppSettingsManager.SETTING_HDRMODE);
 
         setManualMode(ManualBrightness, AppSettingsManager.MWB);
         setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);

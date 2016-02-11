@@ -24,7 +24,7 @@ public class FXManualParameter extends BaseManualParameter {
     @Override
     public boolean IsSupported()
     {
-        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) )
             return true;
         else
             return false;
@@ -46,9 +46,7 @@ public class FXManualParameter extends BaseManualParameter {
     {
         int i = 0;
         try {
-            if (DeviceUtils.isLG_G3())
-                i = 0;
-            if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234());
+            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) );
                 i = 0;
         }
         catch (Exception ex)

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,6 +48,8 @@ public class SonyCameraFragment extends AbstractCameraFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.cameraholdersony, container, false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            checkMpermission();
         surfaceView = (SimpleStreamSurfaceView) view.findViewById(R.id.view);
         this.wrapperSony = new CameraUiWrapperSony(surfaceView, appSettingsManager);
         this.cameraUiWrapper = wrapperSony;
@@ -60,6 +63,20 @@ public class SonyCameraFragment extends AbstractCameraFragment
 
 
         return view;
+    }
+
+    private void checkMpermission()
+    {
+        /*if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            MPermissions.requestFineLocationPermission(this);
+        }
+        if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            MPermissions.requestCoarsePermission(this);
+        }*/
     }
 
     private void setTextFromWifi(final String txt)
@@ -187,6 +204,8 @@ public class SonyCameraFragment extends AbstractCameraFragment
 
     private void getConfiguredNetworks()
     {
+        if(connected)
+            return;
         setTextFromWifi("Looking up Configured Wifi Networks");
         try {
             configuredNetworks = wifiUtils.getConfiguredNetworkSSIDs();
@@ -206,6 +225,7 @@ public class SonyCameraFragment extends AbstractCameraFragment
             {
                 deviceNetworkToConnect = s;
                 Log.d("Wifi", "Device to Connect:" + deviceNetworkToConnect);
+                setTextFromWifi("Device to Connect:" + deviceNetworkToConnect);
                 break;
             }
         }

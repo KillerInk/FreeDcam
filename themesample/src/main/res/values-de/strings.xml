@@ -20,7 +20,7 @@
     <string name="setting_aebracket_description">Wenn aktivert, werden 3 Bilder auf einmal aufgenommen.</string>
 
     <string name="setting_freedcam_">Freedcam Einstellungen</string>
-    <string name="setting_api_header">Api: </string>
+    <string name="setting_api_header">API:</string>
     <string name="setting_api_description">Wähle die Api die genutzt werden soll</string>
     <string name="setting_externalshutter_header">Externer Auslöser: </string>
     <string name="setting_location_description">Gps Daten für Bilder und Videos</string>

@@ -10,7 +10,7 @@ public interface I_Module
     /**
      * Let the Module start its work
      */
-    public void DoWork();
+    public boolean DoWork();
     public boolean IsWorking();
 
     public String LongName();

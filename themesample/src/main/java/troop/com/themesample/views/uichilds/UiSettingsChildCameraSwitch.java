@@ -2,7 +2,6 @@ package troop.com.themesample.views.uichilds;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.troop.freedcam.camera.ExtendedSurfaceView;
@@ -66,12 +65,13 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
             currentCamera = 0;
 
         appSettingsManager.SetCurrentCamera(currentCamera);
-        Log.d(TAG, "Stop Preview and Camera");
+        sendLog("Stop Preview and Camera");
         if (i_activity.GetSurfaceView() != null &&  i_activity.GetSurfaceView() instanceof ExtendedSurfaceView)
         {
             ((ExtendedSurfaceView)i_activity.GetSurfaceView()).SwitchViewMode();
         }
-        i_activity.SwitchCameraAPI(appSettingsManager.getCamApi());
+        cameraUiWrapper.StopCamera();
+        cameraUiWrapper.StartCamera();
         valueText.setText(getCamera(currentCamera));
     }
 

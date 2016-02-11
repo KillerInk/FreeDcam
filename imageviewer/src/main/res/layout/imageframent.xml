@@ -18,22 +18,51 @@
         android:id="@+id/progressBar"
         android:layout_centerInParent="true" />
 
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/app_icon_size"
+        android:layout_below="@+id/imageView_PicView"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="#82ffffff">
+        <Button
+            android:layout_width="@dimen/app_icon_size"
+            android:layout_height="@dimen/app_icon_size"
+            android:id="@+id/button_play"
+            android:layout_alignParentBottom="false"
+            android:textSize="10dp"
+            android:layout_alignParentLeft="false"
+            android:background="@drawable/ic_play" />
+
+        <Button
+            android:layout_width="@dimen/app_icon_size"
+            android:layout_height="@dimen/app_icon_size"
+            android:id="@+id/button_delete"
+            android:layout_alignParentBottom="false"
+            android:textSize="10dp"
+            android:layout_alignParentLeft="false"
+            android:layout_toRightOf="@+id/button_play"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/delete" />
+    </RelativeLayout>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="180dp"
         android:layout_height="100dp"
         android:id="@+id/histoView"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentRight="false"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@+id/linearLayout" />
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#71000001">
+        android:background="#71000001"
+        android:id="@+id/linearLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="false">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -92,29 +121,5 @@
             android:layout_gravity="center_horizontal"
             android:autoText="true" />
     </LinearLayout>
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/app_icon_size"
-            android:text="Play"
-            android:id="@+id/button_play"
-            android:layout_alignParentBottom="false"
-            android:textSize="10dp"
-            android:layout_alignParentLeft="false" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/app_icon_size"
-            android:text="Delete"
-            android:id="@+id/button_delete"
-            android:layout_alignParentBottom="false"
-            android:textSize="10dp"
-            android:layout_alignParentLeft="false"
-            android:layout_toRightOf="@+id/button_play"
-            android:layout_marginLeft="5dp" />
-    </RelativeLayout>
 
 </RelativeLayout>

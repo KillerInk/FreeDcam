@@ -1,5 +1,7 @@
 package com.troop.freedcam.sonyapi.parameters.manual;
 
+import android.util.Log;
+
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 
 import org.json.JSONArray;
@@ -7,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
@@ -17,6 +20,8 @@ public class WbCTManualSony extends BaseManualParameterSony
     int min =0;
     int max = 0;
     int step = 0;
+
+    private String[] values;
     public WbCTManualSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, ParameterHandlerSony parameterHandlerSony) {
         super(VALUE_TO_GET, VALUES_TO_GET, VALUE_TO_SET, parameterHandlerSony);
     }
@@ -30,22 +35,21 @@ public class WbCTManualSony extends BaseManualParameterSony
     @Override
     public int GetMaxValue()
     {
-        if (max == 0)
-            getMinMax();
-        return max;
+        if (values == null)
+            return 0;
+        return values.length;
     }
 
     @Override
     public int GetMinValue() {
-        if (min == 0)
-            getMinMax();
-        return min;
+        return 0;
     }
 
     @Override
     public int GetValue()
     {
-        new Thread(new Runnable() {
+        if (this.val == -200)
+            new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -61,7 +65,7 @@ public class WbCTManualSony extends BaseManualParameterSony
                             return;
                         }
 
-                        onCurrentValueChanged(val / step);
+                        ThrowCurrentValueChanged(val / step);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -77,13 +81,21 @@ public class WbCTManualSony extends BaseManualParameterSony
     @Override
     public void SetValue(final int valueToSet)
     {
-        val = valueToSet;
+        this.val = valueToSet;
+        if (valueToSet > values.length)
+            this.val = values.length;
+        if (valueToSet < 0)
+            this.val = 0;
+        final int set= val;
+        final String[] t = values;
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try
                 {
-                    JSONArray array = new JSONArray().put("Color Temperature").put(true).put(val * step) ;
+                    Log.d("WBCT", values[set]);
+
+                    JSONArray array = new JSONArray().put("Color Temperature").put(true).put(Integer.parseInt(t[set])) ;
                     JSONObject jsonObject = mRemoteApi.setParameterToCamera("setWhiteBalance", array);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -100,8 +112,41 @@ public class WbCTManualSony extends BaseManualParameterSony
         {
             GetValue();
         }
+
+
     }
 
+    public void SetMinMAx(JSONObject ob) throws JSONException {
+        if(ob.getString("whiteBalanceMode").equals("Color Temperature"))
+        {
+            JSONArray ar = ob.getJSONArray("colorTemperatureRange");
+            step = ar.getInt(2);
+            max = ar.getInt(0)/step;
+            min = ar.getInt(1)/step;
+            ArrayList<String> r = new ArrayList<String>();
+            for (int t = min; t < max; t++)
+                r.add(t*step+"");
+            values =new String[r.size()];
+            r.toArray(values);
+            BackgroundValuesChanged(values);
+            BackgroundIsSetSupportedChanged(true);
+        }
+    }
+
+    public void setValueInternal(int val)
+    {
+        for (int i= 0; i< values.length; i++)
+        {
+            if (values[i].equals(val))
+                this.val = i;
+        }
+        if (this.val == -200)
+            return;
+        ThrowCurrentValueStringCHanged(val+"");
+
+        ThrowCurrentValueChanged(this.val);
+
+    }
 
     private void getMinMax()
     {
@@ -118,16 +163,7 @@ public class WbCTManualSony extends BaseManualParameterSony
                         for (int i = 0; i< subarray.length(); i++)
                         {
                             JSONObject ob = subarray.getJSONObject(i);
-                            if(ob.getString("whiteBalanceMode").equals("Color Temperature"))
-                            {
-                                JSONArray ar = ob.getJSONArray("colorTemperatureRange");
-                                step = ar.getInt(2);
-                                max = ar.getInt(0)/step;
-                                min = ar.getInt(1)/step;
-                                BackgroundMaxValueChanged(max);
-                                BackgroundMinValueChanged(min);
-                                BackgroundIsSetSupportedChanged(true);
-                            }
+                            SetMinMAx(ob);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -137,5 +173,27 @@ public class WbCTManualSony extends BaseManualParameterSony
                 }
             }
         }).start();
+        while (values == null)
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+    }
+
+    @Override
+    public String[] getStringValues()
+    {
+        if (values == null)
+            getMinMax();
+        return values;
+    }
+
+    @Override
+    public String GetStringValue()
+    {
+        if (values == null)
+            return "";
+        return values[this.val];
     }
 }

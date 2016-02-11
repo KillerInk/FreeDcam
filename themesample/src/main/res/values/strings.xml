@@ -1,5 +1,7 @@
 <resources>
     <!-- leftmenufragment  -->
+    <string name="all_perms_granted">All permissions granted</string>
+    <string name="all_perms_denied">All permissions denied, try yet</string>
     <string name="app_name">themesample</string>
     <string name="setting_picture_group_header">Picture Settings</string>
     <string name="setting_Automation">Automated Capture</string>
@@ -14,15 +16,21 @@
     <string name="setting_videoprofile_description">Media Profile used VideoRecording</string>
     <string name="setting_videoprofile_header">Video Profile: </string>
     <string name="setting_videohdr_description">turn on to enable hdr video</string>
-    <string name="setting_videohfr_description">Enables Highspeed Video Recording</string>
+    <string name="setting_videohfr_description">Video FPS Selection</string>
+    <string name="setting_videohsr_description">Enables Highspeed Video Recording</string>
+    <string name="setting_videobitrate_description">Video Bitrate Selection</string>
+    <string name="setting_vs_description">Enables video stabilization</string>
     <string name="setting_videohdr_header">Video HDR: </string>
-    <string name="setting_videohfr_header">Video HFR: </string>
+    <string name="setting_videohfr_header">Video Frame Rate: </string>
+    <string name="setting_videohsr_header">Video HSR: </string>
+    <string name="setting_videobitrate_header">Video Bitrate: </string>
+    <string name="setting_vs_header">Video Stabilization: </string>
     <string name="setting_hdr_">HDR</string>
     <string name="setting_aebracket_header">AE-Bracket: </string>
     <string name="setting_aebracket_description">If ON the camera takes 3 Images in one Shot</string>
 
     <string name="setting_freedcam_">Freedcam Settings</string>
-    <string name="setting_api_header">Api: </string>
+    <string name="setting_api_header">API:</string>
     <string name="setting_api_description">Select the Api you want to use</string>
     <string name="setting_externalshutter_description">The key wich can trigger the shutter from a headset</string>
     <string name="setting_externalshutter_header">ExternalShutterKey: </string>
@@ -30,6 +38,8 @@
     <string name="setting_location_header">Location: </string>
     <string name="setting_guide_description">Compositional Guides</string>
     <string name="setting_guide_header">Guide: </string>
+    <string name="setting_horizont_description">Show horizont line</string>
+    <string name="setting_horizont_header">Horizont Line: </string>
     <string name="setting_focuspeak_description">Enables FocusPeak on the Preview</string>
     <string name="setting_focuspeak_header">Focuspeak: </string>
     <string name="setting_orientation_header">Orientation Correction: </string>

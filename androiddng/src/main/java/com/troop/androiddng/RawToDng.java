@@ -4,6 +4,8 @@ import android.location.Location;
 import android.os.Build;
 import android.util.Log;
 
+import com.troop.freedcam.utils.DeviceUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -133,12 +135,11 @@ public class RawToDng
             SetModelAndMake(nativeHandler, model, make);
     }
 
-    public void SetBayerData(final byte[] fileBytes, String fileout)
+    public void SetBayerData(final byte[] fileBytes, String fileout) throws NullPointerException
     {
-        Log.d("Freedcam Raw2DNG",String.valueOf(fileBytes.length));
-        filepath = fileout;
-        if (filepath.contains("bayer"))
-            bayerpattern = filepath.substring(filepath.length() - 8, filepath.length() -4);
+        if (fileBytes == null) {
+            throw new NullPointerException();
+        }
         if (nativeHandler != null)
             SetBayerData(nativeHandler, fileBytes, fileout);
     }
@@ -178,14 +179,9 @@ public class RawToDng
 
 
 
-    public void WriteDNG(DngSupportedDevices.SupportedDevices device)
+    public void WriteDNG(DeviceUtils.Devices device)
     {
-        DngSupportedDevices.SupportedDevices devices = device;
-        if (device == null)
-            devices = DngSupportedDevices.getDevice();
-        else
-            devices = device;
-
+        DeviceUtils.Devices devices = device;
         if (devices != null)
         {
             DngSupportedDevices.DngProfile profile = new DngSupportedDevices().getProfile(devices, (int)GetRawSize());
@@ -213,14 +209,9 @@ public class RawToDng
         RELEASE();
     }
 
-    public void Write10BitDNG(DngSupportedDevices.SupportedDevices device)
+    public void Write10BitDNG(DeviceUtils.Devices device)
     {
-        DngSupportedDevices.SupportedDevices devices = device;
-        if (device == null)
-            devices = DngSupportedDevices.getDevice();
-        else
-            devices = device;
-
+        DeviceUtils.Devices devices = device;
         if (devices != null)
         {
             DngSupportedDevices.DngProfile profile = new DngSupportedDevices().getProfile(devices, (int)GetRawSize());

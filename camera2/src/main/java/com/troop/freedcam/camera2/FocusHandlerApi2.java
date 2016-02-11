@@ -75,6 +75,11 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
         public void onValuesChanged(String[] values) {
 
         }
+
+        @Override
+        public void onVisibilityChanged(boolean visible) {
+
+        }
     };
 
     @Override
@@ -85,19 +90,29 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
     @Override
     public void StartTouchToFocus(FocusRect rect, FocusRect meteringarea, int width, int height)
     {
+        logFocusRect(rect);
+        Log.d(TAG, "Width:"+width +"Height"+height);
         if (!focusenabled)
             return;
         focusRect = rect;
         Rect m = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
-        if (rect.left < m.left)
-            rect.left = m.left;
-        if (rect.right > m.right)
-            rect.right = m.right;
-        if (rect.top < m.top)
-            rect.top = m.top;
-        if (rect.bottom > m.bottom)
-            rect.bottom = m.bottom;
-        MeteringRectangle rectangle = new MeteringRectangle(rect.left,rect.top,rect.right,rect.bottom, 1000);
+        logRect(m);
+        final FocusRect targetFocusRect = new FocusRect(
+                rect.left * m.right /width,
+                rect.right * m.right /width,
+                rect.top * m.bottom /height,
+                rect.bottom * m.bottom / height);
+        logFocusRect(targetFocusRect);
+        if (targetFocusRect.left < m.left)
+            targetFocusRect.left = m.left;
+        if (targetFocusRect.right > m.right)
+            targetFocusRect.right = m.right;
+        if (targetFocusRect.top < m.top)
+            targetFocusRect.top = m.top;
+        if (targetFocusRect.bottom > m.bottom)
+            targetFocusRect.bottom = m.bottom;
+        logFocusRect(targetFocusRect);
+        MeteringRectangle rectangle = new MeteringRectangle(targetFocusRect.left,targetFocusRect.top,targetFocusRect.right,targetFocusRect.bottom, 1000);
         MeteringRectangle[] mre = { rectangle};
         cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_REGIONS, mre);
         lockFocus();
@@ -173,6 +188,11 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
         public void onValuesChanged(String[] values) {
 
         }
+
+        @Override
+        public void onVisibilityChanged(boolean visible) {
+
+        }
     };
 
     private void lockAE() {
@@ -235,6 +255,11 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
         public void onValuesChanged(String[] values) {
 
         }
+
+        @Override
+        public void onVisibilityChanged(boolean visible) {
+
+        }
     };
 
     @Override
@@ -261,6 +286,16 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
         cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AWB_REGIONS, mre);
         lockAE();
 
+    }
+
+    @Override
+    public boolean isAeMeteringSupported() {
+        return false;
+    }
+
+    @Override
+    public boolean isWbMeteringSupported() {
+        return false;
     }
 
     @Override

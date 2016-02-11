@@ -4,7 +4,6 @@ import android.os.Handler;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
-import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
 
@@ -25,13 +24,14 @@ public class PreviewSizeParameter extends BaseModeParameter
     public void SetValue(String valueToSet, boolean setToCam)
     {
         //if (baseCameraHolder.IsPreviewRunning())
-        if (!firststart)
+        if (setToCam)
             baseCameraHolder.StopPreview();
 
-        if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234()||DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
+        //if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234()||DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
             parameters.put(value, valueToSet);
+        baseCameraHolder.SetCameraParameters(parameters);
 
-        try
+        /*try
         {
             ((BaseCameraHolder)baseCameraHolder).SetPreviewSize(valueToSet);
         }
@@ -39,10 +39,18 @@ public class PreviewSizeParameter extends BaseModeParameter
         {
             ex.printStackTrace();
 
-        }
+        }*/
         //baseCameraHolder.SetCameraParameters(parameters);
         //if (!baseCameraHolder.IsPreviewRunning())
-        if (!firststart)
+        try {
+            baseCameraHolder.SetCameraParameters(parameters);
+            super.BackgroundValueHasChanged(valueToSet);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        if (setToCam)
             baseCameraHolder.StartPreview();
         firststart = false;
     }

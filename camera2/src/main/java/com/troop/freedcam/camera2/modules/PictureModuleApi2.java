@@ -10,7 +10,6 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.DngCreator;
 import android.hardware.camera2.TotalCaptureResult;
-import android.hardware.camera2.params.BlackLevelPattern;
 import android.hardware.camera2.params.ColorSpaceTransform;
 import android.media.Image;
 import android.media.ImageReader;
@@ -94,7 +93,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     }
 
     @Override
-    public void DoWork()
+    public boolean DoWork()
     {
         if (!cameraHolder.isWorking)
         {
@@ -102,7 +101,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             workstarted();
             TakePicture();
         }
-
+        return true;
     }
 
     public void TakePicture()
@@ -388,7 +387,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         }
 
 
-        if(DeviceUtils.isMoto_MSM8982_8994() || DeviceUtils.isOnePlusTwo())
+        if(DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8974) || DeviceUtils.IS(DeviceUtils.Devices.OnePlusTwo))
         {
             final RawToDng dngConverter = RawToDng.GetInstance();
             ByteBuffer buffer = image.getPlanes()[0].getBuffer();
@@ -407,7 +406,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
             dngConverter.setExifData(0, 0, 0, fnum, focal, "0", "0", 0);
 
-            dngConverter.WriteDNG(null);
+            dngConverter.WriteDNG(DeviceUtils.DEVICE());
             dngConverter.RELEASE();
             image.close();
             bytes = null;
@@ -464,13 +463,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 colorpattern = DngSupportedDevices.GRBG;
                 break;
             case 2:
-                colorpattern = DngSupportedDevices.gbrg;
+                colorpattern = DngSupportedDevices.GBRG;
                 break;
             case 3:
                 colorpattern = DngSupportedDevices.BGGR;
                 break;
             default:
-                colorpattern = DngSupportedDevices.RGGb;
+                colorpattern = DngSupportedDevices.RGGB;
                 break;
         }
         float[] m1  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2));
@@ -582,15 +581,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void LoadNeededParameters()
     {
-        cameraHolder.StopPreview();
-        cameraHolder.StartPreview();
+        //cameraHolder.StopPreview();
+        //cameraHolder.StartPreview();
         super.LoadNeededParameters();
     }
 
     @Override
     public void UnloadNeededParameters() {
         super.UnloadNeededParameters();
-        cameraHolder.StopPreview();
+        //cameraHolder.StopPreview();
     }
 
 }

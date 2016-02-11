@@ -3,6 +3,8 @@ package com.troop.freedcam.camera.parameters.modes;
 import android.os.Handler;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
@@ -12,25 +14,54 @@ import java.util.HashMap;
  */
 public class NightModeParameter extends BaseModeParameter
 {
-    public NightModeParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
+
+    private boolean visible = true;
+    private String state = "";
+    private String format = "";
+    public NightModeParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
         super(handler, parameters, parameterChanged, value, values);
+
+        this.isSupported = false;
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
+            this.isSupported = true;
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)||DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
+        {
+            this.isSupported = true;
+        }
+        if (isSupported) {
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
+            cameraUiWrapper.camParametersHandler.PictureFormat.addEventListner(this);
+        }
+
     }
 
     @Override
     public boolean IsSupported()
     {
-        this.isSupported = false;
-        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234())
-            this.isSupported = true;
-        BackgroundSetIsSupportedHasChanged(isSupported);
         return  isSupported;
     }
 
     @Override
-    public void SetValue(String valueToSet, boolean setToCam) {
-        parameters.put("night_key", valueToSet);
+    public void SetValue(String valueToSet, boolean setToCam)
+    {
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)||DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
+        {
+            if (valueToSet.equals("on")) {
+                baseCameraHolder.ParameterHandler.morphoHDR.SetValue("false", true);
+                baseCameraHolder.ParameterHandler.HDRMode.BackgroundValueHasChanged("off");
+                parameters.put("ae-bracket-hdr", "AE-Bracket");
+                parameters.put("capture-burst-exposures", "-10,0,10");
+                parameters.put("morpho-hht", "true");
+            } else {
+                parameters.put("ae-bracket-hdr", "Off");
+                parameters.put("morpho-hht", "false");
+            }
+        }
+        else
+            parameters.put("night_key", valueToSet);
         try {
             baseCameraHolder.SetCameraParameters(parameters);
+            super.BackgroundValueHasChanged(valueToSet);
         }
         catch (Exception ex)
         {
@@ -41,11 +72,69 @@ public class NightModeParameter extends BaseModeParameter
 
     @Override
     public String GetValue() {
-        return parameters.get("night_key");
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)||DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
+        {
+            if (parameters.get("morpho-hht").equals("true") && parameters.get("ae-bracket-hdr").equals("AE-Bracket"))
+                return "on";
+            else
+                return "off";
+        }
+        else
+            return parameters.get("night_key");
     }
 
     @Override
     public String[] GetValues() {
-        return new String[] {"off","on","tripod"};
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)||DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
+            return new String[] {"off","on"};
+        else
+            return new String[] {"off","on","tripod"};
     }
+
+    @Override
+    public String ModuleChanged(String module)
+    {
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
+        {
+            switch (module)
+            {
+                case AbstractModuleHandler.MODULE_VIDEO:
+                case AbstractModuleHandler.MODULE_HDR:
+                    Hide();
+                    break;
+                default:
+                    Show();
+                    BackgroundIsSupportedChanged(true);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void onValueChanged(String val)
+    {
+        format = val;
+        if (val.contains("jpeg")&&!visible)
+            Show();
+
+        else if (!val.contains("jpeg")&&visible)
+            Hide();
+    }
+
+    private void Hide()
+    {
+        state = GetValue();
+        visible = false;
+        SetValue("off",true);
+        BackgroundValueHasChanged("off");
+        BackgroundIsSupportedChanged(visible);
+    }
+    private void Show()
+    {
+        visible = true;
+        SetValue(state,true);
+        BackgroundValueHasChanged(state);
+        BackgroundIsSupportedChanged(visible);
+    }
+
 }

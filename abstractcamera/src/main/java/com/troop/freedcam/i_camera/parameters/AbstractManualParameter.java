@@ -14,6 +14,8 @@ public abstract class AbstractManualParameter implements I_ManualParameter
     private List<I_ManualParameterEvent> events;
     protected AbstractParameterHandler camParametersHandler;
 
+    protected boolean isVisible = false;
+
     public AbstractManualParameter(AbstractParameterHandler camParametersHandler)
     {
         this.camParametersHandler = camParametersHandler;
@@ -43,7 +45,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
             events.remove(parameterEvent);
     }
 
-    public void currentValueChanged(int current)
+    public void ThrowCurrentValueChanged(int current)
     {
         for (int i= 0; i< events.size(); i ++)
         {
@@ -58,7 +60,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
         }
     }
 
-    public void currentValueStringCHanged(String value)
+    public void ThrowCurrentValueStringCHanged(String value)
     {
         for (int i= 0; i< events.size(); i ++)
         {
@@ -158,6 +160,11 @@ public abstract class AbstractManualParameter implements I_ManualParameter
 
     public boolean IsSetSupported() {return false;}
 
+    @Override
+    public boolean IsVisible() {
+        return isVisible;
+    }
+
     /**
      *
      * @return returns the max value as int
@@ -204,7 +211,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
     public void SetValue(int valueToSet)
     {
         setvalue(valueToSet);
-        //currentValueChanged(valueToSet);
+        //ThrowCurrentValueChanged(valueToSet);
     }
 
     @Override

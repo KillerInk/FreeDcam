@@ -560,6 +560,7 @@ void process10tight(TIFF *tif,DngWriter *writer)
     LOGD("realrow: %i shoudlbe: %i", realrowsize, shouldberowsize);
     if (realrowsize != shouldberowsize)
         bytesToSkip = realrowsize - shouldberowsize;
+    LOGD("bytesToSkip: %i", bytesToSkip);
     int row = shouldberowsize;
     unsigned char* out = new unsigned char[shouldberowsize*writer->rawheight];
     int m = 0;

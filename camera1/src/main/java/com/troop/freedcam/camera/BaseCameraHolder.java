@@ -3,7 +3,6 @@ package com.troop.freedcam.camera;
 import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.hardware.Camera;
-
 import android.location.Location;
 import android.os.Handler;
 import android.util.Log;
@@ -21,13 +20,10 @@ import com.troop.freedcam.i_camera.interfaces.I_error;
 import com.troop.freedcam.i_camera.modules.CameraFocusEvent;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.utils.DeviceUtils;
-import com.troop.freedcam.utils.StringUtils;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +34,8 @@ import java.util.Map;
  */
 public class BaseCameraHolder extends AbstractCameraHolder
 {
+
+    final int BUFFERCOUNT = 5;
     Camera mCamera;
 
     private Camera.Parameters mCameraParam;
@@ -183,7 +181,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             if (DeviceFrameWork == Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
             {
                 try {
-                    if (DeviceUtils.isG4())
+                    if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
                         lgCamera = new LGCamera(camera, 256);
                     else
                         lgCamera = new LGCamera(camera);
@@ -326,6 +324,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public Surface getSurfaceHolder()
     {
+
         return  surfaceHolder;
     }
 
@@ -551,13 +550,12 @@ public class BaseCameraHolder extends AbstractCameraHolder
             if (!isPreviewRunning && !isRdy)
                 return;
             Size s = new Size(ParameterHandler.PreviewSize.GetValue());
-            //Add 3 pre allocated buffers. that avoids that the camera create with each frame a new one
-            mCamera.addCallbackBuffer(new byte[s.height * s.width *
-                    ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8]);
-            mCamera.addCallbackBuffer(new byte[s.height * s.width *
-                    ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8]);
-            mCamera.addCallbackBuffer(new byte[s.height * s.width *
-                    ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8]);
+            //Add 5 pre allocated buffers. that avoids that the camera create with each frame a new one
+            for (int i = 0; i<BUFFERCOUNT;i++)
+            {
+                mCamera.addCallbackBuffer(new byte[s.height * s.width *
+                        ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8]);
+            }
             mCamera.setPreviewCallbackWithBuffer(previewCallback);
         }
         catch (NullPointerException ex)
@@ -574,9 +572,10 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
             mCamera.setPreviewCallbackWithBuffer(null);
             //Clear added Callbackbuffers
-            mCamera.addCallbackBuffer(null);
-            mCamera.addCallbackBuffer(null);
-            mCamera.addCallbackBuffer(null);
+            for (int i = 0; i<BUFFERCOUNT;i++)
+            {
+                mCamera.addCallbackBuffer(null);
+            }
         }
         catch (NullPointerException ex)
         {
@@ -587,7 +586,6 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     public void SetErrorCallback(final I_Callbacks.ErrorCallback errorCallback)
     {
-
             if (mCamera == null)
                 return;
             mCamera.setErrorCallback(new Camera.ErrorCallback() {

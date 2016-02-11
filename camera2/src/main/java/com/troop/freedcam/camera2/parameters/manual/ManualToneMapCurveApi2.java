@@ -28,6 +28,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
     float[] whitepoint = {1.0f,1.0f};
     public Contrast contrast;
     public Brightness brightness;
+    boolean visible = false;
 
 
     public ManualToneMapCurveApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder)
@@ -45,14 +46,16 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
         {
             canSet = true;
             isSupported = true;
+            visible = true;
         }
         else {
             canSet = false;
             isSupported = false;
+            visible = false;
         }
-        //contrast.BackgroundIsSetSupportedChanged(canSet);
-        //contrast.BackgroundIsSupportedChanged(isSupported);
-        brightness.BackgroundIsSupportedChanged(true);
+        contrast.BackgroundIsSetSupportedChanged(canSet);
+        contrast.BackgroundIsSupportedChanged(isSupported);
+        brightness.BackgroundIsSupportedChanged(isSupported);
         brightness.BackgroundIsSetSupportedChanged(canSet);
     }
 
@@ -68,6 +71,11 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
 
     @Override
     public void onValuesChanged(String[] values) {
+
+    }
+
+    @Override
+    public void onVisibilityChanged(boolean visible) {
 
     }
 
@@ -171,9 +179,14 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
         @Override
         public boolean IsSupported() {
             if (cameraHolder.characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null
-                    /*&& cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE*/)
+                    && cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE)
                 return true;
             else return false;
+        }
+
+        @Override
+        public boolean IsVisible() {
+            return IsSupported();
         }
 
         @Override
@@ -265,6 +278,11 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
                     && cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE)
                 return true;
             else return false;
+        }
+
+        @Override
+        public boolean IsVisible() {
+            return IsSupported();
         }
 
         @Override

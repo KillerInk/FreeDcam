@@ -9,11 +9,14 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.troop.freedcam.ui.I_Activity;
+import com.troop.freedcam.ui.I_swipe;
+import com.troop.freedcam.ui.SwipeMenuListner;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -22,12 +25,17 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+import troop.com.imageviewer.gridviewfragments.GridViewFragment;
+import troop.com.imageviewer.holder.FileHolder;
+
 /**
  * Created by troop on 18.09.2015.
  */
-public class ScreenSlideFragment extends Fragment
+public class ScreenSlideFragment extends Fragment implements I_swipe
 {
-    final static String TAG = ScreenSlideActivity.class.getSimpleName();
+    final static String TAG = ScreenSlideFragment.class.getSimpleName();
+    final public static String SAVESTATE_FILEPATH = "savestae_filepath";
+    final public static String SAVESTATE_ITEMINT = "savestate_itemint";
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -40,48 +48,70 @@ public class ScreenSlideFragment extends Fragment
      */
     private PagerAdapter mPagerAdapter;
 
-    File[] files;
+    FileHolder[] files;
     Button closeButton;
 
     File currentFile;
     int flags;
     View view;
     I_Activity activity;
+    public int defitem = -1;
+    public String FilePathToLoad = "";
+    public GridViewFragment.FormatTypes filestoshow = GridViewFragment.FormatTypes.all;
+    SwipeMenuListner touchHandler;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        view = inflater.inflate(R.layout.screenslide_fragment, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.screenslide_fragment, container, false);
+    }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
+        super.onViewCreated(view, savedInstanceState);
+        touchHandler = new SwipeMenuListner(this);
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) view.findViewById(R.id.pager);
+        mPager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                touchHandler.onTouchEvent(event);
+                return false;
+            }
+        });
 
         this.closeButton = (Button)view.findViewById(R.id.button_closeView);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 if (activity != null)
                     activity.loadCameraUiFragment();
                 else
                     getActivity().finish();
             }
         });
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        files = loadFilePaths();
-        mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
-        if (files != null && files.length > 0) {
-            mPager.setCurrentItem(files.length);
+        if(savedInstanceState != null){
+            FilePathToLoad = (String) savedInstanceState.get(SAVESTATE_FILEPATH);
+            defitem = (int)savedInstanceState.get(SAVESTATE_ITEMINT);
+            Log.d(TAG, "have file to load from saveinstance onCreated" + FilePathToLoad);
+        }
+        if (FilePathToLoad.equals("")) {
+            FilePathToLoad = StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder;
+            readFiles();
         }
         else
+        {
+            readFiles();
+        }
+        Log.d(TAG, "onResume" + FilePathToLoad);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),files);
+        mPager.setAdapter(mPagerAdapter);
+        if (files != null && files.length > 0 && defitem == -1) {
             mPager.setCurrentItem(0);
+        }
+        else
+            mPager.setCurrentItem(defitem);
+
     }
 
     @Override
@@ -89,6 +119,34 @@ public class ScreenSlideFragment extends Fragment
     {
         super.onResume();
 
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString(SAVESTATE_FILEPATH, FilePathToLoad);
+        outState.putInt(SAVESTATE_ITEMINT, mPager.getCurrentItem());
+        super.onSaveInstanceState(outState);
+    }
+
+    private void readFiles()
+    {
+        List<FileHolder> images = new ArrayList<FileHolder>();
+        File folder = new File(FilePathToLoad);
+        if(folder.listFiles() == null || folder.listFiles().length ==0)
+        {
+            Log.d(TAG, "readFiles failed, folder.listFiles empty");
+            files = null;
+            return;
+        }
+        FileUtils.readFilesFromFolder(folder, images, filestoshow);
+        files = images.toArray(new FileHolder[images.size()]);
+        Log.d(TAG, "readFiles sucess, FilesCount" + files.length);
+        Arrays.sort(files, new Comparator<FileHolder>() {
+            public int compare(FileHolder f1, FileHolder f2) {
+                return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
+            }
+        });
     }
 
     public void Set_I_Activity(I_Activity activity)
@@ -98,11 +156,11 @@ public class ScreenSlideFragment extends Fragment
 
     public void reloadFilesAndSetLastPos()
     {
-
-        files = loadFilePaths();
+        Log.d(TAG, "reloadFilesAndSetLastPos");
+        readFiles();
         if (files == null)
             return;
-        mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
+        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),files);
         int current = mPager.getCurrentItem();
         mPager.setAdapter(mPagerAdapter);
         if (current-1 >= 0 && current-1 <= files.length)
@@ -113,24 +171,64 @@ public class ScreenSlideFragment extends Fragment
 
     public void ReloadFilesAndSetLast()
     {
-        files =loadFilePaths();
+        readFiles();
         if (files == null)
             return;
-        mPagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
+        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),files);
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(files.length);
+        Log.d(TAG, "reloadFilesAndSetLast");
+    }
+
+    @Override
+    public void doLeftToRightSwipe()
+    {
+        Log.d(TAG, "left to right");
+        if (activity != null && mPager.getCurrentItem() == 0)
+            activity.loadCameraUiFragment();
+    }
+
+    @Override
+    public void doRightToLeftSwipe() {
+        Log.d(TAG, "right to left");
+    }
+
+    @Override
+    public void doTopToBottomSwipe() {
+
+    }
+
+    @Override
+    public void doBottomToTopSwipe() {
+
+    }
+
+    @Override
+    public void onClick(int x, int y) {
+
     }
 
 
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
+    {
+        FileHolder[] f;
+        public ScreenSlidePagerAdapter(FragmentManager fm,FileHolder[] f)
+        {
             super(fm);
+
+            this.f = f;
+            if (f != null)
+                Log.d(TAG, "loading screenslidePageAdapter: file count:" + f.length);
+            else
+                Log.d(TAG, "loading screenslidePageAdapter: No Files found");
+
         }
 
         @Override
         public Fragment getItem(int position)
         {
-            if (files == null || files.length == 0)
+
+            if (f == null || f.length == 0)
             {
                 ImageFragment currentFragment = new ImageFragment();
                 currentFragment.activity = ScreenSlideFragment.this;
@@ -138,10 +236,10 @@ public class ScreenSlideFragment extends Fragment
                 return currentFragment;
             }
             else {
-                currentFile = (files[mPager.getCurrentItem()]);
+                currentFile = (f[mPager.getCurrentItem()].getFile());
                 ImageFragment currentFragment = new ImageFragment();
                 currentFragment.activity = ScreenSlideFragment.this;
-                currentFragment.SetFilePath(files[position]);
+                currentFragment.SetFilePath(files[position].getFile());
 
 
                 return currentFragment;
@@ -159,7 +257,7 @@ public class ScreenSlideFragment extends Fragment
 
     }
 
-    public static File[] loadFilePaths()
+/*    public static File[] loadFilePaths()
     {
         Log.d(TAG, "Loading Files...");
         File internalSDCIM = new File(StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder);
@@ -167,14 +265,14 @@ public class ScreenSlideFragment extends Fragment
         List<File> images = new ArrayList<File>();
         //read internal Folders
         try {
-            readSubFolderFromFolder(internalSDCIM, folders);
+            FileUtils.readSubFolderFromFolder(internalSDCIM, folders);
         }
         catch (Exception ex){}
         Log.d(TAG, "Found internal " + folders.size() + "Folders");
         //read external Folders
         File externalSDCIM = new File(StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder);
         try {
-            readSubFolderFromFolder(externalSDCIM, folders);
+            FileUtils.readSubFolderFromFolder(externalSDCIM, folders);
         }
         catch (Exception ex){}
         Log.d(TAG, "Found external " + folders.size() + "Folders");
@@ -185,7 +283,7 @@ public class ScreenSlideFragment extends Fragment
             {
                 if (folder.isDirectory())
                 {
-                    readFilesFromFolder(folder, images);
+                    FileUtils.readFilesFromFolder(folder, images);
                 }
             }
         }
@@ -199,29 +297,7 @@ public class ScreenSlideFragment extends Fragment
             }
         });
         return s;
-    }
+    }*/
 
-    private static void readFilesFromFolder(File folder, List<File> fileList)
-    {
-        File[] folderfiles = folder.listFiles();
-        for (File f : folderfiles)
-        {
-            if (!f.isDirectory() &&
-                    (f.getAbsolutePath().endsWith(".jpg") ||
-                            f.getAbsolutePath().endsWith(".mp4")||
-                            f.getAbsolutePath().endsWith(".dng")||
-                            f.getAbsolutePath().endsWith(".raw")))
-                fileList.add(f);
-        }
-    }
 
-    private static void readSubFolderFromFolder(File folder, List<File> folderList)
-    {
-        File[] folderfiles = folder.listFiles();
-        for (File f : folderfiles)
-        {
-            if (f.isDirectory() && !f.isHidden())
-                folderList.add(f);
-        }
-    }
 }

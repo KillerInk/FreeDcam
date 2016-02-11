@@ -149,6 +149,11 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
     }
 
     @Override
+    public boolean IsVisible() {
+        return isSupported;
+    }
+
+    @Override
     public boolean IsSupported() {
         isSupported = camParametersHandler.ColorCorrectionMode.GetValue() != null && camParametersHandler.ColorCorrectionMode.GetValue().equals("TRANSFORM_MATRIX") && camParametersHandler.WhiteBalanceMode.GetValue().equals("OFF");
         return isSupported;
@@ -184,6 +189,11 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
 
     @Override
     public void onValuesChanged(String[] values) {
+
+    }
+
+    @Override
+    public void onVisibilityChanged(boolean visible) {
 
     }
 

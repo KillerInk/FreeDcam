@@ -31,6 +31,13 @@ public class MenuItemTheme extends MenuItem {
     @Override
     public void SetParameter(AbstractModeParameter parameter)
     {
+        if (parameter == null)
+        {
+            this.setVisibility(GONE);
+            return;
+        }
+        else
+            this.setVisibility(VISIBLE);
         this.parameter = parameter;
         String s = appSettingsManager.GetTheme();
         if (s.equals("")) {

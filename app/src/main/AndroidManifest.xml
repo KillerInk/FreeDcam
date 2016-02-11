@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- only for system apps
     <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE" /> -->
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
@@ -45,7 +46,9 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection"
             android:screenOrientation="landscape"
             android:clearTaskOnLaunch="false"
-            android:excludeFromRecents="false">
+            android:excludeFromRecents="false"
+            android:finishOnTaskLaunch="true"
+            android:hardwareAccelerated = "true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -72,12 +75,12 @@
         </activity>
 
         <activity
-            android:name="troop.com.imageviewer.ScreenSlideActivity"
+            android:name="troop.com.imageviewer.GridViewActivity"
             android:label="FreeDCam Viewer"
 
             android:icon="@drawable/launcher_imageviewer"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection"
-            android:screenOrientation="landscape"
+
             android:clearTaskOnLaunch="false"
             android:excludeFromRecents="false">
             <intent-filter>
@@ -91,14 +94,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:mimeType="image/*"/>
             </intent-filter>
-
-
         </activity>
 
-
-
     </application>
-
-
-
 </manifest>

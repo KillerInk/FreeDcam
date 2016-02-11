@@ -1,6 +1,6 @@
 package com.troop.androiddng;
 
-import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.DeviceUtils.Devices;
 
 /**
  * Created by troop on 11.05.2015.
@@ -14,12 +14,13 @@ public class DngSupportedDevices
     public final static int Mipi16 = 3;
 
 
-    public enum SupportedDevices
+/*    public enum SupportedDevices
     {
         Lg_G4,
         LG_G3,
         LG_G2,
         Lenovo_k910,
+        Lenovo_K920,
         Gione_E7,
         Sony_XperiaL,
         HTC_One_Sv,
@@ -46,13 +47,16 @@ public class DngSupportedDevices
         moto2k14,
         SonyM5,
         op2,
-        Mobicel_Retro
+        Mobicel_Retro,
+        Forward_Art
+    }*/
 
-    }
-
-
-    public static DngSupportedDevices.SupportedDevices getDevice()
+    /*public static DeviceUtils.Devices getDevice()
     {
+
+
+        if(DeviceUtils.isForwardArt())
+            return DngSupportedDevices.SupportedDevices.Forward_Art;
         if (DeviceUtils.isYureka())
             return DngSupportedDevices.SupportedDevices.yureka;
         if (DeviceUtils.isLG_G3())
@@ -71,8 +75,12 @@ public class DngSupportedDevices
             return DngSupportedDevices.SupportedDevices.HTC_One_XL;
         if (DeviceUtils.isLenovoK910())
             return DngSupportedDevices.SupportedDevices.Lenovo_k910;
+        if (DeviceUtils.isLenovoK920())
+            return SupportedDevices.Lenovo_k920;
         if(DeviceUtils.isG2())
             return DngSupportedDevices.SupportedDevices.LG_G2;
+        if (DeviceUtils.isG4())
+            return SupportedDevices.Lg_G4;
         if (DeviceUtils.hasIMX135())
             return DngSupportedDevices.SupportedDevices.zteAdv;
         if(DeviceUtils.isZTEADVIMX214())
@@ -116,11 +124,21 @@ public class DngSupportedDevices
         if(DeviceUtils.isRetro())
             return SupportedDevices.Mobicel_Retro;
         return null;
-    }
+    }*/
 
-    public DngProfile getProfile(SupportedDevices device, int filesize)
+    public DngProfile getProfile(Devices device, int filesize)
     {
         switch (filesize) {
+            case 9830400: //NGM Forward Art
+				return new DngProfile(16, 2560, 1920, Plain, BGGR, 0,
+						Matrixes.Nexus6_identity_matrix1,
+                        Matrixes.Nexus6_identity_matrix2,
+                        Matrixes.Nexus6_identity_neutra,
+                        Matrixes.Nexus6_foward_matrix1,
+                        Matrixes.Nexus6_foward_matrix2,
+                        Matrixes.Nexus6_reduction_matrix1,
+                        Matrixes.Nexus6_reduction_matrix2,
+                        Matrixes.Nexus6_noise_3x1_matrix);
             case 2658304: //g3 front mipi
                 return new DngProfile(64, 1212, 1096, Mipi, BGGR, 2424,
                         Matrixes.G3Device.CC_A_FRONT,
@@ -142,10 +160,18 @@ public class DngSupportedDevices
                         Matrixes.G4_reduction_matrix1,
                         Matrixes.G4_reduction_matrix2,
                         Matrixes.G4_noise_3x1_matrix);
-            case 2969600://g2 mipi front
-                return new Nexus6Profile(64, 1236, 1200, Mipi, BGGR, 2472);
+            case 2969600:
+                switch (device) {
+                    case XiaomiMI3W:
+                        return new Nexus6Profile(64, 1976, 1200, Mipi16, RGGB, 0);
+                    default:
+                        return new Nexus6Profile(64, 1236, 1200, Mipi, BGGR, 2472);//g2 mipi front
+                }
+            case 3170304://Xiaomi_mi3 front Qcom
+                        return new Nexus6Profile(0, 1976, 1200, Qcom, RGGB, 0);
+
             case 42923008://Moto_MSM8982_8994
-                return new DngProfile(64,5344 ,4016 ,Plain, RGGb, 0,
+                return new DngProfile(64,5344 ,4016 ,Plain, RGGB, 0,
                         Matrixes.imx230_identity_matrix1,
                         Matrixes.imx230_identity_matrix2,
                         Matrixes.imx230_identity_neutra,
@@ -175,7 +201,6 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_reduction_matrix2,
                         Matrixes.Nexus6_noise_3x1_matrix);
             case 6299648: {
-
                 return new DngProfile(16, 2592, 1944, Mipi, BGGR, 0,
                         Matrixes.OV_matrix1,
                         Matrixes.OV_matrix2,
@@ -185,42 +210,16 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_reduction_matrix1,
                         Matrixes.Nexus6_reduction_matrix2,
                         Matrixes.OV_NREDUCTION_Matrix);
-               /* switch (device) {
-                    case Xiaomi_Redmi_Note:
-                        return new Nexus6Profile(16, 2592, 1944, Mipi, BGGR, 0);
-                    case zteAdv:
-                        return new DngProfile(16, 2592, 1944, Mipi, BGGR, 0,
-                                Matrixes.OV_matrix1,
-                                Matrixes.OV_matrix2,
-                                Matrixes.OV_ASSHOT,
-                                Matrixes.OV_Foward,
-                                Matrixes.OV_Foward2,
-                                Matrixes.Nexus6_reduction_matrix1,
-                                Matrixes.Nexus6_reduction_matrix2,
-                                Matrixes.OV_NREDUCTION_Matrix);
-                    case Lenovo_k910:
-                        return new DngProfile(16, 2592, 1944, Mipi, BGGR, 0,
-                                Matrixes.nocal_color1,
-                                Matrixes.nocal_color2,
-                                Matrixes.nocal_nutral,
-                                Matrixes.Nexus6_foward_matrix1,
-                                Matrixes.Nexus6_foward_matrix2,
-                                Matrixes.Nexus6_reduction_matrix1,
-                                Matrixes.Nexus6_reduction_matrix2,
-                                Matrixes.Nexus6_noise_3x1_matrix);
-                    default:
-                        return new Nexus6Profile(64, 2592, 1944, Mipi, BGGR, 0);
-                }*/
             }
             case 6746112:// Htc One SV
                 return new Nexus6Profile(64, 2592, 1944, Qcom, GRBG, 0);
             case (6721536): {
                 switch (device) {
-                    case Xiaomi_Redmi_Note:
+                    case XiaomiMI_Note_Pro:
                         return new Nexus6Profile(64, 2592, 1296, Qcom, BGGR, 0);
-                    case zteAdv:
+                    case ZTE_ADV:
                         return new Nexus6Profile(64, 2592, 1296, Qcom, BGGR, 0);
-                    case Lenovo_k910:
+                    case LenovoK910:
                         return new DngProfile(64, 2592, 1296, Qcom, BGGR, 0,
                                 Matrixes.nocal_color1,
                                 Matrixes.nocal_color2,
@@ -237,7 +236,15 @@ public class DngSupportedDevices
             case 3763584: //I_Mobile_I_StyleQ6
                 return new Nexus6Profile(0, 1584, 1184, Plain, GRBG, 0);
             case 9631728: //I_Mobile_I_StyleQ6
-                return new Nexus6Profile(64, 2532, 1902, Plain, GRBG, 0);
+            return new DngProfile(0, 2532, 1902, Plain, GRBG, 0,
+                    Matrixes.OV_matrix1,
+                    Matrixes.OV_matrix2,
+                    Matrixes.OV_ASSHOT,
+                    Matrixes.OV_Foward,
+                    Matrixes.OV_Foward2,
+                    Matrixes.Nexus6_reduction_matrix1,
+                    Matrixes.Nexus6_reduction_matrix2,
+                    Matrixes.OV_NREDUCTION_Matrix);
             case 9990144://e7 front mipi
                 return new Nexus6Profile(0, 2040, 2448, Mipi, BGGR, 4080);
             case 10782464: //HTC one xl
@@ -264,17 +271,17 @@ public class DngSupportedDevices
                 switch (device) {
                     case Vivo_Xplay3s:
                         return new Nexus6Profile(64, 4212, 3120, Mipi, BGGR, getG3_rowSizeL);
-                    case Xiaomi_Redmi_Note:
-                        return new Nexus6Profile(64, 4208, 3120, Mipi, RGGb, getG3_rowSizeL);
-                    case Xiaomi_mi3:
-                        return new Nexus6Profile(64, 4212, 3120, Mipi, RGGb, getG3_rowSizeL);
-                    case Xiaomi_mi4:
-                        return new Nexus6Profile(64, 4212, 3120, Mipi, RGGb, getG3_rowSizeL);
+                    case RedmiNote:
+                        return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL);
+                    case XiaomiMI3W:
+                        return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL);
+                    case XiaomiMI4W:
+                        return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL);
                     case Alcatel_Idol3:
-                        return new Nexus6Profile(64, 4208, 3120, Mipi, RGGb, 0);
+                        return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, 0);
                     case OnePlusOne:
-                        return new Nexus6Profile(64, 4212, 3120, Mipi, RGGb, getG3_rowSizeL);
-                    case zteAdv:
+                        return new Nexus6Profile(64, 4212, 3120, Mipi, RGGB, getG3_rowSizeL);
+                    case ZTE_ADV:
                        // return new Nexus6Profile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL);
                     return new DngProfile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL, Matrixes.imx214_identity_matrix1, Matrixes.imx214_identity_matrix2, Matrixes.Nexus6_identity_neutra,
                             Matrixes.imx214_foward_matrix1,
@@ -282,13 +289,15 @@ public class DngSupportedDevices
                             Matrixes.G4_reduction_matrix1,
                             Matrixes.G4_reduction_matrix2,
                             Matrixes.G4_noise_3x1_matrix);
-                    case zteADV_IMX214:
-                        return new Nexus6Profile(64, 4208, 3120, Mipi, RGGb, getG3_rowSizeL);
-                    case Lenovo_k910:
+                    case ZTEADVIMX214:
+                        return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL);
+                    case LenovoK910:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL);
+                    case LG_G2:
+                        return new Nexus6Profile(64, 4212, 3120, Mipi, BGGR, getG3_rowSizeL);
                     case LG_G3:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL);
-                    case yureka:
+                    case Yu_Yureka:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL);
                     default:
                         return new Nexus6Profile(64, 4212, 3082, Mipi, BGGR, getG3_rowSizeL);
@@ -296,10 +305,10 @@ public class DngSupportedDevices
             }
             case (16560128): {
                 switch (device) {
-                    case Xiaomi_mi_note_pro:
-                        return new Nexus6Profile(64, 4208, 3120, Mipi16, RGGb, 0);
+                    case XiaomiMI_Note_Pro:
+                        return new Nexus6Profile(64, 4208, 3120, Mipi16, RGGB, 0);
                     default:
-                        return new Nexus6Profile(64, 4212, 3120, Mipi, RGGb, 0);
+                        return new Nexus6Profile(64, 4212, 3120, Mipi, RGGB, 0);
                 }
             }
             case 17326080://qcom g3
@@ -308,31 +317,31 @@ public class DngSupportedDevices
                 switch (device) {
                     case Vivo_Xplay3s:
                         return new Nexus6Profile(64, 4208, 3120, Qcom, BGGR, getG3_rowSizeL);
-                    case Xiaomi_Redmi_Note:
-                        return new Nexus6Profile(64, 4212, 3082, Qcom, RGGb, getG3_rowSizeL);
-                    case Xiaomi_mi3:
-                        return new Nexus6Profile(0, 4212, 3120, Qcom, RGGb, getG3_rowSizeL);
-                    case Xiaomi_mi4:
-                        return new Nexus6Profile(0, 4212, 3120, Qcom, RGGb, getG3_rowSizeL);
+                    case RedmiNote:
+                        return new Nexus6Profile(64, 4212, 3082, Qcom, RGGB, getG3_rowSizeL);
+                    case XiaomiMI3W:
+                        return new Nexus6Profile(0, 4212, 3120, Qcom, RGGB, getG3_rowSizeL);
+                    case XiaomiMI4W:
+                        return new Nexus6Profile(0, 4212, 3120, Qcom, RGGB, getG3_rowSizeL);
                     case Alcatel_Idol3:
-                        return new Nexus6Profile(64, 4208, 3120, Qcom, RGGb, 0);
+                        return new Nexus6Profile(64, 4208, 3120, Qcom, RGGB, 0);
                     case OnePlusOne:
-                        return new Nexus6Profile(64, 4212, 3082, Qcom, RGGb, getG3_rowSizeL);
-                    case zteAdv:
+                        return new Nexus6Profile(64, 4212, 3082, Qcom, RGGB, getG3_rowSizeL);
+                    case ZTE_ADV:
                         return new DngProfile(64, 4212, 3120, Qcom, BGGR, getG3_rowSizeL, Matrixes.G4CCM1, Matrixes.G4CCM2, Matrixes.G4NM,
                                 Matrixes.G4_foward_matrix1,
                                 Matrixes.G4_foward_matrix2,
                                 Matrixes.G4_reduction_matrix1,
                                 Matrixes.G4_reduction_matrix2,
                                 Matrixes.G4_noise_3x1_matrix);
-                    case zteADV_IMX214:
-                        return new DngProfile(64, 4212, 3120, Qcom, RGGb, getG3_rowSizeL, Matrixes.Nexus6_identity_matrix1, Matrixes.Nexus6_identity_matrix2, Matrixes.Nexus6_identity_neutra,
+                    case ZTEADVIMX214:
+                        return new DngProfile(64, 4212, 3120, Qcom, RGGB, getG3_rowSizeL, Matrixes.Nexus6_identity_matrix1, Matrixes.Nexus6_identity_matrix2, Matrixes.Nexus6_identity_neutra,
                                 Matrixes.Nexus6_foward_matrix1,
                                 Matrixes.Nexus6_foward_matrix2,
                                 Matrixes.Nexus6_reduction_matrix1,
                                 Matrixes.Nexus6_reduction_matrix2,
                                 Matrixes.Nexus6_noise_3x1_matrix);
-                    case Lenovo_k910:
+                    case LenovoK910:
                         return new DngProfile(64, 4212, 3120, Qcom, BGGR, getG3_rowSizeL, Matrixes.G4CCM1, Matrixes.G4CCM2, Matrixes.G4NM,
                                 Matrixes.G4_foward_matrix1,
                                 Matrixes.G4_foward_matrix2,
@@ -341,7 +350,7 @@ public class DngSupportedDevices
                                 Matrixes.G4_noise_3x1_matrix);
                     case LG_G3:
                         return new Nexus6Profile(64, 4212, 3082, Qcom, BGGR, getG3_rowSizeL);
-                    case yureka:
+                    case Yu_Yureka:
                         return new Nexus6Profile(0, 4212, 3082, Qcom, BGGR, getG3_rowSizeL);
                     default:
                         return new Nexus6Profile(64, 4208, 3120, Qcom, BGGR, getG3_rowSizeL);
@@ -349,10 +358,10 @@ public class DngSupportedDevices
             }
             case 17612800: {
                 switch (device) {
-                    case Xiaomi_mi_note_pro:
-                        return new Nexus6Profile(64, 4212, 3120, Qcom, RGGb, 0);
+                    case XiaomiMI_Note_Pro:
+                        return new Nexus6Profile(64, 4212, 3120, Qcom, RGGB, 0);
                     default:
-                        return new Nexus6Profile(64, 4212, 3120, Qcom, RGGb, 0);
+                        return new Nexus6Profile(64, 4212, 3120, Qcom, RGGB, 0);
                 }
             }
             case 19906560://e7mipi
@@ -366,8 +375,10 @@ public class DngSupportedDevices
                     Matrixes.Nexus6_reduction_matrix1,
                     Matrixes.Nexus6_reduction_matrix2,
                     Matrixes.OV_NREDUCTION_Matrix);
-            case 19976192: //g4 raw10 camera2
-                return new DngProfile(64, 5312,2988,Mipi, BGGR,0,
+            case 19992576:  //lenovo k920
+                return new Nexus6Profile(64, 5328,3000, Mipi, GBRG, 0);
+            case 19976192: //g4 bayer mipi camera1
+                return new DngProfile(64, 5312,2988,Mipi16, BGGR,0,
                 Matrixes.G4_identity_matrix1,
                         Matrixes.G4_identity_matrix2,
                         Matrixes.G4_identity_neutra,
@@ -392,12 +403,12 @@ public class DngSupportedDevices
             case 26023936: //THL 5000 MTK, Redmi note2
                 switch (device)
                 {
-                    case THL5000:
-                        return new Nexus6Profile(64, 4192, 3104, Plain, RGGb, 0);
-                    case Xiaomi_Redmi_Note2:
-                        return new Nexus6Profile(64, 4192, 3104, Plain, gbrg, 0);
+                    case THL5000_MTK:
+                        return new Nexus6Profile(64, 4192, 3104, Plain, RGGB, 0);
+                    case RedmiNote2_MTK:
+                        return new Nexus6Profile(64, 4192, 3104, Plain, GBRG, 0);
                     default:
-                        return new Nexus6Profile(64, 4192, 3104, Plain, RGGb, 0);
+                        return new Nexus6Profile(64, 4192, 3104, Plain, RGGB, 0);
 
                 }
             case 27127808: //HTC M9 QCom
@@ -417,10 +428,19 @@ public class DngSupportedDevices
 
 
         }
-
-        if (device == SupportedDevices.HTC_One_m8) {
-            if (filesize < 6000000 && filesize > 5382641)//M8 qcom
-                //return new Nexus6Profile(0, 2688, 1520, Qcom, GRBG, 0);
+        if (device == Devices.LG_G4)
+            return new DngProfile(64, 5312,2988,Mipi, BGGR,0,
+                    Matrixes.G4_identity_matrix1,
+                    Matrixes.G4_identity_matrix2,
+                    Matrixes.G4_identity_neutra,
+                    Matrixes.G4_foward_matrix1,
+                    Matrixes.G4_foward_matrix2,
+                    Matrixes.G4_reduction_matrix1,
+                    Matrixes.G4_reduction_matrix2,
+                    Matrixes.G4_noise_3x1_matrix);
+        if (device == Devices.Htc_M8)
+        {
+            if (filesize < 6000000 && filesize > 5382641)
             return new DngProfile(0, 2688, 1520, Qcom, GRBG, 0,
                     Matrixes.OV_matrix1,
                     Matrixes.OV_matrix2,
@@ -440,7 +460,6 @@ public class DngSupportedDevices
                         Matrixes.Nexus6_reduction_matrix1,
                         Matrixes.Nexus6_reduction_matrix2,
                         Matrixes.OV_NREDUCTION_Matrix);
-                //return new Nexus6Profile(0, 2688, 1520, Mipi, GRBG, HTCM8_rowSize);
             return null;
         }
         return null;
@@ -455,14 +474,14 @@ public class DngSupportedDevices
         public int rawType;
         public String BayerPattern;
         public int rowsize;
-        float[]matrix1;
-        float[]matrix2;
-        float[]neutral;
-        float[]fowardmatrix1;
-        float[]fowardmatrix2;
-        float[]reductionmatrix1;
-        float[]reductionmatrix2;
-        float[]noiseprofile;
+        public float[]matrix1;
+        public float[]matrix2;
+        public float[]neutral;
+        public float[]fowardmatrix1;
+        public float[]fowardmatrix2;
+        public float[]reductionmatrix1;
+        public float[]reductionmatrix2;
+        public float[]noiseprofile;
 
         public DngProfile(int blacklevel,int widht, int height, int rawType, String bayerPattern, int rowsize, float[]matrix1, float[] matrix2, float[]neutral,float[]fmatrix1, float[] fmatrix2,float[]rmatrix1, float[] rmatrix2,float[]noise)
         {
@@ -480,7 +499,6 @@ public class DngSupportedDevices
             this.reductionmatrix1 = rmatrix1;
             this.reductionmatrix2 = rmatrix2;
             this.noiseprofile = noise;
-
         }
     }
 
@@ -502,6 +520,19 @@ public class DngSupportedDevices
                     Matrixes.Nexus6_noise_3x1_matrix);
         }
     }
+
+    public DngProfile GetEmptyProfile()
+    {
+        return new DngProfile(0,0,0,0,"bggr",0,
+            Matrixes.Nex6CCM1,
+            Matrixes.Nex6CCM2,
+            Matrixes.Nex6NM,
+            Matrixes.Nexus6_foward_matrix1,
+            Matrixes.Nexus6_foward_matrix2,
+            Matrixes.Nexus6_reduction_matrix1,
+            Matrixes.Nexus6_reduction_matrix2,
+            Matrixes.Nexus6_noise_3x1_matrix);
+    }
     private static final int g3_blacklevel = 64;
     //16424960,4208,3120
     private static final int g3_rowSizeKitKat = 5264;
@@ -515,7 +546,7 @@ public class DngSupportedDevices
     public static String SonyXperiaLRawSize = "3282x2448";
     public static String Optimus3DRawSize = "2608x1944";
     public static String BGGR = "bggr";
-    public static String RGGb = "rggb";
+    public static String RGGB = "rggb";
     public static final String GRBG = "grbg";
-    public static final String gbrg =  "gbrg";
+    public static final String GBRG =  "gbrg";
 }

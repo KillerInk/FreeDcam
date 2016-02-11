@@ -9,6 +9,11 @@ import com.troop.freedcam.utils.StringUtils;
 
 import java.util.Set;
 
+import static com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView.NightPreviewModes.grayscale;
+import static com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView.NightPreviewModes.off;
+import static com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView.NightPreviewModes.on;
+import static com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView.NightPreviewModes.zoompreview;
+
 /**
  * Created by troop on 04.12.2015.
  */
@@ -16,6 +21,8 @@ public class NightModeSony extends BaseModeParameterSony
 {
     private String currentval = StringUtils.OFF;
     SimpleStreamSurfaceView simpleStreamSurfaceView;
+    final String GRAYSCALE = "GrayScale";
+    final String ZOOMPREVIEW = "ZoomPreview";
 
     public NightModeSony(Handler handler, String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi, SimpleStreamSurfaceView simpleStreamSurfaceView) {
         super(handler, VALUE_TO_GET, VALUE_TO_SET, VALUES_TO_GET, mRemoteApi);
@@ -25,23 +32,36 @@ public class NightModeSony extends BaseModeParameterSony
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         if (valueToSet.equals(StringUtils.ON))
-            simpleStreamSurfaceView.nightmode = true;
+            simpleStreamSurfaceView.nightmode = on;
+        else if(valueToSet.equals(GRAYSCALE))
+            simpleStreamSurfaceView.nightmode = grayscale;
+        else if(valueToSet.equals(ZOOMPREVIEW))
+            simpleStreamSurfaceView.nightmode = zoompreview;
         else
-            simpleStreamSurfaceView.nightmode = false;
+            simpleStreamSurfaceView.nightmode = off;
     }
 
     @Override
     public String GetValue()
     {
-        if (simpleStreamSurfaceView.nightmode)
-            return StringUtils.ON;
-        else
-            return StringUtils.OFF;
+        switch (simpleStreamSurfaceView.nightmode)
+        {
+            case on:
+                return StringUtils.ON;
+            case off:
+                return StringUtils.OFF;
+            case grayscale:
+                return GRAYSCALE;
+            case zoompreview:
+                return ZOOMPREVIEW;
+            default:
+                return StringUtils.OFF;
+        }
     }
 
     @Override
     public String[] GetValues() {
-        return new String[] {StringUtils.ON, StringUtils.OFF};
+        return new String[] {StringUtils.ON, StringUtils.OFF, GRAYSCALE, ZOOMPREVIEW};
     }
 
     @Override

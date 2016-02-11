@@ -22,16 +22,20 @@ public class Camera1Fragment extends AbstractCameraFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-            view = inflater.inflate(R.layout.cameraholder1, container, false);
-            extendedSurfaceView = (ExtendedSurfaceView) view.findViewById(R.id.exSurface);
-            extendedSurfaceView.appSettingsManager = appSettingsManager;
-            preview = (TextureViewRatio) view.findViewById(R.id.textureView_preview);
 
-            this.cameraUiWrapper = new CameraUiWrapper(extendedSurfaceView, preview, appSettingsManager);
+        return inflater.inflate(R.layout.cameraholder1, container, false);
+    }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
 
-        super.onCreateView(inflater, container, null);
-        return view;
+        extendedSurfaceView = (ExtendedSurfaceView) view.findViewById(R.id.exSurface);
+        extendedSurfaceView.appSettingsManager = appSettingsManager;
+        preview = (TextureViewRatio) view.findViewById(R.id.textureView_preview);
+        this.cameraUiWrapper = new CameraUiWrapper(extendedSurfaceView, preview, appSettingsManager);
+        //call super at end because its throws on camerardy event
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override

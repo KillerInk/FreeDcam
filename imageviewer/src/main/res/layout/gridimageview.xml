@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/gridimageviewholder"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBox_gridviewimage"
+            android:layout_gravity="right|bottom"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="#85000000" />
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="jpg"
+        android:id="@+id/filetypetextbox"
+        android:background="#7c000000" />
+
+</AbsoluteLayout>

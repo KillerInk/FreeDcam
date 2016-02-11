@@ -1,5 +1,7 @@
 package com.troop.freedcam.sonyapi.modules;
 
+import android.util.Log;
+
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -43,14 +45,14 @@ public class ModuleHandlerSony extends AbstractModuleHandler implements CameraHo
     @Override
     public void onShootModeChanged(String mode)
     {
+        Log.d(TAG, "ShotmodeChanged:" +mode);
         if (currentModule !=null) {
             currentModule.SetWorkerListner(null);
         }
         if (mode.equals("still"))
         {
             currentModule = moduleList.get(MODULE_PICTURE);
-            if (currentModule == null || moduleEventHandler == null)
-                return;
+
             moduleEventHandler.ModuleHasChanged(currentModule.ModuleName());
             currentModule.SetWorkerListner(workerListner);
             currentModule.LoadNeededParameters();

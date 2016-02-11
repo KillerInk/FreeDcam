@@ -11,7 +11,6 @@ import com.troop.freedcam.camera2.modules.ModuleHandlerApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_error;
-import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
@@ -55,8 +54,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
         //previewSize.getHolder().addCallback(this);
         this.cameraHolder = new BaseCameraHolderApi2(context, this, uiHandler, appSettingsManager, backgroundHandler);
         super.cameraHolder = this.cameraHolder;
-        cameraHolder.errorHandler = errorHandler;
-        camParametersHandler = new ParameterHandlerApi2(cameraHolder, appSettingsManager, uiHandler);
+        camParametersHandler = new ParameterHandlerApi2(this, appSettingsManager, uiHandler);
         cameraHolder.ParameterHandler = (ParameterHandlerApi2)camParametersHandler;
         moduleHandler = new ModuleHandlerApi2(cameraHolder, appSettingsManager, backgroundHandler);
 
@@ -138,8 +136,10 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
     {
         Log.d(TAG, "SurfaceTextureAvailable");
-        PreviewSurfaceRdy = true;
-        StartCamera();
+        if (!PreviewSurfaceRdy) {
+            this.PreviewSurfaceRdy = true;
+            StartCamera();
+        }
     }
 
     @Override
@@ -153,7 +153,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
         StopPreview();
         StopCamera();
         Log.d(TAG, "Surface destroyed");
-        PreviewSurfaceRdy = false;
+        this.PreviewSurfaceRdy = false;
         return false;
     }
 

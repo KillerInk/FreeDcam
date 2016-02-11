@@ -1,5 +1,6 @@
 package com.troop.freedcam.camera.parameters.manual;
 
+import android.os.Build;
 import android.util.Log;
 
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
@@ -38,15 +39,14 @@ public class ShutterManualParameter extends BaseManualParameter
 
     public static String IMX214_IMX230 = "Auto,1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000,1/800,1/700,1/600,1/500,1/400,1/300,1/200,1/125,1/100,1/85,1/75,1/65\"+\n" +
             "            \",1/55,1/45,1/35,1/25,1/20,1/15,1/13,1/10,1/9,1/8,1/7,1/6,1/5,1/4,1/3,1/2,1/1.9,1/1.8,1/1.7,1/1.6";
-    public static String Mi3WValues = "Auto,1/5000,1/3195,1/2500,1/2000,1/1600,1/1250,1/1000"+
+    public static String Mi3WValues = "Auto,1/5000,1/2500,1/2000,1/1600,1/1250,1/1000"+
                    ",1/800,1/700,1/600,1/500,1/400,1/300,1/200,1/125,1/100,1/85,1/75,1/65"+
                    ",1/55,1/45,1/35,1/25,1/20,1/15,1/13,1/10,1/9,1/8,1/7,1/6,1/5,1/4,1/3,1/2"+
                    ",1.0,2.0";
-    public static String Mi4WValues = "Auto,1/5000,1/3195,1/2500,1/2000,1/1600,1/1250,1/1000"+
+    public static String Mi4WValues = "Auto,1/5000,1/2500,1/2000,1/1600,1/1250,1/1000"+
             ",1/800,1/700,1/600,1/500,1/400,1/300,1/200,1/125,1/100,1/85,1/75,1/65"+
             ",1/55,1/45,1/35,1/25,1/20,1/15,1/13,1/10,1/9,1/8,1/7,1/6,1/5,1/4,1/3,1/2"+
-            ",1.0,2.0,4.0,8.0,16.0,24.0,32.0";
-
+            ",1.0,2.0,4.0,8.0,16.0,32.0";
 
     String shutterValues[];
     int current = 0;
@@ -58,7 +58,7 @@ public class ShutterManualParameter extends BaseManualParameter
 
         this.baseCameraHolder = baseCameraHolder;
         this.i_cameraChangedListner = i_cameraChangedListner;
-        if (DeviceUtils.isSonyADV())
+        if (DeviceUtils.IS(DeviceUtils.Devices.SonyADV))
         {
             try {
                 if (!parameters.get("sony-max-shutter-speed").equals(""))
@@ -69,22 +69,22 @@ public class ShutterManualParameter extends BaseManualParameter
                 isSupported = false;
             }
         }
-        else if (DeviceUtils.isAlcatel_Idol3() || DeviceUtils.isMoto_MSM8982_8994() )
+        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994))
         {
             this.isSupported = true;
             shutterValues = IMX214_IMX230.split(",");
         }
-        else if (DeviceUtils.isXiaomiMI3W() )
+        else if (DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W) )
         {
             this.isSupported = true;
             shutterValues = Mi3WValues.split(",");
         }
-        else if (DeviceUtils.isXiaomiMI4W() )
+        else if (DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4W) )
         {
             this.isSupported = true;
             shutterValues = Mi4WValues.split(",");
         }
-        else if (parameters.containsKey("exposure-time") || DeviceUtils.isRedmiNote() ) {
+        else if (parameters.containsKey("exposure-time") || DeviceUtils.IS(DeviceUtils.Devices.RedmiNote)) {
             try {
 
                 int min = Integer.parseInt(parameters.get("min-exposure-time"));
@@ -112,12 +112,17 @@ public class ShutterManualParameter extends BaseManualParameter
 
     @Override
     public boolean IsSupported() {
-        return super.IsSupported();
+        return isSupported;
+    }
+
+    @Override
+    public boolean IsVisible() {
+        return IsSupported();
     }
 
     @Override
     public int GetMaxValue() {
-        if (DeviceUtils.isSonyADV())
+        if (DeviceUtils.IS(DeviceUtils.Devices.SonyADV))
             return Integer.parseInt(parameters.get("sony-max-shutter-speed"));
         else if (shutterValues != null)
             return shutterValues.length-1;
@@ -129,11 +134,11 @@ public class ShutterManualParameter extends BaseManualParameter
 
     @Override
     public int GetMinValue() {
-        if (DeviceUtils.isSonyADV())
+        if (DeviceUtils.IS(DeviceUtils.Devices.SonyADV))
             return Integer.parseInt(parameters.get("sony-min-shutter-speed"));
         else if (shutterValues != null)
             return 0;
-        else if(parameters.containsKey("min-exposure-time") && (!DeviceUtils.isMoto_MSM8982_8994() || !DeviceUtils.isAlcatel_Idol3()))
+        else if(parameters.containsKey("min-exposure-time") && (!DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)))
             return Integer.parseInt(parameters.get("min-exposure-time"));
         else
             return 0;
@@ -147,13 +152,13 @@ public class ShutterManualParameter extends BaseManualParameter
     @Override
     protected void setvalue(int valueToSet)
     {
-        if(DeviceUtils.isSonyADV())
+        if(DeviceUtils.IS(DeviceUtils.Devices.SonyADV))
         {
             parameters.put("sony-ae-mode", "manual");
             parameters.put("sony-shutter-speed", String.valueOf(valueToSet));
 
         }
-        else if ( parameters.containsKey("exposure-time") || DeviceUtils.isMoto_MSM8982_8994() || DeviceUtils.isAlcatel_Idol3())
+        else if ( parameters.containsKey("exposure-time") || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994))
         {
             current = valueToSet;
             String shutterstring = shutterValues[current];
@@ -188,7 +193,7 @@ public class ShutterManualParameter extends BaseManualParameter
     }
 
     private void setShutterToAuto() {
-        if(DeviceUtils.isAlcatel_Idol3() || DeviceUtils.isMoto_MSM8982_8994())
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994))
         {
             parameters.put("exposure-time", "0");
         }
@@ -198,7 +203,7 @@ public class ShutterManualParameter extends BaseManualParameter
     }
 
     private String setExposureTimeToParameter(String shutterstring) {
-        if(DeviceUtils.isMoto_MSM8982_8994() || DeviceUtils.isAlcatel_Idol3())
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994))
         {
             try {
                 parameters.put("exposure-time", String.valueOf(getMicroSec(shutterstring)));
@@ -209,10 +214,14 @@ public class ShutterManualParameter extends BaseManualParameter
             }
 
         }
-        else if(parameters.containsKey("exposure-time")|| DeviceUtils.isXiaomiMI3W() || DeviceUtils.isRedmiNote()||DeviceUtils.isXiaomiMI4W())
+        else if(parameters.containsKey("exposure-time")||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) || DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
         {
-            shutterstring = FLOATtoSixty4(shutterstring);
-            parameters.put("exposure-time", shutterstring);
+            if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)&& Build.VERSION.SDK_INT < 23) {
+                shutterstring = FLOATtoSixty4(shutterstring);
+                parameters.put("exposure-time", shutterstring);
+            }
+            else
+                parameters.put("exposure-time", String.valueOf(getMicroSec(shutterstring)));
         }
         baseCameraHolder.SetCameraParameters(parameters);
         return shutterstring;

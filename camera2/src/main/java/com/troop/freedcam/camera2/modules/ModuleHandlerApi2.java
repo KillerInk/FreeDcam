@@ -5,6 +5,7 @@ import android.os.Handler;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
+import com.troop.freedcam.i_camera.modules.IntervalModule;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 /**
@@ -33,6 +34,8 @@ public class ModuleHandlerApi2 extends AbstractModuleHandler
     {
         PictureModuleApi2 pictureModuleApi2 = new PictureModuleApi2(cameraHolder, appSettingsManager, moduleEventHandler, backgroundHandler);
         moduleList.put(pictureModuleApi2.ModuleName(), pictureModuleApi2);
+        IntervalModule intervalModule = new IntervalModule(cameraHolder,appSettingsManager,moduleEventHandler,pictureModuleApi2);
+        moduleList.put(intervalModule.ModuleName(), intervalModule);
         VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(cameraHolder,appSettingsManager,moduleEventHandler);
         moduleList.put(videoModuleApi2.ModuleName(), videoModuleApi2);
         //init the Modules DeviceDepending

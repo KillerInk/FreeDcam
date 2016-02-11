@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="color_pattern">
+        <item>BGGR</item>
+        <item>RGGB</item>
+        <item>GRBG</item>
+        <item>GBRG</item>
+    </string-array>
+    <string-array name="matrixes">
+        <item>Nexus6</item>
+        <item>G4</item>
+    </string-array>
+    <string-array name="raw_format">
+        <item>Mipi10bit</item>
+        <item>QCom16bit</item>
+        <item>Plain16bit</item>
+        <item>Mipi16bit</item>
+    </string-array>
+</resources>

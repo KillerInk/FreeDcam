@@ -8,9 +8,6 @@ import com.troop.freedcam.apis.Camera2Fragment;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.ui.AppSettingsManager;
 
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
-
 
 /**
  * Created by troop on 11.12.2014.

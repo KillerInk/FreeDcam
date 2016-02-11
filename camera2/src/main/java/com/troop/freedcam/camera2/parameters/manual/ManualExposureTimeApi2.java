@@ -49,13 +49,13 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
         Log.d(TAG, "max exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper());
         Log.d(TAG, "min exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower());
         //866 975 130 = 0,8sec
-        if (DeviceUtils.isG4())
+        if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4) && Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1)
             millimax = 60000000;
-        else if (DeviceUtils.isSamsung_S6_edge_plus())
+        else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4) && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)
+            millimax = 45000000;
+        else if (DeviceUtils.IS(DeviceUtils.Devices.Samsung_S6_edge_plus))
             millimax = 10000000;
-        else if (DeviceUtils.isSamsung_S6_edge())
-            millimax = 1000000;
-        else if (DeviceUtils.isMoto_MSM8982_8994())
+        else if (DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8982_8994))
             millimax = 10000000;
         else
             millimax = (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper()).intValue() / 1000;
@@ -100,28 +100,39 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
     @Override
     public void SetValue(int valueToSet)
     {
+        if (valueToSet >= usedShutterValues.length)
+            valueToSet = usedShutterValues.length - 1;
+
+
         current = valueToSet;
-        long val = (long)(StringUtils.getMilliSecondStringFromShutterString(usedShutterValues[valueToSet]) * 1000f);
-        Log.d(TAG, "ExposureTimeToSet:" + val);
-        if (val > 800000000)
-        {
-            Log.d(TAG, "ExposureTime Exceed 0,3sec for preview, set it to 0,3sec");
-            val = 800000000;
+        if (valueToSet > 0) {
+            long val = (long) (StringUtils.getMilliSecondStringFromShutterString(usedShutterValues[valueToSet]) * 1000f);
+            Log.d(TAG, "ExposureTimeToSet:" + val);
+            if (val > 800000000) {
+                Log.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
+                val = 800000000;
+            }
+            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
+            try {
+                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
+                        null);
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            } catch (NullPointerException ex) {
+                ex.printStackTrace();
+            }
         }
-        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
-        try {
-            cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
-                    null);
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
-        }
-        catch (NullPointerException ex){ex.printStackTrace();}
     }
 
     @Override
     public boolean IsSupported()
     {
         this.isSupported = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE) != null;
+        return isSupported;
+    }
+
+    @Override
+    public boolean IsVisible() {
         return isSupported;
     }
 
@@ -159,6 +170,11 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
 
     @Override
     public void onValuesChanged(String[] values) {
+
+    }
+
+    @Override
+    public void onVisibilityChanged(boolean visible) {
 
     }
 

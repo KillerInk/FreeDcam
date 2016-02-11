@@ -5,6 +5,7 @@ import android.os.Handler;
 import com.lge.media.CamcorderProfileEx;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.camera.modules.VideoMediaProfile;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.List;
 public class VideoProfilesG3Parameter extends BaseModeParameter
 {
 
-    HashMap<String, CamcorderProfileEx> supportedProfiles;
+    HashMap<String, VideoMediaProfile> supportedProfiles;
     BaseCameraHolder cameraHolder;
     CameraUiWrapper cameraUiWrapper;
     String profile = "HIGH";
@@ -35,6 +36,7 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
     public void SetValue(String valueToSet, boolean setToCam)
     {
         profile = valueToSet;
+        BackgroundValueHasChanged(valueToSet);
         if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null && cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
             cameraUiWrapper.moduleHandler.GetCurrentModule().LoadNeededParameters();
 
@@ -58,8 +60,13 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
         return keys.toArray(new String[keys.size()]);
     }
 
-    public CamcorderProfileEx GetCameraProfile(String profile)
+    public VideoMediaProfile GetCameraProfile(String profile)
     {
+        if (profile == null || profile.equals(""))
+        {
+            String t[] = supportedProfiles.keySet().toArray(new String[supportedProfiles.keySet().size()]);
+            return supportedProfiles.get(t[0]);
+        }
         return supportedProfiles.get(profile);
     }
 
@@ -89,8 +96,8 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
             int QUALITY_4kUHD = 8;
             String current;
 
-            supportedProfiles = new HashMap<String, CamcorderProfileEx>();
-            try {
+            supportedProfiles = new HashMap<String, VideoMediaProfile>();
+            /*try {
                 if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_LOW))
                     supportedProfiles.put("LOW", CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_LOW));
             } catch (Exception e) {
@@ -113,32 +120,38 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
                     supportedProfiles.put("CIF", CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_CIF));
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }*/
             try {
                 if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_480P))
-                    supportedProfiles.put("480p", CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_480P));
+                    supportedProfiles.put("480p", new VideoMediaProfile(CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_480P), "480p", VideoMediaProfile.VideoMode.Normal));
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
                 if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_720P))
-                    supportedProfiles.put("720p", CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_720P));
+                    supportedProfiles.put("720p", new VideoMediaProfile(CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_720P),"720p", VideoMediaProfile.VideoMode.Normal));
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
-                if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_1080P))
-                    supportedProfiles.put("1080p", CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_1080P));
+                if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_1080P)) {
+                    supportedProfiles.put("1080p", new VideoMediaProfile(CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_1080P), "1080p", VideoMediaProfile.VideoMode.Normal));
+                    VideoMediaProfile p108060fps = supportedProfiles.get("1080p").clone();
+                    p108060fps.videoFrameRate = 60;
+                    p108060fps.ProfileName = "1080p@60";
+                    supportedProfiles.put("1080p@60", p108060fps);
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            try {
+            /*try {
                 if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_QVGA))
                     supportedProfiles.put("QVGA", CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_QVGA));
             } catch (Exception e) {
                 e.printStackTrace();
-            }
-
+            }*/
+/*
             try {
                 if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_LOW))
                     supportedProfiles.put("TimelapseLOW", CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_LOW));
@@ -150,8 +163,8 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
                     supportedProfiles.put("TimelapseHIGH", CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_HIGH));
             } catch (Exception e) {
                 e.printStackTrace();
-            }
-            try {
+            }*/
+            /*try {
                 if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_QCIF))
                     supportedProfiles.put("TimelapseQCIF", CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_QCIF));
             } catch (Exception e) {
@@ -162,34 +175,34 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
                     supportedProfiles.put("TimelapseCIF", CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_CIF));
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }*/
             try {
                 if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_480P))
-                    supportedProfiles.put("Timelapse480p", CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_480P));
+                    supportedProfiles.put("Timelapse480p", new VideoMediaProfile(CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_480P), "Timelapse480p", VideoMediaProfile.VideoMode.Timelapse));
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
                 if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_720P))
-                    supportedProfiles.put("Timelapse720p", CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_720P));
+                    supportedProfiles.put("Timelapse720p", new VideoMediaProfile(CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_720P),"Timelapse720p", VideoMediaProfile.VideoMode.Timelapse));
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
                 if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_1080P))
-                    supportedProfiles.put("Timelapse1080p", CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_1080P));
+                    supportedProfiles.put("Timelapse1080p", new VideoMediaProfile(CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_1080P),"Timelapse1080p", VideoMediaProfile.VideoMode.Timelapse));
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            try {
+/*            try {
                 if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_QVGA))
                     supportedProfiles.put("TimelapseQVGA", CamcorderProfileEx.get(cameraHolder.CurrentCamera, CamcorderProfileEx.QUALITY_TIME_LAPSE_QVGA));
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }*/
             try {
                 if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kDCI))
-                    supportedProfiles.put("4kDCI", CamcorderProfileEx.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kDCI));
+                    supportedProfiles.put("4kDCI", new VideoMediaProfile(CamcorderProfileEx.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kDCI),"4kDCI", VideoMediaProfile.VideoMode.Normal));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -197,7 +210,7 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
                 if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kUHD))
                 {
                     CamcorderProfileEx fourk = CamcorderProfileEx.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kUHD);
-                    supportedProfiles.put("4kUHD", (CamcorderProfileEx) fourk);
+                    supportedProfiles.put("4kUHD", new VideoMediaProfile(fourk,"4kUHD", VideoMediaProfile.VideoMode.Normal));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -206,12 +219,12 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
                 if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, QUALITY_4kUHD))
                 {
                     CamcorderProfileEx fourk = CamcorderProfileEx.get(cameraHolder.CurrentCamera, QUALITY_4kUHD);
-                    supportedProfiles.put("4kUHD", (CamcorderProfileEx) fourk);
+                    supportedProfiles.put("4kUHD", new VideoMediaProfile(fourk,"4kUHD", VideoMediaProfile.VideoMode.Normal));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            try {
+            /*try {
                 if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_4kDCI))
                     supportedProfiles.put("Timelapse4kDCI", CamcorderProfileEx.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_4kDCI));
             } catch (Exception e) {
@@ -228,28 +241,28 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
                     supportedProfiles.put("1080pHFR", CamcorderProfileEx.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_1080p_HFR));
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }*/
             try {
                 if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_720p_HFR))
-                    supportedProfiles.put("720pHFR", CamcorderProfileEx.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_720p_HFR));
+                    supportedProfiles.put("720pHFR", new VideoMediaProfile(CamcorderProfileEx.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_720p_HFR),"720pHFR", VideoMediaProfile.VideoMode.Highspeed));
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
                 if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, QUALITY_HFR720P))
-                    supportedProfiles.put("720pHFR", CamcorderProfileEx.get(cameraHolder.CurrentCamera, QUALITY_HFR720P));
+                    supportedProfiles.put("720pHFR", new VideoMediaProfile(CamcorderProfileEx.get(cameraHolder.CurrentCamera, QUALITY_HFR720P),"720pHFR", VideoMediaProfile.VideoMode.Highspeed));
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            try {
+            /*try {
                 if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_HFR1080P))
                     supportedProfiles.put("TimelapseHfr1080p", CamcorderProfileEx.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_HFR1080P));
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }*/
             try {
                 if (CamcorderProfileEx.hasProfile(cameraHolder.CurrentCamera, QUALITY_HIGH_SPEED_1080P))
-                    supportedProfiles.put("1080pHFR", CamcorderProfileEx.get(cameraHolder.CurrentCamera, QUALITY_HIGH_SPEED_1080P));
+                    supportedProfiles.put("1080pHFR", new VideoMediaProfile(CamcorderProfileEx.get(cameraHolder.CurrentCamera, QUALITY_HIGH_SPEED_1080P), "1080pHFR", VideoMediaProfile.VideoMode.Highspeed));
             } catch (Exception e) {
                 e.printStackTrace();
             }

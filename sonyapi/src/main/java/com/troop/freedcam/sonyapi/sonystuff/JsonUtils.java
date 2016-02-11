@@ -34,6 +34,19 @@ public class JsonUtils
         }
     }
 
+    public static void loadSupportedApiListFromEvent(JSONObject replyJson, Set<String> mSupportedApiSet) {
+        synchronized (mSupportedApiSet) {
+            try {
+                JSONArray resultArrayJson = replyJson.getJSONArray("names");
+                for (int i = 0; i < resultArrayJson.length(); i++) {
+                    mSupportedApiSet.add(resultArrayJson.getString(i));
+                }
+            } catch (JSONException e) {
+                Log.w(TAG, "loadSupportedApiList: JSON format error.");
+            }
+        }
+    }
+
     /**
      * Check if the specified API is available at present. This works correctly
      * only for Camera API.
@@ -100,7 +113,7 @@ public class JsonUtils
 
     public static int findIntInformation(JSONObject replyJson,int indexpos, String typeS, String subtype ) throws JSONException {
 
-        int ret = -1;
+        int ret = -5000;
         JSONArray resultsObj = replyJson.getJSONArray("result");
         if (!resultsObj.isNull(indexpos)) {
             JSONObject intInformationObj = resultsObj.getJSONObject(indexpos);

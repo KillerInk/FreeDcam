@@ -1,6 +1,5 @@
 package com.troop.freedcam.camera2.modules;
 
-import android.media.MediaRecorder;
 import android.util.Log;
 
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
@@ -9,8 +8,6 @@ import com.troop.freedcam.i_camera.modules.I_RecorderStateChanged;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
-
-import java.io.IOException;
 
 /**
  * Created by troop on 26.11.2015.
@@ -34,13 +31,13 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     }
 
     @Override
-    public void DoWork()
+    public boolean DoWork()
     {
         if (isRecording)
             stopRecording();
         else
             startRecording();
-        //super.DoWork();
+        return true;
     }
 
     @Override

@@ -1,5 +1,8 @@
 package com.troop.freedcam.ui;
 
+import android.content.res.Resources;
+import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 
 /**
@@ -7,47 +10,71 @@ import android.view.MotionEvent;
  */
 public class TouchHandler
 {
-    final int distance = 100;
+    final int distance = 90;
+    private final String TAG = TouchHandler.class.getSimpleName();
+    private final boolean DEBUG = true;
+
+    private void L(String log)
+    {
+        if (DEBUG)
+            Log.d(TAG,log);
+    }
+
     public int startX;
     public int startY;
     public int currentX;
     public int currentY;
-    boolean swipe = false;
-    long start;
-    long duration;
-    static final int MAX_DURATION = 3500;
+    private boolean swipeDetected = false;
+    private boolean newActionBlocked = false;
+    private final int blockTime = 500;
+    private Handler handler;
 
+
+    public TouchHandler()
+    {
+        handler = new Handler();
+    }
 
     public boolean onTouchEvent(MotionEvent event)
     {
         boolean fireagain = true;
 
-        switch (event.getAction()) {
+        switch (event.getAction())
+        {
             case MotionEvent.ACTION_DOWN:
+                //action down resets all already set values and get the new one from the event
                 startX = (int) event.getX();
                 startY = (int) event.getY();
-                currentX = (int) event.getX();
-                currentY = (int) event.getY();
-                start = System.currentTimeMillis();
-
+                //reset swipeDetected to false
+                swipeDetected = false;
+                L("ACTION_DOWN currentX:" + currentX + " X:" + startX);
                 break;
-           // case MotionEvent.A
             case MotionEvent.ACTION_MOVE:
+                //in case action down never happend
+                if (startX == 0 && startY == 0)
+                {
+                    startX = (int) event.getX();
+                    startY = (int) event.getY();
+                    //reset swipeDetected to false
+                    swipeDetected = false;
+                }
                 currentX = (int) event.getX();
                 currentY = (int) event.getY();
-                detectSwipeDirection();
+                //detect swipeDetected. if swipeDetected detected return false else true
+                fireagain = detectSwipeDirection();
+                L("ACTION_MOVE Swipedetected:"+ swipeDetected);
                 break;
             case MotionEvent.ACTION_UP:
-                long time = System.currentTimeMillis() - start;
-                duration = duration+time;
-                if (duration >= MAX_DURATION)
-                    System.out.println("Long Press Time: "+ duration);
-                if (swipe == false)
+                L("ACTION_UP Swipedetected:"+ swipeDetected);
+                //in case no swipeDetected happen swipeDetected is false and it was a click
+                if (!swipeDetected && !newActionBlocked)
                 {
-                    OnClick((int)event.getX(), (int)event.getY());
-
+                    L("On Click happen");
+                    OnClick((int) event.getX(), (int) event.getY());
+                    newActionBlocked = true;
+                    handler.postDelayed(resetActionBlock,blockTime);
                 }
-                swipe = false;
+                swipeDetected = false;
                 fireagain = false;
                 break;
         }
@@ -56,26 +83,59 @@ public class TouchHandler
         return fireagain;
     }
 
-    private void detectSwipeDirection()
+    private boolean detectSwipeDirection()
     {
-        int x = getDistance(startX, currentX);
-        int y = getDistance(startY, currentY);
+        //if last swipeDetected is less then 500 ms it blocked
+        if (swipeDetected || newActionBlocked)
+            return false;
+        float x = getDistance(startX, currentX);
+        float y = getDistance(startY, currentY);
+        //if we have a swipeDetected
         if (x >= distance || y >= distance)
         {
-            swipe = true;
+            //its a swipeDetected
+            swipeDetected = true;
+            Log.d("TouchHAndler", "currentX:" + currentX + " X:" + startX);
             if (x >= y)
-                doHorizontalSwipe();
-            else
-                doVerticalSwipe();
+            {
+                if (currentX > startX)
+                    doLeftToRightSwipe();
+                else
+                    doRightToLeftSwipe();
+            }
+            else{
+                if (currentY > startY)
+                    doTopToBottomSwipe();
+                else
+                    doBottomToTopSwipe();
+            }
+            newActionBlocked = true;
+            handler.postDelayed(resetActionBlock,blockTime);
+            return false;
         }
+        return false;
     }
 
-    protected void doHorizontalSwipe()
+    private Runnable resetActionBlock = new Runnable() {
+        @Override
+        public void run() {
+            TouchHandler.this.newActionBlocked = false;
+        }
+    };
+
+    protected void doLeftToRightSwipe()
     {
-
     }
 
-    protected void doVerticalSwipe()
+    protected void doRightToLeftSwipe()
+    {
+    }
+
+    protected void doTopToBottomSwipe()
+    {
+    }
+
+    protected void doBottomToTopSwipe()
     {
     }
 
@@ -84,18 +144,20 @@ public class TouchHandler
 
     }
 
-    public static int getDistance(int startvalue, int currentvalue)
+    public static float getDistance(int startvalue, int currentvalue)
     {
         int dis = startvalue - currentvalue;
         if (dis < 0)
             dis = dis *-1;
-        return dis;
+        float density = Resources.getSystem().getDisplayMetrics().density;
+        return dis / density;
     }
 
-    public static int getNegDistance(int startvalue, int currentvalue)
+    public static float getNegDistance(int startvalue, int currentvalue)
     {
         int dis = startvalue - currentvalue;
-        return dis;
+        float density = Resources.getSystem().getDisplayMetrics().density;
+        return dis / density;
     }
 
 

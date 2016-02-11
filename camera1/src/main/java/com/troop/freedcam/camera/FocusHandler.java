@@ -6,6 +6,7 @@ import com.troop.freedcam.i_camera.AbstractFocusHandler;
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.modules.CameraFocusEvent;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -16,7 +17,7 @@ import java.util.List;
  */
 public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.AutoFocusCallback
 {
-
+    final String TAG = FocusHandler.class.getSimpleName();
     private final BaseCameraHolder cameraHolder;
     private final CameraUiWrapper cameraUiWrapper;
     private final AbstractParameterHandler parametersHandler;
@@ -25,11 +26,104 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
     List<Camera.Area> areas;
     boolean isFocusing = false;
 
+    private boolean aeMeteringSupported =false;
+
+    public AbstractModeParameter.I_ModeParameterEvent focusModeListner = new AbstractModeParameter.I_ModeParameterEvent() {
+        @Override
+        public void onValueChanged(String val)
+        {
+            if (val.equals("auto")|| val.equals("macro"))
+            {
+                if (focusEvent != null)
+                    focusEvent.TouchToFocusSupported(true);
+            }
+            else
+            {
+                if (focusEvent != null)
+                    focusEvent.TouchToFocusSupported(false);
+            }
+
+        }
+
+        @Override
+        public void onIsSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onIsSetSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onValuesChanged(String[] values) {
+
+        }
+
+        @Override
+        public void onVisibilityChanged(boolean visible) {
+
+        }
+    };
+    public AbstractModeParameter.I_ModeParameterEvent aeModeListner = new AbstractModeParameter.I_ModeParameterEvent() {
+        @Override
+        public void onValueChanged(String val)
+        {
+            if (val.contains("spot"))
+            {
+                if (focusEvent != null)
+                {
+                    aeMeteringSupported = true;
+                    focusEvent.AEMeteringSupported(true);
+                }
+            }
+            else {
+                if (focusEvent != null)
+                {
+                    aeMeteringSupported = false;
+                    focusEvent.AEMeteringSupported(false);
+                }
+            }
+
+        }
+
+        @Override
+        public void onIsSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onIsSetSupportedChanged(boolean isSupported) {
+
+        }
+
+        @Override
+        public void onValuesChanged(String[] values) {
+
+        }
+
+        @Override
+        public void onVisibilityChanged(boolean visible) {
+
+        }
+    };
+
     public FocusHandler(CameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.cameraHolder = cameraUiWrapper.cameraHolder;
         this.parametersHandler = cameraUiWrapper.camParametersHandler;
+    }
+
+    @Override
+    public boolean isAeMeteringSupported()
+    {
+        return aeMeteringSupported;
+    }
+
+    @Override
+    public boolean isWbMeteringSupported() {
+        return false;
     }
 
     @Override
@@ -104,7 +198,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
     @Override
     public void SetMeteringAreas(FocusRect meteringRect, int width, int height)
     {
-        if (DeviceUtils.isZTEADV())
+        if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
         {
             final FocusRect targetFocusRect = getFocusRect(meteringRect, width, height);
             parametersHandler.SetMeterAREA(targetFocusRect);
@@ -123,6 +217,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
 
     private FocusRect getFocusRect(FocusRect rect, int width, int height)
     {
+        logFocusRect(rect);
         if (width == 0 || height == 0)
             return null;
         final FocusRect targetFocusRect = new FocusRect(
@@ -130,6 +225,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
                 rect.right * 2000 / width - 1000,
                 rect.top * 2000 / height - 1000,
                 rect.bottom * 2000 / height - 1000);
+        logFocusRect(targetFocusRect);
         //check if stuff is to big or to small and set it to min max value
         if (targetFocusRect.left < -1000)
         {
@@ -157,4 +253,6 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
         }
         return targetFocusRect;
     }
+
+
 }

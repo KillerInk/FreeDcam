@@ -12,6 +12,7 @@ import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.BufferedInputStream;
@@ -70,8 +71,8 @@ public class DngSaver extends JpegSaver
 
     }
 
-           public void processData(byte[] data, File file)
-        {
+    public void processData(byte[] data, File file)
+    {
 
         checkFileExists(file);
         try
@@ -125,7 +126,7 @@ public class DngSaver extends JpegSaver
         fnum = ((CamParametersHandler)cameraHolder.ParameterHandler).GetFnumber();
         focal = ((CamParametersHandler)cameraHolder.ParameterHandler).GetFocal();
         dngConverter.setExifData(0, 0, 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
-        dngConverter.WriteDNG(null);
+        dngConverter.WriteDNG(DeviceUtils.DEVICE());
         dngConverter.RELEASE();
         iWorkeDone.OnWorkDone(file);
 

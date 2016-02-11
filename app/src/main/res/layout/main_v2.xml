@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ff1d1d1d"
+    android:background="#1b1b1b"
     android:keepScreenOn="true"
     android:longClickable="false"
     android:touchscreenBlocksFocus="true"
@@ -15,8 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/cameraFragmentHolder"></LinearLayout>
-    s
-
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -34,8 +32,13 @@
             android:layout_alignParentTop="false"
             android:rotation="0"
             android:autoText="false"
-            android:textSize="50dp"
-            android:layout_gravity="bottom" />
+            android:textSize="20dp"
+            android:background="@drawable/video_time_bg"
+            android:paddingLeft="15dp"
+            android:paddingRight="10dp"
+            android:paddingTop="3.5dp"
+            android:layout_marginTop="20dp"
+            android:textColor="#ffffff" />
 
     </LinearLayout>
 

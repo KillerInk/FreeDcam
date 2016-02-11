@@ -1,16 +1,12 @@
 package troop.com.themesample.handler;
 
-import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.hardware.camera2.CameraCharacteristics;
-import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
 
 import com.troop.freedcam.camera2.CameraUiWrapperApi2;
 import com.troop.freedcam.ui.AbstractInfoOverlayHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.DeviceUtils;
 
 import troop.com.themesample.R;
 
@@ -35,7 +31,7 @@ public class SampleInfoOverlayHandler extends AbstractInfoOverlayHandler
         tformat = (TextView)view.findViewById(R.id.textView_format);
         tTime = (TextView)view.findViewById(R.id.textView_time);
         tStorage = (TextView)view.findViewById(R.id.textView_storage);
-        tdngsupported=(TextView)view.findViewById(R.id.textView_dngsupported);
+       /* tdngsupported=(TextView)view.findViewById(R.id.textView_dngsupported);
         if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1))
         {
             tdngsupported.setText("DNG:" + DeviceUtils.isCamera1DNGSupportedDevice());
@@ -43,9 +39,9 @@ public class SampleInfoOverlayHandler extends AbstractInfoOverlayHandler
                 tdngsupported.setTextColor(Color.GREEN);
             else
                 tdngsupported.setTextColor(Color.RED);
-        }
-        else tdngsupported.setVisibility(View.GONE);
-        tbuidlmodel = (TextView)view.findViewById(R.id.textView_buildmodel);
+        }*/
+        //else tdngsupported.setVisibility(View.GONE);
+      /*  tbuidlmodel = (TextView)view.findViewById(R.id.textView_buildmodel);
         tbuidlmodel.setText(Build.MODEL);
         tappversion = (TextView)view.findViewById(R.id.textView_appversion);
         try {
@@ -53,7 +49,7 @@ public class SampleInfoOverlayHandler extends AbstractInfoOverlayHandler
                     .getPackageInfo(appSettingsManager.context.getPackageName(), 0).versionName);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
@@ -63,7 +59,7 @@ public class SampleInfoOverlayHandler extends AbstractInfoOverlayHandler
         tTime.setText(timeString);
         tformat.setText(format);
         tStorage.setText(storageSpace);
-        if (cameraUiWrapper instanceof CameraUiWrapperApi2)
+        if (1 > 2)
         {
             if (((CameraUiWrapperApi2) cameraUiWrapper).cameraHolder == null || ((CameraUiWrapperApi2) cameraUiWrapper).cameraHolder.characteristics == null)
                 return;

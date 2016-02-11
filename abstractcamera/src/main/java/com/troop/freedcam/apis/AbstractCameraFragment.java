@@ -29,9 +29,17 @@ public abstract class AbstractCameraFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        Log.d(TAG,"onCreateView");
+
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
         if (onrdy != null)
             onrdy.onCameraUiWrapperRdy(cameraUiWrapper);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        super.onViewCreated(view, savedInstanceState);
     }
 
     public AbstractCameraUiWrapper GetCameraUiWrapper()
@@ -77,4 +85,8 @@ public abstract class AbstractCameraFragment extends Fragment
         void onCameraUiWrapperRdy(AbstractCameraUiWrapper cameraUiWrapper);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 }

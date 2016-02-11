@@ -29,6 +29,12 @@ public class AppSettingsManager
     final public static String SETTING_PICTUREFORMAT = "pictureformat";
     final public static String SETTING_JPEGQUALITY = "jpegquality";
     //defcomg was here
+    //1-29-2016 6:15
+    final public static String SETTING_HDRMODE = "hdrmode";
+    // 1-29-2016 11:49
+    final public static String SETTING_VideoBitrate = "videobitrate";
+    //
+    //
     final public static String SETTING_GUIDE = "guide";
     //done
     final public static String SETTING_CURRENTMODULE = "currentmodule";
@@ -40,7 +46,6 @@ public class AppSettingsManager
     final public static String SETTING_FOCUSMODE = "focusmode";
     final public static String SETTING_REDEYE_MODE = "redeyemode";
     final public static String SETTING_LENSSHADE_MODE = "lenshademode";
-    final public static String SETTING_CHROMAFLASH_MODE = "chromaflashmode";
     final public static String SETTING_ZEROSHUTTERLAG_MODE = "zslmode";
     final public static String SETTING_SCENEDETECT_MODE = "scenedetectmode";
     final public static String SETTING_DENOISE_MODE = "denoisetmode";
@@ -55,7 +60,9 @@ public class AppSettingsManager
     final public static String SETTING_VIDEOSIZE = "videosize";
     final public static String SETTING_VIDEPROFILE = "videoprofile";
     final public static String SETTING_VIDEOHDR = "videohdr";
+    final public static String SETTING_HighFramerateVideo = "highframeratevideo";
     final public static String SETTING_HighSpeedVideo = "highspeedvideo";
+    final public static String SETTING_VIDEOSTABILIZATION = "videostabilization";
     ///                  Video Override
    // public static String SETTING_VIDEOHDR = "videohfr";
    // public static String SETTING_VIDEOHDR = "videohsr";
@@ -92,6 +99,7 @@ public class AppSettingsManager
     final public static String SETTING_EXTERNALSD = "extSD";
 
     final public static String SETTING_OIS = "ois";
+    final public static String SETTING_Filter = "filter";
 
     final public static String API_SONY = "playmemories";
     final public static String API_1 = "camera1";
@@ -114,7 +122,11 @@ public class AppSettingsManager
 
     final public static String CAMERA2FULLSUPPORTED = "camera2fullsupport";
 
+    final public static String SETTING_HORIZONT = "horizont";
 
+    final public static String SETTING_CAPTUREBURSTEXPOSURES = "captureburstexposures";
+    final public static String SETTING_MORPHOHDR = "morphohdr";
+    final public static String SETTING_MORPHOHHT = "morphohht";
 
     public AppSettingsManager(SharedPreferences appSettings, Context context)
     {

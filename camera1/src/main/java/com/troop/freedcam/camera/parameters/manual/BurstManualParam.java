@@ -4,7 +4,11 @@ package com.troop.freedcam.camera.parameters.manual;
  * Created by George on 1/21/2015.
  */
 
+import android.os.Build;
+
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
+import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -16,6 +20,10 @@ public class BurstManualParam extends BaseManualParameter {
     int curr = 0;
     public BurstManualParam(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) ||
+                DeviceUtils.IS(DeviceUtils.Devices.LG_G3)|| DeviceUtils.IS(DeviceUtils.Devices.LG_G2)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)
+                || DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
+            isSupported = true;
 
         //TODO add missing logic
     }
@@ -29,23 +37,28 @@ public class BurstManualParam extends BaseManualParameter {
     @Override
     public boolean IsSupported()
     {
-        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234() || DeviceUtils.isLG_G3()|| DeviceUtils.isG2()|| DeviceUtils.isXiaomiMI3W())
-            return true;
-        else
-            return false;
+        return isSupported;
     }
 
     @Override
-    public int GetMaxValue() {
-        if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234()|| DeviceUtils.isG2())
+    public boolean IsVisible() {
+        return IsSupported();
+    }
+
+    @Override
+    public int GetMaxValue()
+    {
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) || DeviceUtils.IS(DeviceUtils.Devices.LG_G2))
             return 7;
-        if (DeviceUtils.isLG_G3()||DeviceUtils.isXiaomiMI4W())
+        else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G3)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4W) )
             return 9;
-        if (DeviceUtils.isXiaomiMI3W())
-            //if (baseCameraHolder.ParameterHandler.PictureFormat.GetValue().contains("jpeg"))
-            //return 100;
-            //else
+        else if (DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W))
+            if (Build.VERSION.SDK_INT < 23)
                 return 6;
+            else
+                return 10;
+        else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
+            return 6;
         else
             return 0;
     }
@@ -64,6 +77,8 @@ public class BurstManualParam extends BaseManualParameter {
     @Override
     public void SetValue(int valueToSet)
     {
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
+            parameters.put("num-snaps-per-shutter", String.valueOf(1));
         curr = valueToSet;
         parameters.put("snapshot-burst-num", String.valueOf(valueToSet));
         camParametersHandler.SetParametersToCamera();
@@ -74,4 +89,26 @@ public class BurstManualParam extends BaseManualParameter {
     public String GetStringValue() {
         return curr +"";
     }
+
+    @Override
+    public I_ModuleEvent GetModuleListner() {
+        return moduleListner;
+    }
+
+    private I_ModuleEvent moduleListner =new I_ModuleEvent() {
+        @Override
+        public String ModuleChanged(String module)
+        {
+            if ((module.equals(AbstractModuleHandler.MODULE_VIDEO) || module.equals(AbstractModuleHandler.MODULE_HDR)) && isSupported)
+                BackgroundIsSupportedChanged(false);
+            else if ((module.equals(AbstractModuleHandler.MODULE_PICTURE)
+                    || module.equals(AbstractModuleHandler.MODULE_INTERVAL)
+                    )&& isSupported)
+            {
+                BackgroundIsSupportedChanged(true);
+            }
+            return null;
+        }
+    };
+
 }

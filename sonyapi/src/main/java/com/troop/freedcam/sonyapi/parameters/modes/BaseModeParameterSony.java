@@ -26,7 +26,6 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
 
     protected SimpleRemoteApi mRemoteApi;
     protected Set<String> mAvailableCameraApiSet;
-    protected Set<String> mSupportedApiSet;
     JSONObject jsonObject;
 
     protected boolean isSupported =false;
@@ -45,7 +44,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
     }
 
     @Override
-    public void SonyApiChanged(Set<String> mAvailableCameraApiSet)
+    public void SonyApiChanged(final Set<String> mAvailableCameraApiSet)
     {
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
         if (isSupported != JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet))
@@ -79,6 +78,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
             @Override
             public void run() {
                 processValuesToSet(valueToSet);
+                BackgroundValueHasChanged(valueToSet);
             }
         }).start();
     }
@@ -105,7 +105,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
     @Override
     public String GetValue()
     {
-        if (value == null || value.equals("")) {
+        /*if (value == null || value.equals("")) {
             jsonObject = null;
             new Thread(new Runnable() {
                 @Override
@@ -119,10 +119,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
                     }
                 }
             }).start();
-
-            return value;
-        }
-        else
+        }*/
             return value;
 
     }
@@ -142,7 +139,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
     @Override
     public String[] GetValues()
     {
-        jsonObject =null;
+        /*jsonObject =null;
         new Thread(new Runnable() {
             @Override
             public void run()
@@ -162,9 +159,9 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
                 e.printStackTrace();
             }
         }
-        String[] ret = processValuesToReturn();
+        String[] ret = processValuesToReturn();*/
 
-        return ret;
+        return values;
     }
 
     protected String[] processValuesToReturn() {
@@ -177,5 +174,20 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
             e.printStackTrace();
         }
         return ret;
+    }
+
+    @Override
+    public void BackgroundValueHasChanged(String value)
+    {
+        this.value = value;
+        super.BackgroundValueHasChanged(value);
+
+    }
+
+    @Override
+    public void BackgroundValuesHasChanged(String[] value)
+    {
+        this.values = value;
+        super.BackgroundValuesHasChanged(value);
     }
 }

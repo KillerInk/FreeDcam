@@ -3,36 +3,16 @@
     android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:background="#ffffff"
+
     android:id="@+id/uiSettingsTopLayout">
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="32dp"
+        android:layout_height="39dp"
         android:gravity="center_horizontal"
-        android:background="@color/uiSettingsBackground"
-        android:layout_margin="1dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
-            android:id="@+id/textView"
-            android:textStyle="bold"
-            android:textColor="@color/uiSettingsTextColor"
-            android:layout_marginTop="4dp"
-            android:textSize="10dip"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:ellipsize="marquee"
-            android:singleLine="true"
-            android:focusable="true"
-            android:scrollHorizontally="true"
-            android:focusableInTouchMode="true"
-            android:freezesText="true"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp" />
+        android:layout_margin="1dp"
+        android:id="@+id/LAYbg">
 
         <TextView
             android:layout_width="wrap_content"
@@ -41,8 +21,8 @@
             android:text="Small Text"
             android:id="@+id/textView2"
             android:textColor="@color/uiSettingsTextColor"
-            android:textSize="8dip"
-            android:layout_marginBottom="4dp"
+            android:textSize="7dp"
+            android:layout_marginBottom="0dp"
             android:marqueeRepeatLimit="marquee_forever"
             android:ellipsize="marquee"
             android:singleLine="true"
@@ -51,7 +31,9 @@
             android:focusableInTouchMode="true"
             android:freezesText="true"
             android:paddingLeft="2dp"
-            android:paddingRight="2dp"/>
+            android:paddingRight="2dp"
+            android:gravity="center|center_vertical"
+            android:layout_marginTop="27dp" />
     </LinearLayout>
 
 </LinearLayout>

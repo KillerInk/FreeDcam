@@ -81,11 +81,11 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
     }
 
     @Override
-    public void DoWork()
+    public boolean DoWork()
     {
         //check if already working if true return
         if (this.isWorking)
-            return;
+            return true;
         //set working true
         this.isWorking = true;
         count = 0;
@@ -130,7 +130,7 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
                 }
             }
         }.start();
-
+        return true;
     }
 
     @Override

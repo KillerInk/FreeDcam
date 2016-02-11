@@ -67,6 +67,20 @@ public class MenuItemSaveCamParams extends MenuItem
     }
 
     @Override
+    public void onClick(int x, int y) {
+        super.onClick(x, y);
+        try {
+
+
+            saveCamParameters();
+            Toast.makeText(context, "Saved CameraParameters", Toast.LENGTH_LONG).show();
+        }
+        catch (Exception ex) {
+            Log.d("Freedcam",ex.getMessage());
+        }
+    }
+
+    @Override
     public void SetStuff(I_Activity i_activity, AppSettingsManager appSettingsManager, String settingvalue) {
 
     }

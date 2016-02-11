@@ -8,13 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
+
 import troop.com.themesample.R;
 import troop.com.themesample.views.uichilds.SimpleValueChild;
 
 /**
  * Created by troop on 16.06.2015.
  */
-public class HorizontalValuesFragment extends Fragment implements Interfaces.I_CloseNotice
+public class HorizontalValuesFragment extends Fragment implements Interfaces.I_CloseNotice, AbstractModeParameter.I_ModeParameterEvent
 {
     View view;
     LinearLayout valuesHolder;
@@ -34,18 +36,23 @@ public class HorizontalValuesFragment extends Fragment implements Interfaces.I_C
     @Override
     public void onResume() {
         super.onResume();
-        int i = 0;
-        LinearLayout linearLayout = getNewLayout();
+        setValueToView();
+    }
+
+    public void Clear()
+    {
+        if (valuesHolder != null)
+            valuesHolder.removeAllViews();
+    }
+
+    private void setValueToView() {
         if (values == null)
             return;
         for (String s : values)
         {
-            if (i == 3 || i == 6 || i == 9)
-                linearLayout = getNewLayout();
             SimpleValueChild child = new SimpleValueChild(view.getContext());
             child.SetString(s, this);
-            linearLayout.addView(child);
-            i++;
+            valuesHolder.addView(child);
         }
     }
 
@@ -68,6 +75,11 @@ public class HorizontalValuesFragment extends Fragment implements Interfaces.I_C
         this.rdytoclose = rdytoclose;
     }
 
+    public void ListenToParameter(AbstractModeParameter parameter)
+    {
+        parameter.addEventListner(this);
+    }
+
     /*
     this gets attached to the Simplevalue childes and returns the value from the clicked SimpleValueChild
      */
@@ -76,5 +88,32 @@ public class HorizontalValuesFragment extends Fragment implements Interfaces.I_C
     {
         if (rdytoclose != null)
             rdytoclose.onClose(value);
+    }
+
+    @Override
+    public void onValueChanged(String val) {
+
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values)
+    {
+        this.values = values;
+        setValueToView();
+    }
+
+    @Override
+    public void onVisibilityChanged(boolean visible) {
+
     }
 }

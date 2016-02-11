@@ -26,7 +26,9 @@ public class SkintoneManualPrameter extends BaseManualParameter {
                 this.isSupported = true;
                 this.value = "skinToneEnhancement";
             }*/
-            if (DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234()||DeviceUtils.isAlcatel_Idol3()||DeviceUtils.isMoto_MSM8982_8994()||DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
+            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)
+                    ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)
+                    ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
                 this.isSupported = true;
         }
         catch (Exception ex)
@@ -50,5 +52,7 @@ public class SkintoneManualPrameter extends BaseManualParameter {
     protected void setvalue(int valueToSet) {
         camParametersHandler.SceneMode.SetValue("portrait", true);
         parameters.put("skinToneEnhancement",valueToSet + "");
+        if (valueToSet == 0)
+            camParametersHandler.SceneMode.SetValue("auto", true);
     }
 }

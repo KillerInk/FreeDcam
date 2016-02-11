@@ -59,7 +59,7 @@ public abstract class AbstractModule implements I_Module
     }
 
     @Override
-    public abstract void DoWork();
+    public abstract boolean DoWork();
 
     @Override
     public boolean IsWorking() {
@@ -79,12 +79,8 @@ public abstract class AbstractModule implements I_Module
     public abstract void UnloadNeededParameters();
 
     @Override
-    public String LongName() {
-        return null;
-    }
+    public abstract String LongName();
 
     @Override
-    public String ShortName() {
-        return null;
-    }
+    public abstract String ShortName();
 }
