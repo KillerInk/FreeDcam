@@ -44,7 +44,7 @@ public class MediatekSaver extends JpegSaver {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("raw"))
+                if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("raw") || cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("dng"))
                 {
                     String timestamp = String.valueOf(System.currentTimeMillis());
                             ((CamParametersHandler) ParameterHandlerx).setString("rawfname", "/mnt/sdcard/DCIM/FreeDCam/"+timestamp+".raw");
