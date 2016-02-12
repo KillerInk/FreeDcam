@@ -135,7 +135,14 @@ public class CamParametersHandler extends AbstractParameterHandler
         {
             ex.printStackTrace();
         }
-
+        try {
+            FocusMode = new FocusModeParameter(uiHandler,cameraParameters, baseCameraHolder,"focus-mode","focus-mode-values");
+            FocusMode.addEventListner(((FocusHandler) cameraHolder.Focus).focusModeListner);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
         locationParameter = new LocationParameter(uiHandler, appSettingsManager, cameraHolder);
         try
         {
@@ -372,14 +379,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         {
             ex.printStackTrace();
         }
-        try {
-            FocusMode = new FocusModeParameter(uiHandler,cameraParameters, baseCameraHolder,"focus-mode","focus-mode-values");
-            FocusMode.addEventListner(((FocusHandler)cameraHolder.Focus).focusModeListner);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
+
         try {
             RedEye = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "redeye-reduction", "redeye-reduction-values");
         }
