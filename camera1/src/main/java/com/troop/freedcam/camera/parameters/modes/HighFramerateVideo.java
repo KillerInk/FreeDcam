@@ -321,27 +321,27 @@ public class HighFramerateVideo extends  BaseModeParameter
            // super.BackgroundValueHasChanged(valueToSet.split("@")[1]);
         }
         else if(parameters.containsKey("video-hfr")) {
-            if (Integer.parseInt(valueToSet.split("@")[1]) > 3 ) {
-                if (Integer.parseInt(valueToSet.split("@")[1]) >= 48 && Integer.parseInt(valueToSet.split("@")[1]) < 90) {
+            if (Integer.parseInt(valueToSet.split("@")[1]) > 30 ) {
+               /* if (Integer.parseInt(valueToSet.split("@")[1]) >= 48 && Integer.parseInt(valueToSet.split("@")[1]) < 90) {
 
                     switch (valueToSet.split("@")[0]) {
                         case "720p":
-                            if (HD.contains("720p@480")) {
+                            if (valueToSet.contains("720p@480")) {
                             super.SetValue("480", setToCam);
-                        } else if (HD.contains("720p@240")) {
+                        } else if (valueToSet.contains("720p@240")) {
                             super.SetValue("240", setToCam);
-                        } else if (HD.contains("720p@150")) {
+                        } else if (valueToSet.contains("720p@150")) {
                             super.SetValue("150", setToCam);
-                        } else if (HD.contains("720p@120")) {
+                        } else if (valueToSet.contains("720p@120")) {
                             super.SetValue("120", setToCam);
-                        } else if (HD.contains("720p@90")) {
+                        } else if (valueToSet.contains("720p@90")) {
                             super.SetValue("90", setToCam);
                         }
                         break;
                         case "1080p":
-                        if (FHD.contains("1080p@120")) {
+                        if (valueToSet.contains("1080p@120")) {
                             super.SetValue("120", setToCam);
-                        } else if (FHD.contains("1080p@90")) {
+                        } else if (valueToSet.contains("1080p@90")) {
                             super.SetValue("90", setToCam);
                         } else
                             super.SetValue("60", setToCam);
@@ -352,22 +352,22 @@ public class HighFramerateVideo extends  BaseModeParameter
                 } else if (Integer.parseInt(valueToSet.split("@")[1]) >= 90 && Integer.parseInt(valueToSet.split("@")[1]) < 120) {
                     switch (valueToSet.split("@")[0]) {
                         case "720p":
-                            if (HD.contains("720p@480")) {
+                            if (valueToSet.contains("720p@480")) {
                                 super.SetValue("480", setToCam);
-                            } else if (HD.contains("720p@240")) {
+                            } else if (valueToSet.contains("720p@240")) {
                                 super.SetValue("240", setToCam);
-                            } else if (HD.contains("720p@150")) {
+                            } else if (valueToSet.contains("720p@150")) {
                                 super.SetValue("150", setToCam);
-                            } else if (HD.contains("720p@120")) {
+                            } else if (valueToSet.contains("720p@120")) {
                                 super.SetValue("120", setToCam);
-                            } else if (HD.contains("720p@90")) {
+                            } else if (valueToSet.contains("720p@90")) {
                                 super.SetValue("90", setToCam);
                             }
                             break;
                         case "1080p":
-                            if (FHD.contains("1080p@120")) {
+                            if (valueToSet.contains("1080p@120")) {
                                 super.SetValue("120", setToCam);
-                            } else if (FHD.contains("1080p@90")) {
+                            } else if (valueToSet.contains("1080p@90")) {
                                 super.SetValue("90", setToCam);
                             } else
                                 super.SetValue("90", setToCam);
@@ -377,20 +377,20 @@ public class HighFramerateVideo extends  BaseModeParameter
                else if (Integer.parseInt(valueToSet.split("@")[1]) >= 120 && Integer.parseInt(valueToSet.split("@")[1]) < 150) {
                     switch (valueToSet.split("@")[0]) {
                         case "720p":
-                            if (HD.contains("720p@480")) {
+                            if (valueToSet.contains("720p@480")) {
                                 super.SetValue("480", setToCam);
-                            } else if (HD.contains("720p@240")) {
+                            } else if (valueToSet.contains("720p@240")) {
                                 super.SetValue("240", setToCam);
-                            } else if (HD.contains("720p@150")) {
+                            } else if (valueToSet.contains("720p@150")) {
                                 super.SetValue("150", setToCam);
-                            } else if (HD.contains("720p@120")) {
+                            } else if (valueToSet.contains("720p@120")) {
                                 super.SetValue("120", setToCam);
                             }
                             break;
                         case "1080p":
-                            if (FHD.contains("1080p@120")) {
+                            if (valueToSet.contains("1080p@120")) {
                                 super.SetValue("120", setToCam);
-                            } else if (FHD.contains("1080p@90")) {
+                            } else if (valueToSet.contains("1080p@90")) {
                                 super.SetValue("90", setToCam);
                             } else
                                 super.SetValue("120", setToCam);
@@ -399,39 +399,40 @@ public class HighFramerateVideo extends  BaseModeParameter
                 }
 
                else if (Integer.parseInt(valueToSet.split("@")[1]) >= 150 && Integer.parseInt(valueToSet.split("@")[1]) < 240) {
-                    if (HD.contains("720p@480")) {
+                    if (valueToSet.contains("720p@480")) {
                         super.SetValue("480", setToCam);
-                    } else if (HD.contains("720p@240")) {
+                    } else if (valueToSet.contains("720p@240")) {
                         super.SetValue("240", setToCam);
-                    } else if (HD.contains("720p@150")) {
+                    } else if (valueToSet.contains("720p@150")) {
                         super.SetValue("150", setToCam);
-                    } else if (HD.contains("720p@120")) {
+                    } else if (valueToSet.contains("720p@120")) {
                         super.SetValue("120", setToCam);
                     }
                 }
 
                 else if (Integer.parseInt(valueToSet.split("@")[1]) >= 240 && Integer.parseInt(valueToSet.split("@")[1]) < 480) {
-                    if (HD.contains("720p@480")) {
+                    if (valueToSet.contains("720p@480")) {
                         super.SetValue("480", setToCam);
-                    } else if (HD.contains("720p@240")) {
+                    } else if (valueToSet.contains("720p@240")) {
                         super.SetValue("240", setToCam);
-                    } else if (HD.contains("720p@150")) {
+                    } else if (valueToSet.contains("720p@150")) {
                         super.SetValue("150", setToCam);
-                    } else if (HD.contains("720p@120")) {
+                    } else if (valueToSet.contains("720p@120")) {
                         super.SetValue("120", setToCam);
                     }
                 }
                else if (Integer.parseInt(valueToSet.split("@")[1]) >= 480) {
-                    if (HD.contains("720p@480")) {
+                    if (valueToSet.contains("720p@480")) {
                         super.SetValue("480", setToCam);
-                    } else if (HD.contains("720p@240")) {
+                    } else if (valueToSet.contains("720p@240")) {
                         super.SetValue("240", setToCam);
-                    } else if (HD.contains("720p@150")) {
+                    } else if (valueToSet.contains("720p@150")) {
                         super.SetValue("150", setToCam);
-                    } else if (HD.contains("720p@120")) {
+                    } else if (valueToSet.contains("720p@120")) {
                         super.SetValue("120", setToCam);
                     }
-                }
+                }*/
+                super.SetValue(valueToSet.split("@")[1], setToCam);
 
 
             }
@@ -440,7 +441,7 @@ public class HighFramerateVideo extends  BaseModeParameter
 
         if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null && cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
             cameraUiWrapper.moduleHandler.GetCurrentModule().LoadNeededParameters();
-        //baseCameraHolder.StartPreview();
+        baseCameraHolder.StartPreview();
     }
 
     @Override
