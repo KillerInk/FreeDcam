@@ -238,7 +238,7 @@ public class DeviceUtils
             Devices.LenovoK910,Devices.LenovoK920,
             Devices.Yu_Yureka,
             Devices.OnePlusOne, Devices.OnePlusTwo,
-            Devices.RedmiNote, Devices.XiaomiMI3W, Devices.XiaomiMI4W, Devices.XiaomiMI_Note_Pro, Devices.RedmiNote, Devices.RedmiNote2_MTK,
+            Devices.RedmiNote, Devices.XiaomiMI3W, Devices.XiaomiMI4W, Devices.XiaomiMI_Note_Pro, Devices.RedmiNote2_MTK,
             Devices.Vivo_Xplay3s,
             Devices.GioneE7,
             Devices.Sony_XperiaL,
