@@ -69,6 +69,8 @@ public class DeviceUtils
     {
         if (isAlcatel_Idol3())
             return Devices.Alcatel_Idol3;
+        else if (isAsus_Zenfon2())
+            return Devices.Asus_Zenfon2;
         else if (isGioneE7())
             return Devices.GioneE7;
         else if (isEvo3d())
@@ -150,6 +152,7 @@ public class DeviceUtils
     {
         UNKNOWN,
         Alcatel_Idol3,
+        Asus_Zenfon2,
         GioneE7,
         ForwardArt_MTK,
         Htc_Evo3d,
@@ -241,15 +244,22 @@ public class DeviceUtils
             Devices.Moto_MSM8982_8994, Devices.Moto_MSM8974,
             Devices.Retro_MTK,
             Devices.THL5000_MTK,
+    };
 
-
-
+    public static Devices[] camera1NO_RAW_STREAM = {
+            Devices.Asus_Zenfon2,
+            Devices.Nexus4,
     };
     public static boolean isCamera1DNGSupportedDevice()
     {
         return IS_DEVICE_ONEOF(camera1DNGsupported);
         /*isLG_G3() || isG2() || isG4() || isHTC_M8() || isZTEADV() || isZTEADVIMX214() || isZTEADV234() || isHTC_M9() || isHtc_One_SV() || isHtc_One_XL() || isLenovoK910() || isYureka() ||
                 isOnePlusOne() || isRedmiNote() || isXiaomiMI3W()||isXiaomiMI4W()|| isXperiaL() ||isXiaomiMI_Note_Pro() || isVivo_Xplay3s();*/
+    }
+
+    public static boolean isCamera1NO_RAW_STREM()
+    {
+        return IS_DEVICE_ONEOF(camera1NO_RAW_STREAM);
     }
 
     private static boolean isMoto_MSM8974()
@@ -408,6 +418,10 @@ public class DeviceUtils
     private static boolean isForwardArt()
     {
         return isDevice(contex.getResources().getStringArray(R.array.Forward_Art));
+    }
+    private static boolean isAsus_Zenfon2()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.Asus_Zenfon2));
     }
 
 
