@@ -254,6 +254,8 @@ public class DeviceUtils
     public static Devices[] camera1NO_RAW_STREAM = {
             Devices.Asus_Zenfon2,
             Devices.Nexus4,
+            Devices.Htc_Evo3d,
+
     };
     public static boolean isCamera1DNGSupportedDevice()
     {
