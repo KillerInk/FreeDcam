@@ -117,8 +117,12 @@ public class NightModeParameter extends BaseModeParameter
         if (val.contains("jpeg")&&!visible)
             Show();
 
-        else if (!val.contains("jpeg")&&visible)
-            Hide();
+        else if (!val.contains("jpeg")&&visible) {
+            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
+                Show();
+            else
+                Hide();
+        }
     }
 
     private void Hide()

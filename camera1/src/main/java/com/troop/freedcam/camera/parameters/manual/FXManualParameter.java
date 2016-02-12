@@ -14,20 +14,18 @@ public class FXManualParameter extends BaseManualParameter {
 
         //TODO add missing logic
     }
-    public FXManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, BaseCameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
+  /*  public FXManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, BaseCameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         this.baseCameraHolder = cameraHolder;
         //TODO add missing logic
-    }
+    }*/
     
     @Override
     public boolean IsSupported()
     {
-        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) )
-            return true;
-        else
-            return false;
+
+            return DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES);
     }
 
     @Override

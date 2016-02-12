@@ -582,20 +582,20 @@ public class CamParametersHandler extends AbstractParameterHandler
         {
             ex.printStackTrace();
         }
-        try {
+       /* try {
             morphoHDR = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "morpho-hdr", "");
         }
         catch (Exception ex)
         {
             ex.printStackTrace();
-        }
-        try {
+        }*/
+       /* try {
             morphoHHT = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "morpho-hht", "");
         }
         catch (Exception ex)
         {
             ex.printStackTrace();
-        }
+        }*/
         try {
             LensFilter = new VirtualLensFilter(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraUiWrapper);
         }
@@ -612,7 +612,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         Module = new ModuleParameters(uiHandler, appSettingsManager, cameraUiWrapper);
         ParametersEventHandler.ParametersHasLoaded();
-        SetAppSettingsToParameters();
+        SetAppSettingsToParametersx();
         cameraHolder.SetCameraParameters(cameraParameters);
         //camMode();
         if (((BaseCameraHolder) cameraHolder).DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)
@@ -744,8 +744,8 @@ public class CamParametersHandler extends AbstractParameterHandler
             return 0;
     }
 
-    @Override
-    public void SetAppSettingsToParameters() {
+
+    public void SetAppSettingsToParametersx() {
         super.SetAppSettingsToParameters();
         cameraUiWrapper.moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
     }

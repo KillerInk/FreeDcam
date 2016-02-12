@@ -1,5 +1,7 @@
 package com.troop.freedcam.camera.modules.image_saver;
 
+import android.os.Build;
+import android.os.Debug;
 import android.os.Handler;
 import android.util.Log;
 
@@ -13,6 +15,7 @@ import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.MetaDataExtractor;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.BufferedInputStream;
@@ -27,12 +30,15 @@ public class DngSaver extends JpegSaver
     final public String fileEnding = ".dng";
     private String lastBayerFormat;
     final RawToDng dngConverter;
+    boolean isDebug = true;
+    MetaDataExtractor meta;
 
     final String TAG = DngSaver.class.getSimpleName();
     public DngSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler, boolean externalSD)
     {
         super(cameraHolder, i_workeDone, handler, externalSD);
         dngConverter = RawToDng.GetInstance();
+
     }
 
     @Override
@@ -47,6 +53,10 @@ public class DngSaver extends JpegSaver
             return;
         }
         awaitpicture = true;
+        if((DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)){
+            meta = new MetaDataExtractor();
+            meta.ResetMeta();
+            meta.extractMeta();}
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -123,9 +133,19 @@ public class DngSaver extends JpegSaver
 
         dngConverter.SetBayerData(data, file.getAbsolutePath());
         float fnum, focal = 0;
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
+        {
+            fnum = 2.0f;
+            focal = 28.342f;
+        }
+        else {
         fnum = ((CamParametersHandler)cameraHolder.ParameterHandler).GetFnumber();
-        focal = ((CamParametersHandler)cameraHolder.ParameterHandler).GetFocal();
-        dngConverter.setExifData(0, 0, 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
+        focal = ((CamParametersHandler)cameraHolder.ParameterHandler).GetFocal();}
+        if(isDebug){
+            dngConverter.setExifData(meta.getIso(), meta.getExp(), meta.getFlash(), fnum, focal, meta.getDescription(), cameraHolder.Orientation + "", 0);}
+        else
+            dngConverter.setExifData(0, 0, 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
+
         dngConverter.WriteDNG(DeviceUtils.DEVICE());
         dngConverter.RELEASE();
         iWorkeDone.OnWorkDone(file);

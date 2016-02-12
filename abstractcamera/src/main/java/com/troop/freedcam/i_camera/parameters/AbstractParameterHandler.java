@@ -202,9 +202,10 @@ public abstract class AbstractParameterHandler
         setMode(IntervalShutterSleep, AppSettingsManager.SETTING_INTERVAL);
         setMode(Horizont, AppSettingsManager.SETTING_HORIZONT);
         setMode(captureBurstExposures, AppSettingsManager.SETTING_CAPTUREBURSTEXPOSURES);
-        setMode(morphoHDR, AppSettingsManager.SETTING_MORPHOHDR);
-        setMode(morphoHHT, AppSettingsManager.SETTING_MORPHOHHT);
         setMode(HDRMode, AppSettingsManager.SETTING_HDRMODE);
+
+       // setMode(morphoHDR, AppSettingsManager.SETTING_MORPHOHDR);
+       // setMode(morphoHHT, AppSettingsManager.SETTING_MORPHOHHT);
 
         setManualMode(ManualBrightness, AppSettingsManager.MWB);
         setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);

@@ -202,6 +202,10 @@
         <item>E5663</item>
     </string-array>
 
+    <string-array name="SonyC5">
+        <item>E5533</item>
+    </string-array>
+
     <string-array name="Sony_XperiaL">
         <item>C2104</item>
         <item>C2105</item>
@@ -298,5 +302,8 @@
     </string-array>
     <string-array name="Forward_Art">
         <item>Forward_Art</item>
+    </string-array>
+    <string-array name="Asus_Zenfon2">
+        <item>ASUS_Z00ED</item>
     </string-array>
 </resources>
