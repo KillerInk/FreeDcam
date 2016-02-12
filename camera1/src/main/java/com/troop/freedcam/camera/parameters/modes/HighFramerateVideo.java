@@ -69,7 +69,74 @@ public class HighFramerateVideo extends  BaseModeParameter
     @Override
     public String[] GetValues() {
 
-        if(cameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.LG && parameters.get("hfr-size-values").split(",").length >= 1)
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
+        {
+            try {
+                String SizeV = cameraUiWrapper.appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
+
+
+                if (SizeV.equals("1080p")) {
+                    return new String[]{"Default", "1080p@60", "1080p@30", "1080p@29", "1080p@25", "1080p@24", "1080p@15"};
+                } else if (SizeV.equals("LOW") || SizeV.equals("720p")) {
+                    return new String[]{"Default", "720p@120", "720p@60", "720p@50", "720p@48", "720p@30", "720p@29", "720p@25", "720p@24", "720p@15"};
+
+                } else if (SizeV.equals("4kUHD")) {
+                    return new String[]{"Default", "UHD@30", "UHD@29", "UHD@25", "UHD@24", "UHD@15"};
+                }
+                else
+                    return new String[]{"Default"};
+            }
+            catch (NullPointerException e){ }
+
+        }
+        else if(DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
+        {
+            try {
+                String SizeV = cameraUiWrapper.appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
+
+
+                if (SizeV.equals("HIGH") || SizeV.equals("1080p")) {
+                    return new String[]{"Default", "1080p@60", "1080p@50", "1080p@48", "1080p@30", "1080p@29", "1080p@25", "1080p@24", "1080p@15"};
+                } else if (SizeV.equals("LOW") || SizeV.equals("720p")) {
+                    return new String[]{"Default", "720p@120", "720p@60", "720p@50", "720p@48", "720p@30", "720p@29", "720p@25", "720p@24", "720p@15"};
+
+                } else if (SizeV.equals("4kUHD")) {
+                    return new String[]{"Default", "UHD@30", "UHD@29", "UHD@25", "UHD@24", "UHD@15"};
+                }
+                else
+                    return new String[]{"Default"};
+            }
+            catch (NullPointerException e)
+            {
+
+            }
+
+        }
+        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3)||DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
+        {
+            try {
+                String SizeV = cameraUiWrapper.appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
+
+
+                if (SizeV.equals("HIGH") || SizeV.equals("1080p")) {
+                    return new String[]{"Default", "1080p@60", "1080p@50", "1080p@48", "1080p@30", "1080p@29", "1080p@25", "1080p@24", "1080p@15"};
+                } else if (SizeV.equals("LOW") || SizeV.equals("720p")) {
+                    return new String[]{"Default", "720p@120", "720p@60", "720p@50", "720p@48", "720p@30", "720p@29", "720p@25", "720p@24", "720p@15"};
+
+                } else if (SizeV.equals("4kUHD")) {
+                    return new String[]{"Default", "UHD@30", "UHD@29", "UHD@25", "UHD@24", "UHD@15"};
+                }
+                else
+                    return new String[]{"Default"};
+            }
+            catch (NullPointerException e)
+            {
+
+            }
+
+        }
+
+        else if(cameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.LG && parameters.get("hfr-size-values").split(",").length >= 1)
         {
             String[] split1 = parameters.get("hfr-size-values").split(",");
             String[] split2 = parameters.get("video-hfr-values").split(",");
@@ -164,9 +231,6 @@ public class HighFramerateVideo extends  BaseModeParameter
                         DynamicFHD.remove("1080p@120");
                         DynamicFHD.remove("1080p@90");
                         DynamicFHD.remove("1080p@60");
-                        //INJECT MICODE test for HFR FHD
-                        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
-                            DynamicFHD.add("1080p@60");
                         return DynamicFHD.toArray(new String[DynamicFHD.size()]);
                     }
 
@@ -240,72 +304,6 @@ public class HighFramerateVideo extends  BaseModeParameter
             {
 
             }
-        }
-        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
-        {
-            try {
-                String SizeV = cameraUiWrapper.appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
-
-
-                if (SizeV.equals("HIGH") || SizeV.equals("1080p")) {
-                    return new String[]{"Default","1080p@60","1080p@30", "1080p@29", "1080p@25", "1080p@24", "1080p@15"};
-                } else if (SizeV.equals("LOW") || SizeV.equals("720p")) {
-                    return new String[]{"Default", "720p@120", "720p@60", "720p@30", "720p@29", "720p@25", "720p@24", "720p@15"};
-
-                } else if (SizeV.equals("4kUHD")) {
-                    return new String[]{"Default", "UHDp@30", "UHD@29", "UHD@25", "UHD@24", "UHD@15"};
-                }
-                else
-                    return new String[]{"Default"};
-            }
-            catch (NullPointerException e){ }
-
-        }
-        else if(DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
-        {
-            try {
-                String SizeV = cameraUiWrapper.appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
-
-
-                if (SizeV.equals("HIGH") || SizeV.equals("1080p")) {
-                    return new String[]{"Default", "1080p@60", "1080p@50", "1080p@48", "1080p@30", "1080p@29", "1080p@25", "1080p@24", "1080p@15"};
-                } else if (SizeV.equals("LOW") || SizeV.equals("720p")) {
-                    return new String[]{"Default", "720p@120", "720p@60", "720p@50", "720p@48", "720p@30", "720p@29", "720p@25", "720p@24", "720p@15"};
-
-                } else if (SizeV.equals("4kUHD")) {
-                    return new String[]{"Default", "UHD@30", "UHD@29", "UHD@25", "UHD@24", "UHD@15"};
-                }
-                else
-                    return new String[]{"Default"};
-            }
-            catch (NullPointerException e)
-            {
-
-            }
-
-        }
-        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3)||DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
-        {
-            try {
-                String SizeV = cameraUiWrapper.appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
-
-
-                if (SizeV.equals("HIGH") || SizeV.equals("1080p")) {
-                    return new String[]{"Default", "1080p@60", "1080p@50", "1080p@48", "1080p@30", "1080p@29", "1080p@25", "1080p@24", "1080p@15"};
-                } else if (SizeV.equals("LOW") || SizeV.equals("720p")) {
-                    return new String[]{"Default", "720p@120", "720p@60", "720p@50", "720p@48", "720p@30", "720p@29", "720p@25", "720p@24", "720p@15"};
-
-                } else if (SizeV.equals("4kUHD")) {
-                    return new String[]{"Default", "UHD@30", "UHD@29", "UHD@25", "UHD@24", "UHD@15"};
-                }
-                else
-                    return new String[]{"Default"};
-            }
-            catch (NullPointerException e)
-            {
-
-            }
-
         }
 
         String SizeV = cameraUiWrapper.appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
