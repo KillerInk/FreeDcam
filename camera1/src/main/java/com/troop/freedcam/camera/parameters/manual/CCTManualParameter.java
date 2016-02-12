@@ -44,19 +44,30 @@ public class CCTManualParameter extends BaseManualParameter
 
         this.isSupported = false;
 
-        //if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && Build.VERSION.SDK_INT < 23)
-        //max = 7500;
-        /*if (DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8974)) {
-            this.max = 8000;
-        }
-        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
         {
+            //TODO cm13 use different values, need rom detection
             if (Build.VERSION.SDK_INT < 23)
+            {
                 this.max = 7500;
-            else
+                this.value = WB_MANUAL;
+                this.max_value = MAX_WB_CCT;
+                setmin(MIN_WB_CCT);
+                this.isSupported = true;
+                this.manualWbMode = WB_MODE_MANUAL_CCT;
+                createStringArray();
+            }
+            else {
                 this.max = 8000;
+                this.value = MANUAL_WB_VALUE;
+                this.max_value = MAX_WB_CCT;
+                setmin(MIN_WB_CCT);
+                this.manualWbMode = WB_MODE_MANUAL;
+                this.isSupported = true;
+                createStringArray();
+            }
         }
-        else*/ if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
+        else if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
         {
             this.min = 2000;
             this.max = 8000;
