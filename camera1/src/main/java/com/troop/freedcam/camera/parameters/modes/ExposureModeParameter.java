@@ -46,10 +46,21 @@ public class ExposureModeParameter extends BaseModeParameter {
         if(!isSupported)
         {
             try {
-                String tmp = parameters.get("sony-ae-mode-values");
+                String tmp = parameters.get("sony-metering-mode-values");
                 if (tmp != null && !tmp.equals("")) {
-                    this.value = "sony-ae-mode";
-                    this.values = "sony-ae-mode-values";
+                    this.value = "sony-metering-mode";
+                    this.values = "sony-metering-mode-values";
+                    isSupported = true;
+                }
+            } catch (Exception ex) {}
+        }
+        if(!isSupported)
+        {
+            try {
+                String tmp = parameters.get("exposure-meter-values");
+                if (tmp != null && !tmp.equals("")) {
+                    this.value = "exposure-meter";
+                    this.values = "exposure-meter-values";
                     isSupported = true;
                 }
             } catch (Exception ex) {}

@@ -16,7 +16,8 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -30,6 +31,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
     int hdrCount = 0;
     boolean aeBrackethdr = false;
     File[] files;
+    boolean isManualExpo = false;
 
     public HdrModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler, Handler backgroundHandler) {
         super(cameraHandler, Settings, eventHandler, backgroundHandler);
@@ -111,13 +113,13 @@ public class HdrModule extends PictureModule implements I_WorkeDone
 
                 final String picFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
                 if (picFormat.equals("jpeg")) {
-                    final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, HdrModule.this, handler,Settings.GetWriteExternal());
+                    final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, HdrModule.this, handler, Settings.GetWriteExternal());
                     jpegSaver.TakePicture();
                 } else if (!ParameterHandler.IsDngActive() && picFormat.contains("raw")) {
-                    final RawSaver rawSaver = new RawSaver(baseCameraHolder, HdrModule.this, handler,Settings.GetWriteExternal());
+                    final RawSaver rawSaver = new RawSaver(baseCameraHolder, HdrModule.this, handler, Settings.GetWriteExternal());
                     rawSaver.TakePicture();
                 } else if (ParameterHandler.IsDngActive() && picFormat.contains("dng")) {
-                    DngSaver dngSaver = new DngSaver(baseCameraHolder, HdrModule.this, handler,Settings.GetWriteExternal());
+                    DngSaver dngSaver = new DngSaver(baseCameraHolder, HdrModule.this, handler, Settings.GetWriteExternal());
                     dngSaver.TakePicture();
                 }
             }
@@ -151,6 +153,42 @@ public class HdrModule extends PictureModule implements I_WorkeDone
 
     private void setExposureToCamera()
     {
+        if(isManualExpo)
+        {
+            if(ParameterHandler.ManualShutter.GetStringValue().contains("/")) {
+                int value = 0;
+
+                if (hdrCount == 0)
+                {
+                    System.out.println("Do Nothing");
+                    //getStop(1 / Integer.parseInt(ParameterHandler.ManualShutter.GetStringValue().split("/")[1]), -12);
+                }
+                else if (hdrCount == 1)
+                    getStop(1 / Integer.parseInt(ParameterHandler.ManualShutter.GetStringValue().split("/")[1]), -12.0f);
+                else if (hdrCount == 2)
+                    getStop(1 / Integer.parseInt(ParameterHandler.ManualShutter.GetStringValue().split("/")[1]), 12.0f);
+                //ParameterHandler.ManualShutter.SetValue();
+
+
+
+            }
+            else
+            {
+
+
+                if (hdrCount == 0)
+                {
+                    //getStop(Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue()), -12);
+                    System.out.println("Do Nothing");
+                }
+                else if (hdrCount == 1)
+                    getStop(Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue()), -12.0f);
+                else if (hdrCount == 2)
+                    getStop(Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue()), 12.0f);
+
+
+            }
+        }
         int value = 0;
 
         if (hdrCount == 0)
@@ -161,9 +199,40 @@ public class HdrModule extends PictureModule implements I_WorkeDone
             value = 0;
         else if (hdrCount == 2)
             value = ParameterHandler.ManualExposure.GetMaxValue()-2;
+
         Log.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
         ParameterHandler.ManualExposure.SetValue(value);
         Log.d(TAG, "HDR Exposure SET");
+    }
+
+    private void checkAEMODE()
+    {
+        if (!ParameterHandler.ManualShutter.GetStringValue().equals("Auto"))
+            isManualExpo = true;
+    }
+
+    private float getStop(float current,float TargetStop)
+    {
+        float stop = current;
+        int stopT = 0;
+
+        if(Math.signum(TargetStop) >= 1.0)
+        {
+            for(int i = 0; i < TargetStop;i++)
+            {
+                stop = stop * 2;
+                stopT = i+1;
+            }
+        }
+        else
+        {
+            for(int i = 0; i < TargetStop;i--)
+            {
+                stop = stop * 2;
+                stopT = i+1;
+            }
+        }
+        return stop;
     }
 
     I_Callbacks.PictureCallback aeBracketCallback = new I_Callbacks.PictureCallback() {
@@ -209,7 +278,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
     };
     private void LoadAEB()
     {
-        if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
+        if ((ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported()) && baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg"))
         {
             aeBrackethdr = true;
             ParameterHandler.AE_Bracket.SetValue("AE-Bracket", true);

@@ -83,6 +83,8 @@ public class RawToDngTestActivity extends Activity {
 			return DeviceUtils.Devices.Moto_MSM8982_8994;
 		if(filename.contains("SonyM5"))
 			return DeviceUtils.Devices.SonyM5_MTK;
+		if(filename.contains("SonyM5"))
+			return DeviceUtils.Devices.SonyC5_MTK;
 		if(filename.contains("Xiaomi_RedmiNote2"))
 			return DeviceUtils.Devices.RedmiNote2_MTK;
 		if(filename.contains("g4_raw10"))

@@ -77,6 +77,7 @@ public class HighFramerateVideo extends  BaseModeParameter
             Trimmed.remove("off");
             if (!Trimmed.isEmpty())
             {
+
                 for (String s:Trimmed)
                 {
                     Log.e(TAG,"Index :"+Trimmed.indexOf(s)+" "+ s);
@@ -163,6 +164,9 @@ public class HighFramerateVideo extends  BaseModeParameter
                         DynamicFHD.remove("1080p@120");
                         DynamicFHD.remove("1080p@90");
                         DynamicFHD.remove("1080p@60");
+                        //INJECT MICODE test for HFR FHD
+                        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
+                            DynamicFHD.add("1080p@60");
                         return DynamicFHD.toArray(new String[DynamicFHD.size()]);
                     }
 
@@ -244,7 +248,7 @@ public class HighFramerateVideo extends  BaseModeParameter
 
 
                 if (SizeV.equals("HIGH") || SizeV.equals("1080p")) {
-                    return new String[]{"Default","1080p@30", "1080p@29", "1080p@25", "1080p@24", "1080p@15"};
+                    return new String[]{"Default","1080p@60","1080p@30", "1080p@29", "1080p@25", "1080p@24", "1080p@15"};
                 } else if (SizeV.equals("LOW") || SizeV.equals("720p")) {
                     return new String[]{"Default", "720p@120", "720p@60", "720p@30", "720p@29", "720p@25", "720p@24", "720p@15"};
 
