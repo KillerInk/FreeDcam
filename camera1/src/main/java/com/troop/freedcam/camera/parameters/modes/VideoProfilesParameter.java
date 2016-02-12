@@ -234,7 +234,7 @@ public class VideoProfilesParameter extends BaseModeParameter
                 e.printStackTrace();
             }
 
-            if (DeviceUtils.IS(DeviceUtils.Devices.LenovoK920))
+            if (DeviceUtils.IS(DeviceUtils.Devices.LenovoK920) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
             {
                 VideoMediaProfile t = supportedProfiles.get("720p").clone();
                 t.videoFrameRate = 120;
@@ -249,6 +249,7 @@ public class VideoProfilesParameter extends BaseModeParameter
                 uhd.ProfileName = "4kUHD";
                 supportedProfiles.put("4kUHD",uhd);
             }
+
         }
     }
 }
