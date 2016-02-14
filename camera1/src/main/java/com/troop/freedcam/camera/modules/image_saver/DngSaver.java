@@ -30,8 +30,8 @@ public class DngSaver extends JpegSaver
     final public String fileEnding = ".dng";
     private String lastBayerFormat;
     final RawToDng dngConverter;
-    boolean isDebug = true;
-    MetaDataExtractor meta;
+   // boolean isDebug = true;
+   // MetaDataExtractor meta;
 
     final String TAG = DngSaver.class.getSimpleName();
     public DngSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler, boolean externalSD)
@@ -53,10 +53,10 @@ public class DngSaver extends JpegSaver
             return;
         }
         awaitpicture = true;
-        if((DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)){
-            meta = new MetaDataExtractor();
-            meta.ResetMeta();
-            meta.extractMeta();}
+      //  if((DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)){
+       //     meta = new MetaDataExtractor();
+       //     meta.ResetMeta();
+        //    meta.extractMeta();}
         handler.post(new Runnable() {
             @Override
             public void run() {
