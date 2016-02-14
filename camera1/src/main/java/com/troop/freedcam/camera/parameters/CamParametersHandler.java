@@ -582,20 +582,20 @@ public class CamParametersHandler extends AbstractParameterHandler
         {
             ex.printStackTrace();
         }
-       /* try {
+        try {
             morphoHDR = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "morpho-hdr", "");
         }
         catch (Exception ex)
         {
             ex.printStackTrace();
-        }*/
-       /* try {
+        }
+        try {
             morphoHHT = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "morpho-hht", "");
         }
         catch (Exception ex)
         {
             ex.printStackTrace();
-        }*/
+        }
         try {
             LensFilter = new VirtualLensFilter(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraUiWrapper);
         }
