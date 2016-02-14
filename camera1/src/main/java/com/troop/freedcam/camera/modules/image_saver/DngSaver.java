@@ -141,9 +141,9 @@ public class DngSaver extends JpegSaver
         else {
         fnum = ((CamParametersHandler)cameraHolder.ParameterHandler).GetFnumber();
         focal = ((CamParametersHandler)cameraHolder.ParameterHandler).GetFocal();}
-        if(isDebug){
-            dngConverter.setExifData(meta.getIso(), meta.getExp(), meta.getFlash(), fnum, focal, meta.getDescription(), cameraHolder.Orientation + "", 0);}
-        else
+       // if(isDebug){
+      //      dngConverter.setExifData(meta.getIso(), meta.getExp(), meta.getFlash(), fnum, focal, meta.getDescription(), cameraHolder.Orientation + "", 0);}
+       // else
             dngConverter.setExifData(0, 0, 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
 
         dngConverter.WriteDNG(DeviceUtils.DEVICE());
