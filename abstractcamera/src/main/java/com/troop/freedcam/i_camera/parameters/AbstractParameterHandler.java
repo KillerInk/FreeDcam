@@ -191,6 +191,7 @@ public abstract class AbstractParameterHandler
         setMode(VideoHDR, AppSettingsManager.SETTING_VIDEOHDR);
         setMode(VideoSize, AppSettingsManager.SETTING_VIDEOSIZE);
         setMode(VideoStabilization,AppSettingsManager.SETTING_VIDEOSTABILIZATION);
+        setMode(VideoHighFramerateVideo,AppSettingsManager.SETTING_HighFramerateVideo);
         setMode(WhiteBalanceMode,AppSettingsManager.SETTING_WHITEBALANCEMODE);
         setMode(ImagePostProcessing,AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE);
         setMode(ColorCorrectionMode, AppSettingsManager.SETTING_COLORCORRECTION);
