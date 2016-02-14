@@ -4,6 +4,7 @@ import android.os.Handler;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.ArrayList;
@@ -21,19 +22,11 @@ public class HDRModeParameter extends BaseModeParameter
     private boolean supporton = false;
     private String state = "";
     private String format = "";
+    private String curmodule = "";
 
     public HDRModeParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
         super(handler, parameters, parameterChanged, value, values);
 
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
-        ModuleChanged(cameraUiWrapper.moduleHandler.GetCurrentModuleName());
-        cameraUiWrapper.camParametersHandler.PictureFormat.addEventListner(this);
-
-    }
-
-    @Override
-    public boolean IsSupported()
-    {
         this.isSupported = false;
         if ((DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)
                 ||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)
@@ -41,10 +34,7 @@ public class HDRModeParameter extends BaseModeParameter
                 || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3)
                 || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)))
         {
-            if (visible)
                 this.isSupported = true;
-            else
-                this.isSupported = false;
         }
         else
         {
@@ -56,13 +46,11 @@ public class HDRModeParameter extends BaseModeParameter
                     List<String> Scenes = new ArrayList<>(Arrays.asList(parameters.get("scene-mode-values").split(",")));
                     if (Scenes.contains("hdr")) {
                         supporton = true;
-                        if (visible)
-                            this.isSupported = true;
+                        this.isSupported = true;
                     }
                     if (Scenes.contains("asd")) {
                         supportauto = true;
-                        if (visible)
-                            this.isSupported = true;
+                        this.isSupported = true;
                     }
 
                 } catch (Exception ex) {
@@ -72,7 +60,16 @@ public class HDRModeParameter extends BaseModeParameter
             else
                 this.isSupported = false;
         }
-        BackgroundIsSupportedChanged(isSupported);
+        if (isSupported) {
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
+            cameraUiWrapper.camParametersHandler.PictureFormat.addEventListner(this);
+        }
+
+    }
+
+    @Override
+    public boolean IsSupported()
+    {
         return  isSupported;
     }
 
@@ -191,51 +188,50 @@ public class HDRModeParameter extends BaseModeParameter
 
     @Override
     public String ModuleChanged(String module) {
-        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)) {
-            if (module.equals("module_video")|| module.equals("module_hdr")) {
-                if (visible)
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4) || supportauto || supporton) {
+            curmodule = module;
+            switch (module)
+            {
+                case AbstractModuleHandler.MODULE_VIDEO:
+                case AbstractModuleHandler.MODULE_HDR:
                     Hide();
-            } else if (!visible && format.contains("jpeg")){
-                Show();
-            }
-        }
-        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4) || supportauto || supporton) {
-            if (module.equals("module_video")|| module.equals("module_hdr")) {
-                if (visible)
-                    Hide();
-            } else if (!visible && format.contains("jpeg")){
-                Show();
+                    break;
+                default:
+                    if (format.contains("jpeg")) {
+                        Show();
+                        BackgroundIsSupportedChanged(true);
+                    }
             }
         }
         return null;
     }
 
     @Override
-    public void onValueChanged(String val) {
+    public void onValueChanged(String val)
+    {
         format = val;
-        if (val.contains("jpeg")&&!visible)
-             Show();
+        if (val.contains("jpeg")&&!visible&&!curmodule.equals(AbstractModuleHandler.MODULE_HDR))
+            Show();
 
-        else if (!val.contains("jpeg")&&visible)
+        else if (!val.contains("jpeg")&&visible) {
             Hide();
+        }
     }
 
     private void Hide()
     {
         state = GetValue();
         visible = false;
-        this.isSupported = false;
         SetValue("off",true);
         BackgroundValueHasChanged("off");
-        BackgroundIsSupportedChanged(isSupported);
+        BackgroundIsSupportedChanged(visible);
     }
     private void Show()
     {
         visible = true;
-        this.isSupported = true;
         SetValue(state,true);
         BackgroundValueHasChanged(state);
-        BackgroundIsSupportedChanged(isSupported);
+        BackgroundIsSupportedChanged(visible);
     }
 
 

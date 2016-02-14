@@ -18,6 +18,7 @@ public class NightModeParameter extends BaseModeParameter
     private boolean visible = true;
     private String state = "";
     private String format = "";
+    private String curmodule = "";
     public NightModeParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
         super(handler, parameters, parameterChanged, value, values);
 
@@ -96,6 +97,7 @@ public class NightModeParameter extends BaseModeParameter
     {
         if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
         {
+            curmodule = module;
             switch (module)
             {
                 case AbstractModuleHandler.MODULE_VIDEO:
@@ -103,8 +105,10 @@ public class NightModeParameter extends BaseModeParameter
                     Hide();
                     break;
                 default:
-                    Show();
-                    BackgroundIsSupportedChanged(true);
+                    if (format.contains("jpeg")) {
+                        Show();
+                        BackgroundIsSupportedChanged(true);
+                    }
             }
         }
         return null;
@@ -114,7 +118,7 @@ public class NightModeParameter extends BaseModeParameter
     public void onValueChanged(String val)
     {
         format = val;
-        if (val.contains("jpeg")&&!visible)
+        if (val.contains("jpeg")&&!visible&&!curmodule.equals(AbstractModuleHandler.MODULE_HDR))
             Show();
 
         else if (!val.contains("jpeg")&&visible) {
