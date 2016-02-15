@@ -15,15 +15,23 @@ import java.util.HashMap;
 
 /**
  * Created by troop on 04.02.2016.
+ * Thats based on CamcorderProfile http://developer.android.com/reference/android/media/CamcorderProfile.html
  */
 public class VideoMediaProfile
 {
+    //The target audio output bit rate in bits per second
     public int audioBitRate;
+    //The number of audio channels used for the audio track
     public int audioChannels;
+    //The audio encoder being used for the audio track.
     public int audioCodec;
+    //The audio sampling rate used for the audio track
     public int audioSampleRate;
+    //Default recording duration in seconds before the session is terminated.
     public int duration;
+    //The file output format of the camcorder profile see MediaRecorder.OutputFormat
     public int fileFormat;
+    //The quality level of the camcorder profile
     public int quality;
     public int videoBitRate;
     public int videoCodec;
@@ -180,5 +188,4 @@ public class VideoMediaProfile
             }
         }
     }
-
 }
