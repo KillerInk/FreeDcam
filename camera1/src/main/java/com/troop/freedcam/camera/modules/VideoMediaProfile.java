@@ -3,6 +3,15 @@ package com.troop.freedcam.camera.modules;
 import android.media.CamcorderProfile;
 
 import com.lge.media.CamcorderProfileEx;
+import com.troop.freedcam.utils.StringUtils;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * Created by troop on 04.02.2016.
@@ -88,7 +97,7 @@ public class VideoMediaProfile
 
     public VideoMediaProfile(String t)
     {
-        String[] ar = t.split(",");
+        String[] ar = t.split(" ");
         this.audioBitRate =     Integer.parseInt(ar[0]);
         this.audioChannels =    Integer.parseInt(ar[1]);
         this.audioCodec =       Integer.parseInt(ar[2]);
@@ -129,4 +138,47 @@ public class VideoMediaProfile
     {
         return new VideoMediaProfile(audioBitRate,audioChannels, audioCodec, audioSampleRate, duration, fileFormat,quality,videoBitRate,videoCodec,videoFrameRate, videoFrameHeight,videoFrameWidth, ProfileName, Mode);
     }
+
+
+    final public static String MEDIAPROFILESPATH = StringUtils.GetInternalSDCARD()+StringUtils.freedcamFolder+"CustomMediaProfiles.txt";
+
+    public static void loadCustomProfiles(HashMap<String, VideoMediaProfile> list)
+    {
+        File mprof = new File(MEDIAPROFILESPATH);
+        if(mprof.exists()) {
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(mprof));
+                String line;
+
+                while ((line = br.readLine()) != null) {
+                    VideoMediaProfile m = new VideoMediaProfile(line);
+                    list.put(m.ProfileName, m);
+                }
+                br.close();
+            } catch (IOException e) {
+            }
+        }
+
+    }
+
+    public static void saveCustomProfiles(HashMap<String, VideoMediaProfile> list)
+    {
+        File mprof = new File(MEDIAPROFILESPATH);
+        try {
+            mprof.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(mprof.exists()) {
+            try
+            {
+                BufferedWriter br = new BufferedWriter(new FileWriter(mprof));
+                for (VideoMediaProfile profile : list.values())
+                    br.write(profile.GetString() +"\n");
+                br.close();
+            } catch (IOException e) {
+            }
+        }
+    }
+
 }
