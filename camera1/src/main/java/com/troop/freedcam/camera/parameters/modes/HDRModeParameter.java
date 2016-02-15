@@ -82,8 +82,7 @@ public class HDRModeParameter extends BaseModeParameter
             if (valueToSet.equals("on")) {
                 baseCameraHolder.ParameterHandler.morphoHHT.SetValue("false", true);
                 baseCameraHolder.ParameterHandler.NightMode.BackgroundValueHasChanged("off");
-                parameters.put("ae-bracket-hdr", "AE-Bracket");
-                parameters.put("capture-burst-exposures", "-10,0,10");
+                baseCameraHolder.ParameterHandler.AE_Bracket.SetValue("AE-Bracket", true);
                 parameters.put("morpho-hdr", "true");
             } else {
                 parameters.put("ae-bracket-hdr", "Off");

@@ -132,6 +132,10 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter morphoHDR;
     public AbstractModeParameter morphoHHT;
 
+    public AbstractModeParameter aeb1;
+    public AbstractModeParameter aeb2;
+    public AbstractModeParameter aeb3;
+
     public AbstractParameterHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
     {
         this.appSettingsManager = appSettingsManager;
@@ -204,9 +208,12 @@ public abstract class AbstractParameterHandler
         setMode(Horizont, AppSettingsManager.SETTING_HORIZONT);
         setMode(captureBurstExposures, AppSettingsManager.SETTING_CAPTUREBURSTEXPOSURES);
         setMode(HDRMode, AppSettingsManager.SETTING_HDRMODE);
+        //setMode(aeb1, AppSettingsManager.SETTING_AEB1);
+        //setMode(aeb2, AppSettingsManager.SETTING_AEB2);
+        //setMode(aeb3, AppSettingsManager.SETTING_AEB3);
 
-       // setMode(morphoHDR, AppSettingsManager.SETTING_MORPHOHDR);
-       // setMode(morphoHHT, AppSettingsManager.SETTING_MORPHOHHT);
+        setMode(morphoHDR, AppSettingsManager.SETTING_MORPHOHDR);
+        setMode(morphoHHT, AppSettingsManager.SETTING_MORPHOHHT);
 
         setManualMode(ManualBrightness, AppSettingsManager.MWB);
         setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);

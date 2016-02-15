@@ -127,6 +127,9 @@ public class AppSettingsManager
     final public static String SETTING_CAPTUREBURSTEXPOSURES = "captureburstexposures";
     final public static String SETTING_MORPHOHDR = "morphohdr";
     final public static String SETTING_MORPHOHHT = "morphohht";
+    final public static String SETTING_AEB1= "aeb1";
+    final public static String SETTING_AEB2= "aeb2";
+    final public static String SETTING_AEB3= "aeb3";
 
     public AppSettingsManager(SharedPreferences appSettings, Context context)
     {

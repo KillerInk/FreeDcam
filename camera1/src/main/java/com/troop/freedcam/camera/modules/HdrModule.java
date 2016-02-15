@@ -193,12 +193,12 @@ public class HdrModule extends PictureModule implements I_WorkeDone
 
         if (hdrCount == 0)
         {
-           value = ParameterHandler.ManualExposure.GetMinValue()+2;
+           value = Integer.parseInt(Settings.getString(AppSettingsManager.SETTING_AEB1));
         }
         else if (hdrCount == 1)
-            value = 0;
+            value = Integer.parseInt(Settings.getString(AppSettingsManager.SETTING_AEB2));
         else if (hdrCount == 2)
-            value = ParameterHandler.ManualExposure.GetMaxValue()-2;
+            value = Integer.parseInt(Settings.getString(AppSettingsManager.SETTING_AEB3));
 
         Log.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
         ParameterHandler.ManualExposure.SetValue(value);
@@ -278,10 +278,16 @@ public class HdrModule extends PictureModule implements I_WorkeDone
     };
     private void LoadAEB()
     {
-        if ((ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported()) && baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg"))
+        if ((ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported()))
         {
-            aeBrackethdr = true;
-            ParameterHandler.AE_Bracket.SetValue("AE-Bracket", true);
+            if (baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg")) {
+                aeBrackethdr = true;
+                ParameterHandler.AE_Bracket.SetValue("AE-Bracket", true);
+            }
+            else {
+                aeBrackethdr = false;
+                ParameterHandler.AE_Bracket.SetValue("Off", true);
+            }
 
         }
 
