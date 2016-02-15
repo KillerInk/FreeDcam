@@ -57,7 +57,7 @@ public class VideoModule extends AbstractVideoModule
         if (!hfr.equals("Default")) {
             int frame = Integer.parseInt(hfr.split("@")[1]);
             Log.e(TAG, "Index :" + frame);
-            camParametersHandler.FPSRangeLock(frame,frame);
+            //camParametersHandler.FPSRangeLock(frame,frame);
             recorder.setVideoFrameRate(frame);
         }
         else
