@@ -7,7 +7,12 @@ import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.modules.VideoMediaProfile;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
+import com.troop.freedcam.utils.StringUtils;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -266,6 +271,28 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            loadCustomProfiles(supportedProfiles);
         }
+    }
+
+    public static void loadCustomProfiles(HashMap<String, VideoMediaProfile> list)
+    {
+        File mprof = new File(StringUtils.GetInternalSDCARD()+StringUtils.freedcamFolder+"CustomMediaProfiles.txt");
+        if(mprof.exists()) {
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(mprof));
+                String line;
+
+                while ((line = br.readLine()) != null) {
+                    VideoMediaProfile m = new VideoMediaProfile(line);
+                    list.put(m.ProfileName, m);
+                }
+                br.close();
+            } catch (IOException e) {
+                //You'll need to add proper error handling here
+            }
+        }
+
     }
 }
