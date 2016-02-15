@@ -89,29 +89,13 @@ public class MenuItemAEB extends LinearLayout {
         appSettingsManager.setString(settingsname, tempcurrent);
         if (cameraUiWrapper != null && cameraUiWrapper.camParametersHandler != null && cameraUiWrapper.camParametersHandler.captureBurstExposures != null) {
             if ((cameraUiWrapper.camParametersHandler.captureBurstExposures.IsSupported())) {
-                //String cbev[] = cameraUiWrapper.camParametersHandler.captureBurstExposures.GetValue().split(",");
-                //if (cbev == null && cbev.equals(""))
-                //cbev = "-10,0,10".split(",");
-        /*if (settingsname.contains("1")){
-            //if (cbev != null && !cbev.equals(""))
-                //cameraUiWrapper.camParametersHandler.captureBurstExposures.SetValue(current+","+cbev[1]+","+cbev[2],true);
-            //cameraUiWrapper.camParametersHandler.aeb1.SetValue(tempcurrent,true);
-            appSettingsManager.setString("aeb1", tempcurrent);
-        }
-        else if (settingsname.contains("2")){
-            //if (cbev != null && !cbev.equals(""))
-                //cameraUiWrapper.camParametersHandler.captureBurstExposures.SetValue(cbev[0]+","+current+","+cbev[2],true);
-            cameraUiWrapper.camParametersHandler.aeb2.SetValue(tempcurrent,true);
-        }
-        else{
-            //if (cbev != null && !cbev.equals(""))
-                //cameraUiWrapper.camParametersHandler.captureBurstExposures.SetValue(cbev[0]+","+cbev[1]+","+current,true);
-            cameraUiWrapper.camParametersHandler.aeb3.SetValue(tempcurrent,true);
-        }*/
                 cameraUiWrapper.camParametersHandler.captureBurstExposures.SetValue("on", true);
+                if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)){
+                    String tmp = cameraUiWrapper.camParametersHandler.HDRMode.GetValue();
+                    if (!tmp.equals("off")||!tmp.equals("")||tmp != null)
+                        cameraUiWrapper.camParametersHandler.HDRMode.SetValue(tmp,true);
+                }
             }
-
-
             editText.setText(String.valueOf(current));
         }
     }
