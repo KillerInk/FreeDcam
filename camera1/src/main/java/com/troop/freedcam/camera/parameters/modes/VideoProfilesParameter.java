@@ -236,12 +236,6 @@ public class VideoProfilesParameter extends BaseModeParameter
 
             if (DeviceUtils.IS(DeviceUtils.Devices.LenovoK920) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
             {
-                VideoMediaProfile t = supportedProfiles.get("720p").clone();
-                t.videoFrameRate = 120;
-                t.Mode = VideoMediaProfile.VideoMode.Highspeed;
-                t.ProfileName = "720pHFR";
-                supportedProfiles.put("720pHFR",t);
-
                 VideoMediaProfile uhd = supportedProfiles.get("1080p").clone();
                 uhd.videoFrameWidth = 3840;
                 uhd.videoFrameHeight = 2160;
