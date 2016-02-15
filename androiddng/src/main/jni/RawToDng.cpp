@@ -325,27 +325,9 @@ void writeIfd0(TIFF *tif, DngWriter *writer)
 
     TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, writer->colorMatrix1);
 
-        static const float cam_foward1[] = {
-      		// R 	G     	B
-      		0.6648, 0.2566, 0.0429, 0.197, 0.9994, -0.1964, -0.0894, -0.2304, 1.145
-      	};
-
-      	static const float cam_foward2[] = {
-        	0.6617, 0.3849, -0.0823, 0.24, 1.1138, -0.3538, -0.0062, -0.1147, 0.946
-        	};
-
-        	static const float cam_nex_foward1[] = {
-                  		// R 	G     	B
-                  		0.6328, 0.0469, 0.2813, 0.1641, 0.7578, 0.0781, -0.0469, -0.6406, 1.5078
-                  	};
-
-                  	static const float cam_nex_foward2[] = {
-                    	0.7578, 0.0859, 0.1172, 0.2734, 0.8281, -0.1016, 0.0156, -0.2813, 1.0859
-                    	};
     TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  writer->fowardMatrix2);
     TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  writer->fowardMatrix1);
-    static const float testNR[] = {
-                        	0.00051471, 0, 0.00051471,0, 0.00051471, 0};
+
     TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  writer->noiseMatrix);
 
 
@@ -750,28 +732,25 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
     TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
     //**********************************************************************************
 
-
-
-    int opcode_size = 2452;
     LOGD("Read Op from File");
     FILE * file = fopen("/sdcard/DCIM/FreeDcam/opc2.bin", "r+");
-    if (file == NULL) return;
-    fseek(file, 0, SEEK_END);
-    long int sizeD = ftell(file);
-    fclose(file);
-    LOGD("Op read from File");
+    if (file != NULL)
+    {
+        fseek(file, 0, SEEK_END);
+        long int sizeD = ftell(file);
+        fseek(file, 0, 0);
+        LOGD("Op read from File");
 // Reading data to array of unsigned chars
-    LOGD("OpCode Read Size", sizeD);
-    file = fopen("/sdcard/DCIM/FreeDcam/opc2.bin", "r+");
-    unsigned char * opcode_list = (unsigned char *) malloc(sizeD);
-    int bytes_read = fread(opcode_list, sizeof(unsigned char), sizeD, file);
-    LOGD("bytes_read Read Size", bytes_read);
-    fclose(file);
-
-
-    LOGD("OpCode Entry");
-    TIFFSetField (tif, TIFFTAG_OPC2,opcode_size, opcode_list);
-    LOGD("OpCode Exit");
+        LOGD("OpCode Read Size", sizeD);
+        unsigned char *opcode_list = (unsigned char *) malloc(sizeD);
+        int bytes_read = fread(opcode_list, sizeof(unsigned char), sizeD, file);
+        LOGD("bytes_read Read Size", bytes_read);
+        fclose(file);
+        
+        LOGD("OpCode Entry");
+        TIFFSetField(tif, TIFFTAG_OPC2, sizeD, opcode_list);
+        LOGD("OpCode Exit");
+    }
 //*****************************************************************************************
     if(writer->rawType == 0)
     {
