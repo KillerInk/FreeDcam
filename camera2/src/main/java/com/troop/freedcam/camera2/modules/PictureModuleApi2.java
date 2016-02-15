@@ -173,7 +173,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 captureBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION));
             }catch (NullPointerException ex){};
             try {
-                long val = (long)(StringUtils.getMilliSecondStringFromShutterString(cameraHolder.ParameterHandler.ManualShutter.getStringValues()[cameraHolder.ParameterHandler.ManualShutter.GetValue()]) * 1000f);
+                long val = 0;
+                if(!cameraHolder.ParameterHandler.ManualShutter.GetStringValue().equals("Auto"))
+                    val = (long)(StringUtils.getMilliSecondStringFromShutterString(cameraHolder.ParameterHandler.ManualShutter.getStringValues()[cameraHolder.ParameterHandler.ManualShutter.GetValue()]) * 1000f);
+                else
+                    val= cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
                 Log.d(TAG, "Set ExposureTime for Capture to:" + val);
                 captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
             }catch (NullPointerException ex){};
