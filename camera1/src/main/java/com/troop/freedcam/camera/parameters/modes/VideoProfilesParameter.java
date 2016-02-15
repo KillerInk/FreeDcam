@@ -250,6 +250,8 @@ public class VideoProfilesParameter extends BaseModeParameter
                 supportedProfiles.put("4kUHD",uhd);
             }
 
+            VideoProfilesG3Parameter.loadCustomProfiles(supportedProfiles);
+
         }
     }
 }

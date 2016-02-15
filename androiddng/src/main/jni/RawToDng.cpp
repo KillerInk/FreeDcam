@@ -15,6 +15,8 @@
 #define  LOG_TAG    "freedcam.RawToDngNative"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
+
+
 typedef unsigned long long uint64;
 typedef unsigned short UINT16;
 typedef unsigned char uint8;
@@ -746,7 +748,31 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
     TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, writer->blacklevel);
     LOGD("wrote blacklevel");
     TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
+    //**********************************************************************************
 
+
+
+    int opcode_size = 2452;
+    LOGD("Read Op from File");
+    FILE * file = fopen("/sdcard/DCIM/FreeDcam/opc2.bin", "r+");
+    if (file == NULL) return;
+    fseek(file, 0, SEEK_END);
+    long int sizeD = ftell(file);
+    fclose(file);
+    LOGD("Op read from File");
+// Reading data to array of unsigned chars
+    LOGD("OpCode Read Size", sizeD);
+    file = fopen("/sdcard/DCIM/FreeDcam/opc2.bin", "r+");
+    unsigned char * opcode_list = (unsigned char *) malloc(sizeD);
+    int bytes_read = fread(opcode_list, sizeof(unsigned char), sizeD, file);
+    LOGD("bytes_read Read Size", bytes_read);
+    fclose(file);
+
+
+    LOGD("OpCode Entry");
+    TIFFSetField (tif, TIFFTAG_OPC2,opcode_size, opcode_list);
+    LOGD("OpCode Exit");
+//*****************************************************************************************
     if(writer->rawType == 0)
     {
         LOGD("Processing tight RAW data...");

@@ -7,6 +7,7 @@ import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
+import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -145,7 +146,7 @@ public class MediatekSaver extends JpegSaver {
 
         dngConverter.setExifData(0, 0, 0, fnum, focal, "0", "0", 0);
 
-        dngConverter.WriteDNG(null);
+        dngConverter.WriteDNG(DeviceUtils.DEVICE());
         dngConverter.RELEASE();
         data = null;
         DeviceSwitcher().delete();

@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.troop.freedcam.apis.AbstractCameraFragment;
+import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
+import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.sonyapi.R;
 import com.troop.freedcam.sonyapi.sonystuff.ServerDevice;
@@ -25,7 +27,7 @@ import com.troop.freedcam.sonyapi.sonystuff.WifiUtils;
 /**
  * Created by troop on 06.06.2015.
  */
-public class SonyCameraFragment extends AbstractCameraFragment
+public class SonyCameraFragment extends AbstractCameraFragment implements I_CameraChangedListner
 {
     SimpleStreamSurfaceView surfaceView;
     WifiUtils wifiUtils;
@@ -46,13 +48,13 @@ public class SonyCameraFragment extends AbstractCameraFragment
     private boolean connected = false;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         view = inflater.inflate(R.layout.cameraholdersony, container, false);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            checkMpermission();
         surfaceView = (SimpleStreamSurfaceView) view.findViewById(R.id.view);
         this.wrapperSony = new CameraUiWrapperSony(surfaceView, appSettingsManager);
         this.cameraUiWrapper = wrapperSony;
+        wrapperSony.SetCameraChangedListner(this);
         this.textView_wifi =(TextView)view.findViewById(R.id.textView_wificonnect);
         super.onCreateView(inflater, container, savedInstanceState);
         wifiReciever = new WifiScanReceiver();
@@ -63,20 +65,6 @@ public class SonyCameraFragment extends AbstractCameraFragment
 
 
         return view;
-    }
-
-    private void checkMpermission()
-    {
-        /*if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED)
-        {
-            MPermissions.requestFineLocationPermission(this);
-        }
-        if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED)
-        {
-            MPermissions.requestCoarsePermission(this);
-        }*/
     }
 
     private void setTextFromWifi(final String txt)
@@ -187,12 +175,16 @@ public class SonyCameraFragment extends AbstractCameraFragment
     {
         super.onResume();
         //getActivity().registerReceiver(wifiConnectedReceiver, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
+        startScanning();
+
+        //connect();
+    }
+
+    private void startScanning() {
         getActivity().registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         getConfiguredNetworks();
         lookupAvailNetworks();
         connected = false;
-
-        //connect();
     }
 
     @Override
@@ -263,6 +255,46 @@ public class SonyCameraFragment extends AbstractCameraFragment
             STATE = IDEL;
             searchSsdpClient();
         }
+    }
+
+    @Override
+    public void onCameraOpen(String message) {
+
+    }
+
+    @Override
+    public void onCameraOpenFinish(String message) {
+
+    }
+
+    @Override
+    public void onCameraClose(String message) {
+
+    }
+
+    @Override
+    public void onPreviewOpen(String message) {
+
+    }
+
+    @Override
+    public void onPreviewClose(String message) {
+
+    }
+
+    @Override
+    public void onCameraError(String error) {
+        startScanning();
+    }
+
+    @Override
+    public void onCameraStatusChanged(String status) {
+
+    }
+
+    @Override
+    public void onModuleChanged(I_Module module) {
+
     }
 
     class WifiScanReceiver extends BroadcastReceiver
