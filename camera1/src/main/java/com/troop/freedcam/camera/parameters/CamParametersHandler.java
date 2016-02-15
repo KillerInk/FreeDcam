@@ -32,6 +32,7 @@ import com.troop.freedcam.camera.parameters.modes.AntiBandingModeParameter;
 import com.troop.freedcam.camera.parameters.modes.BaseModeParameter;
 import com.troop.freedcam.camera.parameters.modes.CDS_Mode_Parameter;
 import com.troop.freedcam.camera.parameters.modes.ColorModeParameter;
+import com.troop.freedcam.camera.parameters.modes.CupBurstExpModeParameter;
 import com.troop.freedcam.camera.parameters.modes.DigitalImageStabilizationParameter;
 import com.troop.freedcam.camera.parameters.modes.ExposureLockParameter;
 import com.troop.freedcam.camera.parameters.modes.ExposureModeParameter;
@@ -576,26 +577,26 @@ public class CamParametersHandler extends AbstractParameterHandler
             ex.printStackTrace();
         }
         try {
-            captureBurstExposures = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "capture-burst-exposures", "");
+            captureBurstExposures = new CupBurstExpModeParameter(uiHandler, cameraParameters, baseCameraHolder, "capture-burst-exposures", "", appSettingsManager);
         }
         catch (Exception ex)
         {
             ex.printStackTrace();
         }
-       /* try {
+        try {
             morphoHDR = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "morpho-hdr", "");
         }
         catch (Exception ex)
         {
             ex.printStackTrace();
-        }*/
-       /* try {
+        }
+        try {
             morphoHHT = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "morpho-hht", "");
         }
         catch (Exception ex)
         {
             ex.printStackTrace();
-        }*/
+        }
         try {
             LensFilter = new VirtualLensFilter(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraUiWrapper);
         }

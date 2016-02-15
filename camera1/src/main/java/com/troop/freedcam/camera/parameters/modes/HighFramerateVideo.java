@@ -69,7 +69,74 @@ public class HighFramerateVideo extends  BaseModeParameter
     @Override
     public String[] GetValues() {
 
-        if(cameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.LG && parameters.get("hfr-size-values").split(",").length >= 1)
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
+        {
+            try {
+                String SizeV = cameraUiWrapper.appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
+
+
+                if (SizeV.equals("1080p")) {
+                    return new String[]{"Default", "1080p@60", "1080p@30", "1080p@29", "1080p@25", "1080p@24", "1080p@15"};
+                } else if (SizeV.equals("LOW") || SizeV.equals("720p")) {
+                    return new String[]{"Default", "720p@120", "720p@60", "720p@30", "720p@29", "720p@25", "720p@24", "720p@15"};
+
+                } else if (SizeV.equals("4kUHD")) {
+                    return new String[]{"Default", "UHD@30", "UHD@29", "UHD@25", "UHD@24", "UHD@15"};
+                }
+                else
+                    return new String[]{"Default"};
+            }
+            catch (NullPointerException e){ }
+
+        }
+        else if(DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
+        {
+            try {
+                String SizeV = cameraUiWrapper.appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
+
+
+                if (SizeV.equals("HIGH") || SizeV.equals("1080p")) {
+                    return new String[]{"Default", "1080p@60", "1080p@30", "1080p@29", "1080p@25", "1080p@24", "1080p@15"};
+                } else if (SizeV.equals("LOW") || SizeV.equals("720p")) {
+                    return new String[]{"Default", "720p@120", "720p@60", "720p@30", "720p@29", "720p@25", "720p@24", "720p@15"};
+
+                } else if (SizeV.equals("4kUHD")) {
+                    return new String[]{"Default", "UHD@30", "UHD@29", "UHD@25", "UHD@24", "UHD@15"};
+                }
+                else
+                    return new String[]{"Default"};
+            }
+            catch (NullPointerException e)
+            {
+
+            }
+
+        }
+        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3)||DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
+        {
+            try {
+                String SizeV = cameraUiWrapper.appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
+
+
+                if (SizeV.equals("HIGH") || SizeV.equals("1080p")) {
+                    return new String[]{"Default", "1080p@60", "1080p@30", "1080p@29", "1080p@25", "1080p@24", "1080p@15"};
+                } else if (SizeV.equals("LOW") || SizeV.equals("720p")) {
+                    return new String[]{"Default", "720p@120", "720p@60", "720p@30", "720p@29", "720p@25", "720p@24", "720p@15"};
+
+                } else if (SizeV.equals("4kUHD")) {
+                    return new String[]{"Default", "UHD@30", "UHD@29", "UHD@25", "UHD@24", "UHD@15"};
+                }
+                else
+                    return new String[]{"Default"};
+            }
+            catch (NullPointerException e)
+            {
+
+            }
+
+        }
+
+        else if(cameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.LG && parameters.get("hfr-size-values").split(",").length >= 1)
         {
             String[] split1 = parameters.get("hfr-size-values").split(",");
             String[] split2 = parameters.get("video-hfr-values").split(",");
@@ -164,9 +231,6 @@ public class HighFramerateVideo extends  BaseModeParameter
                         DynamicFHD.remove("1080p@120");
                         DynamicFHD.remove("1080p@90");
                         DynamicFHD.remove("1080p@60");
-                        //INJECT MICODE test for HFR FHD
-                        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
-                            DynamicFHD.add("1080p@60");
                         return DynamicFHD.toArray(new String[DynamicFHD.size()]);
                     }
 
@@ -241,72 +305,6 @@ public class HighFramerateVideo extends  BaseModeParameter
 
             }
         }
-        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
-        {
-            try {
-                String SizeV = cameraUiWrapper.appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
-
-
-                if (SizeV.equals("HIGH") || SizeV.equals("1080p")) {
-                    return new String[]{"Default","1080p@60","1080p@30", "1080p@29", "1080p@25", "1080p@24", "1080p@15"};
-                } else if (SizeV.equals("LOW") || SizeV.equals("720p")) {
-                    return new String[]{"Default", "720p@120", "720p@60", "720p@30", "720p@29", "720p@25", "720p@24", "720p@15"};
-
-                } else if (SizeV.equals("4kUHD")) {
-                    return new String[]{"Default", "UHDp@30", "UHD@29", "UHD@25", "UHD@24", "UHD@15"};
-                }
-                else
-                    return new String[]{"Default"};
-            }
-            catch (NullPointerException e){ }
-
-        }
-        else if(DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
-        {
-            try {
-                String SizeV = cameraUiWrapper.appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
-
-
-                if (SizeV.equals("HIGH") || SizeV.equals("1080p")) {
-                    return new String[]{"Default", "1080p@60", "1080p@50", "1080p@48", "1080p@30", "1080p@29", "1080p@25", "1080p@24", "1080p@15"};
-                } else if (SizeV.equals("LOW") || SizeV.equals("720p")) {
-                    return new String[]{"Default", "720p@120", "720p@60", "720p@50", "720p@48", "720p@30", "720p@29", "720p@25", "720p@24", "720p@15"};
-
-                } else if (SizeV.equals("4kUHD")) {
-                    return new String[]{"Default", "UHD@30", "UHD@29", "UHD@25", "UHD@24", "UHD@15"};
-                }
-                else
-                    return new String[]{"Default"};
-            }
-            catch (NullPointerException e)
-            {
-
-            }
-
-        }
-        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3)||DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
-        {
-            try {
-                String SizeV = cameraUiWrapper.appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
-
-
-                if (SizeV.equals("HIGH") || SizeV.equals("1080p")) {
-                    return new String[]{"Default", "1080p@60", "1080p@50", "1080p@48", "1080p@30", "1080p@29", "1080p@25", "1080p@24", "1080p@15"};
-                } else if (SizeV.equals("LOW") || SizeV.equals("720p")) {
-                    return new String[]{"Default", "720p@120", "720p@60", "720p@50", "720p@48", "720p@30", "720p@29", "720p@25", "720p@24", "720p@15"};
-
-                } else if (SizeV.equals("4kUHD")) {
-                    return new String[]{"Default", "UHD@30", "UHD@29", "UHD@25", "UHD@24", "UHD@15"};
-                }
-                else
-                    return new String[]{"Default"};
-            }
-            catch (NullPointerException e)
-            {
-
-            }
-
-        }
 
         String SizeV = cameraUiWrapper.appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
         return new String[]{"Default" , SizeV+"@30", SizeV+"@29",SizeV+"@25",SizeV+"@24",SizeV+"@15"};
@@ -323,27 +321,27 @@ public class HighFramerateVideo extends  BaseModeParameter
            // super.BackgroundValueHasChanged(valueToSet.split("@")[1]);
         }
         else if(parameters.containsKey("video-hfr")) {
-            if (Integer.parseInt(valueToSet.split("@")[1]) > 3 ) {
-                if (Integer.parseInt(valueToSet.split("@")[1]) >= 48 && Integer.parseInt(valueToSet.split("@")[1]) < 90) {
+            if (Integer.parseInt(valueToSet.split("@")[1]) > 30 ) {
+               /* if (Integer.parseInt(valueToSet.split("@")[1]) >= 48 && Integer.parseInt(valueToSet.split("@")[1]) < 90) {
 
                     switch (valueToSet.split("@")[0]) {
                         case "720p":
-                            if (HD.contains("720p@480")) {
+                            if (valueToSet.contains("720p@480")) {
                             super.SetValue("480", setToCam);
-                        } else if (HD.contains("720p@240")) {
+                        } else if (valueToSet.contains("720p@240")) {
                             super.SetValue("240", setToCam);
-                        } else if (HD.contains("720p@150")) {
+                        } else if (valueToSet.contains("720p@150")) {
                             super.SetValue("150", setToCam);
-                        } else if (HD.contains("720p@120")) {
+                        } else if (valueToSet.contains("720p@120")) {
                             super.SetValue("120", setToCam);
-                        } else if (HD.contains("720p@90")) {
+                        } else if (valueToSet.contains("720p@90")) {
                             super.SetValue("90", setToCam);
                         }
                         break;
                         case "1080p":
-                        if (FHD.contains("1080p@120")) {
+                        if (valueToSet.contains("1080p@120")) {
                             super.SetValue("120", setToCam);
-                        } else if (FHD.contains("1080p@90")) {
+                        } else if (valueToSet.contains("1080p@90")) {
                             super.SetValue("90", setToCam);
                         } else
                             super.SetValue("60", setToCam);
@@ -354,22 +352,22 @@ public class HighFramerateVideo extends  BaseModeParameter
                 } else if (Integer.parseInt(valueToSet.split("@")[1]) >= 90 && Integer.parseInt(valueToSet.split("@")[1]) < 120) {
                     switch (valueToSet.split("@")[0]) {
                         case "720p":
-                            if (HD.contains("720p@480")) {
+                            if (valueToSet.contains("720p@480")) {
                                 super.SetValue("480", setToCam);
-                            } else if (HD.contains("720p@240")) {
+                            } else if (valueToSet.contains("720p@240")) {
                                 super.SetValue("240", setToCam);
-                            } else if (HD.contains("720p@150")) {
+                            } else if (valueToSet.contains("720p@150")) {
                                 super.SetValue("150", setToCam);
-                            } else if (HD.contains("720p@120")) {
+                            } else if (valueToSet.contains("720p@120")) {
                                 super.SetValue("120", setToCam);
-                            } else if (HD.contains("720p@90")) {
+                            } else if (valueToSet.contains("720p@90")) {
                                 super.SetValue("90", setToCam);
                             }
                             break;
                         case "1080p":
-                            if (FHD.contains("1080p@120")) {
+                            if (valueToSet.contains("1080p@120")) {
                                 super.SetValue("120", setToCam);
-                            } else if (FHD.contains("1080p@90")) {
+                            } else if (valueToSet.contains("1080p@90")) {
                                 super.SetValue("90", setToCam);
                             } else
                                 super.SetValue("90", setToCam);
@@ -379,20 +377,20 @@ public class HighFramerateVideo extends  BaseModeParameter
                else if (Integer.parseInt(valueToSet.split("@")[1]) >= 120 && Integer.parseInt(valueToSet.split("@")[1]) < 150) {
                     switch (valueToSet.split("@")[0]) {
                         case "720p":
-                            if (HD.contains("720p@480")) {
+                            if (valueToSet.contains("720p@480")) {
                                 super.SetValue("480", setToCam);
-                            } else if (HD.contains("720p@240")) {
+                            } else if (valueToSet.contains("720p@240")) {
                                 super.SetValue("240", setToCam);
-                            } else if (HD.contains("720p@150")) {
+                            } else if (valueToSet.contains("720p@150")) {
                                 super.SetValue("150", setToCam);
-                            } else if (HD.contains("720p@120")) {
+                            } else if (valueToSet.contains("720p@120")) {
                                 super.SetValue("120", setToCam);
                             }
                             break;
                         case "1080p":
-                            if (FHD.contains("1080p@120")) {
+                            if (valueToSet.contains("1080p@120")) {
                                 super.SetValue("120", setToCam);
-                            } else if (FHD.contains("1080p@90")) {
+                            } else if (valueToSet.contains("1080p@90")) {
                                 super.SetValue("90", setToCam);
                             } else
                                 super.SetValue("120", setToCam);
@@ -401,39 +399,40 @@ public class HighFramerateVideo extends  BaseModeParameter
                 }
 
                else if (Integer.parseInt(valueToSet.split("@")[1]) >= 150 && Integer.parseInt(valueToSet.split("@")[1]) < 240) {
-                    if (HD.contains("720p@480")) {
+                    if (valueToSet.contains("720p@480")) {
                         super.SetValue("480", setToCam);
-                    } else if (HD.contains("720p@240")) {
+                    } else if (valueToSet.contains("720p@240")) {
                         super.SetValue("240", setToCam);
-                    } else if (HD.contains("720p@150")) {
+                    } else if (valueToSet.contains("720p@150")) {
                         super.SetValue("150", setToCam);
-                    } else if (HD.contains("720p@120")) {
+                    } else if (valueToSet.contains("720p@120")) {
                         super.SetValue("120", setToCam);
                     }
                 }
 
                 else if (Integer.parseInt(valueToSet.split("@")[1]) >= 240 && Integer.parseInt(valueToSet.split("@")[1]) < 480) {
-                    if (HD.contains("720p@480")) {
+                    if (valueToSet.contains("720p@480")) {
                         super.SetValue("480", setToCam);
-                    } else if (HD.contains("720p@240")) {
+                    } else if (valueToSet.contains("720p@240")) {
                         super.SetValue("240", setToCam);
-                    } else if (HD.contains("720p@150")) {
+                    } else if (valueToSet.contains("720p@150")) {
                         super.SetValue("150", setToCam);
-                    } else if (HD.contains("720p@120")) {
+                    } else if (valueToSet.contains("720p@120")) {
                         super.SetValue("120", setToCam);
                     }
                 }
                else if (Integer.parseInt(valueToSet.split("@")[1]) >= 480) {
-                    if (HD.contains("720p@480")) {
+                    if (valueToSet.contains("720p@480")) {
                         super.SetValue("480", setToCam);
-                    } else if (HD.contains("720p@240")) {
+                    } else if (valueToSet.contains("720p@240")) {
                         super.SetValue("240", setToCam);
-                    } else if (HD.contains("720p@150")) {
+                    } else if (valueToSet.contains("720p@150")) {
                         super.SetValue("150", setToCam);
-                    } else if (HD.contains("720p@120")) {
+                    } else if (valueToSet.contains("720p@120")) {
                         super.SetValue("120", setToCam);
                     }
-                }
+                }*/
+                super.SetValue(valueToSet.split("@")[1], setToCam);
 
 
             }
@@ -442,7 +441,7 @@ public class HighFramerateVideo extends  BaseModeParameter
 
         if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null && cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
             cameraUiWrapper.moduleHandler.GetCurrentModule().LoadNeededParameters();
-        //baseCameraHolder.StartPreview();
+        baseCameraHolder.StartPreview();
     }
 
     @Override

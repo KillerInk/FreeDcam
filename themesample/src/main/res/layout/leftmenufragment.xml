@@ -208,8 +208,31 @@
                     android:layout_marginBottom="1dp"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp"
-                    android:background="#f4f4f4"
-                    android:visibility="gone"/>
+                    android:background="#f4f4f4" />
+
+                <troop.com.themesample.views.menu.MenuItemAEB
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/MenuItemAEB1"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp" />
+
+                <troop.com.themesample.views.menu.MenuItemAEB
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/MenuItemAEB2"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp" />
+
+                <troop.com.themesample.views.menu.MenuItemAEB
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/MenuItemAEB3"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp" />
 
                 <TextView
                     android:layout_width="fill_parent"

@@ -21,6 +21,7 @@ import com.troop.freedcam.ui.SwipeMenuListner;
 
 import troop.com.themesample.R;
 import troop.com.themesample.views.menu.MenuItem;
+import troop.com.themesample.views.menu.MenuItemAEB;
 import troop.com.themesample.views.menu.MenuItemGPS;
 import troop.com.themesample.views.menu.MenuItemInterval;
 import troop.com.themesample.views.menu.MenuItemIntervalDuration;
@@ -74,6 +75,9 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     troop.com.themesample.views.menu.MenuItem HighSpeedVideo;
 
     troop.com.themesample.views.menu.MenuItem horizont;
+    troop.com.themesample.views.menu.MenuItemAEB AEB1;
+    troop.com.themesample.views.menu.MenuItemAEB AEB2;
+    troop.com.themesample.views.menu.MenuItemAEB AEB3;
 
     Interfaces.I_MenuItemClick onMenuItemClick;
 
@@ -165,6 +169,13 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
         horizont = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemHorizont);
         horizont.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HORIZONT);
+
+        AEB1 = (MenuItemAEB) view.findViewById(R.id.MenuItemAEB1);
+        AEB1.SetStuff(appSettingsManager, AppSettingsManager.SETTING_AEB1);
+        AEB2 = (MenuItemAEB) view.findViewById(R.id.MenuItemAEB2);
+        AEB2.SetStuff(appSettingsManager, AppSettingsManager.SETTING_AEB2);
+        AEB3 = (MenuItemAEB) view.findViewById(R.id.MenuItemAEB3);
+        AEB3.SetStuff(appSettingsManager, AppSettingsManager.SETTING_AEB3);
 
 
         scrollView = (ScrollView) view.findViewById(R.id.scrollView);
@@ -297,6 +308,17 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
         horizont.SetParameter(wrapper.camParametersHandler.Horizont);
         horizont.SetMenuItemListner(this);
+
+        if(wrapper instanceof CameraUiWrapper) {
+            AEB1.SetCameraUIWrapper(wrapper);
+            AEB2.SetCameraUIWrapper(wrapper);
+            AEB3.SetCameraUIWrapper(wrapper);
+        }
+        else {
+            AEB1.setVisibility(View.GONE);
+            AEB2.setVisibility(View.GONE);
+            AEB3.setVisibility(View.GONE);
+        }
 
 
     }

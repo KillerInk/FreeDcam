@@ -48,4 +48,13 @@ public class MenuItemHighFramerateVideo extends MenuItem
         this.currentModule = module;
         return  null;
     }
+
+    @Override
+    public void onValueChanged(String val)
+    {
+        if (val.contains("@")||val.equals("Default")) {
+            sendLog("Set Value to:" + val);
+            valueText.setText(val);
+        }
+    }
 }
