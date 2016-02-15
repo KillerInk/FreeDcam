@@ -41,11 +41,6 @@ public class BurstManualParam extends BaseManualParameter {
     }
 
     @Override
-    public boolean IsVisible() {
-        return IsSupported();
-    }
-
-    @Override
     public int GetMaxValue()
     {
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) || DeviceUtils.IS(DeviceUtils.Devices.LG_G2))

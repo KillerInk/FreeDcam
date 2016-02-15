@@ -164,11 +164,6 @@ public class CCTManualParameter extends BaseManualParameter
     }
 
     @Override
-    public boolean IsVisible() {
-        return IsSupported();
-    }
-
-    @Override
     public int GetMaxValue()
     {
         if (wbvalues != null)
