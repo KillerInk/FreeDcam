@@ -162,7 +162,10 @@ public class StringUtils
 
     public static String GetExternalSDCARD()
     {
-        return System.getenv("SECONDARY_STORAGE");
+        if(DeviceUtils.isSonyM5_MTK())
+            return "/storage/sdcard1";
+        else
+            return System.getenv("SECONDARY_STORAGE");
     }
 
     public static String GetInternalSDCARD()

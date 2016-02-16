@@ -31,13 +31,14 @@ public class DngSaver extends JpegSaver
     private String lastBayerFormat;
     final RawToDng dngConverter;
    // boolean isDebug = true;
-   // MetaDataExtractor meta;
+    MetaDataExtractor meta;
 
     final String TAG = DngSaver.class.getSimpleName();
     public DngSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler, boolean externalSD)
     {
         super(cameraHolder, i_workeDone, handler, externalSD);
         dngConverter = RawToDng.GetInstance();
+        meta = new MetaDataExtractor();
 
     }
 
@@ -53,10 +54,13 @@ public class DngSaver extends JpegSaver
             return;
         }
         awaitpicture = true;
-      //  if((DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)){
-       //     meta = new MetaDataExtractor();
-       //     meta.ResetMeta();
-        //    meta.extractMeta();}
+        if((DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)) {
+
+            MetaDataExtractor.StatiClear();
+           // MetaDataExtractor.StatiCEXCute();
+            meta.extractMeta();
+        }
+
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -80,6 +84,8 @@ public class DngSaver extends JpegSaver
         });
 
     }
+
+
 
     public void processData(byte[] data, File file)
     {
@@ -141,9 +147,9 @@ public class DngSaver extends JpegSaver
         else {
         fnum = ((CamParametersHandler)cameraHolder.ParameterHandler).GetFnumber();
         focal = ((CamParametersHandler)cameraHolder.ParameterHandler).GetFocal();}
-        //if(meta != null){
-      //      dngConverter.setExifData(meta.getIso(), meta.getExp(), meta.getFlash(), fnum, focal, meta.getDescription(), cameraHolder.Orientation + "", 0);}
-       // else
+        if(meta != null){
+            dngConverter.setExifData(meta.getIso(), meta.getExp(), meta.getFlash(), fnum, focal, meta.getDescription(), cameraHolder.Orientation + "", 0);}
+        else
             dngConverter.setExifData(0, 0, 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
 
         dngConverter.WriteDNG(DeviceUtils.DEVICE());
