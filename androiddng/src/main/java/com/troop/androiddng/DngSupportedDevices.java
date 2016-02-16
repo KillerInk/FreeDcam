@@ -281,9 +281,21 @@ public class DngSupportedDevices
                     case RedmiNote:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL);
                     case XiaomiMI3W:
-                        return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL);
+                        //return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL);
+                        return new DngProfile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL, Matrixes.g3_color1, Matrixes.g3_color2, Matrixes.g3_neutral,
+                                Matrixes.G4_foward_matrix1,
+                                Matrixes.G4_foward_matrix2,
+                                Matrixes.G4_reduction_matrix1,
+                                Matrixes.G4_reduction_matrix2,
+                                Matrixes.G4_noise_3x1_matrix);
                     case XiaomiMI4W:
-                        return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL);
+                        //return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL);
+                        return new DngProfile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL, Matrixes.g3_color1, Matrixes.g3_color2, Matrixes.g3_neutral,
+                                Matrixes.G4_foward_matrix1,
+                                Matrixes.G4_foward_matrix2,
+                                Matrixes.G4_reduction_matrix1,
+                                Matrixes.G4_reduction_matrix2,
+                                Matrixes.G4_noise_3x1_matrix);
                     case Alcatel_Idol3:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, 0);
                     case OnePlusOne:
