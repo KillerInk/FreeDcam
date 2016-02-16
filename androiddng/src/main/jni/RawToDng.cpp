@@ -564,7 +564,7 @@ void process10tight(TIFF *tif,DngWriter *writer)
     }
     TIFFWriteRawStrip(tif, 0, out, writer->rawheight*shouldberowsize);
 
-    TIFFWriteDirectory (tif);
+    TIFFRewriteDirectory (tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
 

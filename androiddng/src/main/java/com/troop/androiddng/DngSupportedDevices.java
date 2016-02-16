@@ -290,12 +290,7 @@ public class DngSupportedDevices
                         return new Nexus6Profile(64, 4212, 3120, Mipi, RGGB, getG3_rowSizeL);
                     case ZTE_ADV:
                        // return new Nexus6Profile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL);
-                    return new DngProfile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL, Matrixes.imx214_identity_matrix1, Matrixes.imx214_identity_matrix2, Matrixes.Nexus6_identity_neutra,
-                            Matrixes.imx214_foward_matrix1,
-                            Matrixes.imx214_foward_matrix2,
-                            Matrixes.G4_reduction_matrix1,
-                            Matrixes.G4_reduction_matrix2,
-                            Matrixes.G4_noise_3x1_matrix);
+                        return new Nexus6Profile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL);
                     case ZTEADVIMX214:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL);
                     case LenovoK910:
