@@ -14,7 +14,7 @@ public class MetaDataExtractor {
     int iso;
     int flash;
     int isoActual;
-    boolean isRoot;
+    boolean isRoot = false;
     String Description;
 
     public MetaDataExtractor()
@@ -27,6 +27,12 @@ public class MetaDataExtractor {
 
     }
 
+    public static void StatiCEXCute()
+    {
+        MetaDataExtractor metaDataExtractor = new MetaDataExtractor();
+        metaDataExtractor.extractMeta();
+        metaDataExtractor.isRoot = true;
+    }
 
 
     public void extractMeta()
@@ -100,19 +106,21 @@ public class MetaDataExtractor {
                             //log.append(line);
                             metadata.add(line);
                         }
+//OOB INDEX Check meta has a shitload
+                        if(metadata.size() > 1) {
+                            String[] split0 = metadata.get(metadata.size() - 1).split(",");
+                            String[] split1 = split0[0].split(":");
 
+                            exp = Float.parseFloat(split1[3]);
+                            iso = Integer.parseInt(split0[1].split(":")[1]);
+                            flash = Integer.parseInt(split0[2].split(":")[1]);
+                            float ActualISO = Float.parseFloat(split0[5].split(":")[1]);
+                            isoActual = Math.round(ActualISO * 100);
+                            Description = metadata.get(metadata.size() - 1);
+                       }
 
-
-                        String[] split0 = metadata.get(metadata.size()-1).split(",");
-                        String[] split1 = split0[0].split(":");
-
-                        exp = Float.parseFloat(split1[3]);
-                        iso = Integer.parseInt(split0[1].split(":")[1]);
-                        flash = Integer.parseInt(split0[2].split(":")[1]);
-                        float ActualISO = Float.parseFloat(split0[5].split(":")[1]);
-                        isoActual = Math.round(ActualISO*100);
-                        Description = metadata.get(metadata.size() - 1);
                         process.destroy();
+
 
 
                         //v.setText(exposureTime+" "+ iso+" "+ flash+" "+isoActual);
@@ -128,7 +136,7 @@ public class MetaDataExtractor {
 
     }
 
-    public void ResetMeta()
+    public static void StatiClear()
     {
         Thread t = new Thread(new Runnable() {
             public void run() {
@@ -148,7 +156,7 @@ public class MetaDataExtractor {
 
     }
 
-    public float getExp()
+    public  float getExp()
     {
         return exp;
     }

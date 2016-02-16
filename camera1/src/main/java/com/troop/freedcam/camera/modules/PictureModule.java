@@ -1,5 +1,6 @@
 package com.troop.freedcam.camera.modules;
 
+import android.os.Build;
 import android.os.Handler;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
@@ -15,6 +16,7 @@ import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.MetaDataExtractor;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -143,9 +145,25 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
             ((CamParametersHandler)ParameterHandler).setString("slow_shutter", "-1");
             baseCameraHolder.SetCameraParameters(((CamParametersHandler)ParameterHandler).getParameters());}
        // if(DeviceUtils.isNexus4()){
+        if((DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)) {
+            if (ParameterHandler.IsDngActive() && baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("dng")) {
+                try {
+                    MetaDataExtractor.StatiClear();
+                    MetaDataExtractor.StatiCEXCute();
+                }
+                catch (Exception e)
+                {
+
+                }
+
+            }
+
+
+        }
 
 
     }
+
 
     /*protected void startThread() {
         backgroundThread = new HandlerThread("PictureModuleThread");

@@ -626,7 +626,7 @@ void processLoose(TIFF *tif,DngWriter *writer)
 		}
 	}
     //TIFFCheckpointDirectory(tif);
-    TIFFWriteDirectory (tif);
+    TIFFRewriteDirectory (tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
@@ -666,7 +666,7 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
 		LOGD("Error writing TIFF scanline.");
 		}
 	}
-    TIFFWriteDirectory (tif);
+    TIFFRewriteDirectory (tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
