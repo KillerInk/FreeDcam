@@ -288,6 +288,8 @@ public class DngSupportedDevices
                         return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, 0);
                     case OnePlusOne:
                         return new Nexus6Profile(64, 4212, 3120, Mipi, RGGB, getG3_rowSizeL);
+                    case SonyM4_QC:
+                        return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL);
                     case ZTE_ADV:
                        // return new Nexus6Profile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL);
                         return new Nexus6Profile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL);

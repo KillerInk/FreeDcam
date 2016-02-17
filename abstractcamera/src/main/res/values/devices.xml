@@ -199,11 +199,20 @@
     </string-array>
 
     <string-array name="SonyM5">
+        <item>E5633</item>
+        <item>E5643</item>
         <item>E5663</item>
+    </string-array>
+
+    <string-array name="SonyM4">
+        <item>E2303</item>
+        <item>E2306</item>
+        <item>E2353</item>
     </string-array>
 
     <string-array name="SonyC5">
         <item>E5533</item>
+        <item>E5563</item>
     </string-array>
 
     <string-array name="Sony_XperiaL">

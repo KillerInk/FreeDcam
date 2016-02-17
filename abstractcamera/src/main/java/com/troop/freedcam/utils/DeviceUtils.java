@@ -123,6 +123,8 @@ public class DeviceUtils
             return Devices.SonyADV;
         else if (isSonyM5_MTK())
             return Devices.SonyM5_MTK;
+        else if(isSonyM4_QC())
+            return Devices.SonyM4_QC;
         else if(isSonyC5_MTK())
             return Devices.SonyC5_MTK;
         else if (isXperiaL())
@@ -182,6 +184,7 @@ public class DeviceUtils
         Samsung_S6_edge_plus,
         SonyADV,
         SonyM5_MTK,
+        SonyM4_QC,
         SonyC5_MTK,
         Sony_XperiaL,
         THL5000_MTK,
@@ -249,6 +252,7 @@ public class DeviceUtils
             Devices.Moto_MSM8982_8994, Devices.Moto_MSM8974,
             Devices.Retro_MTK,
             Devices.THL5000_MTK,
+            Devices.SonyM4_QC
     };
 
     public static Devices[] camera1NO_RAW_STREAM = {
@@ -362,6 +366,11 @@ public class DeviceUtils
     public static boolean isSonyC5_MTK()
     {
         return isDevice(contex.getResources().getStringArray(R.array.SonyC5));
+    }
+
+    public static boolean isSonyM4_QC()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.SonyM5));
     }
 
     public static boolean isRetro()
