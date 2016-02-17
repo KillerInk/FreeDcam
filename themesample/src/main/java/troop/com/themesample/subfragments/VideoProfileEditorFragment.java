@@ -109,6 +109,7 @@ public class VideoProfileEditorFragment extends Fragment
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
+                    currentProfile = null;
                     videoMediaProfiles.remove(currentProfile.ProfileName);
                     VideoMediaProfile.saveCustomProfiles(videoMediaProfiles);
                     videoMediaProfiles.clear();
