@@ -64,6 +64,7 @@ public class DeviceUtils
     final public static Devices[] LG_G2_3 = {Devices.LG_G2, Devices.LG_G3};
     final public static Devices[] HTC_m8_9 = {Devices.Htc_M8, Devices.Htc_M9};
     final public static Devices[] ZTE_DEVICES = {Devices.ZTE_ADV,Devices.ZTEADVIMX214,Devices.ZTEADV234};
+    final public static Devices[] Sony_DEVICES = {Devices.SonyM4_QC,Devices.SonyC5_MTK,Devices.SonyM5_MTK};
 
     private static Devices getDevice()
     {
