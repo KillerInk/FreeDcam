@@ -67,12 +67,15 @@ public class CCTManualParameter extends BaseManualParameter
                 createStringArray();
             }
         }
-        else if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) ||DeviceUtils.isSonyM4_QC())
+        else if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) ||DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
         {
             this.min = 2000;
             this.max = 8000;
             this.value = WB_MANUAL;
-            this.manualWbMode = WB_MODE_MANUAL_CCT;
+            if(DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
+                this.manualWbMode = WB_MODE_MANUAL;
+            else
+                this.manualWbMode = WB_MODE_MANUAL_CCT;
             this.isSupported = true;
             createStringArray();
         }
@@ -221,6 +224,18 @@ public class CCTManualParameter extends BaseManualParameter
             if(!camParametersHandler.WhiteBalanceMode.GetValue().equals(manualWbMode) && manualWbMode != "")
                 camParametersHandler.WhiteBalanceMode.SetValue(manualWbMode, true);
             parameters.put(value, wbvalues[currentWBPos]);
+
+            if(DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
+                try
+                {
+                    parameters.put("manual-wb-type", "color-temperature");
+                    parameters.put("manual-wb-value", wbvalues[currentWBPos]);
+                }
+                catch (Exception ex){
+
+                }
+
+
         }
         camParametersHandler.SetParametersToCamera();
 
