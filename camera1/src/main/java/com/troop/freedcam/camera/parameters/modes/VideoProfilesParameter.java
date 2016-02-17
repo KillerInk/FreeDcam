@@ -25,6 +25,8 @@ public class VideoProfilesParameter extends BaseModeParameter
     BaseCameraHolder cameraHolder;
     CameraUiWrapper cameraUiWrapper;
     String profile = "HIGH";
+    public static final String _720phfr = "720HFR";
+    public static final String _4kUHD = "4kUHD";
 
     public VideoProfilesParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
         super(handler,parameters, parameterChanged, value, values);
@@ -248,6 +250,27 @@ public class VideoProfilesParameter extends BaseModeParameter
                 supportedProfiles.put("480pHFR", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_480P),"480pHFR", VideoMediaProfile.VideoMode.Highspeed));
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        if (supportedProfiles.get(_720phfr) == null && parameters.containsKey("video-hfr-values") && parameters.get("video-hfr-values").contains("120"))
+        {
+            VideoMediaProfile t = supportedProfiles.get("720p").clone();
+            t.videoFrameRate = 120;
+            t.Mode = VideoMediaProfile.VideoMode.Highspeed;
+            t.ProfileName = "720pHFR";
+            supportedProfiles.put("720pHFR",t);
+        }
+
+        if (supportedProfiles.get(_4kUHD) == null && parameters.containsKey("video-size-values") && parameters.get("video-size-values").contains("3840x2160")
+                || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
+        {
+            VideoMediaProfile uhd = supportedProfiles.get("1080p").clone();
+            uhd.videoFrameWidth = 3840;
+            uhd.videoFrameHeight = 2160;
+            uhd.videoBitRate = 30000000;
+            uhd.Mode = VideoMediaProfile.VideoMode.Normal;
+            uhd.ProfileName = _4kUHD;
+            supportedProfiles.put(_4kUHD,uhd);
         }
 
         if (DeviceUtils.IS(DeviceUtils.Devices.LenovoK920) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))

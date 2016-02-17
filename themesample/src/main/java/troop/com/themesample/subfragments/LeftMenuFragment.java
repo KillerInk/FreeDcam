@@ -33,6 +33,7 @@ import troop.com.themesample.views.menu.MenuItemTimeLapseFrames;
 import troop.com.themesample.views.menu.MenuItemTimer;
 import troop.com.themesample.views.menu.MenuItemVideoBitrate;
 import troop.com.themesample.views.menu.MenuItemVideoProfile;
+import troop.com.themesample.views.menu.MenuItem_VideoProfEditor;
 import troop.com.themesample.views.uichilds.UiSettingsChild;
 
 /**
@@ -47,11 +48,12 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     troop.com.themesample.views.menu.MenuItem pictureSize;
     MenuItemSDSave sdSave;
     MenuItemGPS menuItemGPS;
-    MenuItemVideoBitrate bitrate;
 
     MenuItemInterval menuItemInterval;
     MenuItemIntervalDuration menuItemIntervalDuration;
     MenuItemTimer menuItemTimer;
+
+    MenuItem_VideoProfEditor videoProfileEditor;
 
     troop.com.themesample.views.menu.MenuItem guide;
     troop.com.themesample.views.menu.MenuItem api;
@@ -63,7 +65,6 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
     MenuItemVideoProfile videoProfile;
     troop.com.themesample.views.menu.MenuItemVideoHDR videoHDR;
-    troop.com.themesample.views.menu.MenuItemHighFramerateVideo HighFramerateVideo;
     MenuItemTimeLapseFrames timeLapseFrames;
 
     troop.com.themesample.views.menu.MenuItem VideoSize;
@@ -72,7 +73,6 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     troop.com.themesample.views.menu.MenuItem PreviewFormat;
 
     troop.com.themesample.views.menu.MenuItem videoStabilization;
-    troop.com.themesample.views.menu.MenuItem HighSpeedVideo;
 
     troop.com.themesample.views.menu.MenuItem horizont;
     troop.com.themesample.views.menu.MenuItemAEB AEB1;
@@ -101,11 +101,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         themeItem = (MenuItemTheme)view.findViewById(R.id.MenuItemTheme);
         themeItem.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_Theme,touchHandler);
 
-        //bayerFormatItem = (MenuItemBayerFormat) view.findViewById(R.id.MenuItemBayerFormat);
-        //bayerFormatItem.SetStuff(i_activity, appSettingsManager, "",touchHandler);
-
-        bitrate = (MenuItemVideoBitrate) view.findViewById(R.id.MenuItemVideoBitrate);
-        bitrate.SetStuff(i_activity, appSettingsManager, "",touchHandler);
+        videoProfileEditor = (MenuItem_VideoProfEditor)view.findViewById(R.id.MenuItem_VideoProfileEditor);
 
         pictureSize = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemPicSize);
         pictureSize.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_PICTURESIZE,touchHandler);
@@ -145,12 +141,6 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
         videoHDR = (troop.com.themesample.views.menu.MenuItemVideoHDR)view.findViewById(R.id.MenuItemVideHDR);
         videoHDR.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOHDR,touchHandler);
-
-        HighFramerateVideo = (troop.com.themesample.views.menu.MenuItemHighFramerateVideo)view.findViewById(R.id.MenuItemHighFramerateVideo);
-        HighFramerateVideo.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HighFramerateVideo,touchHandler);
-
-        HighSpeedVideo = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemHighSpeedVideo);
-        HighSpeedVideo.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HighSpeedVideo,touchHandler);
 
         VideoSize = (MenuItem) view.findViewById(R.id.MenuItemVideoSize);
         VideoSize.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOSIZE,touchHandler);
@@ -194,22 +184,6 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
             return;
         themeItem.SetParameter(wrapper.camParametersHandler.ThemeList);
         themeItem.SetMenuItemListner(this);
-
-        /*if(wrapper instanceof CameraUiWrapper) {
-            bayerFormatItem.SetParameter(wrapper.camParametersHandler.PictureFormat);
-            bayerFormatItem.SetMenuItemListner(this);
-            bayerFormatItem.setVisibility(View.VISIBLE);
-        }
-        else
-            bayerFormatItem.setVisibility(View.GONE);*/
-
-        if(wrapper instanceof CameraUiWrapper) {
-            bitrate.SetParameter(wrapper.camParametersHandler.PictureFormat);
-            bitrate.SetMenuItemListner(this);
-            bitrate.setVisibility(View.VISIBLE);
-        }
-        else
-            bitrate.setVisibility(View.GONE);
 
         pictureSize.SetParameter(wrapper.camParametersHandler.PictureSize);
         pictureSize.SetMenuItemListner(this);
@@ -259,13 +233,6 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         videoHDR.SetModulesToShow(wrapper.moduleHandler.VideoModules, wrapper.moduleHandler);
         ///////////////////////////   Highspeed Recording //////////////////////////////////////////
 
-        HighFramerateVideo.SetParameter(wrapper.camParametersHandler.VideoHighFramerateVideo);
-        HighFramerateVideo.SetMenuItemListner(this);
-        HighFramerateVideo.SetModulesToShow(wrapper.moduleHandler.VideoModules, wrapper.moduleHandler);
-
-        HighSpeedVideo.SetParameter(wrapper.camParametersHandler.VideoHighSpeedVideo);
-        HighSpeedVideo.SetMenuItemListner(this);
-
         if (!(wrapper instanceof CameraUiWrapper) && wrapper.camParametersHandler.VideoSize != null && wrapper.camParametersHandler.VideoSize.IsSupported()) {
 
             VideoSize.SetParameter(wrapper.camParametersHandler.VideoSize);
@@ -283,9 +250,12 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         if (wrapper instanceof CameraUiWrapper) {
 
             timeLapseFrames.setVisibility(View.VISIBLE);
+            videoProfileEditor.setVisibility(View.VISIBLE);
         }
-        else
+        else {
             timeLapseFrames.setVisibility(View.GONE);
+            videoProfileEditor.setVisibility(View.GONE);
+        }
 
         saveCamParams.setCameraUiWrapper(wrapper);
 

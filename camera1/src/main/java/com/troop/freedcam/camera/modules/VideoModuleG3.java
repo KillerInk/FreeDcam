@@ -18,6 +18,7 @@ public class VideoModuleG3 extends AbstractVideoModule
 {
     protected MediaRecorderEx recorder;
     CamParametersHandler camParametersHandler;
+    VideoMediaProfile currentProfile;
 
     final static String TAG = VideoModuleG3.class.getSimpleName();
 
@@ -29,16 +30,13 @@ public class VideoModuleG3 extends AbstractVideoModule
 
     protected MediaRecorder initRecorder()
     {
-        String profile = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
-        VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter)ParameterHandler.VideoProfilesG3;
-        VideoMediaProfile prof = videoProfilesG3Parameter.GetCameraProfile(profile);
 
         try {
             recorder = new MediaRecorderEx();
             recorder.reset();
             recorder.setCamera(baseCameraHolder.GetCamera());
             recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-            switch (prof.Mode)
+            switch (currentProfile.Mode)
             {
 
                 case Normal:
@@ -51,19 +49,19 @@ public class VideoModuleG3 extends AbstractVideoModule
             }
 
             recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-            recorder.setVideoFrameRate(prof.videoFrameRate);
-            recorder.setVideoSize(prof.videoFrameWidth, prof.videoFrameHeight);
-            recorder.setVideoEncodingBitRate(prof.videoBitRate);
-            recorder.setVideoEncoder(prof.videoCodec);
+            recorder.setVideoFrameRate(currentProfile.videoFrameRate);
+            recorder.setVideoSize(currentProfile.videoFrameWidth, currentProfile.videoFrameHeight);
+            recorder.setVideoEncodingBitRate(currentProfile.videoBitRate);
+            recorder.setVideoEncoder(currentProfile.videoCodec);
 
-            switch (prof.Mode)
+            switch (currentProfile.Mode)
             {
                 case Normal:
-                    setAudioStuff(prof);
-                    recorder.setCaptureRate(prof.videoFrameRate);
+                    setAudioStuff(currentProfile);
+                    recorder.setCaptureRate(currentProfile.videoFrameRate);
                     break;
                 case Highspeed:
-                    recorder.setCaptureRate(prof.videoFrameRate);
+                    recorder.setCaptureRate(currentProfile.videoFrameRate);
                     break;
                 case Timelapse:
                     float frame = 30;
@@ -111,16 +109,11 @@ public class VideoModuleG3 extends AbstractVideoModule
 
     }
 
-    public void UpdatePreview()
-    {
-        loadProfileSpecificParameters();
-    }
-
     private void loadProfileSpecificParameters()
     {
-        if (camParametersHandler.PreviewFormat == null && ParameterHandler.VideoSize == null)
-            return;
-        if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD") || Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("HFR"))
+        VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter)ParameterHandler.VideoProfilesG3;
+        currentProfile = videoProfilesG3Parameter.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
+        if (currentProfile.Mode == VideoMediaProfile.VideoMode.Highspeed || currentProfile.ProfileName.equals("4kUHD"))
         {
             camParametersHandler.MemoryColorEnhancement.SetValue("disable",true);
             camParametersHandler.DigitalImageStabilization.SetValue("disable", true);
@@ -138,26 +131,11 @@ public class VideoModuleG3 extends AbstractVideoModule
             camParametersHandler.setString("lge-camera", "1");
             camParametersHandler.setString("dual-recorder", "0");
         }
-        //baseCameraHolder.SetCameraParameters(camParametersHandler.getParameters());
-        VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter)ParameterHandler.VideoProfilesG3;
-        String sprof = Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE);
-
-        VideoMediaProfile prof = videoProfilesG3Parameter.GetCameraProfile(sprof);
-        String size;
-        if (prof == null)
-        {
-            Log.e(TAG , "Error: CamcorderProfileEx is NULL!!!!!!!!!");
-            size = camParametersHandler.VideoSize.GetValue();
-        }
-        else {
-            size = prof.videoFrameWidth + "x" + prof.videoFrameHeight;
-        }
+        String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
         camParametersHandler.setString("preview-size", size);
         camParametersHandler.setString("video-size", size);
         camParametersHandler.SetParametersToCamera();
         baseCameraHolder.StopPreview();
         baseCameraHolder.StartPreview();
-
-
     }
 }
