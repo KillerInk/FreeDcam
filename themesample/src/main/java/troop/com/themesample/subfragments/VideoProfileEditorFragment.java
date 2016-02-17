@@ -90,7 +90,8 @@ public class VideoProfileEditorFragment extends Fragment
         @Override
         public boolean onMenuItemClick(MenuItem item)
         {
-            setMediaProfile(videoMediaProfiles.get(item.toString()));
+            if(!videoMediaProfiles.get(item.toString()).equals(null))
+                setMediaProfile(videoMediaProfiles.get(item.toString()));
             return false;
         }
     };
