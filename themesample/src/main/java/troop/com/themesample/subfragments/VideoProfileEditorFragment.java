@@ -1,6 +1,7 @@
 package troop.com.themesample.subfragments;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.PopupMenu;
 
 import com.troop.freedcam.camera.modules.VideoMediaProfile;
+import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.util.HashMap;
 
@@ -56,6 +58,8 @@ public class VideoProfileEditorFragment extends Fragment
         button_save.setOnClickListener(onSavebuttonClick);
         videoMediaProfiles = new HashMap<String, VideoMediaProfile>();
         VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
+        AppSettingsManager appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getActivity()), getContext());
+        setMediaProfile(videoMediaProfiles.get(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE)));
     }
 
     @Override
