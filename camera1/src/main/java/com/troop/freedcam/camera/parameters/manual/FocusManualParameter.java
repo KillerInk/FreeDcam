@@ -45,7 +45,7 @@ public class FocusManualParameter extends  BaseManualParameter
             this.value = "cur-focus-scale";
             this.min_value = "min-focus-pos-ratio";
         }
-        else if(DeviceUtils.isLenovoK920() || DeviceUtils.isSonyM4_QC())
+        else if(DeviceUtils.isLenovoK920() || DeviceUtils.IS(Devices.SonyM4_QC))
         {
             this.isSupported = true;
             this.max_value = "max-focus-pos-index";
@@ -135,7 +135,10 @@ public class FocusManualParameter extends  BaseManualParameter
             {
                 if (!camParametersHandler.FocusMode.GetValue().equals("manual")) //do not set "manual" to "manual"
                     camParametersHandler.FocusMode.SetValue("manual", false);
-                parameters.put("manual-focus-pos-type", "1");
+                if (DeviceUtils.IS(Devices.SonyM4_QC))
+                    parameters.put("manual-focus-pos-type", "0");
+                else
+                    parameters.put("manual-focus-pos-type", "1");
                 camParametersHandler.SetParametersToCamera();
             }
             else
@@ -149,7 +152,9 @@ public class FocusManualParameter extends  BaseManualParameter
             {
                 try {
                     camParametersHandler.FocusMode.SetValue("manual", true);
-                    parameters.put("manual-focus-pos-type", "2");
+
+
+                        parameters.put("manual-focus-pos-type", "2");
                 }
                 catch (Exception ex)
                 {

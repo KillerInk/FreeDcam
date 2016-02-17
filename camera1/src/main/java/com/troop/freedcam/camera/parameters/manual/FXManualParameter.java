@@ -24,9 +24,25 @@ public class FXManualParameter extends BaseManualParameter {
     @Override
     public boolean IsSupported()
     {
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
+        {
+        this.isSupported = true;
+        this.isVisible = true;
 
-            return DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES);
+        return true;
+        }
+        else
+            return false;
+
+
+
     }
+
+    @Override
+    public boolean IsVisible() {
+        return IsSupported();
+    }
+
 
     @Override
     public int GetMaxValue() {

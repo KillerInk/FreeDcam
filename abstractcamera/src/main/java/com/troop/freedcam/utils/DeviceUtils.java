@@ -371,7 +371,7 @@ public class DeviceUtils
 
     public static boolean isSonyM4_QC()
     {
-        return isDevice(contex.getResources().getStringArray(R.array.SonyM5));
+        return isDevice(contex.getResources().getStringArray(R.array.SonyM4));
     }
 
     public static boolean isRetro()

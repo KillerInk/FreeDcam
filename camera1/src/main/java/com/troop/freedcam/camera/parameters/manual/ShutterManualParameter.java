@@ -69,7 +69,7 @@ public class ShutterManualParameter extends BaseManualParameter
                 isSupported = false;
             }
         }
-        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994) || DeviceUtils.isSonyM4_QC())
+        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994) || DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
         {
             this.isSupported = true;
             shutterValues = IMX214_IMX230.split(",");
@@ -158,7 +158,7 @@ public class ShutterManualParameter extends BaseManualParameter
             parameters.put("sony-shutter-speed", String.valueOf(valueToSet));
 
         }
-        else if ( parameters.containsKey("exposure-time") || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)||DeviceUtils.isSonyM4_QC())
+        else if ( parameters.containsKey("exposure-time") || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)||DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
         {
             current = valueToSet;
             String shutterstring = shutterValues[current];
@@ -193,7 +193,7 @@ public class ShutterManualParameter extends BaseManualParameter
     }
 
     private void setShutterToAuto() {
-        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)||DeviceUtils.isSonyM4_QC())
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)||DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
         {
             parameters.put("exposure-time", "0");
         }
