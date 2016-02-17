@@ -15,6 +15,8 @@
     <string name="setting_video_group_header">Video</string>
     <string name="setting_videoprofile_description">Media Profile used VideoRecording</string>
     <string name="setting_videoprofile_header">Video Profile: </string>
+    <string name="setting_videoprofileeditor_description">Create Custom VideoProfiles</string>
+    <string name="setting_videoprofileeditor_header">Video Profile Editor </string>
     <string name="setting_videohdr_description">turn on to enable hdr video</string>
     <string name="setting_videohfr_description">Video FPS Selection</string>
     <string name="setting_videohsr_description">Enables Highspeed Video Recording</string>
