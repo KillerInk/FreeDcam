@@ -296,7 +296,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try {
             ExposureMode = new ExposureModeParameter(uiHandler,cameraParameters,baseCameraHolder,"","");
-            ExposureMode.addEventListner(((FocusHandler)cameraHolder.Focus).aeModeListner);
+            ExposureMode.addEventListner(((FocusHandler) cameraHolder.Focus).aeModeListner);
         }
         catch (Exception ex)
         {
@@ -501,7 +501,8 @@ public class CamParametersHandler extends AbstractParameterHandler
             ex.printStackTrace();
         }
         try {
-            VideoHighFramerateVideo = new HighFramerateVideo(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraUiWrapper);
+            VideoHighFramerateVideo = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"video-hfr","video-hfr-values");
+            //VideoHighFramerateVideo = new HighFramerateVideo(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraUiWrapper);
         }
         catch (Exception ex)
         {
