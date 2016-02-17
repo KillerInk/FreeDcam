@@ -69,7 +69,7 @@ public class ShutterManualParameter extends BaseManualParameter
                 isSupported = false;
             }
         }
-        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994))
+        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994) || DeviceUtils.isSonyM4_QC())
         {
             this.isSupported = true;
             shutterValues = IMX214_IMX230.split(",");
@@ -138,7 +138,7 @@ public class ShutterManualParameter extends BaseManualParameter
             return Integer.parseInt(parameters.get("sony-min-shutter-speed"));
         else if (shutterValues != null)
             return 0;
-        else if(parameters.containsKey("min-exposure-time") && (!DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)))
+        else if(parameters.containsKey("min-exposure-time") && (!DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)||!DeviceUtils.isSonyM4_QC()))
             return Integer.parseInt(parameters.get("min-exposure-time"));
         else
             return 0;
@@ -158,7 +158,7 @@ public class ShutterManualParameter extends BaseManualParameter
             parameters.put("sony-shutter-speed", String.valueOf(valueToSet));
 
         }
-        else if ( parameters.containsKey("exposure-time") || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994))
+        else if ( parameters.containsKey("exposure-time") || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)||DeviceUtils.isSonyM4_QC())
         {
             current = valueToSet;
             String shutterstring = shutterValues[current];
@@ -193,7 +193,7 @@ public class ShutterManualParameter extends BaseManualParameter
     }
 
     private void setShutterToAuto() {
-        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994))
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)||DeviceUtils.isSonyM4_QC())
         {
             parameters.put("exposure-time", "0");
         }

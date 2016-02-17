@@ -67,7 +67,7 @@ public class CCTManualParameter extends BaseManualParameter
                 createStringArray();
             }
         }
-        else if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
+        else if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) ||DeviceUtils.isSonyM4_QC())
         {
             this.min = 2000;
             this.max = 8000;
