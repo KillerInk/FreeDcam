@@ -37,6 +37,8 @@ public class MenuItemSDSave extends MenuItem
     public void SetValue(String value) {
         if (value.equals(SDModeParameter.external))
         {
+
+
             boolean canWriteExternal = false;
             final String path = StringUtils.GetExternalSDCARD() + StringUtils.freedcamFolder + "test.t";
             final File f = new File(path);
@@ -48,7 +50,23 @@ public class MenuItemSDSave extends MenuItem
             }
             catch (Exception ex)
             {
-                canWriteExternal =false;
+                final String path2 = "/storage/sdcard1" + StringUtils.freedcamFolder + "test.t";
+                final File f2 = new File(path2);
+                try {
+                    f2.mkdirs();
+                    f2.createNewFile();
+                    canWriteExternal = true;
+                    f2.delete();
+                    if (canWriteExternal) {
+                        Toast.makeText(context,"Success at "
+                                +path2, Toast.LENGTH_LONG).show();
+                    }
+                }
+                catch (Exception ex2)
+                {
+                    canWriteExternal =false;
+                }
+
             }
             if (canWriteExternal) {
                 appSettingsManager.SetWriteExternal(true);
