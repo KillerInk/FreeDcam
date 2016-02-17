@@ -128,7 +128,7 @@ public class FocusManualParameter extends  BaseManualParameter
         //check/set auto/manual mode
         if (DeviceUtils.IS_DEVICE_ONEOF(new DeviceUtils.Devices[]
                 {
-                        Devices.ZTE_ADV, Devices.ZTEADVIMX214, Devices.ZTEADV234, Devices.XiaomiMI3W, Devices.XiaomiMI4W, Devices.RedmiNote, Devices.LenovoK920
+                        Devices.ZTE_ADV, Devices.ZTEADVIMX214, Devices.ZTEADV234, Devices.XiaomiMI3W, Devices.XiaomiMI4W, Devices.RedmiNote, Devices.LenovoK920,Devices.SonyM4_QC
                 }))
         {
             if(valueToSet != 0)
