@@ -24,7 +24,7 @@ public class VideoProfilesParameter extends BaseModeParameter
     HashMap<String, VideoMediaProfile> supportedProfiles;
     BaseCameraHolder cameraHolder;
     CameraUiWrapper cameraUiWrapper;
-    String profile = "HIGH";
+    String profile;
     public static final String _720phfr = "720HFR";
     public static final String _4kUHD = "4kUHD";
 

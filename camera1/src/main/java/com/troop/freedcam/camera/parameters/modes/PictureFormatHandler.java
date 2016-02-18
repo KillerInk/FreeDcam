@@ -107,11 +107,12 @@ public class PictureFormatHandler extends BaseModeParameter
         Log.d(TAG, "setString:" +val);
         parameters.put(PICFORMAT, val);
         baseCameraHolder.SetCameraParameters(parameters);
-        if(baseCameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.LG)
+        if(baseCameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.LG && !firststart)
         {
             baseCameraHolder.StopPreview();
             baseCameraHolder.StartPreview();
         }
+        firststart = false;
     }
 
     @Override
