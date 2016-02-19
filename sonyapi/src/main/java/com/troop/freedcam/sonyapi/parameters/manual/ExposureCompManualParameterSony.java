@@ -33,7 +33,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                 JSONArray array = null;
                 try {
                     Log.d(TAG, "SetValue " + valueToSet);
-                    array = new JSONArray().put(0, valueToSet);
+                    array = new JSONArray().put(0, Integer.parseInt(stringvalues[valueToSet]));
                     JSONObject object =  ParameterHandler.mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
 
                         //ThrowCurrentValueChanged(valueToSet);
