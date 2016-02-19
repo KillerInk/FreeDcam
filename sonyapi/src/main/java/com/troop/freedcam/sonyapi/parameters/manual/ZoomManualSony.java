@@ -84,7 +84,6 @@ public class ZoomManualSony extends BaseManualParameterSony
     @Override
     public void SetValue(int valueToSet)
     {
-
         zoomToSet = valueToSet;
         if (!isZooming)
         {
@@ -148,11 +147,6 @@ public class ZoomManualSony extends BaseManualParameterSony
 
         return currentInt + "%";
 
-    }
-
-    @Override
-    public String[] getStringValues() {
-        return null;
     }
 
     @Override

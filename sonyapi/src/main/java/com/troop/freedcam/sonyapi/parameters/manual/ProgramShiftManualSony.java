@@ -2,6 +2,7 @@ package com.troop.freedcam.sonyapi.parameters.manual;
 
 import android.util.Log;
 
+import com.troop.freedcam.i_camera.parameters.IntervalDurationParameter;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 
@@ -136,7 +137,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
             {
                 JSONArray array = null;
                 try {
-                    array = new JSONArray().put(0, currentInt);
+                    array = new JSONArray().put(0, Integer.parseInt(stringvalues[currentInt]));
                     JSONObject object =  ParameterHandler.mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
                     ThrowCurrentValueChanged(valueToSet);
                 } catch (JSONException e) {
