@@ -227,7 +227,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     public void onCurrentValueChanged(int current)
     {
 
-            this.pos = current;
+        this.pos = current;
 
         Log.d(TAG, "onCurrentValueChanged current:"+current +" pos:" +pos);
         setTextValue(current);
@@ -308,11 +308,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
                 //setparameter();
                 while (valueQueue.size() >= 1) {
                     setparameter();
-                    try {
-                        Thread.sleep(50);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+
                 }
 
             }
