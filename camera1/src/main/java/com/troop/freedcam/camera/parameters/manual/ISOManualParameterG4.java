@@ -8,8 +8,6 @@ import java.util.HashMap;
 
 public class ISOManualParameterG4 extends BaseManualParameter
 {
-    String[] isovalues;
-    int current = 0;
     BaseCameraHolder baseCameraHolder;
     LG_G4AeHandler.AeManualEvent manualEvent;
 
@@ -27,8 +25,8 @@ public class ISOManualParameterG4 extends BaseManualParameter
             else
                 s.add(i + "");
         }
-        isovalues = new String[s.size()];
-        s.toArray(isovalues);
+        stringvalues = new String[s.size()];
+        s.toArray(stringvalues);
         this.manualEvent = manualevent;
     }
 
@@ -43,28 +41,16 @@ public class ISOManualParameterG4 extends BaseManualParameter
         return isSupported;
     }
 
-    @Override
-    public int GetMaxValue() {
-
-        return isovalues.length -1;
-
-    }
-
-    @Override
-    public int GetMinValue() {
-
-            return 0;
-        }
 
     @Override
     public int GetValue() {
-        return  current;
+        return  currentInt;
     }
 
     @Override
     protected void setvalue(int valueToSet)
     {
-        current = valueToSet;
+        currentInt = valueToSet;
         if (valueToSet == 0)
         {
             manualEvent.onManualChanged(LG_G4AeHandler.AeManual.iso, true, valueToSet);
@@ -84,16 +70,16 @@ public class ISOManualParameterG4 extends BaseManualParameter
         }
         else
         {
-            current = value;
-            parameters.put("lg-iso", isovalues[value]);
+            currentInt = value;
+            parameters.put("lg-iso", stringvalues[value]);
         }
-        ThrowCurrentValueStringCHanged(isovalues[value]);
+        ThrowCurrentValueStringCHanged(stringvalues[value]);
     }
 
     @Override
     public String GetStringValue() {
         try {
-            return isovalues[current];
+            return stringvalues[currentInt];
         } catch (NullPointerException ex) {
             return "Auto";
         }
@@ -101,7 +87,7 @@ public class ISOManualParameterG4 extends BaseManualParameter
 
     @Override
     public String[] getStringValues() {
-        return isovalues;
+        return stringvalues;
     }
 }
 

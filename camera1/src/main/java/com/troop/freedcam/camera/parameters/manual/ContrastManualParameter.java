@@ -48,6 +48,7 @@ public class ContrastManualParameter extends BaseManualParameter
                 min_value = "contrast-min";
             } catch (Exception ex) {
             }
+            stringvalues = createStringArray(min,max,1);
         }
     }
 

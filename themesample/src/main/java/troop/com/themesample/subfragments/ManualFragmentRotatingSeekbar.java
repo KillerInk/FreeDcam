@@ -261,15 +261,6 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
 
     }
 
-    @Override
-    public void onMaxValueChanged(int max) {
-
-    }
-
-    @Override
-    public void onMinValueChanged(int min) {
-
-    }
 
     @Override
     public void onCurrentValueChanged(int current) {

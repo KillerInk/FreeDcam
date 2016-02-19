@@ -19,8 +19,6 @@ public class ShutterManualZTE extends BaseManualParameter
     I_CameraHolder baseCameraHolder;
     CamParametersHandler camParametersHandlerx;
     I_CameraChangedListner i_cameraChangedListner;
-    String[] shutterValues;
-    int current =0;
     final String TAG = ShutterManualZTE.class.getSimpleName();
 
     private I_Shutter_Changed i_shutter_changed;
@@ -42,7 +40,7 @@ public class ShutterManualZTE extends BaseManualParameter
         this.baseCameraHolder = baseCameraHolder;
         camParametersHandlerx = (CamParametersHandler) camParametersHandler;
         this.i_cameraChangedListner = i_cameraChangedListner;
-        shutterValues = ShutterManualParameter.Z5SShutterValues.split(",");
+        stringvalues = ShutterManualParameter.Z5SShutterValues.split(",");
         this.isSupported = true;
     }
 
@@ -57,26 +55,10 @@ public class ShutterManualZTE extends BaseManualParameter
     }
 
     @Override
-    public int GetMaxValue()
-    {
-        return shutterValues.length-1;
-    }
-
-    @Override
-    public int GetMinValue() {
-            return 0;
-    }
-
-    @Override
-    public int GetValue() {
-        return current;
-    }
-
-    @Override
     protected void setvalue(int valueToSet)
     {
-        current = valueToSet;
-        String shutterstring = shutterValues[current];
+        currentInt = valueToSet;
+        String shutterstring = stringvalues[currentInt];
         if (shutterstring.contains("/")) {
             String split[] = shutterstring.split("/");
             Double a = Double.parseDouble(split[0]) / Double.parseDouble(split[1]);
@@ -84,7 +66,7 @@ public class ShutterManualZTE extends BaseManualParameter
 
 
         }
-        if(!shutterValues[current].equals("Auto"))
+        if(!stringvalues[currentInt].equals("Auto"))
         {
             try {
                 shutterstring = setExposureTimeToParameter(shutterstring);
@@ -171,15 +153,5 @@ public class ShutterManualZTE extends BaseManualParameter
       //  i_cameraChangedListner.onPreviewOpen("restart");
       //  baseCameraHolder.SetCameraParameters(parameters);
         return shutterstring;
-    }
-
-    @Override
-    public String[] getStringValues() {
-        return shutterValues;
-    }
-
-    @Override
-    public String GetStringValue() {
-        return shutterValues[current];
     }
 }

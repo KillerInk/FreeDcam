@@ -15,8 +15,6 @@ public class ShutterManualParameterG4 extends BaseManualParameter
     //return cameraController.getStringCameraParameter("shutter-threshold");
     */
     private static String TAG = "freedcam.ShutterManualParameterG4";
-    String shutterValues[];
-    private int current = 0;
     I_CameraHolder baseCameraHolder;
     LG_G4AeHandler.AeManualEvent manualevent;
 
@@ -25,7 +23,7 @@ public class ShutterManualParameterG4 extends BaseManualParameter
 
         this.baseCameraHolder = baseCameraHolder;
         this.isSupported = true;
-        shutterValues = ShutterManualParameter.LGG4Values.split(",");
+        stringvalues = ShutterManualParameter.LGG4Values.split(",");
         this.manualevent =manualevent;
     }
 
@@ -39,19 +37,10 @@ public class ShutterManualParameterG4 extends BaseManualParameter
         return super.IsSupported();
     }
 
-    @Override
-    public int GetMaxValue() {
-            return shutterValues.length-1;
-    }
-
-    @Override
-    public int GetMinValue() {
-            return 0;
-    }
 
     @Override
     public int GetValue() {
-        return current;
+        return currentInt;
     }
 
     @Override
@@ -77,10 +66,10 @@ public class ShutterManualParameterG4 extends BaseManualParameter
         }
         else
         {
-            current = value;
-            parameters.put("shutter-speed", shutterValues[value]);
+            currentInt = value;
+            parameters.put("shutter-speed", stringvalues[value]);
         }
-        ThrowCurrentValueStringCHanged(shutterValues[value]);
+        ThrowCurrentValueStringCHanged(stringvalues[value]);
     }
 
 
@@ -103,18 +92,13 @@ public class ShutterManualParameterG4 extends BaseManualParameter
     @Override
     public String GetStringValue()
     {
-        return shutterValues[current];
+        return stringvalues[currentInt];
     }
 
     @Override
     public String[] getStringValues()
     {
-        return shutterValues;
+        return stringvalues;
     }
 
-    @Override
-    public void RestartPreview()
-    {
-
-    }
 }

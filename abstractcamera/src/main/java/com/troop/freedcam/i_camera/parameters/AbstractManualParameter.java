@@ -13,6 +13,13 @@ public abstract class AbstractManualParameter implements I_ManualParameter
 
     private List<I_ManualParameterEvent> events;
     protected AbstractParameterHandler camParametersHandler;
+    protected String[] stringvalues;
+    protected String currentString;
+    protected int currentInt;
+    /**
+     * holds the state if the parameter is supported
+     */
+    protected boolean isSupported = false;
 
     protected boolean isVisible = false;
 
@@ -26,8 +33,6 @@ public abstract class AbstractManualParameter implements I_ManualParameter
     {
         void onIsSupportedChanged(boolean value);
         void onIsSetSupportedChanged(boolean value);
-        void onMaxValueChanged(int max);
-        void onMinValueChanged(int min);
         void onCurrentValueChanged(int current);
         void onValuesChanged(String[] values);
         void onCurrentStringValueChanged(String value);
@@ -119,35 +124,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
         }
     }
 
-    public void BackgroundMinValueChanged(int value)
-    {
-        for (int i= 0; i< events.size(); i ++)
-        {
-            if (events.get(i) == null)
-            {
-                events.remove(i);
-                i--;
 
-            }
-            else
-                events.get(i).onMinValueChanged(value);
-        }
-    }
-
-    public void BackgroundMaxValueChanged(int value)
-    {
-        for (int i= 0; i< events.size(); i ++)
-        {
-            if (events.get(i) == null)
-            {
-                events.remove(i);
-                i--;
-
-            }
-            else
-                events.get(i).onMaxValueChanged(value);
-        }
-    }
 
     /**
      *
@@ -155,7 +132,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
      */
     @Override
     public boolean IsSupported() {
-        return false;
+        return isSupported;
     }
 
     public boolean IsSetSupported() {return false;}
@@ -167,29 +144,11 @@ public abstract class AbstractManualParameter implements I_ManualParameter
 
     /**
      *
-     * @return returns the max value as int
-     */
-    @Override
-    public int GetMaxValue() {
-        return 0;
-    }
-
-    /**
-     *
-     * @return returns the min value as int
-     */
-    @Override
-    public int GetMinValue() {
-        return 0;
-    }
-
-    /**
-     *
      * @return returns the current value as int
      */
     @Override
     public int GetValue() {
-        return 0;
+        return currentInt;
     }
 
     /**
@@ -197,15 +156,18 @@ public abstract class AbstractManualParameter implements I_ManualParameter
      * @return returns the current value as string
      */
     @Override
-    public String GetStringValue() {
-        return null;
+    public String GetStringValue()
+    {
+        if (stringvalues == null || stringvalues.length == 0)
+            return null;
+        return stringvalues[currentInt];
     }
 
     /**
      *
      * @return returns all values possible vales as StringArray
      */
-    public String[] getStringValues() { return  null;}
+    public String[] getStringValues() { return  stringvalues;}
 
     @Override
     public void SetValue(int valueToSet)
@@ -214,11 +176,18 @@ public abstract class AbstractManualParameter implements I_ManualParameter
         //ThrowCurrentValueChanged(valueToSet);
     }
 
-    @Override
-    public void RestartPreview() {
-
-    }
-
     protected void setvalue(int valueToset)
     {}
+
+    protected String[] createStringArray(int min,int max, int step)
+    {
+        ArrayList<String> ar = new ArrayList<>();
+        if (step == 0)
+            step = 1;
+        for (int i = min; i <= max; i+=step)
+        {
+            ar.add(i+"");
+        }
+        return ar.toArray(new String[ar.size()]);
+    }
 }

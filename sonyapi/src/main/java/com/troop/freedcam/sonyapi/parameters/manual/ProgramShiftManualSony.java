@@ -19,9 +19,6 @@ import java.util.Set;
 public class ProgramShiftManualSony extends BaseManualParameterSony
 {
     final String TAG = ProgramShiftManualSony.class.getSimpleName();
-    int min =-1000;
-    int max =-1000;
-    private String[] values;
     private BaseManualParameterSony shutter;
     private BaseManualParameterSony fnumber;
     public ProgramShiftManualSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, ParameterHandlerSony parameterHandlerSony) {
@@ -48,36 +45,21 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
 
     }
 
-    @Override
-    public int GetMinValue()
-    {
-        if (min == -1000)
-            getminmax();
-        return 0;
-    }
-
-    @Override
-    public int GetMaxValue()
-    {
-        if (max == -1000)
-            getminmax();
-        return values.length;
-    }
 
     @Override
     public String[] getStringValues()
     {
-        if (values == null)
+        if (stringvalues == null)
             getminmax();
-        return values;
+        return stringvalues;
     }
 
     @Override
     public String GetStringValue()
     {
-        if (values == null)
+        if (stringvalues == null)
             getminmax();
-        return values[val];
+        return stringvalues[currentInt];
     }
 
     private void getminmax() {
@@ -94,17 +76,17 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                         JSONObject object =  ParameterHandler.mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                         JSONArray array = object.getJSONArray("result");
                         JSONArray subarray = array.getJSONArray(0);
-                        values = JsonUtils.ConvertJSONArrayToStringArray(subarray);
-                        if (values == null || values.length != 2)
+                        stringvalues = JsonUtils.ConvertJSONArrayToStringArray(subarray);
+                        if (stringvalues == null || stringvalues.length != 2)
                             return;
-                        max = Integer.parseInt(values[0]);
-                        min = Integer.parseInt(values[1]);
+                        int max = Integer.parseInt(stringvalues[0]);
+                        int min = Integer.parseInt(stringvalues[1]);
                         ArrayList<String> r = new ArrayList<String>();
                         for (int i = min; i<= max; i++)
                         {
                             r.add(i+"");
                         }
-                        values =new String[r.size()];
+                        stringvalues =new String[r.size()];
 
                         String[] shut = shutter.getStringValues();
                         if (shut != null && r != null && shut.length == r.size())
@@ -114,30 +96,28 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                             {
                                 if (s.equals(shut[i]))
                                 {
-                                    val = i;
+                                    currentInt = i;
                                     break;
                                 }
                             }
                         }
-                        r.toArray(values);
-                        BackgroundValuesChanged(values);
-                        BackgroundMinValueChanged(min);
-                        BackgroundMaxValueChanged(max);
-                        onCurrentValueChanged(val);
+                        r.toArray(stringvalues);
+                        BackgroundValuesChanged(stringvalues);
+                        onCurrentValueChanged(currentInt);
 
 
                     } catch (IOException e) {
                         e.printStackTrace();
                         Log.e(TAG, "Error Trying to get String Values from: " +VALUES_TO_GET);
-                        values = new String[0];
+                        stringvalues = new String[0];
                     } catch (JSONException e) {
                         e.printStackTrace();
                         Log.e(TAG, "Error Trying to get String Values from: " + VALUES_TO_GET);
-                        values = new String[0];
+                        stringvalues = new String[0];
                     }
                 }
             }).start();
-            while (values == null)
+            while (stringvalues == null)
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
@@ -149,14 +129,14 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     @Override
     public void SetValue(final int valueToSet)
     {
-        this.val = valueToSet;
+        this.currentInt = valueToSet;
         new Thread(new Runnable() {
             @Override
             public void run()
             {
                 JSONArray array = null;
                 try {
-                    array = new JSONArray().put(0, val);
+                    array = new JSONArray().put(0, currentInt);
                     JSONObject object =  ParameterHandler.mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
                     ThrowCurrentValueChanged(valueToSet);
                 } catch (JSONException e) {
@@ -168,23 +148,11 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
         }).start();
     }
 
-    @Override
-    public int GetValue() {
-        return val;
-    }
+
 
     @Override
     public void onCurrentValueChanged(int current) {
-        this.val = current;
+        this.currentInt = current;
     }
 
-    @Override
-    public void onMaxValueChanged(int max) {
-        this.max = max;
-    }
-
-    @Override
-    public void onMinValueChanged(int min) {
-        this.min = min;
-    }
 }

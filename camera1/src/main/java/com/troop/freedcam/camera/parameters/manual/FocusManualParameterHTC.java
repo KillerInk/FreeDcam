@@ -5,6 +5,7 @@ import android.util.Log;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -26,62 +27,40 @@ public class FocusManualParameterHTC extends  BaseManualParameter
         this.value = "focus";
         this.min_value = "min-focus";
         isVisible = isSupported;
-}
-
-    @Override
-    public boolean IsSupported()
-    {
-        return isSupported;
-    }
-
-    @Override
-    public int GetMaxValue()
-    {
-        try {
-            return Integer.parseInt(parameters.get(max_value));
-        } catch (NumberFormatException ex) {
-            return 0;
-        }
-    }
-
-    @Override
-    public int GetMinValue()
-    {
-        try {
-            return Integer.parseInt(parameters.get(min_value));
-        } catch (NumberFormatException ex) {
-            return 0;
-        }
-    }
-
-    @Override
-    public int GetValue()
-    {
-        try {
-                return Integer.parseInt(parameters.get(value));
-        }
-        catch (Exception ex)
+        if (isSupported)
         {
-            Log.e(TAG, "get ManualFocus value failed");
+            stringvalues = createStringArray(Integer.parseInt(parameters.get(min_value)),Integer.parseInt(parameters.get(max_value)),1);
         }
-        return 0;
     }
+
+    @Override
+    protected String[] createStringArray(int min, int max, int step)
+    {
+        ArrayList<String> ar = new ArrayList<>();
+        ar.add("auto");
+        if (step == 0)
+            step = 1;
+        for (int i = min; i < max; i+=step)
+        {
+            ar.add(i+"");
+        }
+        return ar.toArray(new String[ar.size()]);
+    }
+
 
     @Override
     protected void setvalue(int valueToSet)
     {
-        if(valueToSet != -1)
+        if(valueToSet != 0)
         {
-            parameters.put(value, valueToSet+"");
+            parameters.put(value, stringvalues[valueToSet]);
             camParametersHandler.SetParametersToCamera();
         }
-        else if (valueToSet == -1)
+        else if (valueToSet == 0)
         {
             parameters.put(value, valueToSet+"");
             camParametersHandler.FocusMode.SetValue("auto", true);
         }
-
-
     }
 
 }
