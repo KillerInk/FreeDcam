@@ -83,14 +83,14 @@ public class PictureFormatHandler extends BaseModeParameter
                 switch (valueToSet)
                 {
                     case "jpeg":
-                        setString(valueToSet);
+                        setString(valueToSet,setToCam);
                         break;
                     case "raw":
-                        setString(rawFormat);
+                        setString(rawFormat,setToCam);
                         baseCameraHolder.ParameterHandler.SetDngActive(false);
                         break;
                     case "dng":
-                        setString(rawFormat);
+                        setString(rawFormat,setToCam);
                         baseCameraHolder.ParameterHandler.SetDngActive(true);
                         break;
                 }
@@ -102,12 +102,12 @@ public class PictureFormatHandler extends BaseModeParameter
         BackgroundValueHasChanged(valueToSet);
     }
 
-    private void setString(String val)
+    private void setString(String val, boolean setTocam)
     {
         Log.d(TAG, "setString:" +val);
         parameters.put(PICFORMAT, val);
         baseCameraHolder.SetCameraParameters(parameters);
-        if(baseCameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.LG && !firststart)
+        if(baseCameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.LG && setTocam)
         {
             baseCameraHolder.StopPreview();
             baseCameraHolder.StartPreview();
