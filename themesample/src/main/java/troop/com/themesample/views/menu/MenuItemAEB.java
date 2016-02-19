@@ -80,8 +80,9 @@ public class MenuItemAEB extends LinearLayout {
         if (cameraUiWrapper !=  null && cameraUiWrapper.camParametersHandler != null && cameraUiWrapper.camParametersHandler.ManualExposure != null)
         {
             String[] v = cameraUiWrapper.camParametersHandler.ManualExposure.getStringValues();
-            min = Integer.parseInt(v[0]);
-            max = Integer.parseInt(v[v.length-1]);
+            int le = v.length;
+            min = -(le/2);
+            max = le/2;
         }
 
     }
