@@ -90,6 +90,9 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
         rf = (float)getRGBToDouble(checkminmax((int)r));
         gf = (float)getRGBToDouble(checkminmax((int)g))/2;
         bf = (float)getRGBToDouble(checkminmax((int)b));
+        rf = rf/gf;
+        bf = bf/gf;
+        gf = 1;
 
         Log.d(TAG, "r:" +r +" g:"+g +" b:"+b);
         Log.d(TAG, "ColorTemp=" + colortemp + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
