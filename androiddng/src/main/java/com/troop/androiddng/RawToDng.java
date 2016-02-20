@@ -40,6 +40,7 @@ public class RawToDng
     private static native void SetRawHeight(ByteBuffer nativeHandler,int height);
     private static native void SetModelAndMake(ByteBuffer nativeHandler,String model, String make);
     private static native void SetBayerData(ByteBuffer nativeHandler,byte[] fileBytes, String fileout);
+    private static native void SetLensData(ByteBuffer nativeHandler,byte[] fileBytes, String hasLensData);
     private static native void SetBayerInfo(ByteBuffer nativeHandler,
                                      float[] colorMatrix1,
                                      float[] colorMatrix2,
@@ -144,6 +145,15 @@ public class RawToDng
             SetBayerData(nativeHandler, fileBytes, fileout);
     }
 
+    public void SetLensData(final byte[] fileBytes, String hasLensData) throws NullPointerException
+    {
+        if (fileBytes == null) {
+            throw new NullPointerException();
+        }
+        if (nativeHandler != null)
+            SetLensData(nativeHandler, fileBytes, hasLensData);
+    }
+
     private void SetBayerInfo(float[] colorMatrix1,
                              float[] colorMatrix2,
                              float[] neutralColor,
@@ -176,6 +186,21 @@ public class RawToDng
         if (nativeHandler != null)
             SetRawHeight(nativeHandler, height);
     }
+
+    private void AddLens()
+    {
+        switch (DeviceUtils.DEVICE())
+        {
+            case ZTE_ADV:
+                //SetLensData();
+
+        }
+    }
+
+/*    private Byte[] raw2byte()
+    {
+
+    }*/
 
 
 
