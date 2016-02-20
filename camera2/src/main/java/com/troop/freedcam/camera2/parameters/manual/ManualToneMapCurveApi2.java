@@ -82,37 +82,16 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
 
     public class Contrast extends ManualExposureApi2
     {
-        int current = -1;
         boolean firststart = true;
         public Contrast(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
             super(camParametersHandler, cameraHolder);
-
-        }
-
-
-        @Override
-        public int GetMaxValue() {
-            return 100;
-        }
-
-        @Override
-        public int GetMinValue() {
-            return -1;
+            this.stringvalues = createStringArray(-1,100,1);
+            this.currentInt = 0;
         }
 
         @Override
         public int GetValue() {
-            return current/3;
-        }
-
-        @Override
-        public String GetStringValue() {
-            return null;
-        }
-
-        @Override
-        public String[] getStringValues() {
-            return null;
+            return this.currentInt/3;
         }
 
         @Override
@@ -136,7 +115,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
                     Log.d(TAG, "Enabled Contrast Curve");
                 }
                 valueToSet = valueToSet * 3;
-                current = valueToSet;
+                this.currentInt = valueToSet;
 
                 float toset = 0;
                 if (valueToSet > 150) {
@@ -197,58 +176,40 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
 
     public class Brightness extends ManualExposureApi2
     {
-        int current = 50;
+
         public Brightness(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
             super(camParametersHandler, cameraHolder);
-        }
-
-        @Override
-        public int GetMaxValue() {
-            return 100;
-        }
-
-        @Override
-        public int GetMinValue() {
-            return 0;
+            stringvalues = createStringArray(0,100,1);
+            this.currentInt = 50;
         }
 
         @Override
         public int GetValue() {
-            return current/4;
-        }
-
-        @Override
-        public String GetStringValue() {
-            return null;
-        }
-
-        @Override
-        public String[] getStringValues() {
-            return null;
+            return this.currentInt/4;
         }
 
         @Override
         public void SetValue(int valueToSet)
         {
             valueToSet = valueToSet *4;
-            current = valueToSet;
+            this.currentInt = valueToSet;
 
             float toset = 0;
-            if (current > 200)
+            if (this.currentInt > 200)
             {
-                toset = (current - 200) * 0.001f;
+                toset = (this.currentInt - 200) * 0.001f;
                 midtones[0] = 0.5f - toset;
                 midtones[1] = 0.5f + toset;
 
             }
-            if (current == 100)
+            if (this.currentInt == 100)
             {
                 midtones[0] = 0.5f;
                 midtones[1] = 0.5f;
             }
             else
             {
-                toset = (200 - current) * 0.001f;
+                toset = (200 - this.currentInt) * 0.001f;
                 midtones[0] = 0.5f + toset;
                 midtones[1] = 0.5f - toset;
             }

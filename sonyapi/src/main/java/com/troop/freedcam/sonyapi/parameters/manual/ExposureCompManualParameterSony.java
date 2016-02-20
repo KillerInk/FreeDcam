@@ -15,41 +15,16 @@ import java.io.IOException;
  */
 public class ExposureCompManualParameterSony extends BaseManualParameterSony
 {
-    int min = -1;
-    int max = -1;
-
     private static String TAG = ExposureCompManualParameterSony.class.getSimpleName();
     public ExposureCompManualParameterSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, ParameterHandlerSony parameterHandlerSony) {
         super(VALUE_TO_GET, VALUES_TO_GET, VALUE_TO_SET, parameterHandlerSony);
-        val = -200;
-    }
-
-    @Override
-    public int GetMaxValue()
-    {
-        if (max == -1)
-        {
-            Log.d(TAG, "GetMaxValue() max not loaded loading it");
-            getMinMaxValues();
-        }
-        return max;
-    }
-
-    @Override
-    public int GetMinValue()
-    {
-        if (min == -1)
-        {
-            Log.d(TAG, "GetMinValue() min not loaded loading it");
-            getMinMaxValues();
-        }
-        return min;
+        currentInt = -200;
     }
 
     @Override
     public void SetValue(final int valueToSet)
     {
-        this.val = valueToSet;
+        this.currentInt = valueToSet;
         new Thread(new Runnable() {
             @Override
             public void run()
@@ -58,7 +33,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                 JSONArray array = null;
                 try {
                     Log.d(TAG, "SetValue " + valueToSet);
-                    array = new JSONArray().put(0, valueToSet);
+                    array = new JSONArray().put(0, Integer.parseInt(stringvalues[valueToSet]));
                     JSONObject object =  ParameterHandler.mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
 
                         //ThrowCurrentValueChanged(valueToSet);
@@ -76,7 +51,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
 
     private void getMinMaxValues()
     {
-        if (min == -1 && max == -1)
+        if (stringvalues == null)
         {
             new Thread(new Runnable()
             {
@@ -87,8 +62,9 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                         Log.d(TAG, "try get min max values ");
                         JSONObject object =  ParameterHandler.mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                         JSONArray array = object.getJSONArray("result");
-                        min = array.getInt(2);
-                        max = array.getInt(1);
+                        int min = array.getInt(2);
+                        int max = array.getInt(1);
+                        stringvalues = createStringArray(min,max,1);
                     } catch (IOException e)
                     {
 
@@ -104,29 +80,20 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                     }
                 }
             }).start();
-            /*while (max == -1 && min == -1)
-            {
-                try {
-                    Thread.sleep(10);
-                    Log.d(TAG, "Wait for getMinMaxValues");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }*/
         }
     }
 
     @Override
     public int GetValue()
     {
-        if (val == -100) {
+        if (currentInt == -100) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         JSONObject object = mRemoteApi.getParameterFromCamera(VALUE_TO_GET);
                         JSONArray array = object.getJSONArray("result");
-                        val = array.getInt(0);
+                        currentInt = array.getInt(0);
                         //onCurrentValueChanged(val);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -139,7 +106,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                     }
                 }
             }).start();
-            while (val == -200)
+            while (currentInt == -200)
                 try {
                     Thread.sleep(10);
                     Log.d(TAG, "Wait for getValues");
@@ -147,28 +114,20 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                     e.printStackTrace();
                 }
         }
-        return val;
+        return currentInt;
     }
 
-    @Override
-    public void onMaxValueChanged(int max) {
-        this.max = max;
-    }
-
-    @Override
-    public void onMinValueChanged(int min) {
-        this.min = min;
-    }
 
     @Override
     public void onCurrentValueChanged(int current) {
-        this.val = current;
+        this.currentInt = current;
     }
 
     public String[] getStringValues()
     {
-        return null;
+        if (stringvalues == null)
+            getMinMaxValues();
+        return stringvalues;
     }
-
 
 }

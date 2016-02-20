@@ -112,43 +112,50 @@ public class AbstractModeParameter implements I_ModeParameter
         if (events == null || events.size() == 0 || value.equals(""))
             return;
         //Log.d(TAG, "BackgroundValueHasCHanged:" + value);
-        uihandler.post(new Runnable() {
-            @Override
-            public void run() {
-                for (int i= 0; i< events.size(); i ++)
-                {
-                    if (events.get(i) == null)
-                    {
-                        events.remove(i);
-                        i--;
 
-                    }
-                    else
-                        events.get(i).onValueChanged(value);
-                }
+        for (int i= 0; i< events.size(); i ++)
+        {
+            if (events.get(i) == null)
+            {
+                events.remove(i);
+                i--;
+
             }
-        });
+            else {
+                final int t = i;
+                uihandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        events.get(t).onValueChanged(value);
+                    }
+                });
+            }
+        }
+
 
 
     }
     public void BackgroundValuesHasChanged(final String[] value)
     {
-        uihandler.post(new Runnable() {
-            @Override
-            public void run() {
-                for (int i= 0; i< events.size(); i ++)
-                {
-                    if (events.get(i) == null)
-                    {
-                        events.remove(i);
-                        i--;
+        for (int i= 0; i< events.size(); i ++)
+        {
+            if (events.get(i) == null)
+            {
+                events.remove(i);
+                i--;
 
-                    }
-                    else
-                        events.get(i).onValuesChanged(value);
-                }
             }
-        });
+            else {
+                final int t = i;
+                uihandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        events.get(t).onValuesChanged(value);
+                    }
+                });
+            }
+        }
+
 
     }
 
@@ -158,23 +165,26 @@ public class AbstractModeParameter implements I_ModeParameter
      */
     public void BackgroundIsSupportedChanged(final boolean value)
     {
-        uihandler.post(new Runnable() {
-            @Override
-            public void run() {
-                //Log.d(TAG, "BackgroundSupportedCHanged:" + value);
-                for (int i= 0; i< events.size(); i ++)
-                {
-                    if (events.get(i) == null)
-                    {
-                        events.remove(i);
-                        i--;
+        for (int i= 0; i< events.size(); i ++)
+        {
+            if (events.get(i) == null)
+            {
+                events.remove(i);
+                i--;
 
-                    }
-                    else
-                        events.get(i).onIsSupportedChanged(value);
-                }
             }
-        });
+            else
+            {
+                final int t = i;
+                uihandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        events.get(t).onIsSupportedChanged(value);
+                    }
+                });
+            }
+        }
+
 
     }
 
@@ -185,45 +195,53 @@ public class AbstractModeParameter implements I_ModeParameter
      */
     public void BackgroundSetIsSupportedHasChanged(final boolean value)
     {
-        uihandler.post(new Runnable() {
-            @Override
-            public void run() {
-                //Log.d(TAG, "BackgroundSetSupportedCHanged:" + value);
-                for (int i= 0; i< events.size(); i ++)
-                {
-                    if (events.get(i) == null)
-                    {
-                        events.remove(i);
-                        i--;
+        for (int i= 0; i< events.size(); i ++)
+        {
+            if (events.get(i) == null)
+            {
+                events.remove(i);
+                i--;
 
-                    }
-                    else
-                        events.get(i).onIsSetSupportedChanged(value);
-                }
             }
-        });
+            else
+            {
+                final int t = i;
+                uihandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        events.get(t).onIsSetSupportedChanged(value);
+                    }
+                });
+            }
+
+        }
+
 
     }
 
     public void BackgroundVisibilityChanged(final boolean value)
     {
-        uihandler.post(new Runnable() {
-            @Override
-            public void run() {
-                //Log.d(TAG, "BackgroundSetSupportedCHanged:" + value);
-                for (int i= 0; i< events.size(); i ++)
-                {
-                    if (events.get(i) == null)
-                    {
-                        events.remove(i);
-                        i--;
+        for (int i= 0; i< events.size(); i ++)
+        {
+            if (events.get(i) == null)
+            {
+                events.remove(i);
+                i--;
 
-                    }
-                    else
-                        events.get(i).onVisibilityChanged(value);
-                }
             }
-        });
+            else
+            {
+                final int t = i;
+                uihandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        //Log.d(TAG, "BackgroundSetSupportedCHanged:" + value);
+                        events.get(t).onVisibilityChanged(value);
+                    }
+                });
+            }
+        }
+
 
     }
 }

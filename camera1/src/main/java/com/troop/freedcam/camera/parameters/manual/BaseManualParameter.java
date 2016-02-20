@@ -37,20 +37,16 @@ public abstract class BaseManualParameter extends AbstractManualParameter
      */
     protected String  min_value;
 
-    /**
-     * holds the state if the parameter is supported
-     */
-    boolean isSupported = false;
-
 
     private int default_value = 0;
-    public void Set_Default_Value(int val){default_value = val;}
+    public void Set_Default_Value(int val){default_value = val; Log.d(TAG, "set default to:" + val);}
     public int Get_Default_Value(){return default_value;}
 
     public void ResetToDefault()
     {
         if (isSupported)
         {
+            Log.d(TAG,"Reset Back from:" + currentInt + " to:" + default_value);
             setvalue(default_value);
             ThrowCurrentValueChanged(default_value);
         }
@@ -71,7 +67,19 @@ public abstract class BaseManualParameter extends AbstractManualParameter
         this.value = value;
         this.max_value = maxValue;
         this.min_value = MinValue;
+        if (!value.equals("") && !maxValue.equals("") && !min_value.equals("") && parameters.get(min_value) != null && parameters.get(max_value) != null)
+        {
+            stringvalues = createStringArray(Integer.parseInt(parameters.get(min_value)), Integer.parseInt(parameters.get(max_value)), 1);
+            currentString = parameters.get(this.value);
+            for (int i = 0; i < stringvalues.length; i++) {
+                if (stringvalues[i].equals(currentString)) {
+                    currentInt = i;
+                    default_value = i;
+                }
+            }
+        }
     }
+
 
 
     public boolean IsSupported()
@@ -89,55 +97,22 @@ public abstract class BaseManualParameter extends AbstractManualParameter
         return super.IsVisible();
     }
 
-    public int GetMaxValue()
-    {
-        int max = 100;
-        try {
-            max = Integer.parseInt(parameters.get(max_value));
-        }
-        catch (Exception ex)
-        {}
-        Log.d(TAG, "get " + max_value + " to " + parameters.get(max_value));
-        return max;
-    }
-
-    public  int GetMinValue()
-    {
-        int ret = 0;
-        try
-        {
-            Log.d(TAG, "get " + min_value + " to " + parameters.get(min_value));
-            ret = Integer.parseInt(parameters.get(min_value));
-        }
-        catch (Exception ex)
-        {
-            ret = 0;
-            Log.d(TAG, "get " + min_value + " to " + 0);
-        }
-        return ret;
-    }
-
+    @Override
     public int GetValue()
     {
-        if (parameters == null || value == null)
-            return 0;
-        Log.d(TAG, "get " + value + ": " +parameters.get(value));
-        try {
-            return Integer.parseInt(parameters.get(value));
-        }
-        catch (NumberFormatException ex)
-        {
-            ex.printStackTrace();
-            return 0;
-        }
-
+        return super.GetValue();
     }
 
     @Override
     protected void setvalue(int valueToset)
     {
+        currentInt = valueToset;
         Log.d(TAG, "set " + value + " to " + valueToset);
-        parameters.put(value, valueToset + "");
+        if(stringvalues == null || stringvalues.length == 0)
+            return;
+        parameters.put(value, stringvalues[valueToset]);
+        ThrowCurrentValueChanged(valueToset);
+        ThrowCurrentValueStringCHanged(stringvalues[valueToset]);
         try
         {
             camParametersHandler.SetParametersToCamera();
@@ -165,11 +140,6 @@ public abstract class BaseManualParameter extends AbstractManualParameter
         }
         Log.d(TAG, "issupported " + value + ": " + isSupported);
         return isSupported;
-    }
-
-    @Override
-    public void RestartPreview() {
-
     }
 
     public AbstractModeParameter.I_ModeParameterEvent GetPicFormatListner()

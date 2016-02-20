@@ -19,11 +19,10 @@ import java.util.ArrayList;
 public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractModeParameter.I_ModeParameterEvent
 {
 
-    private String[] isovals;
 
     public ManualISoApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
         super(camParametersHandler, cameraHolder);
-        current = 0;
+        currentInt = 0;
         ArrayList<String> ar = new ArrayList<>();
         try {
             for (int i = 0; i <= cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper(); i += 50) {
@@ -32,8 +31,8 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
                 else
                     ar.add(i + "");
             }
-            this.isovals = new String[ar.size()];
-            ar.toArray(isovals);
+            this.stringvalues = new String[ar.size()];
+            ar.toArray(stringvalues);
         }
         catch (NullPointerException ex)
         {
@@ -51,34 +50,6 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
         return cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE) != null;
     }
 
-    @Override
-    public int GetMaxValue() {
-        return isovals.length-1;
-    }
-
-    @Override
-    public int GetMinValue()
-    {
-        return 0;
-        //return (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getLower()).intValue()/50;
-    }
-
-    @Override
-    public int GetValue()
-    {
-        return current;
-    }
-
-    @Override
-    public String GetStringValue()
-    {
-        return isovals[current];
-    }
-
-    @Override
-    public String[] getStringValues() {
-        return isovals;
-    }
 
     @Override
     public void SetValue(int valueToSet)
@@ -87,7 +58,7 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
         if (valueToSet == -1)
             valueToSet = 0;
         //////////////////////
-        current = valueToSet;
+        currentInt = valueToSet;
         if (valueToSet == 0)
         {
             camParametersHandler.ExposureMode.SetValue("on",true);
@@ -95,7 +66,7 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
         else {
             if (!camParametersHandler.ExposureMode.GetValue().equals("off") && !firststart)
                 camParametersHandler.ExposureMode.SetValue("off",true);
-            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, Integer.parseInt(isovals[valueToSet]));
+            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, Integer.parseInt(stringvalues[valueToSet]));
             try {
                 cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                         null);

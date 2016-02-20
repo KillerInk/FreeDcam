@@ -19,7 +19,7 @@
     <string name="setting_videohdr_header">Видео HDR: </string>
     <string name="setting_vs_header">Стабилизация видео: </string>
 
-    <string name="setting_bracketing">Брекетинг</string>
+    <string name="setting_hdr_">HDR</string>
     <string name="setting_aebracket_header">AE-Брекетинг:</string>
     <string name="setting_aebracket_description">Выбор лучшей экспозиции</string>
 

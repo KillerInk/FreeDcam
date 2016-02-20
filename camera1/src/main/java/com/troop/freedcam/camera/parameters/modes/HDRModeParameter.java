@@ -27,13 +27,6 @@ public class HDRModeParameter extends BaseModeParameter
     public HDRModeParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
         super(handler, parameters, parameterChanged, value, values);
 
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
-        cameraUiWrapper.camParametersHandler.PictureFormat.addEventListner(this);
-    }
-
-    @Override
-    public boolean IsSupported()
-    {
         this.isSupported = false;
         if ((DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)
                 ||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)
@@ -41,10 +34,7 @@ public class HDRModeParameter extends BaseModeParameter
                 || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3)
                 || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)))
         {
-            if (visible)
                 this.isSupported = true;
-            else
-                this.isSupported = false;
         }
         else
         {
@@ -56,13 +46,11 @@ public class HDRModeParameter extends BaseModeParameter
                     List<String> Scenes = new ArrayList<>(Arrays.asList(parameters.get("scene-mode-values").split(",")));
                     if (Scenes.contains("hdr")) {
                         supporton = true;
-                        if (visible)
-                            this.isSupported = true;
+                        this.isSupported = true;
                     }
                     if (Scenes.contains("asd")) {
                         supportauto = true;
-                        if (visible)
-                            this.isSupported = true;
+                        this.isSupported = true;
                     }
 
                 } catch (Exception ex) {
@@ -72,67 +60,74 @@ public class HDRModeParameter extends BaseModeParameter
             else
                 this.isSupported = false;
         }
-        BackgroundIsSupportedChanged(isSupported);
+        if (isSupported) {
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
+            cameraUiWrapper.camParametersHandler.PictureFormat.addEventListner(this);
+        }
+
+    }
+
+    @Override
+    public boolean IsSupported()
+    {
         return  isSupported;
     }
 
     @Override
     public void SetValue(String valueToSet, boolean setToCam) {
-
-        if (valueToSet != null && !valueToSet.equals("")) {
-            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)
-                    || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)
-                    || DeviceUtils.IS(DeviceUtils.Devices.RedmiNote)) {
-                if (valueToSet.equals("hdr")) {
-                    baseCameraHolder.ParameterHandler.AE_Bracket.SetValue("AE-Bracket", true);
-                    parameters.put("morpho-hht", "false");
-                    parameters.put("morpho-hdr", "true");
-                }
-                else if (valueToSet.equals("hht")) {
-                    baseCameraHolder.ParameterHandler.AE_Bracket.SetValue("AE-Bracket", true);
-                    parameters.put("morpho-hdr", "false");
-                    parameters.put("morpho-hht", "true");
-                }
-                else {
-                    baseCameraHolder.ParameterHandler.AE_Bracket.SetValue("Off",true);
-                    parameters.put("morpho-hdr", "false");
-                    parameters.put("morpho-hht", "false");
-                }
-            } else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4)) {
-                switch (valueToSet) {
-                    case "on":
-                        parameters.put("hdr-mode", "1");
-                        break;
-                    case "off":
-                        parameters.put("hdr-mode", "0");
-                        break;
-                    case "auto":
-                        parameters.put("hdr-mode", "2");
-                }
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)
+                ||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)
+                ||DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
+        {
+            if (valueToSet.equals("on")) {
+                baseCameraHolder.ParameterHandler.morphoHHT.SetValue("false", true);
+                baseCameraHolder.ParameterHandler.NightMode.BackgroundValueHasChanged("off");
+                baseCameraHolder.ParameterHandler.AE_Bracket.SetValue("AE-Bracket", true);
+                parameters.put("morpho-hdr", "true");
             } else {
-                switch (valueToSet) {
-                    case "off":
-                        parameters.put("scene-mode", "auto");
-                        parameters.put("auto-hdr-enable", "disable");
-                        break;
-                    case "on":
-                        parameters.put("scene-mode", "hdr");
-                        parameters.put("auto-hdr-enable", "enable");
-                        break;
-                    case "auto":
-                        parameters.put("scene-mode", "asd");
-                        parameters.put("auto-hdr-enable", "enable");
-                        break;
-                }
+                parameters.put("ae-bracket-hdr", "Off");
+                parameters.put("morpho-hdr", "false");
             }
-            try {
-                baseCameraHolder.SetCameraParameters(parameters);
-                super.BackgroundValueHasChanged(valueToSet);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            firststart = false;
         }
+        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
+        {
+            switch (valueToSet)
+            {
+                case "on":
+                    parameters.put("hdr-mode", "1");
+                    break;
+                case "off":
+                    parameters.put("hdr-mode", "0");
+                    break;
+                case "auto":
+                    parameters.put("hdr-mode", "2");
+            }
+        }
+        else {
+            switch (valueToSet) {
+                case "off":
+                    parameters.put("scene-mode", "auto");
+                    parameters.put("auto-hdr-enable", "disable");
+                    break;
+                case "on":
+                    parameters.put("scene-mode", "hdr");
+                    parameters.put("auto-hdr-enable", "enable");
+                    break;
+                case "auto":
+                    parameters.put("scene-mode", "asd");
+                    parameters.put("auto-hdr-enable", "enable");
+                    break;
+            }
+        }
+        try {
+            baseCameraHolder.SetCameraParameters(parameters);
+            super.BackgroundValueHasChanged(valueToSet);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        firststart = false;
     }
 
     @Override
@@ -140,10 +135,8 @@ public class HDRModeParameter extends BaseModeParameter
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)
                 ||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)
                 ||DeviceUtils.IS(DeviceUtils.Devices.RedmiNote)) {
-            if (parameters.get("morpho-hdr").equals("true"))
-                return "hdr";
-            else if (parameters.get("morpho-hht").equals("true"))
-                return "hht";
+            if (parameters.get("morpho-hdr").equals("true") && parameters.get("ae-bracket-hdr").equals("AE-Bracket"))
+                return "on";
             else
                 return "off";
         }
@@ -168,7 +161,7 @@ public class HDRModeParameter extends BaseModeParameter
                 return "off";
         }
         else
-            return null;
+            return "off";
     }
 
     @Override
@@ -177,8 +170,7 @@ public class HDRModeParameter extends BaseModeParameter
         hdrVals.add("off");
             if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
             {
-                hdrVals.add("hdr");
-                hdrVals.add("hht");
+                hdrVals.add("on");
             }
             else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)) {
                 hdrVals.add("on");
@@ -216,14 +208,12 @@ public class HDRModeParameter extends BaseModeParameter
     @Override
     public void onValueChanged(String val)
     {
-        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4) || supportauto || supporton) {
-            format = val;
-            if (val.contains("jpeg") && !visible && !curmodule.equals(AbstractModuleHandler.MODULE_HDR))
-                Show();
+        format = val;
+        if (val.contains("jpeg")&&!visible&&!curmodule.equals(AbstractModuleHandler.MODULE_HDR))
+            Show();
 
-            else if (!val.contains("jpeg") && visible) {
-                Hide();
-            }
+        else if (!val.contains("jpeg")&&visible) {
+            Hide();
         }
     }
 

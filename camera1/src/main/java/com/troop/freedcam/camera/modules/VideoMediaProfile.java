@@ -158,9 +158,12 @@ public class VideoMediaProfile
                 BufferedReader br = new BufferedReader(new FileReader(mprof));
                 String line;
 
-                while ((line = br.readLine()) != null) {
-                    VideoMediaProfile m = new VideoMediaProfile(line);
-                    list.put(m.ProfileName, m);
+                while ((line = br.readLine()) != null)
+                {
+                    if (!line.startsWith("#")) {
+                        VideoMediaProfile m = new VideoMediaProfile(line);
+                        list.put(m.ProfileName, m);
+                    }
                 }
                 br.close();
             } catch (IOException e) {
@@ -181,6 +184,7 @@ public class VideoMediaProfile
             try
             {
                 BufferedWriter br = new BufferedWriter(new FileWriter(mprof));
+                br.write("#audiobitrate audiochannels audioCodec audiosamplerate duration fileFormat quality videoBitrate videoCodec videoFrameRate videoFrameHeight videoFrameWidth ProfileName RecordMode \n");
                 for (VideoMediaProfile profile : list.values())
                     br.write(profile.GetString() +"\n");
                 br.close();

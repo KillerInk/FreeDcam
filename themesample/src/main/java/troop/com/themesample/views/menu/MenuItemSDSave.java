@@ -50,7 +50,7 @@ public class MenuItemSDSave extends MenuItem
             }
             catch (Exception ex)
             {
-                final String path2 = "/storage/sdcard1" + StringUtils.freedcamFolder + "test.t";
+                final String path2 = "/mnt/sdcard2" + StringUtils.freedcamFolder + "test.t";
                 final File f2 = new File(path2);
                 try {
                     f2.mkdirs();

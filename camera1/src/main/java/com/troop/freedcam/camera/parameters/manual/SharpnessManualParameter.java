@@ -1,5 +1,7 @@
 package com.troop.freedcam.camera.parameters.manual;
 
+import android.util.Log;
+
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 
 import java.util.HashMap;
@@ -9,34 +11,48 @@ import java.util.HashMap;
  */
 public class SharpnessManualParameter extends BaseManualParameter
 {
+    private int step = 1;
+
     public SharpnessManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue,AbstractParameterHandler camParametersHandler)
     {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
         this.value = "sharpness";
-        if (hasSupport()) {
+        if (hasSupport())
+        {
             int max = 0;
-            try {
+            int min = 0;
+            if (parameters.containsKey("sharpness-max"))
+            {
                 max = Integer.parseInt(parameters.get("sharpness-max"));
                 max_value = "sharpness-max";
-            } catch (Exception ex) {
             }
-            try {
+            if (parameters.containsKey("max-sharpness"))
+            {
                 max = Integer.parseInt(parameters.get("max-sharpness"));
                 max_value = "max-sharpness";
-            } catch (Exception ex) {
             }
-
-            try {
-                max = Integer.parseInt(parameters.get("sharpness-min"));
-                min_value = "sharpness-min";
-            } catch (Exception ex) {
+            if (parameters.containsKey("sharpness-min"))
+            {
+                min = Integer.parseInt(parameters.get("sharpness-min"));
+                max_value = "sharpness-min";
             }
-            try {
-                max = Integer.parseInt(parameters.get("min-sharpness"));
-                min_value = "min-sharpness";
-            } catch (Exception ex) {
+            if (parameters.containsKey("min-sharpness"))
+            {
+                min = Integer.parseInt(parameters.get("min-sharpness"));
+                max_value = "min-sharpness";
             }
+            if (parameters.containsKey("sharpness-step"))
+                step = Integer.parseInt(parameters.get("sharpness-step"));
             Set_Default_Value(GetValue());
+            stringvalues = createStringArray(min,max,step);
+            currentString = parameters.get(this.value);
+            for (int i = 0; i < stringvalues.length; i++) {
+                if (stringvalues[i].equals(currentString)) {
+                    currentInt = i;
+                    Set_Default_Value(i);
+                }
+            }
         }
     }
+
 }

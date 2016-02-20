@@ -48,8 +48,6 @@ public class ShutterManualParameter extends BaseManualParameter
             ",1/55,1/45,1/35,1/25,1/20,1/15,1/13,1/10,1/9,1/8,1/7,1/6,1/5,1/4,1/3,1/2"+
             ",1.0,2.0,4.0,8.0,16.0,32.0";
 
-    String shutterValues[];
-    int current = 0;
     I_CameraHolder baseCameraHolder;
     I_CameraChangedListner i_cameraChangedListner;
 
@@ -62,34 +60,44 @@ public class ShutterManualParameter extends BaseManualParameter
         {
             try {
                 if (!parameters.get("sony-max-shutter-speed").equals(""))
-                    this.isSupported = true;
+                {
+                    try {
+                        int min = Integer.parseInt(parameters.get("sony-min-shutter-speed"));
+                        int max = Integer.parseInt(parameters.get("sony-max-shutter-speed"));
+                        stringvalues = StringUtils.getSupportedShutterValues(min, max);
+                        this.isSupported = true;
+                    } catch (NumberFormatException ex) {
+                        ex.printStackTrace();
+                        isSupported = false;
+                    }
+                }
             }
             catch (NullPointerException ex)
             {
                 isSupported = false;
             }
         }
-        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994))
+        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994) || DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
         {
             this.isSupported = true;
-            shutterValues = IMX214_IMX230.split(",");
+            stringvalues = IMX214_IMX230.split(",");
         }
         else if (DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W) )
         {
             this.isSupported = true;
-            shutterValues = Mi3WValues.split(",");
+            stringvalues = Mi3WValues.split(",");
         }
         else if (DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4W) )
         {
             this.isSupported = true;
-            shutterValues = Mi4WValues.split(",");
+            stringvalues = Mi4WValues.split(",");
         }
         else if (parameters.containsKey("exposure-time") || DeviceUtils.IS(DeviceUtils.Devices.RedmiNote)) {
             try {
 
                 int min = Integer.parseInt(parameters.get("min-exposure-time"));
                 int max = Integer.parseInt(parameters.get("max-exposure-time"));
-                shutterValues = StringUtils.getSupportedShutterValues(min, max);
+                stringvalues = StringUtils.getSupportedShutterValues(min, max);
                 this.isSupported = true;
 
             } catch (NumberFormatException ex) {
@@ -97,10 +105,7 @@ public class ShutterManualParameter extends BaseManualParameter
                 isSupported = false;
             }
         }
-
         this.setTheListener(i_shutter_changed);
-
-
     }
 
     private I_Shutter_Changed i_shutter_changed;
@@ -121,47 +126,18 @@ public class ShutterManualParameter extends BaseManualParameter
     }
 
     @Override
-    public int GetMaxValue() {
-        if (DeviceUtils.IS(DeviceUtils.Devices.SonyADV))
-            return Integer.parseInt(parameters.get("sony-max-shutter-speed"));
-        else if (shutterValues != null)
-            return shutterValues.length-1;
-        else if (parameters.containsKey("max-exposure-time"))
-            return Integer.parseInt(parameters.get("max-exposure-time"));
-        else
-            return 0;
-    }
-
-    @Override
-    public int GetMinValue() {
-        if (DeviceUtils.IS(DeviceUtils.Devices.SonyADV))
-            return Integer.parseInt(parameters.get("sony-min-shutter-speed"));
-        else if (shutterValues != null)
-            return 0;
-        else if(parameters.containsKey("min-exposure-time") && (!DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)))
-            return Integer.parseInt(parameters.get("min-exposure-time"));
-        else
-            return 0;
-    }
-
-    @Override
-    public int GetValue() {
-        return current;
-    }
-
-    @Override
     protected void setvalue(int valueToSet)
     {
         if(DeviceUtils.IS(DeviceUtils.Devices.SonyADV))
         {
             parameters.put("sony-ae-mode", "manual");
-            parameters.put("sony-shutter-speed", String.valueOf(valueToSet));
+            parameters.put("sony-shutter-speed", stringvalues[currentInt]);
 
         }
-        else if ( parameters.containsKey("exposure-time") || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994))
+        else if ( parameters.containsKey("exposure-time") || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)||DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
         {
-            current = valueToSet;
-            String shutterstring = shutterValues[current];
+            currentInt = valueToSet;
+            String shutterstring = stringvalues[currentInt];
             if (shutterstring.contains("/")) {
                 String split[] = shutterstring.split("/");
                 Double a = Double.parseDouble(split[0]) / Double.parseDouble(split[1]);
@@ -169,7 +145,7 @@ public class ShutterManualParameter extends BaseManualParameter
                 Cur = a;
 
             }
-            if(!shutterValues[current].equals("Auto"))
+            if(!stringvalues[currentInt].equals("Auto"))
             {
                 try {
                     shutterstring = setExposureTimeToParameter(shutterstring);
@@ -193,7 +169,7 @@ public class ShutterManualParameter extends BaseManualParameter
     }
 
     private void setShutterToAuto() {
-        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994))
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)||DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
         {
             parameters.put("exposure-time", "0");
         }
@@ -226,14 +202,7 @@ public class ShutterManualParameter extends BaseManualParameter
         baseCameraHolder.SetCameraParameters(parameters);
         return shutterstring;
     }
-/* HTC M8 Value -1 = off
- *
- *  May have to use this key "non-zsl-manual-mode" set to true for raw with manual controls
- *
- *
- * Sony values Untested
- *
- */
+
     public Double getMicroSec(String shutterString)
     {
         Double a = Double.parseDouble(shutterString);
@@ -250,47 +219,9 @@ public class ShutterManualParameter extends BaseManualParameter
         return String.valueOf(d);
     }
 
-
-    @Override
-    public String GetStringValue()
-    {
-        if(shutterValues != null)
-            return shutterValues[current];
-        else {
-            try {
-                return parameters.get("exposure-time");
-            }
-            catch (NullPointerException ex)
-            {
-                return "";
-            }
-        }
-    }
-
     @Override
     public String[] getStringValues()
     {
-        return shutterValues;
-    }
-
-    @Override
-    public void RestartPreview()
-    {
-        //baseCameraHolder.StopPreview();
-        /*if (DeviceUtils.isHTC_M8()||DeviceUtils.isZTEADV()) {
-            parameters.set("zsl", "off");
-            parameters.set("auto-exposure", "center-weighted");
-            //parameters.set("shutter-threshold", "0.2");
-        }*/
-      /*  if (DeviceUtils.isZTEADV()) {
-            parameters.put("slow_shutter_addition", "1");
-            baseCameraHolder.SetCameraParameters(parameters);
-        }*/
-        /*if (DeviceUtils.isLG_G3())
-        {
-            parameters.put("long-shot", "on");
-            baseCameraHolder.SetCameraParameters(parameters);
-        }*/
-        //baseCameraHolder.StartPreview();
+        return stringvalues;
     }
 }

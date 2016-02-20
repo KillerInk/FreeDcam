@@ -9,14 +9,8 @@ public interface I_ManualParameter
     public boolean IsSetSupported();
     public boolean IsVisible();
 
-    public int GetMaxValue();
-
-    public  int GetMinValue();
-
     public int GetValue();
     public String GetStringValue();
     String[] getStringValues();
-
     public void SetValue(int valueToSet);
-    public void RestartPreview();
 }

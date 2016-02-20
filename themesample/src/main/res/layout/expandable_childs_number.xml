@@ -8,17 +8,6 @@
     android:layout_marginRight="1dp"
     android:alpha="0.8">
 
-    <Button
-        android:layout_width="@android:dimen/app_icon_size"
-        android:layout_height="@android:dimen/app_icon_size"
-        android:text="-"
-        android:id="@+id/button_minus"
-        android:textSize="8dp"
-        android:clickable="true"
-        android:layout_weight="0"
-        android:background="@drawable/tap_min"
-        android:layout_marginLeft="20dp"/>
-
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -44,7 +33,15 @@
         android:textSize="8dp"
         android:clickable="true"
         android:layout_weight="0"
-        android:background="@drawable/tap_plus"
-        android:layout_marginRight="20dp"/>
+        android:background="@drawable/tap_plus" />
 
+    <Button
+        android:layout_width="@android:dimen/app_icon_size"
+        android:layout_height="@android:dimen/app_icon_size"
+        android:text="-"
+        android:id="@+id/button_minus"
+        android:textSize="8dp"
+        android:clickable="true"
+        android:layout_weight="0"
+        android:background="@drawable/tap_min" />
 </LinearLayout>

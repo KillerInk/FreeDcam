@@ -53,7 +53,7 @@ public class HardwareKeyHandler
             cameraUiWrapper.moduleHandler.DoWork();
 
         }
-        if(DeviceUtils.IS(DeviceUtils.Devices.Htc_Evo3d) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
+        if(DeviceUtils.IS(DeviceUtils.Devices.Htc_Evo3d) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.Sony_DEVICES))
         {
             //shutterbutton full pressed
             if (keyCode == KeyEvent.KEYCODE_CAMERA)

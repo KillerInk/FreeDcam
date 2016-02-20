@@ -32,23 +32,11 @@ public class WbCTManualSony extends BaseManualParameterSony
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
     }
 
-    @Override
-    public int GetMaxValue()
-    {
-        if (values == null)
-            return 0;
-        return values.length;
-    }
-
-    @Override
-    public int GetMinValue() {
-        return 0;
-    }
 
     @Override
     public int GetValue()
     {
-        if (this.val == -200)
+        if (this.currentInt == -200)
             new Thread(new Runnable() {
             @Override
             public void run() {
@@ -59,13 +47,13 @@ public class WbCTManualSony extends BaseManualParameterSony
                     try {
                         array = object.getJSONArray("result");
                         int ret = array.getJSONObject(0).getInt("colorTemperature");
-                        val = ret;
+                        currentInt = ret;
                         if (step == 0) {
                             getMinMax();
                             return;
                         }
 
-                        ThrowCurrentValueChanged(val / step);
+                        ThrowCurrentValueChanged(currentInt / step);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -75,18 +63,18 @@ public class WbCTManualSony extends BaseManualParameterSony
                 }
             }
         }).start();
-        return val;
+        return currentInt;
     }
 
     @Override
     public void SetValue(final int valueToSet)
     {
-        this.val = valueToSet;
+        this.currentInt = valueToSet;
         if (valueToSet > values.length)
-            this.val = values.length;
+            this.currentInt = values.length;
         if (valueToSet < 0)
-            this.val = 0;
-        final int set= val;
+            this.currentInt = 0;
+        final int set= currentInt;
         final String[] t = values;
         new Thread(new Runnable() {
             @Override
@@ -138,13 +126,13 @@ public class WbCTManualSony extends BaseManualParameterSony
         for (int i= 0; i< values.length; i++)
         {
             if (values[i].equals(val))
-                this.val = i;
+                this.currentInt = i;
         }
-        if (this.val == -200)
+        if (this.currentInt == -200)
             return;
         ThrowCurrentValueStringCHanged(val+"");
 
-        ThrowCurrentValueChanged(this.val);
+        ThrowCurrentValueChanged(this.currentInt);
 
     }
 
@@ -194,6 +182,6 @@ public class WbCTManualSony extends BaseManualParameterSony
     {
         if (values == null)
             return "";
-        return values[this.val];
+        return values[this.currentInt];
     }
 }

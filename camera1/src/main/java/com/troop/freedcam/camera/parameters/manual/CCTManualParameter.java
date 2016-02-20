@@ -35,8 +35,6 @@ public class CCTManualParameter extends BaseManualParameter
 
     private int min = -1;
     private int max = -1;
-    private String[] wbvalues;
-    int currentWBPos = 0;
     private String manualWbMode;
     public CCTManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue,AbstractParameterHandler camParametersHandler)
     {
@@ -67,12 +65,15 @@ public class CCTManualParameter extends BaseManualParameter
                 createStringArray();
             }
         }
-        else if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
+        else if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) ||DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
         {
             this.min = 2000;
             this.max = 8000;
             this.value = WB_MANUAL;
-            this.manualWbMode = WB_MODE_MANUAL_CCT;
+            if(DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
+                this.manualWbMode = WB_MODE_MANUAL;
+            else
+                this.manualWbMode = WB_MODE_MANUAL_CCT;
             this.isSupported = true;
             createStringArray();
         }
@@ -153,8 +154,8 @@ public class CCTManualParameter extends BaseManualParameter
         {
             t.add(i+"");
         }
-        wbvalues = new String[t.size()];
-        t.toArray(wbvalues);
+        stringvalues = new String[t.size()];
+        t.toArray(stringvalues);
     }
 
     @Override
@@ -164,178 +165,58 @@ public class CCTManualParameter extends BaseManualParameter
     }
 
     @Override
-    public int GetMaxValue()
-    {
-        if (wbvalues != null)
-            return wbvalues.length-1;
-        else
-            return 0;
-    }
-    //M8 Step values "wb-ct-step"
-    @Override
-    public int GetMinValue()
-    {
-        if (wbvalues != null)
-            return 0;
-        else
-            return 0;
+    public boolean IsVisible() {
+        return IsSupported();
     }
 
     @Override
     public int GetValue()
     {
-        return currentWBPos;
+        return currentInt;
     }
 
     @Override
     public String GetStringValue()
     {
-        if (wbvalues != null)
-            return wbvalues[currentWBPos];
+        if (stringvalues != null)
+            return stringvalues[currentInt];
         return null;
     }
 
     @Override
-    protected void setvalue(int valueToSet)
-    {
-        currentWBPos = valueToSet;
+    protected void setvalue(int valueToSet) {
+        currentInt = valueToSet;
         //set to auto
-        if (currentWBPos == 0)
-        {
-            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
-            {
+        if (currentInt == 0) {
+            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9)) {
                 parameters.put(value, "-1");
-            }
-            else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
+            } else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
                 parameters.put(value, "0");
             else
                 camParametersHandler.WhiteBalanceMode.SetValue("auto", true);
-        }
-        else //set manual wb mode and value
+        } else //set manual wb mode and value
         {
-            if(!camParametersHandler.WhiteBalanceMode.GetValue().equals(manualWbMode) && manualWbMode != "")
+            if (!camParametersHandler.WhiteBalanceMode.GetValue().equals(manualWbMode) && manualWbMode != "")
                 camParametersHandler.WhiteBalanceMode.SetValue(manualWbMode, true);
-            parameters.put(value, wbvalues[currentWBPos]);
+            parameters.put(value, stringvalues[currentInt]);
+
+            if (DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
+                try {
+                    parameters.put("manual-wb-type", "color-temperature");
+                    parameters.put("manual-wb-value", stringvalues[currentInt]);
+                } catch (Exception ex) {
+
+                }
+
+
         }
         camParametersHandler.SetParametersToCamera();
-
-        /*if (wbvalues != null)
-        {
-            currentWBPos = valueToSet;
-            if (currentWBPos == 0)
-            {
-            }
-            else
-            {
-                if ((DeviceUtils.IS(DeviceUtils.Devices.OnePlusOne) || DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
-                        && !camParametersHandler.WhiteBalanceMode.GetValue().equals("manual-cct"))
-                    camParametersHandler.WhiteBalanceMode.SetValue("manual-cct", true);
-
-                else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
-                {
-                    if (Build.VERSION.SDK_INT < 23)
-                    {
-                        camParametersHandler.WhiteBalanceMode.SetValue("manual-cct", true);
-                    }
-                    else
-                    {
-                        camParametersHandler.WhiteBalanceMode.SetValue("manual", true);
-                    }
-                }
-                else if (!camParametersHandler.WhiteBalanceMode.GetValue().equals("manual") && (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)))
-                camParametersHandler.WhiteBalanceMode.SetValue("manual", true);
-                parameters.put(value, wbvalues[currentWBPos]);
-            }
-        }
-        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) )
-        {
-            if(valueToSet != 0)
-            {
-                try {
-                    camParametersHandler.WhiteBalanceMode.SetValue("manual-cct", true);
-
-                    parameters.put("wb-manual-cct", String.valueOf(valueToSet * 40 + 2000));
-                }
-                catch (Exception exc)
-                {
-                }
-            }
-            else
-                camParametersHandler.WhiteBalanceMode.SetValue("auto", true);
-        }
-        camParametersHandler.SetParametersToCamera();*/
-
     }
 
-    private int getCTReflection()
-    {
-        int ret = 0;
-        Camera.Parameters param = ((CamParametersHandler)camParametersHandler).baseCameraHolder.GetCamera().getParameters();
-        try {
-            Class camera = Class.forName("android.hardware.Camera");
-            Class[] intefaces = camera.getClasses();
-
-            Class parameters = null;
-            for (Class i : intefaces)
-            {
-                if (i.getSimpleName().equals("Parameters"))
-                    parameters = i;
-            }
-            Method[] meths = parameters.getMethods();
-            Method getCt = null;
-            for (Method m : meths)
-            {
-                if (m.getName().equals("getWBCurrentCCT"))
-                    getCt = m;
-            }
-            Object r = getCt.invoke(param, null);
-            ret = Integer.parseInt((String)r);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        catch (NullPointerException ex){ex.printStackTrace();}
-        return ret;
-    }
-
-    private void setCTReflection(int val)
-    {
-        Camera.Parameters param = ((CamParametersHandler)camParametersHandler).baseCameraHolder.GetCamera().getParameters();
-        try {
-            Class camera = Class.forName("android.hardware.Camera");
-            Class[] intefaces = camera.getClasses();
-
-            Class parameters = null;
-            for (Class i : intefaces)
-            {
-                if (i.getSimpleName().equals("Parameters"))
-                    parameters = i;
-            }
-            Method[] meths = parameters.getMethods();
-            Method getCt = null;
-            for (Method m : meths)
-            {
-                if (m.getName().equals("setWBManualCCT"))
-                    getCt = m;
-            }
-            getCt.invoke(param, val);
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        catch (NullPointerException ex){ex.printStackTrace();}
-    }
 
     @Override
     public String[] getStringValues() {
-        return wbvalues;
+        return stringvalues;
     }
 }
 

@@ -152,6 +152,16 @@ public class DngSaver extends JpegSaver
         else
             dngConverter.setExifData(0, 0, 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
 
+        if (cameraHolder.ParameterHandler.CCT != null && cameraHolder.ParameterHandler.CCT.IsSupported())
+        {
+            String wb = cameraHolder.ParameterHandler.CCT.GetStringValue();
+            if (!wb.equals("Auto"))
+            {
+                //int ct = Integer.parseInt(wb);
+                dngConverter.SetWBCT(wb);
+            }
+        }
+
         dngConverter.WriteDNG(DeviceUtils.DEVICE());
         dngConverter.RELEASE();
         iWorkeDone.OnWorkDone(file);

@@ -24,7 +24,7 @@ public class PreviewFpsParameter extends  BaseModeParameter
     public void SetValue(String valueToSet, boolean setToCam)
     {
         super.SetValue(valueToSet, setToCam);
-        if (!firststart) {
+        if (setToCam) {
             cameraHolder.StopPreview();
             cameraHolder.StartPreview();
         }

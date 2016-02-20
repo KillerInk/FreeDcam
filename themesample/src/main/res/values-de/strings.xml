@@ -15,7 +15,7 @@
     <string name="setting_videohdr_description">Aktvieren für HDR Videos</string>
     <string name="setting_videohdr_header">Video HDR: </string>
 
-    <string name="setting_bracketing">Bracketing</string>
+    <string name="setting_hdr_">HDR</string>
     <string name="setting_aebracket_header">AE-Bracket: </string>
     <string name="setting_aebracket_description">Wenn aktivert, werden 3 Bilder auf einmal aufgenommen.</string>
 

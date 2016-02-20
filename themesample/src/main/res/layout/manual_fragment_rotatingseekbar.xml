@@ -65,6 +65,7 @@
                 android:layout_height="45dp"
                 app:Header="f-num"
                 android:id="@+id/manual_aperture"
+                app:Image="@drawable/manual_fnum"
                 android:layout_marginRight="8dp" />
             <troop.com.themesample.views.ManualButton
                 android:layout_width="35dp"
@@ -119,6 +120,7 @@
                 android:layout_width="35dp"
                 android:layout_height="45dp"
                 app:Header="ProgramShift"
+                app:Image="@drawable/manual_shift"
                 android:id="@+id/manual_program_shift"
                 android:layout_marginRight="8dp" />
             <troop.com.themesample.views.ManualButton
@@ -137,10 +139,10 @@
                 android:id="@+id/manual_fx"
                 android:layout_marginRight="8dp" />
             <troop.com.themesample.views.ManualButton
-                android:layout_width="40dp"
-                android:layout_height="30dp"
+                android:layout_width="35dp"
+                android:layout_height="45dp"
                 app:Header="Convergence"
-
+                app:Image="@drawable/manual_convergence"
                 android:id="@+id/manual_convergence"
                 android:layout_marginRight="8dp" />
             <troop.com.themesample.views.ManualButton

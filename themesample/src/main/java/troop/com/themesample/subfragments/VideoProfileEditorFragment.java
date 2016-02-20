@@ -90,7 +90,8 @@ public class VideoProfileEditorFragment extends Fragment
         @Override
         public boolean onMenuItemClick(MenuItem item)
         {
-            setMediaProfile(videoMediaProfiles.get(item.toString()));
+            if(!videoMediaProfiles.get(item.toString()).equals(null))
+                setMediaProfile(videoMediaProfiles.get(item.toString()));
             return false;
         }
     };
@@ -109,8 +110,8 @@ public class VideoProfileEditorFragment extends Fragment
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
-                    currentProfile = null;
                     videoMediaProfiles.remove(currentProfile.ProfileName);
+                    currentProfile = null;
                     VideoMediaProfile.saveCustomProfiles(videoMediaProfiles);
                     videoMediaProfiles.clear();
                     VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);

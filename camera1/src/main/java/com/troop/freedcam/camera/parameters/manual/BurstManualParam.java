@@ -12,66 +12,60 @@ import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BurstManualParam extends BaseManualParameter {
 
     BaseCameraHolder baseCameraHolder;
-    int curr = 0;
     public BurstManualParam(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
-        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) ||
-                DeviceUtils.IS(DeviceUtils.Devices.LG_G3)|| DeviceUtils.IS(DeviceUtils.Devices.LG_G2)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)
+
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)
+                || DeviceUtils.IS(DeviceUtils.Devices.LG_G3)
+                || DeviceUtils.IS(DeviceUtils.Devices.LG_G2)
+                || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)
                 || DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
-            isVisible = true;
+        {
             isSupported = true;
-
-        //TODO add missing logic
-    }
-    public BurstManualParam(HashMap<String, String> parameters, String value, String maxValue, String MinValue, BaseCameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
-
-        this.baseCameraHolder = cameraHolder;
-        //TODO add missing logic
+            int max = 0;
+            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) || DeviceUtils.IS(DeviceUtils.Devices.LG_G2))
+                max =  7;
+            else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G3)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4W) )
+                max =  9;
+            else if (DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W))
+                if (Build.VERSION.SDK_INT < 23)
+                    max =  6;
+                else
+                    max =  10;
+            else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
+                max =  6;
+            stringvalues = createStringArray(2,max,1);
+        }
     }
 
     @Override
-    public boolean IsSupported()
-    {
-        return isSupported;
+    protected String[] createStringArray(int min, int max, int step) {
+        ArrayList<String> ar = new ArrayList<>();
+        ar.add("off");
+        if (step == 0)
+            step = 1;
+        for (int i = min; i < max; i+=step)
+        {
+            ar.add(i+"");
+        }
+        return ar.toArray(new String[ar.size()]);
     }
+
     @Override
     public boolean IsVisible() {
-        return isVisible;
-    }
-
-    @Override
-    public int GetMaxValue()
-    {
-        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) || DeviceUtils.IS(DeviceUtils.Devices.LG_G2))
-            return 7;
-        else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G3)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4W) )
-            return 9;
-        else if (DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W))
-            if (Build.VERSION.SDK_INT < 23)
-                return 6;
-            else
-                return 10;
-        else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
-            return 6;
-        else
-            return 0;
-    }
-
-    @Override
-    public int GetMinValue() {
-        return 0;
+        return IsSupported();
     }
 
     @Override
     public int GetValue()
     {
-        return curr;
+        return currentInt;
     }
 
     @Override
@@ -79,15 +73,18 @@ public class BurstManualParam extends BaseManualParameter {
     {
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
             parameters.put("num-snaps-per-shutter", String.valueOf(1));
-        curr = valueToSet;
-        parameters.put("snapshot-burst-num", String.valueOf(valueToSet));
+        currentInt = valueToSet;
+        if (valueToSet == 0)
+            parameters.put("snapshot-burst-num", String.valueOf(0));
+        else
+            parameters.put("snapshot-burst-num", stringvalues[valueToSet]);
         camParametersHandler.SetParametersToCamera();
 
     }
 
     @Override
     public String GetStringValue() {
-        return curr +"";
+        return stringvalues[currentInt];
     }
 
     @Override
@@ -99,15 +96,13 @@ public class BurstManualParam extends BaseManualParameter {
         @Override
         public String ModuleChanged(String module)
         {
-            if ((module.equals(AbstractModuleHandler.MODULE_VIDEO) || module.equals(AbstractModuleHandler.MODULE_HDR)) && isSupported){
+            if ((module.equals(AbstractModuleHandler.MODULE_VIDEO) || module.equals(AbstractModuleHandler.MODULE_HDR)) && isSupported)
                 BackgroundIsSupportedChanged(false);
-            isVisible = false;}
             else if ((module.equals(AbstractModuleHandler.MODULE_PICTURE)
                     || module.equals(AbstractModuleHandler.MODULE_INTERVAL)
                     )&& isSupported)
             {
                 BackgroundIsSupportedChanged(true);
-                isVisible = true;
             }
             return null;
         }

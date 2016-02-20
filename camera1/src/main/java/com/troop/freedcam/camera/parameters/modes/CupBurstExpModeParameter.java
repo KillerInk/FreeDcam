@@ -5,7 +5,6 @@ import android.os.Handler;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
 
@@ -57,6 +56,8 @@ public class CupBurstExpModeParameter extends BaseModeParameter {
         }
         String newvalue[] = "0,0,0".split(",");
         if (valueToSet.equals("on")) {
+            //if (baseCameraHolder.ParameterHandler.aeb1.GetValue() != null) {
+                //newvalue[0] = baseCameraHolder.ParameterHandler.aeb1.GetValue();
             newvalue[0] = appSettingsManager.getString(AppSettingsManager.SETTING_AEB1);
             if(newvalue[0] == null || newvalue[0].equals(""))
                 newvalue[0] = "0";
@@ -66,11 +67,17 @@ public class CupBurstExpModeParameter extends BaseModeParameter {
             newvalue[2] = appSettingsManager.getString(AppSettingsManager.SETTING_AEB3);
             if(newvalue[2] == null || newvalue[2].equals(""))
                 newvalue[2] = "0";
+            //}
+            //if (baseCameraHolder.ParameterHandler.aeb2.GetValue() != null && !baseCameraHolder.ParameterHandler.aeb2.GetValue().equals(""))
+                //newvalue[1] = baseCameraHolder.ParameterHandler.aeb2.GetValue();
+            //if (baseCameraHolder.ParameterHandler.aeb3.GetValue() != null && !baseCameraHolder.ParameterHandler.aeb3.GetValue().equals(""))
+                //newvalue[2] = baseCameraHolder.ParameterHandler.aeb3.GetValue();
         }
 
         parameters.put("capture-burst-exposures",newvalue[0]+","+newvalue[1]+","+newvalue[2]);
         try {
             baseCameraHolder.SetCameraParameters(parameters);
+            //super.BackgroundValueHasChanged(newvalue[0]+","+newvalue[1]+","+newvalue[2]);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

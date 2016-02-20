@@ -48,7 +48,7 @@ public class MediatekSaver extends JpegSaver {
                 if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("raw") || cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("dng"))
                 {
                     String timestamp = String.valueOf(System.currentTimeMillis());
-                            ((CamParametersHandler) ParameterHandlerx).setString("rawfname", "/mnt/sdcard/DCIM/FreeDCam/"+timestamp+".raw");
+                            ((CamParametersHandler) ParameterHandlerx).setString("rawfname", "/mnt/sdcard/DCIM/FreeDCam/"+"mtk"+timestamp+".raw");
                     cameraHolder.SetCameraParameters(((CamParametersHandler) ParameterHandlerx).getParameters());
                 }
                 cameraHolder.TakePicture(null, null, MediatekSaver.this);

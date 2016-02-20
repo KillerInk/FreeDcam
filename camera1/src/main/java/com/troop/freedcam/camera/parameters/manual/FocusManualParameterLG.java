@@ -24,45 +24,29 @@ public class FocusManualParameterLG extends  BaseManualParameter
         this.baseCameraHolder = cameraHolder;
         isSupported = true;
         isVisible = isSupported;
-}
-
-    @Override
-    public boolean IsSupported()
-    {
-        return isSupported;
-    }
-
-    @Override
-    public int GetMaxValue()
-    {
-        if (DeviceUtils.IS_DEVICE_ONEOF(g3m_g4))
-            return 60;
-        else
-            return 79;
-    }
-
-    @Override
-    public int GetMinValue()
-    {
-        return -1;
-    }
-
-    @Override
-    public int GetValue()
-    {
-        try {
-                return Integer.parseInt(parameters.get(value));
-        }
-        catch (Exception ex)
+        if (isSupported)
         {
-            Log.e(TAG, "get ManualFocus value failed");
+            int max = 0;
+            int step = 1;
+            if (DeviceUtils.IS(Devices.LG_G4))
+                max = 60;
+            else if (DeviceUtils.IsMarshMallowG3())
+            {
+                max = 600;
+                step = 10;
+            }
+            else
+                max = 79;
+            stringvalues = createStringArray(0,max,step);
         }
-        return 0;
+
     }
+
 
     @Override
     protected void setvalue(int valueToSet)
     {
+        currentInt = valueToSet;
         if(valueToSet != 0)
         {
             if (DeviceUtils.IsMarshMallowG3())
@@ -71,7 +55,7 @@ public class FocusManualParameterLG extends  BaseManualParameter
                     camParametersHandler.FocusMode.SetValue("manual", true);
                     parameters.put("manual-focus-pos-type", "1");
                 }
-                parameters.put("manual-focus-position", (valueToSet *10) + "");
+                parameters.put("manual-focus-position", stringvalues[valueToSet]);
             }
             else
             {
@@ -79,7 +63,7 @@ public class FocusManualParameterLG extends  BaseManualParameter
                     camParametersHandler.FocusMode.SetValue("normal", true);
 
                 }
-                parameters.put("manualfocus_step", (valueToSet - 1) + "");
+                parameters.put("manualfocus_step", stringvalues[valueToSet]);
             }
             camParametersHandler.SetParametersToCamera();
         }

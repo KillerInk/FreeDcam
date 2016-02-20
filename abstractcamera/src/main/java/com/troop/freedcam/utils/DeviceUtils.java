@@ -64,6 +64,7 @@ public class DeviceUtils
     final public static Devices[] LG_G2_3 = {Devices.LG_G2, Devices.LG_G3};
     final public static Devices[] HTC_m8_9 = {Devices.Htc_M8, Devices.Htc_M9};
     final public static Devices[] ZTE_DEVICES = {Devices.ZTE_ADV,Devices.ZTEADVIMX214,Devices.ZTEADV234};
+    final public static Devices[] Sony_DEVICES = {Devices.SonyM4_QC,Devices.SonyC5_MTK,Devices.SonyM5_MTK};
 
     private static Devices getDevice()
     {
@@ -123,6 +124,8 @@ public class DeviceUtils
             return Devices.SonyADV;
         else if (isSonyM5_MTK())
             return Devices.SonyM5_MTK;
+        else if(isSonyM4_QC())
+            return Devices.SonyM4_QC;
         else if(isSonyC5_MTK())
             return Devices.SonyC5_MTK;
         else if (isXperiaL())
@@ -182,6 +185,7 @@ public class DeviceUtils
         Samsung_S6_edge_plus,
         SonyADV,
         SonyM5_MTK,
+        SonyM4_QC,
         SonyC5_MTK,
         Sony_XperiaL,
         THL5000_MTK,
@@ -249,6 +253,7 @@ public class DeviceUtils
             Devices.Moto_MSM8982_8994, Devices.Moto_MSM8974,
             Devices.Retro_MTK,
             Devices.THL5000_MTK,
+            Devices.SonyM4_QC
     };
 
     public static Devices[] camera1NO_RAW_STREAM = {
@@ -362,6 +367,11 @@ public class DeviceUtils
     public static boolean isSonyC5_MTK()
     {
         return isDevice(contex.getResources().getStringArray(R.array.SonyC5));
+    }
+
+    public static boolean isSonyM4_QC()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.SonyM4));
     }
 
     public static boolean isRetro()

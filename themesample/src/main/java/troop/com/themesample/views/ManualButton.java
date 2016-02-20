@@ -38,8 +38,6 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     TextView valueTextView;
     private ImageView imageView;
     Handler handler;
-    int realMin;
-    int realMax;
     final int backgroundColorActive = Color.parseColor("#46FFFFFF");
     final int backgroundColor = Color.parseColor("#00000000");
     final int stringColor = Color.parseColor("#FFFFFFFF");
@@ -120,10 +118,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
 
                 onIsSupportedChanged(parameter.IsVisible());
                 onIsSetSupportedChanged(parameter.IsSetSupported());
-
-                    realMax = parameter.GetMaxValue();
-                    realMin = parameter.GetMinValue();
-                    createStringParametersStrings(parameter);
+                createStringParametersStrings(parameter);
 
             }
             else
@@ -137,7 +132,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     private void createStringParametersStrings(AbstractManualParameter parameter) {
         parameterValues = parameter.getStringValues();
 
-        if (parameterValues == null && realMax > 0)
+        /*if (parameterValues == null && realMax > 0)
         {
             ArrayList<String> list = new ArrayList<>();
             for (int i = realMin; i<= realMax; i++)
@@ -146,7 +141,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
             }
             parameterValues = new String[list.size()];
             list.toArray(parameterValues);
-        }
+        }*/
     }
 
     public void SetStuff(AppSettingsManager appSettingsManager, String settingsName)
@@ -211,23 +206,12 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
         });
     }
 
-    @Override
-    public void onMaxValueChanged(int max)
-    {
-        this.realMax = max;
-        createStringParametersStrings(parameter);
-    }
-
-    @Override
-    public void onMinValueChanged(int min) {
-        this.realMin = min;
-    }
 
     @Override
     public void onCurrentValueChanged(int current)
     {
 
-            this.pos = current;
+        this.pos = current;
 
         Log.d(TAG, "onCurrentValueChanged current:"+current +" pos:" +pos);
         setTextValue(current);
@@ -288,10 +272,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
 
     public int getCurrentItem()
     {
-        if (realMin < 0)
-            return  parameter.GetValue() + realMin * -1;
-        else
-            return parameter.GetValue();
+        return parameter.GetValue();
     }
 
     boolean currentlysettingsparameter = false;
@@ -308,11 +289,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
                 //setparameter();
                 while (valueQueue.size() >= 1) {
                     setparameter();
-                    try {
-                        Thread.sleep(50);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+
                 }
 
             }
@@ -321,9 +298,9 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
 
     }
 
-    private void setparameter() {
+    private void setparameter()
+    {
         currentlysettingsparameter = true;
-
         int runValue = 0;
         try {
             runValue = valueQueue.take();
@@ -333,27 +310,14 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
             currentlysettingsparameter = false;
         }
         pos = runValue;
-        if (realMin < -1)
-            runValue += realMin;
-        if (runValue < realMin)
-            runValue = realMin;
-        if (runValue >= realMax && realMax > 0)
-        {
-            if (realMin != -1)
-                runValue = realMax;
-            else
-                runValue = realMax+1;
-        }
-        Log.d(TAG, "setValue:" + runValue);
+        if (runValue < 0 || runValue > parameterValues.length -1)
+            return;
         parameter.SetValue(runValue);
         if (!(parameter instanceof BaseManualParameterSony) && settingsname != null) {
             appSettingsManager.setString(settingsname, runValue + "");
         }
         currentlysettingsparameter = false;
     }
-
-
-    public int getRealMin() {return realMin; }
 
     public void SetActive(boolean active)
     {

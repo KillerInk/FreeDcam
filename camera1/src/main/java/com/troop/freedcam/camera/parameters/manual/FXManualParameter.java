@@ -20,23 +20,25 @@ public class FXManualParameter extends BaseManualParameter {
         this.baseCameraHolder = cameraHolder;
         //TODO add missing logic
     }*/
-    
+
     @Override
     public boolean IsSupported()
     {
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
+        {
+            this.isSupported = true;
+            this.isVisible = true;
+            stringvalues = createStringArray(0,38,1);
+            return true;
+        }
+        else
+            return false;
 
-            return DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES);
     }
 
     @Override
-    public int GetMaxValue() {
-    	
-        return 38;
-    }
-
-    @Override
-    public int GetMinValue() {
-         return 0;
+    public boolean IsVisible() {
+        return IsSupported();
     }
 
     @Override
