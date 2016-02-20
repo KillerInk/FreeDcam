@@ -27,6 +27,7 @@ public class ISOManualParameter extends BaseManualParameter {
             {
                 this.isSupported=false;
             }
+            stringvalues = createStringArray(Integer.parseInt(min_value),Integer.parseInt(max_value),100);
         }
         else
             this.isSupported = false;
@@ -36,42 +37,8 @@ public class ISOManualParameter extends BaseManualParameter {
     @Override
     public boolean IsSupported()
     {
-
         return isSupported;
-
     }
-
-    @Override
-    public int GetMaxValue() {
-
-        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
-            return 6400;
-        else
-        try {
-            return Integer.parseInt(max_value);
-        }
-        catch (NullPointerException ex)
-        {
-            return 0;
-        }
-
-    }
-
-    @Override
-    public int GetMinValue() {
-
-            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
-                return 64;
-            else
-                try {
-                    return Integer.parseInt(min_value);
-                }
-                catch (NullPointerException ex)
-                {
-                    return 0;
-                }
-
-        }
 
     @Override
     public int GetValue() {
@@ -91,16 +58,17 @@ public class ISOManualParameter extends BaseManualParameter {
 
     @Override
     protected void setvalue(int valueToSet)
-    {   if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9)) {
-        parameters.put("iso-st", valueToSet + "");
-    }
-
-        else
     {
-        camParametersHandler.IsoMode.SetValue("manual", true);
-        parameters.put("iso", valueToSet + "");
-    }
-
+        currentInt = valueToSet;
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
+        {
+            parameters.put("iso-st", valueToSet + "");
+        }
+        else
+        {
+            camParametersHandler.IsoMode.SetValue("manual", true);
+            parameters.put("iso", stringvalues[valueToSet]);
+        }
     }
 
 }

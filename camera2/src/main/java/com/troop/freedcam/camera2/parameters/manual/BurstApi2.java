@@ -57,16 +57,6 @@ public class BurstApi2 extends AbstractManualParameter implements AbstractModePa
     }
 
     @Override
-    public int GetMaxValue() {
-        return 50;
-    }
-
-    @Override
-    public int GetMinValue() {
-        return 0;
-    }
-
-    @Override
     public int GetValue() {
         return current;
     }

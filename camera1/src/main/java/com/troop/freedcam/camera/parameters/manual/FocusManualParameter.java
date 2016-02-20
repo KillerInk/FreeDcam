@@ -9,6 +9,7 @@ import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.DeviceUtils.Devices;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -27,6 +28,7 @@ public class FocusManualParameter extends  BaseManualParameter
         this.baseCameraHolder = cameraHolder;
 
         camParametersHandlerx = (CamParametersHandler) camParametersHandler;
+
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)  || DeviceUtils.IS(Devices.RedmiNote)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) )
         {
             this.isSupported = true;
@@ -55,66 +57,42 @@ public class FocusManualParameter extends  BaseManualParameter
         else
             this.isSupported = false;
         isVisible = isSupported;
-}
 
-    @Override
-    public boolean IsSupported()
-    {
-        return isSupported;
-    }
-
-    @Override
-    public int GetMaxValue()
-    {
-        if (max_value == null)
-            if (DeviceUtils.IS_DEVICE_ONEOF(new DeviceUtils.Devices[]{DeviceUtils.Devices.Moto_MSM8982_8994, DeviceUtils.Devices.XiaomiMI3W, DeviceUtils.Devices.XiaomiMI4W }))
-                return 100;
-            else
-                return 79;
-        else {
-            try {
-                return Integer.parseInt(parameters.get(max_value));
-            } catch (NumberFormatException ex) {
-                return 0;
+        if (isSupported)
+        {
+            int max = 0;
+            int step = 1;
+            if (max_value == null)
+            {
+                if (DeviceUtils.IS_DEVICE_ONEOF(new DeviceUtils.Devices[]{DeviceUtils.Devices.Moto_MSM8982_8994, DeviceUtils.Devices.XiaomiMI3W, DeviceUtils.Devices.XiaomiMI4W})) {
+                    max = 1000;
+                    step = 10;
+                }
+                else
+                    max = 79;
             }
+            else {
+                try {
+                    max = Integer.parseInt(parameters.get(max_value));
+                } catch (NumberFormatException ex) {
+                    max = 0;
+                }
+            }
+            stringvalues = createStringArray(0,max,step);
         }
-
     }
-// HTC Focus Step "focus-step"
-    @Override
-    public int GetMinValue()
-    {
-        if (min_value == null)
-            if (DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8982_8994))
-                return 100;
-            else
-                return -1;
-        else
-        try {
-            return Integer.parseInt(parameters.get(min_value));
-        }
-        catch (NumberFormatException ex)
-        {
-            isSupported = false;
-            return  0;
-        }
 
-    }
-//m8 Step Value
     @Override
-    public int GetValue()
-    {
-        try {
-            if (DeviceUtils.IS_DEVICE_ONEOF(new Devices[]{Devices.XiaomiMI3W, Devices.XiaomiMI4W}))
-                return Integer.parseInt(parameters.get(value))/10;
-            else
-                return Integer.parseInt(parameters.get(value));
-        }
-        catch (NumberFormatException ex)
+    protected String[] createStringArray(int min, int max, int step) {
+        ArrayList<String> ar = new ArrayList<>();
+        ar.add("Auto");
+        if (step == 0)
+            step = 1;
+        for (int i = min; i < max; i+=step)
         {
-            Log.d(TAG, "get ManualFocus value failed");
-            return -1;
+            ar.add(i+"");
         }
+        return ar.toArray(new String[ar.size()]);
     }
 
     @Override
@@ -125,6 +103,7 @@ public class FocusManualParameter extends  BaseManualParameter
     @Override
     protected void setvalue(final int valueToSet)
     {
+        currentInt = valueToSet;
         //check/set auto/manual mode
         if (DeviceUtils.IS_DEVICE_ONEOF(new DeviceUtils.Devices[]
                 {
@@ -152,9 +131,7 @@ public class FocusManualParameter extends  BaseManualParameter
             {
                 try {
                     camParametersHandler.FocusMode.SetValue("manual", true);
-
-
-                        parameters.put("manual-focus-pos-type", "2");
+                    parameters.put("manual-focus-pos-type", "2");
                 }
                 catch (Exception ex)
                 {
@@ -175,10 +152,7 @@ public class FocusManualParameter extends  BaseManualParameter
             }
             else
             {
-                if (DeviceUtils.IS_DEVICE_ONEOF(new Devices[]{Devices.XiaomiMI3W, Devices.XiaomiMI4W}) || DeviceUtils.IS(Devices.LenovoK920))
-                    parameters.put(value, String.valueOf((valueToSet - 1) * 10));
-                else
-                    parameters.put(value, (valueToSet - 1) + "");
+                parameters.put(value, stringvalues[currentInt]);
                 camParametersHandler.SetParametersToCamera();
             }
         }
@@ -192,7 +166,7 @@ public class FocusManualParameter extends  BaseManualParameter
             Runnable r = new Runnable() {
                 public void run() {
 
-                    camParametersHandlerx.setString("manual-focus-position", (valueToSet-1) + "");
+                    camParametersHandlerx.setString("manual-focus-position", (stringvalues[currentInt]) + "");
                     baseCameraHolder.SetCameraParameters(camParametersHandlerx.getParameters());
                 }
             };

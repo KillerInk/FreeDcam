@@ -17,30 +17,9 @@ public class ZoomManualParameter extends  BaseManualParameter
             if (parameters.get("zoom-supported").equals("true")) {
                 isSupported = true;
                 Set_Default_Value(GetValue());
+                stringvalues = createStringArray(0,Integer.parseInt(parameters.get("max-zoom")),1);
+                currentInt = Integer.parseInt(parameters.get("zoom"));
             }
-    }
-
-    @Override
-    public boolean IsSupported()
-    {
-
-        return isSupported;
-    }
-
-    @Override
-    public int GetMaxValue()
-    {
-        return Integer.parseInt(parameters.get("max-zoom"));
-    }
-
-    @Override
-    public int GetMinValue() {
-        return 0;
-    }
-
-    @Override
-    public int GetValue() {
-        return Integer.parseInt(parameters.get("zoom"));
     }
 
     @Override

@@ -24,7 +24,6 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
     BaseCameraHolderApi2 cameraHolder;
     boolean canSet = false;
     protected boolean isSupported = false;
-    String usedShutterValues[];
     final String TAG = ManualExposureTimeApi2.class.getSimpleName();
     protected boolean firststart = true;
 
@@ -40,8 +39,6 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
             this.isSupported = false;
         }
     }
-
-    int current = 0;
 
     private void findMinMaxValue()
     {
@@ -60,53 +57,41 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
         else
             millimax = (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper()).intValue() / 1000;
         int millimin = (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower()).intValue() / 1000;
-        usedShutterValues = StringUtils.getSupportedShutterValues(millimin, millimax);
-    }
-
-    @Override
-    public int GetMaxValue()
-    {
-        return usedShutterValues.length-1;
-    }
-
-    @Override
-    public int GetMinValue()
-    {
-        return 0;
+        stringvalues = StringUtils.getSupportedShutterValues(millimin, millimax);
     }
 
     @Override
     public int GetValue()
     {
 
-        return current;
+        return currentInt;
     }
 
     @Override
     public String GetStringValue()
     {
 
-        return usedShutterValues[current];
+        return stringvalues[currentInt];
 
     }
 
 
     @Override
     public String[] getStringValues() {
-        return usedShutterValues;
+        return stringvalues;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void SetValue(int valueToSet)
     {
-        if (valueToSet >= usedShutterValues.length)
-            valueToSet = usedShutterValues.length - 1;
+        if (valueToSet >= stringvalues.length)
+            valueToSet = stringvalues.length - 1;
 
 
-        current = valueToSet;
+        currentInt = valueToSet;
         if (valueToSet > 0) {
-            long val = (long) (StringUtils.getMilliSecondStringFromShutterString(usedShutterValues[valueToSet]) * 1000f);
+            long val = (long) (StringUtils.getMilliSecondStringFromShutterString(stringvalues[valueToSet]) * 1000f);
             Log.d(TAG, "ExposureTimeToSet:" + val);
             if (val > 800000000) {
                 Log.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");

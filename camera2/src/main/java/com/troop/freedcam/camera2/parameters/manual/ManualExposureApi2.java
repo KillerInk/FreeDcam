@@ -23,16 +23,9 @@ public class ManualExposureApi2 extends AbstractManualParameter
         super(camParametersHandler);
         this.camParametersHandler = camParametersHandler;
         this.cameraHolder = cameraHolder;
-    }
-
-    @Override
-    public int GetMaxValue() {
-        return cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getUpper();
-    }
-
-    @Override
-    public int GetMinValue() {
-        return cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getLower();
+        int max = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getUpper();
+        int min = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getLower();
+        stringvalues = createStringArray(min, max, 1);
     }
 
     @Override
@@ -40,19 +33,11 @@ public class ManualExposureApi2 extends AbstractManualParameter
         return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION);
     }
 
-    @Override
-    public String GetStringValue() {
-        return null;
-    }
-
-    @Override
-    public String[] getStringValues() {
-        return null;
-    }
-
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void SetValue(int valueToSet) {
+    public void SetValue(int valueToSet)
+    {
+        currentInt = valueToSet;
         cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, valueToSet);
         try {
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,

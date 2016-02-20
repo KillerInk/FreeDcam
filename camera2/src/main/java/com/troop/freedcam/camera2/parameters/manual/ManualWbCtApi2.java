@@ -32,33 +32,19 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
     public ManualWbCtApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
         super(camParametersHandler);
         this.cameraHolder = cameraHolder;
-    }
-
-    @Override
-    public int GetMaxValue() {
-        return 100;
-    }
-
-    @Override
-    public int GetMinValue() {
-        return 15;
+        stringvalues = createStringArray(15,100,1);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public int GetValue()
     {
-        return current/100;
+        return current;
     }
 
     @Override
     public String GetStringValue() {
-        return (current /100) +"K";
-    }
-
-    @Override
-    public String[] getStringValues() {
-        return null;
+        return (current) +"K";
     }
 
 
@@ -68,12 +54,11 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
     @Override
     public void SetValue(int valueToSet)
     {
-        valueToSet = valueToSet*100;
         current =valueToSet;
         //code is based on http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/
         double r,g,b;
         double tmpcol = 0;
-        double colortemp = valueToSet / 100;
+        double colortemp = valueToSet;
         //red
 
         if( colortemp <= 66 )

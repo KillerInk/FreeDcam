@@ -28,8 +28,6 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     protected Set<String> mAvailableCameraApiSet;
     boolean isSupported = false;
     boolean isSetSupported = false;
-    String[] values;
-    int val = -200;
     String value;
     final boolean logging =false;
 
@@ -63,9 +61,6 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
             isSetSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet);
         }
         BackgroundIsSetSupportedChanged(isSetSupported);
-
-
-
     }
 
     @Override
@@ -84,22 +79,9 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
         return isSupported;
     }
 
-    @Override
-    public int GetMaxValue()
-    {
-        if(values == null)
-        {
-            getStringValues();
-        }
-        if (values != null && values.length > 0)
-            return values.length -1;
-        else
-            return 0;
-    }
-
     public String[] getStringValues()
     {
-        if (values == null)
+        if (stringvalues == null)
         {
             new Thread(new Runnable()
             {
@@ -112,82 +94,39 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                         JSONObject object =  ParameterHandler.mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                         JSONArray array = object.getJSONArray("result");
                         JSONArray subarray = array.getJSONArray(1);
-                        values = JsonUtils.ConvertJSONArrayToStringArray(subarray);
-                        BackgroundValuesChanged(values);
+                        stringvalues = JsonUtils.ConvertJSONArrayToStringArray(subarray);
+                        BackgroundValuesChanged(stringvalues);
 
                     } catch (IOException e) {
                         e.printStackTrace();
                         sendLog( "Error Trying to get String Values from: " +VALUES_TO_GET);
-                        values = new String[0];
+                        stringvalues = new String[0];
                     } catch (JSONException e) {
                         e.printStackTrace();
                         sendLog("Error Trying to get String Values from: " + VALUES_TO_GET);
-                        values = new String[0];
+                        stringvalues = new String[0];
                     }
                 }
             }).start();
         }
         sendLog("Returning values from: " + VALUES_TO_GET);
-        return values;
+        return stringvalues;
 
     }
 
-    @Override
-    public int GetMinValue() {
-        return 0;
-    }
-
-    @Override
-    public int GetValue()
-    {
-        /*if(val == -200) {
-            val = -1;
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        JSONObject object = mRemoteApi.getParameterFromCamera(VALUE_TO_GET);
-                        JSONArray array = object.getJSONArray("result");
-                        String res = JsonUtils.ConvertJSONArrayToStringArray(array)[0];
-                        if (values == null)
-                            getStringValues();
-                        value = res;
-                        if (values == null)
-                            return;
-                        for (int i = 0; i < values.length; i++) {
-                            if (values[i].equals(res)) {
-                                val = i;
-                                break;
-                            }
-                        }
-                        ThrowCurrentValueChanged(val);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        val = 0;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        val = 0;
-                    }
-                }
-            }).start();
-
-        }*/
-        sendLog("Get Value :" + val);
-        return val;
-    }
 
     @Override
     public void SetValue(final int valueToSet)
     {
         sendLog("Set Value to " + valueToSet);
-        this.val = valueToSet;
+        this.currentInt = valueToSet;
         new Thread(new Runnable() {
             @Override
             public void run()
             {
-                if (valueToSet >= values.length || valueToSet < 0)
+                if (valueToSet >= stringvalues.length || valueToSet < 0)
                     return;
-                String val = values[valueToSet];
+                String val = stringvalues[valueToSet];
                 value = val;
                 JSONArray array = null;
                 try {
@@ -203,25 +142,20 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
         }).start();
     }
 
-    @Override
-    public void RestartPreview() {
-
-    }
-
     public String GetStringValue()
     {
         sendLog("GetStringValue");
         if (value == null || value.equals("")) {
-            if (this.values == null) {
-                this.values = getStringValues();
+            if (this.stringvalues == null) {
+                this.stringvalues = getStringValues();
 
             }
-            if (values != null && values.length > 0 && val < values.length) {
-                if (val == -200)
+            if (stringvalues != null && stringvalues.length > 0 && currentInt < stringvalues.length) {
+                if (currentInt == -200)
                     GetValue();
-                if (val == -1)
+                if (currentInt == -1)
                     return value;
-                return values[val];
+                return stringvalues[currentInt];
             }
         }
         return value;
@@ -242,38 +176,28 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     }
 
     @Override
-    public void onMaxValueChanged(int max) {
-
-    }
-
-    @Override
-    public void onMinValueChanged(int min) {
-
-    }
-
-    @Override
     public void onCurrentValueChanged(int current)
     {
         sendLog("onCurrentValueChanged = "  +current);
-        this.val = current;
+        this.currentInt = current;
     }
 
     @Override
     public void onValuesChanged(String[] values)
     {
         sendLog("onValueSChanged = "  +values.toString());
-        this.values = values;
+        this.stringvalues = values;
     }
 
     @Override
     public void onCurrentStringValueChanged(String value)
     {
         this.value = value;
-        if (values == null)
+        if (stringvalues == null)
             return;
-        for (int i = 0; i< values.length; i++)
+        for (int i = 0; i< stringvalues.length; i++)
         {
-            if (value.equals(values[i]))
+            if (value.equals(stringvalues[i]))
                 onCurrentValueChanged(i);
         }
     }

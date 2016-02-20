@@ -23,6 +23,8 @@ public class ZoomApi2 extends AbstractManualParameter
         super(camParametersHandler);
         this.cameraHolder = cameraHolder;
         this.camParametersHandler = camParametersHandler;
+        int max = (int)(cameraHolder.characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM) *10);
+        stringvalues = createStringArray(0,max,1);
     }
 
 
@@ -44,28 +46,8 @@ public class ZoomApi2 extends AbstractManualParameter
     }
 
     @Override
-    public int GetMaxValue() {
-        return (int)(cameraHolder.characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM) *10);
-    }
-
-    @Override
-    public int GetMinValue() {
-        return 0;
-    }
-
-    @Override
     public int GetValue() {
         return zoom;
-    }
-
-    @Override
-    public String GetStringValue() {
-        return null;
-    }
-
-    @Override
-    public String[] getStringValues() {
-        return null;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

@@ -77,9 +77,12 @@ public class MenuItemAEB extends LinearLayout {
 
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper) {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (cameraUiWrapper !=  null && cameraUiWrapper.camParametersHandler != null && cameraUiWrapper.camParametersHandler.ManualExposure != null) {
-            min = cameraUiWrapper.camParametersHandler.ManualExposure.GetMinValue();
-            max = cameraUiWrapper.camParametersHandler.ManualExposure.GetMaxValue();
+        if (cameraUiWrapper !=  null && cameraUiWrapper.camParametersHandler != null && cameraUiWrapper.camParametersHandler.ManualExposure != null)
+        {
+            String[] v = cameraUiWrapper.camParametersHandler.ManualExposure.getStringValues();
+            int le = v.length;
+            min = -(le/2);
+            max = le/2;
         }
 
     }

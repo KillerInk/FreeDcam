@@ -44,39 +44,9 @@ public class BrightnessManualParameter extends BaseManualParameter
             max_value = "max-brightness";
             min_value = "min-brightness";
             Set_Default_Value(GetValue());
+            stringvalues = createStringArray(Integer.parseInt(parameters.get(min_value)), Integer.parseInt(parameters.get(max_value)), 1);
         }
         Log.d(TAG, "support brightness:" + isSupported);
-    }
-
-    @Override
-    public int GetMaxValue()
-    {
-        int max = 100;
-        try {
-            max = super.GetMaxValue();
-        }
-        catch (Exception ex)
-        {
-
-        }
-        if (max > 0)
-            return max;
-        else return 100;
-    }
-
-    @Override
-    public int GetMinValue() {
-        int min = 0;
-        try {
-            min = super.GetMinValue();
-        }
-        catch (Exception ex)
-        {
-
-        }
-        if (min < 0)
-            return min;
-        else return 0;
     }
 
     @Override

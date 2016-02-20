@@ -30,22 +30,17 @@ public class SkintoneManualPrameter extends BaseManualParameter {
                     ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)
                     ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
                 this.isSupported = true;
+
+            if (isSupported)
+            {
+                stringvalues = createStringArray(-100,100,1);
+            }
         }
         catch (Exception ex)
         {
             this.isSupported = false;
 
         }
-    }
-
-    @Override
-    public int GetMaxValue() {
-        return 100;
-    }
-
-    @Override
-    public int GetMinValue() {
-        return -100;
     }
 
     @Override

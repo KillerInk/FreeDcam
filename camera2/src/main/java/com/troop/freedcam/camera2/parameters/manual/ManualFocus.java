@@ -19,20 +19,12 @@ import com.troop.freedcam.utils.StringUtils;
 public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeParameter.I_ModeParameterEvent
 {
 
-    int current = -1;
     public ManualFocus(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder)
     {
         super(camParametersHandler, cameraHolder);
-    }
-
-    @Override
-    public int GetMaxValue() {
-        return (int)(cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE)*10);
-    }
-
-    @Override
-    public int GetMinValue() {
-        return -1;
+        int max = (int)(cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE)*10);
+        stringvalues = createStringArray(0, max,1);
+        currentInt = -1;
     }
 
     @Override
@@ -43,7 +35,7 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
     @Override
     public String GetStringValue()
     {
-        if (current == -1)
+        if (currentInt == -1)
             return "Auto";
         else {
             if (isSupported)
@@ -53,16 +45,10 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
     }
 
 
-
-    @Override
-    public String[] getStringValues() {
-        return null;
-    }
-
     @Override
     public void SetValue(int valueToSet)
     {
-        current = valueToSet;
+        currentInt = valueToSet;
         if(valueToSet == 0)
         {
             camParametersHandler.FocusMode.SetValue("auto", true);

@@ -27,7 +27,7 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
     HashMap<String, VideoMediaProfile> supportedProfiles;
     BaseCameraHolder cameraHolder;
     CameraUiWrapper cameraUiWrapper;
-    String profile = "HIGH";
+    String profile;
 
     public VideoProfilesG3Parameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
         super(handler,parameters, parameterChanged, value, values);
