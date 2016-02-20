@@ -45,6 +45,13 @@ public class SharpnessManualParameter extends BaseManualParameter
                 step = Integer.parseInt(parameters.get("sharpness-step"));
             Set_Default_Value(GetValue());
             stringvalues = createStringArray(min,max,step);
+            currentString = parameters.get(this.value);
+            for (int i = 0; i < stringvalues.length; i++) {
+                if (stringvalues[i].equals(currentString)) {
+                    currentInt = i;
+                    Set_Default_Value(i);
+                }
+            }
         }
     }
 

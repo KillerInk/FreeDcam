@@ -39,13 +39,14 @@ public abstract class BaseManualParameter extends AbstractManualParameter
 
 
     private int default_value = 0;
-    public void Set_Default_Value(int val){default_value = val;}
+    public void Set_Default_Value(int val){default_value = val; Log.d(TAG, "set default to:" + val);}
     public int Get_Default_Value(){return default_value;}
 
     public void ResetToDefault()
     {
         if (isSupported)
         {
+            Log.d(TAG,"Reset Back from:" + currentInt + " to:" + default_value);
             setvalue(default_value);
             ThrowCurrentValueChanged(default_value);
         }
@@ -69,10 +70,12 @@ public abstract class BaseManualParameter extends AbstractManualParameter
         if (!value.equals("") && !maxValue.equals("") && !min_value.equals("") && parameters.get(min_value) != null && parameters.get(max_value) != null)
         {
             stringvalues = createStringArray(Integer.parseInt(parameters.get(min_value)), Integer.parseInt(parameters.get(max_value)), 1);
-            currentString = parameters.get(value);
+            currentString = parameters.get(this.value);
             for (int i = 0; i < stringvalues.length; i++) {
-                if (stringvalues[i].equals(currentString))
+                if (stringvalues[i].equals(currentString)) {
                     currentInt = i;
+                    default_value = i;
+                }
             }
         }
     }
