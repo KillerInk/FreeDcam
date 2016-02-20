@@ -23,6 +23,8 @@ public class RawToDng
 
     private static final String TAG = RawToDng.class.getSimpleName();
 
+    private String wbct;
+
     private static int Calculate_rowSize(int fileSize, int height)
     {
         return fileSize/height;
@@ -73,10 +75,80 @@ public class RawToDng
             Release(nativeHandler);
             nativeHandler = null;
         }
+        wbct = "";
         nativeHandler = Create();
     }
-    String filepath;
-    String bayerpattern;
+
+    public void SetWBCT(String wbct)
+    {
+        this.wbct =wbct;
+    }
+
+    private float[] getWbCtMatrix(String wbct)
+    {
+        int wb = Integer.parseInt(wbct) / 100;
+        double r,g,b;
+        double tmpcol = 0;
+        double colortemp = wb;
+        //red
+
+        if( colortemp <= 66 )
+        {
+            r = 255;
+            g = colortemp;
+            g = 99.4708025861 * Math.log(g) - 161.1195681661;
+            if( colortemp <= 19)
+            {
+                b = 0;
+            }
+            else
+            {
+                b = colortemp-10;
+                b = 138.5177312231 * Math.log(b) - 305.0447927307;
+            }
+        }
+        else
+        {
+            r = colortemp - 60;
+            r = 329.698727446 * Math.pow(r, -0.1332047592);
+            g = colortemp-60;
+            g = 288.1221695283 * Math.pow(g, -0.0755148492);
+            b = 255;
+        }
+        Log.d(TAG, "ColorTemp=" + colortemp + " WBCT = r:" +r +" g:"+g +" b:"+b);
+        float rf,gf,bf = 0;
+
+        rf = (float)getRGBToDouble(checkminmax((int)r))/2;
+        gf = (float)getRGBToDouble(checkminmax((int)g));
+        bf = (float)getRGBToDouble(checkminmax((int)b))/2;
+        Log.d(TAG, "ColorTemp=" + colortemp + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
+            rf = rf / gf;
+            bf = bf / gf;
+            gf = 1;
+        Log.d(TAG, "ColorTemp=" + colortemp + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
+        return new float[]{rf, gf,bf};
+    }
+
+    private double getRGBToDouble(int color)
+    {
+        double t = color;
+        t = t * 3 *2;
+        t = t / (255);
+        t = t / 3;
+        t += 1;
+
+        return t;
+    }
+
+    private int checkminmax(int val)
+    {
+        if (val>255)
+            return 255;
+        else if(val < 0)
+            return 0;
+        else return val;
+    }
+
 
     public static RawToDng GetInstance()
     {
@@ -158,8 +230,11 @@ public class RawToDng
                              String devicename,
                              int tight,int width,int height)
     {
-        if (nativeHandler != null)
+        if (nativeHandler != null && wbct.equals(""))
             SetBayerInfo(nativeHandler, colorMatrix1, colorMatrix2, neutralColor, fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel, bayerformat, rowSize, devicename, tight, width, height);
+        else if (!wbct.equals(""))
+            SetBayerInfo(nativeHandler, colorMatrix1, colorMatrix2,getWbCtMatrix(wbct), fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel, bayerformat, rowSize, devicename, tight, width, height);
+
     }
 
     public void RELEASE()

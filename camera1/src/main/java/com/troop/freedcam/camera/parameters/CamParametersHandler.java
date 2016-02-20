@@ -179,8 +179,8 @@ public class CamParametersHandler extends AbstractParameterHandler
         WhiteBalanceMode = new WhiteBalanceModeParameter(uiHandler,cameraParameters, baseCameraHolder, "whitebalance", "whitebalance-values");
 
         CCT = new CCTManualParameter(cameraParameters,"","","", this);
-        PictureFormat.addEventListner(((BaseManualParameter)CCT).GetPicFormatListner());
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) CCT).GetModuleListner());
+        //PictureFormat.addEventListner(((BaseManualParameter)CCT).GetPicFormatListner());
+        //cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) CCT).GetModuleListner());
 
         Skintone = new SkintoneManualPrameter(cameraParameters,"","","",this);
         PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
