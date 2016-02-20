@@ -49,6 +49,13 @@ public class ContrastManualParameter extends BaseManualParameter
             } catch (Exception ex) {
             }
             stringvalues = createStringArray(min,max,1);
+            currentString = parameters.get(this.value);
+            for (int i = 0; i < stringvalues.length; i++) {
+                if (stringvalues[i].equals(currentString)) {
+                    currentInt = i;
+                    Set_Default_Value(i);
+                }
+            }
         }
     }
 

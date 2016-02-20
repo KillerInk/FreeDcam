@@ -14,7 +14,15 @@ public class ExposureManualParameter extends BaseManualParameter
 {
     public ExposureManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
-        hasSupport();
+        if(hasSupport()) {
+            currentString = parameters.get(value);
+            for (int i = 0; i < stringvalues.length; i++) {
+                if (stringvalues[i].equals(currentString)) {
+                    currentInt = i;
+                    Set_Default_Value(i);
+                }
+            }
+        }
     }
 
     protected String[] createStringArray(int min,int max, int step)

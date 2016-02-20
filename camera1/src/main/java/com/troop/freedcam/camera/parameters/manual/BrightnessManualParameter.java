@@ -43,8 +43,14 @@ public class BrightnessManualParameter extends BaseManualParameter
         {
             max_value = "max-brightness";
             min_value = "min-brightness";
-            Set_Default_Value(GetValue());
             stringvalues = createStringArray(Integer.parseInt(parameters.get(min_value)), Integer.parseInt(parameters.get(max_value)), 1);
+            currentString = parameters.get(this.value);
+            for (int i = 0; i < stringvalues.length; i++) {
+                if (stringvalues[i].equals(currentString)) {
+                    currentInt = i;
+                    Set_Default_Value(i);
+                }
+            }
         }
         Log.d(TAG, "support brightness:" + isSupported);
     }
