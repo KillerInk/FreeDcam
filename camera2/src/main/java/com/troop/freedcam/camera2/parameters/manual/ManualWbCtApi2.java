@@ -8,10 +8,13 @@ import android.hardware.camera2.params.RggbChannelVector;
 import android.os.Build;
 import android.util.Log;
 
+import com.troop.androiddng.Matrixes;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
+
+import java.util.HashMap;
 
 /**
  * Created by Ingo on 01.05.2015.
@@ -26,6 +29,7 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
     boolean isSupported = false;
     BaseCameraHolderApi2 cameraHolder;
     boolean canSet = false;
+    private HashMap<String, int[]> cctLookup;
 
     final String TAG = ManualWbCtApi2.class.getSimpleName();
 
@@ -33,6 +37,7 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
         super(camParametersHandler);
         this.cameraHolder = cameraHolder;
         stringvalues = createStringArray(15,100,1);
+        cctLookup = Matrixes.RGB_CCT_LIST;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -54,8 +59,10 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
     @Override
     public void SetValue(int valueToSet)
     {
+        if (valueToSet == 0)
+            return;
         current =valueToSet;
-        //code is based on http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/
+        /*//code is based on http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/
         double r,g,b;
         double tmpcol = 0;
         double colortemp = valueToSet;
@@ -84,18 +91,25 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
             g = 288.1221695283 * Math.pow(g, -0.0755148492 );
             b = 255;
         }
-
+*/
+        valueToSet = valueToSet*100;
+        int[] rgb = cctLookup.get(valueToSet+"");
+        if (rgb == null)
+        {
+            Log.d(TAG,"get cct from lookup failed:" + valueToSet);
+            return;
+        }
         float rf,gf,bf = 0;
 
-        rf = (float)getRGBToDouble(checkminmax((int)r));
-        gf = (float)getRGBToDouble(checkminmax((int)g))/2;
-        bf = (float)getRGBToDouble(checkminmax((int)b));
+        rf = (float)getRGBToDouble(checkminmax((int)rgb[0]));
+        gf = (float)getRGBToDouble(checkminmax((int)rgb[1]))/2;
+        bf = (float)getRGBToDouble(checkminmax((int)rgb[2]));
         rf = rf/gf;
         bf = bf/gf;
         gf = 1;
 
-        Log.d(TAG, "r:" +r +" g:"+g +" b:"+b);
-        Log.d(TAG, "ColorTemp=" + colortemp + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
+        Log.d(TAG, "r:" +rgb[0] +" g:"+rgb[1] +" b:"+rgb[2]);
+        Log.d(TAG, "ColorTemp=" + valueToSet + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
         wbChannelVector =  new RggbChannelVector(rf,gf,gf,bf);
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.COLOR_CORRECTION_GAINS, wbChannelVector);
         try {
