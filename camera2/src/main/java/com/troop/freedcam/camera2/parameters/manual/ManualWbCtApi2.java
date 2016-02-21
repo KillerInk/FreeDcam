@@ -22,7 +22,7 @@ import java.util.HashMap;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class ManualWbCtApi2  extends  AbstractManualParameter implements AbstractModeParameter.I_ModeParameterEvent
 {
-    int current = 5000;
+    int current = 0;
     public ColorSpaceTransform colorSpaceTransform;
     public RggbChannelVector rggbChannelVector;
     private RggbChannelVector wbChannelVector;
@@ -48,8 +48,11 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
     }
 
     @Override
-    public String GetStringValue() {
-        return (current) +"K";
+    public String GetStringValue()
+    {
+        if (stringvalues != null)
+            return stringvalues[current];
+        return 0+"";
     }
 
 
@@ -63,36 +66,6 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
             return;
         current =valueToSet;
         valueToSet = Integer.parseInt(stringvalues[valueToSet]);
-        /*//code is based on http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/
-        double r,g,b;
-        double tmpcol = 0;
-        double colortemp = valueToSet;
-        //red
-
-        if( colortemp <= 66 )
-        {
-            r = 255;
-            g = colortemp;
-            g = 99.4708025861 * Math.log(g) - 161.1195681661;
-            if( colortemp <= 19)
-            {
-                b = 0;
-            }
-            else
-            {
-                b = colortemp-10;
-                b = 138.5177312231 * Math.log(b) - 305.0447927307;
-            }
-        }
-        else
-        {
-            r = colortemp - 60;
-            r = 329.698727446 * Math.pow(r, -0.1332047592);
-            g = colortemp - 60;
-            g = 288.1221695283 * Math.pow(g, -0.0755148492 );
-            b = 255;
-        }
-*/
         int[] rgb = cctLookup.get(valueToSet+"");
         if (rgb == null)
         {
@@ -102,7 +75,7 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
         float rf,gf,bf = 0;
 
         rf = (float)getRGBToDouble(rgb[0]);
-        gf = (float)getRGBToDouble(rgb[1])/2;
+        gf = (float)getRGBToDouble(rgb[1])/2;//we have two green channels
         bf = (float)getRGBToDouble(rgb[2]);
         rf = rf/gf;
         bf = bf/gf;
