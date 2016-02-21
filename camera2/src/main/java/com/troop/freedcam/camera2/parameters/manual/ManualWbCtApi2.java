@@ -36,7 +36,7 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
     public ManualWbCtApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
         super(camParametersHandler);
         this.cameraHolder = cameraHolder;
-        stringvalues = createStringArray(15,100,1);
+        stringvalues = createStringArray(1500,10000,100);
         cctLookup = Matrixes.RGB_CCT_LIST;
     }
 
@@ -62,6 +62,7 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
         if (valueToSet == 0)
             return;
         current =valueToSet;
+        valueToSet = Integer.parseInt(stringvalues[valueToSet]);
         /*//code is based on http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/
         double r,g,b;
         double tmpcol = 0;
@@ -92,7 +93,6 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
             b = 255;
         }
 */
-        valueToSet = valueToSet*100;
         int[] rgb = cctLookup.get(valueToSet+"");
         if (rgb == null)
         {
@@ -101,9 +101,9 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
         }
         float rf,gf,bf = 0;
 
-        rf = (float)getRGBToDouble(checkminmax((int)rgb[0]));
-        gf = (float)getRGBToDouble(checkminmax((int)rgb[1]))/2;
-        bf = (float)getRGBToDouble(checkminmax((int)rgb[2]));
+        rf = (float)getRGBToDouble(rgb[0]);
+        gf = (float)getRGBToDouble(rgb[1])/2;
+        bf = (float)getRGBToDouble(rgb[2]);
         rf = rf/gf;
         bf = bf/gf;
         gf = 1;
