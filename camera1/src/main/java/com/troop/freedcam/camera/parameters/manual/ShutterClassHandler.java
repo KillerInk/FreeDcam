@@ -37,8 +37,8 @@ public class ShutterClassHandler
             return new ShutterManualParameterHTC(parameters,"","","",parametersHandler);
         else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994) ||DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
             return new ShutterManual_ExposureTime_Micro(parameters,parametersHandler,IMX214_IMX230.split(","));
-        else if(DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
-            return new ShutterManual_ExposureTime_Micro(parameters,parametersHandler,null);
+        else if(DeviceUtils.IS(DeviceUtils.Devices.RedmiNote) || DeviceUtils.IS(DeviceUtils.Devices.OnePlusOne))
+            return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,null);
         else if(DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W)&& Build.VERSION.SDK_INT < 23)
             return new ShutterManual_ExposureTime_Micro(parameters,parametersHandler,Mi3WValues.split(","));
         else if(DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4W)&& Build.VERSION.SDK_INT < 23)
@@ -48,6 +48,6 @@ public class ShutterClassHandler
         else if(DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4W)&& Build.VERSION.SDK_INT >= 23)
             return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,Mi4WValues.split(","));
         else
-            return new ShutterManualParameter(parameters,"","","",parametersHandler);
+            return null;
     }
 }
