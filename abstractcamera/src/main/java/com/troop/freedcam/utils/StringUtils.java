@@ -87,6 +87,39 @@ public class StringUtils
         return  (long)a;
     }
 
+    /**
+     *
+     * @param shutterString 693.863262
+     * @return 693863262
+     */
+    public static String getMicroSec(String shutterString)
+    {
+        return (Double.parseDouble(shutterString) * 1000)+"";
+    }
+
+    public static String FLOATtoSixty4(String a)
+    {
+        float b =  Float.parseFloat(a);
+        float c = b * 1000000;
+        int d = Math.round(c);
+        return String.valueOf(d);
+    }
+
+    /**
+     * Checks if the the string looks like 1/50 and if yes it gets formated to double
+     * @param shutterstring
+     * @return
+     */
+    public static String FormatShutterStringToDouble(String shutterstring)
+    {
+        if (shutterstring.contains("/")) {
+            String split[] = shutterstring.split("/");
+            Double a = Double.parseDouble(split[0]) / Double.parseDouble(split[1]);
+            shutterstring = "" + a;
+        }
+        return shutterstring;
+    }
+
    /* public static String getMicro(double value)
     {
         double Oneth = value *1000;

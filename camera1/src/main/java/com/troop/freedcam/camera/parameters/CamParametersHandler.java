@@ -22,6 +22,7 @@ import com.troop.freedcam.camera.parameters.manual.ISOManualParameter;
 import com.troop.freedcam.camera.parameters.manual.LG_G4AeHandler;
 import com.troop.freedcam.camera.parameters.manual.SaturationManualParameter;
 import com.troop.freedcam.camera.parameters.manual.SharpnessManualParameter;
+import com.troop.freedcam.camera.parameters.manual.ShutterClassHandler;
 import com.troop.freedcam.camera.parameters.manual.ShutterManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ShutterManualParameterHTC;
 import com.troop.freedcam.camera.parameters.manual.ShutterManualZTE;
@@ -165,12 +166,8 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         if (DeviceUtils.IS(Devices.LG_G4))
             aeHandlerG4 = new LG_G4AeHandler(cameraParameters,baseCameraHolder,this);
-        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
-            ManualShutter = new ShutterManualParameterHTC(cameraParameters,"","","", cameraHolder, cameraChanged,this);
-        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
-            ManualShutter = new ShutterManualZTE(cameraParameters,"","","", cameraHolder, cameraChanged, this);
         else
-            ManualShutter = new ShutterManualParameter(cameraParameters,"","","", cameraHolder,cameraChanged, this);
+            ManualShutter = ShutterClassHandler.getShutterClass(cameraParameters, this, cameraHolder);
 
 
         ISOManual = new ISOManualParameter(cameraParameters, "", "", "",baseCameraHolder, this);

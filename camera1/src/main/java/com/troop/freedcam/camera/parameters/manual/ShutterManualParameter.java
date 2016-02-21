@@ -23,74 +23,30 @@ public class ShutterManualParameter extends BaseManualParameter
     */
     private static String TAG = "freedcam.ShutterManualParameter";
     Double Cur;
-    public static String HTCShutterValues = "Auto,1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000,1/800,1/640,1/500,1/400,1/320,1/250,1/200,1/125,1/100,1/80,1/60,1/50,1/40,1/30,1/25,1/20,1/15,1/13,1/10,1/8,1/6,1/5,1/4,0.3,0.4,0.5,0.6,0.8,1,1.3,1.6,2,2.5,3.2,4";
 
-    public static String Z5SShutterValues = "Auto,1/90000,1/75000,1/50000,1/45000,1/30000,1/20000,1/12000,1/10000"+
-            ",1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000"+
-            ",1/800,1/700,1/600,1/500,1/400,1/300,1/200,1/125,1/100,1/85,1/75,1/65"+
-            ",1/55,1/45,1/35,1/25,1/20,1/15,1/13,1/10,1/9,1/8,1/7,1/6,1/5,1/4,1/3,1/2"+
-            ",1.0,1.2,1.4,1.5,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0"+
-            ",15.0,16.0,17.0,18.0,19.0,20.0,21.0,22.0,23.0,24.0,25.0,26.0,27.0,28.0,29.0"+
-            ",30.0,31.0,32.0,33.0,35.0,36.0,37.0,38.0,39.0,40.0,41.0,42.0,43.0,44,45.0,46.0"+
-            ",47.0,48.0,49.0,50.0,51.0,52.0,53.0,54.0,55.0,56.0,57.0,58.0,59.0,60.0,120.0,240.0";
     public static String LGG4Values = "Auto,1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,2,4,8,15,30";
 
     public static String xIMX214_IMX230 = "Auto,1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,1/1.9,1/1.8,1/1.7,1/1.6,1/1.5,1/1.4,1";
 
-    public static String IMX214_IMX230 = "Auto,1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000,1/800,1/700,1/600,1/500,1/400,1/300,1/200,1/125,1/100,1/85,1/75,1/65\"+\n" +
-            "            \",1/55,1/45,1/35,1/25,1/20,1/15,1/13,1/10,1/9,1/8,1/7,1/6,1/5,1/4,1/3,1/2,1/1.9,1/1.8,1/1.7,1/1.6";
-    public static String Mi3WValues = "Auto,1/5000,1/2500,1/2000,1/1600,1/1250,1/1000"+
-                   ",1/800,1/700,1/600,1/500,1/400,1/300,1/200,1/125,1/100,1/85,1/75,1/65"+
-                   ",1/55,1/45,1/35,1/25,1/20,1/15,1/13,1/10,1/9,1/8,1/7,1/6,1/5,1/4,1/3,1/2"+
-                   ",1.0,2.0";
-    public static String Mi4WValues = "Auto,1/5000,1/2500,1/2000,1/1600,1/1250,1/1000"+
-            ",1/800,1/700,1/600,1/500,1/400,1/300,1/200,1/125,1/100,1/85,1/75,1/65"+
-            ",1/55,1/45,1/35,1/25,1/20,1/15,1/13,1/10,1/9,1/8,1/7,1/6,1/5,1/4,1/3,1/2"+
-            ",1.0,2.0,4.0,8.0,16.0,32.0";
 
-    I_CameraHolder baseCameraHolder;
-    I_CameraChangedListner i_cameraChangedListner;
 
-    public ShutterManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder baseCameraHolder,I_CameraChangedListner i_cameraChangedListner, AbstractParameterHandler camParametersHandler) {
+
+    public ShutterManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
-
-        this.baseCameraHolder = baseCameraHolder;
-        this.i_cameraChangedListner = i_cameraChangedListner;
-        if (DeviceUtils.IS(DeviceUtils.Devices.SonyADV))
-        {
-            try {
-                if (!parameters.get("sony-max-shutter-speed").equals(""))
-                {
-                    try {
-                        int min = Integer.parseInt(parameters.get("sony-min-shutter-speed"));
-                        int max = Integer.parseInt(parameters.get("sony-max-shutter-speed"));
-                        stringvalues = StringUtils.getSupportedShutterValues(min, max);
-                        this.isSupported = true;
-                    } catch (NumberFormatException ex) {
-                        ex.printStackTrace();
-                        isSupported = false;
-                    }
-                }
-            }
-            catch (NullPointerException ex)
-            {
-                isSupported = false;
-            }
-        }
-        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994) || DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
+         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994) || DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
         {
             this.isSupported = true;
-            stringvalues = IMX214_IMX230.split(",");
+            stringvalues = ShutterClassHandler.IMX214_IMX230.split(",");
         }
         else if (DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W) )
         {
             this.isSupported = true;
-            stringvalues = Mi3WValues.split(",");
+            stringvalues = ShutterClassHandler.Mi3WValues.split(",");
         }
         else if (DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4W) )
         {
             this.isSupported = true;
-            stringvalues = Mi4WValues.split(",");
+            stringvalues = ShutterClassHandler.Mi4WValues.split(",");
         }
         else if (parameters.containsKey("exposure-time") || DeviceUtils.IS(DeviceUtils.Devices.RedmiNote)) {
             try {
@@ -105,14 +61,6 @@ public class ShutterManualParameter extends BaseManualParameter
                 isSupported = false;
             }
         }
-        this.setTheListener(i_shutter_changed);
-    }
-
-    private I_Shutter_Changed i_shutter_changed;
-
-    public void setTheListener(I_Shutter_Changed i_shutter_changedx) {
-        i_shutter_changed = i_shutter_changedx;
-
     }
 
     @Override
@@ -128,13 +76,7 @@ public class ShutterManualParameter extends BaseManualParameter
     @Override
     protected void setvalue(int valueToSet)
     {
-        if(DeviceUtils.IS(DeviceUtils.Devices.SonyADV))
-        {
-            parameters.put("sony-ae-mode", "manual");
-            parameters.put("sony-shutter-speed", stringvalues[currentInt]);
-
-        }
-        else if ( parameters.containsKey("exposure-time") || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)||DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
+        if ( parameters.containsKey("exposure-time") || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)||DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
         {
             currentInt = valueToSet;
             String shutterstring = stringvalues[currentInt];
@@ -164,7 +106,7 @@ public class ShutterManualParameter extends BaseManualParameter
         else
         {
             parameters.put("exposure-time", valueToSet + "");
-            baseCameraHolder.SetCameraParameters(parameters);
+            camParametersHandler.SetParametersToCamera();
         }
     }
 
@@ -175,14 +117,14 @@ public class ShutterManualParameter extends BaseManualParameter
         }
         else if (parameters.containsKey("exposure-time"))
             parameters.put("exposure-time", 0+"");
-        baseCameraHolder.SetCameraParameters(parameters);
+        camParametersHandler.SetParametersToCamera();
     }
 
     private String setExposureTimeToParameter(String shutterstring) {
         if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994))
         {
             try {
-                parameters.put("exposure-time", String.valueOf(getMicroSec(shutterstring)));
+                parameters.put("exposure-time", String.valueOf(StringUtils.getMicroSec(shutterstring)));
             }
             catch (Exception ex)
             {
@@ -193,31 +135,19 @@ public class ShutterManualParameter extends BaseManualParameter
         else if(parameters.containsKey("exposure-time")||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) || DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
         {
             if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)&& Build.VERSION.SDK_INT < 23) {
-                shutterstring = FLOATtoSixty4(shutterstring);
+                shutterstring = StringUtils.FLOATtoSixty4(shutterstring);
                 parameters.put("exposure-time", shutterstring);
             }
             else
-                parameters.put("exposure-time", String.valueOf(getMicroSec(shutterstring)));
+                parameters.put("exposure-time", String.valueOf(StringUtils.getMicroSec(shutterstring)));
         }
-        baseCameraHolder.SetCameraParameters(parameters);
+        camParametersHandler.SetParametersToCamera();
         return shutterstring;
     }
 
-    public Double getMicroSec(String shutterString)
-    {
-        Double a = Double.parseDouble(shutterString);
 
-        return a * 1000;
 
-    }
 
-    public String FLOATtoSixty4(String a)
-    {
-        float b =  Float.parseFloat(a);
-        float c = b * 1000000;
-        int d = Math.round(c);
-        return String.valueOf(d);
-    }
 
     @Override
     public String[] getStringValues()
