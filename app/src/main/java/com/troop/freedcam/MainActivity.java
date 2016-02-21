@@ -96,26 +96,6 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
 
     }
 
-    private void DeployOPBins()
-    { //            Deploy Opcode Bins to file or to feed via JNI byte Array from Raw2 DNG
-        // Note Extract OPC2 from metadata stream camera2 for 10bit packed dng with metadata
-        File file = new File(StringUtils.GetInternalSDCARD()+StringUtils.freedcamFolder+"DeployTest.bin");
-        try {
-            InputStream inputStream = getResources().openRawResource(R.raw.a0001);
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-
-            byte buf[]=new byte[1024];
-            int len;
-            while((len=inputStream.read(buf))>0) {
-                fileOutputStream.write(buf,0,len);
-            }
-
-            fileOutputStream.close();
-            inputStream.close();
-        } catch (IOException e1) {}
-    }
-
-
     private void checkMarshmallowPermissions() {
         if (checkSelfPermission(Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
