@@ -68,9 +68,10 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
         sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_HORIZONT).equals("Off"))
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_HORIZONT).equals("Off") || appSettingsManager.getString(AppSettingsManager.SETTING_HORIZONT).equals(""))
             view.setVisibility(View.GONE);
-        startSensorListing();
+        else
+            startSensorListing();
         return view;
     }
 

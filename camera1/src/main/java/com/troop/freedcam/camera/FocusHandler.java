@@ -32,15 +32,20 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
         @Override
         public void onValueChanged(String val)
         {
-            if (val.equals("auto")|| val.equals("macro"))
-            {
-                if (focusEvent != null)
-                    focusEvent.TouchToFocusSupported(true);
+            if (cameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.MTK) {
+                if (val.equals("auto") || val.equals("macro")) {
+                    if (focusEvent != null)
+                        focusEvent.TouchToFocusSupported(true);
+                } else {
+                    if (focusEvent != null)
+                        focusEvent.TouchToFocusSupported(false);
+                }
             }
-            else
-            {
-                if (focusEvent != null)
-                    focusEvent.TouchToFocusSupported(false);
+            else {
+                if (focusEvent != null) {
+                    aeMeteringSupported = true;
+                    focusEvent.AEMeteringSupported(true);
+                }
             }
 
         }
@@ -69,19 +74,25 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
         @Override
         public void onValueChanged(String val)
         {
-            if (val.contains("spot"))
+            if(cameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.MTK)
             {
-                if (focusEvent != null)
-                {
-                    aeMeteringSupported = true;
-                    focusEvent.AEMeteringSupported(true);
+                if (val.contains("spot")) {
+                    if (focusEvent != null) {
+                        aeMeteringSupported = true;
+                        focusEvent.AEMeteringSupported(true);
+                    }
+                } else {
+                    if (focusEvent != null) {
+                        aeMeteringSupported = false;
+                        focusEvent.AEMeteringSupported(false);
+                    }
                 }
             }
-            else {
-                if (focusEvent != null)
-                {
-                    aeMeteringSupported = false;
-                    focusEvent.AEMeteringSupported(false);
+            else
+            {
+                if (focusEvent != null) {
+                    aeMeteringSupported = true;
+                    focusEvent.AEMeteringSupported(true);
                 }
             }
 
@@ -253,6 +264,4 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
         }
         return targetFocusRect;
     }
-
-
 }
