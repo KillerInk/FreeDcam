@@ -176,6 +176,7 @@ public class MenuItemSaveCamParams extends MenuItem
         try {
             outputStream = new FileOutputStream(file);
             outputStream.write((Build.MODEL + "\r\n").getBytes());
+            outputStream.write((System.getProperty("os.version") + "\r\n").getBytes());
             for (String s : paras)
             {
                 outputStream.write((s+"\r\n").getBytes());

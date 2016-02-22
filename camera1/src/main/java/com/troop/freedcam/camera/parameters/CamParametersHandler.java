@@ -110,6 +110,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         Log.d(TAG, "Manufactur:" + Build.MANUFACTURER);
         Log.d(TAG, "Model:" + Build.MODEL);
         Log.d(TAG, "Product:" + Build.PRODUCT);
+        Log.d(TAG, "OS:"+ System.getProperty("os.version"));
         for(Map.Entry e : parameters.entrySet())
         {
             Log.d(TAG, e.getKey() + "=" + e.getValue());
