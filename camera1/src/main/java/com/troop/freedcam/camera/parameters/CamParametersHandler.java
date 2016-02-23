@@ -22,9 +22,7 @@ import com.troop.freedcam.camera.parameters.manual.ISOManualParameter;
 import com.troop.freedcam.camera.parameters.manual.LG_G4AeHandler;
 import com.troop.freedcam.camera.parameters.manual.SaturationManualParameter;
 import com.troop.freedcam.camera.parameters.manual.SharpnessManualParameter;
-import com.troop.freedcam.camera.parameters.manual.ShutterManualParameter;
-import com.troop.freedcam.camera.parameters.manual.ShutterManualParameterHTC;
-import com.troop.freedcam.camera.parameters.manual.ShutterManualZTE;
+import com.troop.freedcam.camera.parameters.manual.ShutterClassHandler;
 import com.troop.freedcam.camera.parameters.manual.SkintoneManualPrameter;
 import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
 import com.troop.freedcam.camera.parameters.modes.AE_Bracket_HdrModeParameter;
@@ -40,8 +38,6 @@ import com.troop.freedcam.camera.parameters.modes.FlashModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FocusModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FocusPeakModeParameter;
 import com.troop.freedcam.camera.parameters.modes.HDRModeParameter;
-import com.troop.freedcam.camera.parameters.modes.HighFramerateVideo;
-import com.troop.freedcam.camera.parameters.modes.HighSpeedVideo;
 import com.troop.freedcam.camera.parameters.modes.ImagePostProcessingParameter;
 import com.troop.freedcam.camera.parameters.modes.IsoModeParameter;
 import com.troop.freedcam.camera.parameters.modes.JpegQualityParameter;
@@ -114,6 +110,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         Log.d(TAG, "Manufactur:" + Build.MANUFACTURER);
         Log.d(TAG, "Model:" + Build.MODEL);
         Log.d(TAG, "Product:" + Build.PRODUCT);
+        Log.d(TAG, "OS:"+ System.getProperty("os.version"));
         for(Map.Entry e : parameters.entrySet())
         {
             Log.d(TAG, e.getKey() + "=" + e.getValue());
@@ -165,12 +162,8 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         if (DeviceUtils.IS(Devices.LG_G4))
             aeHandlerG4 = new LG_G4AeHandler(cameraParameters,baseCameraHolder,this);
-        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
-            ManualShutter = new ShutterManualParameterHTC(cameraParameters,"","","", cameraHolder, cameraChanged,this);
-        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
-            ManualShutter = new ShutterManualZTE(cameraParameters,"","","", cameraHolder, cameraChanged, this);
         else
-            ManualShutter = new ShutterManualParameter(cameraParameters,"","","", cameraHolder,cameraChanged, this);
+            ManualShutter = ShutterClassHandler.getShutterClass(cameraParameters, this, cameraHolder);
 
 
         ISOManual = new ISOManualParameter(cameraParameters, "", "", "",baseCameraHolder, this);
@@ -258,11 +251,6 @@ public class CamParametersHandler extends AbstractParameterHandler
         VideoSize = new VideoSizeParameter(uiHandler,cameraParameters,baseCameraHolder,"video-size","video-size");
 
         VideoHDR = new VideoHDRModeParameter(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraHolder);
-
-        VideoHighFramerateVideo = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"video-hfr","video-hfr-values");
-        //VideoHighFramerateVideo = new HighFramerateVideo(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraUiWrapper);
-
-        VideoHighSpeedVideo = new HighSpeedVideo(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraUiWrapper);
 
         if (baseCameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
             VideoProfilesG3 = new VideoProfilesG3Parameter(uiHandler,cameraParameters,baseCameraHolder,"","", cameraUiWrapper);

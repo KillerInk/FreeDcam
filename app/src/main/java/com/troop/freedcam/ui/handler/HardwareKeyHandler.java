@@ -48,23 +48,17 @@ public class HardwareKeyHandler
 
         if(keyCode == KeyEvent.KEYCODE_3D_MODE ||keyCode == KeyEvent.KEYCODE_POWER || keyCode == appSettingsKeyShutter || keyCode == KeyEvent.KEYCODE_UNKNOWN)
         {
-            set = true;
             Log.d(TAG, "KeyUp");
             cameraUiWrapper.moduleHandler.DoWork();
-
         }
-        if(DeviceUtils.IS(DeviceUtils.Devices.Htc_Evo3d) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.Sony_DEVICES))
+        //shutterbutton full pressed
+        if (keyCode == KeyEvent.KEYCODE_CAMERA)
         {
-            //shutterbutton full pressed
-            if (keyCode == KeyEvent.KEYCODE_CAMERA)
-            {
-                set = true;
-                cameraUiWrapper.moduleHandler.DoWork();
-            }
-            // shutterbutton half pressed
-            //if (keyCode == KeyEvent.KEYCODE_FOCUS)
-
+            cameraUiWrapper.moduleHandler.DoWork();
         }
+        // shutterbutton half pressed
+        //if (keyCode == KeyEvent.KEYCODE_FOCUS)
+
         if (keyCode == KeyEvent.KEYCODE_BACK)
             activity.finish();
         return true;
