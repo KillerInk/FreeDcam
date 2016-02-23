@@ -405,7 +405,7 @@ typedef enum {
 #define TIFFTAG_WRITERSERIALNUMBER      33405   /* device serial number */
 #define TIFFTAG_CFAREPEATPATTERNDIM 33421 /* dimensions of CFA pattern */
 #define TIFFTAG_CFAPATTERN 33422 /* color filter array pattern */
-#define TIFFTAG_OPC2 51009 /* OpCode 2 lens shit */
+#define TIFFTAG_OPC2 51022 /* OpCode 2 lens shit */
 /* tag 33432 is listed in the 6.0 spec w/ unknown ownership */
 #define	TIFFTAG_COPYRIGHT		33432	/* copyright string */
 /* IPTC TAG from RichTIFF specifications */
