@@ -289,11 +289,12 @@ public class CamParametersHandler extends AbstractParameterHandler
         if (((BaseCameraHolder) cameraHolder).DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)
             Mediatek();
 
-        ParametersEventHandler.ParametersHasLoaded();
+
         SetAppSettingsToParameters();
         SetParametersToCamera();
         cameraHolder.StopPreview();
         cameraHolder.StartPreview();
+        ParametersEventHandler.ParametersHasLoaded();
         //camMode();
 
 
@@ -442,13 +443,13 @@ public class CamParametersHandler extends AbstractParameterHandler
     {
         // cameraParameters.put("zsd-mode","on");
         //cameraParameters.put("camera-mode","0");
-        cameraParameters.put("afeng_raw_dump_flag","1");
-        cameraParameters.put("rawsave-mode","2");
-        cameraParameters.put("isp-mode","1");
+        cameraParameters.put("afeng_raw_dump_flag", "1");
+        cameraParameters.put("rawsave-mode", "2");
+        cameraParameters.put("isp-mode", "1");
         cameraParameters.put("rawfname", "/mnt/sdcard/DCIM/test.raw");
 
 
-        
+
     }
 
     private void setupLg_G4Parameters()
