@@ -186,19 +186,32 @@ public class HDRModeParameter extends BaseModeParameter
     }
 
     @Override
-    public String ModuleChanged(String module) {
+    public String ModuleChanged(String module)
+    {
         if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4) || supportauto || supporton) {
             curmodule = module;
             switch (module)
             {
                 case AbstractModuleHandler.MODULE_VIDEO:
+                    if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
+                    {
+                        Show();
+                        BackgroundIsSupportedChanged(true);
+                        break;
+                    }
                 case AbstractModuleHandler.MODULE_HDR:
                     Hide();
+                    SetValue("off",true);
                     break;
                 default:
                     if (format.contains("jpeg")) {
                         Show();
                         BackgroundIsSupportedChanged(true);
+                    }
+                    else
+                    {
+                        Hide();
+                        SetValue("off",true);
                     }
             }
         }

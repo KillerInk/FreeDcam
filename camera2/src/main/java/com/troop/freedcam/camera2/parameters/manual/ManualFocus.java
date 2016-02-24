@@ -22,9 +22,15 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
     public ManualFocus(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder)
     {
         super(camParametersHandler, cameraHolder);
-        int max = (int)(cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE)*10);
-        stringvalues = createStringArray(0, max,1);
-        currentInt = -1;
+        try {
+            int max = (int)(cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE)*10);
+            stringvalues = createStringArray(0, max,1);
+            currentInt = -1;
+        }
+        catch (NullPointerException ex)
+        {
+        }
+
     }
 
     @Override

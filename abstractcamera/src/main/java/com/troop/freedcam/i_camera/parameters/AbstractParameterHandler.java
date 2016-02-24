@@ -215,7 +215,7 @@ public abstract class AbstractParameterHandler
         setMode(morphoHDR, AppSettingsManager.SETTING_MORPHOHDR);
         setMode(morphoHHT, AppSettingsManager.SETTING_MORPHOHHT);
 
-        setManualMode(ManualBrightness, AppSettingsManager.MWB);
+
         setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
         setManualMode(ManualConvergence,AppSettingsManager.MCONVERGENCE);
         setManualMode(ManualExposure, AppSettingsManager.MEXPOSURE);
