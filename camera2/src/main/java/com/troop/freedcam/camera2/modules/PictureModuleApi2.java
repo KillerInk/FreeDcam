@@ -625,7 +625,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             if (ParameterHandler.Burst == null)
                 SetBurst(1);
             else
-                SetBurst(ParameterHandler.Burst.GetValue()+1);
+                SetBurst(ParameterHandler.Burst.GetValue());
 
         }
         catch (CameraAccessException e)

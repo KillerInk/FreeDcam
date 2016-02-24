@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.camera2.CameraUiWrapperApi2;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.ApiParameter;
 import com.troop.freedcam.i_camera.parameters.ParameterExternalShutter;
@@ -122,31 +123,31 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         menuItemGPS.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_LOCATION,touchHandler);
 
         guide = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemGuide);
-        guide.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_GUIDE,touchHandler);
+        guide.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_GUIDE, touchHandler);
 
         api = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemApi);
-        api.SetStuff(i_activity, appSettingsManager, null,touchHandler);
+        api.SetStuff(i_activity, appSettingsManager, null, touchHandler);
 
         externalShutter = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemExternalShutter);
-        externalShutter.SetStuff(i_activity, appSettingsManager, null,touchHandler);
+        externalShutter.SetStuff(i_activity, appSettingsManager, null, touchHandler);
 
         orientationHack = (MenuItemOrientationHack)view.findViewById(R.id.MenuItemOrientationHack);
-        orientationHack.SetStuff(i_activity, appSettingsManager, null,touchHandler);
+        orientationHack.SetStuff(i_activity, appSettingsManager, null, touchHandler);
 
         jpegQuality = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemJpegQuality);
-        jpegQuality.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_JPEGQUALITY,touchHandler);
+        jpegQuality.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_JPEGQUALITY, touchHandler);
 
         videoProfile = (MenuItemVideoProfile)view.findViewById(R.id.MenuItemVideoProfile);
-        videoProfile.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEPROFILE,touchHandler);
+        videoProfile.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEPROFILE, touchHandler);
 
         videoHDR = (troop.com.themesample.views.menu.MenuItemVideoHDR)view.findViewById(R.id.MenuItemVideHDR);
-        videoHDR.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOHDR,touchHandler);
+        videoHDR.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOHDR, touchHandler);
 
         VideoSize = (MenuItem) view.findViewById(R.id.MenuItemVideoSize);
-        VideoSize.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOSIZE,touchHandler);
+        VideoSize.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOSIZE, touchHandler);
 
         videoStabilization =  (MenuItem)view.findViewById(R.id.MenuItemVideoStabilization);
-        videoStabilization.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOSTABILIZATION,touchHandler);
+        videoStabilization.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_VIDEOSTABILIZATION, touchHandler);
 
         timeLapseFrames = (MenuItemTimeLapseFrames) view.findViewById(troop.com.themesample.R.id.MenuItemTimeLapseFrame);
         timeLapseFrames.SetStuff(appSettingsManager, AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME);
@@ -224,7 +225,6 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
             videoProfile.SetParameter(wrapper.camParametersHandler.VideoProfilesG3);
         else {
             videoProfile.SetParameter(null);
-
         }
         videoProfile.SetMenuItemListner(this);
 
@@ -252,9 +252,14 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
             timeLapseFrames.setVisibility(View.VISIBLE);
             videoProfileEditor.setVisibility(View.VISIBLE);
         }
-        else {
+        else if (wrapper instanceof CameraUiWrapperApi2)
+        {
             timeLapseFrames.setVisibility(View.GONE);
-            videoProfileEditor.setVisibility(View.GONE);
+            videoProfileEditor.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+
         }
 
         saveCamParams.setCameraUiWrapper(wrapper);

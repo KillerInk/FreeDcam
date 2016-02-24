@@ -1,13 +1,13 @@
 package com.troop.freedcam.camera.modules;
 
 import android.media.MediaRecorder;
-import android.util.Log;
 
 import com.lge.media.MediaRecorderEx;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesG3Parameter;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
+import com.troop.freedcam.i_camera.modules.VideoMediaProfile;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 

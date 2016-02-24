@@ -1,8 +1,7 @@
-package com.troop.freedcam.camera.modules;
+package com.troop.freedcam.i_camera.modules;
 
 import android.media.CamcorderProfile;
 
-import com.lge.media.CamcorderProfileEx;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.BufferedReader;
@@ -49,23 +48,6 @@ public class VideoMediaProfile
         Timelapse,
     }
 
-    public VideoMediaProfile(CamcorderProfileEx ex, String ProfileName, VideoMode mode)
-    {
-        this.audioBitRate = ex.audioBitRate;
-        this.audioChannels = ex.audioChannels;
-        this.audioCodec = ex.audioCodec;
-        this.audioSampleRate = ex.audioSampleRate;
-        this.duration = ex.duration;
-        this.fileFormat = ex.fileFormat;
-        this.quality = ex.quality;
-        this.videoBitRate = ex.videoBitRate;
-        this.videoCodec = ex.videoCodec;
-        this.videoFrameRate = ex.videoFrameRate;
-        this.videoFrameHeight = ex.videoFrameHeight;
-        this.videoFrameWidth = ex.videoFrameWidth;
-        this.ProfileName = ProfileName;
-        this.Mode = mode;
-    }
 
     public VideoMediaProfile(CamcorderProfile ex,String ProfileName, VideoMode mode)
     {

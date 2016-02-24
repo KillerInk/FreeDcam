@@ -36,8 +36,8 @@ public class ModuleHandlerApi2 extends AbstractModuleHandler
         moduleList.put(pictureModuleApi2.ModuleName(), pictureModuleApi2);
         IntervalModule intervalModule = new IntervalModule(cameraHolder,appSettingsManager,moduleEventHandler,pictureModuleApi2);
         moduleList.put(intervalModule.ModuleName(), intervalModule);
-        /*VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(cameraHolder,appSettingsManager,moduleEventHandler);
-        moduleList.put(videoModuleApi2.ModuleName(), videoModuleApi2);*/
+        VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(cameraHolder,appSettingsManager,moduleEventHandler);
+        moduleList.put(videoModuleApi2.ModuleName(), videoModuleApi2);
         //init the Modules DeviceDepending
         //splitting modules make the code foreach device cleaner
 

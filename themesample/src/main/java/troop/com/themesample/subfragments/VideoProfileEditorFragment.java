@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-import com.troop.freedcam.camera.modules.VideoMediaProfile;
+import com.troop.freedcam.i_camera.modules.VideoMediaProfile;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.util.HashMap;

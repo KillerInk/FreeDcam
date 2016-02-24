@@ -1,76 +1,25 @@
-package com.troop.freedcam.camera.parameters.modes;
+package com.troop.freedcam.camera2.parameters.modes;
 
 import android.media.CamcorderProfile;
 import android.os.Handler;
 
-import com.troop.freedcam.camera.BaseCameraHolder;
-import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.i_camera.modules.VideoMediaProfile;
-import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
-import com.troop.freedcam.utils.DeviceUtils;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 /**
- * Created by troop on 13.11.2014.
+ * Created by troop on 24.02.2016.
  */
-public class VideoProfilesParameter extends BaseModeParameter
+public class VideoProfilesApi2 extends BaseModeApi2
 {
-
     HashMap<String, VideoMediaProfile> supportedProfiles;
-    BaseCameraHolder cameraHolder;
-    CameraUiWrapper cameraUiWrapper;
-    String profile;
-    public static final String _720phfr = "720HFR";
-    public static final String _4kUHD = "4kUHD";
-
-    public VideoProfilesParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
-        super(handler,parameters, parameterChanged, value, values);
-        this.cameraHolder = parameterChanged;
-        this.cameraUiWrapper = cameraUiWrapper;
-        this.isSupported =true;
+    public VideoProfilesApi2(Handler handler, BaseCameraHolderApi2 baseCameraHolderApi2)
+    {
+        super(handler, baseCameraHolderApi2);
         loadProfiles();
-    }
-
-    @Override
-    public void SetValue(String valueToSet, boolean setToCam)
-    {
-        profile = valueToSet;
-        if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null && cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
-            cameraUiWrapper.moduleHandler.GetCurrentModule().LoadNeededParameters();
-
-    }
-
-    @Override
-    public boolean IsSupported() {
-        return this.isSupported;
-    }
-
-    @Override
-    public String GetValue() {
-        return profile;
-    }
-
-    @Override
-    public String[] GetValues()
-    {
-        List<String> keys = new ArrayList<String>(supportedProfiles.keySet());
-        Collections.sort(keys);
-        return keys.toArray(new String[keys.size()]);
-    }
-
-    public VideoMediaProfile GetCameraProfile(String profile)
-    {
-        if (profile == null || profile.equals(""))
-        {
-            String t[] = supportedProfiles.keySet().toArray(new String[supportedProfiles.keySet().size()]);
-            return supportedProfiles.get(t[0]);
-        }
-        return supportedProfiles.get(profile);
+        this.isSupported = true;
     }
 
     private void loadProfiles()
@@ -92,7 +41,6 @@ public class VideoProfilesParameter extends BaseModeParameter
 
         }
     }
-
     private void lookupDefaultProfiles(HashMap<String, VideoMediaProfile> supportedProfiles)
     {
         int CAMCORDER_QUALITY_4kUHD = 12;
@@ -251,42 +199,7 @@ public class VideoProfilesParameter extends BaseModeParameter
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        if (supportedProfiles.get(_720phfr) == null && parameters.containsKey("video-hfr-values") && parameters.get("video-hfr-values").contains("120"))
-        {
-            VideoMediaProfile t = supportedProfiles.get("720p").clone();
-            t.videoFrameRate = 120;
-            t.Mode = VideoMediaProfile.VideoMode.Highspeed;
-            t.ProfileName = "720pHFR";
-            supportedProfiles.put("720pHFR",t);
-        }
-
-        if (supportedProfiles.get(_4kUHD) == null && parameters.containsKey("video-size-values") && parameters.get("video-size-values").contains("3840x2160")
-                || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
-        {
-            VideoMediaProfile uhd = supportedProfiles.get("1080p").clone();
-            uhd.videoFrameWidth = 3840;
-            uhd.videoFrameHeight = 2160;
-            uhd.videoBitRate = 30000000;
-            uhd.Mode = VideoMediaProfile.VideoMode.Normal;
-            uhd.ProfileName = _4kUHD;
-            supportedProfiles.put(_4kUHD,uhd);
-        }
-
-        if (DeviceUtils.IS(DeviceUtils.Devices.LenovoK920) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
-        {
-            VideoMediaProfile t = supportedProfiles.get("720p").clone();
-            t.videoFrameRate = 120;
-            t.Mode = VideoMediaProfile.VideoMode.Highspeed;
-            t.ProfileName = "720pHFR";
-            supportedProfiles.put("720pHFR",t);
-
-            VideoMediaProfile uhd = supportedProfiles.get("1080p").clone();
-            uhd.videoFrameWidth = 3840;
-            uhd.videoFrameHeight = 2160;
-            uhd.Mode = VideoMediaProfile.VideoMode.Normal;
-            uhd.ProfileName = "4kUHD";
-            supportedProfiles.put("4kUHD",uhd);
-        }
     }
+
+
 }
