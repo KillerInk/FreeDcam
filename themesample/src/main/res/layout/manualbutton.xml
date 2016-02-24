@@ -36,22 +36,33 @@
             android:gravity="center_vertical"
             />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:id="@+id/manualbutton_valuetext"
-            android:textColor="#ffffff"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:ellipsize="marquee"
-            android:singleLine="true"
-            android:focusable="true"
-            android:scrollHorizontally="true"
-            android:focusableInTouchMode="true"
-            android:freezesText="true"
-            android:textSize="@dimen/manualitemtextsize"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="4dp"/>
+            android:background="#5a000000"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/manualbutton_valuetext"
+                android:textColor="#ffffff"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:focusable="true"
+                android:scrollHorizontally="true"
+                android:focusableInTouchMode="true"
+                android:freezesText="true"
+                android:textSize="@dimen/manualitemtextsize"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="4dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginRight="2dp"
+                android:layout_marginLeft="2dp"
+                android:text="1234565" />
+        </FrameLayout>
     </LinearLayout>
 
 </AbsoluteLayout>

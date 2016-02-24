@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -198,9 +200,10 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
             public void run() {
                 if (value) {
                     ManualButton.this.setEnabled(true);
-
+                    imageView.getDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
                 } else {
                     ManualButton.this.setEnabled(false);
+                    imageView.getDrawable().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
                 }
             }
         });

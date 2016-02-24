@@ -40,12 +40,13 @@ public class StringUtils
         return ShutterValues.split(",");
     }
 
-    public static String[] getSupportedShutterValues(int minMillisec, int maxMiliisec)
+    public static String[] getSupportedShutterValues(int minMillisec, int maxMiliisec, boolean withautomode)
     {
         final String[] allvalues = ShutterValuesArray();
         boolean foundmin = false, foundmax = false;
         ArrayList<String> tmp = new ArrayList<>();
-        tmp.add("Auto");
+        if (withautomode)
+            tmp.add("Auto");
         for (int i = 1; i< allvalues.length; i++ )
         {
             String s = allvalues[i];

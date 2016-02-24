@@ -26,6 +26,7 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
     protected boolean isSupported = false;
     final String TAG = ManualExposureTimeApi2.class.getSimpleName();
     protected boolean firststart = true;
+    private int onetoThirty = 0;
 
     public ManualExposureTimeApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
         super(camParametersHandler);
@@ -57,7 +58,10 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
         else
             millimax = (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper()).intValue() / 1000;
         int millimin = (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower()).intValue() / 1000;
-        stringvalues = StringUtils.getSupportedShutterValues(millimin, millimax);
+        stringvalues = StringUtils.getSupportedShutterValues(millimin, millimax,false);
+        for (int i = 0; i < stringvalues.length; i++)
+            if (stringvalues[i].equals("1/30"))
+                onetoThirty = i;
     }
 
     @Override
@@ -106,6 +110,7 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
             } catch (NullPointerException ex) {
                 ex.printStackTrace();
             }
+            ThrowCurrentValueChanged(valueToSet);
         }
     }
 
@@ -136,6 +141,10 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
         {
             canSet = true;
             BackgroundIsSetSupportedChanged(true);
+            if (currentInt < onetoThirty)
+                SetValue(onetoThirty);
+            else
+                SetValue(currentInt);
         }
         else {
             canSet = false;
