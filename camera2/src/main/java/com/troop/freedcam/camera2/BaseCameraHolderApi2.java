@@ -261,13 +261,9 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     @Override
     public void StartPreview()
     {
-
-
-
         if (textureView == null || ModulePreview == null)
             return;
         ModulePreview.startPreview();
-
     }
 
 
@@ -562,7 +558,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             // When the session is ready, we start displaying the previewSize.
             BaseCameraHolderApi2.this.mCaptureSession = cameraCaptureSession;
             try {
-                ((ParameterHandlerApi2)ParameterHandler).Init();
+
                 // Finally, we start displaying the camera previewSize.
                 mPreviewRequest = mPreviewRequestBuilder.build();
                 mCaptureSession.setRepeatingRequest(mPreviewRequest,

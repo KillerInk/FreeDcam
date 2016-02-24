@@ -8,6 +8,7 @@ import android.telecom.VideoProfile;
 import android.util.Log;
 
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
+import com.troop.freedcam.camera2.CameraUiWrapperApi2;
 import com.troop.freedcam.camera2.FocusHandlerApi2;
 import com.troop.freedcam.camera2.parameters.manual.BurstApi2;
 import com.troop.freedcam.camera2.parameters.manual.ManualExposureApi2;
@@ -135,7 +136,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         Burst = new BurstApi2(this,cameraHolder);
         Focuspeak = new FocusPeakModeApi2(uiHandler,cameraHolder);
         //VideoSize = new VideoSizeModeApi2(uiHandler,cameraHolder);
-        VideoProfiles = new VideoProfilesApi2(uiHandler,cameraHolder);
+        VideoProfiles = new VideoProfilesApi2(uiHandler,cameraHolder,(CameraUiWrapperApi2)wrapper);
 
         uiHandler.post(new Runnable() {
             @Override

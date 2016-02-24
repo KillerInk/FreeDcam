@@ -4,10 +4,15 @@ import android.media.CamcorderProfile;
 import android.os.Handler;
 
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
+import com.troop.freedcam.camera2.CameraUiWrapperApi2;
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.VideoMediaProfile;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by troop on 24.02.2016.
@@ -15,11 +20,33 @@ import java.util.HashMap;
 public class VideoProfilesApi2 extends BaseModeApi2
 {
     HashMap<String, VideoMediaProfile> supportedProfiles;
-    public VideoProfilesApi2(Handler handler, BaseCameraHolderApi2 baseCameraHolderApi2)
+    private String profile;
+    CameraUiWrapperApi2 cameraUiWrapperApi2;
+
+    public VideoProfilesApi2(Handler handler, BaseCameraHolderApi2 baseCameraHolderApi2, CameraUiWrapperApi2 cameraUiWrapperApi2)
     {
         super(handler, baseCameraHolderApi2);
         loadProfiles();
         this.isSupported = true;
+        this.cameraUiWrapperApi2 = cameraUiWrapperApi2;
+    }
+
+    @Override
+    public boolean IsSupported() {
+        return this.isSupported;
+    }
+
+    @Override
+    public String GetValue() {
+        return profile;
+    }
+
+    @Override
+    public String[] GetValues()
+    {
+        List<String> keys = new ArrayList<String>(supportedProfiles.keySet());
+        Collections.sort(keys);
+        return keys.toArray(new String[keys.size()]);
     }
 
     private void loadProfiles()
@@ -199,6 +226,24 @@ public class VideoProfilesApi2 extends BaseModeApi2
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public VideoMediaProfile GetCameraProfile(String profile)
+    {
+        if (profile == null || profile.equals(""))
+        {
+            String t[] = supportedProfiles.keySet().toArray(new String[supportedProfiles.keySet().size()]);
+            return supportedProfiles.get(t[0]);
+        }
+        return supportedProfiles.get(profile);
+    }
+    @Override
+    public void SetValue(String valueToSet, boolean setToCam)
+    {
+        profile = valueToSet;
+        if (cameraUiWrapperApi2.moduleHandler.GetCurrentModule() != null && cameraUiWrapperApi2.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
+            cameraUiWrapperApi2.moduleHandler.GetCurrentModule().LoadNeededParameters();
+
     }
 
 

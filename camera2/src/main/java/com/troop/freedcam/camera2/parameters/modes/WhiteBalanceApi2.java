@@ -47,6 +47,8 @@ public class WhiteBalanceApi2 extends BaseModeApi2
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
+        if (valueToSet.equals("") || valueToSet.isEmpty())
+            return;
         if (valueToSet.contains("unknown"))
         {
             String t = valueToSet.substring(valueToSet.length() -2);
@@ -62,7 +64,7 @@ public class WhiteBalanceApi2 extends BaseModeApi2
                 cct.SetValue("TRANSFORM_MATRIX",true);
             }
             else {
-                if (lastcctmode.equals("TRANSFORM_MATRIX"))
+                if (lastcctmode.equals("TRANSFORM_MATRIX") || lastcctmode.equals(""))
                     lastcctmode = "FAST";
                 cct.SetValue(lastcctmode, true);
             }

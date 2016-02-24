@@ -101,6 +101,8 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
                 Log.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
                 val = 800000000;
             }
+            if (cameraHolder == null || cameraHolder.mPreviewRequestBuilder == null)
+                return;
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
             try {
                 cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,

@@ -744,7 +744,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void LoadNeededParameters()
     {
-        //cameraHolder.StopPreview();
+        cameraHolder.StopPreview();
         cameraHolder.ModulePreview = this;
         cameraHolder.StartPreview();
         super.LoadNeededParameters();
@@ -753,7 +753,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void UnloadNeededParameters() {
         super.UnloadNeededParameters();
-        //cameraHolder.StopPreview();
+        cameraHolder.mPreviewRequestBuilder.removeTarget(mImageReader.getSurface());
+        cameraHolder.mPreviewRequestBuilder.removeTarget(cameraHolder.camerasurface);
+        cameraHolder.mPreviewRequestBuilder.removeTarget(cameraHolder.previewsurface);
+        cameraHolder.StopPreview();
     }
 
 }
