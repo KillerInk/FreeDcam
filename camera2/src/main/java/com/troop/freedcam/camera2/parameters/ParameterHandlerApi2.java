@@ -132,7 +132,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
         Burst = new BurstApi2(this,cameraHolder);
         Focuspeak = new FocusPeakModeApi2(uiHandler,cameraHolder);
-        VideoSize = new VideoSizeModeApi2(uiHandler,cameraHolder);
+        //VideoSize = new VideoSizeModeApi2(uiHandler,cameraHolder);
 
         uiHandler.post(new Runnable() {
             @Override
@@ -194,7 +194,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         setMode(ControlMode, AppSettingsManager.SETTING_CONTROLMODE);
         //setMode(Focuspeak, AppSettingsManager.SETTING_FOCUSPEAK);
 
-        setManualMode(ManualBrightness, AppSettingsManager.MWB);
+        //setManualMode(ManualBrightness, AppSettingsManager.MWB);
         //setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
         setManualMode(ManualConvergence, AppSettingsManager.MCONVERGENCE);
         setManualMode(ManualExposure, AppSettingsManager.MEXPOSURE);
