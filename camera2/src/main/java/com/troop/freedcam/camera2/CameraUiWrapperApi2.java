@@ -114,6 +114,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
         cameraHolder.StartPreview();
         Log.d(TAG, "Camera Opened and Preview Started");
         super.onCameraOpen(message);
+        moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
     }
 
     @Override

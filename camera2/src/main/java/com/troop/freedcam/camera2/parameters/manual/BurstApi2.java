@@ -80,7 +80,8 @@ public class BurstApi2 extends AbstractManualParameter implements AbstractModePa
             @Override
             public void run() {
                 cameraHolderApi2.StopPreview();
-                cameraHolderApi2.SetBurst(current+1);
+                //TODO FIX BURST
+                //cameraHolderApi2.SetBurst(current+1);
             }
         });
 

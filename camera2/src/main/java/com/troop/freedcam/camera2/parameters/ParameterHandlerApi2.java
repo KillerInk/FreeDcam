@@ -125,7 +125,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
         FocusMode.addEventListner(((FocusHandlerApi2)cameraHolder.Focus).focusModeListner);
         WhiteBalanceMode.addEventListner(((FocusHandlerApi2)cameraHolder.Focus).awbModeListner);
-        ExposureMode.addEventListner(((FocusHandlerApi2)cameraHolder.Focus).aeModeListner);
+        ExposureMode.addEventListner(((FocusHandlerApi2) cameraHolder.Focus).aeModeListner);
         ((FocusHandlerApi2) cameraHolder.Focus).ParametersLoaded();
 
         ControlMode = new ControlModesApi2(uiHandler, this.cameraHolder);
@@ -148,7 +148,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
             }
         });
         SetAppSettingsToParameters();
-        wrapper.moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
+
     }
 
     @Override
@@ -205,7 +205,6 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         setManualMode(ISOManual, AppSettingsManager.MISO);
         setManualMode(ManualSaturation, AppSettingsManager.MSATURATION);
         setManualMode(CCT,AppSettingsManager.MCCT);
-
 
     }
 

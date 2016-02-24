@@ -1,7 +1,12 @@
 package com.troop.freedcam.camera2.modules;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
+import android.graphics.Point;
+import android.graphics.RectF;
+import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -19,6 +24,10 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.Rational;
+import android.util.Size;
+import android.view.Display;
+import android.view.Surface;
+import android.view.WindowManager;
 
 import com.troop.androiddng.DngSupportedDevices;
 import com.troop.androiddng.Matrixes;
@@ -37,6 +46,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -72,6 +83,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private TotalCaptureResult mDngResult;
     Handler backgroundHandler;
 
+    private Size largestImageSize;
+    public String picFormat;
+    public String picSize;
+    int mImageWidth, mImageHeight;
+    public ImageReader mImageReader;
+    Size previewSize;
+
+
     int imagecount = 0;
 
     public PictureModuleApi2(BaseCameraHolderApi2 cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler, Handler backgroundHandler) {
@@ -80,6 +99,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         this.Settings = Settings;
         this.backgroundHandler = backgroundHandler;
         this.name = AbstractModuleHandler.MODULE_PICTURE;
+
     }
 
     @Override
@@ -110,7 +130,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         Log.d(TAG, Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
         Log.d(TAG, "dng:" + Boolean.toString(ParameterHandler.IsDngActive()));
 
-        cameraHolder.mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener, backgroundHandler);
+        mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener, backgroundHandler);
 
         backgroundHandler.post(new Runnable() {
             @Override
@@ -132,7 +152,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             // This is the CaptureRequest.Builder that we use to take a picture.
             final CaptureRequest.Builder captureBuilder = cameraHolder.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
 
-            captureBuilder.addTarget(cameraHolder.mImageReader.getSurface());
+            captureBuilder.addTarget(mImageReader.getSurface());
 
             // Use the same AE and AF modes as the preview.
             try {
@@ -537,6 +557,145 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     }
 
     /**
+     * PREVIEW STUFF
+     */
+
+
+
+    @Override
+    public void startPreview() {
+        try {
+            picSize = Settings.getString(AppSettingsManager.SETTING_PICTURESIZE);
+            Log.d(TAG, "Start Preview");
+            largestImageSize = Collections.max(
+                    Arrays.asList(baseCameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
+                    new BaseCameraHolderApi2.CompareSizesByArea());
+
+
+
+            picFormat = Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
+            if (picFormat.equals("")) {
+                picFormat = BaseCameraHolderApi2.JPEG;
+                Settings.setString(AppSettingsManager.SETTING_PICTUREFORMAT, BaseCameraHolderApi2.JPEG);
+
+            }
+
+            if (picFormat.equals(BaseCameraHolderApi2.JPEG))
+            {
+                String[] split = picSize.split("x");
+                int width, height;
+                if (split.length < 2)
+                {
+                    mImageWidth = largestImageSize.getWidth();
+                    mImageHeight = largestImageSize.getHeight();
+                }
+                else
+                {
+                    mImageWidth = Integer.parseInt(split[0]);
+                    mImageHeight = Integer.parseInt(split[1]);
+                }
+                //create new ImageReader with the size and format for the image
+                Log.d(TAG, "ImageReader JPEG");
+            }
+            else if (picFormat.equals(BaseCameraHolderApi2.RAW_SENSOR))
+            {
+                Log.d(TAG, "ImageReader RAW_SENOSR");
+                largestImageSize = Collections.max(Arrays.asList(baseCameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new BaseCameraHolderApi2.CompareSizesByArea());
+                mImageWidth = largestImageSize.getWidth();
+                mImageHeight = largestImageSize.getHeight();
+            }
+            else if (picFormat.equals(BaseCameraHolderApi2.RAW10))
+            {
+                Log.d(TAG, "ImageReader RAW_SENOSR");
+                largestImageSize = Collections.max(Arrays.asList(baseCameraHolder.map.getOutputSizes(ImageFormat.RAW10)), new BaseCameraHolderApi2.CompareSizesByArea());
+                mImageWidth = largestImageSize.getWidth();
+                mImageHeight = largestImageSize.getHeight();
+            }
+
+
+            // We set up a CaptureRequest.Builder with the output Surface.
+            baseCameraHolder.mPreviewRequestBuilder = baseCameraHolder.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            //OrientationHACK
+            if(Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+                baseCameraHolder.mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, 180);
+            else
+                baseCameraHolder.mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, 0);
+
+            // Here, we create a CameraCaptureSession for camera previewSize.
+            if (ParameterHandler.Burst == null)
+                SetBurst(1);
+            else
+                SetBurst(ParameterHandler.Burst.GetValue()+1);
+
+        }
+        catch (CameraAccessException e)
+        {
+            e.printStackTrace();
+            return;
+        }
+    }
+
+    @Override
+    public void stopPreview() {
+
+    }
+
+    public void SetBurst(int burst)
+    {
+        try {
+            Log.d(TAG,"Set Burst to:" + burst);
+            previewSize = BaseCameraHolderApi2.getSizeForPreviewDependingOnImageSize(baseCameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888),cameraHolder.characteristics, mImageWidth, mImageHeight);
+
+            SurfaceTexture texture = baseCameraHolder.textureView.getSurfaceTexture();
+            texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
+            baseCameraHolder.previewsurface = new Surface(texture);
+            if (!baseCameraHolder.isLegacyDevice())
+            {
+                if (baseCameraHolder.mProcessor != null) {
+                    baseCameraHolder.mProcessor.kill();
+                }
+                baseCameraHolder.mProcessor.Reset(previewSize.getWidth(), previewSize.getHeight());
+
+                baseCameraHolder.mProcessor.setOutputSurface(baseCameraHolder.previewsurface);
+                baseCameraHolder.camerasurface = baseCameraHolder.mProcessor.getInputSurface();
+                baseCameraHolder.mPreviewRequestBuilder.addTarget(baseCameraHolder.camerasurface);
+                baseCameraHolder.textureView.setAspectRatio(previewSize.getWidth(), previewSize.getHeight());
+                Matrix matrix = new Matrix();
+                RectF viewRect = new RectF(0, 0, displaySize.x, displaySize.y);
+                matrix.setRectToRect(viewRect, viewRect, Matrix.ScaleToFit.FILL);
+                if (Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+                    matrix.postRotate(180, viewRect.centerX(), viewRect.centerY());
+                else
+                    matrix.postRotate(0, viewRect.centerX(), viewRect.centerY());
+                baseCameraHolder.textureView.setTransform(matrix);
+            }
+            else
+            {
+                baseCameraHolder.mPreviewRequestBuilder.addTarget(baseCameraHolder.previewsurface);
+                baseCameraHolder.configureTransform(previewSize.getWidth(), previewSize.getHeight(),displaySize);
+                //textureView.setAspectRatio(mImageWidth,mImageHeight);
+            }
+
+            if (picFormat.equals(BaseCameraHolderApi2.JPEG))
+                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, burst);
+            else if (picFormat.equals(BaseCameraHolderApi2.RAW10))
+                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW10, burst);
+            else
+                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW_SENSOR, burst);
+
+            if (baseCameraHolder.isLegacyDevice())
+                baseCameraHolder.createPreviewCaptureSession(baseCameraHolder.previewsurface,mImageReader);
+            else
+                baseCameraHolder.createPreviewCaptureSession(baseCameraHolder.camerasurface,mImageReader);
+
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+        if (ParameterHandler.Burst != null)
+            ParameterHandler.Burst.ThrowCurrentValueChanged(ParameterHandler.Burst.GetValue());
+    }
+
+    /**
      * Saves a JPEG {@link android.media.Image} into the specified {@link File}.
      */
     private static class ImageSaver implements Runnable {
@@ -586,7 +745,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     public void LoadNeededParameters()
     {
         //cameraHolder.StopPreview();
-        //cameraHolder.StartPreview();
+        cameraHolder.ModulePreview = this;
+        cameraHolder.StartPreview();
         super.LoadNeededParameters();
     }
 

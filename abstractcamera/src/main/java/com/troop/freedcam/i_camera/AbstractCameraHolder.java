@@ -24,7 +24,7 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     public AbstractFocusHandler Focus;
     public AbstractExposureMeterHandler ExposureM;
     public SurfaceHolder surfaceHolder;
-    protected I_CameraChangedListner cameraChangedListner;
+    public I_CameraChangedListner cameraChangedListner;
     protected Handler UIHandler;
 
     protected CameraStates currentState = CameraStates.closed;

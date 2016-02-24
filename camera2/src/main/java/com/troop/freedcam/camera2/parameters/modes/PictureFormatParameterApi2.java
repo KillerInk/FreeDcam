@@ -16,6 +16,7 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
 {
     BaseCameraHolderApi2 cameraHolder;
     boolean firststart = true;
+    private String format;
     public PictureFormatParameterApi2(Handler handler,BaseCameraHolderApi2 baseCameraHolderApi2)
     {
         super(handler,baseCameraHolderApi2);
@@ -31,19 +32,7 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         BackgroundValueHasChanged(valueToSet);
-        cameraHolder.picFormat = valueToSet;
-        if (valueToSet.equals("jpeg"))
-        {
-
-        }
-        else if (valueToSet.equals("raw10"))
-        {
-
-        }
-        else if (valueToSet.equals("raw_sensor"))
-        {
-
-        }
+        format = valueToSet;
         if (setToCamera)
         {
             cameraHolder.StopPreview();
@@ -55,7 +44,7 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
 
     @Override
     public String GetValue() {
-        return cameraHolder.picFormat;
+        return format;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
