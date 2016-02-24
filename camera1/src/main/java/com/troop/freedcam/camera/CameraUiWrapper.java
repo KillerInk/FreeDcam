@@ -108,27 +108,26 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     @Override
     protected void startPreview()
     {
-        Log.d(TAG, "Stop Preview");
+        /*Log.d(TAG, "Stop Preview");
         backgroundHandler.post(new Runnable() {
             @Override
             public void run() {
-                cameraHolder.StartPreview();
-            }
-        });
 
+            }
+        });*/
+        cameraHolder.StartPreview();
     }
 
     @Override
-    protected void stopPreview()
-    {
+    protected void stopPreview() {
         Log.d(TAG, "Stop Preview");
-        backgroundHandler.post(new Runnable() {
+        /*backgroundHandler.post(new Runnable() {
             @Override
             public void run() {
-                cameraHolder.StopPreview();
-            }
-        });
 
+            }
+        });*/
+        cameraHolder.StopPreview();
     }
 
 

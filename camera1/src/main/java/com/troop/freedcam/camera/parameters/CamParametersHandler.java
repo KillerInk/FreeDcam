@@ -285,12 +285,17 @@ public class CamParametersHandler extends AbstractParameterHandler
         HDRMode = new HDRModeParameter(uiHandler,cameraParameters, baseCameraHolder,"","", cameraUiWrapper);
 
         Module = new ModuleParameters(uiHandler, appSettingsManager, cameraUiWrapper);
-        ParametersEventHandler.ParametersHasLoaded();
-        SetAppSettingsToParameters();
-        //cameraHolder.SetCameraParameters(cameraParameters);
-        //camMode();
+
         if (((BaseCameraHolder) cameraHolder).DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)
             Mediatek();
+
+        ParametersEventHandler.ParametersHasLoaded();
+        SetAppSettingsToParameters();
+        SetParametersToCamera();
+        cameraHolder.StopPreview();
+        cameraHolder.StartPreview();
+        //camMode();
+
 
 
     }
@@ -443,9 +448,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         cameraParameters.put("rawfname", "/mnt/sdcard/DCIM/test.raw");
 
 
-        cameraHolder.SetCameraParameters(cameraParameters);
-        baseCameraHolder.StopPreview();
-        baseCameraHolder.StartPreview();
+        
     }
 
     private void setupLg_G4Parameters()
