@@ -303,6 +303,8 @@ public class DngSupportedDevices
                         return new Nexus6Profile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL);
                     case Yu_Yureka:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL);
+                    case OneA9:
+                        return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL);
                     default:
                         return new Nexus6Profile(64, 4212, 3082, Mipi, BGGR, getG3_rowSizeL);
                 }
@@ -411,6 +413,8 @@ public class DngSupportedDevices
                         return new Nexus6Profile(64, 4192, 3104, Plain, RGGB, 0);
                     case RedmiNote2_MTK:
                         return new Nexus6Profile(64, 4192, 3104, Plain, GBRG, 0);
+                    case Lenovo_K50_MTK:
+                        return new Nexus6Profile(16, 4192, 3104, Plain, BGGR, 0);
                     default:
                         return new Nexus6Profile(64, 4192, 3104, Plain, RGGB, 0);
 

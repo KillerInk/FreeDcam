@@ -62,7 +62,7 @@ public class DeviceUtils
     final public static Devices[] MOTOX = {Devices.Moto_MSM8982_8994, Devices.Moto_MSM8974 };
     final public static Devices[] MI3_4 = {Devices.XiaomiMI4W, Devices.XiaomiMI3W };
     final public static Devices[] LG_G2_3 = {Devices.LG_G2, Devices.LG_G3};
-    final public static Devices[] HTC_m8_9 = {Devices.Htc_M8, Devices.Htc_M9};
+    final public static Devices[] HTC_m8_9 = {Devices.Htc_M8, Devices.Htc_M9,Devices.OneA9};
     final public static Devices[] ZTE_DEVICES = {Devices.ZTE_ADV,Devices.ZTEADVIMX214,Devices.ZTEADV234};
     final public static Devices[] Sony_DEVICES = {Devices.SonyM4_QC,Devices.SonyC5_MTK,Devices.SonyM5_MTK};
 
@@ -148,6 +148,10 @@ public class DeviceUtils
             return Devices.ZTEADVIMX214;
         else if (isZTEADV234())
             return Devices.ZTEADV234;
+        else if(isHTCA9_QC())
+            return Devices.OneA9;
+        else if(isLenovo_K50())
+            return Devices.Lenovo_K50_MTK;
         else
             return Devices.UNKNOWN;
 
@@ -197,6 +201,8 @@ public class DeviceUtils
         ZTE_ADV,
         ZTEADVIMX214,
         ZTEADV234,
+        OneA9,
+        Lenovo_K50_MTK
     }
 
     public static boolean IsMarshMallowG3()
@@ -253,7 +259,9 @@ public class DeviceUtils
             Devices.Moto_MSM8982_8994, Devices.Moto_MSM8974,
             Devices.Retro_MTK,
             Devices.THL5000_MTK,
-            Devices.SonyM4_QC
+            Devices.SonyM4_QC,
+            Devices.OneA9,
+            Devices.Lenovo_K50_MTK
     };
 
     public static Devices[] camera1NO_RAW_STREAM = {
@@ -374,6 +382,11 @@ public class DeviceUtils
         return isDevice(contex.getResources().getStringArray(R.array.SonyM4));
     }
 
+    public static boolean isHTCA9_QC()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.OneA9));
+    }
+
     public static boolean isRetro()
     {
         return isDevice(contex.getResources().getStringArray(R.array.Retro));
@@ -435,6 +448,11 @@ public class DeviceUtils
     private static boolean isTHL5000()
     {
         return isDevice(contex.getResources().getStringArray(R.array.thl5000));
+    }
+
+    private static boolean isLenovo_K50()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.K50));
     }
     private static boolean isForwardArt()
     {
