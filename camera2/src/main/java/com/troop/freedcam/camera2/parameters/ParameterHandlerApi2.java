@@ -75,7 +75,9 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         FlashMode = new FlashModeApi2(uiHandler,this.cameraHolder);
         SceneMode = new SceneModeApi2(uiHandler,this.cameraHolder);
         ColorMode = new ColorModeApi2(uiHandler,this.cameraHolder);
-        WhiteBalanceMode = new WhiteBalanceApi2(uiHandler,cameraHolder);
+
+        ColorCorrectionMode = new ColorCorrectionModeApi2(uiHandler,cameraHolder);
+        WhiteBalanceMode = new WhiteBalanceApi2(uiHandler,cameraHolder, (ColorCorrectionModeApi2)ColorCorrectionMode);
         //AE mode start
         final AeModeApi2 AE = new AeModeApi2(uiHandler,this.cameraHolder);
         ExposureMode = AE;
@@ -101,11 +103,10 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         ManualFocus = mf;
         FocusMode.addEventListner(mf);
         //MF END
-        ColorCorrectionMode = new ColorCorrectionModeApi2(uiHandler,cameraHolder);
+
         //CCT START
         final  ManualWbCtApi2 cct = new ManualWbCtApi2(this,cameraHolder);
         CCT = cct;
-        ColorCorrectionMode.addEventListner(cct);
         WhiteBalanceMode.addEventListner(cct);
         //cct end
 

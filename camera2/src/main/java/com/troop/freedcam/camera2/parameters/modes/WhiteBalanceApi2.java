@@ -14,18 +14,19 @@ import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class WhiteBalanceApi2 extends BaseModeApi2
 {
-
-
-    public WhiteBalanceApi2(Handler handler, BaseCameraHolderApi2 baseCameraHolderApi2) {
+    private ColorCorrectionModeApi2 cct;
+    private String lastcctmode = "FAST";
+    public WhiteBalanceApi2(Handler handler, BaseCameraHolderApi2 baseCameraHolderApi2, ColorCorrectionModeApi2 cct) {
         super(handler, baseCameraHolderApi2);
         int[] values = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES);
         if (values.length > 1)
             this.isSupported = true;
+        this.cct = cct;
+        lastcctmode = cct.GetValue();
     }
 
     public enum WhiteBalanceValues
     {
-
         OFF,
         AUTO,
         INCANDESCENT,
@@ -56,6 +57,16 @@ public class WhiteBalanceApi2 extends BaseModeApi2
         {
             WhiteBalanceValues sceneModes = Enum.valueOf(WhiteBalanceValues.class, valueToSet);
             cameraHolder.setIntKeyToCam(CaptureRequest.CONTROL_AWB_MODE, sceneModes.ordinal());
+            if (sceneModes == WhiteBalanceValues.OFF)
+            {
+                cct.SetValue("TRANSFORM_MATRIX",true);
+            }
+            else {
+                if (lastcctmode.equals("TRANSFORM_MATRIX"))
+                    lastcctmode = "FAST";
+                cct.SetValue(lastcctmode, true);
+            }
+
         }
         BackgroundValueHasChanged(valueToSet);
         //cameraHolder.mPreviewRequestBuilder.build();
