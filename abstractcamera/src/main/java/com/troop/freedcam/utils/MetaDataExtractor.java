@@ -1,5 +1,8 @@
 package com.troop.freedcam.utils;
 
+import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
+import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,6 +19,7 @@ public class MetaDataExtractor {
     int isoActual;
     boolean isRoot = false;
     String Description;
+    //CameraParametersEventHandler cameraHolder;
 
     public MetaDataExtractor()
     {
