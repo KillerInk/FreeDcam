@@ -82,7 +82,13 @@ public class VideoProfileEditorFragment extends Fragment
         AppSettingsManager appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getActivity()), getContext());
 
 
-        setMediaProfile(videoMediaProfiles.get(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE)));
+        try {
+            setMediaProfile(videoMediaProfiles.get(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE)));
+        }
+        catch (NullPointerException ex)
+        {
+            
+        }
 
         switch_Audio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -124,7 +130,7 @@ public class VideoProfileEditorFragment extends Fragment
         @Override
         public boolean onMenuItemClick(MenuItem item)
         {
-            if(!videoMediaProfiles.get(item.toString()).equals(null))
+            if(videoMediaProfiles.get(item.toString()).toString().length() > 1)
                 setMediaProfile(videoMediaProfiles.get(item.toString()));
             return false;
         }

@@ -215,12 +215,12 @@ public class VideoProfilesParameter extends BaseModeParameter
                 if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) || DeviceUtils.IS(DeviceUtils.Devices.ZTEADVIMX214) || DeviceUtils.IS(DeviceUtils.Devices.ZTEADV234))
                 {
 
-                    VideoMediaProfile uhd = supportedProfiles.get("Timelapse1080p").clone();
-                    uhd.videoFrameWidth = 3840;
-                    uhd.videoFrameHeight = 2160;
+                    VideoMediaProfile uhd = supportedProfiles.get("4kUHD").clone();
+                   // uhd.videoFrameWidth = 3840;
+                    //uhd.videoFrameHeight = 2160;
                     uhd.Mode = VideoMediaProfile.VideoMode.Timelapse;
-                    uhd.ProfileName = "Time Lapse 4K";
-                    supportedProfiles.put("Time Lapse 4K",uhd);
+                    uhd.ProfileName = "TimeLapse4K";
+                    supportedProfiles.put("TimeLapse4K",uhd);
                 }
             }
         } catch (Exception e) {
@@ -285,7 +285,7 @@ public class VideoProfilesParameter extends BaseModeParameter
             supportedProfiles.put(_4kUHD,uhd);
         }
 
-        if (parameters.containsKey("video-size-values")&& parameters.get("video-hfr-values").contains("120") || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) || DeviceUtils.IS(DeviceUtils.Devices.ZTEADVIMX214) || DeviceUtils.IS(DeviceUtils.Devices.ZTEADV234) )
+   /*     if (parameters.containsKey("video-size-values")&& parameters.get("video-hfr-values").contains("120") || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) || DeviceUtils.IS(DeviceUtils.Devices.ZTEADVIMX214) || DeviceUtils.IS(DeviceUtils.Devices.ZTEADV234) )
         {
             VideoMediaProfile t = supportedProfiles.get("720p").clone();
             t.videoFrameRate = 120;
@@ -293,7 +293,7 @@ public class VideoProfilesParameter extends BaseModeParameter
             t.ProfileName = "720pHFR";
             supportedProfiles.put("720pHFR",t);
 
-        }
+        }*/
 
         if (parameters.containsKey("video-size-values")&& parameters.get("video-hfr-values").contains("60") || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) )
         {
