@@ -90,6 +90,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     public ImageReader mImageReader;
     Size previewSize;
 
+    private Surface previewsurface;
+    private Surface camerasurface;
+
 
     int imagecount = 0;
 
@@ -341,7 +344,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                    int burstcount = ParameterHandler.Burst.GetValue()+1;
+                    int burstcount = ParameterHandler.Burst.GetValue();
                     File file = null;
                     Handler handler = new Handler(Looper.getMainLooper());
                     imagecount++;
@@ -362,7 +365,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
 
                     isWorking = false;
-                    MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
+                    MediaScannerManager.ScanMedia(Settings.context, file);
                     eventHandler.WorkFinished(file);
                     if (burstcount == imagecount) {
                         workfinished(true);
@@ -636,7 +639,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     }
 
     @Override
-    public void stopPreview() {
+    public void stopPreview()
+    {
 
     }
 
@@ -648,7 +652,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
             SurfaceTexture texture = baseCameraHolder.textureView.getSurfaceTexture();
             texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
-            baseCameraHolder.previewsurface = new Surface(texture);
+            previewsurface = new Surface(texture);
             if (!baseCameraHolder.isLegacyDevice())
             {
                 if (baseCameraHolder.mProcessor != null) {
@@ -656,9 +660,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 }
                 baseCameraHolder.mProcessor.Reset(previewSize.getWidth(), previewSize.getHeight());
 
-                baseCameraHolder.mProcessor.setOutputSurface(baseCameraHolder.previewsurface);
-                baseCameraHolder.camerasurface = baseCameraHolder.mProcessor.getInputSurface();
-                baseCameraHolder.mPreviewRequestBuilder.addTarget(baseCameraHolder.camerasurface);
+                baseCameraHolder.mProcessor.setOutputSurface(previewsurface);
+                camerasurface = baseCameraHolder.mProcessor.getInputSurface();
+                baseCameraHolder.mPreviewRequestBuilder.addTarget(camerasurface);
                 baseCameraHolder.textureView.setAspectRatio(previewSize.getWidth(), previewSize.getHeight());
                 Matrix matrix = new Matrix();
                 RectF viewRect = new RectF(0, 0, displaySize.x, displaySize.y);
@@ -671,7 +675,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             }
             else
             {
-                baseCameraHolder.mPreviewRequestBuilder.addTarget(baseCameraHolder.previewsurface);
+                baseCameraHolder.mPreviewRequestBuilder.addTarget(previewsurface);
                 baseCameraHolder.configureTransform(previewSize.getWidth(), previewSize.getHeight(),displaySize);
                 //textureView.setAspectRatio(mImageWidth,mImageHeight);
             }
@@ -684,9 +688,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW_SENSOR, burst);
 
             if (baseCameraHolder.isLegacyDevice())
-                baseCameraHolder.createPreviewCaptureSession(baseCameraHolder.previewsurface,mImageReader);
+                baseCameraHolder.createPreviewCaptureSession(previewsurface,mImageReader.getSurface());
             else
-                baseCameraHolder.createPreviewCaptureSession(baseCameraHolder.camerasurface,mImageReader);
+                baseCameraHolder.createPreviewCaptureSession(camerasurface,mImageReader.getSurface());
 
         } catch (CameraAccessException e) {
             e.printStackTrace();
@@ -753,9 +757,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void UnloadNeededParameters() {
         super.UnloadNeededParameters();
+        try {
+            cameraHolder.mCaptureSession.stopRepeating();
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
         cameraHolder.mPreviewRequestBuilder.removeTarget(mImageReader.getSurface());
-        cameraHolder.mPreviewRequestBuilder.removeTarget(cameraHolder.camerasurface);
-        cameraHolder.mPreviewRequestBuilder.removeTarget(cameraHolder.previewsurface);
+        cameraHolder.mPreviewRequestBuilder.removeTarget(camerasurface);
+        cameraHolder.mPreviewRequestBuilder.removeTarget(previewsurface);
         cameraHolder.StopPreview();
     }
 

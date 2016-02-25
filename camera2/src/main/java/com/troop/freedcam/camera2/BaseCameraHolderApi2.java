@@ -93,8 +93,8 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     public int CurrentCamera;
 
     public CameraCharacteristics characteristics;
-    public Surface previewsurface;
-    public Surface camerasurface;
+    //public Surface previewsurface;
+    //public Surface camerasurface;
     AppSettingsManager Settings;
 
 
@@ -651,6 +651,25 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         }
     }
 
+    public static Size getSizeForPreviewDependingOnVideo(Size[] choices, CameraCharacteristics characteristics, int mImageWidth, int mImageHeight)
+    {
+        List<Size> sizes = new ArrayList<Size>();
+        Rect rect = characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        double ratio = (double)mImageWidth/mImageHeight;
+        for (Size s : choices)
+        {
+            if (((double)s.getWidth()/s.getHeight()) == ratio)
+                sizes.add(s);
+
+        }
+        if (sizes.size() > 0) {
+            return Collections.max(sizes, new CompareSizesByArea());
+        } else {
+            Log.e(TAG, "Couldn't find any suitable previewSize size");
+            return choices[0];
+        }
+    }
+
     public boolean isLegacyDevice()
     {
         if (characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) != CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
@@ -659,11 +678,13 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             return true;
     }
 
-    public void createPreviewCaptureSession(Surface surface, ImageReader mImageReader) throws CameraAccessException {
-        if (ParameterHandler.Burst == null)
-            mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()), previewStateCallBackFirstStart, null);
+    public void createPreviewCaptureSession(Surface surface, Surface surface2) throws CameraAccessException {
+        if (ParameterHandler.Burst == null && surface2 != null)
+            mCameraDevice.createCaptureSession(Arrays.asList(surface, surface2), previewStateCallBackFirstStart, null);
+        else if (surface2 != null)
+            mCameraDevice.createCaptureSession(Arrays.asList(surface, surface2), previewStateCallBackRestart, null);
         else
-            mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()), previewStateCallBackRestart, null);
+            mCameraDevice.createCaptureSession(Arrays.asList(surface), previewStateCallBackRestart, null);
     }
 
     public static boolean IsLegacy(AppSettingsManager appSettingsManager)

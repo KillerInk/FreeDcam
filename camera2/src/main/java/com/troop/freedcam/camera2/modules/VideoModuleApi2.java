@@ -2,6 +2,8 @@ package com.troop.freedcam.camera2.modules;
 
 import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
+import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -41,6 +43,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     boolean isRecording = false;
     Size previewSize;
     VideoMediaProfile currentVideoProfile;
+    private Surface previewsurface;
+    private Surface camerasurface;
 
     public MediaRecorder mediaRecorder;
 
@@ -74,7 +78,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     @Override
     public void LoadNeededParameters()
     {
-        cameraHolder.StopPreview();
         cameraHolder.ModulePreview = this;
         VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) ParameterHandler.VideoProfiles;
         currentVideoProfile = profilesApi2.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
@@ -82,10 +85,19 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         super.LoadNeededParameters();
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void UnloadNeededParameters() {
         super.UnloadNeededParameters();
-        cameraHolder.StopPreview();
+        try {
+            cameraHolder.mCaptureSession.stopRepeating();
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+        catch (NullPointerException ex){}
+        cameraHolder.mPreviewRequestBuilder.removeTarget(camerasurface);
+        cameraHolder.mPreviewRequestBuilder.removeTarget(previewsurface);
+        cameraHolder.StopPreview();;
     }
 
     @Override
@@ -106,10 +118,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         MediaRecorder.setOrientationHint(orientation);*/
         Log.d(TAG, "startRecording");
         startPreviewVideo();
-
-        mediaRecorder.start();
-        isRecording = true;
-        eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_START);
     }
 
     private void stopRecording()
@@ -126,13 +134,15 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     @Override
     public void startPreview()
     {
-        previewSize = getSizeForPreviewDependingOnImageSize(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888),baseCameraHolder.characteristics, currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
+        previewSize = new Size(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight); //BaseCameraHolderApi2.getSizeForPreviewDependingOnVideo(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), baseCameraHolder.characteristics, currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
 
         SurfaceTexture texture = baseCameraHolder.textureView.getSurfaceTexture();
 
         texture.setDefaultBufferSize(currentVideoProfile.videoFrameWidth,currentVideoProfile.videoFrameHeight);
-        if (baseCameraHolder.previewsurface != null)
-            baseCameraHolder.previewsurface = new Surface(texture);
+
+        previewsurface = new Surface(texture);
+
+
         try {
             baseCameraHolder.mPreviewRequestBuilder = baseCameraHolder.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
         } catch (CameraAccessException e) {
@@ -141,30 +151,27 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             return;
         }
 
-        List<Surface> surfaces = new ArrayList<Surface>();
+        if (baseCameraHolder.mProcessor != null) {
+            baseCameraHolder.mProcessor.kill();
+        }
+        baseCameraHolder.mProcessor.Reset(previewSize.getWidth(), previewSize.getHeight());
 
-        Surface previewSurface = new Surface(texture);
-        surfaces.add(previewSurface);
-        baseCameraHolder.mPreviewRequestBuilder.removeTarget(previewSurface);
-        baseCameraHolder.mPreviewRequestBuilder.addTarget(previewSurface);
-
-        baseCameraHolder.configureTransform(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight,displaySize);
+        baseCameraHolder.mProcessor.setOutputSurface(previewsurface);
+        camerasurface = baseCameraHolder.mProcessor.getInputSurface();
+        baseCameraHolder.mPreviewRequestBuilder.addTarget(camerasurface);
+        baseCameraHolder.textureView.setAspectRatio(previewSize.getWidth(), previewSize.getHeight());
+        Matrix matrix = new Matrix();
+        RectF viewRect = new RectF(0, 0, displaySize.x, displaySize.y);
+        matrix.setRectToRect(viewRect, viewRect, Matrix.ScaleToFit.FILL);
+        if (Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+            matrix.postRotate(180, viewRect.centerX(), viewRect.centerY());
+        else
+            matrix.postRotate(0, viewRect.centerX(), viewRect.centerY());
+        baseCameraHolder.textureView.setTransform(matrix);
 
         try {
 
-            baseCameraHolder.mCameraDevice.createCaptureSession(surfaces, new CameraCaptureSession.StateCallback() {
-
-                @Override
-                public void onConfigured(CameraCaptureSession cameraCaptureSession) {
-                    baseCameraHolder.mCaptureSession = cameraCaptureSession;
-                    baseCameraHolder.updatePreview();
-                }
-
-                @Override
-                public void onConfigureFailed(CameraCaptureSession cameraCaptureSession) {
-
-                }
-            }, null);
+            baseCameraHolder.createPreviewCaptureSession(camerasurface, null);
 
         } catch (CameraAccessException e)
         {};
@@ -210,58 +217,75 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             mediaRecorder.prepare();
         } catch (IOException e) {
             e.printStackTrace();
+            return;
         }
 
-        previewSize = getSizeForPreviewDependingOnImageSize(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888),baseCameraHolder.characteristics, currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
+        previewSize = new Size(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight); //BaseCameraHolderApi2.getSizeForPreviewDependingOnVideo(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), baseCameraHolder.characteristics, currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
 
         SurfaceTexture texture = baseCameraHolder.textureView.getSurfaceTexture();
-        assert texture != null;
 
-        texture.setDefaultBufferSize(currentVideoProfile.videoFrameWidth,currentVideoProfile.videoFrameHeight);
+        texture.setDefaultBufferSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
+
+        previewsurface = new Surface(texture);
 
 
-        baseCameraHolder.previewsurface = new Surface(texture);
         try {
-            baseCameraHolder.mPreviewRequestBuilder = baseCameraHolder.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
+            baseCameraHolder.mPreviewRequestBuilder = baseCameraHolder.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
         } catch (CameraAccessException e) {
             e.printStackTrace();
             baseCameraHolder.cameraChangedListner.onCameraError("MediaRecorder Prepare failed");
             return;
         }
 
-        List<Surface> surfaces = new ArrayList<Surface>();
+        if (baseCameraHolder.mProcessor != null) {
+            baseCameraHolder.mProcessor.kill();
+        }
+        baseCameraHolder.mProcessor.Reset(previewSize.getWidth(), previewSize.getHeight());
 
-        Surface previewSurface = new Surface(texture);
-        surfaces.add(previewSurface);
-        baseCameraHolder.mPreviewRequestBuilder.addTarget(previewSurface);
-
-        Surface recorderSurface = mediaRecorder.getSurface();
-        surfaces.add(recorderSurface);
-        baseCameraHolder.mPreviewRequestBuilder.addTarget(recorderSurface);
-
-        baseCameraHolder.configureTransform(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight,displaySize);
+        baseCameraHolder.mProcessor.setOutputSurface(previewsurface);
+        camerasurface = baseCameraHolder.mProcessor.getInputSurface();
+        baseCameraHolder.mPreviewRequestBuilder.addTarget(camerasurface);
+        baseCameraHolder.mPreviewRequestBuilder.addTarget(mediaRecorder.getSurface());
+        baseCameraHolder.textureView.setAspectRatio(previewSize.getWidth(), previewSize.getHeight());
+        Matrix matrix = new Matrix();
+        RectF viewRect = new RectF(0, 0, displaySize.x, displaySize.y);
+        matrix.setRectToRect(viewRect, viewRect, Matrix.ScaleToFit.FILL);
+        if (Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+            matrix.postRotate(180, viewRect.centerX(), viewRect.centerY());
+        else
+            matrix.postRotate(0, viewRect.centerX(), viewRect.centerY());
+        baseCameraHolder.textureView.setTransform(matrix);
 
         try {
 
-            baseCameraHolder.mCameraDevice.createCaptureSession(surfaces, new CameraCaptureSession.StateCallback() {
+            baseCameraHolder.mCameraDevice.createCaptureSession(Arrays.asList(camerasurface,mediaRecorder.getSurface()), new CameraCaptureSession.StateCallback()
+            {
 
                 @Override
-                public void onConfigured(CameraCaptureSession cameraCaptureSession) {
+                public void onConfigured(CameraCaptureSession cameraCaptureSession)
+                {
                     baseCameraHolder.mCaptureSession = cameraCaptureSession;
-                    baseCameraHolder.updatePreview();
+                    try {
+                        baseCameraHolder.mPreviewRequest = baseCameraHolder.mPreviewRequestBuilder.build();
+                        baseCameraHolder.mCaptureSession.setRepeatingRequest(baseCameraHolder.mPreviewRequest,
+                                baseCameraHolder.mCaptureCallback, null);
+                        baseCameraHolder.SetLastUsedParameters(baseCameraHolder.mPreviewRequestBuilder);
+                        mediaRecorder.start();
+                        isRecording = true;
+                        eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_START);
+                    } catch (CameraAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 @Override
-                public void onConfigureFailed(CameraCaptureSession cameraCaptureSession) {
+                public void onConfigureFailed(CameraCaptureSession cameraCaptureSession)
+                {
 
                 }
             }, null);
 
         } catch (CameraAccessException e)
         {};
-
-
-
-
     }
 }
