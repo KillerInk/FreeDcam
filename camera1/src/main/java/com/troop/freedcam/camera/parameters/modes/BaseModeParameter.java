@@ -81,17 +81,6 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
 
             } catch (Exception ex) {
                 ex.printStackTrace();
-                Log.e(TAG, "set " + value + " to " + valueToSet + " failed set back to: " + tmp);
-                if (tmp == null)
-                    return;
-                parameters.put(value, tmp);
-                try {
-                    baseCameraHolder.SetCameraParameters(parameters);
-                    BackgroundValueHasChanged(valueToSet);
-                } catch (Exception ex2) {
-                    ex.printStackTrace();
-                    Log.e(TAG, "set " + value + " back to " + tmp + " failed");
-                }
             }
         }
         firststart = false;
