@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera.modules;
 
 import android.media.CamcorderProfile;
+import android.util.Log;
 
 import com.lge.media.CamcorderProfileEx;
 import com.troop.freedcam.utils.StringUtils;
@@ -67,6 +68,17 @@ public class VideoMediaProfile
         this.Mode = mode;
     }
 
+    private boolean isAudioActive = false;
+    public static boolean IsAudioActive(){
+        VideoMediaProfile videoMediaProfile = new VideoMediaProfile();
+        return videoMediaProfile.isAudioActive; };
+
+    public static void SetAudioActive(boolean active) {
+    VideoMediaProfile videoMediaProfile = new VideoMediaProfile();
+
+        videoMediaProfile.isAudioActive = active;
+    }
+
     public VideoMediaProfile(CamcorderProfile ex,String ProfileName, VideoMode mode)
     {
         this.audioBitRate = ex.audioBitRate;
@@ -101,6 +113,10 @@ public class VideoMediaProfile
         this.videoFrameWidth = v12;
         this.ProfileName = ProfileName;
         this.Mode = mode;
+    }
+    public VideoMediaProfile()
+    {
+        Log.d("VMP Construct ","init");
     }
 
     public VideoMediaProfile(String t)

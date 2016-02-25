@@ -7,6 +7,7 @@ import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.modules.VideoMediaProfile;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
+import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.BufferedReader;
@@ -91,7 +92,8 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
                 lookupDefaultProfiles(supportedProfiles);
                 VideoMediaProfile.saveCustomProfiles(supportedProfiles);
             }
-             VideoMediaProfile.loadCustomProfiles(supportedProfiles);
+            if (f.exists())
+                VideoMediaProfile.loadCustomProfiles(supportedProfiles);
         }
     }
 
@@ -231,6 +233,17 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
             {
                 CamcorderProfileEx fourk = CamcorderProfileEx.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kUHD);
                 supportedProfiles.put("4kUHD", new VideoMediaProfile(fourk,"4kUHD", VideoMediaProfile.VideoMode.Normal));
+
+                if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) || DeviceUtils.IS(DeviceUtils.Devices.ZTEADVIMX214) || DeviceUtils.IS(DeviceUtils.Devices.ZTEADV234))
+                {
+
+                    VideoMediaProfile uhd = supportedProfiles.get("Timelapse1080p").clone();
+                    uhd.videoFrameWidth = 3840;
+                    uhd.videoFrameHeight = 2160;
+                    uhd.Mode = VideoMediaProfile.VideoMode.Timelapse;
+                    uhd.ProfileName = "Time Lapse 4K";
+                    supportedProfiles.put("Time Lapse 4K",uhd);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

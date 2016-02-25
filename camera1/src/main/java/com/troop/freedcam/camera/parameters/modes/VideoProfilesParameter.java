@@ -88,7 +88,8 @@ public class VideoProfilesParameter extends BaseModeParameter
                 VideoMediaProfile.saveCustomProfiles(supportedProfiles);
             }
 
-            VideoMediaProfile.loadCustomProfiles(supportedProfiles);
+            if (f.exists())
+                VideoMediaProfile.loadCustomProfiles(supportedProfiles);
 
         }
     }
@@ -210,6 +211,17 @@ public class VideoProfilesParameter extends BaseModeParameter
                 CamcorderProfile fourk = CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kUHD);
 
                 supportedProfiles.put("4kUHD",new VideoMediaProfile(fourk, "4kUHD", VideoMediaProfile.VideoMode.Normal));
+
+                if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) || DeviceUtils.IS(DeviceUtils.Devices.ZTEADVIMX214) || DeviceUtils.IS(DeviceUtils.Devices.ZTEADV234))
+                {
+
+                    VideoMediaProfile uhd = supportedProfiles.get("Timelapse1080p").clone();
+                    uhd.videoFrameWidth = 3840;
+                    uhd.videoFrameHeight = 2160;
+                    uhd.Mode = VideoMediaProfile.VideoMode.Timelapse;
+                    uhd.ProfileName = "Time Lapse 4K";
+                    supportedProfiles.put("Time Lapse 4K",uhd);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -272,6 +284,28 @@ public class VideoProfilesParameter extends BaseModeParameter
             uhd.ProfileName = _4kUHD;
             supportedProfiles.put(_4kUHD,uhd);
         }
+
+        if (parameters.containsKey("video-size-values")&& parameters.get("video-hfr-values").contains("120") || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) || DeviceUtils.IS(DeviceUtils.Devices.ZTEADVIMX214) || DeviceUtils.IS(DeviceUtils.Devices.ZTEADV234) )
+        {
+            VideoMediaProfile t = supportedProfiles.get("720p").clone();
+            t.videoFrameRate = 120;
+            t.Mode = VideoMediaProfile.VideoMode.Highspeed;
+            t.ProfileName = "720pHFR";
+            supportedProfiles.put("720pHFR",t);
+
+        }
+
+        if (parameters.containsKey("video-size-values")&& parameters.get("video-hfr-values").contains("60") || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) )
+        {
+            VideoMediaProfile t = supportedProfiles.get("1080p").clone();
+            t.videoFrameRate = 60;
+            t.Mode = VideoMediaProfile.VideoMode.Highspeed;
+            t.ProfileName = "1080pHFR";
+            supportedProfiles.put("1080pHFR",t);
+
+        }
+
+
 
         if (DeviceUtils.IS(DeviceUtils.Devices.LenovoK920) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
         {

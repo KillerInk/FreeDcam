@@ -1,6 +1,7 @@
 package com.troop.freedcam.i_camera.parameters;
 
 import android.os.Handler;
+import android.util.Log;
 
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.FocusRect;
@@ -103,6 +104,7 @@ public abstract class AbstractParameterHandler
     private boolean isDngActive = false;
     public boolean IsDngActive(){ return this.isDngActive; };
     public void SetDngActive(boolean active) {this.isDngActive = active;}
+
 
     public AbstractCameraHolder cameraHolder;
     public AbstractCameraChanged cameraChanged;
