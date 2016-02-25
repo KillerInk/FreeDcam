@@ -286,12 +286,17 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         Module = new ModuleParameters(uiHandler, appSettingsManager, cameraUiWrapper);
 
-        SetAppSettingsToParameters();
-        //cameraHolder.SetCameraParameters(cameraParameters);
-        ParametersEventHandler.ParametersHasLoaded();
-        //camMode();
         if (((BaseCameraHolder) cameraHolder).DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)
             Mediatek();
+
+
+        SetAppSettingsToParameters();
+        SetParametersToCamera();
+        cameraHolder.StopPreview();
+        cameraHolder.StartPreview();
+        ParametersEventHandler.ParametersHasLoaded();
+        //camMode();
+
 
 
     }
@@ -444,9 +449,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         cameraParameters.put("rawfname", "/mnt/sdcard/DCIM/test.raw");
 
 
-        cameraHolder.SetCameraParameters(cameraParameters);
-        baseCameraHolder.StopPreview();
-        baseCameraHolder.StartPreview();
+
     }
 
     private void setupLg_G4Parameters()
