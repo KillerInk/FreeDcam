@@ -40,9 +40,9 @@ public class VideoModuleG3 extends AbstractVideoModule
             {
 
                 case Normal:
-                    recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
-                    break;
                 case Highspeed:
+                    if (currentProfile.isAudioActive)
+                        recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
                     break;
                 case Timelapse:
                     break;

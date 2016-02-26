@@ -36,9 +36,6 @@ public class VideoModule extends AbstractVideoModule
         switch (currentProfile.Mode)
         {
             case Normal:
-                if(currentProfile.isAudioActive)
-                    recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
-                break;
             case Highspeed:
                 if(currentProfile.isAudioActive)
                     recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
