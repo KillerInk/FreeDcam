@@ -57,7 +57,12 @@ public class PictureFormatHandler extends BaseModeParameter
                             String forms[] = formats.split(",");
                             for (String s : forms) {
                                 if (s.contains("bayer-mipi") || s.contains("raw")) {
+
+                                if (DeviceUtils.IS(DeviceUtils.Devices.OneA9))
+                                    rawFormat = "bayer-mipi-10rggb";
+                                else
                                     rawFormat = s;
+
                                     break;
                                 }
                             }

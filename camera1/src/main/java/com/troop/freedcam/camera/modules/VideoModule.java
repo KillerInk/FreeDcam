@@ -2,6 +2,7 @@ package com.troop.freedcam.camera.modules;
 
 import android.media.MediaRecorder;
 import android.os.Environment;
+import android.telecom.VideoProfile;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
@@ -35,9 +36,12 @@ public class VideoModule extends AbstractVideoModule
         switch (currentProfile.Mode)
         {
             case Normal:
-                recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+                if(VideoMediaProfile.IsAudioActive())
+                    recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
                 break;
             case Highspeed:
+                if(VideoMediaProfile.IsAudioActive())
+                    recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
                 break;
             case Timelapse:
                 break;
@@ -51,12 +55,18 @@ public class VideoModule extends AbstractVideoModule
         switch (currentProfile.Mode)
         {
             case Normal:
+                if(VideoMediaProfile.IsAudioActive()){
                 recorder.setAudioSamplingRate(currentProfile.audioSampleRate);
                 recorder.setAudioEncodingBitRate(currentProfile.audioBitRate);
                 recorder.setAudioChannels(currentProfile.audioChannels);
-                recorder.setAudioEncoder(currentProfile.audioCodec);
+                recorder.setAudioEncoder(currentProfile.audioCodec);}
                 break;
             case Highspeed:
+                if(VideoMediaProfile.IsAudioActive()){
+                    recorder.setAudioSamplingRate(currentProfile.audioSampleRate);
+                    recorder.setAudioEncodingBitRate(currentProfile.audioBitRate);
+                    recorder.setAudioChannels(currentProfile.audioChannels);
+                    recorder.setAudioEncoder(currentProfile.audioCodec);}
                 break;
             case Timelapse:
                 float frame = 30;
@@ -94,6 +104,19 @@ public class VideoModule extends AbstractVideoModule
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         if (currentProfile.Mode == VideoMediaProfile.VideoMode.Highspeed)
         {
+            if(currentProfile.ProfileName.equals("1080pHFR") && DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
+                camParametersHandler.setString("video-hfr", "60");
+
+            if(currentProfile.ProfileName.equals("720pHFR") && DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
+                camParametersHandler.setString("video-hfr", "120");
+
+            if(currentProfile.ProfileName.equals("720pHFR") && DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) && currentProfile.videoFrameRate == 60) {
+                camParametersHandler.setString("video-hfr", "120");
+                camParametersHandler.setString("preview-format", "nv12-venus");
+
+            }
+
+
             if (camParametersHandler.MemoryColorEnhancement != null && camParametersHandler.MemoryColorEnhancement.IsSupported())
                 camParametersHandler.MemoryColorEnhancement.SetValue("disable", true);
             if (camParametersHandler.DigitalImageStabilization != null && camParametersHandler.DigitalImageStabilization.IsSupported())
