@@ -44,7 +44,15 @@
             android:layout_marginRight="10dp" />
 
     </LinearLayout>
+    <!--
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:src="@android:drawable/ic_input_add" />-->
 
-    <include layout="@layout/basegridview"/>
+        <include layout="@layout/basegridview"/>
 
-</LinearLayout>
+    </LinearLayout>

@@ -26,6 +26,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.PopupMenu;
+import android.support.design.widget.FloatingActionButton;
 
 import com.defcomk.jni.libraw.RawUtils;
 import com.troop.freedcam.utils.StringUtils;
@@ -85,6 +86,47 @@ public class GridViewFragment extends BaseGridViewFragment
     {
         super.onCreateView(inflater, container, savedInstanceState);
         mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
+      /*  FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (currentViewState == ViewStates.normal) {
+                    if (files != null && files.length > 0) {
+                        String topPath = files[0].getFile().getParentFile().getParentFile().getAbsolutePath() + "/";
+                        String inter = StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder;
+                        String external = StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder;
+
+                        if ((inter.contains(topPath) && topPath.length() < inter.length() || topPath.equals(inter))
+                                || (external.contains(topPath) && topPath.length() < external.length() || topPath.equals(external)))
+                        {
+                            if(topPath.equals(inter) || topPath.equals(external)) {
+                                savedInstanceFilePath = null;
+                                loadDefaultFolders();
+                            }
+                            else
+                                getActivity().finish();
+                        }
+                        else {
+                            loadFiles(files[0].getFile());
+                            savedInstanceFilePath = files[0].getFile().getAbsolutePath();
+                        }
+                    }
+                    else
+                        loadDefaultFolders();
+                }
+                else if (currentViewState == ViewStates.selection)
+                {
+                    for (int i = 0; i< files.length; i++)
+                    {
+                        FileHolder f = files[i];
+                        f.SetSelected(false);
+                    }
+                    setViewMode(ViewStates.normal);
+                }
+            }
+        });*/
+
         deleteButton = (Button)view.findViewById(R.id.button_deltePics);
         deleteButton.setVisibility(View.GONE);
         deleteButton.setOnClickListener(new View.OnClickListener() {

@@ -3,6 +3,7 @@
         <activity
             android:name="troop.com.imageviewer.ScreenSlideActivity"
             android:label="GridView"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             >
 
             <intent-filter>

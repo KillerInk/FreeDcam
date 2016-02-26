@@ -87,7 +87,7 @@ public class VideoProfileEditorFragment extends Fragment
         }
         catch (NullPointerException ex)
         {
-            
+
         }
 
         switch_Audio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

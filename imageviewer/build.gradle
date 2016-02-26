@@ -64,4 +64,6 @@ dependencies {
     provided project(':camera1')
     provided project(':androiddng')
     provided 'com.android.support:support-v4:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
 }
