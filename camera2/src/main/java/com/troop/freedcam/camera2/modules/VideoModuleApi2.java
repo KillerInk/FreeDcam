@@ -214,6 +214,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             mediaRecorder.prepare();
         } catch (IOException e) {
             e.printStackTrace();
+            eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
             return;
         }
 
