@@ -75,12 +75,7 @@ public class VideoProfileEditorFragment extends Fragment
         File f = new File(VideoMediaProfile.MEDIAPROFILESPATH);
         if(f.exists())
             VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
-
-
-
         AppSettingsManager appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getActivity()), getContext());
-
-
         try {
             setMediaProfile(videoMediaProfiles.get(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE)));
         }
@@ -88,23 +83,6 @@ public class VideoProfileEditorFragment extends Fragment
         {
             
         }
-
-        switch_Audio.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
-
-                if (isChecked) {
-                    VideoMediaProfile.SetAudioActive(true);
-                } else {
-                    VideoMediaProfile.SetAudioActive(false);
-                }
-
-            }
-        });
-
-
     }
 
     @Override
@@ -187,6 +165,7 @@ public class VideoProfileEditorFragment extends Fragment
         editText_videobitrate.setText(profile.videoBitRate+"");
         editText_videoframerate.setText(profile.videoFrameRate+"");
         editText_maxrecordtime.setText(profile.duration+"");
+        switch_Audio.setChecked(profile.isAudioActive);
     }
 
     private View.OnClickListener onSavebuttonClick = new View.OnClickListener() {
@@ -194,7 +173,7 @@ public class VideoProfileEditorFragment extends Fragment
         public void onClick(View v)
         {
             if (currentProfile == null) {
-                Toast.makeText(getContext(),"Pls Select first a profile to edit", Toast.LENGTH_SHORT);
+                Toast.makeText(getContext(),"Pls Select first a profile to edit", Toast.LENGTH_SHORT).show();
                 return;
             }
             currentProfile.audioBitRate = Integer.parseInt(editText_audiobitrate.getText().toString());
@@ -203,6 +182,7 @@ public class VideoProfileEditorFragment extends Fragment
             currentProfile.videoBitRate = Integer.parseInt(editText_videobitrate.getText().toString());
             currentProfile.videoFrameRate = Integer.parseInt(editText_videoframerate.getText().toString());
             currentProfile.duration = Integer.parseInt(editText_maxrecordtime.getText().toString());
+            currentProfile.isAudioActive = switch_Audio.isChecked();
             //if currentprofile has no new name the the profile in videomediaprofiles gets updated
             if (videoMediaProfiles.containsKey(editText_profilename.getText().toString()))
             {
@@ -219,7 +199,7 @@ public class VideoProfileEditorFragment extends Fragment
             File f = new File(VideoMediaProfile.MEDIAPROFILESPATH);
             if(f.exists())
                 VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
-            Toast.makeText(getContext(),"Profile Saved", Toast.LENGTH_SHORT);
+            Toast.makeText(getContext(),"Profile Saved", Toast.LENGTH_SHORT).show();
         }
     };
 }

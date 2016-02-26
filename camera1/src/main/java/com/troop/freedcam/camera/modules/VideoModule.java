@@ -36,11 +36,11 @@ public class VideoModule extends AbstractVideoModule
         switch (currentProfile.Mode)
         {
             case Normal:
-                if(VideoMediaProfile.IsAudioActive())
+                if(currentProfile.isAudioActive)
                     recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
                 break;
             case Highspeed:
-                if(VideoMediaProfile.IsAudioActive())
+                if(currentProfile.isAudioActive)
                     recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
                 break;
             case Timelapse:
@@ -55,18 +55,14 @@ public class VideoModule extends AbstractVideoModule
         switch (currentProfile.Mode)
         {
             case Normal:
-                if(VideoMediaProfile.IsAudioActive()){
-                recorder.setAudioSamplingRate(currentProfile.audioSampleRate);
-                recorder.setAudioEncodingBitRate(currentProfile.audioBitRate);
-                recorder.setAudioChannels(currentProfile.audioChannels);
-                recorder.setAudioEncoder(currentProfile.audioCodec);}
-                break;
             case Highspeed:
-                if(VideoMediaProfile.IsAudioActive()){
+                if(currentProfile.isAudioActive)
+                {
                     recorder.setAudioSamplingRate(currentProfile.audioSampleRate);
                     recorder.setAudioEncodingBitRate(currentProfile.audioBitRate);
                     recorder.setAudioChannels(currentProfile.audioChannels);
-                    recorder.setAudioEncoder(currentProfile.audioCodec);}
+                    recorder.setAudioEncoder(currentProfile.audioCodec);
+                }
                 break;
             case Timelapse:
                 float frame = 30;
@@ -104,19 +100,6 @@ public class VideoModule extends AbstractVideoModule
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         if (currentProfile.Mode == VideoMediaProfile.VideoMode.Highspeed)
         {
-            if(currentProfile.ProfileName.equals("1080pHFR") && DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
-                camParametersHandler.setString("video-hfr", "60");
-
-            if(currentProfile.ProfileName.equals("720pHFR") && DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
-                camParametersHandler.setString("video-hfr", "120");
-
-            if(currentProfile.ProfileName.equals("720pHFR") && DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) && currentProfile.videoFrameRate == 60) {
-                camParametersHandler.setString("video-hfr", "120");
-                camParametersHandler.setString("preview-format", "nv12-venus");
-
-            }
-
-
             if (camParametersHandler.MemoryColorEnhancement != null && camParametersHandler.MemoryColorEnhancement.IsSupported())
                 camParametersHandler.MemoryColorEnhancement.SetValue("disable", true);
             if (camParametersHandler.DigitalImageStabilization != null && camParametersHandler.DigitalImageStabilization.IsSupported())
@@ -133,7 +116,7 @@ public class VideoModule extends AbstractVideoModule
         }
         else
         {
-            if (currentProfile.ProfileName.equals(VideoProfilesParameter._4kUHD))
+            if (currentProfile.ProfileName.contains(VideoProfilesParameter._4kUHD))
             {
                 if (camParametersHandler.MemoryColorEnhancement != null && camParametersHandler.MemoryColorEnhancement.IsSupported())
                     camParametersHandler.MemoryColorEnhancement.SetValue("disable", true);

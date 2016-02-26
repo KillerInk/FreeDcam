@@ -50,19 +50,19 @@ public class PictureFormatHandler extends BaseModeParameter
                     isSupported = true;
                     if (DeviceUtils.IS(DeviceUtils.Devices.LG_G2))
                         rawFormat = "bayer-mipi-10bggr";
-                    else {
+                    if (DeviceUtils.IS(DeviceUtils.Devices.OneA9))
+                        rawFormat = "bayer-mipi-10rggb";
+                    else
+                    {
                         String formats = parameters.get("picture-format-values");
-                        if (formats.contains("bayer-mipi") || formats.contains("raw")) {
+                        if (formats.contains("bayer-mipi") || formats.contains("raw"))
+                        {
                             rawSupported = true;
                             String forms[] = formats.split(",");
                             for (String s : forms) {
-                                if (s.contains("bayer-mipi") || s.contains("raw")) {
-
-                                if (DeviceUtils.IS(DeviceUtils.Devices.OneA9))
-                                    rawFormat = "bayer-mipi-10rggb";
-                                else
+                                if (s.contains("bayer-mipi") || s.contains("raw"))
+                                {
                                     rawFormat = s;
-
                                     break;
                                 }
                             }
