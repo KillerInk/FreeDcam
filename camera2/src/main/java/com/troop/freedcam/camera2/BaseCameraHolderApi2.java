@@ -87,25 +87,14 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
      */
     public CameraCaptureSession mCaptureSession;
     public StreamConfigurationMap map;
-
     public CaptureRequest mPreviewRequest;
-
     public int CurrentCamera;
-
     public CameraCharacteristics characteristics;
     //public Surface previewsurface;
     //public Surface camerasurface;
     AppSettingsManager Settings;
-
-
     public String VideoSize;
-
     public I_PreviewWrapper ModulePreview;
-
-
-
-
-
     RenderScript mRS;
     public ViewfinderProcessor mProcessor;
 
@@ -167,6 +156,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 //printCharacteristics();
             }
             map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+
         } catch (CameraAccessException e) {
             e.printStackTrace();
             return  false;
@@ -265,10 +255,12 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             return;
         ModulePreview.startPreview();
     }
-
-
-
-
+    @Override
+    public void StopPreview()
+    {
+        if (ModulePreview != null)
+            ModulePreview.stopPreview();
+    }
 
     public void updatePreview() {
         if (null == mCameraDevice) {
@@ -288,20 +280,10 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         builder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
     }
 
-
-
     public void setIntKeyToCam(CaptureRequest.Key<Integer> key, int value)
     {
-       /* if (errorRecieved)
-        {
-            errorRecieved = false;
-            //StopPreview();
-            //StartPreview();
-            return;
-        }*/
         if (mCaptureSession != null)
         {
-            //StopPreview();
             try {
                 mPreviewRequestBuilder.set(key, value);
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback,
@@ -341,14 +323,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         //textureView.setAspectRatio(previewSize.getWidth(),previewSize.getHeight());
     }
 
-    @Override
-    public void StopPreview()
-    {
-        Log.d(TAG,"Stop Preview");
-        if (mCaptureSession != null)
-            mCaptureSession.close();
-        mCaptureSession = null;
-    }
+
 
     @Override
     public void SetLocation(Location loc) {
@@ -415,8 +390,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             // This method is called when the camera is opened.  We start camera previewSize here.
             mCameraOpenCloseLock.release();
             mCameraDevice = cameraDevice;
-            Log.d(TAG,"Camera open");
-
+            Log.d(TAG, "Camera open");
             if (UIHandler != null)
                 UIHandler.post(new Runnable() {
                 @Override
@@ -424,6 +398,13 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     cameraChangedListner.onCameraOpen("");
                 }
             });
+            try {
+                mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
+            ((ParameterHandlerApi2)ParameterHandler).Init();
+            //SetLastUsedParameters(mPreviewRequestBuilder);
         }
 
         @Override
@@ -563,7 +544,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 mPreviewRequest = mPreviewRequestBuilder.build();
                 mCaptureSession.setRepeatingRequest(mPreviewRequest,
                         mCaptureCallback, null);
-                SetLastUsedParameters(mPreviewRequestBuilder);
+
 
             } catch (CameraAccessException e) {
                 e.printStackTrace();
@@ -596,7 +577,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 mPreviewRequest = mPreviewRequestBuilder.build();
                 mCaptureSession.setRepeatingRequest(mPreviewRequest,
                         mCaptureCallback, null);
-                SetLastUsedParameters(mPreviewRequestBuilder);
             } catch (CameraAccessException e) {
                 e.printStackTrace();
             }

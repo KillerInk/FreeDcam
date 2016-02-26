@@ -77,7 +77,7 @@ public class WhiteBalanceApi2 extends BaseModeApi2
     @Override
     public String GetValue()
     {
-        if (cameraHolder != null && cameraHolder.mPreviewRequest != null)
+        if (cameraHolder != null && cameraHolder.mPreviewRequestBuilder != null)
         {
             int i = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AWB_MODE);
             WhiteBalanceValues sceneModes = WhiteBalanceValues.values()[i];

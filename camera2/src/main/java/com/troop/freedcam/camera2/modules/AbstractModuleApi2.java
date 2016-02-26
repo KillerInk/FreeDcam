@@ -22,7 +22,6 @@ public abstract class AbstractModuleApi2 extends AbstractModule implements I_Pre
     protected AbstractParameterHandler ParameterHandler;
 
     protected boolean isWorking = false;
-    public String name;
 
     protected ModuleEventHandler eventHandler;
     protected Point displaySize;

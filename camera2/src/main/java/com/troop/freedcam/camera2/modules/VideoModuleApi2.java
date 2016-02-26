@@ -16,6 +16,7 @@ import android.view.Surface;
 import android.view.TextureView;
 
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
+import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.camera2.parameters.modes.VideoProfilesApi2;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_RecorderStateChanged;
@@ -98,7 +99,10 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         catch (NullPointerException ex){}
         cameraHolder.mPreviewRequestBuilder.removeTarget(camerasurface);
         cameraHolder.mPreviewRequestBuilder.removeTarget(previewsurface);
-        cameraHolder.StopPreview();;
+        Log.d(TAG, "Stop Preview");
+        if (cameraHolder.mCaptureSession != null)
+            cameraHolder.mCaptureSession.close();
+        cameraHolder.mCaptureSession = null;
     }
 
     @Override
@@ -144,14 +148,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         previewsurface = new Surface(texture);
 
 
-        try {
-            baseCameraHolder.mPreviewRequestBuilder = baseCameraHolder.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
-            baseCameraHolder.cameraChangedListner.onCameraError("MediaRecorder Prepare failed");
-            return;
-        }
-
         if (baseCameraHolder.mProcessor != null) {
             baseCameraHolder.mProcessor.kill();
         }
@@ -181,7 +177,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
     @Override
     public void stopPreview() {
-
+        UnloadNeededParameters();
     }
 
 
@@ -272,8 +268,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         {
             baseCameraHolder.mCaptureSession = cameraCaptureSession;
             try {
-                baseCameraHolder.mPreviewRequest = baseCameraHolder.mPreviewRequestBuilder.build();
-                baseCameraHolder.mCaptureSession.setRepeatingRequest(baseCameraHolder.mPreviewRequest,
+                baseCameraHolder.mCaptureSession.setRepeatingRequest(baseCameraHolder.mPreviewRequestBuilder.build(),
                         baseCameraHolder.mCaptureCallback, null);
                 baseCameraHolder.SetLastUsedParameters(baseCameraHolder.mPreviewRequestBuilder);
                 mediaRecorder.start();

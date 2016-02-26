@@ -33,6 +33,7 @@ import com.troop.androiddng.DngSupportedDevices;
 import com.troop.androiddng.Matrixes;
 import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
+import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
@@ -567,7 +568,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
     @Override
     public void startPreview() {
-        try {
+
             picSize = Settings.getString(AppSettingsManager.SETTING_PICTURESIZE);
             Log.d(TAG, "Start Preview");
             largestImageSize = Collections.max(
@@ -615,9 +616,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 mImageHeight = largestImageSize.getHeight();
             }
 
-
-            // We set up a CaptureRequest.Builder with the output Surface.
-            baseCameraHolder.mPreviewRequestBuilder = baseCameraHolder.mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             //OrientationHACK
             if(Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
                 baseCameraHolder.mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, 180);
@@ -630,18 +628,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             else
                 SetBurst(ParameterHandler.Burst.GetValue());
 
-        }
-        catch (CameraAccessException e)
-        {
-            e.printStackTrace();
-            return;
-        }
+
     }
 
     @Override
     public void stopPreview()
     {
-
+        UnloadNeededParameters();
     }
 
     public void SetBurst(int burst)
@@ -756,16 +749,21 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
     @Override
     public void UnloadNeededParameters() {
-        super.UnloadNeededParameters();
         try {
             cameraHolder.mCaptureSession.stopRepeating();
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+        catch (NullPointerException e) {
+            e.printStackTrace();
+        }
         cameraHolder.mPreviewRequestBuilder.removeTarget(mImageReader.getSurface());
         cameraHolder.mPreviewRequestBuilder.removeTarget(camerasurface);
         cameraHolder.mPreviewRequestBuilder.removeTarget(previewsurface);
-        cameraHolder.StopPreview();
+        Log.d(TAG, "Stop Preview");
+        if (cameraHolder.mCaptureSession != null)
+            cameraHolder.mCaptureSession.close();
+        cameraHolder.mCaptureSession = null;
     }
 
 }

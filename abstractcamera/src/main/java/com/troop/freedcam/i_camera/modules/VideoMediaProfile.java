@@ -106,7 +106,10 @@ public class VideoMediaProfile
         this.videoFrameWidth =  Integer.parseInt(ar[11]);
         this.ProfileName = ar[12];
         this.Mode = VideoMode.valueOf(ar[13]);
-        this.isAudioActive = Boolean.parseBoolean(ar[14]);
+        if (ar.length == 14)
+            this.isAudioActive = true;
+        else
+            this.isAudioActive = Boolean.parseBoolean(ar[14]);
     }
 
     public String GetString()
