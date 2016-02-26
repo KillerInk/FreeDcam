@@ -36,6 +36,7 @@ import static com.troop.freedcam.camera2.BaseCameraHolderApi2.getSizeForPreviewD
 /**
  * Created by troop on 26.11.2015.
  */
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class VideoModuleApi2 extends AbstractModuleApi2
 {
     private static String TAG = StringUtils.TAG +PictureModuleApi2.class.getSimpleName();
@@ -257,35 +258,36 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         baseCameraHolder.textureView.setTransform(matrix);
 
         try {
-
-            baseCameraHolder.mCameraDevice.createCaptureSession(Arrays.asList(camerasurface,mediaRecorder.getSurface()), new CameraCaptureSession.StateCallback()
-            {
-
-                @Override
-                public void onConfigured(CameraCaptureSession cameraCaptureSession)
-                {
-                    baseCameraHolder.mCaptureSession = cameraCaptureSession;
-                    try {
-                        baseCameraHolder.mPreviewRequest = baseCameraHolder.mPreviewRequestBuilder.build();
-                        baseCameraHolder.mCaptureSession.setRepeatingRequest(baseCameraHolder.mPreviewRequest,
-                                baseCameraHolder.mCaptureCallback, null);
-                        baseCameraHolder.SetLastUsedParameters(baseCameraHolder.mPreviewRequestBuilder);
-                        mediaRecorder.start();
-                        isRecording = true;
-                        eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_START);
-                    } catch (CameraAccessException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onConfigureFailed(CameraCaptureSession cameraCaptureSession)
-                {
-
-                }
-            }, null);
+                baseCameraHolder.mCameraDevice.createCaptureSession(Arrays.asList(camerasurface, mediaRecorder.getSurface()), previewrdy, null);
 
         } catch (CameraAccessException e)
         {};
     }
+
+    private CameraCaptureSession.StateCallback previewrdy = new CameraCaptureSession.StateCallback()
+    {
+
+        @Override
+        public void onConfigured(CameraCaptureSession cameraCaptureSession)
+        {
+            baseCameraHolder.mCaptureSession = cameraCaptureSession;
+            try {
+                baseCameraHolder.mPreviewRequest = baseCameraHolder.mPreviewRequestBuilder.build();
+                baseCameraHolder.mCaptureSession.setRepeatingRequest(baseCameraHolder.mPreviewRequest,
+                        baseCameraHolder.mCaptureCallback, null);
+                baseCameraHolder.SetLastUsedParameters(baseCameraHolder.mPreviewRequestBuilder);
+                mediaRecorder.start();
+                isRecording = true;
+                eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_START);
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onConfigureFailed(CameraCaptureSession cameraCaptureSession)
+        {
+
+        }
+    };
 }
