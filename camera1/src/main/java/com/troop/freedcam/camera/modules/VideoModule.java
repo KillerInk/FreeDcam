@@ -122,7 +122,8 @@ public class VideoModule extends AbstractVideoModule
                     camParametersHandler.Denoise.SetValue("denoise-off", true);
                 camParametersHandler.setString("preview-format", "nv12-venus");
             }
-            camParametersHandler.setString("preview-format", "yuv420sp");
+            else
+                camParametersHandler.setString("preview-format", "yuv420sp");
             if (camParametersHandler.VideoHighFramerateVideo != null && camParametersHandler.VideoHighFramerateVideo.IsSupported())
             {
                 camParametersHandler.VideoHighFramerateVideo.SetValue("off", true);
