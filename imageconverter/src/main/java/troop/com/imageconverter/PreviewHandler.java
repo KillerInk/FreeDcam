@@ -8,6 +8,7 @@ import android.hardware.Camera;
 import android.os.Build;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
+import android.renderscript.RSRuntimeException;
 import android.renderscript.RenderScript;
 import android.renderscript.Type;
 import android.util.Log;
@@ -111,41 +112,47 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
 
     private void reset(int width, int height)
     {
-        mHeight = height;
-        mWidth = width;
-        if (mRS == null)
-        {
-            Log.d(TAG, "rest called but mRS is null");
-            clear_preview("reset");
-            return;
-        }
-        Log.d(TAG, "reset allocs to :" + width + "x" + height);
         try {
-            cameraUiWrapper.cameraHolder.ResetPreviewCallback();
+            mHeight = height;
+            mWidth = width;
+            if (mRS == null) {
+                Log.d(TAG, "rest called but mRS is null");
+                clear_preview("reset");
+                return;
+            }
+            Log.d(TAG, "reset allocs to :" + width + "x" + height);
+            try {
+                cameraUiWrapper.cameraHolder.ResetPreviewCallback();
+            } catch (NullPointerException ex) {
+            }
+
+            Type.Builder tbIn = new Type.Builder(mRS, Element.U8(mRS));
+            tbIn.setX(mWidth);
+            tbIn.setY(mHeight);
+            tbIn.setYuvFormat(ImageFormat.NV21);
+            if (mAllocationOut != null)
+                mAllocationOut.setSurface(null);
+
+            mAllocationIn = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+
+            Type.Builder tbOut = new Type.Builder(mRS, Element.RGBA_8888(mRS));
+            tbOut.setX(mWidth);
+            tbOut.setY(mHeight);
+
+            mAllocationOut = Allocation.createTyped(mRS, tbOut.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT | Allocation.USAGE_IO_OUTPUT);
+            if (mSurface != null)
+                mAllocationOut.setSurface(mSurface);
+            else
+                Log.d(TAG, "surfaceNull");
+            mScriptFocusPeak = new ScriptC_focus_peak_cam1(mRS);
+            Log.d(TAG, "script done enabled: " + enable);
+            cameraUiWrapper.cameraHolder.SetPreviewCallback(this);
         }
-        catch (NullPointerException ex){}
-
-        Type.Builder tbIn = new Type.Builder(mRS, Element.U8(mRS));
-        tbIn.setX(mWidth);
-        tbIn.setY(mHeight);
-        tbIn.setYuvFormat(ImageFormat.NV21);
-        if (mAllocationOut != null)
-            mAllocationOut.setSurface(null);
-
-        mAllocationIn = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT);
-
-        Type.Builder tbOut = new Type.Builder(mRS, Element.RGBA_8888(mRS));
-        tbOut.setX(mWidth);
-        tbOut.setY(mHeight);
-
-        mAllocationOut = Allocation.createTyped(mRS, tbOut.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT | Allocation.USAGE_IO_OUTPUT);
-        if (mSurface != null)
-            mAllocationOut.setSurface(mSurface);
-        else
-            Log.d(TAG, "surfaceNull");
-        mScriptFocusPeak = new ScriptC_focus_peak_cam1(mRS);
-        Log.d(TAG, "script done enabled: " +enable);
-        cameraUiWrapper.cameraHolder.SetPreviewCallback(this);
+        catch (RSRuntimeException ex)
+        {
+            onCameraError("RenderScript Failed");
+            clear_preview("reset()");
+        }
     }
 
     TextureView.SurfaceTextureListener previewSurfaceListner = new TextureView.SurfaceTextureListener() {
