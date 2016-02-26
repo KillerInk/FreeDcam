@@ -169,7 +169,7 @@ public class VideoProfileEditorFragment extends Fragment
             else // it has a new name add it as new profile
             {
                 VideoMediaProfile p = currentProfile.clone();
-                p.ProfileName = editText_profilename.getText().toString();
+                p.ProfileName = editText_profilename.getText().toString().replace(" ","_");
                 videoMediaProfiles.put(p.ProfileName, p);
             }
             VideoMediaProfile.saveCustomProfiles(videoMediaProfiles);
