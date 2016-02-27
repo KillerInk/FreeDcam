@@ -34,6 +34,7 @@ import com.troop.androiddng.Matrixes;
 import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
+import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
@@ -646,32 +647,23 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             SurfaceTexture texture = baseCameraHolder.textureView.getSurfaceTexture();
             texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
             previewsurface = new Surface(texture);
-            if (!baseCameraHolder.isLegacyDevice())
-            {
-                if (baseCameraHolder.mProcessor != null) {
-                    baseCameraHolder.mProcessor.kill();
-                }
-                baseCameraHolder.mProcessor.Reset(previewSize.getWidth(), previewSize.getHeight());
+            if (baseCameraHolder.mProcessor != null) {
+                baseCameraHolder.mProcessor.kill();
+            }
+            baseCameraHolder.mProcessor.Reset(previewSize.getWidth(), previewSize.getHeight());
 
-                baseCameraHolder.mProcessor.setOutputSurface(previewsurface);
-                camerasurface = baseCameraHolder.mProcessor.getInputSurface();
-                baseCameraHolder.mPreviewRequestBuilder.addTarget(camerasurface);
-                baseCameraHolder.textureView.setAspectRatio(previewSize.getWidth(), previewSize.getHeight());
-                Matrix matrix = new Matrix();
-                RectF viewRect = new RectF(0, 0, displaySize.x, displaySize.y);
-                matrix.setRectToRect(viewRect, viewRect, Matrix.ScaleToFit.FILL);
-                if (Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
-                    matrix.postRotate(180, viewRect.centerX(), viewRect.centerY());
-                else
-                    matrix.postRotate(0, viewRect.centerX(), viewRect.centerY());
-                baseCameraHolder.textureView.setTransform(matrix);
-            }
+            baseCameraHolder.mProcessor.setOutputSurface(previewsurface);
+            camerasurface = baseCameraHolder.mProcessor.getInputSurface();
+            baseCameraHolder.mPreviewRequestBuilder.addTarget(camerasurface);
+            baseCameraHolder.textureView.setAspectRatio(previewSize.getWidth(), previewSize.getHeight());
+            Matrix matrix = new Matrix();
+            RectF viewRect = new RectF(0, 0, displaySize.x, displaySize.y);
+            matrix.setRectToRect(viewRect, viewRect, Matrix.ScaleToFit.FILL);
+            if (Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+                matrix.postRotate(180, viewRect.centerX(), viewRect.centerY());
             else
-            {
-                baseCameraHolder.mPreviewRequestBuilder.addTarget(previewsurface);
-                baseCameraHolder.configureTransform(previewSize.getWidth(), previewSize.getHeight(),displaySize);
-                //textureView.setAspectRatio(mImageWidth,mImageHeight);
-            }
+                matrix.postRotate(0, viewRect.centerX(), viewRect.centerY());
+            baseCameraHolder.textureView.setTransform(matrix);
 
             if (picFormat.equals(BaseCameraHolderApi2.JPEG))
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, burst);
@@ -687,6 +679,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
         } catch (CameraAccessException e) {
             e.printStackTrace();
+            baseCameraHolder.mCaptureSession = null;
         }
         if (ParameterHandler.Burst != null)
             ParameterHandler.Burst.ThrowCurrentValueChanged(ParameterHandler.Burst.GetValue());
@@ -741,10 +734,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void LoadNeededParameters()
     {
-        cameraHolder.StopPreview();
+        if (cameraHolder.ModulePreview != null)
+            ((AbstractModule)cameraHolder.ModulePreview).UnloadNeededParameters();
         cameraHolder.ModulePreview = this;
         cameraHolder.StartPreview();
-        super.LoadNeededParameters();
     }
 
     @Override

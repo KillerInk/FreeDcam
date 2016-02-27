@@ -87,7 +87,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
      */
     public CameraCaptureSession mCaptureSession;
     public StreamConfigurationMap map;
-    public CaptureRequest mPreviewRequest;
     public int CurrentCamera;
     public CameraCharacteristics characteristics;
     //public Surface previewsurface;
@@ -285,7 +284,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         if (mCaptureSession != null)
         {
             try {
-                mPreviewRequestBuilder.set(key, value);
+
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback,
                         null);
 
@@ -357,7 +356,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
     public void SetLastUsedParameters(CaptureRequest.Builder builder)
     {
-        ParameterHandler.SetAppSettingsToParameters();
+        //ParameterHandler.SetAppSettingsToParameters();
         Log.d(TAG, "set last used parameters");
     }
 
@@ -390,6 +389,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             // This method is called when the camera is opened.  We start camera previewSize here.
             mCameraOpenCloseLock.release();
             mCameraDevice = cameraDevice;
+
             Log.d(TAG, "Camera open");
             if (UIHandler != null)
                 UIHandler.post(new Runnable() {
@@ -541,8 +541,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             try {
 
                 // Finally, we start displaying the camera previewSize.
-                mPreviewRequest = mPreviewRequestBuilder.build();
-                mCaptureSession.setRepeatingRequest(mPreviewRequest,
+                mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
                         mCaptureCallback, null);
 
 
@@ -574,8 +573,8 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             mCaptureSession = cameraCaptureSession;
             try {
                 // Finally, we start displaying the camera previewSize.
-                mPreviewRequest = mPreviewRequestBuilder.build();
-                mCaptureSession.setRepeatingRequest(mPreviewRequest,
+                SetLastUsedParameters(mPreviewRequestBuilder);
+                mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
                         mCaptureCallback, null);
             } catch (CameraAccessException e) {
                 e.printStackTrace();

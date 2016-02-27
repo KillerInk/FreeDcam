@@ -86,21 +86,22 @@ public class ViewfinderProcessor {
 
     public void kill()
     {
-        if (mInputAllocation == null)
-            return;
-        mInputAllocation.setOnBufferAvailableListener(null);
-        if (mProcessingTask == null)
-            return;
+        if (mInputAllocation != null)
+            mInputAllocation.setOnBufferAvailableListener(null);
+        if (mProcessingTask != null) {
 
-        while (mProcessingTask.working) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            while (mProcessingTask.working) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            mProcessingTask = null;
         }
-        mOutputAllocation.setSurface(null);
-        mProcessingTask = null;
+        if (mOutputAllocation != null)
+            mOutputAllocation.setSurface(null);
+
     }
 
     public float getmFps() {
