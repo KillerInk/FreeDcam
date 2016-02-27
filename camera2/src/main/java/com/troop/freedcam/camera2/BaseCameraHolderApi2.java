@@ -38,6 +38,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.WindowManager;
 
+import com.troop.freedcam.camera2.modules.I_PreviewWrapper;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
@@ -86,26 +87,16 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
      */
     public CameraCaptureSession mCaptureSession;
     public StreamConfigurationMap map;
-
     public CaptureRequest mPreviewRequest;
-
     public int CurrentCamera;
-
     public CameraCharacteristics characteristics;
-    public Surface previewsurface;
-    Surface camerasurface;
+    //public Surface previewsurface;
+    //public Surface camerasurface;
     AppSettingsManager Settings;
-
-    public String picFormat;
-    public String picSize;
     public String VideoSize;
-    Size previewSize;
-    private Size largestImageSize;
-    private Point displaySize;
-    int mImageWidth, mImageHeight;
-
+    public I_PreviewWrapper ModulePreview;
     RenderScript mRS;
-    ViewfinderProcessor mProcessor;
+    public ViewfinderProcessor mProcessor;
 
     int afState;
     int aeState;
@@ -118,8 +109,8 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     /**
      * An {@link android.media.ImageReader} that handles still image capture.
      */
-    public ImageReader mImageReader;
-    public MediaRecorder mediaRecorder;
+
+
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public BaseCameraHolderApi2(Context context,I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager Settings, Handler backgroundHandler)
@@ -165,6 +156,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 //printCharacteristics();
             }
             map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+
         } catch (CameraAccessException e) {
             e.printStackTrace();
             return  false;
@@ -259,208 +251,18 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     @Override
     public void StartPreview()
     {
-        picSize = Settings.getString(AppSettingsManager.SETTING_PICTURESIZE);
-        VideoSize = Settings.getString(AppSettingsManager.SETTING_VIDEOSIZE);
-        Display display = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        displaySize = new Point();
-        display.getRealSize(displaySize);
-        if (textureView == null)
+        if (textureView == null || ModulePreview == null)
             return;
-        String s = Settings.GetCurrentModule();
-        if (s.equals(AbstractModuleHandler.MODULE_PICTURE) || s.equals(AbstractModuleHandler.MODULE_INTERVAL))
-            startPreviewPicture();
-        else if (Settings.GetCurrentModule().equals(AbstractModuleHandler.MODULE_VIDEO)){
-            startPreviewVideo();
-            }
-
+        ModulePreview.startPreview();
     }
-
-    private void startPreviewPicture()
+    @Override
+    public void StopPreview()
     {
-        try {
-            Log.d(TAG, "Start Preview");
-            largestImageSize = Collections.max(
-                    Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
-                    new CompareSizesByArea());
-
-
-
-            picFormat = Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
-            if (picFormat.equals("")) {
-                picFormat = JPEG;
-                Settings.setString(AppSettingsManager.SETTING_PICTUREFORMAT, JPEG);
-
-            }
-
-            if (picFormat.equals(JPEG))
-            {
-                String[] split = picSize.split("x");
-                int width, height;
-                if (split.length < 2)
-                {
-                    mImageWidth = largestImageSize.getWidth();
-                    mImageHeight = largestImageSize.getHeight();
-                }
-                else
-                {
-                    mImageWidth = Integer.parseInt(split[0]);
-                    mImageHeight = Integer.parseInt(split[1]);
-                }
-                //create new ImageReader with the size and format for the image
-                Log.d(TAG, "ImageReader JPEG");
-            }
-            else if (picFormat.equals(RAW_SENSOR))
-            {
-                Log.d(TAG, "ImageReader RAW_SENOSR");
-                largestImageSize = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
-                mImageWidth = largestImageSize.getWidth();
-                mImageHeight = largestImageSize.getHeight();
-            }
-            else if (picFormat.equals(RAW10))
-            {
-                Log.d(TAG, "ImageReader RAW_SENOSR");
-                largestImageSize = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.RAW10)), new CompareSizesByArea());
-                mImageWidth = largestImageSize.getWidth();
-                mImageHeight = largestImageSize.getHeight();
-            }
-
-
-            // We set up a CaptureRequest.Builder with the output Surface.
-            mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-            //OrientationHACK
-            if(Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
-                mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, 180);
-            else
-                mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, 0);
-
-            // Here, we create a CameraCaptureSession for camera previewSize.
-            if (ParameterHandler.Burst == null)
-                SetBurst(1);
-            else
-                SetBurst(ParameterHandler.Burst.GetValue()+1);
-
-        }
-        catch (CameraAccessException e)
-        {
-            e.printStackTrace();
-            return;
-        }
+        if (ModulePreview != null)
+            ModulePreview.stopPreview();
     }
 
-    private void startPreviewVideo()
-    {
-        largestImageSize = Collections.max(
-                Arrays.asList(map.getOutputSizes(MediaRecorder.class)),
-                new CompareSizesByArea());
-
-        Size video[] = map.getOutputSizes(MediaRecorder.class);
-        Size re [] = map.getOutputSizes(TextureView.class);
-        String[] split = VideoSize.split("x");
-
-        int width, height;
-        if (split.length < 2)
-        {
-            mImageWidth = 1280;
-            mImageHeight = 720;
-        }
-        else
-        {
-            mImageWidth = Integer.parseInt(split[0]);
-            mImageHeight = Integer.parseInt(split[1]);
-        }
-
-        mediaRecorder = new MediaRecorder();
-        mediaRecorder.reset();
-
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
-
-        mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE);
-
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-
-        mediaRecorder.setOutputFile(StringUtils.getFilePath(Settings.GetWriteExternal(), ".mp4"));
-
-        mediaRecorder.setVideoEncodingBitRate(VideoUtils.getVideoBitrate("Low"));
-
-        mediaRecorder.setOnErrorListener(new MediaRecorder.OnErrorListener() {
-            @Override
-            public void onError(MediaRecorder mr, int what, int extra) {
-                Log.d(TAG, "error MediaRecorder:" + what + "extra:" + extra);
-            }
-        });
-        mediaRecorder.setVideoFrameRate(30);
-        mediaRecorder.setVideoSize(1920, 1080);
-        mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
-
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-        mediaRecorder.setAudioChannels(2);
-        mediaRecorder.setAudioEncodingBitRate(VideoUtils.getAudioBitrate("Extreme"));
-        mediaRecorder.setAudioSamplingRate(VideoUtils.getAudioSample("Medium"));
-
-        try {
-            mediaRecorder.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        previewSize = getSizeForPreviewDependingOnImageSize(map.getOutputSizes(ImageFormat.YUV_420_888));
-
-        SurfaceTexture texture = textureView.getSurfaceTexture();
-        assert texture != null;
-
-        texture.setDefaultBufferSize(1920,1080);
-
-
-        previewsurface = new Surface(texture);
-        try {
-            mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
-            cameraChangedListner.onCameraError("MediaRecorder Prepare failed");
-            return;
-        }
-
-        List<Surface> surfaces = new ArrayList<Surface>();
-
-        Surface previewSurface = new Surface(texture);
-        surfaces.add(previewSurface);
-        mPreviewRequestBuilder.addTarget(previewSurface);
-
-        Surface recorderSurface = mediaRecorder.getSurface();
-        surfaces.add(recorderSurface);
-        mPreviewRequestBuilder.addTarget(recorderSurface);
-
-
-
-
-        configureTransform();
-
-        try {
-
-
-            mCameraDevice.createCaptureSession(surfaces, new CameraCaptureSession.StateCallback() {
-
-                @Override
-                public void onConfigured(CameraCaptureSession cameraCaptureSession) {
-                    mCaptureSession = cameraCaptureSession;
-                    updatePreview();
-                }
-
-                @Override
-                public void onConfigureFailed(CameraCaptureSession cameraCaptureSession) {
-
-                }
-            }, null);
-
-    } catch (CameraAccessException e)
-        {};
-
-
-
-
-    }
-
-    private void updatePreview() {
+    public void updatePreview() {
         if (null == mCameraDevice) {
             return;
         }
@@ -478,73 +280,10 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         builder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
     }
 
-    public void SetBurst(int burst)
-    {
-        try {
-            Log.d(TAG,"Set Burst to:" + burst);
-            previewSize = getSizeForPreviewDependingOnImageSize(map.getOutputSizes(ImageFormat.YUV_420_888));
-
-            SurfaceTexture texture = textureView.getSurfaceTexture();
-            texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
-            previewsurface = new Surface(texture);
-            if (!isLegacyDevice())
-            {
-                if (mProcessor != null) {
-                    mProcessor.kill();
-                }
-                mProcessor.Reset(previewSize.getWidth(), previewSize.getHeight());
-
-                mProcessor.setOutputSurface(previewsurface);
-                camerasurface = mProcessor.getInputSurface();
-                mPreviewRequestBuilder.addTarget(camerasurface);
-                textureView.setAspectRatio(previewSize.getWidth(), previewSize.getHeight());
-                Matrix matrix = new Matrix();
-                RectF viewRect = new RectF(0, 0, displaySize.x, displaySize.y);
-                matrix.setRectToRect(viewRect, viewRect, Matrix.ScaleToFit.FILL);
-                if (Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
-                    matrix.postRotate(180, viewRect.centerX(), viewRect.centerY());
-                else
-                    matrix.postRotate(0, viewRect.centerX(), viewRect.centerY());
-                textureView.setTransform(matrix);
-            }
-            else
-            {
-                mPreviewRequestBuilder.addTarget(previewsurface);
-                configureTransform();
-                //textureView.setAspectRatio(mImageWidth,mImageHeight);
-            }
-
-            if (picFormat.equals(JPEG))
-                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, burst);
-            else if (picFormat.equals(RAW10))
-                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW10, burst);
-            else
-                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW_SENSOR, burst);
-
-            if (isLegacyDevice())
-                createPreviewCaptureSession(previewsurface);
-            else
-                createPreviewCaptureSession(camerasurface);
-            
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
-        }
-        if (ParameterHandler.Burst != null)
-            ParameterHandler.Burst.ThrowCurrentValueChanged(ParameterHandler.Burst.GetValue());
-    }
-
     public void setIntKeyToCam(CaptureRequest.Key<Integer> key, int value)
     {
-       /* if (errorRecieved)
-        {
-            errorRecieved = false;
-            //StopPreview();
-            //StartPreview();
-            return;
-        }*/
         if (mCaptureSession != null)
         {
-            //StopPreview();
             try {
                 mPreviewRequestBuilder.set(key, value);
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback,
@@ -560,13 +299,13 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         }
     }
 
-    private void configureTransform() {
+    public void configureTransform(int w, int h, Point displaySize) {
 
         DisplayManager windowManager = (DisplayManager)context.getSystemService(Context.DISPLAY_SERVICE);
         int rotation = windowManager.getDisplay(0).getRotation();
         Matrix matrix = new Matrix();
         RectF viewRect = new RectF(0, 0, displaySize.x, displaySize.y);
-        RectF bufferRect = new RectF(0, 0, previewSize.getWidth(), previewSize.getHeight());
+        RectF bufferRect = new RectF(0, 0, w, h);
         float centerX = viewRect.centerX();
         float centerY = viewRect.centerY();
         //rotation = 1;
@@ -575,7 +314,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             matrix.setRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.FILL);
 
             float scalex =(float) displaySize.x / displaySize.y;
-            float scaley = (float) previewSize.getWidth() / previewSize.getHeight();
+            float scaley = (float) w / h;
             float xy = scalex -scaley +2;
             matrix.postScale(xy - 1, xy, centerX, centerY);
             matrix.postRotate(90 * (rotation - 2), centerX, centerY);
@@ -584,14 +323,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         //textureView.setAspectRatio(previewSize.getWidth(),previewSize.getHeight());
     }
 
-    @Override
-    public void StopPreview()
-    {
-        Log.d(TAG,"Stop Preview");
-        if (mCaptureSession != null)
-            mCaptureSession.close();
-        mCaptureSession = null;
-    }
+
 
     @Override
     public void SetLocation(Location loc) {
@@ -611,7 +343,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     /**
      * Compares two {@code Size}s based on their areas.
      */
-    static class CompareSizesByArea implements Comparator<Size> {
+    public static class CompareSizesByArea implements Comparator<Size> {
 
         @Override
         public int compare(Size lhs, Size rhs) {
@@ -658,8 +390,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             // This method is called when the camera is opened.  We start camera previewSize here.
             mCameraOpenCloseLock.release();
             mCameraDevice = cameraDevice;
-            Log.d(TAG,"Camera open");
-
+            Log.d(TAG, "Camera open");
             if (UIHandler != null)
                 UIHandler.post(new Runnable() {
                 @Override
@@ -667,6 +398,13 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     cameraChangedListner.onCameraOpen("");
                 }
             });
+            try {
+                mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
+            ((ParameterHandlerApi2)ParameterHandler).Init();
+            //SetLastUsedParameters(mPreviewRequestBuilder);
         }
 
         @Override
@@ -801,12 +539,12 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             // When the session is ready, we start displaying the previewSize.
             BaseCameraHolderApi2.this.mCaptureSession = cameraCaptureSession;
             try {
-                ((ParameterHandlerApi2)ParameterHandler).Init();
+
                 // Finally, we start displaying the camera previewSize.
                 mPreviewRequest = mPreviewRequestBuilder.build();
                 mCaptureSession.setRepeatingRequest(mPreviewRequest,
                         mCaptureCallback, null);
-                SetLastUsedParameters(mPreviewRequestBuilder);
+
 
             } catch (CameraAccessException e) {
                 e.printStackTrace();
@@ -839,7 +577,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 mPreviewRequest = mPreviewRequestBuilder.build();
                 mCaptureSession.setRepeatingRequest(mPreviewRequest,
                         mCaptureCallback, null);
-                SetLastUsedParameters(mPreviewRequestBuilder);
             } catch (CameraAccessException e) {
                 e.printStackTrace();
             }
@@ -875,7 +612,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     }
 
 
-    private Size getSizeForPreviewDependingOnImageSize(Size[] choices)
+    public static Size getSizeForPreviewDependingOnImageSize(Size[] choices, CameraCharacteristics characteristics, int mImageWidth, int mImageHeight)
     {
         List<Size> sizes = new ArrayList<Size>();
         Rect rect = characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
@@ -883,6 +620,25 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         for (Size s : choices)
         {
             if (s.getWidth() <= 1280 && s.getHeight() <= 720 && ((double)s.getWidth()/s.getHeight()) == ratio)
+                sizes.add(s);
+
+        }
+        if (sizes.size() > 0) {
+            return Collections.max(sizes, new CompareSizesByArea());
+        } else {
+            Log.e(TAG, "Couldn't find any suitable previewSize size");
+            return choices[0];
+        }
+    }
+
+    public static Size getSizeForPreviewDependingOnVideo(Size[] choices, CameraCharacteristics characteristics, int mImageWidth, int mImageHeight)
+    {
+        List<Size> sizes = new ArrayList<Size>();
+        Rect rect = characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        double ratio = (double)mImageWidth/mImageHeight;
+        for (Size s : choices)
+        {
+            if (((double)s.getWidth()/s.getHeight()) == ratio)
                 sizes.add(s);
 
         }
@@ -902,11 +658,13 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             return true;
     }
 
-    private void createPreviewCaptureSession(Surface surface) throws CameraAccessException {
-        if (ParameterHandler.Burst == null)
-            mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()), previewStateCallBackFirstStart, null);
+    public void createPreviewCaptureSession(Surface surface, Surface surface2) throws CameraAccessException {
+        if (ParameterHandler.Burst == null && surface2 != null)
+            mCameraDevice.createCaptureSession(Arrays.asList(surface, surface2), previewStateCallBackFirstStart, null);
+        else if (surface2 != null)
+            mCameraDevice.createCaptureSession(Arrays.asList(surface, surface2), previewStateCallBackRestart, null);
         else
-            mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()), previewStateCallBackRestart, null);
+            mCameraDevice.createCaptureSession(Arrays.asList(surface), previewStateCallBackRestart, null);
     }
 
     public static boolean IsLegacy(AppSettingsManager appSettingsManager)

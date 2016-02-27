@@ -104,23 +104,29 @@ public class MenuItem extends UiSettingsChild implements View.OnClickListener, I
 
 
     @Override
-    public void doLeftToRightSwipe() {
+    public void doLeftToRightSwipe()
+    {
+        if (swipeMenuListner != null)
         swipeMenuListner.LeftToRightSwipe();
     }
 
     @Override
-    public void doRightToLeftSwipe() {
-        swipeMenuListner.RightToLeftSwipe();
+    public void doRightToLeftSwipe()
+    {
+        if (swipeMenuListner != null)
+            swipeMenuListner.RightToLeftSwipe();
     }
 
     @Override
     public void doTopToBottomSwipe() {
-        swipeMenuListner.TopToBottomSwipe();
+        if (swipeMenuListner != null)
+            swipeMenuListner.TopToBottomSwipe();
     }
 
     @Override
     public void doBottomToTopSwipe() {
-        swipeMenuListner.BottomToTopSwipe();
+        if (swipeMenuListner != null)
+            swipeMenuListner.BottomToTopSwipe();
     }
 
     @Override

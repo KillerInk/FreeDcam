@@ -27,8 +27,12 @@ public class DenoiseModeApi2 extends BaseModeApi2
     }
 
     @Override
-    public boolean IsSupported() {
-        return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.NOISE_REDUCTION_MODE) != null;
+    public boolean IsSupported()
+    {
+        if (cameraHolder != null && cameraHolder.mPreviewRequestBuilder != null)
+            return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.NOISE_REDUCTION_MODE) != null;
+        else
+            return false;
     }
 
     @Override

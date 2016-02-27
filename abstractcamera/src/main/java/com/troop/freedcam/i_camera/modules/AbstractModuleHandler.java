@@ -118,8 +118,8 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
 
     @Override
     public String GetCurrentModuleName() {
-        if (currentModule != null && currentModule.name != null)
-            return currentModule.name;
+        if (currentModule != null)
+            return currentModule.ModuleName();
         else return AbstractModuleHandler.MODULE_PICTURE;
     }
 

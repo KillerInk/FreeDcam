@@ -37,6 +37,8 @@ public class ManualExposureApi2 extends AbstractManualParameter
     @Override
     public void SetValue(int valueToSet)
     {
+        if (cameraHolder == null || cameraHolder.mPreviewRequestBuilder == null)
+            return;
         currentInt = valueToSet;
         cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, valueToSet);
         try {

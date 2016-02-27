@@ -13,6 +13,7 @@ import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 /**
@@ -38,7 +39,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
 
     public abstract String CameraApiName();
 
-    public AbstractCameraUiWrapper(){ cameraChangedListners = new ArrayList<I_CameraChangedListner>();};
+    public AbstractCameraUiWrapper(){ cameraChangedListners = new CopyOnWriteArrayList<I_CameraChangedListner>();};
     public AbstractCameraUiWrapper(AppSettingsManager appSettingsManager)
     {
         this();

@@ -1,9 +1,8 @@
-package com.troop.freedcam.camera.modules;
+package com.troop.freedcam.i_camera.modules;
 
 import android.media.CamcorderProfile;
 import android.util.Log;
 
-import com.lge.media.CamcorderProfileEx;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.BufferedReader;
@@ -43,6 +42,8 @@ public class VideoMediaProfile
     public String ProfileName;
     public VideoMode Mode;
 
+    public boolean isAudioActive = false;
+
     public enum VideoMode
     {
         Normal,
@@ -50,7 +51,7 @@ public class VideoMediaProfile
         Timelapse,
     }
 
-    public VideoMediaProfile(CamcorderProfileEx ex, String ProfileName, VideoMode mode)
+    public VideoMediaProfile(CamcorderProfile ex,String ProfileName, VideoMode mode, boolean isAudioActive)
     {
         this.audioBitRate = ex.audioBitRate;
         this.audioChannels = ex.audioChannels;
@@ -66,38 +67,10 @@ public class VideoMediaProfile
         this.videoFrameWidth = ex.videoFrameWidth;
         this.ProfileName = ProfileName;
         this.Mode = mode;
+        this.isAudioActive = isAudioActive;
     }
 
-    private boolean isAudioActive = false;
-    public static boolean IsAudioActive(){
-        VideoMediaProfile videoMediaProfile = new VideoMediaProfile();
-        return videoMediaProfile.isAudioActive; };
-
-    public static void SetAudioActive(boolean active) {
-    VideoMediaProfile videoMediaProfile = new VideoMediaProfile();
-
-        videoMediaProfile.isAudioActive = active;
-    }
-
-    public VideoMediaProfile(CamcorderProfile ex,String ProfileName, VideoMode mode)
-    {
-        this.audioBitRate = ex.audioBitRate;
-        this.audioChannels = ex.audioChannels;
-        this.audioCodec = ex.audioCodec;
-        this.audioSampleRate = ex.audioSampleRate;
-        this.duration = ex.duration;
-        this.fileFormat = ex.fileFormat;
-        this.quality = ex.quality;
-        this.videoBitRate = ex.videoBitRate;
-        this.videoCodec = ex.videoCodec;
-        this.videoFrameRate = ex.videoFrameRate;
-        this.videoFrameHeight = ex.videoFrameHeight;
-        this.videoFrameWidth = ex.videoFrameWidth;
-        this.ProfileName = ProfileName;
-        this.Mode = mode;
-    }
-
-    public VideoMediaProfile(int v1,int v2, int v3,int v4,int v5, int v6, int v7, int v8, int v9, int v10,int v11, int v12, String ProfileName, VideoMode mode)
+    public VideoMediaProfile(int v1,int v2, int v3,int v4,int v5, int v6, int v7, int v8, int v9, int v10,int v11, int v12, String ProfileName, VideoMode mode, boolean isAudioActive)
     {
         this.audioBitRate = v1;
         this.audioChannels = v2;
@@ -113,10 +86,7 @@ public class VideoMediaProfile
         this.videoFrameWidth = v12;
         this.ProfileName = ProfileName;
         this.Mode = mode;
-    }
-    public VideoMediaProfile()
-    {
-        Log.d("VMP Construct ","init");
+        this.isAudioActive = isAudioActive;
     }
 
     public VideoMediaProfile(String t)
@@ -136,6 +106,10 @@ public class VideoMediaProfile
         this.videoFrameWidth =  Integer.parseInt(ar[11]);
         this.ProfileName = ar[12];
         this.Mode = VideoMode.valueOf(ar[13]);
+        if (ar.length == 14)
+            this.isAudioActive = true;
+        else
+            this.isAudioActive = Boolean.parseBoolean(ar[14]);
     }
 
     public String GetString()
@@ -154,13 +128,14 @@ public class VideoMediaProfile
         b.append(videoFrameHeight +" ");
         b.append(videoFrameWidth +" ");
         b.append(ProfileName +" ");
-        b.append(Mode.toString());
+        b.append(Mode.toString()+ " ");
+        b.append(isAudioActive + " ");
         return b.toString();
     }
 
     public VideoMediaProfile clone()
     {
-        return new VideoMediaProfile(audioBitRate,audioChannels, audioCodec, audioSampleRate, duration, fileFormat,quality,videoBitRate,videoCodec,videoFrameRate, videoFrameHeight,videoFrameWidth, ProfileName, Mode);
+        return new VideoMediaProfile(audioBitRate,audioChannels, audioCodec, audioSampleRate, duration, fileFormat,quality,videoBitRate,videoCodec,videoFrameRate, videoFrameHeight,videoFrameWidth, ProfileName, Mode, isAudioActive);
     }
 
 
@@ -200,7 +175,7 @@ public class VideoMediaProfile
             try
             {
                 BufferedWriter br = new BufferedWriter(new FileWriter(mprof));
-                br.write("#audiobitrate audiochannels audioCodec audiosamplerate duration fileFormat quality videoBitrate videoCodec videoFrameRate videoFrameHeight videoFrameWidth ProfileName RecordMode \n");
+                br.write("#audiobitrate audiochannels audioCodec audiosamplerate duration fileFormat quality videoBitrate videoCodec videoFrameRate videoFrameHeight videoFrameWidth ProfileName RecordMode isAudioActive \n");
                 for (VideoMediaProfile profile : list.values())
                     br.write(profile.GetString() +"\n");
                 br.close();

@@ -14,18 +14,19 @@ import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class WhiteBalanceApi2 extends BaseModeApi2
 {
-
-
-    public WhiteBalanceApi2(Handler handler, BaseCameraHolderApi2 baseCameraHolderApi2) {
+    private ColorCorrectionModeApi2 cct;
+    private String lastcctmode = "FAST";
+    public WhiteBalanceApi2(Handler handler, BaseCameraHolderApi2 baseCameraHolderApi2, ColorCorrectionModeApi2 cct) {
         super(handler, baseCameraHolderApi2);
         int[] values = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES);
         if (values.length > 1)
             this.isSupported = true;
+        this.cct = cct;
+        lastcctmode = cct.GetValue();
     }
 
     public enum WhiteBalanceValues
     {
-
         OFF,
         AUTO,
         INCANDESCENT,
@@ -46,6 +47,8 @@ public class WhiteBalanceApi2 extends BaseModeApi2
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
+        if (valueToSet.equals("") || valueToSet.isEmpty())
+            return;
         if (valueToSet.contains("unknown"))
         {
             String t = valueToSet.substring(valueToSet.length() -2);
@@ -56,6 +59,16 @@ public class WhiteBalanceApi2 extends BaseModeApi2
         {
             WhiteBalanceValues sceneModes = Enum.valueOf(WhiteBalanceValues.class, valueToSet);
             cameraHolder.setIntKeyToCam(CaptureRequest.CONTROL_AWB_MODE, sceneModes.ordinal());
+            if (sceneModes == WhiteBalanceValues.OFF)
+            {
+                cct.SetValue("TRANSFORM_MATRIX",true);
+            }
+            else {
+                if (lastcctmode.equals("TRANSFORM_MATRIX") || lastcctmode.equals(""))
+                    lastcctmode = "FAST";
+                cct.SetValue(lastcctmode, true);
+            }
+
         }
         BackgroundValueHasChanged(valueToSet);
         //cameraHolder.mPreviewRequestBuilder.build();
@@ -64,7 +77,7 @@ public class WhiteBalanceApi2 extends BaseModeApi2
     @Override
     public String GetValue()
     {
-        if (cameraHolder != null && cameraHolder.mPreviewRequest != null)
+        if (cameraHolder != null && cameraHolder.mPreviewRequestBuilder != null)
         {
             int i = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AWB_MODE);
             WhiteBalanceValues sceneModes = WhiteBalanceValues.values()[i];

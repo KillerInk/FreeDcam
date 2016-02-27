@@ -53,7 +53,7 @@ public class ShutterManualParameter extends BaseManualParameter
 
                 int min = Integer.parseInt(parameters.get("min-exposure-time"));
                 int max = Integer.parseInt(parameters.get("max-exposure-time"));
-                stringvalues = StringUtils.getSupportedShutterValues(min, max);
+                stringvalues = StringUtils.getSupportedShutterValues(min, max, true);
                 this.isSupported = true;
 
             } catch (NumberFormatException ex) {

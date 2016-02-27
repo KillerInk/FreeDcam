@@ -51,6 +51,8 @@ public class AeModeApi2 extends  BaseModeApi2
     @Override
     public String GetValue()
     {
+        if (cameraHolder == null ||cameraHolder.mPreviewRequestBuilder == null)
+            return null;
             int i = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_MODE);
             AEModes sceneModes = AEModes.values()[i];
             return sceneModes.toString();
