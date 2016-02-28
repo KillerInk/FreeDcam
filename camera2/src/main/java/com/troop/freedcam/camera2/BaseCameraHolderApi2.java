@@ -67,8 +67,12 @@ import troop.com.imageconverter.ViewfinderProcessor;
 public class BaseCameraHolderApi2 extends AbstractCameraHolder
 {
     private static String TAG = "freedcam.BaseCameraHolderApi2";
+    public static String JPEG = "jpeg";
+    public static String RAW_SENSOR = "raw_sensor";
+    public static String RAW10 = "raw10";
+
     public boolean isWorking = false;
-    Context context;
+    private Context context;
 
     public CameraManager manager;
     public CameraDevice mCameraDevice;
@@ -78,19 +82,11 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     //this is needed for the previewSize...
     public CaptureRequest.Builder mPreviewRequestBuilder;
     I_Callbacks.PreviewCallback previewCallback;
-
-    public static String JPEG = "jpeg";
-    public static String RAW_SENSOR = "raw_sensor";
-    public static String RAW10 = "raw10";
-    /**
-     * A {@link CameraCaptureSession } for camera previewSize.
-     */
+    
     public CameraCaptureSession mCaptureSession;
     public StreamConfigurationMap map;
     public int CurrentCamera;
     public CameraCharacteristics characteristics;
-    //public Surface previewsurface;
-    //public Surface camerasurface;
     AppSettingsManager Settings;
     public String VideoSize;
     public I_PreviewWrapper ModulePreview;
@@ -99,17 +95,9 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
     int afState;
     int aeState;
-    int awbState;
-    int lastAwbState;
-    private boolean focuspeakEnable = false;
 
     Handler backgroundHandler;
     boolean errorRecieved = false;
-    /**
-     * An {@link android.media.ImageReader} that handles still image capture.
-     */
-
-
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public BaseCameraHolderApi2(Context context,I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager Settings, Handler backgroundHandler)
@@ -121,7 +109,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         this.backgroundHandler = backgroundHandler;
 
     }
-
 
     //###########################  public camera methods
     //###########################
@@ -146,7 +133,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
                 throw new RuntimeException("Time out waiting to lock camera opening.");
             }
-            manager.openCamera(cam, mStateCallback,null);
+            manager.openCamera(cam, mStateCallback, null);
             characteristics = manager.getCameraCharacteristics(CurrentCamera + "");
             if (!isLegacyDevice())
             {
@@ -186,20 +173,24 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     }
 
     @Override
-    public void CloseCamera() {
+    public void CloseCamera()
+    {
         try {
             Log.d(TAG,"Close Camera");
             mCameraOpenCloseLock.acquire();
             mProcessor.kill();
-            try {
-                if (null != mCaptureSession) {
+            try
+            {
+                if (null != mCaptureSession)
+                {
                     mCaptureSession.close();
                     mCaptureSession = null;
                 }
             }
            catch (Exception e) {}
 
-            if (null != mCameraDevice) {
+            if (null != mCameraDevice)
+            {
                 mCameraDevice.close();
                 mCameraDevice = null;
             }
@@ -207,12 +198,15 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         catch (Exception e) {
             //throw new RuntimeException("Interrupted while trying to lock camera closing.", e);
         }
-        finally {
+        finally
+        {
             mCameraOpenCloseLock.release();
             if (UIHandler != null)
-                UIHandler.post(new Runnable() {
+                UIHandler.post(new Runnable()
+                {
                     @Override
-                    public void run() {
+                    public void run()
+                    {
                         cameraChangedListner.onCameraClose("");
                     }
                 });
@@ -223,7 +217,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     public int CameraCout() {
         return CameraCountId().length;
     }
-
 
     public String[] CameraCountId()
     {
@@ -240,8 +233,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         return super.IsRdy();
     }
 
-
-
     @Override
     public boolean SetCameraParameters(HashMap<String,String> parameters) {
         return  false;
@@ -252,7 +243,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         this.textureView = (AutoFitTextureView) surfaceHolder;
         return true;
     }
-
 
     @Override
     public void StartPreview()
@@ -268,25 +258,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             ModulePreview.stopPreview();
     }
 
-    public void updatePreview() {
-        if (null == mCameraDevice) {
-            return;
-        }
-        try {
-            setUpCaptureRequestBuilder(mPreviewRequestBuilder);
-            HandlerThread thread = new HandlerThread("CameraPreview");
-            thread.start();
-            mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), null, null);
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void setUpCaptureRequestBuilder(CaptureRequest.Builder builder) {
-        builder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
-    }
-
-    public void setIntKeyToCam(CaptureRequest.Key<Integer> key, int value)
+    public void SetParameterToCam(CaptureRequest.Key<Integer> key, int value)
     {
         if (mCaptureSession != null)
         {
@@ -306,34 +278,9 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         }
     }
 
-    public void configureTransform(int w, int h, Point displaySize) {
-
-        DisplayManager windowManager = (DisplayManager)context.getSystemService(Context.DISPLAY_SERVICE);
-        int rotation = windowManager.getDisplay(0).getRotation();
-        Matrix matrix = new Matrix();
-        RectF viewRect = new RectF(0, 0, displaySize.x, displaySize.y);
-        RectF bufferRect = new RectF(0, 0, w, h);
-        float centerX = viewRect.centerX();
-        float centerY = viewRect.centerY();
-        //rotation = 1;
-        if (Surface.ROTATION_90 == rotation || Surface.ROTATION_270 == rotation) {
-            bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY());
-            matrix.setRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.FILL);
-
-            float scalex =(float) displaySize.x / displaySize.y;
-            float scaley = (float) w / h;
-            float xy = scalex -scaley +2;
-            matrix.postScale(xy - 1, xy, centerX, centerY);
-            matrix.postRotate(90 * (rotation - 2), centerX, centerY);
-        }
-        textureView.setTransform(matrix);
-        //textureView.setAspectRatio(previewSize.getWidth(),previewSize.getHeight());
-    }
-
-
-
     @Override
-    public void SetLocation(Location loc) {
+    public void SetLocation(Location loc)
+    {
 
     }
 
@@ -361,12 +308,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
     }
 
-
-    public void SetLastUsedParameters(CaptureRequest.Builder builder)
-    {
-        //ParameterHandler.SetAppSettingsToParameters();
-        Log.d(TAG, "set last used parameters");
-    }
 
     public CaptureRequest.Builder createCaptureRequest(int template) throws CameraAccessException {
         CameraDevice device = mCameraDevice;
@@ -486,10 +427,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                     }
                     catch (NullPointerException ex)
                     {
-
                     }
-
-
                 }
             }
 
@@ -530,41 +468,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         }
     };
 
-
-
-    CameraCaptureSession.StateCallback previewStateCallBackFirstStart = new CameraCaptureSession.StateCallback()
-    {
-
-        @Override
-        public void onConfigured(CameraCaptureSession cameraCaptureSession)
-        {
-            // The camera is already closed
-            if (null == mCameraDevice)
-            {
-                return;
-            }
-
-            // When the session is ready, we start displaying the previewSize.
-            BaseCameraHolderApi2.this.mCaptureSession = cameraCaptureSession;
-            try {
-
-                // Finally, we start displaying the camera previewSize.
-                mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
-                        mCaptureCallback, null);
-
-
-            } catch (CameraAccessException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void onConfigureFailed(CameraCaptureSession cameraCaptureSession)
-        {
-
-        }
-    };
-
     CameraCaptureSession.StateCallback previewStateCallBackRestart = new CameraCaptureSession.StateCallback()
     {
 
@@ -581,7 +484,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             mCaptureSession = cameraCaptureSession;
             try {
                 // Finally, we start displaying the camera previewSize.
-                SetLastUsedParameters(mPreviewRequestBuilder);
+                ParameterHandler.SetAppSettingsToParameters();
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
                         mCaptureCallback, null);
             } catch (CameraAccessException e) {
@@ -638,25 +541,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         }
     }
 
-    public static Size getSizeForPreviewDependingOnVideo(Size[] choices, CameraCharacteristics characteristics, int mImageWidth, int mImageHeight)
-    {
-        List<Size> sizes = new ArrayList<Size>();
-        Rect rect = characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
-        double ratio = (double)mImageWidth/mImageHeight;
-        for (Size s : choices)
-        {
-            if (((double)s.getWidth()/s.getHeight()) == ratio)
-                sizes.add(s);
-
-        }
-        if (sizes.size() > 0) {
-            return Collections.max(sizes, new CompareSizesByArea());
-        } else {
-            Log.e(TAG, "Couldn't find any suitable previewSize size");
-            return choices[0];
-        }
-    }
-
     public boolean isLegacyDevice()
     {
         if (characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) != CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
@@ -666,9 +550,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     }
 
     public void createPreviewCaptureSession(Surface surface, Surface surface2) throws CameraAccessException {
-        if (ParameterHandler.Burst == null && surface2 != null)
-            mCameraDevice.createCaptureSession(Arrays.asList(surface, surface2), previewStateCallBackFirstStart, null);
-        else if (surface2 != null)
+        if (surface2 != null)
             mCameraDevice.createCaptureSession(Arrays.asList(surface, surface2), previewStateCallBackRestart, null);
         else
             mCameraDevice.createCaptureSession(Arrays.asList(surface), previewStateCallBackRestart, null);

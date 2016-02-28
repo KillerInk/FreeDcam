@@ -43,7 +43,7 @@ public class AeModeApi2 extends  BaseModeApi2
         if (valueToSet.contains("unknown Scene"))
             return;
         AEModes sceneModes = Enum.valueOf(AEModes.class, valueToSet);
-        cameraHolder.setIntKeyToCam(CaptureRequest.CONTROL_AE_MODE, sceneModes.ordinal());
+        cameraHolder.SetParameterToCam(CaptureRequest.CONTROL_AE_MODE, sceneModes.ordinal());
         BackgroundValueHasChanged(valueToSet);
         //cameraHolder.mPreviewRequestBuilder.build();
     }

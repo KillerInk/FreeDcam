@@ -41,7 +41,7 @@ public class DenoiseModeApi2 extends BaseModeApi2
         if (valueToSet.contains("unknown Scene"))
             return;
         DeNoiseModes sceneModes = Enum.valueOf(DeNoiseModes.class, valueToSet);
-        cameraHolder.setIntKeyToCam(CaptureRequest.NOISE_REDUCTION_MODE, sceneModes.ordinal());
+        cameraHolder.SetParameterToCam(CaptureRequest.NOISE_REDUCTION_MODE, sceneModes.ordinal());
         BackgroundValueHasChanged(valueToSet);
     }
 

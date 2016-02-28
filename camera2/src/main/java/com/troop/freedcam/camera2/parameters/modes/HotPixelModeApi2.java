@@ -41,7 +41,7 @@ public class HotPixelModeApi2 extends BaseModeApi2
         if (valueToSet.contains("unknown Scene"))
             return;
         HotPixelModes sceneModes = Enum.valueOf(HotPixelModes.class, valueToSet);
-        cameraHolder.setIntKeyToCam(CaptureRequest.HOT_PIXEL_MODE, sceneModes.ordinal());
+        cameraHolder.SetParameterToCam(CaptureRequest.HOT_PIXEL_MODE, sceneModes.ordinal());
     }
 
 

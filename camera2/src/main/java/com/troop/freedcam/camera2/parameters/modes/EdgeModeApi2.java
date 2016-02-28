@@ -38,7 +38,7 @@ public class EdgeModeApi2 extends BaseModeApi2 {
         if (valueToSet.contains("unknown Focus"))
             return;
         EdgeModes sceneModes = Enum.valueOf(EdgeModes.class, valueToSet);
-        cameraHolder.setIntKeyToCam(CaptureRequest.EDGE_MODE, sceneModes.ordinal());
+        cameraHolder.SetParameterToCam(CaptureRequest.EDGE_MODE, sceneModes.ordinal());
         BackgroundValueHasChanged(valueToSet);
         //cameraHolder.mPreviewRequestBuilder.build();
     }

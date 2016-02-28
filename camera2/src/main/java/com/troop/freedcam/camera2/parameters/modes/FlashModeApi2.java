@@ -35,7 +35,7 @@ public class FlashModeApi2 extends BaseModeApi2 {
         if (valueToSet.contains("unknown Scene"))
             return;
         FlashModes sceneModes = Enum.valueOf(FlashModes.class, valueToSet);
-        cameraHolder.setIntKeyToCam(CaptureRequest.FLASH_MODE, sceneModes.ordinal());
+        cameraHolder.SetParameterToCam(CaptureRequest.FLASH_MODE, sceneModes.ordinal());
     }
 
 

@@ -53,12 +53,12 @@ public class WhiteBalanceApi2 extends BaseModeApi2
         {
             String t = valueToSet.substring(valueToSet.length() -2);
             int i = Integer.parseInt(t);
-            cameraHolder.setIntKeyToCam(CaptureRequest.CONTROL_AWB_MODE, i);
+            cameraHolder.SetParameterToCam(CaptureRequest.CONTROL_AWB_MODE, i);
         }
         else
         {
             WhiteBalanceValues sceneModes = Enum.valueOf(WhiteBalanceValues.class, valueToSet);
-            cameraHolder.setIntKeyToCam(CaptureRequest.CONTROL_AWB_MODE, sceneModes.ordinal());
+            cameraHolder.SetParameterToCam(CaptureRequest.CONTROL_AWB_MODE, sceneModes.ordinal());
             if (sceneModes == WhiteBalanceValues.OFF)
             {
                 cct.SetValue("TRANSFORM_MATRIX",true);
