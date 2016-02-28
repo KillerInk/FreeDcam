@@ -92,6 +92,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     public I_PreviewWrapper ModulePreview;
     RenderScript mRS;
     public ViewfinderProcessor mProcessor;
+    public CaptureSessionHandler CaptureSessionH;
 
     int afState;
     int aeState;
@@ -107,6 +108,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         this.manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         this.Settings = Settings;
         this.backgroundHandler = backgroundHandler;
+        CaptureSessionH = new CaptureSessionHandler();
 
     }
 
@@ -468,40 +470,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         }
     };
 
-    CameraCaptureSession.StateCallback previewStateCallBackRestart = new CameraCaptureSession.StateCallback()
-    {
 
-        @Override
-        public void onConfigured(CameraCaptureSession cameraCaptureSession)
-        {
-            // The camera is already closed
-            if (null == mCameraDevice)
-            {
-                return;
-            }
-
-            // When the session is ready, we start displaying the previewSize.
-            mCaptureSession = cameraCaptureSession;
-            try {
-                // Finally, we start displaying the camera previewSize.
-                //ParameterHandler.SetAppSettingsToParameters();
-                mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
-                        mCaptureCallback, null);
-            } catch (CameraAccessException e) {
-                mCaptureSession = null;
-            }
-            catch (IllegalStateException ex)
-            {
-                mCaptureSession = null;
-            }
-        }
-
-        @Override
-        public void onConfigureFailed(CameraCaptureSession cameraCaptureSession)
-        {
-
-        }
-    };
 
     //###########################  private helper methods
     //###########################
@@ -553,13 +522,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             return true;
     }
 
-    public void createPreviewCaptureSession(Surface surface, Surface surface2) throws CameraAccessException {
-        if (surface2 != null)
-            mCameraDevice.createCaptureSession(Arrays.asList(surface, surface2), previewStateCallBackRestart, null);
-        else
-            mCameraDevice.createCaptureSession(Arrays.asList(surface), previewStateCallBackRestart, null);
-    }
-
     public static boolean IsLegacy(AppSettingsManager appSettingsManager)
     {
         boolean legacy = true;
@@ -609,4 +571,117 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         }
         return  legacy;
     }
+
+    public class CaptureSessionHandler
+    {
+        private String TAG = CaptureSessionHandler.class.getSimpleName();
+        private List<Surface> surfaces;
+
+        public CaptureSessionHandler()
+        {
+            surfaces = new ArrayList<Surface>();
+        }
+
+        public void AddSurface(Surface surface, boolean addtoPreviewRequestBuilder)
+        {
+            Log.d(this.TAG, "AddSurface");
+            surfaces.add(surface);
+            if (addtoPreviewRequestBuilder)
+                mPreviewRequestBuilder.addTarget(surface);
+        }
+
+        public void RemoveSurface(Surface surface)
+        {
+            Log.d(this.TAG, "RemoveSurface");
+            if (surfaces.contains(surface))
+                surfaces.remove(surface);
+            mPreviewRequestBuilder.removeTarget(surface);
+        }
+
+        public void Clear()
+        {
+            Log.d(this.TAG, "Clear");
+            if (mPreviewRequestBuilder != null)
+                for (Surface s: surfaces)
+                    mPreviewRequestBuilder.removeTarget(s);
+            surfaces.clear();
+        }
+
+        public void CreateCaptureSession()
+        {
+            Log.d(this.TAG, "CreateCaptureSession: Surfaces Count:" + surfaces.size());
+            try {
+                mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, null);
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void CreateCaptureSession(CameraCaptureSession.StateCallback customCallback)
+        {
+            Log.d(this.TAG, "CreateCaptureSessionWITHCustomCallback: Surfaces Count:" + surfaces.size());
+            try {
+                mCameraDevice.createCaptureSession(surfaces, customCallback, null);
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void StopRepeatingCaptureSession()
+        {
+            if (mCaptureSession != null)
+            try {
+                mCaptureSession.stopRepeating();
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+                mCaptureSession = null;
+            }
+
+        }
+
+        public void CloseCaptureSession()
+        {
+            StopRepeatingCaptureSession();
+            Clear();
+            if (mCaptureSession != null)
+                mCaptureSession.close();
+            mCaptureSession = null;
+        }
+
+
+    }
+
+    CameraCaptureSession.StateCallback previewStateCallBackRestart = new CameraCaptureSession.StateCallback()
+    {
+        @Override
+        public void onConfigured(CameraCaptureSession cameraCaptureSession)
+        {
+            // The camera is already closed
+            if (null == mCameraDevice)
+            {
+                return;
+            }
+            // When the session is ready, we start displaying the previewSize.
+            mCaptureSession = cameraCaptureSession;
+
+            try {
+                // Finally, we start displaying the camera previewSize.
+                //ParameterHandler.SetAppSettingsToParameters();
+                mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
+                        mCaptureCallback, null);
+            } catch (CameraAccessException e) {
+                mCaptureSession =null;
+            }
+            catch (IllegalStateException ex)
+            {
+                mCaptureSession = null;
+            }
+        }
+
+        @Override
+        public void onConfigureFailed(CameraCaptureSession cameraCaptureSession)
+        {
+
+        }
+    };
 }

@@ -105,8 +105,6 @@ public class ViewfinderProcessor
 
     public void kill()
     {
-        if (mInputAllocation != null)
-            mInputAllocation.setOnBufferAvailableListener(null);
         if (mProcessingTask != null) {
 
             while (mProcessingTask.working) {
@@ -118,8 +116,15 @@ public class ViewfinderProcessor
             }
             mProcessingTask = null;
         }
+        if (mInputAllocation != null) {
+            mInputAllocation.setOnBufferAvailableListener(null);
+            mInputAllocation = null;
+        }
         if (mOutputAllocation != null)
+        {
             mOutputAllocation.setSurface(null);
+            mOutputAllocation = null;
+        }
         Log.d(TAG,"kill()");
 
     }
