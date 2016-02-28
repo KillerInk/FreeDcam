@@ -41,7 +41,7 @@ import static com.troop.freedcam.camera2.BaseCameraHolderApi2.getSizeForPreviewD
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class VideoModuleApi2 extends AbstractModuleApi2
 {
-    private static String TAG = StringUtils.TAG +PictureModuleApi2.class.getSimpleName();
+    private static String TAG = VideoModuleApi2.class.getSimpleName();
     BaseCameraHolderApi2 cameraHolder;
     boolean isRecording = false;
     Size previewSize;
@@ -80,6 +80,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     @Override
     public void LoadNeededParameters()
     {
+        Log.d(TAG, "LoadNeededParameters");
         cameraHolder.ModulePreview = this;
         VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) ParameterHandler.VideoProfiles;
         currentVideoProfile = profilesApi2.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
@@ -88,7 +89,9 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void UnloadNeededParameters() {
+    public void UnloadNeededParameters()
+    {
+        Log.d(TAG, "UnloadNeededParameters");
         try {
             cameraHolder.mCaptureSession.stopRepeating();
         } catch (CameraAccessException e) {
@@ -96,7 +99,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         }
         catch (NullPointerException ex){}
         cameraHolder.mPreviewRequestBuilder.removeTarget(previewsurface);
-        Log.d(TAG, "Stop Preview");
+
         if (cameraHolder.mCaptureSession != null)
             cameraHolder.mCaptureSession.close();
         cameraHolder.mCaptureSession = null;

@@ -71,7 +71,17 @@ public class ViewfinderProcessor {
         mOutputAllocation = Allocation.createTyped(rs, rgbTypeBuilder.create(),
                 Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
 
+        if (mProcessingTask != null) {
 
+            while (mProcessingTask.working) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            mProcessingTask = null;
+        }
         mProcessingTask = new ProcessingTask(mInputAllocation);
     }
 
