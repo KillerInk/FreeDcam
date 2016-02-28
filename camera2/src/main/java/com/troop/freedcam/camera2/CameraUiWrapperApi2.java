@@ -120,7 +120,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     @Override
     public void onCameraClose(String message)
     {
-
+        super.onCameraClose(message);
     }
 
     @Override
