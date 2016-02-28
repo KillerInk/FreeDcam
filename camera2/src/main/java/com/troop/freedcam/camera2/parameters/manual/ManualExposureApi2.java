@@ -11,6 +11,8 @@ import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 
+import java.util.ArrayList;
+
 /**
  * Created by troop on 06.03.2015.
  */
@@ -28,12 +30,24 @@ public class ManualExposureApi2 extends AbstractManualParameter implements Abstr
         this.cameraHolder = cameraHolder;
         int max = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getUpper();
         int min = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getLower();
-        stringvalues = createStringArray(min, max, 1);
+        float step = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP).floatValue();
+        stringvalues = createStringArray(min, max, step);
+    }
+
+    protected String[] createStringArray(int min,int max, float stepp)
+    {
+        ArrayList<String> ar = new ArrayList<>();
+        for (int i = min; i <= max; i++)
+        {
+            String s = String.format("%.1f",i*stepp );
+            ar.add(s);
+        }
+        return ar.toArray(new String[ar.size()]);
     }
 
     @Override
     public int GetValue() {
-        return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION);
+        return super.GetValue();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -43,7 +57,10 @@ public class ManualExposureApi2 extends AbstractManualParameter implements Abstr
         if (cameraHolder == null || cameraHolder.mPreviewRequestBuilder == null)
             return;
         currentInt = valueToSet;
-        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, valueToSet);
+        if(stringvalues == null || stringvalues.length == 0)
+            return;
+        int t = valueToSet-(stringvalues.length/2);
+        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, t);
         try {
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
