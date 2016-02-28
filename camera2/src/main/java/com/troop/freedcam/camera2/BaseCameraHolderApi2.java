@@ -292,6 +292,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         {
             try {
 
+                mPreviewRequestBuilder.set(key, value);
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback,
                         null);
 
