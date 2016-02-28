@@ -82,7 +82,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     //this is needed for the previewSize...
     public CaptureRequest.Builder mPreviewRequestBuilder;
     I_Callbacks.PreviewCallback previewCallback;
-    
+
     public CameraCaptureSession mCaptureSession;
     public StreamConfigurationMap map;
     public int CurrentCamera;

@@ -90,6 +90,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
         FocusMode = new FocusModeApi2(uiHandler, cameraHolder);
         ManualExposure = new ManualExposureApi2(this, cameraHolder);
+        AE.addEventListner((ManualExposureApi2)ManualExposure);
         //manual iso
         final ManualISoApi2 miso = new ManualISoApi2(this,cameraHolder);
         AE.addEventListner(miso);

@@ -100,7 +100,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
             Log.d(TAG, "Contrast value to set:" + valueToSet);
             if (valueToSet == -1)
             {
-                Log.d(TAG, "Current TonemapMode:" + camParametersHandler.ToneMapMode.GetValue());
+                Log.d(TAG, "Current TonemapMode:" + this.camParametersHandler.ToneMapMode.GetValue());
                 if (camParametersHandler.ToneMapMode.GetValue().equals("CONTRAST_CURVE"))
                 {
                     camParametersHandler.ToneMapMode.SetValue("FAST", true);

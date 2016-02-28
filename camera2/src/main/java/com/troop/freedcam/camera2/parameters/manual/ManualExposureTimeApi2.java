@@ -20,8 +20,7 @@ import com.troop.freedcam.utils.StringUtils;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class ManualExposureTimeApi2 extends AbstractManualParameter implements AbstractModeParameter.I_ModeParameterEvent
 {
-    ParameterHandlerApi2 camParametersHandler;
-    BaseCameraHolderApi2 cameraHolder;
+    protected BaseCameraHolderApi2 cameraHolder;
     boolean canSet = false;
     protected boolean isSupported = false;
     final String TAG = ManualExposureTimeApi2.class.getSimpleName();
@@ -133,9 +132,7 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
         return canSet;
     }
 
-    //implementation I_ModeParameterEvent
-
-
+    //Gets thrown from AEmodeApi2
     @Override
     public void onValueChanged(String val)
     {

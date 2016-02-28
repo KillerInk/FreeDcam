@@ -9,16 +9,19 @@ import android.os.Build;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 
 /**
  * Created by troop on 06.03.2015.
  */
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class ManualExposureApi2 extends AbstractManualParameter
+public class ManualExposureApi2 extends AbstractManualParameter implements AbstractModeParameter.I_ModeParameterEvent
 {
-    ParameterHandlerApi2 camParametersHandler;
-    BaseCameraHolderApi2 cameraHolder;
+
+    protected BaseCameraHolderApi2 cameraHolder;
+    private boolean canSet = false;
+
     public ManualExposureApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
         super(camParametersHandler);
         this.camParametersHandler = camParametersHandler;
@@ -67,5 +70,39 @@ public class ManualExposureApi2 extends AbstractManualParameter
     @Override
     public boolean IsVisible() {
         return true;
+    }
+
+    @Override
+    public void onValueChanged(String val) {
+        if (val.equals("off"))
+        {
+            canSet = false;
+            BackgroundIsSetSupportedChanged(false);
+        }
+        else {
+            canSet = true;
+            BackgroundIsSetSupportedChanged(true);
+            SetValue(currentInt);
+        }
+    }
+
+    @Override
+    public void onIsSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onIsSetSupportedChanged(boolean isSupported) {
+
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
+    }
+
+    @Override
+    public void onVisibilityChanged(boolean visible) {
+
     }
 }
