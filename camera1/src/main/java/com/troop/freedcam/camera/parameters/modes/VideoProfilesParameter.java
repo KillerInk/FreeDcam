@@ -284,7 +284,7 @@ public class VideoProfilesParameter extends BaseModeParameter
 
         }*/
 
-        if (parameters.containsKey("video-size-values")&& parameters.get("video-hfr-values").contains("60") || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) )
+        if (parameters.containsKey("video-size-values")&& parameters.get("video-hfr-values").contains("60") || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W))
         {
             VideoMediaProfile t = supportedProfiles.get("1080p").clone();
             t.videoFrameRate = 60;
