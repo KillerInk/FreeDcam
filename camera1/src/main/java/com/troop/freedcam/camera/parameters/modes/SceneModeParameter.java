@@ -3,6 +3,8 @@ package com.troop.freedcam.camera.parameters.modes;
 import android.os.Handler;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +15,7 @@ import java.util.List;
  * Created by troop on 27.04.2015.
  */
 public class SceneModeParameter extends BaseModeParameter {
+
     public SceneModeParameter(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value, String values) {
         super(uihandler, parameters, cameraHolder, value, values);
     }
@@ -23,6 +26,7 @@ public class SceneModeParameter extends BaseModeParameter {
         //baseCameraHolder.StopPreview();
         //baseCameraHolder.StartPreview();
     }
+
 
     @Override
     public String[] GetValues()
