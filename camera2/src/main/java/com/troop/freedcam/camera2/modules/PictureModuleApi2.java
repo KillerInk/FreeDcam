@@ -21,6 +21,7 @@ import android.media.ImageReader;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.renderscript.RenderScript;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.Rational;
@@ -656,6 +657,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             if (baseCameraHolder.mProcessor != null) {
                 baseCameraHolder.mProcessor.kill();
             }
+            baseCameraHolder.mProcessor.setRenderScriptErrorListner(rsErrorHandler);
             SurfaceTexture texture = baseCameraHolder.textureView.getSurfaceTexture();
             texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
             previewsurface = new Surface(texture);
@@ -764,5 +766,21 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             cameraHolder.mCaptureSession.close();
         cameraHolder.mCaptureSession = null;
     }
+
+    private RenderScript.RSErrorHandler rsErrorHandler = new RenderScript.RSErrorHandler()
+    {
+        @Override
+        public void run() {
+            super.run();
+            eventHandler.RunOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    UnloadNeededParameters();
+                    LoadNeededParameters();
+                }
+            });
+
+        }
+    };
 
 }

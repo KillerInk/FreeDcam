@@ -484,11 +484,15 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             mCaptureSession = cameraCaptureSession;
             try {
                 // Finally, we start displaying the camera previewSize.
-                ParameterHandler.SetAppSettingsToParameters();
+                //ParameterHandler.SetAppSettingsToParameters();
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
                         mCaptureCallback, null);
             } catch (CameraAccessException e) {
-                e.printStackTrace();
+                mCaptureSession = null;
+            }
+            catch (IllegalStateException ex)
+            {
+                mCaptureSession = null;
             }
         }
 
