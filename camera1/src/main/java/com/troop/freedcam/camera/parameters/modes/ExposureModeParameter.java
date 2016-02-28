@@ -14,19 +14,17 @@ public class ExposureModeParameter extends BaseModeParameter {
     public ExposureModeParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
         super(handler,parameters,parameterChanged, value, values);
 
-        try
-        {
-            String tmp = parameters.get("exposure-mode-values");
-            if(tmp != null && !tmp.equals("")) {
-                isSupported = true;
-                this.values = "exposure-mode-values";
-                this.value = "exposure";
-            }
-        }
-        catch (Exception ex)
-        {
 
-        }
+            try {
+                String tmp = parameters.get("sony-metering-mode-values");
+                if (tmp != null && !tmp.equals("")) {
+                    this.value = "sony-metering-mode";
+                    this.values = "sony-metering-mode-values";
+                    isSupported = true;
+                }
+            } catch (Exception ex) {}
+
+
         if (isSupported == false)
         {
             try
@@ -43,17 +41,7 @@ public class ExposureModeParameter extends BaseModeParameter {
 
             }
         }
-        if(!isSupported)
-        {
-            try {
-                String tmp = parameters.get("sony-metering-mode-values");
-                if (tmp != null && !tmp.equals("")) {
-                    this.value = "sony-metering-mode";
-                    this.values = "sony-metering-mode-values";
-                    isSupported = true;
-                }
-            } catch (Exception ex) {}
-        }
+
         if(!isSupported)
         {
             try {
@@ -64,6 +52,24 @@ public class ExposureModeParameter extends BaseModeParameter {
                     isSupported = true;
                 }
             } catch (Exception ex) {}
+        }
+
+
+        if(!isSupported)
+        {
+            try
+            {
+                String tmp = parameters.get("exposure-mode-values");
+                if(tmp != null && !tmp.equals("")) {
+                    isSupported = true;
+                    this.values = "exposure-mode-values";
+                    this.value = "exposure";
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 

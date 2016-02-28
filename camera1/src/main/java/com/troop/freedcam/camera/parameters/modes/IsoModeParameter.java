@@ -4,6 +4,7 @@ import android.os.Handler;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
+import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
 
@@ -29,16 +30,45 @@ public class IsoModeParameter extends BaseModeParameter
 
     private void isIso()
     {
-        try
+       // DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)
+
+
+
+            try {
+                String isomodes = parameters.get("sony-iso-values");
+                if (isomodes != null && !isomodes.equals("")) {
+                    this.value = "sony-iso";
+                    this.values = "sony-iso-values";
+                    isSupported = true;
+                }
+            } catch (Exception ex) {}
+
+        if(!isSupported)
         {
-            String isomodes = parameters.get("iso-mode-values");
-            if (isomodes != null && !isomodes.equals("")) {
-                this.value = "iso";
-                this.values = "iso-mode-values";
-                isSupported = true;
-            }
+            try {
+
+                String isomodes = parameters.get("lg-iso-values");
+                if (isomodes != null && !isomodes.equals("")) {
+                    this.value = "iso";
+                    this.values = "lg-iso-values";
+                    isSupported = true;
+                }
+            } catch (Exception ex) {}
         }
-        catch (Exception ex){}
+
+
+        if(!isSupported)
+        {
+            try {
+                String isomodes = parameters.get("iso-speed-values");
+                if (isomodes != null && !isomodes.equals("")) {
+                    this.value = "iso-speed";
+                    this.values = "iso-speed-values";
+                    isSupported = true;
+                }
+            } catch (Exception ex) {}
+        }
+
         if (!isSupported)
         {
             try {
@@ -52,37 +82,16 @@ public class IsoModeParameter extends BaseModeParameter
         }
         if(!isSupported)
         {
-            try {
-                String isomodes = parameters.get("iso-speed-values");
-                if (isomodes != null && !isomodes.equals("")) {
-                    this.value = "iso-speed";
-                    this.values = "iso-speed-values";
-                    isSupported = true;
-                }
-            } catch (Exception ex) {}
-        }
-        if(!isSupported)
-        {
-            try {
-                String isomodes = parameters.get("sony-iso-values");
-                if (isomodes != null && !isomodes.equals("")) {
-                    this.value = "sony-iso";
-                    this.values = "sony-iso-values";
-                    isSupported = true;
-                }
-            } catch (Exception ex) {}
-        }
-        if(!isSupported)
-        {
-            try {
-
-                String isomodes = parameters.get("lg-iso-values");
+            try
+            {
+                String isomodes = parameters.get("iso-mode-values");
                 if (isomodes != null && !isomodes.equals("")) {
                     this.value = "iso";
-                    this.values = "lg-iso-values";
+                    this.values = "iso-mode-values";
                     isSupported = true;
                 }
-            } catch (Exception ex) {}
+            }
+            catch (Exception ex){}
         }
     }
 
