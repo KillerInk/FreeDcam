@@ -33,7 +33,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
         public void onValueChanged(String val)
         {
             if (cameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.MTK) {
-                if (val.equals("auto") || val.equals("macro")) {
+                if (val.equals("auto") || val.equals("macro") || val.equals("touch")) {
                     if (focusEvent != null)
                         focusEvent.TouchToFocusSupported(true);
                 } else {
