@@ -26,7 +26,7 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
     final String TAG = ManualExposureTimeApi2.class.getSimpleName();
     protected boolean firststart = true;
     private int onetoThirty = 0;
-
+    private int millimax = 0;
     public ManualExposureTimeApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
         super(camParametersHandler);
         this.cameraHolder = cameraHolder;
@@ -42,7 +42,7 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
 
     private void findMinMaxValue()
     {
-        int millimax = 0;
+
         Log.d(TAG, "max exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper());
         Log.d(TAG, "min exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower());
         //866 975 130 = 0,8sec
@@ -100,6 +100,9 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
                 Log.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
                 val = 800000000;
             }
+            //check if calced value is not bigger then max returned from cam
+            if (val > millimax*1000)
+                val = millimax *1000;
             if (cameraHolder == null || cameraHolder.mPreviewRequestBuilder == null)
                 return;
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
