@@ -209,6 +209,13 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         }
         finally {
             mCameraOpenCloseLock.release();
+            if (UIHandler != null)
+                UIHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        cameraChangedListner.onCameraClose("");
+                    }
+                });
         }
     }
 

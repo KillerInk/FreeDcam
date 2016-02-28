@@ -221,7 +221,6 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     public void onCameraClose(String message)
     {
         cameraRdy = false;
-        camParametersHandler.locationParameter.stopLocationListining();
         super.onCameraClose(message);
     }
 
