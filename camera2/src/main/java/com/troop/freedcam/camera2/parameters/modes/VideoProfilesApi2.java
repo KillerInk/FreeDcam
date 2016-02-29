@@ -9,6 +9,7 @@ import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.VideoMediaProfile;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -64,7 +65,11 @@ public class VideoProfilesApi2 extends BaseModeApi2
                 VideoMediaProfile.saveCustomProfiles(supportedProfiles);
             }
 
-            VideoMediaProfile.loadCustomProfiles(supportedProfiles);
+            try {
+                VideoMediaProfile.loadCustomProfiles(supportedProfiles);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }
     }

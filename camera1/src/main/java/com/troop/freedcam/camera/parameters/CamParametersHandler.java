@@ -123,6 +123,8 @@ public class CamParametersHandler extends AbstractParameterHandler
             setupLg_G4Parameters();
 
         logParameters(cameraParameters);
+
+
         //setup first Pictureformat its needed for manual parameters to
         // register their listners there if its postprocessing parameter
         PictureFormat = new PictureFormatHandler(uiHandler,cameraParameters, baseCameraHolder);
@@ -270,6 +272,14 @@ public class CamParametersHandler extends AbstractParameterHandler
         oismode = new OisParameter(uiHandler,cameraParameters,baseCameraHolder,"","");
 
         Focuspeak = new FocusPeakModeParameter(uiHandler,baseCameraHolder,cameraUiWrapper.previewHandler);
+
+        if (cameraParameters.containsKey("video-hfr-values"))
+        {
+            String[] hfr_values = cameraParameters.get("video-hfr-values").split(",");
+            if(hfr_values.length <= 2)
+                cameraParameters.put("video-hfr-values", "off,60,120");
+        }
+        VideoHighFramerateVideo = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "video-hfr", "video-hfr-values");
 
         SetCameraRotation();
         SetPictureOrientation(0);

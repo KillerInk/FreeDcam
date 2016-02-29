@@ -11,6 +11,7 @@ import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -90,7 +91,11 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
                 VideoMediaProfile.saveCustomProfiles(supportedProfiles);
             }
             if (f.exists())
-                VideoMediaProfile.loadCustomProfiles(supportedProfiles);
+                try {
+                    VideoMediaProfile.loadCustomProfiles(supportedProfiles);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
         }
     }
 
