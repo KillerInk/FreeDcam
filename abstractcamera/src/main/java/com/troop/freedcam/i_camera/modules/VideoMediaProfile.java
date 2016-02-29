@@ -8,6 +8,7 @@ import com.troop.freedcam.utils.StringUtils;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -141,24 +142,21 @@ public class VideoMediaProfile
 
     final public static String MEDIAPROFILESPATH = StringUtils.GetInternalSDCARD()+StringUtils.freedcamFolder+"CustomMediaProfiles.txt";
 
-    public static void loadCustomProfiles(HashMap<String, VideoMediaProfile> list)
-    {
+    public static void loadCustomProfiles(HashMap<String, VideoMediaProfile> list) throws IOException {
         File mprof = new File(MEDIAPROFILESPATH);
         if(mprof.exists()) {
-            try {
-                BufferedReader br = new BufferedReader(new FileReader(mprof));
-                String line;
 
-                while ((line = br.readLine()) != null)
-                {
-                    if (!line.startsWith("#")) {
-                        VideoMediaProfile m = new VideoMediaProfile(line);
-                        list.put(m.ProfileName, m);
-                    }
+            BufferedReader br = new BufferedReader(new FileReader(mprof));
+            String line;
+
+            while ((line = br.readLine()) != null)
+            {
+                if (!line.startsWith("#")) {
+                    VideoMediaProfile m = new VideoMediaProfile(line);
+                    list.put(m.ProfileName, m);
                 }
-                br.close();
-            } catch (IOException e) {
             }
+            br.close();
         }
 
     }
