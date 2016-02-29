@@ -193,12 +193,6 @@ public class HDRModeParameter extends BaseModeParameter
             switch (module)
             {
                 case AbstractModuleHandler.MODULE_VIDEO:
-                    if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
-                    {
-                        Show();
-                        BackgroundIsSupportedChanged(true);
-                        break;
-                    }
                 case AbstractModuleHandler.MODULE_HDR:
                     Hide();
                     SetValue("off",true);
