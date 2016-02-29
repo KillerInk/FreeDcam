@@ -194,19 +194,6 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         }
         recorderSurface = mediaRecorder.getSurface();
         baseCameraHolder.CaptureSessionH.AddSurface(recorderSurface,true);
-        /*Matrix matrix = new Matrix();
-        RectF viewRect = new RectF(0, 0, displaySize.x, displaySize.y);
-        RectF bufferRect = new RectF(0, 0, previewSize.getHeight(), previewSize.getWidth());
-        float centerX = viewRect.centerX();
-        float centerY = viewRect.centerY();
-        bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY());
-        matrix.setRectToRect(bufferRect, viewRect, Matrix.ScaleToFit.FILL);
-        if (Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
-            matrix.preRotate(90, centerX, centerY);
-        else
-            matrix.preRotate(270, centerX, centerY);
-
-        baseCameraHolder.textureView.setTransform(matrix);*/
 
         baseCameraHolder.CaptureSessionH.CreateCaptureSession(previewrdy);
     }

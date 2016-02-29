@@ -731,6 +731,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         Log.d(TAG, "UnloadNeededParameters");
         cameraHolder.CaptureSessionH.CloseCaptureSession();
+        cameraHolder.mProcessor.kill();
         previewsurface = null;
         camerasurface = null;
     }
