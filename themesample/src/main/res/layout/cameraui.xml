@@ -385,4 +385,9 @@
         android:layout_toLeftOf="@+id/right_ui_holder"
         android:layout_toStartOf="@+id/right_ui_holder" />
 
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/helpfragment_container"></FrameLayout>
+
 </RelativeLayout>

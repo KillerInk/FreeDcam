@@ -33,7 +33,7 @@ public class AppSettingsManager
     final public static String SETTING_HDRMODE = "hdrmode";
     // 1-29-2016 11:49
     final public static String SETTING_VideoBitrate = "videobitrate";
-    //
+    final public static String SETTING_HELP ="help";
     //
     final public static String SETTING_GUIDE = "guide";
     //done
