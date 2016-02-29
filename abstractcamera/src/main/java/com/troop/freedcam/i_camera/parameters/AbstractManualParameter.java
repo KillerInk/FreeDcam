@@ -160,7 +160,10 @@ public abstract class AbstractManualParameter implements I_ManualParameter
     {
         if (stringvalues == null || stringvalues.length == 0)
             return null;
-        return stringvalues[currentInt];
+        if (currentInt > stringvalues.length)
+            return stringvalues[stringvalues.length-1];
+        else
+            return stringvalues[currentInt];
     }
 
     /**

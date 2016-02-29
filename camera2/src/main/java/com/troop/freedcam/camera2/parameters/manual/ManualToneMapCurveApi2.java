@@ -85,13 +85,13 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
         boolean firststart = true;
         public Contrast(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
             super(camParametersHandler, cameraHolder);
-            this.stringvalues = createStringArray(-1,100,1);
-            this.currentInt = 0;
+            this.stringvalues = createStringArray(0,100,1);
+            this.currentInt = 50;
         }
 
         @Override
         public int GetValue() {
-            return this.currentInt/3;
+            return this.currentInt;
         }
 
         @Override
@@ -172,6 +172,11 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
         public boolean IsSetSupported() {
             return true;
         }
+
+        @Override
+        public String GetStringValue() {
+            return super.GetStringValue();
+        }
     }
 
     public class Brightness extends ManualExposureApi2
@@ -251,6 +256,11 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
         @Override
         public boolean IsSetSupported() {
             return true;
+        }
+
+        @Override
+        public String GetStringValue() {
+            return super.GetStringValue();
         }
     }
 }
