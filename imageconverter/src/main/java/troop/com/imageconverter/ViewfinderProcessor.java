@@ -118,12 +118,11 @@ public class ViewfinderProcessor
         }
         if (mInputAllocation != null) {
             mInputAllocation.setOnBufferAvailableListener(null);
-            mInputAllocation = null;
         }
         if (mOutputAllocation != null)
         {
             mOutputAllocation.setSurface(null);
-            mOutputAllocation = null;
+            //mOutputAllocation = null;
         }
         Log.d(TAG,"kill()");
 

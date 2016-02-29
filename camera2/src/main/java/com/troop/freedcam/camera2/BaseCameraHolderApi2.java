@@ -576,10 +576,13 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     {
         private String TAG = CaptureSessionHandler.class.getSimpleName();
         private List<Surface> surfaces;
-
+        private Point displaySize;
         public CaptureSessionHandler()
         {
             surfaces = new ArrayList<Surface>();
+            Display display = ((WindowManager)Settings.context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+            displaySize = new Point();
+            display.getRealSize(displaySize);
         }
 
         public void AddSurface(Surface surface, boolean addtoPreviewRequestBuilder)
@@ -646,6 +649,41 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             if (mCaptureSession != null)
                 mCaptureSession.close();
             mCaptureSession = null;
+        }
+
+        public void SetTextureViewSize(int w, int h, int orientation, int orientationWithHack,boolean video)
+        {
+            Matrix matrix = new Matrix();
+            RectF viewRect = new RectF(0, 0, displaySize.x, displaySize.y);
+            Log.d(TAG,"DisplaySize:" + displaySize.x +"x"+ displaySize.y);
+            RectF bufferRect;
+            if (video)
+                bufferRect = new RectF(0, 0, h, w);
+            else
+                bufferRect = new RectF(0, 0, w, h);
+            Log.d(TAG, "PreviewSize:" + w +"x"+ h);
+            float centerX = viewRect.centerX();
+            float centerY = viewRect.centerY();
+            bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY());
+            if (video)
+            {
+                matrix.setRectToRect(bufferRect, viewRect, Matrix.ScaleToFit.FILL);
+                if (Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+                    matrix.preRotate(orientationWithHack, centerX, centerY);
+                else
+                    matrix.preRotate(orientation, centerX, centerY);
+            }
+            else
+            {
+                matrix.setRectToRect(viewRect, viewRect, Matrix.ScaleToFit.FILL);
+                if (Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+                    matrix.postRotate(orientationWithHack, centerX, centerY);
+                else
+                    matrix.postRotate(orientation, centerX, centerY);
+            }
+
+            textureView.setTransform(matrix);
+            textureView.setAspectRatio(w, h);
         }
 
 

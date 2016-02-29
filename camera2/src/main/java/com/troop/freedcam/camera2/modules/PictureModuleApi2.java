@@ -647,14 +647,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 baseCameraHolder.mProcessor.kill();
             }
             baseCameraHolder.mProcessor.setRenderScriptErrorListner(rsErrorHandler);
-            Matrix matrix = new Matrix();
-            RectF viewRect = new RectF(0, 0, displaySize.x, displaySize.y);
-            matrix.setRectToRect(viewRect, viewRect, Matrix.ScaleToFit.FILL);
-            if (Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
-                matrix.postRotate(180, viewRect.centerX(), viewRect.centerY());
-            else
-                matrix.postRotate(0, viewRect.centerX(), viewRect.centerY());
-            baseCameraHolder.textureView.setTransform(matrix);
+            baseCameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(),previewSize.getHeight(),0,180,false);
             SurfaceTexture texture = baseCameraHolder.textureView.getSurfaceTexture();
             texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
             previewsurface = new Surface(texture);
@@ -664,8 +657,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             baseCameraHolder.mProcessor.setOutputSurface(previewsurface);
             camerasurface = baseCameraHolder.mProcessor.getInputSurface();
             baseCameraHolder.CaptureSessionH.AddSurface(camerasurface,true);
-            baseCameraHolder.textureView.setAspectRatio(previewSize.getWidth(), previewSize.getHeight());
-
 
             if (picFormat.equals(BaseCameraHolderApi2.JPEG))
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, burst);
@@ -739,7 +730,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     public void UnloadNeededParameters()
     {
         Log.d(TAG, "UnloadNeededParameters");
-        cameraHolder.mProcessor.setOutputSurface(null);
         cameraHolder.CaptureSessionH.CloseCaptureSession();
         previewsurface = null;
         camerasurface = null;

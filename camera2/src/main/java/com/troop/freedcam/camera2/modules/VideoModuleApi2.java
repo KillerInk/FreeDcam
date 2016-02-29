@@ -135,29 +135,16 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     public void startPreview()
     {
         previewSize = new Size(currentVideoProfile.videoFrameWidth,currentVideoProfile.videoFrameHeight);
-        Matrix matrix = new Matrix();
-        RectF viewRect = new RectF(0, 0, displaySize.x, displaySize.y);
-        Log.d(TAG,"DisplaySize:" + displaySize.x +"x"+ displaySize.y);
-        RectF bufferRect = new RectF(0, 0, previewSize.getHeight(), previewSize.getWidth());
-        Log.d(TAG, "PreviewSize:" + previewSize.getWidth() +"x"+ previewSize.getHeight());
-        float centerX = viewRect.centerX();
-        float centerY = viewRect.centerY();
-        bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY());
+        baseCameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(), previewSize.getHeight(), 270,90,true);
 
-        matrix.setRectToRect(bufferRect, viewRect, Matrix.ScaleToFit.FILL);
-        if (Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
-            matrix.preRotate(90, centerX, centerY);
-        else
-            matrix.preRotate(270, centerX, centerY);
-        baseCameraHolder.textureView.setTransform(matrix);
         SurfaceTexture texture = baseCameraHolder.textureView.getSurfaceTexture();
+
         texture.setDefaultBufferSize(currentVideoProfile.videoFrameWidth,currentVideoProfile.videoFrameHeight);
         previewsurface = new Surface(texture);
        /* if (baseCameraHolder.mProcessor != null) {
             baseCameraHolder.mProcessor.kill();
         }*/
         baseCameraHolder.CaptureSessionH.AddSurface(previewsurface,true);
-        baseCameraHolder.textureView.setAspectRatio(previewSize.getWidth(), previewSize.getHeight());
 
 
         baseCameraHolder.CaptureSessionH.CreateCaptureSession();
