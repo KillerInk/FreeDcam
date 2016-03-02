@@ -208,13 +208,17 @@ public class VideoProfilesParameter extends BaseModeParameter
                     supportedProfiles.put("TimelapseQVGA", CamcorderProfile.get(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_TIME_LAPSE_QVGA));
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }*/
             try {
-                if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kDCI))
-                    supportedProfiles.put("4kDCI", CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kDCI));
+                if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kDCI) && (DeviceUtils.IS(DeviceUtils.Devices.Htc_M9) || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W )|| DeviceUtils.IS(DeviceUtils.Devices.OnePlusOne) || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4W))) {
+
+                    CamcorderProfile fourk = CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kDCI);
+
+                    supportedProfiles.put("4kDCI",new VideoMediaProfile(fourk, "4kDCI", VideoMediaProfile.VideoMode.Normal,true));
+                }
             } catch (Exception e) {
                 e.printStackTrace();
-            }*/
+            }
         try {
             if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kUHD))
             {
