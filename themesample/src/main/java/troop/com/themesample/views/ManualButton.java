@@ -95,7 +95,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
         this.valueTextView = (TextView)findViewById(R.id.manualbutton_valuetext);
         valueTextView.setSelected(true);
         imageView = (ImageView)findViewById(R.id.imageView_ManualButton);
-        imageView.setOnLongClickListener(new View.OnLongClickListener() {
+      /*  imageView.setOnLongClickListener(new View.OnLongClickListener() {
 
             @Override
             public boolean onLongClick(View v) {
@@ -103,7 +103,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
                 Toast.makeText(appSettingsManager.context, "Reseted", Toast.LENGTH_SHORT).show();
                 return true;
             }
-        });
+        });*/
     }
 
     public void RemoveParameterListner( AbstractManualParameter.I_ManualParameterEvent t)
