@@ -65,7 +65,7 @@ public class CCTManualParameter extends BaseManualParameter
                 createStringArray();
             }
         }
-        else if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) ||DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
+        else if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) ||DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC) || DeviceUtils.IS(DeviceUtils.Devices.LenovoK920))
         {
             this.min = 2000;
             this.max = 8000;
