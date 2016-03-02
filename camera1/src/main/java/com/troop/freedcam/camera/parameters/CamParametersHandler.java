@@ -94,8 +94,8 @@ public class CamParametersHandler extends AbstractParameterHandler
         this.cameraUiWrapper = cameraUiWrapper;
     }
 
-    public void SetParametersToCamera()
-    {
+    @Override
+    public void SetParametersToCamera() {
         cameraHolder.SetCameraParameters(cameraParameters);
     }
 
@@ -116,6 +116,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             Log.d(TAG, e.getKey() + "=" + e.getValue());
         }
     }
+
 
     private void initParameters()
     {
@@ -550,7 +551,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
     }
-
+    @Override
     public void SetMeterAREA(FocusRect meteringAreas)
     {
         if(DeviceUtils.IS(Devices.ZTE_ADV))
@@ -574,7 +575,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             }
         }
     }
-
+    @Override
     public void SetFocusAREA(FocusRect focusAreas, FocusRect meteringAreas)
     {
         if(DeviceUtils.IS(Devices.ZTE_ADV))
@@ -601,7 +602,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             SetParametersToCamera();
         }
     }
-
+    @Override
     public void SetPictureOrientation(int orientation)
     {
         if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
@@ -632,7 +633,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         else
             ((BaseCameraHolder)cameraHolder).SetCameraRotation(180);
     }
-
+    @Override
     public void LockExposureAndWhiteBalance(boolean value)
     {
         isExposureAndWBLocked = value;
@@ -691,7 +692,6 @@ public class CamParametersHandler extends AbstractParameterHandler
         cameraUiWrapper.moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
     }
     public void FPSRangeLock (int min,int max){
-
         String mMin =String.valueOf(min*1000);
         String mMax =String.valueOf(max*1000);
         cameraParameters.put("preview-fps-range",mMin+","+mMax);
@@ -708,14 +708,6 @@ public class CamParametersHandler extends AbstractParameterHandler
         cameraParameters.put("rawsave-mode", "2");
         cameraParameters.put("isp-mode", "1");
         cameraParameters.put("rawfname", "/mnt/sdcard/DCIM/test.raw");
-
-
-
-    }
-
-    private void setupLg_G4Parameters()
-    {
-        cameraParameters.put("lge-camera", "1");
     }
 
 
