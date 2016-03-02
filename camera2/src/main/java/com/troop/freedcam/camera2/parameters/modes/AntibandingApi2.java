@@ -39,7 +39,7 @@ public class AntibandingApi2 extends BaseModeApi2
         if (valueToSet.contains("unknown Focus"))
             return;
         AntibandingModes sceneModes = Enum.valueOf(AntibandingModes.class, valueToSet);
-        cameraHolder.setIntKeyToCam(CaptureRequest.CONTROL_AE_ANTIBANDING_MODE, sceneModes.ordinal());
+        cameraHolder.SetParameterToCam(CaptureRequest.CONTROL_AE_ANTIBANDING_MODE, sceneModes.ordinal());
         BackgroundValueHasChanged(valueToSet);
         //cameraHolder.mPreviewRequestBuilder.build();
     }

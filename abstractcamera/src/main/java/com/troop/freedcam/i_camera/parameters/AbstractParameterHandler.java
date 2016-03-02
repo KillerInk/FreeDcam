@@ -79,10 +79,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter VideoSize;
     public AbstractModeParameter VideoHDR;
     public AbstractModeParameter VideoHighFramerateVideo;
-    public AbstractModeParameter Video_Framerate_;
-    public AbstractModeParameter Video_Bitrate_;
     public AbstractModeParameter LensFilter;
-    public AbstractModeParameter VideoHighSpeedVideo;
     public AbstractModeParameter CameraMode;
     public AbstractModeParameter Horizont;
 
@@ -105,9 +102,7 @@ public abstract class AbstractParameterHandler
     public boolean IsDngActive(){ return this.isDngActive; };
     public void SetDngActive(boolean active) {this.isDngActive = active;}
 
-
     public AbstractCameraHolder cameraHolder;
-    public AbstractCameraChanged cameraChanged;
     protected AppSettingsManager appSettingsManager;
 
     //camera2 modes
@@ -188,7 +183,7 @@ public abstract class AbstractParameterHandler
         //setMode(SkinToneEnhancment, AppSettingsManager.SETTING_SKINTONE_MODE);
         setMode(NightMode, AppSettingsManager.SETTING_NIGHTEMODE);
         setMode(NonZslManualMode, AppSettingsManager.SETTING_NONZSLMANUALMODE);
-        setMode(AE_Bracket, AppSettingsManager.SETTING_AEBRACKET);
+
         setMode(Histogram, AppSettingsManager.SETTING_HISTOGRAM);
         if(VideoProfiles != null)
             setMode(VideoProfiles, AppSettingsManager.SETTING_VIDEPROFILE);
@@ -208,11 +203,13 @@ public abstract class AbstractParameterHandler
         setMode(IntervalDuration,AppSettingsManager.SETTING_INTERVAL_DURATION);
         setMode(IntervalShutterSleep, AppSettingsManager.SETTING_INTERVAL);
         setMode(Horizont, AppSettingsManager.SETTING_HORIZONT);
-        setMode(captureBurstExposures, AppSettingsManager.SETTING_CAPTUREBURSTEXPOSURES);
+
         setMode(HDRMode, AppSettingsManager.SETTING_HDRMODE);
         //setMode(aeb1, AppSettingsManager.SETTING_AEB1);
         //setMode(aeb2, AppSettingsManager.SETTING_AEB2);
         //setMode(aeb3, AppSettingsManager.SETTING_AEB3);
+        //setMode(captureBurstExposures, AppSettingsManager.SETTING_CAPTUREBURSTEXPOSURES);
+        //setMode(AE_Bracket, AppSettingsManager.SETTING_AEBRACKET);
 
         setMode(morphoHDR, AppSettingsManager.SETTING_MORPHOHDR);
         setMode(morphoHHT, AppSettingsManager.SETTING_MORPHOHHT);

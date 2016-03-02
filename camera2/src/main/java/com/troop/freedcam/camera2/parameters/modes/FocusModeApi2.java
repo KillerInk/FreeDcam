@@ -39,7 +39,7 @@ public class FocusModeApi2 extends BaseModeApi2
         if (valueToSet.contains("unknown Focus"))
             return;
         FocusModes sceneModes = Enum.valueOf(FocusModes.class, valueToSet);
-        cameraHolder.setIntKeyToCam(CaptureRequest.CONTROL_AF_MODE, sceneModes.ordinal());
+        cameraHolder.SetParameterToCam(CaptureRequest.CONTROL_AF_MODE, sceneModes.ordinal());
         BackgroundValueHasChanged(valueToSet);
         //cameraHolder.mPreviewRequestBuilder.build();
     }

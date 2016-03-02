@@ -85,13 +85,13 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
         boolean firststart = true;
         public Contrast(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
             super(camParametersHandler, cameraHolder);
-            this.stringvalues = createStringArray(-1,100,1);
-            this.currentInt = 0;
+            this.stringvalues = createStringArray(0,100,1);
+            this.currentInt = 50;
         }
 
         @Override
         public int GetValue() {
-            return this.currentInt/3;
+            return this.currentInt;
         }
 
         @Override
@@ -100,7 +100,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
             Log.d(TAG, "Contrast value to set:" + valueToSet);
             if (valueToSet == -1)
             {
-                Log.d(TAG, "Current TonemapMode:" + camParametersHandler.ToneMapMode.GetValue());
+                Log.d(TAG, "Current TonemapMode:" + this.camParametersHandler.ToneMapMode.GetValue());
                 if (camParametersHandler.ToneMapMode.GetValue().equals("CONTRAST_CURVE"))
                 {
                     camParametersHandler.ToneMapMode.SetValue("FAST", true);
@@ -171,6 +171,11 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
         @Override
         public boolean IsSetSupported() {
             return true;
+        }
+
+        @Override
+        public String GetStringValue() {
+            return super.GetStringValue();
         }
     }
 
@@ -251,6 +256,11 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
         @Override
         public boolean IsSetSupported() {
             return true;
+        }
+
+        @Override
+        public String GetStringValue() {
+            return super.GetStringValue();
         }
     }
 }

@@ -87,9 +87,19 @@ public class VideoProfilesParameter extends BaseModeParameter
                 lookupDefaultProfiles(supportedProfiles);
                 VideoMediaProfile.saveCustomProfiles(supportedProfiles);
             }
-
             if (f.exists())
-                VideoMediaProfile.loadCustomProfiles(supportedProfiles);
+            {
+                try {
+                    VideoMediaProfile.loadCustomProfiles(supportedProfiles);
+                }
+                catch (Exception ex)
+                {
+                    f.delete();
+                    lookupDefaultProfiles(supportedProfiles);
+                    VideoMediaProfile.saveCustomProfiles(supportedProfiles);
+                }
+
+            }
 
         }
     }

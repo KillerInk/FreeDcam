@@ -23,6 +23,7 @@ import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 import troop.com.themesample.R;
@@ -77,7 +78,11 @@ public class VideoProfileEditorFragment extends Fragment
 
         File f = new File(VideoMediaProfile.MEDIAPROFILESPATH);
         if(f.exists())
-            VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
+            try {
+                VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         AppSettingsManager appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getActivity()), getContext());
         try {
             setMediaProfile(videoMediaProfiles.get(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE)));
@@ -159,7 +164,11 @@ public class VideoProfileEditorFragment extends Fragment
                     videoMediaProfiles.clear();
                     File f = new File(VideoMediaProfile.MEDIAPROFILESPATH);
                     if(f.exists())
-                    VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
+                        try {
+                            VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     clearProfileItems();
                     break;
 
@@ -227,7 +236,11 @@ public class VideoProfileEditorFragment extends Fragment
             videoMediaProfiles.clear();
             File f = new File(VideoMediaProfile.MEDIAPROFILESPATH);
             if(f.exists())
-                VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
+                try {
+                    VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             Toast.makeText(getContext(),"Profile Saved", Toast.LENGTH_SHORT).show();
         }
     };

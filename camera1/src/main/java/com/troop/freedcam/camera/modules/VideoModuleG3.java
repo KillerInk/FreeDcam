@@ -122,6 +122,13 @@ public class VideoModuleG3 extends AbstractVideoModule
             if(!DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
                 camParametersHandler.setString("preview-format", "nv12-venus");
             camParametersHandler.setString("lge-camera", "1");
+            if (currentProfile.Mode == VideoMediaProfile.VideoMode.Highspeed)
+            {
+                if (camParametersHandler.VideoHighFramerateVideo != null && camParametersHandler.VideoHighFramerateVideo.IsSupported())
+                {
+                    camParametersHandler.VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate+"", true);
+                }
+            }
         }
         else
         {

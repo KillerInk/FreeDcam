@@ -42,11 +42,6 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
         this.value = value;
         this.values = values;
         this.baseCameraHolder = cameraHolder;
-    }
-
-    @Override
-    public boolean IsSupported()
-    {
         try
         {
             String tmp = parameters.get(values);
@@ -57,8 +52,11 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
         {
             this.isSupported = false;
         }
-        //Log.d(TAG, "is Supported :" + isSupported);
-        BackgroundSetIsSupportedHasChanged(isSupported);
+    }
+
+    @Override
+    public boolean IsSupported()
+    {
         return isSupported;
     }
 
@@ -71,9 +69,8 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
     {
         if (valueToSet == null)
             return;
-        String tmp = parameters.get(value);
         parameters.put(value, valueToSet);
-        Log.d(TAG, "set " + value + " from " + tmp + " to " + valueToSet);
+        Log.d(TAG, "set " + value + " to " + valueToSet);
         BackgroundValueHasChanged(valueToSet);
         if (setToCam) {
             try {

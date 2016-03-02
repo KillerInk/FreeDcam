@@ -128,7 +128,8 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_START);
             // Tell #mCaptureCallback to wait for the lock.
             //mState = PictureModuleApi2.STATE_WAITING_LOCK;
-            cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
+            if (cameraHolder.mCaptureSession != null)
+                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
             if (focusEvent != null)
                 focusEvent.FocusStarted(focusRect);

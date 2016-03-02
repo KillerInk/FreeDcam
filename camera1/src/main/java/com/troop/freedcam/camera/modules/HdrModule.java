@@ -168,14 +168,9 @@ public class HdrModule extends PictureModule implements I_WorkeDone
                 else if (hdrCount == 2)
                     getStop(1 / Integer.parseInt(ParameterHandler.ManualShutter.GetStringValue().split("/")[1]), 12.0f);
                 //ParameterHandler.ManualShutter.SetValue();
-
-
-
             }
             else
             {
-
-
                 if (hdrCount == 0)
                 {
                     //getStop(Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue()), -12);
@@ -185,24 +180,22 @@ public class HdrModule extends PictureModule implements I_WorkeDone
                     getStop(Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue()), -12.0f);
                 else if (hdrCount == 2)
                     getStop(Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue()), 12.0f);
-
-
             }
         }
-        int value = 0;
+        else {
+            int value = 0;
 
-        if (hdrCount == 0)
-        {
-           value = Integer.parseInt(Settings.getString(AppSettingsManager.SETTING_AEB1));
+            if (hdrCount == 0) {
+                value = Integer.parseInt(Settings.getString(AppSettingsManager.SETTING_AEB1));
+            } else if (hdrCount == 1)
+                value = Integer.parseInt(Settings.getString(AppSettingsManager.SETTING_AEB2));
+            else if (hdrCount == 2)
+                value = Integer.parseInt(Settings.getString(AppSettingsManager.SETTING_AEB3));
+
+            Log.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
+            ParameterHandler.ManualExposure.SetValue(value);
+            Log.d(TAG, "HDR Exposure SET");
         }
-        else if (hdrCount == 1)
-            value = Integer.parseInt(Settings.getString(AppSettingsManager.SETTING_AEB2));
-        else if (hdrCount == 2)
-            value = Integer.parseInt(Settings.getString(AppSettingsManager.SETTING_AEB3));
-
-        Log.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
-        ParameterHandler.ManualExposure.SetValue(value);
-        Log.d(TAG, "HDR Exposure SET");
     }
 
     private void checkAEMODE()
