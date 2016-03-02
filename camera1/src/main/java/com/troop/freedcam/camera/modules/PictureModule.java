@@ -143,9 +143,10 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
 
         if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)){
             ((CamParametersHandler)ParameterHandler).setString("slow_shutter", "-1");
+
             baseCameraHolder.SetCameraParameters(((CamParametersHandler)ParameterHandler).getParameters());}
        // if(DeviceUtils.isNexus4()){
-        if((DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)) {
+     /*   if((DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)) {
             if (ParameterHandler.IsDngActive() && baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("dng")) {
                 try {
                     MetaDataExtractor.StatiClear();
@@ -159,7 +160,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
             }
 
 
-        }
+        }*/
 
 
     }

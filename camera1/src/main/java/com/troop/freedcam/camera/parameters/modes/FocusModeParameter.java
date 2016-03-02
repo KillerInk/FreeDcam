@@ -35,7 +35,7 @@ public class FocusModeParameter extends BaseModeParameter
     public String[] GetValues()
     {
         List<String> Trimmed = new ArrayList<>(Arrays.asList(parameters.get("focus-mode-values").split(",")));
-        boolean hasCont = false;
+      //  boolean hasCont = false;
 
 
 
@@ -50,7 +50,7 @@ public class FocusModeParameter extends BaseModeParameter
             //return Trimmed.toArray(new String[Trimmed.size()]);
         }
 
-        if(Trimmed.contains("continuous-video")) {
+    /*    if(Trimmed.contains("continuous-video")) {
             Trimmed.remove("continuous-video");
             hasCont =true;
             //return Trimmed.toArray(new String[Trimmed.size()]);
@@ -64,7 +64,7 @@ public class FocusModeParameter extends BaseModeParameter
         if(hasCont) {
             Trimmed.add("continuous");
             //return Trimmed.toArray(new String[Trimmed.size()]);
-        }
+        }*/
 
 
         return Trimmed.toArray(new String[Trimmed.size()]);
@@ -75,7 +75,7 @@ public class FocusModeParameter extends BaseModeParameter
 
     @Override
     public void SetValue(String valueToSet, boolean setToCam) {
-        if(valueToSet.equals("continuous"))
+      /*  if(valueToSet.equals("continuous"))
         {
             switch (curmodule)
             {
@@ -89,7 +89,7 @@ public class FocusModeParameter extends BaseModeParameter
                     break;
             }
         }
-        else if(valueToSet.equals("touch"))
+        else*/ if(valueToSet.equals("touch"))
         {
             parameters.put("selectable-zone-af", "spot-metering");
             parameters.put("focus-mode", "auto");
