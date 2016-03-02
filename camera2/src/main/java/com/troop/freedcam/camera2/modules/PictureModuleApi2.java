@@ -1,7 +1,12 @@
 package com.troop.freedcam.camera2.modules;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
+import android.graphics.Point;
+import android.graphics.RectF;
+import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -16,14 +21,21 @@ import android.media.ImageReader;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.renderscript.RenderScript;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.Rational;
+import android.util.Size;
+import android.view.Display;
+import android.view.Surface;
+import android.view.WindowManager;
 
 import com.troop.androiddng.DngSupportedDevices;
 import com.troop.androiddng.Matrixes;
 import com.troop.androiddng.RawToDng;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
+import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
+import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
@@ -37,6 +49,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -72,6 +86,17 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private TotalCaptureResult mDngResult;
     Handler backgroundHandler;
 
+    private Size largestImageSize;
+    public String picFormat;
+    public String picSize;
+    int mImageWidth, mImageHeight;
+    public ImageReader mImageReader;
+    Size previewSize;
+
+    private Surface previewsurface;
+    private Surface camerasurface;
+
+
     int imagecount = 0;
 
     public PictureModuleApi2(BaseCameraHolderApi2 cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler, Handler backgroundHandler) {
@@ -80,6 +105,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         this.Settings = Settings;
         this.backgroundHandler = backgroundHandler;
         this.name = AbstractModuleHandler.MODULE_PICTURE;
+
     }
 
     @Override
@@ -110,7 +136,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         Log.d(TAG, Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
         Log.d(TAG, "dng:" + Boolean.toString(ParameterHandler.IsDngActive()));
 
-        cameraHolder.mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener, backgroundHandler);
+        mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener, backgroundHandler);
 
         backgroundHandler.post(new Runnable() {
             @Override
@@ -131,9 +157,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             Log.d(TAG, "StartStillCapture");
             // This is the CaptureRequest.Builder that we use to take a picture.
             final CaptureRequest.Builder captureBuilder = cameraHolder.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
-
-            captureBuilder.addTarget(cameraHolder.mImageReader.getSurface());
-
+            captureBuilder.addTarget(mImageReader.getSurface());
             // Use the same AE and AF modes as the preview.
             try {
                 captureBuilder.set(CaptureRequest.CONTROL_AF_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AF_MODE));
@@ -208,6 +232,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             cameraHolder.mCaptureSession.stopRepeating();
             //captureBuilder.removeTarget(cameraHolder.previewsurface);
             mDngResult = null;
+
             //cameraHolder.mCaptureSession.captureBurst(captureList, CaptureCallback, backgroundHandler);
             cameraHolder.mCaptureSession.capture(captureBuilder.build(),CaptureCallback, backgroundHandler);
         } catch (CameraAccessException e) {
@@ -275,7 +300,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             //cameraHolder.SetLastUsedParameters(cameraHolder.mPreviewRequestBuilder);
             // After this, the camera will go back to the normal state of preview.
             mState = STATE_PREVIEW;
-
             //cameraHolder.mCaptureSession.abortCaptures();
             try {
                 cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
@@ -321,7 +345,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                    int burstcount = ParameterHandler.Burst.GetValue()+1;
+                    int burstcount = ParameterHandler.Burst.GetValue();
                     File file = null;
                     Handler handler = new Handler(Looper.getMainLooper());
                     imagecount++;
@@ -342,7 +366,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
 
                     isWorking = false;
-                    MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
+                    MediaScannerManager.ScanMedia(Settings.context, file);
                     eventHandler.WorkFinished(file);
                     if (burstcount == imagecount) {
                         workfinished(true);
@@ -495,7 +519,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 Matrixes.G4_reduction_matrix1,
                 Matrixes.G4_reduction_matrix2,
                 Matrixes.G4_noise_3x1_matrix
-                );
+        );
 
         dngConverter.WriteDngWithProfile(prof);
         dngConverter.RELEASE();
@@ -534,6 +558,118 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         ret[7] = transform.getElement(2,1).floatValue();
         ret[8] = transform.getElement(2,2).floatValue();
         return ret;
+    }
+
+    /**
+     * PREVIEW STUFF
+     */
+
+
+
+    @Override
+    public void startPreview() {
+
+        picSize = Settings.getString(AppSettingsManager.SETTING_PICTURESIZE);
+        Log.d(TAG, "Start Preview");
+        largestImageSize = Collections.max(
+                Arrays.asList(baseCameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
+                new BaseCameraHolderApi2.CompareSizesByArea());
+
+
+
+        picFormat = Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
+        if (picFormat.equals("")) {
+            picFormat = BaseCameraHolderApi2.JPEG;
+            Settings.setString(AppSettingsManager.SETTING_PICTUREFORMAT, BaseCameraHolderApi2.JPEG);
+
+        }
+
+        if (picFormat.equals(BaseCameraHolderApi2.JPEG))
+        {
+            String[] split = picSize.split("x");
+            int width, height;
+            if (split.length < 2)
+            {
+                mImageWidth = largestImageSize.getWidth();
+                mImageHeight = largestImageSize.getHeight();
+            }
+            else
+            {
+                mImageWidth = Integer.parseInt(split[0]);
+                mImageHeight = Integer.parseInt(split[1]);
+            }
+            //create new ImageReader with the size and format for the image
+            Log.d(TAG, "ImageReader JPEG");
+        }
+        else if (picFormat.equals(BaseCameraHolderApi2.RAW_SENSOR))
+        {
+            Log.d(TAG, "ImageReader RAW_SENOSR");
+            largestImageSize = Collections.max(Arrays.asList(baseCameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new BaseCameraHolderApi2.CompareSizesByArea());
+            mImageWidth = largestImageSize.getWidth();
+            mImageHeight = largestImageSize.getHeight();
+        }
+        else if (picFormat.equals(BaseCameraHolderApi2.RAW10))
+        {
+            Log.d(TAG, "ImageReader RAW_SENOSR");
+            largestImageSize = Collections.max(Arrays.asList(baseCameraHolder.map.getOutputSizes(ImageFormat.RAW10)), new BaseCameraHolderApi2.CompareSizesByArea());
+            mImageWidth = largestImageSize.getWidth();
+            mImageHeight = largestImageSize.getHeight();
+        }
+
+        //OrientationHACK
+        if(Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+            baseCameraHolder.mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, 180);
+        else
+            baseCameraHolder.mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, 0);
+
+        // Here, we create a CameraCaptureSession for camera previewSize.
+        if (ParameterHandler.Burst == null)
+            SetBurst(1);
+        else
+            SetBurst(ParameterHandler.Burst.GetValue());
+
+
+    }
+
+    @Override
+    public void stopPreview()
+    {
+        UnloadNeededParameters();
+    }
+
+    public void SetBurst(int burst)
+    {
+        try {
+            Log.d(TAG, "Set Burst to:" + burst);
+            previewSize = BaseCameraHolderApi2.getSizeForPreviewDependingOnImageSize(baseCameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), cameraHolder.characteristics, mImageWidth, mImageHeight);
+            if (baseCameraHolder.mProcessor != null)
+            {
+                baseCameraHolder.mProcessor.kill();
+            }
+            baseCameraHolder.mProcessor.setRenderScriptErrorListner(rsErrorHandler);
+            baseCameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(),previewSize.getHeight(),0,180,false);
+            SurfaceTexture texture = baseCameraHolder.textureView.getSurfaceTexture();
+            texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
+            previewsurface = new Surface(texture);
+
+            baseCameraHolder.mProcessor.Reset(previewSize.getWidth(), previewSize.getHeight());
+            Log.d(TAG, "Previewsurface vailid:" + previewsurface.isValid());
+            baseCameraHolder.mProcessor.setOutputSurface(previewsurface);
+            camerasurface = baseCameraHolder.mProcessor.getInputSurface();
+            baseCameraHolder.CaptureSessionH.AddSurface(camerasurface,true);
+
+            if (picFormat.equals(BaseCameraHolderApi2.JPEG))
+                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, burst);
+            else if (picFormat.equals(BaseCameraHolderApi2.RAW10))
+                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW10, burst);
+            else
+                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW_SENSOR, burst);
+            baseCameraHolder.CaptureSessionH.AddSurface(mImageReader.getSurface(),false);
+            baseCameraHolder.CaptureSessionH.CreateCaptureSession();
+        }
+        catch(Exception ex){ex.printStackTrace();}
+        if (ParameterHandler.Burst != null)
+            ParameterHandler.Burst.ThrowCurrentValueChanged(ParameterHandler.Burst.GetValue());
     }
 
     /**
@@ -585,15 +721,35 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void LoadNeededParameters()
     {
-        //cameraHolder.StopPreview();
-        //cameraHolder.StartPreview();
-        super.LoadNeededParameters();
+        Log.d(TAG, "LoadNeededParameters");
+        cameraHolder.ModulePreview = this;
+        cameraHolder.StartPreview();
     }
 
     @Override
-    public void UnloadNeededParameters() {
-        super.UnloadNeededParameters();
-        //cameraHolder.StopPreview();
+    public void UnloadNeededParameters()
+    {
+        Log.d(TAG, "UnloadNeededParameters");
+        cameraHolder.CaptureSessionH.CloseCaptureSession();
+        cameraHolder.mProcessor.kill();
+        previewsurface = null;
+        camerasurface = null;
     }
+
+    private RenderScript.RSErrorHandler rsErrorHandler = new RenderScript.RSErrorHandler()
+    {
+        @Override
+        public void run() {
+            super.run();
+            eventHandler.RunOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    UnloadNeededParameters();
+                    LoadNeededParameters();
+                }
+            });
+
+        }
+    };
 
 }

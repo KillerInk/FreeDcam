@@ -13,7 +13,7 @@ import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
  */
 public class BurstApi2 extends AbstractManualParameter implements AbstractModeParameter.I_ModeParameterEvent
 {
-    int current = 0;
+    int current = 1;
     BaseCameraHolderApi2 cameraHolderApi2;
 
     public BurstApi2(AbstractParameterHandler camParametersHandler, BaseCameraHolderApi2 cameraHolderApi2) {
@@ -63,7 +63,7 @@ public class BurstApi2 extends AbstractManualParameter implements AbstractModePa
 
     @Override
     public String GetStringValue() {
-        return (current +1)+"";
+        return (current)+"";
     }
 
     @Override
@@ -80,7 +80,8 @@ public class BurstApi2 extends AbstractManualParameter implements AbstractModePa
             @Override
             public void run() {
                 cameraHolderApi2.StopPreview();
-                cameraHolderApi2.SetBurst(current+1);
+                //TODO FIX BURST
+                //cameraHolderApi2.SetBurst(current+1);
             }
         });
 

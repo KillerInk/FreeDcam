@@ -27,7 +27,7 @@ public class ShutterManualSony extends BaseManualParameter
                 try {
                     int min = Integer.parseInt(parameters.get("sony-min-shutter-speed"));
                     int max = Integer.parseInt(parameters.get("sony-max-shutter-speed"));
-                    stringvalues = StringUtils.getSupportedShutterValues(min, max);
+                    stringvalues = StringUtils.getSupportedShutterValues(min, max,true);
                     this.isSupported = true;
                 } catch (NumberFormatException ex) {
                     ex.printStackTrace();

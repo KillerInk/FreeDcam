@@ -1,13 +1,13 @@
 package com.troop.freedcam.camera.modules;
 
 import android.media.MediaRecorder;
-import android.util.Log;
 
 import com.lge.media.MediaRecorderEx;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesG3Parameter;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
+import com.troop.freedcam.i_camera.modules.VideoMediaProfile;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -40,9 +40,9 @@ public class VideoModuleG3 extends AbstractVideoModule
             {
 
                 case Normal:
-                    recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
-                    break;
                 case Highspeed:
+                    if (currentProfile.isAudioActive)
+                        recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
                     break;
                 case Timelapse:
                     break;
@@ -57,11 +57,9 @@ public class VideoModuleG3 extends AbstractVideoModule
             switch (currentProfile.Mode)
             {
                 case Normal:
-                    setAudioStuff(currentProfile);
-                    recorder.setCaptureRate(currentProfile.videoFrameRate);
-                    break;
                 case Highspeed:
-                    recorder.setCaptureRate(currentProfile.videoFrameRate);
+                    if (currentProfile.isAudioActive)
+                        setAudioStuff(currentProfile);
                     break;
                 case Timelapse:
                     float frame = 30;
@@ -113,7 +111,7 @@ public class VideoModuleG3 extends AbstractVideoModule
     {
         VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter)ParameterHandler.VideoProfilesG3;
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
-        if (currentProfile.Mode == VideoMediaProfile.VideoMode.Highspeed || currentProfile.ProfileName.equals("4kUHD"))
+        if (currentProfile.Mode == VideoMediaProfile.VideoMode.Highspeed || currentProfile.ProfileName.contains("4kUHD"))
         {
             camParametersHandler.MemoryColorEnhancement.SetValue("disable",true);
             camParametersHandler.DigitalImageStabilization.SetValue("disable", true);
@@ -124,6 +122,13 @@ public class VideoModuleG3 extends AbstractVideoModule
             if(!DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
                 camParametersHandler.setString("preview-format", "nv12-venus");
             camParametersHandler.setString("lge-camera", "1");
+            if (currentProfile.Mode == VideoMediaProfile.VideoMode.Highspeed)
+            {
+                if (camParametersHandler.VideoHighFramerateVideo != null && camParametersHandler.VideoHighFramerateVideo.IsSupported())
+                {
+                    camParametersHandler.VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate+"", true);
+                }
+            }
         }
         else
         {

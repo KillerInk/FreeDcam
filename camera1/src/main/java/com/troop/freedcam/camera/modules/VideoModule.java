@@ -1,15 +1,15 @@
 package com.troop.freedcam.camera.modules;
 
-import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Environment;
+import android.telecom.VideoProfile;
 import android.util.Log;
 
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
+import com.troop.freedcam.i_camera.modules.VideoMediaProfile;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.DeviceUtils;
 
 /**
  * Created by troop on 16.08.2014.
@@ -36,9 +36,9 @@ public class VideoModule extends AbstractVideoModule
         switch (currentProfile.Mode)
         {
             case Normal:
-                recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
-                break;
             case Highspeed:
+                if(currentProfile.isAudioActive)
+                    recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
                 break;
             case Timelapse:
                 break;
@@ -52,12 +52,14 @@ public class VideoModule extends AbstractVideoModule
         switch (currentProfile.Mode)
         {
             case Normal:
-                recorder.setAudioSamplingRate(currentProfile.audioSampleRate);
-                recorder.setAudioEncodingBitRate(currentProfile.audioBitRate);
-                recorder.setAudioChannels(currentProfile.audioChannels);
-                recorder.setAudioEncoder(currentProfile.audioCodec);
-                break;
             case Highspeed:
+                if(currentProfile.isAudioActive)
+                {
+                    recorder.setAudioSamplingRate(currentProfile.audioSampleRate);
+                    recorder.setAudioEncodingBitRate(currentProfile.audioBitRate);
+                    recorder.setAudioChannels(currentProfile.audioChannels);
+                    recorder.setAudioEncoder(currentProfile.audioCodec);
+                }
                 break;
             case Timelapse:
                 float frame = 30;
@@ -111,7 +113,7 @@ public class VideoModule extends AbstractVideoModule
         }
         else
         {
-            if (currentProfile.ProfileName.equals(VideoProfilesParameter._4kUHD))
+            if (currentProfile.ProfileName.contains(VideoProfilesParameter._4kUHD))
             {
                 if (camParametersHandler.MemoryColorEnhancement != null && camParametersHandler.MemoryColorEnhancement.IsSupported())
                     camParametersHandler.MemoryColorEnhancement.SetValue("disable", true);
@@ -123,7 +125,8 @@ public class VideoModule extends AbstractVideoModule
                     camParametersHandler.Denoise.SetValue("denoise-off", true);
                 camParametersHandler.setString("preview-format", "nv12-venus");
             }
-            camParametersHandler.setString("preview-format", "yuv420sp");
+            else
+                camParametersHandler.setString("preview-format", "yuv420sp");
             if (camParametersHandler.VideoHighFramerateVideo != null && camParametersHandler.VideoHighFramerateVideo.IsSupported())
             {
                 camParametersHandler.VideoHighFramerateVideo.SetValue("off", true);

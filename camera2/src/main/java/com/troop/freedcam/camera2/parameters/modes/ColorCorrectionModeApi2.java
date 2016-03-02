@@ -25,8 +25,11 @@ public class ColorCorrectionModeApi2 extends BaseModeApi2 {
 
 
     @Override
-    public boolean IsSupported() {
-        return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.COLOR_CORRECTION_MODE) != null;
+    public boolean IsSupported()
+    {
+        if (cameraHolder != null && cameraHolder.mPreviewRequestBuilder != null)
+            return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.COLOR_CORRECTION_MODE) != null;
+        return false;
     }
 
     @Override
@@ -35,7 +38,7 @@ public class ColorCorrectionModeApi2 extends BaseModeApi2 {
         if (valueToSet.contains("unknown Scene"))
             return;
         ColorCorrectionModes sceneModes = Enum.valueOf(ColorCorrectionModes.class, valueToSet);
-        cameraHolder.setIntKeyToCam(CaptureRequest.COLOR_CORRECTION_MODE, sceneModes.ordinal());
+        cameraHolder.SetParameterToCam(CaptureRequest.COLOR_CORRECTION_MODE, sceneModes.ordinal());
         BackgroundValueHasChanged(valueToSet);
     }
 

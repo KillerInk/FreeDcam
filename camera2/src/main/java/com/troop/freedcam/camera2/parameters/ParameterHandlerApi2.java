@@ -4,9 +4,11 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.os.Handler;
+import android.telecom.VideoProfile;
 import android.util.Log;
 
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
+import com.troop.freedcam.camera2.CameraUiWrapperApi2;
 import com.troop.freedcam.camera2.FocusHandlerApi2;
 import com.troop.freedcam.camera2.parameters.manual.BurstApi2;
 import com.troop.freedcam.camera2.parameters.manual.ManualExposureApi2;
@@ -32,6 +34,7 @@ import com.troop.freedcam.camera2.parameters.modes.PictureFormatParameterApi2;
 import com.troop.freedcam.camera2.parameters.modes.PictureSizeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.ToneMapModeApi2;
+import com.troop.freedcam.camera2.parameters.modes.VideoProfilesApi2;
 import com.troop.freedcam.camera2.parameters.modes.VideoSizeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.WhiteBalanceApi2;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
@@ -75,7 +78,9 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         FlashMode = new FlashModeApi2(uiHandler,this.cameraHolder);
         SceneMode = new SceneModeApi2(uiHandler,this.cameraHolder);
         ColorMode = new ColorModeApi2(uiHandler,this.cameraHolder);
-        WhiteBalanceMode = new WhiteBalanceApi2(uiHandler,cameraHolder);
+
+        ColorCorrectionMode = new ColorCorrectionModeApi2(uiHandler,cameraHolder);
+        WhiteBalanceMode = new WhiteBalanceApi2(uiHandler,cameraHolder, (ColorCorrectionModeApi2)ColorCorrectionMode);
         //AE mode start
         final AeModeApi2 AE = new AeModeApi2(uiHandler,this.cameraHolder);
         ExposureMode = AE;
@@ -85,6 +90,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
         FocusMode = new FocusModeApi2(uiHandler, cameraHolder);
         ManualExposure = new ManualExposureApi2(this, cameraHolder);
+        AE.addEventListner((ManualExposureApi2)ManualExposure);
         //manual iso
         final ManualISoApi2 miso = new ManualISoApi2(this,cameraHolder);
         AE.addEventListner(miso);
@@ -101,11 +107,10 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         ManualFocus = mf;
         FocusMode.addEventListner(mf);
         //MF END
-        ColorCorrectionMode = new ColorCorrectionModeApi2(uiHandler,cameraHolder);
+
         //CCT START
         final  ManualWbCtApi2 cct = new ManualWbCtApi2(this,cameraHolder);
         CCT = cct;
-        ColorCorrectionMode.addEventListner(cct);
         WhiteBalanceMode.addEventListner(cct);
         //cct end
 
@@ -123,15 +128,16 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         PictureFormat = new PictureFormatParameterApi2(uiHandler,this.cameraHolder);
 
         FocusMode.addEventListner(((FocusHandlerApi2)cameraHolder.Focus).focusModeListner);
-        WhiteBalanceMode.addEventListner(((FocusHandlerApi2)cameraHolder.Focus).awbModeListner);
-        ExposureMode.addEventListner(((FocusHandlerApi2)cameraHolder.Focus).aeModeListner);
+        WhiteBalanceMode.addEventListner(((FocusHandlerApi2) cameraHolder.Focus).awbModeListner);
+        ExposureMode.addEventListner(((FocusHandlerApi2) cameraHolder.Focus).aeModeListner);
         ((FocusHandlerApi2) cameraHolder.Focus).ParametersLoaded();
 
         ControlMode = new ControlModesApi2(uiHandler, this.cameraHolder);
 
         Burst = new BurstApi2(this,cameraHolder);
         Focuspeak = new FocusPeakModeApi2(uiHandler,cameraHolder);
-        VideoSize = new VideoSizeModeApi2(uiHandler,cameraHolder);
+        //VideoSize = new VideoSizeModeApi2(uiHandler,cameraHolder);
+        VideoProfiles = new VideoProfilesApi2(uiHandler,cameraHolder,(CameraUiWrapperApi2)wrapper);
 
         uiHandler.post(new Runnable() {
             @Override
@@ -147,7 +153,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
             }
         });
         SetAppSettingsToParameters();
-        wrapper.moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
+
     }
 
     @Override
@@ -193,7 +199,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         setMode(ControlMode, AppSettingsManager.SETTING_CONTROLMODE);
         //setMode(Focuspeak, AppSettingsManager.SETTING_FOCUSPEAK);
 
-        setManualMode(ManualBrightness, AppSettingsManager.MWB);
+        //setManualMode(ManualBrightness, AppSettingsManager.MWB);
         //setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
         setManualMode(ManualConvergence, AppSettingsManager.MCONVERGENCE);
         setManualMode(ManualExposure, AppSettingsManager.MEXPOSURE);
@@ -204,7 +210,6 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         setManualMode(ISOManual, AppSettingsManager.MISO);
         setManualMode(ManualSaturation, AppSettingsManager.MSATURATION);
         setManualMode(CCT,AppSettingsManager.MCCT);
-
 
     }
 

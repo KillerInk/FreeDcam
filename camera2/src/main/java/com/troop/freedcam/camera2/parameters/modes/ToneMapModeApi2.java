@@ -36,7 +36,7 @@ public class ToneMapModeApi2 extends BaseModeApi2 {
         if (valueToSet.contains("unknown Scene"))
             return;
         ToneMapModes sceneModes = Enum.valueOf(ToneMapModes.class, valueToSet);
-        cameraHolder.setIntKeyToCam(CaptureRequest.TONEMAP_MODE, sceneModes.ordinal());
+        cameraHolder.SetParameterToCam(CaptureRequest.TONEMAP_MODE, sceneModes.ordinal());
         BackgroundValueHasChanged(valueToSet);
     }
 

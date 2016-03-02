@@ -26,12 +26,15 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicYuvToRGB;
 import android.renderscript.Type;
+import android.util.Log;
 import android.view.Surface;
 /**
  * Renderscript-based Focus peaking viewfinder
  */
 @TargetApi(Build.VERSION_CODES.KITKAT)
-public class ViewfinderProcessor {
+public class ViewfinderProcessor
+{
+    final String TAG = ViewfinderProcessor.class.getSimpleName();
     int mCount;
     long mLastTime;
     float mFps;
@@ -48,6 +51,7 @@ public class ViewfinderProcessor {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public ViewfinderProcessor(RenderScript rs)
     {
+        Log.d(TAG,"Ctor");
         this.rs = rs;
         mProcessingThread = new HandlerThread("ViewfinderProcessor");
         mProcessingThread.start();
@@ -56,9 +60,14 @@ public class ViewfinderProcessor {
         yuvToRgbIntrinsic = ScriptIntrinsicYuvToRGB.create(rs, Element.U8_4(rs));
     }
 
+    public void setRenderScriptErrorListner(RenderScript.RSErrorHandler errorListner)
+    {
+        rs.setErrorHandler(errorListner);
+    }
 
     public void Reset(int width,int height)
     {
+        Log.d(TAG,"Reset:"+width +"x"+height);
         Type.Builder yuvTypeBuilder = new Type.Builder(rs, Element.YUV(rs));
         yuvTypeBuilder.setX(width);
         yuvTypeBuilder.setY(height);
@@ -71,7 +80,17 @@ public class ViewfinderProcessor {
         mOutputAllocation = Allocation.createTyped(rs, rgbTypeBuilder.create(),
                 Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
 
+        if (mProcessingTask != null) {
 
+            while (mProcessingTask.working) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            mProcessingTask = null;
+        }
         mProcessingTask = new ProcessingTask(mInputAllocation);
     }
 
@@ -80,27 +99,33 @@ public class ViewfinderProcessor {
     }
     public void setOutputSurface(Surface output)
     {
-
         mOutputAllocation.setSurface(output);
+        Log.d(TAG,"setOutputSurface");
     }
 
     public void kill()
     {
-        if (mInputAllocation == null)
-            return;
-        mInputAllocation.setOnBufferAvailableListener(null);
-        if (mProcessingTask == null)
-            return;
+        if (mProcessingTask != null) {
 
-        while (mProcessingTask.working) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            while (mProcessingTask.working) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            mProcessingTask = null;
         }
-        mOutputAllocation.setSurface(null);
-        mProcessingTask = null;
+        if (mInputAllocation != null) {
+            mInputAllocation.setOnBufferAvailableListener(null);
+        }
+        if (mOutputAllocation != null)
+        {
+            mOutputAllocation.setSurface(null);
+            //mOutputAllocation = null;
+        }
+        Log.d(TAG,"kill()");
+
     }
 
     public float getmFps() {

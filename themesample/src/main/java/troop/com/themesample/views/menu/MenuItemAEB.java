@@ -84,6 +84,8 @@ public class MenuItemAEB extends LinearLayout {
             min = -(le/2);
             max = le/2;
         }
+        else
+            this.setVisibility(GONE);
 
     }
 

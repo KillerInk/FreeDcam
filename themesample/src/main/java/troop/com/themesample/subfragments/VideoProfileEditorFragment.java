@@ -11,13 +11,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.PopupMenu;
+import android.widget.Switch;
 import android.widget.Toast;
 
-import com.troop.freedcam.camera.modules.VideoMediaProfile;
+import com.troop.freedcam.i_camera.modules.VideoMediaProfile;
+import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
+import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 import troop.com.themesample.R;
@@ -34,9 +40,11 @@ public class VideoProfileEditorFragment extends Fragment
     private EditText editText_videobitrate;
     private EditText editText_videoframerate;
     private EditText editText_maxrecordtime;
+    private Button button_recordMode;
     private Button button_save;
     private Button button_delete;
     private VideoMediaProfile currentProfile;
+    private Switch switch_Audio;
 
 
     private HashMap<String, VideoMediaProfile> videoMediaProfiles;
@@ -59,13 +67,30 @@ public class VideoProfileEditorFragment extends Fragment
         this.editText_videoframerate = (EditText)view.findViewById(R.id.editText_videoframerate);
         this.editText_maxrecordtime = (EditText)view.findViewById(R.id.editText_recordtime);
         this.button_save = (Button)view.findViewById(R.id.button_Save_profile);
+        this.switch_Audio = (Switch)view.findViewById(R.id.switchAudio);
+        this.button_recordMode = (Button)view.findViewById(R.id.button_recordMode);
+        button_recordMode.setOnClickListener(recordModeClickListner);
+
         button_save.setOnClickListener(onSavebuttonClick);
         this.button_delete = (Button)view.findViewById(R.id.button_delete_profile);
         button_delete.setOnClickListener(ondeleteButtonClick);
         videoMediaProfiles = new HashMap<String, VideoMediaProfile>();
-        VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
+
+        File f = new File(VideoMediaProfile.MEDIAPROFILESPATH);
+        if(f.exists())
+            try {
+                VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         AppSettingsManager appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getActivity()), getContext());
-        setMediaProfile(videoMediaProfiles.get(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE)));
+        try {
+            setMediaProfile(videoMediaProfiles.get(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE)));
+        }
+        catch (NullPointerException ex)
+        {
+            
+        }
     }
 
     @Override
@@ -90,8 +115,31 @@ public class VideoProfileEditorFragment extends Fragment
         @Override
         public boolean onMenuItemClick(MenuItem item)
         {
-            if(!videoMediaProfiles.get(item.toString()).equals(null))
+            if(videoMediaProfiles.get(item.toString()).toString().length() > 1)
                 setMediaProfile(videoMediaProfiles.get(item.toString()));
+            return false;
+        }
+    };
+
+
+    private View.OnClickListener recordModeClickListner = new View.OnClickListener() {
+        @Override
+        public void onClick(View v)
+        {
+            PopupMenu menu = new PopupMenu(getContext(), v);
+            menu.setOnMenuItemClickListener(recordModeMenuitemListner);
+            menu.getMenu().add(VideoMediaProfile.VideoMode.Normal.toString());
+            menu.getMenu().add(VideoMediaProfile.VideoMode.Highspeed.toString());
+            menu.getMenu().add(VideoMediaProfile.VideoMode.Timelapse.toString());
+            menu.show();
+        }
+    };
+
+    private PopupMenu.OnMenuItemClickListener recordModeMenuitemListner = new PopupMenu.OnMenuItemClickListener() {
+        @Override
+        public boolean onMenuItemClick(MenuItem item)
+        {
+            button_recordMode.setText(item.toString());
             return false;
         }
     };
@@ -114,7 +162,13 @@ public class VideoProfileEditorFragment extends Fragment
                     currentProfile = null;
                     VideoMediaProfile.saveCustomProfiles(videoMediaProfiles);
                     videoMediaProfiles.clear();
-                    VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
+                    File f = new File(VideoMediaProfile.MEDIAPROFILESPATH);
+                    if(f.exists())
+                        try {
+                            VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     clearProfileItems();
                     break;
 
@@ -134,6 +188,7 @@ public class VideoProfileEditorFragment extends Fragment
         editText_videobitrate.setText("");
         editText_videoframerate.setText("");
         editText_maxrecordtime.setText("");
+        button_recordMode.setText("");
     }
 
     private void setMediaProfile(VideoMediaProfile profile)
@@ -146,6 +201,8 @@ public class VideoProfileEditorFragment extends Fragment
         editText_videobitrate.setText(profile.videoBitRate+"");
         editText_videoframerate.setText(profile.videoFrameRate+"");
         editText_maxrecordtime.setText(profile.duration+"");
+        switch_Audio.setChecked(profile.isAudioActive);
+        button_recordMode.setText(profile.Mode.toString());
     }
 
     private View.OnClickListener onSavebuttonClick = new View.OnClickListener() {
@@ -153,14 +210,17 @@ public class VideoProfileEditorFragment extends Fragment
         public void onClick(View v)
         {
             if (currentProfile == null) {
-                Toast.makeText(getContext(),"Pls Select first a profile to edit", Toast.LENGTH_SHORT);
+                Toast.makeText(getContext(),"Pls Select first a profile to edit", Toast.LENGTH_SHORT).show();
                 return;
             }
             currentProfile.audioBitRate = Integer.parseInt(editText_audiobitrate.getText().toString());
             currentProfile.audioSampleRate = Integer.parseInt(editText_audiosamplerate.getText().toString());
+
             currentProfile.videoBitRate = Integer.parseInt(editText_videobitrate.getText().toString());
             currentProfile.videoFrameRate = Integer.parseInt(editText_videoframerate.getText().toString());
             currentProfile.duration = Integer.parseInt(editText_maxrecordtime.getText().toString());
+            currentProfile.isAudioActive = switch_Audio.isChecked();
+            currentProfile.Mode = VideoMediaProfile.VideoMode.valueOf((String)button_recordMode.getText());
             //if currentprofile has no new name the the profile in videomediaprofiles gets updated
             if (videoMediaProfiles.containsKey(editText_profilename.getText().toString()))
             {
@@ -169,13 +229,19 @@ public class VideoProfileEditorFragment extends Fragment
             else // it has a new name add it as new profile
             {
                 VideoMediaProfile p = currentProfile.clone();
-                p.ProfileName = editText_profilename.getText().toString();
+                p.ProfileName = editText_profilename.getText().toString().replace(" ","_");
                 videoMediaProfiles.put(p.ProfileName, p);
             }
             VideoMediaProfile.saveCustomProfiles(videoMediaProfiles);
             videoMediaProfiles.clear();
-            VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
-            Toast.makeText(getContext(),"Profile Saved", Toast.LENGTH_SHORT);
+            File f = new File(VideoMediaProfile.MEDIAPROFILESPATH);
+            if(f.exists())
+                try {
+                    VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            Toast.makeText(getContext(),"Profile Saved", Toast.LENGTH_SHORT).show();
         }
     };
 }

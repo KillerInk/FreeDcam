@@ -25,8 +25,11 @@ public class ImageStabApi2 extends BaseModeApi2
 
 
     @Override
-    public boolean IsSupported() {
-        return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE) != null;
+    public boolean IsSupported()
+    {
+        if (cameraHolder != null && cameraHolder.mPreviewRequestBuilder != null)
+            return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE) != null;
+        return false;
     }
 
     @Override
@@ -35,7 +38,7 @@ public class ImageStabApi2 extends BaseModeApi2
         if (valueToSet.contains("unknown Scene"))
             return;
         ImageStabsValues sceneModes = Enum.valueOf(ImageStabsValues.class, valueToSet);
-        cameraHolder.setIntKeyToCam(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, sceneModes.ordinal());
+        cameraHolder.SetParameterToCam(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, sceneModes.ordinal());
         BackgroundValueHasChanged(valueToSet);
     }
 

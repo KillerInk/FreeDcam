@@ -27,8 +27,12 @@ public class DenoiseModeApi2 extends BaseModeApi2
     }
 
     @Override
-    public boolean IsSupported() {
-        return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.NOISE_REDUCTION_MODE) != null;
+    public boolean IsSupported()
+    {
+        if (cameraHolder != null && cameraHolder.mPreviewRequestBuilder != null)
+            return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.NOISE_REDUCTION_MODE) != null;
+        else
+            return false;
     }
 
     @Override
@@ -37,7 +41,7 @@ public class DenoiseModeApi2 extends BaseModeApi2
         if (valueToSet.contains("unknown Scene"))
             return;
         DeNoiseModes sceneModes = Enum.valueOf(DeNoiseModes.class, valueToSet);
-        cameraHolder.setIntKeyToCam(CaptureRequest.NOISE_REDUCTION_MODE, sceneModes.ordinal());
+        cameraHolder.SetParameterToCam(CaptureRequest.NOISE_REDUCTION_MODE, sceneModes.ordinal());
         BackgroundValueHasChanged(valueToSet);
     }
 

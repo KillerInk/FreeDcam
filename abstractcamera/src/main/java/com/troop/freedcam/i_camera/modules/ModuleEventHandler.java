@@ -27,6 +27,11 @@ public class ModuleEventHandler
         uihandler = new Handler(Looper.getMainLooper());
     }
 
+    public void RunOnUiThread(Runnable runnable)
+    {
+        uihandler.post(runnable);
+    }
+
     /**
      * Add a listner for Moudlechanged events
      * @param listner the listner for the event

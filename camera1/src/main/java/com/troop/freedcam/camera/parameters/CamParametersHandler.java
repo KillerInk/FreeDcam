@@ -123,6 +123,8 @@ public class CamParametersHandler extends AbstractParameterHandler
             setupLg_G4Parameters();
 
         logParameters(cameraParameters);
+
+
         //setup first Pictureformat its needed for manual parameters to
         // register their listners there if its postprocessing parameter
         PictureFormat = new PictureFormatHandler(uiHandler,cameraParameters, baseCameraHolder);
@@ -206,7 +208,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         JpegQuality = new JpegQualityParameter(uiHandler,cameraParameters, baseCameraHolder, "jpeg-quality", "");
 
-        AE_Bracket = new AE_Bracket_HdrModeParameter(uiHandler,cameraParameters,baseCameraHolder, "ae-bracket-hdr", "ae-bracket-hdr-values");
+        //AE_Bracket = new AE_Bracket_HdrModeParameter(uiHandler,cameraParameters,baseCameraHolder, "ae-bracket-hdr", "ae-bracket-hdr-values");
 
         ImagePostProcessing = new ImagePostProcessingParameter(uiHandler,cameraParameters,baseCameraHolder, "ipp", "ipp-values");
 
@@ -271,10 +273,18 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         Focuspeak = new FocusPeakModeParameter(uiHandler,baseCameraHolder,cameraUiWrapper.previewHandler);
 
+        if (cameraParameters.containsKey("video-hfr-values"))
+        {
+            String[] hfr_values = cameraParameters.get("video-hfr-values").split(",");
+            if(hfr_values.length <= 2)
+                cameraParameters.put("video-hfr-values", "off,60,120");
+        }
+        VideoHighFramerateVideo = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "video-hfr", "video-hfr-values");
+
         SetCameraRotation();
         SetPictureOrientation(0);
 
-        captureBurstExposures = new CupBurstExpModeParameter(uiHandler, cameraParameters, baseCameraHolder, "capture-burst-exposures", "", appSettingsManager);
+        //captureBurstExposures = new CupBurstExpModeParameter(uiHandler, cameraParameters, baseCameraHolder, "capture-burst-exposures", "", appSettingsManager);
 
         morphoHDR = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "morpho-hdr", "");
 
@@ -286,18 +296,18 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         Module = new ModuleParameters(uiHandler, appSettingsManager, cameraUiWrapper);
 
-        if (((BaseCameraHolder) cameraHolder).DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)
-            Mediatek();
+
 
 
         SetAppSettingsToParameters();
         SetParametersToCamera();
-        cameraHolder.StopPreview();
-        cameraHolder.StartPreview();
+//        cameraHolder.StopPreview();
+//        cameraHolder.StartPreview();
         ParametersEventHandler.ParametersHasLoaded();
         //camMode();
 
-
+        if (((BaseCameraHolder) cameraHolder).DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)
+            Mediatek();
 
     }
 

@@ -29,17 +29,21 @@ public class ModuleHandlerApi2 extends AbstractModuleHandler
         initModules(appSettingsManager);
     }
 
-
     protected void initModules(AppSettingsManager appSettingsManager)
     {
         PictureModuleApi2 pictureModuleApi2 = new PictureModuleApi2(cameraHolder, appSettingsManager, moduleEventHandler, backgroundHandler);
         moduleList.put(pictureModuleApi2.ModuleName(), pictureModuleApi2);
-        IntervalModule intervalModule = new IntervalModule(cameraHolder,appSettingsManager,moduleEventHandler,pictureModuleApi2);
+        IntervalModule intervalModule = new IntervalApi2(cameraHolder,appSettingsManager,moduleEventHandler,pictureModuleApi2);
         moduleList.put(intervalModule.ModuleName(), intervalModule);
         VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(cameraHolder,appSettingsManager,moduleEventHandler);
         moduleList.put(videoModuleApi2.ModuleName(), videoModuleApi2);
         //init the Modules DeviceDepending
         //splitting modules make the code foreach device cleaner
 
+    }
+
+    @Override
+    public String GetCurrentModuleName() {
+        return super.GetCurrentModuleName();
     }
 }

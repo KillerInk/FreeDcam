@@ -28,8 +28,11 @@ public class HotPixelModeApi2 extends BaseModeApi2
 
 
     @Override
-    public boolean IsSupported() {
-        return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.HOT_PIXEL_MODE) != null;
+    public boolean IsSupported()
+    {
+        if (cameraHolder != null && cameraHolder.mPreviewRequestBuilder != null)
+            return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.HOT_PIXEL_MODE) != null;
+        return false;
     }
 
     @Override
@@ -38,7 +41,7 @@ public class HotPixelModeApi2 extends BaseModeApi2
         if (valueToSet.contains("unknown Scene"))
             return;
         HotPixelModes sceneModes = Enum.valueOf(HotPixelModes.class, valueToSet);
-        cameraHolder.setIntKeyToCam(CaptureRequest.HOT_PIXEL_MODE, sceneModes.ordinal());
+        cameraHolder.SetParameterToCam(CaptureRequest.HOT_PIXEL_MODE, sceneModes.ordinal());
     }
 
 

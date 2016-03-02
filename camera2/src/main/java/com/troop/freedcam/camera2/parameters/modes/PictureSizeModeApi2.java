@@ -11,7 +11,9 @@ import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 /**
  * Created by troop on 13.12.2014.
  */
-public class PictureSizeModeApi2 extends BaseModeApi2 {
+public class PictureSizeModeApi2 extends BaseModeApi2
+{
+    private String size;
     public PictureSizeModeApi2(Handler handler,BaseCameraHolderApi2 baseCameraHolderApi2) {
         super(handler, baseCameraHolderApi2);
     }
@@ -25,7 +27,7 @@ public class PictureSizeModeApi2 extends BaseModeApi2 {
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         BackgroundValueHasChanged(valueToSet);
-        cameraHolder.picSize = valueToSet;
+        size = valueToSet;
         if (setToCamera)
         {
             cameraHolder.StopPreview();
@@ -37,7 +39,7 @@ public class PictureSizeModeApi2 extends BaseModeApi2 {
     public String GetValue()
     {
 
-        return cameraHolder.picSize;
+        return size;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

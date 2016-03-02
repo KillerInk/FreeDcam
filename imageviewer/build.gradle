@@ -63,5 +63,5 @@ dependencies {
     provided project(':abstractcamera')
     provided project(':camera1')
     provided project(':androiddng')
-    provided 'com.android.support:support-v4:23.1.1'
+    provided 'com.android.support:support-v4:23.2.0'
 }

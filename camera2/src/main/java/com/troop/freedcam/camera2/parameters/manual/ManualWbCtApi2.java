@@ -22,7 +22,6 @@ import java.util.HashMap;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class ManualWbCtApi2  extends  AbstractManualParameter implements AbstractModeParameter.I_ModeParameterEvent
 {
-    int current = 0;
     public ColorSpaceTransform colorSpaceTransform;
     public RggbChannelVector rggbChannelVector;
     private RggbChannelVector wbChannelVector;
@@ -38,20 +37,21 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
         this.cameraHolder = cameraHolder;
         stringvalues = createStringArray(1500,10000,100);
         cctLookup = Matrixes.RGB_CCT_LIST;
+        currentInt = 0;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public int GetValue()
     {
-        return current;
+        return currentInt;
     }
 
     @Override
     public String GetStringValue()
     {
         if (stringvalues != null)
-            return stringvalues[current];
+            return stringvalues[currentInt];
         return 0+"";
     }
 
@@ -64,7 +64,7 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
     {
         if (valueToSet == 0)
             return;
-        current =valueToSet;
+        currentInt =valueToSet;
         valueToSet = Integer.parseInt(stringvalues[valueToSet]);
         int[] rgb = cctLookup.get(valueToSet+"");
         if (rgb == null)
@@ -130,17 +130,18 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
 
     @Override
     public boolean IsSupported() {
-        isSupported = camParametersHandler.ColorCorrectionMode.GetValue() != null && camParametersHandler.ColorCorrectionMode.GetValue().equals("TRANSFORM_MATRIX") && camParametersHandler.WhiteBalanceMode.GetValue().equals("OFF");
+        isSupported = camParametersHandler.WhiteBalanceMode.GetValue().equals("OFF");
         return isSupported;
     }
 
     @Override
     public void onValueChanged(String val)
     {
-        if (camParametersHandler.ColorCorrectionMode.GetValue() != null && camParametersHandler.ColorCorrectionMode.GetValue().equals("TRANSFORM_MATRIX") && camParametersHandler.WhiteBalanceMode.GetValue().equals("OFF"))
+        if (camParametersHandler.WhiteBalanceMode.GetValue().equals("OFF"))
         {
             canSet = true;
             BackgroundIsSetSupportedChanged(true);
+            SetValue(currentInt);
             isSupported = true;
             BackgroundIsSupportedChanged(true);
         }

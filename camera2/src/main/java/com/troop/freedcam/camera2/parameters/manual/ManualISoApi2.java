@@ -59,6 +59,8 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
             valueToSet = 0;
         //////////////////////
         currentInt = valueToSet;
+        if (cameraHolder == null ||cameraHolder.mPreviewRequestBuilder == null)
+            return;
         if (valueToSet == 0)
         {
             camParametersHandler.ExposureMode.SetValue("on",true);

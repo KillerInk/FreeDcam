@@ -48,16 +48,23 @@ public class PictureFormatHandler extends BaseModeParameter
                 if (parameters.containsKey(PICFORMATVALUES))
                 {
                     isSupported = true;
-                    String formats = parameters.get("picture-format-values");
-                    if (formats.contains("bayer-mipi") || formats.contains("raw"))
+                    if (DeviceUtils.IS(DeviceUtils.Devices.LG_G2))
+                        rawFormat = "bayer-mipi-10bggr";
+                    if (DeviceUtils.IS(DeviceUtils.Devices.OneA9))
+                        rawFormat = "bayer-mipi-10rggb";
+                    else
                     {
-                        rawSupported = true;
-                        String forms[] = formats.split(",");
-                        for(String s : forms)
+                        String formats = parameters.get("picture-format-values");
+                        if (formats.contains("bayer-mipi") || formats.contains("raw"))
                         {
-                            if (s.contains("bayer-mipi") || s.contains("raw")) {
-                                rawFormat = s;
-                                break;
+                            rawSupported = true;
+                            String forms[] = formats.split(",");
+                            for (String s : forms) {
+                                if (s.contains("bayer-mipi") || s.contains("raw"))
+                                {
+                                    rawFormat = s;
+                                    break;
+                                }
                             }
                         }
                     }
@@ -74,7 +81,7 @@ public class PictureFormatHandler extends BaseModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        Log.d(TAG,"SetValue:" + valueToSet);
+        Log.d(TAG, "SetValue:" + valueToSet);
         captureMode = valueToSet;
         switch (baseCameraHolder.DeviceFrameWork)
         {

@@ -1,5 +1,6 @@
 package troop.com.themesample.subfragments;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -290,6 +291,16 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         transaction.replace(R.id.horHolder, horizontLineFragment);
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
+
+        String help = appSettingsManager.getString(AppSettingsManager.SETTING_HELP);
+        if (help.equals("") || help.equals("true")) {
+            transaction = getChildFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
+            transaction.replace(R.id.helpfragment_container, HelpFragment.getFragment(helpfragmentCloser, appSettingsManager));
+            transaction.addToBackStack(null);
+            transaction.commitAllowingStateLoss();
+        }
+
         setWrapper();
     }
 
@@ -492,4 +503,19 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         LC.setVisibility(View.GONE);
         //settingsmenuholer.setVisibility(View.GONE);
     }
+
+    interface i_HelpFragment
+    {
+        void Close(android.support.v4.app.Fragment fragment);
+    }
+
+    private i_HelpFragment helpfragmentCloser = new i_HelpFragment() {
+        @Override
+        public void Close(android.support.v4.app.Fragment fragment) {
+            android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.remove(fragment);
+            transaction.addToBackStack(null);
+            transaction.commitAllowingStateLoss();
+        }
+    };
 }

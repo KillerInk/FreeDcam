@@ -24,7 +24,7 @@ public class ShutterManual_ExposureTime_Micro extends BaseManualParameter
             if (shuttervalues == null) {
                 int min = Integer.parseInt(parameters.get("min-exposure-time"));
                 int max = Integer.parseInt(parameters.get("max-exposure-time"));
-                stringvalues = StringUtils.getSupportedShutterValues(min, max);
+                stringvalues = StringUtils.getSupportedShutterValues(min, max,true);
 
             }
             else
