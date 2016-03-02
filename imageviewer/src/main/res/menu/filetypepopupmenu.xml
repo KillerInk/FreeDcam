@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/all"
-        android:title="All"/>
+        android:title="@string/ALL" />
 
     <item
         android:id="@+id/raw"

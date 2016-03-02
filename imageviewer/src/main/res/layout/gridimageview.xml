@@ -1,35 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#000000">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="90dp" android:layout_height="90dp">
 
         <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/gridimageviewholder"
-            android:layout_marginRight="1dp"
-            android:layout_marginBottom="1dp" />
-
+            android:layout_margin="2dp" />
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/checkBox_gridviewimage"
             android:layout_gravity="right|bottom"
             android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="#85000000" />
-    </FrameLayout>
+            android:layout_marginBottom="5dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="jpg"
+            android:textAllCaps="true"
+            android:id="@+id/filetypetextbox"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="2dp"
+            android:textColor="#ffffff"
+            android:shadowColor="#000000"
+            android:shadowRadius="10"
+            android:singleLine="false" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Folder"
+            android:id="@+id/foldertextbox"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="2dp"
+            android:textColor="#ffffff" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="jpg"
-        android:id="@+id/filetypetextbox"
-        android:background="#7c000000" />
-
-</AbsoluteLayout>
+</FrameLayout>

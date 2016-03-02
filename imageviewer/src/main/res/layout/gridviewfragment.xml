@@ -3,47 +3,61 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+
+
+    <RelativeLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#ffffff"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"
-        android:gravity="right">
-
-        <Button
-            android:layout_width="@dimen/app_icon_size"
-            android:layout_height="@dimen/app_icon_size"
-            android:id="@+id/button_deltePics"
-            android:background="@drawable/delete"
-            android:layout_marginRight="10dp" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/app_icon_size"
-            android:text="All"
-            android:id="@+id/button_filetype"
-            android:textSize="10dp"
-            android:layout_marginRight="10dp"
-            />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/app_icon_size"
-            android:text="RawToDng"
-            android:id="@+id/button_rawToDng"
-            android:textSize="10dp"
-            android:layout_marginRight="10dp" />
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:background="#424242"
+        android:layout_marginTop="2dp">
 
         <Button
             android:layout_width="@dimen/app_icon_size"
             android:layout_height="@dimen/app_icon_size"
             android:id="@+id/button_goback"
             android:background="@drawable/go_back"
-            android:layout_marginRight="10dp" />
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="4dp"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true">
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="@dimen/app_icon_size"
+            android:text="@string/ALL"
+            android:id="@+id/button_filetype"
+            android:textSize="18dp"
+            android:layout_marginRight="10dp"
+            android:background="#00000000"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"/>
 
-    </LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/app_icon_size"
+            android:text="RAWTODNG"
+            android:id="@+id/button_rawToDng"
+            android:textSize="18dp"
+            android:layout_marginRight="10dp"
+            android:background="#00000000"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"/>
+
+        <Button
+            android:layout_width="@dimen/app_icon_size"
+            android:layout_height="@dimen/app_icon_size"
+            android:id="@+id/button_deltePics"
+            android:background="@drawable/delete"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+
+
+    </RelativeLayout>
 
     <include layout="@layout/basegridview"/>
 

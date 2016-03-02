@@ -42,6 +42,7 @@ public class DngConvertingFragment extends Fragment
     String[] filesToConvert;
     DngSupportedDevices.DngProfile dngprofile;
     Handler handler;
+    Button closeButton;
 
     public static final String EXTRA_FILESTOCONVERT = "extra_files_to_convert";
     @Override
@@ -58,38 +59,7 @@ public class DngConvertingFragment extends Fragment
                 R.array.matrixes, android.R.layout.simple_spinner_item);
         matrixadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMatrixProfile.setAdapter(matrixadapter);
-        spinnerMatrixProfile.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        dngprofile.matrix1 = Matrixes.Nex6CCM1;
-                        dngprofile.matrix2 = Matrixes.Nex6CCM2;
-                        dngprofile.neutral = Matrixes.Nex6NM;
-                        dngprofile.fowardmatrix1 = Matrixes.Nexus6_foward_matrix1;
-                        dngprofile.fowardmatrix2 = Matrixes.Nexus6_foward_matrix2;
-                        dngprofile.reductionmatrix1= Matrixes.Nexus6_reduction_matrix1;
-                        dngprofile.reductionmatrix1= Matrixes.Nexus6_reduction_matrix2;
-                        dngprofile.noiseprofile = Matrixes.Nexus6_noise_3x1_matrix;
-                        break;
-                    case 1:
-                        dngprofile.matrix1 = Matrixes.G4CCM1;
-                        dngprofile.matrix2 = Matrixes.G4CCM2;
-                        dngprofile.neutral = Matrixes.G4NM;
-                        dngprofile.fowardmatrix1 = Matrixes.G4_foward_matrix1;
-                        dngprofile.fowardmatrix2 = Matrixes.G4_foward_matrix2;
-                        dngprofile.reductionmatrix1= Matrixes.G4_reduction_matrix1;
-                        dngprofile.reductionmatrix1= Matrixes.G4_reduction_matrix2;
-                        dngprofile.noiseprofile = Matrixes.G4_noise_3x1_matrix;
-                        break;
-                }
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         this.buttonconvertToDng = (Button)view.findViewById(R.id.button_convertDng);
         buttonconvertToDng.setOnClickListener(convertToDngClick);
@@ -99,47 +69,19 @@ public class DngConvertingFragment extends Fragment
                 R.array.color_pattern, android.R.layout.simple_spinner_item);
         coloradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerColorPattern.setAdapter(coloradapter);
-        spinnerColorPattern.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        dngprofile.BayerPattern = DngSupportedDevices.BGGR;
-                        break;
-                    case 1:
-                        dngprofile.BayerPattern = DngSupportedDevices.RGGB;
-                        break;
-                    case 2:
-                        dngprofile.BayerPattern = DngSupportedDevices.GRBG;
-                        break;
-                    case 3:
-                        dngprofile.BayerPattern = DngSupportedDevices.GBRG;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         this.spinnerrawFormat = (Spinner)view.findViewById(R.id.spinner_rawFormat);
         ArrayAdapter<CharSequence> rawadapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.raw_format, android.R.layout.simple_spinner_item);
         rawadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerrawFormat.setAdapter(rawadapter);
-        spinnerrawFormat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        this.closeButton = (Button)view.findViewById(R.id.button_goback_from_conv);
+        closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                dngprofile.rawType = position;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onClick(View v) {
+                getActivity().finish();
             }
         });
-
         return view;
     }
 
@@ -147,18 +89,16 @@ public class DngConvertingFragment extends Fragment
     public void onResume() {
         super.onResume();
         this.filesToConvert = getActivity().getIntent().getStringArrayExtra(EXTRA_FILESTOCONVERT);
-        if (filesToConvert != null && filesToConvert.length > 0)
-        {
+        if (filesToConvert != null && filesToConvert.length > 0) {
             DeviceUtils.Devices devices = DeviceUtils.DEVICE();
-            dngprofile = new DngSupportedDevices().getProfile(devices,(int) new File(filesToConvert[0]).length());
-            if(dngprofile == null)
-            {
+            dngprofile = new DngSupportedDevices().getProfile(devices, (int) new File(filesToConvert[0]).length());
+            if (dngprofile == null) {
                 dngprofile = new DngSupportedDevices().GetEmptyProfile();
-                Toast.makeText(getContext(),"Unknown RawFile, pls add needed Stuff Manual", Toast.LENGTH_LONG);
+                Toast.makeText(getContext(), R.string.unknown_raw_add_manual_stuff, Toast.LENGTH_LONG).show();
             }
             editTextwidth.setText(dngprofile.widht + "");
             editTextheight.setText(dngprofile.height + "");
-            editTextblacklvl.setText(dngprofile.blacklevel+"");
+            editTextblacklvl.setText(dngprofile.blacklevel + "");
 
             if (dngprofile.BayerPattern.equals(DngSupportedDevices.BGGR))
                 spinnerColorPattern.setSelection(0);
@@ -174,46 +114,121 @@ public class DngConvertingFragment extends Fragment
             else
                 spinnerMatrixProfile.setSelection(1);
             spinnerrawFormat.setSelection(dngprofile.rawType);
+            if (dngprofile != null){
+                spinnerMatrixProfile.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        switch (position) {
+                            case 0:
+                                dngprofile.matrix1 = Matrixes.Nex6CCM1;
+                                dngprofile.matrix2 = Matrixes.Nex6CCM2;
+                                dngprofile.neutral = Matrixes.Nex6NM;
+                                dngprofile.fowardmatrix1 = Matrixes.Nexus6_foward_matrix1;
+                                dngprofile.fowardmatrix2 = Matrixes.Nexus6_foward_matrix2;
+                                dngprofile.reductionmatrix1 = Matrixes.Nexus6_reduction_matrix1;
+                                dngprofile.reductionmatrix1 = Matrixes.Nexus6_reduction_matrix2;
+                                dngprofile.noiseprofile = Matrixes.Nexus6_noise_3x1_matrix;
+                                break;
+                            case 1:
+                                dngprofile.matrix1 = Matrixes.G4CCM1;
+                                dngprofile.matrix2 = Matrixes.G4CCM2;
+                                dngprofile.neutral = Matrixes.G4NM;
+                                dngprofile.fowardmatrix1 = Matrixes.G4_foward_matrix1;
+                                dngprofile.fowardmatrix2 = Matrixes.G4_foward_matrix2;
+                                dngprofile.reductionmatrix1 = Matrixes.G4_reduction_matrix1;
+                                dngprofile.reductionmatrix1 = Matrixes.G4_reduction_matrix2;
+                                dngprofile.noiseprofile = Matrixes.G4_noise_3x1_matrix;
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
+                spinnerColorPattern.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        switch (position) {
+                            case 0:
+                                dngprofile.BayerPattern = DngSupportedDevices.BGGR;
+                                break;
+                            case 1:
+                                dngprofile.BayerPattern = DngSupportedDevices.RGGB;
+                                break;
+                            case 2:
+                                dngprofile.BayerPattern = DngSupportedDevices.GRBG;
+                                break;
+                            case 3:
+                                dngprofile.BayerPattern = DngSupportedDevices.GBRG;
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+                spinnerrawFormat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        dngprofile.rawType = position;
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
+            }
+        }
+        else {
+            Toast.makeText(getContext(), R.string.no_sel_raw, Toast.LENGTH_LONG).show();
         }
     }
 
     private View.OnClickListener convertToDngClick = new View.OnClickListener() {
         @Override
-        public void onClick(View v)
-        {
-            dngprofile.widht = Integer.parseInt(editTextwidth.getText().toString());
-            dngprofile.height = Integer.parseInt(editTextheight.getText().toString());
-            dngprofile.blacklevel = (Integer.parseInt(editTextblacklvl.getText().toString()));
-            final ProgressDialog pr = ProgressDialog.show(getContext(), "Converting DNG","");
-            pr.setMax(filesToConvert.length);
+        public void onClick(View v) {
+            if (filesToConvert == null || filesToConvert.length == 0) {
+                Toast.makeText(getContext(), R.string.no_sel_raw, Toast.LENGTH_LONG).show();
+            }
+            else {
+                dngprofile.widht = Integer.parseInt(editTextwidth.getText().toString());
+                dngprofile.height = Integer.parseInt(editTextheight.getText().toString());
+                dngprofile.blacklevel = (Integer.parseInt(editTextblacklvl.getText().toString()));
+                final ProgressDialog pr = ProgressDialog.show(getContext(), "Converting DNG", "");
 
-            new Thread(new Runnable() {
-                @Override
-                public void run()
-                {
-                    int t = 0;
-                    for(String s: filesToConvert)
-                    {
-                        convertRawToDng(new File(s));
-                        t++;
-                        final int i = t;
+                pr.setMax(filesToConvert.length);
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int t = 0;
+                        for (String s : filesToConvert) {
+                            convertRawToDng(new File(s));
+                            t++;
+                            final int i = t;
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    pr.setProgress(i);
+                                }
+                            });
+                        }
                         handler.post(new Runnable() {
                             @Override
-                            public void run()
-                            {
-                                pr.setProgress(i);
+                            public void run() {
+                                pr.dismiss();
                             }
                         });
                     }
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            pr.dismiss();
-                        }
-                    });
-                }
-            }).start();
+                }).start();
 
+            }
         }
     };
 

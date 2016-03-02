@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 
 import com.defcomk.jni.libraw.RawUtils;
@@ -109,8 +110,8 @@ public class GridViewFragment extends BaseGridViewFragment
                             break;
                         //else show dialog
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setMessage("Delete File's?").setPositiveButton("Yes", dialogClickListener)
-                                .setNegativeButton("No", dialogClickListener).show();
+                        builder.setMessage(R.string.delete_files).setPositiveButton(R.string.yes, dialogClickListener)
+                                .setNegativeButton(R.string.no, dialogClickListener).show();
                         setViewMode(ViewStates.normal);
                         break;
                 }
@@ -502,10 +503,16 @@ public class GridViewFragment extends BaseGridViewFragment
                 imageView.setImageDrawable(asyncDrawable);
             }
             String f = file.getName();
-            if (!file.isDirectory())
-                imageView.SetFileEnding(f.substring(f.length()-3));
-            else
-                imageView.SetFileEnding(f);
+            if (!file.isDirectory()) {
+                imageView.SetFolderName("");
+                imageView.SetFileEnding(f.substring(f.length() - 3));
+            }
+
+            else {
+                imageView.SetFileEnding("");
+                imageView.SetFolderName(f);
+            }
+
             task.execute(file);
         }
     }
@@ -663,7 +670,7 @@ public class GridViewFragment extends BaseGridViewFragment
                 int i = item.getItemId();
                 if (i == R.id.all)
                 {
-                    filetypeButton.setText("All");
+                    filetypeButton.setText(R.string.ALL);
                     formatsToShow = FormatTypes.all;
                 }
                 else if (i == R.id.raw)
