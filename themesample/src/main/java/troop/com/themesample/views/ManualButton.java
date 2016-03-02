@@ -10,10 +10,12 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
@@ -93,6 +95,15 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
         this.valueTextView = (TextView)findViewById(R.id.manualbutton_valuetext);
         valueTextView.setSelected(true);
         imageView = (ImageView)findViewById(R.id.imageView_ManualButton);
+        imageView.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View v) {
+                // TODO Auto-generated method stub
+                Toast.makeText(appSettingsManager.context, "Reseted", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
     }
 
     public void RemoveParameterListner( AbstractManualParameter.I_ManualParameterEvent t)
