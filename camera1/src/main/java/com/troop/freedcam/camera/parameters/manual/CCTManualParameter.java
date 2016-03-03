@@ -44,26 +44,20 @@ public class CCTManualParameter extends BaseManualParameter
 
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
         {
-            //TODO cm13 use different values, need rom detection
-            if (Build.VERSION.SDK_INT < 23)
-            {
+            this.min = 2000;
+            if(!parameters.get("max-exposure-time").contains("."))
                 this.max = 7500;
-                this.value = WB_MANUAL;
-                this.max_value = MAX_WB_CCT;
-                setmin(MIN_WB_CCT);
-                this.isSupported = true;
-                this.manualWbMode = WB_MODE_MANUAL_CCT;
-                createStringArray();
-            }
-            else {
-                this.max = 8000;
-                this.value = MANUAL_WB_VALUE;
-                this.max_value = MAX_WB_CCT;
-                setmin(MIN_WB_CCT);
+            else
+                this.max = 8500;
+            this.value = WB_MANUAL;
+            if(parameters.get("max-exposure-time").contains("."))
                 this.manualWbMode = WB_MODE_MANUAL;
-                this.isSupported = true;
-                createStringArray();
-            }
+            else
+                this.manualWbMode = WB_MODE_MANUAL_CCT;
+            this.isSupported = true;
+            createStringArray();
+
+
         }
         else if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) ||DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC) || DeviceUtils.IS(DeviceUtils.Devices.LenovoK920))
         {
@@ -200,7 +194,7 @@ public class CCTManualParameter extends BaseManualParameter
                 camParametersHandler.WhiteBalanceMode.SetValue(manualWbMode, true);
             parameters.put(value, stringvalues[currentInt]);
 
-            if (DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
+            if (DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC) || parameters.containsKey("manual-wb-modes"))
                 try {
                     parameters.put("manual-wb-type", "color-temperature");
                     parameters.put("manual-wb-value", stringvalues[currentInt]);

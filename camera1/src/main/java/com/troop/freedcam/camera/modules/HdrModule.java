@@ -9,6 +9,7 @@ import com.troop.freedcam.camera.modules.image_saver.I_WorkeDone;
 import com.troop.freedcam.camera.modules.image_saver.JpegSaver;
 import com.troop.freedcam.camera.modules.image_saver.JpsSaver;
 import com.troop.freedcam.camera.modules.image_saver.RawSaver;
+import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
@@ -193,7 +194,10 @@ public class HdrModule extends PictureModule implements I_WorkeDone
                 value = Integer.parseInt(Settings.getString(AppSettingsManager.SETTING_AEB3));
 
             Log.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
-            ParameterHandler.ManualExposure.SetValue(value);
+
+            //fix in some future date 03/03/2016 01:27
+            //ParameterHandler.ManualExposure.SetValue(value);
+            ((CamParametersHandler)ParameterHandler).setString("exposure-compensation", value+"");
             Log.d(TAG, "HDR Exposure SET");
         }
     }
