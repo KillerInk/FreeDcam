@@ -14,6 +14,7 @@ import java.util.HashMap;
  */
 public class ShutterManual_ExposureTime_Micro extends BaseManualParameter
 {
+    final String TAG = ShutterManual_ExposureTime_Micro.class.getSimpleName();
     /**
      * @param parameters
      * @param camParametersHandler
@@ -50,12 +51,15 @@ public class ShutterManual_ExposureTime_Micro extends BaseManualParameter
         if(!stringvalues[currentInt].equals("Auto"))
         {
             String shutterstring = StringUtils.FormatShutterStringToDouble(stringvalues[currentInt]);
-            parameters.put("exposure-time", StringUtils.getMicroSec(shutterstring));
+            Log.d(TAG, "StringUtils.FormatShutterStringToDouble:" + shutterstring);
+            shutterstring = StringUtils.getMicroSec(shutterstring);
+            Log.d(TAG, " StringUtils.getMicroSec"+ shutterstring);
+            parameters.put("exposure-time", shutterstring);
         }
         else
         {
             parameters.put("exposure-time", "0");
         }
-        camParametersHandler.SetParametersToCamera();
+        camParametersHandler.SetParametersToCamera(parameters);
     }
 }

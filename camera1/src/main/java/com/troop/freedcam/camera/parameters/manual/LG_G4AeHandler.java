@@ -96,7 +96,7 @@ public class LG_G4AeHandler
                 }
                 parameters.put("lg-manual-mode-reset", "0");
             }
-            cameraHolder.SetCameraParameters(parameters);
+            cameraHolder.ParameterHandler.SetParametersToCamera(parameters);
             if (automode) {
                 String t = cameraHolder.ParameterHandler.IsoMode.GetValue();
                 if (!t.equals("ISO100"))

@@ -44,6 +44,7 @@ import com.troop.freedcam.i_camera.parameters.ModuleParameters;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -153,6 +154,16 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
             }
         });
         SetAppSettingsToParameters();
+
+    }
+
+    @Override
+    public void SetParametersToCamera(HashMap<String, String> list) {
+
+    }
+
+    @Override
+    public void LockExposureAndWhiteBalance(boolean lock) {
 
     }
 

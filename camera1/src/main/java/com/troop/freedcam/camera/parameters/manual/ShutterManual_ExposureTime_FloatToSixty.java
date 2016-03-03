@@ -1,5 +1,7 @@
 package com.troop.freedcam.camera.parameters.manual;
 
+import android.util.Log;
+
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -8,7 +10,10 @@ import java.util.HashMap;
 /**
  * Created by troop on 21.02.2016.
  */
-public class ShutterManual_ExposureTime_FloatToSixty extends ShutterManual_ExposureTime_Micro {
+public class ShutterManual_ExposureTime_FloatToSixty extends ShutterManual_ExposureTime_Micro
+{
+
+    final String TAG = ShutterManual_ExposureTime_Micro.class.getSimpleName();
     /**
      * @param parameters
      * @param camParametersHandler
@@ -24,12 +29,15 @@ public class ShutterManual_ExposureTime_FloatToSixty extends ShutterManual_Expos
         if(!stringvalues[currentInt].equals("Auto"))
         {
             String shutterstring = StringUtils.FormatShutterStringToDouble(stringvalues[currentInt]);
-            parameters.put("exposure-time", StringUtils.FLOATtoSixty4(shutterstring));
+            Log.d(TAG, "StringUtils.FormatShutterStringToDouble:"+ shutterstring);
+            shutterstring = StringUtils.FLOATtoSixty4(shutterstring);
+            Log.d(TAG, "StringUtils.FLOATtoSixty4:"+ shutterstring);
+            parameters.put("exposure-time", shutterstring);
         }
         else
         {
             parameters.put("exposure-time", "0");
         }
-        camParametersHandler.SetParametersToCamera();
+        camParametersHandler.SetParametersToCamera(parameters);
     }
 }

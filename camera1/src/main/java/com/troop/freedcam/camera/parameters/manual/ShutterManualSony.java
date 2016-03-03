@@ -52,6 +52,6 @@ public class ShutterManualSony extends BaseManualParameter
         currentInt = valueToSet;
         parameters.put("sony-ae-mode", "manual");
         parameters.put("sony-shutter-speed", stringvalues[currentInt]);
-        camParametersHandler.SetParametersToCamera();
+        camParametersHandler.SetParametersToCamera(parameters);
     }
 }

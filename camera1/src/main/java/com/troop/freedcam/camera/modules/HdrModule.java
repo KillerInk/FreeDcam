@@ -9,6 +9,7 @@ import com.troop.freedcam.camera.modules.image_saver.I_WorkeDone;
 import com.troop.freedcam.camera.modules.image_saver.JpegSaver;
 import com.troop.freedcam.camera.modules.image_saver.JpsSaver;
 import com.troop.freedcam.camera.modules.image_saver.RawSaver;
+import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
@@ -129,7 +130,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
     @Override
     public void OnWorkDone(File file)
     {
-        baseCameraHolder.ParameterHandler.SetParametersToCamera();
+        ((CamParametersHandler)ParameterHandler).SetParametersToCamera(((CamParametersHandler)ParameterHandler).getParameters());
         baseCameraHolder.StartPreview();
         if (hdrCount == 2)
         {

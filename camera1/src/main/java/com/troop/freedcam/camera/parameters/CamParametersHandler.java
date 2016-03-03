@@ -95,8 +95,8 @@ public class CamParametersHandler extends AbstractParameterHandler
     }
 
     @Override
-    public void SetParametersToCamera() {
-        cameraHolder.SetCameraParameters(cameraParameters);
+    public void SetParametersToCamera(HashMap<String, String> params) {
+        cameraHolder.SetCameraParameters(params);
     }
 
     public void LoadParametersFromCamera()
@@ -534,7 +534,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         try {
             SetAppSettingsToParameters();
-            SetParametersToCamera();
+            SetParametersToCamera(cameraParameters);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -599,7 +599,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         else
         {
             cameraParameters.put("focus-areas", "("+focusAreas.left+ ","+ focusAreas.top+","+ focusAreas.right+ ","+ focusAreas.bottom +",1000)");
-            SetParametersToCamera();
+            SetParametersToCamera(cameraParameters);
         }
     }
     @Override
@@ -639,7 +639,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         isExposureAndWBLocked = value;
         if (ExposureLock.IsSupported())
             ExposureLock.SetValue(value + "", false);
-        SetParametersToCamera();
+        SetParametersToCamera(cameraParameters);
     }
 
     public void setString(String param, String value)
@@ -685,7 +685,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         String mMax =String.valueOf(max*1000);
         cameraParameters.put("preview-fps-range",mMin+","+mMax);
         cameraParameters.put("preview-frame-rate", mMax);
-        baseCameraHolder.ParameterHandler.SetParametersToCamera();
+        SetParametersToCamera(cameraParameters);
 
     }
 

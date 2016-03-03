@@ -53,7 +53,7 @@ public class ExposureManualParameter extends BaseManualParameter
         ThrowCurrentValueStringCHanged(stringvalues[valueToset]);
         try
         {
-            camParametersHandler.SetParametersToCamera();
+            camParametersHandler.SetParametersToCamera(parameters);
         }
         catch (Exception ex)
         {

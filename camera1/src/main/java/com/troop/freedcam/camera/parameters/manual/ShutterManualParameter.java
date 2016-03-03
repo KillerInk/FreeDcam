@@ -106,7 +106,7 @@ public class ShutterManualParameter extends BaseManualParameter
         else
         {
             parameters.put("exposure-time", valueToSet + "");
-            camParametersHandler.SetParametersToCamera();
+            camParametersHandler.SetParametersToCamera(parameters);
         }
     }
 
@@ -117,7 +117,7 @@ public class ShutterManualParameter extends BaseManualParameter
         }
         else if (parameters.containsKey("exposure-time"))
             parameters.put("exposure-time", 0+"");
-        camParametersHandler.SetParametersToCamera();
+        camParametersHandler.SetParametersToCamera(parameters);
     }
 
     private String setExposureTimeToParameter(String shutterstring) {
@@ -141,7 +141,7 @@ public class ShutterManualParameter extends BaseManualParameter
             else
                 parameters.put("exposure-time", String.valueOf(StringUtils.getMicroSec(shutterstring)));
         }
-        camParametersHandler.SetParametersToCamera();
+        camParametersHandler.SetParametersToCamera(parameters);
         return shutterstring;
     }
 

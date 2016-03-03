@@ -136,7 +136,7 @@ public class VideoModule extends AbstractVideoModule
         String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
         camParametersHandler.setString("preview-size", size);
         camParametersHandler.setString("video-size", size);
-        camParametersHandler.SetParametersToCamera();
+        camParametersHandler.SetParametersToCamera(camParametersHandler.getParameters());
         baseCameraHolder.StopPreview();
         baseCameraHolder.StartPreview();
 
