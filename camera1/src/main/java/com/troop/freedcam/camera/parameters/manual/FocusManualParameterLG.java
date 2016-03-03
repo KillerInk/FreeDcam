@@ -65,7 +65,7 @@ public class FocusManualParameterLG extends  BaseManualParameter
                 }
                 parameters.put("manualfocus_step", stringvalues[valueToSet]);
             }
-            camParametersHandler.SetParametersToCamera();
+            camParametersHandler.SetParametersToCamera(parameters);
         }
         else if (valueToSet == 0)
         {

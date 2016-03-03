@@ -204,7 +204,7 @@ public class CCTManualParameter extends BaseManualParameter
 
 
         }
-        camParametersHandler.SetParametersToCamera();
+        camParametersHandler.SetParametersToCamera(parameters);
     }
 
 

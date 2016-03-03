@@ -28,6 +28,7 @@ import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -158,14 +159,15 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         createParameters();
     }
 
+
     @Override
-    public void SetParametersToCamera() {
-        super.SetParametersToCamera();
+    public void SetParametersToCamera(HashMap<String, String> list) {
+
     }
 
     @Override
     public void LockExposureAndWhiteBalance(boolean lock) {
-        super.LockExposureAndWhiteBalance(lock);
+
     }
 
 

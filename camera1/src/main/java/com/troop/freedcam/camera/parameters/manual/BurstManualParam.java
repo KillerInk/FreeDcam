@@ -78,7 +78,7 @@ public class BurstManualParam extends BaseManualParameter {
             parameters.put("snapshot-burst-num", String.valueOf(0));
         else
             parameters.put("snapshot-burst-num", stringvalues[valueToSet]);
-        camParametersHandler.SetParametersToCamera();
+        camParametersHandler.SetParametersToCamera(parameters);
 
     }
 

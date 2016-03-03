@@ -7,6 +7,8 @@ import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.ui.AppSettingsManager;
 
+import java.util.HashMap;
+
 /**
  * Created by troop on 09.12.2014.
  */
@@ -147,8 +149,8 @@ public abstract class AbstractParameterHandler
         SdSaveLocation = new SDModeParameter(uiHandler,appSettingsManager);
     }
 
-    public void SetParametersToCamera() {};
-    public void LockExposureAndWhiteBalance(boolean lock){};
+    public abstract void SetParametersToCamera(HashMap<String, String> list);
+    public abstract void LockExposureAndWhiteBalance(boolean lock);
 
     public void SetFocusAREA(FocusRect focusAreas, FocusRect meteringAreas){};
     public void SetMeterAREA(FocusRect meteringAreas){};

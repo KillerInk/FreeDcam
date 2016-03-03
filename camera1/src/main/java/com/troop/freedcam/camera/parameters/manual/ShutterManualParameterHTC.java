@@ -69,14 +69,14 @@ public class ShutterManualParameterHTC extends BaseManualParameter
 
     private void setShutterToAuto() {
         parameters.put("shutter", "-1");
-        camParametersHandler.SetParametersToCamera();
+        camParametersHandler.SetParametersToCamera(parameters);
     }
 
     private String setExposureTimeToParameter(String shutterstring)
     {
         shutterstring = String.format("%01.6f", Float.parseFloat(shutterstring));
         parameters.put("shutter", shutterstring);
-        camParametersHandler.SetParametersToCamera();
+        camParametersHandler.SetParametersToCamera(parameters);
         return shutterstring;
     }
 }

@@ -118,7 +118,7 @@ public class FocusManualParameter extends  BaseManualParameter
                     parameters.put("manual-focus-pos-type", "0");
                 else
                     parameters.put("manual-focus-pos-type", "1");
-                camParametersHandler.SetParametersToCamera();
+                camParametersHandler.SetParametersToCamera(parameters);
             }
             else
                 camParametersHandler.FocusMode.SetValue("auto", true);
@@ -153,7 +153,7 @@ public class FocusManualParameter extends  BaseManualParameter
             else
             {
                 parameters.put(value, stringvalues[currentInt]);
-                camParametersHandler.SetParametersToCamera();
+                camParametersHandler.SetParametersToCamera(parameters);
             }
         }
 
