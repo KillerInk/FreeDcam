@@ -18,7 +18,7 @@ public class SkintoneManualPrameter extends BaseManualParameter {
      */
     public SkintoneManualPrameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler)
     {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
+        super(parameters, value, maxValue, MinValue, camParametersHandler,1);
         try
         {
             /*final String skin = parameters.get("skinToneEnhancement");

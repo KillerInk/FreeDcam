@@ -20,14 +20,14 @@ public class FocusManualParameterLG extends  BaseManualParameter
     private final Devices[] g3m_g4 = {Devices.LG_G3, Devices.LG_G4};
 
     public FocusManualParameterLG(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
+        super(parameters, value, maxValue, MinValue, camParametersHandler,1);
         this.baseCameraHolder = cameraHolder;
         isSupported = true;
         isVisible = isSupported;
         if (isSupported)
         {
             int max = 0;
-            int step = 1;
+            step = 1;
             if (DeviceUtils.IS(Devices.LG_G4))
                 max = 60;
             else if (DeviceUtils.IsMarshMallowG3())

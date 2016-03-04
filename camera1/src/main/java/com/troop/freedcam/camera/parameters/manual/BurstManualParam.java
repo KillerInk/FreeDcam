@@ -19,7 +19,7 @@ public class BurstManualParam extends BaseManualParameter {
 
     BaseCameraHolder baseCameraHolder;
     public BurstManualParam(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
+        super(parameters, value, maxValue, MinValue, camParametersHandler,1);
 
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)
                 || DeviceUtils.IS(DeviceUtils.Devices.LG_G3)
@@ -45,7 +45,7 @@ public class BurstManualParam extends BaseManualParameter {
     }
 
     @Override
-    protected String[] createStringArray(int min, int max, int step) {
+    protected String[] createStringArray(int min, int max, float step) {
         ArrayList<String> ar = new ArrayList<>();
         ar.add("off");
         if (step == 0)

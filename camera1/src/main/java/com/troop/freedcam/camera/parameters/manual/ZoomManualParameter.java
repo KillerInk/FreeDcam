@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class ZoomManualParameter extends  BaseManualParameter
 {
     public ZoomManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
+        super(parameters, value, maxValue, MinValue, camParametersHandler,1);
         this.value = "zoom";
         isSupported = false;
         if (parameters.containsKey("zoom-supported"))

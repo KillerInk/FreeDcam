@@ -10,7 +10,7 @@ public class FXManualParameter extends BaseManualParameter {
 	
 	BaseCameraHolder baseCameraHolder;
     public FXManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
+        super(parameters, value, maxValue, MinValue, camParametersHandler,1);
 
         //TODO add missing logic
     }

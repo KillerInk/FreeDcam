@@ -19,7 +19,7 @@ public class ShutterManualParameterG4 extends BaseManualParameter
     LG_G4AeHandler.AeManualEvent manualevent;
 
     public ShutterManualParameterG4(HashMap<String, String> parameters, I_CameraHolder baseCameraHolder, AbstractParameterHandler camParametersHandler, LG_G4AeHandler.AeManualEvent manualevent) {
-        super(parameters, "", "", "", camParametersHandler);
+        super(parameters, "", "", "", camParametersHandler,1);
 
         this.baseCameraHolder = baseCameraHolder;
         this.isSupported = true;

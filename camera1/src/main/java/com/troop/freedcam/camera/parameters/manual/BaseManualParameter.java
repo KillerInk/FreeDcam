@@ -15,7 +15,7 @@ import java.util.HashMap;
 /**
  * Created by troop on 17.08.2014.
  */
-public abstract class BaseManualParameter extends AbstractManualParameter
+public class BaseManualParameter extends AbstractManualParameter
 {
 
     private static String TAG = StringUtils.TAG + BaseManualParameter.class.getSimpleName();
@@ -36,6 +36,8 @@ public abstract class BaseManualParameter extends AbstractManualParameter
      * The name of the current value to get like brightness-min
      */
     protected String  min_value;
+
+    protected float step;
 
 
     private int default_value = 0;
@@ -60,16 +62,18 @@ public abstract class BaseManualParameter extends AbstractManualParameter
      * @param @min_value
      * @param @camParametersHandler
      */
-    public BaseManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler)
+    public BaseManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler, float step)
     {
         super(camParametersHandler);
         this.parameters = parameters;
         this.value = value;
         this.max_value = maxValue;
         this.min_value = MinValue;
-        if (!value.equals("") && !maxValue.equals("") && !min_value.equals("") && parameters.get(min_value) != null && parameters.get(max_value) != null)
+        this.step = step;
+        if ((!value.equals("") && !maxValue.equals("") && !min_value.equals("") && parameters.get(min_value) != null && parameters.get(max_value) != null)
+                && (parameters.containsKey(value) && parameters.containsKey(maxValue) && parameters.containsKey(min_value)))
         {
-            stringvalues = createStringArray(Integer.parseInt(parameters.get(min_value)), Integer.parseInt(parameters.get(max_value)), 1);
+            stringvalues = createStringArray(Integer.parseInt(parameters.get(min_value)), Integer.parseInt(parameters.get(max_value)), step);
             currentString = parameters.get(this.value);
             for (int i = 0; i < stringvalues.length; i++) {
                 if (stringvalues[i].equals(currentString)) {
@@ -77,6 +81,7 @@ public abstract class BaseManualParameter extends AbstractManualParameter
                     default_value = i;
                 }
             }
+            isSupported = true;
         }
     }
 
@@ -121,10 +126,9 @@ public abstract class BaseManualParameter extends AbstractManualParameter
         {
             ex.printStackTrace();
         }
-
     }
 
-    protected boolean hasSupport()
+    /*protected boolean hasSupport()
     {
         try
         {
@@ -140,7 +144,7 @@ public abstract class BaseManualParameter extends AbstractManualParameter
         }
         Log.d(TAG, "issupported " + value + ": " + isSupported);
         return isSupported;
-    }
+    }*/
 
     public AbstractModeParameter.I_ModeParameterEvent GetPicFormatListner()
     {

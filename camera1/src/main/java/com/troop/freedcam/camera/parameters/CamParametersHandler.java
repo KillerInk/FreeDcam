@@ -8,11 +8,8 @@ import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.FocusHandler;
 import com.troop.freedcam.camera.parameters.manual.BaseManualParameter;
-import com.troop.freedcam.camera.parameters.manual.BrightnessManualParameter;
 import com.troop.freedcam.camera.parameters.manual.BurstManualParam;
 import com.troop.freedcam.camera.parameters.manual.CCTManualParameter;
-import com.troop.freedcam.camera.parameters.manual.ContrastManualParameter;
-import com.troop.freedcam.camera.parameters.manual.ConvergenceManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ExposureManualParameter;
 import com.troop.freedcam.camera.parameters.manual.FXManualParameter;
 import com.troop.freedcam.camera.parameters.manual.FocusManualParameter;
@@ -20,8 +17,6 @@ import com.troop.freedcam.camera.parameters.manual.FocusManualParameterHTC;
 import com.troop.freedcam.camera.parameters.manual.FocusManualParameterLG;
 import com.troop.freedcam.camera.parameters.manual.ISOManualParameter;
 import com.troop.freedcam.camera.parameters.manual.LG_G4AeHandler;
-import com.troop.freedcam.camera.parameters.manual.SaturationManualParameter;
-import com.troop.freedcam.camera.parameters.manual.SharpnessManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ShutterClassHandler;
 import com.troop.freedcam.camera.parameters.manual.SkintoneManualPrameter;
 import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
@@ -132,29 +127,51 @@ public class CamParametersHandler extends AbstractParameterHandler
         locationParameter = new LocationParameter(uiHandler, appSettingsManager, cameraHolder);
 
         try {
-            ManualBrightness = new BrightnessManualParameter(cameraParameters, "","","", this);
-            PictureFormat.addEventListner(((BaseManualParameter)ManualBrightness).GetPicFormatListner());
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter)ManualBrightness).GetModuleListner());
+            if (cameraParameters.containsKey("brightness") && !cameraParameters.containsKey("brightness-values"))
+                ManualBrightness =  new BaseManualParameter(cameraParameters,"brightness","max-brightness","min-brightness",this,1);
+            else if (cameraParameters.containsKey("luma-adaptation"))
+                ManualBrightness =  new BaseManualParameter(cameraParameters,"luma-adaptation","max-brightness","min-brightness",this,1);
+
+            if (ManualBrightness != null && baseCameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.MTK) {
+                PictureFormat.addEventListner(((BaseManualParameter) ManualBrightness).GetPicFormatListner());
+                cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualBrightness).GetModuleListner());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
-            ManualContrast = new ContrastManualParameter(cameraParameters, "", "", "",this);
-            PictureFormat.addEventListner(((BaseManualParameter)ManualContrast).GetPicFormatListner());
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualContrast).GetModuleListner());
+            if (cameraParameters.containsKey("contrast") && !cameraParameters.containsKey("contrast-values"))
+            {
+                if (!cameraParameters.containsKey("max-contrast") && !cameraParameters.containsKey("contrast-max")) {
+                    cameraParameters.put("max-contrast", "100");
+                    cameraParameters.put("min-contrast", "0");
+                }
+                if (cameraParameters.containsKey("max-contrast"))
+                    ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "max-contrast", "min-contrast",this,1);
+                else if (cameraParameters.containsKey("contrast-max"))
+                    ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "contrast-max", "contrast-min",this,1);
+            }
+            if (ManualContrast != null && baseCameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.MTK) {
+                PictureFormat.addEventListner(((BaseManualParameter) ManualContrast).GetPicFormatListner());
+                cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualContrast).GetModuleListner());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
-            ManualConvergence = new ConvergenceManualParameter(cameraParameters, "manual-convergence", "supported-manual-convergence-max", "supported-manual-convergence-min", this);
+            ManualConvergence = new BaseManualParameter(cameraParameters, "manual-convergence", "supported-manual-convergence-max", "supported-manual-convergence-min", this,1);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        try {
-            ManualExposure = new ExposureManualParameter(cameraParameters,"exposure-compensation","max-exposure-compensation","min-exposure-compensation", this);
+        try
+        {
+            float expostep = 1;
+            if(cameraParameters.containsKey("exposure-compensation-step"))
+                expostep = Float.parseFloat(cameraParameters.get("exposure-compensation-step"));
+            ManualExposure = new ExposureManualParameter(cameraParameters,"exposure-compensation","max-exposure-compensation","min-exposure-compensation", this,expostep);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -170,18 +187,44 @@ public class CamParametersHandler extends AbstractParameterHandler
             e.printStackTrace();
         }
 
-        try {
-            ManualSaturation = new SaturationManualParameter(cameraParameters,"","","", this);
-            PictureFormat.addEventListner(((BaseManualParameter)ManualSaturation).GetPicFormatListner());
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualSaturation).GetModuleListner());
+        try
+        {
+            if (cameraParameters.containsKey("saturation") && !cameraParameters.containsKey("saturation-values"))
+            {
+                if (cameraParameters.containsKey("max-saturation"))
+                    ManualSaturation = new BaseManualParameter(cameraParameters, "saturation", "max-saturation", "min-saturation", this,1);
+                else if (cameraParameters.containsKey("saturation-max"))
+                {
+                    ManualSaturation = new BaseManualParameter(cameraParameters, "saturation", "saturation-max", "saturation-min", this,1);
+                }
+            }
+            if (ManualSaturation != null && baseCameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.MTK) {
+                PictureFormat.addEventListner(((BaseManualParameter) ManualSaturation).GetPicFormatListner());
+                cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualSaturation).GetModuleListner());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
-            ManualSharpness = new SharpnessManualParameter(cameraParameters, "", "", "", this);
-            PictureFormat.addEventListner(((BaseManualParameter)ManualSharpness).GetPicFormatListner());
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualSharpness).GetModuleListner());
+            if (cameraParameters.containsKey("sharpness") && !cameraParameters.containsKey("sharpness-values"))
+            {
+                int step = 1;
+                if (cameraParameters.containsKey("sharpness-step"))
+                    step = Integer.parseInt(cameraParameters.get("sharpness-step"));
+                if (cameraParameters.containsKey("max-sharpness"))
+                {
+                    ManualSharpness = new BaseManualParameter(cameraParameters, "sharpness", "max-sharpness", "min-sharpness", this,step);
+                }
+                else if (cameraParameters.containsKey("sharpness-max"))
+                {
+                    ManualSharpness = new BaseManualParameter(cameraParameters, "sharpness", "sharpness-max", "sharpness-min", this,step);
+                }
+            }
+            if(ManualSharpness != null && baseCameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.MTK) {
+                PictureFormat.addEventListner(((BaseManualParameter) ManualSharpness).GetPicFormatListner());
+                cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualSharpness).GetModuleListner());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

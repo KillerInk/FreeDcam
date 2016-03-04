@@ -37,7 +37,7 @@ public class ShutterManualZTE extends BaseManualParameter
      * @param camParametersHandler
      */
     public ShutterManualZTE(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder baseCameraHolder, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
+        super(parameters, value, maxValue, MinValue, camParametersHandler,1);
         this.baseCameraHolder = baseCameraHolder;
         camParametersHandlerx = (CamParametersHandler) camParametersHandler;
         stringvalues = Z5SShutterValues.split(",");

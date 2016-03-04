@@ -38,7 +38,7 @@ public class CCTManualParameter extends BaseManualParameter
     private String manualWbMode;
     public CCTManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue,AbstractParameterHandler camParametersHandler)
     {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
+        super(parameters, value, maxValue, MinValue, camParametersHandler,1);
 
         this.isSupported = false;
 
@@ -53,7 +53,7 @@ public class CCTManualParameter extends BaseManualParameter
                 setmin(MIN_WB_CCT);
                 this.isSupported = true;
                 this.manualWbMode = WB_MODE_MANUAL_CCT;
-                createStringArray();
+                createStringArray(0,0,0);
             }
             else {
                 this.max = 8000;
@@ -62,7 +62,7 @@ public class CCTManualParameter extends BaseManualParameter
                 setmin(MIN_WB_CCT);
                 this.manualWbMode = WB_MODE_MANUAL;
                 this.isSupported = true;
-                createStringArray();
+                createStringArray(0,0,0);
             }
         }
         else if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) ||DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
@@ -75,7 +75,7 @@ public class CCTManualParameter extends BaseManualParameter
             else
                 this.manualWbMode = WB_MODE_MANUAL_CCT;
             this.isSupported = true;
-            createStringArray();
+            createStringArray(0,0,0);
         }
         else
         {
@@ -119,7 +119,7 @@ public class CCTManualParameter extends BaseManualParameter
             if (min != -1 && max != -1 && !this.value.equals(""))
             {
                 isSupported = true;
-                createStringArray();
+                createStringArray(0,0,0);
             }
         }
         Log.d(TAG, "value:"+value + " max value:"+maxValue +" min value:" +min_value);
@@ -146,7 +146,8 @@ public class CCTManualParameter extends BaseManualParameter
         min = Integer.parseInt(parameters.get(min_value));
     }
 
-    private void createStringArray()
+    @Override
+    protected String[] createStringArray(int min, int max, float step)
     {
         ArrayList<String> t = new ArrayList<String>();
         t.add("Auto");
@@ -156,6 +157,7 @@ public class CCTManualParameter extends BaseManualParameter
         }
         stringvalues = new String[t.size()];
         t.toArray(stringvalues);
+        return stringvalues;
     }
 
     @Override

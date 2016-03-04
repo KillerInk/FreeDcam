@@ -182,7 +182,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
     protected void setvalue(int valueToset)
     {}
 
-    protected String[] createStringArray(int min,int max, int step)
+    protected String[] createStringArray(int min,int max, float step)
     {
         ArrayList<String> ar = new ArrayList<>();
         if (step == 0)

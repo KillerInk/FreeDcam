@@ -24,7 +24,7 @@ public class FocusManualParameter extends  BaseManualParameter
     private static String TAG ="freedcam.ManualFocus";
 
     public FocusManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
+        super(parameters, value, maxValue, MinValue, camParametersHandler,1);
         this.baseCameraHolder = cameraHolder;
 
         camParametersHandlerx = (CamParametersHandler) camParametersHandler;
@@ -61,7 +61,7 @@ public class FocusManualParameter extends  BaseManualParameter
         if (isSupported)
         {
             int max = 0;
-            int step = 1;
+            step = 1;
             if (max_value == null)
             {
                 if (DeviceUtils.IS_DEVICE_ONEOF(new DeviceUtils.Devices[]{DeviceUtils.Devices.Moto_MSM8982_8994, DeviceUtils.Devices.XiaomiMI3W, DeviceUtils.Devices.XiaomiMI4W})) {
@@ -83,7 +83,7 @@ public class FocusManualParameter extends  BaseManualParameter
     }
 
     @Override
-    protected String[] createStringArray(int min, int max, int step) {
+    protected String[] createStringArray(int min, int max, float step) {
         ArrayList<String> ar = new ArrayList<>();
         ar.add("Auto");
         if (step == 0)

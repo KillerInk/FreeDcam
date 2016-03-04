@@ -12,7 +12,7 @@ public class ISOManualParameterG4 extends BaseManualParameter
     LG_G4AeHandler.AeManualEvent manualEvent;
 
     public ISOManualParameterG4(HashMap<String, String> parameters, BaseCameraHolder cameraHolder, AbstractParameterHandler camParametersHandler, LG_G4AeHandler.AeManualEvent manualevent) {
-        super(parameters, "", "", "", camParametersHandler);
+        super(parameters, "", "", "", camParametersHandler,1);
 
         this.baseCameraHolder = cameraHolder;
 

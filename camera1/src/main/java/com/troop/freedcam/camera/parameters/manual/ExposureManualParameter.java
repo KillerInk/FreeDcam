@@ -12,30 +12,17 @@ import java.util.HashMap;
  */
 public class ExposureManualParameter extends BaseManualParameter
 {
-    public ExposureManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
-        if(hasSupport()) {
-            currentString = parameters.get(value);
-            for (int i = 0; i < stringvalues.length; i++) {
-                if (stringvalues[i].equals(currentString)) {
-                    currentInt = i;
-                    Set_Default_Value(i);
-                }
-            }
-        }
+    public ExposureManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler,float step) {
+        super(parameters, value, maxValue, MinValue, camParametersHandler,step);
     }
 
-    protected String[] createStringArray(int min,int max, int step)
+    @Override
+    protected String[] createStringArray(int min,int max, float step)
     {
-        float stepp = 1;
-        if (parameters.containsKey("exposure-compensation-step"))
-            stepp = Float.parseFloat(parameters.get("exposure-compensation-step"));
         ArrayList<String> ar = new ArrayList<>();
-        if (step == 0)
-            step = 1;
-        for (int i = min; i <= max; i+=step)
+        for (int i = min; i <= max; i++)
         {
-            String s = String.format("%.1f",i*stepp );
+            String s = String.format("%.1f",i*step );
             ar.add(s);
         }
         return ar.toArray(new String[ar.size()]);
@@ -48,9 +35,7 @@ public class ExposureManualParameter extends BaseManualParameter
         if(stringvalues == null || stringvalues.length == 0)
             return;
         int t = valueToset-(stringvalues.length/2);
-        parameters.put(value, t+"");
-        ThrowCurrentValueChanged(t);
-        ThrowCurrentValueStringCHanged(stringvalues[valueToset]);
+        parameters.put(value, t + "");
         try
         {
             camParametersHandler.SetParametersToCamera(parameters);
@@ -59,6 +44,8 @@ public class ExposureManualParameter extends BaseManualParameter
         {
             ex.printStackTrace();
         }
+        ThrowCurrentValueChanged(t);
+        ThrowCurrentValueStringCHanged(stringvalues[valueToset]);
 
     }
 

@@ -17,7 +17,7 @@ public class FocusManualParameterHTC extends  BaseManualParameter
     private static String TAG ="freedcam.ManualFocusHTC";
 
     public FocusManualParameterHTC(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
+        super(parameters, value, maxValue, MinValue, camParametersHandler,1);
         this.baseCameraHolder = cameraHolder;
         if (!parameters.containsKey("min-focus") || !parameters.containsKey("max-focus") || !parameters.containsKey("focus"))
             this.isSupported = false;
@@ -34,7 +34,7 @@ public class FocusManualParameterHTC extends  BaseManualParameter
     }
 
     @Override
-    protected String[] createStringArray(int min, int max, int step)
+    protected String[] createStringArray(int min, int max, float step)
     {
         ArrayList<String> ar = new ArrayList<>();
         ar.add("auto");

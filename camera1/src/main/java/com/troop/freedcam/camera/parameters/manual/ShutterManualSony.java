@@ -20,7 +20,7 @@ public class ShutterManualSony extends BaseManualParameter
      * @param camParametersHandler
      */
     public ShutterManualSony(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
+        super(parameters, value, maxValue, MinValue, camParametersHandler,1);
         try {
             if (!parameters.get("sony-max-shutter-speed").equals(""))
             {

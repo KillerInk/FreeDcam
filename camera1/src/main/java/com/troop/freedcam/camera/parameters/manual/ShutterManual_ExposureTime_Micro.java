@@ -20,7 +20,7 @@ public class ShutterManual_ExposureTime_Micro extends BaseManualParameter
      * @param camParametersHandler
      */
     public ShutterManual_ExposureTime_Micro(HashMap<String, String> parameters, AbstractParameterHandler camParametersHandler, String[] shuttervalues) {
-        super(parameters, "", "", "", camParametersHandler);
+        super(parameters, "", "", "", camParametersHandler,1);
         try {
             if (shuttervalues == null) {
                 int min = Integer.parseInt(parameters.get("min-exposure-time"));
