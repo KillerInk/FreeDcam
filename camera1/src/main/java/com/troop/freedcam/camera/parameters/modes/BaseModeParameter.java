@@ -42,13 +42,14 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
         this.value = value;
         this.values = values;
         this.baseCameraHolder = cameraHolder;
-        if (parameters.containsKey(value))
+        if (parameters != null && !value.isEmpty() && parameters.containsKey(value))
         {
-            String tmp = parameters.get(values);
+            String tmp = parameters.get(value);
             if (!tmp.isEmpty())
                 this.isSupported = true;
         }
-        else this.isSupported =false;
+        else
+            this.isSupported =false;
     }
 
     @Override

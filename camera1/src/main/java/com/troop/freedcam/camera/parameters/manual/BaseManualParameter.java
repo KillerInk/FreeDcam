@@ -81,15 +81,17 @@ public class BaseManualParameter extends AbstractManualParameter
                     default_value = i;
                 }
             }
-            isSupported = true;
+            this.isSupported = true;
+            this.isVisible = isSupported;
+
         }
+        BackgroundIsSupportedChanged(isSupported);
     }
 
-
-
+    @Override
     public boolean IsSupported()
     {
-        return isSupported;
+        return this.isSupported;
     }
 
     @Override
@@ -157,7 +159,7 @@ public class BaseManualParameter extends AbstractManualParameter
         @Override
         public void onValueChanged(String val)
         {
-           if (val.equals(PictureFormatHandler.CaptureMode[PictureFormatHandler.JPEG]) && isSupported)
+           if (val.equals(PictureFormatHandler.CaptureMode[PictureFormatHandler.JPEG]) && BaseManualParameter.this.isSupported)
            {
                isVisible = true;
                BackgroundIsSupportedChanged(true);

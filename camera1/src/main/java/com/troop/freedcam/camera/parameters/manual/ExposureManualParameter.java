@@ -12,14 +12,19 @@ import java.util.HashMap;
  */
 public class ExposureManualParameter extends BaseManualParameter
 {
+    final String TAG = ExposureManualParameter.class.getSimpleName();
+    boolean negativeMin = false;
     public ExposureManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler,float step) {
         super(parameters, value, maxValue, MinValue, camParametersHandler,step);
+        Log.d(TAG,"Is Supported:"+ isSupported);
     }
 
     @Override
     protected String[] createStringArray(int min,int max, float step)
     {
         ArrayList<String> ar = new ArrayList<>();
+        if (min < 0)
+            negativeMin = true;
         for (int i = min; i <= max; i++)
         {
             String s = String.format("%.1f",i*step );
@@ -34,7 +39,9 @@ public class ExposureManualParameter extends BaseManualParameter
         currentInt = valueToset;
         if(stringvalues == null || stringvalues.length == 0)
             return;
-        int t = valueToset-(stringvalues.length/2);
+        int t = valueToset;
+        if (negativeMin)
+            t = t-(stringvalues.length/2);
         parameters.put(value, t + "");
         try
         {

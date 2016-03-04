@@ -128,7 +128,19 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         try {
             if (cameraParameters.containsKey("brightness") && !cameraParameters.containsKey("brightness-values"))
-                ManualBrightness =  new BaseManualParameter(cameraParameters,"brightness","max-brightness","min-brightness",this,1);
+            {
+                if (!cameraParameters.containsKey("max-brightness") && !cameraParameters.containsKey("brightness-max"))
+                {
+                    cameraParameters.put("max-brightness", "100");
+                    cameraParameters.put("min-brightness", "0");
+                }
+                if (cameraParameters.containsKey("max-brightness"))
+                    ManualBrightness = new BaseManualParameter(cameraParameters, "brightness", "max-brightness", "min-brightness", this, 1);
+                if (cameraParameters.containsKey("brightness-max"))
+                {
+                    ManualBrightness = new BaseManualParameter(cameraParameters, "brightness", "brightness-max", "brightness-min", this, 1);
+                }
+            }
             else if (cameraParameters.containsKey("luma-adaptation"))
                 ManualBrightness =  new BaseManualParameter(cameraParameters,"luma-adaptation","max-brightness","min-brightness",this,1);
 
@@ -171,7 +183,8 @@ public class CamParametersHandler extends AbstractParameterHandler
             float expostep = 1;
             if(cameraParameters.containsKey("exposure-compensation-step"))
                 expostep = Float.parseFloat(cameraParameters.get("exposure-compensation-step"));
-            ManualExposure = new ExposureManualParameter(cameraParameters,"exposure-compensation","max-exposure-compensation","min-exposure-compensation", this,expostep);
+            if(cameraParameters.containsKey("exposure-compensation"))
+                ManualExposure = new ExposureManualParameter(cameraParameters,"exposure-compensation","max-exposure-compensation","min-exposure-compensation", this,expostep);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -191,6 +204,11 @@ public class CamParametersHandler extends AbstractParameterHandler
         {
             if (cameraParameters.containsKey("saturation") && !cameraParameters.containsKey("saturation-values"))
             {
+                if (!cameraParameters.containsKey("max-saturation") && !cameraParameters.containsKey("saturation-max")) {
+                    cameraParameters.put("max-saturation", "100");
+                    cameraParameters.put("min-saturation", "0");
+                }
+
                 if (cameraParameters.containsKey("max-saturation"))
                     ManualSaturation = new BaseManualParameter(cameraParameters, "saturation", "max-saturation", "min-saturation", this,1);
                 else if (cameraParameters.containsKey("saturation-max"))
@@ -209,6 +227,10 @@ public class CamParametersHandler extends AbstractParameterHandler
         try {
             if (cameraParameters.containsKey("sharpness") && !cameraParameters.containsKey("sharpness-values"))
             {
+                if (!cameraParameters.containsKey("max-sharpness") && !cameraParameters.containsKey("sharpness-max")) {
+                    cameraParameters.put("max-sharpness", "100");
+                    cameraParameters.put("min-sharpness", "0");
+                }
                 int step = 1;
                 if (cameraParameters.containsKey("sharpness-step"))
                     step = Integer.parseInt(cameraParameters.get("sharpness-step"));

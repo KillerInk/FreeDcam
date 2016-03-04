@@ -16,7 +16,7 @@ public class FocusPeakModeParameter extends BaseModeParameter {
     PreviewHandler previewHandler;
     public FocusPeakModeParameter(Handler uihandler, BaseCameraHolder cameraHolder, PreviewHandler previewHandler)
     {
-        super(uihandler, null, cameraHolder, null, null);
+        super(uihandler, null, cameraHolder, "", "");
         this.previewHandler = previewHandler;
     }
 
