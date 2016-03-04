@@ -25,14 +25,8 @@ import com.troop.freedcam.camera.parameters.manual.SharpnessManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ShutterClassHandler;
 import com.troop.freedcam.camera.parameters.manual.SkintoneManualPrameter;
 import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
-import com.troop.freedcam.camera.parameters.modes.AE_Bracket_HdrModeParameter;
-import com.troop.freedcam.camera.parameters.modes.AntiBandingModeParameter;
 import com.troop.freedcam.camera.parameters.modes.BaseModeParameter;
 import com.troop.freedcam.camera.parameters.modes.CDS_Mode_Parameter;
-import com.troop.freedcam.camera.parameters.modes.ColorModeParameter;
-import com.troop.freedcam.camera.parameters.modes.CupBurstExpModeParameter;
-import com.troop.freedcam.camera.parameters.modes.DigitalImageStabilizationParameter;
-import com.troop.freedcam.camera.parameters.modes.ExposureLockParameter;
 import com.troop.freedcam.camera.parameters.modes.ExposureModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FlashModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FocusModeParameter;
@@ -50,14 +44,10 @@ import com.troop.freedcam.camera.parameters.modes.PreviewFormatParameter;
 import com.troop.freedcam.camera.parameters.modes.PreviewFpsParameter;
 import com.troop.freedcam.camera.parameters.modes.PreviewSizeParameter;
 import com.troop.freedcam.camera.parameters.modes.SceneModeParameter;
-import com.troop.freedcam.camera.parameters.modes.VideoHDRModeParameter;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesG3Parameter;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
-import com.troop.freedcam.camera.parameters.modes.VideoSizeParameter;
 import com.troop.freedcam.camera.parameters.modes.VideoStabilizationParameter;
 import com.troop.freedcam.camera.parameters.modes.VirtualLensFilter;
-import com.troop.freedcam.camera.parameters.modes.WhiteBalanceModeParameter;
-import com.troop.freedcam.camera.parameters.modes.ZeroShutterLagParameter;
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
@@ -214,7 +204,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
 
         try {
-            WhiteBalanceMode = new WhiteBalanceModeParameter(uiHandler,cameraParameters, baseCameraHolder, "whitebalance", "whitebalance-values");
+            WhiteBalanceMode = new BaseModeParameter(uiHandler,cameraParameters, baseCameraHolder, "whitebalance", "whitebalance-values");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -260,7 +250,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            ColorMode = new ColorModeParameter(uiHandler,cameraParameters,baseCameraHolder, "effect", "effect-values");
+            ColorMode = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder, "effect", "effect-values");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -285,7 +275,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            AntiBandingMode = new AntiBandingModeParameter(uiHandler,cameraParameters,baseCameraHolder, "antibanding", "antibanding-values");
+            AntiBandingMode = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder, "antibanding", "antibanding-values");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -353,7 +343,10 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            ZSL = new ZeroShutterLagParameter(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraHolder);
+            if (cameraParameters.containsKey("zsl"))
+                ZSL = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"zsl","zsl-values");
+            else if (cameraParameters.containsKey("mode"))
+                ZSL = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"mode","mode-values");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -371,10 +364,12 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            DigitalImageStabilization = new DigitalImageStabilizationParameter(uiHandler,cameraParameters, baseCameraHolder, "", "");
+            if(cameraParameters.containsKey("sony-vs"))
+                DigitalImageStabilization = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"sony-vs","sony-vs-values");
+            else if (cameraParameters.containsKey("dis"))
+                DigitalImageStabilization = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"dis","dis-values");
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
         }
 
         try {
@@ -384,7 +379,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            SkinToneEnhancment = new DigitalImageStabilizationParameter(uiHandler,cameraParameters, baseCameraHolder, "skinToneEnhancement", "skinToneEnhancement-values");
+            SkinToneEnhancment = new BaseModeParameter(uiHandler,cameraParameters, baseCameraHolder, "skinToneEnhancement", "skinToneEnhancement-values");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -401,11 +396,11 @@ public class CamParametersHandler extends AbstractParameterHandler
             e.printStackTrace();
         }
 
-        try {
+        /*try {
             Histogram = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder, "histogram", "histogram-values");
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
         try {
             CameraMode = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder, "camera-mode", "camera-mode-values");
@@ -419,20 +414,23 @@ public class CamParametersHandler extends AbstractParameterHandler
             e.printStackTrace();
         }
 
-        try {
+        /*try {
             ExposureLock = new ExposureLockParameter(uiHandler,cameraParameters, baseCameraHolder, "","");
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
-        try {
+        /*try {
             VideoSize = new VideoSizeParameter(uiHandler,cameraParameters,baseCameraHolder,"video-size","video-size");
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
         try {
-            VideoHDR = new VideoHDRModeParameter(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraHolder);
+            if (cameraParameters.containsKey("video-hdr"))
+                VideoHDR = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"video-hdr", "video-hdr-values");
+            else if (cameraParameters.containsKey("sony-video-hdr"))
+                VideoHDR = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"sony-video-hdr","sony-video-hdr-values");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -514,7 +512,8 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            LensFilter = new VirtualLensFilter(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraUiWrapper);
+            if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
+                LensFilter = new VirtualLensFilter(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraUiWrapper);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -538,10 +537,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        cameraHolder.StopPreview();
-//        cameraHolder.StartPreview();
         ParametersEventHandler.ParametersHasLoaded();
-        //camMode();
 
         try {
             if (((BaseCameraHolder) cameraHolder).DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)

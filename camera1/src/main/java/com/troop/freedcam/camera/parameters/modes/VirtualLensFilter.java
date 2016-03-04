@@ -46,9 +46,6 @@ public class VirtualLensFilter extends  BaseModeParameter {
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-
-
-
         switch (valueToSet)
         {
             case "Off":
