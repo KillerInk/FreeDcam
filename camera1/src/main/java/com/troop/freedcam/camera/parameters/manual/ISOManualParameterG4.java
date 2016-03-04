@@ -17,6 +17,7 @@ public class ISOManualParameterG4 extends BaseManualParameter
         this.baseCameraHolder = cameraHolder;
 
         this.isSupported = true;
+        this.isVisible = isSupported;
         ArrayList<String> s = new ArrayList<String>();
         for (int i =0; i <= 2700; i +=50)
         {
@@ -31,16 +32,14 @@ public class ISOManualParameterG4 extends BaseManualParameter
     }
 
     @Override
-    public boolean IsSupported()
-    {
-        return isSupported;
+    public boolean IsSupported() {
+        return super.IsSupported();
     }
 
     @Override
     public boolean IsVisible() {
-        return isSupported;
+        return super.IsSupported();
     }
-
 
     @Override
     public int GetValue() {

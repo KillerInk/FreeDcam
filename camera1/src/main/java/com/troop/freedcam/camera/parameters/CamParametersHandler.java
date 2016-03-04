@@ -255,14 +255,10 @@ public class CamParametersHandler extends AbstractParameterHandler
             if (DeviceUtils.IS(Devices.LG_G4))
                 aeHandlerG4 = new LG_G4AeHandler(cameraParameters,baseCameraHolder,this);
             else
+            {
                 ManualShutter = ShutterClassHandler.getShutterClass(cameraParameters, this, cameraHolder);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        try {
-            ISOManual = new ISOManualParameter(cameraParameters, "", "", "",baseCameraHolder, this);
+                ISOManual = new ISOManualParameter(cameraParameters, "", "", "",baseCameraHolder, this);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -412,6 +408,8 @@ public class CamParametersHandler extends AbstractParameterHandler
                 ZSL = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"zsl","zsl-values");
             else if (cameraParameters.containsKey("mode"))
                 ZSL = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"mode","mode-values");
+            else if (cameraParameters.containsKey("zsd-mode"))
+                ZSL =new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"zsd-mode", "zsd-mode-values");
         } catch (Exception e) {
             e.printStackTrace();
         }
