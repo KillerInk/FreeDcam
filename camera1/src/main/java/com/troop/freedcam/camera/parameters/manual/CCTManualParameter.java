@@ -53,7 +53,7 @@ public class CCTManualParameter extends BaseManualParameter
                 setmin(MIN_WB_CCT);
                 this.isSupported = true;
                 this.manualWbMode = WB_MODE_MANUAL_CCT;
-                createStringArray(0,0,0);
+                createStringArray(min,max,100);
             }
             else {
                 this.max = 8000;
@@ -62,7 +62,7 @@ public class CCTManualParameter extends BaseManualParameter
                 setmin(MIN_WB_CCT);
                 this.manualWbMode = WB_MODE_MANUAL;
                 this.isSupported = true;
-                createStringArray(0,0,0);
+                createStringArray(min,max,100);
             }
         }
         else if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) ||DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
@@ -75,7 +75,7 @@ public class CCTManualParameter extends BaseManualParameter
             else
                 this.manualWbMode = WB_MODE_MANUAL_CCT;
             this.isSupported = true;
-            createStringArray(0,0,0);
+            createStringArray(min,max,100);
         }
         else
         {
@@ -119,7 +119,7 @@ public class CCTManualParameter extends BaseManualParameter
             if (min != -1 && max != -1 && !this.value.equals(""))
             {
                 isSupported = true;
-                createStringArray(0,0,0);
+                createStringArray(min,max,100);
             }
         }
         Log.d(TAG, "value:"+value + " max value:"+maxValue +" min value:" +min_value);
@@ -151,7 +151,7 @@ public class CCTManualParameter extends BaseManualParameter
     {
         ArrayList<String> t = new ArrayList<String>();
         t.add("Auto");
-        for (int i = min; i<=max;i+=100)
+        for (int i = min; i<=max;i+=step)
         {
             t.add(i+"");
         }

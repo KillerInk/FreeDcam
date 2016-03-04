@@ -47,8 +47,6 @@ public class ShutterClassHandler
             return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,Mi3WValues.split(","));
         else if(DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4W)&& Build.VERSION.SDK_INT >= 23)
             return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,Mi4WValues.split(","));
-        else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G3))
-            return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,null);
         else
             return null;
     }

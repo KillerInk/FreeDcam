@@ -64,6 +64,9 @@ public class LG_G4AeHandler
                         break;
                 }
                 parameters.put("lg-manual-mode-reset", "1");
+                cameraHolder.ParameterHandler.SetParametersToCamera(parameters);
+                parameters.put("lg-manual-mode-reset", "0");
+
 
             }
             else

@@ -75,7 +75,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     {
         super(cameraUiWrapper.cameraHolder,appSettingsManager, uiHandler);
         ParametersEventHandler = new CameraParametersEventHandler(uiHandler);
-        baseCameraHolder = (BaseCameraHolder) cameraHolder;
+        baseCameraHolder = cameraUiWrapper.cameraHolder;
         this.cameraUiWrapper = cameraUiWrapper;
     }
 
@@ -105,6 +105,8 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     private void initParameters()
     {
+        if (baseCameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.LG)
+            cameraParameters.put("lge-camera","1");
         logParameters(cameraParameters);
 
 
@@ -112,7 +114,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         // register their listners there if its postprocessing parameter
         try {
             PictureFormat = new PictureFormatHandler(uiHandler,cameraParameters, baseCameraHolder);
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner((PictureFormatHandler)PictureFormat);
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner((PictureFormatHandler) PictureFormat);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -183,7 +185,9 @@ public class CamParametersHandler extends AbstractParameterHandler
             float expostep = 1;
             if(cameraParameters.containsKey("exposure-compensation-step"))
                 expostep = Float.parseFloat(cameraParameters.get("exposure-compensation-step"));
-            if(cameraParameters.containsKey("exposure-compensation"))
+            if (cameraParameters.containsKey("lg-ev-ctrl"))
+                ManualExposure = new ExposureManualParameter(cameraParameters,"lg-ev-ctrl","max-exposure-compensation","min-exposure-compensation", this,expostep);
+            else if(cameraParameters.containsKey("exposure-compensation"))
                 ManualExposure = new ExposureManualParameter(cameraParameters,"exposure-compensation","max-exposure-compensation","min-exposure-compensation", this,expostep);
         } catch (Exception e) {
             e.printStackTrace();
