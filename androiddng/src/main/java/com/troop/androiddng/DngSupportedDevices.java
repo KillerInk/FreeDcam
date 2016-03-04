@@ -253,7 +253,7 @@ public class DngSupportedDevices
                     Matrixes.Nexus6_reduction_matrix2,
                     Matrixes.OV_NREDUCTION_Matrix);
             case 9990144://e7 front mipi
-                return new Nexus6Profile(0, 3264, 2448, Mipi, BGGR, 4080);
+                return new Nexus6Profile(16, 3264, 2448, Mipi, BGGR, 4080);
             case 10782464: //HTC one xl
                 return new Nexus6Profile(64, 2592, 1944, Qcom, GRBG, 0);
             case 10788864: //xperia L
