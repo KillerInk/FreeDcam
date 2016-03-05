@@ -85,6 +85,7 @@ public class StringUtils
         }
         else
             a = (Float.parseFloat(shuttervalue)*1000000f);
+        a = Math.round(a);
         return  (long)a;
     }
 

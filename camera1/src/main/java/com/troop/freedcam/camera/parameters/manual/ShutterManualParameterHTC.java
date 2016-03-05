@@ -74,7 +74,7 @@ public class ShutterManualParameterHTC extends BaseManualParameter
 
     private String setExposureTimeToParameter(String shutterstring)
     {
-        shutterstring = String.format("%01.6f", Float.parseFloat(shutterstring));
+        shutterstring = String.format("%01.6f", Math.round(Float.parseFloat(shutterstring)));
         parameters.put("shutter", shutterstring);
         camParametersHandler.SetParametersToCamera(parameters);
         return shutterstring;
