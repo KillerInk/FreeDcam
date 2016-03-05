@@ -153,8 +153,10 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
 
     public void StartFocus()
     {
-        if (isFocusing) {
-            cameraHolder.StartFocus(this);
+        if (isFocusing)
+        {
+            cameraHolder.CancelFocus();
+
             isFocusing =false;
         }
 
