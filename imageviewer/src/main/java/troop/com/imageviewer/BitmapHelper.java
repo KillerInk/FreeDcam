@@ -57,8 +57,7 @@ public class BitmapHelper
 
 
                     response = RawUtils.UnPackRAW(file.getAbsolutePath());
-                    if(response != null)
-                        response.setHasAlpha(true);
+                    
                 }
                 catch (IllegalArgumentException ex)
                 {

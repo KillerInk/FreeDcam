@@ -336,7 +336,7 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpack
         int size = image->width* image->height;
         for (int count = 0; count < size; count++)
         {
-        	uint32_t p =  (1 << 24) |
+        	uint32_t p =  (0xff << 24) |
         					(image->data[bufrow+2] << 16) |
                             (image->data[bufrow+1] << 8) |
                             image->data[bufrow+0];
