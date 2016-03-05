@@ -32,7 +32,7 @@ public class FocusManualParameterLG extends  BaseManualParameter
                 max = 60;
             else if (DeviceUtils.IsMarshMallowG3())
             {
-                max = 600;
+                max = 1020;
                 step = 10;
             }
             else
