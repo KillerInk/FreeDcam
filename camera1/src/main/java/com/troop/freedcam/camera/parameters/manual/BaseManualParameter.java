@@ -62,8 +62,7 @@ public class BaseManualParameter extends AbstractManualParameter
      * @param @min_value
      * @param @camParametersHandler
      */
-    public BaseManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler, float step)
-    {
+    public BaseManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler, float step) {
         super(camParametersHandler);
         this.parameters = parameters;
         this.value = value;
@@ -71,8 +70,7 @@ public class BaseManualParameter extends AbstractManualParameter
         this.min_value = MinValue;
         this.step = step;
         if ((!value.equals("") && !maxValue.equals("") && !min_value.equals("") && parameters.get(min_value) != null && parameters.get(max_value) != null)
-                && (parameters.containsKey(value) && parameters.containsKey(maxValue) && parameters.containsKey(min_value)))
-        {
+                && (parameters.containsKey(value) && parameters.containsKey(maxValue) && parameters.containsKey(min_value))) {
             stringvalues = createStringArray(Integer.parseInt(parameters.get(min_value)), Integer.parseInt(parameters.get(max_value)), step);
             currentString = parameters.get(this.value);
             for (int i = 0; i < stringvalues.length; i++) {
@@ -85,9 +83,7 @@ public class BaseManualParameter extends AbstractManualParameter
             this.isVisible = isSupported;
 
         }
-        BackgroundIsSupportedChanged(isSupported);
     }
-
     @Override
     public boolean IsSupported()
     {
@@ -130,23 +126,6 @@ public class BaseManualParameter extends AbstractManualParameter
         }
     }
 
-    /*protected boolean hasSupport()
-    {
-        try
-        {
-            if (parameters.containsKey(value))
-                isSupported = true;
-            else
-                isSupported = false;
-            isVisible = isSupported;
-        }
-        catch (Exception ex)
-        {
-            isSupported = false;
-        }
-        Log.d(TAG, "issupported " + value + ": " + isSupported);
-        return isSupported;
-    }*/
 
     public AbstractModeParameter.I_ModeParameterEvent GetPicFormatListner()
     {

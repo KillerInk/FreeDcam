@@ -17,6 +17,7 @@ import com.troop.freedcam.camera.parameters.manual.FocusManualParameterHTC;
 import com.troop.freedcam.camera.parameters.manual.FocusManualParameterLG;
 import com.troop.freedcam.camera.parameters.manual.ISOManualParameter;
 import com.troop.freedcam.camera.parameters.manual.LG_G4AeHandler;
+import com.troop.freedcam.camera.parameters.manual.ManualFocusClassHandler;
 import com.troop.freedcam.camera.parameters.manual.ShutterClassHandler;
 import com.troop.freedcam.camera.parameters.manual.SkintoneManualPrameter;
 import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
@@ -194,12 +195,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            if (DeviceUtils.IS(Devices.LG_G4) || (DeviceUtils.IS(Devices.LG_G3) && (Build.VERSION.SDK_INT < 21 || Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) || DeviceUtils.IS(Devices.LG_G2))
-                ManualFocus = new FocusManualParameterLG(cameraParameters,"","","", cameraHolder, this);
-            else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
-                ManualFocus = new FocusManualParameterHTC(cameraParameters,"","","", cameraHolder,this);
-            else
-                ManualFocus = new FocusManualParameter(cameraParameters,"","","", cameraHolder, this);
+                ManualFocus = ManualFocusClassHandler.GetManualFocus(cameraParameters, this,baseCameraHolder);
         } catch (Exception e) {
             e.printStackTrace();
         }

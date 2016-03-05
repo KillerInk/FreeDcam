@@ -30,11 +30,6 @@ public class FocusManualParameterLG extends  BaseManualParameter
             step = 1;
             if (DeviceUtils.IS(Devices.LG_G4))
                 max = 60;
-            else if (DeviceUtils.IsMarshMallowG3())
-            {
-                max = 1020;
-                step = 10;
-            }
             else
                 max = 79;
             stringvalues = createStringArray(0,max,step);
@@ -49,22 +44,10 @@ public class FocusManualParameterLG extends  BaseManualParameter
         currentInt = valueToSet;
         if(valueToSet != 0)
         {
-            if (DeviceUtils.IsMarshMallowG3())
-            {
-                if (!camParametersHandler.FocusMode.GetValue().equals("manual")) {
-                    camParametersHandler.FocusMode.SetValue("manual", true);
-                    parameters.put("manual-focus-pos-type", "1");
-                }
-                parameters.put("manual-focus-position", stringvalues[valueToSet]);
+            if (!camParametersHandler.FocusMode.GetValue().equals("normal")) {
+                camParametersHandler.FocusMode.SetValue("normal", true);
             }
-            else
-            {
-                if (!camParametersHandler.FocusMode.GetValue().equals("normal")) {
-                    camParametersHandler.FocusMode.SetValue("normal", true);
-
-                }
-                parameters.put("manualfocus_step", stringvalues[valueToSet]);
-            }
+            parameters.put("manualfocus_step", stringvalues[valueToSet]);
             camParametersHandler.SetParametersToCamera(parameters);
         }
         else if (valueToSet == 0)

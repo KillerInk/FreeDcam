@@ -23,6 +23,8 @@ public class FocusManualParameter extends  BaseManualParameter
 
     private static String TAG ="freedcam.ManualFocus";
 
+    private String manualFocusModeString;
+
     public FocusManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler,1);
         this.baseCameraHolder = cameraHolder;
