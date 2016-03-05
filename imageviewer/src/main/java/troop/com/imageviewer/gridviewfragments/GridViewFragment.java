@@ -308,6 +308,8 @@ public class GridViewFragment extends BaseGridViewFragment
         File externalSDCIM = new File(StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder);
         ArrayList<FileHolder> list = new ArrayList<FileHolder>();
         File[] f = internalSDCIM.listFiles();
+        if (f == null)
+            return;
         for (int i = 0; i< f.length; i++)
         {
             if (!f[i].isHidden())

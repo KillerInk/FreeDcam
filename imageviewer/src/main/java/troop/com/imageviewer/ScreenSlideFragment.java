@@ -166,7 +166,7 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
         if (current-1 >= 0 && current-1 <= files.length)
             mPager.setCurrentItem(current -1);
         else
-            mPager.setCurrentItem(files.length);
+            mPager.setCurrentItem(0);
     }
 
     public void ReloadFilesAndSetLast()
@@ -176,7 +176,7 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
             return;
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),files);
         mPager.setAdapter(mPagerAdapter);
-        mPager.setCurrentItem(files.length);
+        mPager.setCurrentItem(0);
         Log.d(TAG, "reloadFilesAndSetLast");
     }
 
