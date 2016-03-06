@@ -469,7 +469,12 @@ public class DeviceUtils
         return isLG_G3() || isG2() || isG4() ;
     }*/
 
-
-
+    public static boolean isCyanogenMod() {
+        try {
+            return Class.forName("cyanogenmod.os.Build") != null;
+        } catch (Exception ignored) {
+        }
+        return false;
+    }
 
 }
