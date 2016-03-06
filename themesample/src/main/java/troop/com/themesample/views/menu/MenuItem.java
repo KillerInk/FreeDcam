@@ -134,4 +134,15 @@ public class MenuItem extends UiSettingsChild implements View.OnClickListener, I
         if (onItemClick != null)
             onItemClick.onMenuItemClick(this, false);
     }
+
+    @Override
+    public void onIsSupportedChanged(boolean isSupported)
+    {
+        sendLog("isSupported:" + isSupported);
+        if (isSupported) {
+            this.setVisibility(VISIBLE);
+        }
+        else
+            this.setVisibility(GONE);
+    }
 }
