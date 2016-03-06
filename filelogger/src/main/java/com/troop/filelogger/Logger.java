@@ -13,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -58,6 +59,7 @@ public class Logger
     public static void StopLogging()
     {
         fileLogger.Destroy();
+        fileLogger = null;
     }
 
     private static class FileLogger
@@ -117,7 +119,12 @@ public class Logger
                 @Override
                 public void run() {
                     try {
-                        writer.write(TAG + ": DEBUG: " + msg);
+                        StringBuilder b = new StringBuilder();
+                        b.append(DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime()));
+                        b.append(":(D) ");
+                        b.append(TAG);
+                        b.append(msg);
+                        writer.write(b.toString());
                         writer.newLine();
                     } catch (IOException e) {
                         Logger.e(TAG, e.getMessage());
@@ -133,7 +140,12 @@ public class Logger
                 @Override
                 public void run() {
                     try {
-                        writer.write(TAG + ": ERROR: " + msg);
+                        StringBuilder b = new StringBuilder();
+                        b.append(DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime()));
+                        b.append(":(E) ");
+                        b.append(TAG);
+                        b.append(msg);
+                        writer.write(b.toString());
                         writer.newLine();
                     } catch (IOException e) {
                         Logger.e(TAG, e.getMessage());

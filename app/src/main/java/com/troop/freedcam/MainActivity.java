@@ -69,8 +69,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(null);
-        checkStartLoggerging();
-        Logger.d(TAGLIFE, "onCreate");
+
         DeviceUtils.SETCONTEXT(getApplicationContext());
         orientationHandler = new OrientationHandler(this, this);
 
@@ -153,6 +152,13 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        if (debugLoggerging)
+            Logger.StopLogging();
+    }
+
+    @Override
     protected void onDestroy()
     {
         super.onDestroy();
@@ -169,6 +175,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
 
     private void createHandlers() {
 
+        checkStartLoggerging();
         this.activity =this;
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this), this);
         themeHandler = new ThemeHandler(this, appSettingsManager);
@@ -463,8 +470,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     public void closeActivity()
     {
         this.finish();
-        if (debugLoggerging)
-            Logger.StopLogging();
+
     }
 
     @Override
