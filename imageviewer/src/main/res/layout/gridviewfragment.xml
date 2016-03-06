@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
+    <include layout="@layout/basegridview" />
 
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="38dp"
-        android:background="#424242"
-        android:layout_marginTop="2dp">
+        android:background="#50000000">
 
         <Button
             android:layout_width="@dimen/app_icon_size"
@@ -56,9 +55,6 @@
             android:layout_gravity="center_vertical"/>
         </LinearLayout>
 
-
     </RelativeLayout>
 
-    <include layout="@layout/basegridview"/>
-
-</LinearLayout>
+</RelativeLayout>

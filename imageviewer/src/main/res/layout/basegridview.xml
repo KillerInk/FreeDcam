@@ -9,6 +9,8 @@
         android:id="@+id/gridView"
         android:numColumns="auto_fit"
         android:columnWidth="90dp"
-        android:background="#424242"/>
+        android:background="#424242"
+        android:clipToPadding="false"
+        android:paddingTop="38dp"/>
 
 </LinearLayout>
