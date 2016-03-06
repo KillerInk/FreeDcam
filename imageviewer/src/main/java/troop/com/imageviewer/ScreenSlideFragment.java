@@ -32,7 +32,7 @@ import troop.com.imageviewer.holder.FileHolder;
 /**
  * Created by troop on 18.09.2015.
  */
-public class ScreenSlideFragment extends Fragment implements I_swipe
+public class ScreenSlideFragment extends Fragment
 {
     final static String TAG = ScreenSlideFragment.class.getSimpleName();
     final public static String SAVESTATE_FILEPATH = "savestae_filepath";
@@ -53,13 +53,10 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
     Button closeButton;
 
     File currentFile;
-    int flags;
-    View view;
     I_Activity activity;
     public int defitem = -1;
     public String FilePathToLoad = "";
     public GridViewFragment.FormatTypes filestoshow = GridViewFragment.FormatTypes.all;
-    SwipeMenuListner touchHandler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,16 +67,9 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
-        touchHandler = new SwipeMenuListner(this);
+
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) view.findViewById(R.id.pager);
-        mPager.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                touchHandler.onTouchEvent(event);
-                return false;
-            }
-        });
 
         this.closeButton = (Button)view.findViewById(R.id.button_closeView);
         closeButton.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +81,8 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
                     getActivity().finish();
             }
         });
-        if(savedInstanceState != null){
+        if(savedInstanceState != null)
+        {
             FilePathToLoad = (String) savedInstanceState.get(SAVESTATE_FILEPATH);
             defitem = (int)savedInstanceState.get(SAVESTATE_ITEMINT);
             Logger.d(TAG, "have file to load from saveinstance onCreated" + FilePathToLoad);
@@ -181,35 +172,6 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
         Logger.d(TAG, "reloadFilesAndSetLast");
     }
 
-    @Override
-    public void doLeftToRightSwipe()
-    {
-        Logger.d(TAG, "left to right");
-        if (activity != null && mPager.getCurrentItem() == 0)
-            activity.loadCameraUiFragment();
-    }
-
-    @Override
-    public void doRightToLeftSwipe() {
-        Logger.d(TAG, "right to left");
-    }
-
-    @Override
-    public void doTopToBottomSwipe() {
-
-    }
-
-    @Override
-    public void doBottomToTopSwipe() {
-
-    }
-
-    @Override
-    public void onClick(int x, int y) {
-
-    }
-
-
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     {
         FileHolder[] f;
@@ -254,51 +216,5 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
                 return files.length;
             else return 1;
         }
-
-
     }
-
-/*    public static File[] loadFilePaths()
-    {
-        Logger.d(TAG, "Loading Files...");
-        File internalSDCIM = new File(StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder);
-        List<File> folders = new ArrayList<>();
-        List<File> images = new ArrayList<File>();
-        //read internal Folders
-        try {
-            FileUtils.readSubFolderFromFolder(internalSDCIM, folders);
-        }
-        catch (Exception ex){}
-        Logger.d(TAG, "Found internal " + folders.size() + "Folders");
-        //read external Folders
-        File externalSDCIM = new File(StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder);
-        try {
-            FileUtils.readSubFolderFromFolder(externalSDCIM, folders);
-        }
-        catch (Exception ex){}
-        Logger.d(TAG, "Found external " + folders.size() + "Folders");
-        //Lookup files in folders
-        try
-        {
-            for (File folder : folders)
-            {
-                if (folder.isDirectory())
-                {
-                    FileUtils.readFilesFromFolder(folder, images);
-                }
-            }
-        }
-        catch (Exception ex){}
-        Logger.d(TAG, "Found " + images.size() + "Images");
-        final File[] s = images.toArray(new File[images.size()]);
-
-        Arrays.sort(s, new Comparator<File>() {
-            public int compare(File f1, File f2) {
-                return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
-            }
-        });
-        return s;
-    }*/
-
-
 }

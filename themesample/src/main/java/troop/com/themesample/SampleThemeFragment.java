@@ -65,19 +65,19 @@ public class SampleThemeFragment extends AbstractFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container, null);
-        /*if (cameraUiFragment == null)
+        if (cameraUiFragment == null)
         {
             cameraUiFragment = new CameraUiFragment();
-
+            cameraUiFragment.SetStuff(i_activity);
         }
         if (settingsMenuFragment == null) {
             settingsMenuFragment = new SettingsMenuFragment();
-            settingsMenuFragment.SetStuff(appSettingsManager, i_activity, null);
+            settingsMenuFragment.SetStuff(i_activity);
         }
         if (imageViewerFragment == null)
         {
             imageViewerFragment = new ScreenSlideFragment();
-        }*/
+        }
         return inflater.inflate(R.layout.samplethemefragment, container, false);
     }
 
@@ -122,19 +122,19 @@ public class SampleThemeFragment extends AbstractFragment
         {
             if (position == 0)
             {
-                settingsMenuFragment = new SettingsMenuFragment();
+                //settingsMenuFragment = new SettingsMenuFragment();
                 settingsMenuFragment.SetStuff(i_activity);
                 settingsMenuFragment.SetCameraUIWrapper(wrapper);
                 return settingsMenuFragment;
             }
             else if (position == 2)
             {
-                imageViewerFragment = new ScreenSlideFragment();
+                imageViewerFragment.reloadFilesAndSetLastPos();
                 return imageViewerFragment;
             }
             else
             {
-                cameraUiFragment = new CameraUiFragment();
+                //cameraUiFragment = new CameraUiFragment();
                 cameraUiFragment.SetStuff(i_activity);
                 cameraUiFragment.SetCameraUIWrapper(wrapper);
                 return cameraUiFragment;
