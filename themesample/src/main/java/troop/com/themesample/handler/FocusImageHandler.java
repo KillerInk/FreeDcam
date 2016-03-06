@@ -51,9 +51,9 @@ public class FocusImageHandler extends AbstractFocusImageHandler
 
 
 
-    public FocusImageHandler(View view, Fragment fragment, I_Activity activity)
+    public FocusImageHandler(View view, Fragment fragment)
     {
-        super(view,fragment, activity);
+        super(view, fragment);
         init(view);
 
         recthalf = fragment.getResources().getDimensionPixelSize(R.dimen.crosshairwidth)/2;
@@ -62,17 +62,17 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         cancelFocus.setVisibility(View.GONE);
         cancelFocus.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 wrapper.cameraHolder.CancelFocus();
                 cancelFocus.setVisibility(View.GONE);
             }
         });
 
-        meteringArea.setOnTouchListener(new ImageViewTouchAreaHandler(meteringArea, activity, meteringTouch, true));
+
         meteringArea.setVisibility(View.GONE);
 
-        awbArea.setOnTouchListener(new ImageViewTouchAreaHandler(awbArea, activity, awbTouch, true));
+
+        awbArea.setOnTouchListener(new ImageViewTouchAreaHandler(awbArea, wrapper,awbTouch, true));
         awbArea.setVisibility(View.GONE);
 
     }
@@ -120,16 +120,20 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         this.wrapper = cameraUiWrapper;
         if(cameraUiWrapper instanceof CameraUiWrapper || cameraUiWrapper instanceof CameraUiWrapperApi2) {
             meteringRect = centerImageView(meteringArea);
-            if (wrapper.Focus.isAeMeteringSupported())
+            if (wrapper.Focus.isAeMeteringSupported()) {
                 meteringArea.setVisibility(View.VISIBLE);
-            else
+                meteringArea.setOnTouchListener(new ImageViewTouchAreaHandler(meteringArea, wrapper, meteringTouch, true));
+            }
+            else {
                 meteringArea.setVisibility(View.GONE);
+
+            }
         }
         else
         {
             meteringArea.setVisibility(View.GONE);
         }
-        if(cameraUiWrapper instanceof CameraUiWrapperApi2)
+        /*if(cameraUiWrapper instanceof CameraUiWrapperApi2)
         {
             awbRect = centerImageView(awbArea);
             if(wrapper.Focus.isWbMeteringSupported())
@@ -137,7 +141,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             else
                 awbArea.setVisibility(View.GONE);
         }
-        else
+        else*/
             awbArea.setVisibility(View.GONE);
         if (wrapper.Focus != null)
             wrapper.Focus.focusEvent = this;
@@ -149,9 +153,9 @@ public class FocusImageHandler extends AbstractFocusImageHandler
 
         if (!(wrapper instanceof CameraUiWrapperSony))
         {
-            disWidth = activity.GetPreviewWidth();
-            disHeight = activity.GetPreviewHeight();
-            int margineleft = activity.GetPreviewLeftMargine();
+            disWidth = wrapper.getPreviewWidth();
+            disHeight = wrapper.getPreviewHeight();
+            int margineleft = wrapper.getMargineLeft();
             //handler.removeCallbacksAndMessages(null);
 
             if (rect == null)
@@ -289,10 +293,10 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     {
         if (wrapper == null || wrapper.Focus == null)
             return;
-        disWidth = activity.GetPreviewWidth();
-        disHeight = activity.GetPreviewHeight();
-        marginLeft = activity.GetPreviewLeftMargine();
-        marginRight = activity.GetPreviewRightMargine();
+        disWidth = wrapper.getPreviewWidth();
+        disHeight = wrapper.getPreviewHeight();
+        marginLeft = wrapper.getMargineLeft();
+        marginRight = wrapper.getMargineRight();
         if (x > marginLeft && x < disWidth + marginLeft ) {
             if (x < marginLeft + recthalf)
                 x = marginLeft + recthalf;

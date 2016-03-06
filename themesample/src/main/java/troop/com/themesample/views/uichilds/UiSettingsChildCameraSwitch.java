@@ -65,9 +65,9 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
 
         AppSettingsManager.APPSETTINGSMANAGER.SetCurrentCamera(currentCamera);
         sendLog("Stop Preview and Camera");
-        if (i_activity.GetSurfaceView() != null &&  i_activity.GetSurfaceView() instanceof ExtendedSurfaceView)
+        if (cameraUiWrapper.getSurfaceView() != null &&  cameraUiWrapper.getSurfaceView() instanceof ExtendedSurfaceView)
         {
-            ((ExtendedSurfaceView)i_activity.GetSurfaceView()).SwitchViewMode();
+            ((ExtendedSurfaceView)cameraUiWrapper.getSurfaceView()).SwitchViewMode();
         }
         cameraUiWrapper.StopCamera();
         cameraUiWrapper.StartCamera();

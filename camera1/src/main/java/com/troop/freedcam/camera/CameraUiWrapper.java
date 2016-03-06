@@ -371,7 +371,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
                 }
             }
         }
-        Logger.d(TAG,"Optimal preview size " +optimalSize.width + "x" + optimalSize.height);
+        Logger.d(TAG, "Optimal preview size " + optimalSize.width + "x" + optimalSize.height);
         return optimalSize;
     }
 
@@ -380,5 +380,35 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     {
         onPreviewSizeShouldChange.onValueChanged("");
         return null;
+    }
+
+    @Override
+    public int getMargineLeft() {
+        return preview.getLeft();
+    }
+
+    @Override
+    public int getMargineRight() {
+        return preview.getRight();
+    }
+
+    @Override
+    public int getMargineTop() {
+        return preview.getTop();
+    }
+
+    @Override
+    public int getPreviewWidth() {
+        return preview.getWidth();
+    }
+
+    @Override
+    public int getPreviewHeight() {
+        return preview.getHeight();
+    }
+
+    @Override
+    public SurfaceView getSurfaceView() {
+        return preview;
     }
 }

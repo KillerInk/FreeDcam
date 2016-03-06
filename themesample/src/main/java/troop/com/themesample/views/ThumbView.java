@@ -30,23 +30,30 @@ import troop.com.imageviewer.FileUtils;
 import troop.com.imageviewer.gridviewfragments.GridViewFragment;
 import troop.com.imageviewer.holder.FileHolder;
 import troop.com.themesample.R;
+import troop.com.themesample.SampleThemeFragment;
 
 /**
  * Created by troop on 13.06.2015.
  */
 public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickListener
 {
-    final  String TAG = ThumbView.class.getSimpleName();
-    boolean hasWork = false;
-    I_Activity i_activity;
-    AbstractCameraUiWrapper cameraUiWrapper;
-    Bitmap bitmap;
-    File lastFile;
-    Bitmap mask;
+    private final  String TAG = ThumbView.class.getSimpleName();
+    private boolean hasWork = false;
+    private AbstractCameraUiWrapper cameraUiWrapper;
+    private Bitmap bitmap;
+    private File lastFile;
+    private Bitmap mask;
+    SampleThemeFragment.I_ThumbClick click;
+
     public ThumbView(Context context) {
         super(context);
         this.setOnClickListener(this);
         this.setBackgroundDrawable(context.getResources().getDrawable( troop.com.themesample.R.drawable.thumbnail));
+    }
+
+    public void SetOnThumBlickListner(SampleThemeFragment.I_ThumbClick click)
+    {
+        this.click = click;
     }
 
     public ThumbView(Context context, AttributeSet attrs)
@@ -70,9 +77,8 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
 
     }
 
-    public void INIT(I_Activity i_activity, AbstractCameraUiWrapper cameraUiWrapper)
+    public void INIT(AbstractCameraUiWrapper cameraUiWrapper)
     {
-        this.i_activity = i_activity;
         this.cameraUiWrapper = cameraUiWrapper;
         if(cameraUiWrapper != null && cameraUiWrapper.moduleHandler != null && cameraUiWrapper.moduleHandler.moduleEventHandler != null)
             cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(this);
@@ -166,7 +172,8 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
     @Override
     public void onClick(View v)
     {
-        i_activity.loadImageViewerFragment(lastFile);
+        if (click != null)
+            click.onThumbClick();
 
 
     }

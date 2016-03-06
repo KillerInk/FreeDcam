@@ -4,10 +4,14 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.troop.freedcam.ui.I_Activity;
+
 /**
  * Created by troop on 13.06.2015.
  */
-public class UiSettingsChildExit extends UiSettingsChild {
+public class UiSettingsChildExit extends UiSettingsChild
+{
+
     public UiSettingsChildExit(Context context) {
         super(context);
     }
@@ -15,6 +19,7 @@ public class UiSettingsChildExit extends UiSettingsChild {
     public UiSettingsChildExit(Context context, AttributeSet attrs)
     {
         super(context, attrs);
+        this.i_activity = i_activity;
         this.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

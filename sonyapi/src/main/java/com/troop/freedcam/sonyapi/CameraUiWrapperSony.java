@@ -145,4 +145,34 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
     public void OnError(String error) {
         super.onCameraError(error);
     }
+
+    @Override
+    public int getMargineLeft() {
+        return surfaceView.getLeft();
+    }
+
+    @Override
+    public int getMargineRight() {
+        return surfaceView.getRight();
+    }
+
+    @Override
+    public int getMargineTop() {
+        return surfaceView.getTop();
+    }
+
+    @Override
+    public int getPreviewWidth() {
+        return surfaceView.getWidth();
+    }
+
+    @Override
+    public int getPreviewHeight() {
+        return surfaceView.getHeight();
+    }
+
+    @Override
+    public SurfaceView getSurfaceView() {
+        return surfaceView;
+    }
 }

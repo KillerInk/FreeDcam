@@ -38,35 +38,7 @@ public class Camera1Fragment extends AbstractCameraFragment
         super.onViewCreated(view, savedInstanceState);
     }
 
-    @Override
-    public int getMargineLeft() {
-        return extendedSurfaceView.getLeft();
-    }
 
-    @Override
-    public int getMargineRight() {
-        return extendedSurfaceView.getRight();
-    }
-
-    @Override
-    public int getMargineTop() {
-        return extendedSurfaceView.getTop();
-    }
-
-    @Override
-    public int getPreviewWidth() {
-        return extendedSurfaceView.getWidth();
-    }
-
-    @Override
-    public int getPreviewHeight() {
-        return extendedSurfaceView.getHeight();
-    }
-
-    @Override
-    public SurfaceView getSurfaceView() {
-        return extendedSurfaceView;
-    }
 
 
 

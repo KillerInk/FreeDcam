@@ -32,35 +32,7 @@ public class Camera2Fragment extends AbstractCameraFragment
         DestroyCameraUiWrapper();
     }
 
-    @Override
-    public int getMargineLeft() {
-        return textureView.getLeft();
-    }
 
-    @Override
-    public int getMargineRight() {
-        return textureView.getRight();
-    }
-
-    @Override
-    public int getMargineTop() {
-        return textureView.getTop();
-    }
-
-    @Override
-    public int getPreviewWidth() {
-        return textureView.getWidth();
-    }
-
-    @Override
-    public int getPreviewHeight() {
-        return textureView.getHeight();
-    }
-
-    @Override
-    public SurfaceView getSurfaceView() {
-        return null;
-    }
 
 
 }

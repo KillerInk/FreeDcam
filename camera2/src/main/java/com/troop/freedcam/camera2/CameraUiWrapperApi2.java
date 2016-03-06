@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.util.Log;
+import android.view.SurfaceView;
 import android.view.TextureView;
 
 import com.troop.filelogger.Logger;
@@ -167,6 +168,36 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     @Override
     public void OnError(final String error) {
         super.onCameraError(error);
+    }
+
+    @Override
+    public int getMargineLeft() {
+        return preview.getLeft();
+    }
+
+    @Override
+    public int getMargineRight() {
+        return preview.getRight();
+    }
+
+    @Override
+    public int getMargineTop() {
+        return preview.getTop();
+    }
+
+    @Override
+    public int getPreviewWidth() {
+        return preview.getWidth();
+    }
+
+    @Override
+    public int getPreviewHeight() {
+        return preview.getHeight();
+    }
+
+    @Override
+    public SurfaceView getSurfaceView() {
+        return null;
     }
 
 }

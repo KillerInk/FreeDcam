@@ -68,7 +68,7 @@ public class SampleThemeFragment extends AbstractFragment
         if (cameraUiFragment == null)
         {
             cameraUiFragment = new CameraUiFragment();
-            cameraUiFragment.SetStuff(i_activity);
+            cameraUiFragment.SetStuff(i_activity,onThumbClick);
         }
         if (settingsMenuFragment == null) {
             settingsMenuFragment = new SettingsMenuFragment();
@@ -108,6 +108,18 @@ public class SampleThemeFragment extends AbstractFragment
 
     }
 
+    I_ThumbClick onThumbClick = new I_ThumbClick() {
+        @Override
+        public void onThumbClick() {
+            mPager.setCurrentItem(2);
+        }
+    };
+
+    public interface I_ThumbClick
+    {
+        void onThumbClick();
+    }
+
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     {
 
@@ -129,13 +141,13 @@ public class SampleThemeFragment extends AbstractFragment
             }
             else if (position == 2)
             {
-                imageViewerFragment.reloadFilesAndSetLastPos();
+                imageViewerFragment = new ScreenSlideFragment();
                 return imageViewerFragment;
             }
             else
             {
                 //cameraUiFragment = new CameraUiFragment();
-                cameraUiFragment.SetStuff(i_activity);
+                cameraUiFragment.SetStuff(i_activity,onThumbClick);
                 cameraUiFragment.SetCameraUIWrapper(wrapper);
                 return cameraUiFragment;
             }

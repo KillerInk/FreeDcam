@@ -27,6 +27,7 @@ import com.troop.freedcam.ui.guide.GuideHandler;
 import java.io.File;
 
 import troop.com.themesample.R;
+import troop.com.themesample.SampleThemeFragment;
 import troop.com.themesample.handler.FocusImageHandler;
 import troop.com.themesample.handler.SampleInfoOverlayHandler;
 import troop.com.themesample.handler.UserMessageHandler;
@@ -45,65 +46,51 @@ import troop.com.themesample.views.uichilds.UiSettingsMenu;
 public class CameraUiFragment extends AbstractFragment implements I_ParametersLoaded, Interfaces.I_MenuItemClick, Interfaces.I_CloseNotice, I_swipe, View.OnClickListener
 {
     final String TAG = CameraUiFragment.class.getSimpleName();
-    UiSettingsChild flash;
-    UiSettingsChild iso;
-    UiSettingsChild autoexposure;
-    UiSettingsChild whitebalance;
-    UiSettingsChild focus;
-    UiSettingsChild night;
-    UiSettingsChild format;
-    UiSettingsChildCameraSwitch cameraSwitch;
-    UiSettingsChildExit exit;
-    UiSettingsChildModuleSwitch modeSwitch;
-    UiSettingsMenu menu;
-    UiSettingsChild contShot;
-
-    UiSettingsChild currentOpendChild;
-    HorizontalValuesFragment horizontalValuesFragment;
-    SwipeMenuListner touchHandler;
-    ShutterButton shutterButton;
-
-    UiSettingsFocusPeak focuspeak;
-
-    UserMessageHandler messageHandler;
-
-    UiSettingsChild hdr_switch;
-
-    ThumbView thumbView;
-
-    LinearLayout LC;
-
-    LinearLayout left_cameraUI_holder;
-    RelativeLayout right_camerUI_holder;
-    ManualFragmentRotatingSeekbar manualModesFragment;
-    FrameLayout manualModes_holder;
-    boolean manualsettingsIsOpen = false;
-    boolean settingsOpen = false;
-    final int animationTime = 500;
-
-    FocusImageHandler focusImageHandler;
-
-
-    View view;
-    I_Activity i_activity;
-    SampleInfoOverlayHandler infoOverlayHandler;
-
-    GuideHandler guideHandler;
-    LinearLayout guidHolder;
-
-    //FrameLayout settingsmenuholer;
-    File lastFile;
-
-    final String KEY_MANUALMENUOPEN = "key_manualmenuopen";
-    final String KEY_SETTINGSOPEN = "key_settingsopen";
-    SharedPreferences sharedPref;
+    private UiSettingsChild flash;
+    private UiSettingsChild iso;
+    private UiSettingsChild autoexposure;
+    private UiSettingsChild whitebalance;
+    private UiSettingsChild focus;
+    private UiSettingsChild night;
+    private UiSettingsChild format;
+    private UiSettingsChildCameraSwitch cameraSwitch;
+    private UiSettingsChildExit exit;
+    private UiSettingsChildModuleSwitch modeSwitch;
+    private UiSettingsMenu menu;
+    private UiSettingsChild contShot;
+    private UiSettingsChild currentOpendChild;
+    private HorizontalValuesFragment horizontalValuesFragment;
+    private SwipeMenuListner touchHandler;
+    private ShutterButton shutterButton;
+    private UiSettingsFocusPeak focuspeak;
+    private UserMessageHandler messageHandler;
+    private UiSettingsChild hdr_switch;
+    private ThumbView thumbView;
+    private LinearLayout LC;
+    private LinearLayout left_cameraUI_holder;
+    private RelativeLayout right_camerUI_holder;
+    private ManualFragmentRotatingSeekbar manualModesFragment;
+    private FrameLayout manualModes_holder;
+    private boolean manualsettingsIsOpen = false;
+    private boolean settingsOpen = false;
+    private FocusImageHandler focusImageHandler;
+    private View view;
+    private I_Activity i_activity;
+    private SampleInfoOverlayHandler infoOverlayHandler;
+    private GuideHandler guideHandler;
+    private LinearLayout guidHolder;
+    private final String KEY_MANUALMENUOPEN = "key_manualmenuopen";
+    private final String KEY_SETTINGSOPEN = "key_settingsopen";
+    private SharedPreferences sharedPref;
+    private SampleThemeFragment.I_ThumbClick thumbClick;
+    private File lastFile;
 
     HorizontLineFragment horizontLineFragment;
 
-    @Override
-    public void SetStuff(I_Activity i_activity)
+    public void SetStuff(I_Activity i_activity, SampleThemeFragment.I_ThumbClick thumbClick)
     {
         this.i_activity = i_activity;
+        this.thumbClick = thumbClick;
     }
 
     @Override
@@ -123,30 +110,19 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         if (wrapper == null)
             return;
         flash.SetParameter(wrapper.camParametersHandler.FlashMode);
-        //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(flash);
         iso.SetParameter(wrapper.camParametersHandler.IsoMode);
-        //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(iso);
         autoexposure.SetParameter(wrapper.camParametersHandler.ExposureMode);
-        //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(autoexposure);
         whitebalance.SetParameter(wrapper.camParametersHandler.WhiteBalanceMode);
-        //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(whitebalance);
         focus.SetParameter(wrapper.camParametersHandler.FocusMode);
-        //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(focus);
         night.SetParameter(wrapper.camParametersHandler.NightMode);
-        //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(night);
-        thumbView.INIT(i_activity, wrapper);
+        thumbView.INIT(wrapper);
 
         cameraSwitch.SetCameraUiWrapper(wrapper);
         focusImageHandler.SetCamerUIWrapper(wrapper);
         this.messageHandler = new UserMessageHandler(view);
         messageHandler.SetCameraUiWrapper(wrapper);
         shutterButton.SetCameraUIWrapper(wrapper, messageHandler);
-
         format.SetParameter(wrapper.camParametersHandler.PictureFormat);
-
-
-
-
         contShot.SetParameter(wrapper.camParametersHandler.ContShootMode);
         if (manualModesFragment != null)
             manualModesFragment.SetCameraUIWrapper(wrapper);
@@ -155,13 +131,9 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
             wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(focuspeak);
         }
         guideHandler.setCameraUiWrapper(wrapper);
-        //guideHandler.SetViewG(appSettingsManager.getString(AppSettingsManager.SETTING_GUIDE));
-
         focuspeak.SetCameraUiWrapper(wrapper);
         modeSwitch.SetCameraUiWrapper(wrapper);
-
         hdr_switch.SetParameter(wrapper.camParametersHandler.HDRMode);
-
         horizontLineFragment.setCameraUiWrapper(wrapper);
 
     }
@@ -193,32 +165,30 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         this.manualModes_holder = (FrameLayout)view.findViewById(R.id.manualModesHolder);
         this.LC = (LinearLayout)view.findViewById(R.id.LCover);
 
-        // this.wbtest = (ImgItem)view.findViewById(R.id.testwb);
-        //wbtest.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_WHITEBALANCEMODE);
-        // wbtest.SetMenuItemListner(this);
-
         this.flash = (UiSettingsChild)view.findViewById(R.id.Flash);
         flash.SetStuff(i_activity, AppSettingsManager.SETTING_FLASHMODE);
         flash.SetMenuItemListner(this, true);
 
-
         this.iso = (UiSettingsChild)view.findViewById(R.id.ui_settings_iso);
         iso.SetStuff(i_activity, AppSettingsManager.SETTING_ISOMODE);
-
         iso.SetMenuItemListner(this,true);
 
         this.autoexposure =(UiSettingsChild)view.findViewById(R.id.Ae);
         autoexposure.SetStuff(i_activity,AppSettingsManager.SETTING_EXPOSUREMODE);
         autoexposure.SetMenuItemListner(this,true);
+
         this.whitebalance = (UiSettingsChild)view.findViewById(R.id.wb);
         whitebalance.SetStuff(i_activity, AppSettingsManager.SETTING_WHITEBALANCEMODE);
         whitebalance.SetMenuItemListner(this,true);
+
         this.focus = (UiSettingsChild)view.findViewById(R.id.focus_uisetting);
         focus.SetStuff(i_activity, AppSettingsManager.SETTING_FOCUSMODE);
         focus.SetMenuItemListner(this,true);
+
         this.contShot = (UiSettingsChild)view.findViewById(R.id.continousShot);
         contShot.SetStuff(i_activity, null);
         contShot.SetMenuItemListner(this,true);
+
         this.night = (UiSettingsChild)view.findViewById(R.id.night);
         night.SetStuff(i_activity, AppSettingsManager.SETTING_NIGHTEMODE);
         night.SetMenuItemListner(this,true);
@@ -228,17 +198,22 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         format.SetMenuItemListner(this,true);
 
         this.thumbView = (ThumbView)view.findViewById(R.id.thumbview);
+        this.thumbView.SetOnThumBlickListner(thumbClick);
+
         this.modeSwitch = (UiSettingsChildModuleSwitch)view.findViewById(R.id.mode_switch);
         modeSwitch.SetStuff(i_activity, AppSettingsManager.SETTING_CURRENTMODULE);
         modeSwitch.SetMenuItemListner(this,false);
+
         exit = (UiSettingsChildExit)view.findViewById(R.id.exit);
         exit.SetStuff(i_activity, "");
+
         cameraSwitch = (UiSettingsChildCameraSwitch)view.findViewById(R.id.camera_switch);
         cameraSwitch.SetStuff(i_activity, AppSettingsManager.SETTING_CURRENTCAMERA);
+
         infoOverlayHandler = new SampleInfoOverlayHandler(view);
         infoOverlayHandler.setCameraUIWrapper(wrapper);
 
-        focusImageHandler = new FocusImageHandler(view, this, i_activity);
+        focusImageHandler = new FocusImageHandler(view, this);
 
         shutterButton = (ShutterButton)view.findViewById(R.id.shutter_button);
         view.setOnTouchListener(onTouchListener);
@@ -264,24 +239,12 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         guidHolder = (LinearLayout)view.findViewById(R.id.guideHolder);
 
-        /*this.settingsmenuholer = (FrameLayout)view.findViewById(R.id.settingsMenuHolder);
-
-        settingsMenuFragment.SetCameraUIWrapper(wrapper);
-        transaction = getChildFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.empty);
-        transaction.replace(R.id.settingsMenuHolder, settingsMenuFragment);
-        transaction.addToBackStack(null);
-        transaction.commitAllowingStateLoss();
-        settingsmenuholer.setVisibility(View.GONE);*/
-
-
         manualModesFragment.SetCameraUIWrapper(wrapper);
 
         transaction = getChildFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.bottom_to_top_enter, R.anim.empty);
         transaction.replace(R.id.manualModesHolder, manualModesFragment);
         transaction.commitAllowingStateLoss();
-
 
         transaction = getChildFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
@@ -431,16 +394,11 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
     @Override
     public void  doRightToLeftSwipe() {
-        if (settingsOpen)
-            replaceSettingsWithCameraUI();
-        else
-            i_activity.loadImageViewerFragment(lastFile);
 
     }
 
     @Override
     public void doLeftToRightSwipe(){
-        replaceCameraUIWithSettings();
     }
 
     @Override
@@ -473,32 +431,6 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     @Override
     public void onClick(View v) {
 
-    }
-
-
-
-    private void replaceCameraUIWithSettings()
-    {
-        /*settingsOpen = true;
-        sharedPref.edit().putBoolean(KEY_SETTINGSOPEN,settingsOpen).commit();
-        manualModes_holder.setVisibility(View.GONE);
-        settingsMenuFragment.touchHandler = touchHandler;
-        LC.setVisibility(View.VISIBLE);
-        LC.setOnTouchListener(onTouchListener);
-        settingsmenuholer.animate().translationX(0).setDuration(300);
-        settingsmenuholer.setVisibility(View.VISIBLE);*/
-    }
-
-    public void replaceSettingsWithCameraUI()
-    {
-        /*settingsOpen = false;
-        sharedPref.edit().putBoolean(KEY_SETTINGSOPEN,settingsOpen).commit();
-        float width = guidHolder.getWidth();
-        settingsmenuholer.animate().translationX(-width).setDuration(300);
-        if(manualsettingsIsOpen)
-            manualModes_holder.setVisibility(View.VISIBLE);
-        LC.setVisibility(View.GONE);
-        //settingsmenuholer.setVisibility(View.GONE);*/
     }
 
     interface i_HelpFragment
