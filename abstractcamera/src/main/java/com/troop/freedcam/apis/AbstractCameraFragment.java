@@ -55,13 +55,6 @@ public abstract class AbstractCameraFragment extends Fragment
         this.onrdy = rdy;
     }
 
-    public abstract int getMargineLeft();
-    public abstract int getMargineRight();
-    public abstract int getMargineTop();
-    public abstract int getPreviewWidth();
-    public abstract int getPreviewHeight();
-    public abstract SurfaceView getSurfaceView();
-
 
 
     public void DestroyCameraUiWrapper()

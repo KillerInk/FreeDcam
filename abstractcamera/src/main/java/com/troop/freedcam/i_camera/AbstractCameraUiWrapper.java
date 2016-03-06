@@ -2,6 +2,7 @@ package com.troop.freedcam.i_camera;
 
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.view.SurfaceView;
 
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_CameraUiWrapper;
@@ -258,5 +259,10 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
 
     }
 
-
+    public abstract int getMargineLeft();
+    public abstract int getMargineRight();
+    public abstract int getMargineTop();
+    public abstract int getPreviewWidth();
+    public abstract int getPreviewHeight();
+    public abstract SurfaceView getSurfaceView();
 }

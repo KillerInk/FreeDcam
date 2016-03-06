@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.FocusRect;
 
 /**
@@ -16,6 +17,10 @@ import com.troop.freedcam.i_camera.FocusRect;
  */
 public class ImageViewTouchAreaHandler implements View.OnTouchListener
 {
+    AbstractCameraUiWrapper cameraUiWrapper;
+    I_TouchListnerEvent touchListnerEvent;
+    ImageView imageView;
+    float x, y, difx, dify;
 
     public interface I_TouchListnerEvent
     {
@@ -27,18 +32,15 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
      *
      * @param imageView the view that should get moved
      */
-    public ImageViewTouchAreaHandler(ImageView imageView, I_Activity i_activity, I_TouchListnerEvent touchListnerEvent, boolean allowDrag)
+    public ImageViewTouchAreaHandler(ImageView imageView,AbstractCameraUiWrapper cameraUiWrapper, I_TouchListnerEvent touchListnerEvent, boolean allowDrag)
     {
         this.imageView = imageView;
+        this.cameraUiWrapper = cameraUiWrapper;
         this.recthalf = imageView.getWidth()/2;
-        this.i_activity = i_activity;
         this.touchListnerEvent = touchListnerEvent;
         this.allowDrag = allowDrag;
     }
-    I_TouchListnerEvent touchListnerEvent;
-    I_Activity i_activity;
-    ImageView imageView;
-    float x, y, difx, dify;
+
 
     /**
      * if set to true the imageview is dragable
@@ -99,18 +101,18 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
 
                 difx = x - imageView.getX();
                 dify = y - imageView.getY();
-                int xd = getDistance(startX, (int)difx);
-                int yd = getDistance(startY, (int)dify);
+                //int xd = getDistance(startX, (int)difx);
+                //int yd = getDistance(startY, (int)dify);
 
                 if (allowDrag) {
-                    if (event.getX() - difx > i_activity.GetPreviewLeftMargine() && event.getX() - difx + imageView.getWidth() < i_activity.GetPreviewLeftMargine() + i_activity.GetPreviewWidth())
+                    if (event.getX() - difx > cameraUiWrapper.getMargineLeft() && event.getX() - difx + imageView.getWidth() < cameraUiWrapper.getMargineLeft() + cameraUiWrapper.getPreviewWidth())
                         imageView.setX(event.getX() - difx);
-                    if (event.getY() - dify > i_activity.GetPreviewTopMargine() && event.getY() - dify + imageView.getHeight() < i_activity.GetPreviewTopMargine() + i_activity.GetPreviewHeight())
+                    if (event.getY() - dify > cameraUiWrapper.getMargineTop() && event.getY() - dify + imageView.getHeight() < cameraUiWrapper.getMargineTop() + cameraUiWrapper.getPreviewHeight())
                         imageView.setY(event.getY() - dify);
-                    if (xd >= distance || yd >= distance) {
+                    //if (xd >= distance || yd >= distance) {
 
                         moving = true;
-                    }
+                    //}
                 }
             }
             break;
@@ -129,7 +131,7 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
                     recthalf = (int)imageView.getWidth()/2;
                     imageRect = new FocusRect((int) imageView.getX() - recthalf, (int) imageView.getX() + recthalf, (int) imageView.getY() - recthalf, (int) imageView.getY() + recthalf);
                     if (touchListnerEvent != null)
-                        touchListnerEvent.onAreaCHanged(imageRect, i_activity.GetPreviewWidth(), i_activity.GetPreviewHeight());
+                        touchListnerEvent.onAreaCHanged(imageRect, cameraUiWrapper.getPreviewWidth(), cameraUiWrapper.getPreviewHeight());
                 }
                 else
                 {
