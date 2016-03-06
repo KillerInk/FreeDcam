@@ -42,7 +42,7 @@ public class PictureModuleO3D extends PictureModule
 
     /*@Override
     public void onPictureTaken(byte[] data) {
-        Log.d(TAG, "PictureCallback recieved! Data size: " + data.length);
+        Logger.d(TAG, "PictureCallback recieved! Data size: " + data.length);
         if (Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals(("dng"))
                 || Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT).equals("raw"))
         {
@@ -61,7 +61,7 @@ public class PictureModuleO3D extends PictureModule
             {
                 boolean deleted =  folders[i].delete();
                 if(!deleted);
-                    Log.d(TAG, "file delted fail");
+                    Logger.d(TAG, "file delted fail");
 
             }
 

@@ -28,6 +28,7 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.ortiz.touch.TouchImageView;
 import com.troop.androiddng.RawToDng;
+import com.troop.filelogger.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -362,7 +363,7 @@ public class ImageFragment extends Fragment
         byte[] data = null;
         try {
             data = RawToDng.readFile(file);
-            Log.d("Main", "Filesize: " + data.length + " File:" + file.getAbsolutePath());
+            Logger.d("Main", "Filesize: " + data.length + " File:" + file.getAbsolutePath());
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

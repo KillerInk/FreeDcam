@@ -2,6 +2,7 @@ package com.troop.freedcam.camera.parameters.manual;
 
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class ExposureManualParameter extends BaseManualParameter
     boolean negativeMin = false;
     public ExposureManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler,float step) {
         super(parameters, value, maxValue, MinValue, camParametersHandler,step);
-        Log.d(TAG,"Is Supported:"+ isSupported);
+        Logger.d(TAG, "Is Supported:" + isSupported);
     }
 
     @Override

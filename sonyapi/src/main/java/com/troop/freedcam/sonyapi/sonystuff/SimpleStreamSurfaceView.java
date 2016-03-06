@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 
@@ -192,13 +193,13 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         mErrorListener = listener;
 
         if (streamUrl == null) {
-            Log.e(TAG, "start() streamUrl is null.");
+            Logger.e(TAG, "start() streamUrl is null.");
             mWhileFetching = false;
             mErrorListener.onError(StreamErrorListener.StreamErrorReason.OPEN_ERROR);
             return false;
         }
         if (mWhileFetching) {
-            Log.w(TAG, "start() already starting.");
+            Logger.d(TAG, "start() already starting.");
             return false;
         }
 
@@ -208,7 +209,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         new Thread() {
             @Override
             public void run() {
-                Log.d(TAG, "Starting retrieving streaming data from server.");
+                Logger.d(TAG, "Starting retrieving streaming data from server.");
                 SimpleLiveviewSlicer slicer = null;
 
                 try {
@@ -227,7 +228,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                         }
                     }
                 } catch (IOException e) {
-                    Log.w(TAG, "IOException while fetching: " + e.getMessage());
+                    Logger.d(TAG, "IOException while fetching: " + e.getMessage());
                     mErrorListener.onError(StreamErrorListener.StreamErrorReason.IO_EXCEPTION);
                 } finally {
                     if (slicer != null) {
@@ -249,7 +250,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         mDrawerThread = new Thread() {
             @Override
             public void run() {
-                Log.d(TAG, "Starting drawing stream frame.");
+                Logger.d(TAG, "Starting drawing stream frame.");
                 Bitmap frameBitmap = null;
 
                 BitmapFactory.Options factoryOptions = new BitmapFactory.Options();
@@ -278,7 +279,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                         }
                         continue;
                     } catch (InterruptedException e) {
-                        Log.i(TAG, "Drawer thread is Interrupted.");
+                        Logger.e(TAG, "Drawer thread is Interrupted.");
                         break;
                     }
                     frameBitmap = BitmapFactory.decodeByteArray(dataExtractor.jpegData, 0, dataExtractor.jpegData.length, factoryOptions);
@@ -299,7 +300,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private boolean fetchPayLoad(SimpleLiveviewSlicer slicer) throws IOException {
         final DataExtractor payload = slicer.nextDataExtractor();
         if (payload.commonHeader == null) { // never occurs
-            //Log.e(TAG, "Liveview Payload is null.");
+            //Logger.e(TAG, "Liveview Payload is null.");
             return true;
         }
         if (payload.commonHeader.PayloadType == 1)
@@ -524,7 +525,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
      * @param height
      */
     private void onDetectedFrameSizeChanged(int width, int height) {
-        Log.d(TAG, "Change of aspect ratio detected");
+        Logger.d(TAG, "Change of aspect ratio detected");
         mPreviousWidth = width;
         mPreviousHeight = height;
         initRenderScript();

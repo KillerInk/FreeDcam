@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AbstractFragment;
@@ -170,7 +171,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG, "####################ONCREATEDVIEW####################");
+        Logger.d(TAG, "####################ONCREATEDVIEW####################");
 
         touchHandler = new SwipeMenuListner(this);
         manualModesFragment = new ManualFragmentRotatingSeekbar();
@@ -188,7 +189,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
-        Log.d(TAG, "####################VIEW CREATED####################");
+        Logger.d(TAG, "####################VIEW CREATED####################");
         sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         manualsettingsIsOpen = sharedPref.getBoolean(KEY_MANUALMENUOPEN, false);
         this.left_cameraUI_holder = (LinearLayout)view.findViewById(R.id.left_ui_holder);
@@ -337,7 +338,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         @Override
         public void onClick(View v)
         {
-            Log.d(TAG, "OnSettingsClick settings open:" + manualsettingsIsOpen);
+            Logger.d(TAG, "OnSettingsClick settings open:" + manualsettingsIsOpen);
             if (manualsettingsIsOpen) {
                 hide_ManualSettings();
             }
@@ -351,14 +352,14 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     private void hide_ManualSettings()
     {
         manualsettingsIsOpen = false;
-        Log.d(TAG, "HideSettings");
+        Logger.d(TAG, "HideSettings");
         manualModes_holder.animate().translationY(manualModes_holder.getHeight()).setDuration(300);
         //manualModes_holder.setVisibility(View.GONE);
     }
 
     private void showManualSettings()
     {
-        Log.d(TAG, "ShowSettings");
+        Logger.d(TAG, "ShowSettings");
         manualsettingsIsOpen = true;
         manualModes_holder.animate().translationY(0).setDuration(300);
         manualModes_holder.setVisibility(View.VISIBLE);

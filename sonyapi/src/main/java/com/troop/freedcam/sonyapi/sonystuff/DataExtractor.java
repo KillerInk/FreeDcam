@@ -137,7 +137,7 @@ public class DataExtractor
                 frameDataSize = SimpleLiveviewSlicer.bytesToInt(bytes, 4, 3);
                 version = SimpleLiveviewSlicer.bytesToInt(bytes, 8, 1) + "." + SimpleLiveviewSlicer.bytesToInt(bytes, 9, 1);
                 frameCount = SimpleLiveviewSlicer.bytesToInt(bytes, 10, 2);
-                //Log.d(TAG, "FrameCount:" + frameCount);
+                //Logger.d(TAG, "FrameCount:" + frameCount);
                 if (version.equals("1.0"))
                     singelFrameDataSize = 16;
                 else
@@ -160,7 +160,7 @@ public class DataExtractor
             Category = SimpleLiveviewSlicer.bytesToInt(bytes, 8,1);
             Status = SimpleLiveviewSlicer.bytesToInt(bytes, 9,1);
             AditionalStatus = SimpleLiveviewSlicer.bytesToInt(bytes, 10,1);
-            //Log.d(TAG, Top + ", "+Left+","+ Bottom+","+Right+"," +Category +"," + Status);
+            //Logger.d(TAG, Top + ", "+Left+","+ Bottom+","+Right+"," +Category +"," + Status);
         }
     }
 }

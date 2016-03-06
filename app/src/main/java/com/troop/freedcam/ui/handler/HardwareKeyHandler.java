@@ -3,6 +3,7 @@ package com.troop.freedcam.ui.handler;
 import android.util.Log;
 import android.view.KeyEvent;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.MainActivity;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -48,7 +49,7 @@ public class HardwareKeyHandler
 
         if(keyCode == KeyEvent.KEYCODE_3D_MODE ||keyCode == KeyEvent.KEYCODE_POWER || keyCode == appSettingsKeyShutter || keyCode == KeyEvent.KEYCODE_UNKNOWN)
         {
-            Log.d(TAG, "KeyUp");
+            Logger.d(TAG, "KeyUp");
             cameraUiWrapper.moduleHandler.DoWork();
         }
         //shutterbutton full pressed
@@ -81,7 +82,7 @@ public class HardwareKeyHandler
     {
         /*if (event.isLongPress() && !longKeyPress) {
             if (keyCode == KeyEvent.KEYCODE_HEADSETHOOK) {
-                Log.d(TAG, "LongKeyPress for Headsethook");
+                Logger.d(TAG, "LongKeyPress for Headsethook");
                 longKeyPress = true;
                 activity.shutterHandler.OnLongClick();
 

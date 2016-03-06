@@ -8,6 +8,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
 
@@ -29,7 +30,7 @@ public abstract class AbstractCameraFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        Log.d(TAG,"onCreateView");
+        Logger.d(TAG, "onCreateView");
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -67,7 +68,7 @@ public abstract class AbstractCameraFragment extends Fragment
     {
         if (cameraUiWrapper != null)
         {
-            Log.d(TAG, "Destroying Wrapper");
+            Logger.d(TAG, "Destroying Wrapper");
             cameraUiWrapper.camParametersHandler.ParametersEventHandler.CLEAR();
             cameraUiWrapper.camParametersHandler.ParametersEventHandler = null;
             cameraUiWrapper.moduleHandler.moduleEventHandler.CLEAR();
@@ -76,7 +77,7 @@ public abstract class AbstractCameraFragment extends Fragment
             cameraUiWrapper.StopPreview();
             cameraUiWrapper.StopCamera();
             cameraUiWrapper = null;
-            Log.d(TAG, "destroyed cameraWrapper");
+            Logger.d(TAG, "destroyed cameraWrapper");
         }
     }
 

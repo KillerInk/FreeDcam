@@ -4,6 +4,7 @@ import android.hardware.Camera;
 import android.os.Build;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
@@ -122,7 +123,7 @@ public class CCTManualParameter extends BaseManualParameter
                 createStringArray(min,max,100);
             }
         }
-        Log.d(TAG, "value:"+value + " max value:"+maxValue +" min value:" +min_value);
+        Logger.d(TAG, "value:" + value + " max value:" + maxValue + " min value:" + min_value);
     }
 
     private boolean arrayContainsString(String[] ar,String dif)

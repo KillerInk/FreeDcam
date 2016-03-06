@@ -2,6 +2,7 @@ package com.troop.freedcam.sonyapi.parameters.manual;
 
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.parameters.IntervalDurationParameter;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
@@ -73,7 +74,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                 {
                     try
                     {
-                        Log.d(TAG, "Trying to get String Values from: " + VALUES_TO_GET);
+                        Logger.d(TAG, "Trying to get String Values from: " + VALUES_TO_GET);
                         JSONObject object =  ParameterHandler.mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                         JSONArray array = object.getJSONArray("result");
                         JSONArray subarray = array.getJSONArray(0);
@@ -109,11 +110,11 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
 
                     } catch (IOException e) {
                         e.printStackTrace();
-                        Log.e(TAG, "Error Trying to get String Values from: " +VALUES_TO_GET);
+                        Logger.e(TAG, "Error Trying to get String Values from: " +VALUES_TO_GET);
                         stringvalues = new String[0];
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Log.e(TAG, "Error Trying to get String Values from: " + VALUES_TO_GET);
+                        Logger.e(TAG, "Error Trying to get String Values from: " + VALUES_TO_GET);
                         stringvalues = new String[0];
                     }
                 }

@@ -2,6 +2,7 @@ package com.troop.freedcam.sonyapi.parameters.manual;
 
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 
 import org.json.JSONArray;
@@ -32,17 +33,17 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                 //String val = valueToSet +"";
                 JSONArray array = null;
                 try {
-                    Log.d(TAG, "SetValue " + valueToSet);
+                    Logger.d(TAG, "SetValue " + valueToSet);
                     array = new JSONArray().put(0, Integer.parseInt(stringvalues[valueToSet]));
                     JSONObject object =  ParameterHandler.mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
 
                         //ThrowCurrentValueChanged(valueToSet);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.e(TAG, "Error SetValue " + valueToSet);
+                    Logger.e(TAG, "Error SetValue " + valueToSet);
                 } catch (IOException e)
                 {
-                    Log.e(TAG, "Error SetValue " + valueToSet);
+                    Logger.e(TAG, "Error SetValue " + valueToSet);
                     e.printStackTrace();
                 }
             }
@@ -59,7 +60,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                 public void run()
                 {
                     try {
-                        Log.d(TAG, "try get min max values ");
+                        Logger.d(TAG, "try get min max values ");
                         JSONObject object =  ParameterHandler.mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                         JSONArray array = object.getJSONArray("result");
                         int min = array.getInt(2);
@@ -68,13 +69,13 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                     } catch (IOException e)
                     {
 
-                        Log.e(TAG, "Error getMinMaxValues ");
+                        Logger.e(TAG, "Error getMinMaxValues ");
                         e.printStackTrace();
 
                     } catch (JSONException e)
                     {
 
-                        Log.e(TAG, "Error getMinMaxValues ");
+                        Logger.e(TAG, "Error getMinMaxValues ");
                         e.printStackTrace();
 
                     }
@@ -97,11 +98,11 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                         //onCurrentValueChanged(val);
                     } catch (IOException e) {
                         e.printStackTrace();
-                        Log.e(TAG, "Error GetValue() ");
+                        Logger.e(TAG, "Error GetValue() ");
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Log.e(TAG, "Error GetValue() ");
+                        Logger.e(TAG, "Error GetValue() ");
 
                     }
                 }
@@ -109,7 +110,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
             while (currentInt == -200)
                 try {
                     Thread.sleep(10);
-                    Log.d(TAG, "Wait for getValues");
+                    Logger.d(TAG, "Wait for getValues");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

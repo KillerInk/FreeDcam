@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.modules;
 import android.media.MediaRecorder;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
@@ -77,14 +78,14 @@ public abstract class AbstractVideoModule extends AbstractModule
     {
         try
         {
-            Log.d(TAG, "InitMediaRecorder");
+            Logger.d(TAG, "InitMediaRecorder");
             isWorking = true;
             baseCameraHolder.GetCamera().unlock();
             recorder =  initRecorder();
             recorder.setOnErrorListener(new MediaRecorder.OnErrorListener() {
                 @Override
                 public void onError(MediaRecorder mr, int what, int extra) {
-                    Log.e("MediaRecorder", "ErrorCode: " + what + " Extra: " + extra);
+                    Logger.e("MediaRecorder", "ErrorCode: " + what + " Extra: " + extra);
                 }
             });
 
@@ -104,16 +105,16 @@ public abstract class AbstractVideoModule extends AbstractModule
             // baseCameraHolder.StartPreview();
 
             try {
-                Log.d(TAG,"Preparing Recorder");
+                Logger.d(TAG,"Preparing Recorder");
                 recorder.prepare();
-                Log.d(TAG, "Recorder Prepared, Starting Recording");
+                Logger.d(TAG, "Recorder Prepared, Starting Recording");
                 recorder.start();
-                Log.d(TAG, "Recording started");
+                Logger.d(TAG, "Recording started");
                 eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_START);
 
             } catch (Exception e)
             {
-                Log.e(TAG,"Recording failed");
+                Logger.e(TAG,"Recording failed");
                 baseCameraHolder.errorHandler.OnError("Start Recording failed");
                 e.printStackTrace();
                 recorder.reset();
@@ -141,11 +142,11 @@ public abstract class AbstractVideoModule extends AbstractModule
     {
         try {
             recorder.stop();
-            Log.e(TAG, "Stop Recording");
+            Logger.e(TAG, "Stop Recording");
         }
         catch (Exception ex)
         {
-            Log.e(TAG, "Stop Recording failed, was called bevor start");
+            Logger.e(TAG, "Stop Recording failed, was called bevor start");
             baseCameraHolder.errorHandler.OnError("Stop Recording failed, was called bevor start");
             ex.printStackTrace();
         }

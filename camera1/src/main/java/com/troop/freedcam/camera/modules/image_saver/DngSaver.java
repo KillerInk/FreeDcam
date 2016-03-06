@@ -12,6 +12,7 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.troop.androiddng.RawToDng;
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.utils.DeviceUtils;
@@ -45,7 +46,7 @@ public class DngSaver extends JpegSaver
     @Override
     public void TakePicture()
     {
-        Log.d(TAG, "Start Take Picture");
+        Logger.d(TAG, "Start Take Picture");
         lastBayerFormat = cameraHolder.ParameterHandler.PictureFormat.GetValue();
         if (cameraHolder.ParameterHandler.ZSL != null && cameraHolder.ParameterHandler.ZSL.IsSupported() && cameraHolder.ParameterHandler.ZSL.GetValue().equals("on"))
         {
@@ -75,7 +76,7 @@ public class DngSaver extends JpegSaver
         if (awaitpicture == false)
             return;
         awaitpicture =false;
-        Log.d(TAG, "Take Picture Callback");
+        Logger.d(TAG, "Take Picture Callback");
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -98,7 +99,7 @@ public class DngSaver extends JpegSaver
                 cameraHolder.errorHandler.OnError("Data size is < 4kb");
                 return;
             }
-            Log.d(TAG, "Check if if rawStream");
+            Logger.d(TAG, "Check if if rawStream");
             final Metadata metadata = JpegMetadataReader.readMetadata(new BufferedInputStream(new ByteArrayInputStream(data)));
             final Directory exifsub = metadata.getDirectory(ExifSubIFDDirectory.class);
             int iso = exifsub.getInt(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT);
@@ -107,7 +108,7 @@ public class DngSaver extends JpegSaver
                 iWorkeDone.OnError("Error: Returned Stream is not a RawStream");
                 //dngJpegShot =false;
                 //dngcapture = false;
-                Log.d(TAG, "Error no RAw stream!!!!");
+                Logger.d(TAG, "Error no RAw stream!!!!");
                 return;
             }
         }
@@ -116,7 +117,7 @@ public class DngSaver extends JpegSaver
 
         }
 
-        Log.d(TAG, "Is raw stream");
+        Logger.d(TAG, "Is raw stream");
         int w = 0;
         int h = 0;
 
@@ -128,7 +129,7 @@ public class DngSaver extends JpegSaver
         long gpsTime = 0;
         if (cameraHolder.gpsLocation != null)
         {
-            Log.d(TAG, "Has GPS");
+            Logger.d(TAG, "Has GPS");
             Altitude = cameraHolder.gpsLocation.getAltitude();
             Latitude = cameraHolder.gpsLocation.getLatitude();
             Longitude = cameraHolder.gpsLocation.getLongitude();

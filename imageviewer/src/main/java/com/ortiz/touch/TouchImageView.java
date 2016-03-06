@@ -38,6 +38,8 @@ import android.widget.ImageView;
 import android.widget.OverScroller;
 import android.widget.Scroller;
 
+import com.troop.filelogger.Logger;
+
 public class TouchImageView extends ImageView {
 
     private static final String DEBUG = "DEBUG";
@@ -1282,6 +1284,6 @@ public class TouchImageView extends ImageView {
     private void printMatrixInfo() {
         float[] n = new float[9];
         matrix.getValues(n);
-        Log.d(DEBUG, "Scale: " + n[Matrix.MSCALE_X] + " TransX: " + n[Matrix.MTRANS_X] + " TransY: " + n[Matrix.MTRANS_Y]);
+        Logger.d(DEBUG, "Scale: " + n[Matrix.MSCALE_X] + " TransX: " + n[Matrix.MTRANS_X] + " TransY: " + n[Matrix.MTRANS_Y]);
     }
 }

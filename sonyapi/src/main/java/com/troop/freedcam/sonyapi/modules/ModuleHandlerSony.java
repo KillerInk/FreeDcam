@@ -2,6 +2,7 @@ package com.troop.freedcam.sonyapi.modules;
 
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -45,7 +46,7 @@ public class ModuleHandlerSony extends AbstractModuleHandler implements CameraHo
     @Override
     public void onShootModeChanged(String mode)
     {
-        Log.d(TAG, "ShotmodeChanged:" +mode);
+        Logger.d(TAG, "ShotmodeChanged:" + mode);
         if (currentModule !=null) {
             currentModule.SetWorkerListner(null);
         }

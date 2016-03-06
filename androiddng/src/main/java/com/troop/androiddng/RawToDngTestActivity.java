@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.utils.DeviceUtils;
 
 import java.io.File;
@@ -106,12 +107,12 @@ public class RawToDngTestActivity extends Activity {
 					DeviceUtils.Devices devices = getDevice(file.getName());
 					if (devices == null) {
 						//Toast.makeText(null, "Unkown RAWFILE: " + file.getName(), Toast.LENGTH_LONG).show();
-						Log.d("rawtodng", "Unkown RAWFILE: " + file.getName());
+						Logger.d("rawtodng", "Unkown RAWFILE: " + file.getName());
 					} else {
 						byte[] data = null;
 						try {
 							data = RawToDng.readFile(file);
-							Log.d("Main", "Filesize: " + data.length + " File:" +file.getAbsolutePath());
+							Logger.d("Main", "Filesize: " + data.length + " File:" +file.getAbsolutePath());
 
 						} catch (FileNotFoundException e) {
 							e.printStackTrace();

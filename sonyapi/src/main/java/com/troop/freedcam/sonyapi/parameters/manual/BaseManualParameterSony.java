@@ -2,6 +2,7 @@ package com.troop.freedcam.sonyapi.parameters.manual;
 
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.parameters.modes.I_SonyApi;
@@ -205,6 +206,6 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     protected void sendLog(String log)
     {
         if (logging)
-            Log.d(TAG,VALUE_TO_SET + ":"+log);
+            Logger.d(TAG, VALUE_TO_SET + ":" + log);
     }
 }

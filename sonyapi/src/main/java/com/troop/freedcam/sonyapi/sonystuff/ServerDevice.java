@@ -8,6 +8,8 @@ package com.troop.freedcam.sonyapi.sonystuff;
 
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -238,9 +240,9 @@ public final class ServerDevice {
         String ddXml = "";
         try {
             ddXml = SimpleHttpClient.httpGet(ddUrl);
-            Log.d(TAG, "fetch () httpGet done.");
+            Logger.d(TAG, "fetch () httpGet done.");
         } catch (IOException e) {
-            Log.e(TAG, "fetch: IOException.", e);
+            Logger.e(TAG, "fetch: IOException.");
             return null;
         }
 
@@ -283,7 +285,7 @@ public final class ServerDevice {
                 device.addApiService(serviceName, actionUrl);
             }
         }
-        Log.d(TAG, "fetch () parsing XML done.");
+        Logger.d(TAG, "fetch () parsing XML done.");
         return device;
     }
 

@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.parameters.modes;
 import android.os.Handler;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -31,7 +32,7 @@ public class VideoSizeParameter extends BaseModeParameter
 
         if (sizes == null || sizes.length == 0)
         {
-            Log.d(TAG, "Couldnt finde Video Size Values loading Preview Size Values");
+            Logger.d(TAG, "Couldnt finde Video Size Values loading Preview Size Values");
             try {
                 sizes = parameters.get("preview-size-values").split(",");
             }

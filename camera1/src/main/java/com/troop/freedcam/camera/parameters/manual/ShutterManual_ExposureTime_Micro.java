@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.parameters.manual;
 import android.os.Build;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
@@ -51,9 +52,9 @@ public class ShutterManual_ExposureTime_Micro extends BaseManualParameter
         if(!stringvalues[currentInt].equals("Auto"))
         {
             String shutterstring = StringUtils.FormatShutterStringToDouble(stringvalues[currentInt]);
-            Log.d(TAG, "StringUtils.FormatShutterStringToDouble:" + shutterstring);
+            Logger.d(TAG, "StringUtils.FormatShutterStringToDouble:" + shutterstring);
             shutterstring = StringUtils.getMicroSec(shutterstring);
-            Log.d(TAG, " StringUtils.getMicroSec"+ shutterstring);
+            Logger.d(TAG, " StringUtils.getMicroSec"+ shutterstring);
             parameters.put("exposure-time", shutterstring);
         }
         else

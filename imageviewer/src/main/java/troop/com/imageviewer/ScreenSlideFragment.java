@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.I_swipe;
 import com.troop.freedcam.ui.SwipeMenuListner;
@@ -93,7 +94,7 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
         if(savedInstanceState != null){
             FilePathToLoad = (String) savedInstanceState.get(SAVESTATE_FILEPATH);
             defitem = (int)savedInstanceState.get(SAVESTATE_ITEMINT);
-            Log.d(TAG, "have file to load from saveinstance onCreated" + FilePathToLoad);
+            Logger.d(TAG, "have file to load from saveinstance onCreated" + FilePathToLoad);
         }
         if (FilePathToLoad.equals("")) {
             FilePathToLoad = StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder;
@@ -103,7 +104,7 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
         {
             readFiles();
         }
-        Log.d(TAG, "onResume" + FilePathToLoad);
+        Logger.d(TAG, "onResume" + FilePathToLoad);
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),files);
         mPager.setAdapter(mPagerAdapter);
         if (files != null && files.length > 0 && defitem == -1) {
@@ -135,13 +136,13 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
         File folder = new File(FilePathToLoad);
         if(folder.listFiles() == null || folder.listFiles().length ==0)
         {
-            Log.d(TAG, "readFiles failed, folder.listFiles empty");
+            Logger.d(TAG, "readFiles failed, folder.listFiles empty");
             files = null;
             return;
         }
         FileUtils.readFilesFromFolder(folder, images, filestoshow);
         files = images.toArray(new FileHolder[images.size()]);
-        Log.d(TAG, "readFiles sucess, FilesCount" + files.length);
+        Logger.d(TAG, "readFiles sucess, FilesCount" + files.length);
         Arrays.sort(files, new Comparator<FileHolder>() {
             public int compare(FileHolder f1, FileHolder f2) {
                 return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
@@ -156,7 +157,7 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
 
     public void reloadFilesAndSetLastPos()
     {
-        Log.d(TAG, "reloadFilesAndSetLastPos");
+        Logger.d(TAG, "reloadFilesAndSetLastPos");
         readFiles();
         if (files == null)
             return;
@@ -177,20 +178,20 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),files);
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(0);
-        Log.d(TAG, "reloadFilesAndSetLast");
+        Logger.d(TAG, "reloadFilesAndSetLast");
     }
 
     @Override
     public void doLeftToRightSwipe()
     {
-        Log.d(TAG, "left to right");
+        Logger.d(TAG, "left to right");
         if (activity != null && mPager.getCurrentItem() == 0)
             activity.loadCameraUiFragment();
     }
 
     @Override
     public void doRightToLeftSwipe() {
-        Log.d(TAG, "right to left");
+        Logger.d(TAG, "right to left");
     }
 
     @Override
@@ -218,9 +219,9 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
 
             this.f = f;
             if (f != null)
-                Log.d(TAG, "loading screenslidePageAdapter: file count:" + f.length);
+                Logger.d(TAG, "loading screenslidePageAdapter: file count:" + f.length);
             else
-                Log.d(TAG, "loading screenslidePageAdapter: No Files found");
+                Logger.d(TAG, "loading screenslidePageAdapter: No Files found");
 
         }
 
@@ -259,7 +260,7 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
 
 /*    public static File[] loadFilePaths()
     {
-        Log.d(TAG, "Loading Files...");
+        Logger.d(TAG, "Loading Files...");
         File internalSDCIM = new File(StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder);
         List<File> folders = new ArrayList<>();
         List<File> images = new ArrayList<File>();
@@ -268,14 +269,14 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
             FileUtils.readSubFolderFromFolder(internalSDCIM, folders);
         }
         catch (Exception ex){}
-        Log.d(TAG, "Found internal " + folders.size() + "Folders");
+        Logger.d(TAG, "Found internal " + folders.size() + "Folders");
         //read external Folders
         File externalSDCIM = new File(StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder);
         try {
             FileUtils.readSubFolderFromFolder(externalSDCIM, folders);
         }
         catch (Exception ex){}
-        Log.d(TAG, "Found external " + folders.size() + "Folders");
+        Logger.d(TAG, "Found external " + folders.size() + "Folders");
         //Lookup files in folders
         try
         {
@@ -288,7 +289,7 @@ public class ScreenSlideFragment extends Fragment implements I_swipe
             }
         }
         catch (Exception ex){}
-        Log.d(TAG, "Found " + images.size() + "Images");
+        Logger.d(TAG, "Found " + images.size() + "Images");
         final File[] s = images.toArray(new File[images.size()]);
 
         Arrays.sort(s, new Comparator<File>() {

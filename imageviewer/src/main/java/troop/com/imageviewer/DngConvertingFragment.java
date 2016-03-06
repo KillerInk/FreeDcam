@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.troop.androiddng.DngSupportedDevices;
 import com.troop.androiddng.Matrixes;
 import com.troop.androiddng.RawToDng;
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.utils.DeviceUtils;
 
 import java.io.File;
@@ -222,7 +223,7 @@ public class DngConvertingFragment extends Fragment
         byte[] data = null;
         try {
             data = RawToDng.readFile(file);
-            Log.d("Main", "Filesize: " + data.length + " File:" + file.getAbsolutePath());
+            Logger.d("Main", "Filesize: " + data.length + " File:" + file.getAbsolutePath());
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

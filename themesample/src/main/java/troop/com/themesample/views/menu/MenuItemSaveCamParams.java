@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
@@ -62,7 +63,7 @@ public class MenuItemSaveCamParams extends MenuItem
             Toast.makeText(context, "Saved CameraParameters", Toast.LENGTH_LONG).show();
         }
         catch (Exception ex) {
-            Log.d("Freedcam",ex.getMessage());
+            Logger.d("Freedcam", ex.getMessage());
         }
     }
 
@@ -76,7 +77,7 @@ public class MenuItemSaveCamParams extends MenuItem
             Toast.makeText(context, "Saved CameraParameters", Toast.LENGTH_LONG).show();
         }
         catch (Exception ex) {
-            Log.d("Freedcam",ex.getMessage());
+            Logger.d("Freedcam",ex.getMessage());
         }
     }
 

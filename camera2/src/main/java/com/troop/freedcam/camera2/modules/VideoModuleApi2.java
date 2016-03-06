@@ -15,6 +15,7 @@ import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.camera2.parameters.modes.VideoProfilesApi2;
@@ -81,7 +82,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     @Override
     public void LoadNeededParameters()
     {
-        Log.d(TAG, "LoadNeededParameters");
+        Logger.d(TAG, "LoadNeededParameters");
         cameraHolder.ModulePreview = this;
         VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) ParameterHandler.VideoProfiles;
         currentVideoProfile = profilesApi2.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
@@ -92,7 +93,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     @Override
     public void UnloadNeededParameters()
     {
-        Log.d(TAG, "UnloadNeededParameters");
+        Logger.d(TAG, "UnloadNeededParameters");
         cameraHolder.CaptureSessionH.CloseCaptureSession();
         previewsurface = null;
     }
@@ -113,13 +114,13 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         /*int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
         int orientation = ORIENTATIONS.get(rotation);
         MediaRecorder.setOrientationHint(orientation);*/
-        Log.d(TAG, "startRecording");
+        Logger.d(TAG, "startRecording");
         startPreviewVideo();
     }
 
     private void stopRecording()
     {
-        Log.d(TAG, "stopRecording");
+        Logger.d(TAG, "stopRecording");
         mediaRecorder.stop();
         mediaRecorder.reset();
         baseCameraHolder.CaptureSessionH.RemoveSurface(recorderSurface);
@@ -165,7 +166,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         mediaRecorder.setOnErrorListener(new MediaRecorder.OnErrorListener() {
             @Override
             public void onError(MediaRecorder mr, int what, int extra) {
-                Log.d(TAG, "error MediaRecorder:" + what + "extra:" + extra);
+                Logger.d(TAG, "error MediaRecorder:" + what + "extra:" + extra);
             }
         });
 

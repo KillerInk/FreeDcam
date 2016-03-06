@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
@@ -80,7 +81,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     protected void sendLog(String log)
     {
         if (logging)
-            Log.d(TAG,log);
+            Logger.d(TAG, log);
     }
 
     public UiSettingsChild(Context context, AttributeSet attrs, int defStyleAttr) {

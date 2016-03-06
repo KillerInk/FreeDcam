@@ -2,6 +2,7 @@ package com.troop.freedcam.camera.parameters.manual;
 
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -29,9 +30,9 @@ public class ShutterManual_ExposureTime_FloatToSixty extends ShutterManual_Expos
         if(!stringvalues[currentInt].equals("Auto"))
         {
             String shutterstring = StringUtils.FormatShutterStringToDouble(stringvalues[currentInt]);
-            Log.d(TAG, "StringUtils.FormatShutterStringToDouble:"+ shutterstring);
+            Logger.d(TAG, "StringUtils.FormatShutterStringToDouble:" + shutterstring);
             shutterstring = StringUtils.FLOATtoSixty4(shutterstring);
-            Log.d(TAG, "StringUtils.FLOATtoSixty4:"+ shutterstring);
+            Logger.d(TAG, "StringUtils.FLOATtoSixty4:"+ shutterstring);
             parameters.put("exposure-time", shutterstring);
         }
         else

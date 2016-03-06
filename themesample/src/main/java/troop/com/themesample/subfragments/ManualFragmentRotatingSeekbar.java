@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
@@ -207,13 +208,13 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
                 if (vals == null || vals.length == 0) {
                     currentButton.SetActive(false);
                     seekbar.setVisibility(View.GONE);
-                    Log.e(TAG, "Values returned from currentButton are NULL!");
+                    Logger.e(TAG, "Values returned from currentButton are NULL!");
                     return;
                 }
                 seekbar.SetStringValues(vals);
                 seekbar.setProgress(currentButton.getCurrentItem(),false);
                 currentValuePos = currentButton.getCurrentItem();
-                Log.d(TAG, "CurrentvaluePos " + currentValuePos);
+                Logger.d(TAG, "CurrentvaluePos " + currentValuePos);
             }
 
         }
@@ -225,7 +226,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
     {
-        Log.d(TAG, "onProgressChanged:" + progress);
+        Logger.d(TAG, "onProgressChanged:" + progress);
         currentValuePos = progress;
         if (!(wrapper instanceof CameraUiWrapperSony)) {
             currentButton.setValueToParameters(progress);

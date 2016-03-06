@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.modules;
 
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
@@ -33,7 +34,7 @@ public class ModuleHandler extends AbstractModuleHandler
         //splitting modules make the code foreach device cleaner
         if (cameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)
         {
-            Log.d(TAG, "load mtk picmodule");
+            Logger.d(TAG, "load mtk picmodule");
             PictureModuleMTK thl5000 = new PictureModuleMTK(this.cameraHolder, appSettingsManager, moduleEventHandler, backgroundHandler);
             moduleList.put(thl5000.ModuleName(), thl5000);
             IntervalModule intervalModule = new IntervalModule(cameraHolder, appSettingsManager,moduleEventHandler,thl5000);
@@ -41,7 +42,7 @@ public class ModuleHandler extends AbstractModuleHandler
         }
         else//else //use default pictureModule
         {
-            Log.d(TAG, "load default picmodule");
+            Logger.d(TAG, "load default picmodule");
             PictureModule pictureModule = new PictureModule(this.cameraHolder, appSettingsManager, moduleEventHandler, backgroundHandler);
             moduleList.put(pictureModule.ModuleName(), pictureModule);
             IntervalModule intervalModule = new IntervalModule(cameraHolder, appSettingsManager,moduleEventHandler,pictureModule);
@@ -50,18 +51,18 @@ public class ModuleHandler extends AbstractModuleHandler
 
         if (cameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.LG)
         {
-            Log.d(TAG, "load lg videomodule");
+            Logger.d(TAG, "load lg videomodule");
             VideoModuleG3 videoModuleG3 = new VideoModuleG3(this.cameraHolder, appSettingsManager, moduleEventHandler);
             moduleList.put(videoModuleG3.ModuleName(), videoModuleG3);
         }
         else
         {
-            Log.d(TAG, "load default videomodule");
+            Logger.d(TAG, "load default videomodule");
             VideoModule videoModule = new VideoModule(this.cameraHolder, appSettingsManager, moduleEventHandler);
             moduleList.put(videoModule.ModuleName(), videoModule);
         }
 
-        /*Log.d(TAG, "load hdr module");
+        /*Logger.d(TAG, "load hdr module");
         moduleList.put(hdrModule.ModuleName(), hdrModule);*/
 
         //BurstModule burstModule = new BurstModule(this.cameraHolder, soundPlayer, appSettingsManager, moduleEventHandler);

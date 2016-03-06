@@ -5,6 +5,7 @@ import android.os.Environment;
 import android.telecom.VideoProfile;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
@@ -149,7 +150,7 @@ public class VideoModule extends AbstractVideoModule
 
         long l2 = (i + j >> 3) / 1000;
         // long l3 = Environment.getExternalStorageDirectory().getUsableSpace() / l2;
-        Log.d("VideoCamera Remaing", getTimeString(Environment.getExternalStorageDirectory().getUsableSpace() / l2)) ;
+        Logger.d("VideoCamera Remaing", getTimeString(Environment.getExternalStorageDirectory().getUsableSpace() / l2)) ;
 
     }
 

@@ -16,6 +16,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.troop.filelogger.Logger;
+
 import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -176,7 +178,7 @@ public class RenderScriptTestActivity extends Activity implements SurfaceHolder.
                     dowork = false;
                     camera.setPreviewCallback(null);
                     mYuvFrameQueue.clear();
-                    Log.d("ImageProcessor", " Releasenative");
+                    Logger.d("ImageProcessor", " Releasenative");
 
 
                 }

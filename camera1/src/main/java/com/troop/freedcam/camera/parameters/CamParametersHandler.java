@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.FocusHandler;
@@ -93,13 +94,13 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     private void logParameters(HashMap<String, String> parameters)
     {
-        Log.d(TAG, "Manufactur:" + Build.MANUFACTURER);
-        Log.d(TAG, "Model:" + Build.MODEL);
-        Log.d(TAG, "Product:" + Build.PRODUCT);
-        Log.d(TAG, "OS:"+ System.getProperty("os.version"));
+        Logger.d(TAG, "Manufactur:" + Build.MANUFACTURER);
+        Logger.d(TAG, "Model:" + Build.MODEL);
+        Logger.d(TAG, "Product:" + Build.PRODUCT);
+        Logger.d(TAG, "OS:"+ System.getProperty("os.version"));
         for(Map.Entry e : parameters.entrySet())
         {
-            Log.d(TAG, e.getKey() + "=" + e.getValue());
+            Logger.d(TAG, e.getKey() + "=" + e.getValue());
         }
     }
 

@@ -3,6 +3,7 @@ package com.troop.freedcam.i_camera;
 import android.graphics.Rect;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.interfaces.I_Focus;
 
 /**
@@ -21,11 +22,11 @@ public abstract class AbstractFocusHandler
 
     protected void logFocusRect(FocusRect rect)
     {
-        Log.d(TAG, "left:" + rect.left + "top:" + rect.top + "right:" + rect.right + "bottom:" + rect.bottom);
+        Logger.d(TAG, "left:" + rect.left + "top:" + rect.top + "right:" + rect.right + "bottom:" + rect.bottom);
     }
 
     protected void logRect(Rect rect)
     {
-        Log.d(TAG, "left:" + rect.left + "top:" + rect.top + "right:" + rect.right + "bottom:" + rect.bottom);
+        Logger.d(TAG, "left:" + rect.left + "top:" + rect.top + "right:" + rect.right + "bottom:" + rect.bottom);
     }
 }

@@ -4,6 +4,7 @@ import android.location.Location;
 import android.os.Build;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.utils.DeviceUtils;
 
 import java.io.File;
@@ -116,17 +117,17 @@ public class RawToDng
             g = 288.1221695283 * Math.pow(g, -0.0755148492);
             b = 255;
         }
-        Log.d(TAG, "ColorTemp=" + colortemp + " WBCT = r:" +r +" g:"+g +" b:"+b);
+        Logger.d(TAG, "ColorTemp=" + colortemp + " WBCT = r:" + r + " g:" + g + " b:" + b);
         float rf,gf,bf = 0;
 
         rf = (float)getRGBToDouble(checkminmax((int)r))/2;
         gf = (float)getRGBToDouble(checkminmax((int)g));
         bf = (float)getRGBToDouble(checkminmax((int)b))/2;
-        Log.d(TAG, "ColorTemp=" + colortemp + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
+        Logger.d(TAG, "ColorTemp=" + colortemp + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
             rf = rf / gf;
             bf = bf / gf;
             gf = 1;
-        Log.d(TAG, "ColorTemp=" + colortemp + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
+        Logger.d(TAG, "ColorTemp=" + colortemp + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
         return new float[]{rf, gf,bf};
     }
 
@@ -163,7 +164,7 @@ public class RawToDng
 
     public void SetGPSData(double Altitude,double Latitude,double Longitude, String Provider, long gpsTime)
     {
-        Log.d(TAG,"Latitude:" + Latitude + "Longitude:" +Longitude);
+        Logger.d(TAG,"Latitude:" + Latitude + "Longitude:" +Longitude);
         if (nativeHandler != null)
             SetGPSData(nativeHandler, Altitude, parseGpsvalue(Latitude), parseGpsvalue(Longitude), Provider, gpsTime);
     }

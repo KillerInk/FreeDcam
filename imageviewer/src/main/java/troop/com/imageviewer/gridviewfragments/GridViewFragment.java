@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.PopupMenu;
 
 import com.defcomk.jni.libraw.RawUtils;
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.utils.StringUtils;
 
 
@@ -230,7 +231,7 @@ public class GridViewFragment extends BaseGridViewFragment
                         {
                             cacheHelper.deleteFileFromDiskCache(f.getFile().getName());
                             boolean d = f.getFile().delete();
-                            Log.d(TAG,"File delted:" + f.getFile().getName() + " :" + d);
+                            Logger.d(TAG, "File delted:" + f.getFile().getName() + " :" + d);
                         }
                     }
                     loadFiles(new File(savedInstanceFilePath));
@@ -324,7 +325,7 @@ public class GridViewFragment extends BaseGridViewFragment
             }
         }
         catch (Exception ex) {
-            Log.d(TAG, "No external SD!");
+            Logger.d(TAG, "No external SD!");
         }
         files = new FileHolder[list.size()];
         list.toArray(files);
@@ -468,7 +469,7 @@ public class GridViewFragment extends BaseGridViewFragment
             //Set FileHolder to current imageview
             if (position > 0)
                 imageView.SetEventListner(files[position]);
-            Log.d(TAG, "pos:" + position + " imageviewState: " + files[position].GetCurrentViewState() + " /GridState:" + currentViewState + " filename:" + files[position].getFile().getName() +
+            Logger.d(TAG, "pos:" + position + " imageviewState: " + files[position].GetCurrentViewState() + " /GridState:" + currentViewState + " filename:" + files[position].getFile().getName() +
                     " ischecked:" + files[position].IsSelected());
             loadBitmap(files[position].getFile(), imageView); // Load image into ImageView
             return imageView;
@@ -586,12 +587,12 @@ public class GridViewFragment extends BaseGridViewFragment
         Bitmap response = cacheHelper.getBitmapFromMemCache(file.getName());
         if (response == null)
         {
-            //Log.d(TAG,"No image in memory try from disk");
+            //Logger.d(TAG,"No image in memory try from disk");
             response = cacheHelper.getBitmapFromDiskCache(file.getName());
         }
         if (response == null)
         {
-            //Log.d(TAG,"No image in thumbcache try from disk");
+            //Logger.d(TAG,"No image in thumbcache try from disk");
             if (file.getAbsolutePath().endsWith(".jpg") || file.getAbsolutePath().endsWith(".jps")) {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 8;

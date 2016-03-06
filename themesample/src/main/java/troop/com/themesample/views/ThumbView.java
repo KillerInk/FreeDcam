@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.I_WorkEvent;
 import com.troop.freedcam.ui.I_Activity;
@@ -87,7 +88,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
             public void run() {
                 if (!hasWork) {
                     hasWork = true;
-                    Log.d(TAG, "Load Thumb " + filePath.getName());
+                    Logger.d(TAG, "Load Thumb " + filePath.getName());
                     try {
                         showThumb(filePath);
                     }

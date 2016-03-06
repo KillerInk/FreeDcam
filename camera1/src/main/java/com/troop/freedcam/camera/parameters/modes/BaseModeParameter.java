@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.parameters.modes;
 import android.os.Handler;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
@@ -69,7 +70,7 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
         if (valueToSet == null)
             return;
         parameters.put(value, valueToSet);
-        Log.d(TAG, "set " + value + " to " + valueToSet);
+        Logger.d(TAG, "set " + value + " to " + valueToSet);
         BackgroundValueHasChanged(valueToSet);
         if (setToCam) {
             try {

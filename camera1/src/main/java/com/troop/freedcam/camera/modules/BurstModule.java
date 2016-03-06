@@ -6,6 +6,7 @@ import android.graphics.YuvImage;
 import android.os.Environment;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.modes.PreviewSizeParameter;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
@@ -111,7 +112,7 @@ public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCa
     private void saveYuvImage(byte[]bytes)
     {
         File file = createFileName();
-        Log.d(TAG, "Saving file: " + file.getAbsolutePath());
+        Logger.d(TAG, "Saving file: " + file.getAbsolutePath());
         if (true/*baseCameraHolder.ParameterHandler.PreviewFormat.GetFormat() == ImageFormat.NV21*/)
         {
             PreviewSizeParameter previewSizeParameter = (PreviewSizeParameter)baseCameraHolder.ParameterHandler.PreviewSize;

@@ -3,6 +3,7 @@ package com.troop.freedcam.i_camera.modules;
 import android.os.Handler;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.util.Date;
@@ -35,7 +36,7 @@ public class IntervalHandler
 
     public void StartInterval()
     {
-        Log.d(TAG, "Start Interval");
+        Logger.d(TAG, "Start Interval");
         this.working = true;
         this.startTime = new Date().getTime();
         String interval = picmodule.ParameterHandler.IntervalShutterSleep.GetValue().replace(" sec", "");
@@ -48,7 +49,7 @@ public class IntervalHandler
 
     public void CancelInterval()
     {
-        Log.d(TAG,"Cancel Interval");
+        Logger.d(TAG, "Cancel Interval");
         handler.removeCallbacks(intervalDelayRunner);
         handler.removeCallbacks(shutterDelayRunner);
         shuttercounter = 0;
@@ -76,13 +77,13 @@ public class IntervalHandler
         double min = (double)(dif /1000) / 60;
         if (min >= IntervalHandler.this.intervalToEndDuration)
         {
-            Log.d(TAG, "Finished Interval");
+            Logger.d(TAG, "Finished Interval");
             picmodule.baseCameraHolder.ParameterHandler.IntervalCaptureFocusSet = false;
             picmodule.baseCameraHolder.ParameterHandler.IntervalCapture = false;
             working = false;
             return;
         }
-        Log.d(TAG, "Start StartNext Interval in" + IntervalHandler.this.intervalDuration + " " + min + " " + IntervalHandler.this.intervalToEndDuration);
+        Logger.d(TAG, "Start StartNext Interval in" + IntervalHandler.this.intervalDuration + " " + min + " " + IntervalHandler.this.intervalToEndDuration);
         intervalDelayCounter = 0;
         handler.post(intervalDelayRunner);
     }
@@ -122,7 +123,7 @@ public class IntervalHandler
     int shutterWaitCounter =0;
     private void startShutterDelay()
     {
-        Log.d(TAG, "Start ShutterDelay in " + IntervalHandler.this.shutterDelay);
+        Logger.d(TAG, "Start ShutterDelay in " + IntervalHandler.this.shutterDelay);
         if (shutterWaitCounter <  IntervalHandler.this.shutterDelay / 1000)
         {
             handler.postDelayed(shutterDelayRunner, 1000);
@@ -150,7 +151,7 @@ public class IntervalHandler
         }
         catch (Exception ex)
         {
-            Log.d("Freedcam",ex.getMessage());
+            Logger.d("Freedcam",ex.getMessage());
         }
     }
 

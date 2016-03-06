@@ -11,6 +11,7 @@ import android.view.SurfaceHolder;
 import android.view.TextureView;
 
 import com.lge.hardware.LGCamera;
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.FocusRect;
@@ -80,53 +81,53 @@ public class BaseCameraHolder extends AbstractCameraHolder
     {
         try {
             Class c = Class.forName("com.lge.hardware.LGCamera");
-            Log.d(TAG, "Has Lg Framework");
+            Logger.d(TAG, "Has Lg Framework");
             DeviceFrameWork = Frameworks.LG;
 
         } catch (ExceptionInInitializerError e) {
 
             DeviceFrameWork = Frameworks.Normal;
-            Log.d(TAG, "No LG Framework");
+            Logger.d(TAG, "No LG Framework");
         }
         catch (UnsatisfiedLinkError er)
         {
             DeviceFrameWork = Frameworks.Normal;
-            Log.d(TAG, "No LG Framework");
+            Logger.d(TAG, "No LG Framework");
         }
         catch (ClassNotFoundException e)
         {
             DeviceFrameWork = Frameworks.Normal;
-            Log.d(TAG, "No LG Framework");
+            Logger.d(TAG, "No LG Framework");
         }
         catch (Exception e) {
 
             DeviceFrameWork = Frameworks.Normal;
-            Log.d(TAG, "No LG Framework");
+            Logger.d(TAG, "No LG Framework");
         }
         try {
             Class c = Class.forName("com.lge.media.CamcorderProfileEx");
-            Log.d(TAG, "Has Lg Framework");
+            Logger.d(TAG, "Has Lg Framework");
             DeviceFrameWork = Frameworks.LG;
 
         } catch (ExceptionInInitializerError e) {
 
             DeviceFrameWork = Frameworks.Normal;
-            Log.d(TAG, "No LG Framework");
+            Logger.d(TAG, "No LG Framework");
         }
         catch (UnsatisfiedLinkError er)
         {
             DeviceFrameWork = Frameworks.Normal;
-            Log.d(TAG, "No LG Framework");
+            Logger.d(TAG, "No LG Framework");
         }
         catch (ClassNotFoundException e)
         {
             DeviceFrameWork = Frameworks.Normal;
-            Log.d(TAG, "No LG Framework");
+            Logger.d(TAG, "No LG Framework");
         }
         catch (Exception e) {
 
             DeviceFrameWork = Frameworks.Normal;
-            Log.d(TAG, "No LG Framework");
+            Logger.d(TAG, "No LG Framework");
         }
 
     }
@@ -147,23 +148,23 @@ public class BaseCameraHolder extends AbstractCameraHolder
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             DeviceFrameWork = Frameworks.Normal;
-            Log.d(TAG, "MTK Framework found");
+            Logger.d(TAG, "MTK Framework found");
         }
         catch (NullPointerException ex)
         {
             ex.printStackTrace();
             DeviceFrameWork = Frameworks.Normal;
-            Log.d(TAG, "No MTK");
+            Logger.d(TAG, "No MTK");
         }
         catch (UnsatisfiedLinkError er)
         {
             DeviceFrameWork = Frameworks.Normal;
-            Log.d(TAG, "No MTK");
+            Logger.d(TAG, "No MTK");
         }
         catch (ExceptionInInitializerError e) {
 
             DeviceFrameWork = Frameworks.Normal;
-            Log.d(TAG, "No MTK");
+            Logger.d(TAG, "No MTK");
         }
 
     }
@@ -219,7 +220,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     {
         if (currentState == CameraStates.closed)
             return;
-        Log.d(TAG, "Try to close Camera");
+        Logger.d(TAG, "Try to close Camera");
         if (mCamera != null)
         {
             try
@@ -229,12 +230,12 @@ public class BaseCameraHolder extends AbstractCameraHolder
             catch (Exception ex)
             {
                 ex.printStackTrace();
-                Log.e(TAG, "Error on Camera close");
+                Logger.e(TAG, "Error on Camera close");
             }
             finally {
                 mCamera = null;
                 isRdy = false;
-                Log.d(TAG, "Camera closed");
+                Logger.d(TAG, "Camera closed");
             }
         }
         isRdy = false;
@@ -263,12 +264,12 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 ret += s.getKey() + "=" + s.getValue() + ";";
             }
             if (DeviceFrameWork == Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/) {
-                Log.d(TAG, "Set lg Parameters");
+                Logger.d(TAG, "Set lg Parameters");
                 Camera.Parameters p = lgParameters.getParameters();
                 p.unflatten(ret);
                 lgParameters.setParameters(p);
             } else {
-                Log.d(TAG, "Set Parameters");
+                Logger.d(TAG, "Set Parameters");
                 Camera.Parameters p = mCamera.getParameters();
                 p.unflatten(ret);
                 mCamera.setParameters(p);
@@ -276,7 +277,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
            // Thread.sleep(300);
         }
         catch (Exception ex) {
-           // Log.d("Freedcam", ex.getMessage());
+           // Logger.d("Freedcam", ex.getMessage());
         }
 
 
@@ -340,11 +341,11 @@ public class BaseCameraHolder extends AbstractCameraHolder
                     initMTKSHit();
                 mCamera.startPreview();
                 isPreviewRunning = true;
-                Log.d(TAG, "PreviewStarted");
+                Logger.d(TAG, "PreviewStarted");
                 cameraChangedListner.onPreviewOpen("");
 
             } catch (Exception ex) {
-                Log.d("Freedcam", ex.getMessage());
+                Logger.d("Freedcam", ex.getMessage());
             }
 
 
@@ -380,14 +381,14 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 mCamera.stopPreview();
 
             isPreviewRunning = false;
-            Log.d(TAG, "Preview Stopped");
+            Logger.d(TAG, "Preview Stopped");
             cameraChangedListner.onPreviewClose("");
 
         } catch (Exception ex)
         {
             cameraChangedListner.onPreviewClose("");
             isPreviewRunning = false;
-            Log.d(TAG, "Camera was released");
+            Logger.d(TAG, "Camera was released");
             ex.printStackTrace();
         }
     }
@@ -657,11 +658,11 @@ public class BaseCameraHolder extends AbstractCameraHolder
                     p.setMeteringAreas(meteringList);
 
                 try {
-                    Log.d(TAG, "try Set Metering");
+                    Logger.d(TAG, "try Set Metering");
                     mCamera.setParameters(p);
-                    Log.d(TAG, "Setted Metering");
+                    Logger.d(TAG, "Setted Metering");
                 } catch (Exception ex) {
-                    Log.d(TAG, "Set Metering FAILED!");
+                    Logger.d(TAG, "Set Metering FAILED!");
                 }
 
         }

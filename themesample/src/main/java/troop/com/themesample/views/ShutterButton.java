@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
@@ -96,13 +97,13 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
             cameraUiWrapper.camParametersHandler.ContShootMode.addEventListner(contshotListner);
 
         ModuleChanged("");
-        Log.d(TAG,"Set wrapper to ShutterButton");
+        Logger.d(TAG, "Set wrapper to ShutterButton");
     }
 
     private void switchBackground(Showstate showstate, boolean animate)
     {
         currentShow = showstate;
-        Log.d(TAG, "switchBackground:" + currentShow);
+        Logger.d(TAG, "switchBackground:" + currentShow);
         switch (showstate)
         {
             case video_recording_stopped:
@@ -154,7 +155,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     @Override
     public String ModuleChanged(String module) {
 
-        Log.d(TAG, "Module Changed");
+        Logger.d(TAG, "Module Changed");
         if (cameraUiWrapper.camParametersHandler.ContShootMode != null && cameraUiWrapper.camParametersHandler.ContShootMode.IsSupported())
         {
             contshotListner.onValueChanged(cameraUiWrapper.camParametersHandler.ContShootMode.GetValue());
@@ -186,7 +187,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     @Override
     public void onWorkStarted()
     {
-        Log.d(TAG, "onWorkStarted CurrentShow:" + currentShow);
+        Logger.d(TAG, "onWorkStarted CurrentShow:" + currentShow);
         switch (currentShow)
         {
             case video_recording_stopped:
@@ -209,8 +210,8 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     @Override
     public void onWorkFinished(boolean finished)
     {
-        Log.d(TAG, "workstarted " + workerCounter + " worfinshed " + finishcounter++);
-        Log.d(TAG, "onWorkFinished CurrentShow:" + currentShow);
+        Logger.d(TAG, "workstarted " + workerCounter + " worfinshed " + finishcounter++);
+        Logger.d(TAG, "onWorkFinished CurrentShow:" + currentShow);
         this.post(new Runnable() {
             @Override
             public void run() {
@@ -256,7 +257,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         public void onValueChanged(String val)
         {
             //Single","Continuous","Spd Priority Cont.
-            Log.d(TAG, "contshot:" + val);
+            Logger.d(TAG, "contshot:" + val);
             if (cameraUiWrapper.camParametersHandler.ContShootMode.GetValue().contains("Single")) {
                 switchBackground(Showstate.image_capture_started, false);
                 contshot = false;

@@ -7,6 +7,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
@@ -43,8 +44,8 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
     private void findMinMaxValue()
     {
 
-        Log.d(TAG, "max exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper());
-        Log.d(TAG, "min exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower());
+        Logger.d(TAG, "max exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper());
+        Logger.d(TAG, "min exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower());
         //866 975 130 = 0,8sec
         if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4) && Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1)
             millimax = 60000000;
@@ -95,9 +96,9 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
         currentInt = valueToSet;
         if (valueToSet > 0) {
             long val = (long) (StringUtils.getMilliSecondStringFromShutterString(stringvalues[valueToSet]) * 1000f);
-            Log.d(TAG, "ExposureTimeToSet:" + val);
+            Logger.d(TAG, "ExposureTimeToSet:" + val);
             if (val > 800000000) {
-                Log.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
+                Logger.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
                 val = 800000000;
             }
             //check if calced value is not bigger then max returned from cam

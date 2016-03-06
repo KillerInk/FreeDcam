@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.TextureView;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.ui.I_AspectRatio;
 
 /**
@@ -35,7 +36,7 @@ public class TextureViewRatio extends TextureView implements I_AspectRatio
         }
         mRatioWidth = width;
         mRatioHeight = height;
-        Log.d(TAG, "new size: " + width + "x" + height);
+        Logger.d(TAG, "new size: " + width + "x" + height);
         requestLayout();
     }
 

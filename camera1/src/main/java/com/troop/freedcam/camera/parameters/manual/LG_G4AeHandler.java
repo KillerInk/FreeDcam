@@ -2,6 +2,7 @@ package com.troop.freedcam.camera.parameters.manual;
 
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 
@@ -49,7 +50,7 @@ public class LG_G4AeHandler
         {
             if (automode)
             {
-                Log.d(TAG, "AutomodeActive");
+                Logger.d(TAG, "AutomodeActive");
                 auto = automode;
 
 
@@ -73,7 +74,7 @@ public class LG_G4AeHandler
             {
                 if (auto)
                 {
-                    Log.d(TAG, "Automode Deactivated, set last values");
+                    Logger.d(TAG, "Automode Deactivated, set last values");
                     auto = false;
                     switch (fromManual) {
                         case shutter:
@@ -87,7 +88,7 @@ public class LG_G4AeHandler
                 }
                 else
                 {
-                    Log.d(TAG, "Automode Deactivated, set UserValues");
+                    Logger.d(TAG, "Automode Deactivated, set UserValues");
                     switch (fromManual) {
                         case shutter:
                             shutterPrameter.setValue(value);

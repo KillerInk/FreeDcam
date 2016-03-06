@@ -174,7 +174,7 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
                     pitch = orientation[2];
                     rolldegree = roll * rad2deg;
                     pitchdegree = pitch * rad2deg;
-                   // Log.d("Sometag", String.valueOf(pitchdegree));
+                   // Logger.d("Sometag", String.valueOf(pitchdegree));
                 }
                 handler.post(new Runnable() {
                     @Override

@@ -25,16 +25,29 @@ public class Logger
 
     public static void d(String TAG,String msg)
     {
-        Log.d(TAG,msg);
+        Logger.d(TAG,msg);
         if (fileLogger != null)
             fileLogger.WriteLogDebug(TAG,msg);
     }
 
     public static void e(String TAG,String msg)
     {
-        Log.e(TAG, msg);
+        Logger.e(TAG, msg);
         if (fileLogger != null)
-            fileLogger.WriteLogErrorDebug(TAG,msg);
+            fileLogger.WriteLogErrorDebug(TAG, msg);
+    }
+
+    public static void w(String TAG,String msg)
+    {
+        Logger.w(TAG, msg);
+        if (fileLogger != null)
+            fileLogger.WriteLogDebug(TAG, msg);
+    }
+    public static void v(String TAG,String msg)
+    {
+        Logger.v(TAG, msg);
+        if (fileLogger != null)
+            fileLogger.WriteLogDebug(TAG, msg);
     }
 
     public static void StartLogging()

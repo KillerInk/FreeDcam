@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -158,7 +159,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
             @Override
             public void run() {
                 final String txt = headerTextView.getText().toString();
-                Log.d(txt, "isSupported:" + value);
+                Logger.d(txt, "isSupported:" + value);
                 if (value) {
                     ManualButton.this.setVisibility(VISIBLE);
                     ManualButton.this.animate().setListener(null).scaleX(1f).setDuration(300);
@@ -216,7 +217,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
 
         this.pos = current;
 
-        Log.d(TAG, "onCurrentValueChanged current:"+current +" pos:" +pos);
+        Logger.d(TAG, "onCurrentValueChanged current:"+current +" pos:" +pos);
         setTextValue(current);
     }
 
@@ -245,7 +246,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
                     valueTextView.setText(txt);
                 else
                     valueTextView.setText(current+"");
-                Log.d(TAG, "setTextValue:" + valueTextView.getText());
+                Logger.d(TAG, "setTextValue:" + valueTextView.getText());
             }
         });
 
@@ -283,7 +284,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     {
         if (valueQueue.size() == 3)
             valueQueue.remove();
-        Log.d(TAG, "add to queue:" + value);
+        Logger.d(TAG, "add to queue:" + value);
         valueQueue.add(value);
 
         handler.post(new Runnable() {

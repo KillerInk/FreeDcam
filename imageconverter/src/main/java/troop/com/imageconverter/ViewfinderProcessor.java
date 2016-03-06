@@ -28,6 +28,9 @@ import android.renderscript.ScriptIntrinsicYuvToRGB;
 import android.renderscript.Type;
 import android.util.Log;
 import android.view.Surface;
+
+import com.troop.filelogger.Logger;
+
 /**
  * Renderscript-based Focus peaking viewfinder
  */
@@ -51,7 +54,7 @@ public class ViewfinderProcessor
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public ViewfinderProcessor(RenderScript rs)
     {
-        Log.d(TAG,"Ctor");
+        Logger.d(TAG, "Ctor");
         this.rs = rs;
         mProcessingThread = new HandlerThread("ViewfinderProcessor");
         mProcessingThread.start();
@@ -67,7 +70,7 @@ public class ViewfinderProcessor
 
     public void Reset(int width,int height)
     {
-        Log.d(TAG,"Reset:"+width +"x"+height);
+        Logger.d(TAG,"Reset:"+width +"x"+height);
         Type.Builder yuvTypeBuilder = new Type.Builder(rs, Element.YUV(rs));
         yuvTypeBuilder.setX(width);
         yuvTypeBuilder.setY(height);
@@ -100,7 +103,7 @@ public class ViewfinderProcessor
     public void setOutputSurface(Surface output)
     {
         mOutputAllocation.setSurface(output);
-        Log.d(TAG,"setOutputSurface");
+        Logger.d(TAG,"setOutputSurface");
     }
 
     public void kill()
@@ -124,7 +127,7 @@ public class ViewfinderProcessor
             mOutputAllocation.setSurface(null);
             //mOutputAllocation = null;
         }
-        Log.d(TAG,"kill()");
+        Logger.d(TAG,"kill()");
 
     }
 

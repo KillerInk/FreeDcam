@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.utils.StringUtils;
@@ -50,7 +51,7 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements Interfaces.I
             }
             catch (Exception ex)
             {
-                Log.d("Freedcam", ex.getMessage());
+                Logger.d("Freedcam", ex.getMessage());
             }
         }
         else

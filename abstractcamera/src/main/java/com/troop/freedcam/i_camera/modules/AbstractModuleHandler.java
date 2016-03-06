@@ -2,6 +2,7 @@ package com.troop.freedcam.i_camera.modules;
 
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_ModuleHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -113,7 +114,7 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
         currentModule.LoadNeededParameters();
         moduleEventHandler.ModuleHasChanged(currentModule.ModuleName());
         currentModule.SetWorkerListner(workerListner);
-        Log.d(TAG, "Set Module to " + name);
+        Logger.d(TAG, "Set Module to " + name);
     }
 
     @Override

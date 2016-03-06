@@ -6,6 +6,8 @@ package com.troop.freedcam.sonyapi.sonystuff;
 
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,7 +62,7 @@ public class SimpleLiveviewSlicer {
                 mInputStream = null;
             }
         } catch (IOException e) {
-            Log.w(TAG, "Close() IOException.");
+            Logger.d(TAG, "Close() IOException.");
         }
 
         if (mHttpConn != null) {

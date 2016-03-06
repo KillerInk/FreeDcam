@@ -20,4 +20,5 @@ android {
 }
 
 dependencies {
+    provided project(':filelogger')
 }

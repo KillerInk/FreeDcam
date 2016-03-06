@@ -64,4 +64,5 @@ dependencies {
     provided project(':camera1')
     provided project(':androiddng')
     provided 'com.android.support:support-v4:23.2.0'
+    provided project(':filelogger')
 }

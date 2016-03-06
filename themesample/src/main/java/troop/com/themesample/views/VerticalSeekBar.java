@@ -85,7 +85,7 @@ public class VerticalSeekBar extends SeekBar
                     lastcurrent = i;
                 }
 
-                //Log.i("Progress", getProgress() + "");
+                //Logger.i("Progress", getProgress() + "");
                 onSizeChanged(getWidth(), getHeight(), 0, 0);
                 break;
             case MotionEvent.ACTION_UP:

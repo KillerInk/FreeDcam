@@ -38,6 +38,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.WindowManager;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera2.modules.I_PreviewWrapper;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
@@ -120,7 +121,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     public boolean OpenCamera(int camera)
     {
         //startBackgroundThread();
-        Log.d(TAG,"Open Camera");
+        Logger.d(TAG, "Open Camera");
         CurrentCamera = camera;
         String cam = camera +"";
         if (Build.VERSION.SDK_INT >= 23) {
@@ -158,27 +159,27 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     private void printCharacteristics()
     {
         BlackLevelPattern pattern = characteristics.get(CameraCharacteristics.SENSOR_BLACK_LEVEL_PATTERN);
-        Log.d(TAG, "Blacklevel:" + pattern.toString());
-        Log.d(TAG, "Whitelevel:" + characteristics.get(CameraCharacteristics.SENSOR_INFO_WHITE_LEVEL).toString());
-        Log.d(TAG, "SensorCalibration1:" + characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM1).toString());
-        Log.d(TAG, "SensorCalibration2:" + characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM2).toString());
-        Log.d(TAG, "SensorColorMatrix1:" + characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1).toString());
-        Log.d(TAG, "SensorColorMatrix2:" + characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2).toString());
-        Log.d(TAG, "ForwardMatrix1:" + characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX1).toString());
-        Log.d(TAG, "ForwardMatrix2:" + characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX2).toString());
-        Log.d(TAG, "ExposureTImeMax:" + characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper().toString());
-        Log.d(TAG, "ExposureTImeMin:" + characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower().toString());
-        Log.d(TAG, "FrameDuration:" + characteristics.get(CameraCharacteristics.SENSOR_INFO_MAX_FRAME_DURATION).toString());
-        Log.d(TAG, "SensorIsoMax:" + characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper().toString());
-        Log.d(TAG, "SensorIsoMin:" + characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getLower().toString());
-        Log.d(TAG, "SensorAnalogIsoMax:" + characteristics.get(CameraCharacteristics.SENSOR_MAX_ANALOG_SENSITIVITY).toString());
+        Logger.d(TAG, "Blacklevel:" + pattern.toString());
+        Logger.d(TAG, "Whitelevel:" + characteristics.get(CameraCharacteristics.SENSOR_INFO_WHITE_LEVEL).toString());
+        Logger.d(TAG, "SensorCalibration1:" + characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM1).toString());
+        Logger.d(TAG, "SensorCalibration2:" + characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM2).toString());
+        Logger.d(TAG, "SensorColorMatrix1:" + characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1).toString());
+        Logger.d(TAG, "SensorColorMatrix2:" + characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2).toString());
+        Logger.d(TAG, "ForwardMatrix1:" + characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX1).toString());
+        Logger.d(TAG, "ForwardMatrix2:" + characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX2).toString());
+        Logger.d(TAG, "ExposureTImeMax:" + characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper().toString());
+        Logger.d(TAG, "ExposureTImeMin:" + characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower().toString());
+        Logger.d(TAG, "FrameDuration:" + characteristics.get(CameraCharacteristics.SENSOR_INFO_MAX_FRAME_DURATION).toString());
+        Logger.d(TAG, "SensorIsoMax:" + characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper().toString());
+        Logger.d(TAG, "SensorIsoMin:" + characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getLower().toString());
+        Logger.d(TAG, "SensorAnalogIsoMax:" + characteristics.get(CameraCharacteristics.SENSOR_MAX_ANALOG_SENSITIVITY).toString());
     }
 
     @Override
     public void CloseCamera()
     {
         try {
-            Log.d(TAG,"Close Camera");
+            Logger.d(TAG,"Close Camera");
             mCameraOpenCloseLock.acquire();
             mProcessor.kill();
             try
@@ -341,7 +342,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             mCameraOpenCloseLock.release();
             mCameraDevice = cameraDevice;
 
-            Log.d(TAG, "Camera open");
+            Logger.d(TAG, "Camera open");
             if (UIHandler != null)
                 UIHandler.post(new Runnable() {
                 @Override
@@ -361,7 +362,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         @Override
         public void onDisconnected(CameraDevice cameraDevice)
         {
-            Log.d(TAG,"Camera Disconnected");
+            Logger.d(TAG,"Camera Disconnected");
             mCameraOpenCloseLock.release();
             cameraDevice.close();
             mCameraDevice = null;
@@ -370,7 +371,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         @Override
         public void onError(CameraDevice cameraDevice, final int error)
         {
-            Log.d(TAG, "Camera Error" + error);
+            Logger.d(TAG, "Camera Error" + error);
             mCameraOpenCloseLock.release();
             /*cameraDevice.close();
             mCameraDevice = null;*/
@@ -509,7 +510,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         if (sizes.size() > 0) {
             return Collections.max(sizes, new CompareSizesByArea());
         } else {
-            Log.e(TAG, "Couldn't find any suitable previewSize size");
+            Logger.e(TAG, "Couldn't find any suitable previewSize size");
             return choices[0];
         }
     }
@@ -587,7 +588,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
         public void AddSurface(Surface surface, boolean addtoPreviewRequestBuilder)
         {
-            Log.d(this.TAG, "AddSurface");
+            Logger.d(this.TAG, "AddSurface");
             surfaces.add(surface);
             if (addtoPreviewRequestBuilder)
                 mPreviewRequestBuilder.addTarget(surface);
@@ -595,7 +596,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
         public void RemoveSurface(Surface surface)
         {
-            Log.d(this.TAG, "RemoveSurface");
+            Logger.d(this.TAG, "RemoveSurface");
             if (surfaces.contains(surface))
                 surfaces.remove(surface);
             mPreviewRequestBuilder.removeTarget(surface);
@@ -603,7 +604,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
         public void Clear()
         {
-            Log.d(this.TAG, "Clear");
+            Logger.d(this.TAG, "Clear");
             if (mPreviewRequestBuilder != null)
                 for (Surface s: surfaces)
                     mPreviewRequestBuilder.removeTarget(s);
@@ -612,7 +613,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
         public void CreateCaptureSession()
         {
-            Log.d(this.TAG, "CreateCaptureSession: Surfaces Count:" + surfaces.size());
+            Logger.d(this.TAG, "CreateCaptureSession: Surfaces Count:" + surfaces.size());
             try {
                 mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, null);
             } catch (CameraAccessException e) {
@@ -622,7 +623,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
         public void CreateCaptureSession(CameraCaptureSession.StateCallback customCallback)
         {
-            Log.d(this.TAG, "CreateCaptureSessionWITHCustomCallback: Surfaces Count:" + surfaces.size());
+            Logger.d(this.TAG, "CreateCaptureSessionWITHCustomCallback: Surfaces Count:" + surfaces.size());
             try {
                 mCameraDevice.createCaptureSession(surfaces, customCallback, null);
             } catch (CameraAccessException e) {
@@ -655,13 +656,13 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         {
             Matrix matrix = new Matrix();
             RectF viewRect = new RectF(0, 0, displaySize.x, displaySize.y);
-            Log.d(TAG,"DisplaySize:" + displaySize.x +"x"+ displaySize.y);
+            Logger.d(TAG,"DisplaySize:" + displaySize.x +"x"+ displaySize.y);
             RectF bufferRect;
             if (video)
                 bufferRect = new RectF(0, 0, h, w);
             else
                 bufferRect = new RectF(0, 0, w, h);
-            Log.d(TAG, "PreviewSize:" + w +"x"+ h);
+            Logger.d(TAG, "PreviewSize:" + w +"x"+ h);
             float centerX = viewRect.centerX();
             float centerY = viewRect.centerY();
             bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY());

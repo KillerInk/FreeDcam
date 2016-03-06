@@ -7,6 +7,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
@@ -73,7 +74,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         }
         else
             previewTexture.setVisibility(View.GONE);
-        Log.d(TAG, "Ctor done");
+        Logger.d(TAG, "Ctor done");
         StartCamera();
 
     }
@@ -86,7 +87,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
             @Override
             public void run() {
                 cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
-                Log.d(TAG, "opencamera");
+                Logger.d(TAG, "opencamera");
             }
         });
 
@@ -95,7 +96,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     @Override
     protected void stopCamera()
     {
-        Log.d(TAG, "Stop Camera");
+        Logger.d(TAG, "Stop Camera");
         backgroundHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -108,7 +109,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     @Override
     protected void startPreview()
     {
-        /*Log.d(TAG, "Stop Preview");
+        /*Logger.d(TAG, "Stop Preview");
         backgroundHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -120,7 +121,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
 
     @Override
     protected void stopPreview() {
-        Log.d(TAG, "Stop Preview");
+        Logger.d(TAG, "Stop Preview");
         /*backgroundHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -135,7 +136,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     @Override
     public void surfaceCreated(SurfaceHolder holder)
     {
-        Log.d(TAG, "surface created");
+        Logger.d(TAG, "surface created");
         PreviewSurfaceRdy = true;
         startPreviewinternal();
     }
@@ -196,7 +197,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
 
     private void startPreviewinternal()
     {
-        Log.d(TAG,"startPreviewinternal previewRdy:" + PreviewSurfaceRdy +" cameraRdy" +cameraRdy);
+        Logger.d(TAG,"startPreviewinternal previewRdy:" + PreviewSurfaceRdy +" cameraRdy" +cameraRdy);
         if (PreviewSurfaceRdy && !cameraRdy)
             startCamera();
         if (!PreviewSurfaceRdy || !cameraRdy)
@@ -276,7 +277,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
                     sizes.add(new Size(s));
                 }
                 final Size size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height);
-                Log.d(TAG, "set size to " + size.width + "x" + size.height);
+                Logger.d(TAG, "set size to " + size.width + "x" + size.height);
 
                 camParametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
                 uiHandler.post(new Runnable() {
@@ -300,7 +301,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
                     sizes.add(new Size(s));
                 }
                 final Size size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height);
-                Log.d(TAG, "set size to " + size.width + "x" + size.height);
+                Logger.d(TAG, "set size to " + size.width + "x" + size.height);
                 camParametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
                 uiHandler.post(new Runnable() {
                     @Override
@@ -370,7 +371,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
                 }
             }
         }
-        Log.d(TAG,"Optimal preview size " +optimalSize.width + "x" + optimalSize.height);
+        Logger.d(TAG,"Optimal preview size " +optimalSize.width + "x" + optimalSize.height);
         return optimalSize;
     }
 

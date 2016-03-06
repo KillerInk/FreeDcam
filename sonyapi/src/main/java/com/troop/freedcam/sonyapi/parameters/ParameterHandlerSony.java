@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
@@ -60,7 +61,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
     {
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
 
-        Log.d(TAG, "Throw parametersChanged");
+        Logger.d(TAG, "Throw parametersChanged");
         throwSonyApiChanged(mAvailableCameraApiSet);
 
     }
@@ -145,7 +146,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
             @Override
             public void run() {
                 if (ParametersEventHandler != null) {
-                    Log.d(TAG, "Throw ParametersHasLoaded");
+                    Logger.d(TAG, "Throw ParametersHasLoaded");
                     ParametersEventHandler.ParametersHasLoaded();
                 }
             }

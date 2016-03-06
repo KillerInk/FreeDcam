@@ -7,6 +7,7 @@ import android.os.Build;
 import android.util.Log;
 import android.view.TextureView;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera2.modules.ModuleHandlerApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
@@ -65,7 +66,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
 
         Focus = new FocusHandlerApi2(this);
         cameraHolder.Focus = Focus;
-        Log.d(TAG, "Constructor done");
+        Logger.d(TAG, "Constructor done");
 
 
 
@@ -76,27 +77,27 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     @Override
     protected void startCamera() {
         cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
-        Log.d(TAG, "opencamera");
+        Logger.d(TAG, "opencamera");
     }
 
     @Override
     protected void stopCamera()
     {
-        Log.d(TAG, "Stop Camera");
+        Logger.d(TAG, "Stop Camera");
         cameraHolder.CloseCamera();
     }
 
     @Override
     protected void startPreview()
     {
-        Log.d(TAG, "Stop Preview");
+        Logger.d(TAG, "Stop Preview");
         cameraHolder.StartPreview();
     }
 
     @Override
     protected void stopPreview()
     {
-        Log.d(TAG, "Stop Preview");
+        Logger.d(TAG, "Stop Preview");
         cameraHolder.StopPreview();
     }
 
@@ -112,7 +113,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     {
         cameraHolder.SetSurface(preview);
 
-        Log.d(TAG, "Camera Opened and Preview Started");
+        Logger.d(TAG, "Camera Opened and Preview Started");
         super.onCameraOpen(message);
         moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
     }
@@ -136,7 +137,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
     {
-        Log.d(TAG, "SurfaceTextureAvailable");
+        Logger.d(TAG, "SurfaceTextureAvailable");
         if (!PreviewSurfaceRdy) {
             this.PreviewSurfaceRdy = true;
             StartCamera();
@@ -153,7 +154,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     {
         StopPreview();
         StopCamera();
-        Log.d(TAG, "Surface destroyed");
+        Logger.d(TAG, "Surface destroyed");
         this.PreviewSurfaceRdy = false;
         return false;
     }

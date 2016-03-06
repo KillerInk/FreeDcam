@@ -2,6 +2,7 @@ package com.troop.freedcam.camera.parameters.manual;
 
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.parameters.modes.PictureFormatHandler;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
@@ -41,14 +42,14 @@ public class BaseManualParameter extends AbstractManualParameter
 
 
     private int default_value = 0;
-    public void Set_Default_Value(int val){default_value = val; Log.d(TAG, "set default to:" + val);}
+    public void Set_Default_Value(int val){default_value = val; Logger.d(TAG, "set default to:" + val);}
     public int Get_Default_Value(){return default_value;}
 
     public void ResetToDefault()
     {
         if (isSupported)
         {
-            Log.d(TAG,"Reset Back from:" + currentInt + " to:" + default_value);
+            Logger.d(TAG,"Reset Back from:" + currentInt + " to:" + default_value);
             setvalue(default_value);
             ThrowCurrentValueChanged(default_value);
         }
@@ -117,7 +118,7 @@ public class BaseManualParameter extends AbstractManualParameter
     protected void setvalue(int valueToset)
     {
         currentInt = valueToset;
-        Log.d(TAG, "set " + value + " to " + valueToset);
+        Logger.d(TAG, "set " + value + " to " + valueToset);
         if(stringvalues == null || stringvalues.length == 0)
             return;
         parameters.put(value, stringvalues[valueToset]);

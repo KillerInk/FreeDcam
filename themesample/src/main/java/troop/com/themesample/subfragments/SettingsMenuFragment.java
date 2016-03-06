@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AbstractFragment;
@@ -78,7 +79,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
 
     private void setWrapper()
     {
-        Log.d("SettingsmenuFragment", "set CameraWrapper");
+        Logger.d("SettingsmenuFragment", "set CameraWrapper");
         closeValueMenu();
         loadLeftFragment();
         loadRightFragment();

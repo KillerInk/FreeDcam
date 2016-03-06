@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.parameters.manual;
 import android.os.Handler;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
@@ -73,14 +74,14 @@ public class ShutterManualZTE extends BaseManualParameter
             }
             catch (Exception ex)
             {
-                Log.d("Freedcam", "Shutter Set FAil");
+                Logger.d("Freedcam", "Shutter Set FAil");
             }
         }
         else
         {
             setShutterToAuto();
         }
-        Log.e(TAG, shutterstring);
+        Logger.e(TAG, shutterstring);
     }
 
     private void setShutterToAuto() {

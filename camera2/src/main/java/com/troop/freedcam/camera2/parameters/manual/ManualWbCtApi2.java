@@ -9,6 +9,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.troop.androiddng.Matrixes;
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
@@ -69,7 +70,7 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
         int[] rgb = cctLookup.get(valueToSet+"");
         if (rgb == null)
         {
-            Log.d(TAG,"get cct from lookup failed:" + valueToSet);
+            Logger.d(TAG, "get cct from lookup failed:" + valueToSet);
             return;
         }
         float rf,gf,bf = 0;
@@ -81,8 +82,8 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
         bf = bf/gf;
         gf = 1;
 
-        Log.d(TAG, "r:" +rgb[0] +" g:"+rgb[1] +" b:"+rgb[2]);
-        Log.d(TAG, "ColorTemp=" + valueToSet + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
+        Logger.d(TAG, "r:" +rgb[0] +" g:"+rgb[1] +" b:"+rgb[2]);
+        Logger.d(TAG, "ColorTemp=" + valueToSet + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
         wbChannelVector =  new RggbChannelVector(rf,gf,gf,bf);
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.COLOR_CORRECTION_GAINS, wbChannelVector);
         try {

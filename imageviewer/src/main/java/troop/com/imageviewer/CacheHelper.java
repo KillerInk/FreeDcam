@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.util.LruCache;
 
+import com.troop.filelogger.Logger;
+
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
@@ -101,9 +103,9 @@ public class CacheHelper
                         snapshot.getInputStream(0).close();
                     }
                 } catch (final IOException e) {
-                    Log.e(TAG, "addBitmapToCache - " + e);
+                    Logger.e(TAG, "addBitmapToCache - " + e);
                 } catch (Exception e) {
-                    Log.e(TAG, "addBitmapToCache - " + e);
+                    Logger.e(TAG, "addBitmapToCache - " + e);
                 } finally {
                     try {
                         if (out != null) {

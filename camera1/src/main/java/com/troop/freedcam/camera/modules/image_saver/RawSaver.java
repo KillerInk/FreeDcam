@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.modules.image_saver;
 import android.os.Handler;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -23,7 +24,7 @@ public class RawSaver extends JpegSaver
     @Override
     public void TakePicture()
     {
-        Log.d(TAG, "Start Take Picture");
+        Logger.d(TAG, "Start Take Picture");
         if (cameraHolder.ParameterHandler.ZSL != null && cameraHolder.ParameterHandler.ZSL.IsSupported() && cameraHolder.ParameterHandler.ZSL.GetValue().equals("on"))
         {
             iWorkeDone.OnError("Error: Disable ZSL for Raw or Dng capture");
@@ -45,7 +46,7 @@ public class RawSaver extends JpegSaver
         if (awaitpicture == false)
             return;
         awaitpicture =false;
-        Log.d(TAG, "Take Picture CallBack");
+        Logger.d(TAG, "Take Picture CallBack");
         handler.post(new Runnable() {
             @Override
             public void run()

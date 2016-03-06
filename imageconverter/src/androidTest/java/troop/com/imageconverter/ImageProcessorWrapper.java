@@ -41,7 +41,7 @@ public class ImageProcessorWrapper
     {
         this.width = width;
         this.height = height;
-        //Log.d(ImageProcessorWrapper.class.getSimpleName(), "YuvSize:" + data.length);
+        //Logger.d(ImageProcessorWrapper.class.getSimpleName(), "YuvSize:" + data.length);
         YUVtoRGB(nativeHandler,data, width, height);
     }
 

@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.telecom.VideoProfile;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.CameraUiWrapperApi2;
 import com.troop.freedcam.camera2.FocusHandlerApi2;
@@ -73,7 +74,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         List<CaptureRequest.Key<?>> keys = cameraHolder.characteristics.getAvailableCaptureRequestKeys();
         for (int i = 0; i< keys.size(); i++)
         {
-            Log.d(TAG, keys.get(i).getName());
+            Logger.d(TAG, keys.get(i).getName());
         }
         Module = new ModuleParameters(uiHandler, appSettingsManager, wrapper);
         FlashMode = new FlashModeApi2(uiHandler,this.cameraHolder);

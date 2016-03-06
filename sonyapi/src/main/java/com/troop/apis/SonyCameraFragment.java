@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.apis.AbstractCameraFragment;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
@@ -216,7 +217,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
             if (s.contains("DIRECT"))
             {
                 deviceNetworkToConnect = s;
-                Log.d("Wifi", "Device to Connect:" + deviceNetworkToConnect);
+                Logger.d("Wifi", "Device to Connect:" + deviceNetworkToConnect);
                 setTextFromWifi("Device to Connect:" + deviceNetworkToConnect);
                 break;
             }
@@ -228,7 +229,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
 
     private void lookupAvailNetworks()
     {
-        Log.d("Wifi", "Lookup networks:");
+        Logger.d("Wifi", "Lookup networks:");
         String wifis = null;
         try {
             setTextFromWifi("Looking up WifiNetworks");
@@ -247,11 +248,11 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
         if (!wifis.contains("DIRECT"))
         {
             STATE = WAITING_FOR_SCANRESULT;
-            Log.d("Wifi", "No DIRECT network found start scan:");
+            Logger.d("Wifi", "No DIRECT network found start scan:");
             wifiUtils.StartScan();
         }
         else {
-            Log.d("Wifi", "Connect to:" + deviceNetworkToConnect);
+            Logger.d("Wifi", "Connect to:" + deviceNetworkToConnect);
             STATE = IDEL;
             searchSsdpClient();
         }
@@ -301,7 +302,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
     {
         public void onReceive(Context c, Intent intent)
         {
-            Log.d("Wifi", "WifiScanReceiver");
+            Logger.d("Wifi", "WifiScanReceiver");
             if (STATE == WAITING_FOR_SCANRESULT)
             {
                 STATE = IDEL;
@@ -317,15 +318,15 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
                 }
                 if (foundnet.equals("")) {
                     setTextFromWifi("Cant find Sony Camera WifiNetwork, Camera turned On?");
-                    Log.d("Wifi", "WifiScanReceiver no device to connect found lookupnetworks");
+                    Logger.d("Wifi", "WifiScanReceiver no device to connect found lookupnetworks");
                     lookupAvailNetworks();
                 }
                 else {
                     STATE = WAITING_FOR_DEVICECONNECTION;
-                    Log.d("Wifi", "WifiScanReceiver found device connect to it");
+                    Logger.d("Wifi", "WifiScanReceiver found device connect to it");
                     if (!wifiUtils.ConnectToSSID(foundnet))
                     {
-                        Log.d("Wifi", "Connect to device failed");
+                        Logger.d("Wifi", "Connect to device failed");
                         STATE = WAITING_FOR_SCANRESULT;
                         wifiUtils.StartScan();
                     }

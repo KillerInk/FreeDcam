@@ -33,6 +33,7 @@ import android.view.WindowManager;
 import com.troop.androiddng.DngSupportedDevices;
 import com.troop.androiddng.Matrixes;
 import com.troop.androiddng.RawToDng;
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
@@ -133,8 +134,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     public void TakePicture()
     {
         isWorking = true;
-        Log.d(TAG, Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
-        Log.d(TAG, "dng:" + Boolean.toString(ParameterHandler.IsDngActive()));
+        Logger.d(TAG, Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
+        Logger.d(TAG, "dng:" + Boolean.toString(ParameterHandler.IsDngActive()));
 
         mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener, backgroundHandler);
 
@@ -154,7 +155,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
      */
     private void captureStillPicture() {
         try {
-            Log.d(TAG, "StartStillCapture");
+            Logger.d(TAG, "StartStillCapture");
             // This is the CaptureRequest.Builder that we use to take a picture.
             final CaptureRequest.Builder captureBuilder = cameraHolder.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
             captureBuilder.addTarget(mImageReader.getSurface());
@@ -202,7 +203,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     val = (long)(StringUtils.getMilliSecondStringFromShutterString(cameraHolder.ParameterHandler.ManualShutter.getStringValues()[cameraHolder.ParameterHandler.ManualShutter.GetValue()]) * 1000f);
                 else
                     val= cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
-                Log.d(TAG, "Set ExposureTime for Capture to:" + val);
+                Logger.d(TAG, "Set ExposureTime for Capture to:" + val);
                 captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
             }catch (NullPointerException ex){};
             try {
@@ -250,42 +251,42 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         {
             mDngResult = result;
             try {
-                Log.d(TAG, "CaptureResult Recieved");
+                Logger.d(TAG, "CaptureResult Recieved");
             }
             catch (NullPointerException ex){};
             try {
-                Log.d(TAG, "ColorCorrectionGains" + mDngResult.get(CaptureResult.COLOR_CORRECTION_GAINS));
+                Logger.d(TAG, "ColorCorrectionGains" + mDngResult.get(CaptureResult.COLOR_CORRECTION_GAINS));
             }catch (NullPointerException ex){};
             try {
-                Log.d(TAG, "ColorCorrectionTransform" + mDngResult.get(CaptureResult.COLOR_CORRECTION_TRANSFORM));
+                Logger.d(TAG, "ColorCorrectionTransform" + mDngResult.get(CaptureResult.COLOR_CORRECTION_TRANSFORM));
             }
             catch (NullPointerException ex){};
             try {
-                Log.d(TAG, "ToneMapCurve" + mDngResult.get(CaptureResult.TONEMAP_CURVE));
+                Logger.d(TAG, "ToneMapCurve" + mDngResult.get(CaptureResult.TONEMAP_CURVE));
             }
             catch (NullPointerException ex){};
             try {
-                Log.d(TAG, "Sensor Sensitivity" + mDngResult.get(CaptureResult.SENSOR_SENSITIVITY));
+                Logger.d(TAG, "Sensor Sensitivity" + mDngResult.get(CaptureResult.SENSOR_SENSITIVITY));
             }
             catch (NullPointerException ex){};
             try {
-                Log.d(TAG, "Sensor ExposureTime" + mDngResult.get(CaptureResult.SENSOR_EXPOSURE_TIME));
+                Logger.d(TAG, "Sensor ExposureTime" + mDngResult.get(CaptureResult.SENSOR_EXPOSURE_TIME));
             }
             catch (NullPointerException ex){};
             try {
-                Log.d(TAG, "Sensor FrameDuration" + mDngResult.get(CaptureResult.SENSOR_FRAME_DURATION));
+                Logger.d(TAG, "Sensor FrameDuration" + mDngResult.get(CaptureResult.SENSOR_FRAME_DURATION));
             }
             catch (NullPointerException ex){};
             try {
-                Log.d(TAG, "Sensor GreenSplit" + mDngResult.get(CaptureResult.SENSOR_GREEN_SPLIT));
+                Logger.d(TAG, "Sensor GreenSplit" + mDngResult.get(CaptureResult.SENSOR_GREEN_SPLIT));
             }
             catch (NullPointerException ex){};
             try {
-                Log.d(TAG, "Sensor NoiseProfile" + mDngResult.get(CaptureResult.SENSOR_NOISE_PROFILE).toString());
+                Logger.d(TAG, "Sensor NoiseProfile" + mDngResult.get(CaptureResult.SENSOR_NOISE_PROFILE).toString());
             }
             catch (NullPointerException ex){};
             try {
-                Log.d(TAG, "Sensor NeutralColorPoint" + mDngResult.get(CaptureResult.SENSOR_NEUTRAL_COLOR_POINT).toString());
+                Logger.d(TAG, "Sensor NeutralColorPoint" + mDngResult.get(CaptureResult.SENSOR_NEUTRAL_COLOR_POINT).toString());
             }
             catch (NullPointerException ex){};
             //Toast.makeText(getActivity(), "Saved: " + mFile, Toast.LENGTH_SHORT).show();
@@ -296,7 +297,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private void finishCapture() {
         try
         {
-            Log.d(TAG, "CaptureDone");
+            Logger.d(TAG, "CaptureDone");
             //cameraHolder.SetLastUsedParameters(cameraHolder.mPreviewRequestBuilder);
             // After this, the camera will go back to the normal state of preview.
             mState = STATE_PREVIEW;
@@ -385,7 +386,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @NonNull
     private File process_jpeg(int burstcount, ImageReader reader) {
         File file;
-        Log.d(TAG, "Create JPEG");
+        Logger.d(TAG, "Create JPEG");
         if (burstcount > 1)
             file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_" + imagecount + ".jpg"));
         else
@@ -403,7 +404,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @NonNull
     private File process_rawSensor(int burstcount, ImageReader reader) {
         File file;
-        Log.d(TAG, "Create DNG");
+        Logger.d(TAG, "Create DNG");
         if (burstcount > 1)
             file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_" + imagecount + ".dng"));
         else
@@ -425,7 +426,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             float fnum, focal = 0;
             fnum = 2.0f;
             focal = 4.7f;
-            Log.d("Freedcam RawCM2",String.valueOf(bytes.length));
+            Logger.d("Freedcam RawCM2",String.valueOf(bytes.length));
 
             //  int mISO = mDngResult.get(CaptureResult.SENSOR_SENSITIVITY));
             double mExposuretime;
@@ -456,7 +457,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @NonNull
     private File process_raw10(int burstcount, ImageReader reader) {
         File file;
-        Log.d(TAG, "Create DNG VIA RAw2DNG");
+        Logger.d(TAG, "Create DNG VIA RAw2DNG");
         if (burstcount > 1)
             file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_" + imagecount + ".dng"));
         else
@@ -474,7 +475,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         float fnum, focal = 0;
         fnum = mDngResult.get(CaptureResult.LENS_APERTURE);
         focal = mDngResult.get(CaptureResult.LENS_FOCAL_LENGTH);
-        Log.d("Freedcam RawCM2",String.valueOf(bytes.length));
+        Logger.d("Freedcam RawCM2",String.valueOf(bytes.length));
 
         int mISO = mDngResult.get(CaptureResult.SENSOR_SENSITIVITY).intValue();
         double mExposuretime = mDngResult.get(CaptureResult.SENSOR_EXPOSURE_TIME).doubleValue();
@@ -528,7 +529,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                        /* }
                         else
                         {
-                            Log.d(TAG, "Create RAW 10");
+                            Logger.d(TAG, "Create RAW 10");
                             if (burstcount > 1)
                                 file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_"+ imagecount +".raw"));
                             else
@@ -570,7 +571,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     public void startPreview() {
 
         picSize = Settings.getString(AppSettingsManager.SETTING_PICTURESIZE);
-        Log.d(TAG, "Start Preview");
+        Logger.d(TAG, "Start Preview");
         largestImageSize = Collections.max(
                 Arrays.asList(baseCameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
                 new BaseCameraHolderApi2.CompareSizesByArea());
@@ -599,18 +600,18 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 mImageHeight = Integer.parseInt(split[1]);
             }
             //create new ImageReader with the size and format for the image
-            Log.d(TAG, "ImageReader JPEG");
+            Logger.d(TAG, "ImageReader JPEG");
         }
         else if (picFormat.equals(BaseCameraHolderApi2.RAW_SENSOR))
         {
-            Log.d(TAG, "ImageReader RAW_SENOSR");
+            Logger.d(TAG, "ImageReader RAW_SENOSR");
             largestImageSize = Collections.max(Arrays.asList(baseCameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new BaseCameraHolderApi2.CompareSizesByArea());
             mImageWidth = largestImageSize.getWidth();
             mImageHeight = largestImageSize.getHeight();
         }
         else if (picFormat.equals(BaseCameraHolderApi2.RAW10))
         {
-            Log.d(TAG, "ImageReader RAW_SENOSR");
+            Logger.d(TAG, "ImageReader RAW_SENOSR");
             largestImageSize = Collections.max(Arrays.asList(baseCameraHolder.map.getOutputSizes(ImageFormat.RAW10)), new BaseCameraHolderApi2.CompareSizesByArea());
             mImageWidth = largestImageSize.getWidth();
             mImageHeight = largestImageSize.getHeight();
@@ -640,7 +641,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     public void SetBurst(int burst)
     {
         try {
-            Log.d(TAG, "Set Burst to:" + burst);
+            Logger.d(TAG, "Set Burst to:" + burst);
             previewSize = BaseCameraHolderApi2.getSizeForPreviewDependingOnImageSize(baseCameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), cameraHolder.characteristics, mImageWidth, mImageHeight);
             if (baseCameraHolder.mProcessor != null)
             {
@@ -653,7 +654,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             previewsurface = new Surface(texture);
 
             baseCameraHolder.mProcessor.Reset(previewSize.getWidth(), previewSize.getHeight());
-            Log.d(TAG, "Previewsurface vailid:" + previewsurface.isValid());
+            Logger.d(TAG, "Previewsurface vailid:" + previewsurface.isValid());
             baseCameraHolder.mProcessor.setOutputSurface(previewsurface);
             camerasurface = baseCameraHolder.mProcessor.getInputSurface();
             baseCameraHolder.CaptureSessionH.AddSurface(camerasurface,true);
@@ -721,7 +722,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void LoadNeededParameters()
     {
-        Log.d(TAG, "LoadNeededParameters");
+        Logger.d(TAG, "LoadNeededParameters");
         cameraHolder.ModulePreview = this;
         cameraHolder.StartPreview();
     }
@@ -729,7 +730,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void UnloadNeededParameters()
     {
-        Log.d(TAG, "UnloadNeededParameters");
+        Logger.d(TAG, "UnloadNeededParameters");
         cameraHolder.CaptureSessionH.CloseCaptureSession();
         cameraHolder.mProcessor.kill();
         previewsurface = null;

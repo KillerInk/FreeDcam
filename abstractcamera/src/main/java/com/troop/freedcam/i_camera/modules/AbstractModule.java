@@ -3,6 +3,7 @@ package com.troop.freedcam.i_camera.modules;
 
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
@@ -41,14 +42,14 @@ public abstract class AbstractModule implements I_Module
 
     protected void workstarted()
     {
-        Log.d(TAG, "work started");
+        Logger.d(TAG, "work started");
         if (this.workerListner != null)
             workerListner.onWorkStarted();
     }
 
     protected void workfinished(final boolean finish)
     {
-        Log.d(TAG, "work finished");
+        Logger.d(TAG, "work finished");
         if (workerListner != null)
             workerListner.onWorkFinished(finish);
     }

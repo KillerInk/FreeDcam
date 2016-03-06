@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.parameters.modes;
 import android.os.Handler;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.utils.DeviceUtils;
@@ -75,13 +76,13 @@ public class PictureFormatHandler extends BaseModeParameter
                 rawSupported = true;
                 break;
         }
-        Log.d(TAG, "rawsupported:"+ rawSupported);
+        Logger.d(TAG, "rawsupported:" + rawSupported);
     }
 
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        Log.d(TAG, "SetValue:" + valueToSet);
+        Logger.d(TAG, "SetValue:" + valueToSet);
         captureMode = valueToSet;
         switch (baseCameraHolder.DeviceFrameWork)
         {
@@ -111,7 +112,7 @@ public class PictureFormatHandler extends BaseModeParameter
 
     private void setString(String val, boolean setTocam)
     {
-        Log.d(TAG, "setString:" +val);
+        Logger.d(TAG, "setString:" +val);
         parameters.put(PICFORMAT, val);
         baseCameraHolder.SetCameraParameters(parameters);
         if(baseCameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.LG && setTocam)

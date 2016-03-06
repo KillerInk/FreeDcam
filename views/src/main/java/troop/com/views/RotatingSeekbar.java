@@ -12,6 +12,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SeekBar;
 
+import com.troop.filelogger.Logger;
+
 /**
  * Created by troop on 07.12.2015.
  */
@@ -73,7 +75,7 @@ public class RotatingSeekbar extends View
     private void log(String msg)
     {
         if (debug)
-            Log.d(TAG, msg);
+            Logger.d(TAG, msg);
     }
 
     private void redraw()
@@ -279,7 +281,7 @@ public class RotatingSeekbar extends View
             item *= -1;
         if (item != currentValue)
         {
-            Log.d("RotatingSeekbar", "currentpos" + currentPosToDraw + "item " + item);
+            Logger.d("RotatingSeekbar", "currentpos" + currentPosToDraw + "item " + item);
             currentValue = item;
             if (mListener != null)
                 handler.post(new Runnable() {
@@ -306,7 +308,7 @@ public class RotatingSeekbar extends View
     {
         //int item = ((currentPosToDraw + realMin) /itemHeight) *1;
         currentValue = progress;
-        Log.d("RotatingSeekbar", "setprogres" +progress);
+        Logger.d("RotatingSeekbar", "setprogres" +progress);
         currentPosToDraw = ((progress *itemHeight + itemHeight/2 ) + realMin) * -1;
         redraw();
         if (mListener != null && throwevent)

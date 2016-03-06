@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.modules.image_saver;
 import android.os.Handler;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.utils.StringUtils;
@@ -71,10 +72,10 @@ public class JpegSaver implements I_Callbacks.PictureCallback
         {
             if (data != null)
             {
-                Log.d(TAG, "RawSize:" + data.length + "");
+                Logger.d(TAG, "RawSize:" + data.length + "");
             }
             else
-                Log.d(TAG, "RawSize: null");
+                Logger.d(TAG, "RawSize: null");
         }
     };
 
@@ -82,7 +83,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
     {
         checkFileExists(fileName);
 
-        Log.d(TAG, "Start Saving Bytes");
+        Logger.d(TAG, "Start Saving Bytes");
         FileOutputStream outStream = null;
         try {
             outStream = new FileOutputStream(fileName);
@@ -96,7 +97,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.d(TAG, "End Saving Bytes");
+        Logger.d(TAG, "End Saving Bytes");
         iWorkeDone.OnWorkDone(fileName);
 
     }

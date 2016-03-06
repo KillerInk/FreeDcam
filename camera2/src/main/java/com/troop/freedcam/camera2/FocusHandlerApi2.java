@@ -10,6 +10,7 @@ import android.hardware.camera2.params.MeteringRectangle;
 import android.os.Build;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera2.modules.PictureModuleApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
@@ -91,7 +92,7 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
     public void StartTouchToFocus(FocusRect rect, FocusRect meteringarea, int width, int height)
     {
         logFocusRect(rect);
-        Log.d(TAG, "Width:"+width +"Height"+height);
+        Logger.d(TAG, "Width:" + width + "Height" + height);
         if (!focusenabled)
             return;
         focusRect = rect;
@@ -143,7 +144,7 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
      */
     private void unlockFocus() {
         try {
-            Log.d(TAG, "CaptureDone Unlock Focus");
+            Logger.d(TAG, "CaptureDone Unlock Focus");
             // Reset the autofucos trigger
             //cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
             // After this, the camera will go back to the normal state of preview.
@@ -198,7 +199,7 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
 
     private void lockAE() {
         try {
-            Log.d(TAG, "Run Precapture");
+            Logger.d(TAG, "Run Precapture");
             // This is how to tell the camera to trigger.
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
             // Tell #mCaptureCallback to wait for the precapture sequence to be set.

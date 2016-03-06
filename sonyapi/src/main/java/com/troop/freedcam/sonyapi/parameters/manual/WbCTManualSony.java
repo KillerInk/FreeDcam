@@ -2,6 +2,7 @@ package com.troop.freedcam.sonyapi.parameters.manual;
 
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 
 import org.json.JSONArray;
@@ -81,7 +82,7 @@ public class WbCTManualSony extends BaseManualParameterSony
             public void run() {
                 try
                 {
-                    Log.d("WBCT", values[set]);
+                    Logger.d("WBCT", values[set]);
 
                     JSONArray array = new JSONArray().put("Color Temperature").put(true).put(Integer.parseInt(t[set])) ;
                     JSONObject jsonObject = mRemoteApi.setParameterToCamera("setWhiteBalance", array);

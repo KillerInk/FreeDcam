@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.modules;
 import android.os.Handler;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.modules.image_saver.DngSaver;
 import com.troop.freedcam.camera.modules.image_saver.I_WorkeDone;
@@ -193,9 +194,9 @@ public class HdrModule extends PictureModule implements I_WorkeDone
             else if (hdrCount == 2)
                 value = Integer.parseInt(Settings.getString(AppSettingsManager.SETTING_AEB3));
 
-            Log.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
+            Logger.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
             ParameterHandler.ManualExposure.SetValue(value);
-            Log.d(TAG, "HDR Exposure SET");
+            Logger.d(TAG, "HDR Exposure SET");
         }
     }
 

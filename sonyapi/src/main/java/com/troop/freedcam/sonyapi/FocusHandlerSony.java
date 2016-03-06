@@ -2,6 +2,7 @@ package com.troop.freedcam.sonyapi;
 
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractFocusHandler;
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.modules.CameraFocusEvent;
@@ -41,7 +42,7 @@ public class FocusHandlerSony extends AbstractFocusHandler implements I_Callback
         if (isFocusing)
         {
             cameraHolder.CancelFocus();
-            Log.d(TAG,"Canceld Focus");
+            Logger.d(TAG, "Canceld Focus");
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -53,7 +54,7 @@ public class FocusHandlerSony extends AbstractFocusHandler implements I_Callback
         double y = rect.top + (rect.bottom - rect.top )  /2;
         double xproz = (x / (double)width) * 100;
         double yproz = (y / (double)height) *100;
-        Log.d(TAG, "set focus to: x: " + xproz + " y: " +yproz);
+        Logger.d(TAG, "set focus to: x: " + xproz + " y: " +yproz);
         cameraHolder.StartFocus(this);
         cameraHolder.SetTouchFocus(xproz, yproz);
         isFocusing = true;

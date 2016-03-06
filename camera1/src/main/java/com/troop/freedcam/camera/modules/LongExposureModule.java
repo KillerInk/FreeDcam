@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
@@ -193,7 +194,7 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
 
             nativeYuvMerge.Release();
 
-            Log.d(TAG, "Work done");
+            Logger.d(TAG, "Work done");
             eventHandler.WorkFinished(file);
             exposureModule.isWorking = false;
             System.gc();
@@ -204,25 +205,25 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
 
     private void processYuvFrame(byte[] mergeYuv) {
         this.hasWork = true;
-        Log.d(TAG, "StartProcessingFrame");
+        Logger.d(TAG, "StartProcessingFrame");
         if (mergeYuv == null)
             return;
 
         if (count == 0)
         {
-            Log.d(TAG, "Processing first frame");
+            Logger.d(TAG, "Processing first frame");
             nativeYuvMerge.AddFirstYuvFrame(mergeYuv, width, height);
-            Log.d(TAG, "Processing first frame done");
+            Logger.d(TAG, "Processing first frame done");
         }
         else
         {
-            Log.d(TAG, "Processing next frame");
+            Logger.d(TAG, "Processing next frame");
             nativeYuvMerge.AddNextYuvFrame(mergeYuv);
-            Log.d(TAG, "Processing next frame done");
+            Logger.d(TAG, "Processing next frame done");
         }
 
         count++;
-        Log.d(TAG, "Frame Processed:" + count);
+        Logger.d(TAG, "Frame Processed:" + count);
 
         this.hasWork = false;
         baseCameraHolder.SetPreviewCallback(this);
@@ -230,7 +231,7 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
 
 
     private File createFilename() {
-        Log.d(TAG,"Create FileName");
+        Logger.d(TAG,"Create FileName");
         String pictureFormat = ParameterHandler.PictureFormat.GetValue();
         File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/FreeCam/");
         if(!file.exists())

@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.Size;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
@@ -48,7 +49,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
 
     public PreviewHandler(I_AspectRatio output, AbstractCameraUiWrapper cameraUiWrapper, Context context)
     {
-        Log.d(TAG, "Ctor");
+        Logger.d(TAG, "Ctor");
         this.output = output;
         this.cameraUiWrapper = cameraUiWrapper;
         this.context = context;
@@ -59,14 +60,14 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
 
     public void Enable(boolean enable)
     {
-        Log.d(TAG, "Enable:" + enable);
+        Logger.d(TAG, "Enable:" + enable);
         this.enable = enable;
         setEnable(this.enable);
     }
 
     private void setEnable(boolean enabled)
     {
-        Log.d(TAG, "setEnable" + enabled);
+        Logger.d(TAG, "setEnable" + enabled);
         if (enabled)
         {
             if(mRS == null) {
@@ -76,12 +77,12 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
             show_preview("setEnable");
             final Size size = new Size(cameraUiWrapper.camParametersHandler.PreviewSize.GetValue());
             reset(size.width, size.height);
-            Log.d(TAG, "Set PreviewCallback");
-            Log.d(TAG, "enable focuspeak");
+            Logger.d(TAG, "Set PreviewCallback");
+            Logger.d(TAG, "enable focuspeak");
         }
         else
         {
-            Log.d(TAG, "stop focuspeak");
+            Logger.d(TAG, "stop focuspeak");
             cameraUiWrapper.cameraHolder.ResetPreviewCallback();
             clear_preview("setEnable");
             if (mRS != null)
@@ -97,14 +98,14 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     {
         if (!doWork || !enable) {
             output.setAlpha(0);
-            Log.d(TAG, "Preview cleared from:" + from);
+            Logger.d(TAG, "Preview cleared from:" + from);
         }
     }
     private void show_preview(String from)
     {
         if (doWork && enable) {
             output.setAlpha(1);
-            Log.d(TAG, "Preview show from:" + from);
+            Logger.d(TAG, "Preview show from:" + from);
         }
     }
 
@@ -116,11 +117,11 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
             mHeight = height;
             mWidth = width;
             if (mRS == null) {
-                Log.d(TAG, "rest called but mRS is null");
+                Logger.d(TAG, "rest called but mRS is null");
                 clear_preview("reset");
                 return;
             }
-            Log.d(TAG, "reset allocs to :" + width + "x" + height);
+            Logger.d(TAG, "reset allocs to :" + width + "x" + height);
             try {
                 cameraUiWrapper.cameraHolder.ResetPreviewCallback();
             } catch (NullPointerException ex) {
@@ -143,9 +144,9 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
             if (mSurface != null)
                 mAllocationOut.setSurface(mSurface);
             else
-                Log.d(TAG, "surfaceNull");
+                Logger.d(TAG, "surfaceNull");
             mScriptFocusPeak = new ScriptC_focus_peak_cam1(mRS);
-            Log.d(TAG, "script done enabled: " + enable);
+            Logger.d(TAG, "script done enabled: " + enable);
             cameraUiWrapper.cameraHolder.SetPreviewCallback(this);
         }
         catch (RSRuntimeException ex)
@@ -161,29 +162,29 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         {
             mWidth = width;
             mHeight = height;
-            Log.d(TAG, "SurfaceSizeAvail");
+            Logger.d(TAG, "SurfaceSizeAvail");
             mSurface = new Surface(surface);
             if (mAllocationOut != null)
                 mAllocationOut.setSurface(mSurface);
             else
-                Log.d(TAG, "Allocout null");
+                Logger.d(TAG, "Allocout null");
         }
 
         @Override
         public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
-            Log.d(TAG, "SurfaceSizeChanged");
+            Logger.d(TAG, "SurfaceSizeChanged");
             mSurface = new Surface(surface);
             if (mAllocationOut != null)
                 mAllocationOut.setSurface(mSurface);
             else {
-                Log.d(TAG, "Allocout null");
+                Logger.d(TAG, "Allocout null");
 
             }
         }
 
         @Override
         public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-            Log.d(TAG, "SurfaceDestroyed");
+            Logger.d(TAG, "SurfaceDestroyed");
             clear_preview("onSurfaceTextureDestroyed");
             mSurface = null;
 
@@ -200,7 +201,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
 
     public void SetAspectRatio(int w, int h)
     {
-        Log.d(TAG, "SetAspectRatio enable: " +enable);
+        Logger.d(TAG, "SetAspectRatio enable: " +enable);
         output.setAspectRatio(w, h);
         if (enable)
             reset(w,h);
@@ -212,7 +213,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     {
         if (enable == false)
         {
-            Log.d(TAG, "onPreviewFrame enabled:" +enable);
+            Logger.d(TAG, "onPreviewFrame enabled:" +enable);
             camera.addCallbackBuffer(data);
             return;
         }
@@ -230,7 +231,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         int teosize = mHeight * mWidth *
                 ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8;
         if (teosize != data.length) {
-            Log.d(TAG, "frame size does not match rendersize");
+            Logger.d(TAG, "frame size does not match rendersize");
             Camera.Size s = camera.getParameters().getPreviewSize();
             reset(s.width, s.height);
             return;
@@ -269,7 +270,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     @Override
     public void onPreviewOpen(String message)
     {
-        Log.d(TAG, "onPreviewOpen enable:" + enable);
+        Logger.d(TAG, "onPreviewOpen enable:" + enable);
         clear_preview("onPreviewOpen");
         setEnable(enable);
     }
@@ -294,7 +295,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     @Override
     public String ModuleChanged(String module)
     {
-        Log.d(TAG, "ModuleChanged(String):" + module + " enabled:" +enable);
+        Logger.d(TAG, "ModuleChanged(String):" + module + " enabled:" +enable);
         if (module.equals(AbstractModuleHandler.MODULE_PICTURE)
                 ||module.equals(AbstractModuleHandler.MODULE_HDR)
                 ||module.equals(AbstractModuleHandler.MODULE_INTERVAL))

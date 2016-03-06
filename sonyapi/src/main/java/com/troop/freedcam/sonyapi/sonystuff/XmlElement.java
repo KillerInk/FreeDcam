@@ -7,6 +7,8 @@ package com.troop.freedcam.sonyapi.sonystuff;
 import android.util.Log;
 import android.util.Xml;
 
+import com.troop.filelogger.Logger;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -240,10 +242,10 @@ public class XmlElement {
                 }
             }
         } catch (final XmlPullParserException e) {
-            Log.e(TAG, "parseXml: XmlPullParserException.");
+            Logger.e(TAG, "parseXml: XmlPullParserException.");
             rootElement = XmlElement.NULL_ELEMENT;
         } catch (final IOException e) {
-            Log.e(TAG, "parseXml: IOException.");
+            Logger.e(TAG, "parseXml: IOException.");
             rootElement = XmlElement.NULL_ELEMENT;
         }
         return rootElement;
@@ -264,7 +266,7 @@ public class XmlElement {
             xmlPullParser.setInput(new StringReader(xmlStr));
             return parse(xmlPullParser);
         } catch (final XmlPullParserException e) {
-            Log.e(TAG, "parseXml: XmlPullParserException occured.");
+            Logger.e(TAG, "parseXml: XmlPullParserException occured.");
             return XmlElement.NULL_ELEMENT;
         }
     }

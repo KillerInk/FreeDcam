@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.troop.androiddng.RawToDng;
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
@@ -34,7 +35,7 @@ public class MediatekSaver extends JpegSaver {
     @Override
     public void TakePicture()
     {
-        Log.d(TAG, "Start Take Picture");
+        Logger.d(TAG, "Start Take Picture");
         if (cameraHolder.ParameterHandler.ZSL != null && cameraHolder.ParameterHandler.ZSL.IsSupported() && cameraHolder.ParameterHandler.ZSL.GetValue().equals("on"))
         {
             iWorkeDone.OnError("Error: Disable ZSL for Raw or Dng capture");
@@ -62,7 +63,7 @@ public class MediatekSaver extends JpegSaver {
         if (awaitpicture == false)
             return;
         awaitpicture =false;
-        Log.d(TAG, "Take Picture CallBack");
+        Logger.d(TAG, "Take Picture CallBack");
         handler.post(new Runnable() {
             @Override
             public void run()
@@ -70,7 +71,7 @@ public class MediatekSaver extends JpegSaver {
                 holdFile = new File(StringUtils.getFilePath(externalSd, fileEnding));
                 //final String lastBayerFormat = cameraHolder.ParameterHandler.PictureFormat.GetValue();
 
-             //   Log.d(TAG,RawToDng.getFilePath());
+             //   Logger.d(TAG,RawToDng.getFilePath());
 
                 if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg"))
                 {
@@ -121,7 +122,7 @@ public class MediatekSaver extends JpegSaver {
                 }
             }
             data = RawToDng.readFile(DeviceSwitcher());
-            Log.d(TAG, "Filesize: " + data.length + " File:" +DeviceSwitcher().getAbsolutePath());
+            Logger.d(TAG, "Filesize: " + data.length + " File:" +DeviceSwitcher().getAbsolutePath());
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -155,7 +156,7 @@ public class MediatekSaver extends JpegSaver {
 
     public String FeeDJNI(String msg)
     {
-        Log.d(TAG,msg);
+        Logger.d(TAG,msg);
 
         return DeviceSwitcher().getAbsolutePath();
     }

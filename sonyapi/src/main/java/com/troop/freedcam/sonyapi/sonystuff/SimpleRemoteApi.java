@@ -6,6 +6,8 @@ package com.troop.freedcam.sonyapi.sonystuff;
 
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,7 +71,7 @@ public class SimpleRemoteApi {
     // Output a log line.
     private void log(String msg) {
         if (FULL_LOG) {
-            Log.d(TAG, msg);
+            Logger.d(TAG, msg);
         }
     }
 

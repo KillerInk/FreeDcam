@@ -11,6 +11,7 @@ import android.view.SurfaceView;
 
 import com.lge.real3d.Real3D;
 import com.lge.real3d.Real3DInfo;
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 
 /**
@@ -79,7 +80,7 @@ public class ExtendedSurfaceView extends SurfaceView
                     SwitchViewMode();
                 }
             } catch (NoSuchMethodError noSuchMethodError) {
-                Log.d("Not", " 3D Device");
+                Logger.d("Not", " 3D Device");
             }
         }
         else
@@ -108,13 +109,13 @@ public class ExtendedSurfaceView extends SurfaceView
     {
         try {
             Class c = Class.forName("com.htc.view.DisplaySetting");
-            Log.d(TAG, "Found class com.htc.view.DisplaySetting");
+            Logger.d(TAG, "Found class com.htc.view.DisplaySetting");
             hasOpenSense = true;
 
         } catch (ClassNotFoundException e) {
 
             hasOpenSense = false;
-            Log.d(TAG, "didnt find class com.htc.view.DisplaySetting, NO 3D!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Logger.d(TAG, "didnt find class com.htc.view.DisplaySetting, NO 3D!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         }
 
     }
@@ -128,13 +129,13 @@ public class ExtendedSurfaceView extends SurfaceView
             {
                 is3D = true;
                 mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_LR));
-                Log.d(TAG, "Set 3d");
+                Logger.d(TAG, "Set 3d");
             }
             else
             {
                 is3D = false;
                 mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_NONE, 0));
-                Log.d(TAG, "Set 2d");
+                Logger.d(TAG, "Set 2d");
             }
         }
     }
@@ -153,7 +154,7 @@ public class ExtendedSurfaceView extends SurfaceView
             mRatioWidth = width;
             mRatioHeight = height;
         }
-        Log.d(TAG, "new size: " + width + "x" + height);
+        Logger.d(TAG, "new size: " + width + "x" + height);
         requestLayout();
     }
 
@@ -197,7 +198,7 @@ public class ExtendedSurfaceView extends SurfaceView
 
     private void OnPreviewSizeChanged(int w, int h)
     {
-        Log.d(TAG, "Preview Size Changed " + w +"x"+h);
+        Logger.d(TAG, "Preview Size Changed " + w +"x"+h);
         if (currentModule == null || currentModule.equals(""))
             currentModule = appSettingsManager.GetCurrentModule();
         if (hasReal3d && is3D)
@@ -214,7 +215,7 @@ public class ExtendedSurfaceView extends SurfaceView
                     sizes.add(new Size(s));
                 }
                 Size size = getOptimalPreviewSize(sizes, w, h);
-                Log.d(TAG, "set size to " +size.width + "x" + size.height);
+                Logger.d(TAG, "set size to " +size.width + "x" + size.height);
                 ParametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
                 setPreviewToDisplay(size.width, size.height);
         }
@@ -253,7 +254,7 @@ public class ExtendedSurfaceView extends SurfaceView
                 }
             }
         }
-        Log.d(TAG,"Optimal preview size " +optimalSize.width + "x" + optimalSize.height);
+        Logger.d(TAG,"Optimal preview size " +optimalSize.width + "x" + optimalSize.height);
         return optimalSize;
     }*/
 
@@ -274,7 +275,7 @@ public class ExtendedSurfaceView extends SurfaceView
         //TODO crash on s5
         if (previewsize  == null || previewsize.equals("")) {
             previewsize = "640x480";
-            Log.d(TAG, "set preview size was null!!!! fix to 640x480");
+            Logger.d(TAG, "set preview size was null!!!! fix to 640x480");
         }
         String[] split = previewsize.split("x");
         int w = Integer.parseInt(split[0]);
@@ -304,7 +305,7 @@ public class ExtendedSurfaceView extends SurfaceView
 
 
         double newratio = getRatio(w, h);
-        Log.d(TAG, "Preview ratio:"+newratio);
+        Logger.d(TAG, "Preview ratio:"+newratio);
         int width = 0;
         int height = 0;
 
@@ -339,7 +340,7 @@ public class ExtendedSurfaceView extends SurfaceView
 
         }
         double displayratio = getRatio(width, height);
-        Log.d(TAG, "Display ratio:"+displayratio);
+        Logger.d(TAG, "Display ratio:"+displayratio);
         if (newratio == displayratio)
         {
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width, height);

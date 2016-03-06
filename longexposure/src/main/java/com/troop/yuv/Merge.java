@@ -2,6 +2,8 @@ package com.troop.yuv;
 
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
+
 import java.nio.ByteBuffer;
 
 /**
@@ -34,7 +36,7 @@ public class Merge
     {
         if (nativeHandler != null) {
             Release();
-            Log.d(TAG, "Native handler not null realasing it");
+            Logger.d(TAG, "Native handler not null realasing it");
             nativeHandler = null;
         }
         this.width = width;
@@ -53,7 +55,7 @@ public class Merge
     {
         if (nativeHandler == null)
             return;
-        Log.d(TAG, "Realease nativeHandler");
+        Logger.d(TAG, "Realease nativeHandler");
         release(nativeHandler);
         nativeHandler =null;
     }
@@ -62,7 +64,7 @@ public class Merge
     {
         if (nativeHandler == null)
             return null;
-        Log.d(TAG, "Get MErged Yuv");
+        Logger.d(TAG, "Get MErged Yuv");
         int yuvsize = (width * height) + (width * height)/2;
         byte ar[] = new byte[yuvsize];
         return getMergedYuv(nativeHandler, count, ar);

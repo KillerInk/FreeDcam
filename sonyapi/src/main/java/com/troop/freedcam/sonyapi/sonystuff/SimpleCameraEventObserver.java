@@ -8,6 +8,8 @@ import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,7 +32,7 @@ public class SimpleCameraEventObserver {
     private void sendLog(String msg)
     {
         if (LOGGING)
-            Log.d(TAG, msg);
+            Logger.d(TAG, msg);
     }
 
     /**
@@ -976,7 +978,7 @@ public class SimpleCameraEventObserver {
                 if (mListener != null) {
                     mListener.onShootModeChanged(shootMode);
                 }
-                else Log.d(TAG, "onShootModeChanged listner NULL!");
+                else Logger.d(TAG, "onShootModeChanged listner NULL!");
             }
         });
     }
