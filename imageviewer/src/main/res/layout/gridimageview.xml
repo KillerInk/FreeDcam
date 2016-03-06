@@ -7,13 +7,6 @@
             android:layout_height="match_parent"
             android:id="@+id/gridimageviewholder"
             android:layout_margin="2dp" />
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/checkBox_gridviewimage"
-            android:layout_gravity="right|bottom"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,5 +31,12 @@
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="2dp"
             android:textColor="#ffffff" />
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/checkBox_gridviewimage"
+        android:button="@null"
+        android:background="@drawable/gridviewcustomcheckbox"
+        android:layout_margin="2dp"/>
 
 </FrameLayout>
