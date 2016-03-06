@@ -25,28 +25,12 @@ public class PreviewSizeParameter extends BaseModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        //if (baseCameraHolder.IsPreviewRunning())
         if (setToCam)
             baseCameraHolder.StopPreview();
-
-        //if(DeviceUtils.isZTEADV()||DeviceUtils.isZTEADVIMX214()||DeviceUtils.isZTEADV234()||DeviceUtils.isXiaomiMI3W()||DeviceUtils.isXiaomiMI4W())
-            parameters.put(value, valueToSet);
-        baseCameraHolder.SetCameraParameters(parameters);
-
-        /*try
-        {
-            ((BaseCameraHolder)baseCameraHolder).SetPreviewSize(valueToSet);
-        }
-        catch (Exception ex)
-        {
-            Logger.e(TAG, ex.getMessage());
-
-        }*/
-        //baseCameraHolder.SetCameraParameters(parameters);
-        //if (!baseCameraHolder.IsPreviewRunning())
+        parameters.put(value, valueToSet);
+        BackgroundValueHasChanged(valueToSet);
         try {
             baseCameraHolder.SetCameraParameters(parameters);
-            super.BackgroundValueHasChanged(valueToSet);
         }
         catch (Exception ex)
         {
@@ -54,6 +38,10 @@ public class PreviewSizeParameter extends BaseModeParameter
         }
         if (setToCam)
             baseCameraHolder.StartPreview();
-        firststart = false;
+    }
+
+    @Override
+    public String[] GetValues() {
+        return parameters.get(values).split(",");
     }
 }

@@ -95,7 +95,7 @@ public class AbstractModeParameter implements I_ModeParameter
 
     @Override
     public String[] GetValues() {
-        return new String[0];
+        return null;
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -22,6 +23,8 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
     BaseCameraHolder baseCameraHolder;
     protected boolean firststart = true;
     private static String TAG = BaseModeParameter.class.getSimpleName();
+
+    protected String[] valuesArray;
 
     /***
      *
@@ -47,7 +50,18 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
         {
             String tmp = parameters.get(value);
             if (!tmp.isEmpty())
+            {
                 this.isSupported = true;
+                valuesArray = parameters.get(values).split(",");
+                ArrayList<String> tmpl  = new ArrayList<String>();
+                for (String s : valuesArray)
+                {
+                    if (!tmpl.contains(s))
+                        tmpl.add(s);
+                }
+                valuesArray = new String[tmpl.size()];
+                tmpl.toArray(valuesArray);
+            }
         }
         else
             this.isSupported =false;
@@ -92,7 +106,7 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
 
     public String[] GetValues()
     {
-        return parameters.get(values).split(",");
+        return valuesArray;
     }
 
     @Override

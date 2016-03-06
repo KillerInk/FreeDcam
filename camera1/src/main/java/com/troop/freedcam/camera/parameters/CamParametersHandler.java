@@ -113,6 +113,12 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
+            PictureSize = new PictureSizeParameter(uiHandler,cameraParameters,baseCameraHolder, "picture-size", "picture-size-values");
+        } catch (Exception e) {
+            Logger.e(TAG, e.getMessage());
+        }
+
+        try {
             FocusMode = new BaseModeParameter(uiHandler,cameraParameters, baseCameraHolder,"focus-mode","focus-mode-values");
             FocusMode.addEventListner(((FocusHandler) cameraHolder.Focus).focusModeListner);
         } catch (Exception e) {
@@ -224,11 +230,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             Logger.e(TAG, e.getMessage());
         }
 
-        try {
-            PictureSize = new PictureSizeParameter(uiHandler,cameraParameters,baseCameraHolder, "picture-size", "picture-size-values");
-        } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
-        }
+
 
         try {
             JpegQuality = new JpegQualityParameter(uiHandler,cameraParameters, baseCameraHolder, "jpeg-quality", "");
@@ -263,7 +265,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            SceneMode =  new SceneModeParameter(uiHandler, cameraParameters, baseCameraHolder, "scene-mode","scene-mode-values");
+            SceneMode =  new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "scene-mode","scene-mode-values");
         } catch (Exception e) {
             Logger.e(TAG, e.getMessage());
         }
@@ -457,6 +459,8 @@ public class CamParametersHandler extends AbstractParameterHandler
         } catch (Exception e) {
             Logger.e(TAG, e.getMessage());
         }
+        cameraUiWrapper.moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
+
         ParametersEventHandler.ParametersHasLoaded();
 
         try {
@@ -795,7 +799,6 @@ public class CamParametersHandler extends AbstractParameterHandler
     @Override
     public void SetAppSettingsToParameters() {
         super.SetAppSettingsToParameters();
-        cameraUiWrapper.moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
     }
     public void FPSRangeLock (int min,int max){
         String mMin =String.valueOf(min*1000);
