@@ -209,7 +209,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                             try {
                                 pictureModuleSony.onPictureTaken(new URL(s));
                             }catch (MalformedURLException e) {
-                                e.printStackTrace();
+                                Logger.e(TAG, e.getMessage());
                             }
 
                         }
@@ -624,7 +624,7 @@ public class CameraHolderSony extends AbstractCameraHolder
         try {
             mEventObserver.processEvents(FullUiSetup);
         } catch (JSONException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
         //}
         //});
@@ -714,7 +714,7 @@ public class CameraHolderSony extends AbstractCameraHolder
 
                 } catch (IOException e)
                 {
-                    e.printStackTrace();
+                    Logger.e(TAG, e.getMessage());
                     Logger.w(TAG, "IOException while closing slicer: " + e.getMessage());
                     awaitTakePicture(pictureCallback);
                 } catch (JSONException e) {
@@ -850,7 +850,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                     {
                         JSONObject ob = mRemoteApi.setParameterToCamera("cancelTouchAFPosition", new JSONArray());
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Logger.e(TAG, e.getMessage());
                         Logger.d(TAG, "Cancel Focus failed");
                     }
                 }
@@ -868,7 +868,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                     {
                         JSONObject ob = mRemoteApi.setParameterToCamera("cancelTrackingFocus", new JSONArray());
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Logger.e(TAG, e.getMessage());
                         Logger.d(TAG, "Cancel Focus failed");
                     }
                 }
@@ -977,7 +977,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                 try {
                     mRemoteApi.setLiveviewFrameInfo(true);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Logger.e(TAG, e.getMessage());
                 }
             }
         }).start();

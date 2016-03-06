@@ -1,5 +1,6 @@
 package com.troop.freedcam.sonyapi.parameters.manual;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 
@@ -15,6 +16,7 @@ import java.util.Set;
  */
 public class ZoomManualSony extends BaseManualParameterSony
 {
+    final String TAG = ZoomManualSony.class.getSimpleName();
     int zoomToSet;
     private boolean isZooming = false;
 
@@ -62,10 +64,10 @@ public class ZoomManualSony extends BaseManualParameterSony
                         String zoompos = zoom.getString("zoomPosition");
                         currentInt = Integer.parseInt(zoompos);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Logger.e(TAG, e.getMessage());
                         currentInt = 0;
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        Logger.e(TAG, e.getMessage());
                         currentInt = 0;
                     }
                 }
@@ -74,7 +76,7 @@ public class ZoomManualSony extends BaseManualParameterSony
                 try {
                     Thread.sleep(1);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Logger.e(TAG, e.getMessage());
                 }
             }
         }
@@ -103,7 +105,7 @@ public class ZoomManualSony extends BaseManualParameterSony
                         JSONObject object = ParameterHandler.mRemoteApi.actZoom(finaldirection, movement);
                         isZooming = false;
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Logger.e(TAG, e.getMessage());
                     }
                 }
             }).start();

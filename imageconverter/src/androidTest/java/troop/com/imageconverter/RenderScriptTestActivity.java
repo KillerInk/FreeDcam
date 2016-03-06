@@ -29,6 +29,7 @@ import troop.com.views.MyHistogram;
  */
 public class RenderScriptTestActivity extends Activity implements SurfaceHolder.Callback, Camera.PreviewCallback
 {
+    final String TAG = RenderScriptTestActivity.class.getSimpleName();
     SurfaceView surfaceView;
     Camera camera;
     SurfaceView nativeSurface;
@@ -113,7 +114,7 @@ public class RenderScriptTestActivity extends Activity implements SurfaceHolder.
             camera.setPreviewDisplay(surfaceView.getHolder());
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
         camera.startPreview();
         initRenderScript();
@@ -173,7 +174,7 @@ public class RenderScriptTestActivity extends Activity implements SurfaceHolder.
                         }
                     }
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Logger.e(TAG, e.getMessage());
                 } finally {
                     dowork = false;
                     camera.setPreviewCallback(null);

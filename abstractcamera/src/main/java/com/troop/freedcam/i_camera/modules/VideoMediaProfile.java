@@ -3,6 +3,7 @@ package com.troop.freedcam.i_camera.modules;
 import android.media.CamcorderProfile;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.BufferedReader;
@@ -20,6 +21,7 @@ import java.util.HashMap;
  */
 public class VideoMediaProfile
 {
+    private static final String TAG = VideoMediaProfile.class.getSimpleName();
     //The target audio output bit rate in bits per second
     public int audioBitRate;
     //The number of audio channels used for the audio track
@@ -167,7 +169,7 @@ public class VideoMediaProfile
         try {
             mprof.createNewFile();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
         if(mprof.exists()) {
             try

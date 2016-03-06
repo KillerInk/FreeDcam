@@ -2,6 +2,7 @@ package com.troop.freedcam.sonyapi.parameters.modes;
 
 import android.os.Handler;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 
@@ -14,7 +15,9 @@ import java.io.IOException;
 /**
  * Created by troop on 31.01.2015.
  */
-public class ObjectTrackingSony extends BaseModeParameterSony {
+public class ObjectTrackingSony extends BaseModeParameterSony
+{
+    final String TAG = ObjectTrackingSony.class.getSimpleName();
     public ObjectTrackingSony(Handler handler,String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi) {
         super(handler,VALUE_TO_GET, VALUE_TO_SET, VALUES_TO_GET, mRemoteApi);
     }
@@ -27,7 +30,7 @@ public class ObjectTrackingSony extends BaseModeParameterSony {
             JSONArray subarray = ob.getJSONArray("candidate");
             ret = JsonUtils.ConvertJSONArrayToStringArray(subarray);
         } catch (JSONException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
         return ret;
     }
@@ -40,9 +43,9 @@ public class ObjectTrackingSony extends BaseModeParameterSony {
             JSONArray array = new JSONArray().put(0, contshot);
             JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
         } catch (JSONException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
     }
 
@@ -53,7 +56,7 @@ public class ObjectTrackingSony extends BaseModeParameterSony {
             array = jsonObject.getJSONArray("result");
             ret = array.getJSONObject(0).getString("trackingFocus");
         } catch (JSONException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
         return ret;
     }

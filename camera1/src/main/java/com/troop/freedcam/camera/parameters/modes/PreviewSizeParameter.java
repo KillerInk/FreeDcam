@@ -2,6 +2,7 @@ package com.troop.freedcam.camera.parameters.modes;
 
 import android.os.Handler;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 
@@ -13,6 +14,7 @@ import java.util.HashMap;
 public class PreviewSizeParameter extends BaseModeParameter
 {
     AbstractCameraHolder baseCameraHolder;
+    final String TAG = PreviewSizeParameter.class.getSimpleName();
 
     public PreviewSizeParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, AbstractCameraHolder cameraHolder)
     {
@@ -37,7 +39,7 @@ public class PreviewSizeParameter extends BaseModeParameter
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Logger.e(TAG, ex.getMessage());
 
         }*/
         //baseCameraHolder.SetCameraParameters(parameters);
@@ -48,7 +50,7 @@ public class PreviewSizeParameter extends BaseModeParameter
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Logger.e(TAG, ex.getMessage());
         }
         if (setToCam)
             baseCameraHolder.StartPreview();

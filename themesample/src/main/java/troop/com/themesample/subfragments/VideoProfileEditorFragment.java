@@ -17,6 +17,7 @@ import android.widget.PopupMenu;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.modules.VideoMediaProfile;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
@@ -33,6 +34,7 @@ import troop.com.themesample.R;
  */
 public class VideoProfileEditorFragment extends Fragment
 {
+    final String TAG = VideoProfileEditorFragment.class.getSimpleName();
     private Button button_profile;
     private EditText editText_profilename;
     private EditText editText_audiobitrate;
@@ -81,7 +83,7 @@ public class VideoProfileEditorFragment extends Fragment
             try {
                 VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
             } catch (IOException e) {
-                e.printStackTrace();
+                Logger.e(TAG, e.getMessage());
             }
         AppSettingsManager appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getActivity()), getContext());
         try {
@@ -167,7 +169,7 @@ public class VideoProfileEditorFragment extends Fragment
                         try {
                             VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            Logger.e(TAG, e.getMessage());
                         }
                     clearProfileItems();
                     break;
@@ -239,7 +241,7 @@ public class VideoProfileEditorFragment extends Fragment
                 try {
                     VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Logger.e(TAG, e.getMessage());
                 }
             Toast.makeText(getContext(),"Profile Saved", Toast.LENGTH_SHORT).show();
         }

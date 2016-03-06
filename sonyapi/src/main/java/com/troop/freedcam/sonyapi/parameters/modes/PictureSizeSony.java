@@ -2,6 +2,7 @@ package com.troop.freedcam.sonyapi.parameters.modes;
 
 import android.os.Handler;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 
 import org.json.JSONArray;
@@ -15,6 +16,7 @@ import java.io.IOException;
  */
 public class PictureSizeSony extends BaseModeParameterSony
 {
+    final String TAG = PictureSizeSony.class.getSimpleName();
     public PictureSizeSony(Handler handler,String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi api)
     {
         super(handler,VALUE_TO_GET, VALUE_TO_SET, VALUES_TO_GET, api);
@@ -33,7 +35,7 @@ public class PictureSizeSony extends BaseModeParameterSony
                     values = processValuesToReturn();
                     BackgroundValuesHasChanged(values);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Logger.e(TAG, e.getMessage());
                 }
             }
         }).start();
@@ -52,12 +54,12 @@ public class PictureSizeSony extends BaseModeParameterSony
                 JSONArray array = new JSONArray().put(0, split[0]).put(1, split[1]);
                 JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
             } catch (JSONException e) {
-                e.printStackTrace();
+                Logger.e(TAG, e.getMessage());
             }
 
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
     }
 
@@ -74,7 +76,7 @@ public class PictureSizeSony extends BaseModeParameterSony
                 ret[i] = size.getString("aspect") + "x" +size.getString("size");
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
         return ret;
     }
@@ -84,7 +86,7 @@ public class PictureSizeSony extends BaseModeParameterSony
         try {
             array = jsonObject.getJSONArray("result");
         } catch (JSONException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
         String ret ="";
         try
@@ -93,9 +95,9 @@ public class PictureSizeSony extends BaseModeParameterSony
             ret = size.getString("aspect") + "+" +size.getString("size");
         } catch (JSONException e)
         {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
-        catch (NullPointerException ex){ex.printStackTrace();};
+        catch (NullPointerException ex){Logger.e(TAG, ex.getMessage());};
         return ret;
     }
 }

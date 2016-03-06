@@ -171,7 +171,7 @@ public class MenuItemSaveCamParams extends MenuItem
             //file.mkdirs();
             file.createNewFile();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
 
         try {
@@ -185,7 +185,7 @@ public class MenuItemSaveCamParams extends MenuItem
 
             outputStream.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
     }
 }

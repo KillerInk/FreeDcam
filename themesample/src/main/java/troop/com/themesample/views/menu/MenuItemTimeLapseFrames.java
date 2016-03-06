@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import troop.com.themesample.R;
@@ -17,6 +18,7 @@ import troop.com.themesample.R;
  */
 public class MenuItemTimeLapseFrames extends LinearLayout
 {
+    final String TAG = MenuItemTimeLapseFrames.class.getSimpleName();
     Button plus;
     Button minus;
     EditText editText;
@@ -89,7 +91,7 @@ public class MenuItemTimeLapseFrames extends LinearLayout
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Logger.e(TAG, ex.getMessage());
         }
         appSettingsManager.setString(settingsname, current+"");
         editText.setText(current + " fps");

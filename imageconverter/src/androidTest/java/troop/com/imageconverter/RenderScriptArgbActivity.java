@@ -11,6 +11,8 @@ import android.renderscript.RenderScript;
 import android.renderscript.Type;
 import android.widget.ImageView;
 
+import com.troop.filelogger.Logger;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -22,6 +24,7 @@ import java.io.OutputStream;
  */
 public class RenderScriptArgbActivity extends Activity
 {
+    final String TAG = RenderScriptArgbActivity.class.getSimpleName();
     RenderScript mRS;
     private Allocation mInputAllocation;
     private Allocation mOutputAllocation;
@@ -79,15 +82,15 @@ public class RenderScriptArgbActivity extends Activity
             fOut.flush();
             fOut.close(); // do not forget to close the stream
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
         finally {
             try {
                 fOut.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                Logger.e(TAG, e.getMessage());
             }
 
         }

@@ -173,7 +173,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+           Logger.e(TAG,ex.getMessage());
         }
     }
 

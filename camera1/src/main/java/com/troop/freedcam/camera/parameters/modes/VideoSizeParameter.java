@@ -27,7 +27,7 @@ public class VideoSizeParameter extends BaseModeParameter
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Logger.e(TAG, ex.getMessage());
         }
 
         if (sizes == null || sizes.length == 0)
@@ -38,7 +38,7 @@ public class VideoSizeParameter extends BaseModeParameter
             }
             catch (Exception ex)
             {
-                ex.printStackTrace();
+                Logger.e(TAG, ex.getMessage());
             }
         }
         if (sizes == null || sizes.length == 0)

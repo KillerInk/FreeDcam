@@ -130,7 +130,7 @@ public class BaseManualParameter extends AbstractManualParameter
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Logger.e(TAG, ex.getMessage());
         }
     }
 

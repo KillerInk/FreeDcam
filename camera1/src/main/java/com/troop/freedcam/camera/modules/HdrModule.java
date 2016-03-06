@@ -110,7 +110,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
                 try {
                     Thread.sleep(800);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Logger.e(TAG, e.getMessage());
                 }
 
                 final String picFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();

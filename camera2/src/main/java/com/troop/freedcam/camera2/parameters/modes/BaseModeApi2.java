@@ -6,13 +6,16 @@ import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.os.Handler;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 
 /**
  * Created by troop on 12.12.2014.
  */
-public class BaseModeApi2 extends AbstractModeParameter {
+public class BaseModeApi2 extends AbstractModeParameter
+{
+    private final String TAG = BaseModeApi2.class.getSimpleName();
     BaseCameraHolderApi2 cameraHolder;
     boolean isSupported = false;
 
@@ -53,7 +56,7 @@ public class BaseModeApi2 extends AbstractModeParameter {
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
         } catch (CameraAccessException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
     }
 

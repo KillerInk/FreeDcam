@@ -148,9 +148,9 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
                     cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                             null);
                 } catch (CameraAccessException e) {
-                    e.printStackTrace();
+                    Logger.e(TAG, e.getMessage());
                 } catch (NullPointerException e) {
-                    e.printStackTrace();
+                    Logger.e(TAG, e.getMessage());
                 }
             }
             firststart = false;
@@ -229,11 +229,11 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
                 cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                         null);
             } catch (CameraAccessException e) {
-                e.printStackTrace();
+                Logger.e(TAG, e.getMessage());
             }
             catch (NullPointerException e)
             {
-                e.printStackTrace();
+                Logger.e(TAG, e.getMessage());
             }
 
         }

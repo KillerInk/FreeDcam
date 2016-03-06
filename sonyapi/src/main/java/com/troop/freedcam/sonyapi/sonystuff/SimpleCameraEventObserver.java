@@ -648,7 +648,7 @@ public class SimpleCameraEventObserver {
                 }
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
     }
 
@@ -676,7 +676,7 @@ public class SimpleCameraEventObserver {
             }
         }
         } catch (JSONException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
     }
 

@@ -7,6 +7,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
@@ -17,6 +18,7 @@ import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class ZoomApi2 extends AbstractManualParameter
 {
+    final String TAG = ZoomApi2.class.getSimpleName();
     ParameterHandlerApi2 camParametersHandler;
     BaseCameraHolderApi2 cameraHolder;
     public ZoomApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder)  {
@@ -71,11 +73,11 @@ public class ZoomApi2 extends AbstractManualParameter
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
         } catch (CameraAccessException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
         catch (NullPointerException ex)
         {
-            ex.printStackTrace();
+            Logger.e(TAG, ex.getMessage());
         }
     }
 

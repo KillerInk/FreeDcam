@@ -310,7 +310,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
             runValue = valueQueue.take();
 
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
             currentlysettingsparameter = false;
         }
         pos = runValue;

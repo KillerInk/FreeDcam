@@ -62,7 +62,7 @@ public class CacheHelper
                 try {
                     mDiskLruCache = DiskLruCache.open(cacheDir, 1,1, DISK_CACHE_SIZE);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Logger.e(TAG, e.getMessage());
                 }
                 mDiskCacheStarting = false; // Finished initialization
                 mDiskCacheLock.notifyAll(); // Wake any waiting threads
@@ -170,7 +170,7 @@ public class CacheHelper
             try {
                 mDiskLruCache.remove(file);
             } catch (IOException e) {
-                e.printStackTrace();
+                Logger.e(TAG, e.getMessage());
             }
         }
     }

@@ -41,6 +41,7 @@ import troop.com.views.MyHistogram;
  */
 public class ImageFragment extends Fragment
 {
+    final String TAG = ImageFragment.class.getSimpleName();
     TouchImageView imageView;
     private File file;
     ProgressBar spinner;
@@ -222,13 +223,13 @@ public class ImageFragment extends Fragment
             fnumber.setText("Aperture:" +exifsub.getString(ExifSubIFDDirectory.TAG_FNUMBER));
             focal.setText("Focal Length:" +exifsub.getString(ExifSubIFDDirectory.TAG_FOCAL_LENGTH));
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         } catch (JpegProcessingException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
         catch (NullPointerException ex)
         {
-            ex.printStackTrace();
+            Logger.e(TAG, ex.getMessage());
         }
     }
 
@@ -366,9 +367,9 @@ public class ImageFragment extends Fragment
             Logger.d("Main", "Filesize: " + data.length + " File:" + file.getAbsolutePath());
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
 
         String out = file.getAbsolutePath().replace(".raw", ".dng");

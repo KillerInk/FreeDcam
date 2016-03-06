@@ -89,7 +89,7 @@ public class ViewfinderProcessor
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Logger.e(TAG, e.getMessage());
                 }
             }
             mProcessingTask = null;
@@ -114,7 +114,7 @@ public class ViewfinderProcessor
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Logger.e(TAG, e.getMessage());
                 }
             }
             mProcessingTask = null;

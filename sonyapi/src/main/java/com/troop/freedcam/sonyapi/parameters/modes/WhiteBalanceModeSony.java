@@ -2,6 +2,7 @@ package com.troop.freedcam.sonyapi.parameters.modes;
 
 import android.os.Handler;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.sonyapi.parameters.manual.WbCTManualSony;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 
@@ -16,7 +17,7 @@ import java.io.IOException;
  */
 public class WhiteBalanceModeSony extends BaseModeParameterSony
 {
-
+    final String TAG = WhiteBalanceModeSony.class.getSimpleName();
     WbCTManualSony wb;
     public WhiteBalanceModeSony(Handler handler,String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi,WbCTManualSony wb) {
         super(handler,VALUE_TO_GET, VALUE_TO_SET, VALUES_TO_GET, mRemoteApi);
@@ -36,7 +37,7 @@ public class WhiteBalanceModeSony extends BaseModeParameterSony
                         values = processValuesToReturn();
                         BackgroundValuesHasChanged(values);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Logger.e(TAG, e.getMessage());
                     }
                 }
             }).start();
@@ -69,7 +70,7 @@ public class WhiteBalanceModeSony extends BaseModeParameterSony
             }
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
         return ret;
     }
@@ -93,7 +94,7 @@ public class WhiteBalanceModeSony extends BaseModeParameterSony
             JSONArray array = new JSONArray().put(valueToSet).put(false).put(-1) ;
             JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
     }
 
@@ -104,7 +105,7 @@ public class WhiteBalanceModeSony extends BaseModeParameterSony
             array = jsonObject.getJSONArray("result");
             ret = array.getJSONObject(0).getString("whiteBalanceMode");
         } catch (JSONException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
         return ret;
     }

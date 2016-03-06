@@ -2,6 +2,7 @@ package com.troop.freedcam.camera.parameters.modes;
 
 import android.os.Handler;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
@@ -17,6 +18,7 @@ import java.util.List;
  */
 public class HDRModeParameter extends BaseModeParameter
 {
+    final String TAG = HDRModeParameter.class.getSimpleName();
     private boolean visible = true;
     private boolean supportauto = false;
     private boolean supporton = false;
@@ -125,7 +127,7 @@ public class HDRModeParameter extends BaseModeParameter
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Logger.e(TAG, ex.getMessage());
         }
         firststart = false;
     }

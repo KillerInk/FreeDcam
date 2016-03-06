@@ -3,6 +3,8 @@ package com.troop.freedcam.utils;
 import android.hardware.Camera;
 import android.os.Environment;
 
+import com.troop.filelogger.Logger;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -190,7 +192,7 @@ public class StringUtils
             }
             p.destroy();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
         return board_platform;
     }

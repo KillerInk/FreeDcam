@@ -58,7 +58,7 @@ public class ShutterManualParameter extends BaseManualParameter
                 this.isSupported = true;
 
             } catch (NumberFormatException ex) {
-                ex.printStackTrace();
+                Logger.e(TAG, ex.getMessage());
                 isSupported = false;
             }
         }

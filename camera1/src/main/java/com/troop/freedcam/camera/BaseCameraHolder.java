@@ -146,13 +146,13 @@ public class BaseCameraHolder extends AbstractCameraHolder
             if (app != null)
                 DeviceFrameWork = Frameworks.MTK;
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            Logger.e(TAG,e.getMessage());
             DeviceFrameWork = Frameworks.Normal;
             Logger.d(TAG, "MTK Framework found");
         }
         catch (NullPointerException ex)
         {
-            ex.printStackTrace();
+            Logger.e(TAG,ex.getMessage());
             DeviceFrameWork = Frameworks.Normal;
             Logger.d(TAG, "No MTK");
         }
@@ -209,7 +209,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
         } catch (Exception ex) {
             isRdy = false;
-            ex.printStackTrace();
+            Logger.e(TAG,ex.getMessage());
         }
         super.OpenCamera(0);
         return isRdy;
@@ -229,7 +229,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             }
             catch (Exception ex)
             {
-                ex.printStackTrace();
+                Logger.e(TAG,ex.getMessage());
                 Logger.e(TAG, "Error on Camera close");
             }
             finally {
@@ -277,7 +277,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
            // Thread.sleep(300);
         }
         catch (Exception ex) {
-           // Logger.d("Freedcam", ex.getMessage());
+           Logger.d(TAG, ex.getMessage());
         }
 
 
@@ -297,12 +297,12 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 return true;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.e(TAG,e.getMessage());
             return false;
         }
         catch (NullPointerException ex)
         {
-            ex.printStackTrace();
+            Logger.e(TAG,ex.getMessage());
             return false;
         }
         return false;
@@ -317,7 +317,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             this.surfaceHolder = new Surface(textureView.getSurfaceTexture());
             return  true;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.e(TAG,e.getMessage());
 
         }
         return false;
@@ -362,7 +362,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         try {
             Thread.sleep(200);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Logger.e(TAG,e.getMessage());
         }
     }
 
@@ -389,7 +389,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             cameraChangedListner.onPreviewClose("");
             isPreviewRunning = false;
             Logger.d(TAG, "Camera was released");
-            ex.printStackTrace();
+            Logger.e(TAG,ex.getMessage());
         }
     }
 
@@ -469,6 +469,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         catch (RuntimeException ex)
         {
             errorHandler.OnError("Picture Taking failed, What a Terrible Failure!!");
+            Logger.e(TAG, ex.getMessage());
         }
 
     }
@@ -488,13 +489,13 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 throw new  NoSuchMethodException();
             app.invoke(null, "client.appmode", "MtkEng");
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            Logger.e(TAG,e.getMessage());
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            Logger.e(TAG,e.getMessage());
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            Logger.e(TAG,e.getMessage());
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            Logger.e(TAG,e.getMessage());
         }
     }
 
@@ -515,13 +516,13 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 throw new  NoSuchMethodException();
             obtrack.invoke(lgCamera, null);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            Logger.e(TAG,e.getMessage());
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            Logger.e(TAG,e.getMessage());
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            Logger.e(TAG,e.getMessage());
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            Logger.e(TAG,e.getMessage());
         }
     }
 
@@ -561,7 +562,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         }
         catch (NullPointerException ex)
         {
-            ex.printStackTrace();
+            Logger.e(TAG,ex.getMessage());
         }
 
     }
@@ -580,7 +581,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         }
         catch (NullPointerException ex)
         {
-            ex.printStackTrace();
+            Logger.e(TAG,ex.getMessage());
         }
 
     }
@@ -621,7 +622,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         }
         catch (RuntimeException ex)
         {
-            ex.printStackTrace();
+            Logger.e(TAG,ex.getMessage());
             CameraFocusEvent focusEvent = new CameraFocusEvent();
 
             focusEvent.success = false;
@@ -629,7 +630,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Logger.e(TAG,ex.getMessage());
             CameraFocusEvent focusEvent = new CameraFocusEvent();
 
             focusEvent.success = false;
@@ -668,7 +669,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Logger.e(TAG,ex.getMessage());
         }
     }
 

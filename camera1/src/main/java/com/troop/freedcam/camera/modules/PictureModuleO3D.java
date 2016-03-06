@@ -54,7 +54,7 @@ public class PictureModuleO3D extends PictureModule
                     data = readBytesFromFile(folders[i]);
                     if (processCallbackData(data)) return;
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Logger.e(TAG, e.getMessage());
                 }
             }
             for (int i = 0; i < folders.length; i++)

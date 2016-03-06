@@ -24,8 +24,7 @@ public class RawToDngTestActivity extends Activity {
 
     final int g3W = 4160;
     final int g3H = 3120;
-	
-	@Override
+	final String TAG = RawToDngTestActivity.class.getSimpleName();
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -115,9 +114,9 @@ public class RawToDngTestActivity extends Activity {
 							Logger.d("Main", "Filesize: " + data.length + " File:" +file.getAbsolutePath());
 
 						} catch (FileNotFoundException e) {
-							e.printStackTrace();
+							Logger.e(TAG, e.getMessage());
 						} catch (IOException e) {
-							e.printStackTrace();
+							Logger.e(TAG, e.getMessage());
 						}
 
 						String out = file.getAbsolutePath().replace(".raw", ".dng");

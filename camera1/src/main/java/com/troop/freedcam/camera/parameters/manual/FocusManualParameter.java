@@ -3,6 +3,7 @@ package com.troop.freedcam.camera.parameters.manual;
 import android.os.Handler;
 import android.util.Log;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
@@ -137,7 +138,7 @@ public class FocusManualParameter extends  BaseManualParameter
                 }
                 catch (Exception ex)
                 {
-                    ex.printStackTrace();
+                    Logger.e(TAG, ex.getMessage());
                 }
             }
             else

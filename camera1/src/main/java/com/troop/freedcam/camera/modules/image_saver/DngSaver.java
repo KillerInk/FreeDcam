@@ -188,38 +188,38 @@ public class DngSaver extends JpegSaver
             {
                 iso = exifsub.getInt(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT);
             } catch (MetadataException e) {
-                e.printStackTrace();
+                Logger.e(TAG, e.getMessage());
             }
             try
             {
                 flash = exifsub.getInt(ExifSubIFDDirectory.TAG_FLASH);
             } catch (MetadataException e) {
-                e.printStackTrace();
+                Logger.e(TAG, e.getMessage());
             }
             try
             {
                 fNumber = exifsub.getFloat(ExifSubIFDDirectory.TAG_FNUMBER);
             } catch (MetadataException e) {
-                e.printStackTrace();
+                Logger.e(TAG, e.getMessage());
             }
             try
             {
                 focalLength = exifsub.getFloat(ExifSubIFDDirectory.TAG_FOCAL_LENGTH);
             } catch (MetadataException e) {
-                e.printStackTrace();
+                Logger.e(TAG, e.getMessage());
             }
             try
             {
                 exposureIndex = exifsub.getFloat(ExifSubIFDDirectory.TAG_EXPOSURE_TIME);
             } catch (MetadataException e) {
-                e.printStackTrace();
+                Logger.e(TAG, e.getMessage());
             }
         }
         catch (JpegProcessingException e)
         {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
         String IMGDESC = "ISO:" + String.valueOf(iso) + " Exposure Time:" + exposureIndex + " F Number:" + String.valueOf(fNumber) + " Focal Length:" + focalLength;
 

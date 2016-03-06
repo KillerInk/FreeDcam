@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 
 
@@ -13,6 +14,7 @@ import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
  */
 public class AppSettingsManager
 {
+    final private static String TAG = AppSettingsManager.class.getSimpleName();
     SharedPreferences appSettings;
     public Context context;
     private int currentcamera = 0;
@@ -142,7 +144,7 @@ public class AppSettingsManager
                 appSettings.edit().putString(APPVERSION, appver).commit();
             }
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
         this.context = context;
     }

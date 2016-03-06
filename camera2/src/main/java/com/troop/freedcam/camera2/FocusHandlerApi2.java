@@ -135,7 +135,7 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
             if (focusEvent != null)
                 focusEvent.FocusStarted(focusRect);
         } catch (CameraAccessException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
     }
 
@@ -153,7 +153,7 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
                     null);
 
         } catch (CameraAccessException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
 
     }
@@ -207,7 +207,7 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
             cameraHolder.mCaptureSession.capture(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
         } catch (CameraAccessException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
     }
 
@@ -272,7 +272,7 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
             cameraHolder.mCaptureSession.capture(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
         } catch (CameraAccessException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }*/
         Rect m = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         if (rect.left < m.left)

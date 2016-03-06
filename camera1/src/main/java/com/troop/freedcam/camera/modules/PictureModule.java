@@ -189,7 +189,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
             backgroundThread = null;
             handler = null;
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
     }*/
 

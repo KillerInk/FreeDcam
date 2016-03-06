@@ -50,7 +50,7 @@ public class ExposureManualParameter extends BaseManualParameter
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Logger.e(TAG, ex.getMessage());
         }
         ThrowCurrentValueChanged(t);
         ThrowCurrentValueStringCHanged(stringvalues[valueToset]);

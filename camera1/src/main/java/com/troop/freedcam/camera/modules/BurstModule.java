@@ -129,11 +129,11 @@ public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCa
             }
             catch (FileNotFoundException e)
             {
-                e.printStackTrace();
+                Logger.e(TAG, e.getMessage());
             }
             catch (IOException e)
             {
-                e.printStackTrace();
+                Logger.e(TAG, e.getMessage());
             }
         }
     }
@@ -152,7 +152,7 @@ public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCa
             }
             catch (Exception ex)
             {
-                ex.printStackTrace();
+                Logger.e(TAG, ex.getMessage());
             }
 
         File newBurstFolder = new File(folder.getAbsolutePath() + "/" + getTimeFolderName() + "/");
@@ -161,7 +161,7 @@ public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCa
                 newBurstFolder.mkdirs();
             }
             catch (Exception ex)
-            {ex.printStackTrace();}
+            {Logger.e(TAG, ex.getMessage());}
 
         return newBurstFolder.getAbsolutePath();
     }

@@ -30,6 +30,7 @@ import com.troop.freedcam.sonyapi.sonystuff.WifiUtils;
  */
 public class SonyCameraFragment extends AbstractCameraFragment implements I_CameraChangedListner
 {
+    final String TAG = SonyCameraFragment.class.getSimpleName();
     SimpleStreamSurfaceView surfaceView;
     WifiUtils wifiUtils;
     WifiScanReceiver wifiReciever;
@@ -137,7 +138,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Logger.e(TAG, e.getMessage());
                 }
             }
             mSsdpClient.search(new SimpleSsdpClient.SearchResultHandler()

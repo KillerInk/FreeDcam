@@ -2,6 +2,7 @@ package com.troop.freedcam.camera.parameters.modes;
 
 import android.os.Handler;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -11,7 +12,9 @@ import java.util.HashMap;
 /**
  * Created by Ar4eR on 05.02.16.
  */
-public class CupBurstExpModeParameter extends BaseModeParameter {
+public class CupBurstExpModeParameter extends BaseModeParameter
+{
+    final String TAG = CupBurstExpModeParameter.class.getSimpleName();
     AppSettingsManager appSettingsManager;
     public CupBurstExpModeParameter(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value, String values, AppSettingsManager appSettingsManager) {
         super(uihandler, parameters, cameraHolder, value, values);
@@ -52,7 +55,7 @@ public class CupBurstExpModeParameter extends BaseModeParameter {
         try {
             baseCameraHolder.SetCameraParameters(parameters);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Logger.e(TAG, ex.getMessage());
         }
         String newvalue[] = "0,0,0".split(",");
         if (valueToSet.equals("on")) {
@@ -79,7 +82,7 @@ public class CupBurstExpModeParameter extends BaseModeParameter {
             baseCameraHolder.SetCameraParameters(parameters);
             //super.BackgroundValueHasChanged(newvalue[0]+","+newvalue[1]+","+newvalue[2]);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Logger.e(TAG, ex.getMessage());
         }
     }
 

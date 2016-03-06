@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.R;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
@@ -31,8 +32,9 @@ import troop.com.views.MyHistogram;
 /**
  * Created by George on 3/26/2015.
  */
-public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCallback, I_ModuleEvent, I_CameraChangedListner, AbstractModuleHandler.I_worker {
-
+public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCallback, I_ModuleEvent, I_CameraChangedListner, AbstractModuleHandler.I_worker
+{
+    final String TAG = HistogramFragment.class.getSimpleName();
     private AppSettingsManager appSettingsManager;
     AbstractCameraUiWrapper cameraUiWrapper;
     boolean fragmentloaded = false;
@@ -126,7 +128,7 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
             try {
                 cameraUiWrapper.cameraHolder.SetPreviewCallback(this);
             } catch (java.lang.RuntimeException ex) {
-                ex.printStackTrace();
+                Logger.e(TAG, ex.getMessage());
                 return;
             }
 
@@ -160,7 +162,7 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
                         }
                     }
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Logger.e(TAG, e.getMessage());
                 } finally {
                     mYuvFrameQueue.clear();
                     doWork = false;

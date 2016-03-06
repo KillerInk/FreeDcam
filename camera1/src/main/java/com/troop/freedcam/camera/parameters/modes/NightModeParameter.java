@@ -2,6 +2,7 @@ package com.troop.freedcam.camera.parameters.modes;
 
 import android.os.Handler;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
@@ -14,7 +15,7 @@ import java.util.HashMap;
  */
 public class NightModeParameter extends BaseModeParameter
 {
-
+    final String TAG = NightModeParameter.class.getSimpleName();
     private boolean visible = true;
     private String state = "";
     private String format = "";
@@ -65,7 +66,7 @@ public class NightModeParameter extends BaseModeParameter
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Logger.e(TAG, ex.getMessage());
         }
         firststart = false;
     }

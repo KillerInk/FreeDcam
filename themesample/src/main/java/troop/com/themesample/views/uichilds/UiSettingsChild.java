@@ -208,7 +208,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
             }
             catch (NullPointerException ex)
             {
-                ex.printStackTrace();
+                Logger.e(TAG, ex.getMessage());
             }
             onValueChanged(value);
         }

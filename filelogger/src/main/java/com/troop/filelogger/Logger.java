@@ -77,7 +77,7 @@ public class Logger
                 outputStream = new FileWriter(file);
                 writer = new BufferedWriter(outputStream);
             } catch (IOException e) {
-                e.printStackTrace();
+                Logger.e(TAG, e.getMessage());
             }
 
         }
@@ -90,22 +90,22 @@ public class Logger
                 try {
                     writer.flush();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Logger.e(TAG, e.getMessage());
                 }
                 try {
                     writer.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Logger.e(TAG, e.getMessage());
                 }
                 try {
                     outputStream.flush();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Logger.e(TAG, e.getMessage());
                 }
                 try {
                     outputStream.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Logger.e(TAG, e.getMessage());
                 }
             }
             backgroundThread.quit();
@@ -120,7 +120,7 @@ public class Logger
                         writer.write(TAG + ": DEBUG: " + msg);
                         writer.newLine();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Logger.e(TAG, e.getMessage());
                     }
                 }
             });
@@ -136,7 +136,7 @@ public class Logger
                         writer.write(TAG + ": ERROR: " + msg);
                         writer.newLine();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Logger.e(TAG, e.getMessage());
                     }
                 }
             });

@@ -70,9 +70,9 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
                 cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                         null);
             } catch (CameraAccessException e) {
-                e.printStackTrace();
+                Logger.e(TAG, e.getMessage());
             } catch (NullPointerException ex) {
-                ex.printStackTrace();
+                Logger.e(TAG, ex.getMessage());
             }
         }
     }

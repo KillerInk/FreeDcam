@@ -46,7 +46,7 @@ public class FocusHandlerSony extends AbstractFocusHandler implements I_Callback
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Logger.e(TAG, e.getMessage());
             }
         }
 

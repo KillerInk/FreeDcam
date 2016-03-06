@@ -32,6 +32,7 @@ import java.io.IOException;
  */
 public class DngConvertingFragment extends Fragment
 {
+    final String TAG = DngConvertingFragment.class.getSimpleName();
     View view;
     EditText editTextwidth;
     EditText editTextheight;
@@ -226,9 +227,9 @@ public class DngConvertingFragment extends Fragment
             Logger.d("Main", "Filesize: " + data.length + " File:" + file.getAbsolutePath());
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
 
         String out = file.getAbsolutePath().replace(".raw", ".dng");

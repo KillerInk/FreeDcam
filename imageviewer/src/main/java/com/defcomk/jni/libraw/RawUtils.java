@@ -6,6 +6,8 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
 
+import com.troop.filelogger.Logger;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +19,7 @@ import java.util.HashMap;
 
 public class RawUtils {
 
+    final static String TAG = RawUtils.class.getSimpleName();
     private static int DEFAULT_JPG_QUALITY = 85;
 
     public RawUtils() {
@@ -27,7 +30,7 @@ public class RawUtils {
         try {
             System.loadLibrary("rawutils");
         } catch (Throwable e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
     }
 
@@ -75,7 +78,7 @@ public class RawUtils {
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
         return byteArray;
     }
@@ -201,10 +204,10 @@ public class RawUtils {
             outputStream.flush();
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            Logger.e(TAG, e.getMessage());  //To change body of catch statement use File | Settings | File Templates.
         }
         catch (IOException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
         finally {
             try {
@@ -212,7 +215,7 @@ public class RawUtils {
                     outputStream.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                Logger.e(TAG, e.getMessage());  //To change body of catch statement use File | Settings | File Templates.
             }
         }
         return result;
@@ -230,7 +233,7 @@ public class RawUtils {
                 parseExif(fileName, exif);
             }
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            Logger.e(TAG, e.getMessage());  //To change body of catch statement use File | Settings | File Templates.
         }
         return exif;
     }

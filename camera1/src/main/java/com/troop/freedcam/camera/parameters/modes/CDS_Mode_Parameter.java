@@ -2,6 +2,7 @@ package com.troop.freedcam.camera.parameters.modes;
 
 import android.os.Handler;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -12,6 +13,7 @@ import java.util.HashMap;
  */
 public class CDS_Mode_Parameter extends BaseModeParameter
 {
+    final String TAG = CDS_Mode_Parameter.class.getSimpleName();
     final String[] cds_values = {"auto", "on", "off"};
     public CDS_Mode_Parameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value, String values)
     {
@@ -63,7 +65,7 @@ public class CDS_Mode_Parameter extends BaseModeParameter
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Logger.e(TAG, ex.getMessage());
         }
         firststart = false;
     }

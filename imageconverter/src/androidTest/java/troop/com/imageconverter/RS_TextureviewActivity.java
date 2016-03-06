@@ -25,6 +25,7 @@ import java.util.concurrent.BlockingQueue;
  */
 public class RS_TextureviewActivity extends Activity implements Camera.PreviewCallback
 {
+    final String TAG = RS_TextureviewActivity.class.getSimpleName();
     TextureView output;
     TextureView input;
 
@@ -124,7 +125,7 @@ public class RS_TextureviewActivity extends Activity implements Camera.PreviewCa
                 camera.setPreviewCallback(RS_TextureviewActivity.this);
 
             } catch (IOException e) {
-                e.printStackTrace();
+                Logger.e(TAG, e.getMessage());
             }
             camera.startPreview();
             initRenderScript();
@@ -185,7 +186,7 @@ public class RS_TextureviewActivity extends Activity implements Camera.PreviewCa
                         }
                     }
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Logger.e(TAG, e.getMessage());
                 } finally {
                     dowork = false;
                     camera.setPreviewCallback(null);

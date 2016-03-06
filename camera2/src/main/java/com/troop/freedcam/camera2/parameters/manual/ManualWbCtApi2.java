@@ -90,11 +90,11 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
         } catch (CameraAccessException e) {
-            e.printStackTrace();
+            Logger.e(TAG, e.getMessage());
         }
         catch (NullPointerException ex)
         {
-            ex.printStackTrace();
+            Logger.e(TAG, ex.getMessage());
         }
 
     }

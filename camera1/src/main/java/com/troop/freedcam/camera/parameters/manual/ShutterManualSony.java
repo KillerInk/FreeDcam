@@ -1,5 +1,6 @@
 package com.troop.freedcam.camera.parameters.manual;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
@@ -11,7 +12,7 @@ import java.util.HashMap;
  */
 public class ShutterManualSony extends BaseManualParameter
 {
-
+    final String TAG = ShutterManualSony.class.getSimpleName();
     /**
      * @param parameters
      * @param value
@@ -30,7 +31,7 @@ public class ShutterManualSony extends BaseManualParameter
                     stringvalues = StringUtils.getSupportedShutterValues(min, max,true);
                     this.isSupported = true;
                 } catch (NumberFormatException ex) {
-                    ex.printStackTrace();
+                    Logger.e(TAG, ex.getMessage());
                     isSupported = false;
                 }
             }

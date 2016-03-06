@@ -2,6 +2,7 @@ package com.troop.freedcam.camera.parameters.modes;
 
 import android.os.Handler;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.HashMap;
  */
 public class PictureSizeParameter extends BaseModeParameter
 {
+    final String TAG = PictureSizeParameter.class.getSimpleName();
     public PictureSizeParameter(Handler handler,HashMap<String, String> parameters,BaseCameraHolder parameterChanged, String value, String values) {
         super(handler, parameters, parameterChanged, value, values);
     }
@@ -26,7 +28,7 @@ public class PictureSizeParameter extends BaseModeParameter
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            Logger.e(TAG, ex.getMessage());
         }
     }
 }
