@@ -27,7 +27,6 @@ public class MenuItem extends UiSettingsChild implements View.OnClickListener, I
     LinearLayout toplayout;
 
     TextView headerText;
-    SwipeMenuListner swipeMenuListner;
 
     SwipeMenuListner controlswipeListner;
 
@@ -97,36 +96,32 @@ public class MenuItem extends UiSettingsChild implements View.OnClickListener, I
             onItemClick.onMenuItemClick(this, false);
     }
 
-    public void SetStuff(I_Activity i_activity, AppSettingsManager appSettingsManager, String settingvalue,SwipeMenuListner swipeMenuListner) {
-        super.SetStuff(i_activity, appSettingsManager, settingvalue);
-        this.swipeMenuListner = swipeMenuListner;
+    public void SetStuff(I_Activity i_activity, String settingvalue) {
+        super.SetStuff(i_activity, settingvalue);
+
     }
 
 
     @Override
     public void doLeftToRightSwipe()
     {
-        if (swipeMenuListner != null)
-        swipeMenuListner.LeftToRightSwipe();
+
     }
 
     @Override
     public void doRightToLeftSwipe()
     {
-        if (swipeMenuListner != null)
-            swipeMenuListner.RightToLeftSwipe();
+
     }
 
     @Override
     public void doTopToBottomSwipe() {
-        if (swipeMenuListner != null)
-            swipeMenuListner.TopToBottomSwipe();
+
     }
 
     @Override
     public void doBottomToTopSwipe() {
-        if (swipeMenuListner != null)
-            swipeMenuListner.BottomToTopSwipe();
+
     }
 
     @Override

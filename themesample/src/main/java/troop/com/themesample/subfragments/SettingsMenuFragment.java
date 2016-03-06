@@ -31,7 +31,6 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
     RightMenuFragment rightMenuFragment;
     ValuesMenuFragment valuesMenuFragment;
 
-    SwipeMenuListner touchHandler;
 
     final int VALUE_MENU_CLOSED = 0;
     final int VALUE_MENU_RIGHT_OPEN = 1;
@@ -49,15 +48,9 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         //    setWrapper();
     }
 
-    public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity, SwipeMenuListner touchHandler)
+    public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity)
     {
-        super.SetStuff(appSettingsManager, i_activity);
-        this.touchHandler = touchHandler;
-        if (leftMenuFragment != null && rightMenuFragment != null)
-        {
-            leftMenuFragment.touchHandler = touchHandler;
-            rightMenuFragment.touchHandler = touchHandler;
-        }
+        super.SetStuff(i_activity);
     }
 
     @Override
@@ -92,8 +85,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         {
             leftMenuFragment = new LeftMenuFragment();
         }
-        leftMenuFragment.touchHandler = touchHandler;
-        leftMenuFragment.SetStuff(appSettingsManager, i_activity);
+        leftMenuFragment.SetStuff(i_activity);
         leftMenuFragment.SetCameraUIWrapper(wrapper);
         leftMenuFragment.SetMenuItemClickListner(this);
         try {
@@ -109,8 +101,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
     private void loadRightFragment() {
         if (rightMenuFragment == null)
             rightMenuFragment = new RightMenuFragment();
-        rightMenuFragment.touchHandler = touchHandler;
-        rightMenuFragment.SetStuff(appSettingsManager, i_activity);
+        rightMenuFragment.SetStuff(i_activity);
         rightMenuFragment.SetCameraUIWrapper(wrapper);
         rightMenuFragment.SetMenuItemClickListner(this);
         try {

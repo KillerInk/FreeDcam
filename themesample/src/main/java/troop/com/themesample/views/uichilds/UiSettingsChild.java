@@ -33,7 +33,6 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     protected AbstractModeParameter parameter;
     protected I_Activity i_activity;
     protected String TAG;
-    protected AppSettingsManager appSettingsManager;
     protected String settingsname;
     protected Interfaces.I_MenuItemClick onItemClick;
     final protected boolean logging =false;
@@ -45,10 +44,9 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         init(context);
     }
 
-    public void SetStuff(I_Activity i_activity, AppSettingsManager appSettingsManager, String settingvalue)
+    public void SetStuff(I_Activity i_activity, String settingvalue)
     {
         this.i_activity = i_activity;
-        this.appSettingsManager = appSettingsManager;
         this.settingsname = settingvalue;
     }
 
@@ -202,7 +200,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         if (parameter != null && parameter.IsSupported())
         {
             if (settingsname != null && !settingsname.equals(""))
-                appSettingsManager.setString(settingsname, value);
+                AppSettingsManager.APPSETTINGSMANAGER.setString(settingsname, value);
             try {
                 parameter.SetValue(value, true);
             }

@@ -10,13 +10,12 @@ public class ParameterExternalShutter extends AbstractModeParameter
     public static String VoLP = "Vol+";
     public static String VoLM = "Vol-";
     public static String Hook = "Hook";
-    AppSettingsManager appSettingsManager;
+
     private String[] values = {VoLP, VoLM, Hook};
 
-    public ParameterExternalShutter(AppSettingsManager appSettingsManager)
+    public ParameterExternalShutter()
     {
         super(null);
-        this.appSettingsManager = appSettingsManager;
     }
 
     public boolean IsSupported()
@@ -30,15 +29,15 @@ public class ParameterExternalShutter extends AbstractModeParameter
 
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        appSettingsManager.setString(AppSettingsManager.SETTING_EXTERNALSHUTTER, valueToSet);
+        AppSettingsManager.APPSETTINGSMANAGER.setString(AppSettingsManager.SETTING_EXTERNALSHUTTER, valueToSet);
     }
 
     public String GetValue()
     {
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(""))
+        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(""))
             return "Hook";
         else
-            return appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER);
+            return AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER);
     }
 
     public String[] GetValues() {

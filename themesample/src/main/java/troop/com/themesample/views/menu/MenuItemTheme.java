@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
+import com.troop.freedcam.ui.AppSettingsManager;
 
 /**
  * Created by troop on 14.06.2015.
@@ -39,17 +40,17 @@ public class MenuItemTheme extends MenuItem {
         else
             this.setVisibility(VISIBLE);
         this.parameter = parameter;
-        String s = appSettingsManager.GetTheme();
+        String s = AppSettingsManager.APPSETTINGSMANAGER.GetTheme();
         if (s.equals("")) {
             s = "Classic";
-            appSettingsManager.setString(settingsname,s);
+            AppSettingsManager.APPSETTINGSMANAGER.setString(settingsname, s);
         }
         valueText.setText(s);
     }
 
     @Override
     public void SetValue(String value) {
-        appSettingsManager.SetTheme(value);
+        AppSettingsManager.APPSETTINGSMANAGER.SetTheme(value);
         i_activity.SetTheme(value);
         onValueChanged(value);
     }

@@ -23,9 +23,9 @@ public class MenuItemIntervalDuration extends MenuItem
     }
 
     @Override
-    public void SetStuff(I_Activity i_activity, AppSettingsManager appSettingsManager, String settingvalue) {
-        super.SetStuff(i_activity, appSettingsManager, settingvalue);
-        onValueChanged(appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL_DURATION));
+    public void SetStuff(I_Activity i_activity, String settingvalue) {
+        super.SetStuff(i_activity, settingvalue);
+        onValueChanged(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_INTERVAL_DURATION));
     }
 
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
@@ -44,7 +44,7 @@ public class MenuItemIntervalDuration extends MenuItem
     @Override
     public void SetValue(String value)
     {
-        appSettingsManager.setString(AppSettingsManager.SETTING_INTERVAL_DURATION, value);
+        AppSettingsManager.APPSETTINGSMANAGER.setString(AppSettingsManager.SETTING_INTERVAL_DURATION, value);
         onValueChanged(value);
         parameter.SetValue(value,true);
     }

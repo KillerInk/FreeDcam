@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.SDModeParameter;
+import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -69,7 +70,7 @@ public class MenuItemSDSave extends MenuItem
 
             }
             if (canWriteExternal) {
-                appSettingsManager.SetWriteExternal(true);
+                AppSettingsManager.APPSETTINGSMANAGER.SetWriteExternal(true);
                 onValueChanged(SDModeParameter.external);
             }
             else {
@@ -78,7 +79,7 @@ public class MenuItemSDSave extends MenuItem
             }
         }
         else {
-            appSettingsManager.SetWriteExternal(false);
+            AppSettingsManager.APPSETTINGSMANAGER.SetWriteExternal(false);
             onValueChanged(value);
         }
     }

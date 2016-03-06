@@ -35,7 +35,6 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     final String TAG = ManualButton.class.getSimpleName();
     String[] parameterValues;
     AbstractManualParameter parameter;
-    AppSettingsManager appSettingsManager;
     String settingsname;
     TextView headerTextView;
     TextView valueTextView;
@@ -147,9 +146,9 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
         }*/
     }
 
-    public void SetStuff(AppSettingsManager appSettingsManager, String settingsName)
+    public void SetStuff(String settingsName)
     {
-        this.appSettingsManager = appSettingsManager;
+
         this.settingsname = settingsName;
     }
 
@@ -318,7 +317,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
             return;
         parameter.SetValue(runValue);
         if (!(parameter instanceof BaseManualParameterSony) && settingsname != null) {
-            appSettingsManager.setString(settingsname, runValue + "");
+            AppSettingsManager.APPSETTINGSMANAGER.setString(settingsname, runValue + "");
         }
         currentlysettingsparameter = false;
     }

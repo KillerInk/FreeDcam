@@ -23,7 +23,6 @@ import java.util.Date;
  */
 public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
 {
-    protected AppSettingsManager appSettingsManager;
     Handler handler;
     protected AbstractCameraUiWrapper cameraUiWrapper;
     boolean started = false;
@@ -42,10 +41,9 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
 
     protected String storageSpace;
 
-    public AbstractInfoOverlayHandler(Context context, AppSettingsManager appSettingsManager)
+    public AbstractInfoOverlayHandler(Context context)
     {
         this.context = context;
-        this.appSettingsManager = appSettingsManager;
         handler = new Handler();
         batteryBroadCastListner = new BatteryBroadCastListner();
     }
@@ -125,7 +123,7 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
         if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
         {
             format = "H264";
-            size = appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
+            size = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_VIDEPROFILE);
         }
         else
         {
@@ -175,9 +173,9 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
     private double Calc()
     {
         double calc;
-        String res [] = appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
+        String res [] = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
 
-        if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer"))
+        if(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer"))
         {
             if (Build.MANUFACTURER.contains("HTC"))
                 return calc = Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) * 16 / 8;
@@ -191,7 +189,7 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
     private long SDspace()
     {
         long bytesAvailable = 0;
-        if (!appSettingsManager.GetWriteExternal()) {
+        if (!AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal()) {
             bytesAvailable = Environment.getExternalStorageDirectory().getUsableSpace();
         }
         else

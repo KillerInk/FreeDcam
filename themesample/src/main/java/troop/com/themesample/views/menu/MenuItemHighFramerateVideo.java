@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
+import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.util.ArrayList;
 
@@ -36,7 +37,7 @@ public class MenuItemHighFramerateVideo extends MenuItem
         if (parameter != null && parameter.IsSupported())
         {
             if (settingsname != null && !settingsname.equals(""))
-                appSettingsManager.setString(settingsname, value);
+                AppSettingsManager.APPSETTINGSMANAGER.setString(settingsname, value);
             if (modulesToShow.contains(moduleHandler.GetCurrentModuleName()))
                 parameter.SetValue(value, true);
             onValueChanged(value);

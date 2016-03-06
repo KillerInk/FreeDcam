@@ -23,7 +23,7 @@ public class UserMessageHandler implements I_CameraChangedListner
     AbstractCameraUiWrapper cameraUiWrapper;
     Handler handler;
 
-    public UserMessageHandler(View view, AppSettingsManager appSettingsManager)
+    public UserMessageHandler(View view)
     {
         this.messageHolder = (LinearLayout)view.findViewById(R.id.userMessageHolder);
         this.messageTextView = (TextView)view.findViewById(R.id.textView_usermessage);

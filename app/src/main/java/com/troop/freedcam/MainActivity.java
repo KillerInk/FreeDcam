@@ -446,7 +446,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     @Override
     public void loadImageViewerFragment(File file)
     {
-        try {
+        /*try {
             imageViewerFragment = new ScreenSlideFragment();
             imageViewerFragment.Set_I_Activity(this);
             android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
@@ -457,7 +457,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
         catch (Exception ex)
         {
             Logger.d("Freedcam",ex.getMessage());
-        }
+        }*/
     }
 
     @Override

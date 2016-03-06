@@ -28,19 +28,17 @@ public class HelpFragment extends Fragment
     private int helpState;
     private CameraUiFragment.i_HelpFragment closer;
     private CheckBox dontshowagain;
-    private AppSettingsManager appSettingsManager;
 
-    public static HelpFragment getFragment(CameraUiFragment.i_HelpFragment closer, AppSettingsManager appSettingsManager)
+    public static HelpFragment getFragment(CameraUiFragment.i_HelpFragment closer)
     {
         HelpFragment h = new HelpFragment();
-        h.setCloser(closer, appSettingsManager);
+        h.setCloser(closer);
         return h;
     }
 
-    private void setCloser(CameraUiFragment.i_HelpFragment closer, AppSettingsManager appSettingsManager)
+    private void setCloser(CameraUiFragment.i_HelpFragment closer)
     {
         this.closer = closer;
-        this.appSettingsManager = appSettingsManager;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -75,11 +73,11 @@ public class HelpFragment extends Fragment
                     case 4:
                         if (dontshowagain.isChecked())
                         {
-                            appSettingsManager.setString(AppSettingsManager.SETTING_HELP, "false");
+                            AppSettingsManager.APPSETTINGSMANAGER.setString(AppSettingsManager.SETTING_HELP, "false");
                         }
                         else
                         {
-                            appSettingsManager.setString(AppSettingsManager.SETTING_HELP, "true");
+                            AppSettingsManager.APPSETTINGSMANAGER.setString(AppSettingsManager.SETTING_HELP, "true");
                         }
                         closer.Close(HelpFragment.this);
                 }

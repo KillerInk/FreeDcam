@@ -24,7 +24,6 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
 {
     AbstractCameraUiWrapper cameraUiWrapper;
     AnimationDrawable shutterOpenAnimation;
-    AppSettingsManager appSettingsManager;
     String TAG = ShutterButton.class.getSimpleName();
     Showstate currentShow = Showstate.image_capture_stopped;
     boolean contshot = false;
@@ -85,12 +84,11 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
 
 
 
-    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, UserMessageHandler messageHandler)
+    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper, UserMessageHandler messageHandler)
     {
         if (this.cameraUiWrapper == cameraUiWrapper)
             return;
         this.cameraUiWrapper = cameraUiWrapper;
-        this.appSettingsManager = appSettingsManager;
         cameraUiWrapper.moduleHandler.SetWorkListner(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         if (cameraUiWrapper.camParametersHandler.ContShootMode != null)

@@ -23,9 +23,9 @@ public class SampleInfoOverlayHandler extends AbstractInfoOverlayHandler
     TextView tdngsupported;
     TextView tbuidlmodel;
     TextView tappversion;
-    public SampleInfoOverlayHandler(View view, AppSettingsManager appSettingsManager)
+    public SampleInfoOverlayHandler(View view)
     {
-        super(view.getContext(), appSettingsManager);
+        super(view.getContext());
         tbattery = (TextView)view.findViewById(R.id.textView_battery);
         tsize = (TextView)view.findViewById(R.id.textView_size);
         tformat = (TextView)view.findViewById(R.id.textView_format);

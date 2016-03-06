@@ -21,7 +21,6 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
     ImageView img;
     Context contextt;
     AbstractCameraUiWrapper cameraUiWrapper;
-    AppSettingsManager appSettingsManager;
     private float quckRationMath;
 
     @Override
@@ -46,10 +45,9 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
 
     }
 
-    public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager)
+    public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        this.appSettingsManager = appSettingsManager;
         cameraUiWrapper.camParametersHandler.GuideList.addEventListner(this);
         cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
     }
@@ -214,7 +212,7 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
     AbstractModeParameter.I_ModeParameterEvent previewSizeChanged = new AbstractModeParameter.I_ModeParameterEvent() {
         @Override
         public void onValueChanged(String val) {
-            String img = appSettingsManager.getString(AppSettingsManager.SETTING_GUIDE);
+            String img = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_GUIDE);
             if (val != null && !val.equals("")&& img != null && !img.equals("") && !img.equals("None")) {
                 String size[] = val.split("x");
                 quckRationMath = Float.valueOf(size[0]) / Float.valueOf(size[1]);

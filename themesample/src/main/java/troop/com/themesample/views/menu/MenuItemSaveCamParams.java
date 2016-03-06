@@ -82,7 +82,7 @@ public class MenuItemSaveCamParams extends MenuItem
     }
 
     @Override
-    public void SetStuff(I_Activity i_activity, AppSettingsManager appSettingsManager, String settingvalue) {
+    public void SetStuff(I_Activity i_activity, String settingvalue) {
 
     }
 

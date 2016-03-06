@@ -38,11 +38,10 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
     }
 
     @Override
-    public void SetStuff(I_Activity i_activity, AppSettingsManager appSettingsManager, String settingvalue) {
-        super.SetStuff(i_activity, appSettingsManager, settingvalue);
-        if (appSettingsManager == null)
-            return;
-        currentCamera = appSettingsManager.GetCurrentCamera();
+    public void SetStuff(I_Activity i_activity, String settingvalue) {
+        super.SetStuff(i_activity, settingvalue);
+
+        currentCamera = AppSettingsManager.APPSETTINGSMANAGER.GetCurrentCamera();
         valueText.setText(getCamera(currentCamera));
     }
 
@@ -64,7 +63,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
         if (currentCamera++ >= maxcams - 1)
             currentCamera = 0;
 
-        appSettingsManager.SetCurrentCamera(currentCamera);
+        AppSettingsManager.APPSETTINGSMANAGER.SetCurrentCamera(currentCamera);
         sendLog("Stop Preview and Camera");
         if (i_activity.GetSurfaceView() != null &&  i_activity.GetSurfaceView() instanceof ExtendedSurfaceView)
         {

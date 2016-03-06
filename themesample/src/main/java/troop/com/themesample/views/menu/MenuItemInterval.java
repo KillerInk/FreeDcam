@@ -31,9 +31,9 @@ public class MenuItemInterval extends MenuItem
     }
 
     @Override
-    public void SetStuff(I_Activity i_activity, AppSettingsManager appSettingsManager, String settingvalue) {
-        super.SetStuff(i_activity, appSettingsManager, settingvalue);
-        onValueChanged(appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL));
+    public void SetStuff(I_Activity i_activity, String settingvalue) {
+        super.SetStuff(i_activity, settingvalue);
+        onValueChanged(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_INTERVAL));
     }
 
     @Override
@@ -44,7 +44,7 @@ public class MenuItemInterval extends MenuItem
     @Override
     public void SetValue(String value)
     {
-        appSettingsManager.setString(AppSettingsManager.SETTING_INTERVAL,  value);
+        AppSettingsManager.APPSETTINGSMANAGER.setString(AppSettingsManager.SETTING_INTERVAL,  value);
         onValueChanged(value);
         parameter.SetValue(value,true);
     }

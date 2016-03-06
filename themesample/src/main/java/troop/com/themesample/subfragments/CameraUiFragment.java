@@ -86,14 +86,12 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
     View view;
     I_Activity i_activity;
-    AppSettingsManager appSettingsManager;
     SampleInfoOverlayHandler infoOverlayHandler;
 
     GuideHandler guideHandler;
     LinearLayout guidHolder;
 
-    SettingsMenuFragment settingsMenuFragment;
-    FrameLayout settingsmenuholer;
+    //FrameLayout settingsmenuholer;
     File lastFile;
 
     final String KEY_MANUALMENUOPEN = "key_manualmenuopen";
@@ -103,10 +101,9 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     HorizontLineFragment horizontLineFragment;
 
     @Override
-    public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity)
+    public void SetStuff(I_Activity i_activity)
     {
         this.i_activity = i_activity;
-        this.appSettingsManager = appSettingsManager;
     }
 
     @Override
@@ -119,12 +116,12 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
             wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         if(view != null)
             setWrapper();
-        if (settingsMenuFragment != null)
-            settingsMenuFragment.SetCameraUIWrapper(wrapper);
     }
 
     private void setWrapper()
     {
+        if (wrapper == null)
+            return;
         flash.SetParameter(wrapper.camParametersHandler.FlashMode);
         //abstractCameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(flash);
         iso.SetParameter(wrapper.camParametersHandler.IsoMode);
@@ -141,9 +138,9 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         cameraSwitch.SetCameraUiWrapper(wrapper);
         focusImageHandler.SetCamerUIWrapper(wrapper);
-        this.messageHandler = new UserMessageHandler(view, appSettingsManager);
+        this.messageHandler = new UserMessageHandler(view);
         messageHandler.SetCameraUiWrapper(wrapper);
-        shutterButton.SetCameraUIWrapper(wrapper, appSettingsManager, messageHandler);
+        shutterButton.SetCameraUIWrapper(wrapper, messageHandler);
 
         format.SetParameter(wrapper.camParametersHandler.PictureFormat);
 
@@ -157,7 +154,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
             focuspeak.SetParameter(wrapper.camParametersHandler.Focuspeak);
             wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(focuspeak);
         }
-        guideHandler.setCameraUiWrapper(wrapper, appSettingsManager);
+        guideHandler.setCameraUiWrapper(wrapper);
         //guideHandler.SetViewG(appSettingsManager.getString(AppSettingsManager.SETTING_GUIDE));
 
         focuspeak.SetCameraUiWrapper(wrapper);
@@ -165,7 +162,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         hdr_switch.SetParameter(wrapper.camParametersHandler.HDRMode);
 
-        horizontLineFragment.setCameraUiWrapper(wrapper, appSettingsManager);
+        horizontLineFragment.setCameraUiWrapper(wrapper);
 
     }
 
@@ -175,9 +172,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         touchHandler = new SwipeMenuListner(this);
         manualModesFragment = new ManualFragmentRotatingSeekbar();
-        manualModesFragment.SetStuff(appSettingsManager, i_activity);
-        settingsMenuFragment = new SettingsMenuFragment();
-        settingsMenuFragment.SetStuff(appSettingsManager, i_activity,touchHandler);
+        manualModesFragment.SetStuff(i_activity);
+
         horizontLineFragment = new HorizontLineFragment();
         guideHandler = new GuideHandler();
         return inflater.inflate(R.layout.cameraui, container, false);
@@ -202,44 +198,44 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         // wbtest.SetMenuItemListner(this);
 
         this.flash = (UiSettingsChild)view.findViewById(R.id.Flash);
-        flash.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_FLASHMODE);
+        flash.SetStuff(i_activity, AppSettingsManager.SETTING_FLASHMODE);
         flash.SetMenuItemListner(this, true);
 
 
         this.iso = (UiSettingsChild)view.findViewById(R.id.ui_settings_iso);
-        iso.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_ISOMODE);
+        iso.SetStuff(i_activity, AppSettingsManager.SETTING_ISOMODE);
 
         iso.SetMenuItemListner(this,true);
 
         this.autoexposure =(UiSettingsChild)view.findViewById(R.id.Ae);
-        autoexposure.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_EXPOSUREMODE);
+        autoexposure.SetStuff(i_activity,AppSettingsManager.SETTING_EXPOSUREMODE);
         autoexposure.SetMenuItemListner(this,true);
         this.whitebalance = (UiSettingsChild)view.findViewById(R.id.wb);
-        whitebalance.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_WHITEBALANCEMODE);
+        whitebalance.SetStuff(i_activity, AppSettingsManager.SETTING_WHITEBALANCEMODE);
         whitebalance.SetMenuItemListner(this,true);
         this.focus = (UiSettingsChild)view.findViewById(R.id.focus_uisetting);
-        focus.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_FOCUSMODE);
+        focus.SetStuff(i_activity, AppSettingsManager.SETTING_FOCUSMODE);
         focus.SetMenuItemListner(this,true);
         this.contShot = (UiSettingsChild)view.findViewById(R.id.continousShot);
-        contShot.SetStuff(i_activity, appSettingsManager, null);
+        contShot.SetStuff(i_activity, null);
         contShot.SetMenuItemListner(this,true);
         this.night = (UiSettingsChild)view.findViewById(R.id.night);
-        night.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_NIGHTEMODE);
+        night.SetStuff(i_activity, AppSettingsManager.SETTING_NIGHTEMODE);
         night.SetMenuItemListner(this,true);
 
         this.format = (UiSettingsChild)view.findViewById(R.id.format);
-        format.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_PICTUREFORMAT);
+        format.SetStuff(i_activity, AppSettingsManager.SETTING_PICTUREFORMAT);
         format.SetMenuItemListner(this,true);
 
         this.thumbView = (ThumbView)view.findViewById(R.id.thumbview);
         this.modeSwitch = (UiSettingsChildModuleSwitch)view.findViewById(R.id.mode_switch);
-        modeSwitch.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_CURRENTMODULE);
+        modeSwitch.SetStuff(i_activity, AppSettingsManager.SETTING_CURRENTMODULE);
         modeSwitch.SetMenuItemListner(this,false);
         exit = (UiSettingsChildExit)view.findViewById(R.id.exit);
-        exit.SetStuff(i_activity, appSettingsManager, "");
+        exit.SetStuff(i_activity, "");
         cameraSwitch = (UiSettingsChildCameraSwitch)view.findViewById(R.id.camera_switch);
-        cameraSwitch.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_CURRENTCAMERA);
-        infoOverlayHandler = new SampleInfoOverlayHandler(view, appSettingsManager);
+        cameraSwitch.SetStuff(i_activity, AppSettingsManager.SETTING_CURRENTCAMERA);
+        infoOverlayHandler = new SampleInfoOverlayHandler(view);
         infoOverlayHandler.setCameraUIWrapper(wrapper);
 
         focusImageHandler = new FocusImageHandler(view, this, i_activity);
@@ -249,12 +245,12 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         focuspeak = (UiSettingsFocusPeak)view.findViewById(R.id.ui_focuspeak);
 
-        focuspeak.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_FOCUSPEAK);
+        focuspeak.SetStuff(i_activity, AppSettingsManager.SETTING_FOCUSPEAK);
         focuspeak.SetMenuItemListner(this);
 
         //adding hdr switch log test v1.0 1-29-2016 6:13 - Defcomk
         this.hdr_switch = (UiSettingsChild)view.findViewById(R.id.hdr_toggle);
-        hdr_switch.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HDRMODE);
+        hdr_switch.SetStuff(i_activity, AppSettingsManager.SETTING_HDRMODE);
         hdr_switch.SetMenuItemListner(this,true);
         ///
 
@@ -268,7 +264,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         guidHolder = (LinearLayout)view.findViewById(R.id.guideHolder);
 
-        this.settingsmenuholer = (FrameLayout)view.findViewById(R.id.settingsMenuHolder);
+        /*this.settingsmenuholer = (FrameLayout)view.findViewById(R.id.settingsMenuHolder);
 
         settingsMenuFragment.SetCameraUIWrapper(wrapper);
         transaction = getChildFragmentManager().beginTransaction();
@@ -276,7 +272,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         transaction.replace(R.id.settingsMenuHolder, settingsMenuFragment);
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
-        settingsmenuholer.setVisibility(View.GONE);
+        settingsmenuholer.setVisibility(View.GONE);*/
 
 
         manualModesFragment.SetCameraUIWrapper(wrapper);
@@ -293,11 +289,11 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
 
-        String help = appSettingsManager.getString(AppSettingsManager.SETTING_HELP);
+        String help = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_HELP);
         if (help.equals("") || help.equals("true")) {
             transaction = getChildFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
-            transaction.replace(R.id.helpfragment_container, HelpFragment.getFragment(helpfragmentCloser, appSettingsManager));
+            transaction.replace(R.id.helpfragment_container, HelpFragment.getFragment(helpfragmentCloser));
             transaction.addToBackStack(null);
             transaction.commitAllowingStateLoss();
         }
@@ -483,26 +479,26 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
     private void replaceCameraUIWithSettings()
     {
-        settingsOpen = true;
+        /*settingsOpen = true;
         sharedPref.edit().putBoolean(KEY_SETTINGSOPEN,settingsOpen).commit();
         manualModes_holder.setVisibility(View.GONE);
         settingsMenuFragment.touchHandler = touchHandler;
         LC.setVisibility(View.VISIBLE);
         LC.setOnTouchListener(onTouchListener);
         settingsmenuholer.animate().translationX(0).setDuration(300);
-        settingsmenuholer.setVisibility(View.VISIBLE);
+        settingsmenuholer.setVisibility(View.VISIBLE);*/
     }
 
     public void replaceSettingsWithCameraUI()
     {
-        settingsOpen = false;
+        /*settingsOpen = false;
         sharedPref.edit().putBoolean(KEY_SETTINGSOPEN,settingsOpen).commit();
         float width = guidHolder.getWidth();
         settingsmenuholer.animate().translationX(-width).setDuration(300);
         if(manualsettingsIsOpen)
             manualModes_holder.setVisibility(View.VISIBLE);
         LC.setVisibility(View.GONE);
-        //settingsmenuholer.setVisibility(View.GONE);
+        //settingsmenuholer.setVisibility(View.GONE);*/
     }
 
     interface i_HelpFragment

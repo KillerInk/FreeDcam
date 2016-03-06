@@ -20,6 +20,8 @@ public class AppSettingsManager
     private int currentcamera = 0;
     String camApiString = API_1;
 
+    public static AppSettingsManager APPSETTINGSMANAGER;
+
     final public static String SETTING_CURRENTCAMERA = "currentcamera";
     final public static String SETTING_ANTIBANDINGMODE = "antibandingmode";
     final public static String SETTING_COLORMODE = "colormode";
@@ -147,6 +149,7 @@ public class AppSettingsManager
             Logger.e(TAG, e.getMessage());
         }
         this.context = context;
+        APPSETTINGSMANAGER = this;
     }
 
     public void setCamApi(String api)

@@ -23,7 +23,7 @@ import troop.com.themesample.views.uichilds.UiSettingsChild;
 /**
  * Created by troop on 15.06.2015.
  */
-public class RightMenuFragment extends AbstractFragment implements Interfaces.I_MenuItemClick, I_swipe
+public class RightMenuFragment extends AbstractFragment implements Interfaces.I_MenuItemClick
 {
 
     Interfaces.I_MenuItemClick onMenuItemClick;
@@ -53,7 +53,6 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
 
     MenuItem LensFilter;
 
-    public SwipeMenuListner touchHandler;
     ScrollView scrollView;
     FrameLayout settingsMenu;
     final String KEY_SETTINGSOPEN = "key_settingsopen";
@@ -73,73 +72,73 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         scene = (MenuItem)view.findViewById(R.id.MenuItemScene);
-        scene.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_SCENEMODE, touchHandler);
+        scene.SetStuff(i_activity, AppSettingsManager.SETTING_SCENEMODE);
 
         color = (MenuItem)view.findViewById(R.id.MenuItemColor);
-        color.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_COLORMODE,touchHandler);
+        color.SetStuff(i_activity, AppSettingsManager.SETTING_COLORMODE);
 
         cctMode = (MenuItem)view.findViewById(R.id.MenuItemCCTMode);
-        cctMode.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_COLORCORRECTION,touchHandler);
+        cctMode.SetStuff(i_activity, AppSettingsManager.SETTING_COLORCORRECTION);
 
         objectTrackingMode = (MenuItem)view.findViewById(R.id.MenuItemObjectTracking);
-        objectTrackingMode.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_OBJECTTRACKING,touchHandler);
+        objectTrackingMode.SetStuff(i_activity, AppSettingsManager.SETTING_OBJECTTRACKING);
 
         toneMapMode = (MenuItem)view.findViewById(R.id.MenuItemTonemap);
-        toneMapMode.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_TONEMAP,touchHandler);
+        toneMapMode.SetStuff(i_activity, AppSettingsManager.SETTING_TONEMAP);
 
         postViewSize = (MenuItem)view.findViewById(R.id.MenuItemPostViewSize);
-        postViewSize.SetStuff(i_activity,appSettingsManager, "",touchHandler);
+        postViewSize.SetStuff(i_activity, "");
 
         controleMode = (MenuItem)view.findViewById(R.id.MenuItemControlMode);
-        controleMode.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_CONTROLMODE,touchHandler);
+        controleMode.SetStuff(i_activity, AppSettingsManager.SETTING_CONTROLMODE);
 
         redeyeflash = (troop.com.themesample.views.menu.MenuItem)view.findViewById(R.id.MenuItemRedEye);
-        redeyeflash.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_REDEYE_MODE,touchHandler);
+        redeyeflash.SetStuff(i_activity, AppSettingsManager.SETTING_REDEYE_MODE);
 
         antiBanding = (MenuItem)view.findViewById(R.id.MenuItemAntiBanding);
-        antiBanding.SetStuff(i_activity,appSettingsManager, AppSettingsManager.SETTING_ANTIBANDINGMODE,touchHandler);
+        antiBanding.SetStuff(i_activity, AppSettingsManager.SETTING_ANTIBANDINGMODE);
 
         ipp = (MenuItem)view.findViewById(R.id.MenuItemIpp);
-        ipp.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE,touchHandler);
+        ipp.SetStuff(i_activity, AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE);
 
         lensShade = (MenuItem)view.findViewById(R.id.MenuItemLensShade);
-        lensShade.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_LENSSHADE_MODE,touchHandler);
+        lensShade.SetStuff(i_activity, AppSettingsManager.SETTING_LENSSHADE_MODE);
 
         sceneDetectMode = (MenuItem)view.findViewById(R.id.MenuItemSceneDetection);
-        sceneDetectMode.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_SCENEDETECT_MODE,touchHandler);
+        sceneDetectMode.SetStuff(i_activity, AppSettingsManager.SETTING_SCENEDETECT_MODE);
 
         waveletdenoiseMode = (MenuItem)view.findViewById(R.id.MenuItemWaveletDenoise);
-        waveletdenoiseMode.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_DENOISE_MODE,touchHandler);
+        waveletdenoiseMode.SetStuff(i_activity, AppSettingsManager.SETTING_DENOISE_MODE);
 
         digitalImageStabilization = (MenuItem)view.findViewById(R.id.MenuItemDigitalImageStab);
-        digitalImageStabilization.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_DIS_MODE,touchHandler);
+        digitalImageStabilization.SetStuff(i_activity, AppSettingsManager.SETTING_DIS_MODE);
 
         memoryColorEnhancement = (MenuItem)view.findViewById(R.id.MenuItemMemoryColorEnhanc);
-        memoryColorEnhancement.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_MCE_MODE,touchHandler);
+        memoryColorEnhancement.SetStuff(i_activity, AppSettingsManager.SETTING_MCE_MODE);
 
         ZeroShutterLag = (MenuItem)view.findViewById(R.id.MenuItemZSL);
-        ZeroShutterLag.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_ZEROSHUTTERLAG_MODE,touchHandler);
+        ZeroShutterLag.SetStuff(i_activity, AppSettingsManager.SETTING_ZEROSHUTTERLAG_MODE);
 
         nonZSLmanualMode = (MenuItem)view.findViewById(R.id.MenuItemNonManualZSL);
-        nonZSLmanualMode.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_NONZSLMANUALMODE,touchHandler);
+        nonZSLmanualMode.SetStuff(i_activity, AppSettingsManager.SETTING_NONZSLMANUALMODE);
 
         correlatedDoubleSampling = (MenuItem)view.findViewById(R.id.MenuItemCorrelatedDoubleSampling);
-        correlatedDoubleSampling.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_CDS,touchHandler);
+        correlatedDoubleSampling.SetStuff(i_activity, AppSettingsManager.SETTING_CDS);
 
         temporalDenoise = (MenuItem)view.findViewById(R.id.MenuItemTemporalDenoise);
-        temporalDenoise.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_TNR,touchHandler);
+        temporalDenoise.SetStuff(i_activity, AppSettingsManager.SETTING_TNR);
 
         edgeMode = (MenuItem)view.findViewById(R.id.MenuItemEdgeMode);
-        edgeMode.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_EDGE,touchHandler);
+        edgeMode.SetStuff(i_activity, AppSettingsManager.SETTING_EDGE);
 
         hotPixelMode = (MenuItem)view.findViewById(R.id.MenuItemHotPixelMode);
-        hotPixelMode.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_HOTPIXEL,touchHandler);
+        hotPixelMode.SetStuff(i_activity, AppSettingsManager.SETTING_HOTPIXEL);
 
         opticalImageStabilization = (MenuItem)view.findViewById(R.id.MenuItemOIS);
-        opticalImageStabilization.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_OIS,touchHandler);
+        opticalImageStabilization.SetStuff(i_activity, AppSettingsManager.SETTING_OIS);
 
         LensFilter = (MenuItem)view.findViewById(R.id.LensFilter);
-        LensFilter.SetStuff(i_activity, appSettingsManager, AppSettingsManager.SETTING_Filter,touchHandler);
+        LensFilter.SetStuff(i_activity, AppSettingsManager.SETTING_Filter);
 
         scrollView = (ScrollView) view.findViewById(R.id.scrollView2);
         settingsMenu =  (FrameLayout)getActivity().findViewById(R.id.settingsMenuHolder);
@@ -148,12 +147,13 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
         settingsOpen = sharedPref.getBoolean(KEY_SETTINGSOPEN, false);
         leftholder = (LinearLayout) getActivity().findViewById(R.id.guideHolder);
 
-
         setWrapper();
     }
 
     private void setWrapper()
     {
+        if (wrapper == null)
+            return;
         scene.SetParameter(wrapper.camParametersHandler.SceneMode);
         scene.SetMenuItemListner(this);
 
@@ -229,8 +229,6 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
         this.onMenuItemClick = menuItemClick;
     }
 
-
-
     @Override
     public void onMenuItemClick(UiSettingsChild item, boolean fromLeftFragment) {
         onMenuItemClick.onMenuItemClick(item, false);
@@ -242,33 +240,4 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
         if (view != null)
             setWrapper();
     }
-
-    @Override
-    public void doLeftToRightSwipe() {
-
-    }
-
-    @Override
-    public void doRightToLeftSwipe() {
-        settingsOpen = false;
-        sharedPref.edit().putBoolean(KEY_SETTINGSOPEN, settingsOpen).commit();
-        float width = leftholder.getWidth();
-        settingsMenu.animate().translationX(-width).setDuration(300);
-    }
-
-    @Override
-    public void doTopToBottomSwipe() {
-
-    }
-
-    @Override
-    public void doBottomToTopSwipe() {
-
-    }
-
-    @Override
-    public void onClick(int x, int y) {
-
-    }
-
 }

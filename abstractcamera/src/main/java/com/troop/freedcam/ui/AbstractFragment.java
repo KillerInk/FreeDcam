@@ -15,7 +15,6 @@ import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 public abstract class AbstractFragment extends Fragment implements I_Fragment
 {
     protected AbstractCameraUiWrapper wrapper;
-    protected AppSettingsManager appSettingsManager;
     protected I_Activity i_activity;
     protected View view;
 
@@ -25,9 +24,8 @@ public abstract class AbstractFragment extends Fragment implements I_Fragment
     }
 
     @Override
-    public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity)
+    public void SetStuff(I_Activity i_activity)
     {
-        this.appSettingsManager = appSettingsManager;
         this.i_activity =i_activity;
     }
 

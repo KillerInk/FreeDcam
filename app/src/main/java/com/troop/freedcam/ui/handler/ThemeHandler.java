@@ -44,7 +44,7 @@ public class ThemeHandler implements I_ModuleEvent
         if (theme.equals("Sample"))
         {
             SampleThemeFragment sampleThemeFragment = new SampleThemeFragment();
-            sampleThemeFragment.SetStuff(appSettingsManager, activity_v2);
+            sampleThemeFragment.SetStuff(activity_v2);
             sampleThemeFragment.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = sampleThemeFragment;
         }

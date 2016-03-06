@@ -29,7 +29,6 @@ public class MenuItemTimeLapseFrames extends LinearLayout
     float current;
     final float mover = 0.1f;
     final float bigmover = 1;
-    AppSettingsManager appSettingsManager;
     String settingsname;
 
 
@@ -93,15 +92,14 @@ public class MenuItemTimeLapseFrames extends LinearLayout
         {
             Logger.e(TAG, ex.getMessage());
         }
-        appSettingsManager.setString(settingsname, current+"");
+        AppSettingsManager.APPSETTINGSMANAGER.setString(settingsname, current + "");
         editText.setText(current + " fps");
     }
 
-    public void SetStuff(AppSettingsManager appSettingsManager, String settingvalue) {
-        this.appSettingsManager = appSettingsManager;
+    public void SetStuff(String settingvalue) {
         this.settingsname = settingvalue;
-
-        String fps = this.appSettingsManager.getString(settingsname);
+        String fps = "";
+        fps = AppSettingsManager.APPSETTINGSMANAGER.getString(settingsname);
         if (fps == null || fps.equals(""))
             fps = "30";
         editText.setText(fps + " fps");

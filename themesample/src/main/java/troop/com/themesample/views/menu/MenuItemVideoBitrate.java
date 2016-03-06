@@ -30,9 +30,7 @@ public class MenuItemVideoBitrate extends MenuItem {
     @Override
     public void SetValue(String value)
     {
-        appSettingsManager.setString(AppSettingsManager.SETTING_VideoBitrate, value);
-
-
+        AppSettingsManager.APPSETTINGSMANAGER.setString(AppSettingsManager.SETTING_VideoBitrate, value);
         onValueChanged(value);
     }
 
@@ -78,6 +76,6 @@ public class MenuItemVideoBitrate extends MenuItem {
 
         this.parameter = parameter;
 
-        onValueChanged(appSettingsManager.getString(AppSettingsManager.SETTING_VideoBitrate));
+        onValueChanged(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_VideoBitrate));
     }
 }
