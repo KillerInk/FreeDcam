@@ -69,19 +69,26 @@ public class BaseManualParameter extends AbstractManualParameter
         this.max_value = maxValue;
         this.min_value = MinValue;
         this.step = step;
-        if ((!value.equals("") && !maxValue.equals("") && !min_value.equals("") && parameters.get(min_value) != null && parameters.get(max_value) != null)
-                && (parameters.containsKey(value) && parameters.containsKey(maxValue) && parameters.containsKey(min_value))) {
-            stringvalues = createStringArray(Integer.parseInt(parameters.get(min_value)), Integer.parseInt(parameters.get(max_value)), step);
-            currentString = parameters.get(this.value);
-            for (int i = 0; i < stringvalues.length; i++) {
-                if (stringvalues[i].equals(currentString)) {
-                    currentInt = i;
-                    default_value = i;
+        if (!this.value.equals("") && !this.max_value.equals("") && !min_value.equals(""))
+        {
+            if (parameters.containsKey(this.value) && parameters.containsKey(max_value) && parameters.containsKey(min_value))
+            {
+                if (!parameters.get(min_value).equals("") && !parameters.get(max_value).equals(""))
+                {
+                    stringvalues = createStringArray(Integer.parseInt(parameters.get(min_value)), Integer.parseInt(parameters.get(max_value)), step);
+                    currentString = parameters.get(this.value);
+                    for (int i = 0; i < stringvalues.length; i++) {
+                        if (stringvalues[i].equals(currentString)) {
+                            currentInt = i;
+                            default_value = i;
+
+                        }
+                        this.isSupported = true;
+                        this.isVisible = isSupported;
+                    }
+
                 }
             }
-            this.isSupported = true;
-            this.isVisible = isSupported;
-
         }
     }
     @Override

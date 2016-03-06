@@ -50,6 +50,7 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
         }
         else
             this.isSupported =false;
+        this.isVisible = isSupported;
     }
 
     @Override

@@ -569,12 +569,12 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public void ResetPreviewCallback()
     {
         try {
-
-            mCamera.setPreviewCallbackWithBuffer(null);
-            //Clear added Callbackbuffers
-            for (int i = 0; i<BUFFERCOUNT;i++)
-            {
-                mCamera.addCallbackBuffer(null);
+            if (textureView != null) {
+                mCamera.setPreviewCallbackWithBuffer(null);
+                //Clear added Callbackbuffers
+                for (int i = 0; i < BUFFERCOUNT; i++) {
+                    mCamera.addCallbackBuffer(null);
+                }
             }
         }
         catch (NullPointerException ex)

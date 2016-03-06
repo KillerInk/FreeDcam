@@ -132,17 +132,19 @@ public class CamParametersHandler extends AbstractParameterHandler
         try {
             if (cameraParameters.containsKey("brightness") && !cameraParameters.containsKey("brightness-values"))
             {
+                //p920hack
                 if (!cameraParameters.containsKey("max-brightness") && !cameraParameters.containsKey("brightness-max"))
                 {
                     cameraParameters.put("max-brightness", "100");
                     cameraParameters.put("min-brightness", "0");
                 }
-                if (cameraParameters.containsKey("max-brightness"))
-                    ManualBrightness = new BaseManualParameter(cameraParameters, "brightness", "max-brightness", "min-brightness", this, 1);
                 if (cameraParameters.containsKey("brightness-max"))
                 {
                     ManualBrightness = new BaseManualParameter(cameraParameters, "brightness", "brightness-max", "brightness-min", this, 1);
                 }
+                else if (cameraParameters.containsKey("max-brightness"))
+                    ManualBrightness = new BaseManualParameter(cameraParameters, "brightness", "max-brightness", "min-brightness", this, 1);
+
             }
             else if (cameraParameters.containsKey("luma-adaptation"))
                 ManualBrightness =  new BaseManualParameter(cameraParameters,"luma-adaptation","max-brightness","min-brightness",this,1);
@@ -158,14 +160,16 @@ public class CamParametersHandler extends AbstractParameterHandler
         try {
             if (cameraParameters.containsKey("contrast") && !cameraParameters.containsKey("contrast-values"))
             {
+                //p920 hack
                 if (!cameraParameters.containsKey("max-contrast") && !cameraParameters.containsKey("contrast-max")) {
                     cameraParameters.put("max-contrast", "100");
                     cameraParameters.put("min-contrast", "0");
                 }
-                if (cameraParameters.containsKey("max-contrast"))
-                    ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "max-contrast", "min-contrast",this,1);
-                else if (cameraParameters.containsKey("contrast-max"))
+                if (cameraParameters.containsKey("contrast-max"))
                     ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "contrast-max", "contrast-min",this,1);
+                else if (cameraParameters.containsKey("max-contrast"))
+                    ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "max-contrast", "min-contrast",this,1);
+
             }
             if (ManualContrast != null && baseCameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.MTK) {
                 PictureFormat.addEventListner(((BaseManualParameter) ManualContrast).GetPicFormatListner());
@@ -204,17 +208,17 @@ public class CamParametersHandler extends AbstractParameterHandler
         {
             if (cameraParameters.containsKey("saturation") && !cameraParameters.containsKey("saturation-values"))
             {
+                //p920 hack
                 if (!cameraParameters.containsKey("max-saturation") && !cameraParameters.containsKey("saturation-max")) {
                     cameraParameters.put("max-saturation", "100");
                     cameraParameters.put("min-saturation", "0");
                 }
-
-                if (cameraParameters.containsKey("max-saturation"))
-                    ManualSaturation = new BaseManualParameter(cameraParameters, "saturation", "max-saturation", "min-saturation", this,1);
-                else if (cameraParameters.containsKey("saturation-max"))
-                {
+                //check first max after evo 3d has both but max infront is empty
+                if (cameraParameters.containsKey("saturation-max"))
                     ManualSaturation = new BaseManualParameter(cameraParameters, "saturation", "saturation-max", "saturation-min", this,1);
-                }
+                else if (cameraParameters.containsKey("max-saturation"))
+                    ManualSaturation = new BaseManualParameter(cameraParameters, "saturation", "max-saturation", "min-saturation", this,1);
+
             }
             if (ManualSaturation != null && baseCameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.MTK) {
                 PictureFormat.addEventListner(((BaseManualParameter) ManualSaturation).GetPicFormatListner());
@@ -234,14 +238,16 @@ public class CamParametersHandler extends AbstractParameterHandler
                 int step = 1;
                 if (cameraParameters.containsKey("sharpness-step"))
                     step = Integer.parseInt(cameraParameters.get("sharpness-step"));
-                if (cameraParameters.containsKey("max-sharpness"))
-                {
-                    ManualSharpness = new BaseManualParameter(cameraParameters, "sharpness", "max-sharpness", "min-sharpness", this,step);
-                }
-                else if (cameraParameters.containsKey("sharpness-max"))
+
+                if (cameraParameters.containsKey("sharpness-max"))
                 {
                     ManualSharpness = new BaseManualParameter(cameraParameters, "sharpness", "sharpness-max", "sharpness-min", this,step);
                 }
+                else if (cameraParameters.containsKey("max-sharpness"))
+                {
+                    ManualSharpness = new BaseManualParameter(cameraParameters, "sharpness", "max-sharpness", "min-sharpness", this,step);
+                }
+
             }
             if(ManualSharpness != null && baseCameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.MTK) {
                 PictureFormat.addEventListner(((BaseManualParameter) ManualSharpness).GetPicFormatListner());
