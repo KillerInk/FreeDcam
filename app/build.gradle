@@ -38,4 +38,5 @@ dependencies {
     compile project(':themesample')
     compile project(':imageconverter')
     compile project(':views')
+    compile project(':filelogger')
 }
