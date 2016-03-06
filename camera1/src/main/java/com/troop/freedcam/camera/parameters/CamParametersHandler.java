@@ -2,7 +2,6 @@ package com.troop.freedcam.camera.parameters;
 
 import android.os.Build;
 import android.os.Handler;
-import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
@@ -13,9 +12,6 @@ import com.troop.freedcam.camera.parameters.manual.BurstManualParam;
 import com.troop.freedcam.camera.parameters.manual.CCTManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ExposureManualParameter;
 import com.troop.freedcam.camera.parameters.manual.FXManualParameter;
-import com.troop.freedcam.camera.parameters.manual.FocusManualParameter;
-import com.troop.freedcam.camera.parameters.manual.FocusManualParameterHTC;
-import com.troop.freedcam.camera.parameters.manual.FocusManualParameterLG;
 import com.troop.freedcam.camera.parameters.manual.ISOManualParameter;
 import com.troop.freedcam.camera.parameters.manual.LG_G4AeHandler;
 import com.troop.freedcam.camera.parameters.manual.ManualFocusClassHandler;
@@ -24,13 +20,8 @@ import com.troop.freedcam.camera.parameters.manual.SkintoneManualPrameter;
 import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
 import com.troop.freedcam.camera.parameters.modes.BaseModeParameter;
 import com.troop.freedcam.camera.parameters.modes.CDS_Mode_Parameter;
-import com.troop.freedcam.camera.parameters.modes.ExposureModeParameter;
-import com.troop.freedcam.camera.parameters.modes.FlashModeParameter;
-import com.troop.freedcam.camera.parameters.modes.FocusModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FocusPeakModeParameter;
 import com.troop.freedcam.camera.parameters.modes.HDRModeParameter;
-import com.troop.freedcam.camera.parameters.modes.ImagePostProcessingParameter;
-import com.troop.freedcam.camera.parameters.modes.IsoModeParameter;
 import com.troop.freedcam.camera.parameters.modes.JpegQualityParameter;
 import com.troop.freedcam.camera.parameters.modes.NightModeParameter;
 import com.troop.freedcam.camera.parameters.modes.NonZslManualModeParameter;
@@ -122,7 +113,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            FocusMode = new FocusModeParameter(uiHandler,cameraParameters, baseCameraHolder,"focus-mode","focus-mode-values");
+            FocusMode = new BaseModeParameter(uiHandler,cameraParameters, baseCameraHolder,"focus-mode","focus-mode-values");
             FocusMode.addEventListner(((FocusHandler) cameraHolder.Focus).focusModeListner);
         } catch (Exception e) {
             Logger.e(TAG, e.getMessage());
@@ -130,55 +121,9 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         locationParameter = new LocationParameter(uiHandler, appSettingsManager, cameraHolder);
 
-        try {
-            if (cameraParameters.containsKey("brightness") && !cameraParameters.containsKey("brightness-values"))
-            {
-                //p920hack
-                if (!cameraParameters.containsKey("max-brightness") && !cameraParameters.containsKey("brightness-max"))
-                {
-                    cameraParameters.put("max-brightness", "100");
-                    cameraParameters.put("min-brightness", "0");
-                }
-                if (cameraParameters.containsKey("brightness-max"))
-                {
-                    ManualBrightness = new BaseManualParameter(cameraParameters, "brightness", "brightness-max", "brightness-min", this, 1);
-                }
-                else if (cameraParameters.containsKey("max-brightness"))
-                    ManualBrightness = new BaseManualParameter(cameraParameters, "brightness", "max-brightness", "min-brightness", this, 1);
+        createManualBrightness();
 
-            }
-            else if (cameraParameters.containsKey("luma-adaptation"))
-                ManualBrightness =  new BaseManualParameter(cameraParameters,"luma-adaptation","max-brightness","min-brightness",this,1);
-
-            if (ManualBrightness != null && baseCameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.MTK) {
-                PictureFormat.addEventListner(((BaseManualParameter) ManualBrightness).GetPicFormatListner());
-                cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualBrightness).GetModuleListner());
-            }
-        } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
-        }
-
-        try {
-            if (cameraParameters.containsKey("contrast") && !cameraParameters.containsKey("contrast-values"))
-            {
-                //p920 hack
-                if (!cameraParameters.containsKey("max-contrast") && !cameraParameters.containsKey("contrast-max")) {
-                    cameraParameters.put("max-contrast", "100");
-                    cameraParameters.put("min-contrast", "0");
-                }
-                if (cameraParameters.containsKey("contrast-max"))
-                    ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "contrast-max", "contrast-min",this,1);
-                else if (cameraParameters.containsKey("max-contrast"))
-                    ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "max-contrast", "min-contrast",this,1);
-
-            }
-            if (ManualContrast != null && baseCameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.MTK) {
-                PictureFormat.addEventListner(((BaseManualParameter) ManualContrast).GetPicFormatListner());
-                cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualContrast).GetModuleListner());
-            }
-        } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
-        }
+        createManualContrast();
 
         try {
             ManualConvergence = new BaseManualParameter(cameraParameters, "manual-convergence", "supported-manual-convergence-max", "supported-manual-convergence-min", this,1);
@@ -186,18 +131,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             Logger.e(TAG, e.getMessage());
         }
 
-        try
-        {
-            float expostep = 1;
-            if(cameraParameters.containsKey("exposure-compensation-step"))
-                expostep = Float.parseFloat(cameraParameters.get("exposure-compensation-step"));
-            if (cameraParameters.containsKey("lg-ev-ctrl"))
-                ManualExposure = new ExposureManualParameter(cameraParameters,"lg-ev-ctrl","max-exposure-compensation","min-exposure-compensation", this,expostep);
-            else if(cameraParameters.containsKey("exposure-compensation"))
-                ManualExposure = new ExposureManualParameter(cameraParameters,"exposure-compensation","max-exposure-compensation","min-exposure-compensation", this,expostep);
-        } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
-        }
+        createManualExposure();
 
         try {
                 ManualFocus = ManualFocusClassHandler.GetManualFocus(cameraParameters, this,baseCameraHolder);
@@ -205,58 +139,9 @@ public class CamParametersHandler extends AbstractParameterHandler
             Logger.e(TAG, e.getMessage());
         }
 
-        try
-        {
-            if (cameraParameters.containsKey("saturation") && !cameraParameters.containsKey("saturation-values"))
-            {
-                //p920 hack
-                if (!cameraParameters.containsKey("max-saturation") && !cameraParameters.containsKey("saturation-max")) {
-                    cameraParameters.put("max-saturation", "100");
-                    cameraParameters.put("min-saturation", "0");
-                }
-                //check first max after evo 3d has both but max infront is empty
-                if (cameraParameters.containsKey("saturation-max"))
-                    ManualSaturation = new BaseManualParameter(cameraParameters, "saturation", "saturation-max", "saturation-min", this,1);
-                else if (cameraParameters.containsKey("max-saturation"))
-                    ManualSaturation = new BaseManualParameter(cameraParameters, "saturation", "max-saturation", "min-saturation", this,1);
+        createManualSaturation();
 
-            }
-            if (ManualSaturation != null && baseCameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.MTK) {
-                PictureFormat.addEventListner(((BaseManualParameter) ManualSaturation).GetPicFormatListner());
-                cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualSaturation).GetModuleListner());
-            }
-        } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
-        }
-
-        try {
-            if (cameraParameters.containsKey("sharpness") && !cameraParameters.containsKey("sharpness-values"))
-            {
-                if (!cameraParameters.containsKey("max-sharpness") && !cameraParameters.containsKey("sharpness-max")) {
-                    cameraParameters.put("max-sharpness", "100");
-                    cameraParameters.put("min-sharpness", "0");
-                }
-                int step = 1;
-                if (cameraParameters.containsKey("sharpness-step"))
-                    step = Integer.parseInt(cameraParameters.get("sharpness-step"));
-
-                if (cameraParameters.containsKey("sharpness-max"))
-                {
-                    ManualSharpness = new BaseManualParameter(cameraParameters, "sharpness", "sharpness-max", "sharpness-min", this,step);
-                }
-                else if (cameraParameters.containsKey("max-sharpness"))
-                {
-                    ManualSharpness = new BaseManualParameter(cameraParameters, "sharpness", "max-sharpness", "min-sharpness", this,step);
-                }
-
-            }
-            if(ManualSharpness != null && baseCameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.MTK) {
-                PictureFormat.addEventListner(((BaseManualParameter) ManualSharpness).GetPicFormatListner());
-                cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualSharpness).GetModuleListner());
-            }
-        } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
-        }
+        createManualSharpness();
 
         try {
             if (DeviceUtils.IS(Devices.LG_G4))
@@ -323,24 +208,15 @@ public class CamParametersHandler extends AbstractParameterHandler
             Logger.e(TAG, e.getMessage());
         }
 
+        createExposureMode();
+
         try {
-            ExposureMode = new ExposureModeParameter(uiHandler,cameraParameters,baseCameraHolder,"","");
-            ExposureMode.addEventListner(((FocusHandler) cameraHolder.Focus).aeModeListner);
+            FlashMode = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"flash-mode","flash-mode-values");
         } catch (Exception e) {
             Logger.e(TAG, e.getMessage());
         }
 
-        try {
-            FlashMode = new FlashModeParameter(uiHandler,cameraParameters,baseCameraHolder,"flash-mode","flash-mode-values");
-        } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
-        }
-
-        try {
-            IsoMode = new IsoModeParameter(uiHandler,cameraParameters,baseCameraHolder,"","", cameraHolder);
-        } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
-        }
+        createIsoMode();
 
         try {
             AntiBandingMode = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder, "antibanding", "antibanding-values");
@@ -363,7 +239,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         //AE_Bracket = new AE_Bracket_HdrModeParameter(uiHandler,cameraParameters,baseCameraHolder, "ae-bracket-hdr", "ae-bracket-hdr-values");
 
         try {
-            ImagePostProcessing = new ImagePostProcessingParameter(uiHandler,cameraParameters,baseCameraHolder, "ipp", "ipp-values");
+            ImagePostProcessing = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder, "ipp", "ipp-values");
         } catch (Exception e) {
             Logger.e(TAG, e.getMessage());
         }
@@ -410,16 +286,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             Logger.e(TAG, e.getMessage());
         }
 
-        try {
-            if (cameraParameters.containsKey("zsl"))
-                ZSL = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"zsl","zsl-values");
-            else if (cameraParameters.containsKey("mode"))
-                ZSL = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"mode","mode-values");
-            else if (cameraParameters.containsKey("zsd-mode"))
-                ZSL =new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"zsd-mode", "zsd-mode-values");
-        } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
-        }
+        createZeroShutterLag();
 
         try {
             SceneDetect = new BaseModeParameter(uiHandler,cameraParameters, baseCameraHolder, "scene-detect", "scene-detect-values");
@@ -496,14 +363,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             Logger.e(TAG, e.getMessage());
         }*/
 
-        try {
-            if (cameraParameters.containsKey("video-hdr"))
-                VideoHDR = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"video-hdr", "video-hdr-values");
-            else if (cameraParameters.containsKey("sony-video-hdr"))
-                VideoHDR = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"sony-video-hdr","sony-video-hdr-values");
-        } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
-        }
+        createVideoHDR();
 
         try {
             if (baseCameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
@@ -552,17 +412,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             Logger.e(TAG, e.getMessage());
         }
 
-        try {
-            if (cameraParameters.containsKey("video-hfr-values"))
-            {
-                String[] hfr_values = cameraParameters.get("video-hfr-values").split(",");
-                if(hfr_values.length <= 2)
-                    cameraParameters.put("video-hfr-values", "off,60,120");
-            }
-            VideoHighFramerateVideo = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "video-hfr", "video-hfr-values");
-        } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
-        }
+        createHighFrameRate();
 
         try {
             SetCameraRotation();
@@ -617,6 +467,206 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
     }
+
+    private void createExposureMode() {
+        try
+        {
+            if (cameraParameters.containsKey("exposure-mode-values"))
+                ExposureMode = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"exposure","exposure-mode-values");
+            else if (cameraParameters.containsKey("auto-exposure-values"))
+                ExposureMode = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"auto-exposure","auto-exposure-values");
+            else if(cameraParameters.containsKey("sony-metering-mode-values"))
+                ExposureMode = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"sony-metering-mode","sony-metering-mode-values");
+            else if(cameraParameters.containsKey("exposure-meter-values"))
+                ExposureMode = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"exposure-meter","exposure-meter-values");
+            if (ExposureMode != null)
+                ExposureMode.addEventListner(((FocusHandler) cameraHolder.Focus).aeModeListner);
+        } catch (Exception e) {
+            Logger.e(TAG, e.getMessage());
+        }
+    }
+
+    private void createIsoMode() {
+        try {
+            if (cameraParameters.containsKey("iso-mode-values"))
+                IsoMode = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"iso","iso-mode-values");
+            else if (cameraParameters.containsKey("iso-values"))
+                IsoMode = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"iso","iso-values");
+            else if (cameraParameters.containsKey("iso-speed-values"))
+                IsoMode = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"iso-speed","iso-speed-values");
+            else if (cameraParameters.containsKey("sony-iso-values"))
+                IsoMode = new BaseModeParameter(uiHandler, cameraParameters,baseCameraHolder,"sony-iso","sony-iso-values");
+            else if (cameraParameters.containsKey("lg-iso-values"))
+                IsoMode = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"iso","lg-iso-values");
+        } catch (Exception e) {
+            Logger.e(TAG, e.getMessage());
+        }
+    }
+
+    private void createManualBrightness() {
+        try {
+            if (cameraParameters.containsKey("brightness") && !cameraParameters.containsKey("brightness-values"))
+            {
+                //p920hack
+                if (!cameraParameters.containsKey("max-brightness") && !cameraParameters.containsKey("brightness-max"))
+                {
+                    cameraParameters.put("max-brightness", "100");
+                    cameraParameters.put("min-brightness", "0");
+                }
+                if (cameraParameters.containsKey("brightness-max"))
+                {
+                    ManualBrightness = new BaseManualParameter(cameraParameters, "brightness", "brightness-max", "brightness-min", this, 1);
+                }
+                else if (cameraParameters.containsKey("max-brightness"))
+                    ManualBrightness = new BaseManualParameter(cameraParameters, "brightness", "max-brightness", "min-brightness", this, 1);
+
+            }
+            else if (cameraParameters.containsKey("luma-adaptation"))
+                ManualBrightness =  new BaseManualParameter(cameraParameters,"luma-adaptation","max-brightness","min-brightness",this,1);
+
+            if (ManualBrightness != null && baseCameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.MTK) {
+                PictureFormat.addEventListner(((BaseManualParameter) ManualBrightness).GetPicFormatListner());
+                cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualBrightness).GetModuleListner());
+            }
+        } catch (Exception e) {
+            Logger.e(TAG, e.getMessage());
+        }
+    }
+
+    private void createManualContrast() {
+        try {
+            if (cameraParameters.containsKey("contrast") && !cameraParameters.containsKey("contrast-values"))
+            {
+                //p920 hack
+                if (!cameraParameters.containsKey("max-contrast") && !cameraParameters.containsKey("contrast-max")) {
+                    cameraParameters.put("max-contrast", "100");
+                    cameraParameters.put("min-contrast", "0");
+                }
+                if (cameraParameters.containsKey("contrast-max"))
+                    ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "contrast-max", "contrast-min",this,1);
+                else if (cameraParameters.containsKey("max-contrast"))
+                    ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "max-contrast", "min-contrast",this,1);
+
+            }
+            if (ManualContrast != null && baseCameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.MTK) {
+                PictureFormat.addEventListner(((BaseManualParameter) ManualContrast).GetPicFormatListner());
+                cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualContrast).GetModuleListner());
+            }
+        } catch (Exception e) {
+            Logger.e(TAG, e.getMessage());
+        }
+    }
+
+    private void createHighFrameRate() {
+        try {
+            if (cameraParameters.containsKey("video-hfr-values"))
+            {
+                String[] hfr_values = cameraParameters.get("video-hfr-values").split(",");
+                if(hfr_values.length <= 2)
+                    cameraParameters.put("video-hfr-values", "off,60,120");
+            }
+            VideoHighFramerateVideo = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "video-hfr", "video-hfr-values");
+        } catch (Exception e) {
+            Logger.e(TAG, e.getMessage());
+        }
+    }
+
+    private void createVideoHDR() {
+        try {
+            if (cameraParameters.containsKey("video-hdr"))
+                VideoHDR = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"video-hdr", "video-hdr-values");
+            else if (cameraParameters.containsKey("sony-video-hdr"))
+                VideoHDR = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"sony-video-hdr","sony-video-hdr-values");
+        } catch (Exception e) {
+            Logger.e(TAG, e.getMessage());
+        }
+    }
+
+    private void createZeroShutterLag() {
+        try {
+            if (cameraParameters.containsKey("zsl"))
+                ZSL = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"zsl","zsl-values");
+            else if (cameraParameters.containsKey("mode"))
+                ZSL = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"mode","mode-values");
+            else if (cameraParameters.containsKey("zsd-mode"))
+                ZSL =new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"zsd-mode", "zsd-mode-values");
+        } catch (Exception e) {
+            Logger.e(TAG, e.getMessage());
+        }
+    }
+
+    private void createManualSharpness() {
+        try {
+            if (cameraParameters.containsKey("sharpness") && !cameraParameters.containsKey("sharpness-values"))
+            {
+                if (!cameraParameters.containsKey("max-sharpness") && !cameraParameters.containsKey("sharpness-max")) {
+                    cameraParameters.put("max-sharpness", "100");
+                    cameraParameters.put("min-sharpness", "0");
+                }
+                int step = 1;
+                if (cameraParameters.containsKey("sharpness-step"))
+                    step = Integer.parseInt(cameraParameters.get("sharpness-step"));
+
+                if (cameraParameters.containsKey("sharpness-max"))
+                {
+                    ManualSharpness = new BaseManualParameter(cameraParameters, "sharpness", "sharpness-max", "sharpness-min", this,step);
+                }
+                else if (cameraParameters.containsKey("max-sharpness"))
+                {
+                    ManualSharpness = new BaseManualParameter(cameraParameters, "sharpness", "max-sharpness", "min-sharpness", this,step);
+                }
+
+            }
+            if(ManualSharpness != null && baseCameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.MTK) {
+                PictureFormat.addEventListner(((BaseManualParameter) ManualSharpness).GetPicFormatListner());
+                cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualSharpness).GetModuleListner());
+            }
+        } catch (Exception e) {
+            Logger.e(TAG, e.getMessage());
+        }
+    }
+
+    private void createManualSaturation() {
+        try
+        {
+            if (cameraParameters.containsKey("saturation") && !cameraParameters.containsKey("saturation-values"))
+            {
+                //p920 hack
+                if (!cameraParameters.containsKey("max-saturation") && !cameraParameters.containsKey("saturation-max")) {
+                    cameraParameters.put("max-saturation", "100");
+                    cameraParameters.put("min-saturation", "0");
+                }
+                //check first max after evo 3d has both but max infront is empty
+                if (cameraParameters.containsKey("saturation-max"))
+                    ManualSaturation = new BaseManualParameter(cameraParameters, "saturation", "saturation-max", "saturation-min", this,1);
+                else if (cameraParameters.containsKey("max-saturation"))
+                    ManualSaturation = new BaseManualParameter(cameraParameters, "saturation", "max-saturation", "min-saturation", this,1);
+
+            }
+            if (ManualSaturation != null && baseCameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.MTK) {
+                PictureFormat.addEventListner(((BaseManualParameter) ManualSaturation).GetPicFormatListner());
+                cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualSaturation).GetModuleListner());
+            }
+        } catch (Exception e) {
+            Logger.e(TAG, e.getMessage());
+        }
+    }
+
+    private void createManualExposure() {
+        try
+        {
+            float expostep = 1;
+            if(cameraParameters.containsKey("exposure-compensation-step"))
+                expostep = Float.parseFloat(cameraParameters.get("exposure-compensation-step"));
+            if (cameraParameters.containsKey("lg-ev-ctrl"))
+                ManualExposure = new ExposureManualParameter(cameraParameters,"lg-ev-ctrl","max-exposure-compensation","min-exposure-compensation", this,expostep);
+            else if(cameraParameters.containsKey("exposure-compensation"))
+                ManualExposure = new ExposureManualParameter(cameraParameters,"exposure-compensation","max-exposure-compensation","min-exposure-compensation", this,expostep);
+        } catch (Exception e) {
+            Logger.e(TAG, e.getMessage());
+        }
+    }
+
     @Override
     public void SetMeterAREA(FocusRect meteringAreas)
     {
