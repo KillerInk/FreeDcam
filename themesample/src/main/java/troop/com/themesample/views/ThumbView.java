@@ -142,6 +142,12 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
 
     private void showThumb(final File filePath)
     {
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                click.newImageRecieved(filePath);
+            }
+        });
         if(filePath != null && !filePath.getAbsolutePath().endsWith(".dng") && !filePath.getAbsolutePath().endsWith(".raw") && filePath.exists())
         {
             if (bitmap != null) {
@@ -164,7 +170,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
                 @Override
                 public void run() {
                     ThumbView.this.setImageBitmap(drawMap);
-                    click.newImageRecieved(filePath);
+
                 }
             });
 
