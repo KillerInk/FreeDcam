@@ -70,7 +70,8 @@ public class FocusImageHandler extends AbstractFocusImageHandler
 
 
         meteringArea.setVisibility(View.GONE);
-
+        if (wrapper != null)
+            meteringArea.setOnTouchListener(new ImageViewTouchAreaHandler(meteringArea, wrapper, meteringTouch, true));
 
         awbArea.setOnTouchListener(new ImageViewTouchAreaHandler(awbArea, wrapper,awbTouch, true));
         awbArea.setVisibility(View.GONE);
@@ -120,9 +121,10 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         this.wrapper = cameraUiWrapper;
         if(cameraUiWrapper instanceof CameraUiWrapper || cameraUiWrapper instanceof CameraUiWrapperApi2) {
             meteringRect = centerImageView(meteringArea);
-            if (wrapper.Focus.isAeMeteringSupported()) {
+            meteringArea.setOnTouchListener(new ImageViewTouchAreaHandler(meteringArea, wrapper, meteringTouch, true));
+            if (wrapper.Focus.isAeMeteringSupported())
+            {
                 meteringArea.setVisibility(View.VISIBLE);
-                meteringArea.setOnTouchListener(new ImageViewTouchAreaHandler(meteringArea, wrapper, meteringTouch, true));
             }
             else {
                 meteringArea.setVisibility(View.GONE);
