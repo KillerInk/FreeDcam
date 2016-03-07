@@ -20,6 +20,7 @@ import com.troop.freedcam.camera.parameters.manual.SkintoneManualPrameter;
 import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
 import com.troop.freedcam.camera.parameters.modes.BaseModeParameter;
 import com.troop.freedcam.camera.parameters.modes.CDS_Mode_Parameter;
+import com.troop.freedcam.camera.parameters.modes.CupBurstExpModeParameter;
 import com.troop.freedcam.camera.parameters.modes.FocusPeakModeParameter;
 import com.troop.freedcam.camera.parameters.modes.HDRModeParameter;
 import com.troop.freedcam.camera.parameters.modes.JpegQualityParameter;
@@ -109,20 +110,20 @@ public class CamParametersHandler extends AbstractParameterHandler
             PictureFormat = new PictureFormatHandler(uiHandler,cameraParameters, baseCameraHolder);
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner((PictureFormatHandler) PictureFormat);
         } catch (Exception e) {
-            Logger.e(TAG,e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             PictureSize = new PictureSizeParameter(uiHandler,cameraParameters,baseCameraHolder, "picture-size", "picture-size-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             FocusMode = new BaseModeParameter(uiHandler,cameraParameters, baseCameraHolder,"focus-mode","focus-mode-values");
             FocusMode.addEventListner(((FocusHandler) cameraHolder.Focus).focusModeListner);
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         locationParameter = new LocationParameter(uiHandler, appSettingsManager, cameraHolder);
@@ -134,7 +135,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         try {
             ManualConvergence = new BaseManualParameter(cameraParameters, "manual-convergence", "supported-manual-convergence-max", "supported-manual-convergence-min", this,1);
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         createManualExposure();
@@ -142,7 +143,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         try {
                 ManualFocus = ManualFocusClassHandler.GetManualFocus(cameraParameters, this,baseCameraHolder);
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         createManualSaturation();
@@ -158,20 +159,20 @@ public class CamParametersHandler extends AbstractParameterHandler
                 ISOManual = new ISOManualParameter(cameraParameters, "", "", "",baseCameraHolder, this);
             }
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
 
         try {
             WhiteBalanceMode = new BaseModeParameter(uiHandler,cameraParameters, baseCameraHolder, "whitebalance", "whitebalance-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             CCT = new CCTManualParameter(cameraParameters,"","","", this);
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         //PictureFormat.addEventListner(((BaseManualParameter)CCT).GetPicFormatListner());
         //cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) CCT).GetModuleListner());
@@ -181,7 +182,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Skintone).GetModuleListner());
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
@@ -189,14 +190,14 @@ public class CamParametersHandler extends AbstractParameterHandler
             PictureFormat.addEventListner(((BaseManualParameter)FX).GetPicFormatListner());
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) FX).GetModuleListner());
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             Burst = new BurstManualParam(cameraParameters,"","","",this);
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Burst).GetModuleListner());
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
 
@@ -205,13 +206,13 @@ public class CamParametersHandler extends AbstractParameterHandler
             PictureFormat.addEventListner(((BaseManualParameter)Zoom).GetPicFormatListner());
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Zoom).GetModuleListner());
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             ColorMode = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder, "effect", "effect-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         createExposureMode();
@@ -219,7 +220,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         try {
             FlashMode = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"flash-mode","flash-mode-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         createIsoMode();
@@ -227,7 +228,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         try {
             AntiBandingMode = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder, "antibanding", "antibanding-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
 
@@ -235,57 +236,61 @@ public class CamParametersHandler extends AbstractParameterHandler
         try {
             JpegQuality = new JpegQualityParameter(uiHandler,cameraParameters, baseCameraHolder, "jpeg-quality", "");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
-        //AE_Bracket = new AE_Bracket_HdrModeParameter(uiHandler,cameraParameters,baseCameraHolder, "ae-bracket-hdr", "ae-bracket-hdr-values");
+        try {
+            AE_Bracket = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder, "ae-bracket-hdr", "ae-bracket-hdr-values");
+        } catch (Exception e) {
+            Logger.exception(e);
+        }
 
         try {
             ImagePostProcessing = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder, "ipp", "ipp-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             PreviewSize = new PreviewSizeParameter(uiHandler,cameraParameters, baseCameraHolder, "preview-size", "preview-size-values", cameraHolder);
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             PreviewFPS = new PreviewFpsParameter(uiHandler, cameraParameters, "preview-frame-rate", "preview-frame-rate-values", (BaseCameraHolder)cameraHolder);
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             PreviewFormat = new PreviewFormatParameter(uiHandler,cameraParameters, baseCameraHolder, "preview-format", "preview-format-values", cameraHolder);
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             SceneMode =  new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "scene-mode","scene-mode-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             RedEye = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "redeye-reduction", "redeye-reduction-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             LensShade = new BaseModeParameter(uiHandler,cameraParameters, baseCameraHolder, "lensshade", "lensshade-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             VideoStabilization = new VideoStabilizationParameter(uiHandler,cameraParameters,baseCameraHolder,"video-stabilization","");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         createZeroShutterLag();
@@ -293,13 +298,13 @@ public class CamParametersHandler extends AbstractParameterHandler
         try {
             SceneDetect = new BaseModeParameter(uiHandler,cameraParameters, baseCameraHolder, "scene-detect", "scene-detect-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             Denoise = new BaseModeParameter(uiHandler,cameraParameters, baseCameraHolder, "denoise", "denoise-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
@@ -308,31 +313,31 @@ public class CamParametersHandler extends AbstractParameterHandler
             else if (cameraParameters.containsKey("dis"))
                 DigitalImageStabilization = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"dis","dis-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             MemoryColorEnhancement = new BaseModeParameter(uiHandler,cameraParameters, baseCameraHolder, "mce", "mce-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             SkinToneEnhancment = new BaseModeParameter(uiHandler,cameraParameters, baseCameraHolder, "skinToneEnhancement", "skinToneEnhancement-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             NightMode = new NightModeParameter(uiHandler,cameraParameters, baseCameraHolder,"","", cameraUiWrapper);
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             NonZslManualMode = new NonZslManualModeParameter(uiHandler,cameraParameters, baseCameraHolder, "non-zsl-manual-mode", "", cameraHolder);
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         /*try {
@@ -344,13 +349,13 @@ public class CamParametersHandler extends AbstractParameterHandler
         try {
             CameraMode = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder, "camera-mode", "camera-mode-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             DualMode = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder, "dual_mode", "");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         /*try {
@@ -373,45 +378,45 @@ public class CamParametersHandler extends AbstractParameterHandler
             else
                 VideoProfiles = new VideoProfilesParameter(uiHandler,cameraParameters,baseCameraHolder,"","", cameraUiWrapper);
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             CDS_Mode = new CDS_Mode_Parameter(uiHandler,cameraParameters,baseCameraHolder,"","");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         //####No idea what they do, m9 specific, only thing they do is to freez the app####
         try {
             RdiMode = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "rdi-mode", "rdi-mode-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             SecureMode = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "secure-mode", "secure-mode-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         //Temporal Noise Reduction http://nofilmschool.com/2012/03/temporal-noise-reduction-ipad-its-improvement
         try {
             TnrMode = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "tnr-mode", "tnr-mode-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             oismode = new OisParameter(uiHandler,cameraParameters,baseCameraHolder,"","");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             Focuspeak = new FocusPeakModeParameter(uiHandler,baseCameraHolder,cameraUiWrapper.previewHandler);
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         createHighFrameRate();
@@ -420,36 +425,42 @@ public class CamParametersHandler extends AbstractParameterHandler
             SetCameraRotation();
             SetPictureOrientation(0);
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
-        //captureBurstExposures = new CupBurstExpModeParameter(uiHandler, cameraParameters, baseCameraHolder, "capture-burst-exposures", "", appSettingsManager);
+        try {
+            captureBurstExposures = new CupBurstExpModeParameter(uiHandler, cameraParameters, baseCameraHolder, "capture-burst-exposures", "");
+        }
+        catch (Exception e)
+        {
+            Logger.exception(e);
+        }
 
         try {
             morphoHDR = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "morpho-hdr", "");
 
             morphoHHT = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "morpho-hht", "");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
                 LensFilter = new VirtualLensFilter(uiHandler,cameraParameters, baseCameraHolder, "", "", cameraUiWrapper);
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             HDRMode = new HDRModeParameter(uiHandler,cameraParameters, baseCameraHolder,"","", cameraUiWrapper);
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         try {
             Module = new ModuleParameters(uiHandler, appSettingsManager, cameraUiWrapper);
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
 
@@ -457,7 +468,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             SetAppSettingsToParameters();
             SetParametersToCamera(cameraParameters);
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         cameraUiWrapper.moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
 
@@ -467,7 +478,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             if (((BaseCameraHolder) cameraHolder).DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)
                 Mediatek();
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
     }
@@ -486,7 +497,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             if (ExposureMode != null)
                 ExposureMode.addEventListner(((FocusHandler) cameraHolder.Focus).aeModeListner);
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
     }
 
@@ -503,7 +514,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             else if (cameraParameters.containsKey("lg-iso-values"))
                 IsoMode = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"iso","lg-iso-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
     }
 
@@ -533,7 +544,7 @@ public class CamParametersHandler extends AbstractParameterHandler
                 cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualBrightness).GetModuleListner());
             }
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
     }
 
@@ -557,7 +568,7 @@ public class CamParametersHandler extends AbstractParameterHandler
                 cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualContrast).GetModuleListner());
             }
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
     }
 
@@ -571,7 +582,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             }
             VideoHighFramerateVideo = new BaseModeParameter(uiHandler, cameraParameters, baseCameraHolder, "video-hfr", "video-hfr-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
     }
 
@@ -582,7 +593,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             else if (cameraParameters.containsKey("sony-video-hdr"))
                 VideoHDR = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"sony-video-hdr","sony-video-hdr-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
     }
 
@@ -595,7 +606,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             else if (cameraParameters.containsKey("zsd-mode"))
                 ZSL =new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder,"zsd-mode", "zsd-mode-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
     }
 
@@ -626,7 +637,7 @@ public class CamParametersHandler extends AbstractParameterHandler
                 cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualSharpness).GetModuleListner());
             }
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
     }
 
@@ -652,7 +663,7 @@ public class CamParametersHandler extends AbstractParameterHandler
                 cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualSaturation).GetModuleListner());
             }
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
     }
 
@@ -667,7 +678,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             else if(cameraParameters.containsKey("exposure-compensation"))
                 ManualExposure = new ExposureManualParameter(cameraParameters,"exposure-compensation","max-exposure-compensation","min-exposure-compensation", this,expostep);
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
     }
 
@@ -690,9 +701,9 @@ public class CamParametersHandler extends AbstractParameterHandler
                 handler.post(r);
 
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Logger.e(TAG,ex.getMessage());
+                Logger.exception(e);
             }
         }
     }
@@ -714,9 +725,9 @@ public class CamParametersHandler extends AbstractParameterHandler
                 //handler.postDelayed(r, 1);
                 handler.post(r);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Logger.e(TAG,ex.getMessage());
+                Logger.exception(e);
             }
         }
         else
@@ -739,9 +750,9 @@ public class CamParametersHandler extends AbstractParameterHandler
         {
             ((BaseCameraHolder)cameraHolder).SetOrientation(orientation);
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            Logger.e(TAG, ex.getMessage());
+            Logger.exception(e);
         }
     }
 
@@ -772,9 +783,9 @@ public class CamParametersHandler extends AbstractParameterHandler
             cameraParameters.put(param, value);
             cameraHolder.SetCameraParameters(cameraParameters);
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            Logger.e(TAG, ex.getMessage());
+            Logger.exception(e);
         }
     }
 

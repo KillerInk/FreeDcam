@@ -15,8 +15,7 @@ import java.util.HashMap;
 public class CupBurstExpModeParameter extends BaseModeParameter
 {
     final String TAG = CupBurstExpModeParameter.class.getSimpleName();
-    AppSettingsManager appSettingsManager;
-    public CupBurstExpModeParameter(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value, String values, AppSettingsManager appSettingsManager) {
+    public CupBurstExpModeParameter(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value, String values) {
         super(uihandler, parameters, cameraHolder, value, values);
 
         this.isSupported = false;
@@ -34,7 +33,6 @@ public class CupBurstExpModeParameter extends BaseModeParameter
         }
         catch (Exception ex) {
         }
-        this.appSettingsManager = appSettingsManager;
     }
 
     @Override
@@ -61,13 +59,13 @@ public class CupBurstExpModeParameter extends BaseModeParameter
         if (valueToSet.equals("on")) {
             //if (baseCameraHolder.ParameterHandler.aeb1.GetValue() != null) {
                 //newvalue[0] = baseCameraHolder.ParameterHandler.aeb1.GetValue();
-            newvalue[0] = appSettingsManager.getString(AppSettingsManager.SETTING_AEB1);
+            newvalue[0] = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_AEB1);
             if(newvalue[0] == null || newvalue[0].equals(""))
                 newvalue[0] = "5";
-            newvalue[1] = appSettingsManager.getString(AppSettingsManager.SETTING_AEB2);
+            newvalue[1] = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_AEB2);
             if(newvalue[1] == null || newvalue[1].equals(""))
                 newvalue[1] = "0";
-            newvalue[2] = appSettingsManager.getString(AppSettingsManager.SETTING_AEB3);
+            newvalue[2] = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_AEB3);
             if(newvalue[2] == null || newvalue[2].equals(""))
                 newvalue[2] = "-5";
             //}
@@ -82,7 +80,7 @@ public class CupBurstExpModeParameter extends BaseModeParameter
             baseCameraHolder.SetCameraParameters(parameters);
             //super.BackgroundValueHasChanged(newvalue[0]+","+newvalue[1]+","+newvalue[2]);
         } catch (Exception ex) {
-            Logger.e(TAG, ex.getMessage());
+            Logger.e(TAG, ex.getMessage() + ex.toString());
         }
     }
 

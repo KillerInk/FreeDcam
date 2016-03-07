@@ -13,6 +13,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -49,6 +51,13 @@ public class Logger
         Log.v(TAG, msg);
         if (fileLogger != null)
             fileLogger.WriteLogDebug(TAG, msg);
+    }
+
+    public static void exception(Exception ex)
+    {
+        ex.printStackTrace();
+        if (fileLogger != null)
+            fileLogger.WriteEx(ex);
     }
 
     public static void StartLogging()
@@ -153,6 +162,17 @@ public class Logger
                 }
             });
 
+        }
+
+        public void WriteEx(Exception ex)
+        {
+            StringWriter errors = new StringWriter();
+            ex.printStackTrace(new PrintWriter(errors));
+            try {
+                writer.write(errors.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
