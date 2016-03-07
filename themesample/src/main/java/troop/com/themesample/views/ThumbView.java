@@ -164,6 +164,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
                 @Override
                 public void run() {
                     ThumbView.this.setImageBitmap(drawMap);
+                    click.newImageRecieved();
                 }
             });
 

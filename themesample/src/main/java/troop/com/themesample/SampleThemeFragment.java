@@ -37,6 +37,7 @@ public class SampleThemeFragment extends AbstractFragment
     private PagerAdapter mPagerAdapter;
 
     private SettingsMenuFragment settingsMenuFragment;
+    ScreenSlideFragment screenSlideFragment;
 
     public SampleThemeFragment()
     {
@@ -112,12 +113,23 @@ public class SampleThemeFragment extends AbstractFragment
         public void onThumbClick() {
             mPager.setCurrentItem(2);
         }
+
+        @Override
+        public void newImageRecieved() {
+            if (screenSlideFragment != null)
+                screenSlideFragment.ReloadFilesAndSetLast();
+        }
     };
 
     ScreenSlideFragment.I_ThumbClick onThumbBackClick = new ScreenSlideFragment.I_ThumbClick() {
         @Override
         public void onThumbClick() {
             mPager.setCurrentItem(1);
+        }
+
+        @Override
+        public void newImageRecieved() {
+
         }
     };
 
@@ -144,7 +156,7 @@ public class SampleThemeFragment extends AbstractFragment
             }
             else if (position == 2)
             {
-                ScreenSlideFragment screenSlideFragment = new ScreenSlideFragment();
+                screenSlideFragment = new ScreenSlideFragment();
                 screenSlideFragment.SetOnThumbClick(onThumbBackClick);
                 return screenSlideFragment;
             }

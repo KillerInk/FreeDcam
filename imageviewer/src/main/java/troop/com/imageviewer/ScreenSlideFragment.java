@@ -49,11 +49,10 @@ public class ScreenSlideFragment extends Fragment
      */
     private PagerAdapter mPagerAdapter;
 
-    FileHolder[] files;
-    Button closeButton;
+    private FileHolder[] files;
+    private Button closeButton;
 
-    File currentFile;
-    I_Activity activity;
+    private File currentFile;
     public int defitem = -1;
     public String FilePathToLoad = "";
     public GridViewFragment.FormatTypes filestoshow = GridViewFragment.FormatTypes.all;
@@ -82,12 +81,12 @@ public class ScreenSlideFragment extends Fragment
                     getActivity().finish();
             }
         });
-        if(savedInstanceState != null)
+        /*if(savedInstanceState != null)
         {
             FilePathToLoad = (String) savedInstanceState.get(SAVESTATE_FILEPATH);
             defitem = (int)savedInstanceState.get(SAVESTATE_ITEMINT);
             Logger.d(TAG, "have file to load from saveinstance onCreated" + FilePathToLoad);
-        }
+        }*/
         if (FilePathToLoad.equals("")) {
             FilePathToLoad = StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder;
             readFiles();
@@ -99,11 +98,13 @@ public class ScreenSlideFragment extends Fragment
         Logger.d(TAG, "onViewCreate" + FilePathToLoad);
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),files);
         mPager.setAdapter(mPagerAdapter);
+
         if (files != null && files.length > 0 && defitem == -1) {
             mPager.setCurrentItem(0);
         }
         else
             mPager.setCurrentItem(defitem);
+
 
     }
 
@@ -111,12 +112,13 @@ public class ScreenSlideFragment extends Fragment
     public void onResume()
     {
         super.onResume();
+
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putString(SAVESTATE_FILEPATH, FilePathToLoad);
-        outState.putInt(SAVESTATE_ITEMINT, mPager.getCurrentItem());
+        /*outState.putString(SAVESTATE_FILEPATH, FilePathToLoad);
+        outState.putInt(SAVESTATE_ITEMINT, mPager.getCurrentItem());*/
         super.onSaveInstanceState(outState);
     }
 
@@ -148,6 +150,7 @@ public class ScreenSlideFragment extends Fragment
     public interface I_ThumbClick
     {
         void onThumbClick();
+        void newImageRecieved();
     }
 
     public void reloadFilesAndSetLastPos()
@@ -174,6 +177,7 @@ public class ScreenSlideFragment extends Fragment
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(0);
         Logger.d(TAG, "reloadFilesAndSetLast");
+
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
@@ -219,6 +223,10 @@ public class ScreenSlideFragment extends Fragment
             if(files != null)
                 return files.length;
             else return 1;
+        }
+
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
     }
 }
