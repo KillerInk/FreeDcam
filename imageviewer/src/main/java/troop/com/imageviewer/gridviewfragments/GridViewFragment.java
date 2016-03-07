@@ -36,6 +36,7 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 
 import troop.com.imageviewer.CacheHelper;
@@ -52,7 +53,7 @@ import troop.com.imageviewer.holder.FileHolder;
 public class GridViewFragment extends BaseGridViewFragment
 {
     private ImageAdapter mPagerAdapter;
-    FileHolder[] files;
+    ArrayList<FileHolder> files;
     int mImageThumbSize = 0;
     CacheHelper cacheHelper;
     final String TAG = GridViewFragment.class.getSimpleName();
@@ -85,6 +86,7 @@ public class GridViewFragment extends BaseGridViewFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container, savedInstanceState);
+        files = new ArrayList<>();
         mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
         deleteButton = (Button)view.findViewById(R.id.button_deltePics);
         deleteButton.setVisibility(View.GONE);
@@ -124,8 +126,8 @@ public class GridViewFragment extends BaseGridViewFragment
             public void onClick(View view)
             {
                 if (currentViewState == ViewStates.normal) {
-                    if (files != null && files.length > 0) {
-                        String topPath = files[0].getFile().getParentFile().getParentFile().getAbsolutePath() + "/";
+                    if (files != null && files.size() > 0) {
+                        String topPath = files.get(0).getFile().getParentFile().getParentFile().getAbsolutePath() + "/";
                         String inter = StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder;
                         String external = StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder;
 
@@ -140,8 +142,8 @@ public class GridViewFragment extends BaseGridViewFragment
                                 getActivity().finish();
                         }
                         else {
-                            loadFiles(files[0].getFile());
-                            savedInstanceFilePath = files[0].getFile().getAbsolutePath();
+                            loadFiles(files.get(0).getFile());
+                            savedInstanceFilePath = files.get(0).getFile().getAbsolutePath();
                         }
                     }
                     else
@@ -149,9 +151,9 @@ public class GridViewFragment extends BaseGridViewFragment
                 }
                 else if (currentViewState == ViewStates.selection)
                 {
-                    for (int i = 0; i< files.length; i++)
+                    for (int i = 0; i< files.size(); i++)
                     {
-                        FileHolder f = files[i];
+                        FileHolder f = files.get(i);
                         f.SetSelected(false);
                     }
                     setViewMode(ViewStates.normal);
@@ -171,29 +173,27 @@ public class GridViewFragment extends BaseGridViewFragment
         rawToDngButton.setVisibility(View.GONE);
         rawToDngButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 ArrayList<String> ar = new ArrayList<String>();
-                for (FileHolder f : files)
-                {
-                    if (f.IsSelected() && f.getFile().getAbsolutePath().endsWith("raw"))
-                    {
+                for (FileHolder f : files) {
+                    if (f.IsSelected() && f.getFile().getAbsolutePath().endsWith("raw")) {
                         ar.add(f.getFile().getAbsolutePath());
                     }
 
                 }
-                for (FileHolder f : files)
-                {
+                for (FileHolder f : files) {
                     f.SetSelected(false);
                 }
                 setViewMode(ViewStates.normal);
                 final Intent i = new Intent(getActivity(), DngConvertingActivity.class);
-                String[]t = new String[ar.size()];
+                String[] t = new String[ar.size()];
                 ar.toArray(t);
                 i.putExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT, t);
                 startActivity(i);
             }
         });
+        mPagerAdapter = new ImageAdapter(getContext());
+        gridView.setAdapter(mPagerAdapter);
 
         return view;
     }
@@ -224,17 +224,18 @@ public class GridViewFragment extends BaseGridViewFragment
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
-
-                    for (FileHolder f: files)
+                    for (int i = 0; i< files.size(); i++)
                     {
-                        if (f.IsSelected())
+                        if (files.get(i).IsSelected())
                         {
-                            cacheHelper.deleteFileFromDiskCache(f.getFile().getName());
-                            boolean d = f.getFile().delete();
-                            Logger.d(TAG, "File delted:" + f.getFile().getName() + " :" + d);
+                            cacheHelper.deleteFileFromDiskCache(files.get(i).getFile().getName());
+                            boolean d = files.get(i).getFile().delete();
+                            Logger.d(TAG, "File delted:" + files.get(i).getFile().getName() + " :" + d);
+                            files.remove(i);
+                            i--;
                         }
                     }
-                    loadFiles(new File(savedInstanceFilePath));
+                    mPagerAdapter.notifyDataSetChanged();
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:
@@ -275,6 +276,7 @@ public class GridViewFragment extends BaseGridViewFragment
             loadDefaultFolders();
         else
             loadFiles(new File(savedInstanceFilePath));
+
     }
 
     private void checkMarshmallowPermissions() {
@@ -327,11 +329,9 @@ public class GridViewFragment extends BaseGridViewFragment
         catch (Exception ex) {
             Logger.d(TAG, "No external SD!");
         }
-        files = new FileHolder[list.size()];
-        list.toArray(files);
+        files = list;
         sortList(files);
-        mPagerAdapter = new ImageAdapter(getContext());
-        gridView.setAdapter(mPagerAdapter);
+        mPagerAdapter.notifyDataSetChanged();
     }
 
     private void loadFiles(File file)
@@ -361,16 +361,14 @@ public class GridViewFragment extends BaseGridViewFragment
                     list.add(new FileHolder(f[i]));
             }
         }
-        files = new FileHolder[list.size()];
-        list.toArray(files);
+        files = list;
         sortList(files);
-        mPagerAdapter = new ImageAdapter(getContext());
-        gridView.setAdapter(mPagerAdapter);
+        mPagerAdapter.notifyDataSetChanged();
     }
 
-    private void sortList(FileHolder[] filesar)
+    private void sortList(ArrayList<FileHolder> filesar)
     {
-        Arrays.sort(filesar, new Comparator<FileHolder>() {
+        Collections.sort(filesar, new Comparator<FileHolder>() {
             public int compare(FileHolder f1, FileHolder f2) {
                 return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
             }
@@ -383,31 +381,31 @@ public class GridViewFragment extends BaseGridViewFragment
         switch (currentViewState)
         {
             case normal:
-                if (!files[position].IsFolder()) {
+                if (!files.get(position).IsFolder()) {
                     final Intent i = new Intent(getActivity(), ScreenSlideActivity.class);
                     i.putExtra(ScreenSlideActivity.EXTRA_IMAGE, position);
-                    if (files != null &&files.length >0)
+                    if (files != null &&files.size() >0)
                     {
-                        if (!files[position].IsFolder())
-                            i.putExtra(ScreenSlideActivity.IMAGE_PATH, files[position].getFile().getParentFile().getAbsolutePath());
+                        if (!files.get(position).IsFolder())
+                            i.putExtra(ScreenSlideActivity.IMAGE_PATH, files.get(position).getFile().getParentFile().getAbsolutePath());
                         else
-                            i.putExtra(ScreenSlideActivity.IMAGE_PATH, files[position].getFile().getAbsolutePath());
+                            i.putExtra(ScreenSlideActivity.IMAGE_PATH, files.get(position).getFile().getAbsolutePath());
                     }
                     i.putExtra(ScreenSlideActivity.FileType, formatsToShow.name());
                     startActivity(i);
                 }
                 else
                 {
-                    savedInstanceFilePath = files[position].getFile().getAbsolutePath();
-                    loadFiles(files[position].getFile());
+                    savedInstanceFilePath = files.get(position).getFile().getAbsolutePath();
+                    loadFiles(files.get(position).getFile());
 
                 }
                 break;
             case selection:
-                if (files[position].IsSelected())
-                    files[position].SetSelected(false);
+                if (files.get(position).IsSelected())
+                    files.get(position).SetSelected(false);
                 else
-                    files[position].SetSelected(true);
+                    files.get(position).SetSelected(true);
         }
     }
 
@@ -419,7 +417,7 @@ public class GridViewFragment extends BaseGridViewFragment
         {
             case normal:
                 setViewMode(ViewStates.selection);
-                files[position].SetSelected(true);
+                files.get(position).SetSelected(true);
         }
         return false;
     }
@@ -438,12 +436,12 @@ public class GridViewFragment extends BaseGridViewFragment
 
         @Override
         public int getCount() {
-            return files.length;
+            return files.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return files[position];
+            return files.get(position);
         }
 
         @Override
@@ -459,7 +457,7 @@ public class GridViewFragment extends BaseGridViewFragment
                 imageView = new GridImageView(mContext);
                 if (position == 0 && !pos0ret)
                 {
-                    imageView.SetEventListner(files[position]);
+                    imageView.SetEventListner(files.get(position));
                     pos0ret = true;
                 }
 
@@ -468,10 +466,10 @@ public class GridViewFragment extends BaseGridViewFragment
             }
             //Set FileHolder to current imageview
             if (position > 0)
-                imageView.SetEventListner(files[position]);
-            Logger.d(TAG, "pos:" + position + " imageviewState: " + files[position].GetCurrentViewState() + " /GridState:" + currentViewState + " filename:" + files[position].getFile().getName() +
-                    " ischecked:" + files[position].IsSelected());
-            loadBitmap(files[position].getFile(), imageView); // Load image into ImageView
+                imageView.SetEventListner(files.get(position));
+            Logger.d(TAG, "pos:" + position + " imageviewState: " + files.get(position).GetCurrentViewState() + " /GridState:" + currentViewState + " filename:" + files.get(position).getFile().getName() +
+                    " ischecked:" + files.get(position).IsSelected());
+            loadBitmap(files.get(position).getFile(), imageView); // Load image into ImageView
             return imageView;
         }
     }
@@ -636,9 +634,9 @@ public class GridViewFragment extends BaseGridViewFragment
     private void setViewMode(ViewStates viewState)
     {
         this.currentViewState = viewState;
-        for (int i = 0; i< files.length; i++)
+        for (int i = 0; i< files.size(); i++)
         {
-            FileHolder f = files[i];
+            FileHolder f = files.get(i);
             f.SetViewState(viewState);
 
         }
