@@ -11,6 +11,7 @@ import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.i_camera.modules.VideoMediaProfile;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.DeviceUtils;
 
 /**
  * Created by troop on 16.08.2014.
@@ -98,6 +99,17 @@ public class VideoModule extends AbstractVideoModule
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         if (currentProfile.Mode == VideoMediaProfile.VideoMode.Highspeed)
         {
+            if(currentProfile.ProfileName.equals("1080pHFR") && (DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W)||DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)))
+                                camParametersHandler.setString("video-hfr", "60");
+            if(currentProfile.ProfileName.equals("720pHFR") && DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
+                            camParametersHandler.setString("video-hfr", "120");
+
+            if(currentProfile.ProfileName.equals("720pHFR") && (DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W)||DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)) && currentProfile.videoFrameRate == 60) {
+                            camParametersHandler.setString("video-hfr", "120");
+                            camParametersHandler.setString("preview-format", "nv12-venus");
+
+                                }
+
             if (camParametersHandler.MemoryColorEnhancement != null && camParametersHandler.MemoryColorEnhancement.IsSupported())
                 camParametersHandler.MemoryColorEnhancement.SetValue("disable", true);
             if (camParametersHandler.DigitalImageStabilization != null && camParametersHandler.DigitalImageStabilization.IsSupported())

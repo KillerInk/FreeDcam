@@ -32,14 +32,14 @@ public class DngSaver extends JpegSaver
     private String lastBayerFormat;
     final RawToDng dngConverter;
    // boolean isDebug = true;
-    MetaDataExtractor meta;
+  //  MetaDataExtractor meta;
 
     final String TAG = DngSaver.class.getSimpleName();
     public DngSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler, boolean externalSD)
     {
         super(cameraHolder, i_workeDone, handler, externalSD);
         dngConverter = RawToDng.GetInstance();
-        meta = new MetaDataExtractor();
+       // meta = new MetaDataExtractor();
 
     }
 
@@ -57,9 +57,9 @@ public class DngSaver extends JpegSaver
         awaitpicture = true;
         if((DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)) {
 
-            MetaDataExtractor.StatiClear();
+          //  MetaDataExtractor.StatiClear();
            // MetaDataExtractor.StatiCEXCute();
-            meta.extractMeta();
+           // meta.extractMeta();
         }
 
         handler.post(new Runnable() {
@@ -148,10 +148,19 @@ public class DngSaver extends JpegSaver
         else {
         fnum = ((CamParametersHandler)cameraHolder.ParameterHandler).GetFnumber();
         focal = ((CamParametersHandler)cameraHolder.ParameterHandler).GetFocal();}
-        if(meta != null){
-            dngConverter.setExifData(meta.getIso(), meta.getExp(), meta.getFlash(), fnum, focal, meta.getDescription(), cameraHolder.Orientation + "", 0);}
-        else
+        //if(meta != null){
+         //   dngConverter.setExifData(meta.getIso(), meta.getExp(), meta.getFlash(), fnum, focal, meta.getDescription(), cameraHolder.Orientation + "", 0);}
+      //  else
+        Log.d("Shutterrr", ((CamParametersHandler) cameraHolder.ParameterHandler).ExposureTime());
+        try
+        {
+            dngConverter.setExifData(ExtractISO(), ExtractShutter(), 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
+        }
+        catch (Exception ex)
+        {
             dngConverter.setExifData(0, 0, 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
+        }
+
 
         if (cameraHolder.ParameterHandler.CCT != null && cameraHolder.ParameterHandler.CCT.IsSupported())
         {
@@ -169,6 +178,77 @@ public class DngSaver extends JpegSaver
 
     }
 
+    private int ExtractISO()
+
+    {
+        if (cameraHolder.ParameterHandler.IsoMode.GetValue().equals("auto") || cameraHolder.ParameterHandler.IsoMode.GetValue().equals("auto_hjr"))
+        {
+            return 0;
+        }
+        else
+        {
+            return Integer.parseInt(cameraHolder.ParameterHandler.IsoMode.GetValue().split("O")[1]);
+        }
+
+    }
+
+   /* private int QueryFlash()
+
+    {
+
+        switch (cameraHolder.ParameterHandler.FlashMode.GetValue())
+        {
+
+            case "auto":
+                return 11;
+                break;
+            case "on":
+                return 1;
+            break;
+            case "off":
+                return 0;
+            break;
+            case "torch":
+                return 1;
+            break;
+
+
+            return 0;
+
+        }
+
+
+
+
+
+
+
+    }*/
+
+    private float ExtractShutter()
+
+    {
+        if (cameraHolder.ParameterHandler.ManualShutter.GetStringValue().equals("auto"))
+        {
+            return 0f;
+        }
+        else
+        {
+            if(cameraHolder.ParameterHandler.ManualShutter.GetStringValue().contains("/"))
+            {
+                return 1/Float.parseFloat(cameraHolder.ParameterHandler.ManualShutter.GetStringValue().split("/")[1]);
+
+            }
+            else
+            {
+                return Float.parseFloat(cameraHolder.ParameterHandler.ManualShutter.GetStringValue());
+
+            }
+
+
+        }
+
+    }
 
 
     private void addExifAndThumbToDng(byte[] data)

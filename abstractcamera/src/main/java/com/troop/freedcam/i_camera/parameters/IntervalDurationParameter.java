@@ -31,6 +31,6 @@ public class IntervalDurationParameter extends AbstractModeParameter
 
     @Override
     public String[] GetValues() {
-        return new String[] {"1 min", "2 min", "5 min","10 min","15 min","20 min ","25 min","30 min","60 min"/*,"Bulb"*/};
+        return new String[] {"1 min", "2 min", "5 min","10 min","15 min","20 min ","25 min","30 min","60 min","120 min","180","240 min","300","360","420","480 min"/*,"Bulb"*/};
     }
 }

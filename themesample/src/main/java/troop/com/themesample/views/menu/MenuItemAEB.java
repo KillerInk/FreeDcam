@@ -52,6 +52,8 @@ public class MenuItemAEB extends LinearLayout {
         this.editText = (EditText)findViewById(R.id.editText_number);
         this.plus.setClickable(true);
         this.minus.setClickable(true);
+        this.plus.setEnabled(true);
+        this.minus.setEnabled(true);
 
         minus.setOnClickListener(new OnClickListener() {
             @Override
@@ -83,8 +85,8 @@ public class MenuItemAEB extends LinearLayout {
             min = -(le/2);
             max = le/2;
         }
-        else
-            this.setVisibility(GONE);
+        //else
+            //this.setVisibility(GONE);
 
     }
 

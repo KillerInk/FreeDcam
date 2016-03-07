@@ -686,7 +686,8 @@ public class CamParametersHandler extends AbstractParameterHandler
                         baseCameraHolder.SetCameraParameters(cameraParameters);
                     }
                 };
-                handler.postDelayed(r, 1);
+                //handler.postDelayed(r, 1);
+                handler.post(r);
 
             }
             catch (Exception ex)
@@ -710,7 +711,8 @@ public class CamParametersHandler extends AbstractParameterHandler
                         baseCameraHolder.SetCameraParameters(cameraParameters);
                     }
                 };
-                handler.postDelayed(r, 1);
+                //handler.postDelayed(r, 1);
+                handler.post(r);
             }
             catch (Exception ex)
             {
@@ -794,6 +796,17 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         else
             return 0;
+    }
+
+    public String ExposureTime()
+    {
+        if (cameraParameters.containsKey("exposure-time")) {
+            final String focal = cameraParameters.get("exposure-time");
+            return focal;
+        }
+        else
+            return "non";
+
     }
 
     @Override

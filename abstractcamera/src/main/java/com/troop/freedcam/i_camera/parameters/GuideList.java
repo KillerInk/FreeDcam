@@ -44,7 +44,7 @@ public class GuideList extends AbstractModeParameter
     public String GetValue()
     {
         if (value == null || value.equals(""))
-            return "None";
+            return "Rule Of Thirds";
         else
             return value;
     }

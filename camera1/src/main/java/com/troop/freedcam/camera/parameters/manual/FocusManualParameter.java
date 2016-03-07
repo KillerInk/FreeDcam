@@ -32,7 +32,7 @@ public class FocusManualParameter extends  BaseManualParameter
 
         camParametersHandlerx = (CamParametersHandler) camParametersHandler;
 
-        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)  || DeviceUtils.IS(Devices.RedmiNote)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) )
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)  || DeviceUtils.IS(Devices.RedmiNote)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) || DeviceUtils.IS(Devices.LenovoK920) )
         {
             this.isSupported = true;
             this.max_value = null;
