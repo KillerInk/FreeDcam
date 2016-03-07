@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import troop.com.imageviewer.FileUtils;
+import troop.com.imageviewer.ScreenSlideFragment;
 import troop.com.imageviewer.gridviewfragments.GridViewFragment;
 import troop.com.imageviewer.holder.FileHolder;
 import troop.com.themesample.R;
@@ -43,7 +44,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
     private Bitmap bitmap;
     private File lastFile;
     private Bitmap mask;
-    SampleThemeFragment.I_ThumbClick click;
+    ScreenSlideFragment.I_ThumbClick click;
 
     public ThumbView(Context context) {
         super(context);
@@ -51,7 +52,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
         this.setBackgroundDrawable(context.getResources().getDrawable( troop.com.themesample.R.drawable.thumbnail));
     }
 
-    public void SetOnThumBlickListner(SampleThemeFragment.I_ThumbClick click)
+    public void SetOnThumBlickListner(ScreenSlideFragment.I_ThumbClick click)
     {
         this.click = click;
     }

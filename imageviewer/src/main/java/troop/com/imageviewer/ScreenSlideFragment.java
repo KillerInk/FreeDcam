@@ -57,6 +57,7 @@ public class ScreenSlideFragment extends Fragment
     public int defitem = -1;
     public String FilePathToLoad = "";
     public GridViewFragment.FormatTypes filestoshow = GridViewFragment.FormatTypes.all;
+    private I_ThumbClick thumbclick;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,8 +76,8 @@ public class ScreenSlideFragment extends Fragment
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (activity != null)
-                    activity.loadCameraUiFragment();
+                if (thumbclick != null)
+                    thumbclick.onThumbClick();
                 else
                     getActivity().finish();
             }
@@ -95,7 +96,7 @@ public class ScreenSlideFragment extends Fragment
         {
             readFiles();
         }
-        Logger.d(TAG, "onResume" + FilePathToLoad);
+        Logger.d(TAG, "onViewCreate" + FilePathToLoad);
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),files);
         mPager.setAdapter(mPagerAdapter);
         if (files != null && files.length > 0 && defitem == -1) {
@@ -110,8 +111,6 @@ public class ScreenSlideFragment extends Fragment
     public void onResume()
     {
         super.onResume();
-
-
     }
 
     @Override
@@ -141,9 +140,14 @@ public class ScreenSlideFragment extends Fragment
         });
     }
 
-    public void Set_I_Activity(I_Activity activity)
+    public void SetOnThumbClick(I_ThumbClick thumbClick)
     {
-        this.activity = activity;
+        this.thumbclick = thumbClick;
+    }
+
+    public interface I_ThumbClick
+    {
+        void onThumbClick();
     }
 
     public void reloadFilesAndSetLastPos()

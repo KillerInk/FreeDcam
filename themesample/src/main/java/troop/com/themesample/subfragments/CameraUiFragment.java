@@ -26,6 +26,7 @@ import com.troop.freedcam.ui.guide.GuideHandler;
 
 import java.io.File;
 
+import troop.com.imageviewer.ScreenSlideFragment;
 import troop.com.themesample.R;
 import troop.com.themesample.SampleThemeFragment;
 import troop.com.themesample.handler.FocusImageHandler;
@@ -82,12 +83,12 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     private final String KEY_MANUALMENUOPEN = "key_manualmenuopen";
     private final String KEY_SETTINGSOPEN = "key_settingsopen";
     private SharedPreferences sharedPref;
-    private SampleThemeFragment.I_ThumbClick thumbClick;
+    private ScreenSlideFragment.I_ThumbClick thumbClick;
     private File lastFile;
 
     HorizontLineFragment horizontLineFragment;
 
-    public void SetStuff(I_Activity i_activity, SampleThemeFragment.I_ThumbClick thumbClick)
+    public void SetStuff(I_Activity i_activity, ScreenSlideFragment.I_ThumbClick thumbClick)
     {
         this.i_activity = i_activity;
         this.thumbClick = thumbClick;

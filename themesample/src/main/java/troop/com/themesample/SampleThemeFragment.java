@@ -107,17 +107,21 @@ public class SampleThemeFragment extends AbstractFragment
 
     }
 
-    I_ThumbClick onThumbClick = new I_ThumbClick() {
+    ScreenSlideFragment.I_ThumbClick onThumbClick = new ScreenSlideFragment.I_ThumbClick() {
         @Override
         public void onThumbClick() {
             mPager.setCurrentItem(2);
         }
     };
 
-    public interface I_ThumbClick
-    {
-        void onThumbClick();
-    }
+    ScreenSlideFragment.I_ThumbClick onThumbBackClick = new ScreenSlideFragment.I_ThumbClick() {
+        @Override
+        public void onThumbClick() {
+            mPager.setCurrentItem(1);
+        }
+    };
+
+
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     {
@@ -140,7 +144,9 @@ public class SampleThemeFragment extends AbstractFragment
             }
             else if (position == 2)
             {
-                return new ScreenSlideFragment();
+                ScreenSlideFragment screenSlideFragment = new ScreenSlideFragment();
+                screenSlideFragment.SetOnThumbClick(onThumbBackClick);
+                return screenSlideFragment;
             }
             else
             {
