@@ -80,6 +80,8 @@ public class SampleThemeFragment extends AbstractFragment
             settingsMenuFragment = new SettingsMenuFragment();
             settingsMenuFragment.SetStuff(i_activity);
         }
+        if (screenSlideFragment == null)
+            screenSlideFragment = new ScreenSlideFragment();
         return inflater.inflate(R.layout.samplethemefragment, container, false);
     }
 
@@ -151,20 +153,17 @@ public class SampleThemeFragment extends AbstractFragment
         {
             if (position == 0)
             {
-                settingsMenuFragment = new SettingsMenuFragment();
                 settingsMenuFragment.SetStuff(i_activity);
                 settingsMenuFragment.SetCameraUIWrapper(wrapper);
                 return settingsMenuFragment;
             }
             else if (position == 2)
             {
-                screenSlideFragment = new ScreenSlideFragment();
                 screenSlideFragment.SetOnThumbClick(onThumbBackClick);
                 return screenSlideFragment;
             }
             else
             {
-                //cameraUiFragment = new CameraUiFragment();
                 cameraUiFragment.SetStuff(i_activity,onThumbClick);
                 cameraUiFragment.SetCameraUIWrapper(wrapper);
                 return cameraUiFragment;
