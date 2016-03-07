@@ -30,14 +30,13 @@ public class SampleThemeFragment extends AbstractFragment
 {
     final String TAG = SampleThemeFragment.class.getSimpleName();
 
-    I_Activity i_activity;
-    CameraUiFragment cameraUiFragment;
+    private I_Activity i_activity;
+    private CameraUiFragment cameraUiFragment;
 
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
 
     private SettingsMenuFragment settingsMenuFragment;
-    private ScreenSlideFragment imageViewerFragment;
 
     public SampleThemeFragment()
     {
@@ -53,10 +52,14 @@ public class SampleThemeFragment extends AbstractFragment
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper)
     {
         this.wrapper = wrapper;
-        if (cameraUiFragment != null)
+        if (cameraUiFragment != null) {
             cameraUiFragment.SetCameraUIWrapper(wrapper);
+        }
         if (settingsMenuFragment != null)
+        {
+            settingsMenuFragment.SetStuff(i_activity);
             settingsMenuFragment.SetCameraUIWrapper(wrapper);
+        }
 
     }
 
@@ -73,10 +76,6 @@ public class SampleThemeFragment extends AbstractFragment
         if (settingsMenuFragment == null) {
             settingsMenuFragment = new SettingsMenuFragment();
             settingsMenuFragment.SetStuff(i_activity);
-        }
-        if (imageViewerFragment == null)
-        {
-            imageViewerFragment = new ScreenSlideFragment();
         }
         return inflater.inflate(R.layout.samplethemefragment, container, false);
     }
@@ -134,15 +133,14 @@ public class SampleThemeFragment extends AbstractFragment
         {
             if (position == 0)
             {
-                //settingsMenuFragment = new SettingsMenuFragment();
+                settingsMenuFragment = new SettingsMenuFragment();
                 settingsMenuFragment.SetStuff(i_activity);
                 settingsMenuFragment.SetCameraUIWrapper(wrapper);
                 return settingsMenuFragment;
             }
             else if (position == 2)
             {
-                imageViewerFragment = new ScreenSlideFragment();
-                return imageViewerFragment;
+                return new ScreenSlideFragment();
             }
             else
             {
