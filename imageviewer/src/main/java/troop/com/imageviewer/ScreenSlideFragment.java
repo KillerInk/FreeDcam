@@ -23,6 +23,8 @@ import com.troop.freedcam.utils.StringUtils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -49,7 +51,7 @@ public class ScreenSlideFragment extends Fragment
      */
     private PagerAdapter mPagerAdapter;
 
-    private FileHolder[] files;
+    private List<FileHolder> files;
     private Button closeButton;
 
     private File currentFile;
@@ -96,10 +98,10 @@ public class ScreenSlideFragment extends Fragment
             readFiles();
         }
         Logger.d(TAG, "onViewCreate" + FilePathToLoad);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),files);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
-        if (files != null && files.length > 0 && defitem == -1) {
+        if (files != null && files.size() > 0 && defitem == -1) {
             mPager.setCurrentItem(0);
         }
         else
@@ -133,13 +135,24 @@ public class ScreenSlideFragment extends Fragment
             return;
         }
         FileUtils.readFilesFromFolder(folder, images, filestoshow);
-        files = images.toArray(new FileHolder[images.size()]);
-        Logger.d(TAG, "readFiles sucess, FilesCount" + files.length);
-        Arrays.sort(files, new Comparator<FileHolder>() {
+        files = images;
+        Logger.d(TAG, "readFiles sucess, FilesCount" + files.size());
+        Collections.sort(files, new Comparator<FileHolder>() {
             public int compare(FileHolder f1, FileHolder f2) {
                 return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
             }
         });
+    }
+
+    public void addFile(File file)
+    {
+        files.add(new FileHolder(file));
+        Collections.sort(files, new Comparator<FileHolder>() {
+            public int compare(FileHolder f1, FileHolder f2) {
+                return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
+            }
+        });
+        mPagerAdapter.notifyDataSetChanged();
     }
 
     public void SetOnThumbClick(I_ThumbClick thumbClick)
@@ -150,7 +163,7 @@ public class ScreenSlideFragment extends Fragment
     public interface I_ThumbClick
     {
         void onThumbClick();
-        void newImageRecieved();
+        void newImageRecieved(File file);
     }
 
     public void reloadFilesAndSetLastPos()
@@ -159,10 +172,9 @@ public class ScreenSlideFragment extends Fragment
         readFiles();
         if (files == null)
             return;
-        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),files);
         int current = mPager.getCurrentItem();
-        mPager.setAdapter(mPagerAdapter);
-        if (current-1 >= 0 && current-1 <= files.length)
+        mPagerAdapter.notifyDataSetChanged();
+        if (current-1 >= 0 && current-1 <= files.size())
             mPager.setCurrentItem(current -1);
         else
             mPager.setCurrentItem(0);
@@ -173,8 +185,7 @@ public class ScreenSlideFragment extends Fragment
         readFiles();
         if (files == null)
             return;
-        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),files);
-        mPager.setAdapter(mPagerAdapter);
+        mPagerAdapter.notifyDataSetChanged();
         mPager.setCurrentItem(0);
         Logger.d(TAG, "reloadFilesAndSetLast");
 
@@ -182,16 +193,9 @@ public class ScreenSlideFragment extends Fragment
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     {
-        FileHolder[] f;
-        public ScreenSlidePagerAdapter(FragmentManager fm,FileHolder[] f)
+        public ScreenSlidePagerAdapter(FragmentManager fm)
         {
             super(fm);
-
-            this.f = f;
-            if (f != null)
-                Logger.d(TAG, "loading screenslidePageAdapter: file count:" + f.length);
-            else
-                Logger.d(TAG, "loading screenslidePageAdapter: No Files found");
 
         }
 
@@ -199,7 +203,7 @@ public class ScreenSlideFragment extends Fragment
         public Fragment getItem(int position)
         {
 
-            if (f == null || f.length == 0)
+            if (files == null || files.size() == 0)
             {
                 ImageFragment currentFragment = new ImageFragment();
                 currentFragment.activity = ScreenSlideFragment.this;
@@ -207,10 +211,10 @@ public class ScreenSlideFragment extends Fragment
                 return currentFragment;
             }
             else {
-                currentFile = (f[mPager.getCurrentItem()].getFile());
+                currentFile = (files.get(mPager.getCurrentItem()).getFile());
                 ImageFragment currentFragment = new ImageFragment();
                 currentFragment.activity = ScreenSlideFragment.this;
-                currentFragment.SetFilePath(files[position].getFile());
+                currentFragment.SetFilePath(files.get(position).getFile());
 
 
                 return currentFragment;
@@ -221,12 +225,21 @@ public class ScreenSlideFragment extends Fragment
         public int getCount()
         {
             if(files != null)
-                return files.length;
+                return files.size();
             else return 1;
         }
 
+        @Override
         public int getItemPosition(Object object) {
-            return POSITION_NONE;
+            FileHolder file = new FileHolder(((ImageFragment) object).GetFilePath());
+            int position = files.indexOf(file);
+            if (position >= 0) {
+                // The current data matches the data in this active fragment, so let it be as it is.
+                return position;
+            } else {
+                // Returning POSITION_NONE means the current data does not matches the data this fragment is showing right now.  Returning POSITION_NONE constant will force the fragment to redraw its view layout all over again and show new data.
+                return POSITION_NONE;
+            }
         }
     }
 }

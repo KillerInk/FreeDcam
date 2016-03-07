@@ -17,6 +17,8 @@ import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
 
+import java.io.File;
+
 import troop.com.imageviewer.ImageFragment;
 import troop.com.imageviewer.ScreenSlideFragment;
 import troop.com.imageviewer.holder.FileHolder;
@@ -115,9 +117,9 @@ public class SampleThemeFragment extends AbstractFragment
         }
 
         @Override
-        public void newImageRecieved() {
+        public void newImageRecieved(File file) {
             if (screenSlideFragment != null)
-                screenSlideFragment.ReloadFilesAndSetLast();
+                screenSlideFragment.addFile(file);
         }
     };
 
@@ -128,7 +130,7 @@ public class SampleThemeFragment extends AbstractFragment
         }
 
         @Override
-        public void newImageRecieved() {
+        public void newImageRecieved(File file) {
 
         }
     };
