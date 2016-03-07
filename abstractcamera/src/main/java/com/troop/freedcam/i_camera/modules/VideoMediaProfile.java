@@ -169,7 +169,7 @@ public class VideoMediaProfile
         try {
             mprof.createNewFile();
         } catch (IOException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         if(mprof.exists()) {
             try

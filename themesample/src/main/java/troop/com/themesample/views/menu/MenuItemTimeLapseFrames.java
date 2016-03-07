@@ -90,7 +90,7 @@ public class MenuItemTimeLapseFrames extends LinearLayout
         }
         catch (Exception ex)
         {
-            Logger.e(TAG, ex.getMessage());
+            Logger.exception(ex);
         }
         AppSettingsManager.APPSETTINGSMANAGER.setString(settingsname, current + "");
         editText.setText(current + " fps");

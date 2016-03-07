@@ -107,7 +107,7 @@ public class JsonUtils
             try {
                 ret[i] = array.get(i).toString();
             } catch (JSONException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
         }
         return ret;

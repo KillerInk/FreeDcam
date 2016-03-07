@@ -93,9 +93,9 @@ public class JpegSaver implements I_Callbacks.PictureCallback
 
 
         } catch (FileNotFoundException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         } catch (IOException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         Logger.d(TAG, "End Saving Bytes");
         iWorkeDone.OnWorkDone(fileName);
@@ -109,7 +109,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
             try {
                 fileName.createNewFile();
             } catch (IOException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
     }
 }

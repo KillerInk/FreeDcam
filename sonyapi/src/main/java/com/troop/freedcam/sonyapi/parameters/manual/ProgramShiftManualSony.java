@@ -109,11 +109,11 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
 
 
                     } catch (IOException e) {
-                        Logger.e(TAG, e.getMessage());
+                        Logger.exception(e);
                         Logger.e(TAG, "Error Trying to get String Values from: " +VALUES_TO_GET);
                         stringvalues = new String[0];
                     } catch (JSONException e) {
-                        Logger.e(TAG, e.getMessage());
+                        Logger.exception(e);
                         Logger.e(TAG, "Error Trying to get String Values from: " + VALUES_TO_GET);
                         stringvalues = new String[0];
                     }
@@ -123,7 +123,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 }
         }
     }
@@ -142,9 +142,9 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                     JSONObject object =  ParameterHandler.mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
                     ThrowCurrentValueChanged(valueToSet);
                 } catch (JSONException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 } catch (IOException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 }
             }
         }).start();

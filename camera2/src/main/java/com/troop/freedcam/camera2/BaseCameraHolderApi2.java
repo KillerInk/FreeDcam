@@ -147,10 +147,10 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
 
         } catch (CameraAccessException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
             return  false;
         } catch (InterruptedException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         return true;
     }
@@ -226,7 +226,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         try {
             return manager.getCameraIdList();
         } catch (CameraAccessException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         return null;
     }
@@ -272,7 +272,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                         null);
 
             } catch (CameraAccessException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
         }
         else if (mPreviewRequestBuilder != null)
@@ -353,7 +353,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             try {
                 mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             } catch (CameraAccessException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
             ((ParameterHandlerApi2)ParameterHandler).Init();
             //SetLastUsedParameters(mPreviewRequestBuilder);
@@ -543,22 +543,22 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             characteristics = null;
         }
         catch (CameraAccessException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         catch (InterruptedException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         catch (VerifyError ex)
         {
-            Logger.e(TAG, ex.getMessage());
+            Logger.exception(ex);
         }
         catch (IllegalArgumentException ex)
         {
-            Logger.e(TAG, ex.getMessage());
+            Logger.exception(ex);
         }
         catch (Exception ex)
         {
-            Logger.e(TAG, ex.getMessage());
+            Logger.exception(ex);
         }
         finally
         {
@@ -567,7 +567,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
         }
         return  legacy;
@@ -617,7 +617,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             try {
                 mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, null);
             } catch (CameraAccessException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
         }
 
@@ -627,7 +627,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             try {
                 mCameraDevice.createCaptureSession(surfaces, customCallback, null);
             } catch (CameraAccessException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
         }
 
@@ -637,7 +637,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             try {
                 mCaptureSession.stopRepeating();
             } catch (CameraAccessException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
                 mCaptureSession = null;
             }
 

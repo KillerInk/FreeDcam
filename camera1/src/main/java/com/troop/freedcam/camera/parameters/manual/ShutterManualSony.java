@@ -31,7 +31,7 @@ public class ShutterManualSony extends BaseManualParameter
                     stringvalues = StringUtils.getSupportedShutterValues(min, max,true);
                     this.isSupported = true;
                 } catch (NumberFormatException ex) {
-                    Logger.e(TAG, ex.getMessage());
+                    Logger.exception(ex);
                     isSupported = false;
                 }
             }

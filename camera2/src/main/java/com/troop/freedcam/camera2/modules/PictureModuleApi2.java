@@ -237,7 +237,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             //cameraHolder.mCaptureSession.captureBurst(captureList, CaptureCallback, backgroundHandler);
             cameraHolder.mCaptureSession.capture(captureBuilder.build(),CaptureCallback, backgroundHandler);
         } catch (CameraAccessException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
     }
 
@@ -314,7 +314,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
         }
         catch (NullPointerException ex) {
-            Logger.e(TAG, ex.getMessage());
+            Logger.exception(ex);
         }
 
         isWorking = false;
@@ -327,7 +327,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             try {
                 fileName.createNewFile();
             } catch (IOException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
     }
 
@@ -344,7 +344,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                         try {
                             Thread.sleep(1);
                         } catch (InterruptedException e) {
-                            Logger.e(TAG, e.getMessage());
+                            Logger.exception(e);
                         }
                     int burstcount = ParameterHandler.Burst.GetValue();
                     File file = null;
@@ -447,7 +447,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             try {
                 dngCreator.writeImage(new FileOutputStream(file), image);
             } catch (IOException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
             image.close();
         }
@@ -668,7 +668,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             baseCameraHolder.CaptureSessionH.AddSurface(mImageReader.getSurface(),false);
             baseCameraHolder.CaptureSessionH.CreateCaptureSession();
         }
-        catch(Exception ex){Logger.e(TAG, ex.getMessage());}
+        catch(Exception ex){Logger.exception(ex);}
         if (ParameterHandler.Burst != null)
             ParameterHandler.Burst.ThrowCurrentValueChanged(ParameterHandler.Burst.GetValue());
     }
@@ -702,9 +702,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 output = new FileOutputStream(mFile);
                 output.write(bytes);
             } catch (FileNotFoundException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             } catch (IOException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             } finally {
                 mImage.close();
 
@@ -712,7 +712,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     try {
                         output.close();
                     } catch (IOException e) {
-                        Logger.e(TAG, e.getMessage());
+                        Logger.exception(e);
                     }
                 }
             }

@@ -116,7 +116,7 @@ public abstract class AbstractVideoModule extends AbstractModule
             {
                 Logger.e(TAG,"Recording failed");
                 baseCameraHolder.errorHandler.OnError("Start Recording failed");
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
                 recorder.reset();
                 eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
                 isWorking = false;
@@ -126,7 +126,7 @@ public abstract class AbstractVideoModule extends AbstractModule
         }
         catch (NullPointerException ex)
         {
-            Logger.e(TAG, ex.getMessage());
+            Logger.exception(ex);
             baseCameraHolder.errorHandler.OnError("Start Recording failed");
             recorder.reset();
             eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);

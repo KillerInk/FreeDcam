@@ -189,7 +189,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         try {
             mediaRecorder.prepare();
         } catch (IOException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
             eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
             return;
         }
@@ -216,7 +216,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             } catch (CameraAccessException e)
             {
                 baseCameraHolder.mCaptureSession = null;
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
         }
 

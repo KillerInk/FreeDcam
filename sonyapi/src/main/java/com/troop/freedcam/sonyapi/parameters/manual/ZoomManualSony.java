@@ -64,10 +64,10 @@ public class ZoomManualSony extends BaseManualParameterSony
                         String zoompos = zoom.getString("zoomPosition");
                         currentInt = Integer.parseInt(zoompos);
                     } catch (IOException e) {
-                        Logger.e(TAG, e.getMessage());
+                        Logger.exception(e);
                         currentInt = 0;
                     } catch (JSONException e) {
-                        Logger.e(TAG, e.getMessage());
+                        Logger.exception(e);
                         currentInt = 0;
                     }
                 }
@@ -76,7 +76,7 @@ public class ZoomManualSony extends BaseManualParameterSony
                 try {
                     Thread.sleep(1);
                 } catch (InterruptedException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 }
             }
         }
@@ -105,7 +105,7 @@ public class ZoomManualSony extends BaseManualParameterSony
                         JSONObject object = ParameterHandler.mRemoteApi.actZoom(finaldirection, movement);
                         isZooming = false;
                     } catch (IOException e) {
-                        Logger.e(TAG, e.getMessage());
+                        Logger.exception(e);
                     }
                 }
             }).start();

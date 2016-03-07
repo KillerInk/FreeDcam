@@ -123,7 +123,7 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
                             processYuvFrame(data);
                     }
                 } catch (InterruptedException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 }
                 finally
                 {
@@ -158,7 +158,7 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
                 try {
                     Thread.sleep(1);
                 } catch (InterruptedException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 }
             }
             //remove the previewcallback
@@ -169,7 +169,7 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
                 try {
                     file.createNewFile();
                 } catch (IOException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 }
             OutputStream outStream = null;
             try
@@ -185,11 +185,11 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
             }
             catch (FileNotFoundException e)
             {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
             catch (IOException e)
             {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
 
             nativeYuvMerge.Release();

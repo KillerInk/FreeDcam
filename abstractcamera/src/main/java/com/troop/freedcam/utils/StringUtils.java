@@ -192,7 +192,7 @@ public class StringUtils
             }
             p.destroy();
         } catch (IOException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         return board_platform;
     }

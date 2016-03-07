@@ -146,7 +146,7 @@ public class AppSettingsManager
                 appSettings.edit().putString(APPVERSION, appver).commit();
             }
         } catch (PackageManager.NameNotFoundException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         this.context = context;
         APPSETTINGSMANAGER = this;

@@ -118,7 +118,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
             try {
                 thum = new ExifInterface(file.getAbsolutePath()).getThumbnail();
             } catch (IOException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
             if (thum != null)
             {

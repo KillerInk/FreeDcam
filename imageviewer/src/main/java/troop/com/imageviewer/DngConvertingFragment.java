@@ -227,9 +227,9 @@ public class DngConvertingFragment extends Fragment
             Logger.d("Main", "Filesize: " + data.length + " File:" + file.getAbsolutePath());
 
         } catch (FileNotFoundException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         } catch (IOException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         String out = file.getAbsolutePath().replace(".raw", ".dng");

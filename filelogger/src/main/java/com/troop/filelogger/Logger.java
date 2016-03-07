@@ -53,7 +53,7 @@ public class Logger
             fileLogger.WriteLogDebug(TAG, msg);
     }
 
-    public static void exception(Exception ex)
+    public static void exception(Throwable ex)
     {
         ex.printStackTrace();
         if (fileLogger != null)
@@ -88,7 +88,7 @@ public class Logger
                 outputStream = new FileWriter(file);
                 writer = new BufferedWriter(outputStream);
             } catch (IOException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
 
         }
@@ -101,22 +101,22 @@ public class Logger
                 try {
                     writer.flush();
                 } catch (IOException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 }
                 try {
                     writer.close();
                 } catch (IOException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 }
                 try {
                     outputStream.flush();
                 } catch (IOException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 }
                 try {
                     outputStream.close();
                 } catch (IOException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 }
             }
             backgroundThread.quit();
@@ -136,7 +136,7 @@ public class Logger
                         writer.write(b.toString());
                         writer.newLine();
                     } catch (IOException e) {
-                        Logger.e(TAG, e.getMessage());
+                        Logger.exception(e);
                     }
                 }
             });
@@ -157,14 +157,14 @@ public class Logger
                         writer.write(b.toString());
                         writer.newLine();
                     } catch (IOException e) {
-                        Logger.e(TAG, e.getMessage());
+                        Logger.exception(e);
                     }
                 }
             });
 
         }
 
-        public void WriteEx(Exception ex)
+        public void WriteEx(Throwable ex)
         {
             StringWriter errors = new StringWriter();
             ex.printStackTrace(new PrintWriter(errors));

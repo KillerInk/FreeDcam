@@ -35,7 +35,7 @@ public class ShutterManual_ExposureTime_Micro extends BaseManualParameter
             this.isSupported = true;
 
         } catch (NumberFormatException ex) {
-            Logger.e(TAG, ex.getMessage());
+            Logger.exception(ex);
             isSupported = false;
         }
     }

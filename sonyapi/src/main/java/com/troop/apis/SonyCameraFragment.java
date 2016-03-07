@@ -110,7 +110,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 }
             }
             mSsdpClient.search(new SimpleSsdpClient.SearchResultHandler()

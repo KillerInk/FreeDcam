@@ -56,7 +56,7 @@ public class BaseModeApi2 extends AbstractModeParameter
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
         } catch (CameraAccessException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
     }
 

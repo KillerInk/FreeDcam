@@ -34,7 +34,7 @@ public class PreviewSizeParameter extends BaseModeParameter
         }
         catch (Exception ex)
         {
-            Logger.e(TAG, ex.getMessage());
+            Logger.exception(ex);
         }
         if (setToCam)
             baseCameraHolder.StartPreview();

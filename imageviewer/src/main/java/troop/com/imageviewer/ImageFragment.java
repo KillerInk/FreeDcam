@@ -223,13 +223,13 @@ public class ImageFragment extends Fragment
             fnumber.setText("Aperture:" +exifsub.getString(ExifSubIFDDirectory.TAG_FNUMBER));
             focal.setText("Focal Length:" +exifsub.getString(ExifSubIFDDirectory.TAG_FOCAL_LENGTH));
         } catch (IOException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         } catch (JpegProcessingException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         catch (NullPointerException ex)
         {
-            Logger.e(TAG, ex.getMessage());
+            Logger.exception(ex);
         }
     }
 
@@ -367,9 +367,9 @@ public class ImageFragment extends Fragment
             Logger.d("Main", "Filesize: " + data.length + " File:" + file.getAbsolutePath());
 
         } catch (FileNotFoundException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         } catch (IOException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         String out = file.getAbsolutePath().replace(".raw", ".dng");

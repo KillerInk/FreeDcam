@@ -53,7 +53,7 @@ public class CupBurstExpModeParameter extends BaseModeParameter
         try {
             baseCameraHolder.SetCameraParameters(parameters);
         } catch (Exception ex) {
-            Logger.e(TAG, ex.getMessage());
+            Logger.exception(ex);
         }
         String newvalue[] = "0,0,0".split(",");
         if (valueToSet.equals("on")) {

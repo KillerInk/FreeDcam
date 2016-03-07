@@ -114,7 +114,7 @@ public class RenderScriptTestActivity extends Activity implements SurfaceHolder.
             camera.setPreviewDisplay(surfaceView.getHolder());
 
         } catch (IOException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         camera.startPreview();
         initRenderScript();
@@ -174,7 +174,7 @@ public class RenderScriptTestActivity extends Activity implements SurfaceHolder.
                         }
                     }
                 } catch (InterruptedException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 } finally {
                     dowork = false;
                     camera.setPreviewCallback(null);

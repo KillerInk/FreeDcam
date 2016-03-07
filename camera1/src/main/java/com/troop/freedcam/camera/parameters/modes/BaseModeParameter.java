@@ -91,7 +91,7 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
                 baseCameraHolder.SetCameraParameters(parameters);
 
             } catch (Exception ex) {
-                Logger.e(TAG, ex.getMessage());
+                Logger.exception(ex);
             }
         }
         firststart = false;

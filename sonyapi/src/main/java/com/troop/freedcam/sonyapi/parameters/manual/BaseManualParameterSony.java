@@ -99,11 +99,11 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                         BackgroundValuesChanged(stringvalues);
 
                     } catch (IOException e) {
-                        Logger.e(TAG, e.getMessage());
+                        Logger.exception(e);
                         sendLog( "Error Trying to get String Values from: " +VALUES_TO_GET);
                         stringvalues = new String[0];
                     } catch (JSONException e) {
-                        Logger.e(TAG, e.getMessage());
+                        Logger.exception(e);
                         sendLog("Error Trying to get String Values from: " + VALUES_TO_GET);
                         stringvalues = new String[0];
                     }
@@ -135,9 +135,9 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                     JSONObject object =  ParameterHandler.mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
                     ThrowCurrentValueChanged(valueToSet);
                 } catch (JSONException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 } catch (IOException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 }
             }
         }).start();

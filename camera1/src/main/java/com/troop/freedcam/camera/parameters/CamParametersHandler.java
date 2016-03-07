@@ -343,7 +343,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         /*try {
             Histogram = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder, "histogram", "histogram-values");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }*/
 
         try {
@@ -361,13 +361,13 @@ public class CamParametersHandler extends AbstractParameterHandler
         /*try {
             ExposureLock = new ExposureLockParameter(uiHandler,cameraParameters, baseCameraHolder, "","");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }*/
 
         /*try {
             VideoSize = new VideoSizeParameter(uiHandler,cameraParameters,baseCameraHolder,"video-size","video-size");
         } catch (Exception e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }*/
 
         createVideoHDR();

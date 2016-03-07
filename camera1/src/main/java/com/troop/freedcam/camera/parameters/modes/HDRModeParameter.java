@@ -127,7 +127,7 @@ public class HDRModeParameter extends BaseModeParameter
         }
         catch (Exception ex)
         {
-            Logger.e(TAG, ex.getMessage());
+            Logger.exception(ex);
         }
         firststart = false;
     }

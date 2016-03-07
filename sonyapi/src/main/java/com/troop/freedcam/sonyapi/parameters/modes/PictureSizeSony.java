@@ -35,7 +35,7 @@ public class PictureSizeSony extends BaseModeParameterSony
                     values = processValuesToReturn();
                     BackgroundValuesHasChanged(values);
                 } catch (IOException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 }
             }
         }).start();
@@ -54,12 +54,12 @@ public class PictureSizeSony extends BaseModeParameterSony
                 JSONArray array = new JSONArray().put(0, split[0]).put(1, split[1]);
                 JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
             } catch (JSONException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
 
 
         } catch (IOException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
     }
 
@@ -76,7 +76,7 @@ public class PictureSizeSony extends BaseModeParameterSony
                 ret[i] = size.getString("aspect") + "x" +size.getString("size");
             }
         } catch (JSONException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         return ret;
     }
@@ -86,7 +86,7 @@ public class PictureSizeSony extends BaseModeParameterSony
         try {
             array = jsonObject.getJSONArray("result");
         } catch (JSONException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         String ret ="";
         try
@@ -95,9 +95,9 @@ public class PictureSizeSony extends BaseModeParameterSony
             ret = size.getString("aspect") + "+" +size.getString("size");
         } catch (JSONException e)
         {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
-        catch (NullPointerException ex){Logger.e(TAG, ex.getMessage());};
+        catch (NullPointerException ex){Logger.exception(ex);};
         return ret;
     }
 }

@@ -82,15 +82,15 @@ public class RenderScriptArgbActivity extends Activity
             fOut.flush();
             fOut.close(); // do not forget to close the stream
         } catch (FileNotFoundException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         } catch (IOException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         finally {
             try {
                 fOut.close();
             } catch (IOException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
 
         }

@@ -30,7 +30,7 @@ public class RawUtils {
         try {
             System.loadLibrary("rawutils");
         } catch (Throwable e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
     }
 
@@ -78,7 +78,7 @@ public class RawUtils {
         }
         catch (IOException e)
         {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         return byteArray;
     }
@@ -204,10 +204,10 @@ public class RawUtils {
             outputStream.flush();
 
         } catch (FileNotFoundException e) {
-            Logger.e(TAG, e.getMessage());  //To change body of catch statement use File | Settings | File Templates.
+            Logger.exception(e);  //To change body of catch statement use File | Settings | File Templates.
         }
         catch (IOException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         finally {
             try {
@@ -215,7 +215,7 @@ public class RawUtils {
                     outputStream.close();
                 }
             } catch (IOException e) {
-                Logger.e(TAG, e.getMessage());  //To change body of catch statement use File | Settings | File Templates.
+                Logger.exception(e);  //To change body of catch statement use File | Settings | File Templates.
             }
         }
         return result;
@@ -233,7 +233,7 @@ public class RawUtils {
                 parseExif(fileName, exif);
             }
         } catch (IOException e) {
-            Logger.e(TAG, e.getMessage());  //To change body of catch statement use File | Settings | File Templates.
+            Logger.exception(e);  //To change body of catch statement use File | Settings | File Templates.
         }
         return exif;
     }

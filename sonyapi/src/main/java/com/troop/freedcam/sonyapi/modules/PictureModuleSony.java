@@ -105,7 +105,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
         try {
             file.createNewFile();
         } catch (IOException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         InputStream inputStream = null;
         FileOutputStream output = null;
@@ -119,7 +119,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
                 output.write(buffer, 0, len);
             }
         } catch (IOException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         finally
         {
@@ -128,14 +128,14 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
                 if (inputStream != null)
                     inputStream.close();
             } catch (IOException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
 
             try {
                 if (output != null)
                     output.close();
             } catch (IOException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
         }
 

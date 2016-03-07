@@ -30,7 +30,7 @@ public class ContShootModeParameterSony extends BaseModeParameterSony
             JSONArray subarray = ob.getJSONArray("candidate");
             ret = JsonUtils.ConvertJSONArrayToStringArray(subarray);
         } catch (JSONException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         return ret;
     }
@@ -44,12 +44,12 @@ public class ContShootModeParameterSony extends BaseModeParameterSony
                 JSONArray array = new JSONArray().put(0, contshot);
                 JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
             } catch (JSONException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
 
 
         } catch (IOException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
     }
 
@@ -60,7 +60,7 @@ public class ContShootModeParameterSony extends BaseModeParameterSony
             array = jsonObject.getJSONArray("result");
             ret = array.getJSONObject(0).getString("contShootingMode");
         } catch (JSONException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         return ret;
     }

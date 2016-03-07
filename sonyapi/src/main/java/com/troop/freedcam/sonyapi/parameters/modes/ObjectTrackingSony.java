@@ -30,7 +30,7 @@ public class ObjectTrackingSony extends BaseModeParameterSony
             JSONArray subarray = ob.getJSONArray("candidate");
             ret = JsonUtils.ConvertJSONArrayToStringArray(subarray);
         } catch (JSONException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         return ret;
     }
@@ -43,9 +43,9 @@ public class ObjectTrackingSony extends BaseModeParameterSony
             JSONArray array = new JSONArray().put(0, contshot);
             JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
         } catch (JSONException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         } catch (IOException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
     }
 
@@ -56,7 +56,7 @@ public class ObjectTrackingSony extends BaseModeParameterSony
             array = jsonObject.getJSONArray("result");
             ret = array.getJSONObject(0).getString("trackingFocus");
         } catch (JSONException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         return ret;
     }

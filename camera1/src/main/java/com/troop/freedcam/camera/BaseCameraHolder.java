@@ -469,7 +469,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         catch (RuntimeException ex)
         {
             errorHandler.OnError("Picture Taking failed, What a Terrible Failure!!");
-            Logger.e(TAG, ex.getMessage());
+            Logger.exception(ex);
         }
 
     }

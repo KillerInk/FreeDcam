@@ -83,7 +83,7 @@ public class VideoProfileEditorFragment extends Fragment
             try {
                 VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
             } catch (IOException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
         AppSettingsManager appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(getActivity()), getContext());
         try {
@@ -169,7 +169,7 @@ public class VideoProfileEditorFragment extends Fragment
                         try {
                             VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
                         } catch (IOException e) {
-                            Logger.e(TAG, e.getMessage());
+                            Logger.exception(e);
                         }
                     clearProfileItems();
                     break;
@@ -241,7 +241,7 @@ public class VideoProfileEditorFragment extends Fragment
                 try {
                     VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
                 } catch (IOException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 }
             Toast.makeText(getContext(),"Profile Saved", Toast.LENGTH_SHORT).show();
         }

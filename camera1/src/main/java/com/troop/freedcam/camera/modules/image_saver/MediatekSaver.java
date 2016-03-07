@@ -125,11 +125,11 @@ public class MediatekSaver extends JpegSaver {
             Logger.d(TAG, "Filesize: " + data.length + " File:" +DeviceSwitcher().getAbsolutePath());
 
         } catch (FileNotFoundException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         } catch (IOException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         } catch (InterruptedException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
 
         String  out = holdFile.getAbsolutePath().replace(".jpg", ".dng");

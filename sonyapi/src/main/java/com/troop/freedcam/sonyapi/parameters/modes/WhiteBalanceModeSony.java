@@ -37,7 +37,7 @@ public class WhiteBalanceModeSony extends BaseModeParameterSony
                         values = processValuesToReturn();
                         BackgroundValuesHasChanged(values);
                     } catch (IOException e) {
-                        Logger.e(TAG, e.getMessage());
+                        Logger.exception(e);
                     }
                 }
             }).start();
@@ -70,7 +70,7 @@ public class WhiteBalanceModeSony extends BaseModeParameterSony
             }
 
         } catch (JSONException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         return ret;
     }
@@ -94,7 +94,7 @@ public class WhiteBalanceModeSony extends BaseModeParameterSony
             JSONArray array = new JSONArray().put(valueToSet).put(false).put(-1) ;
             JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
         } catch (IOException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
     }
 
@@ -105,7 +105,7 @@ public class WhiteBalanceModeSony extends BaseModeParameterSony
             array = jsonObject.getJSONArray("result");
             ret = array.getJSONObject(0).getString("whiteBalanceMode");
         } catch (JSONException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         return ret;
     }

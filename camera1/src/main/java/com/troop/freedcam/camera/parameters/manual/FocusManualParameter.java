@@ -138,7 +138,7 @@ public class FocusManualParameter extends  BaseManualParameter
                 }
                 catch (Exception ex)
                 {
-                    Logger.e(TAG, ex.getMessage());
+                    Logger.exception(ex);
                 }
             }
             else

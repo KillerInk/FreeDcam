@@ -92,12 +92,12 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
                 JSONArray array = new JSONArray().put(0, valueToSet);
                 JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
             } catch (JSONException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
 
 
         } catch (IOException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
     }
 
@@ -116,7 +116,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
                         value = processGetString();
                         BackgroundValueHasChanged(value);
                     } catch (IOException e) {
-                        Logger.e(TAG, e.getMessage());
+                        Logger.exception(e);
                     }
                 }
             }).start();
@@ -132,7 +132,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
             array = jsonObject.getJSONArray("result");
             ret = array.getString(0);
         } catch (JSONException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         return ret;
     }
@@ -148,7 +148,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
                 try {
                     jsonObject = mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                 } catch (IOException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 }
             }
         }).start();
@@ -157,7 +157,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
             try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
         }
         String[] ret = processValuesToReturn();*/
@@ -172,7 +172,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
             JSONArray subarray = array.getJSONArray(1);
             ret = JsonUtils.ConvertJSONArrayToStringArray(subarray);
         } catch (JSONException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         return ret;
     }

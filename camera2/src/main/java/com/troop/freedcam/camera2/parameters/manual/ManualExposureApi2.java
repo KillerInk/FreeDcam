@@ -66,11 +66,11 @@ public class ManualExposureApi2 extends AbstractManualParameter implements Abstr
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
         } catch (CameraAccessException e) {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
         catch (NullPointerException e)
         {
-            Logger.e(TAG, e.getMessage());
+            Logger.exception(e);
         }
     }
 

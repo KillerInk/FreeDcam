@@ -39,12 +39,12 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
 
                         //ThrowCurrentValueChanged(valueToSet);
                 } catch (JSONException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                     Logger.e(TAG, "Error SetValue " + valueToSet);
                 } catch (IOException e)
                 {
                     Logger.e(TAG, "Error SetValue " + valueToSet);
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 }
             }
         }).start();
@@ -70,13 +70,13 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                     {
 
                         Logger.e(TAG, "Error getMinMaxValues ");
-                        Logger.e(TAG, e.getMessage());
+                        Logger.exception(e);
 
                     } catch (JSONException e)
                     {
 
                         Logger.e(TAG, "Error getMinMaxValues ");
-                        Logger.e(TAG, e.getMessage());
+                        Logger.exception(e);
 
                     }
                 }
@@ -97,11 +97,11 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                         currentInt = array.getInt(0);
                         //onCurrentValueChanged(val);
                     } catch (IOException e) {
-                        Logger.e(TAG, e.getMessage());
+                        Logger.exception(e);
                         Logger.e(TAG, "Error GetValue() ");
 
                     } catch (JSONException e) {
-                        Logger.e(TAG, e.getMessage());
+                        Logger.exception(e);
                         Logger.e(TAG, "Error GetValue() ");
 
                     }
@@ -112,7 +112,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                     Thread.sleep(10);
                     Logger.d(TAG, "Wait for getValues");
                 } catch (InterruptedException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 }
         }
         return currentInt;

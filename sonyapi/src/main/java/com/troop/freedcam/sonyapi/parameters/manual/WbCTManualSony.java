@@ -57,10 +57,10 @@ public class WbCTManualSony extends BaseManualParameterSony
 
                         ThrowCurrentValueChanged(currentInt / step);
                     } catch (JSONException e) {
-                        Logger.e(TAG, e.getMessage());
+                        Logger.exception(e);
                     }
                 } catch (IOException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
 
                 }
             }
@@ -88,7 +88,7 @@ public class WbCTManualSony extends BaseManualParameterSony
                     JSONArray array = new JSONArray().put("Color Temperature").put(true).put(Integer.parseInt(t[set])) ;
                     JSONObject jsonObject = mRemoteApi.setParameterToCamera("setWhiteBalance", array);
                 } catch (IOException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 }
             }
         }).start();
@@ -156,10 +156,10 @@ public class WbCTManualSony extends BaseManualParameterSony
                             SetMinMAx(ob);
                         }
                     } catch (JSONException e) {
-                        Logger.e(TAG, e.getMessage());
+                        Logger.exception(e);
                     }
                 } catch (IOException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 }
             }
         }).start();
@@ -167,7 +167,7 @@ public class WbCTManualSony extends BaseManualParameterSony
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
     }
 

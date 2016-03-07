@@ -128,7 +128,7 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
             try {
                 cameraUiWrapper.cameraHolder.SetPreviewCallback(this);
             } catch (java.lang.RuntimeException ex) {
-                Logger.e(TAG, ex.getMessage());
+                Logger.exception(ex);
                 return;
             }
 
@@ -162,7 +162,7 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
                         }
                     }
                 } catch (InterruptedException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 } finally {
                     mYuvFrameQueue.clear();
                     doWork = false;

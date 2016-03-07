@@ -125,7 +125,7 @@ public class RS_TextureviewActivity extends Activity implements Camera.PreviewCa
                 camera.setPreviewCallback(RS_TextureviewActivity.this);
 
             } catch (IOException e) {
-                Logger.e(TAG, e.getMessage());
+                Logger.exception(e);
             }
             camera.startPreview();
             initRenderScript();
@@ -186,7 +186,7 @@ public class RS_TextureviewActivity extends Activity implements Camera.PreviewCa
                         }
                     }
                 } catch (InterruptedException e) {
-                    Logger.e(TAG, e.getMessage());
+                    Logger.exception(e);
                 } finally {
                     dowork = false;
                     camera.setPreviewCallback(null);
