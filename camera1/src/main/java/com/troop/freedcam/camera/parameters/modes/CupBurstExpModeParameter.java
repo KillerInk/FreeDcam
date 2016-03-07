@@ -79,8 +79,8 @@ public class CupBurstExpModeParameter extends BaseModeParameter
         try {
             baseCameraHolder.SetCameraParameters(parameters);
             //super.BackgroundValueHasChanged(newvalue[0]+","+newvalue[1]+","+newvalue[2]);
-        } catch (Exception ex) {
-            Logger.e(TAG, ex.getMessage() + ex.toString());
+        } catch (Exception e) {
+            Logger.exception(e);
         }
     }
 

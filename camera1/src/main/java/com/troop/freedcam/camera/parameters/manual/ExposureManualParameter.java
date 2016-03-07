@@ -14,7 +14,6 @@ import java.util.HashMap;
 public class ExposureManualParameter extends BaseManualParameter
 {
     final String TAG = ExposureManualParameter.class.getSimpleName();
-    boolean negativeMin = false;
     public ExposureManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler,float step) {
         super(parameters, value, maxValue, MinValue, camParametersHandler,step);
         Logger.d(TAG, "Is Supported:" + isSupported);
@@ -24,8 +23,6 @@ public class ExposureManualParameter extends BaseManualParameter
     protected String[] createStringArray(int min,int max, float step)
     {
         ArrayList<String> ar = new ArrayList<>();
-        if (min < 0)
-            negativeMin = true;
         for (int i = min; i <= max; i++)
         {
             String s = String.format("%.1f",i*step );
@@ -37,11 +34,14 @@ public class ExposureManualParameter extends BaseManualParameter
     @Override
     protected void setvalue(int valueToset)
     {
-        currentInt = valueToset;
+
         if(stringvalues == null || stringvalues.length == 0)
             return;
+        if (valueToset < 0 && parameters.get(min_value).contains("-"))
+            valueToset = valueToset+stringvalues.length/2;
+        currentInt = valueToset;
         int t = valueToset;
-        if (negativeMin)
+        if (parameters.get(min_value).contains("-"))
             t = t-(stringvalues.length/2);
         parameters.put(value, t + "");
         try
@@ -52,7 +52,7 @@ public class ExposureManualParameter extends BaseManualParameter
         {
             Logger.e(TAG, ex.getMessage());
         }
-        ThrowCurrentValueChanged(t);
+        ThrowCurrentValueChanged(currentInt);
         ThrowCurrentValueStringCHanged(stringvalues[valueToset]);
 
     }
