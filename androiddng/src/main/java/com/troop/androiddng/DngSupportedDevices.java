@@ -407,7 +407,7 @@ public class DngSupportedDevices
             case 25677824://m9 mipi
                 return new Nexus6Profile(64, 5388, 3752, Mipi16, GRBG, 0);
             case 20041728:
-                return new DngProfile(64, 5344,3000,Mipi, BGGR,0,
+                return new DngProfile(64, 5344,3000,Mipi, RGGB,0,
                         Matrixes.G4_identity_matrix1,
                         Matrixes.G4_identity_matrix2,
                         Matrixes.G4_identity_neutra,
