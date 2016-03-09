@@ -30,10 +30,13 @@ public class FocusPeakModeApi2 extends BaseModeApi2 {
         if (valueToSet.equals(StringUtils.ON))
         {
             cameraHolder.FocusPeakEnable(true);
-
+            BackgroundValueHasChanged("true");
         }
-        else
+        else {
             cameraHolder.FocusPeakEnable(false);
+            BackgroundValueHasChanged("false");
+        }
+
     }
 
     @Override
