@@ -74,8 +74,6 @@ public class ShutterClassHandler
 
         else if((DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro) || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4W)) && !parameters.get("max-exposure-time").contains("."))
             return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,Mi4WValues.split(","));
-        else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G3))
-            return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,null);
         else
             return null;
     }
