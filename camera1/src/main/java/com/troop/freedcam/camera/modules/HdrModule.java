@@ -144,6 +144,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
             takePicture();
         }
         MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
+        eventHandler.WorkFinished(file);
     }
 
     @Override
@@ -256,6 +257,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
         @Override
         public void OnWorkDone(File file) {
             MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
+            eventHandler.WorkFinished(file);
             if (hdrCount == 2) {
                 stopworking();
                 baseCameraHolder.StartPreview();

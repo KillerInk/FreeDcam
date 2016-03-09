@@ -124,45 +124,13 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     @Override
     public void LoadNeededParameters()
     {
-        //startThread();
         ((CamParametersHandler)ParameterHandler).setString("preview-format", "yuv420sp");
-         //if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported() && !ParameterHandler.AE_Bracket.GetValue().equals("Off")) {
-            //aeBrackethdr = ParameterHandler.AE_Bracket.GetValue();
-           // ParameterHandler.AE_Bracket.SetValue("Off", true);
-         //}
         if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported() && !ParameterHandler.VideoHDR.GetValue().equals("off"))
             ParameterHandler.VideoHDR.SetValue("off", true);
-        //if (ParameterHandler.CameraMode.IsSupported() && ParameterHandler.CameraMode.GetValue().equals("1"))
-            //ParameterHandler.CameraMode.SetValue("0", true);
-        //if (ParameterHandler.ZSL.IsSupported() && !ParameterHandler.ZSL.GetValue().equals("off"))
-            //ParameterHandler.ZSL.SetValue("off", true);
-        //if(ParameterHandler.MemoryColorEnhancement.IsSupported() && ParameterHandler.MemoryColorEnhancement.GetValue().equals("enable"))
-            //ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
-        //if (ParameterHandler.DigitalImageStabilization.IsSupported() && ParameterHandler.DigitalImageStabilization.GetValue().equals("enable"))
-            //ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
-
         if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)){
             ((CamParametersHandler)ParameterHandler).setString("slow_shutter", "-1");
 
             baseCameraHolder.SetCameraParameters(((CamParametersHandler)ParameterHandler).getParameters());}
-       // if(DeviceUtils.isNexus4()){
-     /*   if((DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)) {
-            if (ParameterHandler.IsDngActive() && baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("dng")) {
-                try {
-                    MetaDataExtractor.StatiClear();
-                    MetaDataExtractor.StatiCEXCute();
-                }
-                catch (Exception e)
-                {
-
-                }
-
-            }
-
-
-        }*/
-
-
     }
 
 
