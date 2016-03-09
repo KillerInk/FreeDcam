@@ -16,4 +16,22 @@
         <item>Plain16bit</item>
         <item>Mipi16bit</item>
     </string-array>
+    <string name="delete_file">Delete File?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="no_files">No Files</string>
+    <string name="failed_to_load">Failed to load:</string>
+    <string name="sec">sec</string>
+    <string name="mm">mm</string>
+    <string name="unknown_raw_add_manual_stuff">Unknown RawFile, pls add needed Stuff Manual</string>
+    <string name="converting_dng">Converting DNG</string>
+    <string name="ALL">ALL</string>
+    <string name="All">All</string>
+    <string name="delete_files">Delete File\'s?</string>
+    <string name="width">Width:</string>
+    <string name="height">Height:</string>
+    <string name="blacklevel">Blacklevel:</string>
+    <string name="converttodng">Convert to DNG</string>
+    <string name="no_sel_raw">No selected RAW file, pls return back and select it</string>
+
 </resources>
