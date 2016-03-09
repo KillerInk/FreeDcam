@@ -77,9 +77,9 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
     private String getCamera(int i)
     {
         if (i == 0)
-            return "Front";
-        else if (i == 1)
             return "Back";
+        else if (i == 1)
+            return "Front";
         else
             return "3D";
     }
