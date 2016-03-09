@@ -23,6 +23,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
 {
     ImageView imageView;
     TextView textView;
+    TextView folderTextView;
     CheckBox checkBox;
     private BaseHolder fileHolder;
     public GridImageView(Context context) {
@@ -47,6 +48,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         imageView = (ImageView) findViewById(R.id.gridimageviewholder);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         textView = (TextView)findViewById(R.id.filetypetextbox);
+        folderTextView = (TextView)findViewById(R.id.foldertextbox);
         checkBox = (CheckBox)findViewById(R.id.checkBox_gridviewimage);
         checkBox.setOnClickListener(new OnClickListener() {
             @Override
@@ -87,6 +89,10 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
     public void SetFileEnding(String ending)
     {
         textView.setText(ending);
+    }
+    public void SetFolderName(String ending)
+    {
+        folderTextView.setText(ending);
     }
     public Drawable getDrawable()
     {

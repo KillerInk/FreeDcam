@@ -211,7 +211,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
             public void run() {
                 if (value) {
                     ManualButton.this.setEnabled(true);
-                    imageView.getDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                    imageView.getDrawable().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
                 } else {
                     ManualButton.this.setEnabled(false);
                     imageView.getDrawable().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);

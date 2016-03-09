@@ -53,6 +53,8 @@ public class ImageFragment extends Fragment
     LinearLayout exifinfo;
     MyHistogram myHistogram;
     Button play;
+    CacheHelper cacheHelper;
+    int mImageThumbSize = 0;
 
     Button deleteButton;
 
@@ -62,9 +64,10 @@ public class ImageFragment extends Fragment
 
     private final int animationTime = 500;
 
-    public void SetFilePath(File filepath)
+    public void SetFilePath(File filepath, CacheHelper cacheHelper)
     {
         this.file = filepath;
+        this.cacheHelper = cacheHelper;
     }
 
     public File GetFilePath()
@@ -133,9 +136,7 @@ public class ImageFragment extends Fragment
                     else
                         i.setDataAndType(uri, "image/*");
                     startActivity(i);
-                }
-                else
-                {
+                } else {
 
                     new Thread(new Runnable() {
                         @Override
@@ -153,6 +154,7 @@ public class ImageFragment extends Fragment
                 }
             }
         });
+        mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
     }
 
     @Override
@@ -250,42 +252,26 @@ public class ImageFragment extends Fragment
     private Bitmap getBitmap()
     {
         Bitmap response;
-        if (file.getAbsolutePath().endsWith(".jpg") || file.getAbsolutePath().endsWith(".jps"))
-        {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 2;
-            response = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+        if (cacheHelper == null)
+            cacheHelper = new CacheHelper(getContext());
+        try {
+            response = BitmapHelper.getBitmap(file,false,cacheHelper,mImageThumbSize,mImageThumbSize);
         }
-        else if (file.getAbsolutePath().endsWith(".mp4"))
-            response = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
-        else if (file.getAbsolutePath().endsWith(".dng")|| file.getAbsolutePath().endsWith(".raw"))
+        catch (IllegalArgumentException ex)
         {
-            try {
-
-
-                response = RawUtils.UnPackRAW(file.getAbsolutePath());
-                if(response != null)
-                    response.setHasAlpha(true);
-            }
-            catch (IllegalArgumentException ex)
-            {
-                response = null;
-                filename.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        filename.setText("Failed to load:" + file.getName());
-
-                    }
-                });
-            }
-        }
-        else
             response = null;
+            filename.post(new Runnable() {
+                @Override
+                public void run() {
+                    filename.setText("Failed to load:" + file.getName());
+
+                }
+            });
+        }
         if (response == null)
             workDone.onWorkDone(false, file);
         else
             workDone.onWorkDone(true, file);
-
         return response;
     }
 

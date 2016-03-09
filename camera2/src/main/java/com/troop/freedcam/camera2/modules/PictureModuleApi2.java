@@ -162,41 +162,41 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             // Use the same AE and AF modes as the preview.
             try {
                 captureBuilder.set(CaptureRequest.CONTROL_AF_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AF_MODE));
-            }catch (NullPointerException ex){};
+            }catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_MODE));
-            }catch (NullPointerException ex){};
+            }catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 captureBuilder.set(CaptureRequest.FLASH_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.FLASH_MODE));
-            }catch (NullPointerException ex){};
+            }catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 captureBuilder.set(CaptureRequest.COLOR_CORRECTION_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.COLOR_CORRECTION_MODE));
-            }catch (NullPointerException ex){};
+            }catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 captureBuilder.set(CaptureRequest.COLOR_CORRECTION_TRANSFORM, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.COLOR_CORRECTION_TRANSFORM));
-            }catch (NullPointerException ex){};
+            }catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 captureBuilder.set(CaptureRequest.COLOR_CORRECTION_GAINS, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.COLOR_CORRECTION_GAINS));
-            }catch (NullPointerException ex){};
+            }catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 captureBuilder.set(CaptureRequest.TONEMAP_CURVE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.TONEMAP_CURVE));
-            }catch (NullPointerException ex){};
+            }catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 int awb = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AWB_MODE);
                 captureBuilder.set(CaptureRequest.CONTROL_AWB_MODE, awb );
-            }catch (NullPointerException ex){};
+            }catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 captureBuilder.set(CaptureRequest.EDGE_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.EDGE_MODE));
-            }catch (NullPointerException ex){};
+            }catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 captureBuilder.set(CaptureRequest.HOT_PIXEL_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.HOT_PIXEL_MODE));
-            }catch (NullPointerException ex){};
+            }catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 captureBuilder.set(CaptureRequest.NOISE_REDUCTION_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.NOISE_REDUCTION_MODE));
-            }catch (NullPointerException ex){};
+            }catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 captureBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION));
-            }catch (NullPointerException ex){};
+            }catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 long val = 0;
                 if(!cameraHolder.ParameterHandler.ManualShutter.GetStringValue().equals("Auto"))
@@ -205,25 +205,22 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     val= cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
                 Logger.d(TAG, "Set ExposureTime for Capture to:" + val);
                 captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
-            }catch (NullPointerException ex){};
+            }catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 captureBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_SENSITIVITY));
-            }catch (NullPointerException ex){};
+            }catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 captureBuilder.set(CaptureRequest.CONTROL_EFFECT_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_EFFECT_MODE));
-            }catch (NullPointerException ex){};
+            }catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 captureBuilder.set(CaptureRequest.CONTROL_SCENE_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_SCENE_MODE));
-            }catch (NullPointerException ex){};
+            }catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 captureBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE));
-            }catch (NullPointerException ex){};
+            }catch (NullPointerException ex){Logger.exception(ex);};
             try {
-                if (Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
-                    captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, 180);
-                else
-                    captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, 0);
-            }catch (NullPointerException ex){};
+                    captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.JPEG_ORIENTATION));
+            }catch (NullPointerException ex){Logger.exception(ex);};
             List<CaptureRequest> captureList = new ArrayList<CaptureRequest>();
             for (int i=0; i< ParameterHandler.Burst.GetValue()+1; i++)
             {
@@ -253,42 +250,46 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             try {
                 Logger.d(TAG, "CaptureResult Recieved");
             }
-            catch (NullPointerException ex){};
+            catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 Logger.d(TAG, "ColorCorrectionGains" + mDngResult.get(CaptureResult.COLOR_CORRECTION_GAINS));
-            }catch (NullPointerException ex){};
+            }catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 Logger.d(TAG, "ColorCorrectionTransform" + mDngResult.get(CaptureResult.COLOR_CORRECTION_TRANSFORM));
             }
-            catch (NullPointerException ex){};
+            catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 Logger.d(TAG, "ToneMapCurve" + mDngResult.get(CaptureResult.TONEMAP_CURVE));
             }
-            catch (NullPointerException ex){};
+            catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 Logger.d(TAG, "Sensor Sensitivity" + mDngResult.get(CaptureResult.SENSOR_SENSITIVITY));
             }
-            catch (NullPointerException ex){};
+            catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 Logger.d(TAG, "Sensor ExposureTime" + mDngResult.get(CaptureResult.SENSOR_EXPOSURE_TIME));
             }
-            catch (NullPointerException ex){};
+            catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 Logger.d(TAG, "Sensor FrameDuration" + mDngResult.get(CaptureResult.SENSOR_FRAME_DURATION));
             }
-            catch (NullPointerException ex){};
+            catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 Logger.d(TAG, "Sensor GreenSplit" + mDngResult.get(CaptureResult.SENSOR_GREEN_SPLIT));
             }
-            catch (NullPointerException ex){};
+            catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 Logger.d(TAG, "Sensor NoiseProfile" + mDngResult.get(CaptureResult.SENSOR_NOISE_PROFILE).toString());
             }
-            catch (NullPointerException ex){};
+            catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 Logger.d(TAG, "Sensor NeutralColorPoint" + mDngResult.get(CaptureResult.SENSOR_NEUTRAL_COLOR_POINT).toString());
             }
-            catch (NullPointerException ex){};
+            catch (NullPointerException ex){Logger.exception(ex);};
+            try {
+                Logger.d(TAG, "Orientation" + mDngResult.get(CaptureResult.JPEG_ORIENTATION).toString());
+            }
+            catch (NullPointerException ex){Logger.exception(ex);};
             //Toast.makeText(getActivity(), "Saved: " + mFile, Toast.LENGTH_SHORT).show();
 
         }
@@ -433,7 +434,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             int mFlash;
 
 
-            dngConverter.setExifData(0, 0, 0, fnum, focal, "0", "0", 0);
+            dngConverter.setExifData(0, 0, 0, fnum, focal, "0", cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.JPEG_ORIENTATION).toString(), 0);
 
             dngConverter.WriteDNG(DeviceUtils.DEVICE());
             dngConverter.RELEASE();
@@ -443,6 +444,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         else
         {
             DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, mDngResult);
+            dngCreator.setOrientation(mDngResult.get(CaptureResult.JPEG_ORIENTATION));
 
             try {
                 dngCreator.writeImage(new FileOutputStream(file), image);
@@ -481,7 +483,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         double mExposuretime = mDngResult.get(CaptureResult.SENSOR_EXPOSURE_TIME).doubleValue();
         int mFlash = mDngResult.get(CaptureResult.FLASH_STATE).intValue();
 
-        dngConverter.setExifData(mISO, mExposuretime, mFlash, fnum, focal, "0", "0", 0);
+        dngConverter.setExifData(mISO, mExposuretime, mFlash, fnum, focal, "0", cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.JPEG_ORIENTATION).toString(), 0);
 
         int black  = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_BLACK_LEVEL_PATTERN).getOffsetForIndex(0,0);
         int c= cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_COLOR_FILTER_ARRANGEMENT);
@@ -526,22 +528,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         dngConverter.RELEASE();
         image.close();
         bytes = null;
-                       /* }
-                        else
-                        {
-                            Logger.d(TAG, "Create RAW 10");
-                            if (burstcount > 1)
-                                file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_"+ imagecount +".raw"));
-                            else
-                                file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".raw"));
-                            checkFileExists(file);
-                            //Image image = reader.acquireNextImage();
-                            while (image == null) {
-                                image = reader.acquireNextImage();
-
-                            }
-                            new ImageSaver(image, file).run();
-                        }*/
         return file;
     }
 
@@ -575,9 +561,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         largestImageSize = Collections.max(
                 Arrays.asList(baseCameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
                 new BaseCameraHolderApi2.CompareSizesByArea());
-
-
-
         picFormat = Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
         if (picFormat.equals("")) {
             picFormat = BaseCameraHolderApi2.JPEG;

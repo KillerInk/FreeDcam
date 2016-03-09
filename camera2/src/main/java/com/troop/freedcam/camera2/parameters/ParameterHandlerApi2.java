@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera2.parameters;
 
 import android.annotation.TargetApi;
+import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.os.Handler;
@@ -56,11 +57,11 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 {
     private static String TAG = StringUtils.TAG + ParameterHandlerApi2.class.getSimpleName();
     private ManualToneMapCurveApi2 manualToneMapCurveApi2;
-    AbstractCameraUiWrapper wrapper;
+    CameraUiWrapperApi2 wrapper;
 
     BaseCameraHolderApi2 cameraHolder;
 
-    public ParameterHandlerApi2(AbstractCameraUiWrapper cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
+    public ParameterHandlerApi2(CameraUiWrapperApi2 cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
     {
         super(cameraHolder.cameraHolder, appSettingsManager, uiHandler);
         this.wrapper = cameraHolder;
@@ -166,6 +167,29 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
     @Override
     public void LockExposureAndWhiteBalance(boolean lock) {
 
+    }
+
+    @Override
+    public void SetPictureOrientation(int orientation)
+    {
+
+
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+        {
+            int or = orientation +180;
+            if (or >360)
+                or = or - 360;
+            orientation = or;
+        }
+        try
+        {
+            Logger.d(TAG, "Set Orientation to:" + orientation);
+            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, orientation);
+        }
+        catch (Exception e)
+        {
+            Logger.exception(e);
+        }
     }
 
     @Override

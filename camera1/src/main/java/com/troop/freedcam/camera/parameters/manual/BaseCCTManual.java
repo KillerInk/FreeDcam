@@ -1,5 +1,6 @@
 package com.troop.freedcam.camera.parameters.manual;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -11,6 +12,8 @@ import java.util.HashMap;
  */
 public class BaseCCTManual extends BaseManualParameter
 {
+    final static String TAG = BaseCCTManual.class.getSimpleName();
+
     private String manual_WbMode;
     /**
      * @param parameters
@@ -54,11 +57,14 @@ public class BaseCCTManual extends BaseManualParameter
         if (!camParametersHandler.WhiteBalanceMode.GetValue().equals(manual_WbMode) && manual_WbMode != "")
             camParametersHandler.WhiteBalanceMode.SetValue(manual_WbMode, true);
         parameters.put(value, stringvalues[currentInt]);
+        Logger.d(TAG, "Set "+value+" to : " + stringvalues[currentInt]);
+
     }
 
     protected void set_to_auto()
     {
         camParametersHandler.WhiteBalanceMode.SetValue("auto", true);
+        Logger.d(TAG, "Set  to : auto");
     }
 
     @Override

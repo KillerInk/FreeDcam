@@ -59,9 +59,12 @@ public class ScreenSlideFragment extends Fragment
     public String FilePathToLoad = "";
     public GridViewFragment.FormatTypes filestoshow = GridViewFragment.FormatTypes.all;
     private I_ThumbClick thumbclick;
+    private CacheHelper cacheHelper;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        cacheHelper = new CacheHelper(getContext());
         return inflater.inflate(R.layout.screenslide_fragment, container, false);
     }
 
@@ -207,14 +210,14 @@ public class ScreenSlideFragment extends Fragment
             {
                 ImageFragment currentFragment = new ImageFragment();
                 currentFragment.activity = ScreenSlideFragment.this;
-                currentFragment.SetFilePath(null);
+                currentFragment.SetFilePath(null,cacheHelper);
                 return currentFragment;
             }
             else {
                 currentFile = (files.get(mPager.getCurrentItem()).getFile());
                 ImageFragment currentFragment = new ImageFragment();
                 currentFragment.activity = ScreenSlideFragment.this;
-                currentFragment.SetFilePath(files.get(position).getFile());
+                currentFragment.SetFilePath(files.get(position).getFile(),cacheHelper);
 
 
                 return currentFragment;

@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 
 import com.defcomk.jni.libraw.RawUtils;
@@ -39,6 +40,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
+import troop.com.imageviewer.BitmapHelper;
 import troop.com.imageviewer.CacheHelper;
 import troop.com.imageviewer.DngConvertingActivity;
 import troop.com.imageviewer.DngConvertingFragment;
@@ -53,9 +55,9 @@ import troop.com.imageviewer.holder.FileHolder;
 public class GridViewFragment extends BaseGridViewFragment
 {
     private ImageAdapter mPagerAdapter;
-    ArrayList<FileHolder> files;
-    int mImageThumbSize = 0;
-    CacheHelper cacheHelper;
+    private ArrayList<FileHolder> files;
+    private int mImageThumbSize = 0;
+    private CacheHelper cacheHelper;
     final String TAG = GridViewFragment.class.getSimpleName();
 
     private Button deleteButton;
@@ -63,11 +65,14 @@ public class GridViewFragment extends BaseGridViewFragment
     private Button filetypeButton;
     private Button rawToDngButton;
     final String savedInstanceString = "lastpath";
-    String savedInstanceFilePath;
-    FormatTypes formatsToShow = FormatTypes.all;
-    boolean pos0ret = false;
-    boolean PERMSISSIONGRANTED = false;
-
+    private String savedInstanceFilePath;
+    private FormatTypes formatsToShow = FormatTypes.all;
+    private boolean pos0ret = false;
+    private boolean PERMSISSIONGRANTED = false;
+    final String NOIMAGE = "noimage_thumb";
+    final String FOLDER = "folder_thumb";
+    private Bitmap noimg;
+    private Bitmap fold;
 
 
     public enum FormatTypes
@@ -112,8 +117,8 @@ public class GridViewFragment extends BaseGridViewFragment
                             break;
                         //else show dialog
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setMessage("Delete File's?").setPositiveButton("Yes", dialogClickListener)
-                                .setNegativeButton("No", dialogClickListener).show();
+                        builder.setMessage(R.string.delete_files).setPositiveButton(R.string.yes, dialogClickListener)
+                                .setNegativeButton(R.string.no, dialogClickListener).show();
                         setViewMode(ViewStates.normal);
                         break;
                 }
@@ -251,10 +256,8 @@ public class GridViewFragment extends BaseGridViewFragment
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         cacheHelper = new CacheHelper(getActivity());
-
         if(savedInstanceState != null){
             savedInstanceFilePath = (String) savedInstanceState.get(savedInstanceString);
-
         }
     }
 
@@ -280,7 +283,7 @@ public class GridViewFragment extends BaseGridViewFragment
     }
 
     private void checkMarshmallowPermissions() {
-        if (getActivity().checkSelfPermission(Manifest.permission.CAMERA)
+        if (getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{
                             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -492,21 +495,47 @@ public class GridViewFragment extends BaseGridViewFragment
             final BitmapWorkerTask task = new BitmapWorkerTask(imageView);
             if (!file.isDirectory())
             {
+                if (noimg == null)
+                    noimg = cacheHelper.getBitmapFromMemCache(NOIMAGE);
+                if (noimg == null)
+                    noimg = cacheHelper.getBitmapFromDiskCache(NOIMAGE);
+                if (noimg == null)
+                {
+                    noimg = BitmapFactory.decodeResource(getResources(), R.drawable.noimage);
+                    cacheHelper.addBitmapToCache(NOIMAGE, noimg);
+                }
+
                 final AsyncDrawable asyncDrawable =
-                        new AsyncDrawable(getResources(), BitmapFactory.decodeResource(getResources(), R.drawable.noimage), task);
+                        new AsyncDrawable(getResources(), noimg, task);
                 imageView.setImageDrawable(asyncDrawable);
             }
             else
             {
+                if (fold == null)
+                    fold = cacheHelper.getBitmapFromMemCache(FOLDER);
+                if (fold == null)
+                    fold = cacheHelper.getBitmapFromDiskCache(FOLDER);
+                if (fold == null)
+                {
+                    fold = BitmapFactory.decodeResource(getResources(), R.drawable.folder);
+                    cacheHelper.addBitmapToCache(FOLDER, fold);
+
+                }
                 final AsyncDrawable asyncDrawable =
-                        new AsyncDrawable(getResources(), BitmapFactory.decodeResource(getResources(), R.drawable.folder), task);
+                        new AsyncDrawable(getResources(),fold, task);
                 imageView.setImageDrawable(asyncDrawable);
             }
             String f = file.getName();
-            if (!file.isDirectory())
-                imageView.SetFileEnding(f.substring(f.length()-3));
-            else
-                imageView.SetFileEnding(f);
+            if (!file.isDirectory()) {
+                imageView.SetFolderName("");
+                imageView.SetFileEnding(f.substring(f.length() - 3));
+            }
+
+            else {
+                imageView.SetFileEnding("");
+                imageView.SetFolderName(f);
+            }
+
             task.execute(file);
         }
     }
@@ -575,60 +604,7 @@ public class GridViewFragment extends BaseGridViewFragment
 
     private Bitmap getBitmap(File file)
     {
-        if (!file.getAbsolutePath().endsWith("jpg")
-                && !file.getAbsolutePath().endsWith("dng")
-                && !file.getAbsolutePath().endsWith("mp4")
-                && !file.getAbsolutePath().endsWith("raw")
-                && !file.getAbsolutePath().endsWith("jps"))
-            return null;
-
-        Bitmap response = cacheHelper.getBitmapFromMemCache(file.getName());
-        if (response == null)
-        {
-            //Logger.d(TAG,"No image in memory try from disk");
-            response = cacheHelper.getBitmapFromDiskCache(file.getName());
-        }
-        if (response == null)
-        {
-            //Logger.d(TAG,"No image in thumbcache try from disk");
-            if (file.getAbsolutePath().endsWith(".jpg") || file.getAbsolutePath().endsWith(".jps")) {
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 8;
-                response = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-                response = ThumbnailUtils.extractThumbnail(response, mImageThumbSize, mImageThumbSize);
-                if (response != null) {
-                    cacheHelper.addBitmapToMemoryCache(file.getName(), response);
-                    cacheHelper.addBitmapToCache(file.getName(), response);
-                }
-
-            } else if (file.getAbsolutePath().endsWith(".mp4")) {
-                response = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.MINI_KIND);
-                response = ThumbnailUtils.extractThumbnail(response, mImageThumbSize, mImageThumbSize);
-                if (response != null)
-                {
-                    cacheHelper.addBitmapToCache(file.getName(), response);
-                    cacheHelper.addBitmapToMemoryCache(file.getName(), response);
-                }
-            } else if (file.getAbsolutePath().endsWith(".dng") || file.getAbsolutePath().endsWith(".raw")) {
-                try
-                {
-                    response = RawUtils.UnPackRAW(file.getAbsolutePath());
-                    if (response != null)
-                        response.setHasAlpha(true);
-                    response = ThumbnailUtils.extractThumbnail(response, mImageThumbSize, mImageThumbSize);
-                    if (response != null) {
-                        cacheHelper.addBitmapToMemoryCache(file.getName(), response);
-                        cacheHelper.addBitmapToCache(file.getName(), response);
-                    }
-                } catch (IllegalArgumentException ex) {
-                    response = null;
-
-                }
-            }
-        }
-
-
-        return response;
+        return BitmapHelper.getBitmap(file,true, cacheHelper,mImageThumbSize,mImageThumbSize);
     }
 
     private void setViewMode(ViewStates viewState)
@@ -664,7 +640,7 @@ public class GridViewFragment extends BaseGridViewFragment
                 int i = item.getItemId();
                 if (i == R.id.all)
                 {
-                    filetypeButton.setText("All");
+                    filetypeButton.setText(R.string.ALL);
                     formatsToShow = FormatTypes.all;
                 }
                 else if (i == R.id.raw)

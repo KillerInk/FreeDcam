@@ -60,6 +60,7 @@ public class ShutterManual_ExposureTime_Micro extends BaseManualParameter
         else
         {
             parameters.put("exposure-time", "0");
+            Logger.d(TAG, "set exposure time to auto");
         }
         camParametersHandler.SetParametersToCamera(parameters);
     }

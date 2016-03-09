@@ -112,22 +112,6 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
 
     }
 
-    private Drawable switchICOn(String param)
-    {
-        Drawable CurrentICon;
-
-        switch (param)
-        {
-            case "WB":
-                //CurrentICon = context.getDrawable(R.drawable.quck_set_focus);
-                break;
-
-        }
-
-        return context.getResources().getDrawable(R.drawable.quck_set_focus);
-
-    }
-
     protected void inflateTheme(LayoutInflater inflater)
     {
         inflater.inflate(R.layout.ui_settingschild, this);

@@ -1,5 +1,6 @@
 package com.troop.freedcam.camera.parameters.manual;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.HashMap;
  */
 public class BaseFocusManual extends BaseManualParameter
 {
+    final static String TAG = BaseFocusManual.class.getSimpleName();
     private String manualFocusModeString;
     private int manualFocusType = 0;
 
@@ -58,6 +60,7 @@ public class BaseFocusManual extends BaseManualParameter
         if (valueToSet == 0)
         {
             camParametersHandler.FocusMode.SetValue("auto", true);
+            Logger.d(TAG, "Set CCT to : auto");
         }
         else
         {
@@ -66,6 +69,7 @@ public class BaseFocusManual extends BaseManualParameter
             parameters.put("manual-focus-pos-type", manualFocusType+"");
 
             parameters.put(value, stringvalues[currentInt]);
+            Logger.d(TAG, "Set "+ value +" to : " + stringvalues[currentInt]);
             camParametersHandler.SetParametersToCamera(parameters);
         }
     }

@@ -34,7 +34,7 @@ public class BaseModeApi2 extends AbstractModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-
+        super.SetValue(valueToSet,setToCamera);
     }
 
     @Override
