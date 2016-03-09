@@ -138,6 +138,7 @@ public class DngSaver extends JpegSaver
             dngConverter.SetGPSData(Altitude,Latitude,Longitude, Provider, gpsTime);
         }
 
+        Log.d("Raw File Size ",data.length+"");
         dngConverter.SetBayerData(data, file.getAbsolutePath());
         float fnum, focal = 0;
         if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
@@ -154,7 +155,11 @@ public class DngSaver extends JpegSaver
         Logger.d("Shutterrr", ((CamParametersHandler) cameraHolder.ParameterHandler).ExposureTime());
         try
         {
-            dngConverter.setExifData(ExtractISO(), ExtractShutter(), 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
+            if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)) {
+                dngConverter.setExifData(ExtractISO(), ExtractShutter(), 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
+            }
+            else
+                dngConverter.setExifData(0, 0, 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
         }
         catch (Exception ex)
         {

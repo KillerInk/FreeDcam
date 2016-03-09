@@ -406,6 +406,16 @@ public class DngSupportedDevices
                // return new Nexus6Profile(0, 4608, 3456, Qcom, BGGR, 0);
             case 25677824://m9 mipi
                 return new Nexus6Profile(64, 5388, 3752, Mipi16, GRBG, 0);
+            case 20041728:
+                return new DngProfile(64, 5344,3000,Mipi, BGGR,0,
+                        Matrixes.G4_identity_matrix1,
+                        Matrixes.G4_identity_matrix2,
+                        Matrixes.G4_identity_neutra,
+                        Matrixes.G4_foward_matrix1,
+                        Matrixes.G4_foward_matrix2,
+                        Matrixes.G4_reduction_matrix1,
+                        Matrixes.G4_reduction_matrix2,
+                        Matrixes.G4_noise_3x1_matrix);
             case 26023936: //THL 5000 MTK, Redmi note2
                 switch (device)
                 {
