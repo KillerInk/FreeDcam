@@ -18,12 +18,12 @@ public class BitmapHelper
 
     public static Bitmap getBitmap(final File file,final boolean thumb,final CacheHelper cacheHelper,final int mImageThumbSizeW,final int  mImageThumbSizeH)
     {
-        if (!file.getAbsolutePath().endsWith("jpg")
+/*        if (!file.getAbsolutePath().endsWith("jpg")
                 && !file.getAbsolutePath().endsWith("dng")
                 && !file.getAbsolutePath().endsWith("mp4")
                 && !file.getAbsolutePath().endsWith("raw")
                 && !file.getAbsolutePath().endsWith("jps"))
-            return null;
+            return null;*/
         Bitmap response = null;
         if (thumb)
         {
@@ -41,7 +41,7 @@ public class BitmapHelper
                 response = cacheHelper.getBitmapFromDiskCache(file.getName());
             }
         }
-        if (response == null)
+        if (response == null && file.exists())
         {
             if (file.getAbsolutePath().endsWith(".jpg") || file.getAbsolutePath().endsWith(".jps"))
             {

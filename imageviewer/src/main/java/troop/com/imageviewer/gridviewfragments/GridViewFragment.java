@@ -69,7 +69,10 @@ public class GridViewFragment extends BaseGridViewFragment
     private FormatTypes formatsToShow = FormatTypes.all;
     private boolean pos0ret = false;
     private boolean PERMSISSIONGRANTED = false;
-
+    final String NOIMAGE = "noimage_thumb";
+    final String FOLDER = "folder_thumb";
+    private Bitmap noimg;
+    private Bitmap fold;
 
 
     public enum FormatTypes
@@ -253,10 +256,8 @@ public class GridViewFragment extends BaseGridViewFragment
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         cacheHelper = new CacheHelper(getActivity());
-
         if(savedInstanceState != null){
             savedInstanceFilePath = (String) savedInstanceState.get(savedInstanceString);
-
         }
     }
 
@@ -494,14 +495,34 @@ public class GridViewFragment extends BaseGridViewFragment
             final BitmapWorkerTask task = new BitmapWorkerTask(imageView);
             if (!file.isDirectory())
             {
+                if (noimg == null)
+                    noimg = cacheHelper.getBitmapFromMemCache(NOIMAGE);
+                if (noimg == null)
+                    noimg = cacheHelper.getBitmapFromDiskCache(NOIMAGE);
+                if (noimg == null)
+                {
+                    noimg = BitmapFactory.decodeResource(getResources(), R.drawable.noimage);
+                    cacheHelper.addBitmapToCache(NOIMAGE, noimg);
+                }
+
                 final AsyncDrawable asyncDrawable =
-                        new AsyncDrawable(getResources(), BitmapFactory.decodeResource(getResources(), R.drawable.noimage), task);
+                        new AsyncDrawable(getResources(), noimg, task);
                 imageView.setImageDrawable(asyncDrawable);
             }
             else
             {
+                if (fold == null)
+                    fold = cacheHelper.getBitmapFromMemCache(FOLDER);
+                if (fold == null)
+                    fold = cacheHelper.getBitmapFromDiskCache(FOLDER);
+                if (fold == null)
+                {
+                    fold = BitmapFactory.decodeResource(getResources(), R.drawable.folder);
+                    cacheHelper.addBitmapToCache(FOLDER, fold);
+
+                }
                 final AsyncDrawable asyncDrawable =
-                        new AsyncDrawable(getResources(), BitmapFactory.decodeResource(getResources(), R.drawable.folder), task);
+                        new AsyncDrawable(getResources(),fold, task);
                 imageView.setImageDrawable(asyncDrawable);
             }
             String f = file.getName();
