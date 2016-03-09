@@ -20,8 +20,14 @@ public class FocusPeakModeApi2 extends BaseModeApi2 {
 
 
     @Override
-    public boolean IsSupported() {
-        return cameraHolder.characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) != CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY;
+    public boolean IsSupported()
+    {
+        return true;//cameraHolder.characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) != CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY;
+    }
+
+    @Override
+    public boolean IsVisible() {
+        return IsSupported();
     }
 
     @Override
@@ -30,11 +36,11 @@ public class FocusPeakModeApi2 extends BaseModeApi2 {
         if (valueToSet.equals(StringUtils.ON))
         {
             cameraHolder.FocusPeakEnable(true);
-            BackgroundValueHasChanged("true");
+            this.BackgroundValueHasChanged("true");
         }
         else {
             cameraHolder.FocusPeakEnable(false);
-            BackgroundValueHasChanged("false");
+            this.BackgroundValueHasChanged("false");
         }
 
     }
@@ -52,15 +58,6 @@ public class FocusPeakModeApi2 extends BaseModeApi2 {
         return new String[] {StringUtils.ON, StringUtils.OFF};
     }
 
-    @Override
-    public void addEventListner(I_ModeParameterEvent eventListner) {
-
-    }
-
-    @Override
-    public void removeEventListner(I_ModeParameterEvent parameterEvent) {
-
-    }
 
     @Override
     public void BackgroundValueHasChanged(String value)
