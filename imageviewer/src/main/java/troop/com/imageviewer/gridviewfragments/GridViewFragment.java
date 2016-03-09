@@ -39,6 +39,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
+import troop.com.imageviewer.BitmapHelper;
 import troop.com.imageviewer.CacheHelper;
 import troop.com.imageviewer.DngConvertingActivity;
 import troop.com.imageviewer.DngConvertingFragment;
@@ -575,60 +576,7 @@ public class GridViewFragment extends BaseGridViewFragment
 
     private Bitmap getBitmap(File file)
     {
-        if (!file.getAbsolutePath().endsWith("jpg")
-                && !file.getAbsolutePath().endsWith("dng")
-                && !file.getAbsolutePath().endsWith("mp4")
-                && !file.getAbsolutePath().endsWith("raw")
-                && !file.getAbsolutePath().endsWith("jps"))
-            return null;
-
-        Bitmap response = cacheHelper.getBitmapFromMemCache(file.getName());
-        if (response == null)
-        {
-            //Logger.d(TAG,"No image in memory try from disk");
-            response = cacheHelper.getBitmapFromDiskCache(file.getName());
-        }
-        if (response == null)
-        {
-            //Logger.d(TAG,"No image in thumbcache try from disk");
-            if (file.getAbsolutePath().endsWith(".jpg") || file.getAbsolutePath().endsWith(".jps")) {
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 8;
-                response = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-                response = ThumbnailUtils.extractThumbnail(response, mImageThumbSize, mImageThumbSize);
-                if (response != null) {
-                    cacheHelper.addBitmapToMemoryCache(file.getName(), response);
-                    cacheHelper.addBitmapToCache(file.getName(), response);
-                }
-
-            } else if (file.getAbsolutePath().endsWith(".mp4")) {
-                response = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.MINI_KIND);
-                response = ThumbnailUtils.extractThumbnail(response, mImageThumbSize, mImageThumbSize);
-                if (response != null)
-                {
-                    cacheHelper.addBitmapToCache(file.getName(), response);
-                    cacheHelper.addBitmapToMemoryCache(file.getName(), response);
-                }
-            } else if (file.getAbsolutePath().endsWith(".dng") || file.getAbsolutePath().endsWith(".raw")) {
-                try
-                {
-                    response = RawUtils.UnPackRAW(file.getAbsolutePath());
-                    if (response != null)
-                        response.setHasAlpha(true);
-                    response = ThumbnailUtils.extractThumbnail(response, mImageThumbSize, mImageThumbSize);
-                    if (response != null) {
-                        cacheHelper.addBitmapToMemoryCache(file.getName(), response);
-                        cacheHelper.addBitmapToCache(file.getName(), response);
-                    }
-                } catch (IllegalArgumentException ex) {
-                    response = null;
-
-                }
-            }
-        }
-
-
-        return response;
+        return BitmapHelper.getBitmap(file,true, cacheHelper,mImageThumbSize,mImageThumbSize);
     }
 
     private void setViewMode(ViewStates viewState)

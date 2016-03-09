@@ -30,7 +30,7 @@ public class CacheHelper
     private LruCache<String, Bitmap> mMemoryCache;
     final String TAG = CacheHelper.class.getSimpleName();
 
-    public CacheHelper(Activity activity)
+    public CacheHelper(Context context)
     {
         // Get max available VM memory, exceeding this amount will throw an
         // OutOfMemory exception. Stored in kilobytes as LruCache takes an
@@ -49,7 +49,7 @@ public class CacheHelper
             }
         };
 
-        File cacheDir = getDiskCacheDir(activity, DISK_CACHE_SUBDIR);
+        File cacheDir = getDiskCacheDir(context, DISK_CACHE_SUBDIR);
         new InitDiskCacheTask().execute(cacheDir);
 
     }
