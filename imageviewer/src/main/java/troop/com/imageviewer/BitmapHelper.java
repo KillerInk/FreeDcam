@@ -16,7 +16,7 @@ public class BitmapHelper
 {
     private BitmapHelper(){};
 
-    public static Bitmap getBitmap(File file, boolean thumb, CacheHelper cacheHelper, int mImageThumbSizeW, int  mImageThumbSizeH)
+    public static Bitmap getBitmap(final File file,final boolean thumb,final CacheHelper cacheHelper,final int mImageThumbSizeW,final int  mImageThumbSizeH)
     {
         if (!file.getAbsolutePath().endsWith("jpg")
                 && !file.getAbsolutePath().endsWith("dng")
@@ -68,7 +68,8 @@ public class BitmapHelper
             if (response != null)
             {
                 cacheHelper.addBitmapToCache(file.getName(), response);
-                if (thumb) {
+                if (thumb)
+                {
                     response = ThumbnailUtils.extractThumbnail(response, mImageThumbSizeW, mImageThumbSizeH);
                     cacheHelper.addBitmapToCache(file.getName() + "_thumb", response);
                 } else

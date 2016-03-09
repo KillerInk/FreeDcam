@@ -54,9 +54,9 @@ import troop.com.imageviewer.holder.FileHolder;
 public class GridViewFragment extends BaseGridViewFragment
 {
     private ImageAdapter mPagerAdapter;
-    ArrayList<FileHolder> files;
-    int mImageThumbSize = 0;
-    CacheHelper cacheHelper;
+    private ArrayList<FileHolder> files;
+    private int mImageThumbSize = 0;
+    private CacheHelper cacheHelper;
     final String TAG = GridViewFragment.class.getSimpleName();
 
     private Button deleteButton;
@@ -64,10 +64,10 @@ public class GridViewFragment extends BaseGridViewFragment
     private Button filetypeButton;
     private Button rawToDngButton;
     final String savedInstanceString = "lastpath";
-    String savedInstanceFilePath;
-    FormatTypes formatsToShow = FormatTypes.all;
-    boolean pos0ret = false;
-    boolean PERMSISSIONGRANTED = false;
+    private String savedInstanceFilePath;
+    private FormatTypes formatsToShow = FormatTypes.all;
+    private boolean pos0ret = false;
+    private boolean PERMSISSIONGRANTED = false;
 
 
 
@@ -281,7 +281,7 @@ public class GridViewFragment extends BaseGridViewFragment
     }
 
     private void checkMarshmallowPermissions() {
-        if (getActivity().checkSelfPermission(Manifest.permission.CAMERA)
+        if (getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{
                             Manifest.permission.READ_EXTERNAL_STORAGE,
