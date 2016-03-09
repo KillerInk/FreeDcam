@@ -71,6 +71,9 @@ public class VideoMediaProfile
         this.ProfileName = ProfileName;
         this.Mode = mode;
         this.isAudioActive = isAudioActive;
+        Logger.d(TAG, "ProfileName:"+ ProfileName+ "Duration:"+duration +"FileFormat:"+fileFormat+"Quality:"+quality);
+        Logger.d(TAG, "ABR:"+audioBitRate +"AChannels:"+audioChannels+"Acodec:"+audioCodec +"AsampleRate"+audioSampleRate+"audio_active:" + isAudioActive);
+        Logger.d(TAG,"VBitrate:"+videoBitRate+"VCodec:"+videoCodec+"VFrameRate:"+videoFrameRate+"VWidth:"+videoFrameWidth+"Vheight:"+videoFrameHeight);
     }
 
     public VideoMediaProfile(int v1,int v2, int v3,int v4,int v5, int v6, int v7, int v8, int v9, int v10,int v11, int v12, String ProfileName, VideoMode mode, boolean isAudioActive)
@@ -90,6 +93,9 @@ public class VideoMediaProfile
         this.ProfileName = ProfileName;
         this.Mode = mode;
         this.isAudioActive = isAudioActive;
+        Logger.d(TAG, "ProfileName:"+ ProfileName+ "Duration:"+duration +"FileFormat:"+fileFormat+"Quality:"+quality);
+        Logger.d(TAG, "ABR:"+audioBitRate +"AChannels:"+audioChannels+"Acodec:"+audioCodec +"AsampleRate"+audioSampleRate+"audio_active:" + isAudioActive);
+        Logger.d(TAG,"VBitrate:"+videoBitRate+"VCodec:"+videoCodec+"VFrameRate:"+videoFrameRate+"VWidth:"+videoFrameWidth+"Vheight:"+videoFrameHeight);
     }
 
     public VideoMediaProfile(String t)
@@ -113,6 +119,10 @@ public class VideoMediaProfile
             this.isAudioActive = true;
         else
             this.isAudioActive = Boolean.parseBoolean(ar[14]);
+
+        Logger.d(TAG, "ProfileName:"+ ProfileName+ "Duration:"+duration +"FileFormat:"+fileFormat+"Quality:"+quality);
+        Logger.d(TAG, "ABR:"+audioBitRate +"AChannels:"+audioChannels+"Acodec:"+audioCodec +"AsampleRate"+audioSampleRate+"audio_active:" + isAudioActive);
+        Logger.d(TAG,"VBitrate:"+videoBitRate+"VCodec:"+videoCodec+"VFrameRate:"+videoFrameRate+"VWidth:"+videoFrameWidth+"Vheight:"+videoFrameHeight);
     }
 
     public String GetString()
@@ -144,10 +154,12 @@ public class VideoMediaProfile
 
     final public static String MEDIAPROFILESPATH = StringUtils.GetInternalSDCARD()+StringUtils.freedcamFolder+"CustomMediaProfiles.txt";
 
-    public static void loadCustomProfiles(HashMap<String, VideoMediaProfile> list) throws IOException {
+    public static void loadCustomProfiles(HashMap<String, VideoMediaProfile> list) throws IOException
+    {
         File mprof = new File(MEDIAPROFILESPATH);
-        if(mprof.exists()) {
-
+        if(mprof.exists())
+        {
+            Logger.d(TAG, "CustomMediaProfile exists loading....");
             BufferedReader br = new BufferedReader(new FileReader(mprof));
             String line;
 
@@ -160,6 +172,8 @@ public class VideoMediaProfile
             }
             br.close();
         }
+        else
+            Logger.d(TAG, "No CustomMediaProfiles found");
 
     }
 
@@ -168,6 +182,7 @@ public class VideoMediaProfile
         File mprof = new File(MEDIAPROFILESPATH);
         try {
             mprof.createNewFile();
+            Logger.d(TAG,"wrote MediaProfiles to txt");
         } catch (IOException e) {
             Logger.exception(e);
         }

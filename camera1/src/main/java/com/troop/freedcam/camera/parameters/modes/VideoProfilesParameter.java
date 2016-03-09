@@ -78,23 +78,28 @@ public class VideoProfilesParameter extends BaseModeParameter
     {
         if (supportedProfiles == null)
         {
-
+            Logger.d(TAG, "Load supportedProfiles");
             String current;
 
             supportedProfiles = new HashMap<String, VideoMediaProfile>();
             File f = new File(VideoMediaProfile.MEDIAPROFILESPATH);
             if (!f.exists())
             {
+                Logger.d(TAG, "new file,lookupDefaultProfiles");
                 lookupDefaultProfiles(supportedProfiles);
+                Logger.d(TAG,"Save found Profiles");
                 VideoMediaProfile.saveCustomProfiles(supportedProfiles);
             }
             if (f.exists())
             {
+                Logger.d(TAG, "file exists load from txt");
                 try {
                     VideoMediaProfile.loadCustomProfiles(supportedProfiles);
                 }
                 catch (Exception ex)
                 {
+                    Logger.exception(ex);
+                    Logger.d(TAG, "Failed to load CustomProfiles.txt");
                     f.delete();
                     lookupDefaultProfiles(supportedProfiles);
                     VideoMediaProfile.saveCustomProfiles(supportedProfiles);
@@ -211,7 +216,9 @@ public class VideoProfilesParameter extends BaseModeParameter
                 Logger.exception(e);
             }*/
             try {
-                if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kDCI) && (DeviceUtils.IS(DeviceUtils.Devices.Htc_M9) || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W )|| DeviceUtils.IS(DeviceUtils.Devices.OnePlusOne) || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4W))) {
+                if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kDCI)
+                        || (DeviceUtils.IS(DeviceUtils.Devices.Htc_M9) || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W )|| DeviceUtils.IS(DeviceUtils.Devices.OnePlusOne) || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4W))) //<--that will kill it when profile is not supported
+                {
 
                     CamcorderProfile fourk = CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kDCI);
 
@@ -270,6 +277,7 @@ public class VideoProfilesParameter extends BaseModeParameter
 
         if (supportedProfiles.get(_720phfr) == null && parameters.containsKey("video-hfr-values") && parameters.get("video-hfr-values").contains("120"))
         {
+            Logger.d(TAG, "no 720phfr profile found, but hfr supported, try to add custom 720phfr");
             VideoMediaProfile t = supportedProfiles.get("720p").clone();
             t.videoFrameRate = 120;
             t.Mode = VideoMediaProfile.VideoMode.Highspeed;
@@ -278,64 +286,47 @@ public class VideoProfilesParameter extends BaseModeParameter
         }
 
         if (supportedProfiles.get(_4kUHD) == null && parameters.containsKey("video-size-values") && parameters.get("video-size-values").contains("3840x2160")
-                || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
+                || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) || DeviceUtils.IS(DeviceUtils.Devices.LenovoK920))
         {
-            VideoMediaProfile uhd = supportedProfiles.get("1080p").clone();
-            uhd.videoFrameWidth = 3840;
-            uhd.videoFrameHeight = 2160;
-            uhd.videoBitRate = 30000000;
-            uhd.Mode = VideoMediaProfile.VideoMode.Normal;
-            uhd.ProfileName = _4kUHD;
-            supportedProfiles.put(_4kUHD,uhd);
+            if (supportedProfiles.containsKey("1080p"))
+            {
+                VideoMediaProfile uhd = supportedProfiles.get("1080p").clone();
+                uhd.videoFrameWidth = 3840;
+                uhd.videoFrameHeight = 2160;
+                uhd.videoBitRate = 30000000;
+                uhd.Mode = VideoMediaProfile.VideoMode.Normal;
+                uhd.ProfileName = _4kUHD;
+                supportedProfiles.put(_4kUHD, uhd);
+            }
         }
 
-   /*     if (parameters.containsKey("video-size-values")&& parameters.get("video-hfr-values").contains("120") || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) || DeviceUtils.IS(DeviceUtils.Devices.ZTEADVIMX214) || DeviceUtils.IS(DeviceUtils.Devices.ZTEADV234) )
-        {
-            VideoMediaProfile t = supportedProfiles.get("720p").clone();
-            t.videoFrameRate = 120;
-            t.Mode = VideoMediaProfile.VideoMode.Highspeed;
-            t.ProfileName = "720pHFR";
-            supportedProfiles.put("720pHFR",t);
 
-        }*/
-
-        if (parameters.containsKey("video-size-values")&& parameters.get("video-hfr-values").contains("60") || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
+        if (parameters.containsKey("video-size-values") && parameters.get("video-size-values").contains("1920x1080")&& parameters.get("video-hfr-values").contains("60")
+                || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)) //<--- that line is not needed. when parameters contains empty hfr it gets filled!
         {
-            VideoMediaProfile t = supportedProfiles.get("1080p").clone();
-            t.videoFrameRate = 60;
-            t.Mode = VideoMediaProfile.VideoMode.Highspeed;
-            t.ProfileName = "1080pHFR";
-            supportedProfiles.put("1080pHFR",t);
+            if (supportedProfiles.containsKey("1080p")) {
+                VideoMediaProfile t = supportedProfiles.get("1080p").clone();
+                t.videoFrameRate = 60;
+                t.Mode = VideoMediaProfile.VideoMode.Highspeed;
+                t.ProfileName = "1080pHFR";
+                supportedProfiles.put("1080pHFR", t);
+            }
 
         }
 
         if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) || DeviceUtils.IS(DeviceUtils.Devices.ZTEADVIMX214) || DeviceUtils.IS(DeviceUtils.Devices.ZTEADV234))
         {
-            VideoMediaProfile uhd = supportedProfiles.get("4kUHD").clone();
-            uhd.videoFrameWidth = 3840;
-            uhd.videoFrameHeight = 2160;
-            uhd.Mode = VideoMediaProfile.VideoMode.Timelapse;
-            //profile must contain 4kUHD else it gets not detected!
-            uhd.ProfileName = "4kUHDTimeLapse";
-            supportedProfiles.put(uhd.ProfileName,uhd);
+            if (supportedProfiles.containsKey("4kUHD"))
+            {
+                VideoMediaProfile uhd = supportedProfiles.get("4kUHD").clone();
+                uhd.videoFrameWidth = 3840;
+                uhd.videoFrameHeight = 2160;
+                uhd.Mode = VideoMediaProfile.VideoMode.Timelapse;
+                //profile must contain 4kUHD else it gets not detected!
+                uhd.ProfileName = "4kUHDTimeLapse";
+                supportedProfiles.put(uhd.ProfileName, uhd);
+            }
         }
 
-
-
-        if (DeviceUtils.IS(DeviceUtils.Devices.LenovoK920) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
-        {
-            VideoMediaProfile t = supportedProfiles.get("720p").clone();
-            t.videoFrameRate = 120;
-            t.Mode = VideoMediaProfile.VideoMode.Highspeed;
-            t.ProfileName = "720pHFR";
-            supportedProfiles.put("720pHFR",t);
-
-            VideoMediaProfile uhd = supportedProfiles.get("1080p").clone();
-            uhd.videoFrameWidth = 3840;
-            uhd.videoFrameHeight = 2160;
-            uhd.Mode = VideoMediaProfile.VideoMode.Normal;
-            uhd.ProfileName = "4kUHD";
-            supportedProfiles.put("4kUHD",uhd);
-        }
     }
 }

@@ -151,7 +151,7 @@ public class DngSaver extends JpegSaver
         //if(meta != null){
          //   dngConverter.setExifData(meta.getIso(), meta.getExp(), meta.getFlash(), fnum, focal, meta.getDescription(), cameraHolder.Orientation + "", 0);}
       //  else
-        Log.d("Shutterrr", ((CamParametersHandler) cameraHolder.ParameterHandler).ExposureTime());
+        Logger.d("Shutterrr", ((CamParametersHandler) cameraHolder.ParameterHandler).ExposureTime());
         try
         {
             dngConverter.setExifData(ExtractISO(), ExtractShutter(), 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
