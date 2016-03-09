@@ -138,7 +138,7 @@ public class FocusManualParameter extends  BaseManualParameter
                 }
                 catch (Exception ex)
                 {
-                    Logger.exception(ex);
+                    Logger.e(TAG, ex.getMessage());
                 }
             }
             else
@@ -173,7 +173,7 @@ public class FocusManualParameter extends  BaseManualParameter
                     baseCameraHolder.SetCameraParameters(camParametersHandlerx.getParameters());
                 }
             };
-            handler.postDelayed(r, 1);
+            handler.postDelayed(r, 2);
 
         }
         catch (Exception ex)

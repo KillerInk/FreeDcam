@@ -697,8 +697,8 @@ public class CamParametersHandler extends AbstractParameterHandler
                         baseCameraHolder.SetCameraParameters(cameraParameters);
                     }
                 };
-                //handler.postDelayed(r, 1);
-                handler.post(r);
+               handler.postDelayed(r, 1);
+
 
             }
             catch (Exception e)
@@ -722,8 +722,7 @@ public class CamParametersHandler extends AbstractParameterHandler
                         baseCameraHolder.SetCameraParameters(cameraParameters);
                     }
                 };
-                //handler.postDelayed(r, 1);
-                handler.post(r);
+                handler.postDelayed(r, 1);
             }
             catch (Exception e)
             {

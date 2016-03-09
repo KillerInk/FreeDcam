@@ -53,7 +53,7 @@ public class ShutterManualZTE extends BaseManualParameter
         camParametersHandlerx = (CamParametersHandler) camParametersHandler;
 
         if(DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
-            stringvalues = Z5SShutterValues.split(",");
+            stringvalues = Z7ShutterValues.split(",");
         else
             stringvalues = Z7ShutterValues.split(",");
 
