@@ -73,6 +73,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
         super.onAttachedToWindow();
         try {
             cacheHelper = new CacheHelper(context);
+            mask = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.maskthumb);
             mImageThumbSize = context.getResources().getDimensionPixelSize(troop.com.themesample.R.dimen.image_thumbnails_size);
             List<FileHolder> f = new ArrayList<FileHolder>();
             FileUtils.readFilesFromFolder(new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder), f, GridViewFragment.FormatTypes.all);
@@ -89,7 +90,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
         this.cameraUiWrapper = cameraUiWrapper;
         if(cameraUiWrapper != null && cameraUiWrapper.moduleHandler != null && cameraUiWrapper.moduleHandler.moduleEventHandler != null)
             cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(this);
-        mask = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.maskthumb);
+
 
     }
 
@@ -118,11 +119,11 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
 
     private void showThumb(final File filePath)
     {
-        bitmap = BitmapHelper.getBitmap(filePath, true, cacheHelper, mImageThumbSize, mImageThumbSize);
         if (bitmap != null) {
             bitmap.recycle();
             bitmap = null;
         }
+        bitmap = BitmapHelper.getBitmap(filePath, true, cacheHelper, mImageThumbSize, mImageThumbSize);
         final Bitmap drawMap = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas drawc = new Canvas(drawMap);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
