@@ -13,5 +13,5 @@
     <dimen name="menu_margin">3dp</dimen>
     <dimen name="left_ui_holder_width">40dp</dimen>
     <dimen name="manualSettingsHeight">50dp</dimen>
-    <dimen name="image_thumbnails_size">100dp</dimen>
+    <dimen name="image_thumbnails_size">90dp</dimen>
 </resources>
