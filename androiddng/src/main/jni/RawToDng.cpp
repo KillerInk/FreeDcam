@@ -538,26 +538,24 @@ void process10tight(TIFF *tif,DngWriter *writer)
 {
     unsigned char* ar = writer->bayerBytes;
     unsigned char* tmp = new unsigned char[5];
-    float bytesToSkip = 0;
-    float realrowsize = writer->rawSize/writer->rawheight;
-    float shouldberowsize = writer->rawwidht*10/8;
+    int bytesToSkip = 0;
+    int realrowsize = writer->rawSize/writer->rawheight;
+    int shouldberowsize = writer->rawwidht*10/8;
     LOGD("realrow: %i shoudlbe: %i", realrowsize, shouldberowsize);
     if (realrowsize != shouldberowsize)
         bytesToSkip = realrowsize - shouldberowsize;
     LOGD("bytesToSkip: %i", bytesToSkip);
-    float row = shouldberowsize;
-    unsigned char* out = new unsigned char[(int)shouldberowsize*writer->rawheight];
+    int row = shouldberowsize;
+    unsigned char* out = new unsigned char[shouldberowsize*writer->rawheight];
     int m = 0;
-    for(float ii =0.0; ii< (float)writer->rawSize; ii+=5.00)
+    for(int i =0; i< writer->rawSize; i+=5)
     {
-        if(ii == row)
+        if(i == row)
         {
             row += shouldberowsize +bytesToSkip;
-            ii+=bytesToSkip;
+            i+=bytesToSkip;
             //LOGD("new row: %i", row/shouldberowsize);
         }
-        int i = (int)ii;
-
         out[m++] = (ar[i]); // 00110001
         out[m++] =  (ar[i+4] & 0b00000011 ) <<6 | (ar[i+1] & 0b11111100)>>2; // 01 001100
         out[m++] = (ar[i+1]& 0b00000011 )<< 6 | (ar[i+4] & 0b00001100 ) <<2 | (ar[i +2] & 0b11110000 )>> 4;// 10 01 0011
