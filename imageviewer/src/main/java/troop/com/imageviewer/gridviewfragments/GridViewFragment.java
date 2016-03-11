@@ -57,7 +57,6 @@ public class GridViewFragment extends BaseGridViewFragment
     private ImageAdapter mPagerAdapter;
     private ArrayList<FileHolder> files;
     private int mImageThumbSize = 0;
-    private CacheHelper cacheHelper;
     final String TAG = GridViewFragment.class.getSimpleName();
 
     private Button deleteButton;
@@ -233,7 +232,7 @@ public class GridViewFragment extends BaseGridViewFragment
                     {
                         if (files.get(i).IsSelected())
                         {
-                            cacheHelper.deleteFileFromDiskCache(files.get(i).getFile().getName());
+                            BitmapHelper.CACHE.deleteFileFromDiskCache(files.get(i).getFile().getName());
                             boolean d = files.get(i).getFile().delete();
                             Logger.d(TAG, "File delted:" + files.get(i).getFile().getName() + " :" + d);
                             files.remove(i);
@@ -255,7 +254,6 @@ public class GridViewFragment extends BaseGridViewFragment
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        cacheHelper = new CacheHelper(getActivity());
         if(savedInstanceState != null){
             savedInstanceFilePath = (String) savedInstanceState.get(savedInstanceString);
         }
@@ -491,13 +489,13 @@ public class GridViewFragment extends BaseGridViewFragment
             if (!file.isDirectory())
             {
                 if (noimg == null)
-                    noimg = cacheHelper.getBitmapFromMemCache(NOIMAGE);
+                    noimg = BitmapHelper.CACHE.getBitmapFromMemCache(NOIMAGE);
                 if (noimg == null)
-                    noimg = cacheHelper.getBitmapFromDiskCache(NOIMAGE);
+                    noimg = BitmapHelper.CACHE.getBitmapFromDiskCache(NOIMAGE);
                 if (noimg == null)
                 {
                     noimg = BitmapFactory.decodeResource(getResources(), R.drawable.noimage);
-                    cacheHelper.addBitmapToCache(NOIMAGE, noimg);
+                    BitmapHelper.CACHE.addBitmapToCache(NOIMAGE, noimg);
                 }
 
                 final AsyncDrawable asyncDrawable =
@@ -507,13 +505,13 @@ public class GridViewFragment extends BaseGridViewFragment
             else
             {
                 if (fold == null)
-                    fold = cacheHelper.getBitmapFromMemCache(FOLDER);
+                    fold = BitmapHelper.CACHE.getBitmapFromMemCache(FOLDER);
                 if (fold == null)
-                    fold = cacheHelper.getBitmapFromDiskCache(FOLDER);
+                    fold = BitmapHelper.CACHE.getBitmapFromDiskCache(FOLDER);
                 if (fold == null)
                 {
                     fold = BitmapFactory.decodeResource(getResources(), R.drawable.folder);
-                    cacheHelper.addBitmapToCache(FOLDER, fold);
+                    BitmapHelper.CACHE.addBitmapToCache(FOLDER, fold);
 
                 }
                 final AsyncDrawable asyncDrawable =
@@ -599,7 +597,7 @@ public class GridViewFragment extends BaseGridViewFragment
 
     private Bitmap getBitmap(File file)
     {
-        return BitmapHelper.getBitmap(file,true, cacheHelper,mImageThumbSize,mImageThumbSize);
+        return BitmapHelper.getBitmap(file,true,mImageThumbSize,mImageThumbSize);
     }
 
     private void setViewMode(ViewStates viewState)

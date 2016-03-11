@@ -106,9 +106,7 @@ public class MyHistogram extends View {
     {
 
         //System.out.println("Histogram SetBitmap " + mBitmap.getByteCount());
-        if (recycle)
-            createHistogramm(bitmap, recycle);
-        else
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {

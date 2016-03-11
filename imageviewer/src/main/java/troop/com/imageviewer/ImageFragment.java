@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,32 +43,14 @@ import troop.com.views.MyHistogram;
 public class ImageFragment extends Fragment
 {
     final String TAG = ImageFragment.class.getSimpleName();
-    TouchImageView imageView;
+    private TouchImageView imageView;
     private File file;
-    ProgressBar spinner;
-    TextView iso;
-    TextView shutter;
-    TextView focal;
-    TextView fnumber;
-    TextView filename;
-    LinearLayout exifinfo;
-    MyHistogram myHistogram;
-    Button play;
-    CacheHelper cacheHelper;
-    int mImageThumbSize = 0;
+    private int mImageThumbSize = 0;
+    private View.OnClickListener onClickListener;
 
-    Button deleteButton;
-
-    public ScreenSlideFragment activity;
-
-    LinearLayout ll;
-
-    private final int animationTime = 500;
-
-    public void SetFilePath(File filepath, CacheHelper cacheHelper)
+    public void SetFilePath(File filepath)
     {
         this.file = filepath;
-        this.cacheHelper = cacheHelper;
     }
 
     public File GetFilePath()
@@ -75,9 +58,16 @@ public class ImageFragment extends Fragment
         return file;
     }
 
+    public void SetOnclickLisnter(View.OnClickListener onClickListener)
+    {
+        this.onClickListener = onClickListener;
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
         return inflater.inflate(R.layout.imageframent, container, false);
     }
 
@@ -85,76 +75,12 @@ public class ImageFragment extends Fragment
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.imageView = (TouchImageView)view.findViewById(R.id.imageView_PicView);
-        this.spinner = (ProgressBar)view.findViewById(R.id.progressBar);
+        if(onClickListener != null)
+            imageView.setOnClickListener(onClickListener);
         if(savedInstanceState != null && file == null)
         {
             file = new File((String) savedInstanceState.get(ScreenSlideFragment.SAVESTATE_FILEPATH));
         }
-
-        myHistogram = new MyHistogram(view.getContext());
-        ll = (LinearLayout)view.findViewById(R.id.histoView);
-        ll.addView(myHistogram);
-
-        exifinfo = (LinearLayout)view.findViewById(R.id.exif_info);
-        exifinfo.setVisibility(View.GONE);
-        iso = (TextView)view.findViewById(R.id.textView_iso);
-        iso.setText("");
-        shutter = (TextView)view.findViewById(R.id.textView_shutter);
-        shutter.setText("");
-        focal = (TextView)view.findViewById(R.id.textView_focal);
-        focal.setText("");
-        fnumber = (TextView)view.findViewById(R.id.textView_fnumber);
-        fnumber.setText("");
-        filename = (TextView)view.findViewById(R.id.textView_filename);
-
-
-        this.deleteButton = (Button)view.findViewById(R.id.button_delete);
-        deleteButton.setVisibility(View.GONE);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
-                        .setNegativeButton("No", dialogClickListener).show();
-
-
-            }
-        });
-
-        this.play = (Button)view.findViewById(R.id.button_play);
-        play.setVisibility(View.GONE);
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (file == null)
-                    return;
-                if (!file.getAbsolutePath().endsWith(".raw")) {
-                    Uri uri = Uri.fromFile(file);
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    if (file.getAbsolutePath().endsWith("mp4"))
-                        i.setDataAndType(uri, "video/*");
-                    else
-                        i.setDataAndType(uri, "image/*");
-                    startActivity(i);
-                } else {
-
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            convertRawToDng(file);
-                            activity.getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    activity.ReloadFilesAndSetLast();
-                                }
-                            });
-                        }
-                    }).start();
-
-                }
-            }
-        });
-        mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
     }
 
     @Override
@@ -170,33 +96,7 @@ public class ImageFragment extends Fragment
     {
         super.onResume();
         if (file != null) {
-            spinner.post(new Runnable() {
-                @Override
-                public void run() {
-                    fadeout();
-                    spinner.setVisibility(View.VISIBLE);
-                }
-            });
 
-            filename.setText(file.getName());
-            if (file.getAbsolutePath().endsWith(".jpg")) {
-                processJpeg(file);
-                exifinfo.setVisibility(View.VISIBLE);
-                myHistogram.setVisibility(View.VISIBLE);
-            }
-            if (file.getAbsolutePath().endsWith(".mp4")) {
-                exifinfo.setVisibility(View.GONE);
-                myHistogram.setVisibility(View.GONE);
-
-            }
-            if (file.getAbsolutePath().endsWith(".dng")) {
-                exifinfo.setVisibility(View.GONE);
-                myHistogram.setVisibility(View.VISIBLE);
-            }
-            if (file.getAbsolutePath().endsWith(".raw")) {
-                exifinfo.setVisibility(View.GONE);
-                myHistogram.setVisibility(View.VISIBLE);
-            }
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -204,35 +104,7 @@ public class ImageFragment extends Fragment
                 }
             }).start();
         }
-        else
-        {
-            filename.setText("No Files");
-            spinner.setVisibility(View.GONE);
-            myHistogram.setVisibility(View.GONE);
-            deleteButton.setVisibility(View.GONE);
-            play.setVisibility(View.GONE);
-        }
 
-    }
-
-    private void processJpeg(final File file)
-    {
-        try {
-            final Metadata metadata = JpegMetadataReader.readMetadata(file);
-            final Directory exifsub = metadata.getDirectory(ExifSubIFDDirectory.class);
-            iso.setText("ISO: " +exifsub.getString(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT));
-            shutter.setText("Exposure Time: " +exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME));
-            fnumber.setText("Aperture:" +exifsub.getString(ExifSubIFDDirectory.TAG_FNUMBER));
-            focal.setText("Focal Length:" +exifsub.getString(ExifSubIFDDirectory.TAG_FOCAL_LENGTH));
-        } catch (IOException e) {
-            Logger.exception(e);
-        } catch (JpegProcessingException e) {
-            Logger.exception(e);
-        }
-        catch (NullPointerException ex)
-        {
-            Logger.exception(ex);
-        }
     }
 
     private void loadImage()
@@ -242,132 +114,21 @@ public class ImageFragment extends Fragment
         imageView.post(new Runnable() {
             @Override
             public void run() {
-                fadein();
                 imageView.setImageBitmap(response);
-                myHistogram.setBitmap(response, false);
             }
         });
     }
 
     private Bitmap getBitmap()
     {
-        Bitmap response;
-        if (cacheHelper == null)
-            cacheHelper = new CacheHelper(getContext());
+        Bitmap response =null;
         try {
-            response = BitmapHelper.getBitmap(file,false,cacheHelper,mImageThumbSize,mImageThumbSize);
+            response = BitmapHelper.getBitmap(file,false,mImageThumbSize,mImageThumbSize);
         }
         catch (IllegalArgumentException ex)
         {
-            response = null;
-            filename.post(new Runnable() {
-                @Override
-                public void run() {
-                    filename.setText("Failed to load:" + file.getName());
 
-                }
-            });
         }
-        if (response == null)
-            workDone.onWorkDone(false, file);
-        else
-            workDone.onWorkDone(true, file);
         return response;
     }
-
-    private void fadeout()
-    {
-        imageView.animate().alpha(0f).setDuration(animationTime).setListener(null);
-        spinner.animate().alpha(1f).setDuration(animationTime).setListener(null);
-    }
-
-    private void fadein()
-    {
-        spinner.animate().alpha(0f).setDuration(animationTime).setListener(null);
-        imageView.animate().alpha(1f).setDuration(animationTime).setListener(null);
-    }
-
-    interface WorkeDoneInterface
-    {
-        void onWorkDone(boolean success, File file);
-    }
-
-    WorkeDoneInterface workDone = new WorkeDoneInterface() {
-        @Override
-        public void onWorkDone(final boolean success, final File file)
-        {
-            play.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (success)
-                    {
-                        if (file.getAbsolutePath().endsWith(".jpg")) {
-                            play.setVisibility(View.VISIBLE);
-                        }
-                        else if (file.getAbsolutePath().endsWith(".jps")) {
-                            play.setVisibility(View.VISIBLE);
-                        }
-                        else if (file.getAbsolutePath().endsWith(".mp4")) {
-                            play.setVisibility(View.VISIBLE);
-                        }
-                        else if (file.getAbsolutePath().endsWith(".dng")) {
-                            play.setVisibility(View.VISIBLE);
-                        }
-                        else if (file.getAbsolutePath().endsWith(".raw")) {
-                            play.setVisibility(View.GONE);
-                        }
-                    }
-                    else
-                    {
-                        play.setVisibility(View.GONE);
-                    }
-                    deleteButton.setVisibility(View.VISIBLE);
-                }
-            });
-
-        }
-    };
-
-    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            switch (which){
-                case DialogInterface.BUTTON_POSITIVE:
-
-                    boolean d = file.delete();
-                    activity.reloadFilesAndSetLastPos();
-                    break;
-
-                case DialogInterface.BUTTON_NEGATIVE:
-                    //No button clicked
-                    break;
-            }
-        }
-    };
-
-    private void convertRawToDng(File file)
-    {
-        byte[] data = null;
-        try {
-            data = RawToDng.readFile(file);
-            Logger.d("Main", "Filesize: " + data.length + " File:" + file.getAbsolutePath());
-
-        } catch (FileNotFoundException e) {
-            Logger.exception(e);
-        } catch (IOException e) {
-            Logger.exception(e);
-        }
-
-        String out = file.getAbsolutePath().replace(".raw", ".dng");
-        RawToDng dng = RawToDng.GetInstance();
-        dng.SetBayerData(data, out);
-        dng.setExifData(100, 0, 0, 0, 0, "", "0", 0);
-        dng.WriteDNG(null);
-        data = null;
-        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        intent.setData(Uri.fromFile(file));
-        activity.getActivity().sendBroadcast(intent);
-    }
-
-
 }

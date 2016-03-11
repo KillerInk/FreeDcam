@@ -43,6 +43,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import troop.com.imageviewer.BitmapHelper;
 import troop.com.imageviewer.ScreenSlideFragment;
 
 /**
@@ -176,6 +177,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     private void createHandlers() {
 
         checkStartLoggerging();
+        BitmapHelper.INIT(getApplicationContext());
         this.activity =this;
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this), this);
         themeHandler = new ThemeHandler(this, appSettingsManager);
