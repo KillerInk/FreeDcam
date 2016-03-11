@@ -21,10 +21,10 @@ import troop.com.imageviewer.holder.FileHolder;
  */
 public class GridImageView extends AbsoluteLayout implements FileHolder.EventHandler
 {
-    ImageView imageView;
-    TextView textView;
-    TextView folderTextView;
-    CheckBox checkBox;
+    private ImageView imageView;
+    private TextView textView;
+    private TextView folderTextView;
+    private CheckBox checkBox;
     private BaseHolder fileHolder;
     public GridImageView(Context context) {
         super(context);
@@ -60,6 +60,8 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
             }
         });
     }
+
+    public BaseHolder getFileHolder(){return fileHolder;}
 
     public void setImageDrawable(Drawable asyncDrawable)
     {

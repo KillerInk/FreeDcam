@@ -421,6 +421,7 @@ public class GridViewFragment extends BaseGridViewFragment
             case normal:
                 setViewMode(ViewStates.selection);
                 files.get(position).SetSelected(true);
+
         }
         return false;
     }
@@ -458,21 +459,15 @@ public class GridViewFragment extends BaseGridViewFragment
             GridImageView imageView;
             if (convertView == null) { // if it's not recycled, initialize some attributes
                 imageView = new GridImageView(mContext);
-                if (position == 0 && !pos0ret)
-                {
-                    imageView.SetEventListner(files.get(position));
-                    pos0ret = true;
-                }
-
             } else {
                 imageView = (GridImageView) convertView;
             }
-            //Set FileHolder to current imageview
-            if (position > 0)
+            if (imageView.getFileHolder() == null || !imageView.getFileHolder().equals(files.get(position))) {
                 imageView.SetEventListner(files.get(position));
-            Logger.d(TAG, "pos:" + position + " imageviewState: " + files.get(position).GetCurrentViewState() + " /GridState:" + currentViewState + " filename:" + files.get(position).getFile().getName() +
-                    " ischecked:" + files.get(position).IsSelected());
-            loadBitmap(files.get(position).getFile(), imageView); // Load image into ImageView
+                Logger.d(TAG, "pos:" + position + " imageviewState: " + files.get(position).GetCurrentViewState() + " /GridState:" + currentViewState + " filename:" + files.get(position).getFile().getName() +
+                        " ischecked:" + files.get(position).IsSelected());
+                loadBitmap(files.get(position).getFile(), imageView); // Load image into ImageView
+            }
             return imageView;
         }
     }
@@ -616,6 +611,7 @@ public class GridViewFragment extends BaseGridViewFragment
             f.SetViewState(viewState);
 
         }
+        mPagerAdapter.notifyDataSetChanged();
         switch (viewState)
         {
             case normal:
