@@ -507,7 +507,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         topbar.startAnimation(animTopToBottomShow);
         topbar.setVisibility(View.VISIBLE);
         bottombar.startAnimation(animBottomToTopShow);
-        if (currentFile != null && !currentFile.getName().endsWith(".mp4"))
+        if (currentFile != null && currentFile.getName() != null && !currentFile.getName().endsWith(".mp4"))
             myHistogram.setVisibility(View.VISIBLE);
         bottombar.setVisibility(View.VISIBLE);
         barsvisible = true;
