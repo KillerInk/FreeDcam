@@ -196,9 +196,42 @@ public class HdrModule extends PictureModule implements I_WorkeDone
                 value = Integer.parseInt(Settings.getString(AppSettingsManager.SETTING_AEB3));
 
             Logger.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
-            ParameterHandler.ManualExposure.SetValue(value);
+            //ParameterHandler.ManualExposure.SetValue(value);
+
+            /*checkAEMODE();
+            if(isManualExpo)
+            {
+                ParameterHandler.ManualShutter.SetValue(DoStopCalc(value));
+            }
+           TODO */
+            ((CamParametersHandler)ParameterHandler).setString("exposure-compensation", value + "");
             Logger.d(TAG, "HDR Exposure SET");
         }
+    }
+
+    private String DoStopCalc(int stop)
+    {
+        float shutterString = 0.0f;
+
+        if(ParameterHandler.ManualShutter.GetStringValue().contains("/"))
+        {
+            shutterString = Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue().split("/")[1]);
+        }
+        else
+            shutterString = Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue());
+
+
+        float StoppedShift;
+        if (stop < 0)
+            StoppedShift = shutterString / (stop*4);
+        else
+            StoppedShift = shutterString * (stop*4);
+
+        return "1/"+String.valueOf(shutterString);
+
+
+
+
     }
 
     private void checkAEMODE()
