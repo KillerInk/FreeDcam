@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.PopupMenu;
 
 import com.troop.filelogger.Logger;
@@ -53,7 +54,7 @@ public class GridViewFragment extends BaseGridViewFragment
     final String TAG = GridViewFragment.class.getSimpleName();
 
     private Button deleteButton;
-    private Button gobackButton;
+    private ImageButton gobackButton;
     private Button filetypeButton;
     private Button rawToDngButton;
     final String savedInstanceString = "lastpath";
@@ -99,7 +100,7 @@ public class GridViewFragment extends BaseGridViewFragment
         deleteButton.setVisibility(View.GONE);
         deleteButton.setOnClickListener(onDeltedButtonClick);
 
-        gobackButton = (Button)view.findViewById(R.id.button_goback);
+        gobackButton = (ImageButton)view.findViewById(R.id.button_goback);
         gobackButton.setOnClickListener(onGobBackClick);
 
         filetypeButton = (Button)view.findViewById(R.id.button_filetype);
