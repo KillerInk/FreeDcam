@@ -515,7 +515,7 @@ void processTight(TIFF *tif,DngWriter *writer)
 	LOGD("Write done");
 	//TIFFCheckpointDirectory(tif);
     LOGD("write checkpoint");
-    TIFFWriteDirectory(tif);
+    TIFFRewriteDirectory (tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
