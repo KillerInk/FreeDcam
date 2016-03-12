@@ -264,20 +264,22 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 ret += s.getKey() + "=" + s.getValue() + ";";
             }
             if (DeviceFrameWork == Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/) {
-                Logger.d(TAG, "Set lg Parameters");
                 Camera.Parameters p = lgParameters.getParameters();
                 p.unflatten(ret);
                 lgParameters.setParameters(p);
+                Logger.d(TAG, "Set lg Parameters");
             } else {
-                Logger.d(TAG, "Set Parameters");
+
                 Camera.Parameters p = mCamera.getParameters();
                 p.unflatten(ret);
                 mCamera.setParameters(p);
+                Logger.d(TAG, "Set Parameters");
             }
-           // Thread.sleep(300);
         }
-        catch (Exception ex) {
-           Logger.d(TAG, ex.getMessage());
+        catch (Exception ex)
+        {
+            Logger.d(TAG,"Parameters Set failed");
+            Logger.d(TAG, ex.getMessage());
         }
 
 
