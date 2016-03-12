@@ -31,7 +31,7 @@ public abstract class AbstractModuleApi2 extends AbstractModule implements I_Pre
     {
         this.baseCameraHolder = cameraHandler;
         this.eventHandler = eventHandler;
-        this.ParameterHandler = baseCameraHolder.ParameterHandler;
+        this.ParameterHandler = baseCameraHolder.GetParameterHandler();
         Display display = ((WindowManager)Settings.context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         displaySize = new Point();
         display.getRealSize(displaySize);

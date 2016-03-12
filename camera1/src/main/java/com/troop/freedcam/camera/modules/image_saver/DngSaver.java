@@ -47,8 +47,8 @@ public class DngSaver extends JpegSaver
     public void TakePicture()
     {
         Logger.d(TAG, "Start Take Picture");
-        lastBayerFormat = cameraHolder.ParameterHandler.PictureFormat.GetValue();
-        if (cameraHolder.ParameterHandler.ZSL != null && cameraHolder.ParameterHandler.ZSL.IsSupported() && cameraHolder.ParameterHandler.ZSL.GetValue().equals("on"))
+        lastBayerFormat = ParameterHandler.PictureFormat.GetValue();
+        if (ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
         {
             iWorkeDone.OnError("Error: Disable ZSL for Raw or Dng capture");
 
@@ -147,12 +147,12 @@ public class DngSaver extends JpegSaver
             focal = 28.342f;
         }
         else {
-        fnum = ((CamParametersHandler)cameraHolder.ParameterHandler).GetFnumber();
-        focal = ((CamParametersHandler)cameraHolder.ParameterHandler).GetFocal();}
+        fnum = (ParameterHandler).GetFnumber();
+        focal = (ParameterHandler).GetFocal();}
         //if(meta != null){
          //   dngConverter.setExifData(meta.getIso(), meta.getExp(), meta.getFlash(), fnum, focal, meta.getDescription(), cameraHolder.Orientation + "", 0);}
       //  else
-        Logger.d("Shutterrr", ((CamParametersHandler) cameraHolder.ParameterHandler).ExposureTime());
+        Logger.d("Shutterrr", ParameterHandler.ExposureTime());
         try
         {
             if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)) {
@@ -167,9 +167,9 @@ public class DngSaver extends JpegSaver
         }
 
 
-        if (cameraHolder.ParameterHandler.CCT != null && cameraHolder.ParameterHandler.CCT.IsSupported())
+        if (ParameterHandler.CCT != null && ParameterHandler.CCT.IsSupported())
         {
-            String wb = cameraHolder.ParameterHandler.CCT.GetStringValue();
+            String wb = ParameterHandler.CCT.GetStringValue();
             if (!wb.equals("Auto"))
             {
                 //int ct = Integer.parseInt(wb);
@@ -186,13 +186,13 @@ public class DngSaver extends JpegSaver
     private int ExtractISO()
 
     {
-        if (cameraHolder.ParameterHandler.IsoMode.GetValue().equals("auto") || cameraHolder.ParameterHandler.IsoMode.GetValue().equals("auto_hjr"))
+        if (ParameterHandler.IsoMode.GetValue().equals("auto") || ParameterHandler.IsoMode.GetValue().equals("auto_hjr"))
         {
             return 0;
         }
         else
         {
-            return Integer.parseInt(cameraHolder.ParameterHandler.IsoMode.GetValue().split("O")[1]);
+            return Integer.parseInt(ParameterHandler.IsoMode.GetValue().split("O")[1]);
         }
 
     }
@@ -233,20 +233,20 @@ public class DngSaver extends JpegSaver
     private float ExtractShutter()
 
     {
-        if (cameraHolder.ParameterHandler.ManualShutter.GetStringValue().equals("auto"))
+        if (ParameterHandler.ManualShutter.GetStringValue().equals("auto"))
         {
             return 0f;
         }
         else
         {
-            if(cameraHolder.ParameterHandler.ManualShutter.GetStringValue().contains("/"))
+            if(ParameterHandler.ManualShutter.GetStringValue().contains("/"))
             {
-                return 1/Float.parseFloat(cameraHolder.ParameterHandler.ManualShutter.GetStringValue().split("/")[1]);
+                return 1/Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue().split("/")[1]);
 
             }
             else
             {
-                return Float.parseFloat(cameraHolder.ParameterHandler.ManualShutter.GetStringValue());
+                return Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue());
 
             }
 

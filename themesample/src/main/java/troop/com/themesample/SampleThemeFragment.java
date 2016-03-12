@@ -71,17 +71,6 @@ public class SampleThemeFragment extends AbstractFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container, null);
-        if (cameraUiFragment == null)
-        {
-            cameraUiFragment = new CameraUiFragment();
-            cameraUiFragment.SetStuff(i_activity,onThumbClick);
-        }
-        if (settingsMenuFragment == null) {
-            settingsMenuFragment = new SettingsMenuFragment();
-            settingsMenuFragment.SetStuff(i_activity);
-        }
-        if (screenSlideFragment == null)
-            screenSlideFragment = new ScreenSlideFragment();
         return inflater.inflate(R.layout.samplethemefragment, container, false);
     }
 
@@ -127,8 +116,10 @@ public class SampleThemeFragment extends AbstractFragment
 
     ScreenSlideFragment.I_ThumbClick onThumbBackClick = new ScreenSlideFragment.I_ThumbClick() {
         @Override
-        public void onThumbClick() {
-            mPager.setCurrentItem(1);
+        public void onThumbClick()
+        {
+            if (mPager != null)
+                mPager.setCurrentItem(1);
         }
 
         @Override
@@ -153,23 +144,21 @@ public class SampleThemeFragment extends AbstractFragment
         {
             if (position == 0)
             {
-                if (settingsMenuFragment == null)
-                    settingsMenuFragment = new SettingsMenuFragment();
+                settingsMenuFragment = new SettingsMenuFragment();
                 settingsMenuFragment.SetStuff(i_activity);
                 settingsMenuFragment.SetCameraUIWrapper(wrapper);
                 return settingsMenuFragment;
             }
             else if (position == 2)
             {
-                if (screenSlideFragment == null)
-                    screenSlideFragment = new ScreenSlideFragment();
+
+                screenSlideFragment = new ScreenSlideFragment();
                 screenSlideFragment.SetOnThumbClick(onThumbBackClick);
                 return screenSlideFragment;
             }
             else
             {
-                if (cameraUiFragment == null)
-                    cameraUiFragment = new CameraUiFragment();
+                cameraUiFragment = new CameraUiFragment();
                 cameraUiFragment.SetStuff(i_activity,onThumbClick);
                 cameraUiFragment.SetCameraUIWrapper(wrapper);
                 return cameraUiFragment;

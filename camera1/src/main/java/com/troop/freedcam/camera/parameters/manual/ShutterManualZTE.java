@@ -19,7 +19,6 @@ import java.util.HashMap;
 public class ShutterManualZTE extends BaseManualParameter
 {
     I_CameraHolder baseCameraHolder;
-    CamParametersHandler camParametersHandlerx;
     final String TAG = ShutterManualZTE.class.getSimpleName();
 
     final String Z5SShutterValues = "Auto,1/90000,1/75000,1/50000,1/45000,1/30000,1/20000,1/12000,1/10000"+
@@ -50,8 +49,6 @@ public class ShutterManualZTE extends BaseManualParameter
         super(parameters, value, maxValue, MinValue, camParametersHandler,1);
         this.baseCameraHolder = baseCameraHolder;
 
-        camParametersHandlerx = (CamParametersHandler) camParametersHandler;
-
         if(DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
             stringvalues = Z7ShutterValues.split(",");
         else
@@ -79,8 +76,6 @@ public class ShutterManualZTE extends BaseManualParameter
             String split[] = shutterstring.split("/");
             Double a = Double.parseDouble(split[0]) / Double.parseDouble(split[1]);
             shutterstring = "" + a;
-
-
         }
         if(!stringvalues[currentInt].equals("Auto"))
         {
@@ -99,29 +94,19 @@ public class ShutterManualZTE extends BaseManualParameter
         Logger.e(TAG, shutterstring);
     }
 
-    private void setShutterToAuto() {
-
-      //  parameters.put("slow_shutter", "-1");
-      //  parameters.put("slow_shutter_addition", "0");
-      //  baseCameraHolder.SetCameraParameters(parameters);
-
+    private void setShutterToAuto()
+    {
         try
         {
-
             Handler handler = new Handler();
             Runnable r = new Runnable() {
                 public void run() {
-
-                    camParametersHandlerx.setString("slow_shutter", "-1");
-
-                    camParametersHandlerx.setString("slow_shutter_addition", "0");
-                    baseCameraHolder.SetCameraParameters(camParametersHandlerx.getParameters());
+                    ((CamParametersHandler)camParametersHandler).SetZTESlowShutter("-1");
                     baseCameraHolder.StopPreview();
                     baseCameraHolder.StartPreview();
                 }
             };
             handler.postDelayed(r, 1);
-
         }
         catch (Exception ex)
         {
@@ -130,45 +115,30 @@ public class ShutterManualZTE extends BaseManualParameter
 
     }
 
-    private String setExposureTimeToParameter(final String shutterstring) {
-
-       // parameters.put("slow_shutter", shutterstring);
-        // parameters.put("slow_shutter_addition", "1");
-        // if (i_shutter_changed != null) {
-        //   i_shutter_changed.PreviewWasRestarted();
-        // }
-
+    private String setExposureTimeToParameter(final String shutterstring)
+    {
         try {
 
             Handler handler = new Handler();
             Runnable r = new Runnable() {
                 public void run() {
 
-                    camParametersHandlerx.setString("slow_shutter", shutterstring);
-                    camParametersHandlerx.setString("slow_shutter_addition", "1");
-                    baseCameraHolder.SetCameraParameters(camParametersHandlerx.getParameters());
+                    parameters.put("slow_shutter", shutterstring);
+                    parameters.put("slow_shutter_addition", "1");
+                    baseCameraHolder.SetCameraParameters(parameters);
 
                     if(Double.parseDouble(shutterstring) <= 0.5 && Double.parseDouble(shutterstring) >= 0.0005 ){
                         baseCameraHolder.StopPreview();
                         baseCameraHolder.StartPreview();
                     }
-
-
-                   // baseCameraHolder.SetCameraParameters(cameraParameters);
                 }
             };
             handler.post(r);
-            //handler.postDelayed(r, 1);
-
         }
         catch (Exception ex)
         {
-
+            Logger.exception(ex);
         }
-
-
-      //  i_cameraChangedListner.onPreviewOpen("restart");
-      //  baseCameraHolder.SetCameraParameters(parameters);
         return shutterstring;
     }
 }

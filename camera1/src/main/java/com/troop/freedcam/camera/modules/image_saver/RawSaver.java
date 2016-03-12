@@ -25,7 +25,7 @@ public class RawSaver extends JpegSaver
     public void TakePicture()
     {
         Logger.d(TAG, "Start Take Picture");
-        if (cameraHolder.ParameterHandler.ZSL != null && cameraHolder.ParameterHandler.ZSL.IsSupported() && cameraHolder.ParameterHandler.ZSL.GetValue().equals("on"))
+        if (ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
         {
             iWorkeDone.OnError("Error: Disable ZSL for Raw or Dng capture");
 
@@ -51,7 +51,7 @@ public class RawSaver extends JpegSaver
             @Override
             public void run()
             {
-                final String lastBayerFormat = cameraHolder.ParameterHandler.PictureFormat.GetValue();
+                final String lastBayerFormat = ParameterHandler.PictureFormat.GetValue();
                 saveBytesToFile(data, new File(StringUtils.getFilePath(externalSd, fileEnding)));
             }
         });

@@ -91,7 +91,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         Logger.d(TAG, "Manufactur:" + Build.MANUFACTURER);
         Logger.d(TAG, "Model:" + Build.MODEL);
         Logger.d(TAG, "Product:" + Build.PRODUCT);
-        Logger.d(TAG, "OS:"+ System.getProperty("os.version"));
+        Logger.d(TAG, "OS:" + System.getProperty("os.version"));
         for(Map.Entry e : parameters.entrySet())
         {
             Logger.d(TAG, e.getKey() + "=" + e.getValue());
@@ -366,11 +366,11 @@ public class CamParametersHandler extends AbstractParameterHandler
             Logger.exception(e);
         }*/
 
-        /*try {
-            VideoSize = new VideoSizeParameter(uiHandler,cameraParameters,baseCameraHolder,"video-size","video-size");
+        try {
+            VideoSize = new BaseModeParameter(uiHandler,cameraParameters,cameraHolder,"video-size","video-size");
         } catch (Exception e) {
             Logger.exception(e);
-        }*/
+        }
 
         createVideoHDR();
 
@@ -695,7 +695,7 @@ public class CamParametersHandler extends AbstractParameterHandler
                 Handler handler = new Handler();
                 Runnable r = new Runnable() {
                     public void run() {
-                        setString("metering-areas", "(" + lF.left + "," + lF.top + "," + lF.right + "," + lF.bottom + ",100)");
+                        cameraParameters.put("metering-areas", "(" + lF.left + "," + lF.top + "," + lF.right + "," + lF.bottom + ",100)");
                         cameraHolder.SetCameraParameters(cameraParameters);
                     }
                 };
@@ -720,7 +720,7 @@ public class CamParametersHandler extends AbstractParameterHandler
                 Handler handler = new Handler();
                 Runnable r = new Runnable() {
                     public void run() {
-                        setString("focus-areas", "(" + lF.left + "," + lF.top + "," + lF.right + "," + lF.bottom + ",1000)");
+                        cameraParameters.put("focus-areas", "(" + lF.left + "," + lF.top + "," + lF.right + "," + lF.bottom + ",1000)");
                         cameraHolder.SetCameraParameters(cameraParameters);
                     }
                 };
@@ -777,7 +777,22 @@ public class CamParametersHandler extends AbstractParameterHandler
         SetParametersToCamera(cameraParameters);
     }
 
-    public void setString(String param, String value)
+    public void initMTKSHit()    {
+
+
+        cameraParameters.put("afeng_raw_dump_flag", "1");
+        cameraParameters.put("isp-mode", "1");
+        cameraParameters.put("rawsave-mode", "2");
+        cameraParameters.put("rawfname", "/mnt/sdcard/DCIM/FreeDCam/mtk_.raw");
+        cameraParameters.put("zsd-mode", "on");
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            Logger.e(TAG,e.getMessage());
+        }
+    }
+
+    /*public void setString(String param, String value)
     {
         try
         {
@@ -788,7 +803,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         {
             Logger.exception(e);
         }
-    }
+    }*/
 
     public float GetFnumber()
     {
@@ -842,6 +857,37 @@ public class CamParametersHandler extends AbstractParameterHandler
         cameraParameters.put("rawsave-mode", "2");
         cameraParameters.put("isp-mode", "1");
         cameraParameters.put("rawfname", "/mnt/sdcard/DCIM/test.raw");
+    }
+
+
+    public void SetZTESlowShutter(String value)
+    {
+        cameraParameters.put("slow_shutter", value);
+        SetParametersToCamera(cameraParameters);
+    }
+
+    public void Set_RAWFNAME(String filepath)
+    {
+        cameraParameters.put("rawfname", filepath);
+        SetParametersToCamera(cameraParameters);
+    }
+
+    public void SetLGCamera(boolean isLG)
+    {
+        if (isLG)
+            cameraParameters.put("lge-camera", "1");
+        else
+            cameraParameters.put("lge-camera", "0");
+        SetParametersToCamera(cameraParameters);
+    }
+
+    public void SetDualRecorder(boolean dual)
+    {
+        if (dual)
+            cameraParameters.put("dual-recorder", "1");
+        else
+            cameraParameters.put("dual-recorder", "0");
+        SetParametersToCamera(cameraParameters);
     }
 
 

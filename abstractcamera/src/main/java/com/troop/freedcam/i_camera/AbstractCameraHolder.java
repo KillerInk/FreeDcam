@@ -20,7 +20,7 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     public boolean isRdy = false;
 
     public boolean isPreviewRunning = false;
-    public AbstractParameterHandler ParameterHandler;
+    private AbstractParameterHandler ParameterHandler;
     public AbstractFocusHandler Focus;
     public AbstractExposureMeterHandler ExposureM;
     public SurfaceHolder surfaceHolder;
@@ -110,4 +110,14 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     public void SetPreviewCallback(final Camera.PreviewCallback previewCallback){};
 
     public void ResetPreviewCallback(){};
+
+    public void SetParameterHandler(AbstractParameterHandler parametersHandler)
+    {
+        this.ParameterHandler = parametersHandler;
+    }
+
+    public AbstractParameterHandler GetParameterHandler()
+    {
+        return ParameterHandler;
+    }
 }

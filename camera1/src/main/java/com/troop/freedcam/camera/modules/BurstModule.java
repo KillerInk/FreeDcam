@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.camera.parameters.modes.PreviewSizeParameter;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
@@ -115,8 +116,7 @@ public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCa
         Logger.d(TAG, "Saving file: " + file.getAbsolutePath());
         if (true/*baseCameraHolder.ParameterHandler.PreviewFormat.GetFormat() == ImageFormat.NV21*/)
         {
-            PreviewSizeParameter previewSizeParameter = (PreviewSizeParameter)baseCameraHolder.ParameterHandler.PreviewSize;
-            String[] split = baseCameraHolder.ParameterHandler.PreviewSize.GetValue().split("x");
+            String[] split = ParameterHandler.PreviewSize.GetValue().split("x");
             Rect rect = new Rect(0,0,Integer.parseInt(split[0]),Integer.parseInt(split[1]));
             YuvImage img = new YuvImage(bytes, ImageFormat.NV21, Integer.parseInt(split[0]), Integer.parseInt(split[1]), null);
             OutputStream outStream = null;

@@ -32,7 +32,7 @@ public abstract class AbstractModule implements I_Module
         this.baseCameraHolder = cameraHandler;
         this.Settings = Settings;
         this.eventHandler = eventHandler;
-        this.ParameterHandler = baseCameraHolder.ParameterHandler;
+        this.ParameterHandler = baseCameraHolder.GetParameterHandler();
     }
 
     public void SetWorkerListner(AbstractModuleHandler.I_worker workerListner)

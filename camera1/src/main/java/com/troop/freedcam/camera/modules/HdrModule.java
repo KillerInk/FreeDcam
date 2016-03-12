@@ -53,7 +53,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
         {
             files = new File[3];
             hdrCount = 0;
-            if (dngcapture && baseCameraHolder.ParameterHandler.ZSL != null && baseCameraHolder.ParameterHandler.ZSL.IsSupported() && baseCameraHolder.ParameterHandler.ZSL.GetValue().equals("on"))
+            if (dngcapture && ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
             {
                 baseCameraHolder.errorHandler.OnError("Error: Disable ZSL for Raw or Dng capture");
                 this.isWorking = false;
@@ -61,7 +61,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
             }
             startworking();
             LoadAEB();
-            if (aeBrackethdr && baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg"))
+            if (aeBrackethdr && ParameterHandler.PictureFormat.GetValue().equals("jpeg"))
             {
                 baseCameraHolder.TakePicture(null, null, aeBracketCallback);
             }
@@ -113,7 +113,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
                     Logger.exception(e);
                 }
 
-                final String picFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
+                final String picFormat = ParameterHandler.PictureFormat.GetValue();
                 if (picFormat.equals("jpeg")) {
                     final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, HdrModule.this, handler, Settings.GetWriteExternal());
                     jpegSaver.TakePicture();
@@ -234,7 +234,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
     I_Callbacks.PictureCallback aeBracketCallback = new I_Callbacks.PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data) {
-            final String picFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
+            final String picFormat = ParameterHandler.PictureFormat.GetValue();
             if (picFormat.equals("jpeg")) {
                 final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, aeBracketDone, handler,Settings.GetWriteExternal());
                 jpegSaver.saveBytesToFile(data, new File(StringUtils.getFilePathHDR(Settings.GetWriteExternal(), jpegSaver.fileEnding, hdrCount)));
@@ -277,7 +277,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
     {
         if ((ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported()))
         {
-            if (baseCameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg")) {
+            if (ParameterHandler.PictureFormat.GetValue().equals("jpeg")) {
                 aeBrackethdr = true;
                 ParameterHandler.AE_Bracket.SetValue("AE-Bracket", true);
             }

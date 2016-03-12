@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -28,10 +29,12 @@ public class JpegSaver implements I_Callbacks.PictureCallback
 
     final public String fileEnding = ".jpg";
     boolean awaitpicture = false;
+    protected CamParametersHandler ParameterHandler;
 
     public JpegSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler, boolean externalSd)
     {
         this.cameraHolder = cameraHolder;
+        this.ParameterHandler = (CamParametersHandler)cameraHolder.GetParameterHandler();
         this.iWorkeDone = i_workeDone;
         this.handler = handler;
         this.externalSd = externalSd;

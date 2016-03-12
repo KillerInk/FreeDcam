@@ -95,11 +95,11 @@ public class PictureFormatHandler extends BaseModeParameter
                         break;
                     case "raw":
                         setString(rawFormat,setToCam);
-                        baseCameraHolder.ParameterHandler.SetDngActive(false);
+                        baseCameraHolder.GetParameterHandler().SetDngActive(false);
                         break;
                     case "dng":
                         setString(rawFormat,setToCam);
-                        baseCameraHolder.ParameterHandler.SetDngActive(true);
+                        baseCameraHolder.GetParameterHandler().SetDngActive(true);
                         break;
                 }
                 break;

@@ -20,6 +20,7 @@ public class LG_G4AeHandler
     private BaseCameraHolder cameraHolder;
     private HashMap<String, String> parameters;
     boolean auto = true;
+    private CamParametersHandler camParametersHandler;
 
     final String TAG = LG_G4AeHandler.class.getSimpleName();
 
@@ -31,6 +32,7 @@ public class LG_G4AeHandler
 
     public LG_G4AeHandler(HashMap<String, String> parameters,BaseCameraHolder cameraHolder, CamParametersHandler camParametersHandler)
     {
+        this.camParametersHandler = camParametersHandler;
         this.isoManualParameter = new ISOManualParameterG4(parameters,cameraHolder, camParametersHandler, aeevent);
         camParametersHandler.ISOManual = isoManualParameter;
         this.shutterPrameter = new ShutterManualParameterG4(parameters,cameraHolder, camParametersHandler, aeevent);
@@ -65,7 +67,7 @@ public class LG_G4AeHandler
                         break;
                 }
                 parameters.put("lg-manual-mode-reset", "1");
-                cameraHolder.ParameterHandler.SetParametersToCamera(parameters);
+                camParametersHandler.SetParametersToCamera(parameters);
                 parameters.put("lg-manual-mode-reset", "0");
 
 
@@ -100,14 +102,14 @@ public class LG_G4AeHandler
                 }
                 parameters.put("lg-manual-mode-reset", "0");
             }
-            cameraHolder.ParameterHandler.SetParametersToCamera(parameters);
+            camParametersHandler.SetParametersToCamera(parameters);
             if (automode) {
-                String t = cameraHolder.ParameterHandler.IsoMode.GetValue();
+                String t = camParametersHandler.IsoMode.GetValue();
                 if (!t.equals("ISO100"))
-                    cameraHolder.ParameterHandler.IsoMode.SetValue("ISO100", true);
+                    camParametersHandler.IsoMode.SetValue("ISO100", true);
                 else
-                    cameraHolder.ParameterHandler.IsoMode.SetValue("auto", true);
-                cameraHolder.ParameterHandler.IsoMode.SetValue(t, true);
+                    camParametersHandler.IsoMode.SetValue("auto", true);
+                camParametersHandler.IsoMode.SetValue(t, true);
             }
         }
     };

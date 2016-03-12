@@ -82,9 +82,9 @@ public class HDRModeParameter extends BaseModeParameter
                 ||DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
         {
             if (valueToSet.equals("on")) {
-                baseCameraHolder.ParameterHandler.morphoHHT.SetValue("false", true);
-                baseCameraHolder.ParameterHandler.NightMode.BackgroundValueHasChanged("off");
-                baseCameraHolder.ParameterHandler.AE_Bracket.SetValue("AE-Bracket", true);
+                baseCameraHolder.GetParameterHandler().morphoHHT.SetValue("false", true);
+                baseCameraHolder.GetParameterHandler().NightMode.BackgroundValueHasChanged("off");
+                baseCameraHolder.GetParameterHandler().AE_Bracket.SetValue("AE-Bracket", true);
                 parameters.put("morpho-hdr", "true");
             } else {
                 parameters.put("ae-bracket-hdr", "Off");

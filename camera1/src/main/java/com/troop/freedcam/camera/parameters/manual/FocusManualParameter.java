@@ -20,8 +20,6 @@ public class FocusManualParameter extends  BaseManualParameter
 {
     I_CameraHolder baseCameraHolder;
 
-    CamParametersHandler camParametersHandlerx;
-
     private static String TAG ="freedcam.ManualFocus";
 
     private String manualFocusModeString;
@@ -29,8 +27,6 @@ public class FocusManualParameter extends  BaseManualParameter
     public FocusManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler,1);
         this.baseCameraHolder = cameraHolder;
-
-        camParametersHandlerx = (CamParametersHandler) camParametersHandler;
 
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)  || DeviceUtils.IS(Devices.RedmiNote)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) || DeviceUtils.IS(Devices.LenovoK920) )
         {
@@ -169,8 +165,8 @@ public class FocusManualParameter extends  BaseManualParameter
             Runnable r = new Runnable() {
                 public void run() {
 
-                    camParametersHandlerx.setString("manual-focus-position", (stringvalues[currentInt]) + "");
-                    baseCameraHolder.SetCameraParameters(camParametersHandlerx.getParameters());
+                    parameters.put("manual-focus-position", (stringvalues[currentInt]) + "");
+                    baseCameraHolder.SetCameraParameters(parameters);
                 }
             };
             handler.postDelayed(r, 2);

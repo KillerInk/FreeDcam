@@ -23,14 +23,12 @@ public abstract class AbstractVideoModule extends AbstractModule
     protected MediaRecorder recorder;
     protected String mediaSavePath;
     protected BaseCameraHolder baseCameraHolder;
-    protected CamParametersHandler camParametersHandler;
     private static String TAG = AbstractVideoModule.class.getSimpleName();
 
     public AbstractVideoModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
         super(cameraHandler, Settings, eventHandler);
         name  = ModuleHandler.MODULE_VIDEO;
         this.baseCameraHolder = cameraHandler;
-        camParametersHandler = (CamParametersHandler) ParameterHandler;
     }
 
     @Override

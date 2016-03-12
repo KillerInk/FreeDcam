@@ -199,8 +199,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             }catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 long val = 0;
-                if(!cameraHolder.ParameterHandler.ManualShutter.GetStringValue().equals("Auto"))
-                    val = (long)(StringUtils.getMilliSecondStringFromShutterString(cameraHolder.ParameterHandler.ManualShutter.getStringValues()[cameraHolder.ParameterHandler.ManualShutter.GetValue()]) * 1000f);
+                if(!ParameterHandler.ManualShutter.GetStringValue().equals("Auto"))
+                    val = (long)(StringUtils.getMilliSecondStringFromShutterString(ParameterHandler.ManualShutter.getStringValues()[ParameterHandler.ManualShutter.GetValue()]) * 1000f);
                 else
                     val= cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
                 Logger.d(TAG, "Set ExposureTime for Capture to:" + val);

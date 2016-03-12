@@ -22,12 +22,10 @@ import java.io.IOException;
 public class MediatekSaver extends JpegSaver {
 
     File holdFile = null;
-    protected AbstractParameterHandler ParameterHandlerx;
 
     final public String fileEnding = ".jpg";
     public MediatekSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler, boolean externalSD) {
         super(cameraHolder, i_workeDone, handler, externalSD);
-        this.ParameterHandlerx = cameraHolder.ParameterHandler;
     }
 
     final String TAG = "MediatekIMG";
@@ -36,7 +34,7 @@ public class MediatekSaver extends JpegSaver {
     public void TakePicture()
     {
         Logger.d(TAG, "Start Take Picture");
-        if (cameraHolder.ParameterHandler.ZSL != null && cameraHolder.ParameterHandler.ZSL.IsSupported() && cameraHolder.ParameterHandler.ZSL.GetValue().equals("on"))
+        if (ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
         {
             iWorkeDone.OnError("Error: Disable ZSL for Raw or Dng capture");
 
@@ -46,11 +44,10 @@ public class MediatekSaver extends JpegSaver {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("raw") || cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("dng"))
+                if(ParameterHandler.PictureFormat.GetValue().equals("raw") || ParameterHandler.PictureFormat.GetValue().equals("dng"))
                 {
                     String timestamp = String.valueOf(System.currentTimeMillis());
-                            ((CamParametersHandler) ParameterHandlerx).setString("rawfname", "/mnt/sdcard/DCIM/FreeDCam/"+"mtk"+timestamp+".raw");
-                    cameraHolder.SetCameraParameters(((CamParametersHandler) ParameterHandlerx).getParameters());
+                    ParameterHandler.Set_RAWFNAME("/mnt/sdcard/DCIM/FreeDCam/"+"mtk"+timestamp+".raw");
                 }
                 cameraHolder.TakePicture(null, null, MediatekSaver.this);
             }
@@ -73,7 +70,7 @@ public class MediatekSaver extends JpegSaver {
 
              //   Logger.d(TAG,RawToDng.getFilePath());
 
-                if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("jpeg"))
+                if(ParameterHandler.PictureFormat.GetValue().equals("jpeg"))
                 {
                     saveBytesToFile(data, holdFile);
                     try
@@ -85,12 +82,12 @@ public class MediatekSaver extends JpegSaver {
 
                     }
                 }
-                else if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("dng"))
+                else if(ParameterHandler.PictureFormat.GetValue().equals("dng"))
                 {
                     saveBytesToFile(data, holdFile);
                     CreateDNG_DeleteRaw();
                 }
-                else if(cameraHolder.ParameterHandler.PictureFormat.GetValue().equals("raw"))
+                else if(ParameterHandler.PictureFormat.GetValue().equals("raw"))
                 {
                     saveBytesToFile(data, holdFile);
 
