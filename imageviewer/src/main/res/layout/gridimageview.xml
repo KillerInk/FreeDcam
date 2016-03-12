@@ -31,12 +31,12 @@
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="2dp"
             android:textColor="#ffffff" />
-    <CheckBox
+
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/checkBox_gridviewimage"
-        android:button="@null"
-        android:background="@drawable/gridviewcustomcheckbox"
-        android:layout_margin="2dp"/>
+        android:background="@drawable/cust_cb_unsel"
+        android:layout_margin="2dp" />
 
 </FrameLayout>

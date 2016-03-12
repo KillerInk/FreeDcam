@@ -24,7 +24,16 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true">
-        <Button
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/files_selected"
+                android:id="@+id/textView_filesSelected"
+                android:layout_gravity="center_vertical" />
+
+            <Button
             android:layout_width="50dp"
             android:layout_height="@dimen/app_icon_size"
             android:text="@string/ALL"
@@ -50,7 +59,7 @@
             android:layout_width="@dimen/app_icon_size"
             android:layout_height="@dimen/app_icon_size"
             android:id="@+id/button_deltePics"
-            android:background="@drawable/delete"
+            android:background="@drawable/delte_button_pressed"
             android:layout_marginRight="10dp"
             android:layout_gravity="center_vertical"/>
         </LinearLayout>

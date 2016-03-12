@@ -24,6 +24,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.utils.StringUtils;
@@ -69,6 +70,9 @@ public class GridViewFragment extends BaseGridViewFragment
     private Bitmap fold;
     private RequestModes requestMode = RequestModes.none;
 
+    private TextView filesSelected;
+    private int filesSelectedCount =0;
+
 
     public enum FormatTypes
     {
@@ -110,6 +114,8 @@ public class GridViewFragment extends BaseGridViewFragment
                 showPopup(v);
             }
         });
+
+        filesSelected = (TextView)view.findViewById(R.id.textView_filesSelected);
 
         rawToDngButton = (Button)view.findViewById(R.id.button_rawToDng);
         rawToDngButton.setVisibility(View.GONE);
@@ -322,10 +328,18 @@ public class GridViewFragment extends BaseGridViewFragment
                 }
                 break;
             case selection:
-                if (files.get(position).IsSelected())
+            {
+                if (files.get(position).IsSelected()) {
                     files.get(position).SetSelected(false);
-                else
+                    filesSelectedCount--;
+                } else {
                     files.get(position).SetSelected(true);
+                    filesSelectedCount++;
+                }
+                updateFilesSelected();
+                ((GridImageView)view).SetViewState(currentViewState);
+                break;
+            }
         }
     }
 
@@ -372,8 +386,9 @@ public class GridViewFragment extends BaseGridViewFragment
             } else {
                 imageView = (GridImageView) convertView;
             }
-            if (imageView.getFileHolder() == null || !imageView.getFileHolder().equals(files.get(position))) {
+            if (imageView.getFileHolder() == null || !imageView.getFileHolder().equals(files.get(position)) /*||imageView.viewstate != currentViewState*/) {
                 imageView.SetEventListner(files.get(position));
+                imageView.SetViewState(currentViewState);
                 Logger.d(TAG, "pos:" + position + " imageviewState: " + files.get(position).GetCurrentViewState() + " /GridState:" + currentViewState + " filename:" + files.get(position).getFile().getName() +
                         " ischecked:" + files.get(position).IsSelected());
                 loadBitmap(files.get(position).getFile(), imageView); // Load image into ImageView
@@ -676,7 +691,7 @@ public class GridViewFragment extends BaseGridViewFragment
             f.SetViewState(viewState);
 
         }
-        mPagerAdapter.notifyDataSetChanged();
+        //mPagerAdapter.notifyDataSetChanged();
         switch (viewState)
         {
             case normal:
@@ -690,11 +705,15 @@ public class GridViewFragment extends BaseGridViewFragment
                 deleteButton.setVisibility(View.VISIBLE);
                 rawToDngButton.setVisibility(View.VISIBLE);
                 filetypeButton.setVisibility(View.VISIBLE);
+                filesSelected.setVisibility(View.GONE);
                 break;
             }
             case selection:
-                switch (requestMode)
-                {
+            {
+                filesSelectedCount = 0;
+                filesSelected.setVisibility(View.VISIBLE);
+                updateFilesSelected();
+                switch (requestMode) {
                     case none:
                         deleteButton.setVisibility(View.VISIBLE);
                         rawToDngButton.setVisibility(View.VISIBLE);
@@ -715,7 +734,13 @@ public class GridViewFragment extends BaseGridViewFragment
                         break;
                 }
                 break;
+            }
         }
+    }
+
+    private void updateFilesSelected()
+    {
+        filesSelected.setText(getString(R.string.files_selected) + filesSelectedCount);
     }
 
 

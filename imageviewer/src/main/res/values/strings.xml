@@ -35,5 +35,6 @@
     <string name="blacklevel">Blacklevel:</string>
     <string name="converttodng">Convert to DNG</string>
     <string name="no_sel_raw">No selected RAW file, pls return back and select it</string>
+    <string name="files_selected">Files selected:</string>
 
 </resources>
