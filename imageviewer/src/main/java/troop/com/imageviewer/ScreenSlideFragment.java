@@ -253,22 +253,22 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             if (file.getAbsolutePath().endsWith(".jpg")) {
                 processJpeg(file);
                 exifinfo.setVisibility(View.VISIBLE);
-                myHistogram.setVisibility(View.VISIBLE);
+                //myHistogram.setVisibility(View.VISIBLE);
                 play.setVisibility(View.VISIBLE);
             }
             if (file.getAbsolutePath().endsWith(".mp4")) {
                 exifinfo.setVisibility(View.GONE);
-                myHistogram.setVisibility(View.GONE);
+                //myHistogram.setVisibility(View.GONE);
                 play.setVisibility(View.VISIBLE);
             }
             if (file.getAbsolutePath().endsWith(".dng")) {
                 exifinfo.setVisibility(View.GONE);
-                myHistogram.setVisibility(View.VISIBLE);
+                //myHistogram.setVisibility(View.VISIBLE);
                 play.setVisibility(View.VISIBLE);
             }
             if (file.getAbsolutePath().endsWith(".raw")) {
                 exifinfo.setVisibility(View.GONE);
-                myHistogram.setVisibility(View.VISIBLE);
+                //myHistogram.setVisibility(View.VISIBLE);
                 play.setVisibility(View.GONE);
             }
             myHistogram.setBitmap(BitmapHelper.getBitmap(file,true,mImageThumbSize,mImageThumbSize), false);
@@ -507,8 +507,8 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         topbar.startAnimation(animTopToBottomShow);
         topbar.setVisibility(View.VISIBLE);
         bottombar.startAnimation(animBottomToTopShow);
-        if (currentFile != null && currentFile.getName() != null && !currentFile.getName().endsWith(".mp4"))
-            myHistogram.setVisibility(View.VISIBLE);
+        myHistogram.startAnimation(animBottomToTopShow);
+        myHistogram.setVisibility(View.VISIBLE);
         bottombar.setVisibility(View.VISIBLE);
         barsvisible = true;
         sharedPref.edit().putBoolean(KEY_BARSVISIBLE, barsvisible).commit();
