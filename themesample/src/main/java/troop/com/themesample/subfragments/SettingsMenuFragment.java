@@ -24,7 +24,7 @@ import troop.com.themesample.views.uichilds.UiSettingsChild;
  */
 public class SettingsMenuFragment extends AbstractFragment implements Interfaces.I_CloseNotice, Interfaces.I_MenuItemClick, I_ParametersLoaded
 {
-    //TextView closeTab;
+    final String TAG = SettingsMenuFragment.class.getSimpleName();
     LinearLayout left_Holder;
     LinearLayout right_Holder;
     LeftMenuFragment leftMenuFragment;
@@ -42,6 +42,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
     @Override
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper) {
         super.SetCameraUIWrapper(wrapper);
+        Log.d(TAG,"Set Wrapper");
         if (wrapper != null && wrapper.camParametersHandler != null && wrapper.camParametersHandler.ParametersEventHandler != null)
             wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         //if(getActivity() != null)
@@ -65,10 +66,15 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         this.view = view;
         right_Holder = (LinearLayout)view.findViewById(R.id.right_holder);
         left_Holder = (LinearLayout)view.findViewById(R.id.left_holder);
-        setWrapper();
+        Logger.d(TAG,"onviewCreated");
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        Logger.d(TAG,"onResume");
+        setWrapper();
+    }
 
     private void setWrapper()
     {
