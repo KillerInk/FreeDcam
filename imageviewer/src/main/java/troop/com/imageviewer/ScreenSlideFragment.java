@@ -180,11 +180,12 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            convertRawToDng(currentFile);
+                            final File tmp = currentFile;
+                            convertRawToDng(tmp);
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    ReloadFilesAndSetLast();
+                                    addFile(tmp);
                                 }
                             });
                         }
@@ -211,6 +212,14 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             defitem = (int)savedInstanceState.get(SAVESTATE_ITEMINT);
             Logger.d(TAG, "have file to load from saveinstance onCreated" + FilePathToLoad);
         }*/
+    }
+
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
         if (FilePathToLoad.equals("")) {
             FilePathToLoad = StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder;
             readFiles();
@@ -223,8 +232,6 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
         mPager.addOnPageChangeListener(this);
         mPager.setAdapter(mPagerAdapter);
-
-
         if (files != null && files.size() > 0 && defitem == -1) {
             mPager.setCurrentItem(0);
         }
@@ -232,15 +239,6 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             mPager.setCurrentItem(defitem);
         currentFile = files.get(mPager.getCurrentItem()).getFile();
         updateUi(currentFile);
-
-
-    }
-
-
-    @Override
-    public void onResume()
-    {
-        super.onResume();
 
     }
 
@@ -391,21 +389,13 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         @Override
         public Fragment getItem(int position)
         {
-
+            ImageFragment currentFragment = new ImageFragment();
             if (files == null || files.size() == 0)
-            {
-                ImageFragment currentFragment = new ImageFragment();
                 currentFragment.SetFilePath(null);
-                currentFragment.SetOnclickLisnter(fragmentclickListner);
-                return currentFragment;
-            }
             else
-            {
-                ImageFragment currentFragment = new ImageFragment();
                 currentFragment.SetFilePath(files.get(position).getFile());
-                currentFragment.SetOnclickLisnter(fragmentclickListner);
-                return currentFragment;
-            }
+            currentFragment.SetOnclickLisnter(fragmentclickListner);
+            return currentFragment;
         }
 
         @Override

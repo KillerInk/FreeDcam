@@ -75,8 +75,7 @@ public class ImageFragment extends Fragment
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.imageView = (TouchImageView)view.findViewById(R.id.imageView_PicView);
-        if(onClickListener != null)
-            imageView.setOnClickListener(onClickListener);
+
         if(savedInstanceState != null && file == null)
         {
             file = new File((String) savedInstanceState.get(ScreenSlideFragment.SAVESTATE_FILEPATH));
@@ -95,6 +94,8 @@ public class ImageFragment extends Fragment
     public void onResume()
     {
         super.onResume();
+        if(onClickListener != null)
+            imageView.setOnClickListener(onClickListener);
         if (file != null) {
 
             new Thread(new Runnable() {

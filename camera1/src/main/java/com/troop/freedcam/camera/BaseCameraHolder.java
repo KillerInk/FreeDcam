@@ -42,7 +42,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     private Camera.Parameters mCameraParam;
     private LGCamera lgCamera;
     private LGCamera.LGParameters lgParameters;
-    private static String TAG = BaseCameraHolder.class.getSimpleName();
+    final static String TAG = BaseCameraHolder.class.getSimpleName();
     public I_error errorHandler;
     private I_Callbacks.PictureCallback pictureCallback;
     private I_Callbacks.PictureCallback rawCallback;
