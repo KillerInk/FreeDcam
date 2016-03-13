@@ -35,7 +35,7 @@ public class SDModeParameter extends AbstractModeParameter
     public boolean IsSupported()
     {
         try {
-            File file = new File(StringUtils.GetExternalSDCARD());
+            File file = StringUtils.GetExternalSDCARD();
             if (file.exists())
                 return true;
             else

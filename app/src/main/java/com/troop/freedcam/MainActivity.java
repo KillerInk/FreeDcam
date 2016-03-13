@@ -100,11 +100,12 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
             requestPermissions(new String[]{
                             Manifest.permission.CAMERA,
                             Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
                             Manifest.permission.RECORD_AUDIO,
                             Manifest.permission.ACCESS_COARSE_LOCATION,
                             Manifest.permission.ACCESS_FINE_LOCATION,
                             Manifest.permission.ACCESS_WIFI_STATE,
-                            Manifest.permission.CHANGE_WIFI_STATE
+                            Manifest.permission.CHANGE_WIFI_STATE,
                     },
                     1);
         }
@@ -121,7 +122,8 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
                 && grantResults[3] == PackageManager.PERMISSION_GRANTED
                 && grantResults[4] == PackageManager.PERMISSION_GRANTED
                 && grantResults[5] == PackageManager.PERMISSION_GRANTED
-                && grantResults[6] == PackageManager.PERMISSION_GRANTED)
+                && grantResults[6] == PackageManager.PERMISSION_GRANTED
+                && grantResults[7] == PackageManager.PERMISSION_GRANTED)
         {
             createHandlers();
         }

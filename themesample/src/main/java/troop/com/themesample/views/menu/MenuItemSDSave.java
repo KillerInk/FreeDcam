@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.Toast;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.SDModeParameter;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -42,9 +43,15 @@ public class MenuItemSDSave extends MenuItem
 
             boolean canWriteExternal = false;
             final String path = StringUtils.GetExternalSDCARD() + StringUtils.freedcamFolder + "test.t";
-            final File f = new File(path);
+            final File f = new File(StringUtils.GetExternalSDCARD(),StringUtils.freedcamFolder + "test.t");
+
             try {
                 f.mkdirs();
+                if(!f.getParentFile().exists())
+                {
+                    f.getParentFile().mkdirs();
+                    f.getParentFile().mkdir();
+                }
                 f.createNewFile();
                 canWriteExternal = true;
                 f.delete();
@@ -66,6 +73,7 @@ public class MenuItemSDSave extends MenuItem
                 catch (Exception ex2)
                 {
                     canWriteExternal =false;
+                    Logger.exception(ex2);
                 }
 
             }
