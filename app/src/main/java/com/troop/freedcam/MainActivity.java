@@ -2,10 +2,13 @@ package com.troop.freedcam;
 
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -410,6 +413,9 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
 
     }
 
+
+
+
     @Override
     public void onCameraOpen(String message) {}
 
@@ -446,5 +452,46 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     {
         return null;
     }
+
+
+    private static final int READ_REQUEST_CODE = 42;
+
+    private I_OnActivityResultCallback resultCallback;
+    @Override
+    public void ChooseSDCard(I_OnActivityResultCallback callback)
+    {
+        this.resultCallback = callback;
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+        startActivityForResult(intent, READ_REQUEST_CODE);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            // The document selected by the user won't be returned in the intent.
+            // Instead, a URI to that document will be contained in the return intent
+            // provided to this method as a parameter.
+            // Pull that URI using resultData.getData().
+            Uri uri = null;
+            if (data != null) {
+                uri = data.getData();
+                final int takeFlags = data.getFlags()
+                        & (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                // Check for the freshest data.
+
+
+                getContentResolver().takePersistableUriPermission(uri,takeFlags);
+                AppSettingsManager.APPSETTINGSMANAGER.SetBaseFolder(uri.toString());
+                if (resultCallback != null)
+                {
+                    resultCallback.onActivityResultCallback(uri);
+                    this.resultCallback = null;
+                }
+            }
+        }
+    }
+
 
 }

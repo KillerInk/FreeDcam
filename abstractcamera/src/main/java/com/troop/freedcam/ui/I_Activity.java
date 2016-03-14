@@ -1,5 +1,6 @@
 package com.troop.freedcam.ui;
 
+import android.net.Uri;
 import android.view.SurfaceView;
 
 import java.io.File;
@@ -16,4 +17,11 @@ public interface I_Activity
     void loadImageViewerFragment(File file);
     void loadCameraUiFragment();
     void closeActivity();
+    void ChooseSDCard(I_OnActivityResultCallback callback);
+    public interface I_OnActivityResultCallback
+    {
+        void onActivityResultCallback(Uri uri);
+    }
 }
+
+
