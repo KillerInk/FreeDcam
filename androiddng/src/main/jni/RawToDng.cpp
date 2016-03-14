@@ -41,6 +41,7 @@ extern "C"
     JNIEXPORT jlong JNICALL Java_com_troop_androiddng_RawToDng_GetRawBytesSize(JNIEnv *env, jobject thiz, jobject handler);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetRawHeight(JNIEnv *env, jobject thiz, jobject handler, jint height);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerData(JNIEnv *env, jobject thiz, jobject handler,jbyteArray fileBytes, jstring fileout);
+    JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerDataFD(JNIEnv *env, jobject thiz, jobject handler,jbyteArray fileBytes, jint fileDescriptor, jstring filename);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, jobject thiz, jobject handler);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetModelAndMake(JNIEnv *env, jobject thiz, jobject handler, jstring model, jstring make);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Release(JNIEnv *env, jobject thiz, jobject handler);
@@ -104,6 +105,7 @@ public:
     int rawType;
     long rawSize;
 
+    int fileDes;
 
     int thumbheight, thumwidth;
     unsigned char* _thumbData;
@@ -111,6 +113,7 @@ public:
     DngWriter()
     {
         gps = false;
+        fileDes = -1;
     }
 };
 
@@ -214,6 +217,20 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerData(JNIEnv *e
     writer->rawSize = env->GetArrayLength(fileBytes);
 }
 
+JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerDataFD(JNIEnv *env, jobject thiz, jobject handler, jbyteArray fileBytes, jint fileDescriptor, jstring filename)
+{
+    DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
+    LOGD("Try to set Bayerdata");
+    writer->bayerBytes = new unsigned char[env->GetArrayLength(fileBytes)];
+    LOGD("init bayerbytes");
+    //writer->bayerBytes = (unsigned char*) env->GetByteArrayElements(fileBytes,NULL);
+    memcpy(writer->bayerBytes, env->GetByteArrayElements(fileBytes,NULL), env->GetArrayLength(fileBytes));
+    LOGD(" set Bayerdata");
+    writer->fileDes = fileDescriptor;
+    writer->fileSavePath = (char*)  env->GetStringUTFChars(filename,NULL);
+    writer->rawSize = env->GetArrayLength(fileBytes);
+}
+
 JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerInfo(JNIEnv *env, jobject thiz, jobject handler,
 	jfloatArray colorMatrix1,
 	jfloatArray colorMatrix2,
@@ -258,6 +275,16 @@ TIFF *openfTIFF(char* fileSavePath)
     if (!(tif = TIFFOpen (fileSavePath, "w")))
     {
     	LOGD("error while creating outputfile");
+    }
+    return tif;
+}
+
+TIFF *openfTIFFFD(char* fileSavePath, int fd)
+{
+    TIFF *tif;
+    if (!(tif = TIFFFdOpen (fd,fileSavePath, "w")))
+    {
+        LOGD("error while creating outputfile");
     }
     return tif;
 }
@@ -822,7 +849,11 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Write10bitDNG(JNIEnv *
 {
     uint64 dir_offset = 0, dir_offset2 = 0, gpsIFD_offset = 0;
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
-    TIFF *tif = openfTIFF(writer->fileSavePath);
+    TIFF *tif;
+    if (writer->fileDes == -1)
+        tif = openfTIFF(writer->fileSavePath);
+    else
+        tif = openfTIFFFD(writer->fileSavePath, writer->fileDes);
 
     TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
     LOGD("subfiletype 10BIT DNG");

@@ -1,9 +1,13 @@
 package com.troop.freedcam.utils;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
 import android.hardware.Camera;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.os.storage.StorageManager;
 import android.support.v4.app.FragmentActivity;
 
@@ -11,6 +15,8 @@ import com.troop.filelogger.Logger;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
@@ -300,5 +306,29 @@ public class StringUtils
         builder.append("_BURST" + hdrcount);
         builder.append(fileEnding);
         return builder.toString();
+    }
+
+
+    public static void CreateFileSOF(Context context, File file)
+    {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+
+        // Filter to only show results that can be "opened", such as
+        // a file (as opposed to a list of contacts or timezones).
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        // Create a file with the requested MIME type.
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_TITLE, file.getAbsolutePath());
+        context.startActivity(intent);
+
+    }
+
+    public static FileOutputStream GETSTREAM(Context context,File file) throws FileNotFoundException {
+        Uri uri = Uri.fromFile(file);
+        ParcelFileDescriptor pfd = context.getContentResolver().openFileDescriptor(uri, "w");
+        FileOutputStream fileOutputStream =
+                new FileOutputStream(pfd.getFileDescriptor());
+        return fileOutputStream;
     }
 }

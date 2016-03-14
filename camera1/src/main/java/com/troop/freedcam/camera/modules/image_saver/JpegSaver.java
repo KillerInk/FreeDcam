@@ -70,7 +70,8 @@ public class JpegSaver implements I_Callbacks.PictureCallback
             public void run()
             {
                 File f = new File(StringUtils.getFilePath(externalSd, fileEnding));
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || !AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal())
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT
+                        || (!AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT))
                     saveBytesToFile(data, f);
                 else
                 {
