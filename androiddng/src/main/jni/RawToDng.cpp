@@ -231,8 +231,9 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerDataFD(JNIEnv 
     writer->fileDes = (int)fileDescriptor;
     writer->hasFileDes = true;
     LOGD(" writer->fileDes : %d", writer->fileDes);
-    writer->fileSavePath = (char*)  env->GetStringUTFChars(filename,NULL);
+    writer->fileSavePath = "";
     writer->rawSize = env->GetArrayLength(fileBytes);
+    LOGD(" writer->rawsize : %d", writer->rawSize);
 }
 
 JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerInfo(JNIEnv *env, jobject thiz, jobject handler,
@@ -571,25 +572,25 @@ void process10tight(TIFF *tif,DngWriter *writer)
 {
     unsigned char* ar = writer->bayerBytes;
     unsigned char* tmp = new unsigned char[5];
-    float bytesToSkip = 0;
-    float realrowsize = writer->rawSize/writer->rawheight;
-    float shouldberowsize = writer->rawwidht*10/8;
+    int bytesToSkip = 0;
+    LOGD("writer-RowSize: %d  rawheight:%d ,rawwidht: %d",  writer->rawSize,writer->rawheight, writer->rawwidht);
+    int realrowsize = writer->rawSize/writer->rawheight;
+    int shouldberowsize = writer->rawwidht*10/8;
     LOGD("realrow: %i shoudlbe: %i", realrowsize, shouldberowsize);
     if (realrowsize != shouldberowsize)
         bytesToSkip = realrowsize - shouldberowsize;
     LOGD("bytesToSkip: %i", bytesToSkip);
-    float row = shouldberowsize;
+    int row = shouldberowsize;
     unsigned char* out = new unsigned char[(int)shouldberowsize*writer->rawheight];
     int m = 0;
-    for(float ii =0.0; ii< (float)writer->rawSize; ii+=5.00)
+    for(int i =0; i< writer->rawSize; i+=5)
     {
-        if(ii == row)
+        if(i == row)
         {
             row += shouldberowsize +bytesToSkip;
-            ii+=bytesToSkip;
+            i+=bytesToSkip;
             //LOGD("new row: %i", row/shouldberowsize);
         }
-        int i = (int)ii;
 
         out[m++] = (ar[i]); // 00110001
         out[m++] =  (ar[i+4] & 0b00000011 ) <<6 | (ar[i+1] & 0b11111100)>>2; // 01 001100
