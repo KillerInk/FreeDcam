@@ -165,7 +165,7 @@ public class DngSaver extends JpegSaver
             Logger.exception(e);
         }
         if (pfd != null)
-            dngConverter.SetBayerDataFD(data, pfd, file.getName());
+            dngConverter.SetBayerDataFD(data, pfd, uri.toString());
         else
             dngConverter.SetBayerData(data,file.getAbsolutePath());
 

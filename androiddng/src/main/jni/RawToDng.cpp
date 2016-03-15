@@ -106,6 +106,7 @@ public:
     long rawSize;
 
     int fileDes;
+    bool hasFileDes;
 
     int thumbheight, thumwidth;
     unsigned char* _thumbData;
@@ -114,6 +115,7 @@ public:
     {
         gps = false;
         fileDes = -1;
+        hasFileDes = false;
     }
 };
 
@@ -220,13 +222,15 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerData(JNIEnv *e
 JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerDataFD(JNIEnv *env, jobject thiz, jobject handler, jbyteArray fileBytes, jint fileDescriptor, jstring filename)
 {
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
-    LOGD("Try to set Bayerdata");
+    LOGD("Try to set SetBayerDataFD");
     writer->bayerBytes = new unsigned char[env->GetArrayLength(fileBytes)];
     LOGD("init bayerbytes");
     //writer->bayerBytes = (unsigned char*) env->GetByteArrayElements(fileBytes,NULL);
     memcpy(writer->bayerBytes, env->GetByteArrayElements(fileBytes,NULL), env->GetArrayLength(fileBytes));
     LOGD(" set Bayerdata");
-    writer->fileDes = fileDescriptor;
+    writer->fileDes = (int)fileDescriptor;
+    writer->hasFileDes = true;
+    LOGD(" writer->fileDes : %d", writer->fileDes);
     writer->fileSavePath = (char*)  env->GetStringUTFChars(filename,NULL);
     writer->rawSize = env->GetArrayLength(fileBytes);
 }
@@ -274,7 +278,7 @@ TIFF *openfTIFF(char* fileSavePath)
     TIFF *tif;
     if (!(tif = TIFFOpen (fileSavePath, "w")))
     {
-    	LOGD("error while creating outputfile");
+    	LOGD("openfTIFF:error while creating outputfile");
     }
     return tif;
 }
@@ -282,9 +286,11 @@ TIFF *openfTIFF(char* fileSavePath)
 TIFF *openfTIFFFD(char* fileSavePath, int fd)
 {
     TIFF *tif;
-    if (!(tif = TIFFFdOpen (fd,fileSavePath, "w")))
+
+    LOGD("FD: %d", fd);
+    if (!(tif = TIFFFdOpen (fd,"", "w")))
     {
-        LOGD("error while creating outputfile");
+        LOGD("openfTIFFFD:error while creating outputfile");
     }
     return tif;
 }
@@ -803,7 +809,14 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, 
 {
     uint64 dir_offset = 0, dir_offset2 = 0, gpsIFD_offset = 0;
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
-    TIFF *tif = openfTIFF(writer->fileSavePath);
+    TIFF *tif;
+    LOGD("has file description: %b", writer->hasFileDes);
+    if(writer->hasFileDes == true)
+    {
+        tif = openfTIFFFD("", writer->fileDes);
+    }
+    else
+        tif = openfTIFF(writer->fileSavePath);
 
     writeIfd0(tif,writer);
     TIFFSetField (tif, TIFFTAG_EXIFIFD, dir_offset);
@@ -850,10 +863,13 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Write10bitDNG(JNIEnv *
     uint64 dir_offset = 0, dir_offset2 = 0, gpsIFD_offset = 0;
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
     TIFF *tif;
-    if (writer->fileDes == -1)
-        tif = openfTIFF(writer->fileSavePath);
-    else
+    LOGD("has file description: %b", writer->hasFileDes);
+    if(writer->hasFileDes == true)
+    {
         tif = openfTIFFFD(writer->fileSavePath, writer->fileDes);
+    }
+    else
+        tif = openfTIFF(writer->fileSavePath);
 
     TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
     LOGD("subfiletype 10BIT DNG");
