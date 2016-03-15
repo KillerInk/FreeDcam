@@ -149,7 +149,6 @@ public class DngSaver extends JpegSaver
             dngConverter.SetGPSData(Altitude,Latitude,Longitude, Provider, gpsTime);
         }
 
-        Log.d("Raw File Size ", data.length + "");
         Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
         DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
         DocumentFile wr = df.createFile("image/dng", file.getName());
@@ -166,7 +165,7 @@ public class DngSaver extends JpegSaver
         }
         Logger.d(TAG, "data size :" + data.length);
         if (pfd != null)
-            dngConverter.SetBayerDataFD(data, pfd, uri.toString());
+            dngConverter.SetBayerDataFD(data, pfd, file.getName());
         else
             dngConverter.SetBayerData(data,file.getAbsolutePath());
 

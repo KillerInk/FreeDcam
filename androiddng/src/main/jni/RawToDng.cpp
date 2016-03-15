@@ -289,7 +289,7 @@ TIFF *openfTIFFFD(char* fileSavePath, int fd)
     TIFF *tif;
 
     LOGD("FD: %d", fd);
-    if (!(tif = TIFFFdOpen (fd,"", "w")))
+    if (!(tif = TIFFFdOpen (fd,fileSavePath, "w")))
     {
         LOGD("openfTIFFFD:error while creating outputfile");
     }
@@ -549,7 +549,7 @@ void processTight(TIFF *tif,DngWriter *writer)
 	LOGD("Write done");
 	//TIFFCheckpointDirectory(tif);
     LOGD("write checkpoint");
-    TIFFRewriteDirectory (tif);
+    TIFFWriteDirectory (tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
@@ -585,6 +585,7 @@ void process10tight(TIFF *tif,DngWriter *writer)
     int m = 0;
     for(int i =0; i< writer->rawSize; i+=5)
     {
+        //LOGD("Process i: %d  filesize: %d", i, writer->rawSize);
         if(i == row)
         {
             row += shouldberowsize +bytesToSkip;
@@ -600,7 +601,7 @@ void process10tight(TIFF *tif,DngWriter *writer)
     }
     TIFFWriteRawStrip(tif, 0, out, writer->rawheight*shouldberowsize);
 
-    TIFFRewriteDirectory (tif);
+    TIFFWriteDirectory (tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
 
@@ -662,7 +663,7 @@ void processLoose(TIFF *tif,DngWriter *writer)
 		}
 	}
     //TIFFCheckpointDirectory(tif);
-    TIFFRewriteDirectory (tif);
+    TIFFWriteDirectory (tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
@@ -702,7 +703,7 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
 		LOGD("Error writing TIFF scanline.");
 		}
 	}
-    TIFFRewriteDirectory (tif);
+    TIFFWriteDirectory (tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
@@ -769,19 +770,19 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
     //**********************************************************************************
 
     LOGD("Read Op from File");
-    FILE * file = fopen("/sdcard/DCIM/FreeDcam/opc2.bin", "r+");
-    if (file != NULL)
+    FILE * opbin = fopen("/sdcard/DCIM/FreeDcam/opc2.bin", "r+");
+    if (opbin != NULL)
     {
-        fseek(file, 0, SEEK_END);
-        long int sizeD = ftell(file);
-        fseek(file, 0, 0);
+        fseek(opbin, 0, SEEK_END);
+        long int sizeD = ftell(opbin);
+        fseek(opbin, 0, 0);
         LOGD("Op read from File");
 // Reading data to array of unsigned chars
         LOGD("OpCode Read Size", sizeD);
         unsigned char *opcode_list = (unsigned char *) malloc(sizeD);
-        int bytes_read = fread(opcode_list, sizeof(unsigned char), sizeD, file);
+        int bytes_read = fread(opcode_list, sizeof(unsigned char), sizeD, opbin);
         LOGD("bytes_read Read Size", bytes_read);
-        fclose(file);
+        fclose(opbin);
         
         LOGD("OpCode Entry");
         TIFFSetField(tif, TIFFTAG_OPC2, sizeD, opcode_list);
@@ -825,7 +826,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, 
     //CheckPOINT to KEEP EXIF IFD in MEMory
     //Try FiX DIR
     TIFFCheckpointDirectory(tif);
-    TIFFWriteDirectory(tif);
+    //TIFFWriteDirectory(tif);
     TIFFSetDirectory(tif, 0);
 
     if(writer->gps == true)
@@ -840,7 +841,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, 
     writeExifIfd(tif,writer);
     //Check Point & Write are require checkpoint to update Current IFD Write Well to Write Close And Create IFD
     TIFFCheckpointDirectory(tif); //This Was missing it without it EXIF IFD was not being updated after adding SUB IFD
-    TIFFWriteCustomDirectory(tif, &dir_offset);
+    //TIFFWriteCustomDirectory(tif, &dir_offset);
     ///////////////////// GO Back TO IFD 0
     TIFFSetDirectory(tif, 0);
     if(writer->gps)

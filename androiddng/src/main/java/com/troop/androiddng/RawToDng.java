@@ -227,7 +227,7 @@ public class RawToDng
             throw new NullPointerException();
         }
         if (nativeHandler != null)
-            SetBayerDataFD(nativeHandler, fileBytes, fileout.detachFd(),filename);
+            SetBayerDataFD(nativeHandler, fileBytes, fileout.getFd(),filename);
     }
 
     public void SetLensData(final byte[] fileBytes, String hasLensData) throws NullPointerException
