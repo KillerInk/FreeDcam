@@ -309,6 +309,8 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
 
     public void addFile(File file)
     {
+        if (files == null)
+            return;
         files.add(new FileHolder(file));
         Collections.sort(files, new Comparator<FileHolder>() {
             public int compare(FileHolder f1, FileHolder f2) {
