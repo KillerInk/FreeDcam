@@ -155,7 +155,7 @@ public class DngSaver extends JpegSaver
         ParcelFileDescriptor pfd = null;
         try {
 
-            pfd = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "w");
+            pfd = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
         } catch (FileNotFoundException e) {
            Logger.exception(e);
         }

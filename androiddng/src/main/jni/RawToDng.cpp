@@ -549,7 +549,7 @@ void processTight(TIFF *tif,DngWriter *writer)
 	LOGD("Write done");
 	//TIFFCheckpointDirectory(tif);
     LOGD("write checkpoint");
-    TIFFWriteDirectory (tif);
+    TIFFRewriteDirectory (tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
@@ -601,7 +601,7 @@ void process10tight(TIFF *tif,DngWriter *writer)
     }
     TIFFWriteRawStrip(tif, 0, out, writer->rawheight*shouldberowsize);
 
-    TIFFWriteDirectory (tif);
+    TIFFRewriteDirectory(tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
 
@@ -663,7 +663,7 @@ void processLoose(TIFF *tif,DngWriter *writer)
 		}
 	}
     //TIFFCheckpointDirectory(tif);
-    TIFFWriteDirectory (tif);
+    TIFFRewriteDirectory(tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
@@ -703,7 +703,7 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
 		LOGD("Error writing TIFF scanline.");
 		}
 	}
-    TIFFWriteDirectory (tif);
+    TIFFRewriteDirectory(tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
@@ -826,7 +826,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, 
     //CheckPOINT to KEEP EXIF IFD in MEMory
     //Try FiX DIR
     TIFFCheckpointDirectory(tif);
-    //TIFFWriteDirectory(tif);
+    TIFFRewriteDirectory(tif);
     TIFFSetDirectory(tif, 0);
 
     if(writer->gps == true)
@@ -946,7 +946,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Write10bitDNG(JNIEnv *
 	//CheckPOINT to KEEP EXIF IFD in MEMory
 	//Try FiX DIR
 	TIFFCheckpointDirectory(tif);
-	TIFFWriteDirectory(tif);
+	TIFFRewriteDirectory(tif);
 	TIFFSetDirectory(tif, 0);
 
 	if(writer->gps == true)
@@ -1014,7 +1014,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Write10bitDNG(JNIEnv *
 	}
 	TIFFWriteRawStrip(tif, 0, out, writer->rawheight*shouldberowsize);
 
-	TIFFWriteDirectory (tif);
+	TIFFRewriteDirectory(tif);
 	LOGD("Finalizng DNG");
 	TIFFClose(tif);
 
