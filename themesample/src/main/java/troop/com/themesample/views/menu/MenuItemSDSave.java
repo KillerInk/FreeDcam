@@ -54,8 +54,14 @@ public class MenuItemSDSave extends MenuItem implements I_Activity.I_OnActivityR
         }
         else
         {
-            lastval = value;
-            i_activity.ChooseSDCard(this);
+            if (value.equals(SDModeParameter.external))
+            {
+                lastval = value;
+                i_activity.ChooseSDCard(this);
+            } else {
+                AppSettingsManager.APPSETTINGSMANAGER.SetWriteExternal(false);
+                onValueChanged(value);
+            }
         }
     }
 

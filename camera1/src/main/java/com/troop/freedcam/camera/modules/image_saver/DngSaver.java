@@ -167,7 +167,7 @@ public class DngSaver extends JpegSaver
         if (pfd != null)
             dngConverter.SetBayerDataFD(data, pfd, file.getName());
         else
-            dngConverter.SetBayerData(data,file.getAbsolutePath());
+            return;
 
         float fnum, focal = 0;
         if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))

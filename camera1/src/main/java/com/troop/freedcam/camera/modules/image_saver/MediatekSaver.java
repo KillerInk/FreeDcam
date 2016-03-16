@@ -1,6 +1,10 @@
 package com.troop.freedcam.camera.modules.image_saver;
 
+import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
+import android.os.ParcelFileDescriptor;
+import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 
 import com.troop.androiddng.RawToDng;
@@ -8,6 +12,7 @@ import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
+import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -102,9 +107,18 @@ public class MediatekSaver extends JpegSaver {
     private int loopBreaker = 0;
     private void CreateDNG_DeleteRaw()
     {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT
+                || (!AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT))
+            processData();
+        else
+        {
+            processLData();
+        }
+
+    }
+
+    private void processData() {
         final RawToDng dngConverter = RawToDng.GetInstance();
-
-
         byte[] data = null;
         try {
             while (!checkFileCanRead(DeviceSwitcher()))
@@ -119,7 +133,7 @@ public class MediatekSaver extends JpegSaver {
                 }
             }
             data = RawToDng.readFile(DeviceSwitcher());
-            Logger.d(TAG, "Filesize: " + data.length + " File:" +DeviceSwitcher().getAbsolutePath());
+            Logger.d(TAG, "Filesize: " + data.length + " File:" + DeviceSwitcher().getAbsolutePath());
 
         } catch (FileNotFoundException e) {
             Logger.exception(e);
@@ -132,6 +146,72 @@ public class MediatekSaver extends JpegSaver {
         String  out = holdFile.getAbsolutePath().replace(".jpg", ".dng");
 
         dngConverter.SetBayerData(data, out);
+        float fnum, focal = 0;
+        fnum = 2.0f;
+        focal = 4.7f;
+
+
+        //  int mISO = mDngResult.get(CaptureResult.SENSOR_SENSITIVITY));
+        double mExposuretime;
+        int mFlash;
+
+
+        dngConverter.setExifData(0, 0, 0, fnum, focal, "0", "0", 0);
+
+        dngConverter.WriteDNG(DeviceUtils.DEVICE());
+        dngConverter.RELEASE();
+        data = null;
+        DeviceSwitcher().delete();
+        iWorkeDone.OnWorkDone(new File(out));
+    }
+
+    private void processLData() {
+        final RawToDng dngConverter = RawToDng.GetInstance();
+        byte[] data = null;
+        try {
+            while (!checkFileCanRead(DeviceSwitcher()))
+            {
+                if (loopBreaker < 20) {
+                    Thread.sleep(100);
+                    loopBreaker++;
+                }
+                else {
+                    iWorkeDone.OnError("Error:Cant find raw");
+                    return;
+                }
+            }
+            data = RawToDng.readFile(DeviceSwitcher());
+            Logger.d(TAG, "Filesize: " + data.length + " File:" + DeviceSwitcher().getAbsolutePath());
+
+        } catch (FileNotFoundException e) {
+            Logger.exception(e);
+        } catch (IOException e) {
+            Logger.exception(e);
+        } catch (InterruptedException e) {
+            Logger.exception(e);
+        }
+
+        String  out = holdFile.getName().replace(".jpg", ".dng");
+        Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
+        DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+        DocumentFile wr = df.createFile("image/dng", out);
+        ParcelFileDescriptor pfd = null;
+        try {
+
+            pfd = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+        } catch (FileNotFoundException e) {
+            Logger.exception(e);
+        }
+        catch (IllegalArgumentException e)
+        {
+            Logger.exception(e);
+        }
+
+        if (pfd != null)
+            dngConverter.SetBayerDataFD(data, pfd, out);
+        else {
+            return;
+        }
         float fnum, focal = 0;
         fnum = 2.0f;
         focal = 4.7f;
