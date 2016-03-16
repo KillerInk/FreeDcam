@@ -9,7 +9,10 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraDevice;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Build;
+import android.os.ParcelFileDescriptor;
+import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
@@ -28,6 +31,9 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 import com.troop.freedcam.utils.VideoUtils;
 
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -174,7 +180,27 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE);
 
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        mediaRecorder.setOutputFile(StringUtils.getFilePath(Settings.GetWriteExternal(), ".mp4"));
+        if (!AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal()) {
+            mediaRecorder.setOutputFile(StringUtils.getFilePath(Settings.GetWriteExternal(), ".mp4"));
+        }
+        else
+        {
+            Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
+            DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+            DocumentFile wr = df.createFile("*/*", new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".mp4")).getName());
+            ParcelFileDescriptor fileDescriptor = null;
+            try {
+                fileDescriptor = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+                mediaRecorder.setOutputFile(fileDescriptor.getFileDescriptor());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                try {
+                    fileDescriptor.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
 
         mediaRecorder.setVideoEncodingBitRate(currentVideoProfile.videoBitRate);
         mediaRecorder.setVideoFrameRate(currentVideoProfile.videoFrameRate);
