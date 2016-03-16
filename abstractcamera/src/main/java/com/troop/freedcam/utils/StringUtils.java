@@ -12,6 +12,7 @@ import android.os.storage.StorageManager;
 import android.support.v4.app.FragmentActivity;
 
 import com.troop.filelogger.Logger;
+import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -308,27 +309,14 @@ public class StringUtils
         return builder.toString();
     }
 
-
-    public static void CreateFileSOF(Context context, File file)
+    public static boolean WRITE_NOT_EX_AND_L_ORBigger()
     {
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-
-        // Filter to only show results that can be "opened", such as
-        // a file (as opposed to a list of contacts or timezones).
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        // Create a file with the requested MIME type.
-        intent.setType("image/*");
-        intent.putExtra(Intent.EXTRA_TITLE, file.getAbsolutePath());
-        context.startActivity(intent);
-
+        return(!AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT);
     }
 
-    public static FileOutputStream GETSTREAM(Context context,File file) throws FileNotFoundException {
-        Uri uri = Uri.fromFile(file);
-        ParcelFileDescriptor pfd = context.getContentResolver().openFileDescriptor(uri, "w");
-        FileOutputStream fileOutputStream =
-                new FileOutputStream(pfd.getFileDescriptor());
-        return fileOutputStream;
+    public static boolean IS_L_OR_BIG()
+    {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
+
 }

@@ -23,14 +23,13 @@ public abstract class AbstractModuleApi2 extends AbstractModule implements I_Pre
 
     protected boolean isWorking = false;
 
-    protected ModuleEventHandler eventHandler;
     protected Point displaySize;
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public AbstractModuleApi2(BaseCameraHolderApi2 cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler)
     {
+        super(cameraHandler,Settings,eventHandler);
         this.baseCameraHolder = cameraHandler;
-        this.eventHandler = eventHandler;
         this.ParameterHandler = baseCameraHolder.GetParameterHandler();
         Display display = ((WindowManager)Settings.context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         displaySize = new Point();

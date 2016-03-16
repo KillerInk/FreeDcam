@@ -1,5 +1,7 @@
 package com.troop.freedcam.sonyapi.modules;
 
+import android.net.Uri;
+import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 
 import com.troop.filelogger.Logger;
@@ -16,6 +18,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 
 /**
@@ -108,10 +111,18 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
             Logger.exception(e);
         }
         InputStream inputStream = null;
-        FileOutputStream output = null;
+        OutputStream output = null;
         try {
             inputStream = new BufferedInputStream(url.openStream());
-            output = new FileOutputStream(file);
+            if (!StringUtils.IS_L_OR_BIG() ||StringUtils.WRITE_NOT_EX_AND_L_ORBigger())
+                output = new FileOutputStream(file);
+            else
+            {
+                Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
+                DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+                DocumentFile wr = df.createFile("image/jpeg", file.getName());
+                output = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri());
+            }
             int bufferSize = 1024;
             byte[] buffer = new byte[bufferSize];
             int len = 0;

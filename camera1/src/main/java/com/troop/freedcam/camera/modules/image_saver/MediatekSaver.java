@@ -107,8 +107,8 @@ public class MediatekSaver extends JpegSaver {
     private int loopBreaker = 0;
     private void CreateDNG_DeleteRaw()
     {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT
-                || (!AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT))
+        if (!StringUtils.IS_L_OR_BIG()
+                || StringUtils.WRITE_NOT_EX_AND_L_ORBigger())
             processData();
         else
         {

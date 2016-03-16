@@ -2,7 +2,6 @@ package com.troop.freedcam.camera.modules.image_saver;
 
 import android.net.Uri;
 import android.os.Build;
-import android.os.Debug;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
@@ -17,10 +16,8 @@ import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.troop.androiddng.RawToDng;
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
-import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
-import com.troop.freedcam.utils.MetaDataExtractor;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.BufferedInputStream;
@@ -89,8 +86,8 @@ public class DngSaver extends JpegSaver
             public void run()
             {
                 File f =  new File(StringUtils.getFilePath(externalSd, fileEnding));
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT
-                        || (!AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT))
+                if (!StringUtils.IS_L_OR_BIG()
+                        || StringUtils.WRITE_NOT_EX_AND_L_ORBigger())
                     processData(data,f);
                 else
                 {

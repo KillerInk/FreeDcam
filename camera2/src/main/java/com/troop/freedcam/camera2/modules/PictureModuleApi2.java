@@ -725,7 +725,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     /**
      * Saves a JPEG {@link android.media.Image} into the specified {@link File}.
      */
-    private static class ImageSaver implements Runnable {
+    private class ImageSaver implements Runnable {
 
         /**
          * The JPEG image
@@ -765,7 +765,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 Logger.exception(e);
             } finally {
                 mImage.close();
-
                 if (null != output) {
                     try {
                         output.close();

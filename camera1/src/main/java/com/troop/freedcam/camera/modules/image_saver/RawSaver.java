@@ -13,6 +13,7 @@ import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -50,37 +51,37 @@ public class RawSaver extends JpegSaver
     @Override
     public void onPictureTaken(final byte[] data)
     {
-        if (awaitpicture == false)
-            return;
-        awaitpicture =false;
-        Logger.d(TAG, "Take Picture CallBack");
-        handler.post(new Runnable() {
-            @Override
-            public void run()
-            {
-                File f = new File(StringUtils.getFilePath(externalSd, fileEnding));
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT
-                        || (!AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT))
-                    saveBytesToFile(data, f);
-                else
-                {
-                    Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
-                    DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
-                    DocumentFile wr = df.createFile("image/raw", f.getName());
-                    try {
-                        OutputStream outStream =  AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri());
-                        outStream.write(data);
-                        outStream.flush();
-                        outStream.close();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    iWorkeDone.OnWorkDone(f);
+        super.onPictureTaken(data);
+    }
 
-                }
+    @Override
+    public void saveBytesToFile(byte[] bytes, File fileName) {
+        checkFileExists(fileName);
+
+        Logger.d(TAG, "Start Saving Bytes");
+        OutputStream outStream = null;
+        try {
+            if (!StringUtils.IS_L_OR_BIG()
+                    || StringUtils.WRITE_NOT_EX_AND_L_ORBigger())
+                outStream = new FileOutputStream(fileName);
+            else
+            {
+                Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
+                DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+                DocumentFile wr = df.createFile("raw", fileName.getName());
+                outStream = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri());
             }
-        });
+            outStream.write(bytes);
+            outStream.flush();
+            outStream.close();
+
+
+        } catch (FileNotFoundException e) {
+            Logger.exception(e);
+        } catch (IOException e) {
+            Logger.exception(e);
+        }
+        Logger.d(TAG, "End Saving Bytes");
+        iWorkeDone.OnWorkDone(fileName);
     }
 }
