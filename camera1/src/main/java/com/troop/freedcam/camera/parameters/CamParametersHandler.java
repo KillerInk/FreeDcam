@@ -578,9 +578,12 @@ public class CamParametersHandler extends AbstractParameterHandler
         try {
             if (cameraParameters.containsKey("video-hfr-values"))
             {
-                String[] hfr_values = cameraParameters.get("video-hfr-values").split(",");
-                if(hfr_values.length <= 2)
-                    cameraParameters.put("video-hfr-values", "off,60,120");
+                String hfrvals = cameraParameters.get("video-hfr-values");
+                if (!hfrvals.equals("off"))
+                {
+                    if (hfrvals.equals(""))
+                        cameraParameters.put("video-hfr-values", "off,60,120");
+                }
             }
             VideoHighFramerateVideo = new BaseModeParameter(uiHandler, cameraParameters, cameraHolder, "video-hfr", "video-hfr-values");
         } catch (Exception e) {
