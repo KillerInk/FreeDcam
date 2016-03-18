@@ -131,8 +131,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
         drawc.drawBitmap(mask, 0, 0, paint);
         //drawc.drawBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.thumbnail),0,0,null);
         paint.setXfermode(null);
-        if (bitmap != null && !bitmap.isRecycled())
-            bitmap.recycle();
+
         this.post(new Runnable() {
             @Override
             public void run() {

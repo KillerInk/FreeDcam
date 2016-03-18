@@ -26,6 +26,7 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
     {
         void onAreaCHanged(FocusRect imageRect, int previewWidth, int previewHeight);
         void OnAreaClick(int x, int y);
+        void IsMoving(boolean moving);
     }
 
     /**
@@ -84,6 +85,7 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
     @Override
     public boolean onTouch(View v, MotionEvent event)
     {
+        boolean ret = true;
         switch(event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
@@ -101,19 +103,23 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
 
                 difx = x - imageView.getX();
                 dify = y - imageView.getY();
-                //int xd = getDistance(startX, (int)difx);
-                //int yd = getDistance(startY, (int)dify);
+                int xd = getDistance(startX, (int)difx);
+                int yd = getDistance(startY, (int)dify);
 
                 if (allowDrag) {
                     if (event.getX() - difx > cameraUiWrapper.getMargineLeft() && event.getX() - difx + imageView.getWidth() < cameraUiWrapper.getMargineLeft() + cameraUiWrapper.getPreviewWidth())
                         imageView.setX(event.getX() - difx);
                     if (event.getY() - dify > cameraUiWrapper.getMargineTop() && event.getY() - dify + imageView.getHeight() < cameraUiWrapper.getMargineTop() + cameraUiWrapper.getPreviewHeight())
                         imageView.setY(event.getY() - dify);
-                    //if (xd >= distance || yd >= distance) {
+                    if ((xd >= distance || yd >= distance) && !moving) {
 
                         moving = true;
-                    //}
+                        ret = false;
+                        if (touchListnerEvent != null)
+                            touchListnerEvent.IsMoving(true);
+                    }
                 }
+
             }
             break;
             case MotionEvent.ACTION_UP:
@@ -130,23 +136,27 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
                     dify = 0;
                     recthalf = (int)imageView.getWidth()/2;
                     imageRect = new FocusRect((int) imageView.getX() - recthalf, (int) imageView.getX() + recthalf, (int) imageView.getY() - recthalf, (int) imageView.getY() + recthalf);
-                    if (touchListnerEvent != null)
+                    if (touchListnerEvent != null) {
                         touchListnerEvent.onAreaCHanged(imageRect, cameraUiWrapper.getPreviewWidth(), cameraUiWrapper.getPreviewHeight());
+                            touchListnerEvent.IsMoving(false);
+                    }
                 }
                 else
                 {
-                    touchListnerEvent.OnAreaClick(((int)imageView.getX()+ (int)event.getX()),((int)imageView.getY() + (int)event.getY()));
+                    /*if (duration >= MAX_DURATION) {
+                        System.out.println("Long Press Time: " + duration);
+                        //George Was Here On a tuesday lol
+                        System.out.println("Insert AE Code here: ");
+
+                    }
+                    else*/
+                    touchListnerEvent.OnAreaClick(((int) imageView.getX() + (int) event.getX()), ((int) imageView.getY() + (int) event.getY()));
                 }
 
-                if (duration >= MAX_DURATION) {
-                    System.out.println("Long Press Time: " + duration);
-                    //George Was Here On a tuesday lol
-                    System.out.println("Insert AE Code here: ");
 
-                }
             }
         }
-        return true;
+        return ret;
     }
 
 }

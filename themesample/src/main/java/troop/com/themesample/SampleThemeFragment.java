@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -24,6 +25,7 @@ import troop.com.imageviewer.ScreenSlideFragment;
 import troop.com.imageviewer.holder.FileHolder;
 import troop.com.themesample.subfragments.CameraUiFragment;
 import troop.com.themesample.subfragments.SettingsMenuFragment;
+import troop.com.views.PagingView;
 
 /**
  * Created by troop on 09.06.2015.
@@ -35,11 +37,12 @@ public class SampleThemeFragment extends AbstractFragment
     private I_Activity i_activity;
     private CameraUiFragment cameraUiFragment;
 
-    private ViewPager mPager;
+    private PagingView mPager;
     private PagerAdapter mPagerAdapter;
 
     private SettingsMenuFragment settingsMenuFragment;
     ScreenSlideFragment screenSlideFragment;
+    private boolean pagerTouchAllowed = true;
 
     public SampleThemeFragment()
     {
@@ -77,10 +80,11 @@ public class SampleThemeFragment extends AbstractFragment
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.mPager = (ViewPager)view.findViewById(R.id.viewPager_fragmentHolder);
+        this.mPager = (PagingView)view.findViewById(R.id.viewPager_fragmentHolder);
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(1);
+
     }
 
     @Override
@@ -129,6 +133,13 @@ public class SampleThemeFragment extends AbstractFragment
     };
 
 
+    public void DisablePagerTouch(boolean disable)
+    {
+        if (disable)
+            mPager.EnableScroll(false);
+        else
+            mPager.EnableScroll(true);
+    }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     {
