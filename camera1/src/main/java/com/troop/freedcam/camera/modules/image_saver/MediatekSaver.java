@@ -41,8 +41,7 @@ public class MediatekSaver extends JpegSaver {
         Logger.d(TAG, "Start Take Picture");
         if (ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
         {
-            iWorkeDone.OnError("Error: Disable ZSL for Raw or Dng capture");
-
+            ParameterHandler.ZSL.SetValue("off",true);
             return;
         }
         awaitpicture = true;

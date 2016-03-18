@@ -35,9 +35,7 @@ public class RawSaver extends JpegSaver
         Logger.d(TAG, "Start Take Picture");
         if (ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
         {
-            iWorkeDone.OnError("Error: Disable ZSL for Raw or Dng capture");
-
-            return;
+            ParameterHandler.ZSL.SetValue("off",true);
         }
         awaitpicture = true;
         handler.post(new Runnable() {

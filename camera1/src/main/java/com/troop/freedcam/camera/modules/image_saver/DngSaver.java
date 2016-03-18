@@ -53,9 +53,7 @@ public class DngSaver extends JpegSaver
         lastBayerFormat = ParameterHandler.PictureFormat.GetValue();
         if (ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
         {
-            iWorkeDone.OnError("Error: Disable ZSL for Raw or Dng capture");
-
-            return;
+            ParameterHandler.ZSL.SetValue("off",true);
         }
         awaitpicture = true;
         if((DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)) {
