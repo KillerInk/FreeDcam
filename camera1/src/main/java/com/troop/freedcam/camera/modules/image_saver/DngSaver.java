@@ -53,7 +53,7 @@ public class DngSaver extends JpegSaver
         lastBayerFormat = ParameterHandler.PictureFormat.GetValue();
         if (ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
         {
-            ParameterHandler.ZSL.SetValue("off",true);
+            ParameterHandler.ZSL.SetValue("off", true);
         }
         awaitpicture = true;
         if((DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)) {
@@ -84,138 +84,14 @@ public class DngSaver extends JpegSaver
             public void run()
             {
                 File f =  new File(StringUtils.getFilePath(externalSd, fileEnding));
-                if (!StringUtils.IS_L_OR_BIG()
-                        || StringUtils.WRITE_NOT_EX_AND_L_ORBigger())
-                    processData(data,f);
-                else
-                {
-                    processLDATA(data,f);
-                }
+                processData(data,f);
             }
         });
 
     }
 
-    public void processLDATA(byte[] data, File file)
-    {
-        try
-        {
-            if (data.length < 4500)
-            {
-                cameraHolder.errorHandler.OnError("Data size is < 4kb");
-                return;
-            }
-            Logger.d(TAG, "Check if if rawStream");
-            final Metadata metadata = JpegMetadataReader.readMetadata(new BufferedInputStream(new ByteArrayInputStream(data)));
-            final Directory exifsub = metadata.getDirectory(ExifSubIFDDirectory.class);
-            int iso = exifsub.getInt(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT);
-            if (iso > 0)
-            {
-                iWorkeDone.OnError("Error: Returned Stream is not a RawStream");
-                //dngJpegShot =false;
-                //dngcapture = false;
-                Logger.d(TAG, "Error no RAw stream!!!!");
-                return;
-            }
-        }
-        catch (Exception ex)
-        {
-            Logger.exception(ex);
-        }
-
-        Logger.d(TAG, "Is raw stream");
-        int w = 0;
-        int h = 0;
-
-
-        double Altitude = 0;
-        double Latitude = 0;
-        double Longitude = 0;
-        String Provider = "ASCII";
-        long gpsTime = 0;
-        if (cameraHolder.gpsLocation != null)
-        {
-            Logger.d(TAG, "Has GPS");
-            Altitude = cameraHolder.gpsLocation.getAltitude();
-            Latitude = cameraHolder.gpsLocation.getLatitude();
-            Longitude = cameraHolder.gpsLocation.getLongitude();
-            Provider = cameraHolder.gpsLocation.getProvider();
-            gpsTime = cameraHolder.gpsLocation.getTime();
-            dngConverter.SetGPSData(Altitude,Latitude,Longitude, Provider, gpsTime);
-        }
-
-        Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
-        DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
-        DocumentFile wr = df.createFile("image/dng", file.getName());
-        ParcelFileDescriptor pfd = null;
-        try {
-
-            pfd = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
-        } catch (FileNotFoundException e) {
-           Logger.exception(e);
-        }
-        catch (IllegalArgumentException e)
-        {
-            Logger.exception(e);
-        }
-        Logger.d(TAG, "data size :" + data.length);
-        if (pfd != null)
-            dngConverter.SetBayerDataFD(data, pfd, file.getName());
-        else
-            return;
-
-        float fnum, focal = 0;
-        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
-        {
-            fnum = 2.0f;
-            focal = 28.342f;
-        }
-        else {
-            fnum = (ParameterHandler).GetFnumber();
-            focal = (ParameterHandler).GetFocal();}
-        //if(meta != null){
-        //   dngConverter.setExifData(meta.getIso(), meta.getExp(), meta.getFlash(), fnum, focal, meta.getDescription(), cameraHolder.Orientation + "", 0);}
-        //  else
-        Logger.d("Shutterrr", ParameterHandler.ExposureTime());
-        try
-        {
-            if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)) {
-                dngConverter.setExifData(ExtractISO(), ExtractShutter(), 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
-            }
-            else
-                dngConverter.setExifData(0, 0, 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
-        }
-        catch (Exception ex)
-        {
-            dngConverter.setExifData(0, 0, 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
-        }
-
-
-        if (ParameterHandler.CCT != null && ParameterHandler.CCT.IsSupported())
-        {
-            String wb = ParameterHandler.CCT.GetStringValue();
-            if (!wb.equals("Auto"))
-            {
-                //int ct = Integer.parseInt(wb);
-                dngConverter.SetWBCT(wb);
-            }
-        }
-
-        dngConverter.WriteDNG(DeviceUtils.DEVICE());
-        dngConverter.RELEASE();
-        try {
-            pfd.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        iWorkeDone.OnWorkDone(file);
-    }
-
-
     public void processData(byte[] data, File file)
     {
-
-        checkFileExists(file);
         try
         {
             if (data.length < 4500)
@@ -259,11 +135,9 @@ public class DngSaver extends JpegSaver
             Longitude = cameraHolder.gpsLocation.getLongitude();
             Provider = cameraHolder.gpsLocation.getProvider();
             gpsTime = cameraHolder.gpsLocation.getTime();
-            dngConverter.SetGPSData(Altitude,Latitude,Longitude, Provider, gpsTime);
+            dngConverter.SetGPSData(Altitude, Latitude, Longitude, Provider, gpsTime);
         }
 
-        Log.d("Raw File Size ", data.length + "");
-            dngConverter.SetBayerData(data, file.getAbsolutePath());
 
         float fnum, focal = 0;
         if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
@@ -291,7 +165,6 @@ public class DngSaver extends JpegSaver
             dngConverter.setExifData(0, 0, 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
         }
 
-
         if (ParameterHandler.CCT != null && ParameterHandler.CCT.IsSupported())
         {
             String wb = ParameterHandler.CCT.GetStringValue();
@@ -302,8 +175,42 @@ public class DngSaver extends JpegSaver
             }
         }
 
-        dngConverter.WriteDNG(DeviceUtils.DEVICE());
-        dngConverter.RELEASE();
+        Log.d("Raw File Size ", data.length + "");
+        if (!StringUtils.IS_L_OR_BIG()
+                || StringUtils.WRITE_NOT_EX_AND_L_ORBigger()) {
+            checkFileExists(file);
+            dngConverter.SetBayerData(data, file.getAbsolutePath());
+            dngConverter.WriteDNG(DeviceUtils.DEVICE());
+            dngConverter.RELEASE();
+        }
+        else {
+
+            Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
+            DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+            DocumentFile wr = df.createFile("image/dng", file.getName().replace(".jpg", ".dng"));
+            ParcelFileDescriptor pfd = null;
+            try {
+
+                pfd = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+            } catch (FileNotFoundException e) {
+                Logger.exception(e);
+            }
+            catch (IllegalArgumentException e)
+            {
+                Logger.exception(e);
+            }
+            if (pfd != null) {
+                dngConverter.SetBayerDataFD(data, pfd, file.getName());
+                dngConverter.WriteDNG(DeviceUtils.DEVICE());
+                dngConverter.RELEASE();
+                try {
+                    pfd.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                pfd = null;
+            }
+        }
         iWorkeDone.OnWorkDone(file);
 
     }

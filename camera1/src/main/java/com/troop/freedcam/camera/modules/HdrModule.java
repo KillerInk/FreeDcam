@@ -55,9 +55,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
             hdrCount = 0;
             if (dngcapture && ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
             {
-                baseCameraHolder.errorHandler.OnError("Error: Disable ZSL for Raw or Dng capture");
-                this.isWorking = false;
-                return false;
+                ParameterHandler.ZSL.SetValue("off",true);
             }
             startworking();
             LoadAEB();
@@ -275,7 +273,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
     };
     private void LoadAEB()
     {
-        if ((ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported()))
+        if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
         {
             if (ParameterHandler.PictureFormat.GetValue().equals("jpeg")) {
                 aeBrackethdr = true;
