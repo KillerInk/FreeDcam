@@ -42,7 +42,6 @@ public class MediatekSaver extends JpegSaver {
         if (ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
         {
             ParameterHandler.ZSL.SetValue("off",true);
-            return;
         }
         awaitpicture = true;
         handler.post(new Runnable() {
