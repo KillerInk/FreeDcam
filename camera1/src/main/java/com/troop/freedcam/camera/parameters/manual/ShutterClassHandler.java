@@ -45,11 +45,15 @@ public class ShutterClassHandler
     {
         if (DeviceUtils.IS(DeviceUtils.Devices.SonyADV))
             return new ShutterManualSony(parameters,"","","",parametersHandler);
+
         else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
            return new  ShutterManualZTE(parameters,"","","", cameraHolder, parametersHandler);
 
-        //else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
-           // return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,OppoIMX214.split(","));
+       // else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
+         //   return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,OppoIMX214.split(","));
+
+        else if(DeviceUtils.isSonyM5_MTK())
+            return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,TEST.split(","));
 
         else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
             return new ShutterManualParameterHTC(parameters,"","","",parametersHandler);
