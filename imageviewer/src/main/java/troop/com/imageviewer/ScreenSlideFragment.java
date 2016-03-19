@@ -237,8 +237,14 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         }
         else
             mPager.setCurrentItem(defitem);
-        currentFile = files.get(mPager.getCurrentItem()).getFile();
-        updateUi(currentFile);
+        try {
+            currentFile = files.get(mPager.getCurrentItem()).getFile();
+            updateUi(currentFile);
+        }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
+        }
 
     }
 

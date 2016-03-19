@@ -202,7 +202,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
                 ParameterHandler.ManualShutter.SetValue(DoStopCalc(value));
             }
            TODO */
-            ((CamParametersHandler)ParameterHandler).setString("exposure-compensation", value + "");
+           // ((CamParametersHandler)ParameterHandler).setString("exposure-compensation", value + "");
             Logger.d(TAG, "HDR Exposure SET");
         }
     }
