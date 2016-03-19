@@ -2,20 +2,25 @@ package troop.com.imageviewer;
 
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.provider.DocumentFile;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -232,14 +237,18 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
         mPager.addOnPageChangeListener(this);
         mPager.setAdapter(mPagerAdapter);
-        if (files != null && files.size() > 0 && defitem == -1) {
-            mPager.setCurrentItem(0);
+        if(files != null ) {
+            if (files.size() > 0 && defitem == -1) {
+                mPager.setCurrentItem(0);
+            } else
+                mPager.setCurrentItem(defitem);
+            if (files.size() > 0) {
+                currentFile = files.get(mPager.getCurrentItem()).getFile();
+            }
+            else
+                currentFile = null;
         }
-        else
-            mPager.setCurrentItem(defitem);
-        currentFile = files.get(mPager.getCurrentItem()).getFile();
         updateUi(currentFile);
-
     }
 
     private void updateUi(File file)
@@ -448,7 +457,20 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
 
-                    boolean d = currentFile.delete();
+                    if (!StringUtils.IS_L_OR_BIG()) {
+                        boolean d = currentFile.delete();
+                    }
+                    else
+                    {
+                        DocumentFile df = DocumentFile.fromFile(currentFile);
+                        boolean d = df.delete();
+                        if (!d)
+                        {
+                            Uri uri = getImageContentUri(getContext(), currentFile);
+                            d = DocumentsContract.deleteDocument(getContext().getContentResolver(), uri);
+                        }
+                        Logger.d(TAG, "file delted:" +d);
+                    }
                     reloadFilesAndSetLastPos();
                     break;
 
@@ -458,6 +480,31 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             }
         }
     };
+
+    public static Uri getImageContentUri(Context context, File imageFile) {
+        String filePath = imageFile.getAbsolutePath();
+        Cursor cursor = context.getContentResolver().query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new String[] { MediaStore.Images.Media._ID },
+                MediaStore.Images.Media.DATA + "=? ",
+                new String[] { filePath }, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor
+                    .getColumnIndex(MediaStore.MediaColumns._ID));
+            Uri baseUri = Uri.parse("content://media/external/images/media");
+            return Uri.withAppendedPath(baseUri, "" + id);
+        } else {
+            if (imageFile.exists()) {
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.DATA, filePath);
+                return context.getContentResolver().insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            } else {
+                return null;
+            }
+        }
+    }
 
     private void convertRawToDng(File file)
     {
