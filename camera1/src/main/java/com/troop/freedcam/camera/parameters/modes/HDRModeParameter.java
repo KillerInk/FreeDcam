@@ -34,7 +34,7 @@ public class HDRModeParameter extends BaseModeParameter
                 ||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)
                 ||DeviceUtils.IS(DeviceUtils.Devices.RedmiNote)
                 || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3)
-                || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)))
+                || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)) || DeviceUtils.IS(DeviceUtils.Devices.Htc_M8))
         {
                 this.isSupported = true;
         }
