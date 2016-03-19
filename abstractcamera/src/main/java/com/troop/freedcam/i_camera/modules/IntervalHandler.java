@@ -78,8 +78,8 @@ public class IntervalHandler
         if (min >= IntervalHandler.this.intervalToEndDuration)
         {
             Logger.d(TAG, "Finished Interval");
-            picmodule.baseCameraHolder.ParameterHandler.IntervalCaptureFocusSet = false;
-            picmodule.baseCameraHolder.ParameterHandler.IntervalCapture = false;
+            picmodule.ParameterHandler.IntervalCaptureFocusSet = false;
+            picmodule.ParameterHandler.IntervalCapture = false;
             working = false;
             return;
         }

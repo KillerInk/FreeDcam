@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- DO NOT TRANSLATE START -->
     <string-array name="color_pattern">
         <item>BGGR</item>
         <item>RGGB</item>
@@ -16,6 +17,7 @@
         <item>Plain16bit</item>
         <item>Mipi16bit</item>
     </string-array>
+    <!-- DO NOT TRANSLATE END -->
     <string name="delete_file">Delete File?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -33,5 +35,6 @@
     <string name="blacklevel">Blacklevel:</string>
     <string name="converttodng">Convert to DNG</string>
     <string name="no_sel_raw">No selected RAW file, pls return back and select it</string>
+    <string name="files_selected">Files selected:</string>
 
 </resources>

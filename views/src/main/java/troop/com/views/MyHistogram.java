@@ -77,6 +77,8 @@ public class MyHistogram extends View {
         int w = bitmap . getWidth ();
         int h = bitmap . getHeight ();
         int [] pixels = new int [ w * h ];
+        if (bitmap.isRecycled())
+            return;
         bitmap . getPixels( pixels , 0 , w , 0 , 0 , w , h );
         for ( int i = 0 ; i < w ; i ++) {
             for ( int j = 0 ; j < h ; j ++) {
@@ -106,9 +108,7 @@ public class MyHistogram extends View {
     {
 
         //System.out.println("Histogram SetBitmap " + mBitmap.getByteCount());
-        if (recycle)
-            createHistogramm(bitmap, recycle);
-        else
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {

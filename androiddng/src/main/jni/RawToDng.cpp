@@ -41,6 +41,7 @@ extern "C"
     JNIEXPORT jlong JNICALL Java_com_troop_androiddng_RawToDng_GetRawBytesSize(JNIEnv *env, jobject thiz, jobject handler);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetRawHeight(JNIEnv *env, jobject thiz, jobject handler, jint height);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerData(JNIEnv *env, jobject thiz, jobject handler,jbyteArray fileBytes, jstring fileout);
+    JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerDataFD(JNIEnv *env, jobject thiz, jobject handler,jbyteArray fileBytes, jint fileDescriptor, jstring filename);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, jobject thiz, jobject handler);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetModelAndMake(JNIEnv *env, jobject thiz, jobject handler, jstring model, jstring make);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Release(JNIEnv *env, jobject thiz, jobject handler);
@@ -104,6 +105,8 @@ public:
     int rawType;
     long rawSize;
 
+    int fileDes;
+    bool hasFileDes;
 
     int thumbheight, thumwidth;
     unsigned char* _thumbData;
@@ -111,6 +114,8 @@ public:
     DngWriter()
     {
         gps = false;
+        fileDes = -1;
+        hasFileDes = false;
     }
 };
 
@@ -214,6 +219,23 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerData(JNIEnv *e
     writer->rawSize = env->GetArrayLength(fileBytes);
 }
 
+JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerDataFD(JNIEnv *env, jobject thiz, jobject handler, jbyteArray fileBytes, jint fileDescriptor, jstring filename)
+{
+    DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
+    LOGD("Try to set SetBayerDataFD");
+    writer->bayerBytes = new unsigned char[env->GetArrayLength(fileBytes)];
+    LOGD("init bayerbytes");
+    //writer->bayerBytes = (unsigned char*) env->GetByteArrayElements(fileBytes,NULL);
+    memcpy(writer->bayerBytes, env->GetByteArrayElements(fileBytes,NULL), env->GetArrayLength(fileBytes));
+    LOGD(" set Bayerdata");
+    writer->fileDes = (int)fileDescriptor;
+    writer->hasFileDes = true;
+    LOGD(" writer->fileDes : %d", writer->fileDes);
+    writer->fileSavePath = "";
+    writer->rawSize = env->GetArrayLength(fileBytes);
+    LOGD(" writer->rawsize : %d", writer->rawSize);
+}
+
 JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerInfo(JNIEnv *env, jobject thiz, jobject handler,
 	jfloatArray colorMatrix1,
 	jfloatArray colorMatrix2,
@@ -257,7 +279,19 @@ TIFF *openfTIFF(char* fileSavePath)
     TIFF *tif;
     if (!(tif = TIFFOpen (fileSavePath, "w")))
     {
-    	LOGD("error while creating outputfile");
+    	LOGD("openfTIFF:error while creating outputfile");
+    }
+    return tif;
+}
+
+TIFF *openfTIFFFD(char* fileSavePath, int fd)
+{
+    TIFF *tif;
+
+    LOGD("FD: %d", fd);
+    if (!(tif = TIFFFdOpen (fd,fileSavePath, "w")))
+    {
+        LOGD("openfTIFFFD:error while creating outputfile");
     }
     return tif;
 }
@@ -538,25 +572,26 @@ void process10tight(TIFF *tif,DngWriter *writer)
 {
     unsigned char* ar = writer->bayerBytes;
     unsigned char* tmp = new unsigned char[5];
-    float bytesToSkip = 0;
-    float realrowsize = writer->rawSize/writer->rawheight;
-    float shouldberowsize = writer->rawwidht*10/8;
+    int bytesToSkip = 0;
+    LOGD("writer-RowSize: %d  rawheight:%d ,rawwidht: %d",  writer->rawSize,writer->rawheight, writer->rawwidht);
+    int realrowsize = writer->rawSize/writer->rawheight;
+    int shouldberowsize = writer->rawwidht*10/8;
     LOGD("realrow: %i shoudlbe: %i", realrowsize, shouldberowsize);
     if (realrowsize != shouldberowsize)
         bytesToSkip = realrowsize - shouldberowsize;
     LOGD("bytesToSkip: %i", bytesToSkip);
-    float row = shouldberowsize;
+    int row = shouldberowsize;
     unsigned char* out = new unsigned char[(int)shouldberowsize*writer->rawheight];
     int m = 0;
-    for(float ii =0.0; ii< (float)writer->rawSize; ii+=5.00)
+    for(int i =0; i< writer->rawSize; i+=5)
     {
-        if(ii == row)
+        //LOGD("Process i: %d  filesize: %d", i, writer->rawSize);
+        if(i == row)
         {
             row += shouldberowsize +bytesToSkip;
-            ii+=bytesToSkip;
+            i+=bytesToSkip;
             //LOGD("new row: %i", row/shouldberowsize);
         }
-        int i = (int)ii;
 
         out[m++] = (ar[i]); // 00110001
         out[m++] =  (ar[i+4] & 0b00000011 ) <<6 | (ar[i+1] & 0b11111100)>>2; // 01 001100
@@ -566,7 +601,7 @@ void process10tight(TIFF *tif,DngWriter *writer)
     }
     TIFFWriteRawStrip(tif, 0, out, writer->rawheight*shouldberowsize);
 
-    TIFFRewriteDirectory (tif);
+    TIFFRewriteDirectory(tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
 
@@ -628,7 +663,7 @@ void processLoose(TIFF *tif,DngWriter *writer)
 		}
 	}
     //TIFFCheckpointDirectory(tif);
-    TIFFRewriteDirectory (tif);
+    TIFFRewriteDirectory(tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
@@ -668,7 +703,7 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
 		LOGD("Error writing TIFF scanline.");
 		}
 	}
-    TIFFRewriteDirectory (tif);
+    TIFFRewriteDirectory(tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
@@ -735,19 +770,19 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
     //**********************************************************************************
 
     LOGD("Read Op from File");
-    FILE * file = fopen("/sdcard/DCIM/FreeDcam/opc2.bin", "r+");
-    if (file != NULL)
+    FILE * opbin = fopen("/sdcard/DCIM/FreeDcam/opc2.bin", "r+");
+    if (opbin != NULL)
     {
-        fseek(file, 0, SEEK_END);
-        long int sizeD = ftell(file);
-        fseek(file, 0, 0);
+        fseek(opbin, 0, SEEK_END);
+        long int sizeD = ftell(opbin);
+        fseek(opbin, 0, 0);
         LOGD("Op read from File");
 // Reading data to array of unsigned chars
         LOGD("OpCode Read Size", sizeD);
         unsigned char *opcode_list = (unsigned char *) malloc(sizeD);
-        int bytes_read = fread(opcode_list, sizeof(unsigned char), sizeD, file);
+        int bytes_read = fread(opcode_list, sizeof(unsigned char), sizeD, opbin);
         LOGD("bytes_read Read Size", bytes_read);
-        fclose(file);
+        fclose(opbin);
         
         LOGD("OpCode Entry");
         TIFFSetField(tif, TIFFTAG_OPC2, sizeD, opcode_list);
@@ -776,7 +811,14 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, 
 {
     uint64 dir_offset = 0, dir_offset2 = 0, gpsIFD_offset = 0;
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
-    TIFF *tif = openfTIFF(writer->fileSavePath);
+    TIFF *tif;
+    LOGD("has file description: %b", writer->hasFileDes);
+    if(writer->hasFileDes == true)
+    {
+        tif = openfTIFFFD("", writer->fileDes);
+    }
+    else
+        tif = openfTIFF(writer->fileSavePath);
 
     writeIfd0(tif,writer);
     TIFFSetField (tif, TIFFTAG_EXIFIFD, dir_offset);
@@ -784,7 +826,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, 
     //CheckPOINT to KEEP EXIF IFD in MEMory
     //Try FiX DIR
     TIFFCheckpointDirectory(tif);
-    TIFFWriteDirectory(tif);
+    TIFFRewriteDirectory(tif);
     TIFFSetDirectory(tif, 0);
 
     if(writer->gps == true)
@@ -799,7 +841,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, 
     writeExifIfd(tif,writer);
     //Check Point & Write are require checkpoint to update Current IFD Write Well to Write Close And Create IFD
     TIFFCheckpointDirectory(tif); //This Was missing it without it EXIF IFD was not being updated after adding SUB IFD
-    TIFFWriteCustomDirectory(tif, &dir_offset);
+    //TIFFWriteCustomDirectory(tif, &dir_offset);
     ///////////////////// GO Back TO IFD 0
     TIFFSetDirectory(tif, 0);
     if(writer->gps)
@@ -822,7 +864,14 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Write10bitDNG(JNIEnv *
 {
     uint64 dir_offset = 0, dir_offset2 = 0, gpsIFD_offset = 0;
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
-    TIFF *tif = openfTIFF(writer->fileSavePath);
+    TIFF *tif;
+    LOGD("has file description: %b", writer->hasFileDes);
+    if(writer->hasFileDes == true)
+    {
+        tif = openfTIFFFD(writer->fileSavePath, writer->fileDes);
+    }
+    else
+        tif = openfTIFF(writer->fileSavePath);
 
     TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
     LOGD("subfiletype 10BIT DNG");
@@ -897,7 +946,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Write10bitDNG(JNIEnv *
 	//CheckPOINT to KEEP EXIF IFD in MEMory
 	//Try FiX DIR
 	TIFFCheckpointDirectory(tif);
-	TIFFWriteDirectory(tif);
+	TIFFRewriteDirectory(tif);
 	TIFFSetDirectory(tif, 0);
 
 	if(writer->gps == true)
@@ -965,7 +1014,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Write10bitDNG(JNIEnv *
 	}
 	TIFFWriteRawStrip(tif, 0, out, writer->rawheight*shouldberowsize);
 
-	TIFFWriteDirectory (tif);
+	TIFFRewriteDirectory(tif);
 	LOGD("Finalizng DNG");
 	TIFFClose(tif);
 

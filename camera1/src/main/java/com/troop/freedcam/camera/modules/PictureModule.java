@@ -53,7 +53,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
         this.handler = backgroundHandler;
         name = ModuleHandler.MODULE_PICTURE;
 
-        ParameterHandler = (CamParametersHandler)baseCameraHolder.ParameterHandler;
+        ParameterHandler = baseCameraHolder.GetParameterHandler();
         this.baseCameraHolder = baseCameraHolder;
     }
 
@@ -92,7 +92,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
 
             }
             else {
-                final String picFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
+                final String picFormat = ParameterHandler.PictureFormat.GetValue();
                 if (picFormat.equals("jpeg") ) {
                     final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
                     jpegSaver.TakePicture();
@@ -124,43 +124,18 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     @Override
     public void LoadNeededParameters()
     {
-        ((CamParametersHandler)ParameterHandler).setString("preview-format", "yuv420sp");
+        ((CamParametersHandler)ParameterHandler).PreviewFormat.SetValue("yuv420sp",true);
         if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported() && !ParameterHandler.VideoHDR.GetValue().equals("off"))
             ParameterHandler.VideoHDR.SetValue("off", true);
-        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)){
-            ((CamParametersHandler)ParameterHandler).setString("slow_shutter", "-1");
-
-            baseCameraHolder.SetCameraParameters(((CamParametersHandler)ParameterHandler).getParameters());}
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
+            ((CamParametersHandler)ParameterHandler).SetZTESlowShutter("-1");
     }
-
-
-    /*protected void startThread() {
-        backgroundThread = new HandlerThread("PictureModuleThread");
-        backgroundThread.start();
-        handler = new Handler(backgroundThread.getLooper());
-    }*/
 
     @Override
     public void UnloadNeededParameters()
     {
-        //if (aeBrackethdr != "" && aeBrackethdr != "Off" )
-        //    ParameterHandler.AE_Bracket.SetValue(aeBrackethdr, true);
-        //stopThread();
     }
 
-    /*protected void stopThread() {
-        if (Build.VERSION.SDK_INT>17)
-            backgroundThread.quitSafely();
-        else
-            backgroundThread.quit();
-        try {
-            backgroundThread.join();
-            backgroundThread = null;
-            handler = null;
-        } catch (InterruptedException e) {
-            Logger.exception(e);
-        }
-    }*/
 
     protected void startworking()
     {
@@ -177,15 +152,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     @Override
     public void OnWorkDone(File file)
     {
-//        if ((DeviceUtils.isZTEADV() || DeviceUtils.isZTEADVIMX214() ||DeviceUtils.isZTEADV234()) && !baseCameraHolder.ParameterHandler.ManualShutter.GetStringValue().equals("Auto"))
-      //  {
-       //     int s = baseCameraHolder.ParameterHandler.ManualShutter.GetValue();
-       //     baseCameraHolder.ParameterHandler.ManualShutter.SetValue(0);
-       //     baseCameraHolder.StartPreview();
-       //     baseCameraHolder.ParameterHandler.ManualShutter.SetValue(s);
-      //  }
-       // else
-            baseCameraHolder.StartPreview();
+        baseCameraHolder.StartPreview();
         MediaScannerManager.ScanMedia(Settings.context.getApplicationContext() , file);
         stopworking();
         eventHandler.WorkFinished(file);
@@ -206,7 +173,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    final String picFormat = baseCameraHolder.ParameterHandler.PictureFormat.GetValue();
+                    final String picFormat = ParameterHandler.PictureFormat.GetValue();
                     if (picFormat.equals("jpeg")) {
                         final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, burstDone, handler,Settings.GetWriteExternal());
                         jpegSaver.saveBytesToFile(data, new File(StringUtils.getFilePathBurst(Settings.GetWriteExternal(), jpegSaver.fileEnding, burstcount)));

@@ -47,7 +47,6 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
     private File lastFile;
     private Bitmap mask;
     private ScreenSlideFragment.I_ThumbClick click;
-    private CacheHelper cacheHelper;
     private int mImageThumbSize = 0;
     private Context context;
 
@@ -72,7 +71,6 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         try {
-            cacheHelper = new CacheHelper(context);
             mask = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.maskthumb);
             mImageThumbSize = context.getResources().getDimensionPixelSize(troop.com.themesample.R.dimen.image_thumbnails_size);
             List<FileHolder> f = new ArrayList<FileHolder>();
@@ -123,7 +121,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
             bitmap.recycle();
             bitmap = null;
         }
-        bitmap = BitmapHelper.getBitmap(filePath, true, cacheHelper, mImageThumbSize, mImageThumbSize);
+        bitmap = BitmapHelper.getBitmap(filePath, true, mImageThumbSize, mImageThumbSize);
         final Bitmap drawMap = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas drawc = new Canvas(drawMap);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -133,8 +131,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
         drawc.drawBitmap(mask, 0, 0, paint);
         //drawc.drawBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.thumbnail),0,0,null);
         paint.setXfermode(null);
-        if (bitmap != null && !bitmap.isRecycled())
-            bitmap.recycle();
+
         this.post(new Runnable() {
             @Override
             public void run() {

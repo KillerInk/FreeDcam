@@ -1,8 +1,10 @@
 package com.troop.freedcam.camera.modules.image_saver;
 
+import android.net.Uri;
 import android.os.Build;
-import android.os.Debug;
 import android.os.Handler;
+import android.os.ParcelFileDescriptor;
+import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 
 import com.drew.imaging.jpeg.JpegMetadataReader;
@@ -14,14 +16,15 @@ import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.troop.androiddng.RawToDng;
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
-import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
-import com.troop.freedcam.utils.MetaDataExtractor;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Created by troop on 15.04.2015.
@@ -47,12 +50,10 @@ public class DngSaver extends JpegSaver
     public void TakePicture()
     {
         Logger.d(TAG, "Start Take Picture");
-        lastBayerFormat = cameraHolder.ParameterHandler.PictureFormat.GetValue();
-        if (cameraHolder.ParameterHandler.ZSL != null && cameraHolder.ParameterHandler.ZSL.IsSupported() && cameraHolder.ParameterHandler.ZSL.GetValue().equals("on"))
+        lastBayerFormat = ParameterHandler.PictureFormat.GetValue();
+        if (ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
         {
-            iWorkeDone.OnError("Error: Disable ZSL for Raw or Dng capture");
-
-            return;
+            ParameterHandler.ZSL.SetValue("off", true);
         }
         awaitpicture = true;
         if((DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)) {
@@ -77,21 +78,20 @@ public class DngSaver extends JpegSaver
             return;
         awaitpicture =false;
         Logger.d(TAG, "Take Picture Callback");
-        handler.post(new Runnable() {
+        handler.post(new Runnable()
+        {
             @Override
-            public void run() {
-                processData(data, new File(StringUtils.getFilePath(externalSd, fileEnding)));
+            public void run()
+            {
+                File f =  new File(StringUtils.getFilePath(externalSd, fileEnding));
+                processData(data,f);
             }
         });
 
     }
 
-
-
     public void processData(byte[] data, File file)
     {
-
-        checkFileExists(file);
         try
         {
             if (data.length < 4500)
@@ -114,7 +114,7 @@ public class DngSaver extends JpegSaver
         }
         catch (Exception ex)
         {
-
+            Logger.exception(ex);
         }
 
         Logger.d(TAG, "Is raw stream");
@@ -135,11 +135,10 @@ public class DngSaver extends JpegSaver
             Longitude = cameraHolder.gpsLocation.getLongitude();
             Provider = cameraHolder.gpsLocation.getProvider();
             gpsTime = cameraHolder.gpsLocation.getTime();
-            dngConverter.SetGPSData(Altitude,Latitude,Longitude, Provider, gpsTime);
+            dngConverter.SetGPSData(Altitude, Latitude, Longitude, Provider, gpsTime);
         }
 
-        Log.d("Raw File Size ",data.length+"");
-        dngConverter.SetBayerData(data, file.getAbsolutePath());
+
         float fnum, focal = 0;
         if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
         {
@@ -147,12 +146,12 @@ public class DngSaver extends JpegSaver
             focal = 28.342f;
         }
         else {
-        fnum = ((CamParametersHandler)cameraHolder.ParameterHandler).GetFnumber();
-        focal = ((CamParametersHandler)cameraHolder.ParameterHandler).GetFocal();}
+        fnum = (ParameterHandler).GetFnumber();
+        focal = (ParameterHandler).GetFocal();}
         //if(meta != null){
          //   dngConverter.setExifData(meta.getIso(), meta.getExp(), meta.getFlash(), fnum, focal, meta.getDescription(), cameraHolder.Orientation + "", 0);}
       //  else
-        Logger.d("Shutterrr", ((CamParametersHandler) cameraHolder.ParameterHandler).ExposureTime());
+        Logger.d("Shutterrr", ParameterHandler.ExposureTime());
         try
         {
             if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)) {
@@ -166,10 +165,9 @@ public class DngSaver extends JpegSaver
             dngConverter.setExifData(0, 0, 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
         }
 
-
-        if (cameraHolder.ParameterHandler.CCT != null && cameraHolder.ParameterHandler.CCT.IsSupported())
+        if (ParameterHandler.CCT != null && ParameterHandler.CCT.IsSupported())
         {
-            String wb = cameraHolder.ParameterHandler.CCT.GetStringValue();
+            String wb = ParameterHandler.CCT.GetStringValue();
             if (!wb.equals("Auto"))
             {
                 //int ct = Integer.parseInt(wb);
@@ -177,8 +175,42 @@ public class DngSaver extends JpegSaver
             }
         }
 
-        dngConverter.WriteDNG(DeviceUtils.DEVICE());
-        dngConverter.RELEASE();
+        Log.d("Raw File Size ", data.length + "");
+        if (!StringUtils.IS_L_OR_BIG()
+                || StringUtils.WRITE_NOT_EX_AND_L_ORBigger()) {
+            checkFileExists(file);
+            dngConverter.SetBayerData(data, file.getAbsolutePath());
+            dngConverter.WriteDNG(DeviceUtils.DEVICE());
+            dngConverter.RELEASE();
+        }
+        else {
+
+            Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
+            DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+            DocumentFile wr = df.createFile("image/dng", file.getName().replace(".jpg", ".dng"));
+            ParcelFileDescriptor pfd = null;
+            try {
+
+                pfd = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+            } catch (FileNotFoundException e) {
+                Logger.exception(e);
+            }
+            catch (IllegalArgumentException e)
+            {
+                Logger.exception(e);
+            }
+            if (pfd != null) {
+                dngConverter.SetBayerDataFD(data, pfd, file.getName());
+                dngConverter.WriteDNG(DeviceUtils.DEVICE());
+                dngConverter.RELEASE();
+                try {
+                    pfd.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                pfd = null;
+            }
+        }
         iWorkeDone.OnWorkDone(file);
 
     }
@@ -186,13 +218,13 @@ public class DngSaver extends JpegSaver
     private int ExtractISO()
 
     {
-        if (cameraHolder.ParameterHandler.IsoMode.GetValue().equals("auto") || cameraHolder.ParameterHandler.IsoMode.GetValue().equals("auto_hjr"))
+        if (ParameterHandler.IsoMode.GetValue().equals("auto") || ParameterHandler.IsoMode.GetValue().equals("auto_hjr"))
         {
             return 0;
         }
         else
         {
-            return Integer.parseInt(cameraHolder.ParameterHandler.IsoMode.GetValue().split("O")[1]);
+            return Integer.parseInt(ParameterHandler.IsoMode.GetValue().split("O")[1]);
         }
 
     }
@@ -233,20 +265,20 @@ public class DngSaver extends JpegSaver
     private float ExtractShutter()
 
     {
-        if (cameraHolder.ParameterHandler.ManualShutter.GetStringValue().equals("auto"))
+        if (ParameterHandler.ManualShutter.GetStringValue().equals("auto"))
         {
             return 0f;
         }
         else
         {
-            if(cameraHolder.ParameterHandler.ManualShutter.GetStringValue().contains("/"))
+            if(ParameterHandler.ManualShutter.GetStringValue().contains("/"))
             {
-                return 1/Float.parseFloat(cameraHolder.ParameterHandler.ManualShutter.GetStringValue().split("/")[1]);
+                return 1/Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue().split("/")[1]);
 
             }
             else
             {
-                return Float.parseFloat(cameraHolder.ParameterHandler.ManualShutter.GetStringValue());
+                return Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue());
 
             }
 

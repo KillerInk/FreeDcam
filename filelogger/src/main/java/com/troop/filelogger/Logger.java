@@ -28,29 +28,48 @@ public class Logger
 
     public static void d(String TAG,String msg)
     {
-        Log.d(TAG,msg);
-        if (fileLogger != null)
-            fileLogger.WriteLogDebug(TAG,msg);
+        try {
+            Log.d(TAG,msg);
+            if (fileLogger != null)
+                fileLogger.WriteLogDebug(TAG,msg);
+        }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
     public static void e(String TAG,String msg)
     {
-        Log.e(TAG, msg);
-        if (fileLogger != null)
-            fileLogger.WriteLogErrorDebug(TAG, msg);
+        try {
+            Log.e(TAG, msg);
+            if (fileLogger != null)
+                fileLogger.WriteLogErrorDebug(TAG, msg);
+        }
+        catch (NullPointerException ex)
+        {ex.printStackTrace();}
+
     }
 
     public static void w(String TAG,String msg)
     {
-        Log.w(TAG, msg);
-        if (fileLogger != null)
-            fileLogger.WriteLogDebug(TAG, msg);
+        try {
+            Log.w(TAG, msg);
+            if (fileLogger != null)
+                fileLogger.WriteLogDebug(TAG, msg);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public static void v(String TAG,String msg)
     {
-        Log.v(TAG, msg);
-        if (fileLogger != null)
-            fileLogger.WriteLogDebug(TAG, msg);
+        try {
+            Log.v(TAG, msg);
+            if (fileLogger != null)
+                fileLogger.WriteLogDebug(TAG, msg);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void exception(Throwable ex)

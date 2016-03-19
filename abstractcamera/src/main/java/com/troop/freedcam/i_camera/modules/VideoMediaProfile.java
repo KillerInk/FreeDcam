@@ -181,6 +181,8 @@ public class VideoMediaProfile
     {
         File mprof = new File(MEDIAPROFILESPATH);
         try {
+            if (!mprof.getParentFile().exists())
+                mprof.getParentFile().mkdirs();
             mprof.createNewFile();
             Logger.d(TAG,"wrote MediaProfiles to txt");
         } catch (IOException e) {

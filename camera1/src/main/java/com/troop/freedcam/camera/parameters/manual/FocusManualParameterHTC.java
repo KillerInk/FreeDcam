@@ -19,13 +19,14 @@ public class FocusManualParameterHTC extends  BaseManualParameter
     public FocusManualParameterHTC(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler,1);
         this.baseCameraHolder = cameraHolder;
-        if (!parameters.containsKey("min-focus") || !parameters.containsKey("max-focus") || !parameters.containsKey("focus"))
+        if (!parameters.containsKey("min-focus") || !parameters.containsKey("max-focus"))
             this.isSupported = false;
         else
             this.isSupported = true;
         this.max_value = "max-focus";
         this.value = "focus";
         this.min_value = "min-focus";
+        parameters.put(value,"0");
         isVisible = isSupported;
         if (isSupported)
         {

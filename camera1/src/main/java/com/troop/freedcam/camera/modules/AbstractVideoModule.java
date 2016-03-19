@@ -1,6 +1,10 @@
 package com.troop.freedcam.camera.modules;
 
 import android.media.MediaRecorder;
+import android.net.Uri;
+import android.os.Build;
+import android.os.ParcelFileDescriptor;
+import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 
 import com.troop.filelogger.Logger;
@@ -14,6 +18,9 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Created by Ingo on 06.01.2016.
@@ -23,14 +30,13 @@ public abstract class AbstractVideoModule extends AbstractModule
     protected MediaRecorder recorder;
     protected String mediaSavePath;
     protected BaseCameraHolder baseCameraHolder;
-    protected CamParametersHandler camParametersHandler;
     private static String TAG = AbstractVideoModule.class.getSimpleName();
+    private ParcelFileDescriptor fileDescriptor;
 
     public AbstractVideoModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
         super(cameraHandler, Settings, eventHandler);
         name  = ModuleHandler.MODULE_VIDEO;
         this.baseCameraHolder = cameraHandler;
-        camParametersHandler = (CamParametersHandler) ParameterHandler;
     }
 
     @Override
@@ -156,6 +162,14 @@ public abstract class AbstractVideoModule extends AbstractModule
             baseCameraHolder.GetCamera().lock();
             recorder.release();
             isWorking = false;
+            try {
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT && fileDescriptor != null) {
+                    fileDescriptor.close();
+                    fileDescriptor = null;
+                }
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             final File file = new File(mediaSavePath);
             MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
             eventHandler.WorkFinished(file);
@@ -166,6 +180,27 @@ public abstract class AbstractVideoModule extends AbstractModule
 
     protected void setRecorderOutPutFile(String s)
     {
-        recorder.setOutputFile(s);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT
+                || (!AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT))
+            recorder.setOutputFile(s);
+        else
+        {
+            File f = new File(s);
+            Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
+            DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+            DocumentFile wr = df.createFile("*/*", f.getName());
+            try {
+                fileDescriptor = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+                recorder.setOutputFile(fileDescriptor.getFileDescriptor());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                try {
+                    fileDescriptor.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+
     }
 }

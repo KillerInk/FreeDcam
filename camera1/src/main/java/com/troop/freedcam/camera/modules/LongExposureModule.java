@@ -91,7 +91,7 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
         this.isWorking = true;
         count = 0;
         //get width and height from the preview
-        String[] split = baseCameraHolder.ParameterHandler.PreviewSize.GetValue().split("x");
+        String[] split = ParameterHandler.PreviewSize.GetValue().split("x");
 
         width = Integer.parseInt(split[0]);
         height = Integer.parseInt(split[1]);

@@ -17,15 +17,12 @@ import com.troop.freedcam.utils.DeviceUtils;
 public class VideoModuleG3 extends AbstractVideoModule
 {
     protected MediaRecorderEx recorder;
-    CamParametersHandler camParametersHandler;
     VideoMediaProfile currentProfile;
 
     final static String TAG = VideoModuleG3.class.getSimpleName();
 
     public VideoModuleG3(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
         super(cameraHandler, Settings, eventHandler);
-        camParametersHandler = (CamParametersHandler) ParameterHandler;
-
     }
 
     protected MediaRecorder initRecorder()
@@ -113,33 +110,32 @@ public class VideoModuleG3 extends AbstractVideoModule
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         if (currentProfile.Mode == VideoMediaProfile.VideoMode.Highspeed || currentProfile.ProfileName.contains("4kUHD"))
         {
-            camParametersHandler.MemoryColorEnhancement.SetValue("disable",true);
-            camParametersHandler.DigitalImageStabilization.SetValue("disable", true);
-            camParametersHandler.Denoise.SetValue("denoise-off", true);
+            ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
+            ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
+            ParameterHandler.Denoise.SetValue("denoise-off", true);
 
-            camParametersHandler.setString("dual-recorder", "0");
+            ((CamParametersHandler)ParameterHandler).SetDualRecorder(false);
             //camParametersHandler.PreviewFormat.SetValue("nv12-venus", true);
             if(!DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
-                camParametersHandler.setString("preview-format", "nv12-venus");
-            camParametersHandler.setString("lge-camera", "1");
+                ParameterHandler.PreviewFormat.SetValue("nv12-venus",true);
+            ((CamParametersHandler)ParameterHandler).SetLGCamera(true);
             if (currentProfile.Mode == VideoMediaProfile.VideoMode.Highspeed)
             {
-                if (camParametersHandler.VideoHighFramerateVideo != null && camParametersHandler.VideoHighFramerateVideo.IsSupported())
+                if (ParameterHandler.VideoHighFramerateVideo != null && ParameterHandler.VideoHighFramerateVideo.IsSupported())
                 {
-                    camParametersHandler.VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate+"", true);
+                    ParameterHandler.VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate+"", true);
                 }
             }
         }
         else
         {
-            camParametersHandler.setString("preview-format", "yuv420sp");
-            camParametersHandler.setString("lge-camera", "1");
-            camParametersHandler.setString("dual-recorder", "0");
+            ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
+            ((CamParametersHandler)ParameterHandler).SetLGCamera(true);
+            ((CamParametersHandler)ParameterHandler).SetDualRecorder(false);
         }
         String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
-        camParametersHandler.setString("preview-size", size);
-        camParametersHandler.setString("video-size", size);
-        camParametersHandler.SetParametersToCamera(camParametersHandler.getParameters());
+        ParameterHandler.PreviewSize.SetValue(size,true);
+        ParameterHandler.VideoSize.SetValue(size,true);
         baseCameraHolder.StopPreview();
         baseCameraHolder.StartPreview();
     }

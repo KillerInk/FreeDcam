@@ -1,13 +1,21 @@
 package com.troop.freedcam.camera.modules.image_saver;
 
+import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
+import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
+import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * Created by troop on 15.04.2015.
@@ -25,11 +33,9 @@ public class RawSaver extends JpegSaver
     public void TakePicture()
     {
         Logger.d(TAG, "Start Take Picture");
-        if (cameraHolder.ParameterHandler.ZSL != null && cameraHolder.ParameterHandler.ZSL.IsSupported() && cameraHolder.ParameterHandler.ZSL.GetValue().equals("on"))
+        if (ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
         {
-            iWorkeDone.OnError("Error: Disable ZSL for Raw or Dng capture");
-
-            return;
+            ParameterHandler.ZSL.SetValue("off",true);
         }
         awaitpicture = true;
         handler.post(new Runnable() {
@@ -43,17 +49,37 @@ public class RawSaver extends JpegSaver
     @Override
     public void onPictureTaken(final byte[] data)
     {
-        if (awaitpicture == false)
-            return;
-        awaitpicture =false;
-        Logger.d(TAG, "Take Picture CallBack");
-        handler.post(new Runnable() {
-            @Override
-            public void run()
+        super.onPictureTaken(data);
+    }
+
+    @Override
+    public void saveBytesToFile(byte[] bytes, File fileName) {
+        checkFileExists(fileName);
+
+        Logger.d(TAG, "Start Saving Bytes");
+        OutputStream outStream = null;
+        try {
+            if (!StringUtils.IS_L_OR_BIG()
+                    || StringUtils.WRITE_NOT_EX_AND_L_ORBigger())
+                outStream = new FileOutputStream(fileName);
+            else
             {
-                final String lastBayerFormat = cameraHolder.ParameterHandler.PictureFormat.GetValue();
-                saveBytesToFile(data, new File(StringUtils.getFilePath(externalSd, fileEnding)));
+                Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
+                DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+                DocumentFile wr = df.createFile("raw", fileName.getName());
+                outStream = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri());
             }
-        });
+            outStream.write(bytes);
+            outStream.flush();
+            outStream.close();
+
+
+        } catch (FileNotFoundException e) {
+            Logger.exception(e);
+        } catch (IOException e) {
+            Logger.exception(e);
+        }
+        Logger.d(TAG, "End Saving Bytes");
+        iWorkeDone.OnWorkDone(fileName);
     }
 }

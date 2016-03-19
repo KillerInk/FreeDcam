@@ -3,6 +3,7 @@ package com.troop.freedcam.ui;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
@@ -135,6 +136,8 @@ public class AppSettingsManager
     final public static String SETTING_AEB2= "aeb2";
     final public static String SETTING_AEB3= "aeb3";
 
+    final public static String SETTING_BASE_FOLDER = "base_folder";
+
     public AppSettingsManager(SharedPreferences appSettings, Context context)
     {
         this.appSettings = appSettings;
@@ -172,6 +175,15 @@ public class AppSettingsManager
     public boolean getShowHelpOverlay()
     {
         return appSettings.getBoolean("showhelpoverlay", true);
+    }
+
+    public void SetBaseFolder(String uri)
+    {
+        appSettings.edit().putString(AppSettingsManager.SETTING_BASE_FOLDER, uri).apply();
+    }
+
+    public String GetBaseFolder() {
+        return appSettings.getString(AppSettingsManager.SETTING_BASE_FOLDER, "");
     }
 
     public void SetTheme(String theme)

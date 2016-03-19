@@ -49,9 +49,9 @@ public class NightModeParameter extends BaseModeParameter
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)||DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
         {
             if (valueToSet.equals("on")) {
-                baseCameraHolder.ParameterHandler.morphoHDR.SetValue("false", true);
-                baseCameraHolder.ParameterHandler.HDRMode.BackgroundValueHasChanged("off");
-                baseCameraHolder.ParameterHandler.AE_Bracket.SetValue("AE-Bracket", true);
+                baseCameraHolder.GetParameterHandler().morphoHDR.SetValue("false", true);
+                baseCameraHolder.GetParameterHandler().HDRMode.BackgroundValueHasChanged("off");
+                baseCameraHolder.GetParameterHandler().AE_Bracket.SetValue("AE-Bracket", true);
                 parameters.put("morpho-hht", "true");
             } else {
                 parameters.put("ae-bracket-hdr", "Off");

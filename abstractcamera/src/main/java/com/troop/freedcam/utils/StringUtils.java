@@ -1,12 +1,23 @@
 package com.troop.freedcam.utils;
 
+import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
 import android.hardware.Camera;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
+import android.os.storage.StorageManager;
+import android.support.v4.app.FragmentActivity;
 
 import com.troop.filelogger.Logger;
+import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
@@ -197,15 +208,40 @@ public class StringUtils
         return board_platform;
     }
 
-    public static String GetExternalSDCARD()
+    public static File GetExternalSDCARD()
     {
-
-            return System.getenv("SECONDARY_STORAGE");
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
+            return new File(System.getenv("SECONDARY_STORAGE"));
+        else
+        {
+            File f = StringUtils.DIR_ANDROID_STORAGE;
+            File[] files = f.listFiles();
+            for (File file : files)
+            {
+                if (!file.getName().equals("sdcard0") ||!file.getName().equals("emulated")
+                        || !file.getName().contains("usb") || file.getName().equals("self"))
+                {
+                    return file;
+                }
+            }
+        }
+        return null;
     }
 
     public static String GetInternalSDCARD()
     {
         return Environment.getExternalStorageDirectory().getAbsolutePath();
+    }
+
+
+    private static final String ENV_ANDROID_STORAGE = "ANDROID_STORAGE";
+    public static final File DIR_ANDROID_STORAGE = getDirectory(ENV_ANDROID_STORAGE, "/storage");
+
+
+
+    static File getDirectory(String variableName, String defaultPath) {
+        String path = System.getenv(variableName);
+        return path == null ? new File(defaultPath) : new File(path);
     }
 
     public static String TrimmFloatString(String toTrim)
@@ -272,4 +308,15 @@ public class StringUtils
         builder.append(fileEnding);
         return builder.toString();
     }
+
+    public static boolean WRITE_NOT_EX_AND_L_ORBigger()
+    {
+        return(!AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT);
+    }
+
+    public static boolean IS_L_OR_BIG()
+    {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
+
 }

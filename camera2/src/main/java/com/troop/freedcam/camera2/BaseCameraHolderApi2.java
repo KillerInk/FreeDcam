@@ -355,7 +355,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             } catch (CameraAccessException e) {
                 Logger.exception(e);
             }
-            ((ParameterHandlerApi2)ParameterHandler).Init();
+            ((ParameterHandlerApi2)GetParameterHandler()).Init();
             //SetLastUsedParameters(mPreviewRequestBuilder);
         }
 
@@ -397,20 +397,20 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result)
         {
             boolean setTOCam = false;
-            if (ParameterHandler.ManualShutter != null && ParameterHandler.ManualShutter.IsSupported())
+            if (GetParameterHandler().ManualShutter != null && GetParameterHandler().ManualShutter.IsSupported())
             {
                 if (result != null && result.getPartialResults().size() > 0)
                 {
                     try
                     {
-                        if (!ParameterHandler.ExposureMode.GetValue().equals("off") && !ParameterHandler.ControlMode.equals("off")) {
+                        if (!GetParameterHandler().ExposureMode.GetValue().equals("off") && !GetParameterHandler().ControlMode.equals("off")) {
                             try {
                                 final long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
                                 if(expores != 0) {
-                                    ParameterHandler.ManualShutter.ThrowCurrentValueStringCHanged(getShutterString(expores));
+                                    GetParameterHandler().ManualShutter.ThrowCurrentValueStringCHanged(getShutterString(expores));
                                 }
                                 else
-                                    ParameterHandler.ManualShutter.ThrowCurrentValueStringCHanged("1/60");
+                                    GetParameterHandler().ManualShutter.ThrowCurrentValueStringCHanged("1/60");
                             }
                             catch (Exception e)
                             {
@@ -418,12 +418,12 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                             }
                             try {
                                 final int  iso = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
-                                ParameterHandler.ISOManual.ThrowCurrentValueStringCHanged("" + iso);
+                                GetParameterHandler().ISOManual.ThrowCurrentValueStringCHanged("" + iso);
                             }
                             catch (NullPointerException ex) {}
                             try {
                                 final float  mf = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
-                                ParameterHandler.ManualFocus.ThrowCurrentValueStringCHanged(StringUtils.TrimmFloatString(mf + ""));
+                                GetParameterHandler().ManualFocus.ThrowCurrentValueStringCHanged(StringUtils.TrimmFloatString(mf + ""));
                             }
                             catch (NullPointerException ex) {}
                         }

@@ -24,6 +24,7 @@ import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.ImageViewTouchAreaHandler;
 
 import troop.com.themesample.R;
+import troop.com.themesample.SampleThemeFragment;
 
 
 /**
@@ -272,6 +273,13 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         public void OnAreaClick(int x, int y) {
             OnClick(x,y);
         }
+
+        @Override
+        public void IsMoving(boolean moving) {
+            SampleThemeFragment sampleThemeFragment = (SampleThemeFragment)FocusImageHandler.this.fragment.getParentFragment();
+            if(sampleThemeFragment != null)
+                sampleThemeFragment.DisablePagerTouch(moving);
+        }
     };
 
     ImageViewTouchAreaHandler.I_TouchListnerEvent awbTouch = new ImageViewTouchAreaHandler.I_TouchListnerEvent() {
@@ -284,6 +292,11 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         @Override
         public void OnAreaClick(int x, int y) {
             OnClick(x,y);
+        }
+
+        @Override
+        public void IsMoving(boolean moving) {
+
         }
     };
 

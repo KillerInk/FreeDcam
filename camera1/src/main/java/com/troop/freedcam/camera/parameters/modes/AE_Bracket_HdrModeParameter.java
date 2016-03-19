@@ -19,12 +19,12 @@ public class AE_Bracket_HdrModeParameter extends BaseModeParameter
     public void SetValue(String valueToSet, boolean setToCam)
     {
         if (valueToSet.equals("AE-Bracket")) {
-            baseCameraHolder.ParameterHandler.captureBurstExposures.SetValue("on",true);
-            if (baseCameraHolder.ParameterHandler.ZSL.GetValue().equals("off")){
-                baseCameraHolder.ParameterHandler.ZSL.SetValue("on", true);}
+            baseCameraHolder.GetParameterHandler().captureBurstExposures.SetValue("on",true);
+            if (baseCameraHolder.GetParameterHandler().ZSL.GetValue().equals("off")){
+                baseCameraHolder.GetParameterHandler().ZSL.SetValue("on", true);}
         }
         else {
-            baseCameraHolder.ParameterHandler.ZSL.SetValue("off",true);
+            baseCameraHolder.GetParameterHandler().ZSL.SetValue("off",true);
         }
         super.SetValue(valueToSet, setToCam);
     }

@@ -258,8 +258,12 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
     }
 
     @Override
-    public void onIsSetSupportedChanged(boolean value) {
-
+    public void onIsSetSupportedChanged(boolean value)
+    {
+        if (value)
+            seekbar.setVisibility(View.VISIBLE);
+        else
+            seekbar.setVisibility(View.GONE);
     }
 
 

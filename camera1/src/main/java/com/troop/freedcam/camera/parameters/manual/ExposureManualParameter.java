@@ -43,6 +43,7 @@ public class ExposureManualParameter extends BaseManualParameter
         int t = valueToset;
         if (parameters.get(min_value).contains("-"))
             t = t-(stringvalues.length/2);
+        Logger.d(TAG, "Set "+ value +" to: " +t);
         parameters.put(value, t + "");
         try
         {

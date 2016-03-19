@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -24,6 +25,7 @@ import troop.com.imageviewer.ScreenSlideFragment;
 import troop.com.imageviewer.holder.FileHolder;
 import troop.com.themesample.subfragments.CameraUiFragment;
 import troop.com.themesample.subfragments.SettingsMenuFragment;
+import troop.com.views.PagingView;
 
 /**
  * Created by troop on 09.06.2015.
@@ -35,11 +37,12 @@ public class SampleThemeFragment extends AbstractFragment
     private I_Activity i_activity;
     private CameraUiFragment cameraUiFragment;
 
-    private ViewPager mPager;
+    private PagingView mPager;
     private PagerAdapter mPagerAdapter;
 
     private SettingsMenuFragment settingsMenuFragment;
     ScreenSlideFragment screenSlideFragment;
+    private boolean pagerTouchAllowed = true;
 
     public SampleThemeFragment()
     {
@@ -71,27 +74,17 @@ public class SampleThemeFragment extends AbstractFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container, null);
-        if (cameraUiFragment == null)
-        {
-            cameraUiFragment = new CameraUiFragment();
-            cameraUiFragment.SetStuff(i_activity,onThumbClick);
-        }
-        if (settingsMenuFragment == null) {
-            settingsMenuFragment = new SettingsMenuFragment();
-            settingsMenuFragment.SetStuff(i_activity);
-        }
-        if (screenSlideFragment == null)
-            screenSlideFragment = new ScreenSlideFragment();
         return inflater.inflate(R.layout.samplethemefragment, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.mPager = (ViewPager)view.findViewById(R.id.viewPager_fragmentHolder);
+        this.mPager = (PagingView)view.findViewById(R.id.viewPager_fragmentHolder);
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(1);
+
     }
 
     @Override
@@ -127,8 +120,10 @@ public class SampleThemeFragment extends AbstractFragment
 
     ScreenSlideFragment.I_ThumbClick onThumbBackClick = new ScreenSlideFragment.I_ThumbClick() {
         @Override
-        public void onThumbClick() {
-            mPager.setCurrentItem(1);
+        public void onThumbClick()
+        {
+            if (mPager != null)
+                mPager.setCurrentItem(1);
         }
 
         @Override
@@ -138,6 +133,13 @@ public class SampleThemeFragment extends AbstractFragment
     };
 
 
+    public void DisablePagerTouch(boolean disable)
+    {
+        if (disable)
+            mPager.EnableScroll(false);
+        else
+            mPager.EnableScroll(true);
+    }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     {
@@ -153,23 +155,21 @@ public class SampleThemeFragment extends AbstractFragment
         {
             if (position == 0)
             {
-                if (settingsMenuFragment == null)
-                    settingsMenuFragment = new SettingsMenuFragment();
+                settingsMenuFragment = new SettingsMenuFragment();
                 settingsMenuFragment.SetStuff(i_activity);
                 settingsMenuFragment.SetCameraUIWrapper(wrapper);
                 return settingsMenuFragment;
             }
             else if (position == 2)
             {
-                if (screenSlideFragment == null)
-                    screenSlideFragment = new ScreenSlideFragment();
+
+                screenSlideFragment = new ScreenSlideFragment();
                 screenSlideFragment.SetOnThumbClick(onThumbBackClick);
                 return screenSlideFragment;
             }
             else
             {
-                if (cameraUiFragment == null)
-                    cameraUiFragment = new CameraUiFragment();
+                cameraUiFragment = new CameraUiFragment();
                 cameraUiFragment.SetStuff(i_activity,onThumbClick);
                 cameraUiFragment.SetCameraUIWrapper(wrapper);
                 return cameraUiFragment;

@@ -2,12 +2,14 @@ package com.troop.androiddng;
 
 import android.location.Location;
 import android.os.Build;
+import android.os.ParcelFileDescriptor;
 import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.utils.DeviceUtils;
 
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
@@ -43,6 +45,7 @@ public class RawToDng
     private static native void SetRawHeight(ByteBuffer nativeHandler,int height);
     private static native void SetModelAndMake(ByteBuffer nativeHandler,String model, String make);
     private static native void SetBayerData(ByteBuffer nativeHandler,byte[] fileBytes, String fileout);
+    private static native void SetBayerDataFD(ByteBuffer nativeHandler,byte[] fileBytes, int fileout, String filename);
     private static native void SetLensData(ByteBuffer nativeHandler,byte[] fileBytes, String hasLensData);
     private static native void SetBayerInfo(ByteBuffer nativeHandler,
                                      float[] colorMatrix1,
@@ -216,6 +219,15 @@ public class RawToDng
         }
         if (nativeHandler != null)
             SetBayerData(nativeHandler, fileBytes, fileout);
+    }
+
+    public void SetBayerDataFD(final byte[] fileBytes, ParcelFileDescriptor fileout, String filename) throws NullPointerException
+    {
+        if (fileBytes == null) {
+            throw new NullPointerException();
+        }
+        if (nativeHandler != null)
+            SetBayerDataFD(nativeHandler, fileBytes, fileout.getFd(),filename);
     }
 
     public void SetLensData(final byte[] fileBytes, String hasLensData) throws NullPointerException

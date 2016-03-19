@@ -18,11 +18,14 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.ColorSpaceTransform;
 import android.media.Image;
 import android.media.ImageReader;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.ParcelFileDescriptor;
 import android.renderscript.RenderScript;
 import android.support.annotation.NonNull;
+import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 import android.util.Rational;
 import android.util.Size;
@@ -48,6 +51,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -199,8 +203,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             }catch (NullPointerException ex){Logger.exception(ex);};
             try {
                 long val = 0;
-                if(!cameraHolder.ParameterHandler.ManualShutter.GetStringValue().equals("Auto"))
-                    val = (long)(StringUtils.getMilliSecondStringFromShutterString(cameraHolder.ParameterHandler.ManualShutter.getStringValues()[cameraHolder.ParameterHandler.ManualShutter.GetValue()]) * 1000f);
+                if(!ParameterHandler.ManualShutter.GetStringValue().equals("Auto"))
+                    val = (long)(StringUtils.getMilliSecondStringFromShutterString(ParameterHandler.ManualShutter.getStringValues()[ParameterHandler.ManualShutter.GetValue()]) * 1000f);
                 else
                     val= cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
                 Logger.d(TAG, "Set ExposureTime for Capture to:" + val);
@@ -324,7 +328,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     public void checkFileExists(File fileName) {
         if(!fileName.getParentFile().exists())
             fileName.getParentFile().mkdirs();
-        if (!fileName.exists())
+        if (!fileName.exists() && fileName.canWrite())
             try {
                 fileName.createNewFile();
             } catch (IOException e) {
@@ -423,7 +427,27 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             ByteBuffer buffer = image.getPlanes()[0].getBuffer();
             byte[] bytes = new byte[buffer.remaining()];
             buffer.get(bytes);
-            dngConverter.SetBayerData(bytes, file.getAbsolutePath());
+            ParcelFileDescriptor pfd = null;
+            if (!AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal())
+                dngConverter.SetBayerData(bytes, file.getAbsolutePath());
+            else
+            {
+                Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
+                DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+                DocumentFile wr = df.createFile("image/dng", file.getName());
+                try {
+
+                    pfd = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+                    if (pfd != null)
+                        dngConverter.SetBayerDataFD(bytes, pfd, file.getName());
+                } catch (FileNotFoundException e) {
+                    Logger.exception(e);
+                }
+                catch (IllegalArgumentException e)
+                {
+                    Logger.exception(e);
+                }
+            }
             float fnum, focal = 0;
             fnum = 2.0f;
             focal = 4.7f;
@@ -440,14 +464,29 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             dngConverter.RELEASE();
             image.close();
             bytes = null;
+            if (pfd != null)
+                try {
+                    pfd.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
         }
         else
         {
             DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, mDngResult);
             dngCreator.setOrientation(mDngResult.get(CaptureResult.JPEG_ORIENTATION));
 
-            try {
-                dngCreator.writeImage(new FileOutputStream(file), image);
+            try
+            {
+                if (!AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal())
+                    dngCreator.writeImage(new FileOutputStream(file), image);
+                else
+                {
+                    Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
+                    DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+                    DocumentFile wr = df.createFile("image/dng", file.getName());
+                    dngCreator.writeImage(AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri()), image);
+                }
             } catch (IOException e) {
                 Logger.exception(e);
             }
@@ -473,7 +512,27 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
         byte[] bytes = new byte[buffer.remaining()];
         buffer.get(bytes);
-        dngConverter.SetBayerData(bytes, file.getAbsolutePath());
+        ParcelFileDescriptor pfd = null;
+        if (!AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal())
+            dngConverter.SetBayerData(bytes, file.getAbsolutePath());
+        else
+        {
+            Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
+            DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+            DocumentFile wr = df.createFile("image/dng", file.getName());
+            try {
+
+                pfd = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+                if (pfd != null)
+                    dngConverter.SetBayerDataFD(bytes, pfd, file.getName());
+            } catch (FileNotFoundException e) {
+                Logger.exception(e);
+            }
+            catch (IllegalArgumentException e)
+            {
+                Logger.exception(e);
+            }
+        }
         float fnum, focal = 0;
         fnum = mDngResult.get(CaptureResult.LENS_APERTURE);
         focal = mDngResult.get(CaptureResult.LENS_FOCAL_LENGTH);
@@ -528,6 +587,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         dngConverter.RELEASE();
         image.close();
         bytes = null;
+        if (pfd != null) {
+            try {
+                pfd.close();
+            } catch (IOException e) {
+                Logger.exception(e);
+            }
+        }
         return file;
     }
 
@@ -659,7 +725,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     /**
      * Saves a JPEG {@link android.media.Image} into the specified {@link File}.
      */
-    private static class ImageSaver implements Runnable {
+    private class ImageSaver implements Runnable {
 
         /**
          * The JPEG image
@@ -680,9 +746,18 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
             byte[] bytes = new byte[buffer.remaining()];
             buffer.get(bytes);
-            FileOutputStream output = null;
+            OutputStream output = null;
+            ParcelFileDescriptor pfd = null;
             try {
-                output = new FileOutputStream(mFile);
+                if (!AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal())
+                    output = new FileOutputStream(mFile);
+                else
+                {
+                    Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
+                    DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+                    DocumentFile wr = df.createFile("*/*", mFile.getName());
+                    output = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri(),"rw");
+                }
                 output.write(bytes);
             } catch (FileNotFoundException e) {
                 Logger.exception(e);
@@ -690,7 +765,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 Logger.exception(e);
             } finally {
                 mImage.close();
-
                 if (null != output) {
                     try {
                         output.close();

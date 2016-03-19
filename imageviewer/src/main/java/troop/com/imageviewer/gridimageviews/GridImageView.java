@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import troop.com.imageviewer.R;
+import troop.com.imageviewer.gridviewfragments.BaseGridViewFragment;
 import troop.com.imageviewer.gridviewfragments.GridViewFragment;
 import troop.com.imageviewer.holder.BaseHolder;
 import troop.com.imageviewer.holder.FileHolder;
@@ -21,11 +22,12 @@ import troop.com.imageviewer.holder.FileHolder;
  */
 public class GridImageView extends AbsoluteLayout implements FileHolder.EventHandler
 {
-    ImageView imageView;
-    TextView textView;
-    TextView folderTextView;
-    CheckBox checkBox;
+    private ImageView imageView;
+    private TextView textView;
+    private TextView folderTextView;
+    private ImageView checkBox;
     private BaseHolder fileHolder;
+    public GridViewFragment.ViewStates viewstate = BaseGridViewFragment.ViewStates.normal;
     public GridImageView(Context context) {
         super(context);
         init(context);
@@ -49,8 +51,8 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         textView = (TextView)findViewById(R.id.filetypetextbox);
         folderTextView = (TextView)findViewById(R.id.foldertextbox);
-        checkBox = (CheckBox)findViewById(R.id.checkBox_gridviewimage);
-        checkBox.setOnClickListener(new OnClickListener() {
+        checkBox = (ImageView)findViewById(R.id.checkBox_gridviewimage);
+        /*checkBox.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (fileHolder.IsSelected())
@@ -58,8 +60,10 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
                 else
                     fileHolder.SetSelected(true);
             }
-        });
+        });*/
     }
+
+    public BaseHolder getFileHolder(){return fileHolder;}
 
     public void setImageDrawable(Drawable asyncDrawable)
     {
@@ -75,15 +79,8 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
     {
         this.fileHolder = fileHolder;
         SetViewState(fileHolder.GetCurrentViewState());
-        if (fileHolder.IsSelected())
-        {
-            checkBox.setVisibility(VISIBLE);
-            checkBox.setChecked(true);
-        }
-        else
-            checkBox.setChecked(false);
         fileHolder.SetEventListner(this);
-        invalidate();
+
     }
 
     public void SetFileEnding(String ending)
@@ -101,15 +98,24 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
 
     public void SetViewState(GridViewFragment.ViewStates state)
     {
+        viewstate = state;
         switch (state)
         {
             case normal:
                 checkBox.setVisibility(GONE);
-                checkBox.setChecked(false);
+                setChecked(false);
                 break;
-            case selection:
+            case selection: {
                 checkBox.setVisibility(VISIBLE);
+                if (fileHolder.IsSelected())
+                {
+                    setChecked(true);
+                }
+                else
+                    setChecked(false);
+            }
         }
+        invalidate();
     }
 
     @Override
@@ -118,8 +124,18 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
     }
 
     @Override
-    public void onSelectionChanged(boolean selected) {
-        checkBox.setChecked(selected);
-        invalidate();
+    public void onSelectionChanged(boolean selected)
+    {
+//        checkBox.setChecked(selected);
+//        invalidate();
     }
+
+    private void setChecked(boolean checked)
+    {
+        if (checked)
+            checkBox.setImageDrawable(getResources().getDrawable(R.drawable.cust_cb_sel));
+        else
+            checkBox.setImageDrawable(getResources().getDrawable(R.drawable.cust_cb_unsel));
+    }
+
 }

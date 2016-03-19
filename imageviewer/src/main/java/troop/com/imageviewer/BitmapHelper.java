@@ -1,5 +1,6 @@
 package troop.com.imageviewer;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
@@ -14,31 +15,34 @@ import java.io.File;
  */
 public class BitmapHelper
 {
+    public static CacheHelper CACHE;
+
+    public static void INIT(Context context)
+    {
+        CACHE = new CacheHelper(context);
+    }
+
     private BitmapHelper(){};
 
-    public static Bitmap getBitmap(final File file,final boolean thumb,final CacheHelper cacheHelper,final int mImageThumbSizeW,final int  mImageThumbSizeH)
+    public static Bitmap getBitmap(final File file,final boolean thumb,final int mImageThumbSizeW,final int  mImageThumbSizeH)
     {
-/*        if (!file.getAbsolutePath().endsWith("jpg")
-                && !file.getAbsolutePath().endsWith("dng")
-                && !file.getAbsolutePath().endsWith("mp4")
-                && !file.getAbsolutePath().endsWith("raw")
-                && !file.getAbsolutePath().endsWith("jps"))
-            return null;*/
+        if (CACHE == null)
+            return null;
         Bitmap response = null;
         if (thumb)
         {
-            response = cacheHelper.getBitmapFromMemCache(file.getName() + "_thumb");
+            response = CACHE.getBitmapFromMemCache(file.getName() + "_thumb");
             if (response == null) {
                 //Logger.d(TAG,"No image in memory try from disk");
-                response = cacheHelper.getBitmapFromDiskCache(file.getName() + "_thumb");
+                response = CACHE.getBitmapFromDiskCache(file.getName() + "_thumb");
             }
         }
         else
         {
-            response = cacheHelper.getBitmapFromMemCache(file.getName());
+            response = CACHE.getBitmapFromMemCache(file.getName());
             if (response == null) {
                 //Logger.d(TAG,"No image in memory try from disk");
-                response = cacheHelper.getBitmapFromDiskCache(file.getName());
+                response = CACHE.getBitmapFromDiskCache(file.getName());
             }
         }
         if (response == null && file.exists())
@@ -54,10 +58,7 @@ public class BitmapHelper
             else if (file.getAbsolutePath().endsWith(".dng")|| file.getAbsolutePath().endsWith(".raw"))
             {
                 try {
-
-
                     response = RawUtils.UnPackRAW(file.getAbsolutePath());
-                    
                 }
                 catch (IllegalArgumentException ex)
                 {
@@ -66,13 +67,13 @@ public class BitmapHelper
             }
             if (response != null)
             {
-                cacheHelper.addBitmapToCache(file.getName(), response);
+                CACHE.addBitmapToCache(file.getName(), response);
                 if (thumb)
                 {
                     response = ThumbnailUtils.extractThumbnail(response, mImageThumbSizeW, mImageThumbSizeH);
-                    cacheHelper.addBitmapToCache(file.getName() + "_thumb", response);
+                    CACHE.addBitmapToCache(file.getName() + "_thumb", response);
                 } else
-                    cacheHelper.addBitmapToCache(file.getName() + "_thumb", ThumbnailUtils.extractThumbnail(response, mImageThumbSizeW, mImageThumbSizeH));
+                    CACHE.addBitmapToCache(file.getName() + "_thumb", ThumbnailUtils.extractThumbnail(response, mImageThumbSizeW, mImageThumbSizeH));
             }
         }
         return  response;

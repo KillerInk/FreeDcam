@@ -37,18 +37,18 @@ public class BaseCameraHolder extends AbstractCameraHolder
 {
 
     final int BUFFERCOUNT = 5;
-    Camera mCamera;
+    private Camera mCamera;
 
     private Camera.Parameters mCameraParam;
-    LGCamera lgCamera;
-    LGCamera.LGParameters lgParameters;
-    private static String TAG = BaseCameraHolder.class.getSimpleName();
+    private LGCamera lgCamera;
+    private LGCamera.LGParameters lgParameters;
+    final static String TAG = BaseCameraHolder.class.getSimpleName();
     public I_error errorHandler;
-    I_Callbacks.PictureCallback pictureCallback;
-    I_Callbacks.PictureCallback rawCallback;
-    I_Callbacks.ShutterCallback shutterCallback;
-    I_Callbacks.PreviewCallback previewCallback;
-    Surface surfaceHolder;
+    private I_Callbacks.PictureCallback pictureCallback;
+    private I_Callbacks.PictureCallback rawCallback;
+    private I_Callbacks.ShutterCallback shutterCallback;
+    private I_Callbacks.PreviewCallback previewCallback;
+    private Surface surfaceHolder;
 
     //public boolean hasLGFrameWork = false;
     public Frameworks DeviceFrameWork = Frameworks.Normal;
@@ -56,7 +56,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public int Orientation;
 
 
-    TextureView textureView;
+    private TextureView textureView;
 
 
     public int CurrentCamera;
@@ -264,20 +264,22 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 ret += s.getKey() + "=" + s.getValue() + ";";
             }
             if (DeviceFrameWork == Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/) {
-                Logger.d(TAG, "Set lg Parameters");
                 Camera.Parameters p = lgParameters.getParameters();
                 p.unflatten(ret);
                 lgParameters.setParameters(p);
+                Logger.d(TAG, "Set lg Parameters");
             } else {
-                Logger.d(TAG, "Set Parameters");
+
                 Camera.Parameters p = mCamera.getParameters();
                 p.unflatten(ret);
                 mCamera.setParameters(p);
+                Logger.d(TAG, "Set Parameters");
             }
-           // Thread.sleep(300);
         }
-        catch (Exception ex) {
-           Logger.d(TAG, ex.getMessage());
+        catch (Exception ex)
+        {
+            Logger.d(TAG,"Parameters Set failed");
+            Logger.d(TAG, ex.getMessage());
         }
 
 
@@ -338,7 +340,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             try
             {
                 if (DeviceFrameWork == Frameworks.MTK)
-                    initMTKSHit();
+                    ((CamParametersHandler)GetParameterHandler()).initMTKSHit();
                 mCamera.startPreview();
                 isPreviewRunning = true;
                 Logger.d(TAG, "PreviewStarted");
@@ -351,7 +353,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     }
 
-    private void initMTKSHit()    {
+    /*private void initMTKSHit()    {
 
 
         ((CamParametersHandler)ParameterHandler).setString("afeng_raw_dump_flag", "1");
@@ -364,7 +366,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         } catch (InterruptedException e) {
             Logger.e(TAG,e.getMessage());
         }
-    }
+    }*/
 
 
     @Override
@@ -495,7 +497,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         } catch (InvocationTargetException e) {
             Logger.e(TAG,e.getMessage());
         } catch (IllegalAccessException e) {
-            Logger.e(TAG,e.getMessage());
+            Logger.e(TAG, e.getMessage());
         }
     }
 
@@ -551,7 +553,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         try {
             if (!isPreviewRunning && !isRdy)
                 return;
-            Size s = new Size(ParameterHandler.PreviewSize.GetValue());
+            Size s = new Size(GetParameterHandler().PreviewSize.GetValue());
             //Add 5 pre allocated buffers. that avoids that the camera create with each frame a new one
             for (int i = 0; i<BUFFERCOUNT;i++)
             {
@@ -742,6 +744,5 @@ public class BaseCameraHolder extends AbstractCameraHolder
     {
         return lgParameters.getParameters().flatten();
     }
-
 
 }
