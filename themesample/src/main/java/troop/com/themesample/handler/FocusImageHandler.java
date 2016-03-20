@@ -165,7 +165,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             {
                 int halfwidth = disWidth / 2;
                 int halfheight = disHeight / 2;
-                rect = new FocusRect(halfwidth - recthalf, halfheight - recthalf, halfwidth + recthalf, halfheight + recthalf);
+                rect = new FocusRect(halfwidth - recthalf, halfheight - recthalf, halfwidth + recthalf, halfheight + recthalf,halfwidth,halfheight);
             }
             final RelativeLayout.LayoutParams mParams = (RelativeLayout.LayoutParams) focusImageView.getLayoutParams();
             mParams.leftMargin = rect.left;
@@ -321,7 +321,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                 y = recthalf;
             if (y > disHeight - recthalf)
                 y = disHeight - recthalf;
-            FocusRect rect = new FocusRect(x - recthalf, x + recthalf, y - recthalf, y + recthalf);
+            FocusRect rect = new FocusRect(x - recthalf, x + recthalf, y - recthalf, y + recthalf,x,y);
             if (wrapper.Focus != null)
                 wrapper.Focus.StartTouchToFocus(rect, meteringRect, disWidth, disHeight);
         }
@@ -374,7 +374,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         imageview.setX(width/2 - recthalf);
         imageview.setY(height/2 - recthalf);
 
-        return new FocusRect((int)imageview.getX() - recthalf, (int)imageview.getX() + recthalf, (int)imageview.getY() - recthalf, (int)imageview.getY() + recthalf);
+        return new FocusRect((int)imageview.getX() - recthalf, (int)imageview.getX() + recthalf, (int)imageview.getY() - recthalf, (int)imageview.getY() + recthalf,(int)imageview.getX(),(int)imageview.getY());
     }
 
 

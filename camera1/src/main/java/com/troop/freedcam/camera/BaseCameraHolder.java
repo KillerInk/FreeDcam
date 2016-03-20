@@ -77,6 +77,13 @@ public class BaseCameraHolder extends AbstractCameraHolder
             isMTKDevice();
     }
 
+    public void baseSetParamTest(String a , String b)
+    {
+        Camera.Parameters p = mCamera.getParameters();
+        p.set(a, b);
+        mCamera.setParameters(p);
+    }
+
     private void hasLGFramework()
     {
         try {

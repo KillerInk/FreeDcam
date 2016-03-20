@@ -102,7 +102,7 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
                 rect.left * m.right /width,
                 rect.right * m.right /width,
                 rect.top * m.bottom /height,
-                rect.bottom * m.bottom / height);
+                rect.bottom * m.bottom / height,rect.x,rect.y);
         logFocusRect(targetFocusRect);
         if (targetFocusRect.left < m.left)
             targetFocusRect.left = m.left;
