@@ -30,6 +30,7 @@ import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.ortiz.touch.TouchImageView;
 import com.troop.androiddng.RawToDng;
 import com.troop.filelogger.Logger;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -47,6 +48,20 @@ public class ImageFragment extends Fragment
     private File file;
     private int mImageThumbSize = 0;
     private View.OnClickListener onClickListener;
+    private int tag;
+
+    private LinearLayout ll;
+
+    private TextView iso;
+    private TextView shutter;
+    private TextView focal;
+    private TextView fnumber;
+    private TextView filename;
+    private LinearLayout exifinfo;
+    private MyHistogram myHistogram;
+    private Button deleteButton;
+    private Button play;
+    private LinearLayout bottombar;
 
     public void SetFilePath(File filepath)
     {
@@ -80,7 +95,101 @@ public class ImageFragment extends Fragment
         {
             file = new File((String) savedInstanceState.get(ScreenSlideFragment.SAVESTATE_FILEPATH));
         }
+
+        myHistogram = new MyHistogram(view.getContext());
+        ll = (LinearLayout)view.findViewById(R.id.histoView);
+        ll.addView(myHistogram);
+        bottombar =(LinearLayout)view.findViewById(R.id.bottom_bar);
+
+        exifinfo = (LinearLayout)view.findViewById(R.id.exif_info);
+        exifinfo.setVisibility(View.GONE);
+        iso = (TextView)view.findViewById(R.id.textView_iso);
+        iso.setText("");
+        shutter = (TextView)view.findViewById(R.id.textView_shutter);
+        shutter.setText("");
+        focal = (TextView)view.findViewById(R.id.textView_focal);
+        focal.setText("");
+        fnumber = (TextView)view.findViewById(R.id.textView_fnumber);
+        fnumber.setText("");
+        filename = (TextView)view.findViewById(R.id.textView_filename);
+
+        this.play = (Button)view.findViewById(R.id.button_play);
+        play.setVisibility(View.GONE);
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (file == null)
+                    return;
+                if (!file.getAbsolutePath().endsWith(".raw")) {
+                    Uri uri = Uri.fromFile(file);
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    if (file.getAbsolutePath().endsWith("mp4"))
+                        i.setDataAndType(uri, "video/*");
+                    else
+                        i.setDataAndType(uri, "image/*");
+                    startActivity(i);
+                } else {
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            final File tmp = file;
+                            convertRawToDng(tmp);
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ((ScreenSlideFragment)getParentFragment()).addFile(tmp);
+                                }
+                            });
+                        }
+                    }).start();
+
+                }
+            }
+        });
+        this.deleteButton = (Button)view.findViewById(R.id.button_delete);
+        deleteButton.setVisibility(View.GONE);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
+
+
+            }
+        });
     }
+
+    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+
+                    if (!StringUtils.IS_L_OR_BIG()) {
+                        boolean d = file.delete();
+                    }
+                    else
+                    {
+                       /* DocumentFile df = DocumentFile.fromFile(currentFile);
+                        boolean d = df.delete();
+                        if (!d)
+                        {
+                            Uri uri = getImageContentUri(getContext(), currentFile);
+                            d = DocumentsContract.deleteDocument(getContext().getContentResolver(), uri);
+                        }
+                        Logger.d(TAG, "file delted:" +d);*/
+                    }
+                    ((ScreenSlideFragment)getParentFragment()).reloadFilesAndSetLastPos();
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+        }
+    };
 
     @Override
     public void onSaveInstanceState(Bundle outState)
@@ -94,19 +203,27 @@ public class ImageFragment extends Fragment
     public void onResume()
     {
         super.onResume();
-        if(onClickListener != null)
-            imageView.setOnClickListener(onClickListener);
+            imageView.setOnClickListener(onImageClick);
         if (file != null) {
-
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     loadImage();
                 }
             }).start();
+            updateUi(file);
         }
 
     }
+
+    private View.OnClickListener onImageClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v)
+        {
+            if (ImageFragment.this.onClickListener != null)
+                ImageFragment.this.onClickListener.onClick(v);
+        }
+    };
 
     private void loadImage()
     {
@@ -116,6 +233,7 @@ public class ImageFragment extends Fragment
             @Override
             public void run() {
                 imageView.setImageBitmap(response);
+                myHistogram.setBitmap(response,false);
             }
         });
     }
@@ -131,5 +249,109 @@ public class ImageFragment extends Fragment
 
         }
         return response;
+    }
+
+    private void updateUi(File file)
+    {
+        if (file != null)
+        {
+            filename.setText(file.getName());
+            deleteButton.setVisibility(View.VISIBLE);
+            if (file.getAbsolutePath().endsWith(".jpg")) {
+                processJpeg(file);
+                exifinfo.setVisibility(View.VISIBLE);
+                //myHistogram.setVisibility(View.VISIBLE);
+                play.setVisibility(View.VISIBLE);
+            }
+            if (file.getAbsolutePath().endsWith(".mp4")) {
+                exifinfo.setVisibility(View.GONE);
+                //myHistogram.setVisibility(View.GONE);
+                play.setVisibility(View.VISIBLE);
+            }
+            if (file.getAbsolutePath().endsWith(".dng")) {
+                exifinfo.setVisibility(View.GONE);
+                //myHistogram.setVisibility(View.VISIBLE);
+                play.setVisibility(View.VISIBLE);
+            }
+            if (file.getAbsolutePath().endsWith(".raw")) {
+                exifinfo.setVisibility(View.GONE);
+                //myHistogram.setVisibility(View.VISIBLE);
+                play.setVisibility(View.GONE);
+            }
+
+        }
+        else
+        {
+            filename.setText("No Files");
+            myHistogram.setVisibility(View.GONE);
+            deleteButton.setVisibility(View.GONE);
+            play.setVisibility(View.GONE);
+        }
+    }
+
+    private void processJpeg(final File file)
+    {
+        try {
+            final Metadata metadata = JpegMetadataReader.readMetadata(file);
+            final Directory exifsub = metadata.getDirectory(ExifSubIFDDirectory.class);
+            iso.setText("ISO: " +exifsub.getString(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT));
+            shutter.setText("Exposure Time: " +exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME));
+            fnumber.setText("Aperture:" +exifsub.getString(ExifSubIFDDirectory.TAG_FNUMBER));
+            focal.setText("Focal Length:" +exifsub.getString(ExifSubIFDDirectory.TAG_FOCAL_LENGTH));
+        } catch (IOException e) {
+            Logger.exception(e);
+        } catch (JpegProcessingException e) {
+            Logger.exception(e);
+        }
+        catch (NullPointerException ex)
+        {
+            Logger.exception(ex);
+        }
+    }
+
+    private void convertRawToDng(File file)
+    {
+        byte[] data = null;
+        try {
+            data = RawToDng.readFile(file);
+            Logger.d("Main", "Filesize: " + data.length + " File:" + file.getAbsolutePath());
+
+        } catch (FileNotFoundException e) {
+            Logger.exception(e);
+        } catch (IOException e) {
+            Logger.exception(e);
+        }
+
+        String out = file.getAbsolutePath().replace(".raw", ".dng");
+        RawToDng dng = RawToDng.GetInstance();
+        dng.SetBayerData(data, out);
+        dng.setExifData(100, 0, 0, 0, 0, "", "0", 0);
+        dng.WriteDNG(null);
+        data = null;
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        intent.setData(Uri.fromFile(file));
+        getActivity().sendBroadcast(intent);
+    }
+
+    public void setTag(int tag) {
+        this.tag = tag;
+    }
+
+    public void SetVisibility(boolean Visible)
+    {
+        if (!Visible)
+        {
+            deleteButton.setVisibility(View.GONE);
+            play.setVisibility(View.GONE);
+            myHistogram.setVisibility(View.GONE);
+            bottombar.setVisibility(View.GONE);
+        }
+        else
+        {
+            deleteButton.setVisibility(View.VISIBLE);
+            play.setVisibility(View.VISIBLE);
+            myHistogram.setVisibility(View.VISIBLE);
+            bottombar.setVisibility(View.VISIBLE);
+        }
     }
 }

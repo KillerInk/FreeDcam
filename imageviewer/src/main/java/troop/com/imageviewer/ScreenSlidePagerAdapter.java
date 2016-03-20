@@ -4,7 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.SparseArray;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.troop.filelogger.Logger;
 
@@ -28,11 +30,13 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     private final String TAG = ScreenSlidePagerAdapter.class.getSimpleName();
     private String FilePathToLoad = "";
     private GridViewFragment.FormatTypes filestoshow = GridViewFragment.FormatTypes.all;
+    SparseArray<ImageFragment> registeredFragments;
 
     public ScreenSlidePagerAdapter(FragmentManager fm, ViewPager mPager, View.OnClickListener fragmentclickListner, GridViewFragment.FormatTypes filestoshow)
     {
         super(fm);
         files = new ArrayList<>();
+        registeredFragments = new SparseArray<ImageFragment>();
         this.mPager = mPager;
         this.fragmentclickListner = fragmentclickListner;
         this.filestoshow = filestoshow;
@@ -63,6 +67,7 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
         else
             currentFragment.SetFilePath(files.get(position).getFile());
         currentFragment.SetOnclickLisnter(fragmentclickListner);
+        currentFragment.setTag(position);
         return currentFragment;
     }
 
@@ -87,6 +92,24 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
         }
     }
 
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        ImageFragment fragment = (ImageFragment) super.instantiateItem(container, position);
+        fragment.SetOnclickLisnter(fragmentclickListner);
+        registeredFragments.put(position, fragment);
+        return fragment;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        registeredFragments.remove(position);
+        super.destroyItem(container, position, object);
+    }
+
+    public ImageFragment getRegisteredFragment(int position) {
+        return registeredFragments.get(position);
+    }
+
     public void addFile(File file)
     {
         if (files == null)
@@ -100,8 +123,7 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
         this.notifyDataSetChanged();
     }
 
-    public void reloadFilesAndSetLastPos()
-    {
+    public void reloadFilesAndSetLastPos() {
         Logger.d(TAG, "reloadFilesAndSetLastPos");
         readFiles();
         if (files == null)
