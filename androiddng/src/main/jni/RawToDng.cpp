@@ -601,7 +601,7 @@ void process10tight(TIFF *tif,DngWriter *writer)
     }
     TIFFWriteRawStrip(tif, 0, out, writer->rawheight*shouldberowsize);
 
-    TIFFRewriteDirectory(tif);
+    TIFFWriteDirectory(tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
 
@@ -826,7 +826,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, 
     //CheckPOINT to KEEP EXIF IFD in MEMory
     //Try FiX DIR
     TIFFCheckpointDirectory(tif);
-    TIFFRewriteDirectory(tif);
+    TIFFWriteDirectory(tif);
     TIFFSetDirectory(tif, 0);
 
     if(writer->gps == true)
