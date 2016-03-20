@@ -152,6 +152,8 @@ public class DeviceUtils
             return Devices.OneA9;
         else if(isLenovo_K50())
             return Devices.Lenovo_K50_MTK;
+        else if(isForwardArt())
+        return Devices.ForwardArt_MTK;
         else
             return Devices.UNKNOWN;
 
@@ -261,7 +263,8 @@ public class DeviceUtils
             Devices.THL5000_MTK,
             Devices.SonyM4_QC,
             Devices.OneA9,
-            Devices.Lenovo_K50_MTK
+            Devices.Lenovo_K50_MTK,
+            Devices.ForwardArt_MTK
     };
 
     public static Devices[] camera1NO_RAW_STREAM = {

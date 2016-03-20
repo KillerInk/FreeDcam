@@ -1,5 +1,6 @@
 package com.troop.freedcam.camera.parameters;
 
+import android.hardware.Camera;
 import android.os.Build;
 import android.os.Handler;
 
@@ -698,11 +699,14 @@ public class CamParametersHandler extends AbstractParameterHandler
                 Handler handler = new Handler();
                 Runnable r = new Runnable() {
                     public void run() {
-                        cameraParameters.put("metering-areas", "(" + lF.left + "," + lF.top + "," + lF.right + "," + lF.bottom + ",100)");
+                        //cameraParameters.put("metering-areas", "(" + lF.left + "," + lF.top + "," + lF.right + "," + lF.bottom + ",100)");
+                        cameraParameters.put("touch-aec","on");
+                        cameraParameters.put("raw-size","4208x3120");
+                        cameraParameters.put("touch-index-aec", lF.x + "," + lF.y);
                         cameraHolder.SetCameraParameters(cameraParameters);
                     }
                 };
-               handler.postDelayed(r, 1);
+               handler.post(r);
 
 
             }
@@ -721,13 +725,20 @@ public class CamParametersHandler extends AbstractParameterHandler
             {
                 final FocusRect lF = focusAreas;
                 Handler handler = new Handler();
+
                 Runnable r = new Runnable() {
                     public void run() {
-                        cameraParameters.put("focus-areas", "(" + lF.left + "," + lF.top + "," + lF.right + "," + lF.bottom + ",1000)");
+                    //    ((BaseCameraHolder)cameraHolder).baseSetParamTest();
+
+                       // cameraParameters.put("focus-areas", "(" + lF.left + "," + lF.top + "," + lF.right + "," + lF.bottom + ",1000)");
+                       // cameraHolder.SetCameraParameters(cameraParameters);
+                        cameraParameters.put("touch-aec","on");
+                        cameraParameters.put("raw-size","4208x3120");
+                        cameraParameters.put("touch-index-af", lF.x + "," + lF.y);
                         cameraHolder.SetCameraParameters(cameraParameters);
                     }
                 };
-                handler.postDelayed(r, 1);
+                handler.post(r);
             }
             catch (Exception e)
             {
