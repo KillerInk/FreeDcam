@@ -83,9 +83,9 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     /**
      * The pager adapter, which provides the pages to the view pager widget.
      */
-    private PagerAdapter mPagerAdapter;
+    private ScreenSlidePagerAdapter mPagerAdapter;
 
-    private List<FileHolder> files;
+
     private Button closeButton;
     Button deleteButton;
     Button play;
@@ -190,7 +190,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    addFile(tmp);
+                                    mPagerAdapter.addFile(tmp);
                                 }
                             });
                         }
@@ -227,23 +227,19 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
 
         if (FilePathToLoad.equals("")) {
             FilePathToLoad = StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder;
-            readFiles();
+
         }
-        else
-        {
-            readFiles();
-        }
-        Logger.d(TAG, "onViewCreate" + FilePathToLoad);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
+        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),mPager,fragmentclickListner,filestoshow);
+        mPagerAdapter.SetFileToLoadPath(FilePathToLoad);
         mPager.addOnPageChangeListener(this);
         mPager.setAdapter(mPagerAdapter);
-        if(files != null ) {
-            if (files.size() > 0 && defitem == -1) {
+        if(mPagerAdapter.getFiles() != null ) {
+            if (mPagerAdapter.getFiles().size() > 0 && defitem == -1) {
                 mPager.setCurrentItem(0);
             } else
                 mPager.setCurrentItem(defitem);
-            if (files.size() > 0) {
-                currentFile = files.get(mPager.getCurrentItem()).getFile();
+            if (mPagerAdapter.getFiles().size() > 0) {
+                currentFile = mPagerAdapter.getCurrentFile().getFile();
             }
             else
                 currentFile = null;
@@ -296,38 +292,6 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         super.onSaveInstanceState(outState);
     }
 
-    private void readFiles()
-    {
-        List<FileHolder> images = new ArrayList<FileHolder>();
-        File folder = new File(FilePathToLoad);
-        if(folder.listFiles() == null || folder.listFiles().length ==0)
-        {
-            Logger.d(TAG, "readFiles failed, folder.listFiles empty");
-            files = null;
-            return;
-        }
-        FileUtils.readFilesFromFolder(folder, images, filestoshow);
-        files = images;
-        Logger.d(TAG, "readFiles sucess, FilesCount" + files.size());
-        Collections.sort(files, new Comparator<FileHolder>() {
-            public int compare(FileHolder f1, FileHolder f2) {
-                return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
-            }
-        });
-    }
-
-    public void addFile(File file)
-    {
-        if (files == null)
-            return;
-        files.add(new FileHolder(file));
-        Collections.sort(files, new Comparator<FileHolder>() {
-            public int compare(FileHolder f1, FileHolder f2) {
-                return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
-            }
-        });
-        mPagerAdapter.notifyDataSetChanged();
-    }
 
     public void SetOnThumbClick(I_ThumbClick thumbClick)
     {
@@ -342,7 +306,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     @Override
     public void onPageSelected(int position)
     {
-        currentFile = files.get(position).getFile();
+        currentFile = mPagerAdapter.getFiles().get(position).getFile();
         updateUi(currentFile);
     }
 
@@ -357,30 +321,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         void newImageRecieved(File file);
     }
 
-    public void reloadFilesAndSetLastPos()
-    {
-        Logger.d(TAG, "reloadFilesAndSetLastPos");
-        readFiles();
-        if (files == null)
-            return;
-        int current = mPager.getCurrentItem();
-        mPagerAdapter.notifyDataSetChanged();
-        if (current-1 >= 0 && current-1 <= files.size())
-            mPager.setCurrentItem(current -1);
-        else
-            mPager.setCurrentItem(0);
-    }
 
-    public void ReloadFilesAndSetLast()
-    {
-        readFiles();
-        if (files == null)
-            return;
-        mPagerAdapter.notifyDataSetChanged();
-        mPager.setCurrentItem(0);
-        Logger.d(TAG, "reloadFilesAndSetLast");
-
-    }
 
     private View.OnClickListener fragmentclickListner = new View.OnClickListener() {
         @Override
@@ -389,47 +330,6 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         }
     };
 
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
-    {
-        public ScreenSlidePagerAdapter(FragmentManager fm)
-        {
-            super(fm);
-
-        }
-
-        @Override
-        public Fragment getItem(int position)
-        {
-            ImageFragment currentFragment = new ImageFragment();
-            if (files == null || files.size() == 0)
-                currentFragment.SetFilePath(null);
-            else
-                currentFragment.SetFilePath(files.get(position).getFile());
-            currentFragment.SetOnclickLisnter(fragmentclickListner);
-            return currentFragment;
-        }
-
-        @Override
-        public int getCount()
-        {
-            if(files != null)
-                return files.size();
-            else return 1;
-        }
-
-        @Override
-        public int getItemPosition(Object object) {
-            FileHolder file = new FileHolder(((ImageFragment) object).GetFilePath());
-            int position = files.indexOf(file);
-            if (position >= 0) {
-                // The current data matches the data in this active fragment, so let it be as it is.
-                return position;
-            } else {
-                // Returning POSITION_NONE means the current data does not matches the data this fragment is showing right now.  Returning POSITION_NONE constant will force the fragment to redraw its view layout all over again and show new data.
-                return POSITION_NONE;
-            }
-        }
-    }
 
     private void processJpeg(final File file)
     {
@@ -462,16 +362,16 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
                     }
                     else
                     {
-                        DocumentFile df = DocumentFile.fromFile(currentFile);
+                       /* DocumentFile df = DocumentFile.fromFile(currentFile);
                         boolean d = df.delete();
                         if (!d)
                         {
                             Uri uri = getImageContentUri(getContext(), currentFile);
                             d = DocumentsContract.deleteDocument(getContext().getContentResolver(), uri);
                         }
-                        Logger.d(TAG, "file delted:" +d);
+                        Logger.d(TAG, "file delted:" +d);*/
                     }
-                    reloadFilesAndSetLastPos();
+                    mPagerAdapter.reloadFilesAndSetLastPos();
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:
@@ -481,30 +381,6 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         }
     };
 
-    public static Uri getImageContentUri(Context context, File imageFile) {
-        String filePath = imageFile.getAbsolutePath();
-        Cursor cursor = context.getContentResolver().query(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                new String[] { MediaStore.Images.Media._ID },
-                MediaStore.Images.Media.DATA + "=? ",
-                new String[] { filePath }, null);
-
-        if (cursor != null && cursor.moveToFirst()) {
-            int id = cursor.getInt(cursor
-                    .getColumnIndex(MediaStore.MediaColumns._ID));
-            Uri baseUri = Uri.parse("content://media/external/images/media");
-            return Uri.withAppendedPath(baseUri, "" + id);
-        } else {
-            if (imageFile.exists()) {
-                ContentValues values = new ContentValues();
-                values.put(MediaStore.Images.Media.DATA, filePath);
-                return context.getContentResolver().insert(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-            } else {
-                return null;
-            }
-        }
-    }
 
     private void convertRawToDng(File file)
     {
@@ -570,6 +446,12 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         animBottomToTopHide = AnimationUtils.loadAnimation(getContext(), R.anim.bottom_to_top_exit);
         animTopToBottomShow = AnimationUtils.loadAnimation(getContext(), R.anim.top_to_bottom_enter);
         animTopToBottomHide = AnimationUtils.loadAnimation(getContext(), R.anim.top_to_bottom_exit);
+    }
+
+    public void addFile(File file)
+    {
+        if (mPagerAdapter != null)
+            mPagerAdapter.addFile(file);
     }
 
 }
