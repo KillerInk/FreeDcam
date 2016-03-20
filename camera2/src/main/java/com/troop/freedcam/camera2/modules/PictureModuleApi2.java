@@ -542,7 +542,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         double mExposuretime = mDngResult.get(CaptureResult.SENSOR_EXPOSURE_TIME).doubleValue();
         int mFlash = mDngResult.get(CaptureResult.FLASH_STATE).intValue();
 
-        dngConverter.setExifData(mISO, mExposuretime, 0, fnum, focal, "0", cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.JPEG_ORIENTATION).toString(), 0);
+        dngConverter.setExifData(mISO, mExposuretime, mFlash, fnum, focal, "0", cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.JPEG_ORIENTATION).toString(), 0);
 
         int black  = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_BLACK_LEVEL_PATTERN).getOffsetForIndex(0,0);
         int c= cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_COLOR_FILTER_ARRANGEMENT);
@@ -562,17 +562,18 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 colorpattern = DngSupportedDevices.RGGB;
                 break;
         }
-        float[] m1  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2));
-        float[] m2 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1));
+        float[] m2  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2));
+        float[] m1 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1));
         Rational[] n =  mDngResult.get(CaptureResult.SENSOR_NEUTRAL_COLOR_POINT);
         float[] neutral = new float[3];
         neutral[0] = n[0].floatValue();
         neutral[1] = n[1].floatValue();
-        neutral[2] = n[0].floatValue();
-        float[] f1  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX2));
-        float[] f2  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX1));
+        neutral[2] = n[2].floatValue();
+        //float[] f2  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX2));
+        //0.820300f, -0.218800f, 0.359400f, 0.343800f, 0.570300f,0.093800f, 0.015600f, -0.726600f, 1.539100f
+        //float[] f1  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX1).);
         DngSupportedDevices d = new DngSupportedDevices();
-        DngSupportedDevices.DngProfile prof = d.getProfile(black,image.getWidth(), image.getHeight(), DngSupportedDevices.Mipi, colorpattern, 0,
+        /*DngSupportedDevices.DngProfile prof = d.getProfile(black,image.getWidth(), image.getHeight(), DngSupportedDevices.Mipi, colorpattern, 0,
                 m1,
                 m2,
                 neutral,
@@ -581,7 +582,17 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 Matrixes.G4_reduction_matrix1,
                 Matrixes.G4_reduction_matrix2,
                 Matrixes.G4_noise_3x1_matrix
-        );
+        );*/
+
+        DngSupportedDevices.DngProfile prof = d.getProfile(black,image.getWidth(), image.getHeight(), DngSupportedDevices.Mipi, colorpattern, 0,
+                Matrixes.Nex6CCM1,
+                Matrixes.Nex6CCM2,
+                neutral,
+                Matrixes.Nexus6_foward_matrix1,
+                Matrixes.Nexus6_foward_matrix2,
+                Matrixes.Nexus6_reduction_matrix1,
+                Matrixes.Nexus6_reduction_matrix2,
+                Matrixes.Nexus6_noise_3x1_matrix);
 
         dngConverter.WriteDngWithProfile(prof);
         dngConverter.RELEASE();
@@ -601,16 +612,21 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         float[] ret = new float[9];
 
-        ret[0] = transform.getElement(0,0).floatValue();
-        ret[1] = transform.getElement(0,1).floatValue();
-        ret[2] = transform.getElement(0,2).floatValue();
-        ret[3] = transform.getElement(1,0).floatValue();
-        ret[4] = transform.getElement(1,1).floatValue();
-        ret[5] = transform.getElement(1,2).floatValue();
-        ret[6] = transform.getElement(2,0).floatValue();
-        ret[7] = transform.getElement(2,1).floatValue();
-        ret[8] = transform.getElement(2,2).floatValue();
+        ret[0] = roundTo6Places(transform.getElement(0, 0).floatValue());
+        ret[1] = roundTo6Places(transform.getElement(0, 1).floatValue());
+        ret[2] = roundTo6Places(transform.getElement(0, 2).floatValue());
+        ret[3] = roundTo6Places(transform.getElement(1, 0).floatValue());
+        ret[4] = roundTo6Places(transform.getElement(1, 1).floatValue());
+        ret[5] = roundTo6Places(transform.getElement(1, 2).floatValue());
+        ret[6] = roundTo6Places(transform.getElement(2, 0).floatValue());
+        ret[7] = roundTo6Places(transform.getElement(2, 1).floatValue());
+        ret[8] = roundTo6Places(transform.getElement(2, 2).floatValue());
         return ret;
+    }
+
+    private float roundTo6Places(float f )
+    {
+        return Math.round(f*1000000f)/1000000f;
     }
 
     /**
