@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.apis.AbstractCameraFragment;
@@ -68,6 +69,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     static AbstractCameraFragment cameraFragment;
     ScreenSlideFragment imageViewerFragment;
     private boolean debugLoggerging = false;
+    Thread.UncaughtExceptionHandler defaultEXhandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -87,6 +89,16 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
         appViewGroup = (ViewGroup) inflater.inflate(R.layout.main_v2, null);
         setContentView(R.layout.main_v2);
 
+        // Setup handler for uncaught exceptions.
+        defaultEXhandler = Thread.getDefaultUncaughtExceptionHandler();
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread thread, Throwable e) {
+                Logger.exception(e);
+                defaultEXhandler.uncaughtException(thread,e);
+            }
+        });
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
             checkMarshmallowPermissions();
@@ -96,6 +108,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
 
 
     }
+
 
     private void checkMarshmallowPermissions() {
         if (checkSelfPermission(Manifest.permission.CAMERA)
@@ -160,14 +173,15 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     @Override
     protected void onStop() {
         super.onStop();
-        if (debugLoggerging)
-            Logger.StopLogging();
+
     }
 
     @Override
     protected void onDestroy()
     {
         super.onDestroy();
+        if (debugLoggerging)
+            Logger.StopLogging();
     }
 
     private void checkStartLoggerging()
