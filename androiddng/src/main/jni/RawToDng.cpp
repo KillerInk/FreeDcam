@@ -549,7 +549,7 @@ void processTight(TIFF *tif,DngWriter *writer)
 	LOGD("Write done");
 	//TIFFCheckpointDirectory(tif);
     LOGD("write checkpoint");
-    TIFFRewriteDirectory (tif);
+    TIFFWriteDirectory (tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
@@ -841,7 +841,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, 
     writeExifIfd(tif,writer);
     //Check Point & Write are require checkpoint to update Current IFD Write Well to Write Close And Create IFD
     TIFFCheckpointDirectory(tif); //This Was missing it without it EXIF IFD was not being updated after adding SUB IFD
-    //TIFFWriteCustomDirectory(tif, &dir_offset);
+    TIFFWriteCustomDirectory(tif, &dir_offset);
     ///////////////////// GO Back TO IFD 0
     TIFFSetDirectory(tif, 0);
     if(writer->gps)
