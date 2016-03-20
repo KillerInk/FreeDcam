@@ -40,7 +40,6 @@ public class RawToDng
     private static native void SetGPSData(ByteBuffer nativeHandler,double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime);
     private static native void SetThumbData(ByteBuffer nativeHandler,byte[] mThumb, int widht, int height);
     private static native void WriteDNG(ByteBuffer nativeHandler);
-    private static native void Write10bitDNG(ByteBuffer nativeHandler);
     private static native void Release(ByteBuffer nativeHandler);
     private static native void SetRawHeight(ByteBuffer nativeHandler,int height);
     private static native void SetModelAndMake(ByteBuffer nativeHandler,String model, String make);
@@ -320,26 +319,6 @@ public class RawToDng
         SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.fowardmatrix1,profile.fowardmatrix2,profile.reductionmatrix1,profile.reductionmatrix2,profile.noiseprofile,profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.rawType,profile.widht,profile.height);
         WriteDNG(nativeHandler);
         RELEASE();
-    }
-
-    public void Write10BitDNG(DeviceUtils.Devices device)
-    {
-        DeviceUtils.Devices devices = device;
-        if (devices != null)
-        {
-            DngSupportedDevices.DngProfile profile = new DngSupportedDevices().getProfile(devices, (int)GetRawSize());
-            //if (profile.rowsize == 0)
-            //profile.rowsize = Calculate_rowSize((int)GetRawSize(), profile.height);
-            if (profile == null)
-            {
-                RELEASE();
-                return;
-            }
-            SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
-            SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.fowardmatrix1,profile.fowardmatrix2,profile.reductionmatrix1,profile.reductionmatrix2,profile.noiseprofile,profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.rawType,profile.widht,profile.height);
-            Write10bitDNG(nativeHandler);
-            RELEASE();
-        }
     }
 
     public static byte[] readFile(File file) throws IOException {
