@@ -547,7 +547,7 @@ void processTight(TIFF *tif,DngWriter *writer)
 	LOGD("Write done");
 	//TIFFCheckpointDirectory(tif);
     LOGD("write checkpoint");
-    TIFFWriteDirectory (tif);
+    TIFFRewriteDirectory (tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
@@ -661,7 +661,7 @@ void processLoose(TIFF *tif,DngWriter *writer)
 		}
 	}
     //TIFFCheckpointDirectory(tif);
-    TIFFRewriteDirectory(tif);
+    TIFFWriteDirectory(tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
@@ -701,7 +701,7 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
 		LOGD("Error writing TIFF scanline.");
 		}
 	}
-    TIFFRewriteDirectory(tif);
+    TIFFWriteDirectory(tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
@@ -785,7 +785,9 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
         LOGD("OpCode Entry");
         TIFFSetField(tif, TIFFTAG_OPC2, sizeD, opcode_list);
         LOGD("OpCode Exit");
+        TIFFCheckpointDirectory(tif);
     }
+
 //*****************************************************************************************
     if(writer->rawType == 0)
     {
