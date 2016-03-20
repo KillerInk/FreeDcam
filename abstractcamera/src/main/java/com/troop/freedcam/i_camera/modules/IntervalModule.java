@@ -1,5 +1,6 @@
 package com.troop.freedcam.i_camera.modules;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.ui.AppSettingsManager;
 
@@ -34,9 +35,11 @@ public class IntervalModule extends AbstractModule implements AbstractModuleHand
     {
         if (!intervalHandler.IsWorking())
         {
+            Logger.d(TAG, "StartInterval");
             intervalHandler.StartInterval();
             return true;
         } else {
+            Logger.d(TAG, "Stop Interval");
             intervalHandler.CancelInterval();
             return false;
         }
@@ -55,18 +58,21 @@ public class IntervalModule extends AbstractModule implements AbstractModuleHand
     @Override
     public void onWorkStarted()
     {
+        Logger.d(TAG, "WorkStarted");
         workstarted();
     }
 
     @Override
     public void onWorkFinished(boolean finished)
     {
+        Logger.d(TAG, "Work Finished");
         workfinished(finished);
         intervalHandler.DoNextInterval();
     }
 
     @Override
-    public boolean IsWorking() {
+    public boolean IsWorking()
+    {
         return intervalHandler.IsWorking();
     }
 }
