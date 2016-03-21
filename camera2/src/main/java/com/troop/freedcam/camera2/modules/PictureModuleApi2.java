@@ -569,11 +569,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         neutral[0] = n[0].floatValue();
         neutral[1] = n[1].floatValue();
         neutral[2] = n[2].floatValue();
-        //float[] f2  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX2));
+        float[] f2  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX2));
         //0.820300f, -0.218800f, 0.359400f, 0.343800f, 0.570300f,0.093800f, 0.015600f, -0.726600f, 1.539100f
-        //float[] f1  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX1).);
+        float[] f1  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX1));
         DngSupportedDevices d = new DngSupportedDevices();
-        /*DngSupportedDevices.DngProfile prof = d.getProfile(black,image.getWidth(), image.getHeight(), DngSupportedDevices.Mipi, colorpattern, 0,
+        DngSupportedDevices.DngProfile prof = d.getProfile(black,image.getWidth(), image.getHeight(), DngSupportedDevices.Mipi, colorpattern, 0,
                 m1,
                 m2,
                 neutral,
@@ -582,9 +582,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 Matrixes.G4_reduction_matrix1,
                 Matrixes.G4_reduction_matrix2,
                 Matrixes.G4_noise_3x1_matrix
-        );*/
+        );
 
-        DngSupportedDevices.DngProfile prof = d.getProfile(black,image.getWidth(), image.getHeight(), DngSupportedDevices.Mipi, colorpattern, 0,
+/*        DngSupportedDevices.DngProfile prof = d.getProfile(black,image.getWidth(), image.getHeight(), DngSupportedDevices.Mipi, colorpattern, 0,
                 Matrixes.Nex6CCM1,
                 Matrixes.Nex6CCM2,
                 neutral,
@@ -592,7 +592,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 Matrixes.Nexus6_foward_matrix2,
                 Matrixes.Nexus6_reduction_matrix1,
                 Matrixes.Nexus6_reduction_matrix2,
-                Matrixes.Nexus6_noise_3x1_matrix);
+                Matrixes.Nexus6_noise_3x1_matrix);*/
 
         dngConverter.WriteDngWithProfile(prof);
         dngConverter.RELEASE();
@@ -612,7 +612,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         float[] ret = new float[9];
 
-        ret[0] = roundTo6Places(transform.getElement(0, 0).floatValue());
+        /*ret[0] = roundTo6Places(transform.getElement(0, 0).floatValue());
         ret[1] = roundTo6Places(transform.getElement(0, 1).floatValue());
         ret[2] = roundTo6Places(transform.getElement(0, 2).floatValue());
         ret[3] = roundTo6Places(transform.getElement(1, 0).floatValue());
@@ -620,6 +620,16 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         ret[5] = roundTo6Places(transform.getElement(1, 2).floatValue());
         ret[6] = roundTo6Places(transform.getElement(2, 0).floatValue());
         ret[7] = roundTo6Places(transform.getElement(2, 1).floatValue());
+        ret[8] = roundTo6Places(transform.getElement(2, 2).floatValue());
+*/
+        ret[0] = roundTo6Places(transform.getElement(0, 0).floatValue());
+        ret[1] = roundTo6Places(transform.getElement(1, 0).floatValue());
+        ret[2] = roundTo6Places(transform.getElement(2, 0).floatValue());
+        ret[3] = roundTo6Places(transform.getElement(0, 1).floatValue());
+        ret[4] = roundTo6Places(transform.getElement(1, 1).floatValue());
+        ret[5] = roundTo6Places(transform.getElement(2, 1).floatValue());
+        ret[6] = roundTo6Places(transform.getElement(0, 2).floatValue());
+        ret[7] = roundTo6Places(transform.getElement(1, 2).floatValue());
         ret[8] = roundTo6Places(transform.getElement(2, 2).floatValue());
         return ret;
     }
