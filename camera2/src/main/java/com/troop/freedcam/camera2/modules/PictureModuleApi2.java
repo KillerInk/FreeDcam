@@ -27,6 +27,7 @@ import android.renderscript.RenderScript;
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
 import android.util.Log;
+import android.util.Pair;
 import android.util.Rational;
 import android.util.Size;
 import android.view.Display;
@@ -547,41 +548,76 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         int black  = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_BLACK_LEVEL_PATTERN).getOffsetForIndex(0,0);
         int c= cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_COLOR_FILTER_ARRANGEMENT);
         String colorpattern;
+        int[] cfaOut = new int[4];
         switch (c)
         {
             case 1:
                 colorpattern = DngSupportedDevices.GRBG;
+                cfaOut[0] = 1;
+                cfaOut[1] = 0;
+                cfaOut[2] = 2;
+                cfaOut[3] = 1;
                 break;
             case 2:
                 colorpattern = DngSupportedDevices.GBRG;
+                cfaOut[0] = 1;
+                cfaOut[1] = 2;
+                cfaOut[2] = 0;
+                cfaOut[3] = 1;
                 break;
             case 3:
                 colorpattern = DngSupportedDevices.BGGR;
+                cfaOut[0] = 2;
+                cfaOut[1] = 1;
+                cfaOut[2] = 1;
+                cfaOut[3] = 0;
                 break;
             default:
                 colorpattern = DngSupportedDevices.RGGB;
+                cfaOut[0] = 0;
+                cfaOut[1] = 1;
+                cfaOut[2] = 1;
+                cfaOut[3] = 2;
                 break;
         }
-        float[] m2  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2));
-        float[] m1 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1));
+        float[] color2  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2));
+        float[] color1 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1));
         Rational[] n =  mDngResult.get(CaptureResult.SENSOR_NEUTRAL_COLOR_POINT);
         float[] neutral = new float[3];
         neutral[0] = n[0].floatValue();
         neutral[1] = n[1].floatValue();
         neutral[2] = n[2].floatValue();
-        float[] f2  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX2));
+        float[] forward2  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX2));
         //0.820300f, -0.218800f, 0.359400f, 0.343800f, 0.570300f,0.093800f, 0.015600f, -0.726600f, 1.539100f
-        float[] f1  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX1));
+        float[] forward1  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX1));
+
+        //noise
+        Pair[] p = mDngResult.get(CaptureResult.SENSOR_NOISE_PROFILE);
+        double[] noiseys = new double[p.length*2];
+        int i = 0;
+        for (int h = 0; h < p.length; h++)
+        {
+            noiseys[i++] = (double)p[h].first;
+            noiseys[i++] = (double)p[h].second;
+        }
+        double[] noise = new double[6];
+        int[] cfaPlaneColor = {0, 1, 2};
+        generateNoiseProfile(noiseys,cfaOut,4,cfaPlaneColor,3,noise);
+        float[]finalnoise = new float[6];
+        for (i = 0; i < noise.length; i++)
+            finalnoise[i] = (float)noise[i];
+        //noise end
+
         DngSupportedDevices d = new DngSupportedDevices();
         DngSupportedDevices.DngProfile prof = d.getProfile(black,image.getWidth(), image.getHeight(), DngSupportedDevices.Mipi, colorpattern, 0,
-                m1,
-                m2,
+                color1,
+                color2,
                 neutral,
-                f1,
-                f2,
+                forward1,
+                forward2,
                 Matrixes.G4_reduction_matrix1,
                 Matrixes.G4_reduction_matrix2,
-                Matrixes.G4_noise_3x1_matrix
+                finalnoise
         );
 
 /*        DngSupportedDevices.DngProfile prof = d.getProfile(black,image.getWidth(), image.getHeight(), DngSupportedDevices.Mipi, colorpattern, 0,
@@ -606,6 +642,30 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             }
         }
         return file;
+    }
+
+    private void generateNoiseProfile(double[] perChannelNoiseProfile, int[] cfa,
+                                       int numChannels, int[] planeColors, int numPlanes,
+        /*out*/double[] noiseProfile) {
+
+        for (int p = 0; p < numPlanes; ++p) {
+            int S = p * 2;
+            int O = p * 2 + 1;
+
+            noiseProfile[S] = 0;
+            noiseProfile[O] = 0;
+            boolean uninitialized = true;
+            for (int c = 0; c < numChannels; ++c) {
+                if (cfa[c] == planeColors[p] && perChannelNoiseProfile[c * 2] > noiseProfile[S]) {
+                    noiseProfile[S] = perChannelNoiseProfile[c * 2];
+                    noiseProfile[O] = perChannelNoiseProfile[c * 2 + 1];
+                    uninitialized = false;
+                }
+            }
+            if (uninitialized) {
+                Logger.d(TAG, "%s: No valid NoiseProfile coefficients for color plane %zu");
+            }
+        }
     }
 
     private float[]getFloatMatrix(ColorSpaceTransform transform)
