@@ -41,6 +41,8 @@ public class RawToDng
     private static native void SetThumbData(ByteBuffer nativeHandler,byte[] mThumb, int widht, int height);
     private static native void WriteDNG(ByteBuffer nativeHandler);
     private static native void Release(ByteBuffer nativeHandler);
+    private static native void SetOpCode3(ByteBuffer nativeHandler, byte[] opcode);
+    private static native void SetOpCode2(ByteBuffer nativeHandler, byte[] opcode);
     private static native void SetRawHeight(ByteBuffer nativeHandler,int height);
     private static native void SetModelAndMake(ByteBuffer nativeHandler,String model, String make);
     private static native void SetBayerData(ByteBuffer nativeHandler,byte[] fileBytes, String fileout);

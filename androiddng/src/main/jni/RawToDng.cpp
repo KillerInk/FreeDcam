@@ -46,6 +46,8 @@ extern "C"
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetModelAndMake(JNIEnv *env, jobject thiz, jobject handler, jstring model, jstring make);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Release(JNIEnv *env, jobject thiz, jobject handler);
     JNIEXPORT jint JNICALL Java_com_troop_androiddng_RawToDng_GetRawHeight(JNIEnv *env, jobject thiz, jobject handler);
+    JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetOpCode2(JNIEnv *env, jobject thiz, jobject handler, jbyteArray opcode);
+    JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetOpCode3(JNIEnv *env, jobject thiz, jobject handler, jbyteArray opcode);
 
 	JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerInfo(JNIEnv *env, jobject thiz, jobject handler,
     	jfloatArray colorMatrix1,
@@ -108,6 +110,11 @@ public:
 
     int thumbheight, thumwidth;
     unsigned char* _thumbData;
+
+    int opcode2Size;
+    unsigned char* opcode2;
+    int opcode3Size;
+    unsigned char* opcode3;
 
     DngWriter()
     {
@@ -189,6 +196,21 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetThumbData(JNIEnv *e
     writer->thumwidth = widht;
 }
 
+JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetOpCode2(JNIEnv *env, jobject thiz, jobject handler, jbyteArray opcode)
+{
+    DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
+    writer->opcode2Size = env->GetArrayLength(opcode);
+    writer->opcode2 = new unsigned char[writer->opcode2Size];
+    memcpy(writer->opcode2, env->GetByteArrayElements(opcode,NULL), writer->opcode2Size);
+}
+JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetOpCode3(JNIEnv *env, jobject thiz, jobject handler, jbyteArray opcode)
+{
+    DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
+    writer->opcode3Size = env->GetArrayLength(opcode);
+    writer->opcode3 = new unsigned char[writer->opcode3Size];
+    memcpy(writer->opcode3, env->GetByteArrayElements(opcode,NULL), writer->opcode2Size);
+}
+
 JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Release(JNIEnv *env, jobject thiz, jobject handler)
 {
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
@@ -196,6 +218,16 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Release(JNIEnv *env, j
     {
         free(writer->bayerBytes);
         writer->bayerBytes = NULL;
+    }
+    if(writer->opcode2 != NULL)
+    {
+        free(writer->opcode2);
+        writer->opcode2 = NULL;
+    }
+    if(writer->opcode3 != NULL)
+    {
+        free(writer->opcode3);
+        writer->opcode3 = NULL;
     }
     /*if(writer->_thumbData != NULL)
         free(writer->_thumbData);*/
@@ -767,8 +799,20 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
     TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
     //**********************************************************************************
 
-    LOGD("Read Op from File");
-    FILE * opbin = fopen("/sdcard/DCIM/FreeDcam/opc2.bin", "r+");
+    LOGD("Set OP or not");
+    if(writer->opcode2 != NULL)
+    {
+        LOGD("Set OP2");
+        TIFFSetField(tif, TIFFTAG_OPC2, writer->opcode2Size, writer->opcode2);
+        TIFFCheckpointDirectory(tif);
+    }
+    if(writer->opcode3 != NULL)
+    {
+        LOGD("Set OP3");
+        TIFFSetField(tif, TIFFTAG_OPC3, writer->opcode3Size, writer->opcode3);
+        TIFFCheckpointDirectory(tif);
+    }
+    /*FILE * opbin = fopen("/sdcard/DCIM/FreeDcam/opc2.bin", "r+");
     if (opbin != NULL)
     {
         fseek(opbin, 0, SEEK_END);
@@ -786,7 +830,7 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
         TIFFSetField(tif, TIFFTAG_OPC2, sizeD, opcode_list);
         LOGD("OpCode Exit");
         TIFFCheckpointDirectory(tif);
-    }
+    }*/
 
 //*****************************************************************************************
     if(writer->rawType == 0)
