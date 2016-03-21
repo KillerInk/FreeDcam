@@ -121,6 +121,8 @@ public:
         gps = false;
         fileDes = -1;
         hasFileDes = false;
+        opcode2Size =0;
+        opcode3Size = 0;
     }
 };
 
@@ -208,7 +210,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetOpCode3(JNIEnv *env
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
     writer->opcode3Size = env->GetArrayLength(opcode);
     writer->opcode3 = new unsigned char[writer->opcode3Size];
-    memcpy(writer->opcode3, env->GetByteArrayElements(opcode,NULL), writer->opcode2Size);
+    memcpy(writer->opcode3, env->GetByteArrayElements(opcode,NULL), writer->opcode3Size);
 }
 
 JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Release(JNIEnv *env, jobject thiz, jobject handler)
@@ -219,12 +221,12 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Release(JNIEnv *env, j
         free(writer->bayerBytes);
         writer->bayerBytes = NULL;
     }
-    if(writer->opcode2 != NULL)
+    if(writer->opcode2Size >0)
     {
         free(writer->opcode2);
         writer->opcode2 = NULL;
     }
-    if(writer->opcode3 != NULL)
+    if(writer->opcode3Size >0)
     {
         free(writer->opcode3);
         writer->opcode3 = NULL;
@@ -800,13 +802,13 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
     //**********************************************************************************
 
     LOGD("Set OP or not");
-    if(writer->opcode2 != NULL)
+    if(writer->opcode2Size >0)
     {
         LOGD("Set OP2");
         TIFFSetField(tif, TIFFTAG_OPC2, writer->opcode2Size, writer->opcode2);
         TIFFCheckpointDirectory(tif);
     }
-    if(writer->opcode3 != NULL)
+    if(writer->opcode3Size >0)
     {
         LOGD("Set OP3");
         TIFFSetField(tif, TIFFTAG_OPC3, writer->opcode3Size, writer->opcode3);
