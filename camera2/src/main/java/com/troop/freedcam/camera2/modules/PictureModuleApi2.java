@@ -606,7 +606,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         generateNoiseProfile(noiseys,cfaOut,4,cfaPlaneColor,3,noise);
         float[]finalnoise = new float[6];
         for (i = 0; i < noise.length; i++)
-            finalnoise[i] = (float)noise[i];
+            if (noise[i] > 2 || noise[i] < -2)
+                finalnoise[i] = 0;
+            else
+                finalnoise[i] = (float)noise[i];
         //noise end
 
         DngSupportedDevices d = new DngSupportedDevices();
