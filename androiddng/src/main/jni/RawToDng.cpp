@@ -381,7 +381,7 @@ void writeIfd0(TIFF *tif, DngWriter *writer)
     LOGD("CameraModel");
     TIFFSetField(tif, TIFFTAG_IMAGEDESCRIPTION, writer->_imagedescription);
     LOGD("imagedescription");
-    TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, writer->colorMatrix2);
+    TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, writer->colorMatrix1);
     LOGD("colormatrix1");
     TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, writer->neutralColorMatrix);
     LOGD("neutralMatrix");
@@ -389,10 +389,10 @@ void writeIfd0(TIFF *tif, DngWriter *writer)
 
     TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 17);
 
-    TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, writer->colorMatrix1);
+    TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, writer->colorMatrix2);
 
-    TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  writer->fowardMatrix2);
-    TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  writer->fowardMatrix1);
+    TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  writer->fowardMatrix1);
+    TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  writer->fowardMatrix2);
 
     TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  writer->noiseMatrix);
 
@@ -806,12 +806,14 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
     {
         LOGD("Set OP2");
         TIFFSetField(tif, TIFFTAG_OPC2, writer->opcode2Size, writer->opcode2);
-        TIFFCheckpointDirectory(tif);
     }
     if(writer->opcode3Size >0)
     {
         LOGD("Set OP3");
         TIFFSetField(tif, TIFFTAG_OPC3, writer->opcode3Size, writer->opcode3);
+    }
+    if(writer->opcode3Size >0 || writer->opcode2Size >0)
+    {
         TIFFCheckpointDirectory(tif);
     }
     /*FILE * opbin = fopen("/sdcard/DCIM/FreeDcam/opc2.bin", "r+");

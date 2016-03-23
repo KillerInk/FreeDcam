@@ -590,7 +590,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         float[] forward2  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX2));
         //0.820300f, -0.218800f, 0.359400f, 0.343800f, 0.570300f,0.093800f, 0.015600f, -0.726600f, 1.539100f
         float[] forward1  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX1));
-
+        float[] reduction1 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM1));
+        float[] reduction2 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM2));
         //noise
         Pair[] p = mDngResult.get(CaptureResult.SENSOR_NOISE_PROFILE);
         double[] noiseys = new double[p.length*2];
@@ -615,8 +616,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 neutral,
                 forward1,
                 forward2,
-                Matrixes.G4_reduction_matrix1,
-                Matrixes.G4_reduction_matrix2,
+                reduction1,
+                reduction2,
                 finalnoise
         );
 
