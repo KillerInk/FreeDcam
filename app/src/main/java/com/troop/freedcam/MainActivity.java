@@ -56,20 +56,18 @@ import troop.com.imageviewer.ScreenSlideFragment;
 public class MainActivity extends FragmentActivity implements I_orientation, I_error, I_CameraChangedListner, I_Activity, I_ModuleEvent, AbstractCameraFragment.CamerUiWrapperRdy, ApiEvent
 {
     protected ViewGroup appViewGroup;
-    static OrientationHandler orientationHandler;
-    int flags;
-    private static String TAG = StringUtils.TAG + MainActivity.class.getSimpleName();
-    private static String TAGLIFE = StringUtils.TAG + "LifeCycle";
-    static AppSettingsManager appSettingsManager;
-    static HardwareKeyHandler hardwareKeyHandler;
-    MainActivity activity;
-    static ApiHandler apiHandler;
-    static TimerHandler timerHandler;
-    public ThemeHandler themeHandler;
-    static AbstractCameraFragment cameraFragment;
-    ScreenSlideFragment imageViewerFragment;
+    private OrientationHandler orientationHandler;
+    private int flags;
+    private final String TAG = StringUtils.TAG + MainActivity.class.getSimpleName();
+    private final String TAGLIFE = StringUtils.TAG + "LifeCycle";
+    private AppSettingsManager appSettingsManager;
+    private HardwareKeyHandler hardwareKeyHandler;
+    private ApiHandler apiHandler;
+    private TimerHandler timerHandler;
+    private ThemeHandler themeHandler;
+    private AbstractCameraFragment cameraFragment;
     private boolean debugLoggerging = false;
-    Thread.UncaughtExceptionHandler defaultEXhandler;
+    private Thread.UncaughtExceptionHandler defaultEXhandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -197,7 +195,6 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
 
         checkStartLoggerging();
         BitmapHelper.INIT(getApplicationContext());
-        this.activity =this;
         appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this), this);
         themeHandler = new ThemeHandler(this, appSettingsManager);
         timerHandler = new TimerHandler(this);
