@@ -5,23 +5,18 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.os.ParcelFileDescriptor;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.provider.DocumentFile;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.defcomk.jni.libraw.RawUtils;
 import com.drew.imaging.jpeg.JpegMetadataReader;
 import com.drew.imaging.jpeg.JpegProcessingException;
 import com.drew.metadata.Directory;
@@ -30,6 +25,11 @@ import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.ortiz.touch.TouchImageView;
 import com.troop.androiddng.RawToDng;
 import com.troop.filelogger.Logger;
+import com.troop.freedcam.manager.MediaScannerManager;
+import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.I_Activity;
+import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -41,7 +41,7 @@ import troop.com.views.MyHistogram;
 /**
  * Created by troop on 21.08.2015.
  */
-public class ImageFragment extends Fragment
+public class ImageFragment extends Fragment implements I_Activity.I_OnActivityResultCallback
 {
     final String TAG = ImageFragment.class.getSimpleName();
     private TouchImageView imageView;
@@ -151,10 +151,28 @@ public class ImageFragment extends Fragment
         deleteButton.setVisibility(View.GONE);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
-                        .setNegativeButton("No", dialogClickListener).show();
+            public void onClick(View view)
+            {
+                if (!StringUtils.IS_L_OR_BIG() || StringUtils.WRITE_NOT_EX_AND_L_ORBigger())
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
+                            .setNegativeButton("No", dialogClickListener).show();
+                }
+                else
+                {
+                    DocumentFile sdDir = FileUtils.getExternalSdDocumentFile();
+                    if (sdDir == null) {
+                        I_Activity i_activity = (I_Activity) getActivity();
+                        i_activity.ChooseSDCard(ImageFragment.this);
+                    }
+                    else
+                    {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
+                                .setNegativeButton("No", dialogClickListener).show();
+                    }
+                }
 
 
             }
@@ -167,19 +185,13 @@ public class ImageFragment extends Fragment
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
 
-                    if (!StringUtils.IS_L_OR_BIG()) {
+                    if (!StringUtils.IS_L_OR_BIG() || file.canWrite()) {
                         boolean d = file.delete();
+                        MediaScannerManager.ScanMedia(getContext(), file);
                     }
                     else
                     {
-                       /* DocumentFile df = DocumentFile.fromFile(currentFile);
-                        boolean d = df.delete();
-                        if (!d)
-                        {
-                            Uri uri = getImageContentUri(getContext(), currentFile);
-                            d = DocumentsContract.deleteDocument(getContext().getContentResolver(), uri);
-                        }
-                        Logger.d(TAG, "file delted:" +d);*/
+                        FileUtils.delteDocumentFile(file);
                     }
                     ((ScreenSlideFragment)getParentFragment()).reloadFilesAndSetLastPos();
                     break;
@@ -324,7 +336,34 @@ public class ImageFragment extends Fragment
 
         String out = file.getAbsolutePath().replace(".raw", ".dng");
         RawToDng dng = RawToDng.GetInstance();
-        dng.SetBayerData(data, out);
+        if (!StringUtils.IS_L_OR_BIG()
+                || file.canWrite())
+            dng.SetBayerData(data, out);
+        else
+        {
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
+            DocumentFile wr = df.createFile("image/dng", file.getName().replace(".jpg", ".dng"));
+            ParcelFileDescriptor pfd = null;
+            try {
+
+                pfd = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+            } catch (FileNotFoundException e) {
+                Logger.exception(e);
+            }
+            catch (IllegalArgumentException e)
+            {
+                Logger.exception(e);
+            }
+            if (pfd != null) {
+                dng.SetBayerDataFD(data, pfd, file.getName());
+                try {
+                    pfd.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                pfd = null;
+            }
+        }
         dng.setExifData(100, 0, 0, 0, 0, "", "0", 0);
         dng.WriteDNG(null);
         data = null;
@@ -353,5 +392,11 @@ public class ImageFragment extends Fragment
             myHistogram.setVisibility(View.VISIBLE);
             bottombar.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onActivityResultCallback(Uri uri)
+    {
+
     }
 }

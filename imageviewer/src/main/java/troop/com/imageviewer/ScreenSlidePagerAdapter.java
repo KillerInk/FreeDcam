@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.troop.filelogger.Logger;
+import com.troop.freedcam.utils.FileUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -146,7 +147,7 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
             files = null;
             return;
         }
-        FileUtils.readFilesFromFolder(folder, images, filestoshow);
+        FileHolder.readFilesFromFolder(folder, images, filestoshow);
         files = images;
         Logger.d(TAG, "readFiles sucess, FilesCount" + files.size());
         Collections.sort(files, new Comparator<FileHolder>() {

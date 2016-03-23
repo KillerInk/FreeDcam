@@ -11,9 +11,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.provider.DocumentFile;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,6 +29,9 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.troop.filelogger.Logger;
+import com.troop.freedcam.manager.MediaScannerManager;
+import com.troop.freedcam.ui.I_Activity;
+import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 
@@ -47,7 +52,7 @@ import troop.com.imageviewer.holder.FileHolder;
 /**
  * Created by troop on 11.12.2015.
  */
-public class GridViewFragment extends BaseGridViewFragment
+public class GridViewFragment extends BaseGridViewFragment implements I_Activity.I_OnActivityResultCallback
 {
     private ImageAdapter mPagerAdapter;
     private ArrayList<FileHolder> files;
@@ -72,6 +77,7 @@ public class GridViewFragment extends BaseGridViewFragment
 
     private TextView filesSelected;
     private int filesSelectedCount =0;
+
 
 
     public enum FormatTypes
@@ -158,8 +164,15 @@ public class GridViewFragment extends BaseGridViewFragment
                         if (files.get(i).IsSelected())
                         {
                             BitmapHelper.CACHE.deleteFileFromDiskCache(files.get(i).getFile().getName());
-                            boolean d = files.get(i).getFile().delete();
-                            Logger.d(TAG, "File delted:" + files.get(i).getFile().getName() + " :" + d);
+                            if (!StringUtils.IS_L_OR_BIG() || files.get(i).getFile().canWrite()) {
+                                boolean d = files.get(i).getFile().delete();
+                                Logger.d(TAG, "File delted:" + files.get(i).getFile().getName() + " :" + d);
+                                MediaScannerManager.ScanMedia(getContext(),files.get(i).getFile());
+                            }
+                            else
+                            {
+                                FileUtils.delteDocumentFile(files.get(i).getFile());
+                            }
                             files.remove(i);
                             i--;
                         }
@@ -640,14 +653,39 @@ public class GridViewFragment extends BaseGridViewFragment
                 if (!hasfilesSelected)
                     return;
                 //else show dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage(R.string.delete_files).setPositiveButton(R.string.yes, dialogDeleteClickListener)
-                        .setNegativeButton(R.string.no, dialogDeleteClickListener).show();
-                setViewMode(ViewStates.normal);
+                if (!StringUtils.IS_L_OR_BIG() || StringUtils.WRITE_NOT_EX_AND_L_ORBigger())
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage(R.string.delete_files).setPositiveButton(R.string.yes, dialogDeleteClickListener)
+                            .setNegativeButton(R.string.no, dialogDeleteClickListener).show();
+                    setViewMode(ViewStates.normal);
+                }
+                else
+                {
+                    DocumentFile sdDir = FileUtils.getExternalSdDocumentFile();
+                    if (sdDir == null) {
+                        I_Activity i_activity = (I_Activity) getActivity();
+                        i_activity.ChooseSDCard(GridViewFragment.this);
+                    }
+                    else
+                    {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setMessage(R.string.delete_files).setPositiveButton(R.string.yes, dialogDeleteClickListener)
+                                .setNegativeButton(R.string.no, dialogDeleteClickListener).show();
+                        setViewMode(ViewStates.normal);
+                    }
+                }
+
 
             }
         }
     };
+
+
+    @Override
+    public void onActivityResultCallback(Uri uri) {
+
+    }
 
     private View.OnClickListener onRawToDngClick = new View.OnClickListener() {
         @Override

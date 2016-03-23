@@ -28,6 +28,7 @@ import com.troop.freedcam.i_camera.modules.I_RecorderStateChanged;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.i_camera.modules.VideoMediaProfile;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 import com.troop.freedcam.utils.VideoUtils;
 
@@ -186,7 +187,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         else
         {
             Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
-            DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
             DocumentFile wr = df.createFile("*/*", new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".mp4")).getName());
             ParcelFileDescriptor fileDescriptor = null;
             try {

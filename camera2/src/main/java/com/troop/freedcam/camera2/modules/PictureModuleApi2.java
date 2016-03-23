@@ -46,6 +46,7 @@ import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -411,11 +412,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private File process_rawSensor(int burstcount, ImageReader reader) {
         File file;
         Logger.d(TAG, "Create DNG");
-        if (burstcount > 1)
+        /*if (burstcount > 1)
             file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_" + imagecount + ".dng"));
-        else
+        else*/
             file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".dng"));
-        checkFileExists(file);
+        //checkFileExists(file);
         Image image = reader.acquireNextImage();
         while (image == null) {
             image = reader.acquireNextImage();
@@ -434,7 +435,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             else
             {
                 Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
-                DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
                 DocumentFile wr = df.createFile("image/dng", file.getName());
                 try {
 
@@ -484,7 +485,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 else
                 {
                     Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
-                    DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
                     DocumentFile wr = df.createFile("image/dng", file.getName());
                     dngCreator.writeImage(AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri()), image);
                 }
@@ -518,8 +519,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             dngConverter.SetBayerData(bytes, file.getAbsolutePath());
         else
         {
-            Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
-            DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
             DocumentFile wr = df.createFile("image/dng", file.getName());
             try {
 
@@ -624,16 +624,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 finalnoise
         );
 
-/*        DngSupportedDevices.DngProfile prof = d.getProfile(black,image.getWidth(), image.getHeight(), DngSupportedDevices.Mipi, colorpattern, 0,
-                Matrixes.Nex6CCM1,
-                Matrixes.Nex6CCM2,
-                neutral,
-                Matrixes.Nexus6_foward_matrix1,
-                Matrixes.Nexus6_foward_matrix2,
-                Matrixes.Nexus6_reduction_matrix1,
-                Matrixes.Nexus6_reduction_matrix2,
-                Matrixes.Nexus6_noise_3x1_matrix);*/
-
         dngConverter.WriteDngWithProfile(prof);
         dngConverter.RELEASE();
         image.close();
@@ -675,17 +665,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private float[]getFloatMatrix(ColorSpaceTransform transform)
     {
         float[] ret = new float[9];
-
-        /*ret[0] = roundTo6Places(transform.getElement(0, 0).floatValue());
-        ret[1] = roundTo6Places(transform.getElement(0, 1).floatValue());
-        ret[2] = roundTo6Places(transform.getElement(0, 2).floatValue());
-        ret[3] = roundTo6Places(transform.getElement(1, 0).floatValue());
-        ret[4] = roundTo6Places(transform.getElement(1, 1).floatValue());
-        ret[5] = roundTo6Places(transform.getElement(1, 2).floatValue());
-        ret[6] = roundTo6Places(transform.getElement(2, 0).floatValue());
-        ret[7] = roundTo6Places(transform.getElement(2, 1).floatValue());
-        ret[8] = roundTo6Places(transform.getElement(2, 2).floatValue());
-*/
         ret[0] = roundTo6Places(transform.getElement(0, 0).floatValue());
         ret[1] = roundTo6Places(transform.getElement(1, 0).floatValue());
         ret[2] = roundTo6Places(transform.getElement(2, 0).floatValue());
@@ -843,8 +822,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     output = new FileOutputStream(mFile);
                 else
                 {
-                    Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
-                    DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+
+                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
                     DocumentFile wr = df.createFile("*/*", mFile.getName());
                     output = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri(),"rw");
                 }

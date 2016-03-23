@@ -9,6 +9,7 @@ import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -70,9 +71,9 @@ public class JpegSaver implements I_Callbacks.PictureCallback
                         || StringUtils.WRITE_NOT_EX_AND_L_ORBigger())
                     saveBytesToFile(data, f);
                 else {
-                    Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
-                    DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
                     DocumentFile wr = df.createFile("image/jpeg", f.getName());
+
                     try {
                         OutputStream outStream = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri());
                         outStream.write(data);

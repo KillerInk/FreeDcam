@@ -18,6 +18,7 @@ import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.BufferedInputStream;
@@ -185,8 +186,7 @@ public class DngSaver extends JpegSaver
         }
         else {
 
-            Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
-            DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
             DocumentFile wr = df.createFile("image/dng", file.getName().replace(".jpg", ".dng"));
             ParcelFileDescriptor pfd = null;
             try {
