@@ -138,7 +138,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    ((ScreenSlideFragment)getParentFragment()).addFile(tmp);
+                                    ((ScreenSlideFragment) getParentFragment()).addFile(tmp);
                                 }
                             });
                         }
@@ -151,23 +151,17 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
         deleteButton.setVisibility(View.GONE);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
-                if (!StringUtils.IS_L_OR_BIG() || StringUtils.WRITE_NOT_EX_AND_L_ORBigger())
-                {
+            public void onClick(View view) {
+                if (!StringUtils.IS_L_OR_BIG() || StringUtils.WRITE_NOT_EX_AND_L_ORBigger()) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
                             .setNegativeButton("No", dialogClickListener).show();
-                }
-                else
-                {
+                } else {
                     DocumentFile sdDir = FileUtils.getExternalSdDocumentFile();
                     if (sdDir == null) {
                         I_Activity i_activity = (I_Activity) getActivity();
                         i_activity.ChooseSDCard(ImageFragment.this);
-                    }
-                    else
-                    {
+                    } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                         builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
                                 .setNegativeButton("No", dialogClickListener).show();
@@ -177,6 +171,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
 
             }
         });
+        Logger.d(TAG,"onViewCreated");
     }
 
     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -215,7 +210,8 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
     public void onResume()
     {
         super.onResume();
-            imageView.setOnClickListener(onImageClick);
+        Logger.d(TAG,"omResume");
+        imageView.setOnClickListener(onImageClick);
         if (file != null) {
             new Thread(new Runnable() {
                 @Override

@@ -104,6 +104,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
+        Logger.d(TAG, "onViewCreated");
         mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
 
         // Instantiate a ViewPager and a PagerAdapter.
@@ -117,27 +118,27 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
                 if (thumbclick != null) {
                     thumbclick.onThumbClick();
                     mPager.setCurrentItem(0);
-                }
-                else
+                } else
                     getActivity().finish();
             }
         });
-        /*if(savedInstanceState != null)
+        if (FilePathToLoad.equals("")) {
+            FilePathToLoad = StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder;
+        }
+
+        if(savedInstanceState != null)
         {
             FilePathToLoad = (String) savedInstanceState.get(SAVESTATE_FILEPATH);
             defitem = (int)savedInstanceState.get(SAVESTATE_ITEMINT);
             Logger.d(TAG, "have file to load from saveinstance onCreated" + FilePathToLoad);
-        }*/
+        }
     }
 
     @Override
     public void onResume()
     {
+        Logger.d(TAG,"onResume");
         super.onResume();
-
-        if (FilePathToLoad.equals("")) {
-            FilePathToLoad = StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder;
-        }
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),mPager,fragmentclickListner,filestoshow);
         mPagerAdapter.SetFileToLoadPath(FilePathToLoad);
         mPager.setAdapter(mPagerAdapter);
@@ -148,12 +149,13 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             } else
                 mPager.setCurrentItem(defitem);
         }
+
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        /*outState.putString(SAVESTATE_FILEPATH, FilePathToLoad);
-        outState.putInt(SAVESTATE_ITEMINT, mPager.getCurrentItem());*/
+        outState.putString(SAVESTATE_FILEPATH, FilePathToLoad);
+        outState.putInt(SAVESTATE_ITEMINT, mPager.getCurrentItem());
         super.onSaveInstanceState(outState);
     }
 
