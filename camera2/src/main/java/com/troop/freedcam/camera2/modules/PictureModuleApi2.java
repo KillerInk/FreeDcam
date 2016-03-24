@@ -484,7 +484,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     dngCreator.writeImage(new FileOutputStream(file), image);
                 else
                 {
-                    Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
                     DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
                     DocumentFile wr = df.createFile("image/dng", file.getName());
                     dngCreator.writeImage(AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri()), image);
