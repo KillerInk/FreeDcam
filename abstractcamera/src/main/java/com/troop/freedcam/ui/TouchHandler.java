@@ -14,7 +14,7 @@ public class TouchHandler
 {
     final int distance = 90;
     private final String TAG = TouchHandler.class.getSimpleName();
-    private final boolean DEBUG = true;
+    private final boolean DEBUG = false;
 
     private void L(String log)
     {
@@ -80,7 +80,7 @@ public class TouchHandler
                 fireagain = false;
                 break;
         }
-
+        OnMotionEvent(event);
 
         return fireagain;
     }
@@ -88,6 +88,7 @@ public class TouchHandler
     private boolean detectSwipeDirection()
     {
         //if last swipeDetected is less then 500 ms it blocked
+
         if (swipeDetected || newActionBlocked)
             return false;
         float x = getDistance(startX, currentX);
@@ -142,6 +143,11 @@ public class TouchHandler
     }
 
     protected void OnClick(int x, int y)
+    {
+
+    }
+
+    protected void OnMotionEvent(MotionEvent event)
     {
 
     }

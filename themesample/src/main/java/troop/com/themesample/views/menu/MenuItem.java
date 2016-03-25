@@ -131,6 +131,11 @@ public class MenuItem extends UiSettingsChild implements View.OnClickListener, I
     }
 
     @Override
+    public void onMotionEvent(MotionEvent event) {
+
+    }
+
+    @Override
     public void onIsSupportedChanged(boolean isSupported)
     {
         sendLog("isSupported:" + isSupported);

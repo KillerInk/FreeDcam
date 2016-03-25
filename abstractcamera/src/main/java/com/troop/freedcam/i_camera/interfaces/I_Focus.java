@@ -1,5 +1,7 @@
 package com.troop.freedcam.i_camera.interfaces;
 
+import android.view.MotionEvent;
+
 import com.troop.freedcam.i_camera.FocusRect;
 
 /**
@@ -13,4 +15,5 @@ public interface I_Focus
     void TouchToFocusSupported(boolean isSupported);
     void AEMeteringSupported(boolean isSupported);
     void AWBMeteringSupported(boolean isSupported);
+    boolean onTouchEvent(MotionEvent event);
 }

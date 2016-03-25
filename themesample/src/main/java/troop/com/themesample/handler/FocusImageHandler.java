@@ -7,6 +7,7 @@ import android.graphics.Point;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -249,6 +250,14 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             awbArea.setVisibility(View.VISIBLE);
         else
             awbArea.setVisibility(View.GONE);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        if (wrapper instanceof CameraUiWrapperSony)
+            wrapper.Focus.SetMotionEvent(event);
+        return false;
     }
 
 

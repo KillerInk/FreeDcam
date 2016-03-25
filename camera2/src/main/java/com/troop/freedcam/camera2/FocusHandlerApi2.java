@@ -9,6 +9,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.MeteringRectangle;
 import android.os.Build;
 import android.util.Log;
+import android.view.MotionEvent;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera2.modules.PictureModuleApi2;
@@ -298,6 +299,11 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
     @Override
     public boolean isWbMeteringSupported() {
         return false;
+    }
+
+    @Override
+    public void SetMotionEvent(MotionEvent event) {
+
     }
 
     @Override

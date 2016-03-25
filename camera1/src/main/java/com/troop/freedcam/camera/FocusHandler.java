@@ -1,6 +1,7 @@
 package com.troop.freedcam.camera;
 
 import android.hardware.Camera;
+import android.view.MotionEvent;
 
 import com.troop.freedcam.i_camera.AbstractFocusHandler;
 import com.troop.freedcam.i_camera.FocusRect;
@@ -135,6 +136,11 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
     @Override
     public boolean isWbMeteringSupported() {
         return false;
+    }
+
+    @Override
+    public void SetMotionEvent(MotionEvent event) {
+
     }
 
     @Override
