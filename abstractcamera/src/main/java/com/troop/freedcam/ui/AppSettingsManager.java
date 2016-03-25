@@ -136,6 +136,8 @@ public class AppSettingsManager
     final public static String SETTING_AEB2= "aeb2";
     final public static String SETTING_AEB3= "aeb3";
 
+    final public static String SETTINGS_PREVIEWZOOM = "previewzoom";
+
     final public static String SETTING_BASE_FOLDER = "base_folder";
 
     public AppSettingsManager(SharedPreferences appSettings, Context context)

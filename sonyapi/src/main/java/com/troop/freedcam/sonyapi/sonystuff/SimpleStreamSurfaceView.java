@@ -77,6 +77,8 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private int zoomPreviewMagineLeft =0;
     private int zoomPreviewMargineTop = 0;
 
+    public int PreviewZOOMFactor = 8;
+
     public enum NightPreviewModes
     {
         on,
@@ -390,8 +392,8 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             Rect src = new Rect(0, 0, w, h);
             if (nightmode == NightPreviewModes.zoompreview)
             {
-                int w4 = w /8;
-                int h4 = h/8;
+                int w4 = w /PreviewZOOMFactor;
+                int h4 = h/PreviewZOOMFactor;
                 int wCenter = w/2;
                 int hCenter = h/2;
                 int frameleft = (wCenter -w4) + zoomPreviewMagineLeft;

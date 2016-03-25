@@ -45,50 +45,52 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 {
 
     final boolean DEBUG = false;
-    MenuItemTheme themeItem;
+    private MenuItemTheme themeItem;
     //MenuItemBayerFormat bayerFormatItem;
-    troop.com.themesample.views.menu.MenuItem pictureSize;
-    MenuItemSDSave sdSave;
-    MenuItemGPS menuItemGPS;
+    private troop.com.themesample.views.menu.MenuItem pictureSize;
+    private MenuItemSDSave sdSave;
+    private MenuItemGPS menuItemGPS;
 
-    MenuItemInterval menuItemInterval;
-    MenuItemIntervalDuration menuItemIntervalDuration;
-    MenuItemTimer menuItemTimer;
+    private MenuItemInterval menuItemInterval;
+    private MenuItemIntervalDuration menuItemIntervalDuration;
+    private MenuItemTimer menuItemTimer;
 
-    MenuItem_VideoProfEditor videoProfileEditor;
+    private MenuItem_VideoProfEditor videoProfileEditor;
 
-    troop.com.themesample.views.menu.MenuItem guide;
-    troop.com.themesample.views.menu.MenuItem api;
-    troop.com.themesample.views.menu.MenuItem externalShutter;
-    MenuItemOrientationHack orientationHack;
+    private troop.com.themesample.views.menu.MenuItem guide;
+    private troop.com.themesample.views.menu.MenuItem api;
+    private troop.com.themesample.views.menu.MenuItem externalShutter;
+    private MenuItemOrientationHack orientationHack;
 
-    troop.com.themesample.views.menu.MenuItem jpegQuality;
-    MenuItemSaveCamParams saveCamParams;
+    private troop.com.themesample.views.menu.MenuItem jpegQuality;
+    private MenuItemSaveCamParams saveCamParams;
 
-    MenuItemVideoProfile videoProfile;
-    troop.com.themesample.views.menu.MenuItemVideoHDR videoHDR;
-    MenuItemTimeLapseFrames timeLapseFrames;
+    private MenuItemVideoProfile videoProfile;
+    private troop.com.themesample.views.menu.MenuItemVideoHDR videoHDR;
+    private MenuItemTimeLapseFrames timeLapseFrames;
 
-    troop.com.themesample.views.menu.MenuItem VideoSize;
+    private troop.com.themesample.views.menu.MenuItem VideoSize;
 
-    troop.com.themesample.views.menu.MenuItem PreviewSize;
-    troop.com.themesample.views.menu.MenuItem PreviewFormat;
+    private troop.com.themesample.views.menu.MenuItem PreviewSize;
+    private troop.com.themesample.views.menu.MenuItem PreviewFormat;
 
-    troop.com.themesample.views.menu.MenuItem videoStabilization;
+    private troop.com.themesample.views.menu.MenuItem videoStabilization;
 
-    troop.com.themesample.views.menu.MenuItem horizont;
-    troop.com.themesample.views.menu.MenuItemAEB AEB1;
-    troop.com.themesample.views.menu.MenuItemAEB AEB2;
-    troop.com.themesample.views.menu.MenuItemAEB AEB3;
+    private troop.com.themesample.views.menu.MenuItem horizont;
+    private troop.com.themesample.views.menu.MenuItemAEB AEB1;
+    private troop.com.themesample.views.menu.MenuItemAEB AEB2;
+    private troop.com.themesample.views.menu.MenuItemAEB AEB3;
 
-    Interfaces.I_MenuItemClick onMenuItemClick;
+    private MenuItem previewZoom;
 
-    ScrollView scrollView;
-    FrameLayout settingsMenu;
-    final String KEY_SETTINGSOPEN = "key_settingsopen";
-    SharedPreferences sharedPref;
-    boolean settingsOpen;
-    LinearLayout leftholder;
+    private Interfaces.I_MenuItemClick onMenuItemClick;
+
+    private ScrollView scrollView;
+    private FrameLayout settingsMenu;
+    private final String KEY_SETTINGSOPEN = "key_settingsopen";
+    private SharedPreferences sharedPref;
+    private boolean settingsOpen;
+    private LinearLayout leftholder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -175,6 +177,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         settingsOpen = sharedPref.getBoolean(KEY_SETTINGSOPEN, false);
         leftholder = (LinearLayout) getActivity().findViewById(R.id.guideHolder);
 
+        previewZoom = (MenuItem)view.findViewById(R.id.MenuItemPreviewZoom);
+        previewZoom.SetStuff(i_activity,AppSettingsManager.SETTINGS_PREVIEWZOOM);
 
         setWrapper();
     }
@@ -295,6 +299,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
             AEB3.setVisibility(View.GONE);
         }
 
+        previewZoom.SetParameter(wrapper.camParametersHandler.PreviewZoom);
+        previewZoom.SetMenuItemListner(this);
 
     }
 

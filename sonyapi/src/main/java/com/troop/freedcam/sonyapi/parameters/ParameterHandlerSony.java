@@ -23,6 +23,7 @@ import com.troop.freedcam.sonyapi.parameters.modes.NightModeSony;
 import com.troop.freedcam.sonyapi.parameters.modes.ObjectTrackingSony;
 import com.troop.freedcam.sonyapi.parameters.modes.PictureFormatSony;
 import com.troop.freedcam.sonyapi.parameters.modes.PictureSizeSony;
+import com.troop.freedcam.sonyapi.parameters.modes.PreviewZoomSony;
 import com.troop.freedcam.sonyapi.parameters.modes.WhiteBalanceModeSony;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
@@ -141,6 +142,8 @@ public class ParameterHandlerSony extends AbstractParameterHandler
 
         NightMode = new NightModeSony(uiHandler,null,null,null,null,surfaceView);
         parametersChangedList.add((BaseModeParameterSony) NightMode);
+
+        PreviewZoom = new PreviewZoomSony(uiHandler, surfaceView);
 
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override

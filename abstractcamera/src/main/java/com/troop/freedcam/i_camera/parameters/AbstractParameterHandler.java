@@ -97,6 +97,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter PostViewSize;
     public AbstractModeParameter Focuspeak;
     public AbstractModeParameter Module;
+    public AbstractModeParameter PreviewZoom;
     //
     public AbstractModeParameter ThemeList;
     public boolean isExposureAndWBLocked = false;
@@ -207,14 +208,16 @@ public abstract class AbstractParameterHandler
         setMode(Horizont, AppSettingsManager.SETTING_HORIZONT);
 
         setMode(HDRMode, AppSettingsManager.SETTING_HDRMODE);
-        //setMode(aeb1, AppSettingsManager.SETTING_AEB1);
-        //setMode(aeb2, AppSettingsManager.SETTING_AEB2);
-        //setMode(aeb3, AppSettingsManager.SETTING_AEB3);
-        //setMode(captureBurstExposures, AppSettingsManager.SETTING_CAPTUREBURSTEXPOSURES);
+        setMode(aeb1, AppSettingsManager.SETTING_AEB1);
+        setMode(aeb2, AppSettingsManager.SETTING_AEB2);
+        setMode(aeb3, AppSettingsManager.SETTING_AEB3);
+        setMode(captureBurstExposures, AppSettingsManager.SETTING_CAPTUREBURSTEXPOSURES);
         //setMode(AE_Bracket, AppSettingsManager.SETTING_AEBRACKET);
 
         setMode(morphoHDR, AppSettingsManager.SETTING_MORPHOHDR);
         setMode(morphoHHT, AppSettingsManager.SETTING_MORPHOHHT);
+
+        setMode(PreviewZoom, AppSettingsManager.SETTINGS_PREVIEWZOOM);
 
 
         setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
