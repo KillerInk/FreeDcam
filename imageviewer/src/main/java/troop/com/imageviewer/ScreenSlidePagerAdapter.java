@@ -49,6 +49,12 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
         readFiles();
     }
 
+    public void SetFiles(List<FileHolder> holder)
+    {
+        files = holder;
+        notifyDataSetChanged();
+    }
+
     public List<FileHolder> getFiles()
     {
         return files;

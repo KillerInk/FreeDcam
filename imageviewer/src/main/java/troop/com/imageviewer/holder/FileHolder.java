@@ -1,6 +1,11 @@
 package troop.com.imageviewer.holder;
 
+import com.troop.freedcam.utils.StringUtils;
+
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import troop.com.imageviewer.gridviewfragments.GridViewFragment;
@@ -58,5 +63,18 @@ public class FileHolder extends BaseHolder
                     list.add(new FileHolder(f));
             }
         }
+    }
+
+    public static List<FileHolder> getDCIMFiles()
+    {
+        List<FileHolder> f = new ArrayList<FileHolder>();
+        FileHolder.readFilesFromFolder(new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder), f, GridViewFragment.FormatTypes.all);
+        FileHolder.readFilesFromFolder(new File(StringUtils.GetExternalSDCARD() + StringUtils.freedcamFolder), f, GridViewFragment.FormatTypes.all);
+        Collections.sort(f, new Comparator<FileHolder>() {
+            public int compare(FileHolder f1, FileHolder f2) {
+                return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
+            }
+        });
+        return f;
     }
 }

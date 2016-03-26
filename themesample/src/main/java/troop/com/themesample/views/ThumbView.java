@@ -18,6 +18,8 @@ import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import troop.com.imageviewer.BitmapHelper;
@@ -66,8 +68,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
         try {
             mask = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.maskthumb);
             mImageThumbSize = context.getResources().getDimensionPixelSize(troop.com.themesample.R.dimen.image_thumbnails_size);
-            List<FileHolder> f = new ArrayList<FileHolder>();
-            FileHolder.readFilesFromFolder(new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder), f, GridViewFragment.FormatTypes.all);
+            List<FileHolder> f = FileHolder.getDCIMFiles();
             if (f != null && f.size() > 0)
                 WorkHasFinished(f.get(f.size()-1).getFile());
         }

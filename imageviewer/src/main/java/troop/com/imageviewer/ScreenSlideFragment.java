@@ -122,15 +122,26 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
                     getActivity().finish();
             }
         });
-        if (FilePathToLoad.equals("")) {
-            FilePathToLoad = StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder;
-        }
-
+        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),mPager,fragmentclickListner,filestoshow);
+        mPager.setAdapter(mPagerAdapter);
+        mPager.addOnPageChangeListener(this);
         if(savedInstanceState != null)
         {
             FilePathToLoad = (String) savedInstanceState.get(SAVESTATE_FILEPATH);
             defitem = (int)savedInstanceState.get(SAVESTATE_ITEMINT);
             Logger.d(TAG, "have file to load from saveinstance onCreated" + FilePathToLoad);
+            mPagerAdapter.SetFileToLoadPath(FilePathToLoad);
+        }
+
+        if (FilePathToLoad.equals("")) {
+            mPagerAdapter.SetFiles(FileHolder.getDCIMFiles());
+        }
+
+        if(mPagerAdapter.getFiles() != null ) {
+            if (mPagerAdapter.getFiles().size() > 0 && defitem == -1) {
+                mPager.setCurrentItem(0);
+            } else
+                mPager.setCurrentItem(defitem);
         }
     }
 
@@ -139,17 +150,6 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     {
         Logger.d(TAG,"onResume");
         super.onResume();
-        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),mPager,fragmentclickListner,filestoshow);
-        mPagerAdapter.SetFileToLoadPath(FilePathToLoad);
-        mPager.setAdapter(mPagerAdapter);
-        mPager.addOnPageChangeListener(this);
-        if(mPagerAdapter.getFiles() != null ) {
-            if (mPagerAdapter.getFiles().size() > 0 && defitem == -1) {
-                mPager.setCurrentItem(0);
-            } else
-                mPager.setCurrentItem(defitem);
-        }
-
     }
 
     @Override
