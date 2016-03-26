@@ -122,12 +122,18 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
                     return;
                 if (!file.getAbsolutePath().endsWith(".raw")) {
                     Uri uri = Uri.fromFile(file);
-                    Intent i = new Intent(Intent.ACTION_VIEW);
+
+                    Intent i = new Intent(Intent.ACTION_EDIT);
                     if (file.getAbsolutePath().endsWith("mp4"))
                         i.setDataAndType(uri, "video/*");
                     else
                         i.setDataAndType(uri, "image/*");
-                    startActivity(i);
+                    Intent chooser = Intent.createChooser(i, "Choose App");
+                    //startActivity(i);
+                    if (i.resolveActivity(getActivity().getPackageManager()) != null) {
+                        startActivity(chooser);
+                    }
+
                 } else {
 
                     new Thread(new Runnable() {
@@ -186,7 +192,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
                     }
                     else
                     {
-                        FileUtils.delteDocumentFile(file);
+                        boolean d= FileUtils.delteDocumentFile(file);
                     }
                     ((ScreenSlideFragment)getParentFragment()).reloadFilesAndSetLastPos();
                     break;
@@ -207,8 +213,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
         Logger.d(TAG,"omResume");
         imageView.setOnClickListener(onImageClick);
