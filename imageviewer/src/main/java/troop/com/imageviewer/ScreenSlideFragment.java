@@ -130,11 +130,15 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             FilePathToLoad = (String) savedInstanceState.get(SAVESTATE_FILEPATH);
             defitem = (int)savedInstanceState.get(SAVESTATE_ITEMINT);
             Logger.d(TAG, "have file to load from saveinstance onCreated" + FilePathToLoad);
-            mPagerAdapter.SetFileToLoadPath(FilePathToLoad);
+
         }
 
         if (FilePathToLoad.equals("")) {
             mPagerAdapter.SetFiles(FileHolder.getDCIMFiles());
+        }
+        else
+        {
+            mPagerAdapter.SetFileToLoadPath(FilePathToLoad);
         }
 
         if(mPagerAdapter.getFiles() != null ) {
