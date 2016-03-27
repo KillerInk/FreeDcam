@@ -40,10 +40,6 @@ public class MediatekSaver extends JpegSaver {
     public void TakePicture()
     {
         Logger.d(TAG, "Start Take Picture");
-        if (ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
-        {
-            ParameterHandler.ZSL.SetValue("off",true);
-        }
         awaitpicture = true;
         handler.post(new Runnable() {
             @Override
@@ -69,10 +65,6 @@ public class MediatekSaver extends JpegSaver {
             @Override
             public void run() {
                 holdFile = new File(StringUtils.getFilePath(externalSd, fileEnding));
-                //final String lastBayerFormat = cameraHolder.ParameterHandler.PictureFormat.GetValue();
-
-                //   Logger.d(TAG,RawToDng.getFilePath());
-
                 if (ParameterHandler.PictureFormat.GetValue().equals("jpeg")) {
                     saveBytesToFile(data, holdFile);
                     try {
@@ -112,6 +104,7 @@ public class MediatekSaver extends JpegSaver {
                 }
             }
             rawfile = DeviceSwitcher();
+            Logger.d(TAG,"Rawfile:" + rawfile.getAbsolutePath());
             data = RawToDng.readFile(rawfile);
             Logger.d(TAG, "Filesize: " + data.length + " File:" + rawfile.getAbsolutePath());
 
@@ -122,7 +115,8 @@ public class MediatekSaver extends JpegSaver {
         } catch (InterruptedException e) {
             Logger.exception(e);
         }
-        File dng = new File(rawfile.getAbsolutePath().replace(".raw", ".dng"));
+        File dng = new File(holdFile.getName().replace(".jpg", ".dng"));
+        Logger.d(TAG,"DNGfile:" + dng.getAbsolutePath());
         DngSaver saver = new DngSaver(cameraHolder, iWorkeDone, handler, externalSd);
         saver.processData(data, dng);
 
