@@ -41,6 +41,8 @@ public class FileHolder extends BaseHolder
 
     public static void readFilesFromFolder(File folder, List<FileHolder> list, GridViewFragment.FormatTypes formatsToShow) {
         File[] folderfiles = folder.listFiles();
+        if (folderfiles == null)
+            return;
         for (File f : folderfiles) {
             if (!f.isHidden()) {
                 if (formatsToShow == GridViewFragment.FormatTypes.all && (
