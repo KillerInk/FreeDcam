@@ -59,29 +59,29 @@ public class FileUtils
 
     public static boolean delteDocumentFile(File file)
     {
-        DocumentFile sdDir = FileUtils.getExternalSdDocumentFile();
-        String baseS = sdDir.getName();
-        String fileFolder = file.getAbsolutePath();
-        String[] split =  fileFolder.split("/");
-        DocumentFile tmpdir = null;
-        boolean append = false;
-        for (int t = 0; t < split.length; t++)
-        {
-            if (split[t].equals(baseS) ||append)
-            {
-                if (!append)
-                {
-                    append = true;
-                    tmpdir = sdDir;
-                }
-                else
-                {
-                    tmpdir = tmpdir.findFile(split[t]);
+        if (file.delete() == false) {
+            DocumentFile sdDir = FileUtils.getExternalSdDocumentFile();
+            String baseS = sdDir.getName();
+            String fileFolder = file.getAbsolutePath();
+            String[] split = fileFolder.split("/");
+            DocumentFile tmpdir = null;
+            boolean append = false;
+            for (int t = 0; t < split.length; t++) {
+                if (split[t].equals(baseS) || append) {
+                    if (!append) {
+                        append = true;
+                        tmpdir = sdDir;
+                    } else {
+                        tmpdir = tmpdir.findFile(split[t]);
+                    }
                 }
             }
+            boolean d = tmpdir.delete();
+            Logger.d("delteDocumentFile", "file delted:" + d);
+            return d;
         }
-        boolean d = tmpdir.delete();
-        Logger.d("delteDocumentFile", "file delted:" + d);
-        return d;
+        return true;
     }
+
+
 }

@@ -159,25 +159,46 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
-                    for (int i = 0; i< files.size(); i++)
-                    {
-                        if (files.get(i).IsSelected())
-                        {
-                            BitmapHelper.CACHE.deleteFileFromDiskCache(files.get(i).getFile().getName());
-                            if (!StringUtils.IS_L_OR_BIG() || files.get(i).getFile().canWrite()) {
-                                boolean d = files.get(i).getFile().delete();
-                                Logger.d(TAG, "File delted:" + files.get(i).getFile().getName() + " :" + d);
-                                MediaScannerManager.ScanMedia(getContext(),files.get(i).getFile());
-                            }
-                            else
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            final File folder = files.get(0).getFile().getParentFile();
+                            for (int i = 0; i< files.size(); i++)
                             {
-                                FileUtils.delteDocumentFile(files.get(i).getFile());
+                                if (files.get(i).IsSelected())
+                                {
+                                    boolean deleted = false;
+
+                                    if (!StringUtils.IS_L_OR_BIG() || files.get(i).getFile().canWrite()) {
+                                        deleted = files.get(i).getFile().delete();
+                                        Logger.d(TAG, "File delted:" + files.get(i).getFile().getName() + " :" + deleted);
+                                        MediaScannerManager.ScanMedia(getContext(),files.get(i).getFile());
+                                    }
+                                    else
+                                    {
+                                        deleted = FileUtils.delteDocumentFile(files.get(i).getFile());
+                                        Logger.d(TAG, "File delted:" + files.get(i).getFile().getName() + " :" + deleted);
+
+                                    }
+                                    if (deleted)
+                                    {
+                                        BitmapHelper.CACHE.deleteFileFromDiskCache(files.get(i).getFile().getName());
+                                        files.remove(i);
+                                        i--;
+                                    }
+                                }
                             }
-                            files.remove(i);
-                            i--;
+                            gridView.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    MediaScannerManager.ScanMedia(getContext(),folder);
+                                    mPagerAdapter.notifyDataSetChanged();
+                                }
+                            });
+
                         }
-                    }
-                    mPagerAdapter.notifyDataSetChanged();
+                    }).start();
+
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:
