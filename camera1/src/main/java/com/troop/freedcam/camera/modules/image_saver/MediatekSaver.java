@@ -65,6 +65,7 @@ public class MediatekSaver extends JpegSaver {
             @Override
             public void run() {
                 holdFile = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), fileEnding));
+                Logger.d(TAG,"HolderFilePath:" +holdFile.getAbsolutePath());
                 if (ParameterHandler.PictureFormat.GetValue().equals("jpeg"))
                 {
                     //savejpeg
@@ -110,7 +111,6 @@ public class MediatekSaver extends JpegSaver {
                 }
             }
             rawfile = DeviceSwitcher();
-            Logger.d(TAG,"Rawfile:" + rawfile.getAbsolutePath());
             data = RawToDng.readFile(rawfile);
             Logger.d(TAG, "Filesize: " + data.length + " File:" + rawfile.getAbsolutePath());
 

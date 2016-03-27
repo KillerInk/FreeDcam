@@ -54,7 +54,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
     {
         view = inflater.inflate(R.layout.cameraholdersony, container, false);
         surfaceView = (SimpleStreamSurfaceView) view.findViewById(R.id.view);
-        this.wrapperSony = new CameraUiWrapperSony(surfaceView, appSettingsManager);
+        this.wrapperSony = new CameraUiWrapperSony(surfaceView);
         this.cameraUiWrapper = wrapperSony;
         wrapperSony.SetCameraChangedListner(this);
         this.textView_wifi =(TextView)view.findViewById(R.id.textView_wificonnect);

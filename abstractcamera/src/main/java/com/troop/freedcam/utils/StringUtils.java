@@ -210,7 +210,7 @@ public class StringUtils
 
     public static File GetExternalSDCARD()
     {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT)
             return new File(System.getenv("SECONDARY_STORAGE"));
         else
         {

@@ -57,13 +57,13 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 {
     private static String TAG = StringUtils.TAG + ParameterHandlerApi2.class.getSimpleName();
     private ManualToneMapCurveApi2 manualToneMapCurveApi2;
-    CameraUiWrapperApi2 wrapper;
+    private CameraUiWrapperApi2 wrapper;
 
-    BaseCameraHolderApi2 cameraHolder;
+    private BaseCameraHolderApi2 cameraHolder;
 
-    public ParameterHandlerApi2(CameraUiWrapperApi2 cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
+    public ParameterHandlerApi2(CameraUiWrapperApi2 cameraHolder, Handler uiHandler)
     {
-        super(cameraHolder.cameraHolder, appSettingsManager, uiHandler);
+        super(cameraHolder.cameraHolder, uiHandler);
         this.wrapper = cameraHolder;
         this.cameraHolder = (BaseCameraHolderApi2) cameraHolder.cameraHolder;
         ParametersEventHandler = new CameraParametersEventHandler(uiHandler);
@@ -77,7 +77,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         {
             Logger.d(TAG, keys.get(i).getName());
         }
-        Module = new ModuleParameters(uiHandler, appSettingsManager, wrapper);
+        Module = new ModuleParameters(uiHandler, wrapper);
         FlashMode = new FlashModeApi2(uiHandler,this.cameraHolder);
         SceneMode = new SceneModeApi2(uiHandler,this.cameraHolder);
         ColorMode = new ColorModeApi2(uiHandler,this.cameraHolder);
@@ -174,7 +174,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
     {
 
 
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
         {
             int or = orientation +180;
             if (or >360)

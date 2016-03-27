@@ -65,9 +65,9 @@ public class CamParametersHandler extends AbstractParameterHandler
     private CameraUiWrapper cameraUiWrapper;
     private LG_G4AeHandler aeHandlerG4;
 
-    public CamParametersHandler(CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, Handler uiHandler)
+    public CamParametersHandler(CameraUiWrapper cameraUiWrapper, Handler uiHandler)
     {
-        super(cameraUiWrapper.cameraHolder,appSettingsManager, uiHandler);
+        super(cameraUiWrapper.cameraHolder, uiHandler);
         ParametersEventHandler = new CameraParametersEventHandler(uiHandler);
         cameraHolder = cameraUiWrapper.cameraHolder;
         this.cameraUiWrapper = cameraUiWrapper;
@@ -128,7 +128,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             Logger.exception(e);
         }
 
-        locationParameter = new LocationParameter(uiHandler, appSettingsManager, cameraHolder);
+        locationParameter = new LocationParameter(uiHandler, cameraHolder);
 
         createManualBrightness();
 
@@ -460,7 +460,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            Module = new ModuleParameters(uiHandler, appSettingsManager, cameraUiWrapper);
+            Module = new ModuleParameters(uiHandler, cameraUiWrapper);
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -472,7 +472,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         } catch (Exception e) {
             Logger.exception(e);
         }
-        cameraUiWrapper.moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
+        cameraUiWrapper.moduleHandler.SetModule(AppSettingsManager.APPSETTINGSMANAGER.GetCurrentModule());
 
         ParametersEventHandler.ParametersHasLoaded();
 
@@ -743,7 +743,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     @Override
     public void SetPictureOrientation(int orientation)
     {
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
         {
             int or = orientation +180;
             if (or >360)
@@ -762,11 +762,11 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     public void SetCameraRotation()
     {
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(""))
+        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals(""))
         {
-            appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack , StringUtils.OFF);
+            AppSettingsManager.APPSETTINGSMANAGER.setString(AppSettingsManager.SETTING_OrientationHack , StringUtils.OFF);
         }
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.OFF))
+        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.OFF))
             ((BaseCameraHolder)cameraHolder).SetCameraRotation(0);
         else
             ((BaseCameraHolder)cameraHolder).SetCameraRotation(180);

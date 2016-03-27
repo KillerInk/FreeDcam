@@ -88,7 +88,6 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     public StreamConfigurationMap map;
     public int CurrentCamera;
     public CameraCharacteristics characteristics;
-    AppSettingsManager Settings;
     public String VideoSize;
     public I_PreviewWrapper ModulePreview;
     RenderScript mRS;
@@ -102,12 +101,11 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     boolean errorRecieved = false;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public BaseCameraHolderApi2(Context context,I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager Settings, Handler backgroundHandler)
+    public BaseCameraHolderApi2(Context context,I_CameraChangedListner cameraChangedListner, Handler UIHandler, Handler backgroundHandler)
     {
         super(cameraChangedListner, UIHandler);
         this.context = context;
         this.manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
-        this.Settings = Settings;
         this.backgroundHandler = backgroundHandler;
         CaptureSessionH = new CaptureSessionHandler();
 
@@ -140,7 +138,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             characteristics = manager.getCameraCharacteristics(CurrentCamera + "");
             if (!isLegacyDevice())
             {
-                mRS = RenderScript.create(Settings.context);
+                mRS = RenderScript.create(AppSettingsManager.APPSETTINGSMANAGER.context);
                 mProcessor = new ViewfinderProcessor(mRS);
                 //printCharacteristics();
             }
@@ -581,7 +579,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         public CaptureSessionHandler()
         {
             surfaces = new ArrayList<Surface>();
-            Display display = ((WindowManager)Settings.context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+            Display display = ((WindowManager)AppSettingsManager.APPSETTINGSMANAGER.context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
             displaySize = new Point();
             display.getRealSize(displaySize);
         }
@@ -669,7 +667,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             if (video)
             {
                 matrix.setRectToRect(bufferRect, viewRect, Matrix.ScaleToFit.FILL);
-                if (Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+                if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
                     matrix.preRotate(orientationWithHack, centerX, centerY);
                 else
                     matrix.preRotate(orientation, centerX, centerY);
@@ -677,7 +675,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             else
             {
                 matrix.setRectToRect(viewRect, viewRect, Matrix.ScaleToFit.FILL);
-                if (Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+                if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
                     matrix.postRotate(orientationWithHack, centerX, centerY);
                 else
                     matrix.postRotate(orientation, centerX, centerY);

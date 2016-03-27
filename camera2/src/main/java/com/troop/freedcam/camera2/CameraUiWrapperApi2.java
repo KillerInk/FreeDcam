@@ -43,18 +43,18 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
 
     }
 
-    public CameraUiWrapperApi2(Context context, AutoFitTextureView preview, AppSettingsManager appSettingsManager)
+    public CameraUiWrapperApi2(Context context, AutoFitTextureView preview)
     {
-        super(appSettingsManager);
+        super();
         this.preview = preview;
         preview.setSurfaceTextureListener(this);
         this.context = context;
         errorHandler = this;
         //attache the callback to the Campreview
         //previewSize.getHolder().addCallback(this);
-        this.cameraHolder = new BaseCameraHolderApi2(context, this, uiHandler, appSettingsManager, backgroundHandler);
+        this.cameraHolder = new BaseCameraHolderApi2(context, this, uiHandler, backgroundHandler);
         super.cameraHolder = this.cameraHolder;
-        camParametersHandler = new ParameterHandlerApi2(this, appSettingsManager, uiHandler);
+        camParametersHandler = new ParameterHandlerApi2(this, uiHandler);
         cameraHolder.SetParameterHandler(camParametersHandler);
         moduleHandler = new ModuleHandlerApi2(cameraHolder, backgroundHandler);
         camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);

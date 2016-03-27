@@ -115,7 +115,7 @@ public class DngSaver extends JpegSaver
         }
         catch (Exception ex)
         {
-            Logger.exception(ex);
+
         }
 
         Logger.d(TAG, "Is raw stream");
@@ -152,7 +152,7 @@ public class DngSaver extends JpegSaver
         //if(meta != null){
          //   dngConverter.setExifData(meta.getIso(), meta.getExp(), meta.getFlash(), fnum, focal, meta.getDescription(), cameraHolder.Orientation + "", 0);}
       //  else
-        Logger.d("Shutterrr", ParameterHandler.ExposureTime());
+
         try
         {
             if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)) {
@@ -187,7 +187,9 @@ public class DngSaver extends JpegSaver
         else {
 
             DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
+            Logger.d(TAG,"Filepath: " +df.getUri().toString());
             DocumentFile wr = df.createFile("image/dng", file.getName().replace(".jpg", ".dng"));
+            Logger.d(TAG,"Filepath: " +wr.getUri().toString());
             ParcelFileDescriptor pfd = null;
             try {
 

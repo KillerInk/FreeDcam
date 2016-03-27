@@ -47,7 +47,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
         backgroundThread.start();
         backgroundHandler = new Handler(backgroundThread.getLooper());
     }
-    
+
 
     public void SetCameraChangedListner(I_CameraChangedListner cameraChangedListner)
     {

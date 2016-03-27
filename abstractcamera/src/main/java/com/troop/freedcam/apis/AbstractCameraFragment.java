@@ -21,7 +21,6 @@ public abstract class AbstractCameraFragment extends Fragment
 
     protected AbstractCameraUiWrapper cameraUiWrapper;
     protected View view;
-    protected AppSettingsManager appSettingsManager;
     protected CamerUiWrapperRdy onrdy;
     public AbstractCameraFragment()
     {
@@ -48,10 +47,8 @@ public abstract class AbstractCameraFragment extends Fragment
         return cameraUiWrapper;
     }
 
-    public void Init(AppSettingsManager appSettings, CamerUiWrapperRdy rdy)
+    public void Init(CamerUiWrapperRdy rdy)
     {
-        this.appSettingsManager = appSettings;
-
         this.onrdy = rdy;
     }
 
