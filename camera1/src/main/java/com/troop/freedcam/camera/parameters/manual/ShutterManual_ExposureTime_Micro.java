@@ -23,10 +23,22 @@ public class ShutterManual_ExposureTime_Micro extends BaseManualParameter
     public ShutterManual_ExposureTime_Micro(HashMap<String, String> parameters, AbstractParameterHandler camParametersHandler, String[] shuttervalues) {
         super(parameters, "", "", "", camParametersHandler,1);
         try {
-            if (shuttervalues == null) {
-                int min = Integer.parseInt(parameters.get("min-exposure-time"));
-                int max = Integer.parseInt(parameters.get("max-exposure-time"));
-                stringvalues = StringUtils.getSupportedShutterValues(min, max,true);
+            if (shuttervalues == null)
+            {
+                if (!parameters.get("min-exposure-time").contains("."))
+                {
+                    int min = Integer.parseInt(parameters.get("min-exposure-time"));
+                    int max = Integer.parseInt(parameters.get("max-exposure-time"));
+                    stringvalues = StringUtils.getSupportedShutterValues(min, max, true);
+                }
+                else
+                {
+                    double tmpMin = Double.parseDouble(parameters.get("min-exposure-time"))*1000000;
+                    double tmpMax = Double.parseDouble(parameters.get("max-exposure-time"))*1000000;
+                    int min = (int)tmpMin;
+                    int max = (int)tmpMax;
+                    stringvalues = StringUtils.getSupportedShutterValues(min, max, true);
+                }
 
             }
             else
