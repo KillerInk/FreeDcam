@@ -283,6 +283,9 @@
         <item>MI 4</item>
         <item>MI 4W</item>
     </string-array>
+    <string-array name="Xiaomi_Mi4C">
+        <item>Mi-4c</item>
+    </string-array>
     <string-array name="Xiaomi_Mi_Note_Pro">
         <item>MI NOTE Pro</item>
     </string-array>

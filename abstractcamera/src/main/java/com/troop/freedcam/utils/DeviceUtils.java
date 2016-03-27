@@ -138,6 +138,8 @@ public class DeviceUtils
             return Devices.XiaomiMI3W;
         else if (isXiaomiMI4W())
             return Devices.XiaomiMI4W;
+        else if(isXiaomiMI4C())
+            return Devices.XiaomiMI4C;
         else if (isXiaomiMI_Note_Pro())
             return Devices.XiaomiMI_Note_Pro;
         else if (isYureka())
@@ -196,6 +198,7 @@ public class DeviceUtils
         Vivo_Xplay3s,
         XiaomiMI3W,
         XiaomiMI4W,
+        XiaomiMI4C,
         XiaomiMI_Note_Pro,
         Yu_Yureka,
         ZTE_ADV,
@@ -248,7 +251,7 @@ public class DeviceUtils
             Devices.LenovoK910,Devices.LenovoK920,
             Devices.Yu_Yureka,
             Devices.OnePlusOne, Devices.OnePlusTwo,
-            Devices.RedmiNote, Devices.XiaomiMI3W, Devices.XiaomiMI4W, Devices.XiaomiMI_Note_Pro, Devices.RedmiNote2_MTK,
+            Devices.RedmiNote, Devices.XiaomiMI3W, Devices.XiaomiMI4W, Devices.XiaomiMI_Note_Pro, Devices.RedmiNote2_MTK, Devices.XiaomiMI4C,
             Devices.Vivo_Xplay3s,
             Devices.GioneE7,
             Devices.Sony_XperiaL,
@@ -417,6 +420,10 @@ public class DeviceUtils
 
     private static boolean isXiaomiMI3W() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi3));}
     private static boolean isXiaomiMI4W() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi4));}
+    private static boolean isXiaomiMI4C()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi4C));
+    }
 
     private static boolean isXiaomiMI_Note_Pro() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi_Note_Pro));}
 
