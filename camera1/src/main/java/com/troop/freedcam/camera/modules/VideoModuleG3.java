@@ -21,8 +21,8 @@ public class VideoModuleG3 extends AbstractVideoModule
 
     final static String TAG = VideoModuleG3.class.getSimpleName();
 
-    public VideoModuleG3(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
-        super(cameraHandler, Settings, eventHandler);
+    public VideoModuleG3(BaseCameraHolder cameraHandler, ModuleEventHandler eventHandler) {
+        super(cameraHandler, eventHandler);
     }
 
     protected MediaRecorder initRecorder()
@@ -60,14 +60,14 @@ public class VideoModuleG3 extends AbstractVideoModule
                     break;
                 case Timelapse:
                     float frame = 30;
-                    if (!Settings.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).equals(""))
-                        frame = Float.parseFloat(Settings.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).replace(",", "."));
+                    if (!AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).equals(""))
+                        frame = Float.parseFloat(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).replace(",", "."));
                     else
-                        Settings.setString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, "" + frame);
+                        AppSettingsManager.APPSETTINGSMANAGER.setString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, "" + frame);
                     recorder.setCaptureRate(frame);
                     break;
             }
-            if (Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD")) {
+            if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_VIDEPROFILE).equals("4kUHD")) {
 
                 recorder.setMaxFileSize(3037822976L);
                 recorder.setMaxDuration(7200000);
@@ -107,7 +107,7 @@ public class VideoModuleG3 extends AbstractVideoModule
     private void loadProfileSpecificParameters()
     {
         VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter)ParameterHandler.VideoProfilesG3;
-        currentProfile = videoProfilesG3Parameter.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
+        currentProfile = videoProfilesG3Parameter.GetCameraProfile(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         if (currentProfile.Mode == VideoMediaProfile.VideoMode.Highspeed || currentProfile.ProfileName.contains("4kUHD"))
         {
             ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);

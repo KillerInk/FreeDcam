@@ -33,8 +33,8 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
     BaseCameraHolder baseCameraHolder;
     private final BlockingQueue<byte[]> mYuvFrameQueue = new ArrayBlockingQueue<byte[]>(2);
 
-    public LongExposureModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
-        super(cameraHandler, Settings, eventHandler);
+    public LongExposureModule(BaseCameraHolder cameraHandler, ModuleEventHandler eventHandler) {
+        super(cameraHandler, eventHandler);
         name = ModuleHandler.MODULE_LONGEXPO;
         exposureModule = this;
 
@@ -105,7 +105,7 @@ public class LongExposureModule extends AbstractModule implements I_Callbacks.Pr
         //set baseyuv to null to start a new merge
         //baseYuv = null;
         // get the exposure duration
-        int time = Integer.parseInt(Settings.getString(AppSettingsManager.SETTING_EXPOSURELONGTIME));
+        int time = Integer.parseInt(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_EXPOSURELONGTIME));
         handler = new Handler();
         //post the runnable after wich time it should stop grabbing the preview frames
         handler.postDelayed(runnableFinishWork, time*1000);

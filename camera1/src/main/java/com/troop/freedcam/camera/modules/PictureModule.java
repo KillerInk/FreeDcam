@@ -46,9 +46,9 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     //public String aeBrackethdr = "";
 
 
-    public PictureModule(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler, Handler backgroundHandler)
+    public PictureModule(BaseCameraHolder baseCameraHolder, ModuleEventHandler eventHandler, Handler backgroundHandler)
     {
-        super(baseCameraHolder, appSettingsManager, eventHandler);
+        super(baseCameraHolder, eventHandler);
         this.baseCameraHolder = baseCameraHolder;
         this.handler = backgroundHandler;
         name = ModuleHandler.MODULE_PICTURE;
@@ -94,18 +94,18 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
             else {
                 final String picFormat = ParameterHandler.PictureFormat.GetValue();
                 if (picFormat.equals("jpeg") ) {
-                    final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
+                    final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, this, handler);
                     jpegSaver.TakePicture();
                 } else if (picFormat.equals("jps")) {
-                    final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
+                    final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, this, handler);
                     jpsSaver.TakePicture();
                 }
                 else if (ParameterHandler.IsDngActive() && picFormat.equals("dng")) {
-                    DngSaver dngSaver = new DngSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
+                    DngSaver dngSaver = new DngSaver(baseCameraHolder, this, handler);
                     dngSaver.TakePicture();
                 }
                 else if (ParameterHandler.IsDngActive() == false && picFormat.equals("raw")) {
-                    final RawSaver rawSaver = new RawSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
+                    final RawSaver rawSaver = new RawSaver(baseCameraHolder, this, handler);
                     rawSaver.TakePicture();
                 }
             }
@@ -153,7 +153,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     public void OnWorkDone(File file)
     {
         baseCameraHolder.StartPreview();
-        MediaScannerManager.ScanMedia(Settings.context.getApplicationContext() , file);
+        MediaScannerManager.ScanMedia(AppSettingsManager.APPSETTINGSMANAGER.context.getApplicationContext() , file);
         stopworking();
         eventHandler.WorkFinished(file);
     }
@@ -175,19 +175,19 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
                 public void run() {
                     final String picFormat = ParameterHandler.PictureFormat.GetValue();
                     if (picFormat.equals("jpeg")) {
-                        final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, burstDone, handler,Settings.GetWriteExternal());
-                        jpegSaver.saveBytesToFile(data, new File(StringUtils.getFilePathBurst(Settings.GetWriteExternal(), jpegSaver.fileEnding, burstcount)));
+                        final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, burstDone,handler);
+                        jpegSaver.saveBytesToFile(data, new File(StringUtils.getFilePathBurst(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), jpegSaver.fileEnding, burstcount)));
                     }
                     else if (picFormat.equals("jps")) {
-                        final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, burstDone, handler,Settings.GetWriteExternal());
-                        jpsSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathBurst(Settings.GetWriteExternal(), jpsSaver.fileEnding, burstcount)));
+                        final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, burstDone, handler);
+                        jpsSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathBurst(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), jpsSaver.fileEnding, burstcount)));
                     }
                     else if (!ParameterHandler.IsDngActive() && picFormat.contains("raw")) {
-                        final RawSaver rawSaver = new RawSaver(baseCameraHolder, burstDone, handler,Settings.GetWriteExternal());
-                        rawSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathBurst(Settings.GetWriteExternal(), rawSaver.fileEnding, burstcount)));
+                        final RawSaver rawSaver = new RawSaver(baseCameraHolder, burstDone, handler);
+                        rawSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathBurst(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), rawSaver.fileEnding, burstcount)));
                     } else if (ParameterHandler.IsDngActive() && picFormat.contains("dng")) {
-                        DngSaver dngSaver = new DngSaver(baseCameraHolder, burstDone, handler,Settings.GetWriteExternal());
-                        dngSaver.processData(data, new File(StringUtils.getFilePathBurst(Settings.GetWriteExternal(), dngSaver.fileEnding, burstcount)));
+                        DngSaver dngSaver = new DngSaver(baseCameraHolder, burstDone, handler);
+                        dngSaver.processData(data, new File(StringUtils.getFilePathBurst(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), dngSaver.fileEnding, burstcount)));
                     }
                 }
             });
@@ -198,7 +198,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     I_WorkeDone burstDone = new I_WorkeDone() {
         @Override
         public void OnWorkDone(File file) {
-            MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
+            MediaScannerManager.ScanMedia(AppSettingsManager.APPSETTINGSMANAGER.context.getApplicationContext(), file);
             if (burstcount == ParameterHandler.Burst.GetValue() -1) {
                 stopworking();
                 baseCameraHolder.StartPreview();

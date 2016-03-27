@@ -34,8 +34,8 @@ public abstract class AbstractVideoModule extends AbstractModule
     private static String TAG = AbstractVideoModule.class.getSimpleName();
     private ParcelFileDescriptor fileDescriptor;
 
-    public AbstractVideoModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
-        super(cameraHandler, Settings, eventHandler);
+    public AbstractVideoModule(BaseCameraHolder cameraHandler, ModuleEventHandler eventHandler) {
+        super(cameraHandler, eventHandler);
         name  = ModuleHandler.MODULE_VIDEO;
         this.baseCameraHolder = cameraHandler;
     }
@@ -96,11 +96,11 @@ public abstract class AbstractVideoModule extends AbstractModule
                 }
             });
 
-            mediaSavePath = StringUtils.getFilePath(Settings.GetWriteExternal(), ".mp4");
+            mediaSavePath = StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), ".mp4");
 
             setRecorderOutPutFile(mediaSavePath);
 
-            if (Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals("true"))
+            if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals("true"))
                 recorder.setOrientationHint(180);
             else
                 recorder.setOrientationHint(0);
@@ -172,7 +172,7 @@ public abstract class AbstractVideoModule extends AbstractModule
                 e1.printStackTrace();
             }
             final File file = new File(mediaSavePath);
-            MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
+            MediaScannerManager.ScanMedia(AppSettingsManager.APPSETTINGSMANAGER.context.getApplicationContext(), file);
             eventHandler.WorkFinished(file);
             eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
         }

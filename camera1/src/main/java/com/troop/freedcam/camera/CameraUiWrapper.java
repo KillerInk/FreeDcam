@@ -63,7 +63,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         this.preview.ParametersHandler = camParametersHandler;
         //camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this.preview);
-        moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager, backgroundHandler);
+        moduleHandler = new ModuleHandler(cameraHolder, backgroundHandler);
         moduleHandler.moduleEventHandler.addListner(this);
 
         Focus = new FocusHandler(this);

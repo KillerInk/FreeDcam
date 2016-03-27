@@ -26,12 +26,12 @@ public abstract class AbstractModuleApi2 extends AbstractModule implements I_Pre
     protected Point displaySize;
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public AbstractModuleApi2(BaseCameraHolderApi2 cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler)
+    public AbstractModuleApi2(BaseCameraHolderApi2 cameraHandler, ModuleEventHandler eventHandler)
     {
-        super(cameraHandler,Settings,eventHandler);
+        super(cameraHandler,eventHandler);
         this.baseCameraHolder = cameraHandler;
         this.ParameterHandler = baseCameraHolder.GetParameterHandler();
-        Display display = ((WindowManager)Settings.context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        Display display = ((WindowManager)AppSettingsManager.APPSETTINGSMANAGER.context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         displaySize = new Point();
         display.getRealSize(displaySize);
     }

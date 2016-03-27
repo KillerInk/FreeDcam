@@ -19,9 +19,9 @@ public class ModuleHandler extends AbstractModuleHandler
     private static String TAG = "freedcam.ModuleHandler";
     android.os.Handler backgroundHandler;
 
-    public  ModuleHandler (AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager , android.os.Handler backgroundHandler)
+    public  ModuleHandler (AbstractCameraHolder cameraHolder, android.os.Handler backgroundHandler)
     {
-        super(cameraHolder, appSettingsManager);
+        super(cameraHolder);
         this.cameraHolder = (BaseCameraHolder) cameraHolder;
         this.backgroundHandler = backgroundHandler;
         initModules();
@@ -35,35 +35,35 @@ public class ModuleHandler extends AbstractModuleHandler
         if (cameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)
         {
             Logger.d(TAG, "load mtk picmodule");
-            PictureModuleMTK thl5000 = new PictureModuleMTK(this.cameraHolder, appSettingsManager, moduleEventHandler, backgroundHandler);
+            PictureModuleMTK thl5000 = new PictureModuleMTK(this.cameraHolder, moduleEventHandler, backgroundHandler);
             moduleList.put(thl5000.ModuleName(), thl5000);
-            IntervalModule intervalModule = new IntervalModule(cameraHolder, appSettingsManager,moduleEventHandler,thl5000);
+            IntervalModule intervalModule = new IntervalModule(cameraHolder,moduleEventHandler,thl5000);
             moduleList.put(intervalModule.ModuleName(), intervalModule);
         }
         else//else //use default pictureModule
         {
             Logger.d(TAG, "load default picmodule");
-            PictureModule pictureModule = new PictureModule(this.cameraHolder, appSettingsManager, moduleEventHandler, backgroundHandler);
+            PictureModule pictureModule = new PictureModule(this.cameraHolder, moduleEventHandler, backgroundHandler);
             moduleList.put(pictureModule.ModuleName(), pictureModule);
-            IntervalModule intervalModule = new IntervalModule(cameraHolder, appSettingsManager,moduleEventHandler,pictureModule);
+            IntervalModule intervalModule = new IntervalModule(cameraHolder,moduleEventHandler,pictureModule);
             moduleList.put(intervalModule.ModuleName(), intervalModule);
         }
 
         if (cameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.LG)
         {
             Logger.d(TAG, "load lg videomodule");
-            VideoModuleG3 videoModuleG3 = new VideoModuleG3(this.cameraHolder, appSettingsManager, moduleEventHandler);
+            VideoModuleG3 videoModuleG3 = new VideoModuleG3(this.cameraHolder, moduleEventHandler);
             moduleList.put(videoModuleG3.ModuleName(), videoModuleG3);
         }
         else
         {
             Logger.d(TAG, "load default videomodule");
-            VideoModule videoModule = new VideoModule(this.cameraHolder, appSettingsManager, moduleEventHandler);
+            VideoModule videoModule = new VideoModule(this.cameraHolder, moduleEventHandler);
             moduleList.put(videoModule.ModuleName(), videoModule);
         }
 
         Logger.d(TAG, "load hdr module");
-        HdrModule hdrModule = new HdrModule(this.cameraHolder,appSettingsManager, moduleEventHandler, backgroundHandler);
+        HdrModule hdrModule = new HdrModule(this.cameraHolder, moduleEventHandler, backgroundHandler);
         moduleList.put(hdrModule.ModuleName(), hdrModule);
 
         //BurstModule burstModule = new BurstModule(this.cameraHolder, soundPlayer, appSettingsManager, moduleEventHandler);

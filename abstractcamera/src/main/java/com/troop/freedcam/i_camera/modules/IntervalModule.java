@@ -12,11 +12,11 @@ public class IntervalModule extends AbstractModule implements AbstractModuleHand
     AbstractModule picModule;
     IntervalHandler intervalHandler;
 
-    public IntervalModule(AbstractCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler, AbstractModule picModule) {
-        super(cameraHandler, Settings, eventHandler);
+    public IntervalModule(AbstractCameraHolder cameraHandler, ModuleEventHandler eventHandler, AbstractModule picModule) {
+        super(cameraHandler, eventHandler);
         this.picModule = picModule;
 
-        intervalHandler = new IntervalHandler(Settings,picModule);
+        intervalHandler = new IntervalHandler(picModule);
         this.name = AbstractModuleHandler.MODULE_INTERVAL;
     }
 

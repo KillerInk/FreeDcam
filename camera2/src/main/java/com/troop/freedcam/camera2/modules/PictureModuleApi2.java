@@ -106,10 +106,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
     int imagecount = 0;
 
-    public PictureModuleApi2(BaseCameraHolderApi2 cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler, Handler backgroundHandler) {
-        super(cameraHandler, Settings, eventHandler);
+    public PictureModuleApi2(BaseCameraHolderApi2 cameraHandler, ModuleEventHandler eventHandler, Handler backgroundHandler) {
+        super(cameraHandler, eventHandler);
         this.cameraHolder = (BaseCameraHolderApi2)cameraHandler;
-        this.Settings = Settings;
         this.backgroundHandler = backgroundHandler;
         this.name = AbstractModuleHandler.MODULE_PICTURE;
 
@@ -140,7 +139,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     public void TakePicture()
     {
         isWorking = true;
-        Logger.d(TAG, Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
+        Logger.d(TAG, AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
         Logger.d(TAG, "dng:" + Boolean.toString(ParameterHandler.IsDngActive()));
 
         mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener, backgroundHandler);
@@ -316,7 +315,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             catch (CameraAccessException ex)
             {
                 cameraHolder.CloseCamera();
-                cameraHolder.OpenCamera(Settings.GetCurrentCamera());
+                cameraHolder.OpenCamera(AppSettingsManager.APPSETTINGSMANAGER.GetCurrentCamera());
             }
 
         }
@@ -374,7 +373,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
 
                     isWorking = false;
-                    MediaScannerManager.ScanMedia(Settings.context, file);
+                    MediaScannerManager.ScanMedia(AppSettingsManager.APPSETTINGSMANAGER.context, file);
                     eventHandler.WorkFinished(file);
                     if (burstcount == imagecount) {
                         workfinished(true);
@@ -395,9 +394,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         File file;
         Logger.d(TAG, "Create JPEG");
         if (burstcount > 1)
-            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_" + imagecount + ".jpg"));
+            file = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), "_" + imagecount + ".jpg"));
         else
-            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".jpg"));
+            file = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), ".jpg"));
         checkFileExists(file);
         Image image = reader.acquireNextImage();
         while (image == null) {
@@ -415,7 +414,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         /*if (burstcount > 1)
             file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_" + imagecount + ".dng"));
         else*/
-            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".dng"));
+            file = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), ".dng"));
         //checkFileExists(file);
         Image image = reader.acquireNextImage();
         while (image == null) {
@@ -501,9 +500,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         File file;
         Logger.d(TAG, "Create DNG VIA RAw2DNG");
         if (burstcount > 1)
-            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_" + imagecount + ".dng"));
+            file = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), "_" + imagecount + ".dng"));
         else
-            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".dng"));
+            file = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), ".dng"));
         checkFileExists(file);
         Image image = reader.acquireNextImage();
         while (image == null) {
@@ -690,15 +689,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void startPreview() {
 
-        picSize = Settings.getString(AppSettingsManager.SETTING_PICTURESIZE);
+        picSize = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_PICTURESIZE);
         Logger.d(TAG, "Start Preview");
         largestImageSize = Collections.max(
                 Arrays.asList(baseCameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
                 new BaseCameraHolderApi2.CompareSizesByArea());
-        picFormat = Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
+        picFormat = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
         if (picFormat.equals("")) {
             picFormat = BaseCameraHolderApi2.JPEG;
-            Settings.setString(AppSettingsManager.SETTING_PICTUREFORMAT, BaseCameraHolderApi2.JPEG);
+            AppSettingsManager.APPSETTINGSMANAGER.setString(AppSettingsManager.SETTING_PICTUREFORMAT, BaseCameraHolderApi2.JPEG);
 
         }
 
@@ -735,7 +734,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         }
 
         //OrientationHACK
-        if(Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+        if(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
             baseCameraHolder.mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, 180);
         else
             baseCameraHolder.mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, 0);

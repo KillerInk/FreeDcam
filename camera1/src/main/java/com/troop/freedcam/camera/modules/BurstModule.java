@@ -33,9 +33,9 @@ public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCa
     String currentBurstFolder;
     int count;
     BaseCameraHolder baseCameraHolder;
-    public BurstModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler)
+    public BurstModule(BaseCameraHolder cameraHandler, ModuleEventHandler eventHandler)
     {
-        super(cameraHandler, Settings, eventHandler);
+        super(cameraHandler, eventHandler);
         this.name = ModuleHandler.MODULE_BURST;
         this.baseCameraHolder = (BaseCameraHolder)cameraHandler;
     }

@@ -17,25 +17,23 @@ public class ModuleHandlerApi2 extends AbstractModuleHandler
     BaseCameraHolderApi2 cameraHolder;
 
     private static String TAG = "freedcam.ModuleHandler";
-    AppSettingsManager appSettingsManager;
     Handler backgroundHandler;
 
-    public  ModuleHandlerApi2 (AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler backgroundHandler)
+    public  ModuleHandlerApi2 (AbstractCameraHolder cameraHolder, Handler backgroundHandler)
     {
-        super(cameraHolder,appSettingsManager);
+        super(cameraHolder);
         this.cameraHolder = (BaseCameraHolderApi2) cameraHolder;
-        this.appSettingsManager = appSettingsManager;
         this.backgroundHandler = backgroundHandler;
-        initModules(appSettingsManager);
+        initModules();
     }
 
-    protected void initModules(AppSettingsManager appSettingsManager)
+    protected void initModules()
     {
-        PictureModuleApi2 pictureModuleApi2 = new PictureModuleApi2(cameraHolder, appSettingsManager, moduleEventHandler, backgroundHandler);
+        PictureModuleApi2 pictureModuleApi2 = new PictureModuleApi2(cameraHolder, moduleEventHandler, backgroundHandler);
         moduleList.put(pictureModuleApi2.ModuleName(), pictureModuleApi2);
-        IntervalModule intervalModule = new IntervalApi2(cameraHolder,appSettingsManager,moduleEventHandler,pictureModuleApi2);
+        IntervalModule intervalModule = new IntervalApi2(cameraHolder,moduleEventHandler,pictureModuleApi2);
         moduleList.put(intervalModule.ModuleName(), intervalModule);
-        VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(cameraHolder,appSettingsManager,moduleEventHandler);
+        VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(cameraHolder,moduleEventHandler);
         moduleList.put(videoModuleApi2.ModuleName(), videoModuleApi2);
         //init the Modules DeviceDepending
         //splitting modules make the code foreach device cleaner

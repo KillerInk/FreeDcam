@@ -24,8 +24,8 @@ import java.io.OutputStream;
 public class RawSaver extends JpegSaver
 {
     final public String fileEnding = ".raw";
-    public RawSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler, boolean externalSD) {
-        super(cameraHolder, i_workeDone, handler, externalSD);
+    public RawSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler) {
+        super(cameraHolder, i_workeDone, handler);
     }
 
     final String TAG = "RawSaver";

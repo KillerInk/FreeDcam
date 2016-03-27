@@ -39,9 +39,9 @@ public class DngSaver extends JpegSaver
   //  MetaDataExtractor meta;
 
     final String TAG = DngSaver.class.getSimpleName();
-    public DngSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler, boolean externalSD)
+    public DngSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler)
     {
-        super(cameraHolder, i_workeDone, handler, externalSD);
+        super(cameraHolder, i_workeDone, handler);
         dngConverter = RawToDng.GetInstance();
        // meta = new MetaDataExtractor();
 
@@ -84,7 +84,7 @@ public class DngSaver extends JpegSaver
             @Override
             public void run()
             {
-                File f =  new File(StringUtils.getFilePath(externalSd, fileEnding));
+                File f =  new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), fileEnding));
                 processData(data,f);
             }
         });

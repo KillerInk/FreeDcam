@@ -14,9 +14,9 @@ import com.troop.freedcam.ui.AppSettingsManager;
 public class PictureModuleMTK extends PictureModule
 {
     private static String TAG = PictureModuleMTK.class.getSimpleName();
-    public PictureModuleMTK(BaseCameraHolder baseCameraHolder, AppSettingsManager appSettingsManager, ModuleEventHandler eventHandler, Handler backgroundHandler)
+    public PictureModuleMTK(BaseCameraHolder baseCameraHolder, ModuleEventHandler eventHandler, Handler backgroundHandler)
     {
-        super(baseCameraHolder, appSettingsManager, eventHandler, backgroundHandler);
+        super(baseCameraHolder, eventHandler, backgroundHandler);
 
     }
 
@@ -26,7 +26,7 @@ public class PictureModuleMTK extends PictureModule
         if (!this.isWorking)
         {
             startworking();
-            final MediatekSaver mtksaver = new MediatekSaver(baseCameraHolder, this, handler, Settings.GetWriteExternal());
+            final MediatekSaver mtksaver = new MediatekSaver(baseCameraHolder, this, handler);
             mtksaver.TakePicture();
 
         }

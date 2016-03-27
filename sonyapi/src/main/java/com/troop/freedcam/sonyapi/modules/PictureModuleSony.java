@@ -33,8 +33,8 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
         super();
     }
 
-    public PictureModuleSony(CameraHolderSony cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
-        super(cameraHandler, Settings, eventHandler);
+    public PictureModuleSony(CameraHolderSony cameraHandler, ModuleEventHandler eventHandler) {
+        super(cameraHandler, eventHandler);
         name = AbstractModuleHandler.MODULE_PICTURE;
         this.cameraHolder = cameraHandler;
 
@@ -105,7 +105,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     @Override
     public void onPictureTaken(URL url)
     {
-        File file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".jpg"));
+        File file = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), ".jpg"));
         try {
             file.createNewFile();
         } catch (IOException e) {
@@ -150,7 +150,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
             }
         }
 
-        MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
+        MediaScannerManager.ScanMedia(AppSettingsManager.APPSETTINGSMANAGER.context.getApplicationContext(), file);
         eventHandler.WorkFinished(file);
     }
 

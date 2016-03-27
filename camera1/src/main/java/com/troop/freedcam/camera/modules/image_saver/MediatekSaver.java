@@ -30,8 +30,8 @@ public class MediatekSaver extends JpegSaver {
     File holdFile = null;
 
     final public String fileEnding = ".jpg";
-    public MediatekSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler, boolean externalSD) {
-        super(cameraHolder, i_workeDone, handler, externalSD);
+    public MediatekSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler) {
+        super(cameraHolder, i_workeDone, handler);
     }
 
     final String TAG = "MediatekIMG";
@@ -64,18 +64,24 @@ public class MediatekSaver extends JpegSaver {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                holdFile = new File(StringUtils.getFilePath(externalSd, fileEnding));
-                if (ParameterHandler.PictureFormat.GetValue().equals("jpeg")) {
+                holdFile = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), fileEnding));
+                if (ParameterHandler.PictureFormat.GetValue().equals("jpeg"))
+                {
+                    //savejpeg
                     saveBytesToFile(data, holdFile);
                     try {
                         DeviceSwitcher().delete();
                     } catch (Exception ex) {
 
                     }
-                } else if (ParameterHandler.PictureFormat.GetValue().equals("dng")) {
+                } else if (ParameterHandler.PictureFormat.GetValue().equals("dng"))
+                {
+                    //savejpeg
                     saveBytesToFile(data, holdFile);
                     CreateDNG_DeleteRaw();
-                } else if (ParameterHandler.PictureFormat.GetValue().equals("raw")) {
+                } else if (ParameterHandler.PictureFormat.GetValue().equals("raw"))
+                {
+                    //savejpeg
                     saveBytesToFile(data, holdFile);
 
                 }
@@ -117,7 +123,7 @@ public class MediatekSaver extends JpegSaver {
         }
         File dng = new File(holdFile.getName().replace(".jpg", ".dng"));
         Logger.d(TAG,"DNGfile:" + dng.getAbsolutePath());
-        DngSaver saver = new DngSaver(cameraHolder, iWorkeDone, handler, externalSd);
+        DngSaver saver = new DngSaver(cameraHolder, iWorkeDone, handler);
         saver.processData(data, dng);
 
         data = null;

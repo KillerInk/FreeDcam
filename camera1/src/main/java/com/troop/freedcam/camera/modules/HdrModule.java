@@ -35,8 +35,8 @@ public class HdrModule extends PictureModule implements I_WorkeDone
     File[] files;
     boolean isManualExpo = false;
 
-    public HdrModule(BaseCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler, Handler backgroundHandler) {
-        super(cameraHandler, Settings, eventHandler, backgroundHandler);
+    public HdrModule(BaseCameraHolder cameraHandler, ModuleEventHandler eventHandler, Handler backgroundHandler) {
+        super(cameraHandler, eventHandler, backgroundHandler);
         name = ModuleHandler.MODULE_HDR;
     }
 
@@ -113,13 +113,13 @@ public class HdrModule extends PictureModule implements I_WorkeDone
 
                 final String picFormat = ParameterHandler.PictureFormat.GetValue();
                 if (picFormat.equals("jpeg")) {
-                    final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, HdrModule.this, handler, Settings.GetWriteExternal());
+                    final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, HdrModule.this, handler);
                     jpegSaver.TakePicture();
                 } else if (!ParameterHandler.IsDngActive() && picFormat.contains("raw")) {
-                    final RawSaver rawSaver = new RawSaver(baseCameraHolder, HdrModule.this, handler, Settings.GetWriteExternal());
+                    final RawSaver rawSaver = new RawSaver(baseCameraHolder, HdrModule.this, handler);
                     rawSaver.TakePicture();
                 } else if (ParameterHandler.IsDngActive() && picFormat.contains("dng")) {
-                    DngSaver dngSaver = new DngSaver(baseCameraHolder, HdrModule.this, handler, Settings.GetWriteExternal());
+                    DngSaver dngSaver = new DngSaver(baseCameraHolder, HdrModule.this, handler);
                     dngSaver.TakePicture();
                 }
             }
@@ -141,7 +141,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
             hdrCount++;
             takePicture();
         }
-        MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
+        MediaScannerManager.ScanMedia(AppSettingsManager.APPSETTINGSMANAGER.context.getApplicationContext(), file);
         eventHandler.WorkFinished(file);
     }
 
@@ -187,11 +187,11 @@ public class HdrModule extends PictureModule implements I_WorkeDone
             int value = 0;
 
             if (hdrCount == 0) {
-                value = Integer.parseInt(Settings.getString(AppSettingsManager.SETTING_AEB1));
+                value = Integer.parseInt(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_AEB1));
             } else if (hdrCount == 1)
-                value = Integer.parseInt(Settings.getString(AppSettingsManager.SETTING_AEB2));
+                value = Integer.parseInt(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_AEB2));
             else if (hdrCount == 2)
-                value = Integer.parseInt(Settings.getString(AppSettingsManager.SETTING_AEB3));
+                value = Integer.parseInt(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_AEB3));
 
             Logger.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
             ParameterHandler.ManualExposure.SetValue(value);
@@ -234,19 +234,19 @@ public class HdrModule extends PictureModule implements I_WorkeDone
         public void onPictureTaken(byte[] data) {
             final String picFormat = ParameterHandler.PictureFormat.GetValue();
             if (picFormat.equals("jpeg")) {
-                final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, aeBracketDone, handler,Settings.GetWriteExternal());
-                jpegSaver.saveBytesToFile(data, new File(StringUtils.getFilePathHDR(Settings.GetWriteExternal(), jpegSaver.fileEnding, hdrCount)));
+                final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, aeBracketDone, handler);
+                jpegSaver.saveBytesToFile(data, new File(StringUtils.getFilePathHDR(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), jpegSaver.fileEnding, hdrCount)));
             }
             else if (picFormat.equals("jps")) {
-                final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, aeBracketDone, handler,Settings.GetWriteExternal());
-                jpsSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathHDR(Settings.GetWriteExternal(), jpsSaver.fileEnding, hdrCount)));
+                final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, aeBracketDone, handler);
+                jpsSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathHDR(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), jpsSaver.fileEnding, hdrCount)));
             }
             else if (!ParameterHandler.IsDngActive() && picFormat.contains("raw")) {
-                final RawSaver rawSaver = new RawSaver(baseCameraHolder, aeBracketDone, handler,Settings.GetWriteExternal());
-                rawSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathHDR(Settings.GetWriteExternal(), rawSaver.fileEnding, hdrCount)));
+                final RawSaver rawSaver = new RawSaver(baseCameraHolder, aeBracketDone, handler);
+                rawSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathHDR(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), rawSaver.fileEnding, hdrCount)));
             } else if (ParameterHandler.IsDngActive() && picFormat.contains("dng")) {
-                DngSaver dngSaver = new DngSaver(baseCameraHolder, aeBracketDone, handler,Settings.GetWriteExternal());
-                dngSaver.processData(data, new File(StringUtils.getFilePathHDR(Settings.GetWriteExternal(), dngSaver.fileEnding, hdrCount)));
+                DngSaver dngSaver = new DngSaver(baseCameraHolder, aeBracketDone, handler);
+                dngSaver.processData(data, new File(StringUtils.getFilePathHDR(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), dngSaver.fileEnding, hdrCount)));
             }
         }
     };
@@ -254,7 +254,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
     I_WorkeDone aeBracketDone = new I_WorkeDone() {
         @Override
         public void OnWorkDone(File file) {
-            MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
+            MediaScannerManager.ScanMedia(AppSettingsManager.APPSETTINGSMANAGER.context.getApplicationContext(), file);
             eventHandler.WorkFinished(file);
             if (hdrCount == 2) {
                 stopworking();

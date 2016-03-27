@@ -26,7 +26,6 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
 {
     public BaseCameraHolderApi2 cameraHolder;
     Context context;
-    AppSettingsManager appSettingsManager;
     AutoFitTextureView preview;
     protected I_error errorHandler;
 
@@ -49,7 +48,6 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
         super(appSettingsManager);
         this.preview = preview;
         preview.setSurfaceTextureListener(this);
-        this.appSettingsManager = appSettingsManager;
         this.context = context;
         errorHandler = this;
         //attache the callback to the Campreview
@@ -58,7 +56,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
         super.cameraHolder = this.cameraHolder;
         camParametersHandler = new ParameterHandlerApi2(this, appSettingsManager, uiHandler);
         cameraHolder.SetParameterHandler(camParametersHandler);
-        moduleHandler = new ModuleHandlerApi2(cameraHolder, appSettingsManager, backgroundHandler);
+        moduleHandler = new ModuleHandlerApi2(cameraHolder, backgroundHandler);
         camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         Focus = new FocusHandlerApi2(this);
         cameraHolder.Focus = Focus;
@@ -69,7 +67,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
 
     @Override
     protected void startCamera() {
-        cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
+        cameraHolder.OpenCamera(AppSettingsManager.APPSETTINGSMANAGER.GetCurrentCamera());
         Logger.d(TAG, "opencamera");
     }
 
@@ -108,7 +106,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
 
         Logger.d(TAG, "Camera Opened and Preview Started");
         super.onCameraOpen(message);
-        moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
+        moduleHandler.SetModule(AppSettingsManager.APPSETTINGSMANAGER.GetCurrentModule());
     }
 
     @Override
