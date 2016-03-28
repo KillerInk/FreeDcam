@@ -37,6 +37,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import troop.com.imageviewer.holder.FileHolder;
 import troop.com.views.MyHistogram;
 
 /**
@@ -186,17 +187,8 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
-
-                    if (!StringUtils.IS_L_OR_BIG() || file.canWrite()) {
-                        boolean d = file.delete();
-
-                        MediaScannerManager.ScanMedia(getContext(), file);
-                    }
-                    else
-                    {
-                        boolean d= FileUtils.delteDocumentFile(file);
-                    }
-                    BitmapHelper.DeleteCache(file);
+                    BitmapHelper.DeleteFile(new FileHolder(file));
+                    MediaScannerManager.ScanMedia(getContext(), file);
                     ((ScreenSlideFragment)getParentFragment()).reloadFilesAndSetLastPos();
                     break;
 

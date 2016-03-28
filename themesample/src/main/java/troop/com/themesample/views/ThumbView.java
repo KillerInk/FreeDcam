@@ -33,7 +33,7 @@ import troop.com.themesample.R;
 /**
  * Created by troop on 13.06.2015.
  */
-public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickListener
+public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickListener, BitmapHelper.FileEvent
 {
     private final  String TAG = ThumbView.class.getSimpleName();
     private boolean hasWork = false;
@@ -68,9 +68,8 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
         try {
             mask = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.maskthumb);
             mImageThumbSize = context.getResources().getDimensionPixelSize(troop.com.themesample.R.dimen.image_thumbnails_size);
-            List<FileHolder> f = FileHolder.getDCIMFiles();
-            if (f != null && f.size() > 0)
-                WorkHasFinished(f.get(f.size()-1).getFile());
+            BitmapHelper.AddFileListner(this);
+            WorkHasFinished(BitmapHelper.getFiles().get(0).getFile());
         }
         catch (NullPointerException ex)
         {}
@@ -152,6 +151,16 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
         if (click != null)
             click.onThumbClick();
 
+
+    }
+
+    @Override
+    public void onFileDeleted(File file) {
+        WorkHasFinished(BitmapHelper.getFiles().get(0).getFile());
+    }
+
+    @Override
+    public void onFileAdded(File file) {
 
     }
 }

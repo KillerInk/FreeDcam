@@ -107,6 +107,7 @@ public class BitmapHelper
         if (CACHE == null)
             return;
         CACHE.deleteFileFromDiskCache(file.getName());
+        CACHE.deleteFileFromDiskCache(file.getName()+"_thumb");
     }
 
     public interface FileEvent
@@ -136,12 +137,13 @@ public class BitmapHelper
         if (files == null)
             return;
         boolean del = false;
+        DeleteCache(file.getFile());
         if (!StringUtils.IS_L_OR_BIG() || file.getFile().canWrite())
         {
             del = file.getFile().delete();
         }
         if (!del && StringUtils.IS_L_OR_BIG())
-            FileUtils.delteDocumentFile(file.getFile());
+            del =FileUtils.delteDocumentFile(file.getFile());
         if (del)
         {
             files.remove(file);
