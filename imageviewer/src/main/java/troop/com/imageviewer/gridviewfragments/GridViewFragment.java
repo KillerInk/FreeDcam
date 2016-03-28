@@ -84,7 +84,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         dng,
         jpg,
         jps,
-        mp4, FormatTypes,
+        mp4,
     }
 
     public enum RequestModes
