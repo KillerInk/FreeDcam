@@ -319,4 +319,19 @@ public class StringUtils
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
 
+    public static class FileEnding
+    {
+        final public static String RAW = "raw";
+        final public static String DNG = "dng";
+        final public static String JPG = "jpg";
+        final public static String JPS = "jps";
+        final public static String BAYER = "bayer";
+        final public static String MP4 = "mp4";
+
+        public static String GetWithDot(String s)
+        {
+            return "."+s;
+        }
+    }
+
 }

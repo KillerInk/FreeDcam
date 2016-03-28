@@ -252,10 +252,10 @@ public class DngConvertingFragment extends Fragment
             Logger.exception(e);
         }
         String out =null;
-        if (file.getName().endsWith("raw"))
-            out = file.getAbsolutePath().replace(".raw", ".dng");
-        if (file.getName().endsWith("bayer"))
-            out = file.getAbsolutePath().replace(".bayer", ".dng");
+        if (file.getName().endsWith(StringUtils.FileEnding.RAW))
+            out = file.getAbsolutePath().replace(StringUtils.FileEnding.RAW, StringUtils.FileEnding.DNG);
+        if (file.getName().endsWith(StringUtils.FileEnding.BAYER))
+            out = file.getAbsolutePath().replace(StringUtils.FileEnding.BAYER, StringUtils.FileEnding.DNG);
         RawToDng dng = RawToDng.GetInstance();
         if (!StringUtils.IS_L_OR_BIG()
                 || file.canWrite())
@@ -263,7 +263,7 @@ public class DngConvertingFragment extends Fragment
         else
         {
             DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
-            DocumentFile wr = df.createFile("image/dng", file.getName().replace(".jpg", ".dng"));
+            DocumentFile wr = df.createFile("image/dng", file.getName().replace(StringUtils.FileEnding.JPG, StringUtils.FileEnding.DNG));
             ParcelFileDescriptor pfd = null;
             try {
 

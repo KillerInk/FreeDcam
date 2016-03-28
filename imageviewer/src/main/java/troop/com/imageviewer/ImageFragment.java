@@ -121,11 +121,11 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
             public void onClick(View v) {
                 if (file == null)
                     return;
-                if (!file.getAbsolutePath().endsWith(".raw") || !file.getAbsolutePath().endsWith(".bayer")) {
+                if (!file.getAbsolutePath().endsWith(StringUtils.FileEnding.RAW) || !file.getAbsolutePath().endsWith(StringUtils.FileEnding.BAYER)) {
                     Uri uri = Uri.fromFile(file);
 
                     Intent i = new Intent(Intent.ACTION_EDIT);
-                    if (file.getAbsolutePath().endsWith("mp4"))
+                    if (file.getAbsolutePath().endsWith(StringUtils.FileEnding.MP4))
                         i.setDataAndType(uri, "video/*");
                     else
                         i.setDataAndType(uri, "image/*");
@@ -271,23 +271,23 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
         {
             filename.setText(file.getName());
             deleteButton.setVisibility(View.VISIBLE);
-            if (file.getAbsolutePath().endsWith(".jpg")) {
+            if (file.getAbsolutePath().endsWith(StringUtils.FileEnding.JPG) || file.getAbsolutePath().endsWith(StringUtils.FileEnding.JPS)) {
                 processJpeg(file);
                 exifinfo.setVisibility(View.VISIBLE);
                 //myHistogram.setVisibility(View.VISIBLE);
                 play.setVisibility(View.VISIBLE);
             }
-            if (file.getAbsolutePath().endsWith(".mp4")) {
+            if (file.getAbsolutePath().endsWith(StringUtils.FileEnding.MP4)) {
                 exifinfo.setVisibility(View.GONE);
                 //myHistogram.setVisibility(View.GONE);
                 play.setVisibility(View.VISIBLE);
             }
-            if (file.getAbsolutePath().endsWith(".dng")) {
+            if (file.getAbsolutePath().endsWith(StringUtils.FileEnding.DNG)) {
                 exifinfo.setVisibility(View.GONE);
                 //myHistogram.setVisibility(View.VISIBLE);
                 play.setVisibility(View.VISIBLE);
             }
-            if (file.getAbsolutePath().endsWith(".raw") || file.getAbsolutePath().endsWith(".bayer")) {
+            if (file.getAbsolutePath().endsWith(StringUtils.FileEnding.RAW) || file.getAbsolutePath().endsWith(StringUtils.FileEnding.BAYER)) {
                 exifinfo.setVisibility(View.GONE);
                 //myHistogram.setVisibility(View.VISIBLE);
                 play.setVisibility(View.GONE);
@@ -340,10 +340,10 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
         }
 
         String out =null;
-        if (file.getName().endsWith("raw"))
-           out = file.getAbsolutePath().replace(".raw", ".dng");
-        if (file.getName().endsWith("bayer"))
-            out = file.getAbsolutePath().replace(".bayer", ".dng");
+        if (file.getName().endsWith(StringUtils.FileEnding.RAW))
+           out = file.getAbsolutePath().replace(StringUtils.FileEnding.RAW, StringUtils.FileEnding.DNG);
+        if (file.getName().endsWith(StringUtils.FileEnding.BAYER))
+            out = file.getAbsolutePath().replace(StringUtils.FileEnding.BAYER, StringUtils.FileEnding.DNG);
         RawToDng dng = RawToDng.GetInstance();
         if (!StringUtils.IS_L_OR_BIG()
                 || file.canWrite())
@@ -351,7 +351,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
         else
         {
             DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
-            DocumentFile wr = df.createFile("image/dng", file.getName().replace(".jpg", ".dng"));
+            DocumentFile wr = df.createFile("image/dng", file.getName().replace(StringUtils.FileEnding.JPG, StringUtils.FileEnding.DNG));
             ParcelFileDescriptor pfd = null;
             try {
 

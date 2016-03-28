@@ -7,6 +7,7 @@ import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
 
 import com.defcomk.jni.libraw.RawUtils;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 
@@ -47,15 +48,16 @@ public class BitmapHelper
         }
         if (response == null && file.exists())
         {
-            if (file.getAbsolutePath().endsWith(".jpg") || file.getAbsolutePath().endsWith(".jps"))
+            if (file.getAbsolutePath().endsWith(StringUtils.FileEnding.JPG) || file.getAbsolutePath().endsWith(StringUtils.FileEnding.JPS))
             {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 2;
                 response = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
             }
-            else if (file.getAbsolutePath().endsWith(".mp4"))
+            else if (file.getAbsolutePath().endsWith(StringUtils.FileEnding.MP4))
                 response = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
-            else if (file.getAbsolutePath().endsWith(".dng")|| file.getAbsolutePath().endsWith(".raw") || file.getAbsolutePath().endsWith(".bayer"))
+            else if (file.getAbsolutePath().endsWith(StringUtils.FileEnding.DNG)
+                    || file.getAbsolutePath().endsWith(StringUtils.FileEnding.RAW) || file.getAbsolutePath().endsWith(StringUtils.FileEnding.BAYER))
             {
                 try {
                     response = RawUtils.UnPackRAW(file.getAbsolutePath());

@@ -44,10 +44,10 @@ public class MediatekSaver extends JpegSaver {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                if(ParameterHandler.PictureFormat.GetValue().equals("bayer") || ParameterHandler.PictureFormat.GetValue().equals("dng"))
+                if(ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.BAYER) || ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.DNG))
                 {
                     String timestamp = String.valueOf(System.currentTimeMillis());
-                    ParameterHandler.Set_RAWFNAME("/mnt/sdcard/DCIM/FreeDCam/"+"mtk"+timestamp+".bayer");
+                    ParameterHandler.Set_RAWFNAME("/mnt/sdcard/DCIM/FreeDCam/"+"mtk"+timestamp+StringUtils.FileEnding.GetWithDot(StringUtils.FileEnding.BAYER));
                 }
                 cameraHolder.TakePicture(null, null, MediatekSaver.this);
             }
@@ -75,12 +75,12 @@ public class MediatekSaver extends JpegSaver {
                     } catch (Exception ex) {
 
                     }
-                } else if (ParameterHandler.PictureFormat.GetValue().equals("dng"))
+                } else if (ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.DNG))
                 {
                     //savejpeg
                     saveBytesToFile(data, holdFile);
                     CreateDNG_DeleteRaw();
-                } else if (ParameterHandler.PictureFormat.GetValue().equals("bayer"))
+                } else if (ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.BAYER))
                 {
                     //savejpeg
                     saveBytesToFile(data, holdFile);
@@ -121,7 +121,7 @@ public class MediatekSaver extends JpegSaver {
         } catch (InterruptedException e) {
             Logger.exception(e);
         }
-        File dng = new File(holdFile.getName().replace(".jpg", ".dng"));
+        File dng = new File(holdFile.getName().replace(StringUtils.FileEnding.BAYER, StringUtils.FileEnding.DNG));
         Logger.d(TAG,"DNGfile:" + dng.getAbsolutePath());
         DngSaver saver = new DngSaver(cameraHolder, iWorkeDone, handler);
         saver.processData(data, dng);

@@ -96,15 +96,15 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
                 if (picFormat.equals("jpeg") ) {
                     final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, this, handler);
                     jpegSaver.TakePicture();
-                } else if (picFormat.equals("jps")) {
+                } else if (picFormat.equals(StringUtils.FileEnding.JPS)) {
                     final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, this, handler);
                     jpsSaver.TakePicture();
                 }
-                else if (ParameterHandler.IsDngActive() && picFormat.equals("dng")) {
+                else if (ParameterHandler.IsDngActive() && picFormat.equals(StringUtils.FileEnding.DNG)) {
                     DngSaver dngSaver = new DngSaver(baseCameraHolder, this, handler);
                     dngSaver.TakePicture();
                 }
-                else if (ParameterHandler.IsDngActive() == false && picFormat.equals("bayer")) {
+                else if (ParameterHandler.IsDngActive() == false && (picFormat.equals(StringUtils.FileEnding.BAYER) || picFormat.equals(StringUtils.FileEnding.RAW))) {
                     final RawSaver rawSaver = new RawSaver(baseCameraHolder, this, handler);
                     rawSaver.TakePicture();
                 }
@@ -182,10 +182,10 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
                         final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, burstDone, handler);
                         jpsSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathBurst(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), jpsSaver.fileEnding, burstcount)));
                     }
-                    else if (!ParameterHandler.IsDngActive() && picFormat.contains("bayer")) {
+                    else if (!ParameterHandler.IsDngActive() && (picFormat.equals(StringUtils.FileEnding.BAYER) || picFormat.equals(StringUtils.FileEnding.RAW))) {
                         final RawSaver rawSaver = new RawSaver(baseCameraHolder, burstDone, handler);
                         rawSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathBurst(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), rawSaver.fileEnding, burstcount)));
-                    } else if (ParameterHandler.IsDngActive() && picFormat.contains("dng")) {
+                    } else if (ParameterHandler.IsDngActive() && picFormat.contains(StringUtils.FileEnding.DNG)) {
                         DngSaver dngSaver = new DngSaver(baseCameraHolder, burstDone, handler);
                         dngSaver.processData(data, new File(StringUtils.getFilePathBurst(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), dngSaver.fileEnding, burstcount)));
                     }

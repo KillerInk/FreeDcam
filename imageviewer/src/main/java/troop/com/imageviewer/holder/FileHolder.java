@@ -1,5 +1,8 @@
 package troop.com.imageviewer.holder;
 
+import com.troop.filelogger.Logger;
+import com.troop.freedcam.i_camera.parameters.LocationParameter;
+import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -19,7 +22,7 @@ import troop.com.imageviewer.gridviewfragments.GridViewFragment;
 public class FileHolder extends BaseHolder
 {
     private File file;
-
+    private static final String TAG = FileHolder.class.getSimpleName();
     private boolean isFolder = false;
 
     public FileHolder(File file)
@@ -46,25 +49,25 @@ public class FileHolder extends BaseHolder
         for (File f : folderfiles) {
             if (!f.isHidden()) {
                 if (formatsToShow == GridViewFragment.FormatTypes.all && (
-                        f.getAbsolutePath().endsWith("jpg")
-                                || f.getAbsolutePath().endsWith("jps")
-                                || f.getAbsolutePath().endsWith("raw")
-                                || f.getAbsolutePath().endsWith("bayer")
-                                || f.getAbsolutePath().endsWith("dng")
-                                || f.getAbsolutePath().endsWith("mp4")
+                        f.getAbsolutePath().endsWith(StringUtils.FileEnding.JPG)
+                                || f.getAbsolutePath().endsWith(StringUtils.FileEnding.JPS)
+                                || f.getAbsolutePath().endsWith(StringUtils.FileEnding.RAW)
+                                || f.getAbsolutePath().endsWith(StringUtils.FileEnding.BAYER)
+                                || f.getAbsolutePath().endsWith(StringUtils.FileEnding.DNG)
+                                || f.getAbsolutePath().endsWith(StringUtils.FileEnding.MP4)
                 ))
                     list.add(new FileHolder(f));
-                else if (formatsToShow == GridViewFragment.FormatTypes.dng && f.getAbsolutePath().endsWith("dng"))
+                else if (formatsToShow == GridViewFragment.FormatTypes.dng && f.getAbsolutePath().endsWith(StringUtils.FileEnding.DNG))
                     list.add(new FileHolder(f));
-                else if (formatsToShow == GridViewFragment.FormatTypes.raw && f.getAbsolutePath().endsWith("raw"))
+                else if (formatsToShow == GridViewFragment.FormatTypes.raw && f.getAbsolutePath().endsWith(StringUtils.FileEnding.RAW))
                     list.add(new FileHolder(f));
-                else if (formatsToShow == GridViewFragment.FormatTypes.raw && f.getAbsolutePath().endsWith("bayer"))
+                else if (formatsToShow == GridViewFragment.FormatTypes.raw && f.getAbsolutePath().endsWith(StringUtils.FileEnding.BAYER))
                     list.add(new FileHolder(f));
-                else if (formatsToShow == GridViewFragment.FormatTypes.jps && f.getAbsolutePath().endsWith("jps"))
+                else if (formatsToShow == GridViewFragment.FormatTypes.jps && f.getAbsolutePath().endsWith(StringUtils.FileEnding.JPS))
                     list.add(new FileHolder(f));
-                else if (formatsToShow == GridViewFragment.FormatTypes.jpg && f.getAbsolutePath().endsWith("jpg"))
+                else if (formatsToShow == GridViewFragment.FormatTypes.jpg && f.getAbsolutePath().endsWith(StringUtils.FileEnding.JPS))
                     list.add(new FileHolder(f));
-                else if (formatsToShow == GridViewFragment.FormatTypes.mp4 && f.getAbsolutePath().endsWith("mp4"))
+                else if (formatsToShow == GridViewFragment.FormatTypes.mp4 && f.getAbsolutePath().endsWith(StringUtils.FileEnding.MP4))
                     list.add(new FileHolder(f));
             }
         }
@@ -73,8 +76,16 @@ public class FileHolder extends BaseHolder
     public static List<FileHolder> getDCIMFiles()
     {
         List<FileHolder> f = new ArrayList<FileHolder>();
-        FileHolder.readFilesFromFolder(new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder), f, GridViewFragment.FormatTypes.all);
-        FileHolder.readFilesFromFolder(new File(StringUtils.GetExternalSDCARD() + StringUtils.freedcamFolder), f, GridViewFragment.FormatTypes.all);
+        File internal = new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder);
+        if (internal != null)
+            Logger.d(TAG, "InternalSDPath:" + internal.getAbsolutePath());
+        FileHolder.readFilesFromFolder(internal, f, GridViewFragment.FormatTypes.all);
+        File external = new File(StringUtils.GetExternalSDCARD() + StringUtils.freedcamFolder);
+        if (external != null)
+            Logger.d(TAG, "ExternalSDPath:" + external.getAbsolutePath());
+        else
+            Logger.d(TAG,"No ExternalSDFound");
+        FileHolder.readFilesFromFolder(external, f, GridViewFragment.FormatTypes.all);
         Collections.sort(f, new Comparator<FileHolder>() {
             public int compare(FileHolder f1, FileHolder f2) {
                 return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());

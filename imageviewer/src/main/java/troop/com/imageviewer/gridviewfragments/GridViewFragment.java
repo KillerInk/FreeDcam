@@ -40,6 +40,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import troop.com.imageviewer.BitmapHelper;
 import troop.com.imageviewer.DngConvertingActivity;
@@ -55,7 +56,7 @@ import troop.com.imageviewer.holder.FileHolder;
 public class GridViewFragment extends BaseGridViewFragment implements I_Activity.I_OnActivityResultCallback
 {
     private ImageAdapter mPagerAdapter;
-    private ArrayList<FileHolder> files;
+    private List<FileHolder> files;
     private int mImageThumbSize = 0;
     final String TAG = GridViewFragment.class.getSimpleName();
 
@@ -267,75 +268,14 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
 
     private void loadDefaultFolders()
     {
-        File internalSDCIM = new File(StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder);
-        File externalSDCIM = new File(StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder);
-        ArrayList<FileHolder> list = new ArrayList<FileHolder>();
-        File[] f = internalSDCIM.listFiles();
-        if (f == null)
-            return;
-        for (int i = 0; i< f.length; i++)
-        {
-            if (!f[i].isHidden())
-                list.add(new FileHolder(f[i]));
-        }
-        try {
-            f = externalSDCIM.listFiles();
-            for (int i = 0; i< f.length; i++)
-            {
-                if (!f[i].isHidden())
-                    list.add(new FileHolder(f[i]));
-            }
-        }
-        catch (Exception ex) {
-            Logger.d(TAG, "No external SD!");
-        }
-        files = list;
-        sortList(files);
+        files = FileHolder.getDCIMFiles();
         mPagerAdapter.notifyDataSetChanged();
     }
 
     private void loadFiles(File file)
     {
-        ArrayList<FileHolder> list = new ArrayList<FileHolder>();
-        File[]f = file.listFiles();
-        for (int i = 0; i< f.length; i++)
-        {
-            if (!f[i].isHidden()) {
-                if (formatsToShow == FormatTypes.all && (
-                        f[i].getAbsolutePath().endsWith("jpg")
-                        || f[i].getAbsolutePath().endsWith("jps")
-                        ||f[i].getAbsolutePath().endsWith("raw")
-                        ||f[i].getAbsolutePath().endsWith("bayer")
-                        ||f[i].getAbsolutePath().endsWith("dng")
-                                ||   f[i].getAbsolutePath().endsWith("mp4")
-                ))
-                    list.add(new FileHolder(f[i]));
-                else if(formatsToShow == FormatTypes.dng && f[i].getAbsolutePath().endsWith("dng"))
-                    list.add(new FileHolder(f[i]));
-                else if(formatsToShow == FormatTypes.raw && f[i].getAbsolutePath().endsWith("raw"))
-                    list.add(new FileHolder(f[i]));
-                else if(formatsToShow == FormatTypes.raw && f[i].getAbsolutePath().endsWith("bayer"))
-                    list.add(new FileHolder(f[i]));
-                else if(formatsToShow == FormatTypes.jps && f[i].getAbsolutePath().endsWith("jps"))
-                    list.add(new FileHolder(f[i]));
-                else if(formatsToShow == FormatTypes.jpg && f[i].getAbsolutePath().endsWith("jpg"))
-                    list.add(new FileHolder(f[i]));
-                else if(formatsToShow == FormatTypes.mp4 && f[i].getAbsolutePath().endsWith("mp4"))
-                    list.add(new FileHolder(f[i]));
-            }
-        }
-        files = list;
-        sortList(files);
+        FileHolder.readFilesFromFolder(file,files,formatsToShow);
         mPagerAdapter.notifyDataSetChanged();
-    }
-
-    private void sortList(ArrayList<FileHolder> filesar)
-    {
-        Collections.sort(filesar, new Comparator<FileHolder>() {
-            public int compare(FileHolder f1, FileHolder f2) {
-                return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
-            }
-        });
     }
 
     @Override
@@ -729,7 +669,8 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
             {
                 ArrayList<String> ar = new ArrayList<String>();
                 for (FileHolder f : files) {
-                    if (f.IsSelected() && (f.getFile().getAbsolutePath().endsWith("raw")||f.getFile().getAbsolutePath().endsWith("bayer"))) {
+                    if (f.IsSelected() &&
+                       (f.getFile().getAbsolutePath().endsWith(StringUtils.FileEnding.RAW) ||f.getFile().getAbsolutePath().endsWith(StringUtils.FileEnding.BAYER))) {
                         ar.add(f.getFile().getAbsolutePath());
                     }
 
@@ -763,7 +704,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         {
             case normal:
             {
-                if (formatsToShow == FormatTypes.raw && lastFormat != FormatTypes.raw)
+                if ((formatsToShow == FormatTypes.raw && lastFormat != FormatTypes.raw))
                 {
                     formatsToShow = lastFormat;
                     loadFiles(new File(savedInstanceFilePath));
