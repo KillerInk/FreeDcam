@@ -69,10 +69,12 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
             mask = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.maskthumb);
             mImageThumbSize = context.getResources().getDimensionPixelSize(troop.com.themesample.R.dimen.image_thumbnails_size);
             BitmapHelper.AddFileListner(this);
+
             WorkHasFinished(BitmapHelper.getFiles().get(0).getFile());
         }
         catch (NullPointerException ex)
         {}
+        catch (IndexOutOfBoundsException ex){}
 
     }
 
