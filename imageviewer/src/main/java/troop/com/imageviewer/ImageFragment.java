@@ -32,6 +32,7 @@ import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -311,14 +312,17 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
             shutter.setText("Exposure Time: " +exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME));
             fnumber.setText("Aperture:" +exifsub.getString(ExifSubIFDDirectory.TAG_FNUMBER));
             focal.setText("Focal Length:" +exifsub.getString(ExifSubIFDDirectory.TAG_FOCAL_LENGTH));
+        } catch (EOFException ex)
+        {
+            Logger.d(TAG, "Failed to read Exif");
         } catch (IOException e) {
-            Logger.exception(e);
+            Logger.d(TAG, "Failed to read Exif");
         } catch (JpegProcessingException e) {
-            Logger.exception(e);
+            Logger.d(TAG, "Failed to read Exif");
         }
         catch (NullPointerException ex)
         {
-            Logger.exception(ex);
+            Logger.d(TAG, "Failed to read Exif");
         }
     }
 

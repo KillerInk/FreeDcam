@@ -109,17 +109,17 @@ public class JpegSaver implements I_Callbacks.PictureCallback
         Logger.d(TAG, "Start Saving Bytes");
         OutputStream outStream = null;
         try {
-            if (!StringUtils.IS_L_OR_BIG()
-                    || StringUtils.WRITE_NOT_EX_AND_L_ORBigger())
+            if (!StringUtils.IS_L_OR_BIG() || StringUtils.WRITE_NOT_EX_AND_L_ORBigger())
             {
                 checkFileExists(fileName);
                 outStream = new FileOutputStream(fileName);
             }
             else
             {
-                Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
-                DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
+                Logger.d(TAG,"Filepath: " +df.getUri().toString());
                 DocumentFile wr = df.createFile("image/jpeg", fileName.getName());
+                Logger.d(TAG,"Filepath: " +wr.getUri().toString());
                 outStream = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri());
             }
             outStream.write(bytes);
