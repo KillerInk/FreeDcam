@@ -1,6 +1,8 @@
 package com.troop.freedcam.ui;
 
 
+import android.view.MotionEvent;
+
 /**
  * Created by troop on 18.08.2014.
  */
@@ -42,6 +44,11 @@ public class SwipeMenuListner extends TouchHandler
         swipehandler.onClick(x,y);
     }
 
+    @Override
+    protected void OnMotionEvent(MotionEvent event) {
+        if (swipehandler != null)
+            swipehandler.onMotionEvent(event);
+    }
 
     public void LeftToRightSwipe()
     {

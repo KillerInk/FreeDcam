@@ -105,6 +105,15 @@
                     app:ValueText=""
                     android:layout_marginBottom="1dp" />
 
+                <troop.com.themesample.views.menu.MenuItem
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/MenuItemPreviewZoom"
+                    app:Description=""
+                    app:HeaderText="Preview Zoom:"
+                    app:ValueText=""
+                    android:layout_marginBottom="1dp" />
+
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"

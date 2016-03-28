@@ -27,6 +27,7 @@ import android.renderscript.RenderScript;
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
 import android.util.Log;
+import android.util.Pair;
 import android.util.Rational;
 import android.util.Size;
 import android.view.Display;
@@ -45,6 +46,7 @@ import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -104,10 +106,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
     int imagecount = 0;
 
-    public PictureModuleApi2(BaseCameraHolderApi2 cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler, Handler backgroundHandler) {
-        super(cameraHandler, Settings, eventHandler);
+    public PictureModuleApi2(BaseCameraHolderApi2 cameraHandler, ModuleEventHandler eventHandler, Handler backgroundHandler) {
+        super(cameraHandler, eventHandler);
         this.cameraHolder = (BaseCameraHolderApi2)cameraHandler;
-        this.Settings = Settings;
         this.backgroundHandler = backgroundHandler;
         this.name = AbstractModuleHandler.MODULE_PICTURE;
 
@@ -138,7 +139,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     public void TakePicture()
     {
         isWorking = true;
-        Logger.d(TAG, Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
+        Logger.d(TAG, AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
         Logger.d(TAG, "dng:" + Boolean.toString(ParameterHandler.IsDngActive()));
 
         mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener, backgroundHandler);
@@ -314,7 +315,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             catch (CameraAccessException ex)
             {
                 cameraHolder.CloseCamera();
-                cameraHolder.OpenCamera(Settings.GetCurrentCamera());
+                cameraHolder.OpenCamera(AppSettingsManager.APPSETTINGSMANAGER.GetCurrentCamera());
             }
 
         }
@@ -372,7 +373,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
 
                     isWorking = false;
-                    MediaScannerManager.ScanMedia(Settings.context, file);
+                    MediaScannerManager.ScanMedia(AppSettingsManager.APPSETTINGSMANAGER.context, file);
                     eventHandler.WorkFinished(file);
                     if (burstcount == imagecount) {
                         workfinished(true);
@@ -393,9 +394,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         File file;
         Logger.d(TAG, "Create JPEG");
         if (burstcount > 1)
-            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_" + imagecount + ".jpg"));
+            file = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), "_" + imagecount + ".jpg"));
         else
-            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".jpg"));
+            file = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), ".jpg"));
         checkFileExists(file);
         Image image = reader.acquireNextImage();
         while (image == null) {
@@ -410,11 +411,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private File process_rawSensor(int burstcount, ImageReader reader) {
         File file;
         Logger.d(TAG, "Create DNG");
-        if (burstcount > 1)
+        /*if (burstcount > 1)
             file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_" + imagecount + ".dng"));
-        else
-            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".dng"));
-        checkFileExists(file);
+        else*/
+            file = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), ".dng"));
+        //checkFileExists(file);
         Image image = reader.acquireNextImage();
         while (image == null) {
             image = reader.acquireNextImage();
@@ -433,7 +434,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             else
             {
                 Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
-                DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
                 DocumentFile wr = df.createFile("image/dng", file.getName());
                 try {
 
@@ -482,8 +483,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     dngCreator.writeImage(new FileOutputStream(file), image);
                 else
                 {
-                    Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
-                    DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
                     DocumentFile wr = df.createFile("image/dng", file.getName());
                     dngCreator.writeImage(AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri()), image);
                 }
@@ -500,9 +500,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         File file;
         Logger.d(TAG, "Create DNG VIA RAw2DNG");
         if (burstcount > 1)
-            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_" + imagecount + ".dng"));
+            file = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), "_" + imagecount + ".dng"));
         else
-            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".dng"));
+            file = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), ".dng"));
         checkFileExists(file);
         Image image = reader.acquireNextImage();
         while (image == null) {
@@ -517,8 +517,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             dngConverter.SetBayerData(bytes, file.getAbsolutePath());
         else
         {
-            Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
-            DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
             DocumentFile wr = df.createFile("image/dng", file.getName());
             try {
 
@@ -547,40 +546,80 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         int black  = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_BLACK_LEVEL_PATTERN).getOffsetForIndex(0,0);
         int c= cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_COLOR_FILTER_ARRANGEMENT);
         String colorpattern;
+        int[] cfaOut = new int[4];
         switch (c)
         {
             case 1:
                 colorpattern = DngSupportedDevices.GRBG;
+                cfaOut[0] = 1;
+                cfaOut[1] = 0;
+                cfaOut[2] = 2;
+                cfaOut[3] = 1;
                 break;
             case 2:
                 colorpattern = DngSupportedDevices.GBRG;
+                cfaOut[0] = 1;
+                cfaOut[1] = 2;
+                cfaOut[2] = 0;
+                cfaOut[3] = 1;
                 break;
             case 3:
                 colorpattern = DngSupportedDevices.BGGR;
+                cfaOut[0] = 2;
+                cfaOut[1] = 1;
+                cfaOut[2] = 1;
+                cfaOut[3] = 0;
                 break;
             default:
                 colorpattern = DngSupportedDevices.RGGB;
+                cfaOut[0] = 0;
+                cfaOut[1] = 1;
+                cfaOut[2] = 1;
+                cfaOut[3] = 2;
                 break;
         }
-        float[] m1  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2));
-        float[] m2 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1));
+        float[] color2  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2));
+        float[] color1 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1));
         Rational[] n =  mDngResult.get(CaptureResult.SENSOR_NEUTRAL_COLOR_POINT);
         float[] neutral = new float[3];
         neutral[0] = n[0].floatValue();
         neutral[1] = n[1].floatValue();
-        neutral[2] = n[0].floatValue();
-        float[] f1  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX2));
-        float[] f2  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX1));
+        neutral[2] = n[2].floatValue();
+        float[] forward2  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX2));
+        //0.820300f, -0.218800f, 0.359400f, 0.343800f, 0.570300f,0.093800f, 0.015600f, -0.726600f, 1.539100f
+        float[] forward1  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX1));
+        float[] reduction1 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM1));
+        float[] reduction2 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM2));
+        //noise
+        Pair[] p = mDngResult.get(CaptureResult.SENSOR_NOISE_PROFILE);
+        double[] noiseys = new double[p.length*2];
+        int i = 0;
+        for (int h = 0; h < p.length; h++)
+        {
+            noiseys[i++] = (double)p[h].first;
+            noiseys[i++] = (double)p[h].second;
+        }
+        double[] noise = new double[6];
+        int[] cfaPlaneColor = {0, 1, 2};
+        generateNoiseProfile(noiseys,cfaOut,4,cfaPlaneColor,3,noise);
+        float[]finalnoise = new float[6];
+        for (i = 0; i < noise.length; i++)
+            if (noise[i] > 2 || noise[i] < -2)
+                finalnoise[i] = 0;
+            else
+                finalnoise[i] = (float)noise[i];
+        //noise end
+
         DngSupportedDevices d = new DngSupportedDevices();
         DngSupportedDevices.DngProfile prof = d.getProfile(black,image.getWidth(), image.getHeight(), DngSupportedDevices.Mipi, colorpattern, 0,
-                m1,
-                m2,
+                color1,
+                color2,
                 neutral,
-                f1,
-                f2,
-                Matrixes.G4_reduction_matrix1,
-                Matrixes.G4_reduction_matrix2,
-                Matrixes.G4_noise_3x1_matrix
+                forward1,
+                forward2,
+                reduction1,
+                reduction2,
+                finalnoise
         );
 
         dngConverter.WriteDngWithProfile(prof);
@@ -597,20 +636,48 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         return file;
     }
 
+    private void generateNoiseProfile(double[] perChannelNoiseProfile, int[] cfa,
+                                       int numChannels, int[] planeColors, int numPlanes,
+        /*out*/double[] noiseProfile) {
+
+        for (int p = 0; p < numPlanes; ++p) {
+            int S = p * 2;
+            int O = p * 2 + 1;
+
+            noiseProfile[S] = 0;
+            noiseProfile[O] = 0;
+            boolean uninitialized = true;
+            for (int c = 0; c < numChannels; ++c) {
+                if (cfa[c] == planeColors[p] && perChannelNoiseProfile[c * 2] > noiseProfile[S]) {
+                    noiseProfile[S] = perChannelNoiseProfile[c * 2];
+                    noiseProfile[O] = perChannelNoiseProfile[c * 2 + 1];
+                    uninitialized = false;
+                }
+            }
+            if (uninitialized) {
+                Logger.d(TAG, "%s: No valid NoiseProfile coefficients for color plane %zu");
+            }
+        }
+    }
+
     private float[]getFloatMatrix(ColorSpaceTransform transform)
     {
         float[] ret = new float[9];
-
-        ret[0] = transform.getElement(0,0).floatValue();
-        ret[1] = transform.getElement(0,1).floatValue();
-        ret[2] = transform.getElement(0,2).floatValue();
-        ret[3] = transform.getElement(1,0).floatValue();
-        ret[4] = transform.getElement(1,1).floatValue();
-        ret[5] = transform.getElement(1,2).floatValue();
-        ret[6] = transform.getElement(2,0).floatValue();
-        ret[7] = transform.getElement(2,1).floatValue();
-        ret[8] = transform.getElement(2,2).floatValue();
+        ret[0] = roundTo6Places(transform.getElement(0, 0).floatValue());
+        ret[1] = roundTo6Places(transform.getElement(1, 0).floatValue());
+        ret[2] = roundTo6Places(transform.getElement(2, 0).floatValue());
+        ret[3] = roundTo6Places(transform.getElement(0, 1).floatValue());
+        ret[4] = roundTo6Places(transform.getElement(1, 1).floatValue());
+        ret[5] = roundTo6Places(transform.getElement(2, 1).floatValue());
+        ret[6] = roundTo6Places(transform.getElement(0, 2).floatValue());
+        ret[7] = roundTo6Places(transform.getElement(1, 2).floatValue());
+        ret[8] = roundTo6Places(transform.getElement(2, 2).floatValue());
         return ret;
+    }
+
+    private float roundTo6Places(float f )
+    {
+        return Math.round(f*1000000f)/1000000f;
     }
 
     /**
@@ -622,15 +689,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void startPreview() {
 
-        picSize = Settings.getString(AppSettingsManager.SETTING_PICTURESIZE);
+        picSize = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_PICTURESIZE);
         Logger.d(TAG, "Start Preview");
         largestImageSize = Collections.max(
                 Arrays.asList(baseCameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
                 new BaseCameraHolderApi2.CompareSizesByArea());
-        picFormat = Settings.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
+        picFormat = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
         if (picFormat.equals("")) {
             picFormat = BaseCameraHolderApi2.JPEG;
-            Settings.setString(AppSettingsManager.SETTING_PICTUREFORMAT, BaseCameraHolderApi2.JPEG);
+            AppSettingsManager.APPSETTINGSMANAGER.setString(AppSettingsManager.SETTING_PICTUREFORMAT, BaseCameraHolderApi2.JPEG);
 
         }
 
@@ -667,7 +734,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         }
 
         //OrientationHACK
-        if(Settings.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+        if(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
             baseCameraHolder.mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, 180);
         else
             baseCameraHolder.mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, 0);
@@ -753,8 +820,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     output = new FileOutputStream(mFile);
                 else
                 {
-                    Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
-                    DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+
+                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
                     DocumentFile wr = df.createFile("*/*", mFile.getName());
                     output = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri(),"rw");
                 }

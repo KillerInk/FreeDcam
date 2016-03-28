@@ -2,6 +2,7 @@ package com.troop.freedcam.i_camera;
 
 import android.graphics.Rect;
 import android.util.Log;
+import android.view.MotionEvent;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.interfaces.I_Focus;
@@ -19,6 +20,7 @@ public abstract class AbstractFocusHandler
     public I_Focus focusEvent;
     public abstract boolean isAeMeteringSupported();
     public abstract boolean isWbMeteringSupported();
+    public abstract void SetMotionEvent(MotionEvent event);
 
     protected void logFocusRect(FocusRect rect)
     {

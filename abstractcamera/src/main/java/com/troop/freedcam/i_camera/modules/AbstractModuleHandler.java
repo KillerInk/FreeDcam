@@ -31,7 +31,6 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
     public ArrayList<String> AllModules;
     public ArrayList<String> HDRModule;
     public HashMap<String, AbstractModule> moduleList;
-    protected AppSettingsManager appSettingsManager;
     protected AbstractModule currentModule;
     AbstractCameraHolder cameraHolder;
 
@@ -45,10 +44,9 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
     public static final String MODULE_INTERVAL = "module_interval";
     public static final String MODULE_ALL = "module_all";
 
-    public AbstractModuleHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager)
+    public AbstractModuleHandler(AbstractCameraHolder cameraHolder)
     {
         this.cameraHolder = cameraHolder;
-        this.appSettingsManager = appSettingsManager;
         moduleList  = new HashMap<String, AbstractModule>();
 
         moduleEventHandler = new ModuleEventHandler();

@@ -13,23 +13,21 @@ import java.util.Date;
  */
 public class IntervalHandler
 {
-    AppSettingsManager appSettingsManager;
-    AbstractModule picmodule;
+    private AbstractModule picmodule;
 
     final String TAG = IntervalHandler.class.getSimpleName();
 
-    int intervalDuration = 0;
-    int shutterDelay = 0;
-    int intervalToEndDuration = 0;
-    Handler handler;
-    long startTime = 0;
+    private int intervalDuration = 0;
+    private int shutterDelay = 0;
+    private int intervalToEndDuration = 0;
+    private Handler handler;
+    private long startTime = 0;
     private boolean working = false;
 
     public boolean IsWorking() {return  this.working;}
 
-    public IntervalHandler(AppSettingsManager appSettingsManager, AbstractModule picmodule)
+    public IntervalHandler(AbstractModule picmodule)
     {
-        this.appSettingsManager = appSettingsManager;
         this.picmodule = picmodule;
         handler = new Handler();
     }
@@ -139,7 +137,7 @@ public class IntervalHandler
 
     public void StartShutterTime()
     {
-        String shutterdelay = appSettingsManager.getString(AppSettingsManager.SETTING_TIMER);
+        String shutterdelay = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_TIMER);
         try {
             if (shutterdelay.equals(""))
                 shutterdelay = "0 sec";

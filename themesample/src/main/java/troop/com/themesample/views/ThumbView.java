@@ -7,38 +7,33 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.media.ExifInterface;
-import android.media.ThumbnailUtils;
-import android.provider.MediaStore;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.I_WorkEvent;
-import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import troop.com.imageviewer.BitmapHelper;
-import troop.com.imageviewer.CacheHelper;
-import troop.com.imageviewer.FileUtils;
+
+import com.troop.freedcam.utils.FileUtils;
 import troop.com.imageviewer.ScreenSlideFragment;
 import troop.com.imageviewer.gridviewfragments.GridViewFragment;
 import troop.com.imageviewer.holder.FileHolder;
 import troop.com.themesample.R;
-import troop.com.themesample.SampleThemeFragment;
 
 /**
  * Created by troop on 13.06.2015.
  */
-public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickListener
+public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickListener, BitmapHelper.FileEvent
 {
     private final  String TAG = ThumbView.class.getSimpleName();
     private boolean hasWork = false;
@@ -73,13 +68,13 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
         try {
             mask = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.maskthumb);
             mImageThumbSize = context.getResources().getDimensionPixelSize(troop.com.themesample.R.dimen.image_thumbnails_size);
-            List<FileHolder> f = new ArrayList<FileHolder>();
-            FileUtils.readFilesFromFolder(new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder), f, GridViewFragment.FormatTypes.all);
-            if (f != null && f.size() > 0)
-                WorkHasFinished(f.get(f.size()-1).getFile());
+            BitmapHelper.AddFileListner(this);
+
+            WorkHasFinished(BitmapHelper.getFiles().get(0).getFile());
         }
         catch (NullPointerException ex)
         {}
+        catch (IndexOutOfBoundsException ex){}
 
     }
 
@@ -158,6 +153,16 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
         if (click != null)
             click.onThumbClick();
 
+
+    }
+
+    @Override
+    public void onFileDeleted(File file) {
+        WorkHasFinished(BitmapHelper.getFiles().get(0).getFile());
+    }
+
+    @Override
+    public void onFileAdded(File file) {
 
     }
 }

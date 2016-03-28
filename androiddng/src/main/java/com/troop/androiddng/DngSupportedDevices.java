@@ -309,6 +309,8 @@ public class DngSupportedDevices
                         return new Nexus6Profile(64, 4212, 3082, Mipi, BGGR, getG3_rowSizeL);
                 }
             }
+            case (16510976)://mi 4c
+                return new Nexus6Profile(64,4208,3120,Mipi16,BGGR,0);
             case (16560128): {
                 switch (device) {
                     case XiaomiMI_Note_Pro:

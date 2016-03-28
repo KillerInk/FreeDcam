@@ -1,6 +1,7 @@
 package com.troop.freedcam.sonyapi;
 
 import android.util.Log;
+import android.view.MotionEvent;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractFocusHandler;
@@ -76,6 +77,11 @@ public class FocusHandlerSony extends AbstractFocusHandler implements I_Callback
     @Override
     public boolean isWbMeteringSupported() {
         return false;
+    }
+
+    @Override
+    public void SetMotionEvent(MotionEvent event) {
+        cameraUiWrapper.surfaceView.onTouchEvent(event);
     }
 
 

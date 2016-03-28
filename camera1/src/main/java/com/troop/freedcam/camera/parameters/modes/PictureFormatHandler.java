@@ -7,6 +7,7 @@ import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.util.HashMap;
 
@@ -29,7 +30,7 @@ public class PictureFormatHandler extends BaseModeParameter
     final static public String[] CaptureMode =
     {
         "jpeg",
-        "raw",
+        "bayer",
         "dng"
     };
 
@@ -82,6 +83,7 @@ public class PictureFormatHandler extends BaseModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
+
         Logger.d(TAG, "SetValue:" + valueToSet);
         captureMode = valueToSet;
         switch (baseCameraHolder.DeviceFrameWork)
@@ -93,7 +95,7 @@ public class PictureFormatHandler extends BaseModeParameter
                     case "jpeg":
                         setString(valueToSet,setToCam);
                         break;
-                    case "raw":
+                    case "bayer":
                         setString(rawFormat,setToCam);
                         baseCameraHolder.GetParameterHandler().SetDngActive(false);
                         break;

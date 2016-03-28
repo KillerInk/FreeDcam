@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.ParcelFileDescriptor;
 import android.support.v4.app.Fragment;
+import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +23,10 @@ import com.troop.androiddng.DngSupportedDevices;
 import com.troop.androiddng.Matrixes;
 import com.troop.androiddng.RawToDng;
 import com.troop.filelogger.Logger;
+import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.FileUtils;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -246,10 +251,40 @@ public class DngConvertingFragment extends Fragment
         } catch (IOException e) {
             Logger.exception(e);
         }
-
-        String out = file.getAbsolutePath().replace(".raw", ".dng");
+        String out =null;
+        if (file.getName().endsWith(StringUtils.FileEnding.RAW))
+            out = file.getAbsolutePath().replace(StringUtils.FileEnding.RAW, StringUtils.FileEnding.DNG);
+        if (file.getName().endsWith(StringUtils.FileEnding.BAYER))
+            out = file.getAbsolutePath().replace(StringUtils.FileEnding.BAYER, StringUtils.FileEnding.DNG);
         RawToDng dng = RawToDng.GetInstance();
-        dng.SetBayerData(data, out);
+        if (!StringUtils.IS_L_OR_BIG()
+                || file.canWrite())
+            dng.SetBayerData(data, out);
+        else
+        {
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
+            DocumentFile wr = df.createFile("image/dng", file.getName().replace(StringUtils.FileEnding.JPG, StringUtils.FileEnding.DNG));
+            ParcelFileDescriptor pfd = null;
+            try {
+
+                pfd = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+            } catch (FileNotFoundException e) {
+                Logger.exception(e);
+            }
+            catch (IllegalArgumentException e)
+            {
+                Logger.exception(e);
+            }
+            if (pfd != null) {
+                dng.SetBayerDataFD(data, pfd, file.getName());
+                try {
+                    pfd.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                pfd = null;
+            }
+        }
         dng.setExifData(100, 0, 0, 0, 0, "", "0", 0);
         dng.WriteDngWithProfile(dngprofile);
         data = null;

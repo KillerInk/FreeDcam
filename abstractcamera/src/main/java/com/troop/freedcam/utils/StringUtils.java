@@ -210,7 +210,7 @@ public class StringUtils
 
     public static File GetExternalSDCARD()
     {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT)
             return new File(System.getenv("SECONDARY_STORAGE"));
         else
         {
@@ -317,6 +317,21 @@ public class StringUtils
     public static boolean IS_L_OR_BIG()
     {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
+
+    public static class FileEnding
+    {
+        final public static String RAW = "raw";
+        final public static String DNG = "dng";
+        final public static String JPG = "jpg";
+        final public static String JPS = "jps";
+        final public static String BAYER = "bayer";
+        final public static String MP4 = "mp4";
+
+        public static String GetWithDot(String s)
+        {
+            return "."+s;
+        }
     }
 
 }

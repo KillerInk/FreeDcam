@@ -16,7 +16,7 @@ import java.util.HashMap;
 public class ShutterManual_ExposureTime_FloatToSixty extends ShutterManual_ExposureTime_Micro
 {
 
-    final static String TAG = ShutterManual_ExposureTime_Micro.class.getSimpleName();
+    final static String TAG = ShutterManual_ExposureTime_FloatToSixty.class.getSimpleName();
     /**
      * @param parameters
      * @param camParametersHandler

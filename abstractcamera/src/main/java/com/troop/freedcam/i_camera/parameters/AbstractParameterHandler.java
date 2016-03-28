@@ -97,6 +97,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter PostViewSize;
     public AbstractModeParameter Focuspeak;
     public AbstractModeParameter Module;
+    public AbstractModeParameter PreviewZoom;
     //
     public AbstractModeParameter ThemeList;
     public boolean isExposureAndWBLocked = false;
@@ -105,7 +106,6 @@ public abstract class AbstractParameterHandler
     public void SetDngActive(boolean active) {this.isDngActive = active;}
 
     public AbstractCameraHolder cameraHolder;
-    protected AppSettingsManager appSettingsManager;
 
     //camera2 modes
     public AbstractModeParameter EdgeMode;
@@ -135,18 +135,17 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter aeb2;
     public AbstractModeParameter aeb3;
 
-    public AbstractParameterHandler(AbstractCameraHolder cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler)
+    public AbstractParameterHandler(AbstractCameraHolder cameraHolder, Handler uiHandler)
     {
-        this.appSettingsManager = appSettingsManager;
         this.cameraHolder = cameraHolder;
         this.uiHandler = uiHandler;
         GuideList = new GuideList(uiHandler);
         ThemeList = new ThemeList(uiHandler);
-        locationParameter = new LocationParameter(uiHandler, appSettingsManager,cameraHolder);
+        locationParameter = new LocationParameter(uiHandler,cameraHolder);
         IntervalDuration = new IntervalDurationParameter(uiHandler);
         IntervalShutterSleep = new IntervalShutterSleepParameter(uiHandler);
         Horizont = new Horizont(uiHandler);
-        SdSaveLocation = new SDModeParameter(uiHandler,appSettingsManager);
+        SdSaveLocation = new SDModeParameter(uiHandler);
     }
 
     public abstract void SetParametersToCamera(HashMap<String, String> list);
@@ -207,14 +206,16 @@ public abstract class AbstractParameterHandler
         setMode(Horizont, AppSettingsManager.SETTING_HORIZONT);
 
         setMode(HDRMode, AppSettingsManager.SETTING_HDRMODE);
-        //setMode(aeb1, AppSettingsManager.SETTING_AEB1);
-        //setMode(aeb2, AppSettingsManager.SETTING_AEB2);
-        //setMode(aeb3, AppSettingsManager.SETTING_AEB3);
-        //setMode(captureBurstExposures, AppSettingsManager.SETTING_CAPTUREBURSTEXPOSURES);
+        setMode(aeb1, AppSettingsManager.SETTING_AEB1);
+        setMode(aeb2, AppSettingsManager.SETTING_AEB2);
+        setMode(aeb3, AppSettingsManager.SETTING_AEB3);
+        setMode(captureBurstExposures, AppSettingsManager.SETTING_CAPTUREBURSTEXPOSURES);
         //setMode(AE_Bracket, AppSettingsManager.SETTING_AEBRACKET);
 
         setMode(morphoHDR, AppSettingsManager.SETTING_MORPHOHDR);
         setMode(morphoHHT, AppSettingsManager.SETTING_MORPHOHHT);
+
+        setMode(PreviewZoom, AppSettingsManager.SETTINGS_PREVIEWZOOM);
 
 
         setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);
@@ -235,10 +236,10 @@ public abstract class AbstractParameterHandler
     {
         if (parameter != null && parameter.IsSupported() && settingsval != null && !settingsval.equals(""))
         {
-            if (appSettingsManager.getString(settingsval).equals(""))
-                appSettingsManager.setString(settingsval, parameter.GetValue());
+            if (AppSettingsManager.APPSETTINGSMANAGER.getString(settingsval).equals(""))
+                AppSettingsManager.APPSETTINGSMANAGER.setString(settingsval, parameter.GetValue());
             else
-                parameter.SetValue(appSettingsManager.getString(settingsval), false);
+                parameter.SetValue(AppSettingsManager.APPSETTINGSMANAGER.getString(settingsval), false);
         }
     }
 
@@ -246,10 +247,10 @@ public abstract class AbstractParameterHandler
     {
         if (parameter != null && parameter.IsSupported() && settingsval != null && !settingsval.equals(""))
         {
-            if (appSettingsManager.getString(settingsval).equals(""))
-                appSettingsManager.setString(settingsval, parameter.GetValue()+"");
+            if (AppSettingsManager.APPSETTINGSMANAGER.getString(settingsval).equals(""))
+                AppSettingsManager.APPSETTINGSMANAGER.setString(settingsval, parameter.GetValue()+"");
             else
-                parameter.SetValue(Integer.parseInt(appSettingsManager.getString(settingsval)));
+                parameter.SetValue(Integer.parseInt(AppSettingsManager.APPSETTINGSMANAGER.getString(settingsval)));
         }
     }
 }

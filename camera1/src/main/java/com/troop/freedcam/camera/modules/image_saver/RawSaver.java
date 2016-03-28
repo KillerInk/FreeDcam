@@ -9,6 +9,7 @@ import android.util.Log;
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -22,9 +23,9 @@ import java.io.OutputStream;
  */
 public class RawSaver extends JpegSaver
 {
-    final public String fileEnding = ".raw";
-    public RawSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler, boolean externalSD) {
-        super(cameraHolder, i_workeDone, handler, externalSD);
+    final public String fileEnding = ".bayer";
+    public RawSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler) {
+        super(cameraHolder, i_workeDone, handler);
     }
 
     final String TAG = "RawSaver";
@@ -64,9 +65,8 @@ public class RawSaver extends JpegSaver
                 outStream = new FileOutputStream(fileName);
             else
             {
-                Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
-                DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
-                DocumentFile wr = df.createFile("raw", fileName.getName());
+                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
+                DocumentFile wr = df.createFile("image/*", fileName.getName());
                 outStream = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri());
             }
             outStream.write(bytes);

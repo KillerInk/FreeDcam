@@ -28,6 +28,7 @@ import com.troop.freedcam.i_camera.modules.I_RecorderStateChanged;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.i_camera.modules.VideoMediaProfile;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 import com.troop.freedcam.utils.VideoUtils;
 
@@ -58,10 +59,9 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
     public MediaRecorder mediaRecorder;
 
-    public VideoModuleApi2(BaseCameraHolderApi2 cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
-        super(cameraHandler, Settings, eventHandler);
+    public VideoModuleApi2(BaseCameraHolderApi2 cameraHandler, ModuleEventHandler eventHandler) {
+        super(cameraHandler, eventHandler);
         this.cameraHolder = cameraHandler;
-        this.Settings = Settings;
         this.name = AbstractModuleHandler.MODULE_VIDEO;
     }
 
@@ -91,7 +91,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         Logger.d(TAG, "LoadNeededParameters");
         cameraHolder.ModulePreview = this;
         VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) ParameterHandler.VideoProfiles;
-        currentVideoProfile = profilesApi2.GetCameraProfile(Settings.getString(AppSettingsManager.SETTING_VIDEPROFILE));
+        currentVideoProfile = profilesApi2.GetCameraProfile(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         cameraHolder.StartPreview();
     }
 
@@ -181,13 +181,13 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         if (!AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal()) {
-            mediaRecorder.setOutputFile(StringUtils.getFilePath(Settings.GetWriteExternal(), ".mp4"));
+            mediaRecorder.setOutputFile(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), ".mp4"));
         }
         else
         {
             Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
-            DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
-            DocumentFile wr = df.createFile("*/*", new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".mp4")).getName());
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
+            DocumentFile wr = df.createFile("*/*", new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), ".mp4")).getName());
             ParcelFileDescriptor fileDescriptor = null;
             try {
                 fileDescriptor = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");

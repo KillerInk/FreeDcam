@@ -33,7 +33,6 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
 {
     protected ExtendedSurfaceView preview;
     protected I_error errorHandler;
-    public AppSettingsManager appSettingsManager;
     private static String TAG = CameraUiWrapper.class.getSimpleName();
     public BaseCameraHolder cameraHolder;
     public PreviewHandler previewHandler;
@@ -44,12 +43,11 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         return AppSettingsManager.API_1;
     }
 
-    public CameraUiWrapper(SurfaceView preview,TextureViewRatio previewTexture, AppSettingsManager appSettingsManager)
+    public CameraUiWrapper(SurfaceView preview,TextureViewRatio previewTexture)
     {
-        super(appSettingsManager);
+        super();
 
         this.preview = (ExtendedSurfaceView)preview;
-        this.appSettingsManager = appSettingsManager;
         //attache the callback to the Campreview
         preview.getHolder().addCallback(this);
 
@@ -58,18 +56,18 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         super.cameraHolder = cameraHolder;
         this.cameraHolder.errorHandler = errorHandler;
 
-        camParametersHandler = new CamParametersHandler(this, appSettingsManager, uiHandler);
+        camParametersHandler = new CamParametersHandler(this, uiHandler);
         this.cameraHolder.SetParameterHandler((CamParametersHandler)camParametersHandler);
         camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
         this.preview.ParametersHandler = camParametersHandler;
         //camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this.preview);
-        moduleHandler = new ModuleHandler(cameraHolder, appSettingsManager, backgroundHandler);
+        moduleHandler = new ModuleHandler(cameraHolder, backgroundHandler);
         moduleHandler.moduleEventHandler.addListner(this);
 
         Focus = new FocusHandler(this);
         this.cameraHolder.Focus = Focus;
         if (Build.VERSION.SDK_INT >= 18) {
-            previewHandler = new PreviewHandler(previewTexture, this, appSettingsManager.context);
+            previewHandler = new PreviewHandler(previewTexture, this, AppSettingsManager.APPSETTINGSMANAGER.context);
             SetCameraChangedListner(previewHandler);
         }
         else
@@ -86,7 +84,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         backgroundHandler.post(new Runnable() {
             @Override
             public void run() {
-                cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
+                cameraHolder.OpenCamera(AppSettingsManager.APPSETTINGSMANAGER.GetCurrentCamera());
                 Logger.d(TAG, "opencamera");
             }
         });

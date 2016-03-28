@@ -19,6 +19,7 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <!-- only for system apps
     <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE" /> -->
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
@@ -94,7 +95,6 @@
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:mimeType="image/*"/>
             </intent-filter>
         </activity>
 

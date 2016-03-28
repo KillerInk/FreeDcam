@@ -30,8 +30,8 @@ public class MediatekSaver extends JpegSaver {
     File holdFile = null;
 
     final public String fileEnding = ".jpg";
-    public MediatekSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler, boolean externalSD) {
-        super(cameraHolder, i_workeDone, handler, externalSD);
+    public MediatekSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler) {
+        super(cameraHolder, i_workeDone, handler);
     }
 
     final String TAG = "MediatekIMG";
@@ -40,18 +40,14 @@ public class MediatekSaver extends JpegSaver {
     public void TakePicture()
     {
         Logger.d(TAG, "Start Take Picture");
-        if (ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
-        {
-            ParameterHandler.ZSL.SetValue("off",true);
-        }
         awaitpicture = true;
         handler.post(new Runnable() {
             @Override
             public void run() {
-                if(ParameterHandler.PictureFormat.GetValue().equals("raw") || ParameterHandler.PictureFormat.GetValue().equals("dng"))
+                if(ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.BAYER) || ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.DNG))
                 {
                     String timestamp = String.valueOf(System.currentTimeMillis());
-                    ParameterHandler.Set_RAWFNAME("/mnt/sdcard/DCIM/FreeDCam/"+"mtk"+timestamp+".raw");
+                    ParameterHandler.Set_RAWFNAME("/mnt/sdcard/DCIM/FreeDCam/"+"mtk"+timestamp+StringUtils.FileEnding.GetWithDot(StringUtils.FileEnding.BAYER));
                 }
                 cameraHolder.TakePicture(null, null, MediatekSaver.this);
             }
@@ -68,22 +64,25 @@ public class MediatekSaver extends JpegSaver {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                holdFile = new File(StringUtils.getFilePath(externalSd, fileEnding));
-                //final String lastBayerFormat = cameraHolder.ParameterHandler.PictureFormat.GetValue();
-
-                //   Logger.d(TAG,RawToDng.getFilePath());
-
-                if (ParameterHandler.PictureFormat.GetValue().equals("jpeg")) {
+                holdFile = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), fileEnding));
+                Logger.d(TAG,"HolderFilePath:" +holdFile.getAbsolutePath());
+                if (ParameterHandler.PictureFormat.GetValue().equals("jpeg"))
+                {
+                    //savejpeg
                     saveBytesToFile(data, holdFile);
                     try {
                         DeviceSwitcher().delete();
                     } catch (Exception ex) {
 
                     }
-                } else if (ParameterHandler.PictureFormat.GetValue().equals("dng")) {
+                } else if (ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.DNG))
+                {
+                    //savejpeg
                     saveBytesToFile(data, holdFile);
                     CreateDNG_DeleteRaw();
-                } else if (ParameterHandler.PictureFormat.GetValue().equals("raw")) {
+                } else if (ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.BAYER))
+                {
+                    //savejpeg
                     saveBytesToFile(data, holdFile);
 
                 }
@@ -122,8 +121,9 @@ public class MediatekSaver extends JpegSaver {
         } catch (InterruptedException e) {
             Logger.exception(e);
         }
-        File dng = new File(rawfile.getAbsolutePath().replace(".raw", ".dng"));
-        DngSaver saver = new DngSaver(cameraHolder, iWorkeDone, handler, externalSd);
+        File dng = new File(holdFile.getName().replace(StringUtils.FileEnding.BAYER, StringUtils.FileEnding.DNG));
+        Logger.d(TAG,"DNGfile:" + dng.getAbsolutePath());
+        DngSaver saver = new DngSaver(cameraHolder, iWorkeDone, handler);
         saver.processData(data, dng);
 
         data = null;

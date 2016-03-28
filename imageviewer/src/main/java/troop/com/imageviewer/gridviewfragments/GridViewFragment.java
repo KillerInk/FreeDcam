@@ -11,9 +11,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.provider.DocumentFile;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,6 +29,9 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.troop.filelogger.Logger;
+import com.troop.freedcam.manager.MediaScannerManager;
+import com.troop.freedcam.ui.I_Activity;
+import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 
@@ -35,6 +40,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import troop.com.imageviewer.BitmapHelper;
 import troop.com.imageviewer.DngConvertingActivity;
@@ -47,11 +53,11 @@ import troop.com.imageviewer.holder.FileHolder;
 /**
  * Created by troop on 11.12.2015.
  */
-public class GridViewFragment extends BaseGridViewFragment
+public class GridViewFragment extends BaseGridViewFragment implements I_Activity.I_OnActivityResultCallback
 {
     private ImageAdapter mPagerAdapter;
-    private ArrayList<FileHolder> files;
-    private int mImageThumbSize = 0;
+    //private List<FileHolder> files;
+
     final String TAG = GridViewFragment.class.getSimpleName();
 
     private Button deleteButton;
@@ -64,14 +70,11 @@ public class GridViewFragment extends BaseGridViewFragment
     private FormatTypes lastFormat = FormatTypes.all;
     private boolean pos0ret = false;
     private boolean PERMSISSIONGRANTED = false;
-    final String NOIMAGE = "noimage_thumb";
-    final String FOLDER = "folder_thumb";
-    private Bitmap noimg;
-    private Bitmap fold;
     private RequestModes requestMode = RequestModes.none;
 
     private TextView filesSelected;
     private int filesSelectedCount =0;
+
 
 
     public enum FormatTypes
@@ -98,8 +101,6 @@ public class GridViewFragment extends BaseGridViewFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container, savedInstanceState);
-        files = new ArrayList<>();
-        mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
         deleteButton = (Button)view.findViewById(R.id.button_deltePics);
         deleteButton.setVisibility(View.GONE);
         deleteButton.setOnClickListener(onDeltedButtonClick);
@@ -120,7 +121,7 @@ public class GridViewFragment extends BaseGridViewFragment
         rawToDngButton = (Button)view.findViewById(R.id.button_rawToDng);
         rawToDngButton.setVisibility(View.GONE);
         rawToDngButton.setOnClickListener(onRawToDngClick);
-        mPagerAdapter = new ImageAdapter(getContext());
+        mPagerAdapter = new ImageAdapter(getContext(), getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size));
         gridView.setAdapter(mPagerAdapter);
         setViewMode(ViewStates.normal);
 
@@ -153,18 +154,28 @@ public class GridViewFragment extends BaseGridViewFragment
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
-                    for (int i = 0; i< files.size(); i++)
-                    {
-                        if (files.get(i).IsSelected())
-                        {
-                            BitmapHelper.CACHE.deleteFileFromDiskCache(files.get(i).getFile().getName());
-                            boolean d = files.get(i).getFile().delete();
-                            Logger.d(TAG, "File delted:" + files.get(i).getFile().getName() + " :" + d);
-                            files.remove(i);
-                            i--;
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            final File folder = mPagerAdapter.getFiles().get(0).getFile().getParentFile();
+                            for (int i = 0; i< mPagerAdapter.getFiles().size(); i++)
+                            {
+                                if (mPagerAdapter.getFiles().get(i).IsSelected())
+                                {
+                                    BitmapHelper.DeleteFile(mPagerAdapter.getFiles().get(i));
+                                }
+                            }
+                            gridView.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    MediaScannerManager.ScanMedia(getContext(),folder);
+                                    mPagerAdapter.notifyDataSetChanged();
+                                }
+                            });
+
                         }
-                    }
-                    mPagerAdapter.notifyDataSetChanged();
+                    }).start();
+
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:
@@ -199,9 +210,9 @@ public class GridViewFragment extends BaseGridViewFragment
     private void load()
     {
         if (savedInstanceFilePath == null)
-            loadDefaultFolders();
+            mPagerAdapter.loadDCIMFolders();
         else
-            loadFiles(new File(savedInstanceFilePath));
+            mPagerAdapter.loadFiles(new File(savedInstanceFilePath));
 
     }
 
@@ -231,109 +242,39 @@ public class GridViewFragment extends BaseGridViewFragment
     }
 
 
-    private void loadDefaultFolders()
-    {
-        File internalSDCIM = new File(StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder);
-        File externalSDCIM = new File(StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder);
-        ArrayList<FileHolder> list = new ArrayList<FileHolder>();
-        File[] f = internalSDCIM.listFiles();
-        if (f == null)
-            return;
-        for (int i = 0; i< f.length; i++)
-        {
-            if (!f[i].isHidden())
-                list.add(new FileHolder(f[i]));
-        }
-        try {
-            f = externalSDCIM.listFiles();
-            for (int i = 0; i< f.length; i++)
-            {
-                if (!f[i].isHidden())
-                    list.add(new FileHolder(f[i]));
-            }
-        }
-        catch (Exception ex) {
-            Logger.d(TAG, "No external SD!");
-        }
-        files = list;
-        sortList(files);
-        mPagerAdapter.notifyDataSetChanged();
-    }
-
-    private void loadFiles(File file)
-    {
-        ArrayList<FileHolder> list = new ArrayList<FileHolder>();
-        File[]f = file.listFiles();
-        for (int i = 0; i< f.length; i++)
-        {
-            if (!f[i].isHidden()) {
-                if (formatsToShow == FormatTypes.all && (
-                        f[i].getAbsolutePath().endsWith("jpg")
-                        || f[i].getAbsolutePath().endsWith("jps")
-                        ||f[i].getAbsolutePath().endsWith("raw")
-                        ||f[i].getAbsolutePath().endsWith("dng")
-                                ||   f[i].getAbsolutePath().endsWith("mp4")
-                ))
-                    list.add(new FileHolder(f[i]));
-                else if(formatsToShow == FormatTypes.dng && f[i].getAbsolutePath().endsWith("dng"))
-                    list.add(new FileHolder(f[i]));
-                else if(formatsToShow == FormatTypes.raw && f[i].getAbsolutePath().endsWith("raw"))
-                    list.add(new FileHolder(f[i]));
-                else if(formatsToShow == FormatTypes.jps && f[i].getAbsolutePath().endsWith("jps"))
-                    list.add(new FileHolder(f[i]));
-                else if(formatsToShow == FormatTypes.jpg && f[i].getAbsolutePath().endsWith("jpg"))
-                    list.add(new FileHolder(f[i]));
-                else if(formatsToShow == FormatTypes.mp4 && f[i].getAbsolutePath().endsWith("mp4"))
-                    list.add(new FileHolder(f[i]));
-            }
-        }
-        files = list;
-        sortList(files);
-        mPagerAdapter.notifyDataSetChanged();
-    }
-
-    private void sortList(ArrayList<FileHolder> filesar)
-    {
-        Collections.sort(filesar, new Comparator<FileHolder>() {
-            public int compare(FileHolder f1, FileHolder f2) {
-                return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
-            }
-        });
-    }
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
         switch (currentViewState)
         {
             case normal:
-                if (!files.get(position).IsFolder()) {
+                if (!mPagerAdapter.GetFileHolder(position).IsFolder()) {
                     final Intent i = new Intent(getActivity(), ScreenSlideActivity.class);
                     i.putExtra(ScreenSlideActivity.EXTRA_IMAGE, position);
-                    if (files != null &&files.size() >0)
+                    if (mPagerAdapter.getFiles() != null &&mPagerAdapter.getFiles().size() >0)
                     {
-                        if (!files.get(position).IsFolder())
-                            i.putExtra(ScreenSlideActivity.IMAGE_PATH, files.get(position).getFile().getParentFile().getAbsolutePath());
+                        if (!mPagerAdapter.GetFileHolder(position).IsFolder())
+                            i.putExtra(ScreenSlideActivity.IMAGE_PATH, mPagerAdapter.GetFileHolder(position).getFile().getParentFile().getAbsolutePath());
                         else
-                            i.putExtra(ScreenSlideActivity.IMAGE_PATH, files.get(position).getFile().getAbsolutePath());
+                            i.putExtra(ScreenSlideActivity.IMAGE_PATH,  mPagerAdapter.GetFileHolder(position).getFile().getAbsolutePath());
                     }
                     i.putExtra(ScreenSlideActivity.FileType, formatsToShow.name());
                     startActivity(i);
                 }
                 else
                 {
-                    savedInstanceFilePath = files.get(position).getFile().getAbsolutePath();
-                    loadFiles(files.get(position).getFile());
+                    savedInstanceFilePath =  mPagerAdapter.GetFileHolder(position).getFile().getAbsolutePath();
+                    mPagerAdapter.loadFiles(mPagerAdapter.GetFileHolder(position).getFile());
 
                 }
                 break;
             case selection:
             {
-                if (files.get(position).IsSelected()) {
-                    files.get(position).SetSelected(false);
+                if (mPagerAdapter.GetFileHolder(position).IsSelected()) {
+                    mPagerAdapter.GetFileHolder(position).SetSelected(false);
                     filesSelectedCount--;
                 } else {
-                    files.get(position).SetSelected(true);
+                    mPagerAdapter.GetFileHolder(position).SetSelected(true);
                     filesSelectedCount++;
                 }
                 updateFilesSelected();
@@ -350,185 +291,6 @@ public class GridViewFragment extends BaseGridViewFragment
         return  super.onItemLongClick(parent,view,position,id);
     }
 
-
-
-    private class ImageAdapter extends BaseAdapter
-    {
-        private final Context mContext;
-
-        public ImageAdapter(Context context) {
-            super();
-            mContext = context;
-            pos0ret = false;
-        }
-
-        @Override
-        public int getCount() {
-            return files.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return files.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup container) {
-            GridImageView imageView;
-            if (convertView == null) { // if it's not recycled, initialize some attributes
-                imageView = new GridImageView(mContext);
-            } else {
-                imageView = (GridImageView) convertView;
-            }
-            if (imageView.getFileHolder() == null || !imageView.getFileHolder().equals(files.get(position)) /*||imageView.viewstate != currentViewState*/) {
-                imageView.SetEventListner(files.get(position));
-                imageView.SetViewState(currentViewState);
-                Logger.d(TAG, "pos:" + position + " imageviewState: " + files.get(position).GetCurrentViewState() + " /GridState:" + currentViewState + " filename:" + files.get(position).getFile().getName() +
-                        " ischecked:" + files.get(position).IsSelected());
-                loadBitmap(files.get(position).getFile(), imageView); // Load image into ImageView
-            }
-            return imageView;
-        }
-    }
-
-    private static BitmapWorkerTask getBitmapWorkerTask(GridImageView imageView) {
-        if (imageView != null) {
-            final Drawable drawable = imageView.getDrawable();
-            if (drawable instanceof AsyncDrawable) {
-                final AsyncDrawable asyncDrawable = (AsyncDrawable) drawable;
-                return asyncDrawable.getBitmapWorkerTask();
-            }
-        }
-        return null;
-    }
-
-    public void loadBitmap(File file, GridImageView imageView)
-    {
-        if (cancelPotentialWork(file, imageView))
-        {
-            final BitmapWorkerTask task = new BitmapWorkerTask(imageView);
-            if (!file.isDirectory())
-            {
-                if (noimg == null)
-                    noimg = BitmapHelper.CACHE.getBitmapFromMemCache(NOIMAGE);
-                if (noimg == null)
-                    noimg = BitmapHelper.CACHE.getBitmapFromDiskCache(NOIMAGE);
-                if (noimg == null)
-                {
-                    noimg = BitmapFactory.decodeResource(getResources(), R.drawable.noimage);
-                    BitmapHelper.CACHE.addBitmapToCache(NOIMAGE, noimg);
-                }
-
-                final AsyncDrawable asyncDrawable =
-                        new AsyncDrawable(getResources(), noimg, task);
-                imageView.setImageDrawable(asyncDrawable);
-            }
-            else
-            {
-                if (fold == null)
-                    fold = BitmapHelper.CACHE.getBitmapFromMemCache(FOLDER);
-                if (fold == null)
-                    fold = BitmapHelper.CACHE.getBitmapFromDiskCache(FOLDER);
-                if (fold == null)
-                {
-                    fold = BitmapFactory.decodeResource(getResources(), R.drawable.folder);
-                    BitmapHelper.CACHE.addBitmapToCache(FOLDER, fold);
-
-                }
-                final AsyncDrawable asyncDrawable =
-                        new AsyncDrawable(getResources(),fold, task);
-                imageView.setImageDrawable(asyncDrawable);
-            }
-            String f = file.getName();
-            if (!file.isDirectory()) {
-                imageView.SetFolderName("");
-                imageView.SetFileEnding(f.substring(f.length() - 3));
-            }
-
-            else {
-                imageView.SetFileEnding("");
-                imageView.SetFolderName(f);
-            }
-
-            task.execute(file);
-        }
-    }
-
-
-    static class AsyncDrawable extends BitmapDrawable {
-        private final WeakReference<BitmapWorkerTask> bitmapWorkerTaskReference;
-
-        public AsyncDrawable(Resources res, Bitmap bitmap,
-                             BitmapWorkerTask bitmapWorkerTask) {
-            super(res, bitmap);
-            bitmapWorkerTaskReference =
-                    new WeakReference<BitmapWorkerTask>(bitmapWorkerTask);
-        }
-
-        public BitmapWorkerTask getBitmapWorkerTask() {
-            return bitmapWorkerTaskReference.get();
-        }
-    }
-
-    public static boolean cancelPotentialWork(File file, GridImageView imageView) {
-        final BitmapWorkerTask bitmapWorkerTask = getBitmapWorkerTask(imageView);
-
-        if (bitmapWorkerTask != null) {
-            final File bitmapData = bitmapWorkerTask.file;
-            if (bitmapData != file) {
-                // Cancel previous task
-                bitmapWorkerTask.cancel(true);
-            } else {
-                // The same work is already in progress
-                return false;
-            }
-        }
-        // No task associated with the ImageView, or an existing task was cancelled
-        return true;
-    }
-
-    class BitmapWorkerTask extends AsyncTask<File, Void, Bitmap> {
-        private final WeakReference<GridImageView> imageViewReference;
-        private File file;
-
-        public BitmapWorkerTask(GridImageView imageView) {
-            // Use a WeakReference to ensure the ImageView can be garbage collected
-            imageViewReference = new WeakReference<GridImageView>(imageView);
-        }
-
-        // Decode image in background.
-        @Override
-        protected Bitmap doInBackground(File... params) {
-            file = params[0];
-            return getBitmap(file);
-        }
-
-        // Once complete, see if ImageView is still around and set bitmap.
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            if (imageViewReference != null && bitmap != null) {
-                final GridImageView imageView = imageViewReference.get();
-                if (imageView != null)
-                {
-                    imageView.setImageBitmap(bitmap);
-                }
-            }
-        }
-    }
-
-    private Bitmap getBitmap(File file)
-    {
-        return BitmapHelper.getBitmap(file,true,mImageThumbSize,mImageThumbSize);
-    }
-
-
-
     public void showPopup(View v) {
         PopupMenu popup = new PopupMenu(this.getContext(), v);
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -543,6 +305,11 @@ public class GridViewFragment extends BaseGridViewFragment
                 else if (i == R.id.raw)
                 {
                     filetypeButton.setText("RAW");
+                    formatsToShow = FormatTypes.raw;
+                }
+                else if (i == R.id.bayer)
+                {
+                    filetypeButton.setText("BAYER");
                     formatsToShow = FormatTypes.raw;
                 }
                 else if (i == R.id.dng)
@@ -565,8 +332,10 @@ public class GridViewFragment extends BaseGridViewFragment
                     filetypeButton.setText("MP4");
                     formatsToShow = FormatTypes.mp4;
                 }
+                mPagerAdapter.SetFormatToShow(formatsToShow);
                 if (savedInstanceFilePath != null)
-                    loadFiles(new File(savedInstanceFilePath));
+                    mPagerAdapter.loadFiles(new File(savedInstanceFilePath));
+
                 return false;
 
             }
@@ -581,8 +350,8 @@ public class GridViewFragment extends BaseGridViewFragment
         public void onClick(View view)
         {
             if (currentViewState == ViewStates.normal) {
-                if (files != null && files.size() > 0) {
-                    String topPath = files.get(0).getFile().getParentFile().getParentFile().getAbsolutePath() + "/";
+                if (mPagerAdapter.getFiles() != null && mPagerAdapter.getFiles().size() > 0) {
+                    String topPath =  mPagerAdapter.GetFileHolder(0).getFile().getParentFile().getParentFile().getAbsolutePath() + "/";
                     String inter = StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder;
                     String external = StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder;
 
@@ -591,24 +360,24 @@ public class GridViewFragment extends BaseGridViewFragment
                     {
                         if(topPath.equals(inter) || topPath.equals(external)) {
                             savedInstanceFilePath = null;
-                            loadDefaultFolders();
+                            mPagerAdapter.loadDCIMFolders();
                         }
                         else
                             getActivity().finish();
                     }
                     else {
-                        loadFiles(files.get(0).getFile());
-                        savedInstanceFilePath = files.get(0).getFile().getAbsolutePath();
+                        mPagerAdapter.loadFiles(mPagerAdapter.GetFileHolder(0).getFile());
+                        savedInstanceFilePath =  mPagerAdapter.GetFileHolder(0).getFile().getAbsolutePath();
                     }
                 }
                 else
-                    loadDefaultFolders();
+                    mPagerAdapter.loadDCIMFolders();
             }
             else if (currentViewState == ViewStates.selection)
             {
-                for (int i = 0; i< files.size(); i++)
+                for (int i = 0; i< mPagerAdapter.getFiles().size(); i++)
                 {
-                    FileHolder f = files.get(i);
+                    FileHolder f =  mPagerAdapter.GetFileHolder(i);
                     f.SetSelected(false);
                 }
                 setViewMode(ViewStates.normal);
@@ -629,7 +398,7 @@ public class GridViewFragment extends BaseGridViewFragment
             {
                 //check if files are selceted
                 boolean hasfilesSelected = false;
-                for (FileHolder f : files) {
+                for (FileHolder f : mPagerAdapter.getFiles()) {
                     if (f.IsSelected()) {
                         hasfilesSelected = true;
                         break;
@@ -640,14 +409,39 @@ public class GridViewFragment extends BaseGridViewFragment
                 if (!hasfilesSelected)
                     return;
                 //else show dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage(R.string.delete_files).setPositiveButton(R.string.yes, dialogDeleteClickListener)
-                        .setNegativeButton(R.string.no, dialogDeleteClickListener).show();
-                setViewMode(ViewStates.normal);
+                if (!StringUtils.IS_L_OR_BIG() || StringUtils.WRITE_NOT_EX_AND_L_ORBigger())
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage(R.string.delete_files).setPositiveButton(R.string.yes, dialogDeleteClickListener)
+                            .setNegativeButton(R.string.no, dialogDeleteClickListener).show();
+                    setViewMode(ViewStates.normal);
+                }
+                else
+                {
+                    DocumentFile sdDir = FileUtils.getExternalSdDocumentFile();
+                    if (sdDir == null) {
+                        I_Activity i_activity = (I_Activity) getActivity();
+                        i_activity.ChooseSDCard(GridViewFragment.this);
+                    }
+                    else
+                    {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setMessage(R.string.delete_files).setPositiveButton(R.string.yes, dialogDeleteClickListener)
+                                .setNegativeButton(R.string.no, dialogDeleteClickListener).show();
+                        setViewMode(ViewStates.normal);
+                    }
+                }
+
 
             }
         }
     };
+
+
+    @Override
+    public void onActivityResultCallback(Uri uri) {
+
+    }
 
     private View.OnClickListener onRawToDngClick = new View.OnClickListener() {
         @Override
@@ -661,13 +455,14 @@ public class GridViewFragment extends BaseGridViewFragment
             else if (requestMode == RequestModes.rawToDng)
             {
                 ArrayList<String> ar = new ArrayList<String>();
-                for (FileHolder f : files) {
-                    if (f.IsSelected() && f.getFile().getAbsolutePath().endsWith("raw")) {
+                for (FileHolder f : mPagerAdapter.getFiles()) {
+                    if (f.IsSelected() &&
+                       (f.getFile().getAbsolutePath().endsWith(StringUtils.FileEnding.RAW) ||f.getFile().getAbsolutePath().endsWith(StringUtils.FileEnding.BAYER))) {
                         ar.add(f.getFile().getAbsolutePath());
                     }
 
                 }
-                for (FileHolder f : files) {
+                for (FileHolder f : mPagerAdapter.getFiles()) {
                     f.SetSelected(false);
                 }
                 setViewMode(ViewStates.normal);
@@ -685,21 +480,17 @@ public class GridViewFragment extends BaseGridViewFragment
     private void setViewMode(ViewStates viewState)
     {
         this.currentViewState = viewState;
-        for (int i = 0; i< files.size(); i++)
-        {
-            FileHolder f = files.get(i);
-            f.SetViewState(viewState);
-
-        }
+        mPagerAdapter.SetViewState(currentViewState);
         //mPagerAdapter.notifyDataSetChanged();
         switch (viewState)
         {
             case normal:
             {
-                if (formatsToShow == FormatTypes.raw && lastFormat != FormatTypes.raw)
+                if ((formatsToShow == FormatTypes.raw && lastFormat != FormatTypes.raw))
                 {
                     formatsToShow = lastFormat;
-                    loadFiles(new File(savedInstanceFilePath));
+                    mPagerAdapter.SetFormatToShow(formatsToShow);
+                    mPagerAdapter.loadFiles(new File(savedInstanceFilePath));
                 }
                 requestMode = RequestModes.none;
                 deleteButton.setVisibility(View.VISIBLE);
@@ -727,7 +518,7 @@ public class GridViewFragment extends BaseGridViewFragment
                     case rawToDng:
                         lastFormat = formatsToShow;
                         formatsToShow = FormatTypes.raw;
-                        loadFiles(new File(savedInstanceFilePath));
+                        mPagerAdapter.loadFiles(new File(savedInstanceFilePath));
                         deleteButton.setVisibility(View.GONE);
                         rawToDngButton.setVisibility(View.VISIBLE);
                         filetypeButton.setVisibility(View.GONE);

@@ -42,27 +42,7 @@ public class CCTManualParameter extends BaseManualParameter
         super(parameters, value, maxValue, MinValue, camParametersHandler,1);
 
         this.isSupported = false;
-
-        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
-        {
-            this.min = 2000;
-            if(!parameters.get("max-exposure-time").contains("."))
-                this.max = 7500;
-            else
-                this.max = 8500;
-            this.value = WB_MANUAL;
-            if(parameters.get("max-exposure-time").contains(".")) {
-                createStringArray(min, max, 100);
-                this.manualWbMode = WB_MODE_MANUAL;
-            }
-            else
-                this.manualWbMode = WB_MODE_MANUAL_CCT;
-            this.isSupported = true;
-                createStringArray(min, max, 100);
-
-
-        }
-        else if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) ||DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC) || DeviceUtils.IS(DeviceUtils.Devices.LenovoK920))
+        if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) ||DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC) || DeviceUtils.IS(DeviceUtils.Devices.LenovoK920))
         {
             this.min = 2000;
             this.max = 8000;

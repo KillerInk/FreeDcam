@@ -7,7 +7,9 @@ import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.StringUtils;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.IOException;
@@ -27,6 +29,8 @@ public class RawToDng
     private static final String TAG = RawToDng.class.getSimpleName();
 
     private String wbct;
+    private byte[] opcode2;
+    private byte[] opcode3;
 
     private static int Calculate_rowSize(int fileSize, int height)
     {
@@ -40,8 +44,9 @@ public class RawToDng
     private static native void SetGPSData(ByteBuffer nativeHandler,double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime);
     private static native void SetThumbData(ByteBuffer nativeHandler,byte[] mThumb, int widht, int height);
     private static native void WriteDNG(ByteBuffer nativeHandler);
-    private static native void Write10bitDNG(ByteBuffer nativeHandler);
     private static native void Release(ByteBuffer nativeHandler);
+    private static native void SetOpCode3(ByteBuffer nativeHandler, byte[] opcode);
+    private static native void SetOpCode2(ByteBuffer nativeHandler, byte[] opcode);
     private static native void SetRawHeight(ByteBuffer nativeHandler,int height);
     private static native void SetModelAndMake(ByteBuffer nativeHandler,String model, String make);
     private static native void SetBayerData(ByteBuffer nativeHandler,byte[] fileBytes, String fileout);
@@ -81,6 +86,22 @@ public class RawToDng
             nativeHandler = null;
         }
         wbct = "";
+        File op2 = new File(StringUtils.GetInternalSDCARD()+ StringUtils.freedcamFolder+"opc2.bin");
+        if (op2.exists())
+            try {
+                opcode2 = readFile(op2);
+                Logger.d(TAG, "opcode2 size" + opcode2.length);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        File op3 = new File(StringUtils.GetInternalSDCARD()+ StringUtils.freedcamFolder+"opc3.bin");
+        if (op3.exists())
+            try {
+                opcode3 = readFile(op3);
+                Logger.d(TAG, "opcode3 size" + opcode3.length);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         nativeHandler = Create();
     }
 
@@ -217,8 +238,13 @@ public class RawToDng
         if (fileBytes == null) {
             throw new NullPointerException();
         }
-        if (nativeHandler != null)
+        if (nativeHandler != null) {
             SetBayerData(nativeHandler, fileBytes, fileout);
+            if (opcode2 != null)
+                SetOpCode2(nativeHandler,opcode2);
+            if (opcode3 != null)
+                SetOpCode3(nativeHandler,opcode3);
+        }
     }
 
     public void SetBayerDataFD(final byte[] fileBytes, ParcelFileDescriptor fileout, String filename) throws NullPointerException
@@ -226,8 +252,13 @@ public class RawToDng
         if (fileBytes == null) {
             throw new NullPointerException();
         }
-        if (nativeHandler != null)
-            SetBayerDataFD(nativeHandler, fileBytes, fileout.getFd(),filename);
+        if (nativeHandler != null) {
+            SetBayerDataFD(nativeHandler, fileBytes, fileout.getFd(), filename);
+            if (opcode2 != null)
+                SetOpCode2(nativeHandler,opcode2);
+            if (opcode3 != null)
+                SetOpCode3(nativeHandler,opcode3);
+        }
     }
 
     public void SetLensData(final byte[] fileBytes, String hasLensData) throws NullPointerException
@@ -320,26 +351,6 @@ public class RawToDng
         SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.fowardmatrix1,profile.fowardmatrix2,profile.reductionmatrix1,profile.reductionmatrix2,profile.noiseprofile,profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.rawType,profile.widht,profile.height);
         WriteDNG(nativeHandler);
         RELEASE();
-    }
-
-    public void Write10BitDNG(DeviceUtils.Devices device)
-    {
-        DeviceUtils.Devices devices = device;
-        if (devices != null)
-        {
-            DngSupportedDevices.DngProfile profile = new DngSupportedDevices().getProfile(devices, (int)GetRawSize());
-            //if (profile.rowsize == 0)
-            //profile.rowsize = Calculate_rowSize((int)GetRawSize(), profile.height);
-            if (profile == null)
-            {
-                RELEASE();
-                return;
-            }
-            SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
-            SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.fowardmatrix1,profile.fowardmatrix2,profile.reductionmatrix1,profile.reductionmatrix2,profile.noiseprofile,profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.rawType,profile.widht,profile.height);
-            Write10bitDNG(nativeHandler);
-            RELEASE();
-        }
     }
 
     public static byte[] readFile(File file) throws IOException {

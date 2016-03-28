@@ -14,8 +14,8 @@ public class VideoModuleSony extends AbstractModule implements I_CameraStatusCha
     private static String TAG = VideoModuleSony.class.getSimpleName();
     CameraHolderSony cameraHolder;
 
-    public VideoModuleSony(CameraHolderSony cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
-        super(cameraHandler, Settings, eventHandler);
+    public VideoModuleSony(CameraHolderSony cameraHandler, ModuleEventHandler eventHandler) {
+        super(cameraHandler, eventHandler);
         this.name = AbstractModuleHandler.MODULE_VIDEO;
         this.cameraHolder = cameraHandler;
 

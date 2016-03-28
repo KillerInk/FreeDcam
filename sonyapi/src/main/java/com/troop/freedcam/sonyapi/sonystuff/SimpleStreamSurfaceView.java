@@ -20,8 +20,10 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.renderscript.Type;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
@@ -54,23 +56,28 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private final Paint mFramePaint;
     private  Paint paint;
     private StreamErrorListener mErrorListener;
-    I_Callbacks.PreviewCallback previewFrameCallback;
+    private I_Callbacks.PreviewCallback previewFrameCallback;
     public boolean focuspeak = false;
     public NightPreviewModes nightmode = NightPreviewModes.off;
-    int currentImageStackCount = 0;
+    private int currentImageStackCount = 0;
 
-    RenderScript mRS;
+    private RenderScript mRS;
     private Allocation mInputAllocation;
     private Allocation mInputAllocation2;
     private Allocation mOutputAllocation;
-    ScriptC_focuspeak_argb focuspeak_argb;
-    ScriptC_imagestack_argb imagestack_argb;
-    ScriptC_brightness brightnessRS;
-    ScriptC_contrast contrastRS;
-    ScriptC_starfinder starfinderRS;
-    ScriptIntrinsicBlur blurRS;
-    Bitmap drawBitmap;
-    Bitmap stackBitmap;
+    private ScriptC_focuspeak_argb focuspeak_argb;
+    private ScriptC_imagestack_argb imagestack_argb;
+    private ScriptC_brightness brightnessRS;
+    private ScriptC_contrast contrastRS;
+    private ScriptC_starfinder starfinderRS;
+    private ScriptIntrinsicBlur blurRS;
+    private Bitmap drawBitmap;
+    private Bitmap stackBitmap;
+
+    private int zoomPreviewMagineLeft =0;
+    private int zoomPreviewMargineTop = 0;
+
+    public int PreviewZOOMFactor = 8;
 
     public enum NightPreviewModes
     {
@@ -385,9 +392,58 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             Rect src = new Rect(0, 0, w, h);
             if (nightmode == NightPreviewModes.zoompreview)
             {
-                int w4 = w /8;
-                int h4 = w/8;
-                src = new Rect(w/2 -w4, h/2 -h4, w/2 +w4, h/2+h4);
+                int w4 = w /PreviewZOOMFactor;
+                int h4 = h/PreviewZOOMFactor;
+                int wCenter = w/2;
+                int hCenter = h/2;
+                int frameleft = (wCenter -w4) + zoomPreviewMagineLeft;
+                int frameright = (wCenter +w4) + zoomPreviewMagineLeft;
+                int frametop = (hCenter -h4) + zoomPreviewMargineTop;
+                int framebottom = (hCenter +h4) + zoomPreviewMargineTop;
+
+                if (frameleft < 0)
+                {
+                    int dif = frameleft * -1;
+                    frameleft +=dif;
+                    frameright +=dif;
+                    Logger.d(TAG, "zoommargineLeft = " + zoomPreviewMagineLeft);
+                    zoomPreviewMagineLeft +=dif;
+                    Logger.d(TAG, "zoommargineLeft = " + zoomPreviewMagineLeft);
+                    Log.d(TAG, "frameleft < 0");
+                }
+                if (frameright > w)
+                {
+                    int dif = frameright - w;
+                    frameright -=dif;
+                    frameleft -=dif;
+                    Logger.d(TAG, "zoommargineLeft = " + zoomPreviewMagineLeft);
+                    zoomPreviewMagineLeft -=dif;
+                    Logger.d(TAG, "zoommargineLeft = " + zoomPreviewMagineLeft);
+                    Log.d(TAG, "frameright > w");
+                }
+                if (frametop < 0)
+                {
+                    int dif = frametop * -1;
+                    frametop +=dif;
+                    framebottom +=dif;
+                    Logger.d(TAG, "zoomPreviewMargineTop = " + zoomPreviewMargineTop);
+                    zoomPreviewMargineTop +=dif;
+                    Logger.d(TAG, "zoomPreviewMargineTop = " + zoomPreviewMargineTop);
+                    Log.d(TAG, "framebottom < 0");
+                }
+                if (framebottom > h)
+                {
+                    int dif = framebottom -h;
+                    framebottom -=dif;
+                    frametop -= dif;
+                    Logger.d(TAG, "zoomPreviewMargineTop = " + zoomPreviewMargineTop);
+                    zoomPreviewMargineTop -=dif;
+                    Logger.d(TAG, "zoomPreviewMargineTop = " + zoomPreviewMargineTop);
+                    Log.d(TAG, "framebottom > h");
+                }
+
+                src = new Rect(frameleft,frametop,frameright,framebottom);
+                //Logger.d(TAG, src.flattenToString());
                 mInputAllocation.copyFrom(frame);
                 blurRS.setInput(mInputAllocation);
                 blurRS.setRadius(0.3f);
@@ -591,5 +647,49 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         }
 
         void onError(StreamErrorReason reason);
+    }
+
+    private int startX;
+    private int startY;
+    private int currentX;
+    private int currentY;
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                //action down resets all already set values and get the new one from the event
+                startX = (int) event.getX();
+                startY = (int) event.getY();
+                //reset swipeDetected to false
+                break;
+            case MotionEvent.ACTION_MOVE:
+                //in case action down never happend
+                if (startX == 0 && startY == 0) {
+                    startX = (int) event.getX();
+                    startY = (int) event.getY();
+                    //reset swipeDetected to false
+                }
+                currentX = (int) event.getX();
+                currentY = (int) event.getY();
+                if (startX > currentX)
+                {
+                    zoomPreviewMagineLeft -= startX - currentX;
+                }
+                else
+                    zoomPreviewMagineLeft += currentX -startX;
+                if (startY > currentY)
+                    zoomPreviewMargineTop -= startY - currentY;
+                else
+                    zoomPreviewMargineTop+= currentY - startY;
+                startX = currentX;
+                startY = currentY;
+                //detect swipeDetected. if swipeDetected detected return false else true
+                break;
+            case MotionEvent.ACTION_UP:
+                startY = 0;
+                startX = 0;
+                break;
+        }
+        return  super.onTouchEvent(event);
     }
 }

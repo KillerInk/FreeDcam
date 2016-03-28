@@ -11,30 +11,32 @@ import com.troop.freedcam.ui.AppSettingsManager;
  */
 public class IntervalApi2 extends IntervalModule implements I_PreviewWrapper
 {
-    PictureModuleApi2 pictureModuleApi2;
-    public IntervalApi2(AbstractCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler, AbstractModule picModule) {
-        super(cameraHandler, Settings, eventHandler, picModule);
-        this.pictureModuleApi2 = (PictureModuleApi2)picModule;
+    private PictureModuleApi2 picModule;
+    public IntervalApi2(AbstractCameraHolder cameraHandler, ModuleEventHandler eventHandler, AbstractModule picModule) {
+        super(cameraHandler, eventHandler, picModule);
+        this.picModule = (PictureModuleApi2)picModule;
     }
 
 
     @Override
     public void startPreview() {
-        pictureModuleApi2.startPreview();
+        picModule.startPreview();
     }
 
     @Override
     public void stopPreview() {
-        pictureModuleApi2.stopPreview();
+        picModule.stopPreview();
     }
 
     @Override
-    public void LoadNeededParameters() {
-        pictureModuleApi2.LoadNeededParameters();
+    public void LoadNeededParameters()
+    {
+        super.LoadNeededParameters();
+        picModule.LoadNeededParameters();
     }
 
     @Override
     public void UnloadNeededParameters() {
-        pictureModuleApi2.UnloadNeededParameters();
+        picModule.UnloadNeededParameters();
     }
 }

@@ -34,7 +34,7 @@ public class CCTManualClassHandler
         {
             if (Build.VERSION.SDK_INT < 23)
             {
-                return new BaseCCTManual(parameters,WB_MANUAL,7500,2000,parametersHandler,100, WB_MODE_MANUAL_CCT);
+                return new BaseCCTManual(parameters,WB_MANUAL,7500,2000,parametersHandler,100, WB_MODE_MANUAL);
             }
             else
                 return new BaseCCTManual(parameters,WB_MANUAL,8000,2000,parametersHandler,100, WB_MODE_MANUAL_CCT);

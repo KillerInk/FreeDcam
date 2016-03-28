@@ -33,7 +33,7 @@ public class ManualFocusClassHandler
         {
             return new BaseFocusManual(parameters,manual_focus_position,0,79,focusMode_manual,parametersHandler,1,1);
         }
-        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
+        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4C))
         {
             return new BaseFocusManual(parameters,manual_focus_position,0,1000,focusMode_manual,parametersHandler,10,1);
         }
@@ -53,12 +53,14 @@ public class ManualFocusClassHandler
             return new BaseFocusManual(parameters, manual_focus_position,max_focus_pos_index, min_focus_pos_index,focusMode_manual,parametersHandler,1,0);
         else if (DeviceUtils.IsMarshMallowG3())
         {
-            return new BaseFocusManual(parameters,manual_focus_position,0,1023,focusMode_manual,parametersHandler,1,1);
+            return new BaseFocusManual(parameters,manual_focus_position,0,1023,focusMode_manual,parametersHandler,10,1);
         }
         else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4) || (DeviceUtils.IS(DeviceUtils.Devices.LG_G3) && Build.VERSION.SDK_INT < 21) || DeviceUtils.IS(DeviceUtils.Devices.LG_G2))
             return new FocusManualParameterLG(parameters,"","","", cameraHolder, parametersHandler);
         else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
             return new FocusManualParameterHTC(parameters,"","","", cameraHolder,parametersHandler);
+        else if(parameters.containsKey("focus-fs-fi-max") && parameters.containsKey("focus-fs-fi-min") && parameters.containsKey("focus-fs-fi"))
+            return new FocusManualMTK(parameters,"focus-fs-fi","focus-fs-fi-max","focus-fs-fi-min", focusMode_manual,parametersHandler,10,0);
         else
             return null;
 

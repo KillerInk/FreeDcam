@@ -96,18 +96,19 @@ public class Logger
         private BufferedWriter writer;
         private HandlerThread backgroundThread;
         private Handler backgroundHandler;
+        private File file;
 
         public FileLogger()
         {
             backgroundThread = new HandlerThread(TAG);
             backgroundThread.start();
             backgroundHandler = new Handler(backgroundThread.getLooper());
-            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/FreeDcam/" + "DEBUG/"+ Build.MODEL + "_" + DateFormat.format("yyyy-MM-dd_hh.mm.ss", new Date().getTime()) + ".txt");
+            file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/FreeDcam/" + "DEBUG/"+ Build.MODEL + "_" + DateFormat.format("yyyy-MM-dd_hh.mm.ss", new Date().getTime()) + ".txt");
             try {
                 outputStream = new FileWriter(file);
                 writer = new BufferedWriter(outputStream);
             } catch (IOException e) {
-                Logger.exception(e);
+                e.printStackTrace();
             }
 
         }
@@ -120,22 +121,25 @@ public class Logger
                 try {
                     writer.flush();
                 } catch (IOException e) {
-                    Logger.exception(e);
+                    e.printStackTrace();
                 }
-                try {
-                    writer.close();
-                } catch (IOException e) {
-                    Logger.exception(e);
-                }
+
                 try {
                     outputStream.flush();
                 } catch (IOException e) {
                     Logger.exception(e);
                 }
                 try {
-                    outputStream.close();
+                    writer.close();
+                    writer = null;
                 } catch (IOException e) {
-                    Logger.exception(e);
+                    e.printStackTrace();
+                }
+                try {
+                    outputStream.close();
+                    outputStream = null;
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
             backgroundThread.quit();
@@ -150,12 +154,12 @@ public class Logger
                         StringBuilder b = new StringBuilder();
                         b.append(DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime()));
                         b.append(":(D) ");
-                        b.append(TAG);
+                        b.append(TAG +":");
                         b.append(msg);
                         writer.write(b.toString());
                         writer.newLine();
                     } catch (IOException e) {
-                        Logger.exception(e);
+                        e.printStackTrace();
                     }
                 }
             });
@@ -176,7 +180,7 @@ public class Logger
                         writer.write(b.toString());
                         writer.newLine();
                     } catch (IOException e) {
-                        Logger.exception(e);
+                        e.printStackTrace();
                     }
                 }
             });
@@ -190,6 +194,16 @@ public class Logger
             try {
                 writer.write(errors.toString());
             } catch (IOException e) {
+                if (file != null)
+                {
+                    try {
+                        FileWriter fr = new FileWriter(file);
+                        fr.write(errors.toString());
+                        fr.close();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
                 e.printStackTrace();
             }
         }

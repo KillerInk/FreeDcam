@@ -20,7 +20,6 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
 
     public ServerDevice serverDevice;
     CameraHolderSony cameraHolder;
-    AppSettingsManager appSettingsManager;
 
 
     @Override
@@ -28,16 +27,15 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
         return AppSettingsManager.API_SONY;
     }
 
-    public CameraUiWrapperSony(SurfaceView preview, AppSettingsManager appSettingsManager) {
-        super(appSettingsManager);
+    public CameraUiWrapperSony(SurfaceView preview) {
+        super();
         this.surfaceView = (SimpleStreamSurfaceView)preview;
         this.surfaceView.getHolder().addCallback(this);
-        this.appSettingsManager = appSettingsManager;
         this.cameraHolder = new CameraHolderSony(preview.getContext(), surfaceView, this, uiHandler);
-        camParametersHandler = new ParameterHandlerSony(this, appSettingsManager, uiHandler, (SimpleStreamSurfaceView)surfaceView);
+        camParametersHandler = new ParameterHandlerSony(this, uiHandler, (SimpleStreamSurfaceView)surfaceView);
         cameraHolder.ParameterHandler = (ParameterHandlerSony)camParametersHandler;
 
-        moduleHandler = new ModuleHandlerSony(cameraHolder, appSettingsManager);
+        moduleHandler = new ModuleHandlerSony(cameraHolder);
         this.Focus = new FocusHandlerSony(this);
         super.cameraHolder = cameraHolder;
         cameraHolder.focusHandlerSony =(FocusHandlerSony) Focus;

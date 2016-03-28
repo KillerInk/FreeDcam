@@ -14,7 +14,7 @@ import troop.com.imageviewer.R;
 /**
  * Created by troop on 23.12.2015.
  */
-public class BaseGridViewFragment extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
+public class BaseGridViewFragment extends Fragment  implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
 {
     protected GridView gridView;
     protected View view;

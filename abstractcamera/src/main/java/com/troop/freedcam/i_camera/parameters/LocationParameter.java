@@ -22,18 +22,16 @@ import com.troop.freedcam.utils.StringUtils;
 public class LocationParameter extends AbstractModeParameter implements LocationListener
 {
     private final AbstractCameraHolder cameraHolder;
-    AppSettingsManager appSettingsManager;
-    LocationManager locationManager;
+    private LocationManager locationManager;
 
-    final int updateTime = 60*1000;
-    final int updateDistance = 15;
+    private final int updateTime = 60*1000;
+    private final int updateDistance = 15;
 
 
-    public LocationParameter(Handler uiHandler, AppSettingsManager appSettingsManager, AbstractCameraHolder cameraHolder) {
+    public LocationParameter(Handler uiHandler, AbstractCameraHolder cameraHolder) {
         super(uiHandler);
-        this.appSettingsManager = appSettingsManager;
         this.cameraHolder = cameraHolder;
-        locationManager = (LocationManager)appSettingsManager.context.getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager)AppSettingsManager.APPSETTINGSMANAGER.context.getSystemService(Context.LOCATION_SERVICE);
         if (GetValue().equals(StringUtils.ON))
             startLocationListing();
     }
@@ -46,9 +44,9 @@ public class LocationParameter extends AbstractModeParameter implements Location
     @Override
     public String GetValue()
     {
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_LOCATION).equals(""))
-            appSettingsManager.setString(AppSettingsManager.SETTING_LOCATION,StringUtils.OFF);
-        return appSettingsManager.getString(AppSettingsManager.SETTING_LOCATION);
+        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_LOCATION).equals(""))
+            AppSettingsManager.APPSETTINGSMANAGER.setString(AppSettingsManager.SETTING_LOCATION, StringUtils.OFF);
+        return AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_LOCATION);
     }
 
     @Override
@@ -59,7 +57,7 @@ public class LocationParameter extends AbstractModeParameter implements Location
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        appSettingsManager.setString(AppSettingsManager.SETTING_LOCATION, valueToSet);
+        AppSettingsManager.APPSETTINGSMANAGER.setString(AppSettingsManager.SETTING_LOCATION, valueToSet);
         if (valueToSet.equals(StringUtils.OFF))
             stopLocationListining();
         if (valueToSet.equals(StringUtils.ON))
@@ -133,7 +131,7 @@ public class LocationParameter extends AbstractModeParameter implements Location
         }
         else
         {
-            Toast.makeText(appSettingsManager.context, "Gps and Network are deactivated", Toast.LENGTH_LONG);
+            Toast.makeText(AppSettingsManager.APPSETTINGSMANAGER.context, "Gps and Network are deactivated", Toast.LENGTH_LONG);
             Logger.d("Location", "Gps and Network are deactivated");
         }
     }

@@ -23,6 +23,7 @@ import com.troop.freedcam.sonyapi.parameters.modes.NightModeSony;
 import com.troop.freedcam.sonyapi.parameters.modes.ObjectTrackingSony;
 import com.troop.freedcam.sonyapi.parameters.modes.PictureFormatSony;
 import com.troop.freedcam.sonyapi.parameters.modes.PictureSizeSony;
+import com.troop.freedcam.sonyapi.parameters.modes.PreviewZoomSony;
 import com.troop.freedcam.sonyapi.parameters.modes.WhiteBalanceModeSony;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
@@ -47,9 +48,9 @@ public class ParameterHandlerSony extends AbstractParameterHandler
     SimpleStreamSurfaceView surfaceView;
     AbstractCameraUiWrapper wrapper;
 
-    public ParameterHandlerSony(AbstractCameraUiWrapper cameraHolder, AppSettingsManager appSettingsManager, Handler uiHandler, SimpleStreamSurfaceView surfaceView)
+    public ParameterHandlerSony(AbstractCameraUiWrapper cameraHolder, Handler uiHandler, SimpleStreamSurfaceView surfaceView)
     {
-        super(cameraHolder.cameraHolder, appSettingsManager, uiHandler);
+        super(cameraHolder.cameraHolder, uiHandler);
         this.cameraHolder = (CameraHolderSony)cameraHolder.cameraHolder;
         ParametersEventHandler = new CameraParametersEventHandler(uiHandler);
         parametersChangedList  = new ArrayList<I_SonyApi>();
@@ -82,7 +83,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
 
     private void createParameters()
     {
-        Module = new ModuleParameters(uiHandler, appSettingsManager, wrapper);
+        Module = new ModuleParameters(uiHandler, wrapper);
         PictureSize = new PictureSizeSony(uiHandler,"getStillSize", "setStillSize", "getAvailableStillSize", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)PictureSize);
 
@@ -141,6 +142,8 @@ public class ParameterHandlerSony extends AbstractParameterHandler
 
         NightMode = new NightModeSony(uiHandler,null,null,null,null,surfaceView);
         parametersChangedList.add((BaseModeParameterSony) NightMode);
+
+        PreviewZoom = new PreviewZoomSony(uiHandler, surfaceView);
 
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override

@@ -18,6 +18,7 @@ import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.BufferedInputStream;
@@ -38,9 +39,9 @@ public class DngSaver extends JpegSaver
   //  MetaDataExtractor meta;
 
     final String TAG = DngSaver.class.getSimpleName();
-    public DngSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler, boolean externalSD)
+    public DngSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler)
     {
-        super(cameraHolder, i_workeDone, handler, externalSD);
+        super(cameraHolder, i_workeDone, handler);
         dngConverter = RawToDng.GetInstance();
        // meta = new MetaDataExtractor();
 
@@ -83,7 +84,7 @@ public class DngSaver extends JpegSaver
             @Override
             public void run()
             {
-                File f =  new File(StringUtils.getFilePath(externalSd, fileEnding));
+                File f =  new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), fileEnding));
                 processData(data,f);
             }
         });
@@ -114,7 +115,7 @@ public class DngSaver extends JpegSaver
         }
         catch (Exception ex)
         {
-            Logger.exception(ex);
+
         }
 
         Logger.d(TAG, "Is raw stream");
@@ -151,7 +152,7 @@ public class DngSaver extends JpegSaver
         //if(meta != null){
          //   dngConverter.setExifData(meta.getIso(), meta.getExp(), meta.getFlash(), fnum, focal, meta.getDescription(), cameraHolder.Orientation + "", 0);}
       //  else
-        Logger.d("Shutterrr", ParameterHandler.ExposureTime());
+
         try
         {
             if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)) {
@@ -185,9 +186,10 @@ public class DngSaver extends JpegSaver
         }
         else {
 
-            Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
-            DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
+            Logger.d(TAG,"Filepath: " +df.getUri().toString());
             DocumentFile wr = df.createFile("image/dng", file.getName().replace(".jpg", ".dng"));
+            Logger.d(TAG,"Filepath: " +wr.getUri().toString());
             ParcelFileDescriptor pfd = null;
             try {
 

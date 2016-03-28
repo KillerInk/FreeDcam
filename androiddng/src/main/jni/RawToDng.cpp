@@ -46,8 +46,8 @@ extern "C"
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetModelAndMake(JNIEnv *env, jobject thiz, jobject handler, jstring model, jstring make);
     JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Release(JNIEnv *env, jobject thiz, jobject handler);
     JNIEXPORT jint JNICALL Java_com_troop_androiddng_RawToDng_GetRawHeight(JNIEnv *env, jobject thiz, jobject handler);
-    JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Write10bitDNG(JNIEnv *env, jobject thiz, jobject handler);
-
+    JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetOpCode2(JNIEnv *env, jobject thiz, jobject handler, jbyteArray opcode);
+    JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetOpCode3(JNIEnv *env, jobject thiz, jobject handler, jbyteArray opcode);
 
 	JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetBayerInfo(JNIEnv *env, jobject thiz, jobject handler,
     	jfloatArray colorMatrix1,
@@ -111,11 +111,18 @@ public:
     int thumbheight, thumwidth;
     unsigned char* _thumbData;
 
+    int opcode2Size;
+    unsigned char* opcode2;
+    int opcode3Size;
+    unsigned char* opcode3;
+
     DngWriter()
     {
         gps = false;
         fileDes = -1;
         hasFileDes = false;
+        opcode2Size =0;
+        opcode3Size = 0;
     }
 };
 
@@ -191,6 +198,21 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetThumbData(JNIEnv *e
     writer->thumwidth = widht;
 }
 
+JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetOpCode2(JNIEnv *env, jobject thiz, jobject handler, jbyteArray opcode)
+{
+    DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
+    writer->opcode2Size = env->GetArrayLength(opcode);
+    writer->opcode2 = new unsigned char[writer->opcode2Size];
+    memcpy(writer->opcode2, env->GetByteArrayElements(opcode,NULL), writer->opcode2Size);
+}
+JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_SetOpCode3(JNIEnv *env, jobject thiz, jobject handler, jbyteArray opcode)
+{
+    DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
+    writer->opcode3Size = env->GetArrayLength(opcode);
+    writer->opcode3 = new unsigned char[writer->opcode3Size];
+    memcpy(writer->opcode3, env->GetByteArrayElements(opcode,NULL), writer->opcode3Size);
+}
+
 JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Release(JNIEnv *env, jobject thiz, jobject handler)
 {
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
@@ -198,6 +220,16 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Release(JNIEnv *env, j
     {
         free(writer->bayerBytes);
         writer->bayerBytes = NULL;
+    }
+    if(writer->opcode2Size >0)
+    {
+        free(writer->opcode2);
+        writer->opcode2 = NULL;
+    }
+    if(writer->opcode3Size >0)
+    {
+        free(writer->opcode3);
+        writer->opcode3 = NULL;
     }
     /*if(writer->_thumbData != NULL)
         free(writer->_thumbData);*/
@@ -349,7 +381,7 @@ void writeIfd0(TIFF *tif, DngWriter *writer)
     LOGD("CameraModel");
     TIFFSetField(tif, TIFFTAG_IMAGEDESCRIPTION, writer->_imagedescription);
     LOGD("imagedescription");
-    TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, writer->colorMatrix2);
+    TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, writer->colorMatrix1);
     LOGD("colormatrix1");
     TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, writer->neutralColorMatrix);
     LOGD("neutralMatrix");
@@ -357,10 +389,10 @@ void writeIfd0(TIFF *tif, DngWriter *writer)
 
     TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 17);
 
-    TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, writer->colorMatrix1);
+    TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, writer->colorMatrix2);
 
-    TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  writer->fowardMatrix2);
-    TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  writer->fowardMatrix1);
+    TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  writer->fowardMatrix1);
+    TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  writer->fowardMatrix2);
 
     TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  writer->noiseMatrix);
 
@@ -601,7 +633,7 @@ void process10tight(TIFF *tif,DngWriter *writer)
     }
     TIFFWriteRawStrip(tif, 0, out, writer->rawheight*shouldberowsize);
 
-    TIFFRewriteDirectory(tif);
+    TIFFWriteDirectory(tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
 
@@ -663,7 +695,7 @@ void processLoose(TIFF *tif,DngWriter *writer)
 		}
 	}
     //TIFFCheckpointDirectory(tif);
-    TIFFRewriteDirectory(tif);
+    TIFFWriteDirectory(tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
@@ -703,7 +735,7 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
 		LOGD("Error writing TIFF scanline.");
 		}
 	}
-    TIFFRewriteDirectory(tif);
+    TIFFWriteDirectory(tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
@@ -769,8 +801,22 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
     TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
     //**********************************************************************************
 
-    LOGD("Read Op from File");
-    FILE * opbin = fopen("/sdcard/DCIM/FreeDcam/opc2.bin", "r+");
+    LOGD("Set OP or not");
+    if(writer->opcode2Size >0)
+    {
+        LOGD("Set OP2");
+        TIFFSetField(tif, TIFFTAG_OPC2, writer->opcode2Size, writer->opcode2);
+    }
+    if(writer->opcode3Size >0)
+    {
+        LOGD("Set OP3");
+        TIFFSetField(tif, TIFFTAG_OPC3, writer->opcode3Size, writer->opcode3);
+    }
+    if(writer->opcode3Size >0 || writer->opcode2Size >0)
+    {
+        TIFFCheckpointDirectory(tif);
+    }
+    /*FILE * opbin = fopen("/sdcard/DCIM/FreeDcam/opc2.bin", "r+");
     if (opbin != NULL)
     {
         fseek(opbin, 0, SEEK_END);
@@ -787,7 +833,9 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
         LOGD("OpCode Entry");
         TIFFSetField(tif, TIFFTAG_OPC2, sizeD, opcode_list);
         LOGD("OpCode Exit");
-    }
+        TIFFCheckpointDirectory(tif);
+    }*/
+
 //*****************************************************************************************
     if(writer->rawType == 0)
     {
@@ -826,7 +874,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, 
     //CheckPOINT to KEEP EXIF IFD in MEMory
     //Try FiX DIR
     TIFFCheckpointDirectory(tif);
-    TIFFRewriteDirectory(tif);
+    TIFFWriteDirectory(tif);
     TIFFSetDirectory(tif, 0);
 
     if(writer->gps == true)
@@ -841,7 +889,7 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, 
     writeExifIfd(tif,writer);
     //Check Point & Write are require checkpoint to update Current IFD Write Well to Write Close And Create IFD
     TIFFCheckpointDirectory(tif); //This Was missing it without it EXIF IFD was not being updated after adding SUB IFD
-    //TIFFWriteCustomDirectory(tif, &dir_offset);
+    TIFFWriteCustomDirectory(tif, &dir_offset);
     ///////////////////// GO Back TO IFD 0
     TIFFSetDirectory(tif, 0);
     if(writer->gps)
@@ -859,186 +907,3 @@ JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, 
 }
 
 
-
-JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_Write10bitDNG(JNIEnv *env, jobject thiz, jobject handler)
-{
-    uint64 dir_offset = 0, dir_offset2 = 0, gpsIFD_offset = 0;
-    DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
-    TIFF *tif;
-    LOGD("has file description: %b", writer->hasFileDes);
-    if(writer->hasFileDes == true)
-    {
-        tif = openfTIFFFD(writer->fileSavePath, writer->fileDes);
-    }
-    else
-        tif = openfTIFF(writer->fileSavePath);
-
-    TIFFSetField (tif, TIFFTAG_SUBFILETYPE, 0);
-    LOGD("subfiletype 10BIT DNG");
-    assert(TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, writer->rawwidht) != 0);
-    LOGD("width");
-    assert(TIFFSetField(tif, TIFFTAG_IMAGELENGTH, writer->rawheight) != 0);
-    LOGD("height");
-    assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 10) != 0);
-    LOGD("bitspersample");
-    assert(TIFFSetField(tif, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_CFA) != 0);
-    LOGD("PhotometricCFA");
-
-//assert(TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, 480/2) != 0);
-    assert(TIFFSetField(tif, TIFFTAG_COMPRESSION, COMPRESSION_NONE) != 0);
-    LOGD("Compression");
-    TIFFSetField (tif, TIFFTAG_SAMPLESPERPIXEL, 1);
-    LOGD("sampelsperpixel");
-    TIFFSetField(tif, TIFFTAG_MAKE, writer->_make);
-    LOGD("make");
-    TIFFSetField(tif, TIFFTAG_MODEL, writer->_model);
-    LOGD("model");
-    try
-    {
-        if(0 == strcmp(writer->_orientation,"0") )
-            TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
-        if(0 == strcmp(writer->_orientation,"90") )
-            TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_RIGHTTOP);
-        if(0 == strcmp(writer->_orientation,"180") )
-            TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_BOTRIGHT);
-        if(0 == strcmp(writer->_orientation,"270") )
-            TIFFSetField(tif, TIFFTAG_ORIENTATION, ORIENTATION_LEFTBOT);
-        LOGD("orientation");
-    }
-    catch(...)
-    {
-        LOGD("Caught NULL NOT SET Orientation");
-    }
-    assert(TIFFSetField(tif, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG) != 0);
-    LOGD("planarconfig");
-	//assert(TIFFSetField(tif, TIFFTAG_SAMPLESPERPIXEL, 3) != 0);
-	TIFFSetField(tif, TIFFTAG_SOFTWARE, "FreeDcam by Troop");
-	LOGD("software");
-	TIFFSetField(tif, TIFFTAG_DNGVERSION, "\001\003\0\0");
-	TIFFSetField(tif, TIFFTAG_DNGBACKWARDVERSION, "\001\001\0\0");
-	LOGD("dngversion");
-	TIFFSetField(tif, TIFFTAG_UNIQUECAMERAMODEL, "SonyIMX");
-	LOGD("CameraModel");
-	TIFFSetField(tif, TIFFTAG_IMAGEDESCRIPTION, writer->_imagedescription);
-	LOGD("imagedescription");
-	TIFFSetField(tif, TIFFTAG_COLORMATRIX1, 9, writer->colorMatrix2);
-	LOGD("colormatrix1");
-	TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, writer->neutralColorMatrix);
-	LOGD("neutralMatrix");
-	TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 21);
-	TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 17);
-	TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, writer->colorMatrix1);
-	TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  writer->fowardMatrix2);
-	TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  writer->fowardMatrix1);
-	//TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  writer->noiseMatrix);
-	LOGD("colormatrix2");
-
-	//TIFFSetField(tif, TIFFTAG_ROWSPERSTRIP, writer->rawheight);
-	//TIFFSetField(tif, TIFFTAG_STRIPOFFSETS, writer->rawwidht*10/8);
-	//TIFFSetField(tif, TIFFTAG_STRIPBYTECOUNTS, (writer->rawSize/writer->rawheight)/10*8);
-	//////////////////////////////IFD POINTERS///////////////////////////////////////
-	///GPS//////////
-	// TIFFSetField (tif, TIFFTAG_GPSIFD, gpsIFD_offset);
-	///EXIF////////
-
-	TIFFSetField (tif, TIFFTAG_EXIFIFD, dir_offset);
-	LOGD("set exif");
-	//CheckPOINT to KEEP EXIF IFD in MEMory
-	//Try FiX DIR
-	TIFFCheckpointDirectory(tif);
-	TIFFRewriteDirectory(tif);
-	TIFFSetDirectory(tif, 0);
-
-	if(writer->gps == true)
-	{	
-		makeGPS_IFD(tif, writer);
-		TIFFCheckpointDirectory(tif);
-		TIFFWriteCustomDirectory(tif, &gpsIFD_offset);
-		TIFFSetDirectory(tif, 0);
-	}
-
-
-	writeExifIfd(tif,writer);
-	//Check Point & Write are require checkpoint to update Current IFD Write Well to Write Close And Create IFD
-	TIFFCheckpointDirectory(tif); //This Was missing it without it EXIF IFD was not being updated after adding SUB IFD
-	TIFFWriteCustomDirectory(tif, &dir_offset);
-	///////////////////// GO Back TO IFD 0
-	TIFFSetDirectory(tif, 0);
-	if(writer->gps)
-		TIFFSetField (tif, TIFFTAG_GPSIFD, gpsIFD_offset);
-	///////////////////////////// WRITE THE SUB IFD's SUB IFD + EXIF IFD AGain GPS IFD would also go here as well as other cust IFD
-	TIFFSetField(tif, TIFFTAG_EXIFIFD, dir_offset);
-
-	if(0 == strcmp(writer->bayerformat,"bggr"))
-		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\002\001\001\0");// 0 = Red, 1 = Green, 2 = Blue, 3 = Cyan, 4 = Magenta, 5 = Yellow, 6 = White
-	if(0 == strcmp(writer->bayerformat , "grbg"))
-		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\0\002\001");
-	if(0 == strcmp(writer->bayerformat , "rggb"))
-		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\001\002");
-	if(0 == strcmp(writer->bayerformat , "gbrg"))
-		TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\002\0\001");
-	long white=0x3ff;
-	TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
-
-	short CFARepeatPatternDim[] = { 2,2 };
-	TIFFSetField (tif, TIFFTAG_CFAREPEATPATTERNDIM, CFARepeatPatternDim);
-
-	TIFFSetField (tif, TIFFTAG_BLACKLEVEL, 4, writer->blacklevel);
-	LOGD("wrote blacklevel");
-	TIFFSetField (tif, TIFFTAG_BLACKLEVELREPEATDIM, CFARepeatPatternDim);
-
-	unsigned char* ar = writer->bayerBytes;
-	unsigned char* tmp = new unsigned char[5];
-    int bytesToSkip = 0;
-    int realrowsize = writer->rawSize/writer->rawheight;
-    int shouldberowsize = writer->rawwidht*10/8;
-    LOGD("realrow: %i shoudlbe: %i", realrowsize, shouldberowsize);
-    if (realrowsize != shouldberowsize)
-        bytesToSkip = realrowsize - shouldberowsize;
-    int row = shouldberowsize;
-    unsigned char* out = new unsigned char[shouldberowsize*writer->rawheight];
-    int m = 0;
-	for(int i =0; i< writer->rawSize; i+=5)
-	{
-        if(i == row)
-        {
-            row += shouldberowsize +bytesToSkip;
-            i+=bytesToSkip;
-            //LOGD("new row: %i", row/shouldberowsize);
-        }
-		out[m++] = (ar[i]); // 00110001
-        out[m++] =  (ar[i+4] & 0b00000011 ) <<6 | (ar[i+1] & 0b11111100)>>2; // 01 001100
-        out[m++] = (ar[i+1]& 0b00000011 )<< 6 | (ar[i+4] & 0b00001100 ) <<2 | (ar[i +2] & 0b11110000 )>> 4;// 10 01 0011
-        out[m++] = (ar[i+2] & 0b00001111 ) << 4 | (ar[i+4] & 0b00110000 )>> 2| (ar[i+3]& 0b11000000)>>6; // 0011 11 00
-        out[m++] = (ar[i+3]& 0b00111111)<<2 | (ar[i+4]& 0b11000000)>>6;//110100 00
-	}
-	TIFFWriteRawStrip(tif, 0, out, writer->rawheight*shouldberowsize);
-
-	TIFFRewriteDirectory(tif);
-	LOGD("Finalizng DNG");
-	TIFFClose(tif);
-
-	if (writer->bayerBytes == NULL)
-	return;
-	delete[] writer->bayerBytes;
-    delete[] out;
-	writer->bayerBytes = NULL;
-
-}
-
-
-/*
-jstring Java_com_troop_androiddng_RawToDng_getFilePath( JNIEnv* env, jobject obj){
-
-    //env->GetFloatArrayElements(Latitude,NULL);
-    jstring jstr = env->NewStringUTF(env, "This comes from jni.");
-    jclass clazz = env->FindClass(env, "com/troop/freedcam/camera/modules/image_saver");
-    jmethodID messageMe = env->GetMethodID(env, clazz, "FeeDJNI", "(Ljava/lang/String;)Ljava/lang/String;");
-    jobject result = env->CallObjectMethod(env, obj, messageMe, jstr);
-
-    const char* str = env->GetStringUTFChars(env,(jstring) result, NULL); // should be released but what a heck, it's a tutorial :)
-    LOGD("get filepath",str);
-    //BufferedRaw(str);
-
-    return env->NewStringUTF(env, str);
-}*/

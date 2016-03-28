@@ -11,6 +11,7 @@ import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.BufferedInputStream;
@@ -32,8 +33,8 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
         super();
     }
 
-    public PictureModuleSony(CameraHolderSony cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler) {
-        super(cameraHandler, Settings, eventHandler);
+    public PictureModuleSony(CameraHolderSony cameraHandler, ModuleEventHandler eventHandler) {
+        super(cameraHandler, eventHandler);
         name = AbstractModuleHandler.MODULE_PICTURE;
         this.cameraHolder = cameraHandler;
 
@@ -104,7 +105,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     @Override
     public void onPictureTaken(URL url)
     {
-        File file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), ".jpg"));
+        File file = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), ".jpg"));
         try {
             file.createNewFile();
         } catch (IOException e) {
@@ -118,8 +119,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
                 output = new FileOutputStream(file);
             else
             {
-                Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
-                DocumentFile df = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
                 DocumentFile wr = df.createFile("image/jpeg", file.getName());
                 output = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri());
             }
@@ -150,7 +150,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
             }
         }
 
-        MediaScannerManager.ScanMedia(Settings.context.getApplicationContext(), file);
+        MediaScannerManager.ScanMedia(AppSettingsManager.APPSETTINGSMANAGER.context.getApplicationContext(), file);
         eventHandler.WorkFinished(file);
     }
 

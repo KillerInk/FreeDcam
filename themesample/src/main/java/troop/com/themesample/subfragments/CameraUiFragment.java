@@ -419,6 +419,12 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
             focusImageHandler.OnClick(x,y);
     }
 
+    @Override
+    public void onMotionEvent(MotionEvent event) {
+        if (focusImageHandler != null)
+            focusImageHandler.onTouchEvent(event);
+    }
+
     View.OnTouchListener onTouchListener = new View.OnTouchListener()
     {
         public boolean onTouch(View v, MotionEvent event)

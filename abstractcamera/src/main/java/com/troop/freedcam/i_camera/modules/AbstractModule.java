@@ -15,7 +15,6 @@ import com.troop.freedcam.ui.AppSettingsManager;
 public abstract class AbstractModule implements I_Module
 {
     protected AbstractCameraHolder baseCameraHolder;
-    protected AppSettingsManager Settings;
     protected AbstractParameterHandler ParameterHandler;
 
     protected boolean isWorking = false;
@@ -27,10 +26,9 @@ public abstract class AbstractModule implements I_Module
 
     public AbstractModule(){};
 
-    public AbstractModule(AbstractCameraHolder cameraHandler, AppSettingsManager Settings, ModuleEventHandler eventHandler)
+    public AbstractModule(AbstractCameraHolder cameraHandler, ModuleEventHandler eventHandler)
     {
         this.baseCameraHolder = cameraHandler;
-        this.Settings = Settings;
         this.eventHandler = eventHandler;
         this.ParameterHandler = baseCameraHolder.GetParameterHandler();
     }

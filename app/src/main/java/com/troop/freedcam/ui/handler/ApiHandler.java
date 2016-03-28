@@ -16,34 +16,32 @@ import com.troop.freedcam.ui.AppSettingsManager;
 public class ApiHandler
 {
     private static String TAG = ApiHandler.class.getSimpleName();
-    AppSettingsManager appSettingsManager;
 
     ApiEvent event;
 
-    public ApiHandler(final AppSettingsManager appSettingsManager, ApiEvent event) {
-        this.appSettingsManager = appSettingsManager;
+    public ApiHandler(ApiEvent event) {
         this.event = event;
     }
 
     public void CheckApi()
     {
-        if (appSettingsManager.IsCamera2FullSupported().equals(""))
+        if (AppSettingsManager.APPSETTINGSMANAGER.IsCamera2FullSupported().equals(""))
         {
             if (Build.VERSION.SDK_INT >= 21)
             {
-                boolean legacy = BaseCameraHolderApi2.IsLegacy(appSettingsManager);
+                boolean legacy = BaseCameraHolderApi2.IsLegacy(AppSettingsManager.APPSETTINGSMANAGER);
                 if (legacy) {
-                    appSettingsManager.SetCamera2FullSupported("false");
-                    appSettingsManager.setCamApi(AppSettingsManager.API_1);
+                    AppSettingsManager.APPSETTINGSMANAGER.SetCamera2FullSupported("false");
+                    AppSettingsManager.APPSETTINGSMANAGER.setCamApi(AppSettingsManager.API_1);
                 }
                 else {
-                    appSettingsManager.SetCamera2FullSupported("true");
-                    appSettingsManager.setCamApi(AppSettingsManager.API_2);
+                    AppSettingsManager.APPSETTINGSMANAGER.SetCamera2FullSupported("true");
+                    AppSettingsManager.APPSETTINGSMANAGER.setCamApi(AppSettingsManager.API_2);
                 }
                 event.apiDetectionDone();
             }
             else {
-                appSettingsManager.SetCamera2FullSupported("false");
+                AppSettingsManager.APPSETTINGSMANAGER.SetCamera2FullSupported("false");
                 event.apiDetectionDone();
             }
         }
@@ -52,15 +50,15 @@ public class ApiHandler
     }
 
 
-    public AbstractCameraFragment getCameraFragment(AppSettingsManager appSettingsManager)
+    public AbstractCameraFragment getCameraFragment()
     {
         AbstractCameraFragment ret;
-        if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_SONY))
+        if (AppSettingsManager.APPSETTINGSMANAGER.getCamApi().equals(AppSettingsManager.API_SONY))
         {
             ret = new SonyCameraFragment();
 
         }
-        else if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_2))
+        else if (AppSettingsManager.APPSETTINGSMANAGER.getCamApi().equals(AppSettingsManager.API_2))
         {
             ret = new Camera2Fragment();
         }

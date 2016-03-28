@@ -40,21 +40,14 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
 
     public abstract String CameraApiName();
 
-    public AbstractCameraUiWrapper(){ cameraChangedListners = new CopyOnWriteArrayList<I_CameraChangedListner>();};
-    public AbstractCameraUiWrapper(AppSettingsManager appSettingsManager)
-    {
-        this();
-        /*if (backGroundThread == null) {
-            backGroundThread = new HandlerThread(TAG);
-            backGroundThread.start();
-            backGroundHandler = new Handler(backGroundThread.getLooper());
-
-        }*/
-        uiHandler = new Handler(appSettingsManager.context.getMainLooper());
+    public AbstractCameraUiWrapper()
+    {   cameraChangedListners = new CopyOnWriteArrayList<I_CameraChangedListner>();
+        uiHandler = new Handler(AppSettingsManager.APPSETTINGSMANAGER.context.getMainLooper());
         backgroundThread = new HandlerThread(TAG);
         backgroundThread.start();
         backgroundHandler = new Handler(backgroundThread.getLooper());
-    };
+    }
+
 
     public void SetCameraChangedListner(I_CameraChangedListner cameraChangedListner)
     {

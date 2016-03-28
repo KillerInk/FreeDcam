@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -101,7 +102,7 @@ public class RawToDngTestActivity extends Activity {
 			File[] rawfiles = rawCollectionFolder.listFiles();
 			for (File file : rawfiles)
 			{
-				if (!file.isDirectory() && file.getAbsolutePath().endsWith(".raw")) {
+				if (!file.isDirectory() && (file.getAbsolutePath().endsWith(StringUtils.FileEnding.RAW) ||file.getAbsolutePath().endsWith(StringUtils.FileEnding.BAYER))) {
 
 					DeviceUtils.Devices devices = getDevice(file.getName());
 					if (devices == null) {
@@ -119,7 +120,11 @@ public class RawToDngTestActivity extends Activity {
 							Logger.exception(e);
 						}
 
-						String out = file.getAbsolutePath().replace(".raw", ".dng");
+						String out = null;
+						if (file.getName().endsWith(StringUtils.FileEnding.RAW))
+						 	out = file.getAbsolutePath().replace(StringUtils.FileEnding.RAW, StringUtils.FileEnding.DNG);
+						if (file.getName().endsWith("bayer"))
+							out = file.getAbsolutePath().replace(StringUtils.FileEnding.BAYER, StringUtils.FileEnding.DNG);
 						RawToDng dng = RawToDng.GetInstance();
 						dng.SetBayerData(data, out);
 						dng.setExifData(100, 0, 0, 0, 0, "", "0", 0);

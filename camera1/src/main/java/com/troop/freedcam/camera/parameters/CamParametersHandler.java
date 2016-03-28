@@ -22,6 +22,7 @@ import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
 import com.troop.freedcam.camera.parameters.modes.BaseModeParameter;
 import com.troop.freedcam.camera.parameters.modes.CDS_Mode_Parameter;
 import com.troop.freedcam.camera.parameters.modes.CupBurstExpModeParameter;
+import com.troop.freedcam.camera.parameters.modes.ExposureLockParameter;
 import com.troop.freedcam.camera.parameters.modes.FocusPeakModeParameter;
 import com.troop.freedcam.camera.parameters.modes.HDRModeParameter;
 import com.troop.freedcam.camera.parameters.modes.JpegQualityParameter;
@@ -66,9 +67,9 @@ public class CamParametersHandler extends AbstractParameterHandler
     private CameraUiWrapper cameraUiWrapper;
     private LG_G4AeHandler aeHandlerG4;
 
-    public CamParametersHandler(CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager, Handler uiHandler)
+    public CamParametersHandler(CameraUiWrapper cameraUiWrapper, Handler uiHandler)
     {
-        super(cameraUiWrapper.cameraHolder,appSettingsManager, uiHandler);
+        super(cameraUiWrapper.cameraHolder, uiHandler);
         ParametersEventHandler = new CameraParametersEventHandler(uiHandler);
         cameraHolder = cameraUiWrapper.cameraHolder;
         this.cameraUiWrapper = cameraUiWrapper;
@@ -129,7 +130,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             Logger.exception(e);
         }
 
-        locationParameter = new LocationParameter(uiHandler, appSettingsManager, cameraHolder);
+        locationParameter = new LocationParameter(uiHandler, cameraHolder);
 
         createManualBrightness();
 
@@ -361,11 +362,11 @@ public class CamParametersHandler extends AbstractParameterHandler
             Logger.exception(e);
         }
 
-        /*try {
-            ExposureLock = new ExposureLockParameter(uiHandler,cameraParameters, baseCameraHolder, "","");
+        try {
+            ExposureLock = new ExposureLockParameter(uiHandler,cameraParameters, cameraHolder, "","");
         } catch (Exception e) {
             Logger.exception(e);
-        }*/
+        }
 
         try {
             VideoSize = new BaseModeParameter(uiHandler,cameraParameters,cameraHolder,"video-size","video-size");
@@ -461,7 +462,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            Module = new ModuleParameters(uiHandler, appSettingsManager, cameraUiWrapper);
+            Module = new ModuleParameters(uiHandler, cameraUiWrapper);
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -473,7 +474,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         } catch (Exception e) {
             Logger.exception(e);
         }
-        cameraUiWrapper.moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
+        cameraUiWrapper.moduleHandler.SetModule(AppSettingsManager.APPSETTINGSMANAGER.GetCurrentModule());
 
         ParametersEventHandler.ParametersHasLoaded();
 
@@ -754,7 +755,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     @Override
     public void SetPictureOrientation(int orientation)
     {
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
         {
             int or = orientation +180;
             if (or >360)
@@ -773,11 +774,11 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     public void SetCameraRotation()
     {
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(""))
+        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals(""))
         {
-            appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack , StringUtils.OFF);
+            AppSettingsManager.APPSETTINGSMANAGER.setString(AppSettingsManager.SETTING_OrientationHack , StringUtils.OFF);
         }
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.OFF))
+        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.OFF))
             ((BaseCameraHolder)cameraHolder).SetCameraRotation(0);
         else
             ((BaseCameraHolder)cameraHolder).SetCameraRotation(180);
@@ -786,7 +787,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     public void LockExposureAndWhiteBalance(boolean value)
     {
         isExposureAndWBLocked = value;
-        if (ExposureLock.IsSupported())
+        if (ExposureLock != null && ExposureLock.IsSupported())
             ExposureLock.SetValue(value + "", false);
         SetParametersToCamera(cameraParameters);
     }
@@ -797,7 +798,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         cameraParameters.put("afeng_raw_dump_flag", "1");
         cameraParameters.put("isp-mode", "1");
         cameraParameters.put("rawsave-mode", "2");
-        cameraParameters.put("rawfname", "/mnt/sdcard/DCIM/FreeDCam/mtk_.raw");
+        cameraParameters.put("rawfname", "/mnt/sdcard/DCIM/FreeDCam/mtk_."+StringUtils.FileEnding.BAYER);
         cameraParameters.put("zsd-mode", "on");
         try {
             Thread.sleep(200);
@@ -870,7 +871,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         cameraParameters.put("afeng_raw_dump_flag", "1");
         cameraParameters.put("rawsave-mode", "2");
         cameraParameters.put("isp-mode", "1");
-        cameraParameters.put("rawfname", "/mnt/sdcard/DCIM/test.raw");
+        cameraParameters.put("rawfname", "/mnt/sdcard/DCIM/test."+StringUtils.FileEnding.BAYER);
     }
 
 

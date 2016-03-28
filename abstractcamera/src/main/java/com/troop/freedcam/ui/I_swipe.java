@@ -1,5 +1,7 @@
 package com.troop.freedcam.ui;
 
+import android.view.MotionEvent;
+
 /**
  * Created by troop on 29.09.2014.
  */
@@ -21,4 +23,5 @@ public interface I_swipe
      * @param y the y axis
      */
     void onClick(int x, int y);
+    void onMotionEvent(MotionEvent event);
 }
