@@ -23,7 +23,7 @@ import java.io.OutputStream;
  */
 public class RawSaver extends JpegSaver
 {
-    final public String fileEnding = ".raw";
+    final public String fileEnding = ".bayer";
     public RawSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler) {
         super(cameraHolder, i_workeDone, handler);
     }
@@ -66,7 +66,7 @@ public class RawSaver extends JpegSaver
             else
             {
                 DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
-                DocumentFile wr = df.createFile("image/raw", fileName.getName());
+                DocumentFile wr = df.createFile("image/*", fileName.getName());
                 outStream = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri());
             }
             outStream.write(bytes);

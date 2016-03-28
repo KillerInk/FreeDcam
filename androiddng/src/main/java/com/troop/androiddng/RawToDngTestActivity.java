@@ -101,7 +101,7 @@ public class RawToDngTestActivity extends Activity {
 			File[] rawfiles = rawCollectionFolder.listFiles();
 			for (File file : rawfiles)
 			{
-				if (!file.isDirectory() && file.getAbsolutePath().endsWith(".raw")) {
+				if (!file.isDirectory() && (file.getAbsolutePath().endsWith(".raw") ||file.getAbsolutePath().endsWith(".bayer"))) {
 
 					DeviceUtils.Devices devices = getDevice(file.getName());
 					if (devices == null) {
@@ -119,7 +119,11 @@ public class RawToDngTestActivity extends Activity {
 							Logger.exception(e);
 						}
 
-						String out = file.getAbsolutePath().replace(".raw", ".dng");
+						String out = null;
+						if (file.getName().endsWith("raw"))
+						 	out = file.getAbsolutePath().replace(".raw", ".dng");
+						if (file.getName().endsWith("bayer"))
+							out = file.getAbsolutePath().replace(".bayer", ".dng");
 						RawToDng dng = RawToDng.GetInstance();
 						dng.SetBayerData(data, out);
 						dng.setExifData(100, 0, 0, 0, 0, "", "0", 0);

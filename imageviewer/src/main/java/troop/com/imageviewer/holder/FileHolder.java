@@ -49,6 +49,7 @@ public class FileHolder extends BaseHolder
                         f.getAbsolutePath().endsWith("jpg")
                                 || f.getAbsolutePath().endsWith("jps")
                                 || f.getAbsolutePath().endsWith("raw")
+                                || f.getAbsolutePath().endsWith("bayer")
                                 || f.getAbsolutePath().endsWith("dng")
                                 || f.getAbsolutePath().endsWith("mp4")
                 ))
@@ -56,6 +57,8 @@ public class FileHolder extends BaseHolder
                 else if (formatsToShow == GridViewFragment.FormatTypes.dng && f.getAbsolutePath().endsWith("dng"))
                     list.add(new FileHolder(f));
                 else if (formatsToShow == GridViewFragment.FormatTypes.raw && f.getAbsolutePath().endsWith("raw"))
+                    list.add(new FileHolder(f));
+                else if (formatsToShow == GridViewFragment.FormatTypes.raw && f.getAbsolutePath().endsWith("bayer"))
                     list.add(new FileHolder(f));
                 else if (formatsToShow == GridViewFragment.FormatTypes.jps && f.getAbsolutePath().endsWith("jps"))
                     list.add(new FileHolder(f));

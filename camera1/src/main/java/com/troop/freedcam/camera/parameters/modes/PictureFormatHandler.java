@@ -29,7 +29,7 @@ public class PictureFormatHandler extends BaseModeParameter
     final static public String[] CaptureMode =
     {
         "jpeg",
-        "raw",
+        "bayer",
         "dng"
     };
 
@@ -93,7 +93,7 @@ public class PictureFormatHandler extends BaseModeParameter
                     case "jpeg":
                         setString(valueToSet,setToCam);
                         break;
-                    case "raw":
+                    case "bayer":
                         setString(rawFormat,setToCam);
                         baseCameraHolder.GetParameterHandler().SetDngActive(false);
                         break;

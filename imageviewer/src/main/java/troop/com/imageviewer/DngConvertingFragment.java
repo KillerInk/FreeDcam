@@ -251,8 +251,11 @@ public class DngConvertingFragment extends Fragment
         } catch (IOException e) {
             Logger.exception(e);
         }
-
-        String out = file.getAbsolutePath().replace(".raw", ".dng");
+        String out =null;
+        if (file.getName().endsWith("raw"))
+            out = file.getAbsolutePath().replace(".raw", ".dng");
+        if (file.getName().endsWith("bayer"))
+            out = file.getAbsolutePath().replace(".bayer", ".dng");
         RawToDng dng = RawToDng.GetInstance();
         if (!StringUtils.IS_L_OR_BIG()
                 || file.canWrite())

@@ -55,7 +55,7 @@ public class BitmapHelper
             }
             else if (file.getAbsolutePath().endsWith(".mp4"))
                 response = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
-            else if (file.getAbsolutePath().endsWith(".dng")|| file.getAbsolutePath().endsWith(".raw"))
+            else if (file.getAbsolutePath().endsWith(".dng")|| file.getAbsolutePath().endsWith(".raw") || file.getAbsolutePath().endsWith(".bayer"))
             {
                 try {
                     response = RawUtils.UnPackRAW(file.getAbsolutePath());

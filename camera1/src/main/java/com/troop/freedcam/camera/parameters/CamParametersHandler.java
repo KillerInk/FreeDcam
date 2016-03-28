@@ -786,7 +786,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         cameraParameters.put("afeng_raw_dump_flag", "1");
         cameraParameters.put("isp-mode", "1");
         cameraParameters.put("rawsave-mode", "2");
-        cameraParameters.put("rawfname", "/mnt/sdcard/DCIM/FreeDCam/mtk_.raw");
+        cameraParameters.put("rawfname", "/mnt/sdcard/DCIM/FreeDCam/mtk_.bayer");
         cameraParameters.put("zsd-mode", "on");
         try {
             Thread.sleep(200);
@@ -859,7 +859,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         cameraParameters.put("afeng_raw_dump_flag", "1");
         cameraParameters.put("rawsave-mode", "2");
         cameraParameters.put("isp-mode", "1");
-        cameraParameters.put("rawfname", "/mnt/sdcard/DCIM/test.raw");
+        cameraParameters.put("rawfname", "/mnt/sdcard/DCIM/test.bayer");
     }
 
 

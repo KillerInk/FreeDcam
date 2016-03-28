@@ -44,10 +44,10 @@ public class MediatekSaver extends JpegSaver {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                if(ParameterHandler.PictureFormat.GetValue().equals("raw") || ParameterHandler.PictureFormat.GetValue().equals("dng"))
+                if(ParameterHandler.PictureFormat.GetValue().equals("bayer") || ParameterHandler.PictureFormat.GetValue().equals("dng"))
                 {
                     String timestamp = String.valueOf(System.currentTimeMillis());
-                    ParameterHandler.Set_RAWFNAME("/mnt/sdcard/DCIM/FreeDCam/"+"mtk"+timestamp+".raw");
+                    ParameterHandler.Set_RAWFNAME("/mnt/sdcard/DCIM/FreeDCam/"+"mtk"+timestamp+".bayer");
                 }
                 cameraHolder.TakePicture(null, null, MediatekSaver.this);
             }
@@ -80,7 +80,7 @@ public class MediatekSaver extends JpegSaver {
                     //savejpeg
                     saveBytesToFile(data, holdFile);
                     CreateDNG_DeleteRaw();
-                } else if (ParameterHandler.PictureFormat.GetValue().equals("raw"))
+                } else if (ParameterHandler.PictureFormat.GetValue().equals("bayer"))
                 {
                     //savejpeg
                     saveBytesToFile(data, holdFile);

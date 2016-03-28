@@ -305,6 +305,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                         f[i].getAbsolutePath().endsWith("jpg")
                         || f[i].getAbsolutePath().endsWith("jps")
                         ||f[i].getAbsolutePath().endsWith("raw")
+                        ||f[i].getAbsolutePath().endsWith("bayer")
                         ||f[i].getAbsolutePath().endsWith("dng")
                                 ||   f[i].getAbsolutePath().endsWith("mp4")
                 ))
@@ -312,6 +313,8 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                 else if(formatsToShow == FormatTypes.dng && f[i].getAbsolutePath().endsWith("dng"))
                     list.add(new FileHolder(f[i]));
                 else if(formatsToShow == FormatTypes.raw && f[i].getAbsolutePath().endsWith("raw"))
+                    list.add(new FileHolder(f[i]));
+                else if(formatsToShow == FormatTypes.raw && f[i].getAbsolutePath().endsWith("bayer"))
                     list.add(new FileHolder(f[i]));
                 else if(formatsToShow == FormatTypes.jps && f[i].getAbsolutePath().endsWith("jps"))
                     list.add(new FileHolder(f[i]));
@@ -579,6 +582,11 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                     filetypeButton.setText("RAW");
                     formatsToShow = FormatTypes.raw;
                 }
+                else if (i == R.id.bayer)
+                {
+                    filetypeButton.setText("BAYER");
+                    formatsToShow = FormatTypes.raw;
+                }
                 else if (i == R.id.dng)
                 {
                     filetypeButton.setText("DNG");
@@ -721,7 +729,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
             {
                 ArrayList<String> ar = new ArrayList<String>();
                 for (FileHolder f : files) {
-                    if (f.IsSelected() && f.getFile().getAbsolutePath().endsWith("raw")) {
+                    if (f.IsSelected() && (f.getFile().getAbsolutePath().endsWith("raw")||f.getFile().getAbsolutePath().endsWith("bayer"))) {
                         ar.add(f.getFile().getAbsolutePath());
                     }
 

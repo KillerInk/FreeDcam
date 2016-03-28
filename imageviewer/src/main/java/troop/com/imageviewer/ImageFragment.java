@@ -121,7 +121,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
             public void onClick(View v) {
                 if (file == null)
                     return;
-                if (!file.getAbsolutePath().endsWith(".raw")) {
+                if (!file.getAbsolutePath().endsWith(".raw") || !file.getAbsolutePath().endsWith(".bayer")) {
                     Uri uri = Uri.fromFile(file);
 
                     Intent i = new Intent(Intent.ACTION_EDIT);
@@ -287,7 +287,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
                 //myHistogram.setVisibility(View.VISIBLE);
                 play.setVisibility(View.VISIBLE);
             }
-            if (file.getAbsolutePath().endsWith(".raw")) {
+            if (file.getAbsolutePath().endsWith(".raw") || file.getAbsolutePath().endsWith(".bayer")) {
                 exifinfo.setVisibility(View.GONE);
                 //myHistogram.setVisibility(View.VISIBLE);
                 play.setVisibility(View.GONE);
@@ -339,7 +339,11 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
             Logger.exception(e);
         }
 
-        String out = file.getAbsolutePath().replace(".raw", ".dng");
+        String out =null;
+        if (file.getName().endsWith("raw"))
+           out = file.getAbsolutePath().replace(".raw", ".dng");
+        if (file.getName().endsWith("bayer"))
+            out = file.getAbsolutePath().replace(".bayer", ".dng");
         RawToDng dng = RawToDng.GetInstance();
         if (!StringUtils.IS_L_OR_BIG()
                 || file.canWrite())
