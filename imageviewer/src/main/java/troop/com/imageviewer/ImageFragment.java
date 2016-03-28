@@ -189,12 +189,14 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
 
                     if (!StringUtils.IS_L_OR_BIG() || file.canWrite()) {
                         boolean d = file.delete();
+
                         MediaScannerManager.ScanMedia(getContext(), file);
                     }
                     else
                     {
                         boolean d= FileUtils.delteDocumentFile(file);
                     }
+                    BitmapHelper.DeleteCache(file);
                     ((ScreenSlideFragment)getParentFragment()).reloadFilesAndSetLastPos();
                     break;
 

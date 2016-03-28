@@ -43,6 +43,12 @@ public class DeviceUtils
         currentdevice = getDevice();
     }
 
+    public static void DESTROY()
+    {
+        contex = null;
+        currentdevice = null;
+    }
+
     public static void RELEASE()
     {
         if (contex != null)

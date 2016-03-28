@@ -18,15 +18,13 @@ public class HardwareKeyHandler
 {
     private final MainActivity activity;
     private AbstractCameraUiWrapper cameraUiWrapper;
-    boolean longKeyPress = false;
+    private boolean longKeyPress = false;
     private static String TAG = "freedcam.HardwareKeyHandler";
-    AppSettingsManager appSettingsManager;
 
 
-    public HardwareKeyHandler(MainActivity activity, AppSettingsManager appSettingsManager)
+    public HardwareKeyHandler(MainActivity activity)
     {
         this.activity = activity;
-        this.appSettingsManager = appSettingsManager;
     }
 
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
@@ -40,11 +38,11 @@ public class HardwareKeyHandler
         longKeyPress = false;
         int appSettingsKeyShutter = 0;
 
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLP))
+        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLP))
             appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_UP;
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLM))
+        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLM))
             appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_DOWN;
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.Hook) || appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(""))
+        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.Hook) || AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(""))
             appSettingsKeyShutter = KeyEvent.KEYCODE_HEADSETHOOK;
 
         if(keyCode == KeyEvent.KEYCODE_3D_MODE ||keyCode == KeyEvent.KEYCODE_POWER || keyCode == appSettingsKeyShutter || keyCode == KeyEvent.KEYCODE_UNKNOWN)

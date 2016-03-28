@@ -47,20 +47,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import troop.com.imageviewer.AbstractFragmentActivity;
 import troop.com.imageviewer.BitmapHelper;
 import troop.com.imageviewer.ScreenSlideFragment;
 
 /**
  * Created by troop on 18.08.2014.
  */
-public class MainActivity extends FragmentActivity implements I_orientation, I_error, I_CameraChangedListner, I_Activity, I_ModuleEvent, AbstractCameraFragment.CamerUiWrapperRdy, ApiEvent
+public class MainActivity extends AbstractFragmentActivity implements I_orientation, I_error, I_CameraChangedListner, I_ModuleEvent, AbstractCameraFragment.CamerUiWrapperRdy, ApiEvent
 {
     protected ViewGroup appViewGroup;
     private OrientationHandler orientationHandler;
-    private int flags;
     private final String TAG = StringUtils.TAG + MainActivity.class.getSimpleName();
     private final String TAGLIFE = StringUtils.TAG + "LifeCycle";
-    private AppSettingsManager appSettingsManager;
     private HardwareKeyHandler hardwareKeyHandler;
     private ApiHandler apiHandler;
     private TimerHandler timerHandler;
@@ -73,16 +72,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(null);
-
-        DeviceUtils.SETCONTEXT(getApplicationContext());
         orientationHandler = new OrientationHandler(this, this);
-
-        flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         appViewGroup = (ViewGroup) inflater.inflate(R.layout.main_v2, null);
         setContentView(R.layout.main_v2);
@@ -150,7 +140,6 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     protected void onResume()
     {
         super.onResume();
-        HIDENAVBAR();
         Logger.d(TAGLIFE, "Activity onResume");
     }
     @Override
@@ -162,16 +151,15 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     }
 
     @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
+    public void onWindowFocusChanged(boolean hasFocus)
+    {
+        super.onWindowFocusChanged(hasFocus);
         Logger.d(TAGLIFE, "Focus has changed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + hasFocus);
-        if (hasFocus)
-            HIDENAVBAR();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-
     }
 
     @Override
@@ -194,13 +182,11 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     private void createHandlers() {
 
         checkStartLoggerging();
-        BitmapHelper.INIT(getApplicationContext());
-        appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this), this);
-        themeHandler = new ThemeHandler(this, appSettingsManager);
+        themeHandler = new ThemeHandler(this);
         timerHandler = new TimerHandler(this);
-        apiHandler = new ApiHandler(appSettingsManager, this);
+        apiHandler = new ApiHandler(this);
         apiHandler.CheckApi();
-        hardwareKeyHandler = new HardwareKeyHandler(this, appSettingsManager);
+        hardwareKeyHandler = new HardwareKeyHandler(this);
         if (cameraFragment != null)
             themeHandler.GetThemeFragment(true, cameraFragment.GetCameraUiWrapper());
         else
@@ -222,7 +208,7 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
     {
             Logger.d(TAG, "loading cameraWrapper");
             destroyCameraUiWrapper();
-            cameraFragment = apiHandler.getCameraFragment(appSettingsManager);
+            cameraFragment = apiHandler.getCameraFragment();
             cameraFragment.Init(this);
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
@@ -268,29 +254,6 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
         themeHandler.getCurrenttheme().SetCameraUIWrapper(cameraUiWrapper);
         hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper);
 
-    }
-
-    public void HIDENAVBAR()
-    {
-        if (Build.VERSION.SDK_INT < 16) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
-        else
-        {
-            //HIDE nav and action bar
-            final View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(flags);
-            decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-                @Override
-                public void onSystemUiVisibilityChange(int visibility) {
-                    if (visibility > 0) {
-                        if (Build.VERSION.SDK_INT >= 16)
-                            getWindow().getDecorView().setSystemUiVisibility(flags);
-                    }
-                }
-            });
-        }
     }
 
     @Override
@@ -464,45 +427,10 @@ public class MainActivity extends FragmentActivity implements I_orientation, I_e
         return null;
     }
 
-
-    private static final int READ_REQUEST_CODE = 42;
-
-    private I_OnActivityResultCallback resultCallback;
     @Override
     public void ChooseSDCard(I_OnActivityResultCallback callback)
     {
-        this.resultCallback = callback;
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-        startActivityForResult(intent, READ_REQUEST_CODE);
+        super.ChooseSDCard(callback);
     }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            // The document selected by the user won't be returned in the intent.
-            // Instead, a URI to that document will be contained in the return intent
-            // provided to this method as a parameter.
-            // Pull that URI using resultData.getData().
-            Uri uri = null;
-            if (data != null) {
-                uri = data.getData();
-                final int takeFlags = data.getFlags()
-                        & (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                // Check for the freshest data.
-
-
-                getContentResolver().takePersistableUriPermission(uri,takeFlags);
-                AppSettingsManager.APPSETTINGSMANAGER.SetBaseFolder(uri.toString());
-                if (resultCallback != null)
-                {
-                    resultCallback.onActivityResultCallback(uri);
-                    this.resultCallback = null;
-                }
-            }
-        }
-    }
-
 
 }

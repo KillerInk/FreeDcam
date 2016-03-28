@@ -223,7 +223,13 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
 
     public void reloadFilesAndSetLastPos()
     {
-        mPagerAdapter.reloadFilesAndSetLastPos();
+        if (FilePathToLoad.equals("")) {
+            mPagerAdapter.SetFiles(FileHolder.getDCIMFiles());
+        }
+        else
+        {
+            mPagerAdapter.SetFileToLoadPath(FilePathToLoad);
+        }
     }
 
 }

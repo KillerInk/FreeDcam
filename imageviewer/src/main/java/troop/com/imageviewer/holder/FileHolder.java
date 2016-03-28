@@ -71,6 +71,7 @@ public class FileHolder extends BaseHolder
                     list.add(new FileHolder(f));
             }
         }
+        SortFileHolder(list);
     }
 
     public static List<FileHolder> getDCIMFiles()
@@ -86,11 +87,44 @@ public class FileHolder extends BaseHolder
         else
             Logger.d(TAG,"No ExternalSDFound");
         FileHolder.readFilesFromFolder(external, f, GridViewFragment.FormatTypes.all);
+        SortFileHolder(f);
+        return f;
+    }
+
+    public static List<FileHolder> getDCIMDirs()
+    {
+        File internalSDCIM = new File(StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder);
+        File externalSDCIM = new File(StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder);
+        ArrayList<FileHolder> list = new ArrayList<FileHolder>();
+        File[] f = internalSDCIM.listFiles();
+        if (f != null)
+        {
+            for (int i = 0; i < f.length; i++) {
+                if (!f[i].isHidden())
+                    list.add(new FileHolder(f[i]));
+            }
+        }
+        try {
+            f = externalSDCIM.listFiles();
+            for (int i = 0; i< f.length; i++)
+            {
+                if (!f[i].isHidden())
+                    list.add(new FileHolder(f[i]));
+            }
+        }
+        catch (Exception ex) {
+            Logger.d(TAG, "No external SD!");
+        }
+        SortFileHolder(list);
+        return list;
+    }
+
+    public static void SortFileHolder(List<FileHolder> f)
+    {
         Collections.sort(f, new Comparator<FileHolder>() {
             public int compare(FileHolder f1, FileHolder f2) {
                 return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
             }
         });
-        return f;
     }
 }

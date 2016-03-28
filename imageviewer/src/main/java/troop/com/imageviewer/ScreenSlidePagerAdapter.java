@@ -156,11 +156,6 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
         FileHolder.readFilesFromFolder(folder, images, filestoshow);
         files = images;
         Logger.d(TAG, "readFiles sucess, FilesCount" + files.size());
-        Collections.sort(files, new Comparator<FileHolder>() {
-            public int compare(FileHolder f1, FileHolder f2) {
-                return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
-            }
-        });
         this.notifyDataSetChanged();
     }
 }
