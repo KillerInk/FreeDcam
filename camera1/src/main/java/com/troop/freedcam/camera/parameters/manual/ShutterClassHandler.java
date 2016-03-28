@@ -82,6 +82,8 @@ public class ShutterClassHandler
             return new ShutterManual_ExposureTime_Micro(parameters,parametersHandler,null);
         else if ((parameters.containsKey("max-exposure-time")&& !parameters.get("max-exposure-time").contains(".")))
             return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,null);
+        else if (parameters.containsKey("m-ss"))
+            return new ShutterManualMtk(parameters, parametersHandler,TEST.split(","));
         else
             return null;
     }

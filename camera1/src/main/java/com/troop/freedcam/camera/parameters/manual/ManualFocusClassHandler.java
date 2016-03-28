@@ -59,6 +59,8 @@ public class ManualFocusClassHandler
             return new FocusManualParameterLG(parameters,"","","", cameraHolder, parametersHandler);
         else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
             return new FocusManualParameterHTC(parameters,"","","", cameraHolder,parametersHandler);
+        else if(parameters.containsKey("focus-fs-fi-max") && parameters.containsKey("focus-fs-fi-min") && parameters.containsKey("focus-fs-fi"))
+            return new FocusManualMTK(parameters,"focus-fs-fi","focus-fs-fi-max","focus-fs-fi-min", focusMode_manual,parametersHandler,10,0);
         else
             return null;
 

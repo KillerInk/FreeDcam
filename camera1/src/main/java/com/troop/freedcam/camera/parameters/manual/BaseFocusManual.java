@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class BaseFocusManual extends BaseManualParameter
 {
     final static String TAG = BaseFocusManual.class.getSimpleName();
-    private String manualFocusModeString;
+    protected String manualFocusModeString;
     private int manualFocusType = 0;
 
     /**
