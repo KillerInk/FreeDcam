@@ -52,7 +52,7 @@ public class ShutterClassHandler
        // else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
          //   return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,OppoIMX214.split(","));
 
-        else if(DeviceUtils.isSonyM5_MTK() || DeviceUtils.isSonyC5_MTK() || DeviceUtils.IS(DeviceUtils.Devices.MeizuMX4_MTK) || DeviceUtils.IS(DeviceUtils.Devices.MeizuMX5_MTK) || DeviceUtils.IS(DeviceUtils.Devices.ForwardArt_MTK))
+        else if(DeviceUtils.IS(DeviceUtils.Devices.ForwardArt_MTK))
             return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,TEST.split(","));
 
         else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
@@ -86,7 +86,7 @@ public class ShutterClassHandler
             return new ShutterManual_ExposureTime_Micro(parameters,parametersHandler,null);
         else if ((parameters.containsKey("max-exposure-time")&& !parameters.get("max-exposure-time").contains(".")))
             return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,null);
-        else if (parameters.containsKey("m-ss"))
+        else if (parameters.containsKey("cap-ss") && !parameters.get("cap-ss").equals("0"))
             return new ShutterManualMtk(parameters, parametersHandler,TEST.split(","));
         else
             return null;

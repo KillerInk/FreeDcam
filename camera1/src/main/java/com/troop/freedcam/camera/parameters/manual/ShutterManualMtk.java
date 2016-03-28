@@ -30,11 +30,11 @@ public class ShutterManualMtk extends ShutterManual_ExposureTime_FloatToSixty {
             Logger.d(TAG, "StringUtils.FormatShutterStringToDouble:" + shutterstring);
             shutterstring = StringUtils.FLOATtoSixty4(shutterstring);
             Logger.d(TAG, "StringUtils.FLOATtoSixty4:"+ shutterstring);
-            parameters.put("m-ss", shutterstring);
+            parameters.put("cap-ss", shutterstring);
         }
         else
         {
-            parameters.put("m-ss", "0");
+            parameters.put("cap-ss", "0");
             Logger.d(TAG, "set exposure time to auto");
         }
         camParametersHandler.SetParametersToCamera(parameters);

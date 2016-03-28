@@ -181,5 +181,44 @@ public class MetaDataExtractor {
         return Description;
     }
 
+    public static String ShutterLooKup(int ms)
+    {
+        String fraction = "1/2";
+
+        if (ms > 100000)
+            fraction = String.valueOf(ms / 1000000);
+        else if (ms == 500000 )
+            fraction = "1/2";
+        else if (ms == 250000 )
+            fraction = "1/4";
+        else if (ms == 125000 )
+            fraction = "1/8";
+        else if (ms == 62500 )
+            fraction = "1/16";
+        else if (ms == 33333 )
+            fraction = "1/30";
+        else if (ms == 16666 )
+            fraction = "1/60";
+        else if (ms == 8333 )
+            fraction = "1/120";
+        else if (ms == 4166 )
+            fraction = "1/240";
+        else if (ms == 2000 )
+            fraction = "1/500";
+        else if (ms == 1000 )
+            fraction = "1/1000";
+        else if (ms == 500 )
+            fraction = "1/2000";
+        else if (ms == 250 )
+            fraction = "1/4000";
+        else if (ms == 200 )
+            fraction = "1/5000";
+        else if (ms == 125 )
+            fraction = "1/5000";
+
+
+        return fraction;
+    }
+
 
 }
