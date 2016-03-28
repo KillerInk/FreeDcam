@@ -21,6 +21,7 @@ import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
 import com.troop.freedcam.camera.parameters.modes.BaseModeParameter;
 import com.troop.freedcam.camera.parameters.modes.CDS_Mode_Parameter;
 import com.troop.freedcam.camera.parameters.modes.CupBurstExpModeParameter;
+import com.troop.freedcam.camera.parameters.modes.ExposureLockParameter;
 import com.troop.freedcam.camera.parameters.modes.FocusPeakModeParameter;
 import com.troop.freedcam.camera.parameters.modes.HDRModeParameter;
 import com.troop.freedcam.camera.parameters.modes.JpegQualityParameter;
@@ -360,11 +361,11 @@ public class CamParametersHandler extends AbstractParameterHandler
             Logger.exception(e);
         }
 
-        /*try {
-            ExposureLock = new ExposureLockParameter(uiHandler,cameraParameters, baseCameraHolder, "","");
+        try {
+            ExposureLock = new ExposureLockParameter(uiHandler,cameraParameters, cameraHolder, "","");
         } catch (Exception e) {
             Logger.exception(e);
-        }*/
+        }
 
         try {
             VideoSize = new BaseModeParameter(uiHandler,cameraParameters,cameraHolder,"video-size","video-size");
@@ -775,7 +776,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     public void LockExposureAndWhiteBalance(boolean value)
     {
         isExposureAndWBLocked = value;
-        if (ExposureLock.IsSupported())
+        if (ExposureLock != null && ExposureLock.IsSupported())
             ExposureLock.SetValue(value + "", false);
         SetParametersToCamera(cameraParameters);
     }

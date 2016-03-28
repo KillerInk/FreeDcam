@@ -182,7 +182,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
         String focusmode = parametersHandler.FocusMode.GetValue();
         if (focusmode.equals("auto") || focusmode.equals("macro"))
         {
-            try {
+           /* try {
                 if (parametersHandler.ExposureLock != null && parametersHandler.ExposureLock.IsSupported()) {
                     if (parametersHandler.ExposureLock.GetValue().equals("true")) {
                         parametersHandler.ExposureLock.SetValue("false", true);
@@ -193,7 +193,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
             catch (Exception ex)
             {
                 
-            }
+            }*/
             final FocusRect targetFocusRect = getFocusRect(rect, width, height);
 
 

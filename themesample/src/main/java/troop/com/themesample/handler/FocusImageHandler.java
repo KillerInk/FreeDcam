@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
@@ -284,7 +285,23 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         }
 
         @Override
-        public void IsMoving(boolean moving) {
+        public void OnAreaLongClick(int x, int y)
+        {
+            if (wrapper.camParametersHandler.ExposureLock != null && wrapper.camParametersHandler.ExposureLock.IsSupported())
+            {
+                wrapper.camParametersHandler.ExposureLock.SetValue("true",true);
+                Vibrator v = (Vibrator) focusImageView.getContext().getSystemService(Context.VIBRATOR_SERVICE);
+                v.vibrate(50);}
+
+        }
+
+        @Override
+        public void IsMoving(boolean moving)
+        {
+            if (wrapper.camParametersHandler.ExposureLock != null && wrapper.camParametersHandler.ExposureLock.IsSupported() && wrapper.camParametersHandler.ExposureLock.GetValue().equals("true"))
+            {
+                wrapper.camParametersHandler.ExposureLock.SetValue("false",true);
+            }
             SampleThemeFragment sampleThemeFragment = (SampleThemeFragment)FocusImageHandler.this.fragment.getParentFragment();
             if(sampleThemeFragment != null)
                 sampleThemeFragment.DisablePagerTouch(moving);
@@ -301,6 +318,11 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         @Override
         public void OnAreaClick(int x, int y) {
             OnClick(x,y);
+        }
+
+        @Override
+        public void OnAreaLongClick(int x, int y) {
+
         }
 
         @Override

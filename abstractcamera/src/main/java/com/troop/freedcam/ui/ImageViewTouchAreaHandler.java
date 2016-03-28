@@ -4,6 +4,7 @@ package com.troop.freedcam.ui;
  * Created by troop on 09.06.2015.
  */
 
+import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,11 +22,13 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
     I_TouchListnerEvent touchListnerEvent;
     ImageView imageView;
     float x, y, difx, dify;
+    private Handler longClickHandler;
 
     public interface I_TouchListnerEvent
     {
         void onAreaCHanged(FocusRect imageRect, int previewWidth, int previewHeight);
         void OnAreaClick(int x, int y);
+        void OnAreaLongClick(int x, int y);
         void IsMoving(boolean moving);
     }
 
@@ -40,6 +43,7 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
         this.recthalf = imageView.getWidth()/2;
         this.touchListnerEvent = touchListnerEvent;
         this.allowDrag = allowDrag;
+        longClickHandler = new Handler();
     }
 
 
@@ -50,7 +54,7 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
     /**
      * distance in pixel? to move bevor it gets detected as move
      */
-    int distance = 10;
+    final int distance = 20;
     /**
      * the start values that gets set on action down
      */
@@ -59,8 +63,7 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
      * holdes the time when last action down happend
      */
     long start;
-    long duration;
-    static final int MAX_DURATION = 3500;
+    static final int MAX_DURATION = 1000;
     /*
     the area where the imageview is on screen
      */
@@ -82,8 +85,10 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
         return dis;
     }
 
+    private boolean longClickHappen = false;
+
     @Override
-    public boolean onTouch(View v, MotionEvent event)
+    public boolean onTouch(View v,final MotionEvent event)
     {
         boolean ret = true;
         switch(event.getAction())
@@ -95,7 +100,8 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
                 startX = (int)event.getX() - (int)imageView.getX();
                 startY =(int) event.getY() - (int)imageView.getY();
                 start = System.currentTimeMillis();
-
+                longClickHandler.postDelayed(longClickRunnable,MAX_DURATION);
+                longClickHappen = false;
             }
             break;
             case MotionEvent.ACTION_MOVE:
@@ -112,8 +118,8 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
                     if (event.getY() - dify > cameraUiWrapper.getMargineTop() && event.getY() - dify + imageView.getHeight() < cameraUiWrapper.getMargineTop() + cameraUiWrapper.getPreviewHeight())
                         imageView.setY(event.getY() - dify);
                     if ((xd >= distance || yd >= distance) && !moving) {
-
                         moving = true;
+                        longClickHandler.removeCallbacks(longClickRunnable);
                         ret = false;
                         if (touchListnerEvent != null)
                             touchListnerEvent.IsMoving(true);
@@ -124,11 +130,11 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
             break;
             case MotionEvent.ACTION_UP:
             {
-                long time = System.currentTimeMillis() - start;
-                duration = duration+time;
+
 
                 if (moving)
                 {
+                    longClickHandler.removeCallbacks(longClickRunnable);
                     moving = false;
                     x = 0;
                     y = 0;
@@ -143,20 +149,27 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
                 }
                 else
                 {
-                    /*if (duration >= MAX_DURATION) {
-                        System.out.println("Long Press Time: " + duration);
-                        //George Was Here On a tuesday lol
-                        System.out.println("Insert AE Code here: ");
-
+                    if (!longClickHappen)
+                    {
+                        longClickHandler.removeCallbacks(longClickRunnable);
+                        touchListnerEvent.OnAreaClick(((int) imageView.getX() + (int) event.getX()), ((int) imageView.getY() + (int) event.getY()));
                     }
-                    else*/
-                    touchListnerEvent.OnAreaClick(((int) imageView.getX() + (int) event.getX()), ((int) imageView.getY() + (int) event.getY()));
                 }
-
+                ret = false;
 
             }
+            break;
         }
         return ret;
     }
 
+    Runnable longClickRunnable = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            longClickHappen = true;
+            touchListnerEvent.OnAreaLongClick((int) imageView.getX(), (int) imageView.getY());
+        }
+    };
 }
