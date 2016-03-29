@@ -8,6 +8,7 @@ import com.troop.freedcam.apis.Camera1Fragment;
 import com.troop.freedcam.apis.Camera2Fragment;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.FreeDPool;
 
 
 /**
@@ -30,21 +31,20 @@ public class ApiHandler
         {
             if (Build.VERSION.SDK_INT >= 21)
             {
-                new Thread(new Runnable() {
+                FreeDPool.Execute(new Runnable() {
                     @Override
                     public void run() {
                         boolean legacy = BaseCameraHolderApi2.IsLegacy(AppSettingsManager.APPSETTINGSMANAGER);
                         if (legacy) {
                             AppSettingsManager.APPSETTINGSMANAGER.SetCamera2FullSupported("false");
                             AppSettingsManager.APPSETTINGSMANAGER.setCamApi(AppSettingsManager.API_1);
-                        }
-                        else {
+                        } else {
                             AppSettingsManager.APPSETTINGSMANAGER.SetCamera2FullSupported("true");
                             AppSettingsManager.APPSETTINGSMANAGER.setCamApi(AppSettingsManager.API_2);
                         }
                         event.apiDetectionDone();
                     }
-                }).start();
+                });
 
             }
             else {

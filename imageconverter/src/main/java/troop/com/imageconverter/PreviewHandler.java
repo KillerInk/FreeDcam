@@ -23,6 +23,7 @@ import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.interfaces.I_Shutter_Changed;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
+import com.troop.freedcam.ui.FreeDPool;
 import com.troop.freedcam.ui.I_AspectRatio;
 
 
@@ -236,10 +237,9 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
             reset(s.width, s.height);
             return;
         }
-        new Thread(new Runnable() {
+        FreeDPool.Execute(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 isWorking = true;
                 mAllocationIn.copyFrom(data);
                 mScriptFocusPeak.set_gCurrentFrame(mAllocationIn);
@@ -247,7 +247,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
                 mAllocationOut.ioSend();
                 isWorking = false;
             }
-        }).start();
+        });
         camera.addCallbackBuffer(data);
     }
 

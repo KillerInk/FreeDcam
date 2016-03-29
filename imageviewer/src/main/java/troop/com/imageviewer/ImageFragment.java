@@ -27,6 +27,7 @@ import com.troop.androiddng.RawToDng;
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.FreeDPool;
 import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.FileUtils;
@@ -36,6 +37,7 @@ import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.concurrent.ThreadFactory;
 
 import troop.com.imageviewer.holder.FileHolder;
 import troop.com.views.MyHistogram;
@@ -138,7 +140,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
 
                 } else {
 
-                    new Thread(new Runnable() {
+                    FreeDPool.Execute(new Runnable() {
                         @Override
                         public void run() {
                             final File tmp = file;
@@ -150,7 +152,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
                                 }
                             });
                         }
-                    }).start();
+                    });
 
                 }
             }
@@ -213,12 +215,12 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
         Logger.d(TAG,"omResume");
         imageView.setOnClickListener(onImageClick);
         if (file != null) {
-            new Thread(new Runnable() {
+            FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run() {
                     loadImage();
                 }
-            }).start();
+            });
             updateUi(file);
         }
 
@@ -236,14 +238,14 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
     private void loadImage()
     {
         final Bitmap response = getBitmap();
-
         imageView.post(new Runnable() {
             @Override
             public void run() {
                 imageView.setImageBitmap(response);
-                myHistogram.setBitmap(response,false);
+
             }
         });
+        myHistogram.setBitmap(response, false);
     }
 
     private Bitmap getBitmap()

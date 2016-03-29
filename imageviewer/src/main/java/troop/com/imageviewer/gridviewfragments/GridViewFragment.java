@@ -30,6 +30,7 @@ import android.widget.TextView;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.manager.MediaScannerManager;
+import com.troop.freedcam.ui.FreeDPool;
 import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
@@ -176,27 +177,25 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
-                    new Thread(new Runnable() {
+                    FreeDPool.Execute(new Runnable() {
                         @Override
                         public void run() {
                             final File folder = mPagerAdapter.getFiles().get(0).getFile().getParentFile();
-                            for (int i = 0; i< mPagerAdapter.getFiles().size(); i++)
-                            {
-                                if (mPagerAdapter.getFiles().get(i).IsSelected())
-                                {
+                            for (int i = 0; i < mPagerAdapter.getFiles().size(); i++) {
+                                if (mPagerAdapter.getFiles().get(i).IsSelected()) {
                                     BitmapHelper.DeleteFile(mPagerAdapter.getFiles().get(i));
                                 }
                             }
                             gridView.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    MediaScannerManager.ScanMedia(getContext(),folder);
+                                    MediaScannerManager.ScanMedia(getContext(), folder);
                                     mPagerAdapter.notifyDataSetChanged();
                                 }
                             });
 
                         }
-                    }).start();
+                    });
 
                     break;
 

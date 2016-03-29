@@ -107,15 +107,7 @@ public class MyHistogram extends View {
     public void setBitmap ( final Bitmap bitmap, final boolean recycle)
     {
 
-        //System.out.println("Histogram SetBitmap " + mBitmap.getByteCount());
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
                     createHistogramm(bitmap,recycle);
-                }
-            }).start();
-
     }
 
     private void drawHistogram ( Canvas canvas , int [] histogram , int color , PorterDuff. Mode mode ) {
