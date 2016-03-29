@@ -66,6 +66,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
     private Button deleteButton;
     private Button play;
     private LinearLayout bottombar;
+    private int loadCount = 0;
 
     public void SetFilePath(File filepath)
     {
@@ -237,6 +238,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
 
     private void loadImage()
     {
+        loadCount++;
         final Bitmap response = getBitmap();
         imageView.post(new Runnable() {
             @Override
@@ -245,7 +247,8 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
 
             }
         });
-        //myHistogram.setBitmap(response, false);
+        if(loadCount < 15)
+            myHistogram.setBitmap(response, false);
 
     }
 
