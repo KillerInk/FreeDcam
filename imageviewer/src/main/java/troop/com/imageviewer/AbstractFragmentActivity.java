@@ -41,6 +41,8 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
     protected void onResume() {
         super.onResume();
         HIDENAVBAR();
+        if (BitmapHelper.CACHE == null)
+            BitmapHelper.INIT(getApplicationContext());
     }
 
     @Override

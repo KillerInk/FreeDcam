@@ -291,14 +291,15 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             {
                 wrapper.camParametersHandler.ExposureLock.SetValue("true",true);
                 Vibrator v = (Vibrator) focusImageView.getContext().getSystemService(Context.VIBRATOR_SERVICE);
-                v.vibrate(50);}
+                if (v.hasVibrator())
+                    v.vibrate(50);}
 
         }
 
         @Override
         public void IsMoving(boolean moving)
         {
-            if (wrapper.camParametersHandler.ExposureLock != null && wrapper.camParametersHandler.ExposureLock.IsSupported() && wrapper.camParametersHandler.ExposureLock.GetValue().equals("true"))
+            if (moving && wrapper.camParametersHandler.ExposureLock != null && wrapper.camParametersHandler.ExposureLock.IsSupported() && wrapper.camParametersHandler.ExposureLock.GetValue().equals("true"))
             {
                 wrapper.camParametersHandler.ExposureLock.SetValue("false",true);
             }

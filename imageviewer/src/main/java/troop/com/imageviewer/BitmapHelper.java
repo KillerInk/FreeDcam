@@ -88,7 +88,7 @@ public class BitmapHelper
 
                 }
             }
-            if (response != null)
+            if (response != null && CACHE != null)
             {
                 CACHE.addBitmapToCache(file.getName(), response);
                 if (thumb)

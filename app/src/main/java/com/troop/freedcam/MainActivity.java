@@ -72,7 +72,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(null);
-        orientationHandler = new OrientationHandler(this, this);
+
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         appViewGroup = (ViewGroup) inflater.inflate(R.layout.main_v2, null);
         setContentView(R.layout.main_v2);
@@ -87,12 +87,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
             }
         });
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            checkMarshmallowPermissions();
-        }
-        else
-            createHandlers();
+
 
 
     }
@@ -141,6 +136,12 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     {
         super.onResume();
         Logger.d(TAGLIFE, "Activity onResume");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            checkMarshmallowPermissions();
+        }
+        else
+            createHandlers();
     }
     @Override
     protected void onPause()
@@ -148,13 +149,6 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         super.onPause();
 
         Logger.d(TAGLIFE, "Activity onPause");
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus)
-    {
-        super.onWindowFocusChanged(hasFocus);
-        Logger.d(TAGLIFE, "Focus has changed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + hasFocus);
     }
 
     @Override
@@ -182,6 +176,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     private void createHandlers() {
 
         checkStartLoggerging();
+        orientationHandler = new OrientationHandler(this, this);
         themeHandler = new ThemeHandler(this);
         timerHandler = new TimerHandler(this);
         apiHandler = new ApiHandler(this);
@@ -200,8 +195,14 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     @Override
     public void apiDetectionDone()
     {
-        loadCameraUiWrapper();
-        orientationHandler.Start();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                loadCameraUiWrapper();
+                orientationHandler.Start();
+            }
+        });
+
     }
 
     private void loadCameraUiWrapper()
