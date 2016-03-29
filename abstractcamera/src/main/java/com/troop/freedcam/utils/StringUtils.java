@@ -208,10 +208,23 @@ public class StringUtils
         return board_platform;
     }
 
+    public static boolean hasEXTSD()
+    {
+        if (String.valueOf(System.getenv("SECONDARY_STORAGE")).isEmpty())
+        {
+            return false;
+
+        }
+        else
+            return true;
+    }
+
     public static File GetExternalSDCARD()
     {
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT)
-            return new File(System.getenv("SECONDARY_STORAGE"));
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT){
+            System.out.println("SEcond Stoage"+System.getenv("SECONDARY_STORAGE"));
+            return new File(System.getenv("SECONDARY_STORAGE"));}
         else
         {
             File f = StringUtils.DIR_ANDROID_STORAGE;
