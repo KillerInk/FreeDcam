@@ -211,7 +211,7 @@ public class StringUtils
     public static File GetExternalSDCARD()
     {
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT)
-            return new File(System.getenv("SECONDARY_STORAGE"));//nullpointer
+            return new File(System.getenv("SECONDARY_STORAGE"));
         else
         {
             File f = StringUtils.DIR_ANDROID_STORAGE;

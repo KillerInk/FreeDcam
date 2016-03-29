@@ -2,7 +2,6 @@ package troop.com.imageviewer.holder;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.parameters.LocationParameter;
-import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -82,16 +81,12 @@ public class FileHolder extends BaseHolder
         if (internal != null)
             Logger.d(TAG, "InternalSDPath:" + internal.getAbsolutePath());
         FileHolder.readFilesFromFolder(internal, f, GridViewFragment.FormatTypes.all);
-
-      //  if(!DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.hasNoExtSD) || !DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)) {
-      //      File external = new File(StringUtils.GetExternalSDCARD() + StringUtils.freedcamFolder);
-      //      if (external != null)
-      //          Logger.d(TAG, "ExternalSDPath:" + external.getAbsolutePath());
-    //        else
-    //            Logger.d(TAG, "No ExternalSDFound");
-     //       FileHolder.readFilesFromFolder(external, f, GridViewFragment.FormatTypes.all);
-   //     }
-
+        File external = new File(StringUtils.GetExternalSDCARD() + StringUtils.freedcamFolder);
+        if (external != null)
+            Logger.d(TAG, "ExternalSDPath:" + external.getAbsolutePath());
+        else
+            Logger.d(TAG,"No ExternalSDFound");
+        FileHolder.readFilesFromFolder(external, f, GridViewFragment.FormatTypes.all);
         SortFileHolder(f);
         return f;
     }

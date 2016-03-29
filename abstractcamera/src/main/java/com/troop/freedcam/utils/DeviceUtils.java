@@ -282,11 +282,6 @@ public class DeviceUtils
             Devices.Htc_Evo3d,
 
     };
-    public static Devices[] hasNoExtSD = {
-            Devices.ZTE_ADV,
-            Devices.Nexus4,
-
-    };
     public static boolean isCamera1DNGSupportedDevice()
     {
         return IS_DEVICE_ONEOF(camera1DNGsupported);
