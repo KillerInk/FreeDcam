@@ -121,7 +121,8 @@ public class MediatekSaver extends JpegSaver {
         } catch (InterruptedException e) {
             Logger.exception(e);
         }
-        File dng = new File(holdFile.getName().replace(StringUtils.FileEnding.BAYER, StringUtils.FileEnding.DNG));
+        File dng = new File(holdFile.getName().replace(StringUtils.FileEnding.JPG, StringUtils.FileEnding.DNG));
+
         Logger.d(TAG,"DNGfile:" + dng.getAbsolutePath());
         DngSaver saver = new DngSaver(cameraHolder, iWorkeDone, handler);
         saver.processData(data, dng);
