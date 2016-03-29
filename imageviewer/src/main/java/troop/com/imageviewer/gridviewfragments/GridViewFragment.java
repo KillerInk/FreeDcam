@@ -121,12 +121,11 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         rawToDngButton = (Button)view.findViewById(R.id.button_rawToDng);
         rawToDngButton.setVisibility(View.GONE);
         rawToDngButton.setOnClickListener(onRawToDngClick);
-        mPagerAdapter = new ImageAdapter(getContext(), getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size));
-        gridView.setAdapter(mPagerAdapter);
-        setViewMode(ViewStates.normal);
+
 
         return view;
     }
+
 
     @Override
     protected void inflate(LayoutInflater inflater, ViewGroup container) {
@@ -147,6 +146,29 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
     public void onSaveInstanceState(Bundle outState) {
         outState.putString(savedInstanceString, savedInstanceFilePath);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if(savedInstanceState != null){
+            savedInstanceFilePath = (String) savedInstanceState.get(savedInstanceString);
+        }
+        mPagerAdapter = new ImageAdapter(getContext(), getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size));
+        gridView.setAdapter(mPagerAdapter);
+        setViewMode(ViewStates.normal);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            checkMarshmallowPermissions();
+        }
+        else
+            load();
     }
 
     DialogInterface.OnClickListener dialogDeleteClickListener = new DialogInterface.OnClickListener() {
@@ -187,25 +209,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
 
 
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if(savedInstanceState != null){
-            savedInstanceFilePath = (String) savedInstanceState.get(savedInstanceString);
-        }
-    }
 
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            checkMarshmallowPermissions();
-        }
-        else
-            load();
-    }
 
     private void load()
     {
