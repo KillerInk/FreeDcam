@@ -37,8 +37,7 @@ public abstract class AbstractCameraFragment extends Fragment
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
-        if (onrdy != null)
-            onrdy.onCameraUiWrapperRdy(cameraUiWrapper);
+
         super.onViewCreated(view, savedInstanceState);
     }
 

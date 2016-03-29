@@ -32,13 +32,16 @@ public class Camera1Fragment extends AbstractCameraFragment
 
         extendedSurfaceView = (ExtendedSurfaceView) view.findViewById(R.id.exSurface);
         preview = (TextureViewRatio) view.findViewById(R.id.textureView_preview);
-        this.cameraUiWrapper = new CameraUiWrapper(extendedSurfaceView, preview);
+
         //call super at end because its throws on camerardy event
         super.onViewCreated(view, savedInstanceState);
     }
 
-
-
-
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.cameraUiWrapper = new CameraUiWrapper(extendedSurfaceView, preview);
+        if (onrdy != null)
+            onrdy.onCameraUiWrapperRdy(cameraUiWrapper);
+    }
 }

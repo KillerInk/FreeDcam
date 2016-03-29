@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.I_WorkEvent;
+import com.troop.freedcam.ui.FreeDPool;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -90,7 +91,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
     @Override
     public String WorkHasFinished(final File filePath)
     {
-        new Thread(new Runnable() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 if (!hasWork) {
@@ -98,14 +99,13 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
                     Logger.d(TAG, "Load Thumb " + filePath.getName());
                     try {
                         showThumb(filePath);
+                    } catch (NullPointerException ex) {
                     }
-                    catch (NullPointerException ex)
-                    {}
 
                     hasWork = false;
                 }
             }
-        }).start();
+        });
         return null;
     }
 

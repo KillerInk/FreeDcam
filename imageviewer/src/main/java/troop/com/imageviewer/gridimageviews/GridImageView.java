@@ -2,6 +2,7 @@ package troop.com.imageviewer.gridimageviews;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -11,6 +12,12 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.troop.freedcam.ui.FreeDPool;
+
+import java.io.File;
+import java.lang.ref.WeakReference;
+
+import troop.com.imageviewer.BitmapHelper;
 import troop.com.imageviewer.R;
 import troop.com.imageviewer.gridviewfragments.BaseGridViewFragment;
 import troop.com.imageviewer.gridviewfragments.GridViewFragment;
@@ -27,7 +34,15 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
     private TextView folderTextView;
     private ImageView checkBox;
     private BaseHolder fileHolder;
+    final String NOIMAGE = "noimage_thumb";
+    final String FOLDER = "folder_thumb";
+    private Bitmap noimg;
+    private Bitmap fold;
+    private int mImageThumbSize;
+
     public GridViewFragment.ViewStates viewstate = BaseGridViewFragment.ViewStates.normal;
+
+
     public GridImageView(Context context) {
         super(context);
         init(context);
@@ -83,6 +98,8 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
 
     }
 
+
+
     public void SetFileEnding(String ending)
     {
         textView.setText(ending);
@@ -130,12 +147,75 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
 //        invalidate();
     }
 
-    private void setChecked(boolean checked)
-    {
+    private void setChecked(boolean checked) {
         if (checked)
             checkBox.setImageDrawable(getResources().getDrawable(R.drawable.cust_cb_sel));
         else
             checkBox.setImageDrawable(getResources().getDrawable(R.drawable.cust_cb_unsel));
     }
 
+
+
+
+    public void loadFile(FileHolder fileHolder, int mImageThumbSize)
+    {
+        this.fileHolder = fileHolder;
+        this.mImageThumbSize = mImageThumbSize;
+        if (BitmapHelper.CACHE == null)
+            BitmapHelper.INIT(getContext());
+        if (!fileHolder.getFile().isDirectory())
+        {
+            imageView.setBackgroundResource(R.drawable.noimage);
+            if (!FreeDPool.IsInit())
+                FreeDPool.INIT();
+            FreeDPool.Execute(new BitmapLoadRunnable(this,fileHolder));
+        }
+        else
+        {
+            imageView.setBackgroundResource(R.drawable.folder);
+            imageView.setImageBitmap(null);
+        }
+        String f = fileHolder.getFile().getName();
+        if (!fileHolder.getFile().isDirectory()) {
+            SetFolderName("");
+            SetFileEnding(f.substring(f.length() - 3));
+        }
+
+        else {
+            SetFileEnding("");
+            SetFolderName(f);
+        }
+
+    }
+
+    class BitmapLoadRunnable implements Runnable
+    {
+        WeakReference<GridImageView>imageviewRef;
+        FileHolder fileHolder;
+
+        public BitmapLoadRunnable(GridImageView imageView, FileHolder fileHolder)
+        {
+            this.imageviewRef = new WeakReference<GridImageView>(imageView);
+            this.fileHolder = fileHolder;
+        }
+
+        @Override
+        public void run()
+        {
+            final Bitmap bitmap = BitmapHelper.getBitmap(this.fileHolder.getFile(), true, mImageThumbSize, mImageThumbSize);
+            if (imageviewRef != null && bitmap != null) {
+                final GridImageView imageView = imageviewRef.get();
+                if (imageView != null && imageView.getFileHolder() == fileHolder)
+                {
+                    imageView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            imageView.setImageBitmap(bitmap);
+                        }
+                    });
+
+                }
+            }
+        }
+    }
 }

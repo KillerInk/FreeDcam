@@ -94,6 +94,8 @@ public class MyHistogram extends View {
         System . arraycopy( histo , 0 , redHistogram , 0 , 256 );
         System . arraycopy( histo , 256 , greenHistogram , 0 , 256 );
         System . arraycopy( histo , 512 , blueHistogram , 0 , 256 );
+        histo =null;
+        pixels =null;
         this.post(new Runnable() {
             @Override
             public void run() {
@@ -102,20 +104,13 @@ public class MyHistogram extends View {
         });
         if (recyle)
             bitmap.recycle();
+        bitmap = null;
     }
 
     public void setBitmap ( final Bitmap bitmap, final boolean recycle)
     {
 
-        //System.out.println("Histogram SetBitmap " + mBitmap.getByteCount());
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
                     createHistogramm(bitmap,recycle);
-                }
-            }).start();
-
     }
 
     private void drawHistogram ( Canvas canvas , int [] histogram , int color , PorterDuff. Mode mode ) {

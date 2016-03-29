@@ -121,13 +121,19 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     {
         if (files == null)
             return;
-        files.add(new FileHolder(file));
-        Collections.sort(files, new Comparator<FileHolder>() {
-            public int compare(FileHolder f1, FileHolder f2) {
-                return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
-            }
-        });
-        this.notifyDataSetChanged();
+        try {
+            files.add(new FileHolder(file));
+            Collections.sort(files, new Comparator<FileHolder>() {
+                public int compare(FileHolder f1, FileHolder f2) {
+                    return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
+                }
+            });
+            this.notifyDataSetChanged();
+        }
+        catch(IllegalStateException ex)
+        {
+
+        }
     }
 
     public void reloadFilesAndSetLastPos() {

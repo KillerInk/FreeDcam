@@ -45,6 +45,7 @@ import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.FreeDPool;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
@@ -342,10 +343,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         @Override
         public void onImageAvailable(final ImageReader reader)
         {
-            new Thread(new Runnable() {
+            FreeDPool.Execute(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     while (mDngResult == null)
                         try {
                             Thread.sleep(1);
@@ -356,18 +356,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     File file = null;
                     Handler handler = new Handler(Looper.getMainLooper());
                     imagecount++;
-                    if (reader.getImageFormat() == ImageFormat.JPEG)
-                    {
+                    if (reader.getImageFormat() == ImageFormat.JPEG) {
                         file = process_jpeg(burstcount, reader);
-                    }
-
-                    else  if (reader.getImageFormat() == ImageFormat.RAW10)
-                    {
+                    } else if (reader.getImageFormat() == ImageFormat.RAW10) {
                         file = process_raw10(burstcount, reader);
 
-                    }
-                    else if (reader.getImageFormat() == ImageFormat.RAW_SENSOR /*&& cameraHolder.ParameterHandler.IsDngActive()*/)
-                    {
+                    } else if (reader.getImageFormat() == ImageFormat.RAW_SENSOR /*&& cameraHolder.ParameterHandler.IsDngActive()*/) {
                         file = process_rawSensor(burstcount, reader);
                     }
 
@@ -385,7 +379,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                         });
                     }
                 }
-            }).start();
+            });
         }
     };
 

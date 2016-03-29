@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.FreeDPool;
 import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -31,6 +32,8 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!FreeDPool.IsInit())
+            FreeDPool.INIT();
         BitmapHelper.INIT(getApplicationContext());
         new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this), this);
         DeviceUtils.SETCONTEXT(getApplicationContext());
@@ -41,6 +44,8 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
     protected void onResume() {
         super.onResume();
         HIDENAVBAR();
+        if (BitmapHelper.CACHE == null)
+            BitmapHelper.INIT(getApplicationContext());
     }
 
     @Override
@@ -56,6 +61,8 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
         AppSettingsManager.APPSETTINGSMANAGER = null;
         BitmapHelper.DESTROY();
         DeviceUtils.DESTROY();
+        if (FreeDPool.IsInit())
+            FreeDPool.Destroy();
     }
 
     private void HIDENAVBAR()

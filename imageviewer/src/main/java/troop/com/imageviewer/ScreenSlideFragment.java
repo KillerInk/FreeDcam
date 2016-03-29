@@ -122,9 +122,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
                     getActivity().finish();
             }
         });
-        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),mPager,fragmentclickListner,filestoshow);
-        mPager.setAdapter(mPagerAdapter);
-        mPager.addOnPageChangeListener(this);
+
         if(savedInstanceState != null)
         {
             FilePathToLoad = (String) savedInstanceState.get(SAVESTATE_FILEPATH);
@@ -132,6 +130,18 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             Logger.d(TAG, "have file to load from saveinstance onCreated" + FilePathToLoad);
 
         }
+
+
+    }
+
+    @Override
+    public void onResume()
+    {
+        Logger.d(TAG,"onResume");
+        super.onResume();
+        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),mPager,fragmentclickListner,filestoshow);
+        mPager.setAdapter(mPagerAdapter);
+        mPager.addOnPageChangeListener(this);
 
         if (FilePathToLoad.equals("")) {
             mPagerAdapter.SetFiles(FileHolder.getDCIMFiles());
@@ -162,10 +172,8 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     }
 
     @Override
-    public void onResume()
-    {
-        Logger.d(TAG,"onResume");
-        super.onResume();
+    public void onPause() {
+        super.onPause();
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.troop.freedcam.utils;
 
+import com.troop.freedcam.ui.FreeDPool;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -39,9 +41,9 @@ public class MetaDataExtractor {
     {
         if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
         {
-            Thread t = new Thread(new Runnable() {
+            FreeDPool.Execute(new Runnable() {
                 public void run() {
-                    List<String> metadata =  new ArrayList<>();
+                    List<String> metadata = new ArrayList<>();
                     Process process;
                     try {
                         process = new ProcessBuilder()
@@ -62,7 +64,7 @@ public class MetaDataExtractor {
                         }
 
 
-                        String[] split0 = metadata.get(metadata.size()-1).split(",");
+                        String[] split0 = metadata.get(metadata.size() - 1).split(",");
                         String[] split1 = split0[0].split(":");
                         String[] split2 = split1[3].split(" ");
 
@@ -76,18 +78,16 @@ public class MetaDataExtractor {
 
 
                         //v.setText(exposureTime+" "+ iso+" "+ flash+" "+isoActual);
+                    } catch (IOException e) {
                     }
-                    catch (IOException e) {}
                 }
             });
-
-            t.start();
         }
         else
         {
-            Thread t = new Thread(new Runnable() {
+            FreeDPool.Execute(new Runnable() {
                 public void run() {
-                    List<String> metadata =  new ArrayList<>();
+                    List<String> metadata = new ArrayList<>();
                     Process process;
                     try {
                         process = new ProcessBuilder()
@@ -107,7 +107,7 @@ public class MetaDataExtractor {
                             metadata.add(line);
                         }
 //OOB INDEX Check meta has a shitload
-                        if(metadata.size() > 1) {
+                        if (metadata.size() > 1) {
                             String[] split0 = metadata.get(metadata.size() - 1).split(",");
                             String[] split1 = split0[0].split(":");
 
@@ -117,20 +117,17 @@ public class MetaDataExtractor {
                             float ActualISO = Float.parseFloat(split0[5].split(":")[1]);
                             isoActual = Math.round(ActualISO * 100);
                             Description = metadata.get(metadata.size() - 1);
-                       }
+                        }
 
                         process.destroy();
 
 
-
                         //v.setText(exposureTime+" "+ iso+" "+ flash+" "+isoActual);
+                    } catch (IOException e) {
                     }
-                    catch (IOException e) {}
 
                 }
             });
-
-            t.start();
         }
 
 
@@ -138,11 +135,11 @@ public class MetaDataExtractor {
 
     public static void StatiClear()
     {
-        Thread t = new Thread(new Runnable() {
+        FreeDPool.Execute(new Runnable() {
             public void run() {
                 try {
                     Process process = new ProcessBuilder()
-                            .command("su","-c","logcat", "-c")
+                            .command("su", "-c", "logcat", "-c")
                             .redirectErrorStream(true)
                             .start();
                     process.destroy();
@@ -150,10 +147,6 @@ public class MetaDataExtractor {
                 }
             }
         });
-
-        t.start();
-
-
     }
 
     public  float getExp()
