@@ -94,7 +94,7 @@ public class FileHolder extends BaseHolder
     public static List<FileHolder> getDCIMDirs()
     {
         File internalSDCIM = new File(StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder);
-        File externalSDCIM = new File(StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder);
+
         ArrayList<FileHolder> list = new ArrayList<FileHolder>();
         File[] f = internalSDCIM.listFiles();
         if (f != null)
@@ -105,14 +105,17 @@ public class FileHolder extends BaseHolder
             }
         }
         try {
+            File externalSDCIM = new File(StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder);
             f = externalSDCIM.listFiles();
             for (int i = 0; i< f.length; i++)
             {
                 if (!f[i].isHidden())
                     list.add(new FileHolder(f[i]));
             }
-        }
-        catch (Exception ex) {
+        } catch (NullPointerException ex)
+        {
+            Logger.d(TAG, "No external SD!");
+        } catch (Exception ex) {
             Logger.d(TAG, "No external SD!");
         }
         SortFileHolder(list);
