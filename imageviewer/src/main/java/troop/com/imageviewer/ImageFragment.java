@@ -245,7 +245,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
 
             }
         });
-        //myHistogram.setBitmap(response, false);
+        myHistogram.setBitmap(BitmapHelper.getBitmap(file,true,mImageThumbSize,mImageThumbSize), true);
 
     }
 
