@@ -34,14 +34,12 @@ import com.troop.freedcam.camera.parameters.modes.PictureSizeParameter;
 import com.troop.freedcam.camera.parameters.modes.PreviewFormatParameter;
 import com.troop.freedcam.camera.parameters.modes.PreviewFpsParameter;
 import com.troop.freedcam.camera.parameters.modes.PreviewSizeParameter;
-import com.troop.freedcam.camera.parameters.modes.SceneModeParameter;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesG3Parameter;
 import com.troop.freedcam.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.freedcam.camera.parameters.modes.VideoStabilizationParameter;
 import com.troop.freedcam.camera.parameters.modes.VirtualLensFilter;
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
-import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.i_camera.parameters.LocationParameter;
 import com.troop.freedcam.i_camera.parameters.ModuleParameters;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -70,7 +68,6 @@ public class CamParametersHandler extends AbstractParameterHandler
     public CamParametersHandler(CameraUiWrapper cameraUiWrapper, Handler uiHandler)
     {
         super(cameraUiWrapper.cameraHolder, uiHandler);
-        ParametersEventHandler = new CameraParametersEventHandler(uiHandler);
         cameraHolder = cameraUiWrapper.cameraHolder;
         this.cameraUiWrapper = cameraUiWrapper;
     }
@@ -476,7 +473,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         cameraUiWrapper.moduleHandler.SetModule(AppSettingsManager.APPSETTINGSMANAGER.GetCurrentModule());
 
-        ParametersEventHandler.ParametersHasLoaded();
+        ParametersHasLoaded();
 
         try {
             if (((BaseCameraHolder) cameraHolder).DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)

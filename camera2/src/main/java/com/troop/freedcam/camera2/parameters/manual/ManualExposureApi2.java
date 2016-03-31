@@ -55,7 +55,7 @@ public class ManualExposureApi2 extends AbstractManualParameter implements Abstr
     @Override
     public void SetValue(int valueToSet)
     {
-        if (cameraHolder == null || cameraHolder.mPreviewRequestBuilder == null)
+        if (cameraHolder == null || cameraHolder.mPreviewRequestBuilder == null || cameraHolder.mCaptureSession == null)
             return;
         currentInt = valueToSet;
         if(stringvalues == null || stringvalues.length == 0)

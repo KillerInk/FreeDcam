@@ -49,7 +49,7 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
     {
         this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.camParametersHandler.GuideList.addEventListner(this);
-        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+        cameraUiWrapper.camParametersHandler.AddParametersLoadedListner(this);
     }
 
     /*public int[] GetScreenSize() {
@@ -93,10 +93,7 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
 
     public void SetViewG(final String str)
     {
-        if (img == null)
-            return;
-        if (quckRationMath == 0)
-            return;
+
             img.post(new Runnable() {
                 @Override
                 public void run() {

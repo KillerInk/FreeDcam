@@ -2,12 +2,10 @@ package com.troop.freedcam.sonyapi.parameters;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
-import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.i_camera.parameters.ModuleParameters;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
 import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
@@ -27,7 +25,6 @@ import com.troop.freedcam.sonyapi.parameters.modes.PreviewZoomSony;
 import com.troop.freedcam.sonyapi.parameters.modes.WhiteBalanceModeSony;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
-import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,7 +49,6 @@ public class ParameterHandlerSony extends AbstractParameterHandler
     {
         super(cameraHolder.cameraHolder, uiHandler);
         this.cameraHolder = (CameraHolderSony)cameraHolder.cameraHolder;
-        ParametersEventHandler = new CameraParametersEventHandler(uiHandler);
         parametersChangedList  = new ArrayList<I_SonyApi>();
         this.surfaceView = surfaceView;
         this.wrapper = cameraHolder;
@@ -147,12 +143,12 @@ public class ParameterHandlerSony extends AbstractParameterHandler
 
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
-            public void run() {
-                if (ParametersEventHandler != null) {
+            public void run()
+            {
                     Logger.d(TAG, "Throw ParametersHasLoaded");
-                    ParametersEventHandler.ParametersHasLoaded();
+                    ParametersHasLoaded();
                 }
-            }
+
         });
 
     }

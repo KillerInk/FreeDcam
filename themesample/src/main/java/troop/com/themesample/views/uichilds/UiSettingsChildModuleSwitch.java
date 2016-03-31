@@ -24,8 +24,7 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
         this.cameraUiWrapper = cameraUiWrapper;
         if(cameraUiWrapper.moduleHandler.moduleEventHandler != null)
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
-        if (cameraUiWrapper.camParametersHandler.ParametersEventHandler != null)
-            cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+            cameraUiWrapper.camParametersHandler.AddParametersLoadedListner(this);
         super.SetParameter(cameraUiWrapper.camParametersHandler.Module);
         if (cameraUiWrapper.moduleHandler == null)
             return;

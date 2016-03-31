@@ -97,16 +97,14 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     int afState;
     int aeState;
 
-    Handler backgroundHandler;
     boolean errorRecieved = false;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public BaseCameraHolderApi2(Context context,I_CameraChangedListner cameraChangedListner, Handler UIHandler, Handler backgroundHandler)
+    public BaseCameraHolderApi2(Context context,I_CameraChangedListner cameraChangedListner, Handler UIHandler)
     {
         super(cameraChangedListner, UIHandler);
         this.context = context;
         this.manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
-        this.backgroundHandler = backgroundHandler;
         CaptureSessionH = new CaptureSessionHandler();
 
     }

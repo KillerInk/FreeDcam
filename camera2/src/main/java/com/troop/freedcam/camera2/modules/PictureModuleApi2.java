@@ -92,7 +92,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
      */
     public static final int STATE_PICTURE_TAKEN = 4;
     private TotalCaptureResult mDngResult;
-    Handler backgroundHandler;
 
     private Size largestImageSize;
     public String picFormat;
@@ -104,14 +103,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private Surface previewsurface;
     private Surface camerasurface;
 
-
+    private Handler handler;
     int imagecount = 0;
 
-    public PictureModuleApi2(BaseCameraHolderApi2 cameraHandler, ModuleEventHandler eventHandler, Handler backgroundHandler) {
+    public PictureModuleApi2(BaseCameraHolderApi2 cameraHandler, ModuleEventHandler eventHandler ) {
         super(cameraHandler, eventHandler);
         this.cameraHolder = (BaseCameraHolderApi2)cameraHandler;
-        this.backgroundHandler = backgroundHandler;
         this.name = AbstractModuleHandler.MODULE_PICTURE;
+        handler = new Handler(Looper.getMainLooper());
 
     }
 
@@ -143,9 +142,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         Logger.d(TAG, AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
         Logger.d(TAG, "dng:" + Boolean.toString(ParameterHandler.IsDngActive()));
 
-        mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener, backgroundHandler);
+        mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener,null);
 
-        backgroundHandler.post(new Runnable() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 captureStillPicture();
@@ -238,7 +237,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             mDngResult = null;
 
             //cameraHolder.mCaptureSession.captureBurst(captureList, CaptureCallback, backgroundHandler);
-            cameraHolder.mCaptureSession.capture(captureBuilder.build(),CaptureCallback, backgroundHandler);
+            cameraHolder.mCaptureSession.capture(captureBuilder.build(),CaptureCallback,handler);
         } catch (CameraAccessException e) {
             Logger.exception(e);
         }

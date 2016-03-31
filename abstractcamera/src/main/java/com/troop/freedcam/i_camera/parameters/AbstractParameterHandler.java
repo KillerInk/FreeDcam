@@ -7,6 +7,7 @@ import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.ui.AppSettingsManager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -18,11 +19,7 @@ public abstract class AbstractParameterHandler
      * Holds the UI/Main Thread
      */
     protected Handler uiHandler;
-
-    /**
-     * Holds the basic parameters has loaded event, listner should register there if the need to know if the parameters has loaded/changed
-     */
-    public CameraParametersEventHandler ParametersEventHandler;
+    private ArrayList<I_ParametersLoaded> parametersLoadedListner;
 
     public AbstractManualParameter ManualBrightness;
     public AbstractManualParameter ManualSharpness;
@@ -135,10 +132,15 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter aeb2;
     public AbstractModeParameter aeb3;
 
+
+
     public AbstractParameterHandler(AbstractCameraHolder cameraHolder, Handler uiHandler)
     {
         this.cameraHolder = cameraHolder;
         this.uiHandler = uiHandler;
+        parametersLoadedListner = new ArrayList<I_ParametersLoaded>();
+        parametersLoadedListner.clear();
+
         GuideList = new GuideList(uiHandler);
         ThemeList = new ThemeList(uiHandler);
         locationParameter = new LocationParameter(uiHandler,cameraHolder);
@@ -146,6 +148,7 @@ public abstract class AbstractParameterHandler
         IntervalShutterSleep = new IntervalShutterSleepParameter(uiHandler);
         Horizont = new Horizont(uiHandler);
         SdSaveLocation = new SDModeParameter(uiHandler);
+
     }
 
     public abstract void SetParametersToCamera(HashMap<String, String> list);
@@ -252,5 +255,41 @@ public abstract class AbstractParameterHandler
             else
                 parameter.SetValue(Integer.parseInt(AppSettingsManager.APPSETTINGSMANAGER.getString(settingsval)));
         }
+    }
+
+    public void AddParametersLoadedListner(I_ParametersLoaded parametersLoaded)
+    {
+        parametersLoadedListner.add(parametersLoaded);
+    }
+
+    public void ParametersHasLoaded()
+    {
+        if (parametersLoadedListner == null)
+            return;
+        for(int i= 0; i< parametersLoadedListner.size(); i++)
+        {
+
+            if (parametersLoadedListner.get(i) == null) {
+                parametersLoadedListner.remove(i);
+                i--;
+            }
+            else {
+                final int t = i;
+                uiHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (parametersLoadedListner.size()> 0 && t < parametersLoadedListner.size())
+                            parametersLoadedListner.get(t).ParametersLoaded();
+                    }
+                });
+
+            }
+        }
+    }
+
+    public void CLEAR()
+    {
+
+        parametersLoadedListner.clear();
     }
 }

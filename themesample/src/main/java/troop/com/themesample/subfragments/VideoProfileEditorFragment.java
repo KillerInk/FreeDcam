@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.Switch;
@@ -19,8 +18,6 @@ import android.widget.Toast;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.modules.VideoMediaProfile;
-import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
-import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.io.File;

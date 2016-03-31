@@ -52,12 +52,12 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
         errorHandler = this;
         //attache the callback to the Campreview
         //previewSize.getHolder().addCallback(this);
-        this.cameraHolder = new BaseCameraHolderApi2(context, this, uiHandler, backgroundHandler);
+        this.cameraHolder = new BaseCameraHolderApi2(context, this, uiHandler);
         super.cameraHolder = this.cameraHolder;
         camParametersHandler = new ParameterHandlerApi2(this, uiHandler);
         cameraHolder.SetParameterHandler(camParametersHandler);
-        moduleHandler = new ModuleHandlerApi2(cameraHolder, backgroundHandler);
-        camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+        moduleHandler = new ModuleHandlerApi2(cameraHolder);
+        camParametersHandler.AddParametersLoadedListner(this);
         Focus = new FocusHandlerApi2(this);
         cameraHolder.Focus = Focus;
         Logger.d(TAG, "Constructor done");

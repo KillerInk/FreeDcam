@@ -1,12 +1,9 @@
 package com.troop.freedcam.camera2.parameters;
 
 import android.annotation.TargetApi;
-import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.os.Handler;
-import android.telecom.VideoProfile;
-import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
@@ -37,11 +34,8 @@ import com.troop.freedcam.camera2.parameters.modes.PictureSizeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.SceneModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.ToneMapModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.VideoProfilesApi2;
-import com.troop.freedcam.camera2.parameters.modes.VideoSizeModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.WhiteBalanceApi2;
-import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
-import com.troop.freedcam.i_camera.parameters.CameraParametersEventHandler;
 import com.troop.freedcam.i_camera.parameters.ModuleParameters;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
@@ -66,7 +60,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         super(cameraHolder.cameraHolder, uiHandler);
         this.wrapper = cameraHolder;
         this.cameraHolder = (BaseCameraHolderApi2) cameraHolder.cameraHolder;
-        ParametersEventHandler = new CameraParametersEventHandler(uiHandler);
+
     }
 
 
@@ -147,7 +141,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
             public void run()
             {
                 try {
-                    ParametersEventHandler.ParametersHasLoaded();
+                    ParametersHasLoaded();
                 }
                 catch (NullPointerException ex)
                 {

@@ -93,6 +93,41 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     }
 
 
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        Logger.d(TAGLIFE, "Activity onResume");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            checkMarshmallowPermissions();
+        }
+        else
+            createHandlers();
+    }
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        destroyCameraUiWrapper();
+        Logger.d(TAGLIFE, "Activity onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        if (debugLoggerging)
+            Logger.StopLogging();
+    }
+
     private void checkMarshmallowPermissions() {
         if (checkSelfPermission(Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -131,39 +166,6 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-        Logger.d(TAGLIFE, "Activity onResume");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            checkMarshmallowPermissions();
-        }
-        else
-            createHandlers();
-    }
-    @Override
-    protected void onPause()
-    {
-        super.onPause();
-
-        Logger.d(TAGLIFE, "Activity onPause");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy()
-    {
-        super.onDestroy();
-        if (debugLoggerging)
-            Logger.StopLogging();
-    }
-
     private void checkStartLoggerging()
     {
         File debugfile = new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder +"DEBUG");
@@ -182,10 +184,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         apiHandler = new ApiHandler(this);
         apiHandler.CheckApi();
         hardwareKeyHandler = new HardwareKeyHandler(this);
-        if (cameraFragment != null)
-            themeHandler.GetThemeFragment(true, cameraFragment.GetCameraUiWrapper());
-        else
-            themeHandler.GetThemeFragment(true, null);
+        themeHandler.GetThemeFragment(true, cameraFragment.GetCameraUiWrapper());
     }
 
     /**
@@ -361,18 +360,6 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     @Override
     public void loadImageViewerFragment(File file)
     {
-        /*try {
-            imageViewerFragment = new ScreenSlideFragment();
-            imageViewerFragment.Set_I_Activity(this);
-            android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
-            transaction.replace(R.id.themeFragmentholder, imageViewerFragment);
-            transaction.commitAllowingStateLoss();
-        }
-        catch (Exception ex)
-        {
-            Logger.d("Freedcam",ex.getMessage());
-        }*/
     }
 
     @Override
@@ -387,8 +374,6 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         this.finish();
 
     }
-
-
 
 
     @Override

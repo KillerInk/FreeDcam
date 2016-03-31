@@ -9,6 +9,7 @@ import android.util.Log;
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.FreeDPool;
 import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -24,8 +25,8 @@ import java.io.OutputStream;
 public class RawSaver extends JpegSaver
 {
     final public String fileEnding = ".bayer";
-    public RawSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler) {
-        super(cameraHolder, i_workeDone, handler);
+    public RawSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone) {
+        super(cameraHolder, i_workeDone);
     }
 
     final String TAG = "RawSaver";
@@ -39,7 +40,7 @@ public class RawSaver extends JpegSaver
             ParameterHandler.ZSL.SetValue("off",true);
         }
         awaitpicture = true;
-        handler.post(new Runnable() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 cameraHolder.TakePicture(null, null, RawSaver.this);

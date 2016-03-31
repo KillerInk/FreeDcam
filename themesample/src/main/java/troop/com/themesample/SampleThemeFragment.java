@@ -81,9 +81,6 @@ public class SampleThemeFragment extends AbstractFragment
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.mPager = (PagingView)view.findViewById(R.id.viewPager_fragmentHolder);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
-        mPager.setCurrentItem(1);
 
     }
 
@@ -96,6 +93,9 @@ public class SampleThemeFragment extends AbstractFragment
     @Override
     public void onResume() {
         super.onResume();
+        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
+        mPager.setAdapter(mPagerAdapter);
+        mPager.setCurrentItem(1);
 
     }
 

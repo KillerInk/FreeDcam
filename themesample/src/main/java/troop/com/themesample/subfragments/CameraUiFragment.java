@@ -100,16 +100,19 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         if (this.wrapper == wrapper)
             return;
         this.wrapper = wrapper;
-        if (wrapper != null && wrapper.camParametersHandler != null && wrapper.camParametersHandler.ParametersEventHandler != null)
-            wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+        if (wrapper != null && wrapper.camParametersHandler != null)
+            wrapper.camParametersHandler.AddParametersLoadedListner(this);
         if(view != null)
             setWrapper();
     }
 
     private void setWrapper()
     {
-        if (wrapper == null)
+        if (wrapper == null || wrapper.camParametersHandler == null)
+        {
+            Logger.d(TAG, "failed to set wrapper");
             return;
+        }
         flash.SetParameter(wrapper.camParametersHandler.FlashMode);
         iso.SetParameter(wrapper.camParametersHandler.IsoMode);
         autoexposure.SetParameter(wrapper.camParametersHandler.ExposureMode);
@@ -129,7 +132,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
             manualModesFragment.SetCameraUIWrapper(wrapper);
         if (wrapper.camParametersHandler.Focuspeak != null) {
             focuspeak.SetParameter(wrapper.camParametersHandler.Focuspeak);
-            wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(focuspeak);
+            wrapper.camParametersHandler.AddParametersLoadedListner(focuspeak);
         }
         guideHandler.setCameraUiWrapper(wrapper);
         focuspeak.SetCameraUiWrapper(wrapper);
@@ -144,11 +147,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         Logger.d(TAG, "####################ONCREATEDVIEW####################");
 
         touchHandler = new SwipeMenuListner(this);
-        manualModesFragment = new ManualFragmentRotatingSeekbar();
-        manualModesFragment.SetStuff(i_activity);
 
-        horizontLineFragment = new HorizontLineFragment();
-        guideHandler = new GuideHandler();
         return inflater.inflate(R.layout.cameraui, container, false);
     }
 
@@ -232,13 +231,28 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         if(!manualsettingsIsOpen)
             manualModes_holder.setVisibility(View.GONE);
+        guidHolder = (LinearLayout)view.findViewById(R.id.guideHolder);
+    }
 
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        guideHandler = new GuideHandler();
         android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.guideHolder, guideHandler, "Guide");
-
         transaction.commitAllowingStateLoss();
 
-        guidHolder = (LinearLayout)view.findViewById(R.id.guideHolder);
+        manualModesFragment = new ManualFragmentRotatingSeekbar();
+        manualModesFragment.SetStuff(i_activity);
+
+        horizontLineFragment = new HorizontLineFragment();
+
 
         manualModesFragment.SetCameraUIWrapper(wrapper);
 
@@ -261,20 +275,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
             transaction.addToBackStack(null);
             transaction.commitAllowingStateLoss();
         }
-
         setWrapper();
-    }
-
-    @Override
-    public void onDestroyView()
-    {
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
 
         infoOverlayHandler.StartUpdating();
     }
