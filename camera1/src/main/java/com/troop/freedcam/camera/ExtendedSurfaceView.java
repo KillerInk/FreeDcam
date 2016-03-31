@@ -58,10 +58,8 @@ public class ExtendedSurfaceView extends SurfaceView
         {
 
             try {
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) {
-                    isopensense();
-                    isReald3d();
-                }
+                isopensense();
+                isReald3d();
 
                 preferences = PreferenceManager.getDefaultSharedPreferences(context);
                 mHolder = getHolder();
@@ -117,7 +115,7 @@ public class ExtendedSurfaceView extends SurfaceView
 
     public  void SwitchViewMode()
     {
-        if (hasReal3d && Build.VERSION.SDK_INT < 17)
+        if (hasReal3d)
         {
             if (preferences.getInt(com.troop.freedcam.ui.AppSettingsManager.SETTING_CURRENTCAMERA, 0) == 2)
             {

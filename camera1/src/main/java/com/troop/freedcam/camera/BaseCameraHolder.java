@@ -4,7 +4,6 @@ import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.location.Location;
-import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Surface;
@@ -73,8 +72,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     {
         super(cameraChangedListner, UIHandler);
         //hasSamsungFramework();
-        if(Build.MANUFACTURER.contains("LG"))
-            hasLGFramework();
+        hasLGFramework();
         if (DeviceFrameWork == Frameworks.Normal)
             isMTKDevice();
     }
