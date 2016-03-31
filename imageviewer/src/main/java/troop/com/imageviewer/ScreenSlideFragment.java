@@ -144,7 +144,15 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         mPager.addOnPageChangeListener(this);
 
         if (FilePathToLoad.equals("")) {
-            mPagerAdapter.SetFiles(FileHolder.getDCIMFiles());
+            try {
+
+
+                mPagerAdapter.SetFiles(FileHolder.getDCIMFiles());
+            }
+            catch (NullPointerException ee)
+            {
+                ee.printStackTrace();
+            }
         }
         else
         {

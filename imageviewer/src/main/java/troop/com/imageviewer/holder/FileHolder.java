@@ -83,22 +83,16 @@ public class FileHolder extends BaseHolder
         if (internal != null)
             Logger.d(TAG, "InternalSDPath:" + internal.getAbsolutePath());
         FileHolder.readFilesFromFolder(internal, f, GridViewFragment.FormatTypes.all);
-try {
 
 
-    if (StringUtils.hasEXTSD() || (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT)) {
         File external = new File(StringUtils.GetExternalSDCARD() + StringUtils.freedcamFolder);
         if (external != null)
             Logger.d(TAG, "ExternalSDPath:" + external.getAbsolutePath());
         else
             Logger.d(TAG, "No ExternalSDFound");
         FileHolder.readFilesFromFolder(external, f, GridViewFragment.FormatTypes.all);
-    }
-}
-catch (NullPointerException ex)
-{
-    ex.printStackTrace();
-}
+
+
 
         SortFileHolder(f);
         return f;

@@ -30,7 +30,13 @@ public class BitmapHelper
     {
         CACHE = new CacheHelper(context);
         fileListners =  new ArrayList<>();
-        files = FileHolder.getDCIMFiles();
+        try {
+            files = FileHolder.getDCIMFiles();
+        }
+        catch (NullPointerException ee)
+        {
+            ee.printStackTrace();
+        }
     }
 
     public static void DESTROY()
