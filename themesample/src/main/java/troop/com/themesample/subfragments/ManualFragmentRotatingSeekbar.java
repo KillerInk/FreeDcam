@@ -137,7 +137,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
         //at this point a nullpointer could happen because the fragemnt is possible not added to the activity
         //but if its added notify it about the change
         try {
-            wrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+            wrapper.camParametersHandler.AddParametersLoadedListner(this);
             setWrapper();
         }
         catch (NullPointerException ex)

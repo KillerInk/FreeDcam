@@ -146,6 +146,13 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
             workers.add(workerListner);
     }
 
+
+    public void CLEARWORKERLISTNER()
+    {
+        if (workers != null)
+            workers.clear();
+    }
+
     protected void initModules()
     {
 

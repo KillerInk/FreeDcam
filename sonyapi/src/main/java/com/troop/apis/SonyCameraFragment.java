@@ -37,7 +37,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
     WifiConnectedReceiver wifiConnectedReceiver;
     private SimpleSsdpClient mSsdpClient;
     ServerDevice serverDevice;
-    CameraUiWrapperSony wrapperSony;
+    CameraUiWrapperSony cameraUiWrapper;
 
     TextView textView_wifi;
     private final int IDEL = 0;
@@ -54,20 +54,14 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
     {
         view = inflater.inflate(R.layout.cameraholdersony, container, false);
         surfaceView = (SimpleStreamSurfaceView) view.findViewById(R.id.view);
-        this.wrapperSony = new CameraUiWrapperSony(surfaceView);
-        this.cameraUiWrapper = wrapperSony;
-        wrapperSony.SetCameraChangedListner(this);
+
         this.textView_wifi =(TextView)view.findViewById(R.id.textView_wificonnect);
         super.onCreateView(inflater, container, savedInstanceState);
-        wifiReciever = new WifiScanReceiver();
-        wifiConnectedReceiver = new WifiConnectedReceiver();
-        wifiUtils = new WifiUtils(view.getContext());
-        mSsdpClient = new SimpleSsdpClient();
-        //hideTextViewWifi(true);
-
 
         return view;
     }
+
+
 
     private void setTextFromWifi(final String txt)
     {
@@ -122,14 +116,14 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
                         return;
                     setTextFromWifi("Found SSDP Client... Connecting");
                     connected = true;
-                    wrapperSony.serverDevice = device;
-                    wrapperSony.StartCamera();
+                    cameraUiWrapper.serverDevice = device;
+                    cameraUiWrapper.StartCamera();
                     hideTextViewWifi(true);
                 }
                 @Override
                 public void onFinished()
                 {
-                    if (wrapperSony.serverDevice == null)
+                    if (cameraUiWrapper.serverDevice == null)
                        setTextFromWifi("Cant find a sony remote Device");
 
                 }
@@ -137,7 +131,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
                 @Override
                 public void onErrorFinished()
                 {
-                    if (wrapperSony.serverDevice == null)
+                    if (cameraUiWrapper.serverDevice == null)
                         setTextFromWifi("Error happend while searching for sony remote device \n pls restart remote");
                 }
             });
@@ -149,6 +143,14 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
     {
         super.onResume();
         //getActivity().registerReceiver(wifiConnectedReceiver, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
+        this.cameraUiWrapper = new CameraUiWrapperSony(surfaceView);;
+        cameraUiWrapper.SetCameraChangedListner(this);
+        wifiReciever = new WifiScanReceiver();
+        wifiConnectedReceiver = new WifiConnectedReceiver();
+        wifiUtils = new WifiUtils(view.getContext());
+        mSsdpClient = new SimpleSsdpClient();
+        if (onrdy != null)
+            onrdy.onCameraUiWrapperRdy(cameraUiWrapper);
         startScanning();
 
         //connect();

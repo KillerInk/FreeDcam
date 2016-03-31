@@ -15,6 +15,7 @@ import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.FreeDPool;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.MetaDataExtractor;
 import com.troop.freedcam.utils.StringUtils;
@@ -32,11 +33,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
 
     private static String TAG = PictureModule.class.getSimpleName();
     boolean dngcapture = false;
-
     int burstcount = 0;
-
-    //private HandlerThread backgroundThread;
-    Handler handler;
     ////////////
 //defcomg 31-1-2015 Pull Orientation From Sesnor
 
@@ -46,11 +43,10 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     //public String aeBrackethdr = "";
 
 
-    public PictureModule(BaseCameraHolder baseCameraHolder, ModuleEventHandler eventHandler, Handler backgroundHandler)
+    public PictureModule(BaseCameraHolder baseCameraHolder, ModuleEventHandler eventHandler)
     {
         super(baseCameraHolder, eventHandler);
         this.baseCameraHolder = baseCameraHolder;
-        this.handler = backgroundHandler;
         name = ModuleHandler.MODULE_PICTURE;
 
         ParameterHandler = baseCameraHolder.GetParameterHandler();
@@ -82,7 +78,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
 
             if (ParameterHandler.Burst != null && ParameterHandler.Burst.IsSupported() && ParameterHandler.Burst.GetValue() > 1)
             {
-                handler.post(new Runnable() {
+                FreeDPool.Execute(new Runnable() {
                     @Override
                     public void run() {
                         burstcount = 0;
@@ -94,18 +90,18 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
             else {
                 final String picFormat = ParameterHandler.PictureFormat.GetValue();
                 if (picFormat.equals("jpeg") ) {
-                    final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, this, handler);
+                    final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, this);
                     jpegSaver.TakePicture();
                 } else if (picFormat.equals(StringUtils.FileEnding.JPS)) {
-                    final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, this, handler);
+                    final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, this);
                     jpsSaver.TakePicture();
                 }
                 else if (ParameterHandler.IsDngActive() && picFormat.equals(StringUtils.FileEnding.DNG)) {
-                    DngSaver dngSaver = new DngSaver(baseCameraHolder, this, handler);
+                    DngSaver dngSaver = new DngSaver(baseCameraHolder, this);
                     dngSaver.TakePicture();
                 }
                 else if (ParameterHandler.IsDngActive() == false && (picFormat.equals(StringUtils.FileEnding.BAYER) || picFormat.equals(StringUtils.FileEnding.RAW))) {
-                    final RawSaver rawSaver = new RawSaver(baseCameraHolder, this, handler);
+                    final RawSaver rawSaver = new RawSaver(baseCameraHolder, this);
                     rawSaver.TakePicture();
                 }
             }
@@ -170,23 +166,21 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
         @Override
         public void onPictureTaken(final byte[] data)
         {
-            handler.post(new Runnable() {
+            FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run() {
                     final String picFormat = ParameterHandler.PictureFormat.GetValue();
                     if (picFormat.equals("jpeg")) {
-                        final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, burstDone,handler);
+                        final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, burstDone);
                         jpegSaver.saveBytesToFile(data, new File(StringUtils.getFilePathBurst(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), jpegSaver.fileEnding, burstcount)));
-                    }
-                    else if (picFormat.equals("jps")) {
-                        final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, burstDone, handler);
-                        jpsSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathBurst(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), jpsSaver.fileEnding, burstcount)));
-                    }
-                    else if (!ParameterHandler.IsDngActive() && (picFormat.equals(StringUtils.FileEnding.BAYER) || picFormat.equals(StringUtils.FileEnding.RAW))) {
-                        final RawSaver rawSaver = new RawSaver(baseCameraHolder, burstDone, handler);
-                        rawSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathBurst(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), rawSaver.fileEnding, burstcount)));
+                    } else if (picFormat.equals("jps")) {
+                        final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, burstDone);
+                        jpsSaver.saveBytesToFile(data, new File(StringUtils.getFilePathBurst(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), jpsSaver.fileEnding, burstcount)));
+                    } else if (!ParameterHandler.IsDngActive() && (picFormat.equals(StringUtils.FileEnding.BAYER) || picFormat.equals(StringUtils.FileEnding.RAW))) {
+                        final RawSaver rawSaver = new RawSaver(baseCameraHolder, burstDone);
+                        rawSaver.saveBytesToFile(data, new File(StringUtils.getFilePathBurst(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), rawSaver.fileEnding, burstcount)));
                     } else if (ParameterHandler.IsDngActive() && picFormat.contains(StringUtils.FileEnding.DNG)) {
-                        DngSaver dngSaver = new DngSaver(baseCameraHolder, burstDone, handler);
+                        DngSaver dngSaver = new DngSaver(baseCameraHolder, burstDone);
                         dngSaver.processData(data, new File(StringUtils.getFilePathBurst(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), dngSaver.fileEnding, burstcount)));
                     }
                 }

@@ -58,11 +58,9 @@ public abstract class AbstractCameraFragment extends Fragment
         if (cameraUiWrapper != null)
         {
             Logger.d(TAG, "Destroying Wrapper");
-            cameraUiWrapper.camParametersHandler.ParametersEventHandler.CLEAR();
-            cameraUiWrapper.camParametersHandler.ParametersEventHandler = null;
+            cameraUiWrapper.camParametersHandler.CLEAR();
             cameraUiWrapper.moduleHandler.moduleEventHandler.CLEAR();
-            cameraUiWrapper.moduleHandler.moduleEventHandler = null;
-            cameraUiWrapper.moduleHandler.SetWorkListner(null);
+            cameraUiWrapper.moduleHandler.CLEARWORKERLISTNER();
             cameraUiWrapper.StopPreview();
             cameraUiWrapper.StopCamera();
             cameraUiWrapper = null;

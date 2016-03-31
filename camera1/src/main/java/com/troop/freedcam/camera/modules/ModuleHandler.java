@@ -17,13 +17,11 @@ public class ModuleHandler extends AbstractModuleHandler
 {
     BaseCameraHolder cameraHolder;
     private static String TAG = "freedcam.ModuleHandler";
-    android.os.Handler backgroundHandler;
 
-    public  ModuleHandler (AbstractCameraHolder cameraHolder, android.os.Handler backgroundHandler)
+    public  ModuleHandler (AbstractCameraHolder cameraHolder)
     {
         super(cameraHolder);
         this.cameraHolder = (BaseCameraHolder) cameraHolder;
-        this.backgroundHandler = backgroundHandler;
         initModules();
 
     }
@@ -35,7 +33,7 @@ public class ModuleHandler extends AbstractModuleHandler
         if (cameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)
         {
             Logger.d(TAG, "load mtk picmodule");
-            PictureModuleMTK thl5000 = new PictureModuleMTK(this.cameraHolder, moduleEventHandler, backgroundHandler);
+            PictureModuleMTK thl5000 = new PictureModuleMTK(this.cameraHolder, moduleEventHandler);
             moduleList.put(thl5000.ModuleName(), thl5000);
             IntervalModule intervalModule = new IntervalModule(cameraHolder,moduleEventHandler,thl5000);
             moduleList.put(intervalModule.ModuleName(), intervalModule);
@@ -43,7 +41,7 @@ public class ModuleHandler extends AbstractModuleHandler
         else//else //use default pictureModule
         {
             Logger.d(TAG, "load default picmodule");
-            PictureModule pictureModule = new PictureModule(this.cameraHolder, moduleEventHandler, backgroundHandler);
+            PictureModule pictureModule = new PictureModule(this.cameraHolder, moduleEventHandler);
             moduleList.put(pictureModule.ModuleName(), pictureModule);
             IntervalModule intervalModule = new IntervalModule(cameraHolder,moduleEventHandler,pictureModule);
             moduleList.put(intervalModule.ModuleName(), intervalModule);
@@ -63,7 +61,7 @@ public class ModuleHandler extends AbstractModuleHandler
         }
 
         Logger.d(TAG, "load hdr module");
-        HdrModule hdrModule = new HdrModule(this.cameraHolder, moduleEventHandler, backgroundHandler);
+        HdrModule hdrModule = new HdrModule(this.cameraHolder, moduleEventHandler);
         moduleList.put(hdrModule.ModuleName(), hdrModule);
 
         //BurstModule burstModule = new BurstModule(this.cameraHolder, soundPlayer, appSettingsManager, moduleEventHandler);

@@ -12,6 +12,8 @@ import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.troop.filelogger.Logger;
+
 public class MyHistogram extends View {
 
     public MyHistogram(Context context) {
@@ -79,7 +81,7 @@ public class MyHistogram extends View {
         int [] pixels = new int [ w * h ];
         if (bitmap.isRecycled())
             return;
-        bitmap . getPixels( pixels , 0 , w , 0 , 0 , w , h );
+        bitmap . getPixels(pixels, 0, w, 0, 0, w, h);
         for ( int i = 0 ; i < w ; i ++) {
             for ( int j = 0 ; j < h ; j ++) {
                 int index = j * w + i ;
@@ -161,11 +163,11 @@ public class MyHistogram extends View {
                 last = x ;
             }
         }
-        mHistoPath . lineTo ( last , h );
-        mHistoPath . lineTo ( w , h );
-        mHistoPath . close ();
-        canvas . drawPath ( mHistoPath , mPaint );
-        mPaint . setStrokeWidth ( 2 );
+        mHistoPath . lineTo(last, h);
+        mHistoPath . lineTo(w, h);
+        mHistoPath . close();
+        canvas . drawPath(mHistoPath, mPaint);
+        mPaint . setStrokeWidth(2);
         mPaint . setStyle ( Paint . Style . STROKE );
         mPaint . setARGB( 255 , 200 , 200 , 200 );
         canvas . drawPath ( mHistoPath , mPaint );
@@ -179,12 +181,20 @@ public class MyHistogram extends View {
         invalidate();
     }
 
-    public void onDraw ( Canvas canvas ) {
+    public void onDraw ( Canvas canvas )
+    {
+        try {
+
         canvas . drawARGB ( 0 , 0 , 0 , 0 );
         drawHistogram ( canvas , redHistogram , Color . RED , PorterDuff . Mode . SCREEN );
         drawHistogram ( canvas , greenHistogram , Color . GREEN , PorterDuff . Mode . SCREEN );
         drawHistogram ( canvas , blueHistogram , Color . BLUE , PorterDuff . Mode . SCREEN );
         // this.canvasx = canvas;
+        }
+        catch (RuntimeException ex)
+        {
+            Logger.d("histogram","bitmap got released");
+        }
     }
 
 

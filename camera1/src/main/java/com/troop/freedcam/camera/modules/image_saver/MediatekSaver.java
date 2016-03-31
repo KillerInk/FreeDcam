@@ -14,6 +14,7 @@ import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.FreeDPool;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -30,8 +31,8 @@ public class MediatekSaver extends JpegSaver {
     File holdFile = null;
 
     final public String fileEnding = ".jpg";
-    public MediatekSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler) {
-        super(cameraHolder, i_workeDone, handler);
+    public MediatekSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone) {
+        super(cameraHolder, i_workeDone);
     }
 
     final String TAG = "MediatekIMG";
@@ -41,13 +42,12 @@ public class MediatekSaver extends JpegSaver {
     {
         Logger.d(TAG, "Start Take Picture");
         awaitpicture = true;
-        handler.post(new Runnable() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-                if(ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.BAYER) || ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.DNG))
-                {
+                if (ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.BAYER) || ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.DNG)) {
                     String timestamp = String.valueOf(System.currentTimeMillis());
-                    ParameterHandler.Set_RAWFNAME("/mnt/sdcard/DCIM/FreeDCam/"+"mtk"+timestamp+StringUtils.FileEnding.GetWithDot(StringUtils.FileEnding.BAYER));
+                    ParameterHandler.Set_RAWFNAME("/mnt/sdcard/DCIM/FreeDCam/" + "mtk" + timestamp + StringUtils.FileEnding.GetWithDot(StringUtils.FileEnding.BAYER));
                 }
                 cameraHolder.TakePicture(null, null, MediatekSaver.this);
             }
@@ -61,13 +61,12 @@ public class MediatekSaver extends JpegSaver {
             return;
         awaitpicture =false;
         Logger.d(TAG, "Take Picture CallBack");
-        handler.post(new Runnable() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 holdFile = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), fileEnding));
-                Logger.d(TAG,"HolderFilePath:" +holdFile.getAbsolutePath());
-                if (ParameterHandler.PictureFormat.GetValue().equals("jpeg"))
-                {
+                Logger.d(TAG, "HolderFilePath:" + holdFile.getAbsolutePath());
+                if (ParameterHandler.PictureFormat.GetValue().equals("jpeg")) {
                     //savejpeg
                     saveBytesToFile(data, holdFile);
                     try {
@@ -75,13 +74,11 @@ public class MediatekSaver extends JpegSaver {
                     } catch (Exception ex) {
 
                     }
-                } else if (ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.DNG))
-                {
+                } else if (ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.DNG)) {
                     //savejpeg
                     saveBytesToFile(data, holdFile);
                     CreateDNG_DeleteRaw();
-                } else if (ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.BAYER))
-                {
+                } else if (ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.BAYER)) {
                     //savejpeg
                     saveBytesToFile(data, holdFile);
 
@@ -123,7 +120,7 @@ public class MediatekSaver extends JpegSaver {
         }
         File dng = new File(holdFile.getName().replace(StringUtils.FileEnding.JPG, StringUtils.FileEnding.DNG));
         Logger.d(TAG,"DNGfile:" + dng.getAbsolutePath());
-        DngSaver saver = new DngSaver(cameraHolder, iWorkeDone, handler);
+        DngSaver saver = new DngSaver(cameraHolder, iWorkeDone);
         saver.processData(data, dng);
 
         data = null;

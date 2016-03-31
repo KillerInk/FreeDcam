@@ -10,6 +10,7 @@ import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.sonystuff.ServerDevice;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.FreeDPool;
 
 /**
  * Created by troop on 11.12.2014.
@@ -51,7 +52,7 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
     @Override
     public void StartCamera()
     {
-        backgroundHandler.post(new Runnable() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 startCamera();

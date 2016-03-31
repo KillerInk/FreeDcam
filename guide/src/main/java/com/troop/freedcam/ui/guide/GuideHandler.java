@@ -49,7 +49,7 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
     {
         this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.camParametersHandler.GuideList.addEventListner(this);
-        cameraUiWrapper.camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+        cameraUiWrapper.camParametersHandler.AddParametersLoadedListner(this);
     }
 
     /*public int[] GetScreenSize() {

@@ -19,6 +19,7 @@ import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.FreeDPool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,10 +59,10 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
 
         camParametersHandler = new CamParametersHandler(this, uiHandler);
         this.cameraHolder.SetParameterHandler((CamParametersHandler)camParametersHandler);
-        camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this);
+        camParametersHandler.AddParametersLoadedListner(this);
         this.preview.ParametersHandler = camParametersHandler;
         //camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this.preview);
-        moduleHandler = new ModuleHandler(cameraHolder, backgroundHandler);
+        moduleHandler = new ModuleHandler(cameraHolder);
         moduleHandler.moduleEventHandler.addListner(this);
 
         Focus = new FocusHandler(this);
@@ -81,7 +82,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     @Override
     protected void startCamera()
     {
-        backgroundHandler.post(new Runnable() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 cameraHolder.OpenCamera(AppSettingsManager.APPSETTINGSMANAGER.GetCurrentCamera());
@@ -95,7 +96,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     protected void stopCamera()
     {
         Logger.d(TAG, "Stop Camera");
-        backgroundHandler.post(new Runnable() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 cameraHolder.CloseCamera();
@@ -201,7 +202,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
             return;
 
 
-        backgroundHandler.post(new Runnable() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 cameraHolder.SetErrorCallback(CameraUiWrapper.this);

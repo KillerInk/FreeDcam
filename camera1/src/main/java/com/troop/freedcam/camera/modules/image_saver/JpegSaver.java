@@ -9,6 +9,7 @@ import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.FreeDPool;
 import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -28,24 +29,22 @@ public class JpegSaver implements I_Callbacks.PictureCallback
 
     protected BaseCameraHolder cameraHolder;
     I_WorkeDone iWorkeDone;
-    Handler handler;
 
     final public String fileEnding = ".jpg";
     boolean awaitpicture = false;
     protected CamParametersHandler ParameterHandler;
 
-    public JpegSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler)
+    public JpegSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone)
     {
         this.cameraHolder = cameraHolder;
         this.ParameterHandler = (CamParametersHandler)cameraHolder.GetParameterHandler();
         this.iWorkeDone = i_workeDone;
-        this.handler = handler;
     }
 
     public void TakePicture()
     {
         awaitpicture = true;
-        handler.post(new Runnable() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 cameraHolder.TakePicture(null, raw, JpegSaver.this);
@@ -61,7 +60,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
         if (awaitpicture == false)
             return;
         awaitpicture =false;
-        handler.post(new Runnable() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 File f = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), fileEnding));

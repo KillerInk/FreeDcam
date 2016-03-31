@@ -59,7 +59,7 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
             valueToSet = 0;
         //////////////////////
         currentInt = valueToSet;
-        if (cameraHolder == null ||cameraHolder.mPreviewRequestBuilder == null)
+        if (cameraHolder == null ||cameraHolder.mPreviewRequestBuilder == null || cameraHolder.mCaptureSession == null)
             return;
         if (valueToSet == 0)
         {

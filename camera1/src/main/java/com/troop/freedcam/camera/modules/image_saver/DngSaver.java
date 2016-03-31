@@ -17,6 +17,7 @@ import com.troop.androiddng.RawToDng;
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.FreeDPool;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
@@ -39,9 +40,9 @@ public class DngSaver extends JpegSaver
   //  MetaDataExtractor meta;
 
     final String TAG = DngSaver.class.getSimpleName();
-    public DngSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Handler handler)
+    public DngSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone)
     {
-        super(cameraHolder, i_workeDone, handler);
+        super(cameraHolder, i_workeDone);
         dngConverter = RawToDng.GetInstance();
        // meta = new MetaDataExtractor();
 
@@ -64,7 +65,7 @@ public class DngSaver extends JpegSaver
            // meta.extractMeta();
         }
 
-        handler.post(new Runnable() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 cameraHolder.TakePicture(null, null, DngSaver.this);
@@ -79,13 +80,11 @@ public class DngSaver extends JpegSaver
             return;
         awaitpicture =false;
         Logger.d(TAG, "Take Picture Callback");
-        handler.post(new Runnable()
-        {
+        FreeDPool.Execute(new Runnable() {
             @Override
-            public void run()
-            {
-                File f =  new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), fileEnding));
-                processData(data,f);
+            public void run() {
+                File f = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), fileEnding));
+                processData(data, f);
             }
         });
 
