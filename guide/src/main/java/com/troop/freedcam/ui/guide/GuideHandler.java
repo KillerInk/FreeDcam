@@ -93,10 +93,7 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
 
     public void SetViewG(final String str)
     {
-        if (img == null)
-            return;
-        if (quckRationMath == 0)
-            return;
+
             img.post(new Runnable() {
                 @Override
                 public void run() {
