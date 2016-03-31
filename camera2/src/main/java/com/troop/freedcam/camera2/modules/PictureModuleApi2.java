@@ -103,13 +103,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private Surface previewsurface;
     private Surface camerasurface;
 
-
+    private Handler handler;
     int imagecount = 0;
 
     public PictureModuleApi2(BaseCameraHolderApi2 cameraHandler, ModuleEventHandler eventHandler ) {
         super(cameraHandler, eventHandler);
         this.cameraHolder = (BaseCameraHolderApi2)cameraHandler;
         this.name = AbstractModuleHandler.MODULE_PICTURE;
+        handler = new Handler(Looper.getMainLooper());
 
     }
 
@@ -236,7 +237,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             mDngResult = null;
 
             //cameraHolder.mCaptureSession.captureBurst(captureList, CaptureCallback, backgroundHandler);
-            cameraHolder.mCaptureSession.capture(captureBuilder.build(),CaptureCallback,null);
+            cameraHolder.mCaptureSession.capture(captureBuilder.build(),CaptureCallback,handler);
         } catch (CameraAccessException e) {
             Logger.exception(e);
         }
