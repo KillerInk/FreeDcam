@@ -48,6 +48,8 @@ public class ModuleEventHandler
      */
     public void ModuleHasChanged(final String module)
     {
+        if (moduleChangedListner.size() == 0)
+            return;
         for (int i =0; i < moduleChangedListner.size(); i++)
         {
             if (moduleChangedListner.get(i) == null) {

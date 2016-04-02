@@ -48,9 +48,9 @@
             android:icon="@drawable/launcher_freedcam"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection"
             android:screenOrientation="landscape"
-            android:clearTaskOnLaunch="true"
+            android:clearTaskOnLaunch="false"
             android:excludeFromRecents="false"
-            android:finishOnTaskLaunch="true"
+            android:finishOnTaskLaunch="false"
             android:hardwareAccelerated = "true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

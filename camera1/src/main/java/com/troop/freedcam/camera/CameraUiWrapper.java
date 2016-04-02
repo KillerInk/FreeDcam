@@ -96,12 +96,16 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     protected void stopCamera()
     {
         Logger.d(TAG, "Stop Camera");
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                cameraHolder.CloseCamera();
-            }
-        });
+        if (FreeDPool.IsInit()) {
+            FreeDPool.Execute(new Runnable() {
+                @Override
+                public void run() {
+                    cameraHolder.CloseCamera();
+                }
+            });
+        }
+        else
+            cameraHolder.CloseCamera();
 
     }
 

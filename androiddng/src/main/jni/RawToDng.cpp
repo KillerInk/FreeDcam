@@ -395,15 +395,7 @@ void writeIfd0(TIFF *tif, DngWriter *writer)
     TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  writer->fowardMatrix2);
 
     TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  writer->noiseMatrix);
-
-
-
     LOGD("colormatrix2");
-       	    //////////////////////////////IFD POINTERS///////////////////////////////////////
-       	                                ///GPS//////////
-       	   // TIFFSetField (tif, TIFFTAG_GPSIFD, gpsIFD_offset);
-       	                               ///EXIF////////
-
 }
 
 
@@ -455,42 +447,6 @@ void makeGPS_IFD(TIFF *tif, DngWriter *writer)
         LOGD("Can't write Altitude" );
     }
     LOGD("Altitude Written");
-    /*if (!TIFFSetField( tif, GPSTAG_GPSDatestamp, gpsTime)) {
-        LOGD("Can't write gpsTime" );
-    }
-    LOGD("gpsTime Written");*/
-
-    //Altitude Takes Type BYTE
-    /*  if (!TIFFSetField( tif, GPSTAG_GPSAltitudeRef, alti)) {
-        LOGD("Can't write AltitudeRef" );
-
-    }*/
-    /*if (!TIFFSetField( tif, GPSTAG_GPSImgDirection, 68)) {
-        LOGD("Can't write IMG Directon" );
-    }
-    LOGD("I DIRECTION Written");
-    /*if (!TIFFSetField( tif, GPSTAG_GPSLongitude, "11deg 39' 33.410"))
-    {
-        LOGD("Can't write LongitudeRef" );
-    }*/
-    /*if (!TIFFSetField( tif, GPSTAG_GPSProccesingMethod, writer->Provider)) {
-        LOGD("Can't write Proc Method" );
-    }*/
-
-    /*if (!TIFFSetField( tif, GPSTAG_GPSImgDirectionRef, "M")) {
-        LOGD("Can't write IMG DIREC REf" );
-    }
-    LOGD("I DREF Written");
-
-    /* if (!TIFFSetField( tif, GPSTAG_GPSTimeStamp, 13/01/52)) {
-        LOGD("Can't write Tstamp" );
-    }
-    LOGD("TSAMP Written");*/
-    /*if (!TIFFSetField( tif, GPSTAG_GPSAltitudeRef, 1.)) {
-        LOGD("Can't write ALTIREF" );
-    }
-    LOGD("ALT Written");*/
-
 }
 
 void writeExifIfd(TIFF *tif, DngWriter *writer)
@@ -633,7 +589,7 @@ void process10tight(TIFF *tif,DngWriter *writer)
     }
     TIFFWriteRawStrip(tif, 0, out, writer->rawheight*shouldberowsize);
 
-    TIFFWriteDirectory(tif);
+    TIFFRewriteDirectory(tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
 
@@ -695,7 +651,7 @@ void processLoose(TIFF *tif,DngWriter *writer)
 		}
 	}
     //TIFFCheckpointDirectory(tif);
-    TIFFWriteDirectory(tif);
+    TIFFRewriteDirectory(tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
@@ -735,7 +691,7 @@ void processSXXX16(TIFF *tif,DngWriter *writer)
 		LOGD("Error writing TIFF scanline.");
 		}
 	}
-    TIFFWriteDirectory(tif);
+    TIFFRewriteDirectory(tif);
     LOGD("Finalizng DNG");
     TIFFClose(tif);
     LOGD("Free Memory");
@@ -814,29 +770,9 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
     }
     if(writer->opcode3Size >0 || writer->opcode2Size >0)
     {
-        TIFFCheckpointDirectory(tif);
+        //TIFFCheckpointDirectory(tif);
+        //TIFFRewriteDirectory(tif);
     }
-    /*FILE * opbin = fopen("/sdcard/DCIM/FreeDcam/opc2.bin", "r+");
-    if (opbin != NULL)
-    {
-        fseek(opbin, 0, SEEK_END);
-        long int sizeD = ftell(opbin);
-        fseek(opbin, 0, 0);
-        LOGD("Op read from File");
-// Reading data to array of unsigned chars
-        LOGD("OpCode Read Size", sizeD);
-        unsigned char *opcode_list = (unsigned char *) malloc(sizeD);
-        int bytes_read = fread(opcode_list, sizeof(unsigned char), sizeD, opbin);
-        LOGD("bytes_read Read Size", bytes_read);
-        fclose(opbin);
-        
-        LOGD("OpCode Entry");
-        TIFFSetField(tif, TIFFTAG_OPC2, sizeD, opcode_list);
-        LOGD("OpCode Exit");
-        TIFFCheckpointDirectory(tif);
-    }*/
-
-//*****************************************************************************************
     if(writer->rawType == 0)
     {
         LOGD("Processing tight RAW data...");
