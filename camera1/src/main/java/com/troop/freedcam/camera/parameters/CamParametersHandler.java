@@ -247,6 +247,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
+           // if (DeviceUtils.IS(Devices.p8lite))
             ImagePostProcessing = new BaseModeParameter(uiHandler,cameraParameters,cameraHolder, "ipp", "ipp-values");
         } catch (Exception e) {
             Logger.exception(e);
@@ -533,6 +534,8 @@ public class CamParametersHandler extends AbstractParameterHandler
                 {
                     ManualBrightness = new BaseManualParameter(cameraParameters, "brightness", "brightness-max", "brightness-min", this, 1);
                 }
+                else if(DeviceUtils.IS(Devices.p8lite))
+                    ManualBrightness = new BaseManualParameter(cameraParameters, "brightness", "max-brightness", "min-brightness", this, 50);
                 else if (cameraParameters.containsKey("max-brightness"))
                     ManualBrightness = new BaseManualParameter(cameraParameters, "brightness", "max-brightness", "min-brightness", this, 1);
 
@@ -560,8 +563,12 @@ public class CamParametersHandler extends AbstractParameterHandler
                 }
                 if (cameraParameters.containsKey("contrast-max"))
                     ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "contrast-max", "contrast-min",this,1);
+                else if(DeviceUtils.IS(Devices.p8lite))
+                    ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "max-contrast", "min-contrast",this,25);
                 else if (cameraParameters.containsKey("max-contrast"))
                     ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "max-contrast", "min-contrast",this,1);
+
+
 
             }
             if (ManualContrast != null && cameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.MTK) {

@@ -76,6 +76,18 @@
         <item>HTC Shooter</item>
     </string-array>
 
+    <string-array name="p8Lite">
+        <item>hi6210sft</item>
+    </string-array>
+
+    <string-array name="p8">
+        <item>hi6210sft</item>
+    </string-array>
+
+    <string-array name="Honor6">
+        <item>hi6210sft</item>
+    </string-array>
+
     <string-array name="htc_m8">
         <item>HTC One_M8"</item>
         <item>One M8</item>

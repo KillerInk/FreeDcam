@@ -61,6 +61,8 @@ public class ManualFocusClassHandler
             return new FocusManualParameterHTC(parameters,"","","", cameraHolder,parametersHandler);
         else if(parameters.containsKey("focus-fs-fi-max") && parameters.containsKey("focus-fs-fi-min") && parameters.containsKey("focus-fs-fi"))
             return new FocusManualMTK(parameters,"focus-fs-fi","focus-fs-fi-max","focus-fs-fi-min", focusMode_manual,parametersHandler,10,0);
+        else if(DeviceUtils.IS(DeviceUtils.Devices.p8lite))
+            return new FocusManualKrillin(parameters,"hw-manual-focus-step-value","hw-vcm-end-value","hw-vcm-start-value", focusMode_manual,parametersHandler,10,0);
         else
             return null;
 
