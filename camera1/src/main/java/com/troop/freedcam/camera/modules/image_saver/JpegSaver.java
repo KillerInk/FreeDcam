@@ -136,7 +136,10 @@ public class JpegSaver implements I_Callbacks.PictureCallback
 
     }
 
-    public void checkFileExists(File fileName) {
+    public void checkFileExists(File fileName)
+    {
+        if (fileName.getParentFile() == null)
+            return;
         if(!fileName.getParentFile().exists())
             fileName.getParentFile().mkdirs();
         if (!fileName.exists())
