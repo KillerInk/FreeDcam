@@ -48,6 +48,8 @@ public class ExposureLockParameter extends BaseModeParameter
     @Override
     public String GetValue()
     {
+        if (!parameters.containsKey("auto-exposure-lock"))
+            parameters.put("auto-exposure-lock","false");
         return parameters.get("auto-exposure-lock");
     }
 
