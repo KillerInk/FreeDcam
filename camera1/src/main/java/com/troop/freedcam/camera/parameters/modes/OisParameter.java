@@ -24,13 +24,16 @@ public class OisParameter extends BaseModeParameter {
 
     @Override
     public boolean IsSupported() {
-        return DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4);
+        return DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4) || DeviceUtils.IS(DeviceUtils.Devices.p8lite);
     }
 
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        parameters.put("ois-ctrl", valueToSet);
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
+            parameters.put("ois-ctrl", valueToSet);
+        else
+            parameters.put("hw_ois_enable", valueToSet);
         baseCameraHolder.SetCameraParameters(parameters);
     }
 
@@ -41,8 +44,13 @@ public class OisParameter extends BaseModeParameter {
 
     @Override
     public String[] GetValues() {
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
         return new String[] {
                 "preview-capture","capture","video","centering-only","centering-off"
         };
+        else
+            return new String[] {
+                    "on,off"
+            };
     }
 }

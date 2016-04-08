@@ -352,11 +352,18 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         @Override
         public void onClick(View view)
         {
+            String external = "";
             if (currentViewState == ViewStates.normal) {
                 if (mPagerAdapter.getFiles() != null && mPagerAdapter.getFiles().size() > 0) {
                     String topPath =  mPagerAdapter.GetFileHolder(0).getFile().getParentFile().getParentFile().getAbsolutePath() + "/";
                     String inter = StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder;
-                    String external = StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder;
+                    try {
+                       external  = StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder;
+                    }
+                    catch (NullPointerException exc)
+                    {
+                        exc.printStackTrace();
+                    }
 
                     if ((inter.contains(topPath) && topPath.length() < inter.length() || topPath.equals(inter))
                             || (external.contains(topPath) && topPath.length() < external.length() || topPath.equals(external)))

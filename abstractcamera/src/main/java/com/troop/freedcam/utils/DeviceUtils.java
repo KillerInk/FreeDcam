@@ -71,6 +71,7 @@ public class DeviceUtils
     final public static Devices[] HTC_m8_9 = {Devices.Htc_M8, Devices.Htc_M9,Devices.OneA9};
     final public static Devices[] ZTE_DEVICES = {Devices.ZTE_ADV,Devices.ZTEADVIMX214,Devices.ZTEADV234};
     final public static Devices[] Sony_DEVICES = {Devices.SonyM4_QC,Devices.SonyC5_MTK,Devices.SonyM5_MTK};
+    final public static Devices[] Krillin_DEVICES = {Devices.p8,Devices.p8lite,Devices.honor6};
 
     private static Devices getDevice()
     {
@@ -161,7 +162,13 @@ public class DeviceUtils
         else if(isLenovo_K50())
             return Devices.Lenovo_K50_MTK;
         else if(isForwardArt())
-        return Devices.ForwardArt_MTK;
+            return Devices.ForwardArt_MTK;
+        else if(isHuawei_P8_lite())
+            return Devices.p8lite;
+        else if(isHuawei_P8())
+            return Devices.p8;
+        else if(isHuawei_Honor_6())
+            return Devices.honor6;
         else
             return Devices.UNKNOWN;
 
@@ -170,6 +177,9 @@ public class DeviceUtils
     public enum Devices
     {
         UNKNOWN,
+        p8,
+        p8lite,
+        honor6,
         Alcatel_Idol3,
         Asus_Zenfon2,
         GioneE7,
@@ -322,6 +332,21 @@ public class DeviceUtils
     private static boolean isEvo3d()
     {
         return isDevice(contex.getResources().getStringArray(com.troop.freedcam.abstractcamera.R.array.evo3d));
+    }
+
+    private static boolean isHuawei_P8_lite()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.p8Lite));
+    }
+
+    private static boolean isHuawei_P8()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.p8));
+    }
+
+    private static boolean isHuawei_Honor_6()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.Honor6));
     }
 
     private static boolean isHTC_M8()

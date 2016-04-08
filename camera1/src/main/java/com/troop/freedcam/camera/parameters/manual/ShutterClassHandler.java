@@ -88,6 +88,8 @@ public class ShutterClassHandler
             return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,null);
         else if (parameters.containsKey("cap-ss") && !parameters.get("cap-ss").equals("0"))
             return new ShutterManualMtk(parameters, parametersHandler,TEST.split(","));
+        else if (DeviceUtils.IS(DeviceUtils.Devices.p8lite))
+            return new ShutterManualKrillin(parameters,cameraHolder,parametersHandler,null);
         else
             return null;
     }
