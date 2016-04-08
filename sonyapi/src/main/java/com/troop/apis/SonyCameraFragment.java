@@ -283,10 +283,17 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
             public void run()
             {
                 Logger.d(TAG, "StartScanning For networks after onCameraError" );
-                setupWrapper();
-                startScanning();
+                try {
+                    setupWrapper();
+                    startScanning();
+                }
+                catch (NullPointerException ex)
+                {
+                    Logger.exception(ex);
+                }
+
             }
-        }, 3000);
+        }, 5000);
 
     }
 
