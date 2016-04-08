@@ -143,7 +143,7 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
             height = Integer.parseInt(split[1]);
         }
         doWork = true;
-        new Thread() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 byte[] data = null;
@@ -168,8 +168,7 @@ public class HistogramFragment extends Fragment implements I_Callbacks.PreviewCa
                     doWork = false;
                 }
             }
-        }.start();
-
+        });
     }
 
     void stopLsn()

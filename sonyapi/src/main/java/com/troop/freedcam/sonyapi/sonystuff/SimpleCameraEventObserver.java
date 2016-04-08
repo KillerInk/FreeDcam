@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.troop.filelogger.Logger;
+import com.troop.freedcam.ui.FreeDPool;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -263,8 +264,7 @@ public class SimpleCameraEventObserver {
         }
 
         mWhileEventMonitoring = true;
-        new Thread() {
-
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 sendLog("start() exec.");
@@ -333,10 +333,7 @@ public class SimpleCameraEventObserver {
 
                 mWhileEventMonitoring = false;
             }
-
-
-        }.start();
-
+        });
         return true;
     }
 

@@ -28,6 +28,7 @@ import android.view.View;
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
+import com.troop.freedcam.ui.FreeDPool;
 
 import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -50,7 +51,6 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private final BlockingQueue<DataExtractor> mJpegQueue = new ArrayBlockingQueue<DataExtractor>(2);
     private final BlockingQueue<DataExtractor> frameQueue = new ArrayBlockingQueue<DataExtractor>(2);
     private final boolean mInMutableAvailable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
-    private Thread mDrawerThread;
     private int mPreviousWidth = 0;
     private int mPreviousHeight = 0;
     private final Paint mFramePaint;
@@ -212,8 +212,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
         mWhileFetching = true;
 
-        // A thread for retrieving liveview data from server.
-        new Thread() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 Logger.d(TAG, "Starting retrieving streaming data from server.");
@@ -242,19 +241,17 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                         slicer.close();
                     }
 
-                    if (mDrawerThread != null) {
-                        mDrawerThread.interrupt();
-                    }
 
                     mJpegQueue.clear();
                     frameQueue.clear();
                     mWhileFetching = false;
                 }
             }
-        }.start();
+        });
+        // A thread for retrieving liveview data from server.
 
         // A thread for drawing liveview frame fetched by above thread.
-        mDrawerThread = new Thread() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 Logger.d(TAG, "Starting drawing stream frame.");
@@ -299,8 +296,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 }
                 mWhileFetching = false;
             }
-        };
-        mDrawerThread.start();
+        });
         return true;
     }
 
@@ -343,6 +339,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
      */
     public void stop() {
         mWhileFetching = false;
+
     }
 
     /**

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
+import com.troop.freedcam.ui.FreeDPool;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,7 +27,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
     public void SetValue(final int valueToSet)
     {
         this.currentInt = valueToSet;
-        new Thread(new Runnable() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run()
             {
@@ -47,14 +48,14 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                     Logger.exception(e);
                 }
             }
-        }).start();
+        });
     }
 
     private void getMinMaxValues()
     {
         if (stringvalues == null)
         {
-            new Thread(new Runnable()
+            FreeDPool.Execute(new Runnable()
             {
                 @Override
                 public void run()
@@ -80,7 +81,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
 
                     }
                 }
-            }).start();
+            });
         }
     }
 
@@ -88,7 +89,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
     public int GetValue()
     {
         if (currentInt == -100) {
-            new Thread(new Runnable() {
+            FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -106,7 +107,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
 
                     }
                 }
-            }).start();
+            });
             while (currentInt == -200)
                 try {
                     Thread.sleep(10);

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
+import com.troop.freedcam.ui.FreeDPool;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +40,7 @@ public class WbCTManualSony extends BaseManualParameterSony
     public int GetValue()
     {
         if (this.currentInt == -200)
-            new Thread(new Runnable() {
+            FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -64,7 +65,7 @@ public class WbCTManualSony extends BaseManualParameterSony
 
                 }
             }
-        }).start();
+        });
         return currentInt;
     }
 
@@ -78,7 +79,7 @@ public class WbCTManualSony extends BaseManualParameterSony
             this.currentInt = 0;
         final int set= currentInt;
         final String[] t = values;
-        new Thread(new Runnable() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 try
@@ -91,7 +92,7 @@ public class WbCTManualSony extends BaseManualParameterSony
                     Logger.exception(e);
                 }
             }
-        }).start();
+        });
     }
 
     @Override
@@ -140,7 +141,7 @@ public class WbCTManualSony extends BaseManualParameterSony
 
     private void getMinMax()
     {
-        new Thread(new Runnable() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run()
             {
@@ -162,7 +163,7 @@ public class WbCTManualSony extends BaseManualParameterSony
                     Logger.exception(e);
                 }
             }
-        }).start();
+        });
         while (values == null)
             try {
                 Thread.sleep(10);

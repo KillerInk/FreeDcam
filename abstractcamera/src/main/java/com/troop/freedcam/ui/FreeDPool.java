@@ -36,6 +36,12 @@ public class FreeDPool
 
     public static void Execute(Runnable runnable)
     {
-        executor.execute(runnable);
+        try {
+            if(runnable !=  null)
+                executor.execute(runnable);
+        }
+        catch (NullPointerException ex)
+        {}
+
     }
 }

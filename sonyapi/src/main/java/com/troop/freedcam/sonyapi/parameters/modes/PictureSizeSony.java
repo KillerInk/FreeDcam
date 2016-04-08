@@ -4,6 +4,7 @@ import android.os.Handler;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
+import com.troop.freedcam.ui.FreeDPool;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,7 +27,7 @@ public class PictureSizeSony extends BaseModeParameterSony
     public String[] GetValues()
     {
         jsonObject =null;
-        new Thread(new Runnable() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run()
             {
@@ -38,7 +39,7 @@ public class PictureSizeSony extends BaseModeParameterSony
                     Logger.exception(e);
                 }
             }
-        }).start();
+        });
 
 
 

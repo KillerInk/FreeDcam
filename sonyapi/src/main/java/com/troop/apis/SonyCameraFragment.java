@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceView;
@@ -31,22 +32,22 @@ import com.troop.freedcam.sonyapi.sonystuff.WifiUtils;
 public class SonyCameraFragment extends AbstractCameraFragment implements I_CameraChangedListner
 {
     final String TAG = SonyCameraFragment.class.getSimpleName();
-    SimpleStreamSurfaceView surfaceView;
-    WifiUtils wifiUtils;
-    WifiScanReceiver wifiReciever;
-    WifiConnectedReceiver wifiConnectedReceiver;
+    private SimpleStreamSurfaceView surfaceView;
+    private WifiUtils wifiUtils;
+    private WifiScanReceiver wifiReciever;
+    private WifiConnectedReceiver wifiConnectedReceiver;
     private SimpleSsdpClient mSsdpClient;
-    ServerDevice serverDevice;
-    CameraUiWrapperSony cameraUiWrapper;
+    private ServerDevice serverDevice;
+    private CameraUiWrapperSony cameraUiWrapper;
 
-    TextView textView_wifi;
+    private TextView textView_wifi;
     private final int IDEL = 0;
     private final int WAITING_FOR_SCANRESULT = 1;
     private final int WAITING_FOR_DEVICECONNECTION = 2;
     private int STATE = IDEL;
 
-    String[] configuredNetworks = null;
-    String deviceNetworkToConnect;
+    private String[] configuredNetworks = null;
+    private String deviceNetworkToConnect;
     private boolean connected = false;
 
     @Override
@@ -95,7 +96,10 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
     private void searchSsdpClient()
     {
         if(connected)
+        {
+            Log.d(TAG,"already connected");
             return;
+        }
         setTextFromWifi("Search SSDP Client...");
         if (true)//wifiUtils.getWifiConnected())
         {
@@ -133,6 +137,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
                 {
                     if (cameraUiWrapper.serverDevice == null)
                         setTextFromWifi("Error happend while searching for sony remote device \n pls restart remote");
+                    startScanning();
                 }
             });
         }
@@ -143,24 +148,34 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
     {
         super.onResume();
         //getActivity().registerReceiver(wifiConnectedReceiver, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
-        this.cameraUiWrapper = new CameraUiWrapperSony(surfaceView);;
-        cameraUiWrapper.SetCameraChangedListner(this);
+        setupWrapper();
         wifiReciever = new WifiScanReceiver();
         wifiConnectedReceiver = new WifiConnectedReceiver();
         wifiUtils = new WifiUtils(view.getContext());
         mSsdpClient = new SimpleSsdpClient();
-        if (onrdy != null)
-            onrdy.onCameraUiWrapperRdy(cameraUiWrapper);
+
         startScanning();
 
         //connect();
     }
 
-    private void startScanning() {
-        getActivity().registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        getConfiguredNetworks();
-        lookupAvailNetworks();
+    private void setupWrapper()
+    {
+        this.cameraUiWrapper = new CameraUiWrapperSony(surfaceView);;
+        cameraUiWrapper.SetCameraChangedListner(this);
+        if (onrdy != null)
+            onrdy.onCameraUiWrapperRdy(cameraUiWrapper);
+    }
+
+    private void startScanning()
+    {
         connected = false;
+        if (getActivity() != null) {
+            getActivity().registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+            getConfiguredNetworks();
+            lookupAvailNetworks();
+        }
+
     }
 
     @Override
@@ -259,8 +274,20 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
     }
 
     @Override
-    public void onCameraError(String error) {
-        startScanning();
+    public void onCameraError(String error)
+    {
+        connected = false;
+        Logger.d(TAG, "Camera error:" +error );
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run()
+            {
+                Logger.d(TAG, "StartScanning For networks after onCameraError" );
+                setupWrapper();
+                startScanning();
+            }
+        }, 3000);
+
     }
 
     @Override

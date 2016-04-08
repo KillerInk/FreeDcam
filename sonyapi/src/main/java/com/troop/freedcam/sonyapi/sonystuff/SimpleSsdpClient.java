@@ -7,6 +7,7 @@ package com.troop.freedcam.sonyapi.sonystuff;
 import android.util.Log;
 
 import com.troop.filelogger.Logger;
+import com.troop.freedcam.ui.FreeDPool;
 
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -86,11 +87,9 @@ public class SimpleSsdpClient {
                         + String.format("ST: %s\r\n", SSDP_ST) + "\r\n";
         final byte[] sendData = ssdpRequest.getBytes();
 
-        new Thread() {
-
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-                // Send Datagram packets
                 DatagramSocket socket = null;
                 DatagramPacket receivePacket = null;
                 DatagramPacket packet = null;
@@ -181,11 +180,9 @@ public class SimpleSsdpClient {
                         socket.close();
                     }
                 }
-
                 handler.onFinished();
-            };
-        }.start();
-
+            }
+        });
         return true;
     }
 

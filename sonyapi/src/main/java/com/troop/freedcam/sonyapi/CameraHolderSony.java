@@ -22,6 +22,7 @@ import com.troop.freedcam.sonyapi.sonystuff.SimpleCameraEventObserver;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
 import com.troop.freedcam.sonyapi.sonystuff.SonyUtils;
+import com.troop.freedcam.ui.FreeDPool;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -196,7 +197,7 @@ public class CameraHolderSony extends AbstractCameraHolder
         @Override
         public void onImagesRecieved(final String[] url)
         {
-            new Thread(new Runnable() {
+            FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run() {
                     for (final String s : url)
@@ -216,7 +217,7 @@ public class CameraHolderSony extends AbstractCameraHolder
 
 
                     }
-                }}).start();
+                }});
         }
 
         @Override
@@ -384,11 +385,9 @@ public class CameraHolderSony extends AbstractCameraHolder
             Logger.d(TAG, "startLiveview mLiveviewSurface is null.");
             return;
         }
-
-        new Thread() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-
                 try {
                     JSONObject replyJson = null;
                     replyJson = mRemoteApi.startLiveview();
@@ -418,30 +417,29 @@ public class CameraHolderSony extends AbstractCameraHolder
                     Logger.w(TAG, "startLiveview JSONException: " + e.getMessage());
                 }
             }
-        }.start();
+        });
     }
 
-    private void stopLiveview() {
-        new Thread() {
+    private void stopLiveview()
+    {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    mRemoteApi.stopLiveview();
                     isPreviewRunning = false;
+                    mRemoteApi.stopLiveview();
+
                 } catch (IOException e) {
                     Logger.w(TAG, "stopLiveview IOException: " + e.getMessage());
 
                 }
             }
-        }.start();
+        });
     }
 
     private void prepareOpenConnection() {
         Logger.d(TAG, "prepareToOpenConection() exec");
-
-
-        new Thread() {
-
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -507,14 +505,14 @@ public class CameraHolderSony extends AbstractCameraHolder
 
                 }
             }
-        }.start();
+        });
+
     }
 
     private void openConnection() {
 
         mEventObserver.setEventChangeListener(mEventListener);
-        new Thread() {
-
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 Logger.d(TAG, "openConnection(): exec.");
@@ -561,8 +559,7 @@ public class CameraHolderSony extends AbstractCameraHolder
 
                 }
             }
-        }.start();
-
+        });
     }
 
     /**
@@ -592,9 +589,9 @@ public class CameraHolderSony extends AbstractCameraHolder
         mEventObserver.release();
 
         // stopRecMode if necessary.
-        if (JsonUtils.isCameraApiAvailable("stopRecMode", mAvailableCameraApiSet)) {
-            new Thread() {
-
+        if (JsonUtils.isCameraApiAvailable("stopRecMode", mAvailableCameraApiSet))
+        {
+            FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run() {
                     Logger.d(TAG, "closeConnection(): stopRecMode()");
@@ -604,7 +601,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                         Logger.w(TAG, "closeConnection: IOException: " + e.getMessage());
                     }
                 }
-            }.start();
+            });
         }
 
         Logger.d(TAG, "closeConnection(): completed.");
@@ -638,8 +635,7 @@ public class CameraHolderSony extends AbstractCameraHolder
 
     public void startContShoot(final I_PictureCallback pictureCallback)
     {
-        new Thread() {
-
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -652,17 +648,14 @@ public class CameraHolderSony extends AbstractCameraHolder
                 } catch (JSONException e) {
                     Logger.w(TAG, "JSONException while closing slicer");
 
-                } finally {
-
                 }
             }
-        }.start();
+        });
     }
 
     public void stopContShoot(final I_PictureCallback pictureCallback)
     {
-        new Thread() {
-
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -675,16 +668,14 @@ public class CameraHolderSony extends AbstractCameraHolder
                 } catch (JSONException e) {
                     Logger.w(TAG, "JSONException while closing slicer");
 
-                } finally {
-
                 }
             }
-        }.start();
+        });
     }
 
-    private void actTakePicture(final I_PictureCallback pictureCallback) {
-        new Thread() {
-
+    private void actTakePicture(final I_PictureCallback pictureCallback)
+    {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -722,7 +713,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                     //awaitTakePicture(pictureCallback);
                 }
             }
-        }.start();
+        });
     }
 
 
@@ -756,8 +747,7 @@ public class CameraHolderSony extends AbstractCameraHolder
 
     public void SetShootMode(final String mode)
     {
-        new Thread() {
-
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -780,13 +770,13 @@ public class CameraHolderSony extends AbstractCameraHolder
                     Logger.w(TAG, "remote api null");
                 }
             }
-        }.start();
+        });
+
     }
 
     public void StartRecording()
     {
-        new Thread() {
-
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -806,13 +796,12 @@ public class CameraHolderSony extends AbstractCameraHolder
                     Logger.w(TAG, "startRecording: JSON format error.");
                 }
             }
-        }.start();
+        });
     }
 
     public void StopRecording()
     {
-        new Thread() {
-
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -832,17 +821,16 @@ public class CameraHolderSony extends AbstractCameraHolder
                     Logger.w(TAG, "StopRecording: JSON format error.");
                 }
             }
-        }.start();
+        });
     }
 
     @Override
     public void CancelFocus()
     {
-
         if (mAvailableCameraApiSet.contains("cancelTouchAFPosition"))
         {
             Logger.d(TAG, "Cancel Focus");
-            new Thread(new Runnable() {
+            FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run()
                 {
@@ -854,13 +842,13 @@ public class CameraHolderSony extends AbstractCameraHolder
                         Logger.d(TAG, "Cancel Focus failed");
                     }
                 }
-            }).start();
+            });
 
         }
         else if (mAvailableCameraApiSet.contains("cancelTrackingFocus"))
         {
             Logger.d(TAG, "Cancel Focus");
-            new Thread(new Runnable() {
+            FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run()
                 {
@@ -872,7 +860,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                         Logger.d(TAG, "Cancel Focus failed");
                     }
                 }
-            }).start();
+            });
         }
     }
 
@@ -916,9 +904,9 @@ public class CameraHolderSony extends AbstractCameraHolder
             runActObjectTracking(x,y);
     }
 
-    private void runActObjectTracking(final double x,final double y) {
-        new Thread() {
-
+    private void runActObjectTracking(final double x,final double y)
+    {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -933,12 +921,11 @@ public class CameraHolderSony extends AbstractCameraHolder
                     Logger.w(TAG, "remote api is null");
                 }
             }
-        }.start();
+        });
     }
 
     private void runSetTouch(final double x, final double y) {
-        new Thread() {
-
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -966,12 +953,12 @@ public class CameraHolderSony extends AbstractCameraHolder
                     Logger.w(TAG, "setShootMode: JSON format error.");
                 }
             }
-        }.start();
+        });
     }
 
     public void SetLiveViewFrameInfo(boolean val)
     {
-        new Thread(new Runnable() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -980,7 +967,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                     Logger.exception(e);
                 }
             }
-        }).start();
+        });
     }
 
 }

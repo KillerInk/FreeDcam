@@ -5,6 +5,7 @@ import android.os.Handler;
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.sonyapi.parameters.manual.WbCTManualSony;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
+import com.troop.freedcam.ui.FreeDPool;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,7 +30,7 @@ public class WhiteBalanceModeSony extends BaseModeParameterSony
     {
         if(values == null || values.length == 0) {
             jsonObject = null;
-            new Thread(new Runnable() {
+            FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -40,7 +41,7 @@ public class WhiteBalanceModeSony extends BaseModeParameterSony
                         Logger.exception(e);
                     }
                 }
-            }).start();
+            });
         }
 
         return values;
