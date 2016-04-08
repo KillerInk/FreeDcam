@@ -269,15 +269,15 @@ public class HdrModule extends PictureModule implements I_WorkeDone
             final String picFormat = ParameterHandler.PictureFormat.GetValue();
             if (picFormat.equals("jpeg")) {
                 final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, aeBracketDone);
-                jpegSaver.saveBytesToFile(data, new File(StringUtils.getFilePathHDR(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), jpegSaver.fileEnding, hdrCount)));
+                jpegSaver.saveBytesToFile(data, new File(StringUtils.getFilePathHDR(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), jpegSaver.fileEnding, hdrCount)),true);
             }
             else if (picFormat.equals(StringUtils.FileEnding.JPS)) {
                 final JpsSaver jpsSaver = new JpsSaver(baseCameraHolder, aeBracketDone);
-                jpsSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathHDR(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), jpsSaver.fileEnding, hdrCount)));
+                jpsSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathHDR(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), jpsSaver.fileEnding, hdrCount)),true);
             }
             else if (!ParameterHandler.IsDngActive() && (picFormat.contains(StringUtils.FileEnding.BAYER)|| picFormat.equals(StringUtils.FileEnding.RAW))) {
                 final RawSaver rawSaver = new RawSaver(baseCameraHolder, aeBracketDone);
-                rawSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathHDR(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), rawSaver.fileEnding, hdrCount)));
+                rawSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathHDR(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), rawSaver.fileEnding, hdrCount)),true);
             } else if (ParameterHandler.IsDngActive() && picFormat.contains(StringUtils.FileEnding.DNG)) {
                 DngSaver dngSaver = new DngSaver(baseCameraHolder, aeBracketDone);
                 dngSaver.processData(data, new File(StringUtils.getFilePathHDR(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), dngSaver.fileEnding, hdrCount)));

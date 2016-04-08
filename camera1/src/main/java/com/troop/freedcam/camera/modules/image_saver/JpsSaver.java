@@ -39,7 +39,7 @@ public class JpsSaver extends JpegSaver
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-                saveBytesToFile(data, new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), fileEnding)));
+                saveBytesToFile(data, new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), fileEnding)),true);
             }
         });
     }

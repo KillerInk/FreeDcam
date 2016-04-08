@@ -68,7 +68,7 @@ public class MediatekSaver extends JpegSaver {
                 Logger.d(TAG, "HolderFilePath:" + holdFile.getAbsolutePath());
                 if (ParameterHandler.PictureFormat.GetValue().equals("jpeg")) {
                     //savejpeg
-                    saveBytesToFile(data, holdFile);
+                    saveBytesToFile(data, holdFile,true);
                     try {
                         DeviceSwitcher().delete();
                     } catch (Exception ex) {
@@ -76,11 +76,11 @@ public class MediatekSaver extends JpegSaver {
                     }
                 } else if (ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.DNG)) {
                     //savejpeg
-                    saveBytesToFile(data, holdFile);
+                    saveBytesToFile(data, holdFile,false);
                     CreateDNG_DeleteRaw();
                 } else if (ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.BAYER)) {
                     //savejpeg
-                    saveBytesToFile(data, holdFile);
+                    saveBytesToFile(data, holdFile,true);
 
                 }
 
