@@ -229,7 +229,8 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
             transaction.commitAllowingStateLoss();
             cameraFragment = null;
         }
-        orientationHandler.Stop();
+        if(orientationHandler != null)
+            orientationHandler.Stop();
     }
 
     //gets thrown when the cameraui wrapper is created sucessfull and all items are up like modulehandler
