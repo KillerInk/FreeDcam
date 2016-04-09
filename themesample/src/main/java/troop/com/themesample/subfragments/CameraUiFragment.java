@@ -354,9 +354,9 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         if (manualsettingsIsOpen)
             params.bottomMargin = getResources().getDimensionPixelSize(R.dimen.manualSettingsHeight);
 
-        if (!fromLeftFragment)
-           // params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-          params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        if (fromLeftFragment)
+            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        else  params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         l.setLayoutParams(params);
 
         currentOpendChild = item;
