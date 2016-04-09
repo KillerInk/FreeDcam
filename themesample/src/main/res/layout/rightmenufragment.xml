@@ -252,6 +252,17 @@
             <troop.com.themesample.views.menu.MenuItem
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/MenuItemZoomSetting"
+                app:Description="@string/setting_zoomsetting_description"
+                app:HeaderText="@string/setting_zoomsetting_header"
+                app:ValueText="Test"
+                android:layout_marginBottom="1dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
+
+            <troop.com.themesample.views.menu.MenuItem
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/MenuItemPostViewSize"
                 app:Description="@string/setting_postview_description"
                 app:HeaderText="@string/setting_postview_header"

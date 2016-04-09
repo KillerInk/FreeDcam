@@ -24,6 +24,7 @@ import com.troop.freedcam.sonyapi.parameters.modes.PictureFormatSony;
 import com.troop.freedcam.sonyapi.parameters.modes.PictureSizeSony;
 import com.troop.freedcam.sonyapi.parameters.modes.PreviewZoomSony;
 import com.troop.freedcam.sonyapi.parameters.modes.WhiteBalanceModeSony;
+import com.troop.freedcam.sonyapi.parameters.modes.ZoomSettingSony;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
 
@@ -105,6 +106,8 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         ObjectTracking = new ObjectTrackingSony(uiHandler,"getTrackingFocus","setTrackingFocus", "getAvailableTrackingFocus", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)ObjectTracking);
 
+        ZoomSetting = new ZoomSettingSony(uiHandler,"getZoomSetting", "setZoomSetting", "getAvailableZoomSetting", mRemoteApi);
+        parametersChangedList.add((BaseModeParameterSony) ZoomSetting);
 
 
         Zoom = new ZoomManualSony("actZoom","","actZoom", this);

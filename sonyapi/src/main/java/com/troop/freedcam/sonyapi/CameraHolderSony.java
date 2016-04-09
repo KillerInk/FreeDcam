@@ -307,6 +307,16 @@ public class CameraHolderSony extends AbstractCameraHolder
         }
 
         @Override
+        public void onZoomSettingValueCHanged(String value) {
+            ParameterHandler.ZoomSetting.BackgroundValueHasChanged(value);
+        }
+
+        @Override
+        public void onZoomSettingsValuesCHanged(String[] values) {
+            ParameterHandler.ZoomSetting.BackgroundValuesHasChanged(values);
+        }
+
+        @Override
         public void onExposureModeChanged(String expomode) {
             if (!ParameterHandler.ExposureMode.GetValue().equals(expomode))
                 ParameterHandler.ExposureMode.BackgroundValueHasChanged(expomode);

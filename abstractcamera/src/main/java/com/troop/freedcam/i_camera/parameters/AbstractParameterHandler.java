@@ -95,6 +95,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter PostViewSize;
     public AbstractModeParameter Focuspeak;
     public AbstractModeParameter Module;
+    public AbstractModeParameter ZoomSetting;
     //public AbstractModeParameter PreviewZoom;
     //
     public AbstractModeParameter ThemeList;
