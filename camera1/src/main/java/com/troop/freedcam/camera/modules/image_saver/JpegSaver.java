@@ -66,7 +66,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
                 File f = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), fileEnding));
                 if (!StringUtils.IS_L_OR_BIG()
                         || StringUtils.WRITE_NOT_EX_AND_L_ORBigger())
-                    saveBytesToFile(data, f);
+                    saveBytesToFile(data, f, true);
                 else {
                     DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
                     DocumentFile wr = df.createFile("image/jpeg", f.getName());
@@ -103,7 +103,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
         }
     };
 
-    public void saveBytesToFile(byte[] bytes, File fileName)
+    public void saveBytesToFile(byte[] bytes, File fileName, boolean throwWorkDone)
     {
         Logger.d(TAG, "Start Saving Bytes");
         OutputStream outStream = null;
@@ -132,11 +132,15 @@ public class JpegSaver implements I_Callbacks.PictureCallback
             Logger.exception(e);
         }
         Logger.d(TAG, "End Saving Bytes");
-        iWorkeDone.OnWorkDone(fileName);
+        if(throwWorkDone)
+            iWorkeDone.OnWorkDone(fileName);
 
     }
 
-    public void checkFileExists(File fileName) {
+    public void checkFileExists(File fileName)
+    {
+        if (fileName.getParentFile() == null)
+            return;
         if(!fileName.getParentFile().exists())
             fileName.getParentFile().mkdirs();
         if (!fileName.exists())

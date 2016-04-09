@@ -68,7 +68,7 @@ public class MediatekSaver extends JpegSaver {
                 Logger.d(TAG, "HolderFilePath:" + holdFile.getAbsolutePath());
                 if (ParameterHandler.PictureFormat.GetValue().equals("jpeg")) {
                     //savejpeg
-                    saveBytesToFile(data, holdFile);
+                    saveBytesToFile(data, holdFile,true);
                     try {
                         DeviceSwitcher().delete();
                     } catch (Exception ex) {
@@ -76,11 +76,11 @@ public class MediatekSaver extends JpegSaver {
                     }
                 } else if (ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.DNG)) {
                     //savejpeg
-                    saveBytesToFile(data, holdFile);
+                    saveBytesToFile(data, holdFile,false);
                     CreateDNG_DeleteRaw();
                 } else if (ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.BAYER)) {
                     //savejpeg
-                    saveBytesToFile(data, holdFile);
+                    saveBytesToFile(data, holdFile,true);
 
                 }
 
@@ -118,7 +118,7 @@ public class MediatekSaver extends JpegSaver {
         } catch (InterruptedException e) {
             Logger.exception(e);
         }
-        File dng = new File(holdFile.getName().replace(StringUtils.FileEnding.JPG, StringUtils.FileEnding.DNG));
+        File dng = new File(holdFile.getAbsolutePath().replace(StringUtils.FileEnding.JPG, StringUtils.FileEnding.DNG));
 
         Logger.d(TAG,"DNGfile:" + dng.getAbsolutePath());
         DngSaver saver = new DngSaver(cameraHolder, iWorkeDone);

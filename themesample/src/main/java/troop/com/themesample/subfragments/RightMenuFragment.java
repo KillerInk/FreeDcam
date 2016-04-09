@@ -49,6 +49,7 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
     MenuItem edgeMode;
     MenuItem hotPixelMode;
     MenuItem opticalImageStabilization;
+    MenuItem zoomSetting;
     troop.com.themesample.views.menu.MenuItem redeyeflash;
 
     MenuItem LensFilter;
@@ -143,6 +144,9 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
         scrollView = (ScrollView) view.findViewById(R.id.scrollView2);
         settingsMenu =  (FrameLayout)getActivity().findViewById(R.id.settingsMenuHolder);
 
+        zoomSetting = (MenuItem)view.findViewById(R.id.MenuItemZoomSetting);
+        zoomSetting.SetStuff(i_activity, null);
+
         sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         settingsOpen = sharedPref.getBoolean(KEY_SETTINGSOPEN, false);
         leftholder = (LinearLayout) getActivity().findViewById(R.id.guideHolder);
@@ -222,6 +226,9 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
 
         opticalImageStabilization.SetParameter(wrapper.camParametersHandler.oismode);
         opticalImageStabilization.SetMenuItemListner(this);
+
+        zoomSetting.SetParameter(wrapper.camParametersHandler.ZoomSetting);
+        zoomSetting.SetMenuItemListner(this);
     }
 
     public void SetMenuItemClickListner(Interfaces.I_MenuItemClick menuItemClick)

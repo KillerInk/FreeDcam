@@ -35,8 +35,8 @@ public class NightModeSony extends BaseModeParameterSony
             simpleStreamSurfaceView.nightmode = on;
         else if(valueToSet.equals(GRAYSCALE))
             simpleStreamSurfaceView.nightmode = grayscale;
-        else if(valueToSet.equals(ZOOMPREVIEW))
-            simpleStreamSurfaceView.nightmode = zoompreview;
+        /*else if(valueToSet.equals(ZOOMPREVIEW))
+            simpleStreamSurfaceView.nightmode = zoompreview;*/
         else
             simpleStreamSurfaceView.nightmode = off;
     }
@@ -52,8 +52,8 @@ public class NightModeSony extends BaseModeParameterSony
                 return StringUtils.OFF;
             case grayscale:
                 return GRAYSCALE;
-            case zoompreview:
-                return ZOOMPREVIEW;
+           /* case zoompreview:
+                return ZOOMPREVIEW;*/
             default:
                 return StringUtils.OFF;
         }
@@ -61,7 +61,7 @@ public class NightModeSony extends BaseModeParameterSony
 
     @Override
     public String[] GetValues() {
-        return new String[] {StringUtils.ON, StringUtils.OFF, GRAYSCALE, ZOOMPREVIEW};
+        return new String[] {StringUtils.ON, StringUtils.OFF, GRAYSCALE/*, ZOOMPREVIEW*/};
     }
 
     @Override

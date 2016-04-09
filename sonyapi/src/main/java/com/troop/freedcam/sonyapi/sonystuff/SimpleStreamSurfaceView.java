@@ -28,6 +28,7 @@ import android.view.View;
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
+import com.troop.freedcam.ui.FreeDPool;
 
 import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -50,7 +51,6 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private final BlockingQueue<DataExtractor> mJpegQueue = new ArrayBlockingQueue<DataExtractor>(2);
     private final BlockingQueue<DataExtractor> frameQueue = new ArrayBlockingQueue<DataExtractor>(2);
     private final boolean mInMutableAvailable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
-    private Thread mDrawerThread;
     private int mPreviousWidth = 0;
     private int mPreviousHeight = 0;
     private final Paint mFramePaint;
@@ -77,7 +77,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private int zoomPreviewMagineLeft =0;
     private int zoomPreviewMargineTop = 0;
 
-    public int PreviewZOOMFactor = 8;
+    public int PreviewZOOMFactor = 1;
 
     public enum NightPreviewModes
     {
@@ -212,8 +212,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
         mWhileFetching = true;
 
-        // A thread for retrieving liveview data from server.
-        new Thread() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 Logger.d(TAG, "Starting retrieving streaming data from server.");
@@ -242,19 +241,17 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                         slicer.close();
                     }
 
-                    if (mDrawerThread != null) {
-                        mDrawerThread.interrupt();
-                    }
 
                     mJpegQueue.clear();
                     frameQueue.clear();
                     mWhileFetching = false;
                 }
             }
-        }.start();
+        });
+        // A thread for retrieving liveview data from server.
 
         // A thread for drawing liveview frame fetched by above thread.
-        mDrawerThread = new Thread() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 Logger.d(TAG, "Starting drawing stream frame.");
@@ -299,8 +296,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 }
                 mWhileFetching = false;
             }
-        };
-        mDrawerThread.start();
+        });
         return true;
     }
 
@@ -343,6 +339,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
      */
     public void stop() {
         mWhileFetching = false;
+
     }
 
     /**
@@ -390,7 +387,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             int w = frame.getWidth();
             int h = frame.getHeight();
             Rect src = new Rect(0, 0, w, h);
-            if (nightmode == NightPreviewModes.zoompreview)
+            if (PreviewZOOMFactor > 1)
             {
                 int w4 = w /PreviewZOOMFactor;
                 int h4 = h/PreviewZOOMFactor;
@@ -474,7 +471,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
             }
             if (focuspeak) {
-                if (nightmode != NightPreviewModes.off)
+                if (nightmode != NightPreviewModes.off || PreviewZOOMFactor > 1)
                     mInputAllocation.copyFrom(drawBitmap);
                 else
                     mInputAllocation.copyFrom(frame);
@@ -673,14 +670,14 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 currentY = (int) event.getY();
                 if (startX > currentX)
                 {
-                    zoomPreviewMagineLeft -= startX - currentX;
+                    zoomPreviewMagineLeft -= (startX - currentX)/PreviewZOOMFactor;
                 }
                 else
-                    zoomPreviewMagineLeft += currentX -startX;
+                    zoomPreviewMagineLeft += (currentX -startX)/PreviewZOOMFactor;
                 if (startY > currentY)
-                    zoomPreviewMargineTop -= startY - currentY;
+                    zoomPreviewMargineTop -= (startY - currentY)/PreviewZOOMFactor;
                 else
-                    zoomPreviewMargineTop+= currentY - startY;
+                    zoomPreviewMargineTop+= (currentY - startY)/PreviewZOOMFactor;
                 startX = currentX;
                 startY = currentY;
                 //detect swipeDetected. if swipeDetected detected return false else true

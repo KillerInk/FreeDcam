@@ -3,6 +3,7 @@ package com.troop.freedcam.sonyapi.parameters.manual;
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
+import com.troop.freedcam.ui.FreeDPool;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,7 +55,7 @@ public class ZoomManualSony extends BaseManualParameterSony
     {
         if (currentInt == -1) {
             currentInt = -1;
-            new Thread(new Runnable() {
+            FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -71,7 +72,7 @@ public class ZoomManualSony extends BaseManualParameterSony
                         currentInt = 0;
                     }
                 }
-            }).start();
+            });
             while (currentInt == -1) {
                 try {
                     Thread.sleep(1);
@@ -98,7 +99,7 @@ public class ZoomManualSony extends BaseManualParameterSony
                 direction = "in";
             //currentzoomPos = valueToSet;
             final String finaldirection = direction;
-            new Thread(new Runnable() {
+            FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -108,7 +109,7 @@ public class ZoomManualSony extends BaseManualParameterSony
                         Logger.exception(e);
                     }
                 }
-            }).start();
+            });
         }
         //super.SetValue(valueToSet);
     }

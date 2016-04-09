@@ -6,6 +6,7 @@ import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.parameters.IntervalDurationParameter;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
+import com.troop.freedcam.ui.FreeDPool;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,7 +68,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     private void getminmax() {
         if (isSupported && isSetSupported)
         {
-            new Thread(new Runnable()
+            FreeDPool.Execute(new Runnable()
             {
                 @Override
                 public void run()
@@ -118,7 +119,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                         stringvalues = new String[0];
                     }
                 }
-            }).start();
+            });
             while (stringvalues == null)
                 try {
                     Thread.sleep(10);
@@ -132,7 +133,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     public void SetValue(final int valueToSet)
     {
         this.currentInt = valueToSet;
-        new Thread(new Runnable() {
+       FreeDPool.Execute(new Runnable() {
             @Override
             public void run()
             {
@@ -147,7 +148,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                     Logger.exception(e);
                 }
             }
-        }).start();
+        });
     }
 
 

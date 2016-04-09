@@ -48,6 +48,8 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
 
     ManualButton currentButton;
 
+    ManualButton previewZoom;
+
     final String TAG = ManualFragmentRotatingSeekbar.class.getSimpleName();
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -124,6 +126,9 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
         convergence = (ManualButton)view.findViewById(R.id.manual_convergence);
         convergence.SetStuff(AppSettingsManager.MCONVERGENCE);
         convergence.setOnClickListener(manualButtonClickListner);
+
+        previewZoom = (ManualButton)view.findViewById(R.id.manual_zoom_preview);
+        previewZoom.setOnClickListener(manualButtonClickListner);
         if (wrapper != null)
             setWrapper();
     }
@@ -170,6 +175,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
         aperture.SetAbstractManualParameter(wrapper.camParametersHandler.ManualFNumber);
         skintone.SetAbstractManualParameter(wrapper.camParametersHandler.Skintone);
         programshift.SetAbstractManualParameter(wrapper.camParametersHandler.ProgramShift);
+        previewZoom.SetAbstractManualParameter(wrapper.camParametersHandler.PreviewZoom);
     }
 
     @Override

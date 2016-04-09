@@ -8,6 +8,7 @@ import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.parameters.modes.I_SonyApi;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
+import com.troop.freedcam.ui.FreeDPool;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -84,7 +85,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     {
         if (stringvalues == null)
         {
-            new Thread(new Runnable()
+            FreeDPool.Execute(new Runnable()
             {
                 @Override
                 public void run()
@@ -108,7 +109,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                         stringvalues = new String[0];
                     }
                 }
-            }).start();
+            });
         }
         sendLog("Returning values from: " + VALUES_TO_GET);
         return stringvalues;
@@ -121,7 +122,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     {
         sendLog("Set Value to " + valueToSet);
         this.currentInt = valueToSet;
-        new Thread(new Runnable() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run()
             {
@@ -140,7 +141,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                     Logger.exception(e);
                 }
             }
-        }).start();
+        });
     }
 
     public String GetStringValue()

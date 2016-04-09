@@ -89,6 +89,9 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
 
     @Override
     public void onCameraError(String error) {
+        cameraHolder.isPreviewRunning = false;
+        PreviewSurfaceRdy = false;
+        surfaceView.stop();
         super.onCameraError(error);
     }
 

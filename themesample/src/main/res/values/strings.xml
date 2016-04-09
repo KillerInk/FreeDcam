@@ -109,6 +109,8 @@
     <string name="setting_sonycameraremote_">Sony Camera Remote Settings</string>
     <string name="setting_objecttrack_header">ObjectTracking: </string>
     <string name="setting_objecttrack_description">Enable to set Focus on a Object to follow</string>
+    <string name="setting_zoomsetting_header">Zoom Setting: </string>
+    <string name="setting_zoomsetting_description">Set to enable/disable digital zoom</string>
     <string name="setting_postview_header">PostViewSize: </string>
     <string name="setting_postview_description">Size of the Images transfered from RemoteCam</string>
 

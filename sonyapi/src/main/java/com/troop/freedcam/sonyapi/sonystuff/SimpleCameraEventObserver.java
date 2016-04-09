@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.troop.filelogger.Logger;
+import com.troop.freedcam.ui.FreeDPool;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -120,6 +121,8 @@ public class SimpleCameraEventObserver {
         void onPostviewModesChanged(String[] imagesize);
         void onTrackingFocusModeChanged(String imagesize);
         void onTrackingFocusModesChanged(String[] imagesize);
+        void onZoomSettingValueCHanged(String value);
+        void onZoomSettingsValuesCHanged(String[] values);
     }
 
     /**
@@ -263,8 +266,7 @@ public class SimpleCameraEventObserver {
         }
 
         mWhileEventMonitoring = true;
-        new Thread() {
-
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 sendLog("start() exec.");
@@ -333,10 +335,7 @@ public class SimpleCameraEventObserver {
 
                 mWhileEventMonitoring = false;
             }
-
-
-        }.start();
-
+        });
         return true;
     }
 
@@ -546,6 +545,17 @@ public class SimpleCameraEventObserver {
         }
 
         //36 zoom settings
+        String zoomSetting = JsonUtils.findStringInformation(replyJson, 36, "zoomSetting", "zoom");
+        if (zoomSetting != null && !zoomSetting.equals("")) {
+            sendLog("getEvent imageformat: " + zoomSetting);
+            fireZoomSettingChangedListener(zoomSetting);
+        }
+        String[] zoomSettings = JsonUtils.findStringArrayInformation(replyJson, 36, "zoomSetting", "candidate");
+        if (zoomSettings != null && zoomSettings.length > 0)
+        {
+            sendLog("getEvent imageformats: " + zoomSettings.toString());
+            fireZoomSettingsChangedListener(zoomSettings);
+        }
 
         //37 still quality
         String imageFormat = JsonUtils.findStringInformation(replyJson, 37, "stillQuality", "stillQuality");
@@ -1086,12 +1096,34 @@ public class SimpleCameraEventObserver {
         });
     }
 
+    private void fireZoomSettingsChangedListener(final String[] expo) {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mListener != null) {
+                    mListener.onZoomSettingsValuesCHanged(expo);
+                }
+            }
+        });
+    }
+
     private void fireImageFormatsChangedListener(final String[] expo) {
         mUiHandler.post(new Runnable() {
             @Override
             public void run() {
                 if (mListener != null) {
                     mListener.onImageFormatsChanged(expo);
+                }
+            }
+        });
+    }
+
+    private void fireZoomSettingChangedListener(final String expo) {
+        mUiHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mListener != null) {
+                    mListener.onZoomSettingValueCHanged(expo);
                 }
             }
         });
@@ -1107,6 +1139,7 @@ public class SimpleCameraEventObserver {
             }
         });
     }
+
 
     private void fireImageSizeChangedListener(final String expo) {
         mUiHandler.post(new Runnable() {

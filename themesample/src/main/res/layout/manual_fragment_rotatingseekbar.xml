@@ -134,6 +134,14 @@
             <troop.com.themesample.views.ManualButton
                 android:layout_width="35dp"
                 android:layout_height="45dp"
+                app:Header="Zoom"
+                app:Image="@drawable/manual_zoom"
+                android:id="@+id/manual_zoom_preview"
+                android:layout_marginRight="8dp" />
+
+            <troop.com.themesample.views.ManualButton
+                android:layout_width="35dp"
+                android:layout_height="45dp"
                 app:Header="FX"
                 app:Image="@drawable/manual_fx"
                 android:id="@+id/manual_fx"

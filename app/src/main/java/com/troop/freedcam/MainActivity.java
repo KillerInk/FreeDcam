@@ -184,7 +184,10 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         apiHandler = new ApiHandler(this);
         apiHandler.CheckApi();
         hardwareKeyHandler = new HardwareKeyHandler(this);
-        themeHandler.GetThemeFragment(true, cameraFragment.GetCameraUiWrapper());
+        if (cameraFragment != null)
+            themeHandler.GetThemeFragment(true, cameraFragment.GetCameraUiWrapper());
+        else
+            themeHandler.GetThemeFragment(true,null);
     }
 
     /**
@@ -228,8 +231,10 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
             transaction.remove(cameraFragment);
             transaction.commitAllowingStateLoss();
             cameraFragment = null;
+        if(orientationHandler != null)
+            orientationHandler.Stop();
         }
-        orientationHandler.Stop();
+
     }
 
     //gets thrown when the cameraui wrapper is created sucessfull and all items are up like modulehandler

@@ -7,6 +7,7 @@ import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleRemoteApi;
+import com.troop.freedcam.ui.FreeDPool;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -75,13 +76,13 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
     public void SetValue(final String valueToSet, boolean setToCamera)
     {
         value = valueToSet;
-        new Thread(new Runnable() {
+        FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 processValuesToSet(valueToSet);
                 BackgroundValueHasChanged(valueToSet);
             }
-        }).start();
+        });
     }
 
     protected void processValuesToSet(String valueToSet)

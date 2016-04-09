@@ -55,7 +55,7 @@ public class RawSaver extends JpegSaver
     }
 
     @Override
-    public void saveBytesToFile(byte[] bytes, File fileName) {
+    public void saveBytesToFile(byte[] bytes, File fileName, boolean workdone) {
         checkFileExists(fileName);
 
         Logger.d(TAG, "Start Saving Bytes");
