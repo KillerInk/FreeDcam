@@ -26,7 +26,7 @@ public class SimpleSsdpClient {
 
     private static final String TAG = SimpleSsdpClient.class.getSimpleName();
 
-    private static final int SSDP_RECEIVE_TIMEOUT = 10000; // msec
+    private static final int SSDP_RECEIVE_TIMEOUT = 4000; // msec
 
     private static final int PACKET_BUFFER_SIZE = 1024;
 
