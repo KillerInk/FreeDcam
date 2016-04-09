@@ -37,6 +37,7 @@ public abstract class AbstractParameterHandler
     public AbstractManualParameter Zoom;
     public AbstractManualParameter Skintone;
     public AbstractManualParameter ProgramShift;
+    public AbstractManualParameter PreviewZoom;
 
     public AbstractModeParameter ColorMode;
     public AbstractModeParameter ExposureMode;
@@ -94,7 +95,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter PostViewSize;
     public AbstractModeParameter Focuspeak;
     public AbstractModeParameter Module;
-    public AbstractModeParameter PreviewZoom;
+    //public AbstractModeParameter PreviewZoom;
     //
     public AbstractModeParameter ThemeList;
     public boolean isExposureAndWBLocked = false;
@@ -218,7 +219,7 @@ public abstract class AbstractParameterHandler
         setMode(morphoHDR, AppSettingsManager.SETTING_MORPHOHDR);
         setMode(morphoHHT, AppSettingsManager.SETTING_MORPHOHHT);
 
-        setMode(PreviewZoom, AppSettingsManager.SETTINGS_PREVIEWZOOM);
+        //setMode(PreviewZoom, AppSettingsManager.SETTINGS_PREVIEWZOOM);
 
 
         setManualMode(ManualContrast, AppSettingsManager.MCONTRAST);

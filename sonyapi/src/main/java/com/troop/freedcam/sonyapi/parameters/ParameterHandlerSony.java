@@ -10,6 +10,7 @@ import com.troop.freedcam.i_camera.parameters.ModuleParameters;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
 import com.troop.freedcam.sonyapi.parameters.manual.BaseManualParameterSony;
 import com.troop.freedcam.sonyapi.parameters.manual.ExposureCompManualParameterSony;
+import com.troop.freedcam.sonyapi.parameters.manual.PreviewZoomManual;
 import com.troop.freedcam.sonyapi.parameters.manual.ProgramShiftManualSony;
 import com.troop.freedcam.sonyapi.parameters.manual.WbCTManualSony;
 import com.troop.freedcam.sonyapi.parameters.manual.ZoomManualSony;
@@ -139,7 +140,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         NightMode = new NightModeSony(uiHandler,null,null,null,null,surfaceView);
         parametersChangedList.add((BaseModeParameterSony) NightMode);
 
-        PreviewZoom = new PreviewZoomSony(uiHandler, surfaceView);
+        PreviewZoom = new PreviewZoomManual(surfaceView,this);
 
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override

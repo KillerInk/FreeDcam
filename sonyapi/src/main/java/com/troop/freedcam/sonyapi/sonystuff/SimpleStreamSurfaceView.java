@@ -77,7 +77,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private int zoomPreviewMagineLeft =0;
     private int zoomPreviewMargineTop = 0;
 
-    public int PreviewZOOMFactor = 8;
+    public int PreviewZOOMFactor = 1;
 
     public enum NightPreviewModes
     {
@@ -387,7 +387,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             int w = frame.getWidth();
             int h = frame.getHeight();
             Rect src = new Rect(0, 0, w, h);
-            if (nightmode == NightPreviewModes.zoompreview)
+            if (PreviewZOOMFactor > 1)
             {
                 int w4 = w /PreviewZOOMFactor;
                 int h4 = h/PreviewZOOMFactor;
@@ -471,7 +471,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
             }
             if (focuspeak) {
-                if (nightmode != NightPreviewModes.off)
+                if (nightmode != NightPreviewModes.off || PreviewZOOMFactor > 1)
                     mInputAllocation.copyFrom(drawBitmap);
                 else
                     mInputAllocation.copyFrom(frame);
@@ -670,14 +670,14 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 currentY = (int) event.getY();
                 if (startX > currentX)
                 {
-                    zoomPreviewMagineLeft -= startX - currentX;
+                    zoomPreviewMagineLeft -= (startX - currentX)/PreviewZOOMFactor;
                 }
                 else
-                    zoomPreviewMagineLeft += currentX -startX;
+                    zoomPreviewMagineLeft += (currentX -startX)/PreviewZOOMFactor;
                 if (startY > currentY)
-                    zoomPreviewMargineTop -= startY - currentY;
+                    zoomPreviewMargineTop -= (startY - currentY)/PreviewZOOMFactor;
                 else
-                    zoomPreviewMargineTop+= currentY - startY;
+                    zoomPreviewMargineTop+= (currentY - startY)/PreviewZOOMFactor;
                 startX = currentX;
                 startY = currentY;
                 //detect swipeDetected. if swipeDetected detected return false else true

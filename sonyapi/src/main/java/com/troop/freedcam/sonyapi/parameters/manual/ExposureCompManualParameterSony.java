@@ -108,13 +108,6 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                     }
                 }
             });
-            while (currentInt == -200)
-                try {
-                    Thread.sleep(10);
-                    Logger.d(TAG, "Wait for getValues");
-                } catch (InterruptedException e) {
-                    Logger.exception(e);
-                }
         }
         return currentInt;
     }
@@ -132,4 +125,11 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
         return stringvalues;
     }
 
+    @Override
+    public String GetStringValue()
+    {
+        if (stringvalues != null && currentInt != -100)
+            return stringvalues[currentInt];
+        return 0+"";
+    }
 }

@@ -81,7 +81,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     private troop.com.themesample.views.menu.MenuItemAEB AEB2;
     private troop.com.themesample.views.menu.MenuItemAEB AEB3;
 
-    private MenuItem previewZoom;
+    //private MenuItem previewZoom;
 
     private Interfaces.I_MenuItemClick onMenuItemClick;
 
@@ -177,8 +177,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         settingsOpen = sharedPref.getBoolean(KEY_SETTINGSOPEN, false);
         leftholder = (LinearLayout) getActivity().findViewById(R.id.guideHolder);
 
-        previewZoom = (MenuItem)view.findViewById(R.id.MenuItemPreviewZoom);
-        previewZoom.SetStuff(i_activity,AppSettingsManager.SETTINGS_PREVIEWZOOM);
+        /*previewZoom = (MenuItem)view.findViewById(R.id.MenuItemPreviewZoom);
+        previewZoom.SetStuff(i_activity,AppSettingsManager.SETTINGS_PREVIEWZOOM);*/
 
         setWrapper();
     }
@@ -299,8 +299,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
             AEB3.setVisibility(View.GONE);
         }
 
-        previewZoom.SetParameter(wrapper.camParametersHandler.PreviewZoom);
-        previewZoom.SetMenuItemListner(this);
+        /*previewZoom.SetParameter(wrapper.camParametersHandler.PreviewZoom);
+        previewZoom.SetMenuItemListner(this);*/
 
     }
 
