@@ -436,7 +436,8 @@ public class CameraHolderSony extends AbstractCameraHolder
             }
         });
     }
-
+// guide"results" -> "[["getServiceProtocols",[],["string","string*"],"1.0"],["getMethodTypes",["string"],["string","string*","string*","string"],"1.0"],["getVersions",[],["string*"],"1.0"]]"
+    //{"results":[["setCurrentTime",["{\"dateTime\":\"string\", \"timeZoneOffsetMinute\":\"int\", \"dstOffsetMinute\":\"int\"}"],[],"1.0"],["getMethodTypes",["string"],["string","string*","string*","string"],"1.0"],["getVersions",[],["string*"],"1.0"]],"id":1}
     private void prepareOpenConnection() {
         Logger.d(TAG, "prepareToOpenConection() exec");
         FreeDPool.Execute(new Runnable() {
@@ -445,6 +446,8 @@ public class CameraHolderSony extends AbstractCameraHolder
                 try {
                     // Get supported API list (Camera API)
                     Logger.d(TAG, "get event longpool false");
+                    /*JSONObject replyJsonsystemMeth = mRemoteApi.getMethodTypes(SimpleRemoteApi.SYSTEM);
+                    JSONObject replyJsonguideMeth = mRemoteApi.getMethodTypes(SimpleRemoteApi.GUIDE);*/
                     JSONObject replyJson = mRemoteApi.getEvent(false, "1.0");
                     JSONArray resultsObj = replyJson.getJSONArray("result");
                     JsonUtils.loadSupportedApiListFromEvent(resultsObj.getJSONObject(0), mAvailableCameraApiSet);
