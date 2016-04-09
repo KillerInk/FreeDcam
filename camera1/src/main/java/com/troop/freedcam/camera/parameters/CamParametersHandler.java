@@ -756,6 +756,17 @@ public class CamParametersHandler extends AbstractParameterHandler
             SetParametersToCamera(cameraParameters);
         }
     }
+
+    @Override
+    public void SetEVBracket(String ev)
+    {
+        if (cameraParameters.containsKey("lg-ev-ctrl"))
+            cameraParameters.put("lg-ev-ctrl",ev);
+        else
+            cameraParameters.put("exposure-compensation",ev);
+        SetParametersToCamera(cameraParameters);
+    }
+
     @Override
     public void SetPictureOrientation(int orientation)
     {

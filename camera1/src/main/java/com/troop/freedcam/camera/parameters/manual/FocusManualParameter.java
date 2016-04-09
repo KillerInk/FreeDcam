@@ -24,6 +24,8 @@ public class FocusManualParameter extends  BaseManualParameter
 
     private String manualFocusModeString;
 
+    private String ogFocusValue = "auto";
+
     public FocusManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler,1);
         this.baseCameraHolder = cameraHolder;
@@ -102,6 +104,8 @@ public class FocusManualParameter extends  BaseManualParameter
     @Override
     protected void setvalue(final int valueToSet)
     {
+        ogFocusValue = camParametersHandler.FocusMode.GetValue();
+
         currentInt = valueToSet;
         //check/set auto/manual mode
         if (DeviceUtils.IS_DEVICE_ONEOF(new DeviceUtils.Devices[]
@@ -120,7 +124,7 @@ public class FocusManualParameter extends  BaseManualParameter
                 camParametersHandler.SetParametersToCamera(parameters);
             }
             else
-                camParametersHandler.FocusMode.SetValue("auto", true);
+                camParametersHandler.FocusMode.SetValue(ogFocusValue, true);
 
 
         }
