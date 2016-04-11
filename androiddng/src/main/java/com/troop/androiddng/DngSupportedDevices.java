@@ -395,6 +395,8 @@ public class DngSupportedDevices
                         Matrixes.G4_reduction_matrix1,
                         Matrixes.G4_reduction_matrix2,
                         Matrixes.G4_noise_3x1_matrix);
+            case 20389888: //xiaomi note3 pro
+                return new Nexus6Profile(64, 4632, 3480, Mipi16, BGGR, 0);
             case 21233664: //e7qcom
                 return new DngProfile(16, 4608, 3456, Qcom, BGGR, 0,
                         Matrixes.OV_matrix1,
