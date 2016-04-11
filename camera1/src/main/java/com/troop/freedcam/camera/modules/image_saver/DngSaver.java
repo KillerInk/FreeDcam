@@ -84,13 +84,13 @@ public class DngSaver extends JpegSaver
             @Override
             public void run() {
                 File f = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), fileEnding));
-                processData(data, f);
+                processData(data, f, true);
             }
         });
 
     }
 
-    public void processData(byte[] data, File file)
+    public void processData(byte[] data, File file, boolean throwOnWorkDone)
     {
         try
         {
@@ -212,7 +212,8 @@ public class DngSaver extends JpegSaver
                 pfd = null;
             }
         }
-        iWorkeDone.OnWorkDone(file);
+        if(throwOnWorkDone)
+            iWorkeDone.OnWorkDone(file);
 
     }
 

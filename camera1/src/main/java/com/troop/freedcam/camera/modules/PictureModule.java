@@ -181,7 +181,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
                         rawSaver.saveBytesToFile(data, new File(StringUtils.getFilePathBurst(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), rawSaver.fileEnding, burstcount)),true);
                     } else if (ParameterHandler.IsDngActive() && picFormat.contains(StringUtils.FileEnding.DNG)) {
                         DngSaver dngSaver = new DngSaver(baseCameraHolder, burstDone);
-                        dngSaver.processData(data, new File(StringUtils.getFilePathBurst(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), dngSaver.fileEnding, burstcount)));
+                        dngSaver.processData(data, new File(StringUtils.getFilePathBurst(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), dngSaver.fileEnding, burstcount)), true);
                     }
                 }
             });

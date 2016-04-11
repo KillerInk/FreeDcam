@@ -122,7 +122,7 @@ public class MediatekSaver extends JpegSaver {
 
         Logger.d(TAG,"DNGfile:" + dng.getAbsolutePath());
         DngSaver saver = new DngSaver(cameraHolder, iWorkeDone);
-        saver.processData(data, dng);
+        saver.processData(data, dng, false);
 
         data = null;
         rawfile.delete();

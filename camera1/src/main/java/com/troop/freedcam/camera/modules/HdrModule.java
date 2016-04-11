@@ -280,7 +280,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
                 rawSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathHDR(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), rawSaver.fileEnding, hdrCount)),true);
             } else if (ParameterHandler.IsDngActive() && picFormat.contains(StringUtils.FileEnding.DNG)) {
                 DngSaver dngSaver = new DngSaver(baseCameraHolder, aeBracketDone);
-                dngSaver.processData(data, new File(StringUtils.getFilePathHDR(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), dngSaver.fileEnding, hdrCount)));
+                dngSaver.processData(data, new File(StringUtils.getFilePathHDR(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), dngSaver.fileEnding, hdrCount)),true);
             }
         }
     };
