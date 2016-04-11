@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.troop.filelogger.Logger;
+import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.FileUtils;
 
 import java.io.File;
@@ -72,7 +73,7 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
         if (files == null || files.size() == 0)
             currentFragment.SetFilePath(null);
         else
-            currentFragment.SetFilePath(files.get(position).getFile());
+            currentFragment.SetFilePath(files.get(position));
         currentFragment.SetOnclickLisnter(fragmentclickListner);
         currentFragment.setTag(position);
         return currentFragment;
@@ -88,7 +89,7 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
 
     @Override
     public int getItemPosition(Object object) {
-        FileHolder file = new FileHolder(((ImageFragment) object).GetFilePath());
+        FileHolder file = ((ImageFragment) object).GetFilePath();
         int position = files.indexOf(file);
         if (position >= 0) {
             // The current data matches the data in this active fragment, so let it be as it is.
@@ -110,7 +111,12 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         registeredFragments.remove(position);
-        super.destroyItem(container, position, object);
+        try {
+            super.destroyItem(container, position, object);
+        }
+        catch (IndexOutOfBoundsException ex)
+        { Logger.exception(ex);}
+
     }
 
     public ImageFragment getRegisteredFragment(int position) {
@@ -122,7 +128,7 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
         if (files == null)
             return;
         try {
-            files.add(new FileHolder(file));
+            files.add(new FileHolder(file, AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal()));
             Collections.sort(files, new Comparator<FileHolder>() {
                 public int compare(FileHolder f1, FileHolder f2) {
                     return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
@@ -159,7 +165,7 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
             files = null;
             return;
         }
-        FileHolder.readFilesFromFolder(folder, images, filestoshow);
+        FileHolder.readFilesFromFolder(folder, images, filestoshow,AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal());
         files = images;
         Logger.d(TAG, "readFiles sucess, FilesCount" + files.size());
         this.notifyDataSetChanged();

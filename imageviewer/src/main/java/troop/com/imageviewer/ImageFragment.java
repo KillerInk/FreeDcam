@@ -49,7 +49,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
 {
     final String TAG = ImageFragment.class.getSimpleName();
     private TouchImageView imageView;
-    private File file;
+    private FileHolder file;
     private int mImageThumbSize = 0;
     private View.OnClickListener onClickListener;
     private int tag;
@@ -68,12 +68,12 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
     private LinearLayout bottombar;
     private int loadCount = 0;
 
-    public void SetFilePath(File filepath)
+    public void SetFilePath(FileHolder filepath)
     {
         this.file = filepath;
     }
 
-    public File GetFilePath()
+    public FileHolder GetFilePath()
     {
         return file;
     }
@@ -98,7 +98,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
 
         if(savedInstanceState != null && file == null)
         {
-            file = new File((String) savedInstanceState.get(ScreenSlideFragment.SAVESTATE_FILEPATH));
+            file = new FileHolder(new File((String) savedInstanceState.get(ScreenSlideFragment.SAVESTATE_FILEPATH)),false);
         }
 
         myHistogram = new MyHistogram(view.getContext());
@@ -125,11 +125,11 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
             public void onClick(View v) {
                 if (file == null)
                     return;
-                if (!file.getAbsolutePath().endsWith(StringUtils.FileEnding.RAW) || !file.getAbsolutePath().endsWith(StringUtils.FileEnding.BAYER)) {
-                    Uri uri = Uri.fromFile(file);
+                if (!file.getFile().getName().endsWith(StringUtils.FileEnding.RAW) || !file.getFile().getName().endsWith(StringUtils.FileEnding.BAYER)) {
+                    Uri uri = Uri.fromFile(file.getFile());
 
                     Intent i = new Intent(Intent.ACTION_EDIT);
-                    if (file.getAbsolutePath().endsWith(StringUtils.FileEnding.MP4))
+                    if (file.getFile().getName().endsWith(StringUtils.FileEnding.MP4))
                         i.setDataAndType(uri, "video/*");
                     else
                         i.setDataAndType(uri, "image/*");
@@ -144,7 +144,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
                     FreeDPool.Execute(new Runnable() {
                         @Override
                         public void run() {
-                            final File tmp = file;
+                            final File tmp = file.getFile();
                             convertRawToDng(tmp);
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
@@ -190,8 +190,8 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
-                    BitmapHelper.DeleteFile(new FileHolder(file));
-                    MediaScannerManager.ScanMedia(getContext(), file);
+                    BitmapHelper.DeleteFile(file);
+                    MediaScannerManager.ScanMedia(getContext(), file.getFile());
                     ((ScreenSlideFragment)getParentFragment()).reloadFilesAndSetLastPos();
                     break;
 
@@ -205,8 +205,8 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
     @Override
     public void onSaveInstanceState(Bundle outState)
     {
-        if (file != null && file.getAbsolutePath() != null)
-            outState.putString(ScreenSlideFragment.SAVESTATE_FILEPATH, file.getAbsolutePath());
+        if (file != null && file.getFile() != null && file.getFile().getAbsolutePath() != null)
+            outState.putString(ScreenSlideFragment.SAVESTATE_FILEPATH, file.getFile().getAbsolutePath());
         super.onSaveInstanceState(outState);
     }
 
@@ -256,7 +256,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
     {
         Bitmap response =null;
         try {
-            response = BitmapHelper.getBitmap(file,false,mImageThumbSize,mImageThumbSize);
+            response = BitmapHelper.getBitmap(file.getFile(),false,mImageThumbSize,mImageThumbSize);
         }
         catch (IllegalArgumentException ex)
         {
@@ -265,29 +265,29 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
         return response;
     }
 
-    private void updateUi(File file)
+    private void updateUi(FileHolder file)
     {
         if (file != null)
         {
-            filename.setText(file.getName());
+            filename.setText(file.getFile().getName());
             deleteButton.setVisibility(View.VISIBLE);
-            if (file.getAbsolutePath().endsWith(StringUtils.FileEnding.JPG) || file.getAbsolutePath().endsWith(StringUtils.FileEnding.JPS)) {
-                processJpeg(file);
+            if (file.getFile().getName().endsWith(StringUtils.FileEnding.JPG) || file.getFile().getName().endsWith(StringUtils.FileEnding.JPS)) {
+                processJpeg(file.getFile());
                 exifinfo.setVisibility(View.VISIBLE);
                 //myHistogram.setVisibility(View.VISIBLE);
                 play.setVisibility(View.VISIBLE);
             }
-            if (file.getAbsolutePath().endsWith(StringUtils.FileEnding.MP4)) {
+            if (file.getFile().getName().endsWith(StringUtils.FileEnding.MP4)) {
                 exifinfo.setVisibility(View.GONE);
                 //myHistogram.setVisibility(View.GONE);
                 play.setVisibility(View.VISIBLE);
             }
-            if (file.getAbsolutePath().endsWith(StringUtils.FileEnding.DNG)) {
+            if (file.getFile().getName().endsWith(StringUtils.FileEnding.DNG)) {
                 exifinfo.setVisibility(View.GONE);
                 //myHistogram.setVisibility(View.VISIBLE);
                 play.setVisibility(View.VISIBLE);
             }
-            if (file.getAbsolutePath().endsWith(StringUtils.FileEnding.RAW) || file.getAbsolutePath().endsWith(StringUtils.FileEnding.BAYER)) {
+            if (file.getFile().getName().endsWith(StringUtils.FileEnding.RAW) || file.getFile().getName().endsWith(StringUtils.FileEnding.BAYER)) {
                 exifinfo.setVisibility(View.GONE);
                 //myHistogram.setVisibility(View.VISIBLE);
                 play.setVisibility(View.GONE);

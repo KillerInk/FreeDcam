@@ -26,12 +26,14 @@ public class FileHolder extends BaseHolder
     private File file;
     private static final String TAG = FileHolder.class.getSimpleName();
     private boolean isFolder = false;
+    private boolean isSDCard = false;
 
-    public FileHolder(File file)
+    public FileHolder(File file, boolean external)
     {
         this.file = file;
         if (file.isDirectory())
             isFolder=true;
+        isSDCard = external;
     }
 
     public File getFile()
@@ -43,8 +45,9 @@ public class FileHolder extends BaseHolder
     {
         return isFolder;
     }
+    public boolean isExternalSD() { return isSDCard; }
 
-    public static void readFilesFromFolder(File folder, List<FileHolder> list, GridViewFragment.FormatTypes formatsToShow) {
+    public static void readFilesFromFolder(File folder, List<FileHolder> list, GridViewFragment.FormatTypes formatsToShow, boolean external) {
         File[] folderfiles = folder.listFiles();
         if (folderfiles == null)
             return;
@@ -58,19 +61,19 @@ public class FileHolder extends BaseHolder
                                 || f.getAbsolutePath().endsWith(StringUtils.FileEnding.DNG)
                                 || f.getAbsolutePath().endsWith(StringUtils.FileEnding.MP4)
                 ))
-                    list.add(new FileHolder(f));
+                    list.add(new FileHolder(f,external));
                 else if (formatsToShow == GridViewFragment.FormatTypes.dng && f.getAbsolutePath().endsWith(StringUtils.FileEnding.DNG))
-                    list.add(new FileHolder(f));
+                    list.add(new FileHolder(f,external));
                 else if (formatsToShow == GridViewFragment.FormatTypes.raw && f.getAbsolutePath().endsWith(StringUtils.FileEnding.RAW))
-                    list.add(new FileHolder(f));
+                    list.add(new FileHolder(f,external));
                 else if (formatsToShow == GridViewFragment.FormatTypes.raw && f.getAbsolutePath().endsWith(StringUtils.FileEnding.BAYER))
-                    list.add(new FileHolder(f));
+                    list.add(new FileHolder(f,external));
                 else if (formatsToShow == GridViewFragment.FormatTypes.jps && f.getAbsolutePath().endsWith(StringUtils.FileEnding.JPS))
-                    list.add(new FileHolder(f));
+                    list.add(new FileHolder(f,external));
                 else if (formatsToShow == GridViewFragment.FormatTypes.jpg && f.getAbsolutePath().endsWith(StringUtils.FileEnding.JPS))
-                    list.add(new FileHolder(f));
+                    list.add(new FileHolder(f,external));
                 else if (formatsToShow == GridViewFragment.FormatTypes.mp4 && f.getAbsolutePath().endsWith(StringUtils.FileEnding.MP4))
-                    list.add(new FileHolder(f));
+                    list.add(new FileHolder(f,external));
             }
         }
         SortFileHolder(list);
@@ -82,23 +85,22 @@ public class FileHolder extends BaseHolder
         File internal = new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder);
         if (internal != null)
             Logger.d(TAG, "InternalSDPath:" + internal.getAbsolutePath());
-        FileHolder.readFilesFromFolder(internal, f, GridViewFragment.FormatTypes.all);
-try {
-
-
-    if (StringUtils.hasEXTSD() || (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT)) {
-        File external = new File(StringUtils.GetExternalSDCARD() + StringUtils.freedcamFolder);
-        if (external != null)
-            Logger.d(TAG, "ExternalSDPath:" + external.getAbsolutePath());
-        else
-            Logger.d(TAG, "No ExternalSDFound");
-        FileHolder.readFilesFromFolder(external, f, GridViewFragment.FormatTypes.all);
-    }
-}
-catch (NullPointerException ex)
-{
-    ex.printStackTrace();
-}
+        FileHolder.readFilesFromFolder(internal, f, GridViewFragment.FormatTypes.all, false);
+        try {
+            File fs = StringUtils.GetExternalSDCARD();
+            if (fs !=  null && fs.exists()) {
+                File external = new File(fs + StringUtils.freedcamFolder);
+                if (external != null && external.exists())
+                    Logger.d(TAG, "ExternalSDPath:" + external.getAbsolutePath());
+                else
+                    Logger.d(TAG, "No ExternalSDFound");
+                FileHolder.readFilesFromFolder(external, f, GridViewFragment.FormatTypes.all, true);
+            }
+        }
+        catch (NullPointerException ex)
+        {
+            Logger.e(TAG, "Looks like there is no External SD");
+        }
 
         SortFileHolder(f);
         return f;
@@ -114,18 +116,21 @@ catch (NullPointerException ex)
         {
             for (int i = 0; i < f.length; i++) {
                 if (!f[i].isHidden())
-                    list.add(new FileHolder(f[i]));
+                    list.add(new FileHolder(f[i],false));
             }
         }
         try {
-            File externalSDCIM = new File(StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder);
-            f = externalSDCIM.listFiles();
-            for (int i = 0; i< f.length; i++)
-            {
-                if (!f[i].isHidden())
-                    list.add(new FileHolder(f[i]));
+            File fs = StringUtils.GetExternalSDCARD();
+            if (fs != null && fs.exists()) {
+                File externalSDCIM = new File(StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder);
+                f = externalSDCIM.listFiles();
+                for (int i = 0; i < f.length; i++) {
+                    if (!f[i].isHidden())
+                        list.add(new FileHolder(f[i], true));
+                }
             }
-        } catch (NullPointerException ex)
+        }
+        catch (NullPointerException ex)
         {
             Logger.d(TAG, "No external SD!");
         } catch (Exception ex) {

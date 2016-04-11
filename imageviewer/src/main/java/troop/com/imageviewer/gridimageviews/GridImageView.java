@@ -33,6 +33,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
     private TextView textView;
     private TextView folderTextView;
     private ImageView checkBox;
+    private ImageView sdcard;
     private BaseHolder fileHolder;
     final String NOIMAGE = "noimage_thumb";
     final String FOLDER = "folder_thumb";
@@ -67,6 +68,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         textView = (TextView)findViewById(R.id.filetypetextbox);
         folderTextView = (TextView)findViewById(R.id.foldertextbox);
         checkBox = (ImageView)findViewById(R.id.checkBox_gridviewimage);
+        sdcard = (ImageView)findViewById(R.id.imageView_sd);
         /*checkBox.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,6 +187,10 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
             SetFileEnding("");
             SetFolderName(f);
         }
+        if (fileHolder.isExternalSD())
+            sdcard.setVisibility(VISIBLE);
+        else
+            sdcard.setVisibility(GONE);
 
     }
 

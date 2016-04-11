@@ -98,7 +98,7 @@ public class ImageAdapter extends BaseAdapter
     public void loadFiles(File file)
     {
         files.clear();
-        FileHolder.readFilesFromFolder(file,files,formatsToShow);
+        FileHolder.readFilesFromFolder(file,files,formatsToShow, false);
 
         notifyDataSetChanged();
     }

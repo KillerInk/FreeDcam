@@ -219,12 +219,16 @@ public class StringUtils
             return true;
     }
 
-    public static File GetExternalSDCARD()
+    public static File GetExternalSDCARD() throws NullPointerException
     {
-
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT){
-            System.out.println("SEcond Stoage"+System.getenv("SECONDARY_STORAGE"));
-            return new File(System.getenv("SECONDARY_STORAGE"));}
+        if (!StringUtils.IS_L_OR_BIG())
+        {
+            String path = System.getenv("SECONDARY_STORAGE");
+            if (path == null || path.equals(""))
+                return null;
+            else
+                return new File(path);
+        }
         else
         {
             File f = StringUtils.DIR_ANDROID_STORAGE;

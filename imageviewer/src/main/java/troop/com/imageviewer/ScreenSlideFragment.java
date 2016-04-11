@@ -156,18 +156,6 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
                 mPager.setCurrentItem(0);
             } else
                 mPager.setCurrentItem(defitem);
-        try {
-            try {
-            }
-            catch (ArrayIndexOutOfBoundsException esx)
-            {
-                esx.printStackTrace();
-            }
-        }
-        catch (NullPointerException ex)
-        {
-            ex.printStackTrace();
-        }
         }
     }
 
