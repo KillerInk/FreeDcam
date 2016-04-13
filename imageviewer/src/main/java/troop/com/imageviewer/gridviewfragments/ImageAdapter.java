@@ -68,7 +68,9 @@ public class ImageAdapter extends BaseAdapter
         } else {
             imageView = (GridImageView) convertView;
         }
-        if (imageView.getFileHolder() == null || !imageView.getFileHolder().equals(files.get(position)) /*||imageView.viewstate != currentViewState*/) {
+
+        if (imageView.getFileHolder() == null || !imageView.getFileHolder().equals(files.get(position)) /*||imageView.viewstate != currentViewState*/)
+        {
             imageView.SetEventListner(files.get(position));
             imageView.SetViewState(currentViewState);
             imageView.loadFile(files.get(position), mImageThumbSize);

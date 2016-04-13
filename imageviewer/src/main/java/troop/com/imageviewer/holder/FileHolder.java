@@ -32,8 +32,8 @@ public class FileHolder extends BaseHolder
     {
         this.file = file;
         if (file.isDirectory())
-            isFolder=true;
-        isSDCard = external;
+            this.isFolder=true;
+        this.isSDCard = external;
     }
 
     public File getFile()
@@ -43,7 +43,7 @@ public class FileHolder extends BaseHolder
 
     public boolean IsFolder()
     {
-        return isFolder;
+        return this.isFolder;
     }
     public boolean isExternalSD() { return isSDCard; }
 

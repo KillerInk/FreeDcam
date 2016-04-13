@@ -355,7 +355,6 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         @Override
         public void onClick(View view)
         {
-            String external = "";
             if (currentViewState == ViewStates.normal)
             {
                 if (mPagerAdapter.getFiles() != null && mPagerAdapter.getFiles().size() > 0)
@@ -379,7 +378,10 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
 
                 }
                 else
+                {
                     mPagerAdapter.loadDCIMFolders();
+                    isRootDir = true;
+                }
             }
             else if (currentViewState == ViewStates.selection)
             {
@@ -417,7 +419,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                 if (!hasfilesSelected)
                     return;
                 //else show dialog
-                if (!StringUtils.IS_L_OR_BIG() || StringUtils.WRITE_NOT_EX_AND_L_ORBigger())
+                if (!StringUtils.IS_L_OR_BIG() || !mPagerAdapter.getFiles().get(0).isExternalSD())
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setMessage(R.string.delete_files).setPositiveButton(R.string.yes, dialogDeleteClickListener)

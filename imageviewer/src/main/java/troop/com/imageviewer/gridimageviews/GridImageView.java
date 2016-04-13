@@ -157,7 +157,11 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
     }
 
 
-
+    public void SetBackGroundRes(int resid)
+    {
+        imageView.setImageBitmap(null);
+        imageView.setBackgroundResource(resid);
+    }
 
     public void loadFile(FileHolder fileHolder, int mImageThumbSize)
     {
@@ -165,24 +169,21 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         this.mImageThumbSize = mImageThumbSize;
         if (BitmapHelper.CACHE == null)
             BitmapHelper.INIT(getContext());
+        imageView.setImageBitmap(null);
         if (!fileHolder.getFile().isDirectory())
         {
-            imageView.setBackgroundResource(R.drawable.noimage);
             if (!FreeDPool.IsInit())
                 FreeDPool.INIT();
+            imageView.setImageResource(R.drawable.noimage);
             FreeDPool.Execute(new BitmapLoadRunnable(this,fileHolder));
         }
         else
-        {
-            imageView.setBackgroundResource(R.drawable.folder);
-            imageView.setImageBitmap(null);
-        }
+            imageView.setImageResource(R.drawable.folder);
         String f = fileHolder.getFile().getName();
         if (!fileHolder.getFile().isDirectory()) {
             SetFolderName("");
             SetFileEnding(f.substring(f.length() - 3));
         }
-
         else {
             SetFileEnding("");
             SetFolderName(f);
@@ -191,6 +192,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
             sdcard.setVisibility(VISIBLE);
         else
             sdcard.setVisibility(GONE);
+        invalidate();
 
     }
 
@@ -216,7 +218,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
                     imageView.post(new Runnable() {
                         @Override
                         public void run() {
-                            imageView.setImageBitmap(bitmap);
+                            imageView.imageView.setImageBitmap(bitmap);
                         }
                     });
 
