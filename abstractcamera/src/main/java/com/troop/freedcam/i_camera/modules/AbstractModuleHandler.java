@@ -41,6 +41,9 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
     public static final String MODULE_HDR = "module_hdr";
     public static final String MODULE_BURST = "module_burst";
     public static final String MODULE_LONGEXPO = "module_longexposure";
+    public static final String MODULE_STACKING = "module_stacking";
+    public static final String MODULE_FILM_SNAPSHOT = "module_film_snapshot";
+    public static final String MODULE_FILM_VIDEO = "module_film_snapshot";
     public static final String MODULE_INTERVAL = "module_interval";
     public static final String MODULE_ALL = "module_all";
 
