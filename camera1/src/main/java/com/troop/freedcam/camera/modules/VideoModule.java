@@ -64,7 +64,7 @@ public class VideoModule extends AbstractVideoModule
                 }
                 break;
             case Timelapse:
-                float frame = 30;
+                float frame = 60;
                 if(!AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).equals(""))
                     frame = Float.parseFloat(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).replace(",", "."));
                 else
