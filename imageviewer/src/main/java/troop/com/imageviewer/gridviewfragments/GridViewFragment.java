@@ -367,7 +367,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                         mPagerAdapter.loadDCIMFolders();
                         isRootDir = true;
                     }
-                    else if (topPath.getName().equals("DCIM") && isRootDir)
+                    else if (isRootDir)
                     {
                         getActivity().finish();
                     }
