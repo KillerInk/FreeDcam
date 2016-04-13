@@ -127,7 +127,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public boolean DoWork()
     {
-        if (!cameraHolder.isWorking)
+        if (!cameraHolder.isWorking && !isWorking)
         {
             /*get pic size*/
             workstarted();
@@ -477,7 +477,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 else
                 {
                     DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
-                    DocumentFile wr = df.createFile("image/dng", file.getName());
+                    DocumentFile wr = df.createFile("image/*", file.getName());
                     dngCreator.writeImage(AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri()), image);
                 }
             } catch (IOException e) {
@@ -511,7 +511,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         else
         {
             DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
-            DocumentFile wr = df.createFile("image/dng", file.getName());
+            DocumentFile wr = df.createFile("image/*", file.getName());
             try {
 
                 pfd = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
