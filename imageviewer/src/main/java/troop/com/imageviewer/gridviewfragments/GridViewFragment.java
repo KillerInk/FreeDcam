@@ -75,6 +75,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
 
     private TextView filesSelected;
     private int filesSelectedCount =0;
+    private boolean isRootDir = true;
 
 
 
@@ -251,7 +252,8 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         switch (currentViewState)
         {
             case normal:
-                if (!mPagerAdapter.GetFileHolder(position).IsFolder()) {
+                if (!mPagerAdapter.GetFileHolder(position).IsFolder())
+                {
                     final Intent i = new Intent(getActivity(), ScreenSlideActivity.class);
                     i.putExtra(ScreenSlideActivity.EXTRA_IMAGE, position);
                     if (mPagerAdapter.getFiles() != null &&mPagerAdapter.getFiles().size() >0)
@@ -268,6 +270,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                 {
                     savedInstanceFilePath =  mPagerAdapter.GetFileHolder(position).getFile().getAbsolutePath();
                     mPagerAdapter.loadFiles(mPagerAdapter.GetFileHolder(position).getFile());
+                    isRootDir = false;
 
                 }
                 break;
@@ -353,32 +356,27 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         public void onClick(View view)
         {
             String external = "";
-            if (currentViewState == ViewStates.normal) {
-                if (mPagerAdapter.getFiles() != null && mPagerAdapter.getFiles().size() > 0) {
-                    String topPath =  mPagerAdapter.GetFileHolder(0).getFile().getParentFile().getParentFile().getAbsolutePath() + "/";
-                    String inter = StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder;
-                    try {
-                       external  = StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder;
-                    }
-                    catch (NullPointerException exc)
+            if (currentViewState == ViewStates.normal)
+            {
+                if (mPagerAdapter.getFiles() != null && mPagerAdapter.getFiles().size() > 0)
+                {
+                    File topPath =  mPagerAdapter.GetFileHolder(0).getFile().getParentFile().getParentFile();
+                    if (topPath.getName().equals("DCIM") && !isRootDir)
                     {
-                        exc.printStackTrace();
+                        savedInstanceFilePath = null;
+                        mPagerAdapter.loadDCIMFolders();
+                        isRootDir = true;
                     }
-
-                    if ((inter.contains(topPath) && topPath.length() < inter.length() || topPath.equals(inter))
-                            || (external.contains(topPath) && topPath.length() < external.length() || topPath.equals(external)))
+                    else if (topPath.getName().equals("DCIM") && isRootDir)
                     {
-                        if(topPath.equals(inter) || topPath.equals(external)) {
-                            savedInstanceFilePath = null;
-                            mPagerAdapter.loadDCIMFolders();
-                        }
-                        else
-                            getActivity().finish();
+                        getActivity().finish();
                     }
-                    else {
+                    else
+                    {
                         mPagerAdapter.loadFiles(mPagerAdapter.GetFileHolder(0).getFile());
                         savedInstanceFilePath =  mPagerAdapter.GetFileHolder(0).getFile().getAbsolutePath();
                     }
+
                 }
                 else
                     mPagerAdapter.loadDCIMFolders();

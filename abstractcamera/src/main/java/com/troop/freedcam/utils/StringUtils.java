@@ -208,27 +208,17 @@ public class StringUtils
         return board_platform;
     }
 
-    public static boolean hasEXTSD()
-    {
-        if (String.valueOf(System.getenv("SECONDARY_STORAGE")).isEmpty())
-        {
-            return false;
-
-        }
-        else
-            return true;
-    }
 
     public static File GetExternalSDCARD() throws NullPointerException
     {
-        if (!StringUtils.IS_L_OR_BIG())
-        {
+        /*if (!StringUtils.IS_L_OR_BIG())
+        {*/
             String path = System.getenv("SECONDARY_STORAGE");
             if (path == null || path.equals(""))
                 return null;
             else
                 return new File(path);
-        }
+        /*}
         else
         {
             File f = StringUtils.DIR_ANDROID_STORAGE;
@@ -242,7 +232,7 @@ public class StringUtils
                 }
             }
         }
-        return null;
+        return null;*/
     }
 
     public static String GetInternalSDCARD()

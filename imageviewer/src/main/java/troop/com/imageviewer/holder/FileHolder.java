@@ -108,33 +108,94 @@ public class FileHolder extends BaseHolder
 
     public static List<FileHolder> getDCIMDirs()
     {
-        File internalSDCIM = new File(StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder);
-
         ArrayList<FileHolder> list = new ArrayList<FileHolder>();
-        File[] f = internalSDCIM.listFiles();
-        if (f != null)
+        if (!StringUtils.IS_L_OR_BIG())
         {
-            for (int i = 0; i < f.length; i++) {
-                if (!f[i].isHidden())
-                    list.add(new FileHolder(f[i],false));
-            }
-        }
-        try {
-            File fs = StringUtils.GetExternalSDCARD();
-            if (fs != null && fs.exists()) {
-                File externalSDCIM = new File(StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder);
-                f = externalSDCIM.listFiles();
+            File internalSDCIM = new File(StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder);
+            File[] f = internalSDCIM.listFiles();
+            if (f != null) {
                 for (int i = 0; i < f.length; i++) {
                     if (!f[i].isHidden())
-                        list.add(new FileHolder(f[i], true));
+                        list.add(new FileHolder(f[i], false));
                 }
             }
+            try {
+                File fs = StringUtils.GetExternalSDCARD();
+                if (fs != null && fs.exists()) {
+                    File externalSDCIM = new File(StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder);
+                    f = externalSDCIM.listFiles();
+                    for (int i = 0; i < f.length; i++) {
+                        if (!f[i].isHidden())
+                            list.add(new FileHolder(f[i], true));
+                    }
+                }
+            } catch (NullPointerException ex) {
+                Logger.d(TAG, "No external SD!");
+            } catch (Exception ex) {
+                Logger.d(TAG, "No external SD!");
+            }
         }
-        catch (NullPointerException ex)
+        else
         {
-            Logger.d(TAG, "No external SD!");
-        } catch (Exception ex) {
-            Logger.d(TAG, "No external SD!");
+            File[] files =  StringUtils.DIR_ANDROID_STORAGE.listFiles();
+            boolean internalfound = false;
+            boolean externalfound = false;
+            for (File file : files)
+            {
+                if (file.getName().equals("emulated"))
+                {
+                    File intDcim = new File(file.getAbsolutePath()+"/0/" + StringUtils.DCIMFolder);
+                    if (intDcim.exists()) {
+                        internalfound = true;
+                        list.add(new FileHolder(intDcim, false));
+                    }
+                    File extDcim = new File(file.getAbsolutePath()+"/1/" + StringUtils.DCIMFolder);
+                    if (extDcim.exists()) {
+                        externalfound = true;
+                        list.add(new FileHolder(extDcim, true));
+                    }
+                }
+                if (file.getName().equals("sdcard0") && !internalfound)
+                {
+                    File intDcim = new File(file.getAbsolutePath() + StringUtils.DCIMFolder);
+                    internalfound = true;
+                    list.add(new FileHolder(intDcim, false));
+                }
+                if (file.getName().equals("sdcard1") && !externalfound)
+                {
+                    File extDcim = new File(file.getAbsolutePath() + StringUtils.DCIMFolder);
+                    if (extDcim.exists())
+                    {
+                        externalfound = true;
+                        list.add(new FileHolder(extDcim, true));
+                    }
+                }
+                if (!file.getName().equals("emulated") && !file.getName().equals("sdcard0") &&  !file.getName().equals("sdcard1"))
+                {
+                    File extDcim = new File(file.getAbsolutePath() + StringUtils.DCIMFolder);
+                    if (extDcim.exists())
+                    {
+                        externalfound = true;
+                        list.add(new FileHolder(extDcim, true));
+                    }
+                }
+
+            }
+            ArrayList<FileHolder> subDcimFolders= new ArrayList<>();
+            for (FileHolder dcim : list)
+            {
+                File[] subfolders = dcim.getFile().listFiles();
+                if (subfolders != null)
+                {
+                    for (File f : subfolders)
+                    {
+                        if (!f.isHidden())
+                            subDcimFolders.add(new FileHolder(f, dcim.isExternalSD()));
+                    }
+                }
+            }
+            list = subDcimFolders;
+
         }
         SortFileHolder(list);
         return list;
