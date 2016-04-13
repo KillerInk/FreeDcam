@@ -35,6 +35,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
     boolean aeBrackethdr = false;
     File[] files;
     boolean isManualExpo = false;
+    int ogExpoValue = 0;
 
     public HdrModule(BaseCameraHolder cameraHandler, ModuleEventHandler eventHandler) {
         super(cameraHandler, eventHandler);
@@ -135,7 +136,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
         if (hdrCount == 2)
         {
             stopworking();
-            ParameterHandler.ManualExposure.SetValue(0);
+            ParameterHandler.ManualExposure.SetValue(ogExpoValue);
         }
         else if (hdrCount < 2)
         {
@@ -155,6 +156,8 @@ public class HdrModule extends PictureModule implements I_WorkeDone
 
     private void setExposureToCamera()
     {
+        ogExpoValue =  ParameterHandler.ManualExposure.GetValue();
+
         if(isManualExpo)
         {
             if(ParameterHandler.ManualShutter.GetStringValue().contains("/")) {
@@ -195,7 +198,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
                 value = Integer.parseInt(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_AEB3));
 
             Logger.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
-            //ParameterHandler.ManualExposure.SetValue(value);
+           // ParameterHandler.ManualExposure.SetValue(value);
 
             /*checkAEMODE();
             if(isManualExpo)
@@ -203,7 +206,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
                 ParameterHandler.ManualShutter.SetValue(DoStopCalc(value));
             }
            TODO */
-           // ((CamParametersHandler)ParameterHandler).setString("exposure-compensation", value + "");
+            ((CamParametersHandler)ParameterHandler).SetEVBracket(value + "");
             Logger.d(TAG, "HDR Exposure SET");
         }
     }
