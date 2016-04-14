@@ -64,6 +64,9 @@ public class ModuleHandler extends AbstractModuleHandler
         HdrModule hdrModule = new HdrModule(this.cameraHolder, moduleEventHandler);
         moduleList.put(hdrModule.ModuleName(), hdrModule);
 
+        StackingModule sTax = new StackingModule(this.cameraHolder, moduleEventHandler);
+        moduleList.put(sTax.ModuleName(),sTax);
+
         //BurstModule burstModule = new BurstModule(this.cameraHolder, soundPlayer, appSettingsManager, moduleEventHandler);
         //moduleList.put(burstModule.ModuleName(), burstModule);
 

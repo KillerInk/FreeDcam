@@ -78,6 +78,13 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
 
     }
 
+    public CameraUiWrapper()
+    {
+
+    }
+
+
+
     //this get handled in backgroundThread when StartPreviewAndCamera() was called
     @Override
     protected void startCamera()

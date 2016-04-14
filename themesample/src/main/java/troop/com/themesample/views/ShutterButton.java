@@ -63,7 +63,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                 if (cameraUiWrapper != null)
                 {
 
-                    if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_INTERVAL) ||contshot)
+                    if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_INTERVAL) ||contshot || cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_STACKING))
                     {
                         if (!cameraUiWrapper.moduleHandler.GetCurrentModule().DoWork())
                         {
@@ -171,7 +171,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                         && !contshot) {
                     switchBackground(Showstate.image_capture_stopped,true);
                 }
-                else if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_INTERVAL) || contshot)
+                else if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_INTERVAL) || contshot ||cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_STACKING))
                     switchBackground(Showstate.continouse_capture_start,false);
 
             }
