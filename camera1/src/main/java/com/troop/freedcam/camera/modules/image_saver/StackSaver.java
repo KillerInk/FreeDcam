@@ -15,6 +15,7 @@ import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
 
+import jni.staxxer.StaxxerJNI;
 import troop.com.imageconverter.Staxxer;
 
 /**
@@ -27,11 +28,14 @@ public class StackSaver extends JpegSaver {
     Size size;
     Staxxer staxxer;
 
+    private StaxxerJNI jpg2rgb;
+
 
     public StackSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone)
     {
         super(cameraHolder, i_workeDone);
 //        size = new Size(ParameterHandler.PictureSize.GetValue());
+        jpg2rgb = StaxxerJNI.GetInstance();
 
         staxxer = new Staxxer(new Size(ParameterHandler.PictureSize.GetValue()), AppSettingsManager.APPSETTINGSMANAGER.context);
         staxxer.Enable(true);
@@ -78,23 +82,28 @@ public class StackSaver extends JpegSaver {
         System.out.println("The Data Is " + data.length + " bytes Long" + " and the path is " + file.getAbsolutePath());
         //CameraUiWrapper LCUI = new CameraUiWrapper();
 
+        int x = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[0]);
+        int y = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[1]);
 
         if (FrameCount == 0) {
-            buffered = data;
+            buffered = jpg2rgb.SetJpegData(data,x,y);
             iWorkeDone.OnWorkDone(file);
             FrameCount++;
+            jpg2rgb.RELEASE();
         }
         else if(FrameCount == 1)
         {
-            staxxer.Process(buffered,data,false);
+            staxxer.Process(buffered,jpg2rgb.SetJpegData(data,x,y),false);
             iWorkeDone.OnWorkDone(file);
             FrameCount++;
+            jpg2rgb.RELEASE();
         }
         else
         {
 
-            staxxer.Process(buffered,data,true);
+            staxxer.Process(buffered,jpg2rgb.SetJpegData(data,x,y),true);
             iWorkeDone.OnWorkDone(file);
+            jpg2rgb.RELEASE();
         }
 
     }
