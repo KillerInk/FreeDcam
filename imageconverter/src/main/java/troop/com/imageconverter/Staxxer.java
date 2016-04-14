@@ -21,6 +21,7 @@ import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
+import com.troop.freedcam.i_camera.parameters.ParameterExternalShutter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.FreeDPool;
 import com.troop.freedcam.ui.I_AspectRatio;
@@ -46,11 +47,13 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
     Context context;
     Size size;
 
+
     private Bitmap merged;
 
-    public Staxxer(/*Size size,*/ Context context)
+    public Staxxer(Size size, Context context)
     {
         Logger.d(TAG, "Ctor");
+        this.size = size;
 
         this.context = context;
         //this.size = size;
@@ -77,7 +80,7 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
                 mRS.setPriority(RenderScript.Priority.LOW);
             }
            // show_preview("setEnable");
-            Size size = new Size(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_PICTURESIZE));
+
             reset(size.width, size.height);
             Logger.d(TAG, "Set PreviewCallback");
             Logger.d(TAG, "enable focuspeak");

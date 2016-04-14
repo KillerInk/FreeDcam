@@ -6,6 +6,7 @@ import com.troop.androiddng.RawToDng;
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
+import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.Size;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.FreeDPool;
@@ -26,12 +27,13 @@ public class StackSaver extends JpegSaver {
     Size size;
     Staxxer staxxer;
 
+
     public StackSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone)
     {
         super(cameraHolder, i_workeDone);
 //        size = new Size(ParameterHandler.PictureSize.GetValue());
 
-        staxxer = new Staxxer(/*size,*/AppSettingsManager.APPSETTINGSMANAGER.context);
+        staxxer = new Staxxer(new Size(ParameterHandler.PictureSize.GetValue()), AppSettingsManager.APPSETTINGSMANAGER.context);
         staxxer.Enable(true);
     }
 

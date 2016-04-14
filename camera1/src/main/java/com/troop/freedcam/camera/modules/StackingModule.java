@@ -24,7 +24,7 @@ public class StackingModule extends PictureModule implements I_WorkeDone {
     public StackingModule(BaseCameraHolder cameraHandler, ModuleEventHandler eventHandler) {
         super(cameraHandler, eventHandler);
         name = ModuleHandler.MODULE_STACKING;
-        stackSaver = new StackSaver(baseCameraHolder, StackingModule.this);
+
     }
 
     @Override
@@ -97,7 +97,9 @@ public class StackingModule extends PictureModule implements I_WorkeDone {
     }
 
     @Override
-    public void LoadNeededParameters() {
+    public void LoadNeededParameters()
+    {
+        stackSaver = new StackSaver(baseCameraHolder, StackingModule.this);
     }
 
     @Override
