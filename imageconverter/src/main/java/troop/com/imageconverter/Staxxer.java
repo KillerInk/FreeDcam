@@ -21,6 +21,7 @@ import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
+import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.FreeDPool;
 import com.troop.freedcam.ui.I_AspectRatio;
 
@@ -76,8 +77,8 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
                 mRS.setPriority(RenderScript.Priority.LOW);
             }
            // show_preview("setEnable");
-
-            reset(4208, 3120);
+            Size size = new Size(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_PICTURESIZE));
+            reset(size.width, size.height);
             Logger.d(TAG, "Set PreviewCallback");
             Logger.d(TAG, "enable focuspeak");
         }
