@@ -32,6 +32,7 @@ public class StackSaver extends JpegSaver {
 //        size = new Size(ParameterHandler.PictureSize.GetValue());
 
         staxxer = new Staxxer(/*size,*/AppSettingsManager.APPSETTINGSMANAGER.context);
+        staxxer.Enable(true);
     }
 
     @Override
@@ -73,7 +74,7 @@ public class StackSaver extends JpegSaver {
 
     public void processData(byte[] data, File file) {
         System.out.println("The Data Is " + data.length + " bytes Long" + " and the path is " + file.getAbsolutePath());
-        CameraUiWrapper LCUI = new CameraUiWrapper();
+        //CameraUiWrapper LCUI = new CameraUiWrapper();
 
 
         if (FrameCount == 0) {
