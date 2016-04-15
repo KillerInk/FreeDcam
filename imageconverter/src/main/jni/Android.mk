@@ -18,11 +18,16 @@ LOCAL_LDLIBS := -lz -lm -llog -ljnigraphics -landroid
 include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
+LOCAL_MODULE    := libjpeg
+LOCAL_SRC_FILES := libs/libjpeg.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
 LOCAL_MODULE    := Staxxer
 LOCAL_SRC_FILES := Staxxer.cpp
 LOCAL_LDLIBS := -lz -L $(LOCAL_PATH)/libs -lm -ljpeg -llog
-LOCAL_C_INCLUDES += \$(LOCAL_PATH)/jpeg
-LOCAL_STATIC_LIBRARIES  += $(LOCAL_PATH)/libs
+LOCAL_C_INCLUDES := /jpeg
+LOCAL_STATIC_LIBRARIES  := libjpeg
 include $(BUILD_SHARED_LIBRARY)
 
 APP_OPTIM := debug

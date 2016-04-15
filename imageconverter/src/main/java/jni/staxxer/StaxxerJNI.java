@@ -17,7 +17,7 @@ public class StaxxerJNI {
         System.loadLibrary("Staxxer");
     }
     private ByteBuffer nativeHandler = null;
-    private static native byte[] SetJpegData(ByteBuffer nativeHandler,byte[] fileBytes, int width,int height);
+    private static native byte[] SetJpegData(ByteBuffer nativeHandler,int width,int height);
     private static native ByteBuffer Create();
     private static native void Release(ByteBuffer nativeHandler);
 
@@ -36,13 +36,11 @@ public class StaxxerJNI {
         return new StaxxerJNI();
     }
 
-    public byte[] SetJpegData(final byte[] fileBytes, int width,int height) throws NullPointerException
+    public byte[] SetJpegData(int width,int height) throws NullPointerException
     {
-        if (fileBytes == null) {
-            throw new NullPointerException();
-        }
+
         if (nativeHandler != null) {
-           return SetJpegData(nativeHandler, fileBytes, width, height);
+           return SetJpegData(nativeHandler, width, height);
 
         }
         else

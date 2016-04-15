@@ -15,13 +15,16 @@
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
 #include <errno.h>
-#include <jpeg/jerror.h>
-#include <jpeg/jpeglib.h>
+
 
 extern "C"
 {
+#include <jpeg/jerror.h>
+#include <jpeg/jpeglib.h>
+#include <jpeg/jmorecfg.h>
+#include <jpeg/jconfig.h>
     JNIEXPORT jobject JNICALL Java_jni_staxxer_StaxxerJNI_Create(JNIEnv *env, jobject thiz);
-    JNIEXPORT jbyteArray JNICALL Java_jni_staxxer_StaxxerJNI_SetJpegData(JNIEnv *env, jobject thiz, jobject handler,jbyteArray fileBytes, jint width,jint height);
+    JNIEXPORT jbyteArray JNICALL Java_jni_staxxer_StaxxerJNI_SetJpegData(JNIEnv *env, jobject thiz, jobject handler, jint width,jint height);
     JNIEXPORT void JNICALL Java_jni_staxxer_StaxxerJNI_Release(JNIEnv *env, jobject thiz, jobject handler);
 
 
@@ -32,7 +35,7 @@ class RGBExtractor
 public:
 
 
-    unsigned char* JPEGBytes;
+   // unsigned char* JPEGBytes;
     unsigned char* RGBBytes;
     int JPEGwidht, JPEGheight;
 
@@ -58,7 +61,7 @@ public:
      unsigned char stretch(int c, int min, int max) {
         return clamp((c - min) * 255 / (max - min)); }
 
-void jpg2rgb(const char *in, const char *out, int black, int white, double a,
+void jpg2rgb(int black, int white, double a,
             int b, size_t *w, size_t *h) {
     int rc, i;
     struct jpeg_decompress_struct dinfo;
@@ -67,14 +70,14 @@ void jpg2rgb(const char *in, const char *out, int black, int white, double a,
     JSAMPARRAY dbuffer;
     int dstride;
     size_t n;
-    if (!(infile = fopen(in, "rb"))) {
+    if (!(infile = fopen("/sdcard/DCIM/FreeDcam/active/in.jpg", "rb"))) {
         rc = errno ? errno : -1;
-        LOGD("fopen: %s (%s)", strerror(rc), in);
+        LOGD("fopen: %s (%s)", strerror(rc), "/sdcard/DCIM/FreeDcam/active/in.jpg");
         goto finally;
     }
-    if (!(outfile = fopen(out, "wb+"))) {
+    if (!(outfile = fopen("/sdcard/DCIM/FreeDcam/active/out.jpg", "wb+"))) {
         rc = errno ? errno : -1;
-        LOGD("fopen: %s (%s)", strerror(rc), out);
+        LOGD("fopen: %s (%s)", strerror(rc), "/sdcard/DCIM/FreeDcam/active/out.jpg");
         goto finally;
     }
     dinfo.err = jpeg_std_error(&derr);
@@ -114,7 +117,7 @@ void jpg2rgb(const char *in, const char *out, int black, int white, double a,
         if ((n = fwrite(dbuffer[0], dinfo.output_components,
                         dinfo.output_width, outfile)) != dinfo.output_width) {
             rc = errno ? errno : -1;
-            LOGD("fwrite: %s (%s)", strerror(rc), out);
+            LOGD("fwrite: %s (%s)", strerror(rc), "/sdcard/DCIM/FreeDcam/active/out.jpg");
             goto finally;
         }
     }
@@ -150,24 +153,24 @@ JNIEXPORT jobject JNICALL Java_jni_staxxer_StaxxerJNI_Create(JNIEnv *env, jobjec
 }
 
 
-JNIEXPORT jbyteArray JNICALL JNICALL Java_jni_staxxer_StaxxerJNI_SetJpegData(JNIEnv *env, jobject thiz, jobject handler, jbyteArray fileBytes,jint width,jint height)
+JNIEXPORT jbyteArray JNICALL JNICALL Java_jni_staxxer_StaxxerJNI_SetJpegData(JNIEnv *env, jobject thiz, jobject handler, jint width,jint height)
 {
     jbyteArray ret;
     RGBExtractor* rgbExtractor = (RGBExtractor*) env->GetDirectBufferAddress(handler);
         LOGD("TRy Init JPEG data in Native");
-    rgbExtractor->JPEGBytes = new unsigned char[env->GetArrayLength(fileBytes)];
-        LOGD("init JPEG data");
-    memcpy(rgbExtractor->JPEGBytes, env->GetByteArrayElements(fileBytes,NULL), env->GetArrayLength(fileBytes));
+    //rgbExtractor->JPEGBytes = new unsigned char[env->GetArrayLength(fileBytes)];
+   //     LOGD("init JPEG data");
+   // memcpy(rgbExtractor->JPEGBytes, env->GetByteArrayElements(fileBytes,NULL), env->GetArrayLength(fileBytes));
         LOGD(" set JPEG data");
 
     rgbExtractor->JPEGheight = height;
     rgbExtractor->JPEGwidht = width;
-    rgbExtractor->rawSize = env->GetArrayLength(fileBytes);
+   // rgbExtractor->rawSize = env->GetArrayLength(fileBytes);
 
     size_t *w = (size_t*)rgbExtractor->JPEGwidht;
     size_t *h = (size_t*)rgbExtractor->JPEGheight;
 
-    jpg2rgb(reinterpret_cast<const char*>(rgbExtractor->JPEGBytes),reinterpret_cast<const char*>(rgbExtractor->RGBBytes),0,255,1.0,0,w,h);
+    jpg2rgb(0,255,1.0,0,w,h);
 
     ret = (env)->NewByteArray(sizeof(rgbExtractor->RGBBytes));
     env->SetByteArrayRegion(ret,0,sizeof(rgbExtractor->RGBBytes),(jbyte*)rgbExtractor->RGBBytes);
@@ -179,11 +182,11 @@ JNIEXPORT void JNICALL Java_jni_staxxer_StaxxerJNI_Release(JNIEnv *env, jobject 
 {
 RGBExtractor* rgbExtractor = (RGBExtractor*) env->GetDirectBufferAddress(handler);
 
-    if(rgbExtractor->JPEGBytes != NULL)
+ /*   if(rgbExtractor->JPEGBytes != NULL)
     {
         free(rgbExtractor->JPEGBytes);
         rgbExtractor->JPEGBytes = NULL;
-    }
+    }*/
 
 if(rgbExtractor->RGBBytes != NULL)
 {
