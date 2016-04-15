@@ -85,15 +85,21 @@ public class StackSaver extends JpegSaver {
         int x = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[0]);
         int y = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[1]);
 
+        File f = new File("/sdcard/DCIM/FreeDcam/active/in.jpg");
+        saveBytesToFile(data,f,true);
+
         if (FrameCount == 0) {
-            buffered = jpg2rgb.SetJpegData(data,x,y);
+            buffered = jpg2rgb.SetJpegData(x,y);
+            jpg2rgb.RELEASE();
+            System.out.println("The buffer Data Is " + buffered.length + " bytes Long" );
             iWorkeDone.OnWorkDone(file);
             FrameCount++;
-            jpg2rgb.RELEASE();
+
+
         }
         else if(FrameCount == 1)
         {
-            staxxer.Process(buffered,jpg2rgb.SetJpegData(data,x,y),false);
+            staxxer.Process(buffered,jpg2rgb.SetJpegData(x,y),false);
             iWorkeDone.OnWorkDone(file);
             FrameCount++;
             jpg2rgb.RELEASE();
@@ -101,7 +107,7 @@ public class StackSaver extends JpegSaver {
         else
         {
 
-            staxxer.Process(buffered,jpg2rgb.SetJpegData(data,x,y),true);
+            staxxer.Process(buffered,jpg2rgb.SetJpegData(x,y),true);
             iWorkeDone.OnWorkDone(file);
             jpg2rgb.RELEASE();
         }
