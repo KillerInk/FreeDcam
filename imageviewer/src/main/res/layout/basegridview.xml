@@ -8,9 +8,9 @@
         android:layout_height="fill_parent"
         android:id="@+id/gridView"
         android:numColumns="auto_fit"
-        android:columnWidth="90dp"
+        android:columnWidth="@dimen/image_thumbnail_size"
         android:background="#424242"
         android:clipToPadding="false"
-        android:paddingTop="38dp"/>
+        android:paddingTop="@dimen/gridview_barTopSize"/>
 
 </LinearLayout>

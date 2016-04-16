@@ -54,25 +54,25 @@ public class FileHolder extends BaseHolder
         for (File f : folderfiles) {
             if (!f.isHidden()) {
                 if (formatsToShow == GridViewFragment.FormatTypes.all && (
-                        f.getAbsolutePath().endsWith(StringUtils.FileEnding.JPG)
-                                || f.getAbsolutePath().endsWith(StringUtils.FileEnding.JPS)
-                                || f.getAbsolutePath().endsWith(StringUtils.FileEnding.RAW)
-                                || f.getAbsolutePath().endsWith(StringUtils.FileEnding.BAYER)
-                                || f.getAbsolutePath().endsWith(StringUtils.FileEnding.DNG)
-                                || f.getAbsolutePath().endsWith(StringUtils.FileEnding.MP4)
+                        f.getName().toLowerCase().endsWith(StringUtils.FileEnding.JPG)
+                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.JPS)
+                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.RAW)
+                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.BAYER)
+                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.DNG)
+                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.MP4)
                 ))
                     list.add(new FileHolder(f,external));
-                else if (formatsToShow == GridViewFragment.FormatTypes.dng && f.getAbsolutePath().endsWith(StringUtils.FileEnding.DNG))
+                else if (formatsToShow == GridViewFragment.FormatTypes.dng && f.getName().toLowerCase().endsWith(StringUtils.FileEnding.DNG))
                     list.add(new FileHolder(f,external));
-                else if (formatsToShow == GridViewFragment.FormatTypes.raw && f.getAbsolutePath().endsWith(StringUtils.FileEnding.RAW))
+                else if (formatsToShow == GridViewFragment.FormatTypes.raw && f.getName().toLowerCase().endsWith(StringUtils.FileEnding.RAW))
                     list.add(new FileHolder(f,external));
-                else if (formatsToShow == GridViewFragment.FormatTypes.raw && f.getAbsolutePath().endsWith(StringUtils.FileEnding.BAYER))
+                else if (formatsToShow == GridViewFragment.FormatTypes.raw && f.getName().toLowerCase().endsWith(StringUtils.FileEnding.BAYER))
                     list.add(new FileHolder(f,external));
-                else if (formatsToShow == GridViewFragment.FormatTypes.jps && f.getAbsolutePath().endsWith(StringUtils.FileEnding.JPS))
+                else if (formatsToShow == GridViewFragment.FormatTypes.jps && f.getName().toLowerCase().endsWith(StringUtils.FileEnding.JPS))
                     list.add(new FileHolder(f,external));
-                else if (formatsToShow == GridViewFragment.FormatTypes.jpg && f.getAbsolutePath().endsWith(StringUtils.FileEnding.JPS))
+                else if (formatsToShow == GridViewFragment.FormatTypes.jpg && f.getName().toLowerCase().endsWith(StringUtils.FileEnding.JPG))
                     list.add(new FileHolder(f,external));
-                else if (formatsToShow == GridViewFragment.FormatTypes.mp4 && f.getAbsolutePath().endsWith(StringUtils.FileEnding.MP4))
+                else if (formatsToShow == GridViewFragment.FormatTypes.mp4 && f.getName().toLowerCase().endsWith(StringUtils.FileEnding.MP4))
                     list.add(new FileHolder(f,external));
             }
         }

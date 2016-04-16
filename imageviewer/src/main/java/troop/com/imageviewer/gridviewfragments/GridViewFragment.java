@@ -339,7 +339,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                     formatsToShow = FormatTypes.mp4;
                 }
                 mPagerAdapter.SetFormatToShow(formatsToShow);
-                if (savedInstanceFilePath != null)
+                //if (savedInstanceFilePath != null)
                     mPagerAdapter.loadFiles(new File(savedInstanceFilePath));
 
                 return false;
@@ -467,7 +467,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                 ArrayList<String> ar = new ArrayList<String>();
                 for (FileHolder f : mPagerAdapter.getFiles()) {
                     if (f.IsSelected() &&
-                       (f.getFile().getAbsolutePath().endsWith(StringUtils.FileEnding.RAW) ||f.getFile().getAbsolutePath().endsWith(StringUtils.FileEnding.BAYER))) {
+                       (f.getFile().getName().toLowerCase().endsWith(StringUtils.FileEnding.RAW) ||f.getFile().getName().toLowerCase().endsWith(StringUtils.FileEnding.BAYER))) {
                         ar.add(f.getFile().getAbsolutePath());
                     }
 
@@ -528,6 +528,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                     case rawToDng:
                         lastFormat = formatsToShow;
                         formatsToShow = FormatTypes.raw;
+                        mPagerAdapter.SetFormatToShow(formatsToShow);
                         mPagerAdapter.loadFiles(new File(savedInstanceFilePath));
                         deleteButton.setVisibility(View.GONE);
                         rawToDngButton.setVisibility(View.VISIBLE);
