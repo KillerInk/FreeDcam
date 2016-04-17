@@ -171,6 +171,8 @@ public class DeviceUtils
             return Devices.p8;
         else if(isHuawei_Honor_6())
             return Devices.honor6;
+        else if(is985N())
+            return Devices.Alcatel_985n;
         else
             return Devices.UNKNOWN;
 
@@ -179,6 +181,7 @@ public class DeviceUtils
     public enum Devices
     {
         UNKNOWN,
+        Alcatel_985n,
         p8,
         p8lite,
         honor6,
@@ -287,7 +290,8 @@ public class DeviceUtils
             Devices.SonyM4_QC,
             Devices.OneA9,
             Devices.Lenovo_K50_MTK,
-            Devices.ForwardArt_MTK
+            Devices.ForwardArt_MTK,
+            Devices.Alcatel_985n
     };
 
     public static Devices[] camera1NO_RAW_STREAM = {
@@ -488,6 +492,12 @@ public class DeviceUtils
     {
         return isDevice(contex.getResources().getStringArray(R.array.meizu_mx4));
     }
+
+    private static boolean is985N()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.Alcatel_985N));
+    }
+
     private static boolean isMeizuMX5()
     {
         return isDevice(contex.getResources().getStringArray(R.array.meizu_mx5));
