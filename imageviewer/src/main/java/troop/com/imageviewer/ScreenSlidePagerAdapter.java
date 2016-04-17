@@ -128,7 +128,7 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
         if (files == null)
             return;
         try {
-            files.add(new FileHolder(file, AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal()));
+            files.add(new FileHolder(file, files.get(0).isExternalSD()));
             Collections.sort(files, new Comparator<FileHolder>() {
                 public int compare(FileHolder f1, FileHolder f2) {
                     return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
