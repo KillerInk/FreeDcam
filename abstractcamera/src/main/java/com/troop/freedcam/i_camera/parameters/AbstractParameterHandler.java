@@ -22,6 +22,8 @@ public abstract class AbstractParameterHandler
     private ArrayList<I_ParametersLoaded> parametersLoadedListner;
 
     public AbstractManualParameter ManualBrightness;
+    public AbstractManualParameter ManualEdge;
+    public AbstractManualParameter ManualHue;
     public AbstractManualParameter ManualSharpness;
     public AbstractManualParameter ManualContrast;
     public AbstractManualParameter ManualSaturation;
