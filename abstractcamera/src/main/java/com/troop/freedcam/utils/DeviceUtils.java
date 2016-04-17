@@ -68,7 +68,7 @@ public class DeviceUtils
     final public static Devices[] MOTOX = {Devices.Moto_MSM8982_8994, Devices.Moto_MSM8974 };
     final public static Devices[] MI3_4 = {Devices.XiaomiMI4W, Devices.XiaomiMI3W };
     final public static Devices[] LG_G2_3 = {Devices.LG_G2, Devices.LG_G3};
-    final public static Devices[] HTC_m8_9 = {Devices.Htc_M8, Devices.Htc_M9,Devices.OneA9};
+    final public static Devices[] HTC_m8_9 = {Devices.Htc_M8, Devices.Htc_M9,Devices.HTC_OneA9};
     final public static Devices[] ZTE_DEVICES = {Devices.ZTE_ADV,Devices.ZTEADVIMX214,Devices.ZTEADV234};
     final public static Devices[] Sony_DEVICES = {Devices.SonyM4_QC,Devices.SonyC5_MTK,Devices.SonyM5_MTK};
     final public static Devices[] Krillin_DEVICES = {Devices.p8,Devices.p8lite,Devices.honor6};
@@ -77,6 +77,8 @@ public class DeviceUtils
     {
         if (isAlcatel_Idol3())
             return Devices.Alcatel_Idol3;
+        if (isAlcatelIdol3small())
+            return Devices.Alcatel_Idol3_small;
         else if (isAsus_Zenfon2())
             return Devices.Asus_Zenfon2;
         else if (isGioneE7())
@@ -97,6 +99,8 @@ public class DeviceUtils
             return Devices.LenovoK910;
         else if (isLenovoK920())
             return Devices.LenovoK920;
+        else if (isLenovoK4NOTE())
+            return Devices.Lenovo_K4Note_MTK;
         else if (isG2())
             return Devices.LG_G2;
         else if (isLG_G3())
@@ -160,7 +164,7 @@ public class DeviceUtils
         else if (isZTEADV234())
             return Devices.ZTEADV234;
         else if(isHTCA9_QC())
-            return Devices.OneA9;
+            return Devices.HTC_OneA9;
         else if(isLenovo_K50())
             return Devices.Lenovo_K50_MTK;
         else if(isForwardArt())
@@ -183,6 +187,7 @@ public class DeviceUtils
         p8lite,
         honor6,
         Alcatel_Idol3,
+        Alcatel_Idol3_small,
         Asus_Zenfon2,
         GioneE7,
         ForwardArt_MTK,
@@ -191,9 +196,12 @@ public class DeviceUtils
         Htc_M9,
         Htc_One_Sv,
         Htc_One_Xl,
+        HTC_OneA9,
         I_Mobile_I_StyleQ6,
         LenovoK910,
         LenovoK920,
+        Lenovo_K4Note_MTK,
+        Lenovo_K50_MTK,
         LG_G2,
         LG_G3,
         LG_G4,
@@ -225,8 +233,6 @@ public class DeviceUtils
         ZTE_ADV,
         ZTEADVIMX214,
         ZTEADV234,
-        OneA9,
-        Lenovo_K50_MTK
     }
 
     public static boolean IsMarshMallowG3()
@@ -269,7 +275,7 @@ public class DeviceUtils
             Devices.LG_G3, Devices.LG_G2, Devices.LG_G4,
             Devices.Htc_M8, Devices.Htc_M9, Devices.Htc_One_Sv,Devices.Htc_One_Xl,
             Devices.ZTE_ADV, Devices.ZTEADVIMX214, Devices.ZTEADV234,
-            Devices.LenovoK910,Devices.LenovoK920,
+            Devices.LenovoK910,Devices.LenovoK920,Devices.Lenovo_K4Note_MTK,
             Devices.Yu_Yureka,
             Devices.OnePlusOne, Devices.OnePlusTwo,
             Devices.RedmiNote, Devices.XiaomiMI3W, Devices.XiaomiMI4W, Devices.XiaomiMI_Note_Pro, Devices.RedmiNote2_MTK, Devices.XiaomiMI4C,
@@ -279,13 +285,13 @@ public class DeviceUtils
             Devices.Sony_XperiaL,
             Devices.SonyM5_MTK,
             Devices.SonyC5_MTK,
-            Devices.Alcatel_Idol3,
+            Devices.Alcatel_Idol3,Devices.Alcatel_Idol3_small,
             Devices.MeizuMX4_MTK, Devices.MeizuMX5_MTK,
             Devices.Moto_MSM8982_8994, Devices.Moto_MSM8974,
             Devices.Retro_MTK,
             Devices.THL5000_MTK,
             Devices.SonyM4_QC,
-            Devices.OneA9,
+            Devices.HTC_OneA9,
             Devices.Lenovo_K50_MTK,
             Devices.ForwardArt_MTK
     };
@@ -336,6 +342,11 @@ public class DeviceUtils
     private static boolean isEvo3d()
     {
         return isDevice(contex.getResources().getStringArray(com.troop.freedcam.abstractcamera.R.array.evo3d));
+    }
+
+    private static boolean isAlcatelIdol3small()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.Alcatel_Idol_3_small));
     }
 
     private static boolean isHuawei_P8_lite()
@@ -407,6 +418,11 @@ public class DeviceUtils
     public static boolean isLenovoK920()
     {
         return isDevice(contex.getResources().getStringArray(R.array.LenovoK920));
+    }
+
+    public static boolean isLenovoK4NOTE()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.Lenovo_K4Note));
     }
 
     public static boolean isSonyM5_MTK()

@@ -13,119 +13,6 @@ public class DngSupportedDevices
     public final static int Plain = 2;
     public final static int Mipi16 = 3;
 
-
-/*    public enum SupportedDevices
-    {
-        Lg_G4,
-        LG_G3,
-        LG_G2,
-        Lenovo_k910,
-        Lenovo_K920,
-        Gione_E7,
-        Sony_XperiaL,
-        HTC_One_Sv,
-        HTC_One_XL,
-        HTC_One_m9,
-        HTC_One_m8,
-        OnePlusOne,
-        yureka,
-        zteAdv,
-        zteADV_IMX214,
-        zteAdv_IMX234,
-        Xiaomi_Redmi_Note,
-        Xiaomi_Redmi_Note2,
-        Xiaomi_mi_note_pro,
-        Xiaomi_mi3,
-        Xiaomi_mi4,
-        Meizu_Mx4,
-        Meizu_Mx5,
-        THL5000,
-        Alcatel_Idol3,
-        Vivo_Xplay3s,
-        I_Mobile_I_StyleQ6,
-        MotoX_pure,
-        moto2k14,
-        SonyM5,
-        op2,
-        Mobicel_Retro,
-        Forward_Art
-    }*/
-
-    /*public static DeviceUtils.Devices getDevice()
-    {
-
-
-        if(DeviceUtils.isForwardArt())
-            return DngSupportedDevices.SupportedDevices.Forward_Art;
-        if (DeviceUtils.isYureka())
-            return DngSupportedDevices.SupportedDevices.yureka;
-        if (DeviceUtils.isLG_G3())
-            return DngSupportedDevices.SupportedDevices.LG_G3;
-        if (DeviceUtils.isG4())
-            return SupportedDevices.Lg_G4;
-        if (DeviceUtils.isGioneE7())
-            return DngSupportedDevices.SupportedDevices.Gione_E7;
-        if (DeviceUtils.isHTC_M8())
-            return DngSupportedDevices.SupportedDevices.HTC_One_m8;
-        if (DeviceUtils.isHTC_M9())
-            return DngSupportedDevices.SupportedDevices.HTC_One_m9;
-        if (DeviceUtils.isHtc_One_SV())
-            return DngSupportedDevices.SupportedDevices.HTC_One_Sv;
-        if (DeviceUtils.isHtc_One_XL())
-            return DngSupportedDevices.SupportedDevices.HTC_One_XL;
-        if (DeviceUtils.isLenovoK910())
-            return DngSupportedDevices.SupportedDevices.Lenovo_k910;
-        if (DeviceUtils.isLenovoK920())
-            return SupportedDevices.Lenovo_k920;
-        if(DeviceUtils.isG2())
-            return DngSupportedDevices.SupportedDevices.LG_G2;
-        if (DeviceUtils.isG4())
-            return SupportedDevices.Lg_G4;
-        if (DeviceUtils.hasIMX135())
-            return DngSupportedDevices.SupportedDevices.zteAdv;
-        if(DeviceUtils.isZTEADVIMX214())
-            return SupportedDevices.zteADV_IMX214;
-        if(DeviceUtils.isZTEADV234())
-            return SupportedDevices.zteAdv_IMX234;
-        if (DeviceUtils.isXperiaL())
-            return DngSupportedDevices.SupportedDevices.Sony_XperiaL;
-        if(DeviceUtils.hasIMX214())
-            return DngSupportedDevices.SupportedDevices.OnePlusOne;
-        if (DeviceUtils.isRedmiNote())
-            return DngSupportedDevices.SupportedDevices.Xiaomi_Redmi_Note;
-        if (DeviceUtils.isRedmiNote2())
-            return SupportedDevices.Xiaomi_Redmi_Note2;
-        if (DeviceUtils.isXiaomiMI3W())
-            return DngSupportedDevices.SupportedDevices.Xiaomi_mi3;
-        if (DeviceUtils.isXiaomiMI4W())
-            return DngSupportedDevices.SupportedDevices.Xiaomi_mi4;
-        if (DeviceUtils.isMeizuMX4())
-            return DngSupportedDevices.SupportedDevices.Meizu_Mx4;
-        if (DeviceUtils.isMeizuMX5())
-            return DngSupportedDevices.SupportedDevices.Meizu_Mx5;
-        if (DeviceUtils.isTHL5000())
-            return DngSupportedDevices.SupportedDevices.THL5000;
-        if (DeviceUtils.isXiaomiMI_Note_Pro())
-            return DngSupportedDevices.SupportedDevices.Xiaomi_mi_note_pro;
-        if (DeviceUtils.isAlcatel_Idol3())
-            return DngSupportedDevices.SupportedDevices.Alcatel_Idol3;
-        if(DeviceUtils.isVivo_Xplay3s())
-            return DngSupportedDevices.SupportedDevices.Vivo_Xplay3s;
-        if (DeviceUtils.isI_Mobile_I_StyleQ6())
-            return SupportedDevices.I_Mobile_I_StyleQ6;
-        if(DeviceUtils.isMoto_MSM8982_8994())
-            return SupportedDevices.MotoX_pure;
-        if(DeviceUtils.isMoto_MSM8974())
-            return SupportedDevices.moto2k14;
-        if(DeviceUtils.isSonyM5_MTK())
-            return SupportedDevices.SonyM5;
-        if(DeviceUtils.isOnePlusTwo())
-            return SupportedDevices.op2;
-        if(DeviceUtils.isRetro())
-            return SupportedDevices.Mobicel_Retro;
-        return null;
-    }*/
-
     public DngProfile getProfile(Devices device, int filesize)
     {
         switch (filesize) {
@@ -286,6 +173,8 @@ public class DngSupportedDevices
                         return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL);
                     case Alcatel_Idol3:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, 0);
+                    case Alcatel_Idol3_small:
+                        return new Nexus6Profile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL);
                     case OnePlusOne:
                         return new Nexus6Profile(64, 4212, 3120, Mipi, RGGB, getG3_rowSizeL);
                     case SonyM4_QC:
@@ -303,7 +192,7 @@ public class DngSupportedDevices
                         return new Nexus6Profile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL);
                     case Yu_Yureka:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL);
-                    case OneA9:
+                    case HTC_OneA9:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL);
                     default:
                         return new Nexus6Profile(64, 4212, 3082, Mipi, BGGR, getG3_rowSizeL);
@@ -429,6 +318,8 @@ public class DngSupportedDevices
                         return new Nexus6Profile(64, 4192, 3104, Plain, GBRG, 0);
                     case Lenovo_K50_MTK:
                         return new Nexus6Profile(16, 4192, 3104, Plain, BGGR, 0);
+                    case Lenovo_K4Note_MTK:
+                        return new Nexus6Profile(16, 4192, 3104, Plain, GRBG, 0);
                     default:
                         return new Nexus6Profile(64, 4192, 3104, Plain, RGGB, 0);
 

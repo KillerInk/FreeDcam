@@ -311,6 +311,9 @@
         <item>6045I</item>
         <item>6045K</item>
     </string-array>
+    <string-array name="Alcatel_Idol_3_small">
+        <item>6039Y</item>
+    </string-array>
     <string-array name="Vivo_Xplay3s">
         <item>vivo Xplay3S</item>
     </string-array>
@@ -344,5 +347,8 @@
     </string-array>
     <string-array name="Asus_Zenfon2">
         <item>ASUS_Z00ED</item>
+    </string-array>
+    <string-array name="Lenovo_K4Note">
+        <item>Lenovo A7010a48</item>
     </string-array>
 </resources>

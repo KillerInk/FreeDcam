@@ -181,8 +181,6 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
     {
 
         final int fileselected = filesSelectedCount;
-
-
         final ProgressDialog progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Delete Files...");
         progressDialog.setProgressStyle(progressDialog.STYLE_HORIZONTAL);
@@ -196,6 +194,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
             @Override
             public void run()
             {
+
                 final File folder = mPagerAdapter.getFiles().get(0).getFile().getParentFile();
                 int filesdeletedCount = 0;
                 for (int i = 0; i < mPagerAdapter.getFiles().size(); i++)
@@ -208,18 +207,14 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                         i--;
                         filesdeletedCount++;
                         final int delfiles = filesdeletedCount;
-                        GridViewFragment.this.getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                progressDialog.setProgress(delfiles);
-                            }
-                        });
+                        progressDialog.setProgress(delfiles);
                     }
                 }
-                gridView.post(new Runnable() {
+                progressDialog.dismiss();
+                GridViewFragment.this.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        progressDialog.dismiss();
+
                         MediaScannerManager.ScanMedia(getContext(), folder);
                         mPagerAdapter.notifyDataSetChanged();
                     }
