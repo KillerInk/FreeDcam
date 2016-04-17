@@ -47,4 +47,10 @@
         android:background="@drawable/cust_cb_unsel"
         android:layout_margin="2dp" />
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar_gridimageview"
+        android:layout_gravity="center" />
+
 </FrameLayout>
