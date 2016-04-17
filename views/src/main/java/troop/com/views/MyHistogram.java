@@ -73,14 +73,12 @@ public class MyHistogram extends View {
 
     private void createHistogramm(Bitmap bitmap, boolean recyle)
     {
-        if(bitmap == null)
+        if(bitmap == null || bitmap.isRecycled())
             return;
         int [] histo = new int [ 256 * 3 ];
         int w = bitmap . getWidth ();
         int h = bitmap . getHeight ();
         int [] pixels = new int [ w * h ];
-        if (bitmap.isRecycled())
-            return;
         bitmap . getPixels(pixels, 0, w, 0, 0, w, h);
         for ( int i = 0 ; i < w ; i ++) {
             for ( int j = 0 ; j < h ; j ++) {
