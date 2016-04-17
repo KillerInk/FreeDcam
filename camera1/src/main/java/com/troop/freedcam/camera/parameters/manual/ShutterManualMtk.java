@@ -30,11 +30,15 @@ public class ShutterManualMtk extends ShutterManual_ExposureTime_FloatToSixty {
             Logger.d(TAG, "StringUtils.FormatShutterStringToDouble:" + shutterstring);
             shutterstring = StringUtils.FLOATtoSixty4(shutterstring);
             Logger.d(TAG, "StringUtils.FLOATtoSixty4:"+ shutterstring);
-            parameters.put("cap-ss", shutterstring);
+            //parameters.put("cap-ss", shutterstring);
+            parameters.put("eng-ae-enable","disable"); // not sure if it disables ae or if enable enables eng mode override so ae can be controlled
+            parameters.put("m-ss", shutterstring);
         }
         else
         {
-            parameters.put("cap-ss", "0");
+            parameters.put("eng-ae-enable","enable");
+
+            parameters.put("m-ss", "0");
             Logger.d(TAG, "set exposure time to auto");
         }
         camParametersHandler.SetParametersToCamera(parameters);

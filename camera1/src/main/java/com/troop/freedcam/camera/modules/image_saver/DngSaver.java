@@ -154,7 +154,7 @@ public class DngSaver extends JpegSaver
 
         try
         {
-            if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)) {
+            if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) ||ParameterHandler.isMTK()) {
                 dngConverter.setExifData(ExtractISO(), ExtractShutter(), 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
             }
             else
@@ -220,13 +220,16 @@ public class DngSaver extends JpegSaver
     private int ExtractISO()
 
     {
-        if (ParameterHandler.IsoMode.GetValue().equals("auto") || ParameterHandler.IsoMode.GetValue().equals("auto_hjr"))
+        if(ParameterHandler.isMTK())
         {
-            return 0;
+            return ParameterHandler.getMTKISO();
         }
-        else
-        {
-            return Integer.parseInt(ParameterHandler.IsoMode.GetValue().split("O")[1]);
+        else {
+            if (ParameterHandler.IsoMode.GetValue().equals("auto") || ParameterHandler.IsoMode.GetValue().equals("auto_hjr")) {
+                return 0;
+            } else {
+                return Integer.parseInt(ParameterHandler.IsoMode.GetValue().split("O")[1]);
+            }
         }
 
     }
@@ -267,24 +270,24 @@ public class DngSaver extends JpegSaver
     private float ExtractShutter()
 
     {
-        if (ParameterHandler.ManualShutter.GetStringValue().equals("auto"))
+        if(ParameterHandler.isMTK())
         {
-            return 0f;
+            return ParameterHandler.getMTKShutterSpeed();
         }
-        else
-        {
-            if(ParameterHandler.ManualShutter.GetStringValue().contains("/"))
-            {
-                return 1/Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue().split("/")[1]);
+        else {
+            if (ParameterHandler.ManualShutter.GetStringValue().equals("auto")) {
+                return 0f;
+            } else {
+                if (ParameterHandler.ManualShutter.GetStringValue().contains("/")) {
+                    return 1 / Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue().split("/")[1]);
+
+                } else {
+                    return Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue());
+
+                }
+
 
             }
-            else
-            {
-                return Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue());
-
-            }
-
-
         }
 
     }

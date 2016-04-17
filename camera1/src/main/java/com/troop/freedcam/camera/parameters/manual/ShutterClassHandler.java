@@ -86,7 +86,9 @@ public class ShutterClassHandler
             return new ShutterManual_ExposureTime_Micro(parameters,parametersHandler,null);
         else if ((parameters.containsKey("max-exposure-time")&& !parameters.get("max-exposure-time").contains(".")))
             return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,null);
-        else if (parameters.containsKey("cap-ss") && !parameters.get("cap-ss").equals("0"))
+        else if ((parameters.containsKey("shutter-value")&& parameters.get("shutter-value-supported").contains(",")))
+            return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,null);
+        else if (parameters.containsKey("m-ss"))
             return new ShutterManualMtk(parameters, parametersHandler,TEST.split(","));
         else if (DeviceUtils.IS(DeviceUtils.Devices.p8lite))
             return new ShutterManualKrillin(parameters,cameraHolder,parametersHandler,null);
