@@ -25,10 +25,13 @@ public class BurstManualParam extends BaseManualParameter {
                 || DeviceUtils.IS(DeviceUtils.Devices.LG_G3)
                 || DeviceUtils.IS(DeviceUtils.Devices.LG_G2)
                 || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)
-                || DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
+                || DeviceUtils.IS(DeviceUtils.Devices.LG_G4)
+                || parameters.containsKey("num-snaps-per-shutter")
+                || parameters.containsKey("snapshot-burst-num")
+                || parameters.containsKey("burst-num"))
         {
             isSupported = true;
-            int max = 0;
+            int max = 10;
             if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) || DeviceUtils.IS(DeviceUtils.Devices.LG_G2))
                 max =  7;
             else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G3)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4W) )
@@ -71,13 +74,25 @@ public class BurstManualParam extends BaseManualParameter {
     @Override
     public void SetValue(int valueToSet)
     {
-        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)|| parameters.containsKey("num-snaps-per-shutter"))
             parameters.put("num-snaps-per-shutter", String.valueOf(1));
         currentInt = valueToSet;
-        if (valueToSet == 0)
+
+        if(!parameters.containsKey("burst-num")){
+
+            if (valueToSet == 0)
             parameters.put("snapshot-burst-num", String.valueOf(0));
         else
             parameters.put("snapshot-burst-num", stringvalues[valueToSet]);
+        }
+        else
+        {
+            if (valueToSet == 0)
+                parameters.put("burst-num", String.valueOf(0));
+            else
+                parameters.put("burst-num", stringvalues[valueToSet]);
+        }
+
         camParametersHandler.SetParametersToCamera(parameters);
 
     }
