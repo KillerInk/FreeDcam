@@ -200,6 +200,9 @@
     <string-array name="meizu_mx5">
         <item>MX5</item>
     </string-array>
+    <string-array name="Alcatel_985N">
+        <item>"Vodafone 985N"</item>
+    </string-array>
     <string-array name="thl5000">
         <item>thl 5000</item>
     </string-array>
