@@ -155,21 +155,23 @@ public class SampleThemeFragment extends AbstractFragment
         {
             if (position == 0)
             {
-                settingsMenuFragment = new SettingsMenuFragment();
+                if (settingsMenuFragment == null)
+                    settingsMenuFragment = new SettingsMenuFragment();
                 settingsMenuFragment.SetStuff(i_activity);
                 settingsMenuFragment.SetCameraUIWrapper(wrapper);
                 return settingsMenuFragment;
             }
             else if (position == 2)
             {
-
-                screenSlideFragment = new ScreenSlideFragment();
+                if (screenSlideFragment == null)
+                    screenSlideFragment = new ScreenSlideFragment();
                 screenSlideFragment.SetOnThumbClick(onThumbBackClick);
                 return screenSlideFragment;
             }
             else
             {
-                cameraUiFragment = new CameraUiFragment();
+                if (cameraUiFragment == null)
+                    cameraUiFragment = new CameraUiFragment();
                 cameraUiFragment.SetStuff(i_activity,onThumbClick);
                 cameraUiFragment.SetCameraUIWrapper(wrapper);
                 return cameraUiFragment;

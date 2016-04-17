@@ -1,13 +1,11 @@
 package com.troop.freedcam.camera.parameters.modes;
 
 import android.os.Handler;
-import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.utils.DeviceUtils;
-import com.troop.freedcam.utils.StringUtils;
 
 import java.util.HashMap;
 
@@ -52,7 +50,7 @@ public class PictureFormatHandler extends BaseModeParameter
                     isSupported = true;
                     if (DeviceUtils.IS(DeviceUtils.Devices.LG_G2))
                         rawFormat = "bayer-mipi-10bggr";
-                    if (DeviceUtils.IS(DeviceUtils.Devices.OneA9))
+                    if (DeviceUtils.IS(DeviceUtils.Devices.HTC_OneA9))
                         rawFormat = "bayer-mipi-10rggb";
                     else
                     {

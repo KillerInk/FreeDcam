@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AbsoluteLayout;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.troop.freedcam.ui.FreeDPool;
@@ -40,6 +41,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
     private Bitmap noimg;
     private Bitmap fold;
     private int mImageThumbSize;
+    ProgressBar progressBar;
 
     public GridViewFragment.ViewStates viewstate = BaseGridViewFragment.ViewStates.normal;
 
@@ -69,6 +71,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         folderTextView = (TextView)findViewById(R.id.foldertextbox);
         checkBox = (ImageView)findViewById(R.id.checkBox_gridviewimage);
         sdcard = (ImageView)findViewById(R.id.imageView_sd);
+        progressBar = (ProgressBar)findViewById(R.id.progressBar_gridimageview);
         /*checkBox.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,10 +178,13 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
             if (!FreeDPool.IsInit())
                 FreeDPool.INIT();
             imageView.setImageResource(R.drawable.noimage);
+            progressBar.setVisibility(VISIBLE);
             FreeDPool.Execute(new BitmapLoadRunnable(this,fileHolder));
         }
-        else
+        else {
+            progressBar.setVisibility(GONE);
             imageView.setImageResource(R.drawable.folder);
+        }
         String f = fileHolder.getFile().getName();
         if (!fileHolder.getFile().isDirectory()) {
             SetFolderName("");
@@ -218,6 +224,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
                     imageView.post(new Runnable() {
                         @Override
                         public void run() {
+                            progressBar.setVisibility(GONE);
                             imageView.imageView.setImageBitmap(bitmap);
                         }
                     });

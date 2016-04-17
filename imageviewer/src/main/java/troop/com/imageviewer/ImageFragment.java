@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.drew.imaging.jpeg.JpegMetadataReader;
@@ -67,6 +68,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
     private Button play;
     private LinearLayout bottombar;
     private int loadCount = 0;
+    private ProgressBar progressBar;
 
     public void SetFilePath(FileHolder filepath)
     {
@@ -182,6 +184,8 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
 
             }
         });
+
+        progressBar = (ProgressBar)view.findViewById(R.id.progressBar_screenslideImageview);
         Logger.d(TAG,"onViewCreated");
     }
 
@@ -215,6 +219,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
         super.onResume();
         Logger.d(TAG,"omResume");
         imageView.setOnClickListener(onImageClick);
+        progressBar.setVisibility(View.VISIBLE);
         if (file != null) {
             FreeDPool.Execute(new Runnable() {
                 @Override
@@ -242,7 +247,9 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
         final Bitmap response = getBitmap();
         imageView.post(new Runnable() {
             @Override
-            public void run() {
+            public void run()
+            {
+                progressBar.setVisibility(View.GONE);
                 imageView.setImageBitmap(response);
 
             }
@@ -308,10 +315,10 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
         try {
             final Metadata metadata = JpegMetadataReader.readMetadata(file);
             final Directory exifsub = metadata.getDirectory(ExifSubIFDDirectory.class);
-            iso.setText("ISO: " +exifsub.getString(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT));
-            shutter.setText("Exposure Time: " +exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME));
-            fnumber.setText("Aperture:" +exifsub.getString(ExifSubIFDDirectory.TAG_FNUMBER));
-            focal.setText("Focal Length:" +exifsub.getString(ExifSubIFDDirectory.TAG_FOCAL_LENGTH));
+            iso.setText("ISO:" +exifsub.getString(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT));
+            shutter.setText("S:" +exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME));
+            fnumber.setText("f~:" +exifsub.getString(ExifSubIFDDirectory.TAG_FNUMBER));
+            focal.setText("A:" +exifsub.getString(ExifSubIFDDirectory.TAG_FOCAL_LENGTH));
         } catch (EOFException ex)
         {
             Logger.d(TAG, "Failed to read Exif");

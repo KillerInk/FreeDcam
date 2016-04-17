@@ -46,7 +46,7 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
     private boolean doWork = false;
     Context context;
     Size size;
-
+    boolean isWorking = false;
 
     private Bitmap merged;
 
@@ -79,40 +79,17 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
                 mRS = RenderScript.create(context.getApplicationContext());
                 mRS.setPriority(RenderScript.Priority.LOW);
             }
-           // show_preview("setEnable");
-
             reset(size.width, size.height);
             Logger.d(TAG, "Set PreviewCallback");
             Logger.d(TAG, "enable focuspeak");
         }
         else
         {
-            //Logger.d(TAG, "stop focuspeak");
-           // cameraUiWrapper.cameraHolder.ResetPreviewCallback();
-          //  clear_preview("setEnable");
             if (mRS != null)
                 mRS.finish();
-            //mRS = null;
-
         }
-      //  if(cameraUiWrapper.camParametersHandler.Focuspeak != null && cameraUiWrapper.camParametersHandler.Focuspeak.IsSupported())
-     //       cameraUiWrapper.camParametersHandler.Focuspeak.BackgroundValueHasChanged(enabled +"");
     }
 
-    private void clear_preview(String from)
-    {
-        if (!doWork || !enable) {
-           // output.setAlpha(0);
-            Logger.d(TAG, "Preview cleared from:" + from);
-        }
-    }
-    private void show_preview(String from)
-    {
-        if (doWork && enable) {
-           // output.setAlpha(1);
-            Logger.d(TAG, "Preview show from:" + from);
-        }
-    }
 
     public boolean isEnable() { return  enable;}
 
@@ -153,68 +130,14 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
                 Logger.d(TAG, "surfaceNull");
             imagestack = new ScriptC_imagestack_argb(mRS);
             Logger.d(TAG, "script done enabled: " + enable);
-
-            //cameraUiWrapper.cameraHolder.SetPreviewCallback(this);
         }
         catch (RSRuntimeException ex)
         {
             onCameraError("RenderScript Failed");
-           // clear_preview("reset()");
         }
     }
 
-    TextureView.SurfaceTextureListener previewSurfaceListner = new TextureView.SurfaceTextureListener() {
-        @Override
-        public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
-        {
-            mWidth = width;
-            mHeight = height;
-            Logger.d(TAG, "SurfaceSizeAvail");
-            mSurface = new Surface(surface);
-            if (mAllocationOut != null)
-                mAllocationOut.setSurface(mSurface);
-            else
-                Logger.d(TAG, "Allocout null");
-        }
 
-        @Override
-        public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
-            Logger.d(TAG, "SurfaceSizeChanged");
-            mSurface = new Surface(surface);
-            if (mAllocationOut != null)
-                mAllocationOut.setSurface(mSurface);
-            else {
-                Logger.d(TAG, "Allocout null");
-
-            }
-        }
-
-        @Override
-        public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-            Logger.d(TAG, "SurfaceDestroyed");
-          //  clear_preview("onSurfaceTextureDestroyed");
-            mSurface = null;
-
-
-            return false;
-        }
-
-        @Override
-        public void onSurfaceTextureUpdated(SurfaceTexture surface) {
-
-        }
-    };
-
-
-    public void SetAspectRatio(int w, int h)
-    {
-        Logger.d(TAG, "SetAspectRatio enable: " + enable);
-       // output.setAspectRatio(w, h);
-        if (enable)
-            reset(w,h);
-    }
-
-    boolean isWorking = false;
 
     public void Process(final byte[] frameA,final byte[] frameB , final boolean bufferInStaxxer)
     {

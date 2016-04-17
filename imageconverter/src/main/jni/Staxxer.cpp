@@ -24,6 +24,7 @@ extern "C"
 #include <jpeg/jmorecfg.h>
 #include <jpeg/jconfig.h>
     JNIEXPORT jobject JNICALL Java_jni_staxxer_StaxxerJNI_Create(JNIEnv *env, jobject thiz);
+    JNIEXPORT jbyteArray JNICALL Java_jni_staxxer_StaxxerJNI_GetRGBFromPath(JNIEnv *env, jobject thiz,jstring filepath);
     JNIEXPORT jbyteArray JNICALL Java_jni_staxxer_StaxxerJNI_SetJpegData(JNIEnv *env, jobject thiz, jobject handler, jint width,jint height);
     JNIEXPORT void JNICALL Java_jni_staxxer_StaxxerJNI_Release(JNIEnv *env, jobject thiz, jobject handler);
 
@@ -144,12 +145,63 @@ void jpg2rgb(int black, int white, double a,
 }
 
 
-
-
 JNIEXPORT jobject JNICALL Java_jni_staxxer_StaxxerJNI_Create(JNIEnv *env, jobject thiz)
 {
     RGBExtractor *rgbExtractor = new RGBExtractor();
     return env->NewDirectByteBuffer(rgbExtractor, 0);
+}
+
+JNIEXPORT jbyteArray JNICALL Java_jni_staxxer_StaxxerJNI_GetRGBFromPath(JNIEnv *env, jobject thiz,jstring filepath)
+{
+    jboolean bIsCopy;
+    const char* strFilename = (env)->GetStringUTFChars(filepath , &bIsCopy);
+    FILE *file = fopen(strFilename, "rb");
+    	if (file == NULL) {
+    		return NULL;
+    	}
+
+    	struct jpeg_decompress_struct info;
+    	struct jpeg_error_mgr derr;
+
+    	info.err = jpeg_std_error(&derr);
+
+
+    	jpeg_create_decompress(&info); //fills info structure
+    	jpeg_stdio_src(&info, file);        //void
+
+    	int ret_Read_Head = jpeg_read_header(&info, 1); //int
+
+    	if (ret_Read_Head != JPEG_HEADER_OK) {
+    		printf("jpeg_read_header failed\n");
+    		fclose(file);
+    		jpeg_destroy_decompress(&info);
+    		return NULL;
+    	}
+
+    	(void) jpeg_start_decompress(&info);
+    	int w = info.output_width;
+    	int h = info.output_height;
+    	int numChannels = info.num_components; // 3 = RGB, 4 = RGBA
+    	unsigned long dataSize = w * h * numChannels;
+
+    	unsigned char *data = (unsigned char *) malloc(dataSize);
+    	if (!data)
+    		return NULL;
+
+    	unsigned char* rowptr;
+    	while (info.output_scanline < h) {
+    		rowptr = data + info.output_scanline * w * numChannels;
+    		jpeg_read_scanlines(&info, &rowptr, 1);
+    	}
+
+    	jpeg_finish_decompress(&info);
+
+    	fclose(file);
+    	jbyteArray result;
+        result = env->NewByteArray(dataSize);
+        (env)->SetByteArrayRegion(result, 0, dataSize,reinterpret_cast<jbyte*>( data));
+        free(data);
+    	return result;
 }
 
 

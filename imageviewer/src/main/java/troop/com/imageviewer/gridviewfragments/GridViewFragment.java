@@ -2,17 +2,11 @@ package troop.com.imageviewer.gridviewfragments;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Context;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.provider.DocumentFile;
@@ -22,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
@@ -37,11 +30,7 @@ import com.troop.freedcam.utils.StringUtils;
 
 
 import java.io.File;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 import troop.com.imageviewer.BitmapHelper;
 import troop.com.imageviewer.DngConvertingActivity;
@@ -114,7 +103,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         filetypeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopup(v);
+                showFileSelectionPopup(v);
             }
         });
 
@@ -178,26 +167,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
-                    FreeDPool.Execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            final File folder = mPagerAdapter.getFiles().get(0).getFile().getParentFile();
-                            for (int i = 0; i < mPagerAdapter.getFiles().size(); i++) {
-                                if (mPagerAdapter.getFiles().get(i).IsSelected()) {
-                                    BitmapHelper.DeleteFile(mPagerAdapter.getFiles().get(i));
-                                }
-                            }
-                            gridView.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    MediaScannerManager.ScanMedia(getContext(), folder);
-                                    mPagerAdapter.notifyDataSetChanged();
-                                }
-                            });
-
-                        }
-                    });
-
+                    deleteFiles();
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:
@@ -206,6 +176,53 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
             }
         }
     };
+
+    private void deleteFiles()
+    {
+
+        final int fileselected = filesSelectedCount;
+        final ProgressDialog progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Delete Files...");
+        progressDialog.setProgressStyle(progressDialog.STYLE_HORIZONTAL);
+        progressDialog.setProgress(0);
+        progressDialog.setMax(fileselected);
+        progressDialog.show();
+        setViewMode(ViewStates.normal);
+
+        FreeDPool.Execute(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+
+                final File folder = mPagerAdapter.getFiles().get(0).getFile().getParentFile();
+                int filesdeletedCount = 0;
+                for (int i = 0; i < mPagerAdapter.getFiles().size(); i++)
+                {
+                    if (mPagerAdapter.getFiles().get(i).IsSelected())
+                    {
+                        FileHolder f = mPagerAdapter.getFiles().get(i);
+                        boolean del = BitmapHelper.DeleteFile(f);
+                        Logger.d(TAG, "file: " + f.getFile().getName() + " deleted:" + del);
+                        i--;
+                        filesdeletedCount++;
+                        final int delfiles = filesdeletedCount;
+                        progressDialog.setProgress(delfiles);
+                    }
+                }
+                progressDialog.dismiss();
+                GridViewFragment.this.getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        MediaScannerManager.ScanMedia(getContext(), folder);
+                        mPagerAdapter.notifyDataSetChanged();
+                    }
+                });
+
+            }
+        });
+    }
 
 
 
@@ -297,7 +314,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         return  super.onItemLongClick(parent,view,position,id);
     }
 
-    public void showPopup(View v) {
+    public void showFileSelectionPopup(View v) {
         PopupMenu popup = new PopupMenu(this.getContext(), v);
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -339,7 +356,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                     formatsToShow = FormatTypes.mp4;
                 }
                 mPagerAdapter.SetFormatToShow(formatsToShow);
-                if (savedInstanceFilePath != null)
+                //if (savedInstanceFilePath != null)
                     mPagerAdapter.loadFiles(new File(savedInstanceFilePath));
 
                 return false;
@@ -438,7 +455,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                         builder.setMessage(R.string.delete_files).setPositiveButton(R.string.yes, dialogDeleteClickListener)
                                 .setNegativeButton(R.string.no, dialogDeleteClickListener).show();
-                        setViewMode(ViewStates.normal);
+
                     }
                 }
 
@@ -467,7 +484,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                 ArrayList<String> ar = new ArrayList<String>();
                 for (FileHolder f : mPagerAdapter.getFiles()) {
                     if (f.IsSelected() &&
-                       (f.getFile().getAbsolutePath().endsWith(StringUtils.FileEnding.RAW) ||f.getFile().getAbsolutePath().endsWith(StringUtils.FileEnding.BAYER))) {
+                       (f.getFile().getName().toLowerCase().endsWith(StringUtils.FileEnding.RAW) ||f.getFile().getName().toLowerCase().endsWith(StringUtils.FileEnding.BAYER))) {
                         ar.add(f.getFile().getAbsolutePath());
                     }
 
@@ -528,6 +545,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                     case rawToDng:
                         lastFormat = formatsToShow;
                         formatsToShow = FormatTypes.raw;
+                        mPagerAdapter.SetFormatToShow(formatsToShow);
                         mPagerAdapter.loadFiles(new File(savedInstanceFilePath));
                         deleteButton.setVisibility(View.GONE);
                         rawToDngButton.setVisibility(View.VISIBLE);

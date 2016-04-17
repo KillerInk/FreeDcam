@@ -137,10 +137,8 @@ public class BitmapHelper
         }
     }
 
-    public static void DeleteFile(FileHolder file)
+    public static boolean DeleteFile(FileHolder file)
     {
-        if (files == null)
-            return;
         boolean del = false;
         DeleteCache(file.getFile());
         if (!StringUtils.IS_L_OR_BIG() || file.getFile().canWrite())
@@ -151,9 +149,11 @@ public class BitmapHelper
             del =FileUtils.delteDocumentFile(file.getFile());
         if (del)
         {
-            files.remove(file);
+            if (files != null)
+                files.remove(file);
             throwOnFileDeleted(file.getFile());
         }
+        return del;
     }
 
     private static void throwOnFileAdded(File file)

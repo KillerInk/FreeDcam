@@ -18,6 +18,7 @@ public class StaxxerJNI {
     }
     private ByteBuffer nativeHandler = null;
     private static native byte[] SetJpegData(ByteBuffer nativeHandler,int width,int height);
+    public static native byte[] GetRGBFromPath(String path);
     private static native ByteBuffer Create();
     private static native void Release(ByteBuffer nativeHandler);
 

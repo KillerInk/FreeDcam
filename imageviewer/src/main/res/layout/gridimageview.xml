@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="90dp" android:layout_height="90dp">
+    android:layout_width="@dimen/image_thumbnail_size" android:layout_height="@dimen/image_thumbnail_size">
 
         <ImageView
             android:layout_width="match_parent"
@@ -41,10 +41,16 @@
         android:background="@drawable/sd" />
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/checkBox_gridviewimage"
         android:background="@drawable/cust_cb_unsel"
         android:layout_margin="2dp" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar_gridimageview"
+        android:layout_gravity="center" />
 
 </FrameLayout>
