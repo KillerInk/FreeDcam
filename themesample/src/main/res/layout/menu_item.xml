@@ -19,7 +19,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Header:"
             android:id="@+id/textview_menuitem_header"
-            android:textSize="@dimen/menuitem_textsize"
+            android:textSize="15dp"
             android:textColor="@color/uiSettingsTextColor"
             android:textStyle="bold" />
 
@@ -29,7 +29,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="value"
             android:id="@+id/textview_menuitem_header_value"
-            android:textSize="@dimen/menuitem_textsize"
+            android:textSize="13dp"
             android:textColor="@color/uiSettingsTextColor" />
     </LinearLayout>
 
@@ -47,7 +47,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Description"
             android:id="@+id/textview_menuitem_description"
-            android:textSize="@dimen/menuitem_textsize"
+            android:textSize="9dp"
             android:textColor="@color/uiSettingsTextColor" />
     </LinearLayout>
 </LinearLayout>
