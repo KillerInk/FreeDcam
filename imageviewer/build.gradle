@@ -65,5 +65,4 @@ dependencies {
     provided project(':androiddng')
     provided 'com.android.support:support-v4:23.2.0'
     provided project(':filelogger')
-    compile project(':translation')
 }

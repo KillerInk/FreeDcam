@@ -1,0 +1,21 @@
+<resources>
+    <string name="delete_file">Удалить файл?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="no_files">Нет файлов</string>
+    <string name="failed_to_load">Ошибка загрузки:</string>
+    <string name="sec">с</string>
+    <string name="mm">мм</string>
+    <string name="unknown_raw_add_manual_stuff">Неизвестный RAW, установите опции вручную</string>
+    <string name="converting_dng">Конвертирование в DNG</string>
+    <string name="ALL">ALL</string>
+    <string name="All">Все</string>
+    <string name="delete_files">Удалить выбранные файлы?</string>
+    <string name="width">Ширина:</string>
+    <string name="height">Высота:</string>
+    <string name="blacklevel">Уровень черного:</string>
+    <string name="converttodng">Конвертировать в DNG</string>
+    <string name="no_sel_raw">Не выбран RAW файл, вернитесь назад и выберете</string>
+
+
+</resources>

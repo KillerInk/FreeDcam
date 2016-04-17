@@ -28,5 +28,4 @@ dependencies {
     compile project(':guide')
     provided project(':imageviewer')
     provided project(':filelogger')
-    compile project(':translation')
 }
