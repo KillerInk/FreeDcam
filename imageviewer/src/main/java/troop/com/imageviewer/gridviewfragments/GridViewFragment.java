@@ -227,6 +227,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                     savedInstanceFilePath =  mPagerAdapter.GetFileHolder(position).getFile().getAbsolutePath();
                     mPagerAdapter.loadFiles(mPagerAdapter.GetFileHolder(position).getFile());
                     isRootDir = false;
+                    setViewMode(currentViewState);
 
                 }
                 break;
@@ -296,7 +297,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                 }
                 mPagerAdapter.SetFormatToShow(formatsToShow);
                 //if (savedInstanceFilePath != null)
-                    mPagerAdapter.loadFiles(new File(savedInstanceFilePath));
+                mPagerAdapter.loadFiles(new File(savedInstanceFilePath));
 
                 return false;
 
@@ -321,6 +322,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                         savedInstanceFilePath = null;
                         mPagerAdapter.loadDCIMFolders();
                         isRootDir = true;
+                        setViewMode(currentViewState);
                     }
                     else if (isRootDir)
                     {
@@ -328,8 +330,10 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                     }
                     else
                     {
+                        isRootDir = false;
                         mPagerAdapter.loadFiles(mPagerAdapter.GetFileHolder(0).getFile());
                         savedInstanceFilePath =  mPagerAdapter.GetFileHolder(0).getFile().getAbsolutePath();
+                        setViewMode(currentViewState);
                     }
 
                 }
@@ -337,6 +341,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                 {
                     mPagerAdapter.loadDCIMFolders();
                     isRootDir = true;
+                    setViewMode(currentViewState);
                 }
             }
             else if (currentViewState == ViewStates.selection)
@@ -398,50 +403,61 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         this.currentViewState = viewState;
         mPagerAdapter.SetViewState(currentViewState);
         //mPagerAdapter.notifyDataSetChanged();
-        switch (viewState)
+        if (isRootDir)
         {
-            case normal:
+            deleteButton.setVisibility(View.GONE);
+            rawToDngButton.setVisibility(View.GONE);
+            filetypeButton.setVisibility(View.GONE);
+            filesSelected.setVisibility(View.GONE);
+        }
+        else {
+            switch (viewState)
             {
-                if ((formatsToShow == FormatTypes.raw && lastFormat != FormatTypes.raw))
-                {
-                    formatsToShow = lastFormat;
-                    mPagerAdapter.SetFormatToShow(formatsToShow);
-                    mPagerAdapter.loadFiles(new File(savedInstanceFilePath));
-                }
-                requestMode = RequestModes.none;
-                deleteButton.setVisibility(View.VISIBLE);
-                rawToDngButton.setVisibility(View.VISIBLE);
-                filetypeButton.setVisibility(View.VISIBLE);
-                filesSelected.setVisibility(View.GONE);
-                break;
-            }
-            case selection:
-            {
-                filesSelectedCount = 0;
-                filesSelected.setVisibility(View.VISIBLE);
-                updateFilesSelected();
-                switch (requestMode) {
-                    case none:
-                        deleteButton.setVisibility(View.VISIBLE);
-                        rawToDngButton.setVisibility(View.VISIBLE);
-                        filetypeButton.setVisibility(View.VISIBLE);
-                        break;
-                    case delete:
-                        deleteButton.setVisibility(View.VISIBLE);
-                        rawToDngButton.setVisibility(View.GONE);
-                        filetypeButton.setVisibility(View.GONE);
-                        break;
-                    case rawToDng:
-                        lastFormat = formatsToShow;
-                        formatsToShow = FormatTypes.raw;
+                case normal: {
+                    if ((formatsToShow == FormatTypes.raw && lastFormat != FormatTypes.raw)) {
+                        formatsToShow = lastFormat;
                         mPagerAdapter.SetFormatToShow(formatsToShow);
                         mPagerAdapter.loadFiles(new File(savedInstanceFilePath));
-                        deleteButton.setVisibility(View.GONE);
-                        rawToDngButton.setVisibility(View.VISIBLE);
-                        filetypeButton.setVisibility(View.GONE);
-                        break;
+                    }
+                    requestMode = RequestModes.none;
+                    deleteButton.setVisibility(View.VISIBLE);
+                    rawToDngButton.setVisibility(View.VISIBLE);
+                    filetypeButton.setVisibility(View.VISIBLE);
+                    filesSelected.setVisibility(View.GONE);
+                    break;
                 }
-                break;
+                case selection: {
+                    filesSelectedCount = 0;
+                    filesSelected.setVisibility(View.VISIBLE);
+                    updateFilesSelected();
+                    switch (requestMode) {
+                        case none:
+                            deleteButton.setVisibility(View.VISIBLE);
+                            rawToDngButton.setVisibility(View.VISIBLE);
+                            filetypeButton.setVisibility(View.VISIBLE);
+                            break;
+                        case delete:
+                            deleteButton.setVisibility(View.VISIBLE);
+                            rawToDngButton.setVisibility(View.GONE);
+                            filetypeButton.setVisibility(View.GONE);
+                            break;
+                        case rawToDng:
+                            if (savedInstanceFilePath == null)
+                                break;
+                            File toload = new File(savedInstanceFilePath);
+                            if (toload == null)
+                                break;
+                            lastFormat = formatsToShow;
+                            formatsToShow = FormatTypes.raw;
+                            mPagerAdapter.SetFormatToShow(formatsToShow);
+                            mPagerAdapter.loadFiles(toload);
+                            deleteButton.setVisibility(View.GONE);
+                            rawToDngButton.setVisibility(View.VISIBLE);
+                            filetypeButton.setVisibility(View.GONE);
+                            break;
+                    }
+                    break;
+                }
             }
         }
     }
