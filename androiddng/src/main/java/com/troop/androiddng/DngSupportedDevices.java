@@ -319,7 +319,7 @@ public class DngSupportedDevices
                     case Lenovo_K50_MTK:
                         return new Nexus6Profile(16, 4192, 3104, Plain, BGGR, 0);
                     case Lenovo_K4Note_MTK:
-                        return new Nexus6Profile(16, 4192, 3104, Plain, GRBG, 0);
+                        return new Nexus6Profile(16, 4192, 3104, Plain, GBRG, 0);
                     default:
                         return new Nexus6Profile(64, 4192, 3104, Plain, RGGB, 0);
 
