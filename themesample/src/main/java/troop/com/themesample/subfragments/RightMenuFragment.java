@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -25,7 +26,7 @@ import troop.com.themesample.views.uichilds.UiSettingsChild;
  */
 public class RightMenuFragment extends AbstractFragment implements Interfaces.I_MenuItemClick
 {
-
+    final static String TAG = RightMenuFragment.class.getSimpleName();
     Interfaces.I_MenuItemClick onMenuItemClick;
     MenuItem scene;
     MenuItem color;
@@ -156,6 +157,7 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
 
     private void setWrapper()
     {
+        Logger.d(TAG, "setWrapper");
         if (wrapper == null)
             return;
         scene.SetParameter(wrapper.camParametersHandler.SceneMode);

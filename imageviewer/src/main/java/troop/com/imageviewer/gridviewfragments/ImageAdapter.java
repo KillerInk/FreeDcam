@@ -59,7 +59,9 @@ public class ImageAdapter extends BaseAdapter
         } else {
             imageView = (GridImageView) convertView;
         }
-
+        Logger.d(TAG, "filessize:" +files.size() + " position:"+position);
+        if (files.size() <= position)
+            position = files.size() -1;
         if (imageView.getFileHolder() == null || !imageView.getFileHolder().equals(files.get(position)) /*||imageView.viewstate != currentViewState*/)
         {
             imageView.SetEventListner(files.get(position));
