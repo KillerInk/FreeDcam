@@ -164,60 +164,6 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
             load();
     }
 
-    DialogInterface.OnClickListener dialogDeleteClickListener = new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            switch (which){
-                case DialogInterface.BUTTON_POSITIVE:
-                    deleteFiles();
-                    break;
-
-                case DialogInterface.BUTTON_NEGATIVE:
-                    //No button clicked
-                    break;
-            }
-        }
-    };
-
-    private void deleteFiles()
-    {
-        setViewMode(ViewStates.normal);
-
-        FreeDPool.Execute(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                final int fileselected = filesSelectedCount;
-
-                final File folder = mPagerAdapter.getFiles().get(0).getFile().getParentFile();
-                int filesdeletedCount = 0;
-                for (int i = 0; i < mPagerAdapter.getFiles().size(); i++)
-                {
-                    if (mPagerAdapter.getFiles().get(i).IsSelected())
-                    {
-                        FileHolder f = mPagerAdapter.getFiles().get(i);
-                        boolean del = BitmapHelper.DeleteFile(f,AppSettingsManager.APPSETTINGSMANAGER);
-                        Logger.d(TAG, "file: " + f.getFile().getName() + " deleted:" + del);
-                        i--;
-                        filesdeletedCount++;
-                    }
-                }
-                GridViewFragment.this.getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        MediaScannerManager.ScanMedia(getContext(), folder);
-                        mPagerAdapter.notifyDataSetChanged();
-                    }
-                });
-
-            }
-        });
-    }
-
-
-
 
 
     private void load()
@@ -405,57 +351,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         }
     };
 
-    private View.OnClickListener onDeltedButtonClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v)
-        {
-            if (requestMode == RequestModes.none)
-            {
-                requestMode = RequestModes.delete;
-                setViewMode(ViewStates.selection);
-            }
-            else if (requestMode == RequestModes.delete)
-            {
-                //check if files are selceted
-                boolean hasfilesSelected = false;
-                for (FileHolder f : mPagerAdapter.getFiles()) {
-                    if (f.IsSelected()) {
-                        hasfilesSelected = true;
-                        break;
-                    }
 
-                }
-                //if no files selected skip dialog
-                if (!hasfilesSelected)
-                    return;
-                //else show dialog
-                if (!StringUtils.IS_L_OR_BIG() || !mPagerAdapter.getFiles().get(0).isExternalSD())
-                {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setMessage(R.string.delete_files).setPositiveButton(R.string.yes, dialogDeleteClickListener)
-                            .setNegativeButton(R.string.no, dialogDeleteClickListener).show();
-                    setViewMode(ViewStates.normal);
-                }
-                else
-                {
-                    DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(AppSettingsManager.APPSETTINGSMANAGER);
-                    if (sdDir == null) {
-                        I_Activity i_activity = (I_Activity) getActivity();
-                        i_activity.ChooseSDCard(GridViewFragment.this);
-                    }
-                    else
-                    {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setMessage(R.string.delete_files).setPositiveButton(R.string.yes, dialogDeleteClickListener)
-                                .setNegativeButton(R.string.no, dialogDeleteClickListener).show();
-
-                    }
-                }
-
-
-            }
-        }
-    };
 
 
     @Override
@@ -554,6 +450,113 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
     {
         filesSelected.setText(getString(R.string.files_selected) + filesSelectedCount);
     }
+
+/*
+DELTE FILES STUFF
+ */
+    DialogInterface.OnClickListener dialogDeleteClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    deleteFiles();
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+        }
+    };
+
+    private void deleteFiles()
+    {
+        setViewMode(ViewStates.normal);
+
+        FreeDPool.Execute(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                final int fileselected = filesSelectedCount;
+
+                final File folder = mPagerAdapter.getFiles().get(0).getFile().getParentFile();
+                int filesdeletedCount = 0;
+                for (int i = 0; i < mPagerAdapter.getFiles().size(); i++)
+                {
+                    if (mPagerAdapter.getFiles().get(i).IsSelected())
+                    {
+                        FileHolder f = mPagerAdapter.getFiles().get(i);
+                        boolean del = BitmapHelper.DeleteFile(f,AppSettingsManager.APPSETTINGSMANAGER);
+                        Logger.d(TAG, "file: " + f.getFile().getName() + " deleted:" + del);
+                        i--;
+                        filesdeletedCount++;
+                    }
+                }
+                GridViewFragment.this.getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        MediaScannerManager.ScanMedia(getContext(), folder);
+                        mPagerAdapter.notifyDataSetChanged();
+                    }
+                });
+
+            }
+        });
+    }
+
+    private View.OnClickListener onDeltedButtonClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v)
+        {
+            if (requestMode == RequestModes.none)
+            {
+                requestMode = RequestModes.delete;
+                setViewMode(ViewStates.selection);
+            }
+            else if (requestMode == RequestModes.delete)
+            {
+                //check if files are selceted
+                boolean hasfilesSelected = false;
+                for (FileHolder f : mPagerAdapter.getFiles()) {
+                    if (f.IsSelected()) {
+                        hasfilesSelected = true;
+                        break;
+                    }
+
+                }
+                //if no files selected skip dialog
+                if (!hasfilesSelected)
+                    return;
+                //else show dialog
+                if (!StringUtils.IS_L_OR_BIG() || !mPagerAdapter.getFiles().get(0).isExternalSD())
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage(R.string.delete_files).setPositiveButton(R.string.yes, dialogDeleteClickListener)
+                            .setNegativeButton(R.string.no, dialogDeleteClickListener).show();
+                    setViewMode(ViewStates.normal);
+                }
+                else
+                {
+                    DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(AppSettingsManager.APPSETTINGSMANAGER);
+                    if (sdDir == null) {
+                        I_Activity i_activity = (I_Activity) getActivity();
+                        i_activity.ChooseSDCard(GridViewFragment.this);
+                    }
+                    else
+                    {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setMessage(R.string.delete_files).setPositiveButton(R.string.yes, dialogDeleteClickListener)
+                                .setNegativeButton(R.string.no, dialogDeleteClickListener).show();
+
+                    }
+                }
+
+
+            }
+        }
+    };
 
 
 }
