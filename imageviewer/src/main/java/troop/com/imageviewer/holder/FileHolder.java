@@ -142,26 +142,27 @@ public class FileHolder extends BaseHolder
             boolean externalfound = false;
             for (File file : files)
             {
-                if (file.getName().equals("emulated"))
+                if (file.getName().toLowerCase().equals("emulated"))
                 {
+
                     File intDcim = new File(file.getAbsolutePath()+"/0/" + StringUtils.DCIMFolder);
-                    if (intDcim.exists()) {
+                    if (intDcim.exists()  && !internalfound) {
                         internalfound = true;
                         list.add(new FileHolder(intDcim, false));
                     }
                     File extDcim = new File(file.getAbsolutePath()+"/1/" + StringUtils.DCIMFolder);
-                    if (extDcim.exists()) {
+                    if (extDcim.exists() && !externalfound) {
                         externalfound = true;
                         list.add(new FileHolder(extDcim, true));
                     }
                 }
-                if (file.getName().equals("sdcard0") && !internalfound)
+                if (file.getName().toLowerCase().equals("sdcard0") && !internalfound)
                 {
                     File intDcim = new File(file.getAbsolutePath() + StringUtils.DCIMFolder);
                     internalfound = true;
                     list.add(new FileHolder(intDcim, false));
                 }
-                if (file.getName().equals("sdcard1") && !externalfound)
+                if (file.getName().toLowerCase().equals("sdcard1") && !externalfound)
                 {
                     File extDcim = new File(file.getAbsolutePath() + StringUtils.DCIMFolder);
                     if (extDcim.exists())
@@ -170,7 +171,7 @@ public class FileHolder extends BaseHolder
                         list.add(new FileHolder(extDcim, true));
                     }
                 }
-                if (!file.getName().equals("emulated") && !file.getName().equals("sdcard0") &&  !file.getName().equals("sdcard1"))
+                if (!file.getName().toLowerCase().equals("emulated") && !file.getName().toLowerCase().equals("sdcard0") &&  !file.getName().toLowerCase().equals("sdcard1"))
                 {
                     File extDcim = new File(file.getAbsolutePath() + StringUtils.DCIMFolder);
                     if (extDcim.exists())
