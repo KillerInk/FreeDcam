@@ -15,7 +15,7 @@ public class FreeDPool
     public static void INIT()
     {
         number_of_cores = Runtime.getRuntime().availableProcessors();
-        executor = Executors.newFixedThreadPool(number_of_cores);
+        executor = Executors.newFixedThreadPool(number_of_cores*2);
         isInit = true;
     }
 
