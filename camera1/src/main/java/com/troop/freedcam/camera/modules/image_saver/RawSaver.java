@@ -66,7 +66,7 @@ public class RawSaver extends JpegSaver
                 outStream = new FileOutputStream(fileName);
             else
             {
-                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
+                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true,AppSettingsManager.APPSETTINGSMANAGER);
                 DocumentFile wr = df.createFile("image/*", fileName.getName());
                 outStream = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri());
             }

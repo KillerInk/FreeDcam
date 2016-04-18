@@ -1,6 +1,7 @@
 package troop.com.imageviewer.gridviewfragments;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.manager.MediaScannerManager;
+import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.FreeDPool;
 import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.utils.FileUtils;
@@ -179,14 +181,6 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
 
     private void deleteFiles()
     {
-
-        final int fileselected = filesSelectedCount;
-        final ProgressDialog progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("Delete Files...");
-        progressDialog.setProgressStyle(progressDialog.STYLE_HORIZONTAL);
-        progressDialog.setProgress(0);
-        progressDialog.setMax(fileselected);
-        progressDialog.show();
         setViewMode(ViewStates.normal);
 
         FreeDPool.Execute(new Runnable()
@@ -194,6 +188,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
             @Override
             public void run()
             {
+                final int fileselected = filesSelectedCount;
 
                 final File folder = mPagerAdapter.getFiles().get(0).getFile().getParentFile();
                 int filesdeletedCount = 0;
@@ -202,15 +197,12 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                     if (mPagerAdapter.getFiles().get(i).IsSelected())
                     {
                         FileHolder f = mPagerAdapter.getFiles().get(i);
-                        boolean del = BitmapHelper.DeleteFile(f);
+                        boolean del = BitmapHelper.DeleteFile(f,AppSettingsManager.APPSETTINGSMANAGER);
                         Logger.d(TAG, "file: " + f.getFile().getName() + " deleted:" + del);
                         i--;
                         filesdeletedCount++;
-                        final int delfiles = filesdeletedCount;
-                        progressDialog.setProgress(delfiles);
                     }
                 }
-                progressDialog.dismiss();
                 GridViewFragment.this.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -237,6 +229,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
 
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     private void checkMarshmallowPermissions() {
         if (getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -445,7 +438,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                 }
                 else
                 {
-                    DocumentFile sdDir = FileUtils.getExternalSdDocumentFile();
+                    DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(AppSettingsManager.APPSETTINGSMANAGER);
                     if (sdDir == null) {
                         I_Activity i_activity = (I_Activity) getActivity();
                         i_activity.ChooseSDCard(GridViewFragment.this);

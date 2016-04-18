@@ -187,7 +187,7 @@ public abstract class AbstractVideoModule extends AbstractModule
         else
         {
             File f = new File(s);
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true, AppSettingsManager.APPSETTINGSMANAGER);
             DocumentFile wr = df.createFile("*/*", f.getName());
             try {
                 fileDescriptor = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");

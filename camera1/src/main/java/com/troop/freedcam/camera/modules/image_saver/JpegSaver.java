@@ -68,7 +68,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
                         || StringUtils.WRITE_NOT_EX_AND_L_ORBigger())
                     saveBytesToFile(data, f, true);
                 else {
-                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
+                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true,AppSettingsManager.APPSETTINGSMANAGER);
                     DocumentFile wr = df.createFile("image/jpeg", f.getName());
 
                     try {
@@ -115,7 +115,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
             }
             else
             {
-                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
+                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true,AppSettingsManager.APPSETTINGSMANAGER);
                 Logger.d(TAG,"Filepath: " +df.getUri().toString());
                 DocumentFile wr = df.createFile("image/jpeg", fileName.getName());
                 Logger.d(TAG,"Filepath: " +wr.getUri().toString());
