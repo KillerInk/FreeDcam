@@ -109,7 +109,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
         return null;
     }
 
-
+    boolean firststart = true;
     private void showThumb(final File filePath)
     {
         if (bitmap != null) {
@@ -127,6 +127,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
         //drawc.drawBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.thumbnail),0,0,null);
         paint.setXfermode(null);
 
+
         this.post(new Runnable() {
             @Override
             public void run() {
@@ -134,12 +135,14 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
 
             }
         });
-        this.post(new Runnable() {
-            @Override
-            public void run() {
-                click.newImageRecieved(filePath);
-            }
-        });
+        if (firststart = false)
+            this.post(new Runnable() {
+                @Override
+                public void run() {
+                    click.newImageRecieved(filePath);
+                }
+            });
+        firststart = false;
     }
 
     public void SetOnThumBlickListner(ScreenSlideFragment.I_ThumbClick click)
