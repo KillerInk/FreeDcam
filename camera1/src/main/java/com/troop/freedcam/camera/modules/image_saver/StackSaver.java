@@ -85,31 +85,29 @@ public class StackSaver extends JpegSaver {
         int x = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[0]);
         int y = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[1]);
 
-        File f = new File("/sdcard/DCIM/FreeDcam/active/in.jpg");
-        saveBytesToFile(data,f,true);
+        //File f = new File("/sdcard/DCIM/FreeDcam/active/in.jpg");
+      //  saveBytesToFile(data,f,true);
 
         if (FrameCount == 0) {
-            buffered = jpg2rgb.SetJpegData(x,y);
-            jpg2rgb.RELEASE();
-            System.out.println("The buffer Data Is " + buffered.length + " bytes Long" );
+            //buffered = jpg2rgb.ExtractRGB(data);
+            //jpg2rgb.RELEASE();
+            System.out.println("The buffer Data Is " + jpg2rgb.ExtractRGB(data) + " bytes Long" );
             iWorkeDone.OnWorkDone(file);
-            FrameCount++;
+           // FrameCount++;
 
 
         }
         else if(FrameCount == 1)
         {
-            staxxer.Process(buffered,jpg2rgb.SetJpegData(x,y),false);
+            staxxer.Process(buffered, jpg2rgb.ExtractRGB(data),false);
             iWorkeDone.OnWorkDone(file);
             FrameCount++;
-            jpg2rgb.RELEASE();
         }
         else
         {
 
-            staxxer.Process(buffered,jpg2rgb.SetJpegData(x,y),true);
+            staxxer.Process(buffered, jpg2rgb.ExtractRGB(data),true);
             iWorkeDone.OnWorkDone(file);
-            jpg2rgb.RELEASE();
         }
 
     }

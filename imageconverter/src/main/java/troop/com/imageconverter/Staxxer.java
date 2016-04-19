@@ -26,6 +26,8 @@ import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.FreeDPool;
 import com.troop.freedcam.ui.I_AspectRatio;
 
+import jni.staxxer.StaxxerJNI;
+
 /**
  * Created by GeorgeKiarie on 13/04/2016.
  */
@@ -47,6 +49,7 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
     Context context;
     Size size;
     boolean isWorking = false;
+    private StaxxerJNI jpg2rgb;
 
     private Bitmap merged;
 
@@ -56,6 +59,7 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
         this.size = size;
 
         this.context = context;
+        jpg2rgb = StaxxerJNI.GetInstance();
         //this.size = size;
 
        // cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
@@ -160,6 +164,7 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
                 imagestack.forEach_stackimage(mAllocationOut);
                 merged = Bitmap.createBitmap(mWidth,mHeight,Bitmap.Config.ARGB_8888);
                 mAllocationOut = Allocation.createFromBitmap(mRS, merged);
+              //  jpg2rgb.StoreMerged(merged);
 
                 System.out.println(merged.getAllocationByteCount() + "is Merged Size");
                 mAllocationOut.ioSend();
