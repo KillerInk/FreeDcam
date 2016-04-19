@@ -152,6 +152,12 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
         settingsOpen = sharedPref.getBoolean(KEY_SETTINGSOPEN, false);
         leftholder = (LinearLayout) getActivity().findViewById(R.id.guideHolder);
 
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         setWrapper();
     }
 
