@@ -692,6 +692,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         if (picFormat.equals("")) {
             picFormat = BaseCameraHolderApi2.JPEG;
             AppSettingsManager.APPSETTINGSMANAGER.setString(AppSettingsManager.SETTING_PICTUREFORMAT, BaseCameraHolderApi2.JPEG);
+            ParameterHandler.PictureFormat.BackgroundValueHasChanged(BaseCameraHolderApi2.JPEG);
 
         }
 

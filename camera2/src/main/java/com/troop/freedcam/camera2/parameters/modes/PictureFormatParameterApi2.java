@@ -16,7 +16,7 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
 {
     BaseCameraHolderApi2 cameraHolder;
     boolean firststart = true;
-    private String format;
+    private String format = BaseCameraHolderApi2.JPEG;
     public PictureFormatParameterApi2(Handler handler,BaseCameraHolderApi2 baseCameraHolderApi2)
     {
         super(handler,baseCameraHolderApi2);
