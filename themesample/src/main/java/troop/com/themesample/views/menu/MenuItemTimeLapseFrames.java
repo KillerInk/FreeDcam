@@ -19,17 +19,17 @@ import troop.com.themesample.R;
 public class MenuItemTimeLapseFrames extends LinearLayout
 {
     final String TAG = MenuItemTimeLapseFrames.class.getSimpleName();
-    Button plus;
-    Button minus;
-    EditText editText;
-    Context context;
+    private Button plus;
+    private Button minus;
+    private EditText editText;
+    private Context context;
 
-    final float min = 0.1f;
-    final float max = 30;
-    float current;
-    final float mover = 0.1f;
-    final float bigmover = 1;
-    String settingsname;
+    private final float min = 0.1f;
+    private final float max = 30;
+    private float current;
+    private final float mover = 0.1f;
+    private final float bigmover = 1;
+    private String settingsname;
 
 
     public MenuItemTimeLapseFrames(Context context) {
@@ -78,10 +78,10 @@ public class MenuItemTimeLapseFrames extends LinearLayout
 
             }
         });
-
+        editText.setText(current + " fps");
     }
 
-    public void setCurrent(float current)
+    private void setCurrent(float current)
     {
         String form = String.format("%.1f", current).replace(",", ".");
         try {
@@ -103,6 +103,7 @@ public class MenuItemTimeLapseFrames extends LinearLayout
         if (fps == null || fps.equals(""))
             fps = "30";
         editText.setText(fps + " fps");
+        Logger.d(TAG, "set to " + fps);
         current = Float.parseFloat(fps);
     }
 }

@@ -33,6 +33,7 @@ public class ManualExposureApi2 extends AbstractManualParameter implements Abstr
         int min = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getLower();
         float step = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP).floatValue();
         stringvalues = createStringArray(min, max, step);
+        currentInt = stringvalues.length/2;
     }
 
     protected String[] createStringArray(int min,int max, float stepp)

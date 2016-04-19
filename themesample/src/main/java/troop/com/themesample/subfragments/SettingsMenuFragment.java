@@ -92,7 +92,8 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
 
     private void loadLeftFragment()
     {
-        leftMenuFragment = new LeftMenuFragment();
+        if (leftMenuFragment == null)
+            leftMenuFragment = new LeftMenuFragment();
         leftMenuFragment.SetStuff(i_activity);
         leftMenuFragment.SetCameraUIWrapper(wrapper);
         leftMenuFragment.SetMenuItemClickListner(this);
@@ -100,7 +101,6 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
             android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
             transaction.replace(R.id.left_holder, leftMenuFragment);
-            transaction.addToBackStack(null);
             transaction.commitAllowingStateLoss();
         }catch (NullPointerException ex)
         {}
@@ -108,8 +108,8 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         {}
     }
     private void loadRightFragment() {
-
-        rightMenuFragment = new RightMenuFragment();
+        if ( rightMenuFragment == null)
+            rightMenuFragment = new RightMenuFragment();
         rightMenuFragment.SetStuff(i_activity);
         rightMenuFragment.SetCameraUIWrapper(wrapper);
         rightMenuFragment.SetMenuItemClickListner(this);
@@ -117,7 +117,6 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
             android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
             transaction.replace(R.id.right_holder, rightMenuFragment);
-            transaction.addToBackStack(null);
             transaction.commitAllowingStateLoss();
         }
         catch (NullPointerException ex)

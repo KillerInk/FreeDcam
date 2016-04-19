@@ -180,6 +180,11 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         /*previewZoom = (MenuItem)view.findViewById(R.id.MenuItemPreviewZoom);
         previewZoom.SetStuff(i_activity,AppSettingsManager.SETTINGS_PREVIEWZOOM);*/
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         setWrapper();
     }
 
@@ -254,6 +259,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         if (wrapper instanceof CameraUiWrapper) {
 
             timeLapseFrames.setVisibility(View.VISIBLE);
+            timeLapseFrames.SetStuff(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME);
             videoProfileEditor.setVisibility(View.VISIBLE);
         }
         else if (wrapper instanceof CameraUiWrapperApi2)
@@ -263,7 +269,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         }
         else
         {
-
+            timeLapseFrames.setVisibility(View.GONE);
+            videoProfileEditor.setVisibility(View.GONE);
         }
 
         saveCamParams.setCameraUiWrapper(wrapper);
@@ -288,12 +295,14 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         horizont.SetParameter(wrapper.camParametersHandler.Horizont);
         horizont.SetMenuItemListner(this);
 
-        if(wrapper instanceof CameraUiWrapper) {
+        if(wrapper instanceof CameraUiWrapper)
+        {
             AEB1.SetCameraUIWrapper(wrapper);
             AEB2.SetCameraUIWrapper(wrapper);
             AEB3.SetCameraUIWrapper(wrapper);
         }
-        else {
+        else
+        {
             AEB1.setVisibility(View.GONE);
             AEB2.setVisibility(View.GONE);
             AEB3.setVisibility(View.GONE);

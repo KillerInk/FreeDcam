@@ -2,4 +2,6 @@
 <resources><dimen name="app_icon_size">30dp</dimen>
     <dimen name="image_thumbnail_size">120dp</dimen>
     <dimen name="gridview_barTopSize">38dp</dimen>
+    <dimen name="gridview_topbar_itemMargin">10dp</dimen>
+    <dimen name="gridview_topbar_height">40dp</dimen>
 </resources>

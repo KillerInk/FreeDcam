@@ -427,7 +427,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             else
             {
                 Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
-                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
+                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true,AppSettingsManager.APPSETTINGSMANAGER);
                 DocumentFile wr = df.createFile("image/dng", file.getName());
                 try {
 
@@ -476,7 +476,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     dngCreator.writeImage(new FileOutputStream(file), image);
                 else
                 {
-                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
+                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true,AppSettingsManager.APPSETTINGSMANAGER);
                     DocumentFile wr = df.createFile("image/*", file.getName());
                     dngCreator.writeImage(AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri()), image);
                 }
@@ -510,7 +510,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             dngConverter.SetBayerData(bytes, file.getAbsolutePath());
         else
         {
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true,AppSettingsManager.APPSETTINGSMANAGER);
             DocumentFile wr = df.createFile("image/*", file.getName());
             try {
 
@@ -815,7 +815,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 else
                 {
 
-                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
+                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true,AppSettingsManager.APPSETTINGSMANAGER);
                     DocumentFile wr = df.createFile("*/*", mFile.getName());
                     output = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri(),"rw");
                 }

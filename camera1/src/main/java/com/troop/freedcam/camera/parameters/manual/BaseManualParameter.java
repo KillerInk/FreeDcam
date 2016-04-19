@@ -78,14 +78,23 @@ public class BaseManualParameter extends AbstractManualParameter
                 {
                     stringvalues = createStringArray(Integer.parseInt(parameters.get(min_value)), Integer.parseInt(parameters.get(max_value)), step);
                     currentString = parameters.get(this.value);
-                    for (int i = 0; i < stringvalues.length; i++) {
-                        if (stringvalues[i].equals(currentString)) {
-                            currentInt = i;
-                            default_value = i;
-
-                        }
+                    if (parameters.get(min_value).contains("-"))
+                    {
+                        currentInt = stringvalues.length /2 + Integer.parseInt(currentString);
+                        default_value = currentInt;
                         this.isSupported = true;
                         this.isVisible = isSupported;
+                    }
+                    else {
+                        for (int i = 0; i < stringvalues.length; i++) {
+                            if (stringvalues[i].equals(currentString)) {
+                                currentInt = i;
+                                default_value = i;
+
+                            }
+                            this.isSupported = true;
+                            this.isVisible = isSupported;
+                        }
                     }
 
                 }

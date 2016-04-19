@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 
 import com.defcomk.jni.libraw.RawUtils;
 import com.troop.filelogger.Logger;
+import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -137,7 +138,7 @@ public class BitmapHelper
         }
     }
 
-    public static boolean DeleteFile(FileHolder file)
+    public static boolean DeleteFile(FileHolder file, AppSettingsManager appSettingsManager)
     {
         boolean del = false;
         DeleteCache(file.getFile());
@@ -146,7 +147,7 @@ public class BitmapHelper
             del = file.getFile().delete();
         }
         if (!del && StringUtils.IS_L_OR_BIG())
-            del =FileUtils.delteDocumentFile(file.getFile());
+            del =FileUtils.delteDocumentFile(file.getFile(),appSettingsManager);
         if (del)
         {
             if (files != null)

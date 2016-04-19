@@ -23,20 +23,20 @@ public class FileUtils
         }
     }
 
-    public static DocumentFile getExternalSdDocumentFile()
+    public static DocumentFile getExternalSdDocumentFile(AppSettingsManager appSettingsManager)
     {
         DocumentFile sdDir = null;
-        if (!AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder().equals("")) {
-            Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
-            sdDir = DocumentFile.fromTreeUri(AppSettingsManager.APPSETTINGSMANAGER.context, uri);
+        if (appSettingsManager != null && appSettingsManager.GetBaseFolder() != null && !appSettingsManager.GetBaseFolder().equals("")) {
+            Uri uri = Uri.parse(appSettingsManager.GetBaseFolder());
+            sdDir = DocumentFile.fromTreeUri(appSettingsManager.context, uri);
         }
         return sdDir;
     }
 
-    public static DocumentFile getDCIMDocumentFolder(boolean create) {
+    public static DocumentFile getDCIMDocumentFolder(boolean create,AppSettingsManager appSettingsManager) {
         DocumentFile documentFile = null;
         DocumentFile sdDir;
-        if ((sdDir = getExternalSdDocumentFile()) != null) {
+        if ((sdDir = getExternalSdDocumentFile(appSettingsManager)) != null) {
             documentFile = sdDir.findFile("DCIM");
             if (documentFile == null && create)
                 documentFile = sdDir.createDirectory("DCIM");
@@ -44,11 +44,11 @@ public class FileUtils
         return documentFile;
     }
 
-    public static DocumentFile getFreeDcamDocumentFolder(boolean create)
+    public static DocumentFile getFreeDcamDocumentFolder(boolean create, AppSettingsManager appSettingsManager)
     {
         DocumentFile dcimfolder;
         DocumentFile freedcamfolder = null;
-        if((dcimfolder = getDCIMDocumentFolder(create)) !=null)
+        if((dcimfolder = getDCIMDocumentFolder(create, appSettingsManager)) !=null)
         {
             freedcamfolder = dcimfolder.findFile("FreeDcam");
             if (freedcamfolder == null && create)
@@ -57,10 +57,10 @@ public class FileUtils
         return freedcamfolder;
     }
 
-    public static boolean delteDocumentFile(File file)
+    public static boolean delteDocumentFile(File file, AppSettingsManager appSettingsManager)
     {
         if (file.delete() == false) {
-            DocumentFile sdDir = FileUtils.getExternalSdDocumentFile();
+            DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(appSettingsManager);
             String baseS = sdDir.getName();
             String fileFolder = file.getAbsolutePath();
             String[] split = fileFolder.split("/");

@@ -1,28 +1,17 @@
 package troop.com.imageviewer.gridviewfragments;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
 import com.troop.filelogger.Logger;
 
 import java.io.File;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 import troop.com.imageviewer.BitmapHelper;
-import troop.com.imageviewer.R;
-import troop.com.imageviewer.ScreenSlideActivity;
 import troop.com.imageviewer.gridimageviews.GridImageView;
 import troop.com.imageviewer.holder.FileHolder;
 
@@ -36,6 +25,8 @@ public class ImageAdapter extends BaseAdapter
     private GridViewFragment.FormatTypes formatsToShow = GridViewFragment.FormatTypes.all;
     private BaseGridViewFragment.ViewStates currentViewState = BaseGridViewFragment.ViewStates.normal;
     private int mImageThumbSize = 0;
+
+    private final String TAG = ImageAdapter.class.getSimpleName();
 
     public ImageAdapter(Context context, int mImageThumbSize) {
         super();
@@ -68,7 +59,9 @@ public class ImageAdapter extends BaseAdapter
         } else {
             imageView = (GridImageView) convertView;
         }
-
+        Logger.d(TAG, "filessize:" +files.size() + " position:"+position);
+        if (files.size() <= position)
+            position = files.size() -1;
         if (imageView.getFileHolder() == null || !imageView.getFileHolder().equals(files.get(position)) /*||imageView.viewstate != currentViewState*/)
         {
             imageView.SetEventListner(files.get(position));
@@ -93,7 +86,14 @@ public class ImageAdapter extends BaseAdapter
 
     public void loadDCIMFolders()
     {
+        if(files.size() > 0)
+            files.clear();
         files = BitmapHelper.getDCIMDirs();
+
+        for (FileHolder f: files)
+        {
+            Logger.d(TAG, f.getFile().getAbsolutePath());
+        }
         notifyDataSetChanged();
     }
 

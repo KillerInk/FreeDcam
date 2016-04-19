@@ -14,4 +14,6 @@
     <dimen name="left_ui_holder_width">40dp</dimen>
     <dimen name="manualSettingsHeight">50dp</dimen>
     <dimen name="image_thumbnails_size">90dp</dimen>
+    <dimen name="ui_settings_item_width">32dp</dimen>
+    <dimen name="ui_settings_item_height">39dp</dimen>
 </resources>

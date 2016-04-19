@@ -236,8 +236,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             }
             catch (Exception ex)
             {
-                Logger.e(TAG,ex.getMessage());
-                Logger.e(TAG, "Error on Camera close");
+                Logger.exception(ex);
             }
             finally {
                 mCamera = null;
@@ -286,7 +285,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
         catch (Exception ex)
         {
             Logger.d(TAG,"Parameters Set failed");
-            Logger.d(TAG, ex.getMessage());
+            Logger.exception(ex);
         }
 
 
@@ -305,13 +304,13 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 mCamera.setPreviewDisplay(surfaceHolder);
                 return true;
             }
-        } catch (IOException e) {
-            Logger.e(TAG,e.getMessage());
+        } catch (IOException ex) {
+            Logger.exception(ex);
             return false;
         }
         catch (NullPointerException ex)
         {
-            Logger.e(TAG,ex.getMessage());
+            Logger.exception(ex);
             return false;
         }
         return false;
@@ -326,7 +325,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             this.surfaceHolder = new Surface(textureView.getSurfaceTexture());
             return  true;
         } catch (IOException e) {
-            Logger.e(TAG,e.getMessage());
+            Logger.exception(e);
 
         }
         return false;
@@ -342,20 +341,23 @@ public class BaseCameraHolder extends AbstractCameraHolder
     public void StartPreview()
     {
         if (mCamera == null)
+        {
+            cameraChangedListner.onCameraError("Failed to Start Preview, Camera is null");
             return;
+        }
+        try
+        {
+            if (DeviceFrameWork == Frameworks.MTK)
+                ((CamParametersHandler)GetParameterHandler()).initMTKSHit();
+            mCamera.startPreview();
+            isPreviewRunning = true;
+            Logger.d(TAG, "PreviewStarted");
+            cameraChangedListner.onPreviewOpen("");
 
-            try
-            {
-                if (DeviceFrameWork == Frameworks.MTK)
-                    ((CamParametersHandler)GetParameterHandler()).initMTKSHit();
-                mCamera.startPreview();
-                isPreviewRunning = true;
-                Logger.d(TAG, "PreviewStarted");
-                cameraChangedListner.onPreviewOpen("");
-
-            } catch (Exception ex) {
-                Logger.d("Freedcam", ex.getMessage());
-            }
+        } catch (Exception ex) {
+            Logger.exception(ex);
+            cameraChangedListner.onCameraError("Failed to Start Preview");
+        }
 
 
     }
@@ -398,7 +400,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             cameraChangedListner.onPreviewClose("");
             isPreviewRunning = false;
             Logger.d(TAG, "Camera was released");
-            Logger.e(TAG,ex.getMessage());
+            Logger.exception(ex);
         }
     }
 

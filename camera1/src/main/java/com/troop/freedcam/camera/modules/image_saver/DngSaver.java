@@ -185,7 +185,7 @@ public class DngSaver extends JpegSaver
         }
         else {
 
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true,AppSettingsManager.APPSETTINGSMANAGER);
             Logger.d(TAG,"Filepath: " +df.getUri().toString());
             DocumentFile wr = df.createFile("image/dng", file.getName().replace(".jpg", ".dng"));
             Logger.d(TAG,"Filepath: " +wr.getUri().toString());

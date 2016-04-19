@@ -170,7 +170,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
                     builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
                             .setNegativeButton("No", dialogClickListener).show();
                 } else {
-                    DocumentFile sdDir = FileUtils.getExternalSdDocumentFile();
+                    DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(AppSettingsManager.APPSETTINGSMANAGER);
                     if (sdDir == null) {
                         I_Activity i_activity = (I_Activity) getActivity();
                         i_activity.ChooseSDCard(ImageFragment.this);
@@ -194,7 +194,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
-                    BitmapHelper.DeleteFile(file);
+                    BitmapHelper.DeleteFile(file,AppSettingsManager.APPSETTINGSMANAGER);
                     MediaScannerManager.ScanMedia(getContext(), file.getFile());
                     ((ScreenSlideFragment)getParentFragment()).reloadFilesAndSetLastPos();
                     break;
@@ -357,7 +357,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
             dng.SetBayerData(data, out);
         else
         {
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true,AppSettingsManager.APPSETTINGSMANAGER);
             DocumentFile wr = df.createFile("image/dng", file.getName().replace(StringUtils.FileEnding.JPG, StringUtils.FileEnding.DNG));
             ParcelFileDescriptor pfd = null;
             try {
