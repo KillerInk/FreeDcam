@@ -89,11 +89,11 @@ public class StackSaver extends JpegSaver {
       //  saveBytesToFile(data,f,true);
 
         if (FrameCount == 0) {
-            //buffered = jpg2rgb.ExtractRGB(data);
-            //jpg2rgb.RELEASE();
-            System.out.println("The buffer Data Is " + jpg2rgb.ExtractRGB(data) + " bytes Long" );
+            buffered = jpg2rgb.ExtractRGB(data);
+           // jpg2rgb.RELEASE();
+            System.out.println("The buffer Data Is " + jpg2rgb.ExtractRGB(data).length + " bytes Long" );
             iWorkeDone.OnWorkDone(file);
-           // FrameCount++;
+            FrameCount++;
 
 
         }

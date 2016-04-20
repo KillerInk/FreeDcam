@@ -24,7 +24,7 @@ extern "C"
 #include <../libjpeg/jpeg-9b/jmorecfg.h>
 #include <../libjpeg/jpeg-9b/include/jconfig.h>
     JNIEXPORT jobject JNICALL Java_jni_staxxer_StaxxerJNI_Create(JNIEnv *env, jobject thiz);
-    JNIEXPORT jbyteArray JNICALL Java_jni_staxxer_StaxxerJNI_GetRGB(JNIEnv *env,jobject thiz, jbyteArray fromCamera);
+    JNIEXPORT jbyteArray JNICALL Java_jni_staxxer_StaxxerJNI_GetRGB(JNIEnv *env,jobject thiz, jbyteArray fromCamera, jint Length);
     JNIEXPORT jbyteArray JNICALL Java_jni_staxxer_StaxxerJNI_GetMerged(JNIEnv *env, jobject thiz,jobject handler);
     JNIEXPORT void JNICALL Java_jni_staxxer_StaxxerJNI_StoreMerged(JNIEnv *env, jobject thiz, jobject handler, jbyteArray fromRS);
     JNIEXPORT void JNICALL Java_jni_staxxer_StaxxerJNI_Release(JNIEnv *env, jobject thiz, jobject handler);
@@ -70,16 +70,13 @@ JNIEXPORT jobject JNICALL Java_jni_staxxer_StaxxerJNI_Create(JNIEnv *env, jobjec
     return env->NewDirectByteBuffer(rgbExtractor, 0);
 }
 
-JNIEXPORT jbyteArray JNICALL Java_jni_staxxer_StaxxerJNI_GetRGB(JNIEnv *env, jobject thiz,jbyteArray fromCamera)
+JNIEXPORT jbyteArray JNICALL Java_jni_staxxer_StaxxerJNI_GetRGB(JNIEnv *env, jobject thiz,jbyteArray fromCamera, jint Length)
 {
-    jsize len;
+    unsigned char* dIN = new unsigned char[Length];
+    memcpy(dIN, env->GetByteArrayElements(fromCamera,NULL), Length);
 
 LOGD("GetRGB: Enter Method");
-    unsigned char *data_in = new unsigned char[env->GetArrayLength(fromCamera)];
-LOGD("Line %d",__LINE__);
-   // memcpy(data_in, env->GetByteArrayElements(fromCamera,NULL), env->GetArrayLength(fromCamera));
 
-    len = env->GetArrayLength(fromCamera);
 LOGD("Line %d",__LINE__);
     	struct jpeg_decompress_struct info;
 LOGD("Line %d",__LINE__);
@@ -90,20 +87,18 @@ LOGD("Line %d",__LINE__);
 LOGD("Line %d",__LINE__);
 
     	jpeg_create_decompress(&info); //fills info structure
-    	//jpeg_stdio_src(&info, file);        //void
 LOGD("Line %d",__LINE__);
-        jpeg_mem_src(&info, data_in,len);
+        jpeg_mem_src(&info, dIN,Length);
 LOGD("Line %d",__LINE__);
-    	//int ret_Read_Head = jpeg_read_header(&info, 1); //int
+        jpeg_read_header(&info, TRUE); //int
 LOGD("Line %d",__LINE__);
     	//if (ret_Read_Head != JPEG_HEADER_OK) {
     	//	printf("jpeg_read_header failed\n");
 ///		jpeg_destroy_decompress(&info);
    // 		return NULL;
   //  	}
-LOGD("Line %d",__LINE__);
-
-    	/*(void)*/ jpeg_start_decompress(&info);
+    LOGD("Line %d",__LINE__);
+    jpeg_start_decompress(&info);
 LOGD("Line %d",__LINE__);
     	int w = info.output_width;
 LOGD("Line %d",__LINE__);

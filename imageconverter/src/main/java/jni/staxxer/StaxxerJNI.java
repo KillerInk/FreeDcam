@@ -19,7 +19,7 @@ public class StaxxerJNI {
     private ByteBuffer nativeHandler = null;
     private static native void StoreMerged(ByteBuffer nativeHandler,byte[] fromRS);
     private static native byte[] GetMerged(ByteBuffer nativeHandler);
-    private static native byte[] GetRGB(byte[] fromCamera);
+    private static native byte[] GetRGB(byte[] fromCamera,int Length);
     private static native ByteBuffer Create();
     private static native void Release(ByteBuffer nativeHandler);
 
@@ -42,7 +42,7 @@ public class StaxxerJNI {
     {
 
         if (nativeHandler != null) {
-           return GetRGB(fromCamera);
+           return GetRGB(fromCamera,fromCamera.length);
 
         }
         else
