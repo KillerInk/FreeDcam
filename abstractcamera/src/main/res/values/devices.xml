@@ -259,6 +259,14 @@
         <item>YU5510</item>
     </string-array>
 
+    <string-array name="Jiayu_S3">
+        <item>JY-S3</item>
+        <item>Jiayu S3</item>
+        <item>h560</item>
+        <item>S3</item>
+        <item>Jiayu_S3</item>
+    </string-array>
+
     <string-array name="Nex4">
         <item>Nexus 4</item>
     </string-array>

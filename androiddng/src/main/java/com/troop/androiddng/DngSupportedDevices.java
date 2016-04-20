@@ -74,6 +74,13 @@ public class DngSupportedDevices
                         Matrixes.G4_reduction_matrix1,
                         Matrixes.G4_reduction_matrix2,
                         Matrixes.G4_noise_3x1_matrix);
+            case 25958400://Jiayu_S3
+                return new DngProfile(64, 4160, 3120, Plain, RGGB, 0, Matrixes.imx214_identity_matrix1, Matrixes.imx214_identity_matrix2, Matrixes.Nexus6_identity_neutra,
+                        Matrixes.imx214_foward_matrix1,
+                        Matrixes.imx214_foward_matrix2,
+                        Matrixes.G4_reduction_matrix1,
+                        Matrixes.G4_reduction_matrix2,
+                        Matrixes.G4_noise_3x1_matrix);
             case 26357760: //oneplus
                 return new DngProfile(16,4224 ,3120 ,Plain, BGGR, 0,
                         Matrixes.Nexus6_identity_matrix1,

@@ -177,6 +177,8 @@ public class DeviceUtils
             return Devices.honor6;
         else if(is985N())
             return Devices.Alcatel_985n;
+        else if(isJiayu_S3())
+            return Devices.Jiayu_S3;
         else
             return Devices.UNKNOWN;
 
@@ -201,6 +203,7 @@ public class DeviceUtils
         Htc_One_Xl,
         HTC_OneA9,
         I_Mobile_I_StyleQ6,
+        Jiayu_S3,
         LenovoK910,
         LenovoK920,
         Lenovo_K4Note_MTK,
@@ -297,7 +300,8 @@ public class DeviceUtils
             Devices.HTC_OneA9,
             Devices.Lenovo_K50_MTK,
             Devices.ForwardArt_MTK,
-            Devices.Alcatel_985n
+            Devices.Alcatel_985n,
+            Devices.Jiayu_S3
     };
 
     public static Devices[] camera1NO_RAW_STREAM = {
@@ -451,6 +455,11 @@ public class DeviceUtils
     public static boolean isRetro()
     {
         return isDevice(contex.getResources().getStringArray(R.array.Retro));
+    }
+
+    public static boolean isJiayu_S3()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.Jiayu_S3));
     }
 
 
