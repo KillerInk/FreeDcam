@@ -92,11 +92,6 @@ LOGD("Line %d",__LINE__);
 LOGD("Line %d",__LINE__);
         jpeg_read_header(&info, TRUE); //int
 LOGD("Line %d",__LINE__);
-    	//if (ret_Read_Head != JPEG_HEADER_OK) {
-    	//	printf("jpeg_read_header failed\n");
-///		jpeg_destroy_decompress(&info);
-   // 		return NULL;
-  //  	}
     LOGD("Line %d",__LINE__);
     jpeg_start_decompress(&info);
 LOGD("Line %d",__LINE__);
@@ -133,6 +128,25 @@ LOGD("Line %d",__LINE__);
         (env)->SetByteArrayRegion(result, 0, dataSize,reinterpret_cast<jbyte*>( data));
 LOGD("Line %d",__LINE__);
         free(data);
+    LOGD("Line %d",__LINE__);
+   /* if(rowptr != NULL)
+    {
+        LOGD("Line %d",__LINE__);
+        free(rowptr);
+        LOGD("Line %d",__LINE__);
+        rowptr = NULL;
+        LOGD("Line %d",__LINE__);
+    }*/
+    LOGD("Line %d",__LINE__);
+    if(dIN != NULL)
+    {
+        LOGD("Line %d",__LINE__);
+        free(dIN);
+        LOGD("Line %d",__LINE__);
+        dIN = NULL;
+        LOGD("Line %d",__LINE__);
+    }
+
 LOGD("Line %d",__LINE__);
     	return result;
 }
@@ -152,15 +166,22 @@ LOGD("Line %d",__LINE__);
 JNIEXPORT jbyteArray JNICALL Java_jni_staxxer_StaxxerJNI_GetMerged(JNIEnv *env, jobject thiz, jobject handler)
 {
 LOGD("GetMerged: Enter Method");
-    jbyteArray ret;
+
 LOGD("Line %d",__LINE__);
     RGBExtractor* rgbExtractor = (RGBExtractor*) env->GetDirectBufferAddress(handler);
 LOGD("Line %d",__LINE__);
-    ret = (env)->NewByteArray(sizeof(rgbExtractor->Native_Buffer));
+
+    jbyteArray result;
+    LOGD("Line %d",__LINE__);
+    result = env->NewByteArray(sizeof(rgbExtractor->Native_Buffer));
+    LOGD("Line %d",__LINE__);
+    (env)->SetByteArrayRegion(result, 0, sizeof(rgbExtractor->Native_Buffer),reinterpret_cast<jbyte*>( rgbExtractor->Native_Buffer));
+
+
+
+
 LOGD("Line %d",__LINE__);
-    env->SetByteArrayRegion(ret,0,sizeof(rgbExtractor->Native_Buffer),(jbyte*)rgbExtractor->Native_Buffer);
-LOGD("Line %d",__LINE__);
-    return ret;
+    return result;
 }
 
 JNIEXPORT void JNICALL Java_jni_staxxer_StaxxerJNI_Release(JNIEnv *env, jobject thiz, jobject handler)

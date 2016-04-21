@@ -1,5 +1,7 @@
 package jni.staxxer;
 
+import android.graphics.Bitmap;
+
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -18,6 +20,10 @@ public class StaxxerJNI {
     }
     private ByteBuffer nativeHandler = null;
     private static native void StoreMerged(ByteBuffer nativeHandler,byte[] fromRS);
+
+   // private static native void StoreBitmap(ByteBuffer nativeHandler,ByteBuffer RGB888);
+  //  private static native ByteBuffer GetBitmap(ByteBuffer nativeHandler);
+
     private static native byte[] GetMerged(ByteBuffer nativeHandler);
     private static native byte[] GetRGB(byte[] fromCamera,int Length);
     private static native ByteBuffer Create();
@@ -58,6 +64,8 @@ public class StaxxerJNI {
         }
 
     }
+
+
 
     public byte[] GetMerged()
     {
