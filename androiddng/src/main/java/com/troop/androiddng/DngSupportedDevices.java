@@ -175,6 +175,8 @@ public class DngSupportedDevices
                     case Aquaris_E5:
                     case RedmiNote:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL);
+                    case Lenovo_VibeP1: //Says GRBG unsure if correct to be confirmed
+                        return new Nexus6Profile(64, 4208, 3120, Mipi, GRBG, getG3_rowSizeL);
                     case XiaomiMI3W:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL);
                     case XiaomiMI4W:

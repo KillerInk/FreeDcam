@@ -72,7 +72,7 @@ public class DeviceUtils
     final public static Devices[] ZTE_DEVICES = {Devices.ZTE_ADV,Devices.ZTEADVIMX214,Devices.ZTEADV234};
     final public static Devices[] Sony_DEVICES = {Devices.SonyM4_QC,Devices.SonyC5_MTK,Devices.SonyM5_MTK};
     final public static Devices[] Krillin_DEVICES = {Devices.p8,Devices.p8lite,Devices.honor6};
-    final public static Devices[] QC_Manual_New = {Devices.SonyM4_QC,Devices.Aquaris_E5,Devices.Alcatel_Idol3,Devices.Moto_MSM8982_8994};
+    final public static Devices[] QC_Manual_New = {Devices.SonyM4_QC,Devices.Aquaris_E5,Devices.Alcatel_Idol3,Devices.Moto_MSM8982_8994,Devices.Lenovo_VibeP1,Devices.XiaomiMI5};
 
     private static Devices getDevice()
     {
@@ -152,6 +152,8 @@ public class DeviceUtils
             return Devices.XiaomiMI4W;
         else if(isXiaomiMI4C())
             return Devices.XiaomiMI4C;
+        else if(isXiaomiMI5())
+            return Devices.XiaomiMI5;
         else if (isXiaomiMI_Note_Pro())
             return Devices.XiaomiMI_Note_Pro;
         else if (isXiaomiMI_Note3_Pro())
@@ -182,6 +184,8 @@ public class DeviceUtils
             return Devices.Jiayu_S3;
         else if(isAquaris_E5())
             return Devices.Aquaris_E5;
+        else if(isLenovoVibeP1())
+            return Devices.Lenovo_VibeP1;
         else
             return Devices.UNKNOWN;
 
@@ -212,6 +216,7 @@ public class DeviceUtils
         LenovoK920,
         Lenovo_K4Note_MTK,
         Lenovo_K50_MTK,
+        Lenovo_VibeP1,
         LG_G2,
         LG_G3,
         LG_G4,
@@ -237,6 +242,7 @@ public class DeviceUtils
         XiaomiMI3W,
         XiaomiMI4W,
         XiaomiMI4C,
+        XiaomiMI5,
         XiaomiMI_Note_Pro,
         XiaomiMI_Note3_Pro,
         Yu_Yureka,
@@ -306,7 +312,9 @@ public class DeviceUtils
             Devices.ForwardArt_MTK,
             Devices.Alcatel_985n,
             Devices.Jiayu_S3,
-            Devices.Aquaris_E5
+            Devices.Aquaris_E5,
+            Devices.Lenovo_VibeP1
+            //,Devices.XiaomiMI5 Unknown Raw Failure need more MI5 user input alternate switch to HDR Scene for raw dump
     };
 
     public static Devices[] camera1NO_RAW_STREAM = {
@@ -443,6 +451,11 @@ public class DeviceUtils
         return isDevice(contex.getResources().getStringArray(R.array.Lenovo_K4Note));
     }
 
+    public static boolean isLenovoVibeP1()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.Lenovo_VibeP1));
+    }
+
     public static boolean isSonyM5_MTK()
     {
         return isDevice(contex.getResources().getStringArray(R.array.SonyM5));
@@ -500,6 +513,10 @@ public class DeviceUtils
     private static boolean isXiaomiMI4C()
     {
         return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi4C));
+    }
+    private static boolean isXiaomiMI5()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_MI5));
     }
 
     private static boolean isXiaomiMI_Note_Pro() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi_Note_Pro));}

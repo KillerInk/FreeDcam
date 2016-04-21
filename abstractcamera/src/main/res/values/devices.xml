@@ -309,6 +309,10 @@
     <string-array name="Xiaomi_Mi4C">
         <item>Mi-4c</item>
     </string-array>
+    <string-array name="Xiaomi_MI5">
+        <item>MI 5</item>
+        <item>MI_5</item>
+    </string-array>
     <string-array name="Xiaomi_Mi_Note_Pro">
         <item>MI NOTE Pro</item>
     </string-array>
@@ -366,5 +370,9 @@
     </string-array>
     <string-array name="Lenovo_K4Note">
         <item>Lenovo A7010a48</item>
+    </string-array>
+    <string-array name="Lenovo_VibeP1">
+        <item>Lenovo P1a42</item>
+        <item>Lenovo_P1a42</item>
     </string-array>
 </resources>
