@@ -9,6 +9,7 @@ void ImageProcessor::YuvToRgb(unsigned char* yuv420sp, jint width, jint height) 
     _height = height;
     int frameSize = width * height;
     _data = new int[frameSize];
+    _colorchannels = 4;
 
     int             sz;
     int             i;
@@ -277,7 +278,7 @@ void ImageProcessor::Apply3x3Filter(int filter[3][3])
     LOGD("Done 3x3 Filter");
 }
 
-void ImageProcessor::unpackRAW(JNIEnv * env,jstring jfilename)
+void ImageProcessor::unpackRAWToRGBA(JNIEnv * env,jstring jfilename)
 {
     int ret;
     LibRaw raw;
@@ -305,6 +306,7 @@ void ImageProcessor::unpackRAW(JNIEnv * env,jstring jfilename)
     _width = image->width;
     _height = image->height;
     _data = new int[_width * _height];
+    _colorchannels = 4;
     LOGD("memcopy start");
     int bufrow = 0;
     int size = image->width* image->height;

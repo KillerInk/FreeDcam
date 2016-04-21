@@ -19,10 +19,9 @@
 
 extern "C"
 {
-#include <../libjpeg/jpeg-9b/jerror.h>
-#include <../libjpeg/jpeg-9b/jpeglib.h>
-#include <../libjpeg/jpeg-9b/jmorecfg.h>
-#include <../libjpeg/jpeg-9b/include/jconfig.h>
+#include <jerror.h>
+#include <jpeglib.h>
+#include <jmorecfg.h>
     JNIEXPORT jobject JNICALL Java_jni_staxxer_StaxxerJNI_Create(JNIEnv *env, jobject thiz);
     JNIEXPORT jbyteArray JNICALL Java_jni_staxxer_StaxxerJNI_GetRGB(JNIEnv *env,jobject thiz, jbyteArray fromCamera, jint Length);
     JNIEXPORT jbyteArray JNICALL Java_jni_staxxer_StaxxerJNI_GetMerged(JNIEnv *env, jobject thiz,jobject handler);

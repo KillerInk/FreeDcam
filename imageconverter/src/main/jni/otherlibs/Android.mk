@@ -9,7 +9,9 @@ LOCAL_C_INCLUDES        := $(LOCAL_PATH)
 LOCAL_MODULE    := imageconverter
 LOCAL_SRC_FILES := ImageProcessorWrapper.cpp ImageProcessor.cpp
 LOCAL_LDLIBS := -lz -lm -llog -ljnigraphics -landroid
-LOCAL_STATIC_LIBRARIES := libraw
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../libjpeg/jpeg-9b/
+LOCAL_STATIC_LIBRARIES := libraw \
+                          libjpeg
 include $(BUILD_SHARED_LIBRARY)
 
 
@@ -29,7 +31,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE    := Staxxer
 LOCAL_SRC_FILES := Staxxer.cpp
 LOCAL_LDLIBS := -lz -L  -lm -llog
-LOCAL_C_INCLUDES := /jpeg
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../libjpeg/jpeg-9b/
 LOCAL_STATIC_LIBRARIES  := libjpeg
 include $(BUILD_SHARED_LIBRARY)
 

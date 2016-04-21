@@ -20,17 +20,20 @@
 #include <android/native_window.h> // requires ndk r5 or newer
 #include <android/native_window_jni.h> // requires ndk r5 or newer
 #include "libraw.h"
+#include <jpeglib.h>
 
 
 class ImageProcessor {
 public:
     jint _width;
     jint _height;
+    jint _colorchannels;
     int* _data;
     ImageProcessor()
     {
         _width = 0;
         _height = 0;
+        _colorchannels = 0;
         _data = new int[0];
     }
     void DrawToSurface(JNIEnv * env, jobject surface);
@@ -54,7 +57,7 @@ public:
     inline void WritePixel(int x, int y, int val, int* data) { data[x + (y * _width)] = val;}
     void applyFocusPeak();
     void Apply3x3Filter(int filter[3][3]);
-    void unpackRAW(JNIEnv * env,jstring jfilename);
+    void unpackRAWToRGBA(JNIEnv * env,jstring jfilename);
 };
 
 

@@ -2,18 +2,7 @@
 // Created by troop on 08.08.2015.
 //
 
-#include <jni.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <time.h>
-#include <math.h>
-#include <android/log.h>
-#include <unistd.h>
-#include <android/bitmap.h>
-#include <android/native_window.h> // requires ndk r5 or newer
-#include <android/native_window_jni.h> // requires ndk r5 or newer
+
 #include "ImageProcessor.h"
 #define  LOG_TAG    "ImageProcessor"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
@@ -117,8 +106,8 @@ JNIEXPORT void    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_Ap
     rgbContainer->applyFocusPeak();
 }
 
-JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_unpackRAW(JNIEnv * env, jobject obj,jobject handler, jstring jfilename)
+JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_unpackRAWToRGBA(JNIEnv * env, jobject obj,jobject handler, jstring jfilename)
 {
     ImageProcessor* rgbContainer = (ImageProcessor*)env->GetDirectBufferAddress(handler);
-    rgbContainer->unpackRAW(env,jfilename);
+    rgbContainer->unpackRAWToRGBA(env,jfilename);
 }
