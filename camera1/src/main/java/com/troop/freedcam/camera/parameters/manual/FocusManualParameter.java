@@ -48,7 +48,7 @@ public class FocusManualParameter extends  BaseManualParameter
             this.value = "cur-focus-scale";
             this.min_value = "min-focus-pos-ratio";
         }
-        else if(DeviceUtils.isLenovoK920() || DeviceUtils.IS(Devices.SonyM4_QC))
+        else if(DeviceUtils.isLenovoK920() || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
         {
             this.isSupported = true;
             this.max_value = "max-focus-pos-index";
@@ -110,14 +110,14 @@ public class FocusManualParameter extends  BaseManualParameter
         //check/set auto/manual mode
         if (DeviceUtils.IS_DEVICE_ONEOF(new DeviceUtils.Devices[]
                 {
-                        Devices.ZTE_ADV, Devices.ZTEADVIMX214, Devices.ZTEADV234, Devices.XiaomiMI3W, Devices.XiaomiMI4W, Devices.RedmiNote, Devices.LenovoK920,Devices.SonyM4_QC
+                        Devices.ZTE_ADV, Devices.ZTEADVIMX214, Devices.ZTEADV234, Devices.XiaomiMI3W, Devices.XiaomiMI4W, Devices.RedmiNote, Devices.LenovoK920,Devices.SonyM4_QC,Devices.Aquaris_E5
                 }))
         {
             if(valueToSet != 0)
             {
                 if (!camParametersHandler.FocusMode.GetValue().equals("manual")) //do not set "manual" to "manual"
                     camParametersHandler.FocusMode.SetValue("manual", false);
-                if (DeviceUtils.IS(Devices.SonyM4_QC))
+                if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
                     parameters.put("manual-focus-pos-type", "0");
                 else
                     parameters.put("manual-focus-pos-type", "1");

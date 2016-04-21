@@ -72,6 +72,7 @@ public class DeviceUtils
     final public static Devices[] ZTE_DEVICES = {Devices.ZTE_ADV,Devices.ZTEADVIMX214,Devices.ZTEADV234};
     final public static Devices[] Sony_DEVICES = {Devices.SonyM4_QC,Devices.SonyC5_MTK,Devices.SonyM5_MTK};
     final public static Devices[] Krillin_DEVICES = {Devices.p8,Devices.p8lite,Devices.honor6};
+    final public static Devices[] QC_Manual_New = {Devices.SonyM4_QC,Devices.Aquaris_E5,Devices.Alcatel_Idol3,Devices.Moto_MSM8982_8994};
 
     private static Devices getDevice()
     {
@@ -177,6 +178,10 @@ public class DeviceUtils
             return Devices.honor6;
         else if(is985N())
             return Devices.Alcatel_985n;
+        else if(isJiayu_S3())
+            return Devices.Jiayu_S3;
+        else if(isAquaris_E5())
+            return Devices.Aquaris_E5;
         else
             return Devices.UNKNOWN;
 
@@ -189,6 +194,7 @@ public class DeviceUtils
         p8,
         p8lite,
         honor6,
+        Aquaris_E5,
         Alcatel_Idol3,
         Alcatel_Idol3_small,
         Asus_Zenfon2,
@@ -201,6 +207,7 @@ public class DeviceUtils
         Htc_One_Xl,
         HTC_OneA9,
         I_Mobile_I_StyleQ6,
+        Jiayu_S3,
         LenovoK910,
         LenovoK920,
         Lenovo_K4Note_MTK,
@@ -297,7 +304,9 @@ public class DeviceUtils
             Devices.HTC_OneA9,
             Devices.Lenovo_K50_MTK,
             Devices.ForwardArt_MTK,
-            Devices.Alcatel_985n
+            Devices.Alcatel_985n,
+            Devices.Jiayu_S3,
+            Devices.Aquaris_E5
     };
 
     public static Devices[] camera1NO_RAW_STREAM = {
@@ -351,6 +360,11 @@ public class DeviceUtils
     private static boolean isAlcatelIdol3small()
     {
         return isDevice(contex.getResources().getStringArray(R.array.Alcatel_Idol_3_small));
+    }
+
+    private static boolean isAquaris_E5()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.AQ_E5));
     }
 
     private static boolean isHuawei_P8_lite()
@@ -451,6 +465,11 @@ public class DeviceUtils
     public static boolean isRetro()
     {
         return isDevice(contex.getResources().getStringArray(R.array.Retro));
+    }
+
+    public static boolean isJiayu_S3()
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.Jiayu_S3));
     }
 
 

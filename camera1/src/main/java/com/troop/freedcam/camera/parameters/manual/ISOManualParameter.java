@@ -16,7 +16,7 @@ public class ISOManualParameter extends BaseManualParameter {
         //TODO add missing logic
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
             this.isSupported = false;
-        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994) || DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
+        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
         {
             this.isSupported = true;
             this.max_value = "min-iso";
