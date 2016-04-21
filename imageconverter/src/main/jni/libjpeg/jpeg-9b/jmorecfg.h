@@ -304,20 +304,14 @@ typedef void noreturn_t;
  */
 
 #ifndef HAVE_BOOLEAN
-#if defined FALSE || defined TRUE || defined QGLOBAL_H
-/* Qt3 defines FALSE and TRUE as "const" variables in qglobal.h */
 typedef int boolean;
+#endif
 #ifndef FALSE			/* in case these macros already exist */
 #define FALSE	0		/* values of boolean */
 #endif
 #ifndef TRUE
 #define TRUE	1
 #endif
-#else
-typedef enum { FALSE = 0, TRUE = 1 } boolean;
-#endif
-#endif
-
 
 /*
  * The remaining options affect code selection within the JPEG library,

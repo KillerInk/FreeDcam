@@ -41,7 +41,7 @@ public class CCTManualClassHandler
         }
         else if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
             return new BaseCCTManual(parameters,WB_MANUAL,8000,2000,parametersHandler,100, WB_MODE_MANUAL_CCT);
-        else if (DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
+        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
             return new CCTManual_SonyM4(parameters,WB_MANUAL,8000,2000,parametersHandler,100, WB_MODE_MANUAL_CCT);
         else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
             return new CCTManualG4(parameters, LG_WB, LG_Max, LG_Min,parametersHandler,100,"");

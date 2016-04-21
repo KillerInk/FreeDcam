@@ -36,7 +36,7 @@ public class ShutterManualParameter extends BaseManualParameter
 
     public ShutterManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler,1);
-         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994) || DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
+         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
         {
             this.isSupported = true;
             stringvalues = ShutterClassHandler.IMX214_IMX230.split(",");
@@ -79,7 +79,7 @@ public class ShutterManualParameter extends BaseManualParameter
     @Override
     protected void setvalue(int valueToSet)
     {
-        if ( parameters.containsKey("exposure-time") || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)||DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
+        if ( parameters.containsKey("exposure-time") || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
         {
             currentInt = valueToSet;
             String shutterstring = stringvalues[currentInt];
@@ -114,7 +114,7 @@ public class ShutterManualParameter extends BaseManualParameter
     }
 
     private void setShutterToAuto() {
-        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)||DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
         {
             parameters.put("exposure-time", "0");
         }

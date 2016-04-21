@@ -1,5 +1,7 @@
 package jni.staxxer;
 
+import android.graphics.Bitmap;
+
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -17,8 +19,13 @@ public class StaxxerJNI {
         System.loadLibrary("Staxxer");
     }
     private ByteBuffer nativeHandler = null;
-    private static native byte[] SetJpegData(ByteBuffer nativeHandler,int width,int height);
-    public static native byte[] GetRGBFromPath(String path);
+    private static native void StoreMerged(ByteBuffer nativeHandler,byte[] fromRS);
+
+   // private static native void StoreBitmap(ByteBuffer nativeHandler,ByteBuffer RGB888);
+  //  private static native ByteBuffer GetBitmap(ByteBuffer nativeHandler);
+
+    private static native byte[] GetMerged(ByteBuffer nativeHandler);
+    private static native byte[] GetRGB(byte[] fromCamera,int Length);
     private static native ByteBuffer Create();
     private static native void Release(ByteBuffer nativeHandler);
 
@@ -37,17 +44,36 @@ public class StaxxerJNI {
         return new StaxxerJNI();
     }
 
-    public byte[] SetJpegData(int width,int height) throws NullPointerException
+    public byte[] ExtractRGB(byte[] fromCamera) throws NullPointerException
     {
 
         if (nativeHandler != null) {
-           return SetJpegData(nativeHandler, width, height);
+           return GetRGB(fromCamera,fromCamera.length);
 
         }
         else
         {
             return null;
         }
+    }
+
+    public void StoreMerged(byte[] fromRS)
+    {
+        if(nativeHandler != null) {
+            StoreMerged(nativeHandler, fromRS);
+        }
+
+    }
+
+
+
+    public byte[] GetMerged()
+    {
+        if(nativeHandler != null) {
+           return GetMerged(nativeHandler);
+        }
+        else
+            return null;
     }
 
     public void RELEASE()

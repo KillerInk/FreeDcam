@@ -259,6 +259,14 @@
         <item>YU5510</item>
     </string-array>
 
+    <string-array name="Jiayu_S3">
+        <item>JY-S3</item>
+        <item>Jiayu S3</item>
+        <item>h560</item>
+        <item>S3</item>
+        <item>Jiayu_S3</item>
+    </string-array>
+
     <string-array name="Nex4">
         <item>Nexus 4</item>
     </string-array>
@@ -314,6 +322,11 @@
         <item>6045I</item>
         <item>6045K</item>
     </string-array>
+    <string-array name="AQ_E5">
+        <item>Aquaris E5</item>
+        <item>Aquaris_E5</item>
+    </string-array>
+
     <string-array name="Alcatel_Idol_3_small">
         <item>6039Y</item>
     </string-array>

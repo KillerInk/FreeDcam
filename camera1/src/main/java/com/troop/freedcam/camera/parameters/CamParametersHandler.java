@@ -15,6 +15,7 @@ import com.troop.freedcam.camera.parameters.manual.ExposureManualParameter;
 import com.troop.freedcam.camera.parameters.manual.FXManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ISOManualParameter;
 import com.troop.freedcam.camera.parameters.manual.LG_G4AeHandler;
+import com.troop.freedcam.camera.parameters.manual.MTK_Manual_Handler;
 import com.troop.freedcam.camera.parameters.manual.ManualFocusClassHandler;
 import com.troop.freedcam.camera.parameters.manual.ShutterClassHandler;
 import com.troop.freedcam.camera.parameters.manual.SkintoneManualPrameter;
@@ -64,6 +65,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     public BaseModeParameter DualMode;
     private CameraUiWrapper cameraUiWrapper;
     private LG_G4AeHandler aeHandlerG4;
+    private MTK_Manual_Handler aeHandlerMTK;
 
     public CamParametersHandler(CameraUiWrapper cameraUiWrapper, Handler uiHandler)
     {
@@ -154,6 +156,10 @@ public class CamParametersHandler extends AbstractParameterHandler
         try {
             if (DeviceUtils.IS(Devices.LG_G4))
                 aeHandlerG4 = new LG_G4AeHandler(cameraParameters,cameraHolder,this);
+            else if(cameraParameters.containsKey("m-ss") && cameraParameters.containsKey("m-sr-g"))
+            {
+                aeHandlerMTK = new MTK_Manual_Handler(cameraParameters,cameraHolder,this);
+            }
             else
             {
                 ManualShutter = ShutterClassHandler.getShutterClass(cameraParameters, this, cameraHolder);
@@ -796,10 +802,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     public boolean isMTK()
     {
-        if(DeviceUtils.IS(Devices.Alcatel_985n))
-            return true;
-        else
-           return ((BaseCameraHolder) cameraHolder).DeviceFrameWork == BaseCameraHolder.Frameworks.MTK;
+           return DeviceUtils.IS(Devices.Alcatel_985n) || cameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.MTK || DeviceUtils.IS(Devices.SonyC5_MTK);
 
 
     }
