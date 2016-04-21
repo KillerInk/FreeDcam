@@ -14,6 +14,9 @@ import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
 
 import jni.staxxer.StaxxerJNI;
 import troop.com.imageconverter.Staxxer;
@@ -29,7 +32,8 @@ public class StackSaver extends JpegSaver {
     Staxxer staxxer;
 
     private StaxxerJNI jpg2rgb;
-
+    boolean NewSession = false;
+    String SessionFolder="";
 
     public StackSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone)
     {
@@ -78,6 +82,7 @@ public class StackSaver extends JpegSaver {
 
 
 
+
     public void processData(byte[] data, File file) {
         System.out.println("The Data Is " + data.length + " bytes Long" + " and the path is " + file.getAbsolutePath());
         //CameraUiWrapper LCUI = new CameraUiWrapper();
@@ -85,7 +90,15 @@ public class StackSaver extends JpegSaver {
         int x = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[0]);
         int y = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[1]);
 
-      //  File f = new File("/sdcard/DCIM/FreeDcam/active/Out"+System.currentTimeMillis()+".jpg");
+        if(!NewSession) {
+             SessionFolder = "/sdcard/DCIM/FreeDcam/" + StringUtils.getStringDatePAttern().format(new Date()) + "/";
+
+            NewSession = true;
+        }
+
+
+       File f = new File(SessionFolder+StringUtils.getStringDatePAttern().format(new Date())+".jpg");
+       saveBytesToFile(data,f,true);
 
 
         if (FrameCount == 0) {
@@ -101,7 +114,7 @@ public class StackSaver extends JpegSaver {
         }
         else if(FrameCount == 1)
         {
-            staxxer.Process(buffered, jpg2rgb.ExtractRGB(data),false);
+            staxxer.Process(buffered, jpg2rgb.ExtractRGB(data),false,SessionFolder);
            // jpg2rgb.RELEASE();
             iWorkeDone.OnWorkDone(file);
             FrameCount++;
@@ -109,7 +122,7 @@ public class StackSaver extends JpegSaver {
         else
         {
 
-            staxxer.Process(null, jpg2rgb.ExtractRGB(data),true);
+            staxxer.Process(null, jpg2rgb.ExtractRGB(data),true,SessionFolder);
             iWorkeDone.OnWorkDone(file);
         }
 

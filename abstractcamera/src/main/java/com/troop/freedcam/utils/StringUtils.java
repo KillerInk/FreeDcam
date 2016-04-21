@@ -316,7 +316,7 @@ public class StringUtils
         return builder.toString();
     }
 
-    private static SimpleDateFormat getStringDatePAttern()
+    public static SimpleDateFormat getStringDatePAttern()
     {
         return new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
     }

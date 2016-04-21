@@ -25,6 +25,14 @@ import com.troop.freedcam.i_camera.parameters.ParameterExternalShutter;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.FreeDPool;
 import com.troop.freedcam.ui.I_AspectRatio;
+import com.troop.freedcam.utils.StringUtils;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Date;
 
 import jni.staxxer.StaxxerJNI;
 
@@ -42,7 +50,6 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
     private Allocation mAllocationOut;
     private Allocation mAllocationMain;
     private Allocation mAllocationSub;
-    private Allocation mAllocationMerged;
     private Surface mSurface;
     private ScriptC_imagestack_argb imagestack;
     private boolean enable = false;
@@ -53,7 +60,7 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
     private StaxxerJNI jpg2rgb;
 
     private Bitmap merged;
-
+    private byte[] mergedByteStream;
     public Staxxer(Size size, Context context)
     {
         Logger.d(TAG, "Ctor");
@@ -122,16 +129,14 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
             tbIn2.setX(mWidth);
             tbIn2.setY(mHeight);
 
-            Type.Builder tbIn3 = new Type.Builder(mRS, Element.RGBA_8888(mRS));
-            tbIn2.setX(merged.getWidth());
-            tbIn2.setY(merged.getHeight());
+
 
             if (mAllocationOut != null)
                 mAllocationOut.setSurface(null);
 
             mAllocationMain = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
             mAllocationSub = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
-            mAllocationMerged = Allocation.createTyped(mRS, tbIn3.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+           // mAllocationMerged = Allocation.createTyped(mRS, tbIn3.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
 
             Type.Builder tbOut = new Type.Builder(mRS, Element.RGBA_8888(mRS));
             tbOut.setX(mWidth);
@@ -153,14 +158,14 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
 
 
 
-    public void Process(final byte[] frameA,final byte[] frameB , final boolean bufferInStaxxer)
+    public void Process(final byte[] frameA,final byte[] frameB , final boolean bufferInStaxxer, final String SessionPath)
     {
 //        System.out.println("Entered RS Classs" +" ImageA="+frameA.length+" ImageB="+frameB.length);
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 isWorking = true;
-                System.out.println("Im In Line"+new Exception().getStackTrace()[0].getLineNumber());
+                System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
                 if (!bufferInStaxxer){
                     System.out.println("Im In Line"+new Exception().getStackTrace()[0].getLineNumber());
                     mAllocationMain.copyFrom(frameA);
@@ -177,25 +182,40 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
                     System.out.println("Im In Line"+new Exception().getStackTrace()[0].getLineNumber());
                     mAllocationMain.copyFrom(frameB);
                     System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
-                    mAllocationMerged.copyFrom(merged);
+                    mAllocationSub.copyFrom(jpg2rgb.ExtractRGB(mergedByteStream));
                     System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
                     imagestack.set_gCurrentFrame(mAllocationMain);
                     System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
-                    imagestack.set_gLastFrame(mAllocationMerged);
+                    imagestack.set_gLastFrame(mAllocationSub);
                     System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
                 }
 
 
-                System.out.println("Im In Line"+new Exception().getStackTrace()[0].getLineNumber());
+                System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
                 imagestack.forEach_stackimage(mAllocationOut);
                 System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
                 merged = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
-                System.out.println("Im In Line"+new Exception().getStackTrace()[0].getLineNumber());
+                System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
                 mAllocationOut.copyTo(merged);
 
-                System.out.println("Im In Line"+new Exception().getStackTrace()[0].getLineNumber());
+                System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
 
-                System.out.println(merged.getAllocationByteCount() + "is Merged Size");
+
+               try {
+
+
+                   ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+                   merged.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                   mergedByteStream = bos.toByteArray();
+                   Merged2File(mergedByteStream,SessionPath);
+
+               }
+               catch (Exception x)
+               {
+x.printStackTrace();
+               }
+
               //  mAllocationOut.ioSend();
                 System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
                 isWorking = false;
@@ -203,6 +223,19 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
             }
         });
     }
+
+    private  void Merged2File(byte[] fromRS,String SessionFolder )
+    {
+        try {
+            FileOutputStream fos = new FileOutputStream(new File(SessionFolder+ StringUtils.getStringDatePAttern().format(new Date())+"_Stack.jpg"));
+            fos.write(fromRS);
+        }
+        catch (IOException e)
+        {
+
+        }
+    }
+
 
     @Override
     public void onPreviewFrame(final byte[] data, Camera camera)
