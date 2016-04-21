@@ -277,5 +277,49 @@ void ImageProcessor::Apply3x3Filter(int filter[3][3])
     LOGD("Done 3x3 Filter");
 }
 
+void ImageProcessor::unpackRAW(JNIEnv * env,jstring jfilename)
+{
+    int ret;
+    LibRaw raw;
+    #define P1 raw.imgdata.idata
+    #define S raw.imgdata.sizes
+    #define C raw.imgdata.color
+    #define T raw.imgdata.thumbnail
+    #define P2 raw.imgdata.other
+    #define OUT raw.imgdata.params
+    OUT.no_auto_bright = 1;
+    OUT.use_camera_wb = 1;
+    OUT.output_bps = 8;
+    OUT.user_qual = 0;
+    OUT.half_size = 1;
+    jboolean bIsCopy;
+    const char *strFilename = (env)->GetStringUTFChars(jfilename, &bIsCopy);
+    raw.open_file(strFilename);
+    LOGD("File opend");
+
+    ret = raw.unpack();
+    LOGD("unpacked img %i", ret);
+    ret = raw.dcraw_process();
+    LOGD("processing dcraw %i", ret);
+    libraw_processed_image_t *image = raw.dcraw_make_mem_image(&ret);
+    _width = image->width;
+    _height = image->height;
+    _data = new int[_width * _height];
+    LOGD("memcopy start");
+    int bufrow = 0;
+    int size = image->width* image->height;
+    for (int count = 0; count < size; count++)
+    {
+            uint32_t p =  (0xff << 24) |
+                		(image->data[bufrow+2] << 16) |
+                        (image->data[bufrow+1] << 8) |
+                        image->data[bufrow+0];
+            _data[count] = p;
+            bufrow += 3;
+    }
+    LOGD("memcopy end");
+    LibRaw::dcraw_clear_mem(image);
+}
+
 
 

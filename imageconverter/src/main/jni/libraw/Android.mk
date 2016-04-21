@@ -15,10 +15,13 @@ LOCAL_PATH := $(call my-dir)
 #librawutils
 #used for compiling libraw
 include $(CLEAR_VARS)
+LIBRAW_PATH := $(LOCAL_PATH)/LibRaw
+
 LOCAL_CPPFLAGS  := -fexceptions -frtti
 #LOCAL_CFLAGS  := -DLIBRAW_USE_OPENMP -fopenmp
 LOCAL_MODULE     := libraw					# name of your module
+LOCAL_C_INCLUDES := $(LIBRAW_PATH)/internal $(LIBRAW_PATH)/libraw $(LIBRAW_PATH)/ $(LOCAL_PATH)/
 LOCAL_LDLIBS	:=	-llog #-fopenmp
-LOCAL_SRC_FILES  :=  swab.cpp LibRaw/internal/dcraw_common.cpp LibRaw/internal/dcraw_fileio.cpp LibRaw/internal/demosaic_packs.cpp LibRaw/src/libraw_cxx.cpp LibRaw/src/libraw_c_api.cpp LibRaw/src/libraw_datastream.cpp
-LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/LibRaw/libraw
+LOCAL_SRC_FILES  :=   $(LOCAL_PATH)/swab.c $(LIBRAW_PATH)/internal/dcraw_common.cpp $(LIBRAW_PATH)/internal/dcraw_fileio.cpp $(LIBRAW_PATH)/internal/demosaic_packs.cpp $(LIBRAW_PATH)/src/libraw_cxx.cpp $(LIBRAW_PATH)/src/libraw_c_api.cpp $(LIBRAW_PATH)/src/libraw_datastream.cpp
+LOCAL_EXPORT_C_INCLUDES := $(LIBRAW_PATH)/libraw
 include $(BUILD_STATIC_LIBRARY)

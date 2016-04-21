@@ -19,6 +19,8 @@
 #include <android/bitmap.h>
 #include <android/native_window.h> // requires ndk r5 or newer
 #include <android/native_window_jni.h> // requires ndk r5 or newer
+#include "libraw.h"
+
 
 class ImageProcessor {
 public:
@@ -52,6 +54,7 @@ public:
     inline void WritePixel(int x, int y, int val, int* data) { data[x + (y * _width)] = val;}
     void applyFocusPeak();
     void Apply3x3Filter(int filter[3][3]);
+    void unpackRAW(JNIEnv * env,jstring jfilename);
 };
 
 

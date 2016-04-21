@@ -9,6 +9,7 @@ LOCAL_C_INCLUDES        := $(LOCAL_PATH)
 LOCAL_MODULE    := imageconverter
 LOCAL_SRC_FILES := ImageProcessorWrapper.cpp ImageProcessor.cpp
 LOCAL_LDLIBS := -lz -lm -llog -ljnigraphics -landroid
+LOCAL_STATIC_LIBRARIES := libraw
 include $(BUILD_SHARED_LIBRARY)
 
 
