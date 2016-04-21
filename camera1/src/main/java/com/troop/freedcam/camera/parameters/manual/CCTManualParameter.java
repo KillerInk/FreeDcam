@@ -42,12 +42,12 @@ public class CCTManualParameter extends BaseManualParameter
         super(parameters, value, maxValue, MinValue, camParametersHandler,1);
 
         this.isSupported = false;
-        if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) ||DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC) || DeviceUtils.IS(DeviceUtils.Devices.LenovoK920))
+        if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New) || DeviceUtils.IS(DeviceUtils.Devices.LenovoK920))
         {
             this.min = 2000;
             this.max = 8000;
             this.value = WB_MANUAL;
-            if(DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
+            if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
                 this.manualWbMode = WB_MODE_MANUAL;
             else
                 this.manualWbMode = WB_MODE_MANUAL_CCT;
@@ -179,7 +179,7 @@ public class CCTManualParameter extends BaseManualParameter
                 camParametersHandler.WhiteBalanceMode.SetValue(manualWbMode, true);
             parameters.put(value, stringvalues[currentInt]);
 
-            if (DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC) || parameters.containsKey("manual-wb-modes"))
+            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New) || parameters.containsKey("manual-wb-modes"))
                 try {
                     parameters.put("manual-wb-type", "color-temperature");
                     parameters.put("manual-wb-value", stringvalues[currentInt]);

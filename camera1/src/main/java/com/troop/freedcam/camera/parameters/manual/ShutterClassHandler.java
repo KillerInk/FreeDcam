@@ -58,7 +58,7 @@ public class ShutterClassHandler
         else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
             return new ShutterManualParameterHTC(parameters,"","","",parametersHandler);
 
-        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994) ||DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
+        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994) ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
             return new ShutterManual_ExposureTime_Micro(parameters,parametersHandler,TEST.split(","));
 
         else if(DeviceUtils.IS(DeviceUtils.Devices.OnePlusOne) &&   !parameters.get("max-exposure-time").contains("."))

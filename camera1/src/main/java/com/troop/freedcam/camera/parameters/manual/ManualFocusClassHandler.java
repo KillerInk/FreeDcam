@@ -49,7 +49,7 @@ public class ManualFocusClassHandler
         {
             return new BaseFocusManual(parameters, manual_focus_position,max_focus_pos_index, min_focus_pos_index,focusMode_manual,parametersHandler,1,1);
         }
-        else if(DeviceUtils.IS(DeviceUtils.Devices.SonyM4_QC))
+        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
             return new BaseFocusManual(parameters, manual_focus_position,max_focus_pos_index, min_focus_pos_index,focusMode_manual,parametersHandler,1,0);
         else if (DeviceUtils.IsMarshMallowG3())
         {

@@ -322,6 +322,11 @@
         <item>6045I</item>
         <item>6045K</item>
     </string-array>
+    <string-array name="AQ_E5">
+        <item>Aquaris E5</item>
+        <item>Aquaris_E5</item>
+    </string-array>
+
     <string-array name="Alcatel_Idol_3_small">
         <item>6039Y</item>
     </string-array>

@@ -172,6 +172,7 @@ public class DngSupportedDevices
                 switch (device) {
                     case Vivo_Xplay3s:
                         return new Nexus6Profile(64, 4212, 3120, Mipi, BGGR, getG3_rowSizeL);
+                    case Aquaris_E5:
                     case RedmiNote:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL);
                     case XiaomiMI3W:
