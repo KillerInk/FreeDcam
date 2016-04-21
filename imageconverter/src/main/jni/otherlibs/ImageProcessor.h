@@ -54,7 +54,7 @@ public:
     inline void WritePixel(int x, int y, int val, int* data) { data[x + (y * _width)] = val;}
     void applyFocusPeak();
     void Apply3x3Filter(int filter[3][3]);
-    void unpackRAW(JNIEnv * env,jstring jfilename)
+    void unpackRAW(JNIEnv * env,jstring jfilename);
 };
 
 

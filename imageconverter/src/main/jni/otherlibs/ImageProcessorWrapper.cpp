@@ -44,7 +44,7 @@ extern "C"
     JNIEXPORT jobjectArray JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_GetHistogram(JNIEnv *env, jobject thiz,jobject handler);
     JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_ApplyHighPassFilter(JNIEnv *env, jobject thiz,jobject handler);
 
-    JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_unpackRAW(JNIEnv * env, jobject obj, jstring jfilename);
+    JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_unpackRAW(JNIEnv * env, jobject obj,jobject handler, jstring jfilename);
 
 }
 
@@ -117,7 +117,7 @@ JNIEXPORT void    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_Ap
     rgbContainer->applyFocusPeak();
 }
 
-JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_unpackRAW(JNIEnv * env, jobject obj, jstring jfilename)
+JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_unpackRAW(JNIEnv * env, jobject obj,jobject handler, jstring jfilename)
 {
     ImageProcessor* rgbContainer = (ImageProcessor*)env->GetDirectBufferAddress(handler);
     rgbContainer->unpackRAW(env,jfilename);

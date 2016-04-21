@@ -302,10 +302,6 @@ void ImageProcessor::unpackRAW(JNIEnv * env,jstring jfilename)
     ret = raw.dcraw_process();
     LOGD("processing dcraw %i", ret);
     libraw_processed_image_t *image = raw.dcraw_make_mem_image(&ret);
-
-    LOGD("processed image, creating bitmap");
-    if(image->width == 0 || image->height == 0)
-    	return NULL;
     _width = image->width;
     _height = image->height;
     _data = new int[_width * _height];
