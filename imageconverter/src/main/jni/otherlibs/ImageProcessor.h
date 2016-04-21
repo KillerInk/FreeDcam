@@ -58,6 +58,7 @@ public:
     void applyFocusPeak();
     void Apply3x3Filter(int filter[3][3]);
     void unpackRAWToRGBA(JNIEnv * env,jstring jfilename);
+    void loadJPEGToRGBA(JNIEnv * env,jstring jfilename);
 };
 
 
