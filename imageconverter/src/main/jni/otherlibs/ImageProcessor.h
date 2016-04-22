@@ -64,6 +64,7 @@ public:
 
     void unpackRAWToRGB(JNIEnv * env,jstring jfilename);
     void loadJPEGToRGB(JNIEnv * env,jstring jfilename);
+    void StackAverageJPEGToARGB(JNIEnv * env,jstring jfilename);
 };
 
 

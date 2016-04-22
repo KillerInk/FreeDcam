@@ -37,6 +37,7 @@ extern "C"
     JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_unpackRAWtoRGB(JNIEnv * env, jobject obj,jobject handler, jstring jfilename);
     JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_loadJPEGtoARGB(JNIEnv * env, jobject obj,jobject handler, jstring jfilename);
     JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_loadJPEGtoRGB(JNIEnv * env, jobject obj,jobject handler, jstring jfilename);
+    JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_stackAverageJPEGtoARGB(JNIEnv * env, jobject obj,jobject handler, jstring jfilename);
 
 }
 
@@ -118,18 +119,24 @@ JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_unpac
 JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_unpackRAWtoRGB(JNIEnv * env, jobject obj,jobject handler, jstring jfilename)
 {
     ImageProcessor* rgbContainer = (ImageProcessor*)env->GetDirectBufferAddress(handler);
-    rgbContainer->unpackRAWToGBA(env,jfilename);
+    rgbContainer->unpackRAWToRGB(env,jfilename);
 }
 
 
 JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_loadJPEGtoARGB(JNIEnv * env, jobject obj,jobject handler, jstring jfilename)
 {
     ImageProcessor* rgbContainer = (ImageProcessor*)env->GetDirectBufferAddress(handler);
-    rgbContainer->loadJPEGToARGB(env,jfilename);
+    rgbContainer->loadJPEGToRGBA(env,jfilename);
 }
 
 JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_loadJPEGtoRGB(JNIEnv * env, jobject obj,jobject handler, jstring jfilename)
 {
     ImageProcessor* rgbContainer = (ImageProcessor*)env->GetDirectBufferAddress(handler);
     rgbContainer->loadJPEGToRGB(env,jfilename);
+}
+
+JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_stackAverageJPEGtoARGB(JNIEnv * env, jobject obj,jobject handler, jstring jfilename)
+{
+    ImageProcessor* rgbContainer = (ImageProcessor*)env->GetDirectBufferAddress(handler);
+    rgbContainer->StackAverageJPEGToARGB(env,jfilename);
 }

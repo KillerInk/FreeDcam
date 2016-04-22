@@ -468,4 +468,55 @@ void ImageProcessor::loadJPEGToRGB(JNIEnv * env,jstring jfilename)
 }
 
 
+void ImageProcessor::StackAverageJPEGToARGB(JNIEnv * env,jstring jfilename)
+{
+    jboolean bIsCopy;
+    const char* strFilename = (env)->GetStringUTFChars(jfilename , &bIsCopy);
+    FILE *file = fopen(strFilename, "rb");
+    if (file != NULL)
+    {
+        struct jpeg_decompress_struct info;
+        struct jpeg_error_mgr derr;
+        info.err = jpeg_std_error(&derr);
+        jpeg_create_decompress(&info); //fills info structure
+        jpeg_stdio_src(&info, file);        //void
+        int ret_Read_Head = jpeg_read_header(&info, 1); //int
+        if (ret_Read_Head != JPEG_HEADER_OK)
+        {
+        	printf("jpeg_read_header failed\n");
+        	fclose(file);
+        	jpeg_destroy_decompress(&info);
+        }
+        else
+        {
+        	(void) jpeg_start_decompress(&info);
+        	_width = info.output_width;
+        	_height = info.output_height;
+        	_colorchannels = info.num_components; // 3 = RGB, 4 = RGBA
+        	unsigned long dataSize = _width * _height * _colorchannels;
+
+        	_data = (int*) malloc(_width * _height);
+        	unsigned char* buffer = (unsigned char*) malloc(_width* _colorchannels);
+        	if (_data != NULL && buffer != NULL)
+        	{
+        	    int count =0;
+        	    unsigned char* rowptr;
+                while (info.output_scanline < _height) {
+                    rowptr = (unsigned char *)buffer + info.output_scanline * _width * _colorchannels;
+                    jpeg_read_scanlines(&info, &rowptr, 1);
+                    for(int t =0; t < _width*_colorchannels; t+=3)
+                    {
+                        int tmppix = (_data[count] + GetPixelARGBFromRGB(buffer[t+2], buffer[t+1], buffer[t]))/2;
+                        _data[count] = tmppix;
+                    }
+                }
+                free(buffer);
+        	}
+        	jpeg_finish_decompress(&info);
+        	fclose(file);
+        }
+    }
+}
+
+
 

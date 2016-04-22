@@ -19,7 +19,6 @@ public class ImageProcessorWrapper
 
     static
     {
-        System.loadLibrary("RSSupport");
         System.loadLibrary("imageconverter");
     }
 
@@ -38,6 +37,7 @@ public class ImageProcessorWrapper
     private native static void loadJPEGtoRGB(ByteBuffer nativeHandler, String path);
     private native static void unpackRAWtoRGB(ByteBuffer nativeHandler, String path);
     private native static void unpackRAWtoARGB(ByteBuffer nativeHandler, String path);
+    private native static void stackAverageJPEGtoARGB(ByteBuffer nativeHandler, String path);
 
 
     int width;
