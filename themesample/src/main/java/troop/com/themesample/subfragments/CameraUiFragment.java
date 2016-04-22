@@ -1,11 +1,8 @@
 package troop.com.themesample.subfragments;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,9 +23,8 @@ import com.troop.freedcam.ui.guide.GuideHandler;
 
 import java.io.File;
 
-import troop.com.imageviewer.ScreenSlideFragment;
+import troop.com.imageviewer.screenslide.ScreenSlideFragment;
 import troop.com.themesample.R;
-import troop.com.themesample.SampleThemeFragment;
 import troop.com.themesample.handler.FocusImageHandler;
 import troop.com.themesample.handler.SampleInfoOverlayHandler;
 import troop.com.themesample.handler.UserMessageHandler;

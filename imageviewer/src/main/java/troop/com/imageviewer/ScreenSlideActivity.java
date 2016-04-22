@@ -1,23 +1,10 @@
 package troop.com.imageviewer;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
-import android.view.WindowManager;
-
-import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.ui.I_Activity;
-import com.troop.freedcam.utils.DeviceUtils;
-
-import java.io.File;
 
 import troop.com.imageviewer.gridviewfragments.GridViewFragment;
+import troop.com.imageviewer.screenslide.ScreenSlideFragment;
 
 /**
  * Created by troop on 21.08.2015.

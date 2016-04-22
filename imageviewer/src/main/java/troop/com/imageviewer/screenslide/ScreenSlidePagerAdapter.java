@@ -1,16 +1,12 @@
-package troop.com.imageviewer;
+package troop.com.imageviewer.screenslide;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.SparseArray;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.FileUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,18 +23,16 @@ import troop.com.imageviewer.holder.FileHolder;
 public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
 {
     private List<FileHolder> files;
-    private View.OnClickListener fragmentclickListner;
+    private ScreenSlideFragment.FragmentClickClistner fragmentclickListner;
     private ViewPager mPager;
     private final String TAG = ScreenSlidePagerAdapter.class.getSimpleName();
     private String FilePathToLoad = "";
     private GridViewFragment.FormatTypes filestoshow = GridViewFragment.FormatTypes.all;
-    SparseArray<ImageFragment> registeredFragments;
 
-    public ScreenSlidePagerAdapter(FragmentManager fm, ViewPager mPager, View.OnClickListener fragmentclickListner, GridViewFragment.FormatTypes filestoshow)
+    public ScreenSlidePagerAdapter(FragmentManager fm, ViewPager mPager, ScreenSlideFragment.FragmentClickClistner fragmentclickListner, GridViewFragment.FormatTypes filestoshow)
     {
         super(fm);
         files = new ArrayList<>();
-        registeredFragments = new SparseArray<ImageFragment>();
         this.mPager = mPager;
         this.fragmentclickListner = fragmentclickListner;
         this.filestoshow = filestoshow;
@@ -54,6 +48,7 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     {
         files = holder;
         notifyDataSetChanged();
+        mPager.setCurrentItem(0);
     }
 
     public List<FileHolder> getFiles()
@@ -69,7 +64,7 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     @Override
     public Fragment getItem(int position)
     {
-        ImageFragment currentFragment = new ImageFragment();
+        ImageFragment  currentFragment = new ImageFragment();
         if (files == null || files.size() == 0)
             currentFragment.SetFilePath(null);
         else
@@ -100,46 +95,21 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
         }
     }
 
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        ImageFragment fragment = (ImageFragment) super.instantiateItem(container, position);
-        fragment.SetOnclickLisnter(fragmentclickListner);
-        registeredFragments.put(position, fragment);
-        return fragment;
-    }
-
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        registeredFragments.remove(position);
-        try {
-            super.destroyItem(container, position, object);
-        }
-        catch (IndexOutOfBoundsException ex)
-        { Logger.exception(ex);}
-
-    }
-
-    public ImageFragment getRegisteredFragment(int position) {
-        return registeredFragments.get(position);
-    }
-
     public void addFile(File file)
     {
         if (files == null)
             return;
-        try {
-            files.add(new FileHolder(file, files.get(0).isExternalSD()));
-            Collections.sort(files, new Comparator<FileHolder>() {
-                public int compare(FileHolder f1, FileHolder f2) {
-                    return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
-                }
-            });
-            this.notifyDataSetChanged();
-        }
-        catch(IllegalStateException ex)
-        {
-
-        }
+        Logger.d(TAG, "addfile:" +file.getName() + " currentCount:"+files.size());
+        files.add(new FileHolder(file, files.get(0).isExternalSD()));
+        Collections.sort(files, new Comparator<FileHolder>() {
+            public int compare(FileHolder f1, FileHolder f2) {
+                return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
+            }
+        });
+        Logger.d(TAG, "currentCount:"+files.size());
+        this.notifyDataSetChanged();
+        mPager.setAdapter(this);
+        mPager.setCurrentItem(0);
     }
 
     public void reloadFilesAndSetLastPos() {
@@ -169,5 +139,6 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
         files = images;
         Logger.d(TAG, "readFiles sucess, FilesCount" + files.size());
         this.notifyDataSetChanged();
+        mPager.setCurrentItem(0);
     }
 }

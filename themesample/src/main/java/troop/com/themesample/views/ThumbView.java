@@ -15,20 +15,12 @@ import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.I_WorkEvent;
 import com.troop.freedcam.ui.FreeDPool;
-import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 import troop.com.imageviewer.BitmapHelper;
 
-import com.troop.freedcam.utils.FileUtils;
-import troop.com.imageviewer.ScreenSlideFragment;
-import troop.com.imageviewer.gridviewfragments.GridViewFragment;
-import troop.com.imageviewer.holder.FileHolder;
+import troop.com.imageviewer.screenslide.ScreenSlideFragment;
 import troop.com.themesample.R;
 
 /**
@@ -128,21 +120,15 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
         paint.setXfermode(null);
 
 
-        this.post(new Runnable() {
+        ThumbView.this.post(new Runnable() {
             @Override
             public void run() {
                 ThumbView.this.setImageBitmap(drawMap);
-
+                if (firststart == false)
+                    click.newImageRecieved(filePath);
+                firststart = false;
             }
         });
-        if (firststart = false)
-            this.post(new Runnable() {
-                @Override
-                public void run() {
-                    click.newImageRecieved(filePath);
-                }
-            });
-        firststart = false;
     }
 
     public void SetOnThumBlickListner(ScreenSlideFragment.I_ThumbClick click)

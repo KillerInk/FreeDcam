@@ -5,24 +5,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
-import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AbstractFragment;
-import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
 
 import java.io.File;
 
-import troop.com.imageviewer.ImageFragment;
-import troop.com.imageviewer.ScreenSlideFragment;
-import troop.com.imageviewer.holder.FileHolder;
+import troop.com.imageviewer.screenslide.ScreenSlideFragment;
 import troop.com.themesample.subfragments.CameraUiFragment;
 import troop.com.themesample.subfragments.SettingsMenuFragment;
 import troop.com.views.PagingView;

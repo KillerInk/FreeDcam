@@ -26,25 +26,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true">
 
-        <Button
-            android:layout_width="@dimen/app_icon_size"
-            android:layout_height="@dimen/app_icon_size"
-            android:id="@+id/button_play"
-            android:layout_alignParentBottom="false"
-            android:textSize="10dp"
-            android:layout_alignParentLeft="false"
-            android:background="@drawable/ic_play" />
 
-        <Button
-            android:layout_width="@dimen/app_icon_size"
-            android:layout_height="@dimen/app_icon_size"
-            android:id="@+id/button_delete"
-            android:layout_alignParentBottom="false"
-            android:textSize="10dp"
-            android:layout_alignParentLeft="false"
-            android:layout_toRightOf="@+id/button_play"
-            android:layout_marginLeft="5dp"
-            android:background="@drawable/delete" />
     </RelativeLayout>
 
 
@@ -57,72 +39,6 @@
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="40dp" />
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="40dp"
-        android:background="#71000001"
-        android:id="@+id/bottom_bar"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentStart="false"
-        android:layout_centerHorizontal="true">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:id="@+id/exif_info"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="ISO:"
-                android:id="@+id/textView_iso"
-                android:textColor="#FFFFFFFF" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="S:"
-                android:id="@+id/textView_shutter"
-                android:layout_marginLeft="4dp"
-                android:textColor="#FFFFFFFF" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="A:"
-                android:id="@+id/textView_focal"
-                android:layout_marginLeft="4dp"
-                android:textColor="#FFFFFFFF" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="F:"
-                android:id="@+id/textView_fnumber"
-                android:layout_marginLeft="4dp"
-                android:textColor="#FFFFFFFF" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:textAppearance="@android:style/TextAppearance.Holo.Small"
-            android:text="Large Text"
-            android:id="@+id/textView_filename"
-            android:textColor="#FFFFFFFF"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="false"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="center_horizontal"
-            android:autoText="true" />
-    </LinearLayout>
 
 </RelativeLayout>

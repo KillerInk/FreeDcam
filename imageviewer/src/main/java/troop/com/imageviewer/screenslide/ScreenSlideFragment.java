@@ -1,21 +1,21 @@
-package troop.com.imageviewer;
+package troop.com.imageviewer.screenslide;
 
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.app.Fragment;
 import android.support.v4.provider.DocumentFile;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.drew.imaging.jpeg.JpegMetadataReader;
@@ -23,14 +23,12 @@ import com.drew.imaging.jpeg.JpegProcessingException;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
-import com.ortiz.touch.TouchImageView;
 import com.troop.androiddng.RawToDng;
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.FreeDPool;
 import com.troop.freedcam.ui.I_Activity;
-import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -38,24 +36,36 @@ import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.concurrent.ThreadFactory;
 
+import troop.com.imageviewer.BitmapHelper;
+import troop.com.imageviewer.R;
+import troop.com.imageviewer.gridviewfragments.GridViewFragment;
 import troop.com.imageviewer.holder.FileHolder;
 import troop.com.views.MyHistogram;
 
 /**
- * Created by troop on 21.08.2015.
+ * Created by troop on 18.09.2015.
  */
-public class ImageFragment extends Fragment implements I_Activity.I_OnActivityResultCallback
+public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageChangeListener, I_Activity.I_OnActivityResultCallback
 {
-    final String TAG = ImageFragment.class.getSimpleName();
-    private TouchImageView imageView;
-    private FileHolder file;
-    private int mImageThumbSize = 0;
-    private View.OnClickListener onClickListener;
-    private int tag;
+    final static String TAG = ScreenSlideFragment.class.getSimpleName();
+    final public static String SAVESTATE_FILEPATH = "savestae_filepath";
+    final public static String SAVESTATE_ITEMINT = "savestate_itemint";
+    int mImageThumbSize = 0;
 
-    private LinearLayout ll;
+    /**
+     * The pager widget, which handles animation and allows swiping horizontally to access previous
+     * and next wizard steps.
+     */
+    private ViewPager mPager;
+
+    /**
+     * The pager adapter, which provides the pages to the view pager widget.
+     */
+    private ScreenSlidePagerAdapter mPagerAdapter;
+
+
+    private Button closeButton;
 
     private TextView iso;
     private TextView shutter;
@@ -63,49 +73,57 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
     private TextView fnumber;
     private TextView filename;
     private LinearLayout exifinfo;
-    private MyHistogram myHistogram;
     private Button deleteButton;
     private Button play;
     private LinearLayout bottombar;
-    private int loadCount = 0;
-    private ProgressBar progressBar;
+    private MyHistogram histogram;
 
-    public void SetFilePath(FileHolder filepath)
-    {
-        this.file = filepath;
-    }
-
-    public FileHolder GetFilePath()
-    {
-        return file;
-    }
-
-    public void SetOnclickLisnter(View.OnClickListener onClickListener)
-    {
-        this.onClickListener = onClickListener;
-    }
-
+    public int defitem = -1;
+    public String FilePathToLoad = "";
+    public GridViewFragment.FormatTypes filestoshow = GridViewFragment.FormatTypes.all;
+    private I_ThumbClick thumbclick;
+    private RelativeLayout topbar;
+    //hold the showed file
+    private FileHolder file;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
-        return inflater.inflate(R.layout.imageframent, container, false);
+        return inflater.inflate(R.layout.screenslide_fragment, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
         super.onViewCreated(view, savedInstanceState);
-        this.imageView = (TouchImageView)view.findViewById(R.id.imageView_PicView);
+        Logger.d(TAG, "onViewCreated");
+        mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
 
-        if(savedInstanceState != null && file == null)
+        // Instantiate a ViewPager and a PagerAdapter.
+        mPager = (ViewPager) view.findViewById(R.id.pager);
+        topbar =(RelativeLayout)view.findViewById(R.id.top_bar);
+        histogram = (MyHistogram)view.findViewById(R.id.screenslide_histogram);
+
+        this.closeButton = (Button)view.findViewById(R.id.button_closeView);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (thumbclick != null) {
+                    thumbclick.onThumbClick();
+                    mPager.setCurrentItem(0);
+                } else
+                    getActivity().finish();
+            }
+        });
+
+        if(savedInstanceState != null)
         {
-            file = new FileHolder(new File((String) savedInstanceState.get(ScreenSlideFragment.SAVESTATE_FILEPATH)),false);
+            FilePathToLoad = (String) savedInstanceState.get(SAVESTATE_FILEPATH);
+            defitem = (int)savedInstanceState.get(SAVESTATE_ITEMINT);
+            Logger.d(TAG, "have file to load from saveinstance onCreated" + FilePathToLoad);
+
         }
 
-        myHistogram = new MyHistogram(view.getContext());
-        ll = (LinearLayout)view.findViewById(R.id.histoView);
-        ll.addView(myHistogram);
         bottombar =(LinearLayout)view.findViewById(R.id.bottom_bar);
 
         exifinfo = (LinearLayout)view.findViewById(R.id.exif_info);
@@ -173,7 +191,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
                     DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(AppSettingsManager.APPSETTINGSMANAGER);
                     if (sdDir == null) {
                         I_Activity i_activity = (I_Activity) getActivity();
-                        i_activity.ChooseSDCard(ImageFragment.this);
+                        i_activity.ChooseSDCard(ScreenSlideFragment.this);
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                         builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
@@ -185,8 +203,119 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
             }
         });
 
-        progressBar = (ProgressBar)view.findViewById(R.id.progressBar_screenslideImageview);
-        Logger.d(TAG,"onViewCreated");
+
+    }
+
+    @Override
+    public void onResume()
+    {
+        Logger.d(TAG,"onResume");
+        super.onResume();
+        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),mPager,fragmentclickListner,filestoshow);
+        mPager.setAdapter(mPagerAdapter);
+        mPager.addOnPageChangeListener(this);
+
+        if (FilePathToLoad.equals("")) {
+            mPagerAdapter.SetFiles(FileHolder.getDCIMFiles());
+        }
+        else
+        {
+            mPagerAdapter.SetFileToLoadPath(FilePathToLoad);
+        }
+
+        if(mPagerAdapter.getFiles() != null ) {
+            if (mPagerAdapter.getFiles().size() > 0 && defitem == -1) {
+                mPager.setCurrentItem(0);
+            } else
+                mPager.setCurrentItem(defitem);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString(SAVESTATE_FILEPATH, FilePathToLoad);
+        outState.putInt(SAVESTATE_ITEMINT, mPager.getCurrentItem());
+        super.onSaveInstanceState(outState);
+    }
+
+    public void SetOnThumbClick(I_ThumbClick thumbClick)
+    {
+        this.thumbclick = thumbClick;
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        updateUi(mPagerAdapter.getCurrentFile());
+    }
+
+    @Override
+    public void onPageSelected(int position)
+    {
+        updateUi(mPagerAdapter.getCurrentFile());
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    @Override
+    public void onActivityResultCallback(Uri uri) {
+
+    }
+
+    public interface I_ThumbClick
+    {
+        void onThumbClick();
+        void newImageRecieved(File file);
+    }
+
+    public interface FragmentClickClistner
+    {
+        void onClick(Fragment fragment);
+    }
+
+    private FragmentClickClistner fragmentclickListner = new FragmentClickClistner() {
+        @Override
+        public void onClick(Fragment v) {
+            {
+                if (topbar.getVisibility() == View.GONE) {
+                    topbar.setVisibility(View.VISIBLE);
+                    bottombar.setVisibility(View.VISIBLE);
+                    histogram.setVisibility(View.VISIBLE);
+                }
+                else {
+                    topbar.setVisibility(View.GONE);
+                    bottombar.setVisibility(View.GONE);
+                    histogram.setVisibility(View.GONE);
+                }
+            }
+        }
+    };
+
+
+    public void addFile(File file)
+    {
+        if (mPagerAdapter != null) {
+            Logger.d(TAG, "addFile: " +file.getName());
+            mPagerAdapter.addFile(file);
+        }
+    }
+
+    public void reloadFilesAndSetLastPos()
+    {
+        if (FilePathToLoad.equals("")) {
+            mPagerAdapter.SetFiles(FileHolder.getDCIMFiles());
+        }
+        else
+        {
+            mPagerAdapter.SetFileToLoadPath(FilePathToLoad);
+        }
     }
 
     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -206,74 +335,9 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
         }
     };
 
-    @Override
-    public void onSaveInstanceState(Bundle outState)
-    {
-        if (file != null && file.getFile() != null && file.getFile().getAbsolutePath() != null)
-            outState.putString(ScreenSlideFragment.SAVESTATE_FILEPATH, file.getFile().getAbsolutePath());
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Logger.d(TAG,"omResume");
-        imageView.setOnClickListener(onImageClick);
-        progressBar.setVisibility(View.VISIBLE);
-        if (file != null) {
-            FreeDPool.Execute(new Runnable() {
-                @Override
-                public void run() {
-                    loadImage();
-                }
-            });
-            updateUi(file);
-        }
-
-    }
-
-    private View.OnClickListener onImageClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v)
-        {
-            if (ImageFragment.this.onClickListener != null)
-                ImageFragment.this.onClickListener.onClick(v);
-        }
-    };
-
-    private void loadImage()
-    {
-        loadCount++;
-        final Bitmap response = getBitmap();
-        imageView.post(new Runnable() {
-            @Override
-            public void run()
-            {
-                progressBar.setVisibility(View.GONE);
-                imageView.setImageBitmap(response);
-
-            }
-        });
-        if(loadCount < 15)
-            myHistogram.setBitmap(response, false);
-
-    }
-
-    private Bitmap getBitmap()
-    {
-        Bitmap response =null;
-        try {
-            response = BitmapHelper.getBitmap(file.getFile(),false,mImageThumbSize,mImageThumbSize);
-        }
-        catch (IllegalArgumentException ex)
-        {
-
-        }
-        return response;
-    }
-
     private void updateUi(FileHolder file)
     {
+        this.file = file;
         if (file != null)
         {
             filename.setText(file.getFile().getName());
@@ -299,14 +363,35 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
                 //myHistogram.setVisibility(View.VISIBLE);
                 play.setVisibility(View.GONE);
             }
+            histogram.setBitmap(BitmapHelper.getBitmap(file.getFile(),true, mImageThumbSize,mImageThumbSize),true);
 
         }
         else
         {
             filename.setText("No Files");
-            myHistogram.setVisibility(View.GONE);
+            histogram.setVisibility(View.GONE);
             deleteButton.setVisibility(View.GONE);
             play.setVisibility(View.GONE);
+        }
+    }
+
+    public void SetVisibility(boolean Visible)
+    {
+        if (deleteButton == null)
+            return;
+        if (!Visible)
+        {
+            deleteButton.setVisibility(View.GONE);
+            play.setVisibility(View.GONE);
+            histogram.setVisibility(View.GONE);
+            bottombar.setVisibility(View.GONE);
+        }
+        else
+        {
+            deleteButton.setVisibility(View.VISIBLE);
+            play.setVisibility(View.VISIBLE);
+            histogram.setVisibility(View.VISIBLE);
+            bottombar.setVisibility(View.VISIBLE);
         }
     }
 
@@ -348,7 +433,7 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
 
         String out =null;
         if (file.getName().endsWith(StringUtils.FileEnding.RAW))
-           out = file.getAbsolutePath().replace(StringUtils.FileEnding.RAW, StringUtils.FileEnding.DNG);
+            out = file.getAbsolutePath().replace(StringUtils.FileEnding.RAW, StringUtils.FileEnding.DNG);
         if (file.getName().endsWith(StringUtils.FileEnding.BAYER))
             out = file.getAbsolutePath().replace(StringUtils.FileEnding.BAYER, StringUtils.FileEnding.DNG);
         RawToDng dng = RawToDng.GetInstance();
@@ -388,31 +473,4 @@ public class ImageFragment extends Fragment implements I_Activity.I_OnActivityRe
         getActivity().sendBroadcast(intent);
     }
 
-    public void setTag(int tag) {
-        this.tag = tag;
-    }
-
-    public void SetVisibility(boolean Visible)
-    {
-        if (!Visible)
-        {
-            deleteButton.setVisibility(View.GONE);
-            play.setVisibility(View.GONE);
-            myHistogram.setVisibility(View.GONE);
-            bottombar.setVisibility(View.GONE);
-        }
-        else
-        {
-            deleteButton.setVisibility(View.VISIBLE);
-            play.setVisibility(View.VISIBLE);
-            myHistogram.setVisibility(View.VISIBLE);
-            bottombar.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
-    public void onActivityResultCallback(Uri uri)
-    {
-
-    }
 }
