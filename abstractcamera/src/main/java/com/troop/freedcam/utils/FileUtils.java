@@ -57,10 +57,11 @@ public class FileUtils
         return freedcamfolder;
     }
 
-    public static boolean delteDocumentFile(File file, AppSettingsManager appSettingsManager)
+    public static boolean delteDocumentFile(File file, AppSettingsManager appSettingsManager) throws NullPointerException
     {
         if (file.delete() == false) {
             DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(appSettingsManager);
+
             String baseS = sdDir.getName();
             String fileFolder = file.getAbsolutePath();
             String[] split = fileFolder.split("/");

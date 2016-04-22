@@ -495,8 +495,7 @@ DELTE FILES STUFF
             public void run()
             {
                 final int fileselected = filesSelectedCount;
-
-                final File folder = mPagerAdapter.getFiles().get(0).getFile().getParentFile();
+                
                 int filesdeletedCount = 0;
                 for (int i = 0; i < mPagerAdapter.getFiles().size(); i++)
                 {
@@ -504,6 +503,7 @@ DELTE FILES STUFF
                     {
                         FileHolder f = mPagerAdapter.getFiles().get(i);
                         boolean del = BitmapHelper.DeleteFile(f,AppSettingsManager.APPSETTINGSMANAGER);
+                        MediaScannerManager.ScanMedia(getContext(), f.getFile());
                         Logger.d(TAG, "file: " + f.getFile().getName() + " deleted:" + del);
                         i--;
                         filesdeletedCount++;
@@ -513,7 +513,6 @@ DELTE FILES STUFF
                     @Override
                     public void run() {
 
-                        MediaScannerManager.ScanMedia(getContext(), folder);
                         mPagerAdapter.notifyDataSetChanged();
                     }
                 });

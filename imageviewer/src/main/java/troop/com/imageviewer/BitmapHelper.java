@@ -138,7 +138,7 @@ public class BitmapHelper
         }
     }
 
-    public static boolean DeleteFile(FileHolder file, AppSettingsManager appSettingsManager)
+    public static boolean DeleteFile(FileHolder file, AppSettingsManager appSettingsManager) throws NullPointerException
     {
         boolean del = false;
         DeleteCache(file.getFile());
