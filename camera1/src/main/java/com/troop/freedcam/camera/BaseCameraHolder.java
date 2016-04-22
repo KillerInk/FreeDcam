@@ -617,11 +617,12 @@ public class BaseCameraHolder extends AbstractCameraHolder
         if (!isRdy)
             return;
         try {
-
                 mCamera.autoFocus(new Camera.AutoFocusCallback() {
                     @Override
                     public void onAutoFocus(boolean success, Camera camera)
                     {
+                        if (success)
+                            mCamera.cancelAutoFocus();
                         CameraFocusEvent focusEvent = new CameraFocusEvent();
                         focusEvent.camera = camera;
                         focusEvent.success = success;
