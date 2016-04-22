@@ -479,7 +479,12 @@ DELTE FILES STUFF
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:
-                    //No button clicked
+                    setViewMode(ViewStates.normal);
+                    for (int i = 0; i< mPagerAdapter.getFiles().size(); i++)
+                    {
+                        FileHolder f =  mPagerAdapter.GetFileHolder(i);
+                        f.SetSelected(false);
+                    }
                     break;
             }
         }
@@ -495,7 +500,7 @@ DELTE FILES STUFF
             public void run()
             {
                 final int fileselected = filesSelectedCount;
-                
+
                 int filesdeletedCount = 0;
                 for (int i = 0; i < mPagerAdapter.getFiles().size(); i++)
                 {
