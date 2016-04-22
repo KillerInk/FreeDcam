@@ -53,13 +53,14 @@ void ImageProcessor::YuvToRgb(unsigned char* yuv420sp, jint width, jint height) 
             if(G < 0) G = 0; else if(G > 255) G = 255;
             B = Y + Cb + (Cb >> 1) + (Cb >> 4) + (Cb >> 5);
             if(B < 0) B = 0; else if(B > 255) B = 255;
-            _data[pixPtr++] = GetPixelFromRGB(R,G,B);
+            _data[pixPtr++] = GetPixelARGBFromRGB(R,G,B);
         }
     }
 }
 
 
-jobject ImageProcessor::getBitmap(JNIEnv * env) {
+jobject ImageProcessor::getBitmap(JNIEnv * env)
+{
     void *bitmapPixels;
     int ret;
     jclass bitmapCls = env->FindClass("android/graphics/Bitmap");
@@ -82,6 +83,9 @@ jobject ImageProcessor::getBitmap(JNIEnv * env) {
     LOGD("pixel locked");
     uint32_t* newBitmapPixels = (uint32_t*) bitmapPixels;
     memcpy(newBitmapPixels,(uint32_t*) _data, (_width * _height * sizeof(uint32_t)));
+
+
+
     LOGD("memcopy start");
     LOGD("memcopy end");
 
@@ -203,7 +207,7 @@ void ImageProcessor::applyLanczos() {
             if (r < 0) r = 0; else if (r > 255) r = 255;
             if (g < 0) g = 0; else if (g > 255) g = 255;
             if (b < 0) b = 0; else if (b > 255) b = 255;
-            WritePixel(x, y, GetPixelFromRGB(r, g, b), newarray);
+            WritePixel(x, y, GetPixelARGBFromRGB(r, g, b), newarray);
         }
     }
     memcpy(_data,newarray, (_width * _height * sizeof(int)));
@@ -224,7 +228,7 @@ void ImageProcessor::applyFocusPeak()
                 WritePixel(x, y, GetPixelFromARGB(0, 0, 0, 0), newarray);
             }
             else {
-                WritePixel(x, y, GetPixelFromRGB(0, 0 , 255), newarray);
+                WritePixel(x, y, GetPixelARGBFromRGB(0, 0 , 255), newarray);
                 //LOGD("Wrote non black Pixel");
             }
         }
@@ -271,7 +275,7 @@ void ImageProcessor::Apply3x3Filter(int filter[3][3])
             if (g < 0) g = 0; else if (g > 255) g = 255;
             if (b < 0) b = 0; else if (b > 255) b = 255;
             //LOGD("R:%i G:%i B:%i",r,g,b);
-            WritePixel(x, y, GetPixelFromRGB(r, g, b), newarray);
+            WritePixel(x, y, GetPixelARGBFromRGB(r, g, b), newarray);
         }
     }
     _data = newarray;
@@ -312,7 +316,7 @@ void ImageProcessor::unpackRAWToRGBA(JNIEnv * env,jstring jfilename)
     int size = image->width* image->height;
     for (int count = 0; count < size; count++)
     {
-            uint32_t p = GetPixelFromRGB(image->data[bufrow+2], image->data[bufrow+1], image->data[bufrow]);
+            uint32_t p = GetPixelARGBFromRGB(image->data[bufrow+2], image->data[bufrow+1], image->data[bufrow]);
             _data[count] = p;
             bufrow += 3;
     }
@@ -359,7 +363,100 @@ void ImageProcessor::loadJPEGToRGBA(JNIEnv * env,jstring jfilename)
                     jpeg_read_scanlines(&info, &rowptr, 1);
                     for(int t =0; t < _width*_colorchannels; t+=3)
                     {
-                        _data[count] = GetPixelFromRGB(buffer[t+2], buffer[t+1], buffer[t]);
+                        _data[count] = GetPixelARGBFromRGB(buffer[t+2], buffer[t+1], buffer[t]);
+                    }
+                }
+                free(buffer);
+        	}
+        	jpeg_finish_decompress(&info);
+        	_colorchannels = 4;
+        	fclose(file);
+        }
+    }
+}
+
+void ImageProcessor::unpackRAWToRGB(JNIEnv * env,jstring jfilename)
+{
+    int ret;
+    LibRaw raw;
+    #define P1 raw.imgdata.idata
+    #define S raw.imgdata.sizes
+    #define C raw.imgdata.color
+    #define T raw.imgdata.thumbnail
+    #define P2 raw.imgdata.other
+    #define OUT raw.imgdata.params
+    OUT.no_auto_bright = 1;
+    OUT.use_camera_wb = 1;
+    OUT.output_bps = 8;
+    OUT.user_qual = 0;
+    OUT.half_size = 1;
+    jboolean bIsCopy;
+    const char *strFilename = (env)->GetStringUTFChars(jfilename, &bIsCopy);
+    raw.open_file(strFilename);
+    LOGD("File opend");
+
+    ret = raw.unpack();
+    LOGD("unpacked img %i", ret);
+    ret = raw.dcraw_process();
+    LOGD("processing dcraw %i", ret);
+    libraw_processed_image_t *image = raw.dcraw_make_mem_image(&ret);
+    _width = image->width;
+    _height = image->height;
+    _data = new int[_width * _height];
+    _colorchannels = 4;
+    LOGD("memcopy start");
+    int bufrow = 0;
+    int size = image->width* image->height;
+    for (int count = 0; count < size; count++)
+    {
+            int p = GetPixelRGBFromRGB(image->data[bufrow+2], image->data[bufrow+1], image->data[bufrow]);
+            _data[count] = p;
+            bufrow += 3;
+    }
+    LOGD("memcopy end");
+    LibRaw::dcraw_clear_mem(image);
+}
+
+void ImageProcessor::loadJPEGToRGB(JNIEnv * env,jstring jfilename)
+{
+    jboolean bIsCopy;
+    const char* strFilename = (env)->GetStringUTFChars(jfilename , &bIsCopy);
+    FILE *file = fopen(strFilename, "rb");
+    if (file != NULL)
+    {
+        struct jpeg_decompress_struct info;
+        struct jpeg_error_mgr derr;
+        info.err = jpeg_std_error(&derr);
+        jpeg_create_decompress(&info); //fills info structure
+        jpeg_stdio_src(&info, file);        //void
+        int ret_Read_Head = jpeg_read_header(&info, 1); //int
+        if (ret_Read_Head != JPEG_HEADER_OK)
+        {
+        	printf("jpeg_read_header failed\n");
+        	fclose(file);
+        	jpeg_destroy_decompress(&info);
+
+        }
+        else
+        {
+        	(void) jpeg_start_decompress(&info);
+        	_width = info.output_width;
+        	_height = info.output_height;
+        	_colorchannels = info.num_components; // 3 = RGB, 4 = RGBA
+        	unsigned long dataSize = _width * _height * _colorchannels;
+
+        	_data = (int*) malloc(_width * _height);
+        	unsigned char* buffer = (unsigned char*) malloc(_width* _colorchannels);
+        	if (_data != NULL && buffer != NULL)
+        	{
+        	    int count =0;
+        	    unsigned char* rowptr;
+                while (info.output_scanline < _height) {
+                    rowptr = (unsigned char *)buffer + info.output_scanline * _width * _colorchannels;
+                    jpeg_read_scanlines(&info, &rowptr, 1);
+                    for(int t =0; t < _width*_colorchannels; t+=3)
+                    {
+                        _data[count] = GetPixelRGBFromRGB(buffer[t+2], buffer[t+1], buffer[t]);
                     }
                 }
                 free(buffer);

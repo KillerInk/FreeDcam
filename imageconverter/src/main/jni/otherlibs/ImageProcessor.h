@@ -51,14 +51,19 @@ public:
     inline int GetPixelRedFromInt(int x) { return (x >> 16) & 0xFF; }
     inline int GetPixelGreenFromInt(int x) { return (x >> 8) & 0xFF; }
     inline int GetPixelBlueFromInt(int x) { return x >> 8 & 0xFF; }
-    inline int GetPixelFromBGR(int r, int g, int b) { return 0xff000000 + (b << 16) + (g << 8) + r; }
-    inline int GetPixelFromRGB(int r, int g, int b) { return 0xff000000 + (r << 16) + (g << 8) + b; }
+    inline int GetPixelARGBFromBGR(int r, int g, int b) { return 0xff000000 + (b << 16) + (g << 8) + r; }
+    inline int GetPixelARGBFromRGB(int r, int g, int b) { return 0xff000000 + (r << 16) + (g << 8) + b; }
+    inline int GetPixelRGBFromBGR(int r, int g, int b) { return (b << 16) + (g << 8) + r; }
+    inline int GetPixelRGBFromRGB(int r, int g, int b) { return (r << 16) + (g << 8) + b; }
     inline int GetPixelFromARGB(int a,int r, int g, int b) { return (a << 24) + (r << 16) + (g << 8) + b; }
     inline void WritePixel(int x, int y, int val, int* data) { data[x + (y * _width)] = val;}
     void applyFocusPeak();
     void Apply3x3Filter(int filter[3][3]);
     void unpackRAWToRGBA(JNIEnv * env,jstring jfilename);
     void loadJPEGToRGBA(JNIEnv * env,jstring jfilename);
+
+    void unpackRAWToRGB(JNIEnv * env,jstring jfilename);
+    void loadJPEGToRGB(JNIEnv * env,jstring jfilename);
 };
 
 

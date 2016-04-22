@@ -33,7 +33,10 @@ extern "C"
     JNIEXPORT jobjectArray JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_GetHistogram(JNIEnv *env, jobject thiz,jobject handler);
     JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_ApplyHighPassFilter(JNIEnv *env, jobject thiz,jobject handler);
 
-    JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_unpackRAW(JNIEnv * env, jobject obj,jobject handler, jstring jfilename);
+    JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_unpackRAWtoARGB(JNIEnv * env, jobject obj,jobject handler, jstring jfilename);
+    JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_unpackRAWtoRGB(JNIEnv * env, jobject obj,jobject handler, jstring jfilename);
+    JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_loadJPEGtoARGB(JNIEnv * env, jobject obj,jobject handler, jstring jfilename);
+    JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_loadJPEGtoRGB(JNIEnv * env, jobject obj,jobject handler, jstring jfilename);
 
 }
 
@@ -106,8 +109,27 @@ JNIEXPORT void    JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_Ap
     rgbContainer->applyFocusPeak();
 }
 
-JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_unpackRAWToRGBA(JNIEnv * env, jobject obj,jobject handler, jstring jfilename)
+JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_unpackRAWtoARGB(JNIEnv * env, jobject obj,jobject handler, jstring jfilename)
 {
     ImageProcessor* rgbContainer = (ImageProcessor*)env->GetDirectBufferAddress(handler);
     rgbContainer->unpackRAWToRGBA(env,jfilename);
+}
+
+JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_unpackRAWtoRGB(JNIEnv * env, jobject obj,jobject handler, jstring jfilename)
+{
+    ImageProcessor* rgbContainer = (ImageProcessor*)env->GetDirectBufferAddress(handler);
+    rgbContainer->unpackRAWToGBA(env,jfilename);
+}
+
+
+JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_loadJPEGtoARGB(JNIEnv * env, jobject obj,jobject handler, jstring jfilename)
+{
+    ImageProcessor* rgbContainer = (ImageProcessor*)env->GetDirectBufferAddress(handler);
+    rgbContainer->loadJPEGToARGB(env,jfilename);
+}
+
+JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_loadJPEGtoRGB(JNIEnv * env, jobject obj,jobject handler, jstring jfilename)
+{
+    ImageProcessor* rgbContainer = (ImageProcessor*)env->GetDirectBufferAddress(handler);
+    rgbContainer->loadJPEGToRGB(env,jfilename);
 }
