@@ -226,6 +226,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             try {
                     captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.JPEG_ORIENTATION));
             }catch (NullPointerException ex){Logger.exception(ex);};
+            try {
+                captureBuilder.set(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE));
+            }
+            catch (NullPointerException ex)
+            {Logger.exception(ex);}
             List<CaptureRequest> captureList = new ArrayList<CaptureRequest>();
             for (int i=0; i< ParameterHandler.Burst.GetValue()+1; i++)
             {
