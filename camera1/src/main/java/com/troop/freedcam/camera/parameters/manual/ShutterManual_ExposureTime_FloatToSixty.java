@@ -34,30 +34,11 @@ public class ShutterManual_ExposureTime_FloatToSixty extends ShutterManual_Expos
             String shutterstring = StringUtils.FormatShutterStringToDouble(stringvalues[currentInt]);
             Logger.d(TAG, "StringUtils.FormatShutterStringToDouble:" + shutterstring);
             shutterstring = StringUtils.FLOATtoSixty4(shutterstring);
-            Logger.d(TAG, "StringUtils.FLOATtoSixty4:" + shutterstring);
-            // MTK Takes int for shutter speed seems to have three Values Preview Shutter speed Manual shutter speed and capture shutter speed
-            //m-ss
-            //cap-ss these seems to visble on on sony C5 and meizu mx4 can be used for reverse look for exif data same as iso using gain
-
-            if(DeviceUtils.IS(DeviceUtils.Devices.ForwardArt_MTK)) {
-                parameters.put("eng-ae-enable","disable"); // not sure if it disables ae or if enable enables eng mode override so ae can be controlled
-                parameters.put("eng-preview-shutter-speed", shutterstring);
-                parameters.put("eng-capture-shutter-speed", shutterstring);
-            }
-
-            else
-                parameters.put("exposure-time", shutterstring);
+            parameters.put("exposure-time", shutterstring);
         }
         else
         {
-            if (DeviceUtils.isSonyM5_MTK() || DeviceUtils.isSonyC5_MTK() || DeviceUtils.IS(DeviceUtils.Devices.MeizuMX4_MTK) || DeviceUtils.IS(DeviceUtils.Devices.MeizuMX5_MTK))
-                parameters.put("cap-ss", "0");
-            else if(DeviceUtils.IS(DeviceUtils.Devices.ForwardArt_MTK)) {
-                parameters.put("eng-preview-shutter-speed", 0 + "");
-                parameters.put("eng-capture-shutter-speed", 0 + "");
-            }
-            else
-                parameters.put("exposure-time", "0");
+            parameters.put("exposure-time", "0");
             Logger.d(TAG, "set exposure time to auto");
         }
         camParametersHandler.SetParametersToCamera(parameters);
