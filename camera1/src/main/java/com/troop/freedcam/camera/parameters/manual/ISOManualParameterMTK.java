@@ -22,7 +22,7 @@ public class ISOManualParameterMTK extends BaseManualParameter
         this.isSupported = true;
         this.isVisible = isSupported;
         ArrayList<String> s = new ArrayList<String>();
-        for (int i =0; i <= 2700; i +=50)
+        for (int i =100; i <= 2700; i +=50)
         {
             if (i == 0)
                 s.add("Auto");
