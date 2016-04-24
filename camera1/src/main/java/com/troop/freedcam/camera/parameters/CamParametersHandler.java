@@ -490,7 +490,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         ParametersHasLoaded();
 
         try {
-            if (((BaseCameraHolder) cameraHolder).DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)
+            if (cameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)
                 Mediatek();
         } catch (Exception e) {
             Logger.exception(e);

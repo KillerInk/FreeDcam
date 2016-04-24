@@ -37,7 +37,7 @@ public class Camera2Fragment extends AbstractCameraFragment
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        DestroyCameraUiWrapper();
+
     }
 
 
