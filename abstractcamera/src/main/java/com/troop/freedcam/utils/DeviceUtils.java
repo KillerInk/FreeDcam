@@ -72,7 +72,7 @@ public class DeviceUtils
     final public static Devices[] ZTE_DEVICES = {Devices.ZTE_ADV,Devices.ZTEADVIMX214,Devices.ZTEADV234};
     final public static Devices[] Sony_DEVICES = {Devices.SonyM4_QC,Devices.SonyC5_MTK,Devices.SonyM5_MTK};
     final public static Devices[] Krillin_DEVICES = {Devices.p8,Devices.p8lite,Devices.honor6};
-    final public static Devices[] QC_Manual_New = {Devices.SonyM4_QC,Devices.Aquaris_E5,Devices.Alcatel_Idol3,Devices.Moto_MSM8982_8994,Devices.Lenovo_VibeP1,Devices.XiaomiMI5};
+    final public static Devices[] QC_Manual_New = {Devices.SonyM4_QC,Devices.Aquaris_E5,Devices.Alcatel_Idol3,Devices.Moto_MSM8982_8994,Devices.Lenovo_VibeP1,Devices.XiaomiMI5, Devices.Xiaomi_Redmi_Note3};
 
     private static Devices getDevice()
     {
@@ -158,6 +158,8 @@ public class DeviceUtils
             return Devices.XiaomiMI_Note_Pro;
         else if (isXiaomiMI_Note3_Pro())
             return Devices.XiaomiMI_Note3_Pro;
+        else if(isXiaomi_Redmi_Note3())
+            return Devices.Xiaomi_Redmi_Note3;
         else if (isYureka())
             return Devices.Yu_Yureka;
         else if (isZTEADV())
@@ -245,6 +247,7 @@ public class DeviceUtils
         XiaomiMI5,
         XiaomiMI_Note_Pro,
         XiaomiMI_Note3_Pro,
+        Xiaomi_Redmi_Note3,
         Yu_Yureka,
         ZTE_ADV,
         ZTEADVIMX214,
@@ -522,6 +525,7 @@ public class DeviceUtils
     private static boolean isXiaomiMI_Note_Pro() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi_Note_Pro));}
 
     private static boolean isXiaomiMI_Note3_Pro() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi_Note3_Pro));}
+    private static boolean isXiaomi_Redmi_Note3(){ return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_RedmiNote3));}
 
     private static boolean isAlcatel_Idol3() { return isDevice(contex.getResources().getStringArray(R.array.Alcatel_Idol_3));}
 

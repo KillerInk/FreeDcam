@@ -90,6 +90,8 @@ public class ShutterClassHandler
             return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,null);
         else if (DeviceUtils.IS(DeviceUtils.Devices.p8lite))
             return new ShutterManualKrillin(parameters,cameraHolder,parametersHandler,null);
+        else if(DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_Redmi_Note3))
+            return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,null);
         else
             return null;
     }

@@ -375,4 +375,7 @@
         <item>Lenovo P1a42</item>
         <item>Lenovo_P1a42</item>
     </string-array>
+    <string-array name="Xiaomi_RedmiNote3">
+        <item>Redmi Note 3</item>
+    </string-array>
 </resources>
