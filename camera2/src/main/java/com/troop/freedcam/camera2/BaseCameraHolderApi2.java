@@ -444,7 +444,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                         Focus.focusEvent.FocusFinished(false);
                 }
                 mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
-                        CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
+                        CameraMetadata.CONTROL_AF_STATE_INACTIVE);
                 setTOCam = true;
             }
             if(result.get(CaptureResult.CONTROL_AE_STATE) != null && aeState != result.get(CaptureResult.CONTROL_AE_STATE))
