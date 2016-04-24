@@ -58,7 +58,10 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
 
     public FileHolder getCurrentFile()
     {
-        return files.get(mPager.getCurrentItem());
+        if (files != null && files.size()>0)
+            return files.get(mPager.getCurrentItem());
+        else
+            return null;
     }
 
     @Override
