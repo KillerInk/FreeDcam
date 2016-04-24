@@ -73,7 +73,8 @@ public class ISOManualParameterMTK extends BaseManualParameter
         else
         {
             currentInt = value;
-            parameters.put("m-sr-g", String.valueOf((Integer.valueOf( stringvalues[value])/100)*256));
+            //cap-isp-g= 1024 == iso100? cause cap-sr-g=7808 / 1024 *100 = 762,5
+            parameters.put("m-sr-g", String.valueOf((Integer.valueOf( stringvalues[value])/100)*1024));
         }
         ThrowCurrentValueStringCHanged(stringvalues[value]);
     }
