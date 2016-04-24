@@ -169,8 +169,6 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
     @Override
     public void SetPictureOrientation(int orientation)
     {
-
-
         if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
         {
             int or = orientation +180;
@@ -178,12 +176,14 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
                 or = or - 360;
             orientation = or;
         }
+        if (cameraHolder == null || cameraHolder.mPreviewRequestBuilder == null || cameraHolder.isWorking || !cameraHolder.isPreviewRunning)
+            return;
         try
         {
             Logger.d(TAG, "Set Orientation to:" + orientation);
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, orientation);
         }
-        catch (Exception e)
+        catch (NullPointerException e)
         {
             Logger.exception(e);
         }
