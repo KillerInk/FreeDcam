@@ -435,16 +435,54 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             if (result.get(CaptureResult.CONTROL_AF_STATE) != null && afState != result.get(CaptureResult.CONTROL_AF_STATE))
             {
                 afState =  result.get(CaptureResult.CONTROL_AF_STATE);
-                if (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState) {
-                    if (Focus.focusEvent != null)
-                        Focus.focusEvent.FocusFinished(true);
-
-                } else if (CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState) {
-                    if (Focus.focusEvent != null)
-                        Focus.focusEvent.FocusFinished(false);
+                String state = "";
+                switch (afState)
+                {
+                    case 0:
+                        state ="INACTIVE";
+                        break;
+                    case 1:
+                        state = "PASSIVE_SCAN";
+                        break;
+                    case 2:
+                        state = "PASSIVE_FOCUSED";
+                        mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
+                                CameraMetadata.CONTROL_AF_STATE_INACTIVE);
+                        mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,CaptureRequest.CONTROL_AF_TRIGGER_START);
+                        try {
+                            mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback,
+                                    null);
+                        } catch (CameraAccessException e) {
+                            Logger.exception(e);
+                        }
+                        break;
+                    case 3:
+                        state="ACTIVE_SCAN";
+                        break;
+                    case 4:
+                        state = "FOCUSED_LOCKED";
+                        if (Focus.focusEvent != null)
+                            Focus.focusEvent.FocusFinished(true);
+                        break;
+                    case 5:
+                        state = "NOT_FOCUSED_LOCKED";
+                        if (Focus.focusEvent != null)
+                            Focus.focusEvent.FocusFinished(false);
+                        break;
+                    case 6:
+                        state ="PASSIVE_UNFOCUSED";
+                        mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
+                                CameraMetadata.CONTROL_AF_STATE_INACTIVE);
+                        mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,CaptureRequest.CONTROL_AF_TRIGGER_START);
+                        try {
+                            mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback,
+                                    null);
+                        } catch (CameraAccessException e) {
+                            Logger.exception(e);
+                        }
+                        break;
                 }
-                mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
-                        CameraMetadata.CONTROL_AF_STATE_INACTIVE);
+                Logger.d(TAG, "new AF_STATE :"+state);
                 setTOCam = true;
             }
             if(result.get(CaptureResult.CONTROL_AE_STATE) != null && aeState != result.get(CaptureResult.CONTROL_AE_STATE))
@@ -453,7 +491,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 if (aeState == CaptureResult.CONTROL_AE_STATE_LOCKED || aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED )
                 {
                     mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,
-                            CameraMetadata.CONTROL_AE_PRECAPTURE_TRIGGER_IDLE);
+                            CameraMetadata.CONTROL_AE_STATE_INACTIVE);
                     setTOCam = true;
                 }
             }
