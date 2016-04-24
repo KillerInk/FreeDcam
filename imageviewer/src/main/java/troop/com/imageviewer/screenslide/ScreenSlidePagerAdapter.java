@@ -99,6 +99,7 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     {
         if (files == null)
             return;
+        mPager.setAdapter(null);
         Logger.d(TAG, "addfile:" +file.getName() + " currentCount:"+files.size());
         files.add(new FileHolder(file, files.get(0).isExternalSD()));
         Collections.sort(files, new Comparator<FileHolder>() {
