@@ -35,6 +35,13 @@ public class Camera2Fragment extends AbstractCameraFragment
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        cameraUiWrapper.StopPreview();
+        cameraUiWrapper.StopCamera();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
 

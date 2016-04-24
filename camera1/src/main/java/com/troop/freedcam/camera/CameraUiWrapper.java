@@ -74,28 +74,20 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         else
             previewTexture.setVisibility(View.GONE);
         Logger.d(TAG, "Ctor done");
-        StartCamera();
+//        StartCamera();
 
     }
-
-    public CameraUiWrapper()
-    {
-
-    }
-
-
-
     //this get handled in backgroundThread when StartPreviewAndCamera() was called
     @Override
     protected void startCamera()
     {
-        FreeDPool.Execute(new Runnable() {
+        /*FreeDPool.Execute(new Runnable() {
             @Override
-            public void run() {
+            public void run() {*/
                 cameraHolder.OpenCamera(AppSettingsManager.APPSETTINGSMANAGER.GetCurrentCamera());
                 Logger.d(TAG, "opencamera");
-            }
-        });
+         /*   }
+        });*/
 
     }
 
@@ -103,7 +95,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     protected void stopCamera()
     {
         Logger.d(TAG, "Stop Camera");
-        if (FreeDPool.IsInit()) {
+       /* if (FreeDPool.IsInit()) {
             FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run() {
@@ -111,7 +103,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
                 }
             });
         }
-        else
+        else*/
             cameraHolder.CloseCamera();
 
     }

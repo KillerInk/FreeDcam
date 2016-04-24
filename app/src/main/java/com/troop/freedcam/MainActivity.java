@@ -208,16 +208,19 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     private void destroyCameraUiWrapper()
     {
         //themeHandler.SetCameraUIWrapper(null);
+        Logger.d(TAG, "destroying cameraWrapper");
+        if(orientationHandler != null)
+            orientationHandler.Stop();
+
         if (cameraFragment != null) {
-            cameraFragment.DestroyCameraUiWrapper();
+            //cameraFragment.DestroyCameraUiWrapper();
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.remove(cameraFragment);
             transaction.commitAllowingStateLoss();
             cameraFragment = null;
-        if(orientationHandler != null)
-            orientationHandler.Stop();
         }
+        Logger.d(TAG, "destroyed cameraWrapper");
 
     }
 

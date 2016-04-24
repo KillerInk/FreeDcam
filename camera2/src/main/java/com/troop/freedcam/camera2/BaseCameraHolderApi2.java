@@ -209,7 +209,9 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                         cameraChangedListner.onCameraClose("");
                     }
                 });
+            Logger.d(TAG, "camera closed");
         }
+        super.CloseCamera();
     }
 
     @Override
@@ -634,6 +636,11 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 mCaptureSession.stopRepeating();
             } catch (CameraAccessException e) {
                 Logger.exception(e);
+
+            }
+            catch (IllegalStateException ex)
+            {
+                Logger.exception(ex);
                 mCaptureSession = null;
             }
 

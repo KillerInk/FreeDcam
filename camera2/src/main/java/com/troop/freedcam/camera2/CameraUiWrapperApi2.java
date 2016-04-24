@@ -143,8 +143,8 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     @Override
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surface)
     {
-        StopPreview();
-        StopCamera();
+        //StopPreview();
+        //StopCamera();
         Logger.d(TAG, "Surface destroyed");
         this.PreviewSurfaceRdy = false;
         return false;

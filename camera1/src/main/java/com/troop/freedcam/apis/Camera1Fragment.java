@@ -44,4 +44,11 @@ public class Camera1Fragment extends AbstractCameraFragment
         if (onrdy != null)
             onrdy.onCameraUiWrapperRdy(cameraUiWrapper);
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        cameraUiWrapper.StopPreview();
+        cameraUiWrapper.StopCamera();
+    }
 }
