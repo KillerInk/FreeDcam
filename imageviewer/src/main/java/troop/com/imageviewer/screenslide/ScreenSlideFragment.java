@@ -1,9 +1,11 @@
 package troop.com.imageviewer.screenslide;
 
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
@@ -363,7 +365,8 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
                 //myHistogram.setVisibility(View.VISIBLE);
                 play.setVisibility(View.GONE);
             }
-            histogram.setBitmap(BitmapHelper.getBitmap(file.getFile(),true, mImageThumbSize,mImageThumbSize),true);
+            FreeDPool.Execute(new historunner(file));
+
 
         }
         else
@@ -374,6 +377,9 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             play.setVisibility(View.GONE);
         }
     }
+
+
+
 
     public void SetVisibility(boolean Visible)
     {
@@ -473,4 +479,19 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         getActivity().sendBroadcast(intent);
     }
 
+    class historunner implements Runnable
+    {
+        FileHolder f;
+        historunner(FileHolder f)
+        {
+            this.f = f;
+        }
+
+        @Override
+        public void run() {
+            Bitmap b =BitmapHelper.getBitmap(f.getFile(),true, mImageThumbSize,mImageThumbSize);
+            if (this.f == file)
+                histogram.setBitmap(b,true);
+        }
+    }
 }
