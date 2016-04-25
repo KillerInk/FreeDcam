@@ -403,25 +403,39 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
 
     private void processJpeg(final File file)
     {
-        try {
-            final Metadata metadata = JpegMetadataReader.readMetadata(file);
-            final Directory exifsub = metadata.getDirectory(ExifSubIFDDirectory.class);
-            iso.setText("ISO:" +exifsub.getString(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT));
-            shutter.setText("S:" +exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME));
-            fnumber.setText("f~:" +exifsub.getString(ExifSubIFDDirectory.TAG_FNUMBER));
-            focal.setText("A:" +exifsub.getString(ExifSubIFDDirectory.TAG_FOCAL_LENGTH));
-        } catch (EOFException ex)
-        {
-            Logger.d(TAG, "Failed to read Exif");
-        } catch (IOException e) {
-            Logger.d(TAG, "Failed to read Exif");
-        } catch (JpegProcessingException e) {
-            Logger.d(TAG, "Failed to read Exif");
-        }
-        catch (NullPointerException ex)
-        {
-            Logger.d(TAG, "Failed to read Exif");
-        }
+
+            FreeDPool.Execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                    final Metadata metadata = JpegMetadataReader.readMetadata(file);
+                    final Directory exifsub = metadata.getDirectory(ExifSubIFDDirectory.class);
+                        iso.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                iso.setText("ISO:" +exifsub.getString(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT));
+                                shutter.setText("S:" +exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME));
+                                fnumber.setText("f~:" +exifsub.getString(ExifSubIFDDirectory.TAG_FNUMBER));
+                                focal.setText("A:" +exifsub.getString(ExifSubIFDDirectory.TAG_FOCAL_LENGTH));
+                            }
+                        });
+
+                    } catch (EOFException ex)
+                    {
+                        Logger.d(TAG, "Failed to read Exif");
+                    } catch (IOException e) {
+                        Logger.d(TAG, "Failed to read Exif");
+                    } catch (JpegProcessingException e) {
+                        Logger.d(TAG, "Failed to read Exif");
+                    }
+                    catch (NullPointerException ex)
+                    {
+                        Logger.d(TAG, "Failed to read Exif");
+                    }
+                }
+            });
+
+
     }
 
     private void convertRawToDng(File file)
@@ -491,7 +505,8 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         public void run() {
             Bitmap b =BitmapHelper.getBitmap(f.getFile(),true, mImageThumbSize,mImageThumbSize);
             if (this.f == file)
-                histogram.setBitmap(b,true);
+                histogram.setBitmap(b,false);
+            b = null;
         }
     }
 }
