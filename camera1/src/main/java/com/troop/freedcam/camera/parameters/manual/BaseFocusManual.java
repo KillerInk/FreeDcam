@@ -16,6 +16,9 @@ public class BaseFocusManual extends BaseManualParameter
     private int manualFocusType = 0;
 
     /**
+     * checks if the value maxvalue and minvalues are contained in the cameraparameters
+     * and creates depending on it the stringarray
+     * NOTE:if super fails the parameter is unsupported
      * @param parameters
      * @param value
      * @param maxValue
@@ -29,6 +32,17 @@ public class BaseFocusManual extends BaseManualParameter
         this.manualFocusType = manualFocusType;
     }
 
+    /**
+     * this allows to hardcode devices wich support manual focus but the parameters are messed up.
+     * @param parameters
+     * @param value
+     * @param min
+     * @param max
+     * @param manualFocusModeString
+     * @param camParametersHandler
+     * @param step
+     * @param manualFocusType
+     */
     public BaseFocusManual(HashMap<String, String> parameters, String value, int min,int max,String manualFocusModeString, AbstractParameterHandler camParametersHandler, float step,int manualFocusType) {
         super(parameters, value, "", "", camParametersHandler, step);
         this.isSupported = true;
