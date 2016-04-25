@@ -82,24 +82,32 @@ public class FileHolder extends BaseHolder
     public static List<FileHolder> getDCIMFiles()
     {
         List<FileHolder> f = new ArrayList<FileHolder>();
-        File internal = new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder);
-        if (internal != null)
-            Logger.d(TAG, "InternalSDPath:" + internal.getAbsolutePath());
-        FileHolder.readFilesFromFolder(internal, f, GridViewFragment.FormatTypes.all, false);
-        try {
-            File fs = StringUtils.GetExternalSDCARD();
-            if (fs !=  null && fs.exists()) {
-                File external = new File(fs + StringUtils.freedcamFolder);
-                if (external != null && external.exists())
-                    Logger.d(TAG, "ExternalSDPath:" + external.getAbsolutePath());
-                else
-                    Logger.d(TAG, "No ExternalSDFound");
-                FileHolder.readFilesFromFolder(external, f, GridViewFragment.FormatTypes.all, true);
+        if (!StringUtils.IS_L_OR_BIG()) {
+            File internal = new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder);
+            if (internal != null)
+                Logger.d(TAG, "InternalSDPath:" + internal.getAbsolutePath());
+            FileHolder.readFilesFromFolder(internal, f, GridViewFragment.FormatTypes.all, false);
+            try {
+                File fs = StringUtils.GetExternalSDCARD();
+                if (fs != null && fs.exists()) {
+                    File external = new File(fs + StringUtils.freedcamFolder);
+                    if (external != null && external.exists())
+                        Logger.d(TAG, "ExternalSDPath:" + external.getAbsolutePath());
+                    else
+                        Logger.d(TAG, "No ExternalSDFound");
+                    FileHolder.readFilesFromFolder(external, f, GridViewFragment.FormatTypes.all, true);
+                }
+            } catch (NullPointerException ex) {
+                Logger.e(TAG, "Looks like there is no External SD");
             }
         }
-        catch (NullPointerException ex)
+        else
         {
-            Logger.e(TAG, "Looks like there is no External SD");
+            List<FileHolder> dcims= getDCIMDirs();
+            for (FileHolder fileHolder : dcims)
+            {
+                FileHolder.readFilesFromFolder(fileHolder.getFile(),f, GridViewFragment.FormatTypes.all, fileHolder.isExternalSD());
+            }
         }
 
         SortFileHolder(f);

@@ -305,7 +305,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     {
         if (mPagerAdapter != null) {
             Logger.d(TAG, "addFile: " +file.getName());
-            mPagerAdapter.addFile(file);
+            reloadFilesAndSetLastPos();
         }
     }
 
