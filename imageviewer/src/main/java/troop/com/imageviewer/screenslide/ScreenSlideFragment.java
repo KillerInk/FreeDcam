@@ -327,7 +327,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
                 case DialogInterface.BUTTON_POSITIVE:
                     BitmapHelper.DeleteFile(file,AppSettingsManager.APPSETTINGSMANAGER);
                     MediaScannerManager.ScanMedia(getContext(), file.getFile());
-                    ((ScreenSlideFragment)getParentFragment()).reloadFilesAndSetLastPos();
+                    reloadFilesAndSetLastPos();
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:
