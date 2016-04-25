@@ -70,6 +70,20 @@
 
 
     </activity>
+
+        <activity
+            android:name="troop.com.imageconverter.TestActivity"
+            android:label="imageconverter"
+            >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+            </intent-filter>
+
+
+
+        </activity>
     </application>
 
 </manifest>
