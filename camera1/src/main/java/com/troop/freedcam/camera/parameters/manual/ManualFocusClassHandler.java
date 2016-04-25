@@ -66,6 +66,10 @@ public class ManualFocusClassHandler
             return new FocusManualMTK(parameters,"focus-fs-fi","focus-fs-fi-max","focus-fs-fi-min", focusMode_manual,parametersHandler,10,0);
         else if(DeviceUtils.IS(DeviceUtils.Devices.p8lite))
             return new FocusManualKrillin(parameters,"hw-manual-focus-step-value","hw-vcm-end-value","hw-vcm-start-value", focusMode_manual,parametersHandler,10,0);
+        else if (DeviceUtils.IS(DeviceUtils.Devices.Aquaris_E5))
+        {
+            return new BaseFocusManual(parameters, manual_focus_position,0, 1023,focusMode_manual,parametersHandler,1,0);
+        }
         else
             return null;
 
