@@ -46,9 +46,16 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
 
     public void SetFiles(List<FileHolder> holder)
     {
-        files = holder;
-        notifyDataSetChanged();
-        mPager.setCurrentItem(0);
+        try {
+            files = holder;
+            notifyDataSetChanged();
+            mPager.setCurrentItem(0);
+        }
+        catch (IllegalStateException ex)
+        {
+            Logger.exception(ex);
+        }
+
     }
 
     public List<FileHolder> getFiles()
