@@ -16,7 +16,7 @@ public class ShutterManualMtk extends BaseManualParameter
     //M_SHUTTER_SPEED_MARKER=1/8000,1/1000,1/125,1/15,0.5,4 ???
     //return cameraController.getStringCameraParameter("shutter-threshold");
     */
-    private static String TAG = "freedcam.ShutterManualParameterG4";
+    private static String TAG = ShutterManualMtk.class.getSimpleName();
     I_CameraHolder baseCameraHolder;
     MTK_Manual_Handler.AeManualEvent manualevent;
 
