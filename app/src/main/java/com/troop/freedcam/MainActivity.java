@@ -283,11 +283,11 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
             currentorientation = orientation;
             if (cameraFragment.GetCameraUiWrapper() != null && cameraFragment.GetCameraUiWrapper().cameraHolder != null && cameraFragment.GetCameraUiWrapper().camParametersHandler != null)
                 cameraFragment.GetCameraUiWrapper().camParametersHandler.SetPictureOrientation(orientation);
-            if (orientation == 0 || orientation == 180) {
+            /*if (orientation == 0 || orientation == 180) {
                 LinearLayout uiholder = (LinearLayout) findViewById(R.id.themeFragmentholder);
                 uiholder.setRotation(orientation);
                 uiholder.requestLayout();
-            }
+            }*/
         }
         return orientation;
     }
