@@ -353,6 +353,10 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             } catch (CameraAccessException e) {
                 Logger.exception(e);
             }
+            catch (SecurityException ex)
+            {
+                Logger.exception(ex);
+            }
             ((ParameterHandlerApi2)GetParameterHandler()).Init();
             //SetLastUsedParameters(mPreviewRequestBuilder);
         }
