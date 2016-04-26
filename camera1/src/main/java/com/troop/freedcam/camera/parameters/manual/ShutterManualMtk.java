@@ -68,8 +68,14 @@ public class ShutterManualMtk extends BaseManualParameter
         }
         else
         {
+            String shutterstring = stringvalues[value];
+            if (shutterstring.contains("/")) {
+                String split[] = shutterstring.split("/");
+                Double a = Double.parseDouble(split[0]) / Double.parseDouble(split[1]);
+                shutterstring = "" + a;
+            }
             currentInt = value;
-            parameters.put("m-ss", FLOATtoSixty4(stringvalues[value]));
+            parameters.put("m-ss", FLOATtoSixty4(shutterstring));
         }
         ThrowCurrentValueStringCHanged(stringvalues[value]);
     }
