@@ -12,9 +12,9 @@ public class ShutterManualKrillin extends BaseManualParameter {
 
     private static String TAG = "freedcam.ShutterManualKrillin";
     I_CameraHolder baseCameraHolder;
-    //LG_G4AeHandler.AeManualEvent manualevent;
+    //AE_Handler_LGG4.AeManualEvent manualevent;
 
-    public ShutterManualKrillin(HashMap<String, String> parameters, I_CameraHolder baseCameraHolder, AbstractParameterHandler camParametersHandler, LG_G4AeHandler.AeManualEvent manualevent) {
+    public ShutterManualKrillin(HashMap<String, String> parameters, I_CameraHolder baseCameraHolder, AbstractParameterHandler camParametersHandler, AE_Handler_LGG4.AeManualEvent manualevent) {
         super(parameters, "", "", "", camParametersHandler, 1);
 
         this.baseCameraHolder = baseCameraHolder;
@@ -43,11 +43,11 @@ public class ShutterManualKrillin extends BaseManualParameter {
     protected void setvalue(int valueToSet) {
         /*if (valueToSet == 0)
         {
-            manualevent.onManualChanged(LG_G4AeHandler.AeManual.shutter, true, valueToSet);
+            manualevent.onManualChanged(AE_Handler_LGG4.AeManual.shutter, true, valueToSet);
         }
         else
         {
-            manualevent.onManualChanged(LG_G4AeHandler.AeManual.shutter, false, valueToSet);
+            manualevent.onManualChanged(AE_Handler_LGG4.AeManual.shutter, false, valueToSet);
         }*/
         setValue(valueToSet);
 

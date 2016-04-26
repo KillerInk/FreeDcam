@@ -9,7 +9,7 @@ import java.util.HashMap;
 /**
  * Created by GeorgeKiarie on 20/04/2016.
  */
-public class MTK_Manual_Handler
+public class AE_Handler_MTK
     {
         private ISOManualParameterMTK isoManualParameter;
         private ShutterManualMtk shutterPrameter;
@@ -20,7 +20,7 @@ public class MTK_Manual_Handler
         boolean auto = true;
         private CamParametersHandler camParametersHandler;
 
-        final String TAG = MTK_Manual_Handler.class.getSimpleName();
+        final String TAG = AE_Handler_MTK.class.getSimpleName();
 
         enum AeManual
         {
@@ -28,7 +28,7 @@ public class MTK_Manual_Handler
             iso,
         }
 
-        public MTK_Manual_Handler(HashMap<String, String> parameters,BaseCameraHolder cameraHolder, CamParametersHandler camParametersHandler)
+        public AE_Handler_MTK(HashMap<String, String> parameters, BaseCameraHolder cameraHolder, CamParametersHandler camParametersHandler)
         {
             this.camParametersHandler = camParametersHandler;
             this.isoManualParameter = new ISOManualParameterMTK(parameters,cameraHolder, camParametersHandler, aeevent);

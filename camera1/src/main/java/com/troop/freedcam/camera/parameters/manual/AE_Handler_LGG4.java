@@ -1,7 +1,5 @@
 package com.troop.freedcam.camera.parameters.manual;
 
-import android.util.Log;
-
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
@@ -11,7 +9,7 @@ import java.util.HashMap;
 /**
  * Created by troop on 27.01.2016.
  */
-public class LG_G4AeHandler
+public class AE_Handler_LGG4
 {
     private ISOManualParameterG4 isoManualParameter;
     private ShutterManualParameterG4 shutterPrameter;
@@ -22,7 +20,7 @@ public class LG_G4AeHandler
     boolean auto = true;
     private CamParametersHandler camParametersHandler;
 
-    final String TAG = LG_G4AeHandler.class.getSimpleName();
+    final String TAG = AE_Handler_LGG4.class.getSimpleName();
 
     enum AeManual
     {
@@ -30,7 +28,7 @@ public class LG_G4AeHandler
         iso,
     }
 
-    public LG_G4AeHandler(HashMap<String, String> parameters,BaseCameraHolder cameraHolder, CamParametersHandler camParametersHandler)
+    public AE_Handler_LGG4(HashMap<String, String> parameters, BaseCameraHolder cameraHolder, CamParametersHandler camParametersHandler)
     {
         this.camParametersHandler = camParametersHandler;
         this.isoManualParameter = new ISOManualParameterG4(parameters,cameraHolder, camParametersHandler, aeevent);

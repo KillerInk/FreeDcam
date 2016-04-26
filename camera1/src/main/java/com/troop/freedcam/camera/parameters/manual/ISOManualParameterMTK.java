@@ -12,9 +12,9 @@ import java.util.HashMap;
 public class ISOManualParameterMTK extends BaseManualParameter
 {
     BaseCameraHolder baseCameraHolder;
-    MTK_Manual_Handler.AeManualEvent manualEvent;
+    AE_Handler_MTK.AeManualEvent manualEvent;
 
-    public ISOManualParameterMTK(HashMap<String, String> parameters, BaseCameraHolder cameraHolder, AbstractParameterHandler camParametersHandler, MTK_Manual_Handler.AeManualEvent manualevent) {
+    public ISOManualParameterMTK(HashMap<String, String> parameters, BaseCameraHolder cameraHolder, AbstractParameterHandler camParametersHandler, AE_Handler_MTK.AeManualEvent manualevent) {
         super(parameters, "", "", "", camParametersHandler,1);
 
         this.baseCameraHolder = cameraHolder;
@@ -55,11 +55,11 @@ public class ISOManualParameterMTK extends BaseManualParameter
         currentInt = valueToSet;
         if (valueToSet == 0)
         {
-            manualEvent.onManualChanged(MTK_Manual_Handler.AeManual.iso, true, valueToSet);
+            manualEvent.onManualChanged(AE_Handler_MTK.AeManual.iso, true, valueToSet);
         }
         else
         {
-            manualEvent.onManualChanged(MTK_Manual_Handler.AeManual.iso, false,valueToSet);
+            manualEvent.onManualChanged(AE_Handler_MTK.AeManual.iso, false,valueToSet);
         }
     }
 

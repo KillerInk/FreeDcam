@@ -1,6 +1,5 @@
 package com.troop.freedcam.camera.parameters;
 
-import android.hardware.Camera;
 import android.os.Build;
 import android.os.Handler;
 
@@ -14,9 +13,9 @@ import com.troop.freedcam.camera.parameters.manual.CCTManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ExposureManualParameter;
 import com.troop.freedcam.camera.parameters.manual.FXManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ISOManualParameter;
-import com.troop.freedcam.camera.parameters.manual.LG_G4AeHandler;
-import com.troop.freedcam.camera.parameters.manual.MTK_Manual_Handler;
-import com.troop.freedcam.camera.parameters.manual.ManualFocusClassHandler;
+import com.troop.freedcam.camera.parameters.manual.AE_Handler_LGG4;
+import com.troop.freedcam.camera.parameters.manual.AE_Handler_MTK;
+import com.troop.freedcam.camera.parameters.manual.FocusManualClassHandler;
 import com.troop.freedcam.camera.parameters.manual.ShutterClassHandler;
 import com.troop.freedcam.camera.parameters.manual.SkintoneManualPrameter;
 import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
@@ -64,8 +63,8 @@ public class CamParametersHandler extends AbstractParameterHandler
     public BaseCameraHolder cameraHolder;
     public BaseModeParameter DualMode;
     private CameraUiWrapper cameraUiWrapper;
-    private LG_G4AeHandler aeHandlerG4;
-    private MTK_Manual_Handler aeHandlerMTK;
+    private AE_Handler_LGG4 aeHandlerG4;
+    private AE_Handler_MTK aeHandlerMTK;
 
     public CamParametersHandler(CameraUiWrapper cameraUiWrapper, Handler uiHandler)
     {
@@ -144,7 +143,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         createManualExposure();
 
         try {
-                ManualFocus = ManualFocusClassHandler.GetManualFocus(cameraParameters, this,cameraHolder);
+                ManualFocus = FocusManualClassHandler.GetManualFocus(cameraParameters, this,cameraHolder);
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -155,10 +154,10 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         try {
             if (DeviceUtils.IS(Devices.LG_G4))
-                aeHandlerG4 = new LG_G4AeHandler(cameraParameters,cameraHolder,this);
+                aeHandlerG4 = new AE_Handler_LGG4(cameraParameters,cameraHolder,this);
             else if(cameraParameters.containsKey("m-ss") && cameraParameters.containsKey("m-sr-g"))
             {
-                aeHandlerMTK = new MTK_Manual_Handler(cameraParameters,cameraHolder,this);
+                aeHandlerMTK = new AE_Handler_MTK(cameraParameters,cameraHolder,this);
             }
             else
             {

@@ -1,9 +1,7 @@
 package com.troop.freedcam.camera.parameters.manual;
 
-import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
-import com.troop.freedcam.utils.StringUtils;
 
 import java.util.HashMap;
 
@@ -18,9 +16,9 @@ public class ShutterManualMtk extends BaseManualParameter
     */
     private static String TAG = ShutterManualMtk.class.getSimpleName();
     I_CameraHolder baseCameraHolder;
-    MTK_Manual_Handler.AeManualEvent manualevent;
+    AE_Handler_MTK.AeManualEvent manualevent;
 
-    public ShutterManualMtk(HashMap<String, String> parameters, I_CameraHolder baseCameraHolder, AbstractParameterHandler camParametersHandler, MTK_Manual_Handler.AeManualEvent manualevent) {
+    public ShutterManualMtk(HashMap<String, String> parameters, I_CameraHolder baseCameraHolder, AbstractParameterHandler camParametersHandler, AE_Handler_MTK.AeManualEvent manualevent) {
         super(parameters, "", "", "", camParametersHandler,1);
 
         this.baseCameraHolder = baseCameraHolder;
@@ -50,11 +48,11 @@ public class ShutterManualMtk extends BaseManualParameter
     {
         if (valueToSet == 0)
         {
-            manualevent.onManualChanged(MTK_Manual_Handler.AeManual.shutter, true, valueToSet);
+            manualevent.onManualChanged(AE_Handler_MTK.AeManual.shutter, true, valueToSet);
         }
         else
         {
-            manualevent.onManualChanged(MTK_Manual_Handler.AeManual.shutter, false, valueToSet);
+            manualevent.onManualChanged(AE_Handler_MTK.AeManual.shutter, false, valueToSet);
         }
 
     }

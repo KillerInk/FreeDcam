@@ -11,7 +11,7 @@ import java.util.HashMap;
 /**
  * Created by troop on 05.03.2016.
  */
-public class ManualFocusClassHandler
+public class FocusManualClassHandler
 {
     private static final String manual_focus_position = "manual-focus-position";
     private static final String focusMode_manual = "manual";

@@ -9,9 +9,9 @@ import java.util.HashMap;
 public class ISOManualParameterG4 extends BaseManualParameter
 {
     BaseCameraHolder baseCameraHolder;
-    LG_G4AeHandler.AeManualEvent manualEvent;
+    AE_Handler_LGG4.AeManualEvent manualEvent;
 
-    public ISOManualParameterG4(HashMap<String, String> parameters, BaseCameraHolder cameraHolder, AbstractParameterHandler camParametersHandler, LG_G4AeHandler.AeManualEvent manualevent) {
+    public ISOManualParameterG4(HashMap<String, String> parameters, BaseCameraHolder cameraHolder, AbstractParameterHandler camParametersHandler, AE_Handler_LGG4.AeManualEvent manualevent) {
         super(parameters, "", "", "", camParametersHandler,1);
 
         this.baseCameraHolder = cameraHolder;
@@ -52,11 +52,11 @@ public class ISOManualParameterG4 extends BaseManualParameter
         currentInt = valueToSet;
         if (valueToSet == 0)
         {
-            manualEvent.onManualChanged(LG_G4AeHandler.AeManual.iso, true, valueToSet);
+            manualEvent.onManualChanged(AE_Handler_LGG4.AeManual.iso, true, valueToSet);
         }
         else
         {
-            manualEvent.onManualChanged(LG_G4AeHandler.AeManual.iso, false,valueToSet);
+            manualEvent.onManualChanged(AE_Handler_LGG4.AeManual.iso, false,valueToSet);
         }
     }
 
