@@ -56,6 +56,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     private UiSettingsMenu menu;
     private UiSettingsChild contShot;
     private UiSettingsChild currentOpendChild;
+    private UiSettingsChild aepriority;
     private HorizontalValuesFragment horizontalValuesFragment;
     private SwipeMenuListner touchHandler;
     private ShutterButton shutterButton;
@@ -115,6 +116,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         whitebalance.SetParameter(wrapper.camParametersHandler.WhiteBalanceMode);
         focus.SetParameter(wrapper.camParametersHandler.FocusMode);
         night.SetParameter(wrapper.camParametersHandler.NightMode);
+        aepriority.SetParameter(wrapper.camParametersHandler.AE_PriorityMode);
         thumbView.INIT(wrapper);
 
         cameraSwitch.SetCameraUiWrapper(wrapper);
@@ -135,6 +137,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         modeSwitch.SetCameraUiWrapper(wrapper);
         hdr_switch.SetParameter(wrapper.camParametersHandler.HDRMode);
         horizontLineFragment.setCameraUiWrapper(wrapper);
+
 
     }
 
@@ -172,6 +175,10 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         this.autoexposure =(UiSettingsChild)view.findViewById(R.id.Ae);
         autoexposure.SetStuff(i_activity,AppSettingsManager.SETTING_EXPOSUREMODE);
         autoexposure.SetMenuItemListner(this,true);
+
+        this.aepriority = (UiSettingsChild)view.findViewById(R.id.AePriority);
+        aepriority.SetStuff(i_activity,AppSettingsManager.SETTTING_AE_PRIORITY);
+        aepriority.SetMenuItemListner(this,true);
 
         this.whitebalance = (UiSettingsChild)view.findViewById(R.id.wb);
         whitebalance.SetStuff(i_activity, AppSettingsManager.SETTING_WHITEBALANCEMODE);

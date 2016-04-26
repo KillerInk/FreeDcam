@@ -72,7 +72,7 @@ public class AppSettingsManager
    // public static String SETTING_VIDEOHDR = "videohfr";
    // public static String SETTING_VIDEOHDR = "videohsr";
 
-
+    final public static String SETTTING_AE_PRIORITY ="aepriority";
     ////////// overide end
     final public static String SETTING_VIDEOTIMELAPSEFRAME = "timelapseframe";
     final public static String SETTING_SONYAPI = "sonyapi";

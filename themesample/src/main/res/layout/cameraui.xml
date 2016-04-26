@@ -212,6 +212,16 @@
         <troop.com.themesample.views.uichilds.UiSettingsChild
             android:layout_width="@dimen/ui_settings_item_width"
             android:layout_height="@dimen/ui_settings_item_height"
+            android:id="@+id/AePriority"
+            android:layout_marginLeft="5dp"
+            app:HeaderText="@string/uisetting_ae_header"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/ae_priority"
+            android:layout_marginTop="3dp" />
+
+        <troop.com.themesample.views.uichilds.UiSettingsChild
+            android:layout_width="@dimen/ui_settings_item_width"
+            android:layout_height="@dimen/ui_settings_item_height"
             android:id="@+id/night"
             android:layout_marginLeft="5dp"
             app:HeaderText="@string/uisetting_night_header"

@@ -7,6 +7,7 @@ import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.FocusHandler;
+import com.troop.freedcam.camera.parameters.manual.AE_Handler_QcomM;
 import com.troop.freedcam.camera.parameters.manual.BaseManualParameter;
 import com.troop.freedcam.camera.parameters.manual.BurstManualParam;
 import com.troop.freedcam.camera.parameters.manual.CCTManualParameter;
@@ -17,6 +18,7 @@ import com.troop.freedcam.camera.parameters.manual.AE_Handler_LGG4;
 import com.troop.freedcam.camera.parameters.manual.AE_Handler_MTK;
 import com.troop.freedcam.camera.parameters.manual.FocusManualClassHandler;
 import com.troop.freedcam.camera.parameters.manual.ShutterClassHandler;
+import com.troop.freedcam.camera.parameters.manual.ShutterManual_ExposureTime_Micro;
 import com.troop.freedcam.camera.parameters.manual.SkintoneManualPrameter;
 import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
 import com.troop.freedcam.camera.parameters.modes.BaseModeParameter;
@@ -65,6 +67,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     private CameraUiWrapper cameraUiWrapper;
     private AE_Handler_LGG4 aeHandlerG4;
     private AE_Handler_MTK aeHandlerMTK;
+    private AE_Handler_QcomM aeHandlerQcomM;
 
     public CamParametersHandler(CameraUiWrapper cameraUiWrapper, Handler uiHandler)
     {
@@ -158,6 +161,10 @@ public class CamParametersHandler extends AbstractParameterHandler
             else if(cameraParameters.containsKey("m-ss") && cameraParameters.containsKey("m-sr-g"))
             {
                 aeHandlerMTK = new AE_Handler_MTK(cameraParameters,cameraHolder,this);
+            }
+            else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994) ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
+            {
+                aeHandlerQcomM = new AE_Handler_QcomM(uiHandler,cameraParameters,cameraHolder,this);
             }
             else
             {

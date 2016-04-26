@@ -43,6 +43,7 @@ public abstract class AbstractParameterHandler
 
     public AbstractModeParameter ColorMode;
     public AbstractModeParameter ExposureMode;
+    public AbstractModeParameter AE_PriorityMode;
     public AbstractModeParameter FlashMode;
     public AbstractModeParameter IsoMode;
     public AbstractModeParameter AntiBandingMode;
