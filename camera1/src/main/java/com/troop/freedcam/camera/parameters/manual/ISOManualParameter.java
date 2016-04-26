@@ -20,7 +20,7 @@ public class ISOManualParameter extends BaseManualParameter {
         {
             this.isSupported = true;
             this.max_value = "min-iso";
-            this.value = "cur-iso";
+            this.value = "iso";
             this.min_value = "max-iso";
 
             if(min_value.equals(null))
@@ -47,7 +47,7 @@ public class ISOManualParameter extends BaseManualParameter {
             return Integer.parseInt(parameters.get("iso-st"));
         } else {
             try {
-                return Integer.parseInt(value);
+                return Integer.parseInt(parameters.get(value));
             } catch (NullPointerException ex) {
                 return 0;
             }
@@ -66,7 +66,7 @@ public class ISOManualParameter extends BaseManualParameter {
         }
         else
         {
-            camParametersHandler.IsoMode.SetValue("manual", true);
+            //camParametersHandler.IsoMode.SetValue("manual", true);
             parameters.put("iso", stringvalues[valueToSet]);
         }
     }
