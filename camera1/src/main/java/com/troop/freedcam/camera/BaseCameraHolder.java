@@ -150,12 +150,14 @@ public class BaseCameraHolder extends AbstractCameraHolder
                 if (m.getName().equals("setProperty"))
                     app = m;
             }
-            if (app != null)
+            if (app != null) {
                 DeviceFrameWork = Frameworks.MTK;
+                Logger.d(TAG,"MTK Framework found");
+            }
         } catch (ClassNotFoundException e) {
             Logger.e(TAG,e.getMessage());
             DeviceFrameWork = Frameworks.Normal;
-            Logger.d(TAG, "MTK Framework found");
+            Logger.d(TAG, "MTK Framework not found");
         }
         catch (NullPointerException ex)
         {
