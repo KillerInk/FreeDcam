@@ -402,7 +402,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
     {
         this.currentViewState = viewState;
         mPagerAdapter.SetViewState(currentViewState);
-        //mPagerAdapter.notifyDataSetChanged();
+        mPagerAdapter.notifyDataSetChanged();
         if (isRootDir)
         {
             deleteButton.setVisibility(View.GONE);
@@ -492,7 +492,7 @@ DELTE FILES STUFF
 
     private void deleteFiles()
     {
-        setViewMode(ViewStates.normal);
+
 
         FreeDPool.Execute(new Runnable()
         {
@@ -518,7 +518,7 @@ DELTE FILES STUFF
                     @Override
                     public void run() {
 
-                        mPagerAdapter.notifyDataSetChanged();
+                        setViewMode(ViewStates.normal);
                     }
                 });
 
