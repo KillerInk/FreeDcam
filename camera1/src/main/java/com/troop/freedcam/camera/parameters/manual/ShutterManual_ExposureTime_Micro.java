@@ -20,21 +20,21 @@ public class ShutterManual_ExposureTime_Micro extends BaseManualParameter
      * @param parameters
      * @param camParametersHandler
      */
-    public ShutterManual_ExposureTime_Micro(HashMap<String, String> parameters, AbstractParameterHandler camParametersHandler, String[] shuttervalues) {
-        super(parameters, "", "", "", camParametersHandler,1);
+    public ShutterManual_ExposureTime_Micro(HashMap<String, String> parameters, AbstractParameterHandler camParametersHandler, String[] shuttervalues, String value, String maxval , String minval ) {
+        super(parameters, value, maxval, minval, camParametersHandler,1);
         try {
             if (shuttervalues == null)
             {
-                if (!parameters.get("min-exposure-time").contains("."))
+                if (!parameters.get(minval).contains("."))
                 {
-                    int min = Integer.parseInt(parameters.get("min-exposure-time"));
-                    int max = Integer.parseInt(parameters.get("max-exposure-time"));
+                    int min = Integer.parseInt(parameters.get(min_value));
+                    int max = Integer.parseInt(parameters.get(max_value));
                     stringvalues = StringUtils.getSupportedShutterValues(min, max, true);
                 }
                 else
                 {
-                    double tmpMin = Double.parseDouble(parameters.get("min-exposure-time"))*1000000;
-                    double tmpMax = Double.parseDouble(parameters.get("max-exposure-time"))*1000000;
+                    double tmpMin = Double.parseDouble(parameters.get(min_value))*1000000;
+                    double tmpMax = Double.parseDouble(parameters.get(max_value))*1000000;
                     int min = (int)tmpMin;
                     int max = (int)tmpMax;
                     stringvalues = StringUtils.getSupportedShutterValues(min, max, true);
@@ -43,7 +43,7 @@ public class ShutterManual_ExposureTime_Micro extends BaseManualParameter
             }
             else
                 stringvalues = shuttervalues;
-            parameters.put("exposure-time", "0");
+            parameters.put(value, "0");
             this.isSupported = true;
 
         } catch (NumberFormatException ex) {
@@ -67,11 +67,11 @@ public class ShutterManual_ExposureTime_Micro extends BaseManualParameter
             Logger.d(TAG, "StringUtils.FormatShutterStringToDouble:" + shutterstring);
             shutterstring = StringUtils.getMicroSec(shutterstring);
             Logger.d(TAG, " StringUtils.getMicroSec"+ shutterstring);
-            parameters.put("exposure-time", shutterstring);
+            parameters.put(value, shutterstring);
         }
         else
         {
-            parameters.put("exposure-time", "0");
+            parameters.put(value, "0");
             Logger.d(TAG, "set exposure time to auto");
         }
         camParametersHandler.SetParametersToCamera(parameters);

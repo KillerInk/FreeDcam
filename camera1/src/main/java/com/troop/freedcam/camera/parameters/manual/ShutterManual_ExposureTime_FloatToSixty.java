@@ -21,8 +21,8 @@ public class ShutterManual_ExposureTime_FloatToSixty extends ShutterManual_Expos
      * @param parameters
      * @param camParametersHandler
      */
-    public ShutterManual_ExposureTime_FloatToSixty(HashMap<String, String> parameters, AbstractParameterHandler camParametersHandler, String[] shuttervalues) {
-        super(parameters, camParametersHandler, shuttervalues);
+    public ShutterManual_ExposureTime_FloatToSixty(HashMap<String, String> parameters, AbstractParameterHandler camParametersHandler, String[] shuttervalues,String value, String max, String min) {
+        super(parameters, camParametersHandler, shuttervalues,value,max,min);
     }
 
     @Override
