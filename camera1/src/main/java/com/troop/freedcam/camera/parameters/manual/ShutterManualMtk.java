@@ -73,7 +73,7 @@ public class ShutterManualMtk extends BaseManualParameter
                 shutterstring = "" + a;
             }
             currentInt = value;
-            parameters.put("m-ss", FLOATtoSixty4(shutterstring));
+            parameters.put("m-ss", FLOATtoThirty(shutterstring));
         }
         ThrowCurrentValueStringCHanged(stringvalues[value]);
     }
@@ -91,6 +91,13 @@ public class ShutterManualMtk extends BaseManualParameter
     {
         Float b =  Float.parseFloat(a);
         float c = b * 1000000;
+        return String.valueOf(c);
+    }
+
+    public String FLOATtoThirty(String a)
+    {
+        Float b =  Float.parseFloat(a);
+        float c = b * 1000;
         return String.valueOf(c);
     }
 
