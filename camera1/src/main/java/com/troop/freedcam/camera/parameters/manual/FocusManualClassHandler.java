@@ -49,8 +49,6 @@ public class FocusManualClassHandler
         {
             return new BaseFocusManual(parameters, manual_focus_position,max_focus_pos_index, min_focus_pos_index,focusMode_manual,parametersHandler,1,1);
         }
-        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
-            return new BaseFocusManual(parameters, manual_focus_position,max_focus_pos_index, min_focus_pos_index,focusMode_manual,parametersHandler,1,0);
         else if (DeviceUtils.IsMarshMallowG3())
         {
             return new BaseFocusManual(parameters,manual_focus_position,0,1023,focusMode_manual,parametersHandler,10,1);
@@ -66,10 +64,8 @@ public class FocusManualClassHandler
             return new FocusManualMTK(parameters,"focus-fs-fi","focus-fs-fi-max","focus-fs-fi-min", focusMode_manual,parametersHandler,10,0);
         else if(DeviceUtils.IS(DeviceUtils.Devices.p8lite))
             return new FocusManualKrillin(parameters,"hw-manual-focus-step-value","hw-vcm-end-value","hw-vcm-start-value", focusMode_manual,parametersHandler,10,0);
-        else if (DeviceUtils.IS(DeviceUtils.Devices.Aquaris_E5))
-        {
-            return new BaseFocusManual(parameters, manual_focus_position,0, 1023,focusMode_manual,parametersHandler,1,0);
-        }
+        else if (parameters.containsKey("manual-focus-modes"))
+            return new FocusManual_QcomM(parameters,"cur-focus-scale","max-focus-pos-ratio","min-focus-pos-ratio", parametersHandler,1);
         else
             return null;
 
