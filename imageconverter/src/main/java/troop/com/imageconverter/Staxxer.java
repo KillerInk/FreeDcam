@@ -51,7 +51,7 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
     private Allocation mAllocationMain;
     private Allocation mAllocationSub;
     private Surface mSurface;
-    private ScriptC_imagestack_argb imagestack;
+    private ScriptC_imagestack_rgb_to_argb imagestack;
     private boolean enable = false;
     private boolean doWork = false;
     Context context;
@@ -147,7 +147,7 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
                 mAllocationOut.setSurface(mSurface);
             else
                 Logger.d(TAG, "surfaceNull");
-            imagestack = new ScriptC_imagestack_argb(mRS);
+            imagestack = new ScriptC_imagestack_rgb_to_argb(mRS);
             Logger.d(TAG, "script done enabled: " + enable);
         }
         catch (RSRuntimeException ex)
