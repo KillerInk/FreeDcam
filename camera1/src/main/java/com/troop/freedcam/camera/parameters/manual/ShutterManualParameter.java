@@ -1,12 +1,8 @@
 package com.troop.freedcam.camera.parameters.manual;
 
 import android.os.Build;
-import android.util.Log;
 
 import com.troop.filelogger.Logger;
-import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
-import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
-import com.troop.freedcam.i_camera.interfaces.I_Shutter_Changed;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
@@ -51,7 +47,7 @@ public class ShutterManualParameter extends BaseManualParameter
             this.isSupported = true;
             stringvalues = ShutterClassHandler.Mi4WValues.split(",");
         }
-        else if (parameters.containsKey("exposure-time") || DeviceUtils.IS(DeviceUtils.Devices.RedmiNote)) {
+        else if (parameters.containsKey("exposure-time") || DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote)) {
             try {
 
                 int min = Integer.parseInt(parameters.get("min-exposure-time"));
@@ -135,7 +131,7 @@ public class ShutterManualParameter extends BaseManualParameter
             }
 
         }
-        else if(parameters.containsKey("exposure-time")||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) || DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
+        else if(parameters.containsKey("exposure-time")||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) || DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote))
         {
             if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)&& Build.VERSION.SDK_INT < 23) {
                 shutterstring = StringUtils.FLOATtoSixty4(shutterstring);

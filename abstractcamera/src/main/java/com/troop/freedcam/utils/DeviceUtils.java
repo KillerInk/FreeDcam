@@ -123,9 +123,9 @@ public class DeviceUtils
         else if (isOnePlusTwo())
             return Devices.OnePlusTwo;
         else if (isRedmiNote())
-            return Devices.RedmiNote;
+            return Devices.Xiaomi_RedmiNote;
         else if (isRedmiNote2())
-            return Devices.RedmiNote2_MTK;
+            return Devices.Xiaomi_RedmiNote2_MTK;
         else if (isRetro())
             return Devices.Retro_MTK;
         else if (isSamsung_S6_edge())
@@ -229,8 +229,8 @@ public class DeviceUtils
         Nexus4,
         OnePlusOne,
         OnePlusTwo,
-        RedmiNote,
-        RedmiNote2_MTK,
+        Xiaomi_RedmiNote,
+        Xiaomi_RedmiNote2_MTK,
         Retro_MTK,
         Samsung_S6_edge,
         Samsung_S6_edge_plus,
@@ -291,32 +291,68 @@ public class DeviceUtils
     }
 
     private static Devices[] camera1DNGsupported = {
-            Devices.LG_G3, Devices.LG_G2, Devices.LG_G4,
-            Devices.Htc_M8, Devices.Htc_M9, Devices.Htc_One_Sv,Devices.Htc_One_Xl,
-            Devices.ZTE_ADV, Devices.ZTEADVIMX214, Devices.ZTEADV234,
-            Devices.LenovoK910,Devices.LenovoK920,Devices.Lenovo_K4Note_MTK,
-            Devices.Yu_Yureka,
-            Devices.OnePlusOne, Devices.OnePlusTwo,
-            Devices.RedmiNote, Devices.XiaomiMI3W, Devices.XiaomiMI4W, Devices.XiaomiMI_Note_Pro, Devices.RedmiNote2_MTK, Devices.XiaomiMI4C,
-            Devices.XiaomiMI_Note3_Pro,
-            Devices.Vivo_Xplay3s,
+            Devices.Alcatel_Idol3,
+            Devices.Alcatel_Idol3_small,
+            Devices.Alcatel_985n,
+            
+            Devices.Aquaris_E5,
+
+            Devices.ForwardArt_MTK,
+
             Devices.GioneE7,
+
+            Devices.Htc_M8,
+            Devices.Htc_M9,
+            Devices.Htc_One_Sv,
+            Devices.Htc_One_Xl,
+            Devices.HTC_OneA9,
+            Devices.I_Mobile_I_StyleQ6,
+
+            Devices.Jiayu_S3,
+
+            Devices.LenovoK910,
+            Devices.LenovoK920,
+            Devices.Lenovo_VibeP1,
+            Devices.Lenovo_K4Note_MTK,
+            Devices.Lenovo_K50_MTK,
+
+            Devices.LG_G3,
+            Devices.LG_G2,
+            Devices.LG_G4,
+
+            Devices.MeizuMX4_MTK,
+            Devices.MeizuMX5_MTK,
+
+            Devices.Moto_MSM8982_8994,
+            Devices.Moto_MSM8974,
+
+            Devices.OnePlusOne,
+            Devices.OnePlusTwo,
+
+            Devices.Retro_MTK,
+
             Devices.Sony_XperiaL,
             Devices.SonyM5_MTK,
             Devices.SonyC5_MTK,
-            Devices.Alcatel_Idol3,Devices.Alcatel_Idol3_small,
-            Devices.MeizuMX4_MTK, Devices.MeizuMX5_MTK,
-            Devices.Moto_MSM8982_8994, Devices.Moto_MSM8974,
-            Devices.Retro_MTK,
-            Devices.THL5000_MTK,
             Devices.SonyM4_QC,
-            Devices.HTC_OneA9,
-            Devices.Lenovo_K50_MTK,
-            Devices.ForwardArt_MTK,
-            Devices.Alcatel_985n,
-            Devices.Jiayu_S3,
-            Devices.Aquaris_E5,
-            Devices.Lenovo_VibeP1
+
+            Devices.THL5000_MTK,
+            Devices.Vivo_Xplay3s,
+
+            Devices.Xiaomi_RedmiNote,
+            Devices.XiaomiMI3W,
+            Devices.XiaomiMI4W,
+            Devices.XiaomiMI4C,
+            Devices.XiaomiMI_Note_Pro,
+            Devices.XiaomiMI_Note3_Pro,
+            Devices.Xiaomi_RedmiNote2_MTK,
+            Devices.Xiaomi_Redmi_Note3,
+
+            Devices.Yu_Yureka,
+
+            Devices.ZTE_ADV,
+            Devices.ZTEADVIMX214,
+            Devices.ZTEADV234,
             //,Devices.XiaomiMI5 Unknown Raw Failure need more MI5 user input alternate switch to HDR Scene for raw dump
     };
 

@@ -29,7 +29,7 @@ public class FocusManualClassHandler
         {
             return new BaseFocusManual(parameters,manual_focus_position,0,79,focusMode_manual,parametersHandler,1,1);
         }
-        else if (DeviceUtils.IS(DeviceUtils.Devices.RedmiNote))
+        else if (DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote))
         {
             return new BaseFocusManual(parameters,manual_focus_position,0,79,focusMode_manual,parametersHandler,1,1);
         }
@@ -59,7 +59,7 @@ public class FocusManualClassHandler
             return new FocusManualParameterLG(parameters,"","","", cameraHolder, parametersHandler);
         else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
             return new FocusManualParameterHTC(parameters,"","","", cameraHolder,parametersHandler);
-        else if(parameters.containsKey("afeng-max-focus-step") || parametersHandler.isMTK() || DeviceUtils.IS(DeviceUtils.Devices.SonyC5_MTK)||DeviceUtils.IS(DeviceUtils.Devices.SonyM5_MTK) ||DeviceUtils.IS(DeviceUtils.Devices.RedmiNote2_MTK))
+        else if(parameters.containsKey("afeng-max-focus-step") || parametersHandler.isMTK() || DeviceUtils.IS(DeviceUtils.Devices.SonyC5_MTK)||DeviceUtils.IS(DeviceUtils.Devices.SonyM5_MTK) ||DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote2_MTK))
             //return new FocusManualMTK(parameters,"afeng-pos","afeng-max-focus-step","afeng-min-focus-step", focusMode_manual,parametersHandler,10,0);
             return  new FocusManualMTK(parameters,"afeng-pos",0,1023,focusMode_manual,parametersHandler,10,1);
         else if(parameters.containsKey("focus-fs-fi-max") && parameters.containsKey("focus-fs-fi-min") && parameters.containsKey("focus-fs-fi"))

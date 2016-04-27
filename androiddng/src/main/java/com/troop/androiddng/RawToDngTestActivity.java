@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,7 +60,7 @@ public class RawToDngTestActivity extends Activity {
 		if (filename.toLowerCase().contains("one_plus_one"))
 			return DeviceUtils.Devices.OnePlusOne;
 		if (filename.toLowerCase().contains("xiaomi_redmi_note"))
-			return DeviceUtils.Devices.RedmiNote;
+			return DeviceUtils.Devices.Xiaomi_RedmiNote;
 		if (filename.toLowerCase().contains("xiaomi_mi3w"))
 			return DeviceUtils.Devices.XiaomiMI3W;
 		if (filename.toLowerCase().contains("xiaomi_mi4w"))
@@ -87,7 +86,7 @@ public class RawToDngTestActivity extends Activity {
 		if(filename.contains("SonyM5"))
 			return DeviceUtils.Devices.SonyC5_MTK;
 		if(filename.contains("Xiaomi_RedmiNote2"))
-			return DeviceUtils.Devices.RedmiNote2_MTK;
+			return DeviceUtils.Devices.Xiaomi_RedmiNote2_MTK;
 		if(filename.contains("g4_raw10"))
 			return DeviceUtils.Devices.LG_G4;
 		return null;

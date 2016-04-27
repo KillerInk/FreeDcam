@@ -1,10 +1,8 @@
 package com.troop.freedcam.camera.parameters.manual;
 
 import android.os.Handler;
-import android.util.Log;
 
 import com.troop.filelogger.Logger;
-import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
@@ -30,7 +28,7 @@ public class FocusManualParameter extends  BaseManualParameter
         super(parameters, value, maxValue, MinValue, camParametersHandler,1);
         this.baseCameraHolder = cameraHolder;
 
-        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)  || DeviceUtils.IS(Devices.RedmiNote)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) || DeviceUtils.IS(Devices.LenovoK920) )
+        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)  || DeviceUtils.IS(Devices.Xiaomi_RedmiNote)|| DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) || DeviceUtils.IS(Devices.LenovoK920) )
         {
             this.isSupported = true;
             this.max_value = null;
@@ -110,7 +108,7 @@ public class FocusManualParameter extends  BaseManualParameter
         //check/set auto/manual mode
         if (DeviceUtils.IS_DEVICE_ONEOF(new DeviceUtils.Devices[]
                 {
-                        Devices.ZTE_ADV, Devices.ZTEADVIMX214, Devices.ZTEADV234, Devices.XiaomiMI3W, Devices.XiaomiMI4W, Devices.RedmiNote, Devices.LenovoK920,Devices.SonyM4_QC,Devices.Aquaris_E5
+                        Devices.ZTE_ADV, Devices.ZTEADVIMX214, Devices.ZTEADV234, Devices.XiaomiMI3W, Devices.XiaomiMI4W, Devices.Xiaomi_RedmiNote, Devices.LenovoK920,Devices.SonyM4_QC,Devices.Aquaris_E5
                 }))
         {
             if(valueToSet != 0)

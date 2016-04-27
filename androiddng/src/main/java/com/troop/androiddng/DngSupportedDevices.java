@@ -173,7 +173,7 @@ public class DngSupportedDevices
                     case Vivo_Xplay3s:
                         return new Nexus6Profile(64, 4212, 3120, Mipi, BGGR, getG3_rowSizeL);
                     case Aquaris_E5:
-                    case RedmiNote:
+                    case Xiaomi_RedmiNote:
                         return new Nexus6Profile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL);
                     case Lenovo_VibeP1: //Says GRBG unsure if correct to be confirmed
                         return new Nexus6Profile(64, 4208, 3120, Mipi, GRBG, getG3_rowSizeL);
@@ -224,7 +224,7 @@ public class DngSupportedDevices
                 switch (device) {
                     case Vivo_Xplay3s:
                         return new Nexus6Profile(64, 4208, 3120, Qcom, BGGR, getG3_rowSizeL);
-                    case RedmiNote:
+                    case Xiaomi_RedmiNote:
                         return new Nexus6Profile(64, 4212, 3082, Qcom, RGGB, getG3_rowSizeL);
                     case XiaomiMI3W:
                         return new Nexus6Profile(0, 4212, 3120, Qcom, RGGB, getG3_rowSizeL);
@@ -324,7 +324,7 @@ public class DngSupportedDevices
                 {
                     case THL5000_MTK:
                         return new Nexus6Profile(64, 4192, 3104, Plain, RGGB, 0);
-                    case RedmiNote2_MTK:
+                    case Xiaomi_RedmiNote2_MTK:
                         return new Nexus6Profile(64, 4192, 3104, Plain, GBRG, 0);
                     case Lenovo_K50_MTK:
                         return new Nexus6Profile(16, 4192, 3104, Plain, BGGR, 0);
