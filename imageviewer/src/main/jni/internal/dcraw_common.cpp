@@ -22,6 +22,8 @@ it under the terms of the one of three licenses as you choose:
 */
 
 #include <math.h>
+#include <stdint.h>
+#include <sys/types.h>
 #include <swab.h>
 #include <android/log.h>
 #define LOG_TAG "DCRAW"
