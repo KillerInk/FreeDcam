@@ -137,6 +137,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter aeb2;
     public AbstractModeParameter aeb3;
 
+    public AbstractModeParameter bayerformat;
 
 
     public AbstractParameterHandler(AbstractCameraHolder cameraHolder, Handler uiHandler)
@@ -177,6 +178,7 @@ public abstract class AbstractParameterHandler
         setMode(WhiteBalanceMode, AppSettingsManager.SETTING_WHITEBALANCEMODE);
         setMode(PictureSize, AppSettingsManager.SETTING_PICTURESIZE);
         setMode(PictureFormat, AppSettingsManager.SETTING_PICTUREFORMAT);
+        setMode(bayerformat,AppSettingsManager.SETTTING_BAYERFORMAT);
         setMode(oismode, AppSettingsManager.SETTING_OIS);
 
         setMode(JpegQuality, AppSettingsManager.SETTING_JPEGQUALITY);

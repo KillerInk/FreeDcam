@@ -105,15 +105,6 @@
                     app:ValueText=""
                     android:layout_marginBottom="1dp" />
 
-                <troop.com.themesample.views.menu.MenuItem
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/MenuItemPreviewZoom"
-                    app:Description=""
-                    app:HeaderText="Preview Zoom:"
-                    app:ValueText=""
-                    android:layout_marginBottom="1dp" />
-
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -173,7 +164,7 @@
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp" />
 
-                <!--<troop.com.themesample.views.menu.MenuItemBayerFormat
+                <troop.com.themesample.views.menu.MenuItem
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/MenuItemBayerFormat"
@@ -182,7 +173,18 @@
                     app:ValueText="bayer-mipi"
                     android:layout_marginBottom="1dp"
                     android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp" />-->
+                    android:layout_marginRight="0dp" />
+
+                <troop.com.themesample.views.menu.MenuItem
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/MenuItemOpCode"
+                    app:Description="@string/setting_opcode_description"
+                    app:HeaderText="@string/setting_opcode_header"
+                    app:ValueText="80"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp" />
 
                 <TextView
                     android:layout_width="fill_parent"

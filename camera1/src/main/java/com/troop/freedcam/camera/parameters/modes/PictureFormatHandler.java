@@ -5,8 +5,11 @@ import android.os.Handler;
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.modules.ModuleHandler;
+import com.troop.freedcam.camera.parameters.CamParametersHandler;
+import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.utils.DeviceUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -21,9 +24,13 @@ public class PictureFormatHandler extends BaseModeParameter
     private String captureMode = "jpeg";
     private String rawFormat;
 
+    private String[] rawFormats;
+
     final public static int JPEG= 0;
     final public static int RAW = 1;
     final public static int DNG = 2;
+
+    private BayerFormat BayerFormats;
 
     final static public String[] CaptureMode =
     {
@@ -37,12 +44,11 @@ public class PictureFormatHandler extends BaseModeParameter
      * @param parameters   Hold the Camera Parameters
      * @param cameraHolder Hold the camera object
      */
-    public PictureFormatHandler(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder)
+    public PictureFormatHandler(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, CamParametersHandler camParametersHandler)
     {
         super(uihandler, parameters, cameraHolder, "", "");
         switch (cameraHolder.DeviceFrameWork)
         {
-
             case Normal://normal has no break so it runs always through lg
             case LG:
                 if (parameters.containsKey(PICFORMATVALUES))
@@ -66,6 +72,24 @@ public class PictureFormatHandler extends BaseModeParameter
                                     break;
                                 }
                             }
+                        }
+                        if (formats.contains("bayer"))
+                        {
+                            ArrayList<String> tmp = new ArrayList<String>();
+                            String forms[] = formats.split(",");
+                            for (String s : forms) {
+                                if (s.contains("bayer"))
+                                {
+                                    tmp.add(s);
+                                }
+                            }
+                            rawFormats = new String[tmp.size()];
+                            tmp.toArray(rawFormats);
+                            if (tmp.size()>0) {
+                                BayerFormats = new BayerFormat(uihandler, parameters, cameraHolder, "", "");
+                                camParametersHandler.bayerformat = BayerFormats;
+                            }
+
                         }
                     }
                 }
@@ -181,5 +205,49 @@ public class PictureFormatHandler extends BaseModeParameter
     @Override
     public void onValuesChanged(String[] values) {
         super.onValuesChanged(values);
+    }
+
+    public class BayerFormat extends BaseModeParameter
+    {
+
+        /***
+         * @param uihandler    Holds the ui Thread to invoke the ui from antother thread
+         * @param parameters   Hold the Camera Parameters
+         * @param cameraHolder Hold the camera object
+         * @param value        The String to get/set the value from the parameters
+         * @param values
+         */
+        public BayerFormat(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value, String values) {
+            super(uihandler, parameters, cameraHolder, value, values);
+        }
+
+        @Override
+        public String GetValue()
+        {
+            return rawFormat;
+        }
+
+        @Override
+        public String[] GetValues() {
+            return rawFormats;
+        }
+
+        @Override
+        public boolean IsSupported() {
+            return rawFormats != null && rawFormats.length>0;
+        }
+
+        @Override
+        public boolean IsVisible() {
+            return  rawFormats != null && rawFormats.length>0;
+        }
+
+        @Override
+        public void SetValue(String valueToSet, boolean setToCam)
+        {
+            rawFormat = valueToSet;
+            if (captureMode.equals("bayer")|| captureMode.equals("dng"))
+                PictureFormatHandler.this.SetValue(captureMode,true);
+        }
     }
 }

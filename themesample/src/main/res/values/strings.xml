@@ -7,6 +7,8 @@
     <string name="setting_Automation">Automated Capture</string>
     <string name="setting_bayerformat_description">Sensor raw format mode to be encoded as DNG</string>
     <string name="setting_bayerformat_header">Bayer Format: </string>
+    <string name="setting_opcode_description">Click to download OPCode for DNG. Its used to reduce Vignette</string>
+    <string name="setting_opcode_header">OPCode: </string>
     <string name="setting_jpegquality_description">Quality Value in % </string>
     <string name="setting_jpegquality_header">JPEG Compression: </string>
     <string name="setting_picturesize_description">Picture Size for JPEG: </string>

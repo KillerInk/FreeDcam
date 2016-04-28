@@ -112,7 +112,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         //setup first Pictureformat its needed for manual parameters to
         // register their listners there if its postprocessing parameter
         try {
-            PictureFormat = new PictureFormatHandler(uiHandler,cameraParameters, cameraHolder);
+            PictureFormat = new PictureFormatHandler(uiHandler,cameraParameters, cameraHolder, this);
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner((PictureFormatHandler) PictureFormat);
         } catch (Exception e) {
             Logger.exception(e);

@@ -46,7 +46,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
     final boolean DEBUG = false;
     private MenuItemTheme themeItem;
-    //MenuItemBayerFormat bayerFormatItem;
+    private MenuItem bayerFormatItem;
+    private MenuItem opcode;
     private troop.com.themesample.views.menu.MenuItem pictureSize;
     private MenuItemSDSave sdSave;
     private MenuItemGPS menuItemGPS;
@@ -80,8 +81,6 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     private troop.com.themesample.views.menu.MenuItemAEB AEB1;
     private troop.com.themesample.views.menu.MenuItemAEB AEB2;
     private troop.com.themesample.views.menu.MenuItemAEB AEB3;
-
-    //private MenuItem previewZoom;
 
     private Interfaces.I_MenuItemClick onMenuItemClick;
 
@@ -170,15 +169,18 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         AEB3 = (MenuItemAEB) view.findViewById(R.id.MenuItemAEB3);
         AEB3.SetStuff(AppSettingsManager.APPSETTINGSMANAGER, AppSettingsManager.SETTING_AEB3);
 
+        bayerFormatItem = (MenuItem)view.findViewById(R.id.MenuItemBayerFormat);
+        bayerFormatItem.SetStuff(i_activity, AppSettingsManager.SETTTING_BAYERFORMAT);
+
+        opcode = (MenuItem)view.findViewById(R.id.MenuItemOpCode);
+        opcode.SetStuff(i_activity, "");
+
 
         scrollView = (ScrollView) view.findViewById(R.id.scrollView);
         settingsMenu =  (FrameLayout)getActivity().findViewById(R.id.settingsMenuHolder);
         sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         settingsOpen = sharedPref.getBoolean(KEY_SETTINGSOPEN, false);
         leftholder = (LinearLayout) getActivity().findViewById(R.id.guideHolder);
-
-        /*previewZoom = (MenuItem)view.findViewById(R.id.MenuItemPreviewZoom);
-        previewZoom.SetStuff(i_activity,AppSettingsManager.SETTINGS_PREVIEWZOOM);*/
 
     }
 
@@ -307,6 +309,10 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
             AEB2.setVisibility(View.GONE);
             AEB3.setVisibility(View.GONE);
         }
+
+        opcode.SetParameter(wrapper.camParametersHandler.opcode);
+        bayerFormatItem.SetParameter(wrapper.camParametersHandler.bayerformat);
+        bayerFormatItem.SetMenuItemListner(this);
 
         /*previewZoom.SetParameter(wrapper.camParametersHandler.PreviewZoom);
         previewZoom.SetMenuItemListner(this);*/
