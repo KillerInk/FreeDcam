@@ -57,7 +57,7 @@ public class FocusManual_QcomM extends BaseManualParameter
             parameters.put("manual-focus", "off");
             camParametersHandler.SetParametersToCamera(parameters);
             camParametersHandler.FocusMode.SetValue("auto", true);
-            Logger.d(TAG, "Set CCT to : auto");
+            Logger.d(TAG, "Set Focusmode to : auto");
         }
         else
         {

@@ -74,18 +74,23 @@ public class BaseManualParameter extends AbstractManualParameter
         {
             if (parameters.containsKey(this.value) && parameters.containsKey(max_value) && parameters.containsKey(min_value))
             {
+                Logger.d(TAG, "parameters contains all 3 parameters");
                 if (!parameters.get(min_value).equals("") && !parameters.get(max_value).equals(""))
                 {
+                    Logger.d(TAG, "parameters get min/max success");
                     stringvalues = createStringArray(Integer.parseInt(parameters.get(min_value)), Integer.parseInt(parameters.get(max_value)), step);
                     currentString = parameters.get(this.value);
                     if (parameters.get(min_value).contains("-"))
                     {
+                        Logger.d(TAG, "processing negative values");
                         currentInt = stringvalues.length /2 + Integer.parseInt(currentString);
                         default_value = currentInt;
                         this.isSupported = true;
                         this.isVisible = isSupported;
                     }
-                    else {
+                    else
+                    {
+                        Logger.d(TAG, "processing positiv values");
                         for (int i = 0; i < stringvalues.length; i++) {
                             if (stringvalues[i].equals(currentString)) {
                                 currentInt = i;
@@ -98,8 +103,14 @@ public class BaseManualParameter extends AbstractManualParameter
                     }
 
                 }
+                else
+                    Logger.d(TAG, "min or max is empty in parameters");
             }
+            else
+                Logger.d(TAG, "parameters does not contain value, max_value or min_value");
         }
+        else
+            Logger.d(TAG, "failed to lookup value, max_value or min_value are empty");
     }
     @Override
     public boolean IsSupported()
