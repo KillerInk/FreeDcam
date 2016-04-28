@@ -137,7 +137,9 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter aeb2;
     public AbstractModeParameter aeb3;
 
+    public AbstractModeParameter opcode;
     public AbstractModeParameter bayerformat;
+
 
 
     public AbstractParameterHandler(AbstractCameraHolder cameraHolder, Handler uiHandler)

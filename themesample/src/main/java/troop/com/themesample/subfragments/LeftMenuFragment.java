@@ -311,6 +311,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         }
 
         opcode.SetParameter(wrapper.camParametersHandler.opcode);
+        opcode.SetMenuItemListner(this);
         bayerFormatItem.SetParameter(wrapper.camParametersHandler.bayerformat);
         bayerFormatItem.SetMenuItemListner(this);
 

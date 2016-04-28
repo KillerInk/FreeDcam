@@ -74,6 +74,22 @@ public class DeviceUtils
     final public static Devices[] Krillin_DEVICES = {Devices.p8,Devices.p8lite,Devices.honor6};
     final public static Devices[] QC_Manual_New = {Devices.SonyM4_QC,Devices.Alcatel_Idol3,Devices.Moto_MSM8982_8994,Devices.Lenovo_VibeP1,Devices.XiaomiMI5, Devices.Xiaomi_Redmi_Note3};
 
+    final public static Devices[] OpCodeRdyToDL =
+            {
+                    Devices.Htc_M9,
+                    Devices.HTC_OneA9,
+                    Devices.LG_G2,
+                    Devices.LG_G3,
+                    Devices.LG_G4,
+                    Devices.OnePlusOne,
+                    Devices.SonyC5_MTK,
+                    Devices.SonyM4_QC,
+                    Devices.SonyM5_MTK,
+                    Devices.XiaomiMI3W,
+                    Devices.ZTE_ADV,
+                    Devices.ZTEADV234,
+            };
+
     private static Devices getDevice()
     {
         if (isAlcatel_Idol3())
