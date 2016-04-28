@@ -165,7 +165,7 @@ public class PictureFormatHandler extends BaseModeParameter
         if (rawSupported && !DeviceUtils.isCamera1DNGSupportedDevice())
             return new String[]{CaptureMode[JPEG],CaptureMode[RAW]};
         else if(rawSupported && DeviceUtils.isCamera1DNGSupportedDevice())
-                return new String[]{CaptureMode[JPEG],CaptureMode[DNG]};
+                return new String[]{CaptureMode[JPEG],CaptureMode[DNG],CaptureMode[RAW]};
         else
             return new String[]{CaptureMode[JPEG]};
     }
