@@ -201,7 +201,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         format.SetMenuItemListner(this,true);
 
         this.thumbView = (ThumbView)view.findViewById(R.id.thumbview);
-        this.thumbView.SetOnThumBlickListner(thumbClick);
+        this.thumbView.SetOnThumbClickListener(thumbClick);
 
         this.modeSwitch = (UiSettingsChildModuleSwitch)view.findViewById(R.id.mode_switch);
         modeSwitch.SetStuff(i_activity, AppSettingsManager.SETTING_CURRENTMODULE);
