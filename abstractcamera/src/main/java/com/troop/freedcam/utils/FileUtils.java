@@ -61,7 +61,8 @@ public class FileUtils
     {
         if (file.delete() == false) {
             DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(appSettingsManager);
-
+            if (sdDir == null)
+                throw new NullPointerException();
             String baseS = sdDir.getName();
             String fileFolder = file.getAbsolutePath();
             String[] split = fileFolder.split("/");
@@ -77,7 +78,11 @@ public class FileUtils
                     }
                 }
             }
-            boolean d = tmpdir.delete();
+            boolean d = false;
+            if (tmpdir != null && tmpdir.exists())
+                d= tmpdir.delete();
+            else
+                d = true;
             Logger.d("delteDocumentFile", "file delted:" + d);
             return d;
         }
