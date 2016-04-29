@@ -1,5 +1,6 @@
 #include <stdint.h>
-#include <asm/byteorder.h>
+#include <sys/types.h>
+#include <endian.h>
 
 void swab(const void *from, void*to, ssize_t n)
 {
@@ -9,5 +10,5 @@ void swab(const void *from, void*to, ssize_t n)
 		return;
 
 	for (i = 0; i< (n/2)*2; i += 2)
-		*((uint16_t*)to+i) = __arch__swab16(*((uint16_t*)from+i));
+		*((uint16_t*)to+i) = __swap16(*((uint16_t*)from+i));
 }
