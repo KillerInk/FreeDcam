@@ -29,10 +29,14 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
         this.currentInt = valueToSet;
         FreeDPool.Execute(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 //String val = valueToSet +"";
                 JSONArray array = null;
+                if (stringvalues == null)
+                {
+                    getMinMaxValues();
+                    return;
+                }
                 try {
                     Logger.d(TAG, "SetValue " + valueToSet);
                     array = new JSONArray().put(0, Integer.parseInt(stringvalues[valueToSet]));
