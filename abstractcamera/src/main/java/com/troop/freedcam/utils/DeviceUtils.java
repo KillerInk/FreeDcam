@@ -86,6 +86,7 @@ public class DeviceUtils
                     Devices.SonyM4_QC,
                     Devices.SonyM5_MTK,
                     Devices.XiaomiMI3W,
+                    Devices.XiaomiMI4W,
                     Devices.ZTE_ADV,
                     Devices.ZTEADV234,
             };
