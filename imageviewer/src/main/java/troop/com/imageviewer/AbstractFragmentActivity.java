@@ -1,6 +1,7 @@
 package troop.com.imageviewer;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -28,15 +29,16 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_FULLSCREEN
-            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;;
+            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (!FreeDPool.IsInit())
             FreeDPool.INIT();
-        BitmapHelper.INIT(getApplicationContext());
-        new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this), this);
-        DeviceUtils.SETCONTEXT(getApplicationContext());
+        Context ctx = getApplicationContext();
+        BitmapHelper.INIT(ctx);
+        new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(ctx), ctx);
+        DeviceUtils.SETCONTEXT(ctx);
         HIDENAVBAR();
     }
 
