@@ -318,7 +318,9 @@
         <item>MI NOTE Pro</item>
     </string-array>
     <string-array name="Xiaomi_Mi_Note3_Pro">
-        <item>Redmi Note 3</item>
+        <item>Redmi Note 3 pro</item>
+        <item>Redmi_Note 3_pro</item>
+        <item>Redmi Note 3_pro</item>
     </string-array>
     <string-array name="Alcatel_Idol_3">
         <item>6045Y</item>
