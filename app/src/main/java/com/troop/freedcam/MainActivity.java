@@ -2,12 +2,14 @@ package com.troop.freedcam;
 
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
+import com.drew.lang.annotations.NotNull;
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.apis.AbstractCameraFragment;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
@@ -70,27 +73,21 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
                 defaultEXhandler.uncaughtException(thread,e);
             }
         });
-
-
-
-
     }
-
-
-
 
     @Override
     protected void onResume()
     {
         super.onResume();
         Logger.d(TAGLIFE, "Activity onResume");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkMarshmallowPermissions();
         }
-        else
+        else {
             createHandlers();
+        }
     }
+
     @Override
     protected void onPause()
     {
@@ -108,10 +105,12 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     protected void onDestroy()
     {
         super.onDestroy();
-        if (debugLoggerging)
+        if (debugLoggerging) {
             Logger.StopLogging();
+        }
     }
 
+    @TargetApi(23)
     private void checkMarshmallowPermissions() {
         if (checkSelfPermission(Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -132,7 +131,9 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults)
     {
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED
                 && grantResults[1] == PackageManager.PERMISSION_GRANTED
@@ -313,8 +314,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         int width = 0;
         int height = 0;
 
-        if (Build.VERSION.SDK_INT >= 17)
-        {
+        if (Build.VERSION.SDK_INT >= 17) {
             WindowManager wm = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
             Point size =  new Point();
             wm.getDefaultDisplay().getRealSize(size);
@@ -322,8 +322,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
                 width = size.x;
                 height = size.y;
             }
-            else
-            {
+            else {
                 height = size.x;
                 width = size.y;
             }
@@ -331,13 +330,11 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         else
         {
             DisplayMetrics metrics = getResources().getDisplayMetrics();
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
-            {
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 width = metrics.widthPixels;
                 height = metrics.heightPixels;
             }
-            else
-            {
+            else {
                 width = metrics.heightPixels;
                 height = metrics.widthPixels;
             }

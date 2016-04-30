@@ -60,15 +60,11 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
     private String savedInstanceFilePath;
     private FormatTypes formatsToShow = FormatTypes.all;
     private FormatTypes lastFormat = FormatTypes.all;
-    private boolean pos0ret = false;
-    private boolean PERMSISSIONGRANTED = false;
     private RequestModes requestMode = RequestModes.none;
 
     private TextView filesSelected;
     private int filesSelectedCount =0;
     private boolean isRootDir = true;
-
-
 
     public enum FormatTypes
     {
@@ -87,8 +83,6 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         rawToDng,
 
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

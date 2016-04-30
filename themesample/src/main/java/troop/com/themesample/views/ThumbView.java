@@ -131,7 +131,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
         });
     }
 
-    public void SetOnThumBlickListner(ScreenSlideFragment.I_ThumbClick click)
+    public void SetOnThumbClickListener(ScreenSlideFragment.I_ThumbClick click)
     {
         this.click = click;
     }

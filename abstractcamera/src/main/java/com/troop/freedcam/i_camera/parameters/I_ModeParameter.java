@@ -5,14 +5,14 @@ package com.troop.freedcam.i_camera.parameters;
  */
 public interface I_ModeParameter
 {
-    public boolean IsSupported();
+    boolean IsSupported();
 
-    public void SetValue(String valueToSet, boolean setToCamera);
+    void SetValue(String valueToSet, boolean setToCamera);
 
-    public String GetValue();
+    String GetValue();
 
-    public String[] GetValues();
+    String[] GetValues();
 
-    public boolean IsVisible();
+    boolean IsVisible();
 
 }

@@ -18,7 +18,7 @@ public interface I_Activity
     void loadCameraUiFragment();
     void closeActivity();
     void ChooseSDCard(I_OnActivityResultCallback callback);
-    public interface I_OnActivityResultCallback
+    interface I_OnActivityResultCallback
     {
         void onActivityResultCallback(Uri uri);
     }

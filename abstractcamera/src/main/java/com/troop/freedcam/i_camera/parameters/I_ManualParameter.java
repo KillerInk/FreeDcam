@@ -5,12 +5,12 @@ package com.troop.freedcam.i_camera.parameters;
  */
 public interface I_ManualParameter
 {
-    public boolean IsSupported();
-    public boolean IsSetSupported();
-    public boolean IsVisible();
+    boolean IsSupported();
+    boolean IsSetSupported();
+    boolean IsVisible();
 
-    public int GetValue();
-    public String GetStringValue();
+    int GetValue();
+    String GetStringValue();
     String[] getStringValues();
-    public void SetValue(int valueToSet);
+    void SetValue(int valueToSet);
 }

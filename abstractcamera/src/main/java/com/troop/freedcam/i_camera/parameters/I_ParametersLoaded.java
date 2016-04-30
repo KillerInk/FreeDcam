@@ -5,5 +5,5 @@ package com.troop.freedcam.i_camera.parameters;
  */
 public interface I_ParametersLoaded
 {
-    public void ParametersLoaded();
+    void ParametersLoaded();
 }

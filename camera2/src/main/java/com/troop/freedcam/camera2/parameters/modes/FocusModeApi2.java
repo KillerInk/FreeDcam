@@ -23,15 +23,16 @@ public class FocusModeApi2 extends BaseModeApi2
         continouse_picture,
         edof,
     }
+
     public FocusModeApi2(Handler handler, BaseCameraHolderApi2 baseCameraHolderApi2) {
         super(handler, baseCameraHolderApi2);
     }
+
     @Override
     public boolean IsSupported()
     {
         return cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES) != null;
     }
-
 
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
@@ -47,12 +48,9 @@ public class FocusModeApi2 extends BaseModeApi2
     @Override
     public String GetValue()
     {
-
         int i = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AF_MODE);
         FocusModes sceneModes = FocusModes.values()[i];
         return sceneModes.toString();
-
-
     }
 
     @Override
