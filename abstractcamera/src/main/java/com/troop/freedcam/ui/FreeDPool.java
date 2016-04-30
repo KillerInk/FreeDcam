@@ -11,11 +11,13 @@ public class FreeDPool
     private static ExecutorService executor;
     private static int number_of_cores;
     private static boolean isInit = false;
+    private static int multiplier = 2;
 
-    public static void INIT()
+    public static void INIT(int _multiplier)
     {
         number_of_cores = Runtime.getRuntime().availableProcessors();
-        executor = Executors.newFixedThreadPool(number_of_cores*4);
+        multiplier = _multiplier;
+        executor = Executors.newFixedThreadPool(number_of_cores*multiplier);
         isInit = true;
     }
 
@@ -37,6 +39,8 @@ public class FreeDPool
     public static void Execute(Runnable runnable)
     {
         try {
+            if (executor == null)
+                INIT(multiplier);
             if(runnable !=  null)
                 executor.execute(runnable);
         }

@@ -25,7 +25,7 @@ public class CacheHelper
     private DiskLruCache mDiskLruCache;
     private final Object mDiskCacheLock = new Object();
     private boolean mDiskCacheStarting = true;
-    private static final int DISK_CACHE_SIZE = 1024 * 1024 * 50; // 10MB
+    private static final int DISK_CACHE_SIZE = 1024 * 1024 * 200;
     private static final String DISK_CACHE_SUBDIR = "thumbnails";
     private LruCache<String, Bitmap> mMemoryCache;
     final String TAG = CacheHelper.class.getSimpleName();

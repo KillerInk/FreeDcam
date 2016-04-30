@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.troop.freedcam.ui.AppSettingsManager;
+import com.troop.freedcam.ui.FreeDPool;
 import com.troop.freedcam.ui.I_Activity;
 
 import java.io.File;
@@ -34,5 +35,16 @@ public class GridViewActivity extends AbstractFragmentActivity
             ft.add(android.R.id.content, new GridViewFragment(), TAG);
             ft.commit();
         }
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+    @Override
+    public int getMuliplier() {
+        return 2;
     }
 }

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.troop.filelogger.Logger;
 import com.troop.freedcam.ui.FreeDPool;
 
 import java.io.File;
@@ -42,6 +43,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
     private Bitmap fold;
     private int mImageThumbSize;
     ProgressBar progressBar;
+    final String TAG = GridImageView.class.getSimpleName();
 
     public GridViewFragment.ViewStates viewstate = BaseGridViewFragment.ViewStates.normal;
 
@@ -170,13 +172,12 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
     {
         this.fileHolder = fileHolder;
         this.mImageThumbSize = mImageThumbSize;
+        Logger.d(TAG, "load file:" + fileHolder.getFile().getName());
         if (BitmapHelper.CACHE == null)
             BitmapHelper.INIT(getContext());
         imageView.setImageBitmap(null);
         if (!fileHolder.getFile().isDirectory())
         {
-            if (!FreeDPool.IsInit())
-                FreeDPool.INIT();
             imageView.setImageResource(R.drawable.noimage);
             progressBar.setVisibility(VISIBLE);
             FreeDPool.Execute(new BitmapLoadRunnable(this,fileHolder));
@@ -204,6 +205,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
 
     class BitmapLoadRunnable implements Runnable
     {
+        final private String TAG = BitmapLoadRunnable.class.getSimpleName();
         WeakReference<GridImageView>imageviewRef;
         FileHolder fileHolder;
 
@@ -216,11 +218,13 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         @Override
         public void run()
         {
+            Logger.d(TAG, "load file:" + this.fileHolder.getFile().getName());
             final Bitmap bitmap = BitmapHelper.getBitmap(this.fileHolder.getFile(), true, mImageThumbSize, mImageThumbSize);
             if (imageviewRef != null && bitmap != null) {
                 final GridImageView imageView = imageviewRef.get();
                 if (imageView != null && imageView.getFileHolder() == fileHolder)
                 {
+                    Logger.d(TAG, "set bitmap to imageview");
                     imageView.post(new Runnable() {
                         @Override
                         public void run() {
@@ -230,7 +234,11 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
                     });
 
                 }
+                else
+                    Logger.d(TAG, "Imageview has new file already, skipping it");
             }
+            else
+                Logger.d(TAG, "Imageview or bitmap null");
         }
     }
 }

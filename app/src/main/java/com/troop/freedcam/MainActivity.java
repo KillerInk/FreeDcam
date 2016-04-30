@@ -151,6 +151,11 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    @Override
+    public int getMuliplier() {
+        return super.getMuliplier();
+    }
+
     private void checkStartLoggerging()
     {
         File debugfile = new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder +"DEBUG");

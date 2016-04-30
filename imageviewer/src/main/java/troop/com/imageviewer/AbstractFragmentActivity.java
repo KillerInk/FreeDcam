@@ -24,6 +24,7 @@ import java.io.File;
  */
 public abstract class AbstractFragmentActivity extends FragmentActivity implements I_Activity
 {
+
     final static int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -34,7 +35,7 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (!FreeDPool.IsInit())
-            FreeDPool.INIT();
+            FreeDPool.INIT(getMuliplier());
         Context ctx = getApplicationContext();
         BitmapHelper.INIT(ctx);
         new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(ctx), ctx);
@@ -88,6 +89,11 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
                 }
             });
         }
+    }
+
+    public int getMuliplier()
+    {
+        return 4;
     }
 
     private I_Activity.I_OnActivityResultCallback resultCallback;
