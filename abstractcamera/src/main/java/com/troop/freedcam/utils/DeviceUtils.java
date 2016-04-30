@@ -76,8 +76,10 @@ public class DeviceUtils
 
     final public static Devices[] OpCodeRdyToDL =
             {
+                    Devices.Aquaris_E5,
                     Devices.Htc_M9,
                     Devices.HTC_OneA9,
+                    Devices.Jiayu_S3,
                     Devices.LG_G2,
                     Devices.LG_G3,
                     Devices.LG_G4,
@@ -87,6 +89,7 @@ public class DeviceUtils
                     Devices.SonyM5_MTK,
                     Devices.XiaomiMI3W,
                     Devices.XiaomiMI4W,
+                    Devices.Xiaomi_RedmiNote2_MTK,
                     Devices.ZTE_ADV,
                     Devices.ZTEADV234,
             };
