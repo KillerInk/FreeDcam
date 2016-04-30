@@ -339,6 +339,8 @@ void writeIfd0(TIFF *tif, DngWriter *writer)
     LOGD("height");
     if(writer->rawType > 0)
         assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 16) != 0);
+    else if (writer->rawType < 0)
+        assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 12) != 0);
     else
         assert(TIFFSetField(tif, TIFFTAG_BITSPERSAMPLE, 10) != 0);
     LOGD("bitspersample");
@@ -596,6 +598,55 @@ void process10tight(TIFF *tif,DngWriter *writer)
     delete[] out;
 }
 
+void process12tight(TIFF *tif,DngWriter *writer)
+{
+    unsigned char* ar = writer->bayerBytes;
+    unsigned char* tmp = new unsigned char[5];
+    int bytesToSkip = 0;
+    LOGD("writer-RowSize: %d  rawheight:%d ,rawwidht: %d",  writer->rawSize,writer->rawheight, writer->rawwidht);
+    int realrowsize = writer->rawSize/writer->rawheight;
+    int shouldberowsize = writer->rawwidht*12/8;
+    LOGD("realrow: %i shoudlbe: %i", realrowsize, shouldberowsize);
+    if (realrowsize != shouldberowsize)
+        bytesToSkip = realrowsize - shouldberowsize;
+    LOGD("bytesToSkip: %i", bytesToSkip);
+    int row = shouldberowsize;
+    unsigned char* out = new unsigned char[(int)shouldberowsize*writer->rawheight];
+    int m = 0;
+    for(int i =0; i< writer->rawSize; i+=3)
+    {
+        //LOGD("Process i: %d  filesize: %d", i, writer->rawSize);
+        if(i == row)
+        {
+            row += shouldberowsize +bytesToSkip;
+            i+=bytesToSkip;
+            //LOGD("new row: %i", row/shouldberowsize);
+        }
+
+
+                out[m++] = (ar[i]); // 00110001
+                out[m++] = (ar[i+2] & 0b11110000 ) <<4 | (ar[i+1] & 0b11110000)>>4; // 01 001100
+                out[m++] = (ar[i+1]& 0b00001111 )<< 4 | (ar[i+2] & 0b00001111 ) >>4 ;// 10 01 0011
+
+             /*   out[m++] = (ar[i+2] & 0b00001111 ) << 4 | (ar[i+4] & 0b00110000 )>> 2| (ar[i+3]& 0b11000000)>>6; // 0011 11 00
+                out[m++] = (ar[i+3]& 0b00111111)<<2 | (ar[i+4]& 0b11000000)>>6;//110100 00
+                out[m++] = (ar[i+3]& 0b00111111)<<2 | (ar[i+4]& 0b11000000)>>6;//110100 00
+
+        out[m++] = (ar[i]); // 00110001
+        out[m++] =  (ar[i+4] & 0b00000011 ) <<6 | (ar[i+1] & 0b11111100)>>2; // 01 001100
+        out[m++] = (ar[i+1]& 0b00000011 )<< 6 | (ar[i+4] & 0b00001100 ) <<2 | (ar[i +2] & 0b11110000 )>> 4;// 10 01 0011
+        out[m++] = (ar[i+2] & 0b00001111 ) << 4 | (ar[i+4] & 0b00110000 )>> 2| (ar[i+3]& 0b11000000)>>6; // 0011 11 00
+        out[m++] = (ar[i+3]& 0b00111111)<<2 | (ar[i+4]& 0b11000000)>>6;//110100 00*/
+    }
+    TIFFWriteRawStrip(tif, 0, out, writer->rawheight*shouldberowsize);
+
+    TIFFRewriteDirectory(tif);
+    LOGD("Finalizng DNG");
+    TIFFClose(tif);
+
+    delete[] out;
+}
+
 void processLoose(TIFF *tif,DngWriter *writer)
 {
     unsigned short a;
@@ -789,6 +840,8 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
         processSXXX16(tif,writer);
     else if (writer->rawType == 3)
         processTight(tif, writer);
+        else if (writer->rawType == 4)
+                process12tight(tif, writer);
 }
 
 JNIEXPORT void JNICALL Java_com_troop_androiddng_RawToDng_WriteDNG(JNIEnv *env, jobject thiz, jobject handler)

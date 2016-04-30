@@ -12,10 +12,12 @@ public class DngSupportedDevices
     public final static int Qcom = 1;
     public final static int Plain = 2;
     public final static int Mipi16 = 3;
+    public final static int Mipi12 = 4;
 
     public DngProfile getProfile(Devices device, int filesize)
     {
         switch (filesize) {
+
             case 9830400: //NGM Forward Art
 				return new DngProfile(16, 2560, 1920, Plain, BGGR, 0,
 						Matrixes.Nexus6_identity_matrix1,
