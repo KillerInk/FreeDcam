@@ -50,7 +50,9 @@ public class BaseCameraHolder extends AbstractCameraHolder
     private I_Callbacks.PreviewCallback previewCallback;
     private Surface surfaceHolder;
 
-    //public boolean hasLGFrameWork = false;
+    public boolean isMotorolaExt = false;
+    public boolean isMotorolaExtMediaRecorder = false;
+
     public Frameworks DeviceFrameWork = Frameworks.Normal;
     public Location gpsLocation;
     public int Orientation;
@@ -74,6 +76,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
         super(cameraChangedListner, UIHandler);
         //hasSamsungFramework();
         hasLGFramework();
+        if (DeviceFrameWork == Frameworks.Normal)
+            isLegacyHAL();
         if (DeviceFrameWork == Frameworks.Normal)
             isMTKDevice();
     }
@@ -136,6 +140,61 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
             DeviceFrameWork = Frameworks.Normal;
             Logger.d(TAG, "No LG Framework");
+        }
+
+    }
+
+    private void isMotoExt()
+    {
+        try {
+            Class c = Class.forName("com.motorola.android.camera.CameraMotExt");
+            Logger.d(TAG, "Has Moto Framework");
+            isMotorolaExt = true;
+
+        } catch (ExceptionInInitializerError e) {
+
+            isMotorolaExt = false;
+            Logger.d(TAG, "No Moto Framework");
+        }
+        catch (UnsatisfiedLinkError er)
+        {
+            isMotorolaExt = false;
+            Logger.d(TAG, "No Moto Framework");
+        }
+        catch (ClassNotFoundException e)
+        {
+            isMotorolaExt = false;
+            Logger.d(TAG, "No Moto Framework");
+        }
+        catch (Exception e) {
+
+            isMotorolaExt = false;
+            Logger.d(TAG, "No Moto Framework");
+        }
+        try {
+            Class c = Class.forName("com.motorola.android.media.MediaRecorderExt");
+            Logger.d(TAG, "Has Moto Framework");
+            isMotorolaExtMediaRecorder = true;
+
+        } catch (ExceptionInInitializerError e) {
+
+            isMotorolaExtMediaRecorder = false;
+            Logger.d(TAG, "No Moto Framework");
+        }
+        catch (UnsatisfiedLinkError er)
+        {
+            isMotorolaExtMediaRecorder = false;
+            Logger.d(TAG, "No Moto Framework");
+        }
+        catch (ClassNotFoundException e)
+        {
+            isMotorolaExtMediaRecorder = false;
+            Logger.d(TAG, "No Moto Framework");
+        }
+        catch (Exception e) {
+
+            isMotorolaExtMediaRecorder = false;
+            Logger.d(TAG, "No Moto Framework");
         }
 
     }
@@ -249,6 +308,13 @@ public class BaseCameraHolder extends AbstractCameraHolder
             else if(DeviceFrameWork == Frameworks.LegacyHAL)
             {
                 mCamera = openWrapper(camera);
+
+                isMotoExt();
+                if(isMotorolaExt) {
+                    Camera.Parameters paras = mCamera.getParameters();
+                    paras.set("mot-app", "true");
+                }
+
             }
             else
             {
@@ -536,18 +602,18 @@ public class BaseCameraHolder extends AbstractCameraHolder
             Object[] arrobject = new Object[]{n, 256};
             return (Camera)method.invoke(null, arrobject);
         }
-        catch (NoSuchMethodException var5_5) {
-            return Camera.open((int)n);
-        }
-        catch (ClassNotFoundException var4_6) {
-            return Camera.open((int)n);
-        }
-        catch (IllegalAccessException var3_7) {
-            return Camera.open((int)n);
-        }
-        catch (InvocationTargetException var2_8) {
-            return Camera.open((int)n);
-        }
+        catch (NoSuchMethodException e) {
+            Logger.e(TAG, e.getMessage());
+            return Camera.open(n);}
+        catch (ClassNotFoundException e) {
+            Logger.e(TAG, e.getMessage());
+            return Camera.open(n);}
+        catch (IllegalAccessException e) {
+            Logger.e(TAG, e.getMessage());
+            return Camera.open(n);}
+        catch (InvocationTargetException e) {
+            Logger.e(TAG, e.getMessage());
+            return Camera.open(n);}
     }
 
     private void setMtkAppMode()
