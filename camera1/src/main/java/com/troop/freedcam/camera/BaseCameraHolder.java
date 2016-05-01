@@ -65,7 +65,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
     {
         Normal,
         LG,
-        MTK
+        MTK,
+        LegacyHAL
     }
 
     public BaseCameraHolder(I_CameraChangedListner cameraChangedListner, Handler UIHandler)
@@ -139,6 +140,43 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     }
 
+    private void isLegacyHAL()
+    {
+        try {
+            Class camera = Class.forName("android.hardware.Camera");
+            Method[] meths = camera.getMethods();
+            Method app = null;
+            for (Method m : meths)
+            {
+                if (m.getName().equals("openLegacy"))
+                    app = m;
+            }
+            if (app != null) {
+                DeviceFrameWork = Frameworks.LegacyHAL;
+                Logger.d(TAG,"LegacyHAL found");
+            }
+        } catch (ClassNotFoundException e) {
+            Logger.e(TAG,e.getMessage());
+            DeviceFrameWork = Frameworks.Normal;
+            Logger.d(TAG, "LegacyHAL not found");
+        }
+        catch (NullPointerException ex)
+        {
+            Logger.e(TAG,ex.getMessage());
+            DeviceFrameWork = Frameworks.Normal;
+            Logger.d(TAG, "No LegacyHAL");
+        }
+        catch (UnsatisfiedLinkError er)
+        {
+            DeviceFrameWork = Frameworks.Normal;
+            Logger.d(TAG, "No LegacyHAL");
+        }
+        catch (ExceptionInInitializerError e) {
+
+            DeviceFrameWork = Frameworks.Normal;
+            Logger.d(TAG, "No LegacyHAL");
+        }
+    }
     private void isMTKDevice()
     {
         try {
@@ -207,6 +245,10 @@ public class BaseCameraHolder extends AbstractCameraHolder
             {
                 setMtkAppMode();
                 mCamera = Camera.open(camera);
+            }
+            else if(DeviceFrameWork == Frameworks.LegacyHAL)
+            {
+                mCamera = openWrapper(camera);
             }
             else
             {
@@ -485,6 +527,27 @@ public class BaseCameraHolder extends AbstractCameraHolder
             Logger.exception(ex);
         }
 
+    }
+
+    private static Camera openWrapper(int n) {
+        Class[] arrclass = new Class[]{Integer.TYPE, Integer.TYPE};
+        try {
+            Method method = Class.forName("android.hardware.Camera").getDeclaredMethod("openLegacy", arrclass);
+            Object[] arrobject = new Object[]{n, 256};
+            return (Camera)method.invoke(null, arrobject);
+        }
+        catch (NoSuchMethodException var5_5) {
+            return Camera.open((int)n);
+        }
+        catch (ClassNotFoundException var4_6) {
+            return Camera.open((int)n);
+        }
+        catch (IllegalAccessException var3_7) {
+            return Camera.open((int)n);
+        }
+        catch (InvocationTargetException var2_8) {
+            return Camera.open((int)n);
+        }
     }
 
     private void setMtkAppMode()
