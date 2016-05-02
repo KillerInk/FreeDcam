@@ -2,6 +2,7 @@ package com.troop.androiddng;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.modules.VideoMediaProfile;
+import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.BufferedReader;
@@ -24,17 +25,34 @@ public class CustomMatrix
     public float[] ReductionMatrix2;
     public float[] NoiseReductionMatrix;
 
-    final public static String MEDIAPROFILESPATH = StringUtils.GetInternalSDCARD()+StringUtils.freedcamFolder+"Matrix.txt";
+
+    final public static String MEDIAPROFILESPATH = StringUtils.GetFreeDcamConfigFolder+"matrix/";
     private final String TAG = CustomMatrix.class.getSimpleName();
 
     public CustomMatrix(float[]matrix1, float[] matrix2, float[]neutral,float[]fmatrix1, float[] fmatrix2,float[]rmatrix1, float[] rmatrix2,float[]noise)
     {
-        File customMAtrix = new File(MEDIAPROFILESPATH);
-        if(customMAtrix.exists())
+        String CUSTOMATRIXNAME = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTTING_CUSTOMMATRIX);
+        if (CUSTOMATRIXNAME != null && !CUSTOMATRIXNAME.equals("off") && !CUSTOMATRIXNAME.equals(""))
         {
-            loadCustomMatrix(customMAtrix);
+            File customMAtrix = new File(MEDIAPROFILESPATH+CUSTOMATRIXNAME);
+            if (customMAtrix.exists()) {
+                loadCustomMatrix(customMAtrix);
+            }
+            else
+            {
+                Logger.d(TAG, "No CustomMediaProfiles found");
+                this.ColorMatrix1 = matrix1;
+                this.ColorMatrix2 = matrix2;
+                this.NeutralMatrix = neutral;
+                this.ForwardMatrix1 = fmatrix1;
+                this.ForwardMatrix2 = fmatrix2;
+                this.ReductionMatrix1 = rmatrix1;
+                this.ReductionMatrix2 = rmatrix2;
+                this.NoiseReductionMatrix = noise;
+            }
         }
-        else {
+        else
+        {
             Logger.d(TAG, "No CustomMediaProfiles found");
             this.ColorMatrix1 = matrix1;
             this.ColorMatrix2 = matrix2;
@@ -86,24 +104,22 @@ public class CustomMatrix
                                 NeutralMatrix = getMatrixFromString(line);
                                 break;
                             case 3:
-                                NeutralMatrix = getMatrixFromString(line);
-                                break;
-                            case 4:
                                 ForwardMatrix1 = getMatrixFromString(line);
                                 break;
-                            case 5:
+                            case 4:
                                 ForwardMatrix2 = getMatrixFromString(line);
                                 break;
-                            case 6:
+                            case 5:
                                 ReductionMatrix1 = getMatrixFromString(line);
                                 break;
-                            case 7:
+                            case 6:
                                 ReductionMatrix2 = getMatrixFromString(line);
                                 break;
-                            case 8:
+                            case 7:
                                 NoiseReductionMatrix = getMatrixFromString(line);
                                 break;
                         }
+                        count++;
                     }
                 }
                 br.close();

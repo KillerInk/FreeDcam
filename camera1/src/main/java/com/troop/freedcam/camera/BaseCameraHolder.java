@@ -218,7 +218,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
         } catch (Exception ex) {
             isRdy = false;
-            Logger.e(TAG,ex.getMessage());
+            Logger.exception(ex);
         }
         super.OpenCamera(0);
         return isRdy;

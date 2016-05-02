@@ -74,6 +74,7 @@ public class AppSettingsManager
 
     final public static String SETTTING_BAYERFORMAT ="bayerformat";
     final public static String SETTTING_AE_PRIORITY ="aepriority";
+    final public static String SETTTING_CUSTOMMATRIX ="custommatrix";
     ////////// overide end
     final public static String SETTING_VIDEOTIMELAPSEFRAME = "timelapseframe";
     final public static String SETTING_SONYAPI = "sonyapi";

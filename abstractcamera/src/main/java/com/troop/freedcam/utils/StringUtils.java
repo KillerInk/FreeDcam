@@ -259,6 +259,7 @@ public class StringUtils
     public static String freedcamFolder = "/DCIM/FreeDcam/";
     public static String DCIMFolder = "/DCIM/";
 
+    public static String GetFreeDcamConfigFolder = StringUtils.GetInternalSDCARD()+StringUtils.freedcamFolder+"config/";
     public static String getFilePath(boolean externalSd, String fileEnding)
     {
         final StringBuilder builder = new StringBuilder();

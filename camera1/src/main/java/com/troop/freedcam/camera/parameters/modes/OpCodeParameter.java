@@ -42,10 +42,10 @@ public class OpCodeParameter extends AbstractModeParameter
     public OpCodeParameter(Handler uiHandler)
     {
         super(uiHandler);
-        File op2 = new File(StringUtils.GetInternalSDCARD()+StringUtils.freedcamFolder+"opc2.bin");
+        File op2 = new File(StringUtils.GetFreeDcamConfigFolder+"opc2.bin");
         if (op2.exists())
             hasOp2=true;
-        File op3 = new File(StringUtils.GetInternalSDCARD()+StringUtils.freedcamFolder+"opc3.bin");
+        File op3 = new File(StringUtils.GetFreeDcamConfigFolder+"opc3.bin");
         if (op3.exists())
             hasOp3=true;
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.OpCodeRdyToDL))
@@ -145,7 +145,7 @@ public class OpCodeParameter extends AbstractModeParameter
         FileOutputStream responseBuf = null;
 
         try {
-            responseBuf = new FileOutputStream(new File(StringUtils.GetInternalSDCARD()+StringUtils.freedcamFolder+fileending));
+            responseBuf = new FileOutputStream(new File(StringUtils.GetFreeDcamConfigFolder+fileending));
             byte[] buf = new byte[1024];
             int len;
             while((len=inputStream.read(buf))>0){

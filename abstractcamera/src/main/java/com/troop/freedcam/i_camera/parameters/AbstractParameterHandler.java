@@ -41,6 +41,7 @@ public abstract class AbstractParameterHandler
     public AbstractManualParameter ProgramShift;
     public AbstractManualParameter PreviewZoom;
 
+
     public AbstractModeParameter ColorMode;
     public AbstractModeParameter ExposureMode;
     public AbstractModeParameter AE_PriorityMode;
@@ -139,6 +140,7 @@ public abstract class AbstractParameterHandler
 
     public AbstractModeParameter opcode;
     public AbstractModeParameter bayerformat;
+    public AbstractModeParameter matrixChooser;
 
 
 

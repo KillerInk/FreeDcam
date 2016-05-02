@@ -86,7 +86,7 @@ public class RawToDng
             nativeHandler = null;
         }
         wbct = "";
-        File op2 = new File(StringUtils.GetInternalSDCARD()+ StringUtils.freedcamFolder+"opc2.bin");
+        File op2 = new File(StringUtils.GetFreeDcamConfigFolder+"opc2.bin");
         if (op2.exists())
             try {
                 opcode2 = readFile(op2);
@@ -94,7 +94,7 @@ public class RawToDng
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        File op3 = new File(StringUtils.GetInternalSDCARD()+ StringUtils.freedcamFolder+"opc3.bin");
+        File op3 = new File(StringUtils.GetFreeDcamConfigFolder+"opc3.bin");
         if (op3.exists())
             try {
                 opcode3 = readFile(op3);

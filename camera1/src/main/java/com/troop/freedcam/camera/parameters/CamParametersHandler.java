@@ -44,6 +44,7 @@ import com.troop.freedcam.camera.parameters.modes.VirtualLensFilter;
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.i_camera.parameters.LocationParameter;
+import com.troop.freedcam.i_camera.parameters.MatrixChooserParameter;
 import com.troop.freedcam.i_camera.parameters.ModuleParameters;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.DeviceUtils;
@@ -481,6 +482,8 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         opcode = new OpCodeParameter(uiHandler);
 
+        if (DeviceUtils.isCamera1DNGSupportedDevice())
+            matrixChooser = new MatrixChooserParameter(uiHandler);
 
         try {
             Module = new ModuleParameters(uiHandler, cameraUiWrapper);

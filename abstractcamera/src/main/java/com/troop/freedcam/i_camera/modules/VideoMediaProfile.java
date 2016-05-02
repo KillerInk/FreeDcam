@@ -152,7 +152,7 @@ public class VideoMediaProfile
     }
 
 
-    final public static String MEDIAPROFILESPATH = StringUtils.GetInternalSDCARD()+StringUtils.freedcamFolder+"CustomMediaProfiles.txt";
+    final public static String MEDIAPROFILESPATH = StringUtils.GetFreeDcamConfigFolder+"CustomMediaProfiles.txt";
 
     public static void loadCustomProfiles(HashMap<String, VideoMediaProfile> list) throws IOException
     {

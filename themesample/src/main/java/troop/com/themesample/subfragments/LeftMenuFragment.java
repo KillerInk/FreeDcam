@@ -82,6 +82,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     private troop.com.themesample.views.menu.MenuItemAEB AEB2;
     private troop.com.themesample.views.menu.MenuItemAEB AEB3;
 
+    private MenuItem matrixChooser;
+
     private Interfaces.I_MenuItemClick onMenuItemClick;
 
     private ScrollView scrollView;
@@ -174,6 +176,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
         opcode = (MenuItem)view.findViewById(R.id.MenuItemOpCode);
         opcode.SetStuff(i_activity, "");
+        matrixChooser = (MenuItem)view.findViewById(R.id.MenuItemMatrixChooser);
+        matrixChooser.SetStuff(i_activity, AppSettingsManager.SETTTING_CUSTOMMATRIX);
 
 
         scrollView = (ScrollView) view.findViewById(R.id.scrollView);
@@ -314,6 +318,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         opcode.SetMenuItemListner(this);
         bayerFormatItem.SetParameter(wrapper.camParametersHandler.bayerformat);
         bayerFormatItem.SetMenuItemListner(this);
+        matrixChooser.SetParameter(wrapper.camParametersHandler.matrixChooser);
+        matrixChooser.SetMenuItemListner(this);
 
         /*previewZoom.SetParameter(wrapper.camParametersHandler.PreviewZoom);
         previewZoom.SetMenuItemListner(this);*/
