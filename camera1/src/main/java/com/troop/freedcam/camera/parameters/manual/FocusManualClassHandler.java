@@ -65,7 +65,7 @@ public class FocusManualClassHandler
         else if(DeviceUtils.IS(DeviceUtils.Devices.p8lite))
             return new FocusManualKrillin(parameters,"hw-manual-focus-step-value","hw-vcm-end-value","hw-vcm-start-value", focusMode_manual,parametersHandler,10,0);
         else if (parameters.containsKey("manual-focus-modes"))
-            return new FocusManual_QcomM(parameters,"cur-focus-scale","max-focus-pos-ratio","min-focus-pos-ratio", parametersHandler,1);
+            return new FocusManual_QcomM(parameters,"manual-focus-position","max-focus-pos-ratio","min-focus-pos-ratio", parametersHandler,1);
         else
             return null;
 
