@@ -18,35 +18,28 @@ public class DngSupportedDevices
         switch (filesize) {
             case 9830400: //NGM Forward Art
 				return new DngProfile(16, 2560, 1920, Plain, BGGR, 0,
-						Matrixes.Nexus6_identity_matrix1,
-                        Matrixes.Nexus6_identity_matrix2,
-                        Matrixes.Nexus6_identity_neutra,
-                        Matrixes.Nexus6_foward_matrix1,
-                        Matrixes.Nexus6_foward_matrix2,
-                        Matrixes.Nexus6_reduction_matrix1,
-                        Matrixes.Nexus6_reduction_matrix2,
-                        Matrixes.Nexus6_noise_3x1_matrix);
+						nexus6Matrix);
             case 2658304: //g3 front mipi
                 return new DngProfile(64, 1212, 1096, Mipi, BGGR, 2424,
-                        Matrixes.G3Device.CC_A_FRONT,
+                        new CustomMatrix(Matrixes.G3Device.CC_A_FRONT,
                         Matrixes.G3Device.CC_D65_FRONT,
                         Matrixes.G3Device.neutral_light_front,
                         Matrixes.G4_foward_matrix1,
                         Matrixes.G4_foward_matrix2,
                         Matrixes.G4_reduction_matrix1,
                         Matrixes.G4_reduction_matrix2,
-                        Matrixes.G4_noise_3x1_matrix);
+                        Matrixes.G4_noise_3x1_matrix));
             case 2842624://g3 front qcom
                 //TODO somethings wrong with it;
                 return new DngProfile(64, 1296, 1096, Qcom, BGGR, 0,
-                        Matrixes.G3Device.CC_A_FRONT,
+                        new CustomMatrix(Matrixes.G3Device.CC_A_FRONT,
                         Matrixes.G3Device.CC_D65_FRONT,
                         Matrixes.G3Device.neutral_light_front,
                         Matrixes.G4_foward_matrix1,
                         Matrixes.G4_foward_matrix2,
                         Matrixes.G4_reduction_matrix1,
                         Matrixes.G4_reduction_matrix2,
-                        Matrixes.G4_noise_3x1_matrix);
+                        Matrixes.G4_noise_3x1_matrix));
             case 2969600:
                 switch (device) {
                     case XiaomiMI3W:
@@ -59,62 +52,32 @@ public class DngSupportedDevices
 
             case 42923008://Moto_MSM8982_8994
                 return new DngProfile(64,5344 ,4016 ,Plain, RGGB, 0,
-                        Matrixes.imx230_identity_matrix1,
+                        new CustomMatrix(Matrixes.imx230_identity_matrix1,
                         Matrixes.imx230_identity_matrix2,
                         Matrixes.imx230_identity_neutra,
                         Matrixes.imx230_foward_matrix1,
                         Matrixes.imx230_foward_matrix2,
                         Matrixes.imx230_reduction_matrix1,
                         Matrixes.imx230_reduction_matrix2,
-                        Matrixes.imx230_3x1_matrix);
+                        Matrixes.imx230_3x1_matrix));
             case 26257920://SOny C5 probable imx 214 rggb
                 switch (device)
                 {
                     case SonyC5_MTK:
-                        return new DngProfile(64, 4208, 3120, Plain, RGGB, 0, Matrixes.imx214_identity_matrix1, Matrixes.imx214_identity_matrix2, Matrixes.Nexus6_identity_neutra,
-                                Matrixes.imx214_foward_matrix1,
-                                Matrixes.imx214_foward_matrix2,
-                                Matrixes.G4_reduction_matrix1,
-                                Matrixes.G4_reduction_matrix2,
-                                Matrixes.G4_noise_3x1_matrix);
+                        return new DngProfile(64, 4208, 3120, Plain, RGGB, 0, imx214matrix);
                     case Jiayu_S3:
-                        return new DngProfile(64, 4208, 3120, Plain, BGGR, 0, Matrixes.imx214_identity_matrix1, Matrixes.imx214_identity_matrix2, Matrixes.Nexus6_identity_neutra,
-                                Matrixes.imx214_foward_matrix1,
-                                Matrixes.imx214_foward_matrix2,
-                                Matrixes.G4_reduction_matrix1,
-                                Matrixes.G4_reduction_matrix2,
-                                Matrixes.G4_noise_3x1_matrix);
+                        return new DngProfile(64, 4208, 3120, Plain, BGGR, 0,
+                                imx214matrix);
                 }
             case 26357760: //oneplus
                 return new DngProfile(16,4224 ,3120 ,Plain, BGGR, 0,
-                        Matrixes.Nexus6_identity_matrix1,
-                        Matrixes.Nexus6_identity_matrix2,
-                        Matrixes.Nexus6_identity_neutra,
-                        Matrixes.Nexus6_foward_matrix1,
-                        Matrixes.Nexus6_foward_matrix2,
-                        Matrixes.Nexus6_reduction_matrix1,
-                        Matrixes.Nexus6_reduction_matrix2,
-                        Matrixes.Nexus6_noise_3x1_matrix);
+                        nexus6Matrix);
             case 16473600: //oneplus
                 return new DngProfile(16,4224 ,3120 ,Mipi, BGGR, 5280,
-                        Matrixes.Nexus6_identity_matrix1,
-                        Matrixes.Nexus6_identity_matrix2,
-                        Matrixes.Nexus6_identity_neutra,
-                        Matrixes.Nexus6_foward_matrix1,
-                        Matrixes.Nexus6_foward_matrix2,
-                        Matrixes.Nexus6_reduction_matrix1,
-                        Matrixes.Nexus6_reduction_matrix2,
-                        Matrixes.Nexus6_noise_3x1_matrix);
+                        nexus6Matrix);
             case 6299648: {
                 return new DngProfile(16, 2592, 1944, Mipi, BGGR, 0,
-                        Matrixes.OV_matrix1,
-                        Matrixes.OV_matrix2,
-                        Matrixes.OV_ASSHOT,
-                        Matrixes.OV_Foward,
-                        Matrixes.OV_Foward2,
-                        Matrixes.Nexus6_reduction_matrix1,
-                        Matrixes.Nexus6_reduction_matrix2,
-                        Matrixes.OV_NREDUCTION_Matrix);
+                        ovMatrix);
             }
             case 6746112:// Htc One SV
                 return new Nexus6Profile(64, 2592, 1944, Qcom, GRBG, 0);
@@ -126,14 +89,14 @@ public class DngSupportedDevices
                         return new Nexus6Profile(64, 2592, 1296, Qcom, BGGR, 0);
                     case LenovoK910:
                         return new DngProfile(64, 2592, 1296, Qcom, BGGR, 0,
-                                Matrixes.nocal_color1,
+                                new CustomMatrix(Matrixes.nocal_color1,
                                 Matrixes.nocal_color2,
                                 Matrixes.nocal_nutral,
                                 Matrixes.Nexus6_foward_matrix1,
                                 Matrixes.Nexus6_foward_matrix2,
                                 Matrixes.Nexus6_reduction_matrix1,
                                 Matrixes.Nexus6_reduction_matrix2,
-                                Matrixes.Nexus6_noise_3x1_matrix);
+                                Matrixes.Nexus6_noise_3x1_matrix));
                     default:
                         return new Nexus6Profile(64, 2592, 1296, Qcom, BGGR, 0);
                 }
@@ -142,14 +105,7 @@ public class DngSupportedDevices
                 return new Nexus6Profile(0, 1584, 1184, Plain, GRBG, 0);
             case 9631728: //I_Mobile_I_StyleQ6
             return new DngProfile(0, 2532, 1902, Plain, GRBG, 0,
-                    Matrixes.OV_matrix1,
-                    Matrixes.OV_matrix2,
-                    Matrixes.OV_ASSHOT,
-                    Matrixes.OV_Foward,
-                    Matrixes.OV_Foward2,
-                    Matrixes.Nexus6_reduction_matrix1,
-                    Matrixes.Nexus6_reduction_matrix2,
-                    Matrixes.OV_NREDUCTION_Matrix);
+                    ovMatrix);
             case 9990144://e7 front mipi
                 return new Nexus6Profile(16, 3264, 2448, Mipi, BGGR, 4080);
             case 10782464: //HTC one xl
@@ -239,26 +195,12 @@ public class DngSupportedDevices
                     case OnePlusOne:
                         return new Nexus6Profile(64, 4212, 3082, Qcom, RGGB, getG3_rowSizeL);
                     case ZTE_ADV:
-                        return new DngProfile(64, 4212, 3120, Qcom, BGGR, getG3_rowSizeL, Matrixes.G4CCM1, Matrixes.G4CCM2, Matrixes.G4NM,
-                                Matrixes.G4_foward_matrix1,
-                                Matrixes.G4_foward_matrix2,
-                                Matrixes.G4_reduction_matrix1,
-                                Matrixes.G4_reduction_matrix2,
-                                Matrixes.G4_noise_3x1_matrix);
+                        return new DngProfile(64, 4212, 3120, Qcom, BGGR, getG3_rowSizeL, g4Matrix);
                     case ZTEADVIMX214:
-                        return new DngProfile(64, 4212, 3120, Qcom, RGGB, getG3_rowSizeL, Matrixes.Nexus6_identity_matrix1, Matrixes.Nexus6_identity_matrix2, Matrixes.Nexus6_identity_neutra,
-                                Matrixes.Nexus6_foward_matrix1,
-                                Matrixes.Nexus6_foward_matrix2,
-                                Matrixes.Nexus6_reduction_matrix1,
-                                Matrixes.Nexus6_reduction_matrix2,
-                                Matrixes.Nexus6_noise_3x1_matrix);
+                        return new DngProfile(64, 4212, 3120, Qcom, RGGB, getG3_rowSizeL, nexus6Matrix);
                     case LenovoK910:
-                        return new DngProfile(64, 4212, 3120, Qcom, BGGR, getG3_rowSizeL, Matrixes.G4CCM1, Matrixes.G4CCM2, Matrixes.G4NM,
-                                Matrixes.G4_foward_matrix1,
-                                Matrixes.G4_foward_matrix2,
-                                Matrixes.G4_reduction_matrix1,
-                                Matrixes.G4_reduction_matrix2,
-                                Matrixes.G4_noise_3x1_matrix);
+                        return new DngProfile(64, 4212, 3120, Qcom, BGGR, getG3_rowSizeL,
+                                g4Matrix);
                     case LG_G3:
                         return new Nexus6Profile(64, 4212, 3082, Qcom, BGGR, getG3_rowSizeL);
                     case Yu_Yureka:
@@ -278,51 +220,23 @@ public class DngSupportedDevices
             case 19906560://e7mipi
                 //return new Nexus6Profile(0, 4608, 3456, Mipi, BGGR, 0);
             return new DngProfile(16, 4608, 3456, Mipi, BGGR, 0,
-                    Matrixes.OV_matrix1,
-                    Matrixes.OV_matrix2,
-                    Matrixes.OV_ASSHOT,
-                    Matrixes.OV_Foward,
-                    Matrixes.OV_Foward2,
-                    Matrixes.Nexus6_reduction_matrix1,
-                    Matrixes.Nexus6_reduction_matrix2,
-                    Matrixes.OV_NREDUCTION_Matrix);
+                    ovMatrix);
             case 19992576:  //lenovo k920
                 return new Nexus6Profile(64, 5328,3000, Mipi, GBRG, 0);
             case 19976192: //g4 bayer mipi camera1
                 return new DngProfile(64, 5312,2988,Mipi16, BGGR,0,
-                Matrixes.G4_identity_matrix1,
-                        Matrixes.G4_identity_matrix2,
-                        Matrixes.G4_identity_neutra,
-                        Matrixes.G4_foward_matrix1,
-                        Matrixes.G4_foward_matrix2,
-                        Matrixes.G4_reduction_matrix1,
-                        Matrixes.G4_reduction_matrix2,
-                        Matrixes.G4_noise_3x1_matrix);
+                g4Matrix);
             case 20389888: //xiaomi note3 pro
                 return new Nexus6Profile(64, 4632, 3480, Mipi16, GRBG, 0);
             case 21233664: //e7qcom
                 return new DngProfile(16, 4608, 3456, Qcom, BGGR, 0,
-                        Matrixes.OV_matrix1,
-                        Matrixes.OV_matrix2,
-                        Matrixes.OV_ASSHOT,
-                        Matrixes.OV_Foward,
-                        Matrixes.OV_Foward2,
-                        Matrixes.Nexus6_reduction_matrix1,
-                        Matrixes.Nexus6_reduction_matrix2,
-                        Matrixes.OV_NREDUCTION_Matrix);
+                        ovMatrix);
                // return new Nexus6Profile(0, 4608, 3456, Qcom, BGGR, 0);
             case 25677824://m9 mipi
                 return new Nexus6Profile(64, 5388, 3752, Mipi16, GRBG, 0);
             case 20041728:
                 return new DngProfile(64, 5344,3000,Mipi16, RGGB,0,
-                        Matrixes.G4_identity_matrix1,
-                        Matrixes.G4_identity_matrix2,
-                        Matrixes.G4_identity_neutra,
-                        Matrixes.G4_foward_matrix1,
-                        Matrixes.G4_foward_matrix2,
-                        Matrixes.G4_reduction_matrix1,
-                        Matrixes.G4_reduction_matrix2,
-                        Matrixes.G4_noise_3x1_matrix);
+                        g4Matrix);
             case 26023936: //THL 5000 MTK, Redmi note2
                 switch (device)
                 {
@@ -342,51 +256,27 @@ public class DngSupportedDevices
                 return new Nexus6Profile(64, 5388, 3752, Qcom, GRBG, 0);
             case 41312256: // Meizu MX4/5
                 return new Nexus6Profile(64, 5248, 3936, Plain, BGGR, 0);
-            case 5364240: //testing matrix
+            case 5364240: //testing matrix DEVICE????
                 return new DngProfile(0, 2688, 1520, Mipi, GRBG, HTCM8_rowSize,
-                        Matrixes.OV_matrix1,
+                        new CustomMatrix(Matrixes.OV_matrix1,
                         Matrixes.OV_matrix2,
                         Matrixes.OV_ASSHOT,
                         Matrixes.OV_Foward,
                         Matrixes.OV_Foward2,
                         Matrixes.Nexus6_reduction_matrix1,
                         Matrixes.Nexus6_reduction_matrix2,
-                        Matrixes.OV_NREDUCTION_Matrix);
+                        Matrixes.OV_NREDUCTION_Matrix));
 
 
         }
         if (device == Devices.LG_G4)
-            return new DngProfile(64, 5312,2988,Mipi, BGGR,0,
-                    Matrixes.G4_identity_matrix1,
-                    Matrixes.G4_identity_matrix2,
-                    Matrixes.G4_identity_neutra,
-                    Matrixes.G4_foward_matrix1,
-                    Matrixes.G4_foward_matrix2,
-                    Matrixes.G4_reduction_matrix1,
-                    Matrixes.G4_reduction_matrix2,
-                    Matrixes.G4_noise_3x1_matrix);
+            return new DngProfile(64, 5312,2988,Mipi, BGGR,0, g4Matrix);
         if (device == Devices.Htc_M8)
         {
             if (filesize < 6000000 && filesize > 5382641)
-            return new DngProfile(0, 2688, 1520, Qcom, GRBG, 0,
-                    Matrixes.OV_matrix1,
-                    Matrixes.OV_matrix2,
-                    Matrixes.OV_ASSHOT,
-                    Matrixes.OV_Foward,
-                    Matrixes.OV_Foward2,
-                    Matrixes.Nexus6_reduction_matrix1,
-                    Matrixes.Nexus6_reduction_matrix2,
-                    Matrixes.OV_NREDUCTION_Matrix);
+                return new DngProfile(0, 2688, 1520, Qcom, GRBG, 0, ovMatrix);
             else if (filesize <= 5382641 && filesize > 5000000)//M8 mipi
-                return new DngProfile(0, 2688, 1520, Mipi16, GRBG, HTCM8_rowSize,
-                        Matrixes.OV_matrix1,
-                        Matrixes.OV_matrix2,
-                        Matrixes.OV_ASSHOT,
-                        Matrixes.OV_Foward,
-                        Matrixes.OV_Foward2,
-                        Matrixes.Nexus6_reduction_matrix1,
-                        Matrixes.Nexus6_reduction_matrix2,
-                        Matrixes.OV_NREDUCTION_Matrix);
+                return new DngProfile(0, 2688, 1520, Mipi16, GRBG, HTCM8_rowSize,ovMatrix);
             return null;
         }
         return null;
@@ -401,16 +291,9 @@ public class DngSupportedDevices
         public int rawType;
         public String BayerPattern;
         public int rowsize;
-        public float[]matrix1;
-        public float[]matrix2;
-        public float[]neutral;
-        public float[]fowardmatrix1;
-        public float[]fowardmatrix2;
-        public float[]reductionmatrix1;
-        public float[]reductionmatrix2;
-        public float[]noiseprofile;
+        public CustomMatrix matrixes;
 
-        public DngProfile(int blacklevel,int widht, int height, int rawType, String bayerPattern, int rowsize, float[]matrix1, float[] matrix2, float[]neutral,float[]fmatrix1, float[] fmatrix2,float[]rmatrix1, float[] rmatrix2,float[]noise)
+        public DngProfile(int blacklevel,int widht, int height, int rawType, String bayerPattern, int rowsize, CustomMatrix matrixes)
         {
             this.blacklevel = blacklevel;
             this.widht = widht;
@@ -418,40 +301,23 @@ public class DngSupportedDevices
             this.rawType = rawType;
             this.BayerPattern = bayerPattern;
             this.rowsize = rowsize;
-            this.matrix1 = matrix1;
-            this.matrix2 = matrix2;
-            this.neutral = neutral;
-            this.fowardmatrix1 = fmatrix1;
-            this.fowardmatrix2 = fmatrix2;
-            this.reductionmatrix1 = rmatrix1;
-            this.reductionmatrix2 = rmatrix2;
-            this.noiseprofile = noise;
+            this.matrixes = matrixes;
         }
     }
 
     public DngProfile getProfile(int blacklevel,int widht, int height, int rawType, String bayerPattern, int rowsize, float[]matrix1, float[] matrix2, float[]neutral,float[]fmatrix1, float[] fmatrix2,float[]rmatrix1, float[] rmatrix2,float[]noise)
     {
-        return new DngProfile(blacklevel,widht,height,rawType,bayerPattern,rowsize,matrix1,matrix2,neutral,fmatrix1,fmatrix2,rmatrix1,rmatrix2,noise);
+        return new DngProfile(blacklevel,widht,height,rawType,bayerPattern,rowsize,new CustomMatrix(matrix1,matrix2,neutral,fmatrix1,fmatrix2,rmatrix1,rmatrix2,noise));
     }
 
     public class Nexus6Profile extends DngProfile
     {
         public Nexus6Profile(int blacklevel, int widht, int height, int rawType, String bayerPattern, int rowsize) {
-            super(blacklevel, widht, height, rawType, bayerPattern, rowsize, Matrixes.Nex6CCM1,
-                    Matrixes.Nex6CCM2,
-                    Matrixes.Nex6NM,
-                    Matrixes.Nexus6_foward_matrix1,
-                    Matrixes.Nexus6_foward_matrix2,
-                    Matrixes.Nexus6_reduction_matrix1,
-                    Matrixes.Nexus6_reduction_matrix2,
-                    Matrixes.Nexus6_noise_3x1_matrix);
+            super(blacklevel, widht, height, rawType, bayerPattern, rowsize, nexus6Matrix);
         }
     }
 
-    public DngProfile GetEmptyProfile()
-    {
-        return new DngProfile(0,0,0,0,"bggr",0,
-            Matrixes.Nex6CCM1,
+    public static final CustomMatrix nexus6Matrix = new CustomMatrix(Matrixes.Nex6CCM1,
             Matrixes.Nex6CCM2,
             Matrixes.Nex6NM,
             Matrixes.Nexus6_foward_matrix1,
@@ -459,6 +325,43 @@ public class DngSupportedDevices
             Matrixes.Nexus6_reduction_matrix1,
             Matrixes.Nexus6_reduction_matrix2,
             Matrixes.Nexus6_noise_3x1_matrix);
+
+    public static final CustomMatrix ovMatrix = new CustomMatrix(Matrixes.OV_matrix1,
+            Matrixes.OV_matrix2,
+            Matrixes.OV_ASSHOT,
+            Matrixes.OV_Foward,
+            Matrixes.OV_Foward2,
+            Matrixes.Nexus6_reduction_matrix1,
+            Matrixes.Nexus6_reduction_matrix2,
+            Matrixes.OV_NREDUCTION_Matrix);
+
+    public static final CustomMatrix g4Matrix = new CustomMatrix(Matrixes.G4_identity_matrix1,
+            Matrixes.G4_identity_matrix2,
+            Matrixes.G4_identity_neutra,
+            Matrixes.G4_foward_matrix1,
+            Matrixes.G4_foward_matrix2,
+            Matrixes.G4_reduction_matrix1,
+            Matrixes.G4_reduction_matrix2,
+            Matrixes.G4_noise_3x1_matrix);
+
+    public static final CustomMatrix imx214matrix = new CustomMatrix(Matrixes.imx214_identity_matrix1, Matrixes.imx214_identity_matrix2, Matrixes.Nexus6_identity_neutra,
+            Matrixes.imx214_foward_matrix1,
+            Matrixes.imx214_foward_matrix2,
+            Matrixes.G4_reduction_matrix1,
+            Matrixes.G4_reduction_matrix2,
+            Matrixes.G4_noise_3x1_matrix);
+
+    public DngProfile GetEmptyProfile()
+    {
+        return new DngProfile(0,0,0,0,"bggr",0,
+            new CustomMatrix(Matrixes.Nex6CCM1,
+            Matrixes.Nex6CCM2,
+            Matrixes.Nex6NM,
+            Matrixes.Nexus6_foward_matrix1,
+            Matrixes.Nexus6_foward_matrix2,
+            Matrixes.Nexus6_reduction_matrix1,
+            Matrixes.Nexus6_reduction_matrix2,
+            Matrixes.Nexus6_noise_3x1_matrix));
     }
     private static final int g3_blacklevel = 64;
     //16424960,4208,3120

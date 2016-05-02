@@ -116,7 +116,7 @@ public class DngConvertingFragment extends Fragment
             else if (dngprofile.BayerPattern.equals(DngSupportedDevices.GBRG))
                 spinnerColorPattern.setSelection(3);
 
-            if (dngprofile.matrix1.equals(Matrixes.Nex6CCM1))
+            if (dngprofile.matrixes.ColorMatrix1.equals(Matrixes.Nex6CCM1))
                 spinnerMatrixProfile.setSelection(0);
             else
                 spinnerMatrixProfile.setSelection(1);
@@ -127,24 +127,10 @@ public class DngConvertingFragment extends Fragment
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         switch (position) {
                             case 0:
-                                dngprofile.matrix1 = Matrixes.Nex6CCM1;
-                                dngprofile.matrix2 = Matrixes.Nex6CCM2;
-                                dngprofile.neutral = Matrixes.Nex6NM;
-                                dngprofile.fowardmatrix1 = Matrixes.Nexus6_foward_matrix1;
-                                dngprofile.fowardmatrix2 = Matrixes.Nexus6_foward_matrix2;
-                                dngprofile.reductionmatrix1 = Matrixes.Nexus6_reduction_matrix1;
-                                dngprofile.reductionmatrix1 = Matrixes.Nexus6_reduction_matrix2;
-                                dngprofile.noiseprofile = Matrixes.Nexus6_noise_3x1_matrix;
+                                dngprofile.matrixes = DngSupportedDevices.nexus6Matrix;
                                 break;
                             case 1:
-                                dngprofile.matrix1 = Matrixes.G4CCM1;
-                                dngprofile.matrix2 = Matrixes.G4CCM2;
-                                dngprofile.neutral = Matrixes.G4NM;
-                                dngprofile.fowardmatrix1 = Matrixes.G4_foward_matrix1;
-                                dngprofile.fowardmatrix2 = Matrixes.G4_foward_matrix2;
-                                dngprofile.reductionmatrix1 = Matrixes.G4_reduction_matrix1;
-                                dngprofile.reductionmatrix1 = Matrixes.G4_reduction_matrix2;
-                                dngprofile.noiseprofile = Matrixes.G4_noise_3x1_matrix;
+                                dngprofile.matrixes = DngSupportedDevices.g4Matrix;
                                 break;
                         }
                     }

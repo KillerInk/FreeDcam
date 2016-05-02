@@ -337,7 +337,10 @@ public class RawToDng
                 return;
             }
             SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
-            SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.fowardmatrix1,profile.fowardmatrix2,profile.reductionmatrix1,profile.reductionmatrix2,profile.noiseprofile,profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.rawType,profile.widht,profile.height);
+            SetBayerInfo(profile.matrixes.ColorMatrix1, profile.matrixes.ColorMatrix2, profile.matrixes.NeutralMatrix,
+                    profile.matrixes.ForwardMatrix1,profile.matrixes.ForwardMatrix2,
+                    profile.matrixes.ReductionMatrix1,profile.matrixes.ReductionMatrix2,profile.matrixes.NoiseReductionMatrix,
+                    profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.rawType,profile.widht,profile.height);
             WriteDNG(nativeHandler);
             RELEASE();
         }
@@ -348,7 +351,9 @@ public class RawToDng
         if (profile == null)
             return;
         SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
-        SetBayerInfo(profile.matrix1, profile.matrix2, profile.neutral,profile.fowardmatrix1,profile.fowardmatrix2,profile.reductionmatrix1,profile.reductionmatrix2,profile.noiseprofile,profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.rawType,profile.widht,profile.height);
+        SetBayerInfo(profile.matrixes.ColorMatrix1, profile.matrixes.ColorMatrix2, profile.matrixes.NeutralMatrix,
+                profile.matrixes.ForwardMatrix1,profile.matrixes.ForwardMatrix2,
+                profile.matrixes.ReductionMatrix1,profile.matrixes.ReductionMatrix2,profile.matrixes.NoiseReductionMatrix,profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.rawType,profile.widht,profile.height);
         WriteDNG(nativeHandler);
         RELEASE();
     }
