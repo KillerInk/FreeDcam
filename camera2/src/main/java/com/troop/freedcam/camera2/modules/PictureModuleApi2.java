@@ -34,6 +34,7 @@ import android.view.Display;
 import android.view.Surface;
 import android.view.WindowManager;
 
+import com.troop.androiddng.CustomMatrix;
 import com.troop.androiddng.DngSupportedDevices;
 import com.troop.androiddng.Matrixes;
 import com.troop.androiddng.RawToDng;
@@ -577,37 +578,59 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 cfaOut[3] = 2;
                 break;
         }
-        float[] color2  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2));
-        float[] color1 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1));
-        Rational[] n =  mDngResult.get(CaptureResult.SENSOR_NEUTRAL_COLOR_POINT);
+        float[] color2;
+        float[] color1;
         float[] neutral = new float[3];
-        neutral[0] = n[0].floatValue();
-        neutral[1] = n[1].floatValue();
-        neutral[2] = n[2].floatValue();
-        float[] forward2  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX2));
-        //0.820300f, -0.218800f, 0.359400f, 0.343800f, 0.570300f,0.093800f, 0.015600f, -0.726600f, 1.539100f
-        float[] forward1  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX1));
-        float[] reduction1 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM1));
-        float[] reduction2 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM2));
-        //noise
-        Pair[] p = mDngResult.get(CaptureResult.SENSOR_NOISE_PROFILE);
-        double[] noiseys = new double[p.length*2];
-        int i = 0;
-        for (int h = 0; h < p.length; h++)
-        {
-            noiseys[i++] = (double)p[h].first;
-            noiseys[i++] = (double)p[h].second;
+        float[] forward2;
+        float[] forward1;
+        float[] reduction1;
+        float[] reduction2;
+        float[]finalnoise;
+        String cmat = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTTING_CUSTOMMATRIX);
+        if (cmat != null && !cmat.equals("") &&!cmat.equals("off")) {
+            CustomMatrix mat  = new CustomMatrix();
+            color1 = mat.ColorMatrix1;
+            color2 = mat.ColorMatrix2;
+            neutral = mat.NeutralMatrix;
+            forward1 = mat.ForwardMatrix1;
+            forward2 = mat.ForwardMatrix2;
+            reduction1 = mat.ReductionMatrix1;
+            reduction2 = mat.ReductionMatrix2;
+            finalnoise = mat.NoiseReductionMatrix;
         }
-        double[] noise = new double[6];
-        int[] cfaPlaneColor = {0, 1, 2};
-        generateNoiseProfile(noiseys,cfaOut,4,cfaPlaneColor,3,noise);
-        float[]finalnoise = new float[6];
-        for (i = 0; i < noise.length; i++)
-            if (noise[i] > 2 || noise[i] < -2)
-                finalnoise[i] = 0;
-            else
-                finalnoise[i] = (float)noise[i];
-        //noise end
+        else
+        {
+            color1 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1));
+            color2 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2));
+            Rational[] n =  mDngResult.get(CaptureResult.SENSOR_NEUTRAL_COLOR_POINT);
+            neutral[0] = n[0].floatValue();
+            neutral[1] = n[1].floatValue();
+            neutral[2] = n[2].floatValue();
+            forward2  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX2));
+            //0.820300f, -0.218800f, 0.359400f, 0.343800f, 0.570300f,0.093800f, 0.015600f, -0.726600f, 1.539100f
+            forward1  = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_FORWARD_MATRIX1));
+            reduction1 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM1));
+            reduction2 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_CALIBRATION_TRANSFORM2));
+            //noise
+            Pair[] p = mDngResult.get(CaptureResult.SENSOR_NOISE_PROFILE);
+            double[] noiseys = new double[p.length*2];
+            int i = 0;
+            for (int h = 0; h < p.length; h++)
+            {
+                noiseys[i++] = (double)p[h].first;
+                noiseys[i++] = (double)p[h].second;
+            }
+            double[] noise = new double[6];
+            int[] cfaPlaneColor = {0, 1, 2};
+            generateNoiseProfile(noiseys,cfaOut,4,cfaPlaneColor,3,noise);
+            finalnoise = new float[6];
+            for (i = 0; i < noise.length; i++)
+                if (noise[i] > 2 || noise[i] < -2)
+                    finalnoise[i] = 0;
+                else
+                    finalnoise[i] = (float)noise[i];
+            //noise end
+        }
 
         DngSupportedDevices d = new DngSupportedDevices();
         DngSupportedDevices.DngProfile prof = d.getProfile(black,image.getWidth(), image.getHeight(), DngSupportedDevices.Mipi, colorpattern, 0,

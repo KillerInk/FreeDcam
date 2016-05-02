@@ -37,6 +37,7 @@ import com.troop.freedcam.camera2.parameters.modes.ToneMapModeApi2;
 import com.troop.freedcam.camera2.parameters.modes.VideoProfilesApi2;
 import com.troop.freedcam.camera2.parameters.modes.WhiteBalanceApi2;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
+import com.troop.freedcam.i_camera.parameters.MatrixChooserParameter;
 import com.troop.freedcam.i_camera.parameters.ModuleParameters;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
@@ -137,7 +138,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         //VideoSize = new VideoSizeModeApi2(uiHandler,cameraHolder);
         VideoProfiles = new VideoProfilesApi2(uiHandler,cameraHolder,(CameraUiWrapperApi2)wrapper);
         oismode = new OisModeApi2(uiHandler,cameraHolder);
-
+        matrixChooser = new MatrixChooserParameter(uiHandler);
 
         uiHandler.post(new Runnable() {
             @Override

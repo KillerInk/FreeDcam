@@ -28,6 +28,14 @@ public class CustomMatrix
 
     final public static String MEDIAPROFILESPATH = StringUtils.GetFreeDcamConfigFolder+"matrix/";
     private final String TAG = CustomMatrix.class.getSimpleName();
+    public CustomMatrix()
+    {
+        String CUSTOMATRIXNAME = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTTING_CUSTOMMATRIX);
+        File customMAtrix = new File(MEDIAPROFILESPATH+CUSTOMATRIXNAME);
+        if (customMAtrix.exists()) {
+            loadCustomMatrix(customMAtrix);
+        }
+    }
 
     public CustomMatrix(float[]matrix1, float[] matrix2, float[]neutral,float[]fmatrix1, float[] fmatrix2,float[]rmatrix1, float[] rmatrix2,float[]noise)
     {
