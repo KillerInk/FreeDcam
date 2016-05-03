@@ -14,7 +14,7 @@ import java.util.HashMap;
 public class FocusManualClassHandler
 {
     private static final String manual_focus_position = "manual-focus-position";
-    private static final String focusMode_manual = "manual";
+    public static final String focusMode_manual = "manual";
 
     private static final String cur_focus_scale = "cur-focus-scale";
     private static final String max_focus_pos_index =  "max-focus-pos-index";
@@ -54,18 +54,18 @@ public class FocusManualClassHandler
             return new BaseFocusManual(parameters,manual_focus_position,0,1023,focusMode_manual,parametersHandler,10,1);
         }
         else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4) || (DeviceUtils.IS(DeviceUtils.Devices.LG_G3) && Build.VERSION.SDK_INT < 21) || DeviceUtils.IS(DeviceUtils.Devices.LG_G2))
-            return new FocusManualParameterLG(parameters,"","","", cameraHolder, parametersHandler);
+            return new FocusManualParameterLG(parameters, "","", cameraHolder, parametersHandler);
         else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
-            return new FocusManualParameterHTC(parameters,"","","", cameraHolder,parametersHandler);
+            return new FocusManualParameterHTC(parameters, "","", cameraHolder,parametersHandler);
         else if(parameters.containsKey("afeng-max-focus-step") || parametersHandler.isMTK() || DeviceUtils.IS(DeviceUtils.Devices.SonyC5_MTK)||DeviceUtils.IS(DeviceUtils.Devices.SonyM5_MTK) ||DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote2_MTK))
             //return new FocusManualMTK(parameters,"afeng-pos","afeng-max-focus-step","afeng-min-focus-step", focusMode_manual,parametersHandler,10,0);
-            return  new FocusManualMTK(parameters,"afeng-pos",0,1023,focusMode_manual,parametersHandler,10,1);
+            return  new FocusManualMTK(parameters, 0,1023,focusMode_manual,parametersHandler,10,1);
         else if(parameters.containsKey("focus-fs-fi-max") && parameters.containsKey("focus-fs-fi-min") && parameters.containsKey("focus-fs-fi"))
-            return new FocusManualMTK(parameters,"focus-fs-fi","focus-fs-fi-max","focus-fs-fi-min", focusMode_manual,parametersHandler,10,0);
+            return new FocusManualMTK(parameters,"focus-fs-fi","focus-fs-fi-max","focus-fs-fi-min", parametersHandler,10,0);
         else if(DeviceUtils.IS(DeviceUtils.Devices.p8lite))
-            return new FocusManualKrillin(parameters,"hw-manual-focus-step-value","hw-vcm-end-value","hw-vcm-start-value", focusMode_manual,parametersHandler,10,0);
+            return new FocusManualKrillin(parameters, "hw-vcm-end-value","hw-vcm-start-value", focusMode_manual,parametersHandler,10,0);
         else if (parameters.containsKey("manual-focus-modes"))
-            return new FocusManual_QcomM(parameters,"manual-focus-position","max-focus-pos-ratio","min-focus-pos-ratio", parametersHandler,1);
+            return new FocusManual_QcomM(parameters, "max-focus-pos-ratio","min-focus-pos-ratio", parametersHandler,1);
         else
             return null;
 

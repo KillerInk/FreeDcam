@@ -1,12 +1,9 @@
 package troop.com.themesample.handler;
 
-import android.hardware.camera2.CameraCharacteristics;
 import android.view.View;
 import android.widget.TextView;
 
-import com.troop.freedcam.camera2.CameraUiWrapperApi2;
 import com.troop.freedcam.ui.AbstractInfoOverlayHandler;
-import com.troop.freedcam.ui.AppSettingsManager;
 
 import troop.com.themesample.R;
 
@@ -15,13 +12,13 @@ import troop.com.themesample.R;
  */
 public class SampleInfoOverlayHandler extends AbstractInfoOverlayHandler
 {
-    TextView tbattery;
-    TextView tsize;
-    TextView tformat;
-    TextView tTime;
-    TextView tStorage;
-    TextView tdngsupported;
-    TextView tbuidlmodel;
+    private TextView tbattery;
+    private TextView tsize;
+    private TextView tformat;
+    private TextView tTime;
+    private TextView tStorage;
+    private TextView tdngsupported;
+    private TextView tbuidlmodel;
     TextView tappversion;
     public SampleInfoOverlayHandler(View view)
     {

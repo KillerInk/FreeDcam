@@ -15,9 +15,9 @@ public class CDS_Mode_Parameter extends BaseModeParameter
 {
     final String TAG = CDS_Mode_Parameter.class.getSimpleName();
     final String[] cds_values = {"auto", "on", "off"};
-    public CDS_Mode_Parameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value, String values)
+    public CDS_Mode_Parameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value)
     {
-        super(handler,parameters, cameraHolder, value, values);
+        super(handler,parameters, cameraHolder, "", "");
         try {
             final String cds = parameters.get("cds-mode");
             if (cds != null && !cds.equals(""))

@@ -31,9 +31,9 @@ public class SimpleRemoteApi {
     private int mRequestId;
 
     public static final String SYSTEM= "system";
-    public static final String AVCONTENT = "avContent";
-    public static final String CAMERA = "camera";
-    public static final String GUIDE = "guide";
+    private static final String AVCONTENT = "avContent";
+    private static final String CAMERA = "camera";
+    private static final String GUIDE = "guide";
     public static final String ACCESSCONTROL = "accessControl";
 
     /**
@@ -79,7 +79,7 @@ public class SimpleRemoteApi {
         }
     }
 
-    public JSONObject executeGetMethod(String service, String method)throws IOException
+    private JSONObject executeGetMethod(String service, String method)throws IOException
     {
         try {
             JSONObject requestJson =
@@ -498,14 +498,13 @@ public class SimpleRemoteApi {
      * }
      * </pre>
      *
-     * @param cameraFunction camera function to set
      * @return JSON data of response
      * @throws java.io.IOException all errors and exception are wrapped by this
      *             Exception.
      */
-    public JSONObject setCameraFunction(String cameraFunction) throws IOException {
+    public JSONObject setCameraFunction() throws IOException {
         String service = CAMERA;
-        return executeSetMethod(service, "setCameraFunction", cameraFunction);
+        return executeSetMethod(service, "setCameraFunction", "Remote Shooting");
     }
 
     /**
@@ -530,7 +529,7 @@ public class SimpleRemoteApi {
         return getMethodTypes(service);
     }
 
-    public JSONObject getMethodTypes(String service) throws IOException
+    private JSONObject getMethodTypes(String service) throws IOException
     {
         return executeGetMethod(service, "getMethodTypes");
     }
@@ -781,8 +780,7 @@ public class SimpleRemoteApi {
      * @return return true if JSON has error. otherwise return false.
      */
     public static boolean isErrorReply(JSONObject replyJson) {
-        boolean hasError = (replyJson != null && replyJson.has("error"));
-        return hasError;
+        return (replyJson != null && replyJson.has("error"));
     }
 
 
@@ -814,7 +812,7 @@ public class SimpleRemoteApi {
         return getParameterFromService(valueToGet,service);
     }
 
-    public JSONObject getParameterFromService(String valueToGet, String service) throws IOException {
+    private JSONObject getParameterFromService(String valueToGet, String service) throws IOException {
         try {
             JSONObject requestJson =
                     new JSONObject().put("method", valueToGet) //
@@ -856,11 +854,11 @@ public class SimpleRemoteApi {
         }
     }
 
-    public JSONObject setLiveviewFrameInfo(boolean value) throws IOException
+    public JSONObject setLiveviewFrameInfo() throws IOException
     {
         String service = "camera";
         try {
-            return executeSetMethod(service, "setLiveviewFrameInfo",  new JSONArray().put(new JSONObject().put("frameInfo", value)));
+            return executeSetMethod(service, "setLiveviewFrameInfo",  new JSONArray().put(new JSONObject().put("frameInfo", true)));
         } catch (JSONException e) {
             throw new IOException(e);
         }

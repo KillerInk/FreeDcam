@@ -2,36 +2,27 @@ package troop.com.imageconverter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.ImageFormat;
-import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RSRuntimeException;
 import android.renderscript.RenderScript;
-import android.renderscript.ScriptC;
 import android.renderscript.Type;
 import android.view.Surface;
-import android.view.TextureView;
 
 import com.troop.filelogger.Logger;
-import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.Size;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
-import com.troop.freedcam.i_camera.parameters.ParameterExternalShutter;
-import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.FreeDPool;
-import com.troop.freedcam.ui.I_AspectRatio;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Date;
 
 import jni.staxxer.StaxxerJNI;
@@ -41,7 +32,7 @@ import jni.staxxer.StaxxerJNI;
  */
 public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I_ModuleEvent
 {
-    final String TAG = PreviewHandler.class.getSimpleName();
+    private final String TAG = PreviewHandler.class.getSimpleName();
 
 
     private int mHeight;
@@ -54,9 +45,9 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
     private ScriptC_imagestack_rgb_to_argb imagestack;
     private boolean enable = false;
     private boolean doWork = false;
-    Context context;
-    Size size;
-    boolean isWorking = false;
+    private Context context;
+    private Size size;
+    private boolean isWorking = false;
     private StaxxerJNI jpg2rgb;
 
     private Bitmap merged;
@@ -75,10 +66,10 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
        // clear_preview("Ctor");
     }
 
-    public void Enable(boolean enable)
+    public void Enable()
     {
-        Logger.d(TAG, "Enable:" + enable);
-        this.enable = enable;
+        Logger.d(TAG, "Enable:" + true);
+        this.enable = true;
         setEnable(this.enable);
     }
 

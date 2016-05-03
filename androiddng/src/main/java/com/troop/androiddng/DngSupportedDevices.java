@@ -9,9 +9,9 @@ public class DngSupportedDevices
 {
 
     public final static int Mipi = 0;
-    public final static int Qcom = 1;
-    public final static int Plain = 2;
-    public final static int Mipi16 = 3;
+    private final static int Qcom = 1;
+    private final static int Plain = 2;
+    private final static int Mipi16 = 3;
 
     public DngProfile getProfile(Devices device, int filesize)
     {
@@ -305,9 +305,9 @@ public class DngSupportedDevices
         }
     }
 
-    public DngProfile getProfile(int blacklevel,int widht, int height, int rawType, String bayerPattern, int rowsize, float[]matrix1, float[] matrix2, float[]neutral,float[]fmatrix1, float[] fmatrix2,float[]rmatrix1, float[] rmatrix2,float[]noise)
+    public DngProfile getProfile(int blacklevel, int widht, int height, String bayerPattern, int rowsize, float[] matrix1, float[] matrix2, float[] neutral, float[] fmatrix1, float[] fmatrix2, float[] rmatrix1, float[] rmatrix2, float[] noise)
     {
-        return new DngProfile(blacklevel,widht,height,rawType,bayerPattern,rowsize,new CustomMatrix(matrix1,matrix2,neutral,fmatrix1,fmatrix2,rmatrix1,rmatrix2,noise));
+        return new DngProfile(blacklevel,widht,height, DngSupportedDevices.Mipi,bayerPattern, 0,new CustomMatrix(matrix1,matrix2,neutral,fmatrix1,fmatrix2,rmatrix1,rmatrix2,noise));
     }
 
     public class Nexus6Profile extends DngProfile
@@ -326,7 +326,7 @@ public class DngSupportedDevices
             Matrixes.Nexus6_reduction_matrix2,
             Matrixes.Nexus6_noise_3x1_matrix);
 
-    public static final CustomMatrix ovMatrix = new CustomMatrix(Matrixes.OV_matrix1,
+    private static final CustomMatrix ovMatrix = new CustomMatrix(Matrixes.OV_matrix1,
             Matrixes.OV_matrix2,
             Matrixes.OV_ASSHOT,
             Matrixes.OV_Foward,
@@ -344,7 +344,7 @@ public class DngSupportedDevices
             Matrixes.G4_reduction_matrix2,
             Matrixes.G4_noise_3x1_matrix);
 
-    public static final CustomMatrix imx214matrix = new CustomMatrix(Matrixes.imx214_identity_matrix1, Matrixes.imx214_identity_matrix2, Matrixes.Nexus6_identity_neutra,
+    private static final CustomMatrix imx214matrix = new CustomMatrix(Matrixes.imx214_identity_matrix1, Matrixes.imx214_identity_matrix2, Matrixes.Nexus6_identity_neutra,
             Matrixes.imx214_foward_matrix1,
             Matrixes.imx214_foward_matrix2,
             Matrixes.G4_reduction_matrix1,

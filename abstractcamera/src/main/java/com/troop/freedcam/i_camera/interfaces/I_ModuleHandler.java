@@ -9,9 +9,9 @@ import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 public interface I_ModuleHandler
 {
 
-    public void SetModule(String name);
-    public String GetCurrentModuleName();
-    public AbstractModule GetCurrentModule();
-    public boolean DoWork();
-    public void SetWorkListner(AbstractModuleHandler.I_worker workerListner);
+    void SetModule(String name);
+    String GetCurrentModuleName();
+    AbstractModule GetCurrentModule();
+    boolean DoWork();
+    void SetWorkListner(AbstractModuleHandler.I_worker workerListner);
 }

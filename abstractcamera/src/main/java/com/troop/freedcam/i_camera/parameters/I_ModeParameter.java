@@ -3,7 +3,7 @@ package com.troop.freedcam.i_camera.parameters;
 /**
  * Created by troop on 17.08.2014.
  */
-public interface I_ModeParameter
+interface I_ModeParameter
 {
     boolean IsSupported();
 

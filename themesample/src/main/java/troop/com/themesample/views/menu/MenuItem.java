@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.I_swipe;
 import com.troop.freedcam.ui.SwipeMenuListner;
@@ -22,13 +21,13 @@ import troop.com.themesample.views.uichilds.UiSettingsChild;
  */
 public class MenuItem extends UiSettingsChild implements View.OnClickListener, I_swipe
 {
-    TextView description;
+    private TextView description;
 
-    LinearLayout toplayout;
+    private LinearLayout toplayout;
 
-    TextView headerText;
+    private TextView headerText;
 
-    SwipeMenuListner controlswipeListner;
+    private SwipeMenuListner controlswipeListner;
 
     public MenuItem(Context context) {
         super(context);

@@ -1,7 +1,5 @@
 package com.troop.freedcam.camera.parameters.manual;
 
-import android.util.Log;
-
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.parameters.modes.PictureFormatHandler;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;

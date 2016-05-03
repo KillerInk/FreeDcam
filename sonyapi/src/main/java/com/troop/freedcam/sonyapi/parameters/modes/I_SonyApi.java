@@ -7,5 +7,5 @@ import java.util.Set;
  */
 public interface I_SonyApi
 {
-    public void SonyApiChanged(Set<String> mAvailableCameraApiSet);
+    void SonyApiChanged(Set<String> mAvailableCameraApiSet);
 }

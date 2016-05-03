@@ -1,11 +1,7 @@
 package com.troop.freedcam.camera.parameters.manual;
 
-import android.os.Build;
-import android.util.Log;
-
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
-import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.util.HashMap;
@@ -15,7 +11,7 @@ import java.util.HashMap;
  */
 public class ShutterManual_ExposureTime_Micro extends BaseManualParameter
 {
-    final String TAG = ShutterManual_ExposureTime_Micro.class.getSimpleName();
+    private final String TAG = ShutterManual_ExposureTime_Micro.class.getSimpleName();
     /**
      * @param parameters
      * @param camParametersHandler

@@ -19,7 +19,7 @@ public class AbstractModeParameter implements I_ModeParameter
 
     public AbstractModeParameter(Handler uiHandler)
     {
-        events = new ArrayList<I_ModeParameterEvent>();
+        events = new ArrayList<>();
         this.uihandler = uiHandler;
     }
 

@@ -3,7 +3,6 @@ package troop.com.themesample.views;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -12,7 +11,6 @@ import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
-import com.troop.freedcam.ui.AppSettingsManager;
 
 import troop.com.themesample.R;
 import troop.com.themesample.handler.UserMessageHandler;
@@ -22,11 +20,11 @@ import troop.com.themesample.handler.UserMessageHandler;
  */
 public class ShutterButton extends Button implements I_ModuleEvent, AbstractModuleHandler.I_worker
 {
-    AbstractCameraUiWrapper cameraUiWrapper;
-    AnimationDrawable shutterOpenAnimation;
-    String TAG = ShutterButton.class.getSimpleName();
-    Showstate currentShow = Showstate.image_capture_stopped;
-    boolean contshot = false;
+    private AbstractCameraUiWrapper cameraUiWrapper;
+    private AnimationDrawable shutterOpenAnimation;
+    private String TAG = ShutterButton.class.getSimpleName();
+    private Showstate currentShow = Showstate.image_capture_stopped;
+    private boolean contshot = false;
 
     enum Showstate
     {
@@ -180,8 +178,8 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
 
     }
 
-    int workerCounter = 0;
-    int finishcounter = 0;
+    private int workerCounter = 0;
+    private int finishcounter = 0;
     @Override
     public void onWorkStarted()
     {
@@ -250,7 +248,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
 
     }
 
-    AbstractModeParameter.I_ModeParameterEvent contshotListner = new AbstractModeParameter.I_ModeParameterEvent() {
+    private AbstractModeParameter.I_ModeParameterEvent contshotListner = new AbstractModeParameter.I_ModeParameterEvent() {
         @Override
         public void onValueChanged(String val)
         {

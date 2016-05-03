@@ -11,11 +11,11 @@ import troop.com.imageviewer.screenslide.ScreenSlideFragment;
  */
 public class ScreenSlideActivity extends AbstractFragmentActivity
 {
-    final static String TAG = ScreenSlideActivity.class.getSimpleName();
+    private final static String TAG = ScreenSlideActivity.class.getSimpleName();
     public static final String EXTRA_IMAGE = "extra_image";
     public static final String IMAGE_PATH = "image_path";
     public static final String FileType = "filetype";
-    int extra = 0;
+    private int extra = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

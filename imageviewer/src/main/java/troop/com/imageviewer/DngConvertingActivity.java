@@ -15,11 +15,10 @@ import java.io.File;
  */
 public class DngConvertingActivity extends FragmentActivity implements I_Activity
 {
-    private AppSettingsManager appSettingsManager;
-    final String TAG = DngConvertingActivity.class.getSimpleName();
+    private final String TAG = DngConvertingActivity.class.getSimpleName();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        appSettingsManager = new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this), this);
+        new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(this), this);
         if (getSupportFragmentManager().findFragmentByTag(TAG) == null) {
             final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(android.R.id.content, new DngConvertingFragment(), TAG);

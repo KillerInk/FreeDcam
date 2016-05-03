@@ -1,11 +1,8 @@
 package com.troop.freedcam.i_camera.modules;
 
-import android.util.Log;
-
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_ModuleHandler;
-import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,23 +47,23 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
     public AbstractModuleHandler(AbstractCameraHolder cameraHolder)
     {
         this.cameraHolder = cameraHolder;
-        moduleList  = new HashMap<String, AbstractModule>();
+        moduleList  = new HashMap<>();
 
         moduleEventHandler = new ModuleEventHandler();
-        workers = new ArrayList<I_worker>();
-        PictureModules = new ArrayList<String>();
+        workers = new ArrayList<>();
+        PictureModules = new ArrayList<>();
         PictureModules.add(MODULE_PICTURE);
         PictureModules.add(MODULE_BURST);
         PictureModules.add(MODULE_HDR);
         //PictureModules.add();
-        VideoModules = new ArrayList<String>();
+        VideoModules = new ArrayList<>();
         VideoModules.add(MODULE_VIDEO);
-        AllModules = new ArrayList<String>();
+        AllModules = new ArrayList<>();
         AllModules.add(MODULE_ALL);
-        LongeExpoModules = new ArrayList<String>();
+        LongeExpoModules = new ArrayList<>();
         LongeExpoModules.add(MODULE_LONGEXPO);
 
-        HDRModule = new ArrayList<String>();
+        HDRModule = new ArrayList<>();
         HDRModule.add(MODULE_HDR);
 
         workerListner = new I_worker() {

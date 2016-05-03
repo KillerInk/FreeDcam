@@ -7,9 +7,9 @@ import com.troop.freedcam.ui.AppSettingsManager;
  */
 public class ParameterExternalShutter extends AbstractModeParameter
 {
-    public static String VoLP = "Vol+";
-    public static String VoLM = "Vol-";
-    public static String Hook = "Hook";
+    private static String VoLP = "Vol+";
+    private static String VoLM = "Vol-";
+    private static String Hook = "Hook";
 
     private String[] values = {VoLP, VoLM, Hook};
 

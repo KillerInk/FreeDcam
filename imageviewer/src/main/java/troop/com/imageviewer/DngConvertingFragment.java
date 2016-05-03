@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.app.Fragment;
 import android.support.v4.provider.DocumentFile;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,18 +37,18 @@ import java.io.IOException;
 public class DngConvertingFragment extends Fragment
 {
     final String TAG = DngConvertingFragment.class.getSimpleName();
-    View view;
-    EditText editTextwidth;
-    EditText editTextheight;
-    EditText editTextblacklvl;
-    Spinner spinnerMatrixProfile;
-    Spinner spinnerColorPattern;
-    Spinner spinnerrawFormat;
-    Button buttonconvertToDng;
-    String[] filesToConvert;
-    DngSupportedDevices.DngProfile dngprofile;
-    Handler handler;
-    Button closeButton;
+    private View view;
+    private EditText editTextwidth;
+    private EditText editTextheight;
+    private EditText editTextblacklvl;
+    private Spinner spinnerMatrixProfile;
+    private Spinner spinnerColorPattern;
+    private Spinner spinnerrawFormat;
+    private Button buttonconvertToDng;
+    private String[] filesToConvert;
+    private DngSupportedDevices.DngProfile dngprofile;
+    private Handler handler;
+    private Button closeButton;
 
     public static final String EXTRA_FILESTOCONVERT = "extra_files_to_convert";
     @Override
@@ -232,8 +231,6 @@ public class DngConvertingFragment extends Fragment
             data = RawToDng.readFile(file);
             Logger.d("Main", "Filesize: " + data.length + " File:" + file.getAbsolutePath());
 
-        } catch (FileNotFoundException e) {
-            Logger.exception(e);
         } catch (IOException e) {
             Logger.exception(e);
         }
@@ -248,17 +245,13 @@ public class DngConvertingFragment extends Fragment
             dng.SetBayerData(data, out);
         else
         {
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true,AppSettingsManager.APPSETTINGSMANAGER);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(AppSettingsManager.APPSETTINGSMANAGER);
             DocumentFile wr = df.createFile("image/dng", file.getName().replace(StringUtils.FileEnding.JPG, StringUtils.FileEnding.DNG));
             ParcelFileDescriptor pfd = null;
             try {
 
                 pfd = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
-            } catch (FileNotFoundException e) {
-                Logger.exception(e);
-            }
-            catch (IllegalArgumentException e)
-            {
+            } catch (FileNotFoundException | IllegalArgumentException e) {
                 Logger.exception(e);
             }
             if (pfd != null) {

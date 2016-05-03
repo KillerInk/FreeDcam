@@ -21,7 +21,7 @@ public class SurfaceNativeDrawActivity extends Activity implements SurfaceHolder
 
     private static native void drawFromNative(int data[], Surface surface,int w,int h);
 
-    SurfaceView surfaceView;
+    private SurfaceView surfaceView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

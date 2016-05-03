@@ -1,21 +1,18 @@
 package com.troop.freedcam.camera.modules;
 
 
-import android.util.Log;
-
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.IntervalModule;
-import com.troop.freedcam.ui.AppSettingsManager;
 
 /**
  * Created by troop on 16.08.2014.
  */
 public class ModuleHandler extends AbstractModuleHandler
 {
-    BaseCameraHolder cameraHolder;
+    private BaseCameraHolder cameraHolder;
     private static String TAG = "freedcam.ModuleHandler";
 
     public  ModuleHandler (AbstractCameraHolder cameraHolder)
@@ -61,8 +58,8 @@ public class ModuleHandler extends AbstractModuleHandler
         }
 
         Logger.d(TAG, "load hdr module");
-        HdrModule hdrModule = new HdrModule(this.cameraHolder, moduleEventHandler);
-        moduleList.put(hdrModule.ModuleName(), hdrModule);
+        BracketModule bracketModule = new BracketModule(this.cameraHolder, moduleEventHandler);
+        moduleList.put(bracketModule.ModuleName(), bracketModule);
 
         StackingModule sTax = new StackingModule(this.cameraHolder, moduleEventHandler);
         moduleList.put(sTax.ModuleName(),sTax);
@@ -70,8 +67,6 @@ public class ModuleHandler extends AbstractModuleHandler
         //BurstModule burstModule = new BurstModule(this.cameraHolder, soundPlayer, appSettingsManager, moduleEventHandler);
         //moduleList.put(burstModule.ModuleName(), burstModule);
 
-        //LongExposureModule longExposureModule = new LongExposureModule(this.cameraHolder, appSettingsManager, moduleEventHandler);
-        //moduleList.put(longExposureModule.ModuleName(), longExposureModule);
     }
 
 }

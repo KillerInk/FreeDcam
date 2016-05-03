@@ -1,6 +1,5 @@
 package com.troop.freedcam.sonyapi;
 
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.troop.filelogger.Logger;
@@ -15,13 +14,13 @@ import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
  */
 public class FocusHandlerSony extends AbstractFocusHandler implements I_Callbacks.AutoFocusCallback
 {
-    CameraUiWrapperSony cameraUiWrapper;
-    CameraHolderSony cameraHolder;
-    ParameterHandlerSony parametersHandler;
+    private CameraUiWrapperSony cameraUiWrapper;
+    private CameraHolderSony cameraHolder;
+    private ParameterHandlerSony parametersHandler;
     private static String TAG = FocusHandlerSony.class.getSimpleName();
 
-    boolean isFocusing = false;
-    boolean isFocusLocked = false;
+    private boolean isFocusing = false;
+    private boolean isFocusLocked = false;
 
     public FocusHandlerSony(CameraUiWrapperSony cameraUiWrapper)
     {

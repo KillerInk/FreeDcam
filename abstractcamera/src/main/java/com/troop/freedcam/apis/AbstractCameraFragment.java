@@ -2,24 +2,21 @@ package com.troop.freedcam.apis;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
-import com.troop.freedcam.ui.AppSettingsManager;
 
 /**
  * Created by troop on 06.06.2015.
  */
 public abstract class AbstractCameraFragment extends Fragment
 {
-    final static String TAG = AbstractCameraFragment.class.getSimpleName();
+    private final String TAG = AbstractCameraFragment.class.getSimpleName();
 
-    protected AbstractCameraUiWrapper cameraUiWrapper;
+    AbstractCameraUiWrapper cameraUiWrapper;
     protected View view;
     protected CamerUiWrapperRdy onrdy;
     public AbstractCameraFragment()

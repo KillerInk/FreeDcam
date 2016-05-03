@@ -25,14 +25,15 @@ import java.io.OutputStream;
 public class RenderScriptArgbActivity extends Activity
 {
     final String TAG = RenderScriptArgbActivity.class.getSimpleName();
-    RenderScript mRS;
+    private RenderScript mRS;
     private Allocation mInputAllocation;
     private Allocation mOutputAllocation;
-    ImageView imageView;
-    Bitmap orginal;
-    Bitmap drawBitmap;
-    int w,h;
-    ScriptC_focuspeak_argb focuspeak_argb;
+    private ImageView imageView;
+    private Bitmap orginal;
+    private Bitmap drawBitmap;
+    private int w;
+    private int h;
+    private ScriptC_focuspeak_argb focuspeak_argb;
 
 
     @Override
@@ -50,7 +51,7 @@ public class RenderScriptArgbActivity extends Activity
         focuspeak_argb.forEach_peak(mOutputAllocation);
         mOutputAllocation.copyTo(drawBitmap);
         imageView.setImageBitmap(drawBitmap);
-        saveBitmap(drawBitmap, "testargb.jpg");
+        saveBitmap(drawBitmap);
 
     }
 
@@ -71,11 +72,11 @@ public class RenderScriptArgbActivity extends Activity
         //mScriptFocusPeak = new ScriptC_focus_peak(mRS);
     }
 
-    private void saveBitmap(Bitmap bimap, String filename)
+    private void saveBitmap(Bitmap bimap)
     {
         String path = Environment.getExternalStorageDirectory().toString();
         OutputStream fOut = null;
-        File file = new File(path, filename); // the File to save to
+        File file = new File(path, "testargb.jpg"); // the File to save to
         try {
             fOut = new FileOutputStream(file);
             bimap.compress(Bitmap.CompressFormat.JPEG, 85, fOut); // saving the Bitmap to a file compressed as a JPEG with 85% compression rate

@@ -19,7 +19,6 @@ import com.troop.freedcam.i_camera.parameters.ParameterExternalShutter;
 import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_swipe;
-import com.troop.freedcam.ui.SwipeMenuListner;
 
 import troop.com.themesample.R;
 import troop.com.themesample.views.menu.MenuItem;
@@ -33,7 +32,6 @@ import troop.com.themesample.views.menu.MenuItemSaveCamParams;
 import troop.com.themesample.views.menu.MenuItemTheme;
 import troop.com.themesample.views.menu.MenuItemTimeLapseFrames;
 import troop.com.themesample.views.menu.MenuItemTimer;
-import troop.com.themesample.views.menu.MenuItemVideoBitrate;
 import troop.com.themesample.views.menu.MenuItemVideoProfile;
 import troop.com.themesample.views.menu.MenuItem_VideoProfEditor;
 import troop.com.themesample.views.uichilds.UiSettingsChild;
@@ -44,7 +42,7 @@ import troop.com.themesample.views.uichilds.UiSettingsChild;
 public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_MenuItemClick, I_swipe
 {
 
-    final boolean DEBUG = false;
+    private final boolean DEBUG = false;
     private MenuItemTheme themeItem;
     private MenuItem bayerFormatItem;
     private MenuItem opcode;
@@ -153,7 +151,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         videoStabilization.SetStuff(i_activity, AppSettingsManager.SETTING_VIDEOSTABILIZATION);
 
         timeLapseFrames = (MenuItemTimeLapseFrames) view.findViewById(troop.com.themesample.R.id.MenuItemTimeLapseFrame);
-        timeLapseFrames.SetStuff(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME);
+        timeLapseFrames.SetStuff();
 
         saveCamParams = (MenuItemSaveCamParams)view.findViewById(R.id.MenuItemSaveParams);
 
@@ -222,7 +220,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         guide.SetParameter(wrapper.camParametersHandler.GuideList);
         guide.SetMenuItemListner(this);
 
-        api.SetParameter(new ApiParameter(null, i_activity));
+        api.SetParameter(new ApiParameter(i_activity));
         api.SetMenuItemListner(this);
 
         externalShutter.SetParameter(new ParameterExternalShutter());
@@ -265,7 +263,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         if (wrapper instanceof CameraUiWrapper) {
 
             timeLapseFrames.setVisibility(View.VISIBLE);
-            timeLapseFrames.SetStuff(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME);
+            timeLapseFrames.SetStuff();
             videoProfileEditor.setVisibility(View.VISIBLE);
         }
         else if (wrapper instanceof CameraUiWrapperApi2)

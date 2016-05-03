@@ -3,7 +3,6 @@ package com.troop.freedcam.sonyapi;
 import android.content.Context;
 import android.location.Location;
 import android.os.Handler;
-import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
@@ -329,9 +328,9 @@ public class CameraHolderSony extends AbstractCameraHolder
 
     private SimpleRemoteApi mRemoteApi;
 
-    private final Set<String> mAvailableCameraApiSet = new HashSet<String>();
+    private final Set<String> mAvailableCameraApiSet = new HashSet<>();
 
-    private final Set<String> mSupportedApiSet = new HashSet<String>();
+    private final Set<String> mSupportedApiSet = new HashSet<>();
     private SimpleStreamSurfaceView mLiveviewSurface;
 
     public ParameterHandlerSony ParameterHandler;
@@ -507,7 +506,7 @@ public class CameraHolderSony extends AbstractCameraHolder
                             startOpenConnectionAfterChangeCameraState();
 
                             // set Camera function to Remote Shooting
-                            replyJson = mRemoteApi.setCameraFunction("Remote Shooting");
+                            replyJson = mRemoteApi.setCameraFunction();
                         }
                     }
                 } catch (IOException e) {
@@ -975,7 +974,7 @@ public class CameraHolderSony extends AbstractCameraHolder
             @Override
             public void run() {
                 try {
-                    mRemoteApi.setLiveviewFrameInfo(true);
+                    mRemoteApi.setLiveviewFrameInfo();
                 } catch (IOException e) {
                     Logger.exception(e);
                 }

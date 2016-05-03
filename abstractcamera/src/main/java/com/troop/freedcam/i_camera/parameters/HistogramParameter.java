@@ -12,10 +12,10 @@ import com.troop.freedcam.utils.StringUtils;
  */
 public class HistogramParameter extends AbstractModeParameter
 {
-    I_Activity i_activity;
-    AppSettingsManager appSettingsManager;
-    AbstractCameraUiWrapper cameraUiWrapper;
-    boolean isSupported = false;
+    private I_Activity i_activity;
+    private AppSettingsManager appSettingsManager;
+    private AbstractCameraUiWrapper cameraUiWrapper;
+    private boolean isSupported = false;
 
     public HistogramParameter(Handler uiHandler, I_Activity i_activity, AppSettingsManager appSettingsManager, AbstractCameraUiWrapper cameraUiWrapper) {
         super(uiHandler);

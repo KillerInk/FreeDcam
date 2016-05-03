@@ -1,7 +1,6 @@
 package com.troop.freedcam.sonyapi.parameters.modes;
 
 import android.os.Handler;
-import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;

@@ -15,8 +15,8 @@ public class ShutterManualMtk extends BaseManualParameter
     //return cameraController.getStringCameraParameter("shutter-threshold");
     */
     private static String TAG = ShutterManualMtk.class.getSimpleName();
-    I_CameraHolder baseCameraHolder;
-    AE_Handler_MTK.AeManualEvent manualevent;
+    private I_CameraHolder baseCameraHolder;
+    private AE_Handler_MTK.AeManualEvent manualevent;
 
     public ShutterManualMtk(HashMap<String, String> parameters, I_CameraHolder baseCameraHolder, AbstractParameterHandler camParametersHandler, AE_Handler_MTK.AeManualEvent manualevent) {
         super(parameters, "", "", "", camParametersHandler,1);
@@ -94,7 +94,7 @@ public class ShutterManualMtk extends BaseManualParameter
         return String.valueOf(c);
     }
 
-    public String FLOATtoThirty(String a)
+    private String FLOATtoThirty(String a)
     {
         Float b =  Float.parseFloat(a);
         float c = b * 1000;

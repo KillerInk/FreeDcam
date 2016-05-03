@@ -2,7 +2,6 @@ package com.troop.freedcam.camera.parameters.manual;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
-import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,7 +69,7 @@ public class BaseCCTManual extends BaseManualParameter
     @Override
     protected String[] createStringArray(int min, int max, float step)
     {
-        ArrayList<String> t = new ArrayList<String>();
+        ArrayList<String> t = new ArrayList<>();
         t.add("Auto");
         for (int i = min; i<=max;i+=step)
         {

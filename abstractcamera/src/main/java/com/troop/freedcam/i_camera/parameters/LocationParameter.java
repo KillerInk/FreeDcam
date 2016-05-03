@@ -6,7 +6,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.troop.filelogger.Logger;
@@ -97,7 +96,7 @@ public class LocationParameter extends AbstractModeParameter implements Location
         }
     }
 
-    public void startLocationListing()
+    private void startLocationListing()
     {
         Logger.d("Location", "start location");
         boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -131,7 +130,7 @@ public class LocationParameter extends AbstractModeParameter implements Location
         }
         else
         {
-            Toast.makeText(AppSettingsManager.APPSETTINGSMANAGER.context, "Gps and Network are deactivated", Toast.LENGTH_LONG);
+            Toast.makeText(AppSettingsManager.APPSETTINGSMANAGER.context, "Gps and Network are deactivated", Toast.LENGTH_LONG).show();
             Logger.d("Location", "Gps and Network are deactivated");
         }
     }

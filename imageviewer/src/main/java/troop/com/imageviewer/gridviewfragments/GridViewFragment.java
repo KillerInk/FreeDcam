@@ -3,7 +3,6 @@ package troop.com.imageviewer.gridviewfragments;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -30,7 +29,6 @@ import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 
-
 import java.io.File;
 import java.util.ArrayList;
 
@@ -50,13 +48,12 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
     private ImageAdapter mPagerAdapter;
     //private List<FileHolder> files;
 
-    final String TAG = GridViewFragment.class.getSimpleName();
+    private final String TAG = GridViewFragment.class.getSimpleName();
 
     private Button deleteButton;
-    private ImageButton gobackButton;
     private Button filetypeButton;
     private Button rawToDngButton;
-    final String savedInstanceString = "lastpath";
+    private final String savedInstanceString = "lastpath";
     private String savedInstanceFilePath;
     private FormatTypes formatsToShow = FormatTypes.all;
     private FormatTypes lastFormat = FormatTypes.all;
@@ -92,7 +89,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         deleteButton.setVisibility(View.GONE);
         deleteButton.setOnClickListener(onDeltedButtonClick);
 
-        gobackButton = (ImageButton)view.findViewById(R.id.button_goback);
+        ImageButton gobackButton = (ImageButton) view.findViewById(R.id.button_goback);
         gobackButton.setOnClickListener(onGobBackClick);
 
         filetypeButton = (Button)view.findViewById(R.id.button_filetype);
@@ -248,7 +245,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         return  super.onItemLongClick(parent,view,position,id);
     }
 
-    public void showFileSelectionPopup(View v) {
+    private void showFileSelectionPopup(View v) {
         PopupMenu popup = new PopupMenu(this.getContext(), v);
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -369,7 +366,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
             }
             else if (requestMode == RequestModes.rawToDng)
             {
-                ArrayList<String> ar = new ArrayList<String>();
+                ArrayList<String> ar = new ArrayList<>();
                 for (FileHolder f : mPagerAdapter.getFiles()) {
                     if (f.IsSelected() &&
                        (f.getFile().getName().toLowerCase().endsWith(StringUtils.FileEnding.RAW) ||f.getFile().getName().toLowerCase().endsWith(StringUtils.FileEnding.BAYER))) {
@@ -464,7 +461,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
 /*
 DELTE FILES STUFF
  */
-    DialogInterface.OnClickListener dialogDeleteClickListener = new DialogInterface.OnClickListener() {
+private DialogInterface.OnClickListener dialogDeleteClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             switch (which){

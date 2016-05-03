@@ -11,10 +11,10 @@ import java.util.HashMap;
 public class ShutterManualKrillin extends BaseManualParameter {
 
     private static String TAG = "freedcam.ShutterManualKrillin";
-    I_CameraHolder baseCameraHolder;
+    private I_CameraHolder baseCameraHolder;
     //AE_Handler_LGG4.AeManualEvent manualevent;
 
-    public ShutterManualKrillin(HashMap<String, String> parameters, I_CameraHolder baseCameraHolder, AbstractParameterHandler camParametersHandler, AE_Handler_LGG4.AeManualEvent manualevent) {
+    public ShutterManualKrillin(HashMap<String, String> parameters, I_CameraHolder baseCameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, "", "", "", camParametersHandler, 1);
 
         this.baseCameraHolder = baseCameraHolder;
@@ -54,7 +54,7 @@ public class ShutterManualKrillin extends BaseManualParameter {
 
     }
 
-    public void setValue(int value) {
+    private void setValue(int value) {
 
         if (value == 0) {
             parameters.put("hw-hwcamera-flag", "on");

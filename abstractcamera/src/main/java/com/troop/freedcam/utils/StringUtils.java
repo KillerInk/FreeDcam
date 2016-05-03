@@ -1,23 +1,14 @@
 package com.troop.freedcam.utils;
 
-import android.app.Application;
-import android.content.Context;
-import android.content.Intent;
 import android.hardware.Camera;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.os.ParcelFileDescriptor;
-import android.os.storage.StorageManager;
-import android.support.v4.app.FragmentActivity;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
@@ -39,7 +30,7 @@ public class StringUtils
     }
 
 
-    public static String ShutterValues = "Auto,1/100000,1/90000,1/75000,1/50000,1/45000,1/30000,1/20000,1/12000,1/10000"+
+    private static String ShutterValues = "Auto,1/100000,1/90000,1/75000,1/50000,1/45000,1/30000,1/20000,1/12000,1/10000"+
             ",1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000"+
             ",1/800,1/700,1/600,1/500,1/400,1/300,1/200,1/125,1/100,1/80,1/70,1/60"+
             ",1/50,1/40,1/35,1/30,1/25,1/20,1/15,1/13,1/10,1/9,1/8,1/7,1/6,1/5,1/4,1/3,1/2,0.8"+
@@ -48,7 +39,7 @@ public class StringUtils
             ",30.0,31.0,32.0,33.0,35.0,36.0,37.0,38.0,39.0,40.0,41.0,42.0,43.0,44,45.0,46.0"+
             ",47.0,48.0,49.0,50.0,51.0,52.0,53.0,54.0,55.0,56.0,57.0,58.0,59.0,60.0,120.0,240.0";
 
-    public static String[] ShutterValuesArray()
+    private static String[] ShutterValuesArray()
     {
         return ShutterValues.split(",");
     }
@@ -180,7 +171,7 @@ public class StringUtils
 
     public static String[] getStringArrayFromCameraSizes(List<Camera.Size> sizes)
     {
-        List<String> stringList = new ArrayList<String>();
+        List<String> stringList = new ArrayList<>();
 
         for (int i = 0; i < sizes.size(); i++)
             stringList.add(sizes.get(i).width + "x" + sizes.get(i).height);
@@ -242,13 +233,13 @@ public class StringUtils
 
 
     private static final String ENV_ANDROID_STORAGE = "ANDROID_STORAGE";
-    public static final File DIR_ANDROID_STORAGE = getDirectory(ENV_ANDROID_STORAGE, "/storage");
+    public static final File DIR_ANDROID_STORAGE = getDirectory("/storage");
 
 
 
-    static File getDirectory(String variableName, String defaultPath) {
-        String path = System.getenv(variableName);
-        return path == null ? new File(defaultPath) : new File(path);
+    private static File getDirectory(String defaultPath) {
+        String path = System.getenv(StringUtils.ENV_ANDROID_STORAGE);
+        return path == null ? new File("/storage") : new File(path);
     }
 
     public static String TrimmFloatString(String toTrim)
@@ -340,9 +331,9 @@ public class StringUtils
         final public static String BAYER = "bayer";
         final public static String MP4 = "mp4";
 
-        public static String GetWithDot(String s)
+        public static String GetWithDot()
         {
-            return "."+s;
+            return "."+ FileEnding.BAYER;
         }
     }
 

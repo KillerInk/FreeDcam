@@ -1,7 +1,6 @@
 package com.troop.freedcam.camera.parameters.modes;
 
 import android.os.Handler;
-import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
@@ -14,11 +13,11 @@ import java.util.HashMap;
  */
 public class VideoSizeParameter extends BaseModeParameter
 {
-    String[] sizeString;
+    private String[] sizeString;
     public final String UHDSIZE = "3840x2160";
     private static String TAG = StringUtils.TAG + VideoSizeParameter.class.getSimpleName();
 
-    public VideoSizeParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values)
+    private VideoSizeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values)
     {
         super(handler,parameters, parameterChanged, value, values);
         String[] sizes = null;
@@ -41,10 +40,7 @@ public class VideoSizeParameter extends BaseModeParameter
                 Logger.exception(ex);
             }
         }
-        if (sizes == null || sizes.length == 0)
-            this.isSupported = false;
-        else
-            this.isSupported = true;
+        this.isSupported = !(sizes == null || sizes.length == 0);
     }
 
     @Override

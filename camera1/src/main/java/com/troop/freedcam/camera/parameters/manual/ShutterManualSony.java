@@ -2,7 +2,6 @@ package com.troop.freedcam.camera.parameters.manual;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
-import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.util.HashMap;
@@ -15,13 +14,12 @@ public class ShutterManualSony extends BaseManualParameter
     final String TAG = ShutterManualSony.class.getSimpleName();
     /**
      * @param parameters
-     * @param value
      * @param maxValue
      * @param MinValue
      * @param camParametersHandler
      */
-    public ShutterManualSony(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler,1);
+    public ShutterManualSony(HashMap<String, String> parameters, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
+        super(parameters, "", "", "", camParametersHandler,1);
         try {
             if (!parameters.get("sony-max-shutter-speed").equals(""))
             {

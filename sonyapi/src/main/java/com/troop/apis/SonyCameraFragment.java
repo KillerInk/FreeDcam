@@ -5,12 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -31,7 +29,7 @@ import com.troop.freedcam.sonyapi.sonystuff.WifiUtils;
  */
 public class SonyCameraFragment extends AbstractCameraFragment implements I_CameraChangedListner
 {
-    final String TAG = SonyCameraFragment.class.getSimpleName();
+    private final String TAG = SonyCameraFragment.class.getSimpleName();
     private SimpleStreamSurfaceView surfaceView;
     private WifiUtils wifiUtils;
     private WifiScanReceiver wifiReciever;
@@ -101,46 +99,43 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
             return;
         }
         setTextFromWifi("Search SSDP Client...");
-        if (true)//wifiUtils.getWifiConnected())
+        while (!wifiUtils.getWifiConnected())
         {
-            while (!wifiUtils.getWifiConnected())
-            {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    Logger.exception(e);
-                }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                Logger.exception(e);
             }
-            mSsdpClient.search(new SimpleSsdpClient.SearchResultHandler()
-            {
-                @Override
-                public void onDeviceFound(ServerDevice device)
-                {
-                    if(connected)
-                        return;
-                    setTextFromWifi("Found SSDP Client... Connecting");
-                    connected = true;
-                    cameraUiWrapper.serverDevice = device;
-                    cameraUiWrapper.StartCamera();
-                    hideTextViewWifi(true);
-                }
-                @Override
-                public void onFinished()
-                {
-                    if (cameraUiWrapper.serverDevice == null)
-                       setTextFromWifi("Cant find a sony remote Device");
-
-                }
-
-                @Override
-                public void onErrorFinished()
-                {
-                    if (cameraUiWrapper.serverDevice == null)
-                        setTextFromWifi("Error happend while searching for sony remote device \n pls restart remote");
-                    startScanning();
-                }
-            });
         }
+        mSsdpClient.search(new SimpleSsdpClient.SearchResultHandler()
+        {
+            @Override
+            public void onDeviceFound(ServerDevice device)
+            {
+                if(connected)
+                    return;
+                setTextFromWifi("Found SSDP Client... Connecting");
+                connected = true;
+                cameraUiWrapper.serverDevice = device;
+                cameraUiWrapper.StartCamera();
+                hideTextViewWifi(true);
+            }
+            @Override
+            public void onFinished()
+            {
+                if (cameraUiWrapper.serverDevice == null)
+                   setTextFromWifi("Cant find a sony remote Device");
+
+            }
+
+            @Override
+            public void onErrorFinished()
+            {
+                if (cameraUiWrapper.serverDevice == null)
+                    setTextFromWifi("Error happend while searching for sony remote device \n pls restart remote");
+                startScanning();
+            }
+        });
     }
 
     @Override
@@ -161,7 +156,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
 
     private void setupWrapper()
     {
-        this.cameraUiWrapper = new CameraUiWrapperSony(surfaceView);;
+        this.cameraUiWrapper = new CameraUiWrapperSony(surfaceView);
         cameraUiWrapper.SetCameraChangedListner(this);
         if (onrdy != null)
             onrdy.onCameraUiWrapperRdy(cameraUiWrapper);

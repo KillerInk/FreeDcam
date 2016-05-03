@@ -1,8 +1,6 @@
 package com.troop.freedcam.sonyapi.modules;
 
-import android.net.Uri;
 import android.support.v4.provider.DocumentFile;
-import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
@@ -28,8 +26,8 @@ import java.net.URL;
 public class PictureModuleSony extends AbstractModule implements I_PictureCallback, I_CameraStatusChanged
 {
     private static String TAG = PictureModuleSony.class.getSimpleName();
-    CameraHolderSony cameraHolder;
-    public PictureModuleSony() {
+    private CameraHolderSony cameraHolder;
+    private PictureModuleSony() {
         super();
     }
 
@@ -119,7 +117,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
                 output = new FileOutputStream(file);
             else
             {
-                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true,AppSettingsManager.APPSETTINGSMANAGER);
+                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(AppSettingsManager.APPSETTINGSMANAGER);
                 DocumentFile wr = df.createFile("image/jpeg", file.getName());
                 output = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri());
             }

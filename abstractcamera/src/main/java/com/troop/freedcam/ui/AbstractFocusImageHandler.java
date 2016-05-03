@@ -22,7 +22,7 @@ public abstract class AbstractFocusImageHandler implements I_Focus
      * @param view the view that contains the focus imageviews
      * @param fragment the toplayerd fragment wich create this
      */
-    public AbstractFocusImageHandler(View view, Fragment fragment)
+    protected AbstractFocusImageHandler(View view, Fragment fragment)
     {
         this.fragment = fragment;
     }

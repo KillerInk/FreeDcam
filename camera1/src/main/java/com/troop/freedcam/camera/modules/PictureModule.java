@@ -1,8 +1,5 @@
 package com.troop.freedcam.camera.modules;
 
-import android.os.Build;
-import android.os.Handler;
-
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.modules.image_saver.DngSaver;
 import com.troop.freedcam.camera.modules.image_saver.I_WorkeDone;
@@ -17,7 +14,6 @@ import com.troop.freedcam.manager.MediaScannerManager;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.FreeDPool;
 import com.troop.freedcam.utils.DeviceUtils;
-import com.troop.freedcam.utils.MetaDataExtractor;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -33,7 +29,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
 
     private static String TAG = PictureModule.class.getSimpleName();
     boolean dngcapture = false;
-    int burstcount = 0;
+    private int burstcount = 0;
     ////////////
 //defcomg 31-1-2015 Pull Orientation From Sesnor
 
@@ -82,7 +78,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
                     @Override
                     public void run() {
                         burstcount = 0;
-                        baseCameraHolder.TakePicture(null,null, burstCallback);
+                        baseCameraHolder.TakePicture(null, burstCallback);
                     }
                 });
 
@@ -100,7 +96,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
                     DngSaver dngSaver = new DngSaver(baseCameraHolder, this);
                     dngSaver.TakePicture();
                 }
-                else if (ParameterHandler.IsDngActive() == false && (picFormat.equals(StringUtils.FileEnding.BAYER) || picFormat.equals(StringUtils.FileEnding.RAW))) {
+                else if (!ParameterHandler.IsDngActive() && (picFormat.equals(StringUtils.FileEnding.BAYER) || picFormat.equals(StringUtils.FileEnding.RAW))) {
                     final RawSaver rawSaver = new RawSaver(baseCameraHolder, this);
                     rawSaver.TakePicture();
                 }
@@ -124,7 +120,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
         if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported() && !ParameterHandler.VideoHDR.GetValue().equals("off"))
             ParameterHandler.VideoHDR.SetValue("off", true);
         if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
-            ((CamParametersHandler)ParameterHandler).SetZTESlowShutter("-1");
+            ((CamParametersHandler)ParameterHandler).SetZTESlowShutter();
     }
 
     @Override
@@ -133,13 +129,13 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
     }
 
 
-    protected void startworking()
+    void startworking()
     {
         isWorking = true;
         workstarted();
     }
 
-    protected void stopworking()
+    void stopworking()
     {
         isWorking = false;
         workfinished(true);
@@ -162,7 +158,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
 
     }
 
-    I_Callbacks.PictureCallback burstCallback = new I_Callbacks.PictureCallback() {
+    private I_Callbacks.PictureCallback burstCallback = new I_Callbacks.PictureCallback() {
         @Override
         public void onPictureTaken(final byte[] data)
         {
@@ -189,7 +185,7 @@ public class PictureModule extends AbstractModule implements I_WorkeDone {
         }
     };
 
-    I_WorkeDone burstDone = new I_WorkeDone() {
+    private I_WorkeDone burstDone = new I_WorkeDone() {
         @Override
         public void OnWorkDone(File file) {
             MediaScannerManager.ScanMedia(AppSettingsManager.APPSETTINGSMANAGER.context.getApplicationContext(), file);

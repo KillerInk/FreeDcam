@@ -1,59 +1,34 @@
 package troop.com.imageviewer.screenslide;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.ParcelFileDescriptor;
 import android.support.v4.app.Fragment;
-import android.support.v4.provider.DocumentFile;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.drew.imaging.jpeg.JpegMetadataReader;
-import com.drew.imaging.jpeg.JpegProcessingException;
-import com.drew.metadata.Directory;
-import com.drew.metadata.Metadata;
-import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.ortiz.touch.TouchImageView;
-import com.troop.androiddng.RawToDng;
 import com.troop.filelogger.Logger;
-import com.troop.freedcam.manager.MediaScannerManager;
-import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.FreeDPool;
-import com.troop.freedcam.ui.I_Activity;
-import com.troop.freedcam.utils.FileUtils;
-import com.troop.freedcam.utils.StringUtils;
 
-import java.io.EOFException;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import troop.com.imageviewer.BitmapHelper;
 import troop.com.imageviewer.R;
 import troop.com.imageviewer.holder.FileHolder;
-import troop.com.views.MyHistogram;
 
 /**
  * Created by troop on 21.08.2015.
  */
 public class ImageFragment extends Fragment
 {
-    final String TAG = ImageFragment.class.getSimpleName();
+    private final String TAG = ImageFragment.class.getSimpleName();
     private TouchImageView imageView;
     private FileHolder file;
     private int mImageThumbSize = 0;
     private ScreenSlideFragment.FragmentClickClistner onClickListener;
-    private int tag;
     private ProgressBar progressBar;
 
     public void SetFilePath(FileHolder filepath)
@@ -164,6 +139,6 @@ public class ImageFragment extends Fragment
     }
 
     public void setTag(int tag) {
-        this.tag = tag;
+        int tag1 = tag;
     }
 }

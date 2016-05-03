@@ -1,9 +1,7 @@
 package com.troop.freedcam.i_camera.parameters;
 
 import android.os.Handler;
-import android.os.ParcelFileDescriptor;
 
-import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -24,7 +22,7 @@ public class MatrixChooserParameter extends AbstractModeParameter
         if (!confFolder.exists())
             confFolder.mkdir();
         File[] files = confFolder.listFiles();
-        List<String> tmp = new ArrayList<String>();
+        List<String> tmp = new ArrayList<>();
         tmp.add("off");
         if(files == null || files.length == 0)
         {

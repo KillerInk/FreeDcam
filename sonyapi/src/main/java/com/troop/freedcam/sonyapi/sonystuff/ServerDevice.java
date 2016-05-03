@@ -5,9 +5,6 @@
 package com.troop.freedcam.sonyapi.sonystuff;
 
 
-
-import android.util.Log;
-
 import com.troop.filelogger.Logger;
 
 import java.io.IOException;
@@ -109,7 +106,7 @@ public final class ServerDevice {
     private final List<ApiService> mApiServices;
 
     private ServerDevice() {
-        mApiServices = new ArrayList<ServerDevice.ApiService>();
+        mApiServices = new ArrayList<>();
     }
 
     /**
@@ -182,15 +179,14 @@ public final class ServerDevice {
     /**
      * Checks to see whether the server supports the category.
      * 
-     * @param serviceName category name
      * @return true if it's supported.
      */
-    public boolean hasApiService(String serviceName) {
-        if (serviceName == null) {
+    public boolean hasApiService() {
+        if ("camera" == null) {
             return false;
         }
         for (ApiService apiService : mApiServices) {
-            if (serviceName.equals(apiService.getName())) {
+            if ("camera".equals(apiService.getName())) {
                 return true;
             }
         }
@@ -300,8 +296,7 @@ public final class ServerDevice {
             return "";
         }
 
-        String hostUrl = url.substring(0, j);
-        return hostUrl;
+        return url.substring(0, j);
     }
 
     private static String toHost(String url) {
@@ -315,7 +310,6 @@ public final class ServerDevice {
             return "";
         }
 
-        String host = url.substring(i + 3, j);
-        return host;
+        return url.substring(i + 3, j);
     }
 }

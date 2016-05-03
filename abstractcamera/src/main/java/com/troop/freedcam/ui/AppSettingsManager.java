@@ -3,7 +3,6 @@ package com.troop.freedcam.ui;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;

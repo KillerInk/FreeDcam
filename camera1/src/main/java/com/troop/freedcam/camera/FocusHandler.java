@@ -25,7 +25,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
 
     int count;
     List<Camera.Area> areas;
-    boolean isFocusing = false;
+    private boolean isFocusing = false;
 
     private boolean aeMeteringSupported =false;
 

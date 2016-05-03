@@ -1,13 +1,11 @@
 package com.troop.androiddng;
 
 import com.troop.filelogger.Logger;
-import com.troop.freedcam.i_camera.modules.VideoMediaProfile;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -131,9 +129,6 @@ public class CustomMatrix
                     }
                 }
                 br.close();
-            }
-            catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }

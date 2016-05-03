@@ -15,7 +15,6 @@ public class AE_Handler_LGG4
     private ShutterManualParameterG4 shutterPrameter;
     private int currentIso = 0;
     private int currentShutter = 0;
-    private BaseCameraHolder cameraHolder;
     private HashMap<String, String> parameters;
     boolean auto = true;
     private CamParametersHandler camParametersHandler;
@@ -35,7 +34,6 @@ public class AE_Handler_LGG4
         camParametersHandler.ISOManual = isoManualParameter;
         this.shutterPrameter = new ShutterManualParameterG4(parameters,cameraHolder, camParametersHandler, aeevent);
         camParametersHandler.ManualShutter = shutterPrameter;
-        this.cameraHolder = cameraHolder;
         this.parameters = parameters;
     }
 

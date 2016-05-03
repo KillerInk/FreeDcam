@@ -23,7 +23,7 @@ public class ModuleParameters extends AbstractModeParameter {
 
     @Override
     public String[] GetValues() {
-        List<String> mods = new ArrayList<String>();
+        List<String> mods = new ArrayList<>();
         for (HashMap.Entry<String, AbstractModule> module : cameraUiWrapper.moduleHandler.moduleList.entrySet()) {
             mods.add(module.getValue().LongName());
         }

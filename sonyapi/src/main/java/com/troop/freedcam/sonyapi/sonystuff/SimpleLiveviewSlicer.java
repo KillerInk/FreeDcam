@@ -4,8 +4,6 @@
 
 package com.troop.freedcam.sonyapi.sonystuff;
 
-import android.util.Log;
-
 import com.troop.filelogger.Logger;
 
 import java.io.ByteArrayOutputStream;
@@ -17,7 +15,7 @@ import java.net.URL;
 /**
  * A parser class for Liveview data Packet defined by Camera Remote API
  */
-public class SimpleLiveviewSlicer {
+class SimpleLiveviewSlicer {
 
     private static final String TAG = SimpleLiveviewSlicer.class.getSimpleName();
 

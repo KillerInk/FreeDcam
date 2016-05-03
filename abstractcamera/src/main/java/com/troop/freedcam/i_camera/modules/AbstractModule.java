@@ -1,13 +1,10 @@
 package com.troop.freedcam.i_camera.modules;
 
 
-import android.util.Log;
-
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
-import com.troop.freedcam.ui.AppSettingsManager;
 
 /**
  * Created by troop on 15.08.2014.
@@ -24,7 +21,7 @@ public abstract class AbstractModule implements I_Module
     protected AbstractModuleHandler.I_worker workerListner;
     final static String TAG = AbstractModule.class.getSimpleName();
 
-    public AbstractModule(){};
+    public AbstractModule(){}
 
     public AbstractModule(AbstractCameraHolder cameraHandler, ModuleEventHandler eventHandler)
     {

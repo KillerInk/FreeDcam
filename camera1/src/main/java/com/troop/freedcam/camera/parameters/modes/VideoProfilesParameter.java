@@ -2,13 +2,12 @@ package com.troop.freedcam.camera.parameters.modes;
 
 import android.media.CamcorderProfile;
 import android.os.Handler;
-import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
-import com.troop.freedcam.i_camera.modules.VideoMediaProfile;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
+import com.troop.freedcam.i_camera.modules.VideoMediaProfile;
 import com.troop.freedcam.utils.DeviceUtils;
 
 import java.io.File;
@@ -22,16 +21,16 @@ import java.util.List;
  */
 public class VideoProfilesParameter extends BaseModeParameter
 {
-    final String TAG = VideoProfilesParameter.class.getSimpleName();
-    HashMap<String, VideoMediaProfile> supportedProfiles;
-    BaseCameraHolder cameraHolder;
-    CameraUiWrapper cameraUiWrapper;
-    String profile;
-    public static final String _720phfr = "720HFR";
+    private final String TAG = VideoProfilesParameter.class.getSimpleName();
+    private HashMap<String, VideoMediaProfile> supportedProfiles;
+    private BaseCameraHolder cameraHolder;
+    private CameraUiWrapper cameraUiWrapper;
+    private String profile;
+    private static final String _720phfr = "720HFR";
     public static final String _4kUHD = "4kUHD";
 
-    public VideoProfilesParameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
-        super(handler,parameters, parameterChanged, value, values);
+    public VideoProfilesParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
+        super(handler,parameters, parameterChanged, "", "");
         this.cameraHolder = parameterChanged;
         this.cameraUiWrapper = cameraUiWrapper;
         this.isSupported =true;
@@ -60,7 +59,7 @@ public class VideoProfilesParameter extends BaseModeParameter
     @Override
     public String[] GetValues()
     {
-        List<String> keys = new ArrayList<String>(supportedProfiles.keySet());
+        List<String> keys = new ArrayList<>(supportedProfiles.keySet());
         Collections.sort(keys);
         return keys.toArray(new String[keys.size()]);
     }
@@ -82,7 +81,7 @@ public class VideoProfilesParameter extends BaseModeParameter
             Logger.d(TAG, "Load supportedProfiles");
             String current;
 
-            supportedProfiles = new HashMap<String, VideoMediaProfile>();
+            supportedProfiles = new HashMap<>();
             File f = new File(VideoMediaProfile.MEDIAPROFILESPATH);
             if (!f.exists())
             {

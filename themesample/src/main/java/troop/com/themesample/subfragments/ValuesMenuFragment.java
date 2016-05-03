@@ -16,10 +16,10 @@ import troop.com.themesample.R;
  */
 public class ValuesMenuFragment extends Fragment implements ListView.OnItemClickListener
 {
-    String[] item;
-    ListView listView;
+    private String[] item;
+    private ListView listView;
     View view;
-    Interfaces.I_CloseNotice i_closeNotice;
+    private Interfaces.I_CloseNotice i_closeNotice;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class ValuesMenuFragment extends Fragment implements ListView.OnItemClick
         listView = (ListView)view.findViewById(R.id.values_fragment_listview);
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity().getApplicationContext(),
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity().getApplicationContext(),
                 R.layout.listviewlayout, R.id.listviewlayout_textview, item);
         //attach adapter to the listview and fill
         listView.setAdapter(adapter);

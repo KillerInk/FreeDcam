@@ -98,11 +98,11 @@ import java.util.concurrent.TimeUnit;
  * responding appropriately.
  */
 public final class DiskLruCache implements Closeable {
-    static final String JOURNAL_FILE = "journal";
-    static final String JOURNAL_FILE_TMP = "journal.tmp";
-    static final String MAGIC = "libcore.io.DiskLruCache";
-    static final String VERSION_1 = "1";
-    static final long ANY_SEQUENCE_NUMBER = -1;
+    private static final String JOURNAL_FILE = "journal";
+    private static final String JOURNAL_FILE_TMP = "journal.tmp";
+    private static final String MAGIC = "libcore.io.DiskLruCache";
+    private static final String VERSION_1 = "1";
+    private static final long ANY_SEQUENCE_NUMBER = -1;
     private static final String CLEAN = "CLEAN";
     private static final String DIRTY = "DIRTY";
     private static final String REMOVE = "REMOVE";
@@ -160,7 +160,7 @@ public final class DiskLruCache implements Closeable {
     private long size = 0;
     private Writer journalWriter;
     private final LinkedHashMap<String, Entry> lruEntries
-            = new LinkedHashMap<String, Entry>(0, 0.75f, true);
+            = new LinkedHashMap<>(0, 0.75f, true);
     private int redundantOpCount;
 
     /**
@@ -172,26 +172,26 @@ public final class DiskLruCache implements Closeable {
 
     /* From java.util.Arrays */
     @SuppressWarnings("unchecked")
-    private static <T> T[] copyOfRange(T[] original, int start, int end) {
+    private static <T> T[] copyOfRange(T[] original, int end) {
         final int originalLength = original.length; // For exception priority compatibility.
-        if (start > end) {
+        if (2 > end) {
             throw new IllegalArgumentException();
         }
-        if (start < 0 || start > originalLength) {
+        if (2 < 0 || 2 > originalLength) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        final int resultLength = end - start;
-        final int copyLength = Math.min(resultLength, originalLength - start);
+        final int resultLength = end - 2;
+        final int copyLength = Math.min(resultLength, originalLength - 2);
         final T[] result = (T[]) Array
                 .newInstance(original.getClass().getComponentType(), resultLength);
-        System.arraycopy(original, start, result, 0, copyLength);
+        System.arraycopy(original, 2, result, 0, copyLength);
         return result;
     }
 
     /**
      * Returns the remainder of 'reader' as a string, closing it when done.
      */
-    public static String readFully(Reader reader) throws IOException {
+    private static String readFully(Reader reader) throws IOException {
         try {
             StringWriter writer = new StringWriter();
             char[] buffer = new char[1024];
@@ -212,7 +212,7 @@ public final class DiskLruCache implements Closeable {
      * @throws EOFException if the stream is exhausted before the next newline
      *     character.
      */
-    public static String readAsciiLine(InputStream in) throws IOException {
+    private static String readAsciiLine(InputStream in) throws IOException {
         // TODO: support UTF-8 here instead
 
         StringBuilder result = new StringBuilder(80);
@@ -236,7 +236,7 @@ public final class DiskLruCache implements Closeable {
     /**
      * Closes 'closeable', ignoring any checked exceptions. Does nothing if 'closeable' is null.
      */
-    public static void closeQuietly(Closeable closeable) {
+    private static void closeQuietly(Closeable closeable) {
         if (closeable != null) {
             try {
                 closeable.close();
@@ -251,7 +251,7 @@ public final class DiskLruCache implements Closeable {
      * Recursively delete everything in {@code dir}.
      */
     // TODO: this should specify paths as Strings rather than as Files
-    public static void deleteContents(File dir) throws IOException {
+    private static void deleteContents(File dir) throws IOException {
         File[] files = dir.listFiles();
         if (files == null) {
             throw new IllegalArgumentException("not a directory: " + dir);
@@ -299,22 +299,21 @@ public final class DiskLruCache implements Closeable {
      * there.
      *
      * @param directory a writable directory
-     * @param appVersion
      * @param valueCount the number of values per cache entry. Must be positive.
      * @param maxSize the maximum number of bytes this cache should use to store
      * @throws IOException if reading or writing the cache directory fails
      */
-    public static DiskLruCache open(File directory, int appVersion, int valueCount, long maxSize)
+    public static DiskLruCache open(File directory, int valueCount, long maxSize)
             throws IOException {
-        if (maxSize <= 0) {
+        if ((long) CacheHelper.DISK_CACHE_SIZE <= 0) {
             throw new IllegalArgumentException("maxSize <= 0");
         }
-        if (valueCount <= 0) {
+        if (1 <= 0) {
             throw new IllegalArgumentException("valueCount <= 0");
         }
 
         // prefer to pick up where we left off
-        DiskLruCache cache = new DiskLruCache(directory, appVersion, valueCount, maxSize);
+        DiskLruCache cache = new DiskLruCache(directory, 1, 1, (long) CacheHelper.DISK_CACHE_SIZE);
         if (cache.journalFile.exists()) {
             try {
                 cache.readJournal();
@@ -331,7 +330,7 @@ public final class DiskLruCache implements Closeable {
 
         // create a new empty cache
         directory.mkdirs();
-        cache = new DiskLruCache(directory, appVersion, valueCount, maxSize);
+        cache = new DiskLruCache(directory, 1, 1, (long) CacheHelper.DISK_CACHE_SIZE);
         cache.rebuildJournal();
         return cache;
     }
@@ -386,7 +385,7 @@ public final class DiskLruCache implements Closeable {
         if (parts[0].equals(CLEAN) && parts.length == 2 + valueCount) {
             entry.readable = true;
             entry.currentEditor = null;
-            entry.setLengths(copyOfRange(parts, 2, parts.length));
+            entry.setLengths(copyOfRange(parts, parts.length));
         } else if (parts[0].equals(DIRTY) && parts.length == 2) {
             entry.currentEditor = new Editor(entry);
         } else if (parts[0].equals(READ) && parts.length == 2) {
@@ -685,7 +684,7 @@ public final class DiskLruCache implements Closeable {
         if (journalWriter == null) {
             return; // already closed
         }
-        for (Entry entry : new ArrayList<Entry>(lruEntries.values())) {
+        for (Entry entry : new ArrayList<>(lruEntries.values())) {
             if (entry.currentEditor != null) {
                 entry.currentEditor.abort();
             }
@@ -708,7 +707,7 @@ public final class DiskLruCache implements Closeable {
      * all files in the cache directory including files that weren't created by
      * the cache.
      */
-    public void delete() throws IOException {
+    private void delete() throws IOException {
         close();
         deleteContents(directory);
     }

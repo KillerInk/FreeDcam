@@ -10,8 +10,8 @@ import android.widget.TextView;
  */
 public class ViewTestActivity extends Activity
 {
-    RotatingSeekbar seekbar;
-    TextView textView;
+    private RotatingSeekbar seekbar;
+    private TextView textView;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.viewtest);

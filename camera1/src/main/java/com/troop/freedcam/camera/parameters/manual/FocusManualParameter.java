@@ -16,9 +16,9 @@ import java.util.HashMap;
  */
 public class FocusManualParameter extends  BaseManualParameter
 {
-    I_CameraHolder baseCameraHolder;
+    private I_CameraHolder baseCameraHolder;
 
-    private static String TAG ="freedcam.ManualFocus";
+    private static String TAG =FocusManualParameter.class.getSimpleName();
 
     private String manualFocusModeString;
 

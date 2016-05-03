@@ -9,8 +9,8 @@ import java.util.HashMap;
 public class FXManualParameter extends BaseManualParameter {
 	
 	BaseCameraHolder baseCameraHolder;
-    public FXManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler,1);
+    public FXManualParameter(HashMap<String, String> parameters, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
+        super(parameters, "", "", "", camParametersHandler,1);
 
         //TODO add missing logic
     }

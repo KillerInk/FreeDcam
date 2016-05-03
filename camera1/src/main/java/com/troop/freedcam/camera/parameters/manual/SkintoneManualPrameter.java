@@ -11,14 +11,13 @@ import java.util.HashMap;
 public class SkintoneManualPrameter extends BaseManualParameter {
     /**
      * @param parameters
-     * @param value
      * @param maxValue
      * @param MinValue
      * @param camParametersHandler
      */
-    public SkintoneManualPrameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler)
+    public SkintoneManualPrameter(HashMap<String, String> parameters, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler)
     {
-        super(parameters, value, maxValue, MinValue, camParametersHandler,1);
+        super(parameters, "", "", "", camParametersHandler,1);
         try
         {
             /*final String skin = parameters.get("skinToneEnhancement");

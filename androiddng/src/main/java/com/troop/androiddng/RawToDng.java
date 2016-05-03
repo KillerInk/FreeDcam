@@ -3,15 +3,12 @@ package com.troop.androiddng;
 import android.location.Location;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
-import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileDescriptor;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
@@ -115,43 +112,42 @@ public class RawToDng
         int wb = Integer.parseInt(wbct) / 100;
         double r,g,b;
         double tmpcol = 0;
-        double colortemp = wb;
         //red
 
-        if( colortemp <= 66 )
+        if( (double) wb <= 66 )
         {
             r = 255;
-            g = colortemp-10;
+            g = (double) wb -10;
             g = 99.4708025861 * Math.log(g) - 161.1195681661;
-            if( colortemp <= 19)
+            if( (double) wb <= 19)
             {
                 b = 0;
             }
             else
             {
-                b = colortemp -10;
+                b = (double) wb -10;
                 b = 138.5177312231 * Math.log(b) - 305.0447927307;
             }
         }
         else
         {
-            r = colortemp - 60;
+            r = (double) wb - 60;
             r = 329.698727446 * Math.pow(r, -0.1332047592);
-            g = colortemp-60;
+            g = (double) wb -60;
             g = 288.1221695283 * Math.pow(g, -0.0755148492);
             b = 255;
         }
-        Logger.d(TAG, "ColorTemp=" + colortemp + " WBCT = r:" + r + " g:" + g + " b:" + b);
+        Logger.d(TAG, "ColorTemp=" + (double) wb + " WBCT = r:" + r + " g:" + g + " b:" + b);
         float rf,gf,bf = 0;
 
         rf = (float)getRGBToDouble(checkminmax((int)r))/2;
         gf = (float)getRGBToDouble(checkminmax((int)g));
         bf = (float)getRGBToDouble(checkminmax((int)b))/2;
-        Logger.d(TAG, "ColorTemp=" + colortemp + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
+        Logger.d(TAG, "ColorTemp=" + (double) wb + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
             rf = rf / gf;
             bf = bf / gf;
             gf = 1;
-        Logger.d(TAG, "ColorTemp=" + colortemp + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
+        Logger.d(TAG, "ColorTemp=" + (double) wb + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
         return new float[]{rf, gf,bf};
     }
 
@@ -181,7 +177,7 @@ public class RawToDng
         return new RawToDng();
     }
 
-    public long GetRawSize()
+    private long GetRawSize()
     {
         return GetRawBytesSize(nativeHandler);
     }
@@ -215,8 +211,7 @@ public class RawToDng
         final double dm = Double.parseDouble(sec[1]);
         final double ds = Double.parseDouble(sec[2].replace(",","."));
 
-        final float[] Longitudear = { (float)dd ,(float)dm,(float)ds};
-        return Longitudear;
+        return new float[]{ (float)dd ,(float)dm,(float)ds};
     }
 
     public void SetThumbData(byte[] mThumb, int widht, int height)
@@ -227,10 +222,10 @@ public class RawToDng
         }
     }
 
-    public void SetModelAndMake(String model, String make)
+    private void SetModelAndMake(String make)
     {
         if (nativeHandler !=null)
-            SetModelAndMake(nativeHandler, model, make);
+            SetModelAndMake(nativeHandler, Build.MODEL, Build.MANUFACTURER);
     }
 
     public void SetBayerData(final byte[] fileBytes, String fileout) throws NullPointerException
@@ -271,23 +266,22 @@ public class RawToDng
     }
 
     private void SetBayerInfo(float[] colorMatrix1,
-                             float[] colorMatrix2,
-                             float[] neutralColor,
+                              float[] colorMatrix2,
+                              float[] neutralColor,
                               float[] fowardMatrix1,
                               float[] fowardMatrix2,
                               float[] reductionMatrix1,
                               float[] reductionMatrix2,
                               float[] noise,
-                             int blacklevel,
-                             String bayerformat,
-                             int rowSize,
-                             String devicename,
-                             int tight,int width,int height)
+                              int blacklevel,
+                              String bayerformat,
+                              int rowSize,
+                              int tight, int width, int height)
     {
         if (nativeHandler != null && wbct.equals(""))
-            SetBayerInfo(nativeHandler, colorMatrix1, colorMatrix2, neutralColor, fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel, bayerformat, rowSize, devicename, tight, width, height);
+            SetBayerInfo(nativeHandler, colorMatrix1, colorMatrix2, neutralColor, fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel, bayerformat, rowSize, Build.MODEL, tight, width, height);
         else if (!wbct.equals(""))
-            SetBayerInfo(nativeHandler, colorMatrix1, colorMatrix2,getWbCtMatrix(wbct), fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel, bayerformat, rowSize, devicename, tight, width, height);
+            SetBayerInfo(nativeHandler, colorMatrix1, colorMatrix2,getWbCtMatrix(wbct), fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel, bayerformat, rowSize, Build.MODEL, tight, width, height);
 
     }
 
@@ -325,10 +319,9 @@ public class RawToDng
 
     public void WriteDNG(DeviceUtils.Devices device)
     {
-        DeviceUtils.Devices devices = device;
-        if (devices != null)
+        if (device != null)
         {
-            DngSupportedDevices.DngProfile profile = new DngSupportedDevices().getProfile(devices, (int)GetRawSize());
+            DngSupportedDevices.DngProfile profile = new DngSupportedDevices().getProfile(device, (int)GetRawSize());
             //if (profile.rowsize == 0)
                 //profile.rowsize = Calculate_rowSize((int)GetRawSize(), profile.height);
             if (profile == null)
@@ -336,11 +329,11 @@ public class RawToDng
                 RELEASE();
                 return;
             }
-            SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
+            SetModelAndMake(Build.MANUFACTURER);
             SetBayerInfo(profile.matrixes.ColorMatrix1, profile.matrixes.ColorMatrix2, profile.matrixes.NeutralMatrix,
                     profile.matrixes.ForwardMatrix1,profile.matrixes.ForwardMatrix2,
                     profile.matrixes.ReductionMatrix1,profile.matrixes.ReductionMatrix2,profile.matrixes.NoiseReductionMatrix,
-                    profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.rawType,profile.widht,profile.height);
+                    profile.blacklevel, profile.BayerPattern, profile.rowsize, profile.rawType,profile.widht,profile.height);
             WriteDNG(nativeHandler);
             RELEASE();
         }
@@ -350,10 +343,10 @@ public class RawToDng
     {
         if (profile == null)
             return;
-        SetModelAndMake(Build.MODEL, Build.MANUFACTURER);
+        SetModelAndMake(Build.MANUFACTURER);
         SetBayerInfo(profile.matrixes.ColorMatrix1, profile.matrixes.ColorMatrix2, profile.matrixes.NeutralMatrix,
                 profile.matrixes.ForwardMatrix1,profile.matrixes.ForwardMatrix2,
-                profile.matrixes.ReductionMatrix1,profile.matrixes.ReductionMatrix2,profile.matrixes.NoiseReductionMatrix,profile.blacklevel, profile.BayerPattern, profile.rowsize, Build.MODEL,profile.rawType,profile.widht,profile.height);
+                profile.matrixes.ReductionMatrix1,profile.matrixes.ReductionMatrix2,profile.matrixes.NoiseReductionMatrix,profile.blacklevel, profile.BayerPattern, profile.rowsize, profile.rawType,profile.widht,profile.height);
         WriteDNG(nativeHandler);
         RELEASE();
     }

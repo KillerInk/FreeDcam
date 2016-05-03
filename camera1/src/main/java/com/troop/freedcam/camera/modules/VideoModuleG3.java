@@ -16,8 +16,8 @@ import com.troop.freedcam.utils.DeviceUtils;
  */
 public class VideoModuleG3 extends AbstractVideoModule
 {
-    protected MediaRecorderEx recorder;
-    VideoMediaProfile currentProfile;
+    private MediaRecorderEx recorder;
+    private VideoMediaProfile currentProfile;
 
     final static String TAG = VideoModuleG3.class.getSimpleName();
 
@@ -114,11 +114,11 @@ public class VideoModuleG3 extends AbstractVideoModule
             ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
             ParameterHandler.Denoise.SetValue("denoise-off", true);
 
-            ((CamParametersHandler)ParameterHandler).SetDualRecorder(false);
+            ((CamParametersHandler)ParameterHandler).SetDualRecorder();
             //camParametersHandler.PreviewFormat.SetValue("nv12-venus", true);
             if(!DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
                 ParameterHandler.PreviewFormat.SetValue("nv12-venus",true);
-            ((CamParametersHandler)ParameterHandler).SetLGCamera(true);
+            ((CamParametersHandler)ParameterHandler).SetLGCamera();
             if (currentProfile.Mode == VideoMediaProfile.VideoMode.Highspeed)
             {
                 if (ParameterHandler.VideoHighFramerateVideo != null && ParameterHandler.VideoHighFramerateVideo.IsSupported())
@@ -130,8 +130,8 @@ public class VideoModuleG3 extends AbstractVideoModule
         else
         {
             ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
-            ((CamParametersHandler)ParameterHandler).SetLGCamera(true);
-            ((CamParametersHandler)ParameterHandler).SetDualRecorder(false);
+            ((CamParametersHandler)ParameterHandler).SetLGCamera();
+            ((CamParametersHandler)ParameterHandler).SetDualRecorder();
         }
         String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
         ParameterHandler.PreviewSize.SetValue(size,true);

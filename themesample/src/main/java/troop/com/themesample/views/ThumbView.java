@@ -19,7 +19,6 @@ import com.troop.freedcam.ui.FreeDPool;
 import java.io.File;
 
 import troop.com.imageviewer.BitmapHelper;
-
 import troop.com.imageviewer.screenslide.ScreenSlideFragment;
 import troop.com.themesample.R;
 
@@ -65,9 +64,8 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
 
             WorkHasFinished(BitmapHelper.getFiles().get(0).getFile());
         }
-        catch (NullPointerException ex)
+        catch (NullPointerException | IndexOutOfBoundsException ex)
         {}
-        catch (IndexOutOfBoundsException ex){}
 
     }
 
@@ -101,7 +99,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
         return null;
     }
 
-    boolean firststart = true;
+    private boolean firststart = true;
     private void showThumb(final File filePath)
     {
         if (bitmap != null) {
@@ -124,7 +122,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
             @Override
             public void run() {
                 ThumbView.this.setImageBitmap(drawMap);
-                if (firststart == false)
+                if (!firststart)
                     click.newImageRecieved(filePath);
                 firststart = false;
             }

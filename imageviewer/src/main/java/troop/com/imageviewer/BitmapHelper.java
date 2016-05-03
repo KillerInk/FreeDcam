@@ -7,7 +7,6 @@ import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
 
 import com.defcomk.jni.libraw.RawUtils;
-import com.troop.filelogger.Logger;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
@@ -45,7 +44,7 @@ public class BitmapHelper
         files = null;
     }
 
-    private BitmapHelper(){};
+    private BitmapHelper(){}
 
     public static Bitmap getBitmap(final File file,final boolean thumb,final int mImageThumbSizeW,final int  mImageThumbSizeH)
     {

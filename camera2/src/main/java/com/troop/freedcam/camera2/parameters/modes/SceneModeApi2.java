@@ -34,7 +34,7 @@ public class SceneModeApi2 extends  BaseModeApi2
         party,
         candlelight,
         barcode,
-        high_speed_video;
+        high_speed_video,
 
     }
 

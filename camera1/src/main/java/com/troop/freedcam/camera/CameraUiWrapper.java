@@ -2,7 +2,6 @@ package com.troop.freedcam.camera;
 
 
 import android.os.Build;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -57,7 +56,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         super.cameraHolder = cameraHolder;
         this.cameraHolder.errorHandler = errorHandler;
 
-        camParametersHandler = new CamParametersHandler(this, uiHandler);
+        this.camParametersHandler = new CamParametersHandler(this, uiHandler);
         this.cameraHolder.SetParameterHandler((CamParametersHandler)camParametersHandler);
         camParametersHandler.AddParametersLoadedListner(this);
         this.preview.ParametersHandler = camParametersHandler;
@@ -74,66 +73,31 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         else
             previewTexture.setVisibility(View.GONE);
         Logger.d(TAG, "Ctor done");
-//        StartCamera();
-
     }
-    //this get handled in backgroundThread when StartPreviewAndCamera() was called
-    @Override
-    protected void startCamera()
-    {
-        /*FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {*/
-                cameraHolder.OpenCamera(AppSettingsManager.APPSETTINGSMANAGER.GetCurrentCamera());
-                Logger.d(TAG, "opencamera");
-         /*   }
-        });*/
 
+
+    @Override
+    public void StartCamera() {
+        cameraHolder.OpenCamera(AppSettingsManager.APPSETTINGSMANAGER.GetCurrentCamera());
+        Logger.d(TAG, "opencamera");
     }
 
     @Override
-    protected void stopCamera()
-    {
+    public void StopCamera() {
         Logger.d(TAG, "Stop Camera");
-       /* if (FreeDPool.IsInit()) {
-            FreeDPool.Execute(new Runnable() {
-                @Override
-                public void run() {
-                    cameraHolder.CloseCamera();
-                }
-            });
-        }
-        else*/
-            cameraHolder.CloseCamera();
-
+        cameraHolder.CloseCamera();
     }
 
     @Override
-    protected void startPreview()
-    {
-        /*Logger.d(TAG, "Stop Preview");
-        backgroundHandler.post(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });*/
+    public void StartPreview() {
         cameraHolder.StartPreview();
     }
 
     @Override
-    protected void stopPreview() {
+    public void StopPreview() {
         Logger.d(TAG, "Stop Preview");
-        /*backgroundHandler.post(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });*/
         cameraHolder.StopPreview();
     }
-
-
 
     @Override
     public void surfaceCreated(SurfaceHolder holder)
@@ -161,8 +125,6 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     {
         camParametersHandler.PictureSize.addEventListner(onPreviewSizeShouldChange);
         //camParametersHandler.VideoSize.addEventListner(onPreviewSizeShouldChange);
-
-
     }
 
     @Override
@@ -200,7 +162,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     {
         Logger.d(TAG,"startPreviewinternal previewRdy:" + PreviewSurfaceRdy +" cameraRdy" +cameraRdy);
         if (PreviewSurfaceRdy && !cameraRdy)
-            startCamera();
+            StartCamera();
         if (!PreviewSurfaceRdy || !cameraRdy)
             return;
 
@@ -269,10 +231,11 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         @Override
         public void onValueChanged(String val)
         {
-            if(moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_PICTURE) || moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_HDR))
+            if(moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_PICTURE) || moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_HDR)
+                    || moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_INTERVAL))
             {
                 Size sizefromCam = new Size(camParametersHandler.PictureSize.GetValue());
-                List<Size> sizes = new ArrayList<Size>();
+                List<Size> sizes = new ArrayList<>();
                 String[] stringsSizes = camParametersHandler.PreviewSize.GetValues();
                 for (String s : stringsSizes) {
                     sizes.add(new Size(s));
@@ -296,7 +259,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
             {
                 Size sizefromCam = new Size("1920x1080");
 
-                List<Size> sizes = new ArrayList<Size>();
+                List<Size> sizes = new ArrayList<>();
                 String[] stringsSizes = camParametersHandler.PreviewSize.GetValues();
                 for (String s : stringsSizes) {
                     sizes.add(new Size(s));
@@ -344,7 +307,6 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         if (sizes == null) return null;
         Size optimalSize = null;
         double minDiff = Double.MAX_VALUE;
-        int targetHeight = h;
         // Try to find an size match aspect ratio and size
         for (Size size : sizes)
         {
@@ -353,7 +315,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
                 if (ratio < targetRatio +  ASPECT_TOLERANCE && ratio > targetRatio - ASPECT_TOLERANCE )
                 {
                     optimalSize = size;
-                    minDiff = Math.abs(size.height - targetHeight);
+                    minDiff = Math.abs(size.height - h);
                     break;
                 }
 
@@ -365,9 +327,9 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
             for (Size size : sizes)
             {
                 if (size.width <= 1280 && size.height <= 720 && size.width >= 640 && size.height >= 480)  {
-                    if (Math.abs(size.height - targetHeight) < minDiff) {
+                    if (Math.abs(size.height - h) < minDiff) {
                         optimalSize = size;
-                        minDiff = Math.abs(size.height - targetHeight);
+                        minDiff = Math.abs(size.height - h);
                     }
                 }
             }

@@ -1,7 +1,6 @@
 package com.troop.freedcam.camera.parameters.modes;
 
 import android.os.Handler;
-import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
@@ -53,7 +52,7 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
             {
                 this.isSupported = true;
                 valuesArray = parameters.get(values).split(",");
-                ArrayList<String> tmpl  = new ArrayList<String>();
+                ArrayList<String> tmpl  = new ArrayList<>();
                 for (String s : valuesArray)
                 {
                     if (!tmpl.contains(s))

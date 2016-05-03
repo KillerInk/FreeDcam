@@ -6,7 +6,6 @@ package com.troop.freedcam.sonyapi.sonystuff;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.ui.FreeDPool;
@@ -28,7 +27,7 @@ public class SimpleCameraEventObserver {
 
     private static final String TAG = SimpleCameraEventObserver.class.getSimpleName();
 
-    boolean LOGGING = true;
+    private boolean LOGGING = true;
 
     private void sendLog(String msg)
     {
@@ -92,13 +91,13 @@ public class SimpleCameraEventObserver {
         void onIsoChanged(String iso);
 
         void onIsoValuesChanged(String[] isovals);
-        public void onFnumberChanged(String fnumber);
-        public void onFnumberValuesChanged(String[]  fnumbervals);
+        void onFnumberChanged(String fnumber);
+        void onFnumberValuesChanged(String[]  fnumbervals);
         void onExposureCompensationChanged(int epxosurecomp);
         void onExposureCompensationMaxChanged(int epxosurecompmax);
         void onExposureCompensationMinChanged(int epxosurecompmin);
-        public void onShutterSpeedChanged(String shutter);
-        public void onShutterSpeedValuesChanged(String[]  shuttervals);
+        void onShutterSpeedChanged(String shutter);
+        void onShutterSpeedValuesChanged(String[]  shuttervals);
         void onFlashChanged(String flash);
         void onFocusLocked(boolean locked);
         void onWhiteBalanceValueChanged(String wb);
@@ -168,7 +167,7 @@ public class SimpleCameraEventObserver {
         {
 
         }
-        public void onExposureCompensationChanged(int epxosurecomp){};
+        public void onExposureCompensationChanged(int epxosurecomp){}
 
         @Override
         public void onExposureModeChanged(String expomode) {
@@ -181,11 +180,11 @@ public class SimpleCameraEventObserver {
         }
     }
 
-    protected final Handler mUiHandler;
+    private final Handler mUiHandler;
 
     private SimpleRemoteApi mRemoteApi;
 
-    protected ChangeListener mListener;
+    private ChangeListener mListener;
 
     private boolean mWhileEventMonitoring = false;
 
@@ -202,20 +201,20 @@ public class SimpleCameraEventObserver {
 
     private String iso;
 
-    String[] mIsovals;
+    private String[] mIsovals;
 
     private String fnumber;
-    String[] mFnumbervals;
+    private String[] mFnumbervals;
 
-    String[] mShuttervals;
+    private String[] mShuttervals;
     private String shutter;
 
     private String flash;
 
-    int mExposureComp;
-    int mExposureCompMax;
-    int mExposureCompMin;
-    String version;
+    private int mExposureComp;
+    private int mExposureCompMax;
+    private int mExposureCompMin;
+    private String version;
 
     // :
     // : add attributes for Event data as necessary.
@@ -362,7 +361,7 @@ public class SimpleCameraEventObserver {
         if (zoomPosition != -1) {
             mZoomPosition = zoomPosition;
             sendLog("getEvent zoomPosition: " + zoomPosition);
-            fireZoomInformationChangeListener(0, 0, zoomPosition, 0);
+            fireZoomInformationChangeListener(0, zoomPosition, 0);
         }
 
         //3 LiveviewStatus
@@ -457,7 +456,7 @@ public class SimpleCameraEventObserver {
         //22-24 reserved/emtpy
 
         //25 exposure comepensation
-        int minexpo = JsonUtils.findIntInformation(replyJson, 25, "exposureCompensation", "minExposureCompensation");
+        int minexpo = JsonUtils.findIntInformation(replyJson, "exposureCompensation", "minExposureCompensation");
 
         if (minexpo != -5000 && minexpo != mExposureCompMin)
         {
@@ -465,7 +464,7 @@ public class SimpleCameraEventObserver {
             mExposureCompMin = minexpo;
             fireExposurCompMinChangeListener(minexpo);
         }
-        int maxexpo = JsonUtils.findIntInformation(replyJson, 25, "exposureCompensation", "maxExposureCompensation");
+        int maxexpo = JsonUtils.findIntInformation(replyJson, "exposureCompensation", "maxExposureCompensation");
 
         if (maxexpo != -5000 && maxexpo != mExposureCompMax)
         {
@@ -474,7 +473,7 @@ public class SimpleCameraEventObserver {
             fireExposurCompMaxChangeListener(maxexpo);
         }
 
-        int cexpo = JsonUtils.findIntInformation(replyJson, 25, "exposureCompensation", "currentExposureCompensation");
+        int cexpo = JsonUtils.findIntInformation(replyJson, "exposureCompensation", "currentExposureCompensation");
 
         if (cexpo != -5000)
         {
@@ -637,7 +636,7 @@ public class SimpleCameraEventObserver {
 
     private void processActShotImage(JSONObject replyJson)
     {
-        ArrayList<String> values = new ArrayList<String>();
+        ArrayList<String> values = new ArrayList<>();
 
         JSONArray resultsObj = null;
         try {
@@ -665,7 +664,7 @@ public class SimpleCameraEventObserver {
     private void processContShootImage(JSONObject replyJson)
     {
         //String[] shuttervals = JsonUtils.findStringArrayInformation(replyJson, 40, "contShooting", "contShootingUrl");
-        ArrayList<String> values = new ArrayList<String>();
+        ArrayList<String> values = new ArrayList<>();
 
         JSONArray resultsObj = null;
         try {
@@ -995,15 +994,12 @@ public class SimpleCameraEventObserver {
 
     /**
      * Notify the change of Zoom Information
-     * 
-     * @param zoomIndexCurrentBox
      * @param zoomNumberBox
      * @param zoomPosition
      * @param zoomPositionCurrentBox
      */
-    private void fireZoomInformationChangeListener(final int zoomIndexCurrentBox,
-            final int zoomNumberBox,
-            final int zoomPosition, final int zoomPositionCurrentBox) {
+    private void fireZoomInformationChangeListener(final int zoomNumberBox,
+                                                   final int zoomPosition, final int zoomPositionCurrentBox) {
         mUiHandler.post(new Runnable() {
             @Override
             public void run() {

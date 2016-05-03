@@ -25,11 +25,8 @@ public class ColorCorrectionModeApi2 extends BaseModeApi2 {
 
 
     @Override
-    public boolean IsSupported()
-    {
-        if (cameraHolder != null && cameraHolder.mPreviewRequestBuilder != null)
-            return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.COLOR_CORRECTION_MODE) != null;
-        return false;
+    public boolean IsSupported() {
+        return cameraHolder != null && cameraHolder.mPreviewRequestBuilder != null && cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.COLOR_CORRECTION_MODE) != null;
     }
 
     @Override

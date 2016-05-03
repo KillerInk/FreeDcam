@@ -26,8 +26,8 @@ public class HDRModeParameter extends BaseModeParameter
     private String format = "";
     private String curmodule = "";
 
-    public HDRModeParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
-        super(handler, parameters, parameterChanged, value, values);
+    public HDRModeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
+        super(handler, parameters, parameterChanged, "", "");
 
         this.isSupported = false;
         if ((DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)

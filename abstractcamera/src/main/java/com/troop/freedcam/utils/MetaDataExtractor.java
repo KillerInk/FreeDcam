@@ -11,15 +11,15 @@ import java.util.List;
 /**
  * Created by GeorgeKiarie on 2/11/2016.
  */
-public class MetaDataExtractor {
-    float exp;
-    int iso;
-    int flash;
-    int isoActual;
-    boolean isRoot = false;
-    String Description;
+class MetaDataExtractor {
+    private float exp;
+    private int iso;
+    private int flash;
+    private int isoActual;
+    private boolean isRoot = false;
+    private String Description;
 
-    public MetaDataExtractor()
+    private MetaDataExtractor()
     {
         exp = 0.0f;
         iso = 0;
@@ -37,7 +37,7 @@ public class MetaDataExtractor {
     }
 
 
-    public void extractMeta()
+    private void extractMeta()
     {
         if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
         {

@@ -1,19 +1,16 @@
 package com.troop.freedcam.sonyapi.modules;
 
-import android.util.Log;
-
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
-import com.troop.freedcam.ui.AppSettingsManager;
 
 /**
  * Created by troop on 13.12.2014.
  */
 public class ModuleHandlerSony extends AbstractModuleHandler implements CameraHolderSony.I_CameraShotMode
 {
-    CameraHolderSony cameraHolder;
-    final String TAG = ModuleHandlerSony.class.getSimpleName();
+    private CameraHolderSony cameraHolder;
+    private final String TAG = ModuleHandlerSony.class.getSimpleName();
 
     public ModuleHandlerSony(CameraHolderSony cameraHolder)
     {

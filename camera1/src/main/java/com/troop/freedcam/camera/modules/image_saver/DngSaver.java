@@ -1,14 +1,11 @@
 package com.troop.freedcam.camera.modules.image_saver;
 
-import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 
 import com.drew.imaging.jpeg.JpegMetadataReader;
-import com.drew.imaging.jpeg.JpegProcessingException;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
@@ -34,12 +31,11 @@ import java.io.IOException;
 public class DngSaver extends JpegSaver
 {
     final public String fileEnding = ".dng";
-    private String lastBayerFormat;
-    final RawToDng dngConverter;
+    private final RawToDng dngConverter;
    // boolean isDebug = true;
   //  MetaDataExtractor meta;
 
-    final String TAG = DngSaver.class.getSimpleName();
+    private final String TAG = DngSaver.class.getSimpleName();
     public DngSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone)
     {
         super(cameraHolder, i_workeDone);
@@ -52,7 +48,6 @@ public class DngSaver extends JpegSaver
     public void TakePicture()
     {
         Logger.d(TAG, "Start Take Picture");
-        lastBayerFormat = ParameterHandler.PictureFormat.GetValue();
         if (ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
         {
             ParameterHandler.ZSL.SetValue("off", true);
@@ -68,7 +63,7 @@ public class DngSaver extends JpegSaver
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-                cameraHolder.TakePicture(null, null, DngSaver.this);
+                cameraHolder.TakePicture(null, DngSaver.this);
             }
         });
     }
@@ -76,7 +71,7 @@ public class DngSaver extends JpegSaver
     @Override
     public void onPictureTaken(final byte[] data)
     {
-        if (awaitpicture == false)
+        if (!awaitpicture)
             return;
         awaitpicture =false;
         Logger.d(TAG, "Take Picture Callback");
@@ -185,7 +180,7 @@ public class DngSaver extends JpegSaver
         }
         else {
 
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true,AppSettingsManager.APPSETTINGSMANAGER);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(AppSettingsManager.APPSETTINGSMANAGER);
             Logger.d(TAG,"Filepath: " +df.getUri().toString());
             DocumentFile wr = df.createFile("image/dng", file.getName().replace(".jpg", ".dng"));
             Logger.d(TAG,"Filepath: " +wr.getUri().toString());
@@ -193,11 +188,7 @@ public class DngSaver extends JpegSaver
             try {
 
                 pfd = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
-            } catch (FileNotFoundException e) {
-                Logger.exception(e);
-            }
-            catch (IllegalArgumentException e)
-            {
+            } catch (FileNotFoundException | IllegalArgumentException e) {
                 Logger.exception(e);
             }
             if (pfd != null) {
@@ -234,39 +225,6 @@ public class DngSaver extends JpegSaver
 
     }
 
-   /* private int QueryFlash()
-
-    {
-
-        switch (cameraHolder.ParameterHandler.FlashMode.GetValue())
-        {
-
-            case "auto":
-                return 11;
-                break;
-            case "on":
-                return 1;
-            break;
-            case "off":
-                return 0;
-            break;
-            case "torch":
-                return 1;
-            break;
-
-
-            return 0;
-
-        }
-
-
-
-
-
-
-
-    }*/
-
     private float ExtractShutter()
 
     {
@@ -281,12 +239,11 @@ public class DngSaver extends JpegSaver
                 if (ParameterHandler.ManualShutter.GetStringValue().contains("/")) {
                     return 1 / Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue().split("/")[1]);
 
-                } else {
+                } else
+                {
                     return Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue());
 
                 }
-
-
             }
         }
 
@@ -336,10 +293,6 @@ public class DngSaver extends JpegSaver
             } catch (MetadataException e) {
                 Logger.exception(e);
             }
-        }
-        catch (JpegProcessingException e)
-        {
-            Logger.exception(e);
         } catch (Exception e) {
             Logger.exception(e);
         }

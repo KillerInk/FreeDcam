@@ -4,7 +4,6 @@ import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.i_camera.modules.IntervalModule;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
-import com.troop.freedcam.ui.AppSettingsManager;
 
 /**
  * Created by troop on 26.02.2016.

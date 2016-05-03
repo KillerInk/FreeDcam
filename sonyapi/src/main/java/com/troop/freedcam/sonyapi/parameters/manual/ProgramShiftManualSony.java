@@ -1,9 +1,6 @@
 package com.troop.freedcam.sonyapi.parameters.manual;
 
-import android.util.Log;
-
 import com.troop.filelogger.Logger;
-import com.troop.freedcam.i_camera.parameters.IntervalDurationParameter;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.sonystuff.JsonUtils;
 import com.troop.freedcam.ui.FreeDPool;
@@ -21,11 +18,11 @@ import java.util.Set;
  */
 public class ProgramShiftManualSony extends BaseManualParameterSony
 {
-    final String TAG = ProgramShiftManualSony.class.getSimpleName();
+    private final String TAG = ProgramShiftManualSony.class.getSimpleName();
     private BaseManualParameterSony shutter;
     private BaseManualParameterSony fnumber;
-    public ProgramShiftManualSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, ParameterHandlerSony parameterHandlerSony) {
-        super(VALUE_TO_GET, VALUES_TO_GET, VALUE_TO_SET, parameterHandlerSony);
+    public ProgramShiftManualSony(String VALUES_TO_GET, String VALUE_TO_SET, ParameterHandlerSony parameterHandlerSony) {
+        super("", "getSupportedProgramShift", "setProgramShift", parameterHandlerSony);
         this.shutter = (BaseManualParameterSony)parameterHandlerSony.ManualShutter;
         this.fnumber = (BaseManualParameterSony)parameterHandlerSony.ManualFNumber;
     }
@@ -84,7 +81,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                             return;
                         int max = Integer.parseInt(stringvalues[0]);
                         int min = Integer.parseInt(stringvalues[1]);
-                        ArrayList<String> r = new ArrayList<String>();
+                        ArrayList<String> r = new ArrayList<>();
                         for (int i = min; i<= max; i++)
                         {
                             r.add(i+"");
@@ -109,13 +106,9 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                         onCurrentValueChanged(currentInt);
 
 
-                    } catch (IOException e) {
+                    } catch (IOException | JSONException e) {
                         Logger.exception(e);
                         Logger.e(TAG, "Error Trying to get String Values from: " +VALUES_TO_GET);
-                        stringvalues = new String[0];
-                    } catch (JSONException e) {
-                        Logger.exception(e);
-                        Logger.e(TAG, "Error Trying to get String Values from: " + VALUES_TO_GET);
                         stringvalues = new String[0];
                     }
                 }
@@ -142,9 +135,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                     array = new JSONArray().put(0, Integer.parseInt(stringvalues[currentInt]));
                     JSONObject object =  ParameterHandler.mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
                     ThrowCurrentValueChanged(valueToSet);
-                } catch (JSONException e) {
-                    Logger.exception(e);
-                } catch (IOException e) {
+                } catch (JSONException | IOException e) {
                     Logger.exception(e);
                 }
             }

@@ -6,7 +6,6 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.TonemapCurve;
 import android.os.Build;
-import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
@@ -22,14 +21,14 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
 {
     final String TAG = ManualToneMapCurveApi2.class.getSimpleName();
     //  linearcurve       x/y
-    float[] blackpoint = { 0f,0f};
-    float[] shadows = {0.25f,0.25f};
-    float[] midtones = {0.5f,0.5f};
-    float[] highlights = { 0.75f,0.75f};
-    float[] whitepoint = {1.0f,1.0f};
+    private float[] blackpoint = { 0f,0f};
+    private float[] shadows = {0.25f,0.25f};
+    private float[] midtones = {0.5f,0.5f};
+    private float[] highlights = { 0.75f,0.75f};
+    private float[] whitepoint = {1.0f,1.0f};
     public Contrast contrast;
     public Brightness brightness;
-    boolean visible = false;
+    private boolean visible = false;
 
 
     public ManualToneMapCurveApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder)
@@ -38,8 +37,8 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
         this.brightness = new Brightness(camParametersHandler,cameraHolder);
     }
 
-    boolean canSet = false;
-    boolean isSupported = false;
+    private boolean canSet = false;
+    private boolean isSupported = false;
 
     @Override
     public void onValueChanged(String val) {
@@ -147,9 +146,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
                 try {
                     cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                             null);
-                } catch (CameraAccessException e) {
-                    Logger.exception(e);
-                } catch (NullPointerException e) {
+                } catch (CameraAccessException | NullPointerException e) {
                     Logger.exception(e);
                 }
             }
@@ -158,10 +155,8 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
 
         @Override
         public boolean IsSupported() {
-            if (cameraHolder.characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null
-                    && cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE)
-                return true;
-            else return false;
+            return cameraHolder.characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null
+                    && cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
         }
 
         @Override
@@ -228,11 +223,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
             try {
                 cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                         null);
-            } catch (CameraAccessException e) {
-                Logger.exception(e);
-            }
-            catch (NullPointerException e)
-            {
+            } catch (CameraAccessException | NullPointerException e) {
                 Logger.exception(e);
             }
 
@@ -243,10 +234,8 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
         {
             if (cameraHolder == null || cameraHolder.mPreviewRequestBuilder == null)
                 return false;
-            if (cameraHolder.characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null
-                    && cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE)
-                return true;
-            else return false;
+            return cameraHolder.characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null
+                    && cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
         }
 
         @Override

@@ -26,7 +26,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
     public AbstractManualParameter(AbstractParameterHandler camParametersHandler)
     {
         this.camParametersHandler = camParametersHandler;
-        events = new ArrayList<I_ManualParameterEvent>();
+        events = new ArrayList<>();
     }
 
     public interface I_ManualParameterEvent

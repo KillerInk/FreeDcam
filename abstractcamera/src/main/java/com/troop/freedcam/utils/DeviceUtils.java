@@ -21,10 +21,7 @@ public class DeviceUtils
 
     public static boolean IS(Devices device)
     {
-        if (currentdevice == device)
-            return  true;
-        else
-            return false;
+        return currentdevice == device;
     }
 
     public static boolean IS_DEVICE_ONEOF(Devices[] device)
@@ -58,10 +55,7 @@ public class DeviceUtils
 
     public static boolean HAS_CONTEXT()
     {
-        if (contex == null)
-            return false;
-        else
-            return true;
+        return contex != null;
     }
 
     final public static Devices[] AlcatelIdol3_Moto_MSM8982_8994 = {Devices.Moto_MSM8982_8994, Devices.Alcatel_Idol3 };
@@ -276,10 +270,7 @@ public class DeviceUtils
 
     public static boolean IsMarshMallowG3()
     {
-        if (currentdevice == Devices.LG_G3 && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)
-            return true;
-        else
-            return false;
+        return currentdevice == Devices.LG_G3 && Build.VERSION.SDK_INT == Build.VERSION_CODES.M;
     }
 
     private static boolean isDevice(String[] ar)
@@ -385,8 +376,6 @@ public class DeviceUtils
     public static boolean isCamera1DNGSupportedDevice()
     {
         return IS_DEVICE_ONEOF(camera1DNGsupported);
-        /*isLG_G3() || isG2() || isG4() || isHTC_M8() || isZTEADV() || isZTEADVIMX214() || isZTEADV234() || isHTC_M9() || isHtc_One_SV() || isHtc_One_XL() || isLenovoK910() || isYureka() ||
-                isOnePlusOne() || isRedmiNote() || isXiaomiMI3W()||isXiaomiMI4W()|| isXperiaL() ||isXiaomiMI_Note_Pro() || isVivo_Xplay3s();*/
     }
 
     public static boolean isCamera1NO_RAW_STREM()

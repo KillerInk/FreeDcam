@@ -4,16 +4,12 @@ import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.os.Environment;
-import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
-import com.troop.freedcam.camera.parameters.CamParametersHandler;
-import com.troop.freedcam.camera.parameters.modes.PreviewSizeParameter;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
-import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,7 +24,7 @@ import java.util.Date;
  */
 public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCallback
 {
-    private static String TAG = "freedcam.BurstModule";
+    private final String TAG = BurstModule.class.getSimpleName();
     boolean doBurst = false;
     String currentBurstFolder;
     int count;
@@ -114,27 +110,24 @@ public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCa
     {
         File file = createFileName();
         Logger.d(TAG, "Saving file: " + file.getAbsolutePath());
-        if (true/*baseCameraHolder.ParameterHandler.PreviewFormat.GetFormat() == ImageFormat.NV21*/)
+        String[] split = ParameterHandler.PreviewSize.GetValue().split("x");
+        Rect rect = new Rect(0,0,Integer.parseInt(split[0]),Integer.parseInt(split[1]));
+        YuvImage img = new YuvImage(bytes, ImageFormat.NV21, Integer.parseInt(split[0]), Integer.parseInt(split[1]), null);
+        OutputStream outStream = null;
+        try
         {
-            String[] split = ParameterHandler.PreviewSize.GetValue().split("x");
-            Rect rect = new Rect(0,0,Integer.parseInt(split[0]),Integer.parseInt(split[1]));
-            YuvImage img = new YuvImage(bytes, ImageFormat.NV21, Integer.parseInt(split[0]), Integer.parseInt(split[1]), null);
-            OutputStream outStream = null;
-            try
-            {
-                outStream = new FileOutputStream(file);
-                img.compressToJpeg(rect, 100, outStream);
-                outStream.flush();
-                outStream.close();
-            }
-            catch (FileNotFoundException e)
-            {
-                Logger.exception(e);
-            }
-            catch (IOException e)
-            {
-                Logger.exception(e);
-            }
+            outStream = new FileOutputStream(file);
+            img.compressToJpeg(rect, 100, outStream);
+            outStream.flush();
+            outStream.close();
+        }
+        catch (FileNotFoundException e)
+        {
+            Logger.exception(e);
+        }
+        catch (IOException e)
+        {
+            Logger.exception(e);
         }
     }
 
@@ -170,7 +163,6 @@ public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCa
     private String getTimeFolderName()
     {
         Date date = new Date();
-        String s = (new SimpleDateFormat("yyyyMMdd_HHmmss")).format(date);
-        return  s;
+        return (new SimpleDateFormat("yyyyMMdd_HHmmss")).format(date);
     }
 }

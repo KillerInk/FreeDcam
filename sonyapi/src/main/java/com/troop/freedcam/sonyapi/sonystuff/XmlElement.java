@@ -4,7 +4,6 @@
 
 package com.troop.freedcam.sonyapi.sonystuff;
 
-import android.util.Log;
 import android.util.Xml;
 
 import com.troop.filelogger.Logger;
@@ -25,7 +24,7 @@ import java.util.Map;
  */
 public class XmlElement {
 
-    public static final XmlElement NULL_ELEMENT = new XmlElement();
+    private static final XmlElement NULL_ELEMENT = new XmlElement();
 
     private static final String TAG = XmlElement.class.getSimpleName();
 
@@ -42,10 +41,10 @@ public class XmlElement {
     /**
      * Constructor. Creates new empty element.
      */
-    public XmlElement() {
+    private XmlElement() {
         mParentElement = null;
-        mChildElements = new LinkedList<XmlElement>();
-        mAttributes = new HashMap<String, String>();
+        mChildElements = new LinkedList<>();
+        mAttributes = new HashMap<>();
         mValue = "";
     }
 
@@ -166,7 +165,7 @@ public class XmlElement {
      * @return a list of child elements
      */
     public List<XmlElement> findChildren(String name) {
-        final List<XmlElement> tagItemList = new ArrayList<XmlElement>();
+        final List<XmlElement> tagItemList = new ArrayList<>();
         for (final XmlElement child : mChildElements) {
             if (child.getTagName().equals(name)) {
                 tagItemList.add(child);
@@ -180,7 +179,7 @@ public class XmlElement {
      * 
      * @return the parent element.
      */
-    public XmlElement getParent() {
+    private XmlElement getParent() {
         return mParentElement;
     }
 
@@ -203,7 +202,7 @@ public class XmlElement {
      * @param xmlPullParser parser
      * @return root element
      */
-    public static XmlElement parse(XmlPullParser xmlPullParser) {
+    private static XmlElement parse(XmlPullParser xmlPullParser) {
 
         XmlElement rootElement = XmlElement.NULL_ELEMENT;
         try {

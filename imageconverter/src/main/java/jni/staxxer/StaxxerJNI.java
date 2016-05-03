@@ -1,12 +1,5 @@
 package jni.staxxer;
 
-import android.graphics.Bitmap;
-
-import com.troop.filelogger.Logger;
-import com.troop.freedcam.utils.StringUtils;
-
-import java.io.File;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 
 /**

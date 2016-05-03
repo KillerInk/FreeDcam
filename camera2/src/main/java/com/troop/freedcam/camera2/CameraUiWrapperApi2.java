@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
-import android.util.Log;
 import android.view.SurfaceView;
 import android.view.TextureView;
 
@@ -13,7 +12,6 @@ import com.troop.freedcam.camera2.modules.ModuleHandlerApi2;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.interfaces.I_error;
-import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -21,15 +19,13 @@ import com.troop.freedcam.utils.StringUtils;
  * Created by troop on 07.12.2014.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements TextureView.SurfaceTextureListener, I_ParametersLoaded
+public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements TextureView.SurfaceTextureListener
 
 {
     public BaseCameraHolderApi2 cameraHolder;
-    Context context;
-    AutoFitTextureView preview;
+    private Context context;
+    private AutoFitTextureView preview;
     protected I_error errorHandler;
-
-
 
     private static String TAG = StringUtils.TAG + CameraUiWrapperApi2.class.getSimpleName();
 
@@ -38,65 +34,46 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
         return AppSettingsManager.API_2;
     }
 
-    public CameraUiWrapperApi2()
-    {
-
-    }
-
     public CameraUiWrapperApi2(Context context, AutoFitTextureView preview)
     {
         super();
         this.preview = preview;
-        preview.setSurfaceTextureListener(this);
+        this.preview.setSurfaceTextureListener(this);
         this.context = context;
-        errorHandler = this;
-        //attache the callback to the Campreview
-        //previewSize.getHolder().addCallback(this);
+        this.errorHandler = this;
         this.cameraHolder = new BaseCameraHolderApi2(context, this, uiHandler);
         super.cameraHolder = this.cameraHolder;
-        camParametersHandler = new ParameterHandlerApi2(this, uiHandler);
-        cameraHolder.SetParameterHandler(camParametersHandler);
-        moduleHandler = new ModuleHandlerApi2(cameraHolder);
-        camParametersHandler.AddParametersLoadedListner(this);
-        Focus = new FocusHandlerApi2(this);
-        cameraHolder.Focus = Focus;
+        this.camParametersHandler = new ParameterHandlerApi2(this, uiHandler);
+        this.cameraHolder.SetParameterHandler(camParametersHandler);
+        this.moduleHandler = new ModuleHandlerApi2(cameraHolder);
+        this.Focus = new FocusHandlerApi2(this);
+        this.cameraHolder.Focus = Focus;
         Logger.d(TAG, "Constructor done");
     }
 
-
-
     @Override
-    protected void startCamera() {
+    public void StartCamera() {
         cameraHolder.OpenCamera(AppSettingsManager.APPSETTINGSMANAGER.GetCurrentCamera());
         Logger.d(TAG, "opencamera");
     }
 
     @Override
-    protected void stopCamera()
-    {
+    public void StopCamera() {
         Logger.d(TAG, "Stop Camera");
         cameraHolder.CloseCamera();
     }
 
     @Override
-    protected void startPreview()
-    {
+    public void StartPreview() {
         Logger.d(TAG, "Stop Preview");
         cameraHolder.StartPreview();
     }
 
     @Override
-    protected void stopPreview()
+    public void StopPreview()
     {
         Logger.d(TAG, "Stop Preview");
         cameraHolder.StopPreview();
-    }
-
-    @Override
-    public void ParametersLoaded()
-    {
-        //camParametersHandler.PictureSize.addEventListner(this);
-        //cameraHolder.StartPreview();
     }
 
     @Override
@@ -143,8 +120,6 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     @Override
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surface)
     {
-        //StopPreview();
-        //StopCamera();
         Logger.d(TAG, "Surface destroyed");
         this.PreviewSurfaceRdy = false;
         return false;

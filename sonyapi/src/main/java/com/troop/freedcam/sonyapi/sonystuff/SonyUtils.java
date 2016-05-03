@@ -9,7 +9,7 @@ import java.util.Set;
 public class SonyUtils
 {
     public static boolean isShootingStatus(String currentStatus) {
-        Set<String> shootingStatus = new HashSet<String>();
+        Set<String> shootingStatus = new HashSet<>();
         shootingStatus.add("IDLE");
         shootingStatus.add("StillCapturing");
         shootingStatus.add("StillSaving");

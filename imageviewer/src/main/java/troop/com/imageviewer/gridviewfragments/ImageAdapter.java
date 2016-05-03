@@ -18,7 +18,7 @@ import troop.com.imageviewer.holder.FileHolder;
 /**
  * Created by troop on 28.03.2016.
  */
-public class ImageAdapter extends BaseAdapter
+class ImageAdapter extends BaseAdapter
 {
     private final Context mContext;
     private List<FileHolder> files;

@@ -9,15 +9,14 @@ import java.util.concurrent.Executors;
 public class FreeDPool
 {
     private static ExecutorService executor;
-    private static int number_of_cores;
     private static boolean isInit = false;
     private static int multiplier = 2;
 
     public static void INIT(int _multiplier)
     {
-        number_of_cores = Runtime.getRuntime().availableProcessors();
+        int number_of_cores = Runtime.getRuntime().availableProcessors();
         multiplier = _multiplier;
-        executor = Executors.newFixedThreadPool(number_of_cores*multiplier);
+        executor = Executors.newFixedThreadPool(number_of_cores *multiplier);
         isInit = true;
     }
 

@@ -3,7 +3,7 @@ package com.troop.freedcam.utils;
 /**
  * Created by GeorgeKiarie on 1/24/2016.
  */
-public class VideoUtils {
+class VideoUtils {
 
     public static int[] getVideoRes(String Q)
     {
@@ -44,8 +44,7 @@ public class VideoUtils {
                 break;
 
         }
-        int z[] = {x,y};
-        return z;
+        return new int[]{x,y};
     }
 
 

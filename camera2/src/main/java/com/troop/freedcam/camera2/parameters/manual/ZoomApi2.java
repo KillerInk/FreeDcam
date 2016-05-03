@@ -19,8 +19,8 @@ import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 public class ZoomApi2 extends AbstractManualParameter
 {
     final String TAG = ZoomApi2.class.getSimpleName();
-    ParameterHandlerApi2 camParametersHandler;
-    BaseCameraHolderApi2 cameraHolder;
+    private ParameterHandlerApi2 camParametersHandler;
+    private BaseCameraHolderApi2 cameraHolder;
     public ZoomApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder)  {
         super(camParametersHandler);
         this.cameraHolder = cameraHolder;
@@ -30,7 +30,7 @@ public class ZoomApi2 extends AbstractManualParameter
     }
 
 
-    int zoom = 0;
+    private int zoom = 0;
 
     @Override
     public boolean IsSupported() {
@@ -72,30 +72,17 @@ public class ZoomApi2 extends AbstractManualParameter
         try {
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
-        } catch (CameraAccessException e) {
+        } catch (CameraAccessException | NullPointerException e) {
             Logger.exception(e);
-        }
-        catch (NullPointerException ex)
-        {
-            Logger.exception(ex);
         }
     }
 
     public Rect getZoomRect(float zoom, int imgWidth, int imgHeight)
     {
-
         int cropWidth = (int) ((imgWidth / 100) * zoom);
         int cropHeight = (int) ((imgHeight / 100)* zoom);
-        int newX = cropWidth;
         int newW = imgWidth -cropWidth;
-        int newY = cropHeight;
         int newH = imgHeight-cropHeight;
-// ensure crop w,h divisible by 4 (SZ requirement)
-        //cropWidth -= cropWidth & 3;
-        //cropHeight -= cropHeight & 3;
-// crop area for standard frame
-        int cropWidthStd = cropWidth;
-        int cropHeightStd = cropHeight;
-        return new Rect(newX, newY, newW,newH);
+        return new Rect(cropWidth, cropHeight, newW,newH);
     }
 }

@@ -13,7 +13,6 @@ import com.troop.freedcam.i_camera.parameters.I_ParametersLoaded;
 import com.troop.freedcam.ui.AbstractFragment;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
-import com.troop.freedcam.ui.SwipeMenuListner;
 
 import troop.com.themesample.R;
 import troop.com.themesample.views.menu.MenuItemTheme;
@@ -24,20 +23,20 @@ import troop.com.themesample.views.uichilds.UiSettingsChild;
  */
 public class SettingsMenuFragment extends AbstractFragment implements Interfaces.I_CloseNotice, Interfaces.I_MenuItemClick, I_ParametersLoaded
 {
-    final String TAG = SettingsMenuFragment.class.getSimpleName();
-    LinearLayout left_Holder;
-    LinearLayout right_Holder;
-    LeftMenuFragment leftMenuFragment;
-    RightMenuFragment rightMenuFragment;
-    ValuesMenuFragment valuesMenuFragment;
+    private final String TAG = SettingsMenuFragment.class.getSimpleName();
+    private LinearLayout left_Holder;
+    private LinearLayout right_Holder;
+    private LeftMenuFragment leftMenuFragment;
+    private RightMenuFragment rightMenuFragment;
+    private ValuesMenuFragment valuesMenuFragment;
 
 
-    final int VALUE_MENU_CLOSED = 0;
-    final int VALUE_MENU_RIGHT_OPEN = 1;
-    final int VALUE_MENU_LEFT_OPEN = 2;
-    int value_menu_status = VALUE_MENU_CLOSED;
+    private final int VALUE_MENU_CLOSED = 0;
+    private final int VALUE_MENU_RIGHT_OPEN = 1;
+    private final int VALUE_MENU_LEFT_OPEN = 2;
+    private int value_menu_status = VALUE_MENU_CLOSED;
 
-    UiSettingsChild currentOpendItem;
+    private UiSettingsChild currentOpendItem;
 
     @Override
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper) {
@@ -102,9 +101,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
             transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
             transaction.replace(R.id.left_holder, leftMenuFragment);
             transaction.commitAllowingStateLoss();
-        }catch (NullPointerException ex)
-        {}
-        catch (IllegalStateException ex)
+        }catch (NullPointerException | IllegalStateException ex)
         {}
     }
     private void loadRightFragment() {
@@ -119,9 +116,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
             transaction.replace(R.id.right_holder, rightMenuFragment);
             transaction.commitAllowingStateLoss();
         }
-        catch (NullPointerException ex)
-        {}
-        catch (IllegalStateException ex)
+        catch (NullPointerException | IllegalStateException ex)
         {}
     }
 

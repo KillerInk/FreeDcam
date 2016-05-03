@@ -11,7 +11,6 @@ import com.troop.filelogger.Logger;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,7 +21,7 @@ public class RawUtils {
     final static String TAG = RawUtils.class.getSimpleName();
     private static int DEFAULT_JPG_QUALITY = 85;
 
-    public RawUtils() {
+    private RawUtils() {
 
     }
 
@@ -90,7 +89,7 @@ public class RawUtils {
      * @param width
      * @return
      */
-    public static Bitmap unpackThumbnailBitmapToFit(String fileName, int width, int height) {
+    private static Bitmap unpackThumbnailBitmapToFit(String fileName, int width, int height) {
         //TimeChecker t = TimeChecker.newInstance();
         //t.prepare();
         Bitmap thumbnail;
@@ -107,9 +106,8 @@ public class RawUtils {
 
         int scaleWidth = (int) Math.ceil(originWidth / (float) width);
         int scaleHeight = (int) Math.ceil(originHeight / (float) height);
-        int scale = (scaleWidth < scaleHeight ? scaleWidth : scaleHeight);
 
-        options.inSampleSize = scale;
+        options.inSampleSize = (scaleWidth < scaleHeight ? scaleWidth : scaleHeight);
        // t.check("");
 
         thumbnail = BitmapFactory.decodeByteArray(thumbnailBytes, 0, thumbnailBytes.length, options);
@@ -131,15 +129,11 @@ public class RawUtils {
     }
 
     public static boolean saveThumbnailToFitToFile(String rawFileName, String scaledFileName, int width, int height) {
-        //TimeChecker t = TimeChecker.newInstance();
-        //t.prepare();
         Bitmap bitmap = unpackThumbnailBitmapToFit(rawFileName, width, height);
-        //t.check("�");
-
         if (bitmap == null || bitmap.getByteCount() == 0) {
             return false;
         }
-        HashMap exifMap = RawUtils.parseExif(rawFileName, false);
+        HashMap exifMap = RawUtils.parseExif(rawFileName);
         int flip = Integer.valueOf((String)exifMap.get(ExifInterface.TAG_ORIENTATION));
         if (flip != 0) {
             Matrix matrix = new Matrix();
@@ -155,12 +149,8 @@ public class RawUtils {
             }
             matrix.postRotate(rotation);
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, false);
-            //t.check("");
         }
-
-        boolean result = compressBitmapAndSave(bitmap, scaledFileName);
-       // t.check("JPG");
-        return result;
+        return compressBitmapAndSave(bitmap, scaledFileName);
     }
 
     public static boolean scaleJPGAndSave(String originFileName, String scaledFileName, int width, int height) {
@@ -189,7 +179,7 @@ public class RawUtils {
         return compressBitmapAndSave(bitmap, scaledFileName);
     }
 
-    public static boolean compressBitmapAndSave(Bitmap bitmap, String savedFileName) {
+    private static boolean compressBitmapAndSave(Bitmap bitmap, String savedFileName) {
         boolean result = false;
 
         if (bitmap == null) {
@@ -203,10 +193,7 @@ public class RawUtils {
             result = bitmap.compress(Bitmap.CompressFormat.JPEG, DEFAULT_JPG_QUALITY, outputStream);
             outputStream.flush();
 
-        } catch (FileNotFoundException e) {
-            Logger.exception(e);  //To change body of catch statement use File | Settings | File Templates.
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             Logger.exception(e);
         }
         finally {
@@ -222,10 +209,10 @@ public class RawUtils {
     }
 
 
-    public static HashMap<String, String> parseExif(String fileName, boolean isJPEG) {
-        HashMap<String, String> exif = new HashMap<String, String>();
+    private static HashMap<String, String> parseExif(String fileName) {
+        HashMap<String, String> exif = new HashMap<>();
         try {
-            if (isJPEG) {
+            if (false) {
                 ExifInterface oldExif = new ExifInterface(fileName);
                
             }

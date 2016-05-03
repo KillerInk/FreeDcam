@@ -9,7 +9,6 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.Type;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -30,23 +29,24 @@ import troop.com.views.MyHistogram;
 public class RenderScriptTestActivity extends Activity implements SurfaceHolder.Callback, Camera.PreviewCallback
 {
     final String TAG = RenderScriptTestActivity.class.getSimpleName();
-    SurfaceView surfaceView;
-    Camera camera;
-    SurfaceView nativeSurface;
+    private SurfaceView surfaceView;
+    private Camera camera;
+    private SurfaceView nativeSurface;
 
-    NativeDrawView drawView;
-    int w,h;
+    private NativeDrawView drawView;
+    private int w;
+    private int h;
 
-    Button buttonProcessFrame;
-    ImageView maskImageView;
-    MyHistogram histogram;
+    private Button buttonProcessFrame;
+    private ImageView maskImageView;
+    private MyHistogram histogram;
 
-    RenderScript mRS;
+    private RenderScript mRS;
     private Allocation mInputAllocation;
     private Allocation mOutputAllocation;
     private final BlockingQueue<byte[]> mYuvFrameQueue = new ArrayBlockingQueue<byte[]>(2);
     private ScriptC_focus_peak mScriptFocusPeak;
-    Bitmap drawBitmap;
+    private Bitmap drawBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +82,8 @@ public class RenderScriptTestActivity extends Activity implements SurfaceHolder.
         maskImageView.setImageBitmap(drawBitmap);
     }
 
-    boolean dowork = false;
-    View.OnClickListener processFrameClick = new View.OnClickListener()
+    private boolean dowork = false;
+    private View.OnClickListener processFrameClick = new View.OnClickListener()
     {
         @Override
         public void onClick(View v)

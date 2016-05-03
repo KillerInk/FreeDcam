@@ -22,7 +22,6 @@ import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.FocusRect;
 import com.troop.freedcam.sonyapi.CameraUiWrapperSony;
 import com.troop.freedcam.ui.AbstractFocusImageHandler;
-import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.ui.ImageViewTouchAreaHandler;
 
 import troop.com.themesample.R;
@@ -35,17 +34,17 @@ import troop.com.themesample.SampleThemeFragment;
 public class FocusImageHandler extends AbstractFocusImageHandler
 {
     private AbstractCameraUiWrapper wrapper;
-    protected ImageView focusImageView;
+    private ImageView focusImageView;
     final int crosshairShowTime = 5000;
-    int disHeight;
-    int disWidth;
-    int marginLeft;
-    int marginRight;
-    int recthalf;
-    protected ImageView cancelFocus;
-    protected ImageView meteringArea;
-    protected ImageView awbArea;
-    FocusRect meteringRect;
+    private int disHeight;
+    private int disWidth;
+    private int marginLeft;
+    private int marginRight;
+    private int recthalf;
+    private ImageView cancelFocus;
+    private ImageView meteringArea;
+    private ImageView awbArea;
+    private FocusRect meteringRect;
     FocusRect awbRect;
     static final int MAX_DURATION = 3500;
     private boolean focusWasVisible = false;
@@ -74,9 +73,9 @@ public class FocusImageHandler extends AbstractFocusImageHandler
 
         meteringArea.setVisibility(View.GONE);
         if (wrapper != null)
-            meteringArea.setOnTouchListener(new ImageViewTouchAreaHandler(meteringArea, wrapper, meteringTouch, true));
+            meteringArea.setOnTouchListener(new ImageViewTouchAreaHandler(meteringArea, wrapper, meteringTouch));
 
-        awbArea.setOnTouchListener(new ImageViewTouchAreaHandler(awbArea, wrapper,awbTouch, true));
+        awbArea.setOnTouchListener(new ImageViewTouchAreaHandler(awbArea, wrapper,awbTouch));
         awbArea.setVisibility(View.GONE);
 
     }
@@ -85,18 +84,9 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     {
         if (hide)
         {
-            if (focusImageView.getVisibility() == View.VISIBLE)
-                focusWasVisible = true;
-            else
-                focusWasVisible = false;
-            if (meteringArea.getVisibility() == View.VISIBLE)
-                meteringWasVisible = true;
-            else
-                meteringWasVisible = false;
-            if (awbArea.getVisibility() == View.VISIBLE)
-                wbWasVisible = true;
-            else
-                wbWasVisible = false;
+            focusWasVisible = focusImageView.getVisibility() == View.VISIBLE;
+            meteringWasVisible = meteringArea.getVisibility() == View.VISIBLE;
+            wbWasVisible = awbArea.getVisibility() == View.VISIBLE;
             focusImageView.setVisibility(View.GONE);
             meteringArea.setVisibility(View.GONE);
             awbArea.setVisibility(View.GONE);
@@ -111,7 +101,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         }
     }
 
-    protected void init(View view)
+    private void init(View view)
     {
         focusImageView = (ImageView)view.findViewById(troop.com.themesample.R.id.imageView_Crosshair);
         cancelFocus = (ImageView)view.findViewById(troop.com.themesample.R.id.imageViewFocusClose);
@@ -124,7 +114,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         this.wrapper = cameraUiWrapper;
         if(cameraUiWrapper instanceof CameraUiWrapper || cameraUiWrapper instanceof CameraUiWrapperApi2) {
             meteringRect = centerImageView(meteringArea);
-            meteringArea.setOnTouchListener(new ImageViewTouchAreaHandler(meteringArea, wrapper, meteringTouch, true));
+            meteringArea.setOnTouchListener(new ImageViewTouchAreaHandler(meteringArea, wrapper, meteringTouch));
             if (wrapper.Focus.isAeMeteringSupported())
             {
                 meteringArea.setVisibility(View.VISIBLE);
@@ -272,7 +262,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         }
     };*/
 
-    ImageViewTouchAreaHandler.I_TouchListnerEvent meteringTouch = new ImageViewTouchAreaHandler.I_TouchListnerEvent() {
+    private ImageViewTouchAreaHandler.I_TouchListnerEvent meteringTouch = new ImageViewTouchAreaHandler.I_TouchListnerEvent() {
         @Override
         public void onAreaCHanged(FocusRect imageRect, int previewWidth, int previewHeight) {
             if (wrapper != null)
@@ -309,7 +299,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         }
     };
 
-    ImageViewTouchAreaHandler.I_TouchListnerEvent awbTouch = new ImageViewTouchAreaHandler.I_TouchListnerEvent() {
+    private ImageViewTouchAreaHandler.I_TouchListnerEvent awbTouch = new ImageViewTouchAreaHandler.I_TouchListnerEvent() {
         @Override
         public void onAreaCHanged(FocusRect imageRect, int previewWidth, int previewHeight) {
             if (wrapper != null)

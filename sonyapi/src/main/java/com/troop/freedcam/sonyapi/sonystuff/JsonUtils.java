@@ -1,7 +1,5 @@
 package com.troop.freedcam.sonyapi.sonystuff;
 
-import android.util.Log;
-
 import com.troop.filelogger.Logger;
 
 import org.json.JSONArray;
@@ -17,7 +15,7 @@ import java.util.Set;
  */
 public class JsonUtils
 {
-    final static String TAG = JsonUtils.class.getSimpleName();
+    private final static String TAG = JsonUtils.class.getSimpleName();
     /**
      * Retrieve a list of APIs that are supported by the target device.
      *
@@ -113,17 +111,17 @@ public class JsonUtils
         return ret;
     }
 
-    public static int findIntInformation(JSONObject replyJson,int indexpos, String typeS, String subtype ) throws JSONException {
+    public static int findIntInformation(JSONObject replyJson, String typeS, String subtype) throws JSONException {
 
         int ret = -5000;
         JSONArray resultsObj = replyJson.getJSONArray("result");
-        if (!resultsObj.isNull(indexpos)) {
-            JSONObject intInformationObj = resultsObj.getJSONObject(indexpos);
+        if (!resultsObj.isNull(25)) {
+            JSONObject intInformationObj = resultsObj.getJSONObject(25);
             String type = intInformationObj.getString("type");
-            if (typeS.equals(type)) {
+            if ("exposureCompensation".equals(type)) {
                 ret = intInformationObj.getInt(subtype);
             } else {
-                Logger.w(TAG, "Event reply: Illegal Index " + typeS+ " "+ subtype  + " " +type);
+                Logger.w(TAG, "Event reply: Illegal Index " + "exposureCompensation" + " "+ subtype  + " " +type);
             }
         }
         return ret;
@@ -164,7 +162,7 @@ public class JsonUtils
     }
 
     public static String[] findStringArrayInformation(JSONObject replyJson,int indexpos, String typeS, String subtype ) throws JSONException {
-        ArrayList<String> values = new ArrayList<String>();
+        ArrayList<String> values = new ArrayList<>();
 
         JSONArray resultsObj = replyJson.getJSONArray("result");
         if (!resultsObj.isNull(indexpos)) {
@@ -205,7 +203,7 @@ public class JsonUtils
      * @throws org.json.JSONException
      */
     public static List<String> findAvailableApiList(JSONObject replyJson) throws JSONException {
-        List<String> availableApis = new ArrayList<String>();
+        List<String> availableApis = new ArrayList<>();
         int indexOfAvailableApiList = 0;
         JSONArray resultsObj = replyJson.getJSONArray("result");
         if (!resultsObj.isNull(indexOfAvailableApiList)) {

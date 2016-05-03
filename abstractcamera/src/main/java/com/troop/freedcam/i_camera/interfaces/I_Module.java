@@ -5,18 +5,18 @@ package com.troop.freedcam.i_camera.interfaces;
  */
 public interface I_Module
 {
-    public String ModuleName();
+    String ModuleName();
 
     /**
      * Let the Module start its work
      */
-    public boolean DoWork();
-    public boolean IsWorking();
+    boolean DoWork();
+    boolean IsWorking();
 
-    public String LongName();
-    public String ShortName();
+    String LongName();
+    String ShortName();
 
-    public void LoadNeededParameters();
-    public void UnloadNeededParameters();
+    void LoadNeededParameters();
+    void UnloadNeededParameters();
 
 }

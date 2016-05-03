@@ -2,7 +2,6 @@ package com.troop.freedcam.ui;
 
 import android.content.res.Resources;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.troop.filelogger.Logger;
@@ -12,7 +11,7 @@ import com.troop.filelogger.Logger;
  */
 public class TouchHandler
 {
-    final int distance = 90;
+    private final int distance = 90;
     private final String TAG = TouchHandler.class.getSimpleName();
     private final boolean DEBUG = false;
 
@@ -22,17 +21,17 @@ public class TouchHandler
             Logger.d(TAG, log);
     }
 
-    public int startX;
-    public int startY;
-    public int currentX;
-    public int currentY;
+    private int startX;
+    private int startY;
+    private int currentX;
+    private int currentY;
     private boolean swipeDetected = false;
     private boolean newActionBlocked = false;
     private final int blockTime = 500;
     private Handler handler;
 
 
-    public TouchHandler()
+    TouchHandler()
     {
         handler = new Handler();
     }
@@ -126,33 +125,33 @@ public class TouchHandler
         }
     };
 
-    protected void doLeftToRightSwipe()
+    void doLeftToRightSwipe()
     {
     }
 
-    protected void doRightToLeftSwipe()
+    void doRightToLeftSwipe()
     {
     }
 
-    protected void doTopToBottomSwipe()
+    void doTopToBottomSwipe()
     {
     }
 
-    protected void doBottomToTopSwipe()
+    void doBottomToTopSwipe()
     {
     }
 
-    protected void OnClick(int x, int y)
-    {
-
-    }
-
-    protected void OnMotionEvent(MotionEvent event)
+    void OnClick(int x, int y)
     {
 
     }
 
-    public static float getDistance(int startvalue, int currentvalue)
+    void OnMotionEvent(MotionEvent event)
+    {
+
+    }
+
+    private static float getDistance(int startvalue, int currentvalue)
     {
         int dis = startvalue - currentvalue;
         if (dis < 0)

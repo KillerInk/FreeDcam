@@ -18,7 +18,7 @@ import troop.com.themesample.R;
  */
 public class MenuItemTimeLapseFrames extends LinearLayout
 {
-    final String TAG = MenuItemTimeLapseFrames.class.getSimpleName();
+    private final String TAG = MenuItemTimeLapseFrames.class.getSimpleName();
     private Button plus;
     private Button minus;
     private EditText editText;
@@ -34,15 +34,15 @@ public class MenuItemTimeLapseFrames extends LinearLayout
 
     public MenuItemTimeLapseFrames(Context context) {
         super(context);
-        init(context, null);
+        init(context);
     }
 
     public MenuItemTimeLapseFrames(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        init(context, null);
+        init(context);
     }
-    protected void init(Context context, AttributeSet attributeSet)
+    private void init(Context context)
     {
         this.context = context;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -96,8 +96,8 @@ public class MenuItemTimeLapseFrames extends LinearLayout
         editText.setText(current + " fps");
     }
 
-    public void SetStuff(String settingvalue) {
-        this.settingsname = settingvalue;
+    public void SetStuff() {
+        this.settingsname = AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME;
         String fps = "";
         fps = AppSettingsManager.APPSETTINGSMANAGER.getString(settingsname);
         if (fps == null || fps.equals(""))

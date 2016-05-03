@@ -1,7 +1,6 @@
 package com.troop.freedcam.i_camera.parameters;
 
 import android.os.Handler;
-import android.util.Log;
 
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.FocusRect;
@@ -105,7 +104,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter ThemeList;
     public boolean isExposureAndWBLocked = false;
     private boolean isDngActive = false;
-    public boolean IsDngActive(){ return this.isDngActive; };
+    public boolean IsDngActive(){ return this.isDngActive; }
     public void SetDngActive(boolean active) {this.isDngActive = active;}
 
     public AbstractCameraHolder cameraHolder;
@@ -148,7 +147,7 @@ public abstract class AbstractParameterHandler
     {
         this.cameraHolder = cameraHolder;
         this.uiHandler = uiHandler;
-        parametersLoadedListner = new ArrayList<I_ParametersLoaded>();
+        parametersLoadedListner = new ArrayList<>();
         parametersLoadedListner.clear();
 
         GuideList = new GuideList(uiHandler);
@@ -164,12 +163,12 @@ public abstract class AbstractParameterHandler
     public abstract void SetParametersToCamera(HashMap<String, String> list);
     public abstract void LockExposureAndWhiteBalance(boolean lock);
 
-    public void SetFocusAREA(FocusRect focusAreas, FocusRect meteringAreas){};
-    public void SetMeterAREA(FocusRect meteringAreas){};
+    public void SetFocusAREA(FocusRect focusAreas, FocusRect meteringAreas){}
+    public void SetMeterAREA(FocusRect meteringAreas){}
 
-    public void SetPictureOrientation(int or){};
+    public void SetPictureOrientation(int or){}
 
-    public void SetEVBracket(String ev){};
+    public void SetEVBracket(String ev){}
 
     public void SetAppSettingsToParameters()
     {

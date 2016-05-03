@@ -8,13 +8,10 @@ import com.troop.freedcam.ui.FreeDPool;
 import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
@@ -66,7 +63,7 @@ public class OpCodeParameter extends AbstractModeParameter
             @Override
             public void run() {
                 try {
-                    httpsGet(urlopc2, 3000, "opc2.bin");
+                    httpsGet(urlopc2, "opc2.bin");
                 } catch (IOException e) {
                     Logger.exception(e);
                 }
@@ -76,7 +73,7 @@ public class OpCodeParameter extends AbstractModeParameter
             @Override
             public void run() {
                 try {
-                    httpsGet(urlopc3, 3000,"opc3.bin");
+                    httpsGet(urlopc3, "opc3.bin");
                 } catch (IOException e) {
                     Logger.exception(e);
                 }
@@ -104,7 +101,7 @@ public class OpCodeParameter extends AbstractModeParameter
         return isSupported;
     }
 
-    public void httpsGet(String url, int timeout, String fileending) throws IOException {
+    private void httpsGet(String url, String fileending) throws IOException {
         HttpsURLConnection  httpConn = null;
         InputStream inputStream = null;
 
@@ -116,7 +113,7 @@ public class OpCodeParameter extends AbstractModeParameter
             httpConn.setHostnameVerifier(DO_NOT_VERIFY);
             httpConn.setRequestMethod("GET");
             httpConn.setConnectTimeout(15000);
-            httpConn.setReadTimeout(timeout);
+            httpConn.setReadTimeout(3000);
             httpConn.connect();
 
             int responseCode = httpConn.getResponseCode();
@@ -174,7 +171,7 @@ public class OpCodeParameter extends AbstractModeParameter
     }
 
     // always verify the host - dont check for certificate
-    final static HostnameVerifier DO_NOT_VERIFY = new HostnameVerifier() {
+    private final static HostnameVerifier DO_NOT_VERIFY = new HostnameVerifier() {
         public boolean verify(String hostname, SSLSession session) {
             return true;
         }

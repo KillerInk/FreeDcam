@@ -6,7 +6,6 @@ import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.modules.ModuleHandler;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
-import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
 import com.troop.freedcam.utils.DeviceUtils;
 
 import java.util.ArrayList;
@@ -27,8 +26,8 @@ public class PictureFormatHandler extends BaseModeParameter
     private String[] rawFormats;
 
     final public static int JPEG= 0;
-    final public static int RAW = 1;
-    final public static int DNG = 2;
+    private final static int RAW = 1;
+    private final static int DNG = 2;
 
     private BayerFormat BayerFormats;
 
@@ -75,7 +74,7 @@ public class PictureFormatHandler extends BaseModeParameter
                         }
                         if (formats.contains("bayer"))
                         {
-                            ArrayList<String> tmp = new ArrayList<String>();
+                            ArrayList<String> tmp = new ArrayList<>();
                             String forms[] = formats.split(",");
                             for (String s : forms) {
                                 if (s.contains("bayer"))
@@ -86,7 +85,7 @@ public class PictureFormatHandler extends BaseModeParameter
                             rawFormats = new String[tmp.size()];
                             tmp.toArray(rawFormats);
                             if (tmp.size()>0) {
-                                BayerFormats = new BayerFormat(uihandler, parameters, cameraHolder, "", "");
+                                BayerFormats = new BayerFormat(uihandler, parameters, cameraHolder, "");
                                 camParametersHandler.bayerformat = BayerFormats;
                             }
 
@@ -214,11 +213,10 @@ public class PictureFormatHandler extends BaseModeParameter
          * @param uihandler    Holds the ui Thread to invoke the ui from antother thread
          * @param parameters   Hold the Camera Parameters
          * @param cameraHolder Hold the camera object
-         * @param value        The String to get/set the value from the parameters
          * @param values
          */
-        public BayerFormat(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value, String values) {
-            super(uihandler, parameters, cameraHolder, value, values);
+        public BayerFormat(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String values) {
+            super(uihandler, parameters, cameraHolder, "", "");
         }
 
         @Override

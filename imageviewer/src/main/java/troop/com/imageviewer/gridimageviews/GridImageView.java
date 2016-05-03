@@ -2,13 +2,10 @@ package troop.com.imageviewer.gridimageviews;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.AbsoluteLayout;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -16,7 +13,6 @@ import android.widget.TextView;
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.ui.FreeDPool;
 
-import java.io.File;
 import java.lang.ref.WeakReference;
 
 import troop.com.imageviewer.BitmapHelper;
@@ -42,10 +38,10 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
     private Bitmap noimg;
     private Bitmap fold;
     private int mImageThumbSize;
-    ProgressBar progressBar;
-    final String TAG = GridImageView.class.getSimpleName();
+    private ProgressBar progressBar;
+    private final String TAG = GridImageView.class.getSimpleName();
 
-    public GridViewFragment.ViewStates viewstate = BaseGridViewFragment.ViewStates.normal;
+    private GridViewFragment.ViewStates viewstate = BaseGridViewFragment.ViewStates.normal;
 
 
     public GridImageView(Context context) {
@@ -107,11 +103,11 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
 
 
 
-    public void SetFileEnding(String ending)
+    private void SetFileEnding(String ending)
     {
         textView.setText(ending);
     }
-    public void SetFolderName(String ending)
+    private void SetFolderName(String ending)
     {
         folderTextView.setText(ending);
     }
@@ -211,7 +207,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
 
         public BitmapLoadRunnable(GridImageView imageView, FileHolder fileHolder)
         {
-            this.imageviewRef = new WeakReference<GridImageView>(imageView);
+            this.imageviewRef = new WeakReference<>(imageView);
             this.fileHolder = fileHolder;
         }
 

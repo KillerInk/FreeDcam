@@ -1,25 +1,13 @@
 package com.troop.freedcam.camera.modules.image_saver;
 
-import android.media.ExifInterface;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Handler;
-import android.os.ParcelFileDescriptor;
-import android.support.v4.provider.DocumentFile;
-import android.util.Log;
-
 import com.troop.androiddng.RawToDng;
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
-import com.troop.freedcam.camera.parameters.CamParametersHandler;
-import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.FreeDPool;
-import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -28,14 +16,14 @@ import java.io.IOException;
  */
 public class MediatekSaver extends JpegSaver {
 
-    File holdFile = null;
+    private File holdFile = null;
 
-    final public String fileEnding = ".jpg";
+    private final String fileEnding = ".jpg";
     public MediatekSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone) {
         super(cameraHolder, i_workeDone);
     }
 
-    final String TAG = "MediatekIMG";
+    private final String TAG = "MediatekIMG";
 
     @Override
     public void TakePicture()
@@ -47,9 +35,9 @@ public class MediatekSaver extends JpegSaver {
             public void run() {
                 if (ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.BAYER) || ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.DNG)) {
                     String timestamp = String.valueOf(System.currentTimeMillis());
-                    ParameterHandler.Set_RAWFNAME("/mnt/sdcard/DCIM/FreeDCam/" + "mtk" + timestamp + StringUtils.FileEnding.GetWithDot(StringUtils.FileEnding.BAYER));
+                    ParameterHandler.Set_RAWFNAME("/mnt/sdcard/DCIM/FreeDCam/" + "mtk" + timestamp + StringUtils.FileEnding.GetWithDot());
                 }
-                cameraHolder.TakePicture(null, null, MediatekSaver.this);
+                cameraHolder.TakePicture(null, MediatekSaver.this);
             }
         });
     }
@@ -57,7 +45,7 @@ public class MediatekSaver extends JpegSaver {
     @Override
     public void onPictureTaken(final byte[] data)
     {
-        if (awaitpicture == false)
+        if (!awaitpicture)
             return;
         awaitpicture =false;
         Logger.d(TAG, "Take Picture CallBack");
@@ -111,11 +99,7 @@ public class MediatekSaver extends JpegSaver {
             data = RawToDng.readFile(rawfile);
             Logger.d(TAG, "Filesize: " + data.length + " File:" + rawfile.getAbsolutePath());
 
-        } catch (FileNotFoundException e) {
-            Logger.exception(e);
-        } catch (IOException e) {
-            Logger.exception(e);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | IOException e) {
             Logger.exception(e);
         }
         File dng = new File(holdFile.getAbsolutePath().replace(StringUtils.FileEnding.JPG, StringUtils.FileEnding.DNG));
@@ -141,7 +125,7 @@ public class MediatekSaver extends JpegSaver {
         return null;
     }
 
-    public boolean checkFileCanRead(File file)
+    private boolean checkFileCanRead(File file)
     {
         try {
             if (!file.exists())

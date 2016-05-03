@@ -125,6 +125,7 @@ JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_unpac
 
 JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_loadJPEGtoARGB(JNIEnv * env, jobject obj,jobject handler, jstring jfilename)
 {
+    LOGD("loadJPEGtoARGB");
     ImageProcessor* rgbContainer = (ImageProcessor*)env->GetDirectBufferAddress(handler);
     rgbContainer->loadJPEGToRGBA(env,jfilename);
 }
@@ -137,6 +138,7 @@ JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_loadJ
 
 JNIEXPORT void JNICALL Java_troop_com_imageconverter_ImageProcessorWrapper_stackAverageJPEGtoARGB(JNIEnv * env, jobject obj,jobject handler, jstring jfilename)
 {
+
     ImageProcessor* rgbContainer = (ImageProcessor*)env->GetDirectBufferAddress(handler);
     rgbContainer->StackAverageJPEGToARGB(env,jfilename);
 }

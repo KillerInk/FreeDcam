@@ -15,10 +15,10 @@ import com.troop.freedcam.manager.MyTimer;
  */
 public class TimerHandler implements I_ModuleEvent, I_RecorderStateChanged
 {
-    TextView timerText;
+    private TextView timerText;
 
     private final MainActivity mainActivity;
-    MyTimer timer;
+    private MyTimer timer;
 
     public TimerHandler(MainActivity mainActivity)
     {

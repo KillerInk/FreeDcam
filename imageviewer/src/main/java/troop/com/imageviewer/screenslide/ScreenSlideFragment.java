@@ -1,7 +1,6 @@
 package troop.com.imageviewer.screenslide;
 
 
-import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,7 +33,6 @@ import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 
-import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -50,10 +48,10 @@ import troop.com.views.MyHistogram;
  */
 public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageChangeListener, I_Activity.I_OnActivityResultCallback
 {
-    final static String TAG = ScreenSlideFragment.class.getSimpleName();
+    private final static String TAG = ScreenSlideFragment.class.getSimpleName();
     final public static String SAVESTATE_FILEPATH = "savestae_filepath";
-    final public static String SAVESTATE_ITEMINT = "savestate_itemint";
-    int mImageThumbSize = 0;
+    private final static String SAVESTATE_ITEMINT = "savestate_itemint";
+    private int mImageThumbSize = 0;
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -309,7 +307,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         }
     }
 
-    public void reloadFilesAndSetLastPos()
+    private void reloadFilesAndSetLastPos()
     {
         if (FilePathToLoad.equals("")) {
             mPagerAdapter.SetFiles(FileHolder.getDCIMFiles());
@@ -320,7 +318,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         }
     }
 
-    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+    private DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
@@ -420,15 +418,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
                             }
                         });
 
-                    } catch (EOFException ex)
-                    {
-                        Logger.d(TAG, "Failed to read Exif");
-                    } catch (IOException e) {
-                        Logger.d(TAG, "Failed to read Exif");
-                    } catch (JpegProcessingException e) {
-                        Logger.d(TAG, "Failed to read Exif");
-                    }
-                    catch (NullPointerException ex)
+                    } catch (NullPointerException | JpegProcessingException | IOException ex)
                     {
                         Logger.d(TAG, "Failed to read Exif");
                     }
@@ -445,8 +435,6 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             data = RawToDng.readFile(file);
             Logger.d("Main", "Filesize: " + data.length + " File:" + file.getAbsolutePath());
 
-        } catch (FileNotFoundException e) {
-            Logger.exception(e);
         } catch (IOException e) {
             Logger.exception(e);
         }
@@ -462,17 +450,13 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             dng.SetBayerData(data, out);
         else
         {
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true,AppSettingsManager.APPSETTINGSMANAGER);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(AppSettingsManager.APPSETTINGSMANAGER);
             DocumentFile wr = df.createFile("image/dng", file.getName().replace(StringUtils.FileEnding.JPG, StringUtils.FileEnding.DNG));
             ParcelFileDescriptor pfd = null;
             try {
 
                 pfd = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
-            } catch (FileNotFoundException e) {
-                Logger.exception(e);
-            }
-            catch (IllegalArgumentException e)
-            {
+            } catch (FileNotFoundException | IllegalArgumentException e) {
                 Logger.exception(e);
             }
             if (pfd != null) {

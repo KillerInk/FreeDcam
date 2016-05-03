@@ -12,10 +12,10 @@ import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 public class OrientationHandler implements AbstractModuleHandler.I_worker
 {
     private int currentOrientation = 0;
-    OrientationEventListener orientationEventListener;
+    private OrientationEventListener orientationEventListener;
     boolean parametersLoaded = false;
-    I_orientation orientationListner;
-    FragmentActivity activity;
+    private I_orientation orientationListner;
+    private FragmentActivity activity;
 
     public OrientationHandler(FragmentActivity activity, final I_orientation orientationListner)
     {

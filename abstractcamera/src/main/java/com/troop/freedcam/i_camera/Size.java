@@ -16,7 +16,7 @@ public class Size
     {
         String[] split = s.split("x");
         this.height = Integer.parseInt(split[1]);
-        this.width = Integer.parseInt(split[0]);;
+        this.width = Integer.parseInt(split[0]);
     }
 
 }

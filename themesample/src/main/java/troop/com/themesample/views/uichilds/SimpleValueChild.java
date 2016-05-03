@@ -16,8 +16,8 @@ import troop.com.themesample.subfragments.Interfaces;
 public class SimpleValueChild extends FrameLayout implements View.OnClickListener
 {
 
-    TextView textView;
-    Interfaces.I_CloseNotice closeNotice;
+    private TextView textView;
+    private Interfaces.I_CloseNotice closeNotice;
     public SimpleValueChild(Context context)
     {
         super(context);

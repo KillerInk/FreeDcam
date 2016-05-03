@@ -1,7 +1,5 @@
 package com.troop.freedcam.camera.modules.image_saver;
 
-import android.net.Uri;
-import android.os.Handler;
 import android.support.v4.provider.DocumentFile;
 
 import com.troop.filelogger.Logger;
@@ -14,7 +12,6 @@ import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -25,14 +22,14 @@ import java.io.OutputStream;
 public class JpegSaver implements I_Callbacks.PictureCallback
 {
 
-    String TAG = JpegSaver.class.getSimpleName();
+    private String TAG = JpegSaver.class.getSimpleName();
 
-    protected BaseCameraHolder cameraHolder;
+    BaseCameraHolder cameraHolder;
     I_WorkeDone iWorkeDone;
 
     final public String fileEnding = ".jpg";
     boolean awaitpicture = false;
-    protected CamParametersHandler ParameterHandler;
+    CamParametersHandler ParameterHandler;
 
     public JpegSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone)
     {
@@ -47,7 +44,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-                cameraHolder.TakePicture(null, raw, JpegSaver.this);
+                cameraHolder.TakePicture(raw, JpegSaver.this);
 
             }
         });
@@ -57,7 +54,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
     @Override
     public void onPictureTaken(final byte[] data)
     {
-        if (awaitpicture == false)
+        if (!awaitpicture)
             return;
         awaitpicture =false;
         FreeDPool.Execute(new Runnable() {
@@ -68,7 +65,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
                         || StringUtils.WRITE_NOT_EX_AND_L_ORBigger())
                     saveBytesToFile(data, f, true);
                 else {
-                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true,AppSettingsManager.APPSETTINGSMANAGER);
+                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(AppSettingsManager.APPSETTINGSMANAGER);
                     DocumentFile wr = df.createFile("image/jpeg", f.getName());
 
                     try {
@@ -76,8 +73,6 @@ public class JpegSaver implements I_Callbacks.PictureCallback
                         outStream.write(data);
                         outStream.flush();
                         outStream.close();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -90,7 +85,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
 
     }
 
-    I_Callbacks.PictureCallback raw = new I_Callbacks.PictureCallback() {
+    private I_Callbacks.PictureCallback raw = new I_Callbacks.PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data)
         {
@@ -115,7 +110,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
             }
             else
             {
-                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true,AppSettingsManager.APPSETTINGSMANAGER);
+                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(AppSettingsManager.APPSETTINGSMANAGER);
                 Logger.d(TAG,"Filepath: " +df.getUri().toString());
                 DocumentFile wr = df.createFile("image/jpeg", fileName.getName());
                 Logger.d(TAG,"Filepath: " +wr.getUri().toString());
@@ -126,8 +121,6 @@ public class JpegSaver implements I_Callbacks.PictureCallback
             outStream.close();
 
 
-        } catch (FileNotFoundException e) {
-            Logger.exception(e);
         } catch (IOException e) {
             Logger.exception(e);
         }
@@ -137,7 +130,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
 
     }
 
-    public void checkFileExists(File fileName)
+    void checkFileExists(File fileName)
     {
         if (fileName.getParentFile() == null)
             return;

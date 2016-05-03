@@ -15,9 +15,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 
-import com.drew.lang.annotations.NotNull;
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.apis.AbstractCameraFragment;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
@@ -43,7 +41,7 @@ import troop.com.imageviewer.AbstractFragmentActivity;
  */
 public class MainActivity extends AbstractFragmentActivity implements I_orientation, I_error, I_CameraChangedListner, I_ModuleEvent, AbstractCameraFragment.CamerUiWrapperRdy, ApiEvent
 {
-    protected ViewGroup appViewGroup;
+    private ViewGroup appViewGroup;
     private OrientationHandler orientationHandler;
     private final String TAG = StringUtils.TAG + MainActivity.class.getSimpleName();
     private final String TAGLIFE = StringUtils.TAG + "LifeCycle";
@@ -110,7 +108,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         }
     }
 
-    @TargetApi(23)
+    @TargetApi(Build.VERSION_CODES.M)
     private void checkMarshmallowPermissions() {
         if (checkSelfPermission(Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -175,9 +173,9 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         apiHandler.CheckApi();
         hardwareKeyHandler = new HardwareKeyHandler(this);
         if (cameraFragment != null)
-            themeHandler.GetThemeFragment(true, cameraFragment.GetCameraUiWrapper());
+            themeHandler.GetThemeFragment(cameraFragment.GetCameraUiWrapper());
         else
-            themeHandler.GetThemeFragment(true,null);
+            themeHandler.GetThemeFragment(null);
     }
 
     /**
@@ -311,7 +309,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     @Override
     public void SetTheme(String Theme)
     {
-        themeHandler.GetThemeFragment(true, cameraFragment.GetCameraUiWrapper());
+        themeHandler.GetThemeFragment(cameraFragment.GetCameraUiWrapper());
     }
 
     @Override
@@ -359,7 +357,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     @Override
     public void loadCameraUiFragment()
     {
-        themeHandler.GetThemeFragment(true, cameraFragment.GetCameraUiWrapper());
+        themeHandler.GetThemeFragment(cameraFragment.GetCameraUiWrapper());
     }
 
     @Override

@@ -26,7 +26,6 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicYuvToRGB;
 import android.renderscript.Type;
-import android.util.Log;
 import android.view.Surface;
 
 import com.troop.filelogger.Logger;
@@ -37,20 +36,20 @@ import com.troop.filelogger.Logger;
 @TargetApi(Build.VERSION_CODES.KITKAT)
 public class ViewfinderProcessor
 {
-    final String TAG = ViewfinderProcessor.class.getSimpleName();
-    int mCount;
+    private final String TAG = ViewfinderProcessor.class.getSimpleName();
+    private int mCount;
     long mLastTime;
-    float mFps;
+    private float mFps;
     private Allocation mInputAllocation;
     private Allocation mOutputAllocation;
     private HandlerThread mProcessingThread;
     private Handler mProcessingHandler;
     private ScriptC_focus_peak mScriptFocusPeak;
     private ScriptIntrinsicYuvToRGB yuvToRgbIntrinsic;
-    public ProcessingTask mProcessingTask;
+    private ProcessingTask mProcessingTask;
     public boolean peak = false;
 
-    RenderScript rs;
+    private RenderScript rs;
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public ViewfinderProcessor(RenderScript rs)
     {

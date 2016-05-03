@@ -1,15 +1,12 @@
 package com.troop.freedcam.camera.modules;
 
 import android.media.MediaRecorder;
-import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
-import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
-import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.i_camera.modules.I_RecorderStateChanged;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
@@ -19,7 +16,6 @@ import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
-import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -187,7 +183,7 @@ public abstract class AbstractVideoModule extends AbstractModule
         else
         {
             File f = new File(s);
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true, AppSettingsManager.APPSETTINGSMANAGER);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(AppSettingsManager.APPSETTINGSMANAGER);
             DocumentFile wr = df.createFile("*/*", f.getName());
             try {
                 fileDescriptor = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");

@@ -1,10 +1,8 @@
 package troop.com.themesample.views.menu;
 
-import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
-import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
 import android.util.AttributeSet;
 import android.widget.Toast;
@@ -17,9 +15,6 @@ import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 /**
  * Created by troop on 21.07.2015.
@@ -28,7 +23,7 @@ public class MenuItemSDSave extends MenuItem implements I_Activity.I_OnActivityR
 {
     final String internal = "Internal";
     final String external ="External";
-    AbstractCameraUiWrapper cameraUiWrapper;
+    private AbstractCameraUiWrapper cameraUiWrapper;
     private String lastval;
 
     public MenuItemSDSave(Context context) {

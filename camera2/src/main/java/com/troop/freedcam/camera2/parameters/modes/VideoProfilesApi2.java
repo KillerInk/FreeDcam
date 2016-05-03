@@ -22,9 +22,9 @@ import java.util.List;
 public class VideoProfilesApi2 extends BaseModeApi2
 {
     final String TAG = VideoProfilesApi2.class.getSimpleName();
-    HashMap<String, VideoMediaProfile> supportedProfiles;
+    private HashMap<String, VideoMediaProfile> supportedProfiles;
     private String profile;
-    CameraUiWrapperApi2 cameraUiWrapperApi2;
+    private CameraUiWrapperApi2 cameraUiWrapperApi2;
 
     public VideoProfilesApi2(Handler handler, BaseCameraHolderApi2 baseCameraHolderApi2, CameraUiWrapperApi2 cameraUiWrapperApi2)
     {
@@ -47,7 +47,7 @@ public class VideoProfilesApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        List<String> keys = new ArrayList<String>(supportedProfiles.keySet());
+        List<String> keys = new ArrayList<>(supportedProfiles.keySet());
         Collections.sort(keys);
         return keys.toArray(new String[keys.size()]);
     }
@@ -59,7 +59,7 @@ public class VideoProfilesApi2 extends BaseModeApi2
 
             String current;
 
-            supportedProfiles = new HashMap<String, VideoMediaProfile>();
+            supportedProfiles = new HashMap<>();
             File f = new File(VideoMediaProfile.MEDIAPROFILESPATH);
             if (!f.exists())
             {

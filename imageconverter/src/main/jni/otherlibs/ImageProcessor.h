@@ -4,8 +4,6 @@
 
 #ifndef FREEDCAM_IMAGEPROCESSOR_H
 #define FREEDCAM_IMAGEPROCESSOR_H
-#define  LOG_TAG    "ImageProcessor"
-#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
 #include <jni.h>
 #include <stdio.h>
@@ -21,6 +19,8 @@
 #include <android/native_window_jni.h> // requires ndk r5 or newer
 #include "libraw.h"
 #include <jpeglib.h>
+#define  LOG_TAG    "ImageProcessor"
+#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
 
 class ImageProcessor {

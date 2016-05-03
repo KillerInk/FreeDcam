@@ -18,9 +18,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        debug {
-
-        }
     }
     productFlavors {
     }
@@ -33,7 +30,6 @@ dependencies {
     compile project(':sonyapi')
     compile project(':camera1')
     compile project(':camera2')
-    compile project(':longexposure')
     compile project(':imageviewer')
     compile project(':themesample')
     compile project(':imageconverter')

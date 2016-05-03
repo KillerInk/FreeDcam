@@ -18,13 +18,13 @@ import java.util.Set;
 public class ZoomManualSony extends BaseManualParameterSony
 {
     final String TAG = ZoomManualSony.class.getSimpleName();
-    int zoomToSet;
+    private int zoomToSet;
     private boolean isZooming = false;
 
-    public boolean fromUser = false;
+    private boolean fromUser = false;
 
-    public ZoomManualSony(String MAX_TO_GET, String MIN_TO_GET, String CURRENT_TO_GET, ParameterHandlerSony parameterHandlerSony) {
-        super(MAX_TO_GET, MIN_TO_GET, CURRENT_TO_GET, parameterHandlerSony);
+    public ZoomManualSony(String MIN_TO_GET, String CURRENT_TO_GET, ParameterHandlerSony parameterHandlerSony) {
+        super("actZoom", "", "actZoom", parameterHandlerSony);
     }
 
     @Override
@@ -43,11 +43,8 @@ public class ZoomManualSony extends BaseManualParameterSony
     }
 
     @Override
-    public boolean IsSupported()
-    {
-        if (ParameterHandler.mAvailableCameraApiSet != null)
-            return JsonUtils.isCameraApiAvailable("actZoom", ParameterHandler.mAvailableCameraApiSet);
-        return false;
+    public boolean IsSupported() {
+        return ParameterHandler.mAvailableCameraApiSet != null && JsonUtils.isCameraApiAvailable("actZoom", ParameterHandler.mAvailableCameraApiSet);
     }
 
     @Override
@@ -64,10 +61,7 @@ public class ZoomManualSony extends BaseManualParameterSony
                         JSONObject zoom = array.getJSONObject(2);
                         String zoompos = zoom.getString("zoomPosition");
                         currentInt = Integer.parseInt(zoompos);
-                    } catch (IOException e) {
-                        Logger.exception(e);
-                        currentInt = 0;
-                    } catch (JSONException e) {
+                    } catch (IOException | JSONException e) {
                         Logger.exception(e);
                         currentInt = 0;
                     }
@@ -139,10 +133,7 @@ public class ZoomManualSony extends BaseManualParameterSony
         if (a == b)
             return  true;
             //1 = 3
-        else if (a - 5 <= b && a + 5 >= b)
-            return  true;
-        else
-            return false;
+        else return a - 5 <= b && a + 5 >= b;
     }
 
     public String GetStringValue()

@@ -34,7 +34,7 @@ public class SampleThemeFragment extends AbstractFragment
     private PagerAdapter mPagerAdapter;
 
     private SettingsMenuFragment settingsMenuFragment;
-    ScreenSlideFragment screenSlideFragment;
+    private ScreenSlideFragment screenSlideFragment;
     private boolean pagerTouchAllowed = true;
 
     public SampleThemeFragment()
@@ -98,7 +98,7 @@ public class SampleThemeFragment extends AbstractFragment
 
     }
 
-    ScreenSlideFragment.I_ThumbClick onThumbClick = new ScreenSlideFragment.I_ThumbClick() {
+    private ScreenSlideFragment.I_ThumbClick onThumbClick = new ScreenSlideFragment.I_ThumbClick() {
         @Override
         public void onThumbClick() {
             mPager.setCurrentItem(2);
@@ -111,7 +111,7 @@ public class SampleThemeFragment extends AbstractFragment
         }
     };
 
-    ScreenSlideFragment.I_ThumbClick onThumbBackClick = new ScreenSlideFragment.I_ThumbClick() {
+    private ScreenSlideFragment.I_ThumbClick onThumbBackClick = new ScreenSlideFragment.I_ThumbClick() {
         @Override
         public void onThumbClick()
         {

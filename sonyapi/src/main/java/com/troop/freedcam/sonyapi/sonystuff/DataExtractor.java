@@ -85,7 +85,7 @@ public class DataExtractor
 
         if (commonHeader.PayloadType == 2)
         {
-            frameInfoList = new ArrayList<FrameInfo>();
+            frameInfoList = new ArrayList<>();
             //int framC = frameDataSize /singelFrameDataSize;
             for (int i = 0; i<frameCount; i++)
             {

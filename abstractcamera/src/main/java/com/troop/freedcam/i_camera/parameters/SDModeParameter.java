@@ -34,10 +34,7 @@ public class SDModeParameter extends AbstractModeParameter
         try {
             if (!StringUtils.IS_L_OR_BIG()) {
                 File file = StringUtils.GetExternalSDCARD();
-                if (file.exists())
-                    return true;
-                else
-                    return false;
+                return file.exists();
             }
             else
                 return true;

@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ImageView;
 
+import java.io.File;
+
 /**
  * Created by troop on 22.04.2016.
  */
 public class TestActivity extends Activity
 {
-    ImageView imageView;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +24,10 @@ public class TestActivity extends Activity
     protected void onResume() {
         super.onResume();
         ImageProcessorWrapper imageProcessorWrapper = new ImageProcessorWrapper();
-        imageProcessorWrapper.loadFile(ImageProcessorWrapper.ARGB, "/storage/emulated/0/test.jpg");
+        File f = new File("/sdcard/test.jpg");
+        if (!f.exists())
+            return;
+        imageProcessorWrapper.loadFile(f.getAbsolutePath());
         imageView.setImageBitmap(imageProcessorWrapper.GetNativeBitmap());
         imageProcessorWrapper.ReleaseNative();
     }

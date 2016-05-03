@@ -1,8 +1,5 @@
 package com.troop.freedcam.camera.modules;
 
-import android.os.Handler;
-import android.util.Log;
-
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.modules.image_saver.DngSaver;
@@ -19,17 +16,15 @@ import com.troop.freedcam.ui.FreeDPool;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
  * Created by troop on 16.08.2014.
  */
-public class HdrModule extends PictureModule implements I_WorkeDone
+public class BracketModule extends PictureModule implements I_WorkeDone
 {
 
-    private static String TAG = "freedcam.HdrModule";
+    private final String TAG = BracketModule.class.getSimpleName();
 
     int hdrCount = 0;
     boolean aeBrackethdr = false;
@@ -37,7 +32,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
     boolean isManualExpo = false;
     int ogExpoValue = 0;
 
-    public HdrModule(BaseCameraHolder cameraHandler, ModuleEventHandler eventHandler) {
+    public BracketModule(BaseCameraHolder cameraHandler, ModuleEventHandler eventHandler) {
         super(cameraHandler, eventHandler);
         name = ModuleHandler.MODULE_HDR;
     }
@@ -63,7 +58,7 @@ public class HdrModule extends PictureModule implements I_WorkeDone
             LoadAEB();
             if (aeBrackethdr && ParameterHandler.PictureFormat.GetValue().equals("jpeg"))
             {
-                baseCameraHolder.TakePicture(null, null, aeBracketCallback);
+                baseCameraHolder.TakePicture(null, aeBracketCallback);
             }
             else {
                 takePicture();
@@ -115,13 +110,13 @@ public class HdrModule extends PictureModule implements I_WorkeDone
 
                 final String picFormat = ParameterHandler.PictureFormat.GetValue();
                 if (picFormat.equals("jpeg")) {
-                    final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, HdrModule.this);
+                    final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, BracketModule.this);
                     jpegSaver.TakePicture();
                 } else if (!ParameterHandler.IsDngActive() && picFormat.contains(StringUtils.FileEnding.BAYER)) {
-                    final RawSaver rawSaver = new RawSaver(baseCameraHolder, HdrModule.this);
+                    final RawSaver rawSaver = new RawSaver(baseCameraHolder, BracketModule.this);
                     rawSaver.TakePicture();
                 } else if (ParameterHandler.IsDngActive() && picFormat.contains(StringUtils.FileEnding.DNG)) {
-                    DngSaver dngSaver = new DngSaver(baseCameraHolder, HdrModule.this);
+                    DngSaver dngSaver = new DngSaver(baseCameraHolder, BracketModule.this);
                     dngSaver.TakePicture();
                 }
             }

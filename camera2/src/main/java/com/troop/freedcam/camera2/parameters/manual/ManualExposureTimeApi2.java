@@ -5,7 +5,6 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
-import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
@@ -21,11 +20,11 @@ import com.troop.freedcam.utils.StringUtils;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class ManualExposureTimeApi2 extends AbstractManualParameter implements AbstractModeParameter.I_ModeParameterEvent
 {
-    protected BaseCameraHolderApi2 cameraHolder;
-    boolean canSet = false;
-    protected boolean isSupported = false;
+    BaseCameraHolderApi2 cameraHolder;
+    private boolean canSet = false;
+    boolean isSupported = false;
     final String TAG = ManualExposureTimeApi2.class.getSimpleName();
-    protected boolean firststart = true;
+    boolean firststart = true;
     private int onetoThirty = 0;
     private int millimax = 0;
     public ManualExposureTimeApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
@@ -110,10 +109,8 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
             try {
                 cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                         null);
-            } catch (CameraAccessException e) {
+            } catch (CameraAccessException | NullPointerException e) {
                 Logger.exception(e);
-            } catch (NullPointerException ex) {
-                Logger.exception(ex);
             }
             ThrowCurrentValueChanged(valueToSet);
         }

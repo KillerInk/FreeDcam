@@ -23,7 +23,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
@@ -48,8 +47,8 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private static final String TAG = SimpleStreamSurfaceView.class.getSimpleName();
 
     private boolean mWhileFetching;
-    private final BlockingQueue<DataExtractor> mJpegQueue = new ArrayBlockingQueue<DataExtractor>(2);
-    private final BlockingQueue<DataExtractor> frameQueue = new ArrayBlockingQueue<DataExtractor>(2);
+    private final BlockingQueue<DataExtractor> mJpegQueue = new ArrayBlockingQueue<>(2);
+    private final BlockingQueue<DataExtractor> frameQueue = new ArrayBlockingQueue<>(2);
     private final boolean mInMutableAvailable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
     private int mPreviousWidth = 0;
     private int mPreviousHeight = 0;
@@ -226,12 +225,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
                     while (mWhileFetching)
                     {
-                        if (fetchPayLoad(slicer))
-                        {
-
-                            continue;
-
-                        }
+                        fetchPayLoad(slicer);
                     }
                 } catch (IOException e) {
                     Logger.d(TAG, "IOException while fetching: " + e.getMessage());

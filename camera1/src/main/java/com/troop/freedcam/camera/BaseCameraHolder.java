@@ -5,7 +5,6 @@ import android.graphics.Rect;
 import android.hardware.Camera;
 import android.location.Location;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.TextureView;
@@ -47,7 +46,6 @@ public class BaseCameraHolder extends AbstractCameraHolder
     private I_Callbacks.PictureCallback pictureCallback;
     private I_Callbacks.PictureCallback rawCallback;
     private I_Callbacks.ShutterCallback shutterCallback;
-    private I_Callbacks.PreviewCallback previewCallback;
     private Surface surfaceHolder;
 
     //public boolean hasLGFrameWork = false;
@@ -91,22 +89,11 @@ public class BaseCameraHolder extends AbstractCameraHolder
             Logger.d(TAG, "Has Lg Framework");
             DeviceFrameWork = Frameworks.LG;
 
-        } catch (ExceptionInInitializerError e) {
+        } catch (ExceptionInInitializerError | UnsatisfiedLinkError e) {
 
             DeviceFrameWork = Frameworks.Normal;
             Logger.d(TAG, "No LG Framework");
-        }
-        catch (UnsatisfiedLinkError er)
-        {
-            DeviceFrameWork = Frameworks.Normal;
-            Logger.d(TAG, "No LG Framework");
-        }
-        catch (ClassNotFoundException e)
-        {
-            DeviceFrameWork = Frameworks.Normal;
-            Logger.d(TAG, "No LG Framework");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
 
             DeviceFrameWork = Frameworks.Normal;
             Logger.d(TAG, "No LG Framework");
@@ -116,22 +103,11 @@ public class BaseCameraHolder extends AbstractCameraHolder
             Logger.d(TAG, "Has Lg Framework");
             DeviceFrameWork = Frameworks.LG;
 
-        } catch (ExceptionInInitializerError e) {
+        } catch (ExceptionInInitializerError | UnsatisfiedLinkError e) {
 
             DeviceFrameWork = Frameworks.Normal;
             Logger.d(TAG, "No LG Framework");
-        }
-        catch (UnsatisfiedLinkError er)
-        {
-            DeviceFrameWork = Frameworks.Normal;
-            Logger.d(TAG, "No LG Framework");
-        }
-        catch (ClassNotFoundException e)
-        {
-            DeviceFrameWork = Frameworks.Normal;
-            Logger.d(TAG, "No LG Framework");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
 
             DeviceFrameWork = Frameworks.Normal;
             Logger.d(TAG, "No LG Framework");
@@ -165,13 +141,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
             DeviceFrameWork = Frameworks.Normal;
             Logger.d(TAG, "No MTK");
         }
-        catch (UnsatisfiedLinkError er)
+        catch (UnsatisfiedLinkError | ExceptionInInitializerError er)
         {
-            DeviceFrameWork = Frameworks.Normal;
-            Logger.d(TAG, "No MTK");
-        }
-        catch (ExceptionInInitializerError e) {
-
             DeviceFrameWork = Frameworks.Normal;
             Logger.d(TAG, "No MTK");
         }
@@ -432,15 +403,12 @@ public class BaseCameraHolder extends AbstractCameraHolder
         return map;
     }
 
-    public void TakePicture(final I_Callbacks.ShutterCallback shutter, final I_Callbacks.PictureCallback raw, final I_Callbacks.PictureCallback picture)
+    public void TakePicture(final I_Callbacks.PictureCallback raw, final I_Callbacks.PictureCallback picture)
     {
         this.pictureCallback = picture;
-        this.shutterCallback = shutter;
+        this.shutterCallback = null;
         this.rawCallback = raw;
-
-
-            takePicture();
-
+        takePicture();
     }
 
     private void takePicture()
@@ -501,14 +469,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
             if (app == null)
                 throw new  NoSuchMethodException();
             app.invoke(null, "client.appmode", "MtkEng");
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             Logger.e(TAG,e.getMessage());
-        } catch (NoSuchMethodException e) {
-            Logger.e(TAG,e.getMessage());
-        } catch (InvocationTargetException e) {
-            Logger.e(TAG,e.getMessage());
-        } catch (IllegalAccessException e) {
-            Logger.e(TAG, e.getMessage());
         }
     }
 
@@ -528,13 +490,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
             if (obtrack == null)
                 throw new  NoSuchMethodException();
             obtrack.invoke(lgCamera, null);
-        } catch (ClassNotFoundException e) {
-            Logger.e(TAG,e.getMessage());
-        } catch (NoSuchMethodException e) {
-            Logger.e(TAG,e.getMessage());
-        } catch (InvocationTargetException e) {
-            Logger.e(TAG,e.getMessage());
-        } catch (IllegalAccessException e) {
+        } catch (ClassNotFoundException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             Logger.e(TAG,e.getMessage());
         }
     }
@@ -542,7 +498,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
     @Override
     public void SetPreviewCallback(final I_Callbacks.PreviewCallback previewCallback)
     {
-        this.previewCallback = previewCallback;
+        I_Callbacks.PreviewCallback previewCallback1 = previewCallback;
         if (!isPreviewRunning && !isRdy)
             return;
 
@@ -633,16 +589,7 @@ public class BaseCameraHolder extends AbstractCameraHolder
                     }
                 });
 
-        }
-        catch (RuntimeException ex)
-        {
-            Logger.e(TAG,ex.getMessage());
-            CameraFocusEvent focusEvent = new CameraFocusEvent();
-
-            focusEvent.success = false;
-            autoFocusCallback.onAutoFocus(focusEvent);
-        }
-        catch (Exception ex)
+        } catch (Exception ex)
         {
             Logger.e(TAG,ex.getMessage());
             CameraFocusEvent focusEvent = new CameraFocusEvent();

@@ -8,7 +8,7 @@ import android.view.MotionEvent;
  */
 public class SwipeMenuListner extends TouchHandler
 {
-    I_swipe swipehandler;
+    private I_swipe swipehandler;
 
     public SwipeMenuListner(I_swipe swipehandler)
     {

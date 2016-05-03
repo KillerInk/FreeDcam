@@ -1,7 +1,5 @@
 package com.troop.freedcam.camera.parameters.manual;
 
-import android.util.Log;
-
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 
@@ -13,9 +11,9 @@ import java.util.HashMap;
  */
 public class ExposureManualParameter extends BaseManualParameter
 {
-    final String TAG = ExposureManualParameter.class.getSimpleName();
-    public ExposureManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler,float step) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler,step);
+    private final String TAG = ExposureManualParameter.class.getSimpleName();
+    public ExposureManualParameter(HashMap<String, String> parameters, String value, String MinValue, AbstractParameterHandler camParametersHandler, float step) {
+        super(parameters, value, "max-exposure-compensation", "min-exposure-compensation", camParametersHandler,step);
         Logger.d(TAG, "Is Supported:" + isSupported);
     }
 

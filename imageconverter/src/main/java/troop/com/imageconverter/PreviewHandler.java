@@ -11,7 +11,6 @@ import android.renderscript.Element;
 import android.renderscript.RSRuntimeException;
 import android.renderscript.RenderScript;
 import android.renderscript.Type;
-import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
 
@@ -20,7 +19,6 @@ import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.Size;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_Module;
-import com.troop.freedcam.i_camera.interfaces.I_Shutter_Changed;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_ModuleEvent;
 import com.troop.freedcam.ui.FreeDPool;
@@ -33,9 +31,9 @@ import com.troop.freedcam.ui.I_AspectRatio;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedListner,I_ModuleEvent
 {
-    final String TAG = PreviewHandler.class.getSimpleName();
+    private final String TAG = PreviewHandler.class.getSimpleName();
     private I_AspectRatio output;
-    AbstractCameraUiWrapper cameraUiWrapper;
+    private AbstractCameraUiWrapper cameraUiWrapper;
 
     private int mHeight;
     private int mWidth;
@@ -46,7 +44,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     private ScriptC_focus_peak_cam1 mScriptFocusPeak;
     private boolean enable = false;
     private boolean doWork = false;
-    Context context;
+    private Context context;
 
     public PreviewHandler(I_AspectRatio output, AbstractCameraUiWrapper cameraUiWrapper, Context context)
     {
@@ -75,7 +73,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
                 mRS = RenderScript.create(context.getApplicationContext());
                 mRS.setPriority(RenderScript.Priority.LOW);
             }
-            show_preview("setEnable");
+            show_preview();
             final Size size = new Size(cameraUiWrapper.camParametersHandler.PreviewSize.GetValue());
             reset(size.width, size.height);
             Logger.d(TAG, "Set PreviewCallback");
@@ -102,11 +100,11 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
             Logger.d(TAG, "Preview cleared from:" + from);
         }
     }
-    private void show_preview(String from)
+    private void show_preview()
     {
         if (doWork && enable) {
             output.setAlpha(1);
-            Logger.d(TAG, "Preview show from:" + from);
+            Logger.d(TAG, "Preview show from:" + "setEnable");
         }
     }
 
@@ -157,7 +155,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
         }
     }
 
-    TextureView.SurfaceTextureListener previewSurfaceListner = new TextureView.SurfaceTextureListener() {
+    private TextureView.SurfaceTextureListener previewSurfaceListner = new TextureView.SurfaceTextureListener() {
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
         {
@@ -208,23 +206,23 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
             reset(w,h);
     }
 
-    boolean isWorking = false;
+    private boolean isWorking = false;
     @Override
     public void onPreviewFrame(final byte[] data, Camera camera)
     {
-        if (enable == false)
+        if (!enable)
         {
             Logger.d(TAG, "onPreviewFrame enabled:" +enable);
             camera.addCallbackBuffer(data);
             return;
         }
-        if (doWork == false) {
+        if (!doWork) {
             camera.addCallbackBuffer(data);
             return;
         }
         if (data == null)
             return;
-        if (isWorking == true) {
+        if (isWorking) {
             camera.addCallbackBuffer(data);
             return;
         }

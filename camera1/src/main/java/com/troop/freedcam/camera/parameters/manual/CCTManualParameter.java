@@ -1,17 +1,9 @@
 package com.troop.freedcam.camera.parameters.manual;
 
-import android.hardware.Camera;
-import android.os.Build;
-import android.util.Log;
-
 import com.troop.filelogger.Logger;
-import com.troop.freedcam.camera.parameters.CamParametersHandler;
-import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -39,7 +31,7 @@ public class CCTManualParameter extends BaseManualParameter
     private String manualWbMode;
     public CCTManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue,AbstractParameterHandler camParametersHandler)
     {
-        super(parameters, value, maxValue, MinValue, camParametersHandler,1);
+        super(parameters, "", "", "", camParametersHandler,1);
 
         this.isSupported = false;
         if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New) || DeviceUtils.IS(DeviceUtils.Devices.LenovoK920))
@@ -99,7 +91,7 @@ public class CCTManualParameter extends BaseManualParameter
                 createStringArray(min,max,100);
             }
         }
-        Logger.d(TAG, "value:" + value + " max value:" + maxValue + " min value:" + min_value);
+        Logger.d(TAG, "value:" + "" + " max value:" + "" + " min value:" + min_value);
     }
 
     private boolean arrayContainsString(String[] ar,String dif)
@@ -126,7 +118,7 @@ public class CCTManualParameter extends BaseManualParameter
     @Override
     protected String[] createStringArray(int min, int max, float step)
     {
-        ArrayList<String> t = new ArrayList<String>();
+        ArrayList<String> t = new ArrayList<>();
         t.add("Auto");
         for (int i = min; i<=max;i+=step)
         {

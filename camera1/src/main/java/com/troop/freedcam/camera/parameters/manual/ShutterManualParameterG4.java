@@ -15,8 +15,8 @@ public class ShutterManualParameterG4 extends BaseManualParameter
     //return cameraController.getStringCameraParameter("shutter-threshold");
     */
     private static String TAG = "freedcam.ShutterManualParameterG4";
-    I_CameraHolder baseCameraHolder;
-    AE_Handler_LGG4.AeManualEvent manualevent;
+    private I_CameraHolder baseCameraHolder;
+    private AE_Handler_LGG4.AeManualEvent manualevent;
 
     public ShutterManualParameterG4(HashMap<String, String> parameters, I_CameraHolder baseCameraHolder, AbstractParameterHandler camParametersHandler, AE_Handler_LGG4.AeManualEvent manualevent) {
         super(parameters, "", "", "", camParametersHandler,1);

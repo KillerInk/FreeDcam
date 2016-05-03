@@ -72,10 +72,8 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
             try {
                 cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                         null);
-            } catch (CameraAccessException e) {
+            } catch (CameraAccessException | NullPointerException e) {
                 Logger.exception(e);
-            } catch (NullPointerException ex) {
-                Logger.exception(ex);
             }
         }
         firststart = false;

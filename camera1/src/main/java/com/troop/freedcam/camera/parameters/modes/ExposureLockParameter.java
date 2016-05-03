@@ -13,8 +13,8 @@ import java.util.HashMap;
 public class ExposureLockParameter extends BaseModeParameter
 {
     final String TAG = ExposureLockParameter.class.getSimpleName();
-    public ExposureLockParameter(Handler handler,HashMap<String,String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
-        super(handler, parameters, parameterChanged, value, values);
+    public ExposureLockParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String values) {
+        super(handler, parameters, parameterChanged, "", "");
     }
 
     @Override

@@ -19,7 +19,7 @@ public class StackingModule extends PictureModule implements I_WorkeDone {
     private int FrameCount = 0;
     private boolean KeepStacking = true;
 
-    StackSaver stackSaver;
+    private StackSaver stackSaver;
 
     public StackingModule(BaseCameraHolder cameraHandler, ModuleEventHandler eventHandler) {
         super(cameraHandler, eventHandler);
@@ -59,7 +59,7 @@ public class StackingModule extends PictureModule implements I_WorkeDone {
     }
 
 
-    protected void takePicture()
+    private void takePicture()
     {
         FreeDPool.Execute(new Runnable() {
             @Override

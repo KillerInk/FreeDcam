@@ -7,18 +7,17 @@ import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.FocusHandler;
+import com.troop.freedcam.camera.parameters.manual.AE_Handler_LGG4;
+import com.troop.freedcam.camera.parameters.manual.AE_Handler_MTK;
 import com.troop.freedcam.camera.parameters.manual.AE_Handler_QcomM;
 import com.troop.freedcam.camera.parameters.manual.BaseManualParameter;
 import com.troop.freedcam.camera.parameters.manual.BurstManualParam;
 import com.troop.freedcam.camera.parameters.manual.CCTManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ExposureManualParameter;
 import com.troop.freedcam.camera.parameters.manual.FXManualParameter;
-import com.troop.freedcam.camera.parameters.manual.ISOManualParameter;
-import com.troop.freedcam.camera.parameters.manual.AE_Handler_LGG4;
-import com.troop.freedcam.camera.parameters.manual.AE_Handler_MTK;
 import com.troop.freedcam.camera.parameters.manual.FocusManualClassHandler;
+import com.troop.freedcam.camera.parameters.manual.ISOManualParameter;
 import com.troop.freedcam.camera.parameters.manual.ShutterClassHandler;
-import com.troop.freedcam.camera.parameters.manual.ShutterManual_ExposureTime_Micro;
 import com.troop.freedcam.camera.parameters.manual.SkintoneManualPrameter;
 import com.troop.freedcam.camera.parameters.manual.ZoomManualParameter;
 import com.troop.freedcam.camera.parameters.modes.BaseModeParameter;
@@ -60,16 +59,13 @@ import java.util.Map;
 public class CamParametersHandler extends AbstractParameterHandler
 {
 
-    private static String TAG = "freedcam.CameraParametersHandler";
+    private final String TAG = CamParametersHandler.class.getSimpleName();
 
     private HashMap<String, String> cameraParameters;
     public HashMap<String, String> getParameters(){return cameraParameters;}
     public BaseCameraHolder cameraHolder;
     public BaseModeParameter DualMode;
     private CameraUiWrapper cameraUiWrapper;
-    private AE_Handler_LGG4 aeHandlerG4;
-    private AE_Handler_MTK aeHandlerMTK;
-    private AE_Handler_QcomM aeHandlerQcomM;
 
     public CamParametersHandler(CameraUiWrapper cameraUiWrapper, Handler uiHandler)
     {
@@ -121,7 +117,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            PictureSize = new PictureSizeParameter(uiHandler,cameraParameters,cameraHolder, "picture-size", "picture-size-values");
+            PictureSize = new PictureSizeParameter(uiHandler,cameraParameters,cameraHolder, "picture-size-values");
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -158,15 +154,16 @@ public class CamParametersHandler extends AbstractParameterHandler
         createManualSharpness();
 
         try {
+            AE_Handler_LGG4 aeHandlerG4;
             if (DeviceUtils.IS(Devices.LG_G4))
                 aeHandlerG4 = new AE_Handler_LGG4(cameraParameters,cameraHolder,this);
             else if(cameraParameters.containsKey("m-ss") && cameraParameters.containsKey("m-sr-g"))
             {
-                aeHandlerMTK = new AE_Handler_MTK(cameraParameters,cameraHolder,this);
+                AE_Handler_MTK aeHandlerMTK = new AE_Handler_MTK(cameraParameters, cameraHolder, this);
             }
             else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994) ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
             {
-                aeHandlerQcomM = new AE_Handler_QcomM(uiHandler,cameraParameters,cameraHolder,this);
+                AE_Handler_QcomM aeHandlerQcomM = new AE_Handler_QcomM(uiHandler, cameraParameters, cameraHolder, this);
             }
             else
             {
@@ -193,7 +190,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         //cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) CCT).GetModuleListner());
 
         try {
-            Skintone = new SkintoneManualPrameter(cameraParameters,"","","",this);
+            Skintone = new SkintoneManualPrameter(cameraParameters, "","",this);
             PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Skintone).GetModuleListner());
         } catch (Exception e) {
@@ -201,7 +198,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            FX = new FXManualParameter(cameraParameters,"","","", this);
+            FX = new FXManualParameter(cameraParameters, "","", this);
             PictureFormat.addEventListner(((BaseManualParameter)FX).GetPicFormatListner());
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) FX).GetModuleListner());
         } catch (Exception e) {
@@ -209,7 +206,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            Burst = new BurstManualParam(cameraParameters,"","","",this);
+            Burst = new BurstManualParam(cameraParameters, this);
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Burst).GetModuleListner());
         } catch (Exception e) {
             Logger.exception(e);
@@ -217,7 +214,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
 
         try {
-            Zoom = new ZoomManualParameter(cameraParameters,"", "", "", this);
+            Zoom = new ZoomManualParameter(cameraParameters, "", "", this);
             PictureFormat.addEventListner(((BaseManualParameter)Zoom).GetPicFormatListner());
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Zoom).GetModuleListner());
         } catch (Exception e) {
@@ -249,7 +246,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
 
         try {
-            JpegQuality = new JpegQualityParameter(uiHandler,cameraParameters, cameraHolder, "jpeg-quality", "");
+            JpegQuality = new JpegQualityParameter(uiHandler,cameraParameters, cameraHolder, "");
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -268,19 +265,19 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            PreviewSize = new PreviewSizeParameter(uiHandler,cameraParameters, cameraHolder, "preview-size", "preview-size-values", cameraHolder);
+            PreviewSize = new PreviewSizeParameter(uiHandler,cameraParameters, cameraHolder, "preview-size-values", cameraHolder);
         } catch (Exception e) {
             Logger.exception(e);
         }
 
         try {
-            PreviewFPS = new PreviewFpsParameter(uiHandler, cameraParameters, "preview-frame-rate", "preview-frame-rate-values", (BaseCameraHolder)cameraHolder);
+            PreviewFPS = new PreviewFpsParameter(uiHandler, cameraParameters, "preview-frame-rate-values", (BaseCameraHolder)cameraHolder);
         } catch (Exception e) {
             Logger.exception(e);
         }
 
         try {
-            PreviewFormat = new PreviewFormatParameter(uiHandler,cameraParameters, cameraHolder, "preview-format", "preview-format-values", cameraHolder);
+            PreviewFormat = new PreviewFormatParameter(uiHandler,cameraParameters, cameraHolder, "preview-format-values", cameraHolder);
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -304,7 +301,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            VideoStabilization = new VideoStabilizationParameter(uiHandler,cameraParameters,cameraHolder,"video-stabilization","");
+            VideoStabilization = new VideoStabilizationParameter(uiHandler,cameraParameters,cameraHolder, "");
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -352,13 +349,13 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            NightMode = new NightModeParameter(uiHandler,cameraParameters, cameraHolder,"","", cameraUiWrapper);
+            NightMode = new NightModeParameter(uiHandler,cameraParameters, cameraHolder, "", cameraUiWrapper);
         } catch (Exception e) {
             Logger.exception(e);
         }
 
         try {
-            NonZslManualMode = new NonZslManualModeParameter(uiHandler,cameraParameters, cameraHolder, "non-zsl-manual-mode", "", cameraHolder);
+            NonZslManualMode = new NonZslManualModeParameter(uiHandler,cameraParameters, cameraHolder, "", cameraHolder);
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -382,7 +379,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            ExposureLock = new ExposureLockParameter(uiHandler,cameraParameters, cameraHolder, "","");
+            ExposureLock = new ExposureLockParameter(uiHandler,cameraParameters, cameraHolder, "");
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -397,15 +394,15 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         try {
             if (cameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
-                VideoProfilesG3 = new VideoProfilesG3Parameter(uiHandler,cameraParameters,cameraHolder,"","", cameraUiWrapper);
+                VideoProfilesG3 = new VideoProfilesG3Parameter(uiHandler,cameraParameters,cameraHolder, "", cameraUiWrapper);
             else
-                VideoProfiles = new VideoProfilesParameter(uiHandler,cameraParameters,cameraHolder,"","", cameraUiWrapper);
+                VideoProfiles = new VideoProfilesParameter(uiHandler,cameraParameters,cameraHolder, "", cameraUiWrapper);
         } catch (Exception e) {
             Logger.exception(e);
         }
 
         try {
-            CDS_Mode = new CDS_Mode_Parameter(uiHandler,cameraParameters,cameraHolder,"","");
+            CDS_Mode = new CDS_Mode_Parameter(uiHandler,cameraParameters,cameraHolder,"");
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -431,7 +428,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            oismode = new OisParameter(uiHandler,cameraParameters,cameraHolder,"","");
+            oismode = new OisParameter(uiHandler,cameraParameters,cameraHolder, "");
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -452,7 +449,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            captureBurstExposures = new CupBurstExpModeParameter(uiHandler, cameraParameters, cameraHolder, "capture-burst-exposures", "");
+            captureBurstExposures = new CupBurstExpModeParameter(uiHandler, cameraParameters, cameraHolder, "");
         }
         catch (Exception e)
         {
@@ -469,13 +466,13 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         try {
             if (DeviceUtils.IS(Devices.ZTE_ADV))
-                LensFilter = new VirtualLensFilter(uiHandler,cameraParameters, cameraHolder, "", "", cameraUiWrapper);
+                LensFilter = new VirtualLensFilter(uiHandler,cameraParameters, cameraHolder, "", cameraUiWrapper);
         } catch (Exception e) {
             Logger.exception(e);
         }
 
         try {
-            HDRMode = new HDRModeParameter(uiHandler,cameraParameters, cameraHolder,"","", cameraUiWrapper);
+            HDRMode = new HDRModeParameter(uiHandler,cameraParameters, cameraHolder, "", cameraUiWrapper);
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -741,9 +738,9 @@ public class CamParametersHandler extends AbstractParameterHandler
             if(cameraParameters.containsKey("exposure-compensation-step"))
                 expostep = Float.parseFloat(cameraParameters.get("exposure-compensation-step"));
             if (cameraParameters.containsKey("lg-ev-ctrl"))
-                ManualExposure = new ExposureManualParameter(cameraParameters,"lg-ev-ctrl","max-exposure-compensation","min-exposure-compensation", this,expostep);
+                ManualExposure = new ExposureManualParameter(cameraParameters,"lg-ev-ctrl", "min-exposure-compensation", this,expostep);
             else if(cameraParameters.containsKey("exposure-compensation"))
-                ManualExposure = new ExposureManualParameter(cameraParameters,"exposure-compensation","max-exposure-compensation","min-exposure-compensation", this,expostep);
+                ManualExposure = new ExposureManualParameter(cameraParameters,"exposure-compensation", "min-exposure-compensation", this,expostep);
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -973,8 +970,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     public String ExposureTime()
     {
         if (cameraParameters.containsKey("exposure-time")) {
-            final String focal = cameraParameters.get("exposure-time");
-            return focal;
+            return cameraParameters.get("exposure-time");
         }
         else
             return "non";
@@ -1005,9 +1001,9 @@ public class CamParametersHandler extends AbstractParameterHandler
     }
 
 
-    public void SetZTESlowShutter(String value)
+    public void SetZTESlowShutter()
     {
-        cameraParameters.put("slow_shutter", value);
+        cameraParameters.put("slow_shutter", "-1");
         SetParametersToCamera(cameraParameters);
     }
 
@@ -1017,18 +1013,18 @@ public class CamParametersHandler extends AbstractParameterHandler
         SetParametersToCamera(cameraParameters);
     }
 
-    public void SetLGCamera(boolean isLG)
+    public void SetLGCamera()
     {
-        if (isLG)
+        if (true)
             cameraParameters.put("lge-camera", "1");
         else
             cameraParameters.put("lge-camera", "0");
         SetParametersToCamera(cameraParameters);
     }
 
-    public void SetDualRecorder(boolean dual)
+    public void SetDualRecorder()
     {
-        if (dual)
+        if (false)
             cameraParameters.put("dual-recorder", "1");
         else
             cameraParameters.put("dual-recorder", "0");

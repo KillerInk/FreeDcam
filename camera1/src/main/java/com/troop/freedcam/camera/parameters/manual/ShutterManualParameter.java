@@ -19,7 +19,7 @@ public class ShutterManualParameter extends BaseManualParameter
     //return cameraController.getStringCameraParameter("shutter-threshold");
     */
     private static String TAG = "freedcam.ShutterManualParameter";
-    Double Cur;
+    private Double Cur;
 
     public static String LGG4Values = "Auto,1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,2,4,8,15,30";
 

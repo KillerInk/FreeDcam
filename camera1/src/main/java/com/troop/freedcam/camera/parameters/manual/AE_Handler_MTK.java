@@ -15,7 +15,6 @@ public class AE_Handler_MTK
         private ShutterManualMtk shutterPrameter;
         private int currentIso = 0;
         private int currentShutter = 0;
-        private BaseCameraHolder cameraHolder;
         private HashMap<String, String> parameters;
         boolean auto = true;
         private CamParametersHandler camParametersHandler;
@@ -35,7 +34,6 @@ public class AE_Handler_MTK
             camParametersHandler.ISOManual = isoManualParameter;
             this.shutterPrameter = new ShutterManualMtk(parameters,cameraHolder, camParametersHandler, aeevent);
             camParametersHandler.ManualShutter = shutterPrameter;
-            this.cameraHolder = cameraHolder;
             this.parameters = parameters;
         }
 

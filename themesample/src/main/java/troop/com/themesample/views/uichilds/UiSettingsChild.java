@@ -3,9 +3,7 @@ package troop.com.themesample.views.uichilds;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -28,14 +26,14 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
 {
     protected Context context;
     private String headerText;
-    protected LinearLayout laybg;
+    private LinearLayout laybg;
     protected TextView valueText;
     protected AbstractModeParameter parameter;
     protected I_Activity i_activity;
-    protected String TAG;
+    private String TAG;
     protected String settingsname;
     protected Interfaces.I_MenuItemClick onItemClick;
-    final protected boolean logging =false;
+    private final boolean logging =false;
     private boolean fromleft = false;
 
     public UiSettingsChild(Context context) {
@@ -158,7 +156,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         return parameter;
     }
 
-    public void setTextToTextBox(AbstractModeParameter parameter)
+    protected void setTextToTextBox(AbstractModeParameter parameter)
     {
         if (parameter != null && parameter.IsSupported())
         {

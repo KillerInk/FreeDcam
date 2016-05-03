@@ -23,15 +23,14 @@ public class FocusManual_QcomM extends BaseManualParameter
     private final String manualFocusModeString = "manual";
     /**
      * @param parameters
-     * @param value
      * @param maxValue
      * @param MinValue
      * @param camParametersHandler
      * @param step
      */
-    public FocusManual_QcomM(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler, float step)
+    public FocusManual_QcomM(HashMap<String, String> parameters, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler, float step)
     {
-        super(parameters, value, maxValue, MinValue, camParametersHandler, step);
+        super(parameters, "manual-focus-position", "max-focus-pos-ratio", "min-focus-pos-ratio", camParametersHandler, (float) 1);
     }
 
     @Override

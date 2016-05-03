@@ -15,9 +15,9 @@ import java.util.List;
  */
 public class WifiUtils
 {
-    Context context;
-    WifiManager wifiManager;
-    ConnectivityManager connManager;
+    private Context context;
+    private WifiManager wifiManager;
+    private ConnectivityManager connManager;
 
     public WifiUtils(Context context)
     {
@@ -26,7 +26,7 @@ public class WifiUtils
         connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
-    public void StartScan() { wifiManager.startScan();};
+    public void StartScan() { wifiManager.startScan();}
 
     public String[] getNetworkSSIDs()
     {

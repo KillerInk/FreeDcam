@@ -32,7 +32,7 @@ public class ThemeHandler implements I_ModuleEvent
     }
 
 
-    public AbstractFragment GetThemeFragment(boolean infalte, AbstractCameraUiWrapper cameraUiWrapper)
+    public AbstractFragment GetThemeFragment(AbstractCameraUiWrapper cameraUiWrapper)
     {
         String theme = AppSettingsManager.APPSETTINGSMANAGER.GetTheme();
         if(theme.equals("Ambient") || theme.equals("Material")|| theme.equals("Minimal") || theme.equals("Nubia") || theme.equals("Classic")) {
@@ -46,7 +46,7 @@ public class ThemeHandler implements I_ModuleEvent
             sampleThemeFragment.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = sampleThemeFragment;
         }
-        if (infalte)
+        if (true)
             inflateFragment(uiFragment);
         return uiFragment;
     }

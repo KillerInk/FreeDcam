@@ -15,8 +15,8 @@ public class ApiParameter extends AbstractModeParameter
     I_Activity i_activity;
     boolean DEBUG = false;
 
-    public ApiParameter(Handler uiHandler, I_Activity i_activity) {
-        super(uiHandler);
+    public ApiParameter(I_Activity i_activity) {
+        super(null);
         this.i_activity = i_activity;
     }
 

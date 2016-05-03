@@ -1,13 +1,11 @@
 package com.troop.freedcam.ui.handler;
 
-import android.util.Log;
 import android.view.KeyEvent;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.MainActivity;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 
@@ -18,8 +16,7 @@ public class HardwareKeyHandler
 {
     private final MainActivity activity;
     private AbstractCameraUiWrapper cameraUiWrapper;
-    private boolean longKeyPress = false;
-    private static String TAG = "freedcam.HardwareKeyHandler";
+    private final String TAG = HardwareKeyHandler.class.getSimpleName();
 
 
     public HardwareKeyHandler(MainActivity activity)
@@ -35,7 +32,7 @@ public class HardwareKeyHandler
     public boolean OnKeyUp(int keyCode, KeyEvent event)
     {
         boolean set = false;
-        longKeyPress = false;
+        boolean longKeyPress = false;
         int appSettingsKeyShutter = 0;
 
         if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLP))
@@ -56,7 +53,8 @@ public class HardwareKeyHandler
             cameraUiWrapper.moduleHandler.DoWork();
         }
         // shutterbutton half pressed
-        //if (keyCode == KeyEvent.KEYCODE_FOCUS)
+        if (keyCode == KeyEvent.KEYCODE_FOCUS)
+            cameraUiWrapper.Focus.StartFocus();
 
         if (keyCode == KeyEvent.KEYCODE_BACK)
             activity.finish();
@@ -78,22 +76,6 @@ public class HardwareKeyHandler
 
     public boolean OnKeyDown(int keyCode, KeyEvent event)
     {
-        /*if (event.isLongPress() && !longKeyPress) {
-            if (keyCode == KeyEvent.KEYCODE_HEADSETHOOK) {
-                Logger.d(TAG, "LongKeyPress for Headsethook");
-                longKeyPress = true;
-                activity.shutterHandler.OnLongClick();
-
-            }
-
-        }
-        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-            if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)
-                activity.manualMenuHandler.Decrase();
-            if (keyCode == KeyEvent.KEYCODE_VOLUME_UP)
-                activity.manualMenuHandler.Incrase();
-        }*/
-
         return true;
     }
 }

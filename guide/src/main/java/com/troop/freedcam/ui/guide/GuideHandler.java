@@ -17,10 +17,10 @@ import com.troop.freedcam.ui.AppSettingsManager;
  * Created by George on 1/19/2015.
  */
 public class GuideHandler extends Fragment implements AbstractModeParameter.I_ModeParameterEvent , I_ParametersLoaded {
-    View view;
-    ImageView img;
+    private View view;
+    private ImageView img;
     Context contextt;
-    AbstractCameraUiWrapper cameraUiWrapper;
+    private AbstractCameraUiWrapper cameraUiWrapper;
     private float quckRationMath;
 
     @Override
@@ -91,7 +91,7 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
     }*/
 
 
-    public void SetViewG(final String str)
+    private void SetViewG(final String str)
     {
 
             img.post(new Runnable() {
@@ -206,7 +206,7 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
 
     }
 
-    AbstractModeParameter.I_ModeParameterEvent previewSizeChanged = new AbstractModeParameter.I_ModeParameterEvent() {
+    private AbstractModeParameter.I_ModeParameterEvent previewSizeChanged = new AbstractModeParameter.I_ModeParameterEvent() {
         @Override
         public void onValueChanged(String val) {
             String img = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_GUIDE);

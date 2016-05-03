@@ -7,7 +7,7 @@ import com.troop.freedcam.i_camera.interfaces.I_Exposure;
  */
 public abstract class AbstractExposureMeterHandler {
 
-    public void StartExposure(){};
-    public void StartTouchToFocus(ExposureRect rect, int width, int height){};
+    public void StartExposure(){}
+    public void StartTouchToFocus(ExposureRect rect, int width, int height){}
     public I_Exposure exposureEvent;
 }

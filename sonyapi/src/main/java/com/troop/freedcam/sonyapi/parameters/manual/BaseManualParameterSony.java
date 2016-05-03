@@ -1,7 +1,5 @@
 package com.troop.freedcam.sonyapi.parameters.manual;
 
-import android.util.Log;
-
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.parameters.AbstractManualParameter;
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
@@ -99,13 +97,9 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                         stringvalues = JsonUtils.ConvertJSONArrayToStringArray(subarray);
                         BackgroundValuesChanged(stringvalues);
 
-                    } catch (IOException e) {
+                    } catch (IOException | JSONException e) {
                         Logger.exception(e);
                         sendLog( "Error Trying to get String Values from: " +VALUES_TO_GET);
-                        stringvalues = new String[0];
-                    } catch (JSONException e) {
-                        Logger.exception(e);
-                        sendLog("Error Trying to get String Values from: " + VALUES_TO_GET);
                         stringvalues = new String[0];
                     }
                 }
@@ -135,9 +129,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                     array = new JSONArray().put(0, val);
                     JSONObject object =  ParameterHandler.mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
                     ThrowCurrentValueChanged(valueToSet);
-                } catch (JSONException e) {
-                    Logger.exception(e);
-                } catch (IOException e) {
+                } catch (JSONException | IOException e) {
                     Logger.exception(e);
                 }
             }

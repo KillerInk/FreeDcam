@@ -5,7 +5,7 @@ package com.troop.freedcam.i_camera.modules;
  */
 public interface I_RecorderStateChanged
 {
-    public static int STATUS_RECORDING_START = 1;
-    public static int STATUS_RECORDING_STOP = 0;
-    public void RecordingStateChanged(int status);
+    int STATUS_RECORDING_START = 1;
+    int STATUS_RECORDING_STOP = 0;
+    void RecordingStateChanged(int status);
 }

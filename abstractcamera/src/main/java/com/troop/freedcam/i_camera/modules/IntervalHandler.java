@@ -1,7 +1,6 @@
 package com.troop.freedcam.i_camera.modules;
 
 import android.os.Handler;
-import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.ui.AppSettingsManager;
@@ -11,11 +10,11 @@ import java.util.Date;
 /**
  * Created by Ingo on 04.10.2015.
  */
-public class IntervalHandler
+class IntervalHandler
 {
     private AbstractModule picmodule;
 
-    final String TAG = IntervalHandler.class.getSimpleName();
+    private final String TAG = IntervalHandler.class.getSimpleName();
 
     private int intervalDuration = 0;
     private int shutterDelay = 0;
@@ -68,7 +67,7 @@ public class IntervalHandler
 
     }
 
-    int shuttercounter = 0;
+    private int shuttercounter = 0;
     public void DoNextInterval()
     {
         long dif = new Date().getTime() - IntervalHandler.this.startTime;
@@ -86,7 +85,7 @@ public class IntervalHandler
         handler.post(intervalDelayRunner);
     }
 
-    int intervalDelayCounter;
+    private int intervalDelayCounter;
     private Runnable intervalDelayRunner =new Runnable() {
         @Override
         public void run()
@@ -118,7 +117,7 @@ public class IntervalHandler
         picmodule.baseCameraHolder.SendUIMessage(shutterWaitCounter+"");
     }
 
-    int shutterWaitCounter =0;
+    private int shutterWaitCounter =0;
     private void startShutterDelay()
     {
         Logger.d(TAG, "Start ShutterDelay in " + IntervalHandler.this.shutterDelay);

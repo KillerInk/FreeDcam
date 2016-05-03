@@ -1,21 +1,13 @@
 package com.troop.freedcam.camera.modules.image_saver;
 
-import android.os.Build;
-
-import com.troop.androiddng.RawToDng;
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
-import com.troop.freedcam.camera.CameraUiWrapper;
-import com.troop.freedcam.camera.parameters.CamParametersHandler;
 import com.troop.freedcam.i_camera.Size;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.FreeDPool;
-import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Date;
 
 import jni.staxxer.StaxxerJNI;
@@ -25,15 +17,15 @@ import troop.com.imageconverter.Staxxer;
  * Created by GeorgeKiarie on 13/04/2016.
  */
 public class StackSaver extends JpegSaver {
-    final String TAG = DngSaver.class.getSimpleName();
+    private final String TAG = DngSaver.class.getSimpleName();
     private byte[] buffered = null;
     private int FrameCount = 0;
     Size size;
-    Staxxer staxxer;
+    private Staxxer staxxer;
 
     private StaxxerJNI jpg2rgb;
-    boolean NewSession = false;
-    String SessionFolder="";
+    private boolean NewSession = false;
+    private String SessionFolder="";
 
     public StackSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone)
     {
@@ -42,7 +34,7 @@ public class StackSaver extends JpegSaver {
         jpg2rgb = StaxxerJNI.GetInstance();
 
         staxxer = new Staxxer(new Size(ParameterHandler.PictureSize.GetValue()), AppSettingsManager.APPSETTINGSMANAGER.context);
-        staxxer.Enable(true);
+        staxxer.Enable();
     }
 
     @Override
@@ -58,7 +50,7 @@ public class StackSaver extends JpegSaver {
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-                cameraHolder.TakePicture(null, null, StackSaver.this);
+                cameraHolder.TakePicture(null, StackSaver.this);
             }
         });
     }
@@ -66,7 +58,7 @@ public class StackSaver extends JpegSaver {
     @Override
     public void onPictureTaken(final byte[] data)
     {
-        if (awaitpicture == false)
+        if (!awaitpicture)
             return;
         awaitpicture =false;
         Logger.d(TAG, "Take Picture Callback");
@@ -83,7 +75,7 @@ public class StackSaver extends JpegSaver {
 
 
 
-    public void processData(byte[] data, File file) {
+    private void processData(byte[] data, File file) {
         System.out.println("The Data Is " + data.length + " bytes Long" + " and the path is " + file.getAbsolutePath());
         //CameraUiWrapper LCUI = new CameraUiWrapper();
 

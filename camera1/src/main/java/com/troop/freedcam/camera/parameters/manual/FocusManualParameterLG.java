@@ -1,7 +1,5 @@
 package com.troop.freedcam.camera.parameters.manual;
 
-import android.util.Log;
-
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
@@ -14,13 +12,13 @@ import java.util.HashMap;
  */
 public class FocusManualParameterLG extends  BaseManualParameter
 {
-    I_CameraHolder baseCameraHolder;
+    private I_CameraHolder baseCameraHolder;
     private static String TAG ="freedcam.ManualFocusG4";
 
     private final Devices[] g3m_g4 = {Devices.LG_G3, Devices.LG_G4};
 
-    public FocusManualParameterLG(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler,1);
+    public FocusManualParameterLG(HashMap<String, String> parameters, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
+        super(parameters, "", "", "", camParametersHandler,1);
         this.baseCameraHolder = cameraHolder;
         isSupported = true;
         isVisible = isSupported;

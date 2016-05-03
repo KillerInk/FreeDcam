@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class PictureFormatParameterApi2 extends BaseModeApi2
 {
-    BaseCameraHolderApi2 cameraHolder;
+    private BaseCameraHolderApi2 cameraHolder;
     boolean firststart = true;
     private String format = BaseCameraHolderApi2.JPEG;
     public PictureFormatParameterApi2(Handler handler,BaseCameraHolderApi2 baseCameraHolderApi2)
@@ -51,7 +51,7 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        ArrayList<String> ret = new ArrayList<String>();
+        ArrayList<String> ret = new ArrayList<>();
         if (cameraHolder.map.isOutputSupportedFor(ImageFormat.RAW10))
             ret.add(BaseCameraHolderApi2.RAW10);
         if (cameraHolder.map.isOutputSupportedFor(ImageFormat.RAW_SENSOR))

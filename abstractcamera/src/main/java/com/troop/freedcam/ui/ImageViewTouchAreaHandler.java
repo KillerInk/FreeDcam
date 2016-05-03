@@ -18,10 +18,13 @@ import com.troop.freedcam.i_camera.FocusRect;
  */
 public class ImageViewTouchAreaHandler implements View.OnTouchListener
 {
-    AbstractCameraUiWrapper cameraUiWrapper;
-    I_TouchListnerEvent touchListnerEvent;
-    ImageView imageView;
-    float x, y, difx, dify;
+    private AbstractCameraUiWrapper cameraUiWrapper;
+    private I_TouchListnerEvent touchListnerEvent;
+    private ImageView imageView;
+    private float x;
+    private float y;
+    private float difx;
+    private float dify;
     private Handler longClickHandler;
 
     public interface I_TouchListnerEvent
@@ -36,13 +39,13 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
      *
      * @param imageView the view that should get moved
      */
-    public ImageViewTouchAreaHandler(ImageView imageView,AbstractCameraUiWrapper cameraUiWrapper, I_TouchListnerEvent touchListnerEvent, boolean allowDrag)
+    public ImageViewTouchAreaHandler(ImageView imageView, AbstractCameraUiWrapper cameraUiWrapper, I_TouchListnerEvent touchListnerEvent)
     {
         this.imageView = imageView;
         this.cameraUiWrapper = cameraUiWrapper;
         this.recthalf = imageView.getWidth()/2;
         this.touchListnerEvent = touchListnerEvent;
-        this.allowDrag = allowDrag;
+        this.allowDrag = true;
         longClickHandler = new Handler();
     }
 
@@ -50,32 +53,33 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
     /**
      * if set to true the imageview is dragable
      */
-    boolean allowDrag = false;
+    private boolean allowDrag = false;
     /**
      * distance in pixel? to move bevor it gets detected as move
      */
-    final int distance = 20;
+    private final int distance = 20;
     /**
      * the start values that gets set on action down
      */
-    int startX, startY;
+    private int startX;
+    private int startY;
     /**
      * holdes the time when last action down happend
      */
-    long start;
-    static final int MAX_DURATION = 1000;
+    private long start;
+    private static final int MAX_DURATION = 1000;
     /*
     the area where the imageview is on screen
      */
-    FocusRect imageRect;
+    private FocusRect imageRect;
     /**
      * true if a move was detected
      */
-    boolean moving = false;
+    private boolean moving = false;
     /**
      * half size from the imageview to calculate the center postion
      */
-    int recthalf;
+    private int recthalf;
 
     private int getDistance(int startvalue, int currentvalue)
     {
@@ -163,7 +167,7 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
         return ret;
     }
 
-    Runnable longClickRunnable = new Runnable()
+    private Runnable longClickRunnable = new Runnable()
     {
         @Override
         public void run()

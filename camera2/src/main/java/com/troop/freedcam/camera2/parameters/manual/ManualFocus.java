@@ -5,7 +5,6 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
-import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
@@ -69,10 +68,8 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
             try {
                 cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                         null);
-            } catch (CameraAccessException e) {
+            } catch (CameraAccessException | NullPointerException e) {
                 Logger.exception(e);
-            } catch (NullPointerException ex) {
-                Logger.exception(ex);
             }
         }
     }
@@ -91,11 +88,11 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
         try {
             Logger.d(TAG, "LensFocusDistance" + cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE));
         }
-        catch (NullPointerException ex){};
+        catch (NullPointerException ex){}
         try {
             Logger.d(TAG, "LensMinFocusDistance" + cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE));
         }
-        catch (NullPointerException ex){};
+        catch (NullPointerException ex){}
 
 
         if (cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE) == null

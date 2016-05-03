@@ -12,7 +12,7 @@ import com.troop.freedcam.ui.I_Activity;
  */
 public class MenuItemInterval extends MenuItem
 {
-    AbstractCameraUiWrapper cameraUiWrapper;
+    private AbstractCameraUiWrapper cameraUiWrapper;
 
     public MenuItemInterval(Context context) {
         super(context);

@@ -1,7 +1,5 @@
 package com.troop.freedcam.camera.modules.image_saver;
 
-import android.os.Handler;
-
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.FreeDPool;
@@ -25,7 +23,7 @@ public class JpsSaver extends JpegSaver
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-                cameraHolder.TakePicture(null, null, JpsSaver.this);
+                cameraHolder.TakePicture(null, JpsSaver.this);
             }
         });
     }
@@ -33,7 +31,7 @@ public class JpsSaver extends JpegSaver
     @Override
     public void onPictureTaken(final byte[] data)
     {
-        if (awaitpicture == false)
+        if (!awaitpicture)
             return;
         awaitpicture =false;
         FreeDPool.Execute(new Runnable() {

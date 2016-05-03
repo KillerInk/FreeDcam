@@ -4,8 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.troop.freedcam.ui.I_Activity;
-
 /**
  * Created by troop on 13.06.2015.
  */

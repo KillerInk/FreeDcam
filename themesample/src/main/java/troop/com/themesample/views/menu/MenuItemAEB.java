@@ -8,10 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
-import com.troop.freedcam.utils.DeviceUtils;
 
 import troop.com.themesample.R;
 
@@ -34,15 +32,15 @@ public class MenuItemAEB extends LinearLayout {
 
     public MenuItemAEB(Context context) {
         super(context);
-        init(context, null);
+        init(context);
     }
 
     public MenuItemAEB(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        init(context, null);
+        init(context);
     }
-    protected void init(Context context, AttributeSet attributeSet)
+    private void init(Context context)
     {
         this.context = context;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

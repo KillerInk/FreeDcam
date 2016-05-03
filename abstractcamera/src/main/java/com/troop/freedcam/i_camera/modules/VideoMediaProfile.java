@@ -1,7 +1,6 @@
 package com.troop.freedcam.i_camera.modules;
 
 import android.media.CamcorderProfile;
-import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.utils.StringUtils;
@@ -9,7 +8,6 @@ import com.troop.freedcam.utils.StringUtils;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -33,9 +31,9 @@ public class VideoMediaProfile
     //Default recording duration in seconds before the session is terminated.
     public int duration;
     //The file output format of the camcorder profile see MediaRecorder.OutputFormat
-    public int fileFormat;
+    private int fileFormat;
     //The quality level of the camcorder profile
-    public int quality;
+    private int quality;
     public int videoBitRate;
     public int videoCodec;
     public int videoFrameHeight;
@@ -76,7 +74,7 @@ public class VideoMediaProfile
         Logger.d(TAG,"VBitrate:"+videoBitRate+"VCodec:"+videoCodec+"VFrameRate:"+videoFrameRate+"VWidth:"+videoFrameWidth+"Vheight:"+videoFrameHeight);
     }
 
-    public VideoMediaProfile(int v1,int v2, int v3,int v4,int v5, int v6, int v7, int v8, int v9, int v10,int v11, int v12, String ProfileName, VideoMode mode, boolean isAudioActive)
+    protected VideoMediaProfile(int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8, int v9, int v10, int v11, int v12, String ProfileName, VideoMode mode, boolean isAudioActive)
     {
         this.audioBitRate = v1;
         this.audioChannels = v2;
@@ -98,34 +96,30 @@ public class VideoMediaProfile
         Logger.d(TAG,"VBitrate:"+videoBitRate+"VCodec:"+videoCodec+"VFrameRate:"+videoFrameRate+"VWidth:"+videoFrameWidth+"Vheight:"+videoFrameHeight);
     }
 
-    public VideoMediaProfile(String t)
-    {
+    private VideoMediaProfile(String t) {
         String[] ar = t.split(" ");
-        this.audioBitRate =     Integer.parseInt(ar[0]);
-        this.audioChannels =    Integer.parseInt(ar[1]);
-        this.audioCodec =       Integer.parseInt(ar[2]);
-        this.audioSampleRate =  Integer.parseInt(ar[3]);
-        this.duration =         Integer.parseInt(ar[4]);
-        this.fileFormat =       Integer.parseInt(ar[5]);
-        this.quality =          Integer.parseInt(ar[6]);
-        this.videoBitRate =     Integer.parseInt(ar[7]);
-        this.videoCodec =       Integer.parseInt(ar[8]);
-        this.videoFrameRate =   Integer.parseInt(ar[9]);
+        this.audioBitRate = Integer.parseInt(ar[0]);
+        this.audioChannels = Integer.parseInt(ar[1]);
+        this.audioCodec = Integer.parseInt(ar[2]);
+        this.audioSampleRate = Integer.parseInt(ar[3]);
+        this.duration = Integer.parseInt(ar[4]);
+        this.fileFormat = Integer.parseInt(ar[5]);
+        this.quality = Integer.parseInt(ar[6]);
+        this.videoBitRate = Integer.parseInt(ar[7]);
+        this.videoCodec = Integer.parseInt(ar[8]);
+        this.videoFrameRate = Integer.parseInt(ar[9]);
         this.videoFrameHeight = Integer.parseInt(ar[10]);
-        this.videoFrameWidth =  Integer.parseInt(ar[11]);
+        this.videoFrameWidth = Integer.parseInt(ar[11]);
         this.ProfileName = ar[12];
         this.Mode = VideoMode.valueOf(ar[13]);
-        if (ar.length == 14)
-            this.isAudioActive = true;
-        else
-            this.isAudioActive = Boolean.parseBoolean(ar[14]);
+        this.isAudioActive = ar.length == 14 || Boolean.parseBoolean(ar[14]);
 
-        Logger.d(TAG, "ProfileName:"+ ProfileName+ "Duration:"+duration +"FileFormat:"+fileFormat+"Quality:"+quality);
-        Logger.d(TAG, "ABR:"+audioBitRate +"AChannels:"+audioChannels+"Acodec:"+audioCodec +"AsampleRate"+audioSampleRate+"audio_active:" + isAudioActive);
-        Logger.d(TAG,"VBitrate:"+videoBitRate+"VCodec:"+videoCodec+"VFrameRate:"+videoFrameRate+"VWidth:"+videoFrameWidth+"Vheight:"+videoFrameHeight);
+        Logger.d(TAG, "ProfileName:" + ProfileName + "Duration:" + duration + "FileFormat:" + fileFormat + "Quality:" + quality);
+        Logger.d(TAG, "ABR:" + audioBitRate + "AChannels:" + audioChannels + "Acodec:" + audioCodec + "AsampleRate" + audioSampleRate + "audio_active:" + isAudioActive);
+        Logger.d(TAG, "VBitrate:" + videoBitRate + "VCodec:" + videoCodec + "VFrameRate:" + videoFrameRate + "VWidth:" + videoFrameWidth + "Vheight:" + videoFrameHeight);
     }
 
-    public String GetString()
+    private String GetString()
     {
         StringBuilder b = new StringBuilder();
         b.append(audioBitRate +" ");

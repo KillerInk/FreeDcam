@@ -4,7 +4,6 @@ import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
 import com.troop.freedcam.sonyapi.CameraHolderSony;
-import com.troop.freedcam.ui.AppSettingsManager;
 
 /**
  * Created by troop on 08.06.2015.
@@ -12,7 +11,7 @@ import com.troop.freedcam.ui.AppSettingsManager;
 public class VideoModuleSony extends AbstractModule implements I_CameraStatusChanged
 {
     private static String TAG = VideoModuleSony.class.getSimpleName();
-    CameraHolderSony cameraHolder;
+    private CameraHolderSony cameraHolder;
 
     public VideoModuleSony(CameraHolderSony cameraHandler, ModuleEventHandler eventHandler) {
         super(cameraHandler, eventHandler);

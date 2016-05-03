@@ -1,10 +1,6 @@
 package troop.com.imageviewer.holder;
 
-import android.os.Build;
-
 import com.troop.filelogger.Logger;
-import com.troop.freedcam.i_camera.parameters.LocationParameter;
-import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -81,7 +77,7 @@ public class FileHolder extends BaseHolder
 
     public static List<FileHolder> getDCIMFiles()
     {
-        List<FileHolder> f = new ArrayList<FileHolder>();
+        List<FileHolder> f = new ArrayList<>();
         if (!StringUtils.IS_L_OR_BIG()) {
             File internal = new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder);
             if (internal != null)
@@ -116,15 +112,15 @@ public class FileHolder extends BaseHolder
 
     public static List<FileHolder> getDCIMDirs()
     {
-        ArrayList<FileHolder> list = new ArrayList<FileHolder>();
+        ArrayList<FileHolder> list = new ArrayList<>();
         if (!StringUtils.IS_L_OR_BIG())
         {
             File internalSDCIM = new File(StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder);
             File[] f = internalSDCIM.listFiles();
             if (f != null) {
-                for (int i = 0; i < f.length; i++) {
-                    if (!f[i].isHidden())
-                        list.add(new FileHolder(f[i], false));
+                for (File aF : f) {
+                    if (!aF.isHidden())
+                        list.add(new FileHolder(aF, false));
                 }
             }
             try {
@@ -132,13 +128,11 @@ public class FileHolder extends BaseHolder
                 if (fs != null && fs.exists()) {
                     File externalSDCIM = new File(StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder);
                     f = externalSDCIM.listFiles();
-                    for (int i = 0; i < f.length; i++) {
-                        if (!f[i].isHidden())
-                            list.add(new FileHolder(f[i], true));
+                    for (File aF : f) {
+                        if (!aF.isHidden())
+                            list.add(new FileHolder(aF, true));
                     }
                 }
-            } catch (NullPointerException ex) {
-                Logger.d(TAG, "No external SD!");
             } catch (Exception ex) {
                 Logger.d(TAG, "No external SD!");
             }
@@ -210,7 +204,7 @@ public class FileHolder extends BaseHolder
         return list;
     }
 
-    public static void SortFileHolder(List<FileHolder> f)
+    private static void SortFileHolder(List<FileHolder> f)
     {
         Collections.sort(f, new Comparator<FileHolder>() {
             public int compare(FileHolder f1, FileHolder f2) {

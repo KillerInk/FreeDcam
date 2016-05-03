@@ -7,9 +7,8 @@ import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.camera.modules.VideoMediaProfileLG;
-import com.troop.freedcam.i_camera.modules.VideoMediaProfile;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
-import com.troop.freedcam.utils.DeviceUtils;
+import com.troop.freedcam.i_camera.modules.VideoMediaProfile;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,13 +23,13 @@ import java.util.List;
 public class VideoProfilesG3Parameter extends BaseModeParameter
 {
     final String TAG = VideoProfilesG3Parameter.class.getSimpleName();
-    HashMap<String, VideoMediaProfile> supportedProfiles;
-    BaseCameraHolder cameraHolder;
-    CameraUiWrapper cameraUiWrapper;
-    String profile;
+    private HashMap<String, VideoMediaProfile> supportedProfiles;
+    private BaseCameraHolder cameraHolder;
+    private CameraUiWrapper cameraUiWrapper;
+    private String profile;
 
-    public VideoProfilesG3Parameter(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values, CameraUiWrapper cameraUiWrapper) {
-        super(handler,parameters, parameterChanged, value, values);
+    public VideoProfilesG3Parameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
+        super(handler,parameters, parameterChanged, "", "");
         this.cameraHolder = parameterChanged;
         this.cameraUiWrapper = cameraUiWrapper;
         this.isSupported =true;
@@ -60,7 +59,7 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
     @Override
     public String[] GetValues()
     {
-        List<String> keys = new ArrayList<String>(supportedProfiles.keySet());
+        List<String> keys = new ArrayList<>(supportedProfiles.keySet());
         Collections.sort(keys);
         return keys.toArray(new String[keys.size()]);
     }
@@ -83,7 +82,7 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
 
             String current;
 
-            supportedProfiles = new HashMap<String, VideoMediaProfile>();
+            supportedProfiles = new HashMap<>();
 
             File f = new File(VideoMediaProfile.MEDIAPROFILESPATH);
             if (!f.exists())

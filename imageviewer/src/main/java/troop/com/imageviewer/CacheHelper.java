@@ -1,11 +1,9 @@
 package troop.com.imageviewer;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.util.LruCache;
 
 import com.troop.filelogger.Logger;
@@ -25,7 +23,7 @@ public class CacheHelper
     private DiskLruCache mDiskLruCache;
     private final Object mDiskCacheLock = new Object();
     private boolean mDiskCacheStarting = true;
-    private static final int DISK_CACHE_SIZE = 1024 * 1024 * 200;
+    public static final int DISK_CACHE_SIZE = 1024 * 1024 * 200;
     private static final String DISK_CACHE_SUBDIR = "thumbnails";
     private LruCache<String, Bitmap> mMemoryCache;
     final String TAG = CacheHelper.class.getSimpleName();
@@ -49,7 +47,7 @@ public class CacheHelper
             }
         };
 
-        File cacheDir = getDiskCacheDir(context, DISK_CACHE_SUBDIR);
+        File cacheDir = getDiskCacheDir(context);
         new InitDiskCacheTask().execute(cacheDir);
 
     }
@@ -60,7 +58,7 @@ public class CacheHelper
             synchronized (mDiskCacheLock) {
                 File cacheDir = params[0];
                 try {
-                    mDiskLruCache = DiskLruCache.open(cacheDir, 1,1, DISK_CACHE_SIZE);
+                    mDiskLruCache = DiskLruCache.open(cacheDir, 1, DISK_CACHE_SIZE);
                 } catch (IOException e) {
                     Logger.exception(e);
                 }
@@ -102,8 +100,6 @@ public class CacheHelper
                     } else {
                         snapshot.getInputStream(0).close();
                     }
-                } catch (final IOException e) {
-                    Logger.e(TAG, "addBitmapToCache - " + e);
                 } catch (Exception e) {
                     Logger.e(TAG, "addBitmapToCache - " + e);
                 } finally {
@@ -177,12 +173,12 @@ public class CacheHelper
 
     // Creates a unique subdirectory of the designated app cache directory. Tries to use external
 // but if not mounted, falls back on internal storage.
-    public static File getDiskCacheDir(Context context, String uniqueName) {
+    public static File getDiskCacheDir(Context context) {
         // Check if media is mounted or storage is built-in, if so, try and use external cache dir
         // otherwise use internal cache dir
         final String cachePath = context.getCacheDir().getPath();
 
-        return new File(cachePath + File.separator + uniqueName);
+        return new File(cachePath + File.separator + CacheHelper.DISK_CACHE_SUBDIR);
     }
 
 

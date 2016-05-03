@@ -5,6 +5,7 @@ import android.support.v4.provider.DocumentFile;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.ui.AppSettingsManager;
+
 import java.io.File;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class FileUtils
         return sdDir;
     }
 
-    public static DocumentFile getDCIMDocumentFolder(boolean create,AppSettingsManager appSettingsManager) {
+    private static DocumentFile getDCIMDocumentFolder(boolean create, AppSettingsManager appSettingsManager) {
         DocumentFile documentFile = null;
         DocumentFile sdDir;
         if ((sdDir = getExternalSdDocumentFile(appSettingsManager)) != null) {
@@ -44,14 +45,14 @@ public class FileUtils
         return documentFile;
     }
 
-    public static DocumentFile getFreeDcamDocumentFolder(boolean create, AppSettingsManager appSettingsManager)
+    public static DocumentFile getFreeDcamDocumentFolder(AppSettingsManager appSettingsManager)
     {
         DocumentFile dcimfolder;
         DocumentFile freedcamfolder = null;
-        if((dcimfolder = getDCIMDocumentFolder(create, appSettingsManager)) !=null)
+        if((dcimfolder = getDCIMDocumentFolder(true, appSettingsManager)) !=null)
         {
             freedcamfolder = dcimfolder.findFile("FreeDcam");
-            if (freedcamfolder == null && create)
+            if (freedcamfolder == null && true)
                 freedcamfolder = dcimfolder.createDirectory("FreeDcam");
         }
         return freedcamfolder;
@@ -59,7 +60,7 @@ public class FileUtils
 
     public static boolean delteDocumentFile(File file, AppSettingsManager appSettingsManager) throws NullPointerException
     {
-        if (file.delete() == false) {
+        if (!file.delete()) {
             DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(appSettingsManager);
             if (sdDir == null)
                 throw new NullPointerException();
@@ -68,21 +69,18 @@ public class FileUtils
             String[] split = fileFolder.split("/");
             DocumentFile tmpdir = null;
             boolean append = false;
-            for (int t = 0; t < split.length; t++) {
-                if (split[t].equals(baseS) || append) {
+            for (String aSplit : split) {
+                if (aSplit.equals(baseS) || append) {
                     if (!append) {
                         append = true;
                         tmpdir = sdDir;
                     } else {
-                        tmpdir = tmpdir.findFile(split[t]);
+                        tmpdir = tmpdir.findFile(aSplit);
                     }
                 }
             }
             boolean d = false;
-            if (tmpdir != null && tmpdir.exists())
-                d= tmpdir.delete();
-            else
-                d = true;
+            d = !(tmpdir != null && tmpdir.exists()) || tmpdir.delete();
             Logger.d("delteDocumentFile", "file delted:" + d);
             return d;
         }

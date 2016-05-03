@@ -15,7 +15,6 @@ import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import troop.com.androiddng.R;
@@ -92,7 +91,7 @@ public class RawToDngTestActivity extends Activity {
 		return null;
 	}
 	
-	Button.OnClickListener buttonclick = new Button.OnClickListener() {
+	private Button.OnClickListener buttonclick = new Button.OnClickListener() {
 		
 		@Override
 		public void onClick(View v) {
@@ -113,8 +112,6 @@ public class RawToDngTestActivity extends Activity {
 							data = RawToDng.readFile(file);
 							Logger.d("Main", "Filesize: " + data.length + " File:" +file.getAbsolutePath());
 
-						} catch (FileNotFoundException e) {
-							Logger.exception(e);
 						} catch (IOException e) {
 							Logger.exception(e);
 						}

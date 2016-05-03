@@ -8,8 +8,8 @@ import java.util.HashMap;
 
 public class ISOManualParameterG4 extends BaseManualParameter
 {
-    BaseCameraHolder baseCameraHolder;
-    AE_Handler_LGG4.AeManualEvent manualEvent;
+    private BaseCameraHolder baseCameraHolder;
+    private AE_Handler_LGG4.AeManualEvent manualEvent;
 
     public ISOManualParameterG4(HashMap<String, String> parameters, BaseCameraHolder cameraHolder, AbstractParameterHandler camParametersHandler, AE_Handler_LGG4.AeManualEvent manualevent) {
         super(parameters, "", "", "", camParametersHandler,1);
@@ -18,7 +18,7 @@ public class ISOManualParameterG4 extends BaseManualParameter
 
         this.isSupported = true;
         this.isVisible = isSupported;
-        ArrayList<String> s = new ArrayList<String>();
+        ArrayList<String> s = new ArrayList<>();
         for (int i =0; i <= 2700; i +=50)
         {
             if (i == 0)

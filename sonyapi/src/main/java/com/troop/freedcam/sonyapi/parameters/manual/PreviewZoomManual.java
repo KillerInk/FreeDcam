@@ -2,7 +2,6 @@ package com.troop.freedcam.sonyapi.parameters.manual;
 
 import com.troop.freedcam.sonyapi.parameters.ParameterHandlerSony;
 import com.troop.freedcam.sonyapi.sonystuff.SimpleStreamSurfaceView;
-import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.util.Set;

@@ -8,7 +8,6 @@ import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.MeteringRectangle;
 import android.os.Build;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.troop.filelogger.Logger;
@@ -28,21 +27,17 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
 {
 
     private final BaseCameraHolderApi2 cameraHolder;
-    private final CameraUiWrapperApi2 cameraUiWrapper;
-    private final ParameterHandlerApi2 parametersHandler;
-    int mState;
-    FocusRect focusRect;
-    boolean focusenabled = false;
+    private int mState;
+    private FocusRect focusRect;
+    private boolean focusenabled = false;
 
 
 
-    final String TAG = FocusHandlerApi2.class.getSimpleName();
+    private final String TAG = FocusHandlerApi2.class.getSimpleName();
 
     public FocusHandlerApi2(AbstractCameraUiWrapper cameraUiWrapper)
     {
-        this.cameraUiWrapper = (CameraUiWrapperApi2) cameraUiWrapper;
         this.cameraHolder = (BaseCameraHolderApi2) cameraUiWrapper.cameraHolder;
-        this.parametersHandler = (ParameterHandlerApi2) cameraUiWrapper.camParametersHandler;
     }
 
     public AbstractModeParameter.I_ModeParameterEvent focusModeListner = new AbstractModeParameter.I_ModeParameterEvent() {

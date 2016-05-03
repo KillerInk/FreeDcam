@@ -1,12 +1,9 @@
 package com.troop.freedcam.camera2.modules;
 
-import android.os.Handler;
-
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.IntervalModule;
-import com.troop.freedcam.ui.AppSettingsManager;
 
 /**
  * Created by troop on 12.12.2014.

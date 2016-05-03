@@ -1,28 +1,20 @@
 package com.troop.freedcam.camera2.modules;
 
 import android.annotation.TargetApi;
-import android.graphics.ImageFormat;
-import android.graphics.Matrix;
-import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
-import android.hardware.camera2.CameraDevice;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
-import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
-import android.view.TextureView;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera2.BaseCameraHolderApi2;
-import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.camera2.parameters.modes.VideoProfilesApi2;
-import com.troop.freedcam.i_camera.modules.AbstractModule;
 import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_RecorderStateChanged;
 import com.troop.freedcam.i_camera.modules.ModuleEventHandler;
@@ -30,18 +22,10 @@ import com.troop.freedcam.i_camera.modules.VideoMediaProfile;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.FileUtils;
 import com.troop.freedcam.utils.StringUtils;
-import com.troop.freedcam.utils.VideoUtils;
 
 import java.io.File;
-import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import static com.troop.freedcam.camera2.BaseCameraHolderApi2.getSizeForPreviewDependingOnImageSize;
 
 /**
  * Created by troop on 26.11.2015.
@@ -50,14 +34,14 @@ import static com.troop.freedcam.camera2.BaseCameraHolderApi2.getSizeForPreviewD
 public class VideoModuleApi2 extends AbstractModuleApi2
 {
     private static String TAG = VideoModuleApi2.class.getSimpleName();
-    BaseCameraHolderApi2 cameraHolder;
-    boolean isRecording = false;
-    Size previewSize;
-    VideoMediaProfile currentVideoProfile;
+    private BaseCameraHolderApi2 cameraHolder;
+    private boolean isRecording = false;
+    private Size previewSize;
+    private VideoMediaProfile currentVideoProfile;
     private Surface previewsurface;
     private Surface recorderSurface;
 
-    public MediaRecorder mediaRecorder;
+    private MediaRecorder mediaRecorder;
 
     public VideoModuleApi2(BaseCameraHolderApi2 cameraHandler, ModuleEventHandler eventHandler) {
         super(cameraHandler, eventHandler);
@@ -186,7 +170,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         else
         {
             Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(true,AppSettingsManager.APPSETTINGSMANAGER);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(AppSettingsManager.APPSETTINGSMANAGER);
             DocumentFile wr = df.createFile("*/*", new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), ".mp4")).getName());
             ParcelFileDescriptor fileDescriptor = null;
             try {

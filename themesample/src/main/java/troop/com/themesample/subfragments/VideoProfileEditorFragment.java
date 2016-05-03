@@ -73,7 +73,7 @@ public class VideoProfileEditorFragment extends Fragment
         button_save.setOnClickListener(onSavebuttonClick);
         this.button_delete = (Button)view.findViewById(R.id.button_delete_profile);
         button_delete.setOnClickListener(ondeleteButtonClick);
-        videoMediaProfiles = new HashMap<String, VideoMediaProfile>();
+        videoMediaProfiles = new HashMap<>();
 
         File f = new File(VideoMediaProfile.MEDIAPROFILESPATH);
         if(f.exists())
@@ -152,7 +152,7 @@ public class VideoProfileEditorFragment extends Fragment
         }
     };
 
-    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+    private DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             switch (which){

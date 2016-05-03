@@ -11,7 +11,7 @@ import android.view.View;
  */
 public class NativeDrawView extends View
 {
-    public Bitmap mBitmap;
+    private Bitmap mBitmap;
 
     public NativeDrawView(Context context) {
         super(context);

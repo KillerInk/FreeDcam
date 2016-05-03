@@ -28,11 +28,8 @@ public class HotPixelModeApi2 extends BaseModeApi2
 
 
     @Override
-    public boolean IsSupported()
-    {
-        if (cameraHolder != null && cameraHolder.mPreviewRequestBuilder != null)
-            return cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.HOT_PIXEL_MODE) != null;
-        return false;
+    public boolean IsSupported() {
+        return cameraHolder != null && cameraHolder.mPreviewRequestBuilder != null && cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.HOT_PIXEL_MODE) != null;
     }
 
     @Override

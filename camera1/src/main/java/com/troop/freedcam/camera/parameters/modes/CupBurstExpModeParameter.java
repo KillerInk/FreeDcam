@@ -4,7 +4,6 @@ import android.os.Handler;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.BaseCameraHolder;
-import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.ui.AppSettingsManager;
 
 import java.util.HashMap;
@@ -15,12 +14,12 @@ import java.util.HashMap;
 public class CupBurstExpModeParameter extends BaseModeParameter
 {
     final String TAG = CupBurstExpModeParameter.class.getSimpleName();
-    public CupBurstExpModeParameter(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value, String values) {
-        super(uihandler, parameters, cameraHolder, value, values);
+    public CupBurstExpModeParameter(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String values) {
+        super(uihandler, parameters, cameraHolder, "capture-burst-exposures", "");
 
         this.isSupported = false;
         try {
-            String cbe =  parameters.get(value);
+            String cbe =  parameters.get("capture-burst-exposures");
             if (cbe != null || !cbe.equals(""))
                 this.isSupported = true;
         }

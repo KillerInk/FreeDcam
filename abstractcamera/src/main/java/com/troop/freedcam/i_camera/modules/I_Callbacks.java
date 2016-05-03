@@ -22,7 +22,7 @@ public class I_Callbacks
     public interface PictureCallback {
 
         void onPictureTaken(byte[] data);
-    };
+    }
 
 
     public static int YUV = 1;
@@ -31,7 +31,7 @@ public class I_Callbacks
     {
 
         void onPreviewFrame(byte[] data, int imageFormat);
-    };
+    }
 
     public interface AutoFocusCallback
     {
@@ -43,7 +43,7 @@ public class I_Callbacks
     public interface ErrorCallback
     {
         void onError(int error);
-    };
+    }
 }
 
 

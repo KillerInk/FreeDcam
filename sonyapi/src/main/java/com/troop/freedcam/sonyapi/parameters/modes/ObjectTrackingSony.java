@@ -18,8 +18,8 @@ import java.io.IOException;
 public class ObjectTrackingSony extends BaseModeParameterSony
 {
     final String TAG = ObjectTrackingSony.class.getSimpleName();
-    public ObjectTrackingSony(Handler handler,String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi) {
-        super(handler,VALUE_TO_GET, VALUE_TO_SET, VALUES_TO_GET, mRemoteApi);
+    public ObjectTrackingSony(Handler handler, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi) {
+        super(handler, "getTrackingFocus", "setTrackingFocus", "getAvailableTrackingFocus", mRemoteApi);
     }
 
     protected String[] processValuesToReturn() {
@@ -42,9 +42,7 @@ public class ObjectTrackingSony extends BaseModeParameterSony
             JSONObject contshot = new JSONObject().put("trackingFocus", valueToSet);
             JSONArray array = new JSONArray().put(0, contshot);
             JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
-        } catch (JSONException e) {
-            Logger.exception(e);
-        } catch (IOException e) {
+        } catch (JSONException | IOException e) {
             Logger.exception(e);
         }
     }

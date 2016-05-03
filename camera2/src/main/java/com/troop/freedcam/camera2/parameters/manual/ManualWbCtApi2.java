@@ -6,7 +6,6 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.ColorSpaceTransform;
 import android.hardware.camera2.params.RggbChannelVector;
 import android.os.Build;
-import android.util.Log;
 
 import com.troop.androiddng.Matrixes;
 import com.troop.filelogger.Logger;
@@ -26,12 +25,12 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
     public ColorSpaceTransform colorSpaceTransform;
     public RggbChannelVector rggbChannelVector;
     private RggbChannelVector wbChannelVector;
-    boolean isSupported = false;
-    BaseCameraHolderApi2 cameraHolder;
-    boolean canSet = false;
+    private boolean isSupported = false;
+    private BaseCameraHolderApi2 cameraHolder;
+    private boolean canSet = false;
     private HashMap<String, int[]> cctLookup;
 
-    final String TAG = ManualWbCtApi2.class.getSimpleName();
+    private final String TAG = ManualWbCtApi2.class.getSimpleName();
 
     public ManualWbCtApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
         super(camParametersHandler);
@@ -89,12 +88,8 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
         try {
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
-        } catch (CameraAccessException e) {
+        } catch (CameraAccessException | NullPointerException e) {
             Logger.exception(e);
-        }
-        catch (NullPointerException ex)
-        {
-            Logger.exception(ex);
         }
 
     }
@@ -177,7 +172,6 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
     private int getCctFromRGB(int R, int G, int B)
     {
         double n=((0.23881)*R+(0.25499)*G+(-0.58291)*B)/((0.11109)*R+(-0.85406)*G+(0.52289)*B);
-        int CCT=(int)(449*Math.pow(n,3)+3525*Math.pow(n,2)+Math.pow(n,6823.3)+5520.33);
-        return CCT;
+        return (int)(449*Math.pow(n,3)+3525*Math.pow(n,2)+Math.pow(n,6823.3)+5520.33);
     }
 }

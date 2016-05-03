@@ -9,18 +9,18 @@ import java.util.HashMap;
  * Created by troop on 28.03.2016.
  */
 public class FocusManualMTK extends BaseFocusManual {
-    public FocusManualMTK(HashMap<String, String> parameters, String value, String maxValue, String MinValue, String manualFocusModeString, AbstractParameterHandler camParametersHandler, float step, int manualFocusType) {
-        super(parameters, value, maxValue, MinValue, manualFocusModeString, camParametersHandler, step, manualFocusType);
+    public FocusManualMTK(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler, float step, int manualFocusType) {
+        super(parameters, "focus-fs-fi", "focus-fs-fi-max", "focus-fs-fi-min", FocusManualClassHandler.focusMode_manual, camParametersHandler, (float) 10, 0);
         isSupported = true;
         isVisible = isSupported;
     }
 
-    public FocusManualMTK(HashMap<String, String> parameters, String value, int min, int max, String manualFocusModeString, AbstractParameterHandler camParametersHandler, float step, int manualFocusType) {
-        super(parameters, value, min, max, manualFocusModeString, camParametersHandler, step, manualFocusType);
+    public FocusManualMTK(HashMap<String, String> parameters, int min, int max, String manualFocusModeString, AbstractParameterHandler camParametersHandler, float step, int manualFocusType) {
+        super(parameters, "afeng-pos", 0, 1023, FocusManualClassHandler.focusMode_manual, camParametersHandler, (float) 10, 1);
         this.isSupported = true;
         this.isVisible = true;
-        this.manualFocusModeString = manualFocusModeString;
-        this.stringvalues = createStringArray(min,max,step);
+        this.manualFocusModeString = FocusManualClassHandler.focusMode_manual;
+        this.stringvalues = createStringArray(0, 1023, (float) 10);
         //this.manualFocusType = manualFocusType;
     }
 

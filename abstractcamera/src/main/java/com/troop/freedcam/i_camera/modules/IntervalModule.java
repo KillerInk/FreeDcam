@@ -2,15 +2,14 @@ package com.troop.freedcam.i_camera.modules;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
-import com.troop.freedcam.ui.AppSettingsManager;
 
 /**
  * Created by troop on 08.01.2016.
  */
 public class IntervalModule extends AbstractModule implements AbstractModuleHandler.I_worker
 {
-    AbstractModule picModule;
-    IntervalHandler intervalHandler;
+    private AbstractModule picModule;
+    private IntervalHandler intervalHandler;
 
     public IntervalModule(AbstractCameraHolder cameraHandler, ModuleEventHandler eventHandler, AbstractModule picModule) {
         super(cameraHandler, eventHandler);

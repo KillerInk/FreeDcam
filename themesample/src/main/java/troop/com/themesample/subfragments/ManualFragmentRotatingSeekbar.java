@@ -2,7 +2,6 @@ package troop.com.themesample.subfragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,29 +27,29 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
 {
     private int currentValuePos = 0;
 
-    RotatingSeekbar seekbar;
-    ManualButton mf;
-    ManualButton iso;
-    ManualButton shutter;
-    ManualButton aperture;
-    ManualButton exposure;
-    ManualButton brightness;
-    ManualButton burst;
-    ManualButton wb;
-    ManualButton contrast;
-    ManualButton saturation;
-    ManualButton sharpness;
-    ManualButton programshift;
-    ManualButton zoom;
-    ManualButton skintone;
-    ManualButton fx;
-    ManualButton convergence;
+    private RotatingSeekbar seekbar;
+    private ManualButton mf;
+    private ManualButton iso;
+    private ManualButton shutter;
+    private ManualButton aperture;
+    private ManualButton exposure;
+    private ManualButton brightness;
+    private ManualButton burst;
+    private ManualButton wb;
+    private ManualButton contrast;
+    private ManualButton saturation;
+    private ManualButton sharpness;
+    private ManualButton programshift;
+    private ManualButton zoom;
+    private ManualButton skintone;
+    private ManualButton fx;
+    private ManualButton convergence;
 
-    ManualButton currentButton;
+    private ManualButton currentButton;
 
-    ManualButton previewZoom;
+    private ManualButton previewZoom;
 
-    final String TAG = ManualFragmentRotatingSeekbar.class.getSimpleName();
+    private final String TAG = ManualFragmentRotatingSeekbar.class.getSimpleName();
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         return inflater.inflate(R.layout.manual_fragment_rotatingseekbar, container, false);
@@ -185,7 +184,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
     }
 
     //######## ManualButton Stuff#####
-    View.OnClickListener manualButtonClickListner = new View.OnClickListener() {
+    private View.OnClickListener manualButtonClickListner = new View.OnClickListener() {
         @Override
         public void onClick(View v)
         {

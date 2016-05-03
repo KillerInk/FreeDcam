@@ -11,8 +11,8 @@ import java.util.HashMap;
  */
 public class ISOManualParameterMTK extends BaseManualParameter
 {
-    BaseCameraHolder baseCameraHolder;
-    AE_Handler_MTK.AeManualEvent manualEvent;
+    private BaseCameraHolder baseCameraHolder;
+    private AE_Handler_MTK.AeManualEvent manualEvent;
 
     public ISOManualParameterMTK(HashMap<String, String> parameters, BaseCameraHolder cameraHolder, AbstractParameterHandler camParametersHandler, AE_Handler_MTK.AeManualEvent manualevent) {
         super(parameters, "", "", "", camParametersHandler,1);
@@ -21,7 +21,7 @@ public class ISOManualParameterMTK extends BaseManualParameter
 
         this.isSupported = true;
         this.isVisible = isSupported;
-        ArrayList<String> s = new ArrayList<String>();
+        ArrayList<String> s = new ArrayList<>();
         s.add("Auto");
         for (int i =100; i <= 2700; i +=50)
         {

@@ -9,7 +9,7 @@ import android.os.Handler;
  */
 public class Horizont extends AbstractModeParameter {
 
-    String value;
+    private String value;
 
     public Horizont(Handler uiHandler) {
         super(uiHandler);

@@ -5,5 +5,5 @@ package com.troop.freedcam.i_camera.modules;
  */
 public interface I_ModuleEvent
 {
-    public String ModuleChanged(String module);
+    String ModuleChanged(String module);
 }

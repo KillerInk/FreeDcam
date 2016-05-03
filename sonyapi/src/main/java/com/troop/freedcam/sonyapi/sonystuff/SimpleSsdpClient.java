@@ -4,8 +4,6 @@
 
 package com.troop.freedcam.sonyapi.sonystuff;
 
-import android.util.Log;
-
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.ui.FreeDPool;
 
@@ -126,7 +124,7 @@ public class SimpleSsdpClient {
                 // Receive reply packets
                 mSearching = true;
                 long startTime = System.currentTimeMillis();
-                List<String> foundDevices = new ArrayList<String>();
+                List<String> foundDevices = new ArrayList<>();
                 byte[] array = new byte[PACKET_BUFFER_SIZE];
                 ServerDevice device = null;
                 try {
@@ -151,7 +149,7 @@ public class SimpleSsdpClient {
                             device = ServerDevice.fetch(ddLocation);
                             // Note that it's a irresponsible rule
                             // for the sample application.
-                            if (device != null && device.hasApiService("camera")) {
+                            if (device != null && device.hasApiService()) {
                                 handler.onDeviceFound(device);
                             }
                         }

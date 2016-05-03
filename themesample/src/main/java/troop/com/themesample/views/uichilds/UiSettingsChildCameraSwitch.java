@@ -15,8 +15,8 @@ import com.troop.freedcam.ui.I_Activity;
  */
 public class UiSettingsChildCameraSwitch extends UiSettingsChild
 {
-    AbstractCameraUiWrapper cameraUiWrapper;
-    int currentCamera = 0;
+    private AbstractCameraUiWrapper cameraUiWrapper;
+    private int currentCamera = 0;
     public UiSettingsChildCameraSwitch(Context context) {
         super(context);
     }

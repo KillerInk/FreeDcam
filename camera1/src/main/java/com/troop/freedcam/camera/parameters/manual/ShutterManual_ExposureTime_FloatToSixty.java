@@ -1,11 +1,7 @@
 package com.troop.freedcam.camera.parameters.manual;
 
-import android.util.Log;
-
 import com.troop.filelogger.Logger;
-import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
-import com.troop.freedcam.utils.DeviceUtils;
 import com.troop.freedcam.utils.StringUtils;
 
 import java.util.HashMap;
@@ -16,13 +12,13 @@ import java.util.HashMap;
 public class ShutterManual_ExposureTime_FloatToSixty extends ShutterManual_ExposureTime_Micro
 {
 
-    final static String TAG = ShutterManual_ExposureTime_FloatToSixty.class.getSimpleName();
+    private final static String TAG = ShutterManual_ExposureTime_FloatToSixty.class.getSimpleName();
     /**
      * @param parameters
      * @param camParametersHandler
      */
-    public ShutterManual_ExposureTime_FloatToSixty(HashMap<String, String> parameters, AbstractParameterHandler camParametersHandler, String[] shuttervalues,String value, String max, String min) {
-        super(parameters, camParametersHandler, shuttervalues,value,max,min);
+    public ShutterManual_ExposureTime_FloatToSixty(HashMap<String, String> parameters, AbstractParameterHandler camParametersHandler, String[] shuttervalues, String max, String min) {
+        super(parameters, camParametersHandler, shuttervalues, "exposure-time", "max-exposure-time", "min-exposure-time");
     }
 
     @Override

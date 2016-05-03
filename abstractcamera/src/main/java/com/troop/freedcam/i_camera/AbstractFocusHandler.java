@@ -1,7 +1,6 @@
 package com.troop.freedcam.i_camera;
 
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.troop.filelogger.Logger;
@@ -12,10 +11,10 @@ import com.troop.freedcam.i_camera.interfaces.I_Focus;
  */
 public abstract class AbstractFocusHandler
 {
-    final String TAG = AbstractFocusHandler.class.getSimpleName();
-    public void StartFocus(){};
-    public void StartTouchToFocus(FocusRect rect, FocusRect meteringarea, int width, int height){};
-    public void SetMeteringAreas(FocusRect meteringRect, int width, int height){};
+    private final String TAG = AbstractFocusHandler.class.getSimpleName();
+    public void StartFocus(){}
+    public void StartTouchToFocus(FocusRect rect, FocusRect meteringarea, int width, int height){}
+    public void SetMeteringAreas(FocusRect meteringRect, int width, int height){}
     public abstract void SetAwbAreas(FocusRect awbRect, int width, int height);
     public I_Focus focusEvent;
     public abstract boolean isAeMeteringSupported();

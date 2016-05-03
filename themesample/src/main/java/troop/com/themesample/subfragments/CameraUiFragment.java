@@ -51,7 +51,6 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     private UiSettingsChild night;
     private UiSettingsChild format;
     private UiSettingsChildCameraSwitch cameraSwitch;
-    private UiSettingsChildExit exit;
     private UiSettingsChildModuleSwitch modeSwitch;
     private UiSettingsMenu menu;
     private UiSettingsChild contShot;
@@ -61,24 +60,17 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     private SwipeMenuListner touchHandler;
     private ShutterButton shutterButton;
     private UiSettingsFocusPeak focuspeak;
-    private UserMessageHandler messageHandler;
     private UiSettingsChild hdr_switch;
     private ThumbView thumbView;
-    private LinearLayout LC;
-    private LinearLayout left_cameraUI_holder;
-    private RelativeLayout right_camerUI_holder;
     private ManualFragmentRotatingSeekbar manualModesFragment;
     private FrameLayout manualModes_holder;
     private boolean manualsettingsIsOpen = false;
-    private boolean settingsOpen = false;
     private FocusImageHandler focusImageHandler;
     private View view;
     private I_Activity i_activity;
     private SampleInfoOverlayHandler infoOverlayHandler;
     private GuideHandler guideHandler;
-    private LinearLayout guidHolder;
     private final String KEY_MANUALMENUOPEN = "key_manualmenuopen";
-    private final String KEY_SETTINGSOPEN = "key_settingsopen";
     private SharedPreferences sharedPref;
     private ScreenSlideFragment.I_ThumbClick thumbClick;
     private File lastFile;
@@ -121,7 +113,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         cameraSwitch.SetCameraUiWrapper(wrapper);
         focusImageHandler.SetCamerUIWrapper(wrapper);
-        this.messageHandler = new UserMessageHandler(view);
+        UserMessageHandler messageHandler = new UserMessageHandler(view);
         messageHandler.SetCameraUiWrapper(wrapper);
         shutterButton.SetCameraUIWrapper(wrapper, messageHandler);
         format.SetParameter(wrapper.camParametersHandler.PictureFormat);
@@ -159,10 +151,10 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         Logger.d(TAG, "####################VIEW CREATED####################");
         sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         manualsettingsIsOpen = sharedPref.getBoolean(KEY_MANUALMENUOPEN, false);
-        this.left_cameraUI_holder = (LinearLayout)view.findViewById(R.id.left_ui_holder);
-        this.right_camerUI_holder = (RelativeLayout)view.findViewById(R.id.right_ui_holder);
+        LinearLayout left_cameraUI_holder = (LinearLayout) view.findViewById(R.id.left_ui_holder);
+        RelativeLayout right_camerUI_holder = (RelativeLayout) view.findViewById(R.id.right_ui_holder);
         this.manualModes_holder = (FrameLayout)view.findViewById(R.id.manualModesHolder);
-        this.LC = (LinearLayout)view.findViewById(R.id.LCover);
+        LinearLayout LC = (LinearLayout) view.findViewById(R.id.LCover);
 
         this.flash = (UiSettingsChild)view.findViewById(R.id.Flash);
         flash.SetStuff(i_activity, AppSettingsManager.SETTING_FLASHMODE);
@@ -207,7 +199,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         modeSwitch.SetStuff(i_activity, AppSettingsManager.SETTING_CURRENTMODULE);
         modeSwitch.SetMenuItemListner(this,false);
 
-        exit = (UiSettingsChildExit)view.findViewById(R.id.exit);
+        UiSettingsChildExit exit = (UiSettingsChildExit) view.findViewById(R.id.exit);
         exit.SetStuff(i_activity, "");
 
         cameraSwitch = (UiSettingsChildCameraSwitch)view.findViewById(R.id.camera_switch);
@@ -234,7 +226,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
         if(!manualsettingsIsOpen)
             manualModes_holder.setVisibility(View.GONE);
-        guidHolder = (LinearLayout)view.findViewById(R.id.guideHolder);
+        LinearLayout guidHolder = (LinearLayout) view.findViewById(R.id.guideHolder);
     }
 
     @Override
@@ -288,7 +280,9 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     {
         infoOverlayHandler.StopUpdating();
         sharedPref.edit().putBoolean(KEY_MANUALMENUOPEN,manualsettingsIsOpen).commit();
-        sharedPref.edit().putBoolean(KEY_SETTINGSOPEN,settingsOpen).commit();
+        boolean settingsOpen = false;
+        String KEY_SETTINGSOPEN = "key_settingsopen";
+        sharedPref.edit().putBoolean(KEY_SETTINGSOPEN, settingsOpen).commit();
         super.onPause();
 
     }

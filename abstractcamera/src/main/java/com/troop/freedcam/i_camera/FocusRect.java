@@ -12,7 +12,7 @@ public class FocusRect
     public int x;
     public int y;
 
-    public FocusRect(){};
+    public FocusRect(){}
 
     public FocusRect(int left, int rigt, int top, int bottom,int x,int y)
     {

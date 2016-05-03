@@ -15,8 +15,8 @@ import java.io.File;
  */
 public class ShareActivity extends MainActivity implements I_WorkEvent
 {
-    Intent callerIntent;
-    Uri data;
+    private Intent callerIntent;
+    private Uri data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

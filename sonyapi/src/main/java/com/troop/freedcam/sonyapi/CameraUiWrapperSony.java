@@ -43,11 +43,6 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
         cameraHolder.moduleHandlerSony = (ModuleHandlerSony)moduleHandler;
     }
 
-    @Override
-    public void SwitchModule(String moduleName) {
-        moduleHandler.SetModule(moduleName);
-    }
-
 
     @Override
     public void StartCamera()
@@ -55,32 +50,17 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-                startCamera();
+                cameraHolder.OpenCamera(serverDevice);
+                onCameraOpen("");
             }
         });
     }
 
     @Override
-    protected void startCamera()
-    {
-        cameraHolder.OpenCamera(serverDevice);
-        onCameraOpen("");
-    }
-
-    @Override
-    protected void stopCamera() {
+    public void StopCamera() {
         cameraHolder.CloseCamera();
     }
 
-    @Override
-    protected void stopPreview() {
-
-    }
-
-    @Override
-    protected void startPreview() {
-
-    }
 
     @Override
     public void onCameraOpen(String message) {
@@ -128,7 +108,6 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
     @Override
     public void surfaceCreated(SurfaceHolder holder)
     {
-        //StartCamera();
     }
 
     @Override

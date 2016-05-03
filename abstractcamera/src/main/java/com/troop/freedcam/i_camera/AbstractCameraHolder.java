@@ -17,14 +17,14 @@ import java.util.HashMap;
  */
 public abstract class AbstractCameraHolder implements I_CameraHolder
 {
-    public boolean isRdy = false;
+    protected boolean isRdy = false;
 
     public boolean isPreviewRunning = false;
     private AbstractParameterHandler ParameterHandler;
     public AbstractFocusHandler Focus;
     public AbstractExposureMeterHandler ExposureM;
     public SurfaceHolder surfaceHolder;
-    public I_CameraChangedListner cameraChangedListner;
+    protected I_CameraChangedListner cameraChangedListner;
     protected Handler UIHandler;
 
     protected CameraStates currentState = CameraStates.closed;
@@ -38,7 +38,7 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     }
 
 
-    public AbstractCameraHolder(I_CameraChangedListner cameraChangedListner,Handler UIHandler)
+    protected AbstractCameraHolder(I_CameraChangedListner cameraChangedListner, Handler UIHandler)
     {
         this.cameraChangedListner = cameraChangedListner;
 
@@ -100,16 +100,16 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
         return isPreviewRunning;
     }
 
-    public void StartFocus(I_Callbacks.AutoFocusCallback autoFocusCallback){};
-    public void CancelFocus(){};
+    public void StartFocus(I_Callbacks.AutoFocusCallback autoFocusCallback){}
+    public void CancelFocus(){}
 
     public abstract void SetLocation(Location loc);
 
     public abstract void SetPreviewCallback(final I_Callbacks.PreviewCallback previewCallback);
 
-    public void SetPreviewCallback(final Camera.PreviewCallback previewCallback){};
+    public void SetPreviewCallback(final Camera.PreviewCallback previewCallback){}
 
-    public void ResetPreviewCallback(){};
+    public void ResetPreviewCallback(){}
 
     public void SetParameterHandler(AbstractParameterHandler parametersHandler)
     {

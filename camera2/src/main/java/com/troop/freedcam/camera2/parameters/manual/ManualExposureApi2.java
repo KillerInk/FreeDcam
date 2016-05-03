@@ -22,8 +22,7 @@ import java.util.ArrayList;
 public class ManualExposureApi2 extends AbstractManualParameter implements AbstractModeParameter.I_ModeParameterEvent
 {
     final String TAG = ManualExposureApi2.class.getSimpleName();
-    protected BaseCameraHolderApi2 cameraHolder;
-    private boolean canSet = false;
+    BaseCameraHolderApi2 cameraHolder;
 
     public ManualExposureApi2(ParameterHandlerApi2 camParametersHandler, BaseCameraHolderApi2 cameraHolder) {
         super(camParametersHandler);
@@ -66,11 +65,7 @@ public class ManualExposureApi2 extends AbstractManualParameter implements Abstr
         try {
             cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
                     null);
-        } catch (CameraAccessException e) {
-            Logger.exception(e);
-        }
-        catch (NullPointerException e)
-        {
+        } catch (CameraAccessException | NullPointerException e) {
             Logger.exception(e);
         }
     }
@@ -93,6 +88,7 @@ public class ManualExposureApi2 extends AbstractManualParameter implements Abstr
 
     @Override
     public void onValueChanged(String val) {
+        boolean canSet = false;
         if (val.equals("off"))
         {
             canSet = false;

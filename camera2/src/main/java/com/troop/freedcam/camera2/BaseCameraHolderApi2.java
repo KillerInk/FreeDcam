@@ -4,12 +4,10 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -22,16 +20,10 @@ import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.BlackLevelPattern;
 import android.hardware.camera2.params.StreamConfigurationMap;
-import android.hardware.display.DisplayManager;
 import android.location.Location;
-import android.media.CamcorderProfile;
-import android.media.ImageReader;
-import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.renderscript.RenderScript;
-import android.util.Log;
 import android.util.Size;
 import android.view.Display;
 import android.view.Surface;
@@ -43,15 +35,11 @@ import com.troop.freedcam.camera2.modules.I_PreviewWrapper;
 import com.troop.freedcam.camera2.parameters.ParameterHandlerApi2;
 import com.troop.freedcam.i_camera.AbstractCameraHolder;
 import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
-import com.troop.freedcam.i_camera.modules.AbstractModuleHandler;
 import com.troop.freedcam.i_camera.modules.I_Callbacks;
 import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.utils.StringUtils;
-import com.troop.freedcam.utils.VideoUtils;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -310,12 +298,12 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     }
 
 
-    public CaptureRequest.Builder createCaptureRequest(int template) throws CameraAccessException {
+    public CaptureRequest.Builder createCaptureRequest() throws CameraAccessException {
         CameraDevice device = mCameraDevice;
         if (device == null) {
             throw new IllegalStateException("Can't get requests when no camera is open");
         }
-        return device.createCaptureRequest(template);
+        return device.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
     }
 
     public void FocusPeakEnable(boolean enable)
@@ -350,12 +338,8 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             });
             try {
                 mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-            } catch (CameraAccessException e) {
+            } catch (CameraAccessException | SecurityException e) {
                 Logger.exception(e);
-            }
-            catch (SecurityException ex)
-            {
-                Logger.exception(ex);
             }
             ((ParameterHandlerApi2)GetParameterHandler()).Init();
             //SetLastUsedParameters(mPreviewRequestBuilder);
@@ -538,7 +522,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
     public static Size getSizeForPreviewDependingOnImageSize(Size[] choices, CameraCharacteristics characteristics, int mImageWidth, int mImageHeight)
     {
-        List<Size> sizes = new ArrayList<Size>();
+        List<Size> sizes = new ArrayList<>();
         Rect rect = characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         double ratio = (double)mImageWidth/mImageHeight;
         for (Size s : choices)
@@ -557,10 +541,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
 
     public boolean isLegacyDevice()
     {
-        if (characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) != CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
-            return false;
-        else
-            return true;
+        return characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY;
     }
 
     public static boolean IsLegacy(AppSettingsManager appSettingsManager)
@@ -573,30 +554,14 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 throw new RuntimeException("Time out waiting to lock camera opening.");
             }
             CameraManager manager = (CameraManager) appSettingsManager.context.getSystemService(Context.CAMERA_SERVICE);
-            //manager.openCamera("0", null, null);
             CameraCharacteristics characteristics = manager.getCameraCharacteristics("0");
-            if (characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) != CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
-                legacy = false;
-            else
-                legacy = true;
+            legacy = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY;
             manager = null;
             characteristics = null;
         }
-        catch (CameraAccessException e) {
+        catch (CameraAccessException | VerifyError | InterruptedException e) {
             Logger.exception(e);
-        }
-        catch (InterruptedException e) {
-            Logger.exception(e);
-        }
-        catch (VerifyError ex)
-        {
-            Logger.exception(ex);
-        }
-        catch (IllegalArgumentException ex)
-        {
-            Logger.exception(ex);
-        }
-        catch (Exception ex)
+        } catch (Exception ex)
         {
             Logger.exception(ex);
         }
@@ -620,7 +585,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         private Point displaySize;
         public CaptureSessionHandler()
         {
-            surfaces = new ArrayList<Surface>();
+            surfaces = new ArrayList<>();
             Display display = ((WindowManager)AppSettingsManager.APPSETTINGSMANAGER.context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
             displaySize = new Point();
             display.getRealSize(displaySize);
@@ -753,12 +718,8 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
                 //ParameterHandler.SetAppSettingsToParameters();
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
                         mCaptureCallback, null);
-            } catch (CameraAccessException e) {
+            } catch (CameraAccessException | IllegalStateException e) {
                 mCaptureSession =null;
-            }
-            catch (IllegalStateException ex)
-            {
-                mCaptureSession = null;
             }
         }
 

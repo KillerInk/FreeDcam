@@ -1,6 +1,6 @@
 package com.troop.freedcam.ui.handler;
+
 import android.os.Build;
-import android.os.Handler;
 
 import com.troop.apis.SonyCameraFragment;
 import com.troop.freedcam.apis.AbstractCameraFragment;

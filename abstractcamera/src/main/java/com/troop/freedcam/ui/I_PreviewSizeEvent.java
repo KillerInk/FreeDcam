@@ -5,5 +5,5 @@ package com.troop.freedcam.ui;
  */
 public interface I_PreviewSizeEvent
 {
-    public void OnPreviewSizeChanged(int w, int h);
+    void OnPreviewSizeChanged(int w, int h);
 }

@@ -20,7 +20,7 @@ import troop.com.imageviewer.holder.FileHolder;
 /**
  * Created by troopii on 20.03.2016.
  */
-public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
+class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
 {
     private List<FileHolder> files;
     private ScreenSlideFragment.FragmentClickClistner fragmentclickListner;
@@ -138,7 +138,7 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
 
     private void readFiles()
     {
-        List<FileHolder> images = new ArrayList<FileHolder>();
+        List<FileHolder> images = new ArrayList<>();
         File folder = new File(FilePathToLoad);
         if(folder.listFiles() == null || folder.listFiles().length ==0)
         {

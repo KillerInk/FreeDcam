@@ -1,7 +1,5 @@
 package com.troop.freedcam.camera.parameters.manual;
 
-import android.util.Log;
-
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 
@@ -13,20 +11,17 @@ import java.util.HashMap;
  */
 public class FocusManualParameterHTC extends  BaseManualParameter
 {
-    I_CameraHolder baseCameraHolder;
-    private static String TAG ="freedcam.ManualFocusHTC";
+    private I_CameraHolder baseCameraHolder;
+    private final String TAG =FocusManualParameterHTC.class.getSimpleName();
 
-    public FocusManualParameterHTC(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler,1);
+    public FocusManualParameterHTC(HashMap<String, String> parameters, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
+        super(parameters, "", "", "", camParametersHandler,1);
         this.baseCameraHolder = cameraHolder;
-        if (!parameters.containsKey("min-focus") || !parameters.containsKey("max-focus"))
-            this.isSupported = false;
-        else
-            this.isSupported = true;
+        this.isSupported = parameters.containsKey("min-focus") && parameters.containsKey("max-focus");
         this.max_value = "max-focus";
         this.value = "focus";
         this.min_value = "min-focus";
-        parameters.put(value,"0");
+        parameters.put("","0");
         isVisible = isSupported;
         if (isSupported)
         {

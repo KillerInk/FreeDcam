@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -14,7 +13,6 @@ import com.troop.freedcam.camera.BaseCameraHolder;
 import com.troop.freedcam.camera.CameraUiWrapper;
 import com.troop.freedcam.i_camera.AbstractCameraUiWrapper;
 import com.troop.freedcam.i_camera.parameters.AbstractModeParameter;
-import com.troop.freedcam.ui.AppSettingsManager;
 import com.troop.freedcam.ui.I_Activity;
 import com.troop.freedcam.utils.StringUtils;
 
@@ -30,7 +28,7 @@ import troop.com.themesample.subfragments.Interfaces;
  */
 public class MenuItemSaveCamParams extends MenuItem
 {
-    AbstractCameraUiWrapper cameraUiWrapper;
+    private AbstractCameraUiWrapper cameraUiWrapper;
     public MenuItemSaveCamParams(Context context) {
         super(context);
     }

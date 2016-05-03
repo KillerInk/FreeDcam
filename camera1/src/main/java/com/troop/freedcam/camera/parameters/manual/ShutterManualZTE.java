@@ -1,13 +1,10 @@
 package com.troop.freedcam.camera.parameters.manual;
 
 import android.os.Handler;
-import android.util.Log;
 
 import com.troop.filelogger.Logger;
 import com.troop.freedcam.camera.parameters.CamParametersHandler;
-import com.troop.freedcam.i_camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.i_camera.interfaces.I_CameraHolder;
-import com.troop.freedcam.i_camera.interfaces.I_Shutter_Changed;
 import com.troop.freedcam.i_camera.parameters.AbstractParameterHandler;
 import com.troop.freedcam.utils.DeviceUtils;
 
@@ -18,8 +15,8 @@ import java.util.HashMap;
  */
 public class ShutterManualZTE extends BaseManualParameter
 {
-    I_CameraHolder baseCameraHolder;
-    final String TAG = ShutterManualZTE.class.getSimpleName();
+    private I_CameraHolder baseCameraHolder;
+    private final String TAG = ShutterManualZTE.class.getSimpleName();
 
     final String Z5SShutterValues = "Auto,1/90000,1/75000,1/50000,1/45000,1/30000,1/20000,1/12000,1/10000"+
             ",1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000"+
@@ -29,7 +26,7 @@ public class ShutterManualZTE extends BaseManualParameter
             ",15.0,16.0,17.0,18.0,19.0,20.0,21.0,22.0,23.0,24.0,25.0,26.0,27.0,28.0,29.0"+
             ",30.0,31.0";
 
-    final String Z7ShutterValues = "Auto,1/90000,1/75000,1/50000,1/45000,1/30000,1/20000,1/12000,1/10000"+
+    private final String Z7ShutterValues = "Auto,1/90000,1/75000,1/50000,1/45000,1/30000,1/20000,1/12000,1/10000"+
             ",1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000"+
             ",1/800,1/700,1/600,1/500,1/400,1/300,1/200,1/125,1/100,1/85,1/75,1/65"+
             ",1/55,1/45,1/35,1/25,1/20,1/15,1/13,1/10,1/9,1/8,1/7,1/6,1/5,1/4,1/3,1/2"+
@@ -40,13 +37,12 @@ public class ShutterManualZTE extends BaseManualParameter
 
     /**
      * @param parameters
-     * @param value
      * @param maxValue
      * @param MinValue
      * @param camParametersHandler
      */
-    public ShutterManualZTE(HashMap<String, String> parameters, String value, String maxValue, String MinValue, I_CameraHolder baseCameraHolder, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler,1);
+    public ShutterManualZTE(HashMap<String, String> parameters, String maxValue, String MinValue, I_CameraHolder baseCameraHolder, AbstractParameterHandler camParametersHandler) {
+        super(parameters, "", "", "", camParametersHandler,1);
         this.baseCameraHolder = baseCameraHolder;
 
         if(DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
@@ -101,7 +97,7 @@ public class ShutterManualZTE extends BaseManualParameter
             Handler handler = new Handler();
             Runnable r = new Runnable() {
                 public void run() {
-                    ((CamParametersHandler)camParametersHandler).SetZTESlowShutter("-1");
+                    ((CamParametersHandler)camParametersHandler).SetZTESlowShutter();
                     baseCameraHolder.StopPreview();
                     baseCameraHolder.StartPreview();
                 }

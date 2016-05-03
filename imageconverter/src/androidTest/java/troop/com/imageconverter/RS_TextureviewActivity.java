@@ -9,7 +9,6 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.Type;
-import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
 
@@ -26,18 +25,19 @@ import java.util.concurrent.BlockingQueue;
 public class RS_TextureviewActivity extends Activity implements Camera.PreviewCallback
 {
     final String TAG = RS_TextureviewActivity.class.getSimpleName();
-    TextureView output;
-    TextureView input;
+    private TextureView output;
+    private TextureView input;
 
-    Surface outputSurface;
+    private Surface outputSurface;
 
-    RenderScript mRS;
+    private RenderScript mRS;
     private Allocation mInputAllocation;
     private Allocation mOutputAllocation;
     private ScriptC_focus_peak mScriptFocusPeak;
-    int w,h;
+    private int w;
+    private int h;
     private final BlockingQueue<byte[]> mYuvFrameQueue = new ArrayBlockingQueue<byte[]>(2);
-    Camera camera;
+    private Camera camera;
 
     private boolean dowork = false;
 
@@ -70,7 +70,7 @@ public class RS_TextureviewActivity extends Activity implements Camera.PreviewCa
         mScriptFocusPeak = new ScriptC_focus_peak(mRS);
     }
 
-    TextureView.SurfaceTextureListener previewTextureListner = new TextureView.SurfaceTextureListener() {
+    private TextureView.SurfaceTextureListener previewTextureListner = new TextureView.SurfaceTextureListener() {
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
             outputSurface = new Surface(surface);
@@ -108,7 +108,7 @@ public class RS_TextureviewActivity extends Activity implements Camera.PreviewCa
         }
     }
 
-    TextureView.SurfaceTextureListener cameraTextureListner = new TextureView.SurfaceTextureListener() {
+    private TextureView.SurfaceTextureListener cameraTextureListner = new TextureView.SurfaceTextureListener() {
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
             camera = Camera.open(0);

@@ -5,5 +5,5 @@ package com.troop.freedcam.i_camera.interfaces;
  */
 public interface I_error
 {
-    public void OnError(String error);
+    void OnError(String error);
 }
