@@ -12,7 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.FreeDPool;

@@ -16,7 +16,7 @@ import com.freedcam.apis.i_camera.modules.I_Callbacks;
 import com.freedcam.apis.i_camera.modules.I_ModuleEvent;
 import com.freedcam.apis.i_camera.parameters.AbstractModeParameter;
 import com.freedcam.apis.i_camera.parameters.I_ParametersLoaded;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.imageconverter.PreviewHandler;

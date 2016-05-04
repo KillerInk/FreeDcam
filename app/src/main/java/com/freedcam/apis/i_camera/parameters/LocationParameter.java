@@ -9,7 +9,7 @@ import android.os.Handler;
 import android.widget.Toast;
 
 import com.freedcam.apis.i_camera.AbstractCameraHolder;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 

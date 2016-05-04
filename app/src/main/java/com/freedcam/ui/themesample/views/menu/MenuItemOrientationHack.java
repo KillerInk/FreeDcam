@@ -8,7 +8,7 @@ import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.camera2.camera2.CameraUiWrapperApi2;
 import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.StringUtils;
 
 /**

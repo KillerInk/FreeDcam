@@ -9,7 +9,7 @@ import com.freedcam.apis.sonyremote.sonyapi.parameters.ParameterHandlerSony;
 import com.freedcam.apis.sonyremote.sonyapi.sonystuff.ServerDevice;
 import com.freedcam.apis.sonyremote.sonyapi.sonystuff.SimpleStreamSurfaceView;
 import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
 
 /**

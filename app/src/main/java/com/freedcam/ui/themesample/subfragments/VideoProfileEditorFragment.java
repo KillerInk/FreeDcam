@@ -17,7 +17,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.freedcam.apis.i_camera.modules.VideoMediaProfile;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.troop.freedcam.R;
 

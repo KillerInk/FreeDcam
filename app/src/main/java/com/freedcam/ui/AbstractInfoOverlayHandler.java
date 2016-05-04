@@ -13,6 +13,7 @@ import android.os.StatFs;
 import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.i_camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.i_camera.modules.I_ModuleEvent;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.StringUtils;
 
 import java.text.SimpleDateFormat;

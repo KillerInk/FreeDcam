@@ -9,7 +9,7 @@ import com.freedcam.apis.i_camera.interfaces.I_Module;
 import com.freedcam.apis.i_camera.interfaces.I_error;
 import com.freedcam.apis.i_camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.i_camera.parameters.AbstractParameterHandler;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;

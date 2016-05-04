@@ -1,6 +1,6 @@
 package com.freedcam.apis.i_camera.parameters;
 
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 
 /**
  * Created by troop on 21.07.2015.

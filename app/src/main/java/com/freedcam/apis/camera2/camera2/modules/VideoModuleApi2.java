@@ -15,7 +15,7 @@ import com.freedcam.apis.camera2.camera2.BaseCameraHolderApi2;
 import com.freedcam.apis.camera2.camera2.parameters.modes.VideoProfilesApi2;
 import com.freedcam.apis.i_camera.modules.I_RecorderStateChanged;
 import com.freedcam.apis.i_camera.modules.VideoMediaProfile;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
 import com.freedcam.apis.i_camera.modules.AbstractModuleHandler;

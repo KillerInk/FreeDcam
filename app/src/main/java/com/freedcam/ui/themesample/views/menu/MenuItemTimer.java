@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.I_Activity;
 
 /**

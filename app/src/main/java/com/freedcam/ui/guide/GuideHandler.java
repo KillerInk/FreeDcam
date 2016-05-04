@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.i_camera.parameters.AbstractModeParameter;
 import com.freedcam.apis.i_camera.parameters.I_ParametersLoaded;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.troop.freedcam.R;
 
 /**

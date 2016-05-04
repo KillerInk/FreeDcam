@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.troop.freedcam.R;
 
 /**

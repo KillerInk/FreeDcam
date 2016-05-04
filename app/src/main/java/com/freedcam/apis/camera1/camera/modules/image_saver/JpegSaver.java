@@ -5,7 +5,7 @@ import android.support.v4.provider.DocumentFile;
 import com.freedcam.apis.camera1.camera.BaseCameraHolder;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.i_camera.modules.I_Callbacks;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;

@@ -7,7 +7,7 @@ import com.freedcam.apis.camera1.apis.Camera1Fragment;
 import com.freedcam.apis.camera2.apis.Camera2Fragment;
 import com.freedcam.apis.camera2.camera2.BaseCameraHolderApi2;
 import com.freedcam.apis.sonyremote.apis.SonyCameraFragment;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
 
 

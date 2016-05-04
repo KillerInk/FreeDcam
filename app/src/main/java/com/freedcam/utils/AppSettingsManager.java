@@ -1,12 +1,10 @@
-package com.freedcam.ui;
+package com.freedcam.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 
 import com.freedcam.apis.i_camera.modules.AbstractModuleHandler;
-import com.freedcam.utils.Logger;
-
 
 
 /**

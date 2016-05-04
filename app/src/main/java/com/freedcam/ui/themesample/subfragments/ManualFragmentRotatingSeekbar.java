@@ -12,7 +12,7 @@ import com.freedcam.apis.i_camera.parameters.AbstractManualParameter;
 import com.freedcam.apis.i_camera.parameters.I_ParametersLoaded;
 import com.freedcam.apis.sonyremote.sonyapi.CameraUiWrapperSony;
 import com.freedcam.ui.AbstractFragment;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.themesample.views.ManualButton;
 import com.freedcam.ui.views.RotatingSeekbar;

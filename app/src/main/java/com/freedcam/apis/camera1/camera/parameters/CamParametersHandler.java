@@ -44,7 +44,7 @@ import com.freedcam.apis.i_camera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.i_camera.parameters.LocationParameter;
 import com.freedcam.apis.i_camera.parameters.MatrixChooserParameter;
 import com.freedcam.apis.i_camera.parameters.ModuleParameters;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;

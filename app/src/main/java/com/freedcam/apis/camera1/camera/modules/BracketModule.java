@@ -9,7 +9,7 @@ import com.freedcam.apis.camera1.camera.modules.image_saver.RawSaver;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.i_camera.modules.I_Callbacks;
 import com.freedcam.apis.i_camera.modules.ModuleEventHandler;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;

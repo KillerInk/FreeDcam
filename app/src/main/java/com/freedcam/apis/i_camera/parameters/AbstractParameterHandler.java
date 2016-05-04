@@ -4,7 +4,7 @@ import android.os.Handler;
 
 import com.freedcam.apis.i_camera.AbstractCameraHolder;
 import com.freedcam.apis.i_camera.FocusRect;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;

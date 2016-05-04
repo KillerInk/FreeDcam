@@ -3,7 +3,7 @@ package com.freedcam.apis.camera1.camera.modules.image_saver;
 import com.defcomk.jni.staxxer.StaxxerJNI;
 import com.freedcam.apis.camera1.camera.BaseCameraHolder;
 import com.freedcam.apis.i_camera.Size;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;

@@ -9,7 +9,7 @@ import android.view.TextureView;
 
 import com.freedcam.apis.camera2.camera2.modules.ModuleHandlerApi2;
 import com.freedcam.apis.camera2.camera2.parameters.ParameterHandlerApi2;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.i_camera.interfaces.I_error;

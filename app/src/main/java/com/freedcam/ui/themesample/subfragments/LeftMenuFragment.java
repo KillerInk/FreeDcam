@@ -17,7 +17,7 @@ import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.i_camera.parameters.ApiParameter;
 import com.freedcam.apis.i_camera.parameters.ParameterExternalShutter;
 import com.freedcam.ui.AbstractFragment;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.I_swipe;
 import com.freedcam.ui.themesample.views.menu.MenuItem;
 import com.freedcam.ui.themesample.views.menu.MenuItemAEB;

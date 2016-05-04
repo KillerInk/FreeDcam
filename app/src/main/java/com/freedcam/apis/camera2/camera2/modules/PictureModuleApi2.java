@@ -27,7 +27,7 @@ import android.util.Size;
 import android.view.Surface;
 
 import com.freedcam.apis.camera2.camera2.BaseCameraHolderApi2;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;

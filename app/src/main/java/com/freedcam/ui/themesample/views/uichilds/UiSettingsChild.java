@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.freedcam.apis.i_camera.modules.I_ModuleEvent;
 import com.freedcam.apis.i_camera.parameters.AbstractModeParameter;
 import com.freedcam.apis.i_camera.parameters.I_ParametersLoaded;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.themesample.subfragments.Interfaces;
 import com.freedcam.utils.Logger;

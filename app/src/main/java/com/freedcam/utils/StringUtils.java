@@ -4,8 +4,6 @@ import android.hardware.Camera;
 import android.os.Build;
 import android.os.Environment;
 
-import com.freedcam.ui.AppSettingsManager;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;

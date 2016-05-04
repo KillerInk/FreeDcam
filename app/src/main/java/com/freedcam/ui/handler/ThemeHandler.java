@@ -6,7 +6,7 @@ import com.freedcam.MainActivity;
 import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.i_camera.modules.I_ModuleEvent;
 import com.freedcam.ui.AbstractFragment;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.themesample.SampleThemeFragment;
 import com.troop.freedcam.R;
 

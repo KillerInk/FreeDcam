@@ -12,7 +12,7 @@ import android.widget.ScrollView;
 
 import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
 import com.freedcam.ui.AbstractFragment;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.themesample.views.menu.MenuItem;
 import com.freedcam.ui.themesample.views.uichilds.UiSettingsChild;
 import com.freedcam.utils.Logger;

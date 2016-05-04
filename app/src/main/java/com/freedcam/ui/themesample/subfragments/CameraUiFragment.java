@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.i_camera.parameters.I_ParametersLoaded;
 import com.freedcam.ui.AbstractFragment;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.I_swipe;
 import com.freedcam.ui.SwipeMenuListner;

@@ -9,7 +9,7 @@ import com.freedcam.apis.camera1.camera.BaseCameraHolder;
 import com.freedcam.apis.i_camera.modules.AbstractModule;
 import com.freedcam.apis.i_camera.modules.I_RecorderStateChanged;
 import com.freedcam.apis.i_camera.modules.ModuleEventHandler;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;

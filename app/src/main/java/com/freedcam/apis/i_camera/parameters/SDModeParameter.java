@@ -2,7 +2,7 @@ package com.freedcam.apis.i_camera.parameters;
 
 import android.os.Handler;
 
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.StringUtils;
 
 import java.io.File;

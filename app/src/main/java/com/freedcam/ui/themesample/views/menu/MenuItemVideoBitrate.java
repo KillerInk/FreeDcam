@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.freedcam.apis.i_camera.parameters.AbstractModeParameter;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 
 import java.util.ArrayList;
 import java.util.List;

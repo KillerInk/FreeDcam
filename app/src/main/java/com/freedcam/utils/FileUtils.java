@@ -3,8 +3,6 @@ package com.freedcam.utils;
 import android.net.Uri;
 import android.support.v4.provider.DocumentFile;
 
-import com.freedcam.ui.AppSettingsManager;
-
 import java.io.File;
 import java.util.List;
 

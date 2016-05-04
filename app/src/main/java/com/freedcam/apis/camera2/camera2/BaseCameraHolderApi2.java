@@ -32,7 +32,7 @@ import android.view.WindowManager;
 
 import com.freedcam.apis.camera2.camera2.modules.I_PreviewWrapper;
 import com.freedcam.apis.camera2.camera2.parameters.ParameterHandlerApi2;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedcam.apis.i_camera.AbstractCameraHolder;
 import com.freedcam.apis.i_camera.interfaces.I_CameraChangedListner;

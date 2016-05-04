@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.freedcam.apis.i_camera.parameters.AbstractManualParameter;
 import com.freedcam.apis.sonyremote.sonyapi.parameters.manual.BaseManualParameterSony;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.troop.freedcam.R;
 

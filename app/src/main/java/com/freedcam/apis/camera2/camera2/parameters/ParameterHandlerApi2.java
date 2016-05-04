@@ -37,7 +37,7 @@ import com.freedcam.apis.camera2.camera2.parameters.modes.VideoProfilesApi2;
 import com.freedcam.apis.camera2.camera2.parameters.modes.WhiteBalanceApi2;
 import com.freedcam.apis.i_camera.parameters.MatrixChooserParameter;
 import com.freedcam.apis.i_camera.parameters.ModuleParameters;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedcam.apis.i_camera.parameters.AbstractParameterHandler;
 import com.freedcam.utils.StringUtils;

@@ -3,7 +3,7 @@ package com.freedcam.apis.sonyremote.sonyapi.modules;
 import android.support.v4.provider.DocumentFile;
 
 import com.freedcam.apis.sonyremote.sonyapi.CameraHolderSony;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;

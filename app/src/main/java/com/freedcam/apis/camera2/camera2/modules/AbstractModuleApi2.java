@@ -11,7 +11,7 @@ import com.freedcam.apis.camera2.camera2.BaseCameraHolderApi2;
 import com.freedcam.apis.i_camera.modules.AbstractModule;
 import com.freedcam.apis.i_camera.modules.ModuleEventHandler;
 import com.freedcam.apis.i_camera.parameters.AbstractParameterHandler;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 
 
 /**

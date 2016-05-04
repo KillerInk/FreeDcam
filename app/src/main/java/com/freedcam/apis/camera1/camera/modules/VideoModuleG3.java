@@ -7,7 +7,7 @@ import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.camera1.camera.parameters.modes.VideoProfilesG3Parameter;
 import com.freedcam.apis.i_camera.modules.ModuleEventHandler;
 import com.freedcam.apis.i_camera.modules.VideoMediaProfile;
-import com.freedcam.ui.AppSettingsManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
 import com.lge.media.MediaRecorderEx;
 
