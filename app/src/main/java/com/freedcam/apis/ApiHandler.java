@@ -1,4 +1,4 @@
-package com.freedcam.ui.handler;
+package com.freedcam.apis;
 
 import android.os.Build;
 

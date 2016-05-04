@@ -22,7 +22,7 @@ import com.freedcam.apis.i_camera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.i_camera.interfaces.I_Module;
 import com.freedcam.apis.i_camera.interfaces.I_error;
 import com.freedcam.apis.i_camera.modules.I_ModuleEvent;
-import com.freedcam.ui.handler.ApiHandler;
+import com.freedcam.apis.ApiHandler;
 import com.freedcam.ui.handler.HardwareKeyHandler;
 import com.freedcam.ui.handler.I_orientation;
 import com.freedcam.ui.handler.OrientationHandler;
