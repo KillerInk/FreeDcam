@@ -13,33 +13,41 @@ import com.troop.freedcam.R;
 /**
  * Created by Ingo on 14.03.2015.
  */
-public class ThemeHandler implements I_ModuleEvent
+public class ThemeHandler
 {
     private MainActivity activity_v2;
-    private LinearLayout uiLayout;
     private AbstractFragment uiFragment;
     private AppSettingsManager appSettingsManager;
 
     public ThemeHandler(MainActivity activity_v2,AppSettingsManager appSettingsManager)
     {
         this.activity_v2 = activity_v2;
-        uiLayout = (LinearLayout) activity_v2.findViewById(R.id.themeFragmentholder);
         this.appSettingsManager = appSettingsManager;
     }
 
+
+    /**
+     * @return the currently loaded ui theme fragment
+     */
     public AbstractFragment getCurrenttheme()
     {
         return  uiFragment;
     }
 
-
+    /**
+     * loads the theme depending on the cameraparameters
+     * @param cameraUiWrapper
+     * @return
+     */
     public AbstractFragment GetThemeFragment(AbstractCameraUiWrapper cameraUiWrapper)
     {
         String theme = appSettingsManager.GetTheme();
+        //kill old removed themes if they are left and used from a older version in appSettingManager and set it to default Sample
         if(theme == null || theme.equals("Ambient") || theme.equals("Material")|| theme.equals("Minimal") || theme.equals("Nubia") || theme.equals("Classic") || theme.equals("")) {
             theme = "Sample";
             appSettingsManager.SetTheme("Sample");
         }
+        //load sampleFragment
         if (theme.equals("Sample"))
         {
             SampleThemeFragment sampleThemeFragment = new SampleThemeFragment();
@@ -47,8 +55,7 @@ public class ThemeHandler implements I_ModuleEvent
             sampleThemeFragment.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = sampleThemeFragment;
         }
-        if (true)
-            inflateFragment(uiFragment);
+        inflateFragment(uiFragment);
         return uiFragment;
     }
 
@@ -59,15 +66,4 @@ public class ThemeHandler implements I_ModuleEvent
         transaction.replace(R.id.themeFragmentholder, fragment, "Main");
         transaction.commitAllowingStateLoss();
     }
-
-
-    @Override
-    public String ModuleChanged(String module) {
-
-        return null;
-    }
-
-
-
-
 }

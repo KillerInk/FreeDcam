@@ -36,7 +36,6 @@ public class MyTimer
 
     public  void Start()
     {
-        //handler.postAtTime(runnable, System.currentTimeMillis()+interval);
         stop = false;
         handler.postDelayed(runnable, interval);
     }

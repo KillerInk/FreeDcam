@@ -27,13 +27,8 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
     public static GuideHandler GetInstance(AppSettingsManager appSettingsManager)
     {
         GuideHandler g = new GuideHandler();
-        g.SetAppSettingsManager(appSettingsManager);
+        g.appSettingsManager = appSettingsManager;
         return g;
-    }
-
-    public void SetAppSettingsManager(AppSettingsManager appSettingsManager)
-    {
-        this.appSettingsManager = appSettingsManager;
     }
 
     @Override
@@ -65,45 +60,6 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
         cameraUiWrapper.camParametersHandler.AddParametersLoadedListner(this);
     }
 
-    /*public int[] GetScreenSize() {
-        int width = 0;
-        int height = 0;
-        if(view == null || view.getContext() == null)
-            return null;
-        if (Build.VERSION.SDK_INT >= 17)
-        {
-            WindowManager wm = (WindowManager)view.getContext().getSystemService(Context.WINDOW_SERVICE);
-            Point size =  new Point();
-            wm.getDefaultDisplay().getRealSize(size);
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                width = size.x;
-                height = size.y;
-            }
-            else
-            {
-                height = size.x;
-                width = size.y;
-            }
-        }
-        else
-        {
-            DisplayMetrics metrics = getResources().getDisplayMetrics();
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
-            {
-                width = metrics.widthPixels;
-                height = metrics.heightPixels;
-            }
-            else
-            {
-                width = metrics.heightPixels;
-                height = metrics.widthPixels;
-            }
-
-        }
-        return new int[]{width,height};
-    }*/
-
-
     private void SetViewG(final String str)
     {
 
@@ -114,10 +70,8 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
                         if (str.equals("Golden Spiral")) {
                             img.setImageResource(R.drawable.ic_guide_golden_spiral_4_3);
                         } else if (str.equals("Rule Of Thirds")) {
-                            //ImageView img = (ImageView) findViewById(R.id.imageViewGyide);
                             img.setImageResource(R.drawable.ic_guide_rule_3rd_4_3);
                         } else if (str.equals("Square 1:1")) {
-                            //ImageView img = (ImageView) findViewById(R.id.imageViewGyide);
                             img.setImageResource(R.drawable.ic_guide_insta_1_1);
                         } else if (str.equals("Square 4:3"))
                             img.setImageResource(R.drawable.ic_guide_insta_4_3);

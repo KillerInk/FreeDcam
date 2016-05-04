@@ -185,7 +185,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         //load the cameraui
         if (cameraFragment != null)
             themeHandler.GetThemeFragment(cameraFragment.GetCameraUiWrapper());
-        else
+        else // reset ui to hide items, thats the case when sonyapi is on at appstart
             themeHandler.GetThemeFragment(null);
     }
 
@@ -237,7 +237,11 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
 
     }
 
-    //gets thrown when the cameraui wrapper is created sucessfull and all items are up like modulehandler
+    /**
+     * gets thrown when the cameraui wrapper is created sucessfull and all items are up like modulehandler
+     * and rdy to register listners
+     * @param cameraUiWrapper the cameraWrapper to register the listners
+     */
     @Override
     public void onCameraUiWrapperRdy(AbstractCameraUiWrapper cameraUiWrapper)
     {
@@ -247,7 +251,6 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         Logger.d(TAG, "add events");
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(timerHandler);
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(themeHandler);
     }
 
     @Override
