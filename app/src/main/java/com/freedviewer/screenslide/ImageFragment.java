@@ -137,7 +137,4 @@ public class ImageFragment extends Fragment
         return response;
     }
 
-    public void setTag(int tag) {
-        int tag1 = tag;
-    }
 }

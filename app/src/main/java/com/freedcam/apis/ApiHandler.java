@@ -18,11 +18,11 @@ import com.freedcam.utils.FreeDPool;
 
 public class ApiHandler
 {
-    private static String TAG = ApiHandler.class.getSimpleName();
+    private final  String TAG = ApiHandler.class.getSimpleName();
     private Context context;
     private AppSettingsManager appSettingsManager;
 
-    ApiEvent event;
+    private ApiEvent event;
 
     public ApiHandler(Context context, ApiEvent event,AppSettingsManager appSettingsManager) {
         this.event = event;

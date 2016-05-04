@@ -13,14 +13,11 @@ public class OrientationHandler implements AbstractModuleHandler.I_worker
 {
     private int currentOrientation = 0;
     private OrientationEventListener orientationEventListener;
-    boolean parametersLoaded = false;
     private I_orientation orientationListner;
-    private FragmentActivity activity;
 
     public OrientationHandler(FragmentActivity activity, final I_orientation orientationListner)
     {
         this.orientationListner = orientationListner;
-        this.activity = activity;
 
         orientationEventListener = new OrientationEventListener(activity, SensorManager.SENSOR_DELAY_NORMAL) {
             @Override

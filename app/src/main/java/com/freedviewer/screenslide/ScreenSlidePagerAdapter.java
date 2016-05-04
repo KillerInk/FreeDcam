@@ -81,7 +81,7 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
         else
             currentFragment.SetFilePath(files.get(position));
         currentFragment.SetOnclickLisnter(fragmentclickListner);
-        currentFragment.setTag(position);
+
         return currentFragment;
     }
 

@@ -38,18 +38,27 @@ import java.io.File;
 /**
  * Created by troop on 18.08.2014.
  */
-public class MainActivity extends AbstractFragmentActivity implements I_orientation, I_error, I_CameraChangedListner, I_ModuleEvent, AbstractCameraFragment.CamerUiWrapperRdy, ApiHandler.ApiEvent
+public class MainActivity extends AbstractFragmentActivity implements I_orientation, AbstractCameraFragment.CamerUiWrapperRdy, ApiHandler.ApiEvent
 {
-    private ViewGroup appViewGroup;
-    private OrientationHandler orientationHandler;
     private final String TAG = StringUtils.TAG + MainActivity.class.getSimpleName();
     private final String TAGLIFE = StringUtils.TAG + "LifeCycle";
+
+    private ViewGroup appViewGroup;
+    //listen to orientation changes
+    private OrientationHandler orientationHandler;
+    //listen to hardwarekeys
     private HardwareKeyHandler hardwareKeyHandler;
+    //handels the api fragments
     private ApiHandler apiHandler;
     private TimerHandler timerHandler;
+    //handel the themes and create the ui fragment
     private ThemeHandler themeHandler;
+    //holds the current api fragment
     private AbstractCameraFragment cameraFragment;
-    private boolean debugLoggerging = false;
+    //hold the state if logging to file is true when folder /sdcard/DCIM/DEBUG/ is created
+    private boolean savelogtofile = false;
+    //holds the default UncaughtExecptionHandler from activity wich get replaced with own to have a change to save
+    //fc to file and pass it back when done and let app crash as it should
     private Thread.UncaughtExceptionHandler defaultEXhandler;
 
     @Override
@@ -58,15 +67,19 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         super.onCreate(null);
 
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        appViewGroup = (ViewGroup) inflater.inflate(R.layout.main_v2, null);
-        setContentView(R.layout.main_v2);
+        appViewGroup = (ViewGroup) inflater.inflate(R.layout.freedcam_main_activity, null);
+        setContentView(R.layout.freedcam_main_activity);
 
-        // Setup handler for uncaught exceptions.
+        //Get default handler for uncaught exceptions. to let fc app as it should
         defaultEXhandler = Thread.getDefaultUncaughtExceptionHandler();
+        //set up own ex handler to have a change to catch the fc bevor app dies
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
-            public void uncaughtException(Thread thread, Throwable e) {
+            public void uncaughtException(Thread thread, Throwable e)
+            {
+                //yeahaw app crash print ex to logger
                 Logger.exception(e);
+                //set back default exhandler and let app die
                 defaultEXhandler.uncaughtException(thread,e);
             }
         });
@@ -77,19 +90,15 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     {
         super.onResume();
         Logger.d(TAGLIFE, "Activity onResume");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkMarshmallowPermissions();
-        }
-        else {
+        if (checkMarshmallowPermissions())
             createHandlers();
-        }
     }
 
     @Override
     protected void onPause()
     {
         super.onPause();
-        destroyCameraUiWrapper();
+        unloadCameraFragment();
         Logger.d(TAGLIFE, "Activity onPause");
     }
 
@@ -102,15 +111,17 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     protected void onDestroy()
     {
         super.onDestroy();
-        if (debugLoggerging) {
+        if (savelogtofile) {
             Logger.StopLogging();
         }
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    private void checkMarshmallowPermissions() {
+    private boolean checkMarshmallowPermissions()
+    {
         if (checkSelfPermission(Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
             requestPermissions(new String[]{
                             Manifest.permission.CAMERA,
                             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -119,12 +130,10 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
                             Manifest.permission.ACCESS_COARSE_LOCATION,
                             Manifest.permission.ACCESS_FINE_LOCATION,
                             Manifest.permission.ACCESS_WIFI_STATE,
-                            Manifest.permission.CHANGE_WIFI_STATE,
-                    },
-                    1);
+                            Manifest.permission.CHANGE_WIFI_STATE,}, 1);
+            return false;
         }
-        else
-            createHandlers();
+        return true;
     }
 
     @Override
@@ -153,24 +162,27 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         return super.getMuliplier();
     }
 
-    private void checkStartLoggerging()
+    private void checkSaveLogToFile()
     {
         File debugfile = new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder +"DEBUG");
         if (debugfile.exists()) {
-            debugLoggerging = true;
+            savelogtofile = true;
             Logger.StartLogging();
         }
     }
 
     private void createHandlers() {
 
-        checkStartLoggerging();
+        checkSaveLogToFile();
         orientationHandler = new OrientationHandler(this, this);
         themeHandler = new ThemeHandler(this,appSettingsManager);
         timerHandler = new TimerHandler(this);
+        //setup apihandler and register listner for apiDetectionDone
         apiHandler = new ApiHandler(getApplicationContext(),this,appSettingsManager);
+        //check if camera is camera2 full device
         apiHandler.CheckApi();
         hardwareKeyHandler = new HardwareKeyHandler(this,appSettingsManager);
+        //load the cameraui
         if (cameraFragment != null)
             themeHandler.GetThemeFragment(cameraFragment.GetCameraUiWrapper());
         else
@@ -187,36 +199,34 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                loadCameraUiWrapper();
-                orientationHandler.Start();
+                loadCameraFragment();
+
             }
         });
 
     }
 
-    private void loadCameraUiWrapper()
+    private void loadCameraFragment()
     {
-            Logger.d(TAG, "loading cameraWrapper");
-            destroyCameraUiWrapper();
-            cameraFragment = apiHandler.getCameraFragment();
-            cameraFragment.Init(this);
-            android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
-            transaction.add(R.id.cameraFragmentHolder, cameraFragment, "CameraFragment");
-            transaction.commitAllowingStateLoss();
-            Logger.d(TAG, "loaded cameraWrapper");
-
+        Logger.d(TAG, "loading cameraWrapper");
+        unloadCameraFragment();
+        cameraFragment = apiHandler.getCameraFragment();
+        cameraFragment.Init(this);
+        android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
+        transaction.add(R.id.cameraFragmentHolder, cameraFragment, "CameraFragment");
+        transaction.commitAllowingStateLoss();
+        Logger.d(TAG, "loaded cameraWrapper");
+        orientationHandler.Start();
     }
 
-    private void destroyCameraUiWrapper()
+    private void unloadCameraFragment()
     {
-        //themeHandler.SetCameraUIWrapper(null);
         Logger.d(TAG, "destroying cameraWrapper");
         if(orientationHandler != null)
             orientationHandler.Stop();
 
         if (cameraFragment != null) {
-            //cameraFragment.DestroyCameraUiWrapper();
             android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.remove(cameraFragment);
@@ -231,24 +241,13 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     @Override
     public void onCameraUiWrapperRdy(AbstractCameraUiWrapper cameraUiWrapper)
     {
-        cameraUiWrapper.SetCameraChangedListner(this);
         cameraUiWrapper.moduleHandler.SetWorkListner(orientationHandler);
-        initCameraUIStuff(cameraUiWrapper);
-        //orientationHandler = new OrientationHandler(this, cameraUiWrapper);
+        themeHandler.getCurrenttheme().SetCameraUIWrapper(cameraUiWrapper);
+        hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper);
         Logger.d(TAG, "add events");
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(timerHandler);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(themeHandler);
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
-    }
-
-
-
-    private void initCameraUIStuff(AbstractCameraUiWrapper cameraUiWrapper)
-    {
-        themeHandler.getCurrenttheme().SetCameraUIWrapper(cameraUiWrapper);
-        hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper);
-
     }
 
     @Override
@@ -286,23 +285,14 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
             currentorientation = orientation;
             if (cameraFragment.GetCameraUiWrapper() != null && cameraFragment.GetCameraUiWrapper().cameraHolder != null && cameraFragment.GetCameraUiWrapper().camParametersHandler != null)
                 cameraFragment.GetCameraUiWrapper().camParametersHandler.SetPictureOrientation(orientation);
-            /*if (orientation == 0 || orientation == 180) {
-                LinearLayout uiholder = (LinearLayout) findViewById(R.id.themeFragmentholder);
-                uiholder.setRotation(orientation);
-                uiholder.requestLayout();
-            }*/
         }
         return orientation;
     }
 
     @Override
-    public void OnError(final String error)
-    {
-    }
-
     public void SwitchCameraAPI(String value)
     {
-        loadCameraUiWrapper();
+        loadCameraFragment();
     }
 
     @Override
@@ -349,11 +339,6 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     ShowHistogram(boolean enable) {}
 
     @Override
-    public void loadImageViewerFragment(File file)
-    {
-    }
-
-    @Override
     public void loadCameraUiFragment()
     {
         themeHandler.GetThemeFragment(cameraFragment.GetCameraUiWrapper());
@@ -363,51 +348,6 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     public void closeActivity()
     {
         this.finish();
-
-    }
-
-
-    @Override
-    public void onCameraOpen(String message) {}
-
-    @Override
-    public void onCameraOpenFinish(String message) {}
-
-    @Override
-    public void onCameraClose(String message) {}
-
-    @Override
-    public void onPreviewOpen(String message) {}
-
-    @Override
-    public void onPreviewClose(String message) {}
-
-    @Override
-    public void onCameraError(String error) {}
-
-    @Override
-    public void onCameraStatusChanged(String status) {}
-
-    @Override
-    public void onModuleChanged(I_Module module) {}
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-
-        Logger.d(TAG, "onConfigurationChanged");
-        super.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public String ModuleChanged(String module)
-    {
-        return null;
-    }
-
-    @Override
-    public void ChooseSDCard(I_OnActivityResultCallback callback)
-    {
-        super.ChooseSDCard(callback);
     }
 
 }

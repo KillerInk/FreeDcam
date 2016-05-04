@@ -52,8 +52,14 @@ public class DeviceUtils
     final public static Devices[] ZTE_DEVICES = {Devices.ZTE_ADV,Devices.ZTEADVIMX214,Devices.ZTEADV234};
     final public static Devices[] Sony_DEVICES = {Devices.SonyM4_QC,Devices.SonyC5_MTK,Devices.SonyM5_MTK};
     final public static Devices[] Krillin_DEVICES = {Devices.p8,Devices.p8lite,Devices.honor6};
+
+    /**
+    *devices with the new qc hal
+    *com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_QcomM.java
+     */
     final public static Devices[] QC_Manual_New = {Devices.SonyM4_QC,Devices.Alcatel_Idol3,Devices.Moto_MSM8982_8994,Devices.Lenovo_VibeP1,Devices.XiaomiMI5, Devices.Xiaomi_Redmi_Note3,Devices.Aquaris_E5};
 
+    /*Devices for that the opcode is added to download*/
     final public static Devices[] OpCodeRdyToDL =
             {
                     Devices.Aquaris_E5,
@@ -74,6 +80,181 @@ public class DeviceUtils
                     Devices.ZTEADV234,
             };
 
+
+
+    /*Holds all added Devices*/
+    public enum Devices
+    {
+        UNKNOWN,
+        Alcatel_985n,
+        p8,
+        p8lite,
+        honor6,
+        Aquaris_E5,
+        Alcatel_Idol3,
+        Alcatel_Idol3_small,
+        Asus_Zenfon2,
+        GioneE7,
+        ForwardArt_MTK,
+        Htc_Evo3d,
+        Htc_M8,
+        Htc_M9,
+        Htc_One_Sv,
+        Htc_One_Xl,
+        HTC_OneA9,
+        I_Mobile_I_StyleQ6,
+        Jiayu_S3,
+        LenovoK910,
+        LenovoK920,
+        Lenovo_K4Note_MTK,
+        Lenovo_K50_MTK,
+        Lenovo_VibeP1,
+        LG_G2,
+        LG_G3,
+        LG_G4,
+        MeizuMX4_MTK,
+        MeizuMX5_MTK,
+        Moto_MSM8974,
+        Moto_MSM8982_8994,
+        Nexus4,
+        OnePlusOne,
+        OnePlusTwo,
+        Xiaomi_RedmiNote,
+        Xiaomi_RedmiNote2_MTK,
+        Retro_MTK,
+        Samsung_S6_edge,
+        Samsung_S6_edge_plus,
+        SonyADV,
+        SonyM5_MTK,
+        SonyM4_QC,
+        SonyC5_MTK,
+        Sony_XperiaL,
+        THL5000_MTK,
+        Vivo_Xplay3s,
+        XiaomiMI3W,
+        XiaomiMI4W,
+        XiaomiMI4C,
+        XiaomiMI5,
+        XiaomiMI_Note_Pro,
+        XiaomiMI_Note3_Pro,
+        Xiaomi_Redmi_Note3,
+        Yu_Yureka,
+        ZTE_ADV,
+        ZTEADVIMX214,
+        ZTEADV234,
+    }
+
+    /*Identfiy LG_G3 Marshmallow*/
+    public static boolean IsMarshMallowG3()
+    {
+        return currentdevice == Devices.LG_G3 && Build.VERSION.SDK_INT == Build.VERSION_CODES.M;
+    }
+
+    public static boolean isCyanogenMod() {
+        try {
+            return Class.forName("cyanogenmod.os.Build") != null;
+        } catch (Exception ignored) {
+        }
+        return false;
+    }
+
+
+
+    public static boolean isCamera1DNGSupportedDevice()
+    {
+        return IS_DEVICE_ONEOF(camera1DNGsupported);
+    }
+
+    /**
+     * holds all Devices that are added
+     * @com.troop.androiddng.DngSupportedDevices.java
+     */
+    private static Devices[] camera1DNGsupported = {
+            Devices.Alcatel_Idol3,
+            Devices.Alcatel_Idol3_small,
+            Devices.Alcatel_985n,
+            
+            Devices.Aquaris_E5,
+
+            Devices.ForwardArt_MTK,
+
+            Devices.GioneE7,
+
+            Devices.Htc_M8,
+            Devices.Htc_M9,
+            Devices.Htc_One_Sv,
+            Devices.Htc_One_Xl,
+            Devices.HTC_OneA9,
+            Devices.I_Mobile_I_StyleQ6,
+
+            Devices.Jiayu_S3,
+
+            Devices.LenovoK910,
+            Devices.LenovoK920,
+            Devices.Lenovo_VibeP1,
+            Devices.Lenovo_K4Note_MTK,
+            Devices.Lenovo_K50_MTK,
+
+            Devices.LG_G3,
+            Devices.LG_G2,
+            Devices.LG_G4,
+
+            Devices.MeizuMX4_MTK,
+            Devices.MeizuMX5_MTK,
+
+            Devices.Moto_MSM8982_8994,
+            Devices.Moto_MSM8974,
+
+            Devices.OnePlusOne,
+            Devices.OnePlusTwo,
+
+            Devices.Retro_MTK,
+
+            Devices.Sony_XperiaL,
+            Devices.SonyM5_MTK,
+            Devices.SonyC5_MTK,
+            Devices.SonyM4_QC,
+
+            Devices.THL5000_MTK,
+            Devices.Vivo_Xplay3s,
+
+            Devices.Xiaomi_RedmiNote,
+            Devices.XiaomiMI3W,
+            Devices.XiaomiMI4W,
+            Devices.XiaomiMI4C,
+            Devices.XiaomiMI_Note_Pro,
+            Devices.XiaomiMI_Note3_Pro,
+            Devices.Xiaomi_RedmiNote2_MTK,
+            Devices.Xiaomi_Redmi_Note3,
+
+            Devices.Yu_Yureka,
+
+            Devices.ZTE_ADV,
+            Devices.ZTEADVIMX214,
+            Devices.ZTEADV234,
+            //,Devices.XiaomiMI5 Unknown Raw Failure need more MI5 user input alternate switch to HDR Scene for raw dump
+    };
+
+
+    public static boolean isCamera1NO_RAW_STREM()
+    {
+        return IS_DEVICE_ONEOF(camera1NO_RAW_STREAM);
+    }
+
+    /**
+     * all devices that are test to have non working raw stream
+     */
+    public static Devices[] camera1NO_RAW_STREAM = {
+            Devices.Asus_Zenfon2,
+            Devices.Nexus4,
+            Devices.Htc_Evo3d,
+
+    };
+
+
+    /**
+     * identfy the current device
+     */
     private static Devices getDevice(Context context)
     {
         if (isAlcatel_Idol3(context))
@@ -193,72 +374,15 @@ public class DeviceUtils
 
     }
 
-    public enum Devices
-    {
-        UNKNOWN,
-        Alcatel_985n,
-        p8,
-        p8lite,
-        honor6,
-        Aquaris_E5,
-        Alcatel_Idol3,
-        Alcatel_Idol3_small,
-        Asus_Zenfon2,
-        GioneE7,
-        ForwardArt_MTK,
-        Htc_Evo3d,
-        Htc_M8,
-        Htc_M9,
-        Htc_One_Sv,
-        Htc_One_Xl,
-        HTC_OneA9,
-        I_Mobile_I_StyleQ6,
-        Jiayu_S3,
-        LenovoK910,
-        LenovoK920,
-        Lenovo_K4Note_MTK,
-        Lenovo_K50_MTK,
-        Lenovo_VibeP1,
-        LG_G2,
-        LG_G3,
-        LG_G4,
-        MeizuMX4_MTK,
-        MeizuMX5_MTK,
-        Moto_MSM8974,
-        Moto_MSM8982_8994,
-        Nexus4,
-        OnePlusOne,
-        OnePlusTwo,
-        Xiaomi_RedmiNote,
-        Xiaomi_RedmiNote2_MTK,
-        Retro_MTK,
-        Samsung_S6_edge,
-        Samsung_S6_edge_plus,
-        SonyADV,
-        SonyM5_MTK,
-        SonyM4_QC,
-        SonyC5_MTK,
-        Sony_XperiaL,
-        THL5000_MTK,
-        Vivo_Xplay3s,
-        XiaomiMI3W,
-        XiaomiMI4W,
-        XiaomiMI4C,
-        XiaomiMI5,
-        XiaomiMI_Note_Pro,
-        XiaomiMI_Note3_Pro,
-        Xiaomi_Redmi_Note3,
-        Yu_Yureka,
-        ZTE_ADV,
-        ZTEADVIMX214,
-        ZTEADV234, Devices, DeviceUtils,
-    }
-
-    public static boolean IsMarshMallowG3()
-    {
-        return currentdevice == Devices.LG_G3 && Build.VERSION.SDK_INT == Build.VERSION_CODES.M;
-    }
-
+    /*
+     * Here start the private stuff
+     * that loads the build models from Resources
+     */
+    /***
+     * Checks if the build model is contained in the array
+     * @param ar the Device BuildModel Array
+     * @return true if the BuildModel is contained
+     */
     private static boolean isDevice(String[] ar)
     {
         boolean supported = false;
@@ -271,102 +395,6 @@ public class DeviceUtils
             }
         }
         return supported;
-    }
-
-    private static boolean containsDevice(String[] ar)
-    {
-        boolean supported = false;
-        for (String s : ar)
-        {
-            if (Build.MODEL.contains(s))
-            {
-                supported = true;
-                break;
-            }
-        }
-        return supported;
-    }
-
-    private static Devices[] camera1DNGsupported = {
-            Devices.Alcatel_Idol3,
-            Devices.Alcatel_Idol3_small,
-            Devices.Alcatel_985n,
-            
-            Devices.Aquaris_E5,
-
-            Devices.ForwardArt_MTK,
-
-            Devices.GioneE7,
-
-            Devices.Htc_M8,
-            Devices.Htc_M9,
-            Devices.Htc_One_Sv,
-            Devices.Htc_One_Xl,
-            Devices.HTC_OneA9,
-            Devices.I_Mobile_I_StyleQ6,
-
-            Devices.Jiayu_S3,
-
-            Devices.LenovoK910,
-            Devices.LenovoK920,
-            Devices.Lenovo_VibeP1,
-            Devices.Lenovo_K4Note_MTK,
-            Devices.Lenovo_K50_MTK,
-
-            Devices.LG_G3,
-            Devices.LG_G2,
-            Devices.LG_G4,
-
-            Devices.MeizuMX4_MTK,
-            Devices.MeizuMX5_MTK,
-
-            Devices.Moto_MSM8982_8994,
-            Devices.Moto_MSM8974,
-
-            Devices.OnePlusOne,
-            Devices.OnePlusTwo,
-
-            Devices.Retro_MTK,
-
-            Devices.Sony_XperiaL,
-            Devices.SonyM5_MTK,
-            Devices.SonyC5_MTK,
-            Devices.SonyM4_QC,
-
-            Devices.THL5000_MTK,
-            Devices.Vivo_Xplay3s,
-
-            Devices.Xiaomi_RedmiNote,
-            Devices.XiaomiMI3W,
-            Devices.XiaomiMI4W,
-            Devices.XiaomiMI4C,
-            Devices.XiaomiMI_Note_Pro,
-            Devices.XiaomiMI_Note3_Pro,
-            Devices.Xiaomi_RedmiNote2_MTK,
-            Devices.Xiaomi_Redmi_Note3,
-
-            Devices.Yu_Yureka,
-
-            Devices.ZTE_ADV,
-            Devices.ZTEADVIMX214,
-            Devices.ZTEADV234,
-            //,Devices.XiaomiMI5 Unknown Raw Failure need more MI5 user input alternate switch to HDR Scene for raw dump
-    };
-
-    public static Devices[] camera1NO_RAW_STREAM = {
-            Devices.Asus_Zenfon2,
-            Devices.Nexus4,
-            Devices.Htc_Evo3d,
-
-    };
-    public static boolean isCamera1DNGSupportedDevice()
-    {
-        return IS_DEVICE_ONEOF(camera1DNGsupported);
-    }
-
-    public static boolean isCamera1NO_RAW_STREM()
-    {
-        return IS_DEVICE_ONEOF(camera1NO_RAW_STREAM);
     }
 
     private static boolean isMoto_MSM8974(Context contex)
@@ -468,59 +496,59 @@ public class DeviceUtils
 
     private static boolean isSonyADV(Context contex)
     {
-        return containsDevice(contex.getResources().getStringArray(R.array.sony_adv));
+        return isDevice(contex.getResources().getStringArray(R.array.sony_adv));
     }
 
-    public static boolean isLenovoK910(Context contex)
+    private static boolean isLenovoK910(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.LenovoK910));
     }
-    public static boolean isLenovoK920(Context contex)
+    private static boolean isLenovoK920(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.LenovoK920));
     }
 
-    public static boolean isLenovoK4NOTE(Context contex)
+    private static boolean isLenovoK4NOTE(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.Lenovo_K4Note));
     }
 
-    public static boolean isLenovoVibeP1(Context contex)
+    private static boolean isLenovoVibeP1(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.Lenovo_VibeP1));
     }
 
-    public static boolean isSonyM5_MTK(Context contex)
+    private static boolean isSonyM5_MTK(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.SonyM5));
     }
-    public static boolean isSonyC5_MTK(Context contex)
+    private static boolean isSonyC5_MTK(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.SonyC5));
     }
 
-    public static boolean isSonyM4_QC(Context contex)
+    private static boolean isSonyM4_QC(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.SonyM4));
     }
 
-    public static boolean isHTCA9_QC(Context contex)
+    private static boolean isHTCA9_QC(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.OneA9));
     }
 
-    public static boolean isRetro(Context contex)
+    private static boolean isRetro(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.Retro));
     }
 
-    public static boolean isJiayu_S3(Context contex)
+    private static boolean isJiayu_S3(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.Jiayu_S3));
     }
 
 
-    public static  boolean isXperiaL(Context contex)
+    private static  boolean isXperiaL(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.Sony_XperiaL));
     }
@@ -603,17 +631,5 @@ public class DeviceUtils
     }
 
 
-    /*public static boolean isLGFrameWork()
-    {
-        return isLG_G3() || isG2() || isG4() ;
-    }*/
-
-    public static boolean isCyanogenMod() {
-        try {
-            return Class.forName("cyanogenmod.os.Build") != null;
-        } catch (Exception ignored) {
-        }
-        return false;
-    }
 
 }

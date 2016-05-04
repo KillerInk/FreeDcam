@@ -33,8 +33,26 @@ public class HardwareKeyHandler
 
     public boolean OnKeyUp(int keyCode, KeyEvent event)
     {
+        if (keyCode == KeyEvent.KEYCODE_BACK)
+            activity.finish();
+        return true;
+    }
+
+    public boolean OnKeyLongPress(int keyCode, KeyEvent event)
+    {
         boolean set = false;
-        boolean longKeyPress = false;
+        if(keyCode == KeyEvent.KEYCODE_3D_MODE ||keyCode == KeyEvent.KEYCODE_POWER || keyCode == KeyEvent.KEYCODE_HEADSETHOOK)
+        {
+            set = true;
+
+
+        }
+
+        return set;
+    }
+
+    public boolean OnKeyDown(int keyCode, KeyEvent event)
+    {
         int appSettingsKeyShutter = 0;
 
         if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLP))
@@ -57,27 +75,6 @@ public class HardwareKeyHandler
         // shutterbutton half pressed
         if (keyCode == KeyEvent.KEYCODE_FOCUS)
             cameraUiWrapper.Focus.StartFocus();
-
-        if (keyCode == KeyEvent.KEYCODE_BACK)
-            activity.finish();
-        return true;
-    }
-
-    public boolean OnKeyLongPress(int keyCode, KeyEvent event)
-    {
-        boolean set = false;
-        if(keyCode == KeyEvent.KEYCODE_3D_MODE ||keyCode == KeyEvent.KEYCODE_POWER || keyCode == KeyEvent.KEYCODE_HEADSETHOOK)
-        {
-            set = true;
-
-
-        }
-
-        return set;
-    }
-
-    public boolean OnKeyDown(int keyCode, KeyEvent event)
-    {
         return true;
     }
 }
