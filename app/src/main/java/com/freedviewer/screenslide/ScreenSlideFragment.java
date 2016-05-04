@@ -374,7 +374,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
                 //myHistogram.setVisibility(View.VISIBLE);
                 play.setVisibility(View.GONE);
             }
-            FreeDPool.Execute(new historunner(file));
+            //FreeDPool.Execute(new historunner(file));
 
 
         }
