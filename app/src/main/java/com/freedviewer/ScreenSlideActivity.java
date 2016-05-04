@@ -3,6 +3,7 @@ package com.freedviewer;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
+import com.freedcam.utils.AppSettingsManager;
 import com.freedviewer.gridviewfragments.GridViewFragment;
 import com.freedviewer.screenslide.ScreenSlideFragment;
 
@@ -20,8 +21,10 @@ public class ScreenSlideActivity extends AbstractFragmentActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getSupportFragmentManager().findFragmentByTag(TAG) == null) {
+        if (getSupportFragmentManager().findFragmentByTag(TAG) == null)
+        {
             ScreenSlideFragment fragment = new ScreenSlideFragment();
+            fragment.SetAppSettingsManager(new AppSettingsManager());
             final int extraCurrentItem = getIntent().getIntExtra(EXTRA_IMAGE, -1);
             final String path = getIntent().getStringExtra(IMAGE_PATH);
             if (extraCurrentItem != -1) {

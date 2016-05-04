@@ -1,5 +1,7 @@
 package com.freedcam.apis.camera1.camera.modules.image_saver;
 
+import android.content.Context;
+
 import com.defcomk.jni.staxxer.StaxxerJNI;
 import com.freedcam.apis.camera1.camera.BaseCameraHolder;
 import com.freedcam.apis.i_camera.Size;
@@ -27,13 +29,12 @@ public class StackSaver extends JpegSaver {
     private boolean NewSession = false;
     private String SessionFolder="";
 
-    public StackSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone)
+    public StackSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Context context,AppSettingsManager appSettingsManager)
     {
-        super(cameraHolder, i_workeDone);
-//        size = new Size(ParameterHandler.PictureSize.GetValue());
+        super(cameraHolder, i_workeDone,context,appSettingsManager);
         jpg2rgb = StaxxerJNI.GetInstance();
 
-        staxxer = new Staxxer(new Size(ParameterHandler.PictureSize.GetValue()), AppSettingsManager.APPSETTINGSMANAGER.context);
+        staxxer = new Staxxer(new Size(ParameterHandler.PictureSize.GetValue()), context);
         staxxer.Enable();
     }
 
@@ -65,7 +66,7 @@ public class StackSaver extends JpegSaver {
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-                File f = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), fileEnding));
+                File f = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), fileEnding));
                 processData(data, f);
             }
         });

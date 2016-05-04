@@ -53,6 +53,8 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     final public static String SAVESTATE_FILEPATH = "savestae_filepath";
     private final static String SAVESTATE_ITEMINT = "savestate_itemint";
     private int mImageThumbSize = 0;
+    private AppSettingsManager appSettingsManager;
+
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -92,6 +94,9 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     {
         return inflater.inflate(R.layout.screenslide_fragment, container, false);
     }
+
+    public ScreenSlideFragment()
+    {}
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState)
@@ -184,12 +189,12 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!StringUtils.IS_L_OR_BIG() || StringUtils.WRITE_NOT_EX_AND_L_ORBigger()) {
+                if (!StringUtils.IS_L_OR_BIG() || StringUtils.WRITE_NOT_EX_AND_L_ORBigger(appSettingsManager)) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
                             .setNegativeButton("No", dialogClickListener).show();
                 } else {
-                    DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(AppSettingsManager.APPSETTINGSMANAGER);
+                    DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(appSettingsManager,getContext());
                     if (sdDir == null) {
                         I_Activity i_activity = (I_Activity) getActivity();
                         i_activity.ChooseSDCard(ScreenSlideFragment.this);
@@ -212,7 +217,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     {
         Logger.d(TAG,"onResume");
         super.onResume();
-        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),mPager,fragmentclickListner,filestoshow);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),mPager,fragmentclickListner,filestoshow,appSettingsManager);
         mPager.setAdapter(mPagerAdapter);
         mPager.addOnPageChangeListener(this);
 
@@ -242,6 +247,11 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         outState.putString(SAVESTATE_FILEPATH, FilePathToLoad);
         outState.putInt(SAVESTATE_ITEMINT, mPager.getCurrentItem());
         super.onSaveInstanceState(outState);
+    }
+
+    public void SetAppSettingsManager(AppSettingsManager appSettingsManager)
+    {
+        this.appSettingsManager = appSettingsManager;
     }
 
     public void SetOnThumbClick(I_ThumbClick thumbClick)
@@ -324,7 +334,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
-                    BitmapHelper.DeleteFile(file,AppSettingsManager.APPSETTINGSMANAGER);
+                    BitmapHelper.DeleteFile(file,appSettingsManager,getContext());
                     MediaScannerManager.ScanMedia(getContext(), file.getFile());
                     reloadFilesAndSetLastPos();
                     break;
@@ -451,12 +461,12 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             dng.SetBayerData(data, out);
         else
         {
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(AppSettingsManager.APPSETTINGSMANAGER);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,getContext());
             DocumentFile wr = df.createFile("image/dng", file.getName().replace(StringUtils.FileEnding.JPG, StringUtils.FileEnding.DNG));
             ParcelFileDescriptor pfd = null;
             try {
 
-                pfd = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+                pfd = getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
             } catch (FileNotFoundException | IllegalArgumentException e) {
                 Logger.exception(e);
             }

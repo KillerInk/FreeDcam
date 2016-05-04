@@ -1,7 +1,10 @@
 package com.freedcam.apis.i_camera.modules;
 
+import android.content.Context;
+
 import com.freedcam.apis.i_camera.AbstractCameraHolder;
 import com.freedcam.apis.i_camera.interfaces.I_ModuleHandler;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
 import java.util.ArrayList;
@@ -44,10 +47,15 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
     public static final String MODULE_INTERVAL = "module_interval";
     public static final String MODULE_ALL = "module_all";
 
-    public AbstractModuleHandler(AbstractCameraHolder cameraHolder)
+    protected Context context;
+    protected AppSettingsManager appSettingsManager;
+
+    public AbstractModuleHandler(AbstractCameraHolder cameraHolder, Context context,AppSettingsManager appSettingsManager)
     {
         this.cameraHolder = cameraHolder;
         moduleList  = new HashMap<>();
+        this.context = context;
+        this.appSettingsManager = appSettingsManager;
 
         moduleEventHandler = new ModuleEventHandler();
         workers = new ArrayList<>();

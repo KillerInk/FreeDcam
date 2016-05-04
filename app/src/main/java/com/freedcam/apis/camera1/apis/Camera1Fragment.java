@@ -9,6 +9,7 @@ import com.freedcam.apis.apis.AbstractCameraFragment;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.ExtendedSurfaceView;
 import com.freedcam.apis.camera1.camera.TextureViewRatio;
+import com.freedcam.utils.AppSettingsManager;
 import com.troop.freedcam.R;
 
 /**
@@ -16,9 +17,9 @@ import com.troop.freedcam.R;
  */
 public class Camera1Fragment extends AbstractCameraFragment
 {
-
     private ExtendedSurfaceView extendedSurfaceView;
     private TextureViewRatio preview;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -40,7 +41,7 @@ public class Camera1Fragment extends AbstractCameraFragment
     @Override
     public void onResume() {
         super.onResume();
-        this.cameraUiWrapper = new CameraUiWrapper(extendedSurfaceView, preview);
+        this.cameraUiWrapper = new CameraUiWrapper(extendedSurfaceView, preview, getContext(),appSettingsManager);
         if (onrdy != null)
             onrdy.onCameraUiWrapperRdy(cameraUiWrapper);
     }

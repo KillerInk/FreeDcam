@@ -166,11 +166,11 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
 
         checkStartLoggerging();
         orientationHandler = new OrientationHandler(this, this);
-        themeHandler = new ThemeHandler(this);
+        themeHandler = new ThemeHandler(this,appSettingsManager);
         timerHandler = new TimerHandler(this);
-        apiHandler = new ApiHandler(this);
+        apiHandler = new ApiHandler(getApplicationContext(),this,appSettingsManager);
         apiHandler.CheckApi();
-        hardwareKeyHandler = new HardwareKeyHandler(this);
+        hardwareKeyHandler = new HardwareKeyHandler(this,appSettingsManager);
         if (cameraFragment != null)
             themeHandler.GetThemeFragment(cameraFragment.GetCameraUiWrapper());
         else

@@ -1,5 +1,6 @@
 package com.freedcam.apis.camera1.camera.modules.image_saver;
 
+import android.content.Context;
 import android.support.v4.provider.DocumentFile;
 
 import com.freedcam.apis.camera1.camera.BaseCameraHolder;
@@ -20,8 +21,8 @@ import java.io.OutputStream;
 public class RawSaver extends JpegSaver
 {
     final public String fileEnding = ".bayer";
-    public RawSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone) {
-        super(cameraHolder, i_workeDone);
+    public RawSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Context context, AppSettingsManager appSettingsManager) {
+        super(cameraHolder, i_workeDone,context, appSettingsManager);
     }
 
     private final String TAG = "RawSaver";
@@ -57,13 +58,13 @@ public class RawSaver extends JpegSaver
         OutputStream outStream = null;
         try {
             if (!StringUtils.IS_L_OR_BIG()
-                    || StringUtils.WRITE_NOT_EX_AND_L_ORBigger())
+                    || StringUtils.WRITE_NOT_EX_AND_L_ORBigger(appSettingsManager))
                 outStream = new FileOutputStream(fileName);
             else
             {
-                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(AppSettingsManager.APPSETTINGSMANAGER);
+                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,context);
                 DocumentFile wr = df.createFile("image/*", fileName.getName());
-                outStream = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri());
+                outStream = context.getContentResolver().openOutputStream(wr.getUri());
             }
             outStream.write(bytes);
             outStream.flush();

@@ -14,8 +14,10 @@ import java.util.HashMap;
 public class CupBurstExpModeParameter extends BaseModeParameter
 {
     final String TAG = CupBurstExpModeParameter.class.getSimpleName();
-    public CupBurstExpModeParameter(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String values) {
+    private AppSettingsManager appSettingsManager;
+    public CupBurstExpModeParameter(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String values, AppSettingsManager appSettingsManager) {
         super(uihandler, parameters, cameraHolder, "capture-burst-exposures", "");
+        this.appSettingsManager = appSettingsManager;
 
         this.isSupported = false;
         try {
@@ -58,20 +60,15 @@ public class CupBurstExpModeParameter extends BaseModeParameter
         if (valueToSet.equals("on")) {
             //if (baseCameraHolder.ParameterHandler.aeb1.GetValue() != null) {
                 //newvalue[0] = baseCameraHolder.ParameterHandler.aeb1.GetValue();
-            newvalue[0] = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_AEB1);
+            newvalue[0] = appSettingsManager.getString(AppSettingsManager.SETTING_AEB1);
             if(newvalue[0] == null || newvalue[0].equals(""))
                 newvalue[0] = "5";
-            newvalue[1] = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_AEB2);
+            newvalue[1] = appSettingsManager.getString(AppSettingsManager.SETTING_AEB2);
             if(newvalue[1] == null || newvalue[1].equals(""))
                 newvalue[1] = "0";
-            newvalue[2] = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_AEB3);
+            newvalue[2] = appSettingsManager.getString(AppSettingsManager.SETTING_AEB3);
             if(newvalue[2] == null || newvalue[2].equals(""))
                 newvalue[2] = "-5";
-            //}
-            //if (baseCameraHolder.ParameterHandler.aeb2.GetValue() != null && !baseCameraHolder.ParameterHandler.aeb2.GetValue().equals(""))
-                //newvalue[1] = baseCameraHolder.ParameterHandler.aeb2.GetValue();
-            //if (baseCameraHolder.ParameterHandler.aeb3.GetValue() != null && !baseCameraHolder.ParameterHandler.aeb3.GetValue().equals(""))
-                //newvalue[2] = baseCameraHolder.ParameterHandler.aeb3.GetValue();
         }
 
         parameters.put("capture-burst-exposures",newvalue[0]+","+newvalue[1]+","+newvalue[2]);

@@ -29,6 +29,7 @@ public class MenuItemTimeLapseFrames extends LinearLayout
     private final float mover = 0.1f;
     private final float bigmover = 1;
     private String settingsname;
+    private AppSettingsManager appSettingsManager;
 
 
     public MenuItemTimeLapseFrames(Context context) {
@@ -91,14 +92,15 @@ public class MenuItemTimeLapseFrames extends LinearLayout
         {
             Logger.exception(ex);
         }
-        AppSettingsManager.APPSETTINGSMANAGER.setString(settingsname, current + "");
+        appSettingsManager.setString(settingsname, current + "");
         editText.setText(current + " fps");
     }
 
-    public void SetStuff() {
+
+    public void SetStuff(AppSettingsManager appSettingsManager) {
         this.settingsname = AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME;
-        String fps = "";
-        fps = AppSettingsManager.APPSETTINGSMANAGER.getString(settingsname);
+        this.appSettingsManager = appSettingsManager;
+        String fps = appSettingsManager.getString(settingsname);
         if (fps == null || fps.equals(""))
             fps = "30";
         editText.setText(fps + " fps");

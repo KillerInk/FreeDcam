@@ -61,6 +61,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
     private TextView filesSelected;
     private int filesSelectedCount =0;
     private boolean isRootDir = true;
+    private AppSettingsManager appSettingsManager;
 
     public enum FormatTypes
     {
@@ -84,6 +85,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container, savedInstanceState);
+        appSettingsManager = new AppSettingsManager();
         deleteButton = (Button)view.findViewById(R.id.button_deltePics);
         deleteButton.setVisibility(View.GONE);
         deleteButton.setOnClickListener(onDeltedButtonClick);
@@ -497,7 +499,7 @@ private DialogInterface.OnClickListener dialogDeleteClickListener = new DialogIn
                     if (mPagerAdapter.getFiles().get(i).IsSelected())
                     {
                         FileHolder f = mPagerAdapter.getFiles().get(i);
-                        boolean del = BitmapHelper.DeleteFile(f,AppSettingsManager.APPSETTINGSMANAGER);
+                        boolean del = BitmapHelper.DeleteFile(f,appSettingsManager, getContext());
                         MediaScannerManager.ScanMedia(getContext(), f.getFile());
                         Logger.d(TAG, "file: " + f.getFile().getName() + " deleted:" + del);
                         i--;
@@ -549,7 +551,7 @@ private DialogInterface.OnClickListener dialogDeleteClickListener = new DialogIn
                 }
                 else
                 {
-                    DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(AppSettingsManager.APPSETTINGSMANAGER);
+                    DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(appSettingsManager,getContext());
                     if (sdDir == null) {
                         I_Activity i_activity = (I_Activity) getActivity();
                         i_activity.ChooseSDCard(GridViewFragment.this);

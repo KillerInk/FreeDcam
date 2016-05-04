@@ -41,10 +41,12 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
     protected String size;
 
     protected String storageSpace;
+    protected AppSettingsManager appSettingsManager;
 
-    public AbstractInfoOverlayHandler(Context context)
+    public AbstractInfoOverlayHandler(Context context, AppSettingsManager appSettingsManager)
     {
         this.context = context;
+        this.appSettingsManager =appSettingsManager;
         handler = new Handler();
         batteryBroadCastListner = new BatteryBroadCastListner();
     }
@@ -124,7 +126,7 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
         if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
         {
             format = "H264";
-            size = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_VIDEPROFILE);
+            size = appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
         }
         else
         {
@@ -174,9 +176,9 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
     private double Calc()
     {
         double calc;
-        String res [] = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
+        String res [] = appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
 
-        if(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer"))
+        if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer"))
         {
             if (Build.MANUFACTURER.contains("HTC"))
                 return calc = Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) * 16 / 8;
@@ -190,7 +192,7 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
     private long SDspace()
     {
         long bytesAvailable = 0;
-        if (!AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal()) {
+        if (!appSettingsManager.GetWriteExternal()) {
             bytesAvailable = Environment.getExternalStorageDirectory().getUsableSpace();
         }
         else

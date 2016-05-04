@@ -14,8 +14,10 @@ public class SDModeParameter extends AbstractModeParameter
 {
     final public static String internal = "Internal";
     final public static String external ="External";
-    public SDModeParameter(Handler uiHandler) {
+    private AppSettingsManager appSettingsManager;
+    public SDModeParameter(Handler uiHandler,AppSettingsManager appSettingsManager) {
         super(uiHandler);
+        this.appSettingsManager = appSettingsManager;
     }
 
     @Override
@@ -55,7 +57,7 @@ public class SDModeParameter extends AbstractModeParameter
     @Override
     public String GetValue()
     {
-        if (AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal())
+        if (appSettingsManager.GetWriteExternal())
             return external;
         else
             return internal;

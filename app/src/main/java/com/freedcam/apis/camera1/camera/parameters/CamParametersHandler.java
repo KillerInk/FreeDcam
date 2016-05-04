@@ -1,5 +1,6 @@
 package com.freedcam.apis.camera1.camera.parameters;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
 
@@ -66,9 +67,9 @@ public class CamParametersHandler extends AbstractParameterHandler
     public BaseModeParameter DualMode;
     private CameraUiWrapper cameraUiWrapper;
 
-    public CamParametersHandler(CameraUiWrapper cameraUiWrapper, Handler uiHandler)
+    public CamParametersHandler(CameraUiWrapper cameraUiWrapper, Handler uiHandler, Context context,AppSettingsManager appSettingsManager)
     {
-        super(cameraUiWrapper.cameraHolder, uiHandler);
+        super(cameraUiWrapper.cameraHolder, uiHandler,context,appSettingsManager);
         cameraHolder = cameraUiWrapper.cameraHolder;
         this.cameraUiWrapper = cameraUiWrapper;
     }
@@ -128,7 +129,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             Logger.exception(e);
         }
 
-        locationParameter = new LocationParameter(uiHandler, cameraHolder);
+        locationParameter = new LocationParameter(uiHandler, cameraHolder,context,appSettingsManager);
 
         createManualBrightness();
 
@@ -448,7 +449,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            captureBurstExposures = new CupBurstExpModeParameter(uiHandler, cameraParameters, cameraHolder, "");
+            captureBurstExposures = new CupBurstExpModeParameter(uiHandler, cameraParameters, cameraHolder, "",appSettingsManager);
         }
         catch (Exception e)
         {
@@ -482,7 +483,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             matrixChooser = new MatrixChooserParameter(uiHandler);
 
         try {
-            Module = new ModuleParameters(uiHandler, cameraUiWrapper);
+            Module = new ModuleParameters(uiHandler, cameraUiWrapper,appSettingsManager);
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -494,7 +495,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         } catch (Exception e) {
             Logger.exception(e);
         }
-        cameraUiWrapper.moduleHandler.SetModule(AppSettingsManager.APPSETTINGSMANAGER.GetCurrentModule());
+        cameraUiWrapper.moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
 
         ParametersHasLoaded();
 
@@ -881,7 +882,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     @Override
     public void SetPictureOrientation(int orientation)
     {
-        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
         {
             int or = orientation +180;
             if (or >360)
@@ -900,11 +901,11 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     public void SetCameraRotation()
     {
-        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals(""))
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(""))
         {
-            AppSettingsManager.APPSETTINGSMANAGER.setString(AppSettingsManager.SETTING_OrientationHack , StringUtils.OFF);
+            appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack , StringUtils.OFF);
         }
-        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.OFF))
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.OFF))
             ((BaseCameraHolder)cameraHolder).SetCameraRotation(0);
         else
             ((BaseCameraHolder)cameraHolder).SetCameraRotation(180);

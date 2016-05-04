@@ -11,12 +11,14 @@ import com.freedcam.utils.DeviceUtils;
  */
 public class ApiParameter extends AbstractModeParameter
 {
-    I_Activity i_activity;
-    boolean DEBUG = false;
+    private I_Activity i_activity;
+    private final boolean DEBUG = false;
+    private AppSettingsManager appSettingsManager;
 
-    public ApiParameter(I_Activity i_activity) {
+    public ApiParameter(I_Activity i_activity,AppSettingsManager appSettingsManager) {
         super(null);
         this.i_activity = i_activity;
+        this.appSettingsManager = appSettingsManager;
     }
 
     @Override
@@ -28,7 +30,7 @@ public class ApiParameter extends AbstractModeParameter
         }
         else {
             if (Build.VERSION.SDK_INT >= 21) {
-                if (AppSettingsManager.APPSETTINGSMANAGER.IsCamera2FullSupported().equals("true"))
+                if (appSettingsManager.IsCamera2FullSupported().equals("true"))
                     return new String[]{AppSettingsManager.API_SONY, AppSettingsManager.API_2};
                 else
                     return new String[]{AppSettingsManager.API_SONY, AppSettingsManager.API_1};
@@ -39,7 +41,7 @@ public class ApiParameter extends AbstractModeParameter
 
     @Override
     public String GetValue() {
-        String ret = AppSettingsManager.APPSETTINGSMANAGER.getCamApi();
+        String ret = appSettingsManager.getCamApi();
         if (ret.equals(""))
             ret = AppSettingsManager.API_1;
         return ret;
@@ -47,7 +49,7 @@ public class ApiParameter extends AbstractModeParameter
 
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
-        AppSettingsManager.APPSETTINGSMANAGER.setCamApi(valueToSet);
+        appSettingsManager.setCamApi(valueToSet);
         i_activity.SwitchCameraAPI(valueToSet);
     }
 

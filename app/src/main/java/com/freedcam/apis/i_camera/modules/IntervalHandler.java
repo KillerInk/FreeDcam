@@ -22,13 +22,15 @@ class IntervalHandler
     private Handler handler;
     private long startTime = 0;
     private boolean working = false;
+    private AppSettingsManager appSettingsManager;
 
     public boolean IsWorking() {return  this.working;}
 
-    public IntervalHandler(AbstractModule picmodule)
+    public IntervalHandler(AbstractModule picmodule, AppSettingsManager appSettingsManager)
     {
         this.picmodule = picmodule;
         handler = new Handler();
+        this.appSettingsManager = appSettingsManager;
     }
 
     public void StartInterval()
@@ -136,7 +138,7 @@ class IntervalHandler
 
     public void StartShutterTime()
     {
-        String shutterdelay = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_TIMER);
+        String shutterdelay = appSettingsManager.getString(AppSettingsManager.SETTING_TIMER);
         try {
             if (shutterdelay.equals(""))
                 shutterdelay = "0 sec";

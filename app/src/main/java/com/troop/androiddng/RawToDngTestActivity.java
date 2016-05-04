@@ -29,7 +29,7 @@ public class RawToDngTestActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		Button button = (Button)findViewById(R.id.button1);
 		button.setOnClickListener(buttonclick);
-		DeviceUtils.SETCONTEXT(getApplicationContext());
+		DeviceUtils.CheckAndSetDevice(getApplicationContext());
 	}
 
 	private DeviceUtils.Devices getDevice(String filename)

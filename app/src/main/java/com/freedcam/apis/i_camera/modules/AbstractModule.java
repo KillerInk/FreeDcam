@@ -1,9 +1,12 @@
 package com.freedcam.apis.i_camera.modules;
 
 
+import android.content.Context;
+
 import com.freedcam.apis.i_camera.AbstractCameraHolder;
 import com.freedcam.apis.i_camera.interfaces.I_Module;
 import com.freedcam.apis.i_camera.parameters.AbstractParameterHandler;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
 /**
@@ -20,14 +23,17 @@ public abstract class AbstractModule implements I_Module
     protected ModuleEventHandler eventHandler;
     protected AbstractModuleHandler.I_worker workerListner;
     final static String TAG = AbstractModule.class.getSimpleName();
+    protected Context context;
+    protected AppSettingsManager appSettingsManager;
 
-    public AbstractModule(){}
 
-    public AbstractModule(AbstractCameraHolder cameraHandler, ModuleEventHandler eventHandler)
+    public AbstractModule(AbstractCameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager)
     {
         this.baseCameraHolder = cameraHandler;
         this.eventHandler = eventHandler;
         this.ParameterHandler = baseCameraHolder.GetParameterHandler();
+        this.context = context;
+        this.appSettingsManager = appSettingsManager;
     }
 
     public void SetWorkerListner(AbstractModuleHandler.I_worker workerListner)

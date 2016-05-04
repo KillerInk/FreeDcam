@@ -1,6 +1,7 @@
 package com.freedcam.apis.camera2.camera2.modules;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
@@ -97,8 +98,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private Handler handler;
     private int imagecount = 0;
 
-    public PictureModuleApi2(BaseCameraHolderApi2 cameraHandler, ModuleEventHandler eventHandler ) {
-        super(cameraHandler, eventHandler);
+    public PictureModuleApi2(BaseCameraHolderApi2 cameraHandler, ModuleEventHandler eventHandler, Context context,AppSettingsManager appSettingsManager) {
+        super(cameraHandler, eventHandler,context,appSettingsManager);
         this.cameraHolder = (BaseCameraHolderApi2)cameraHandler;
         this.name = AbstractModuleHandler.MODULE_PICTURE;
         handler = new Handler(Looper.getMainLooper());
@@ -130,7 +131,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private void TakePicture()
     {
         isWorking = true;
-        Logger.d(TAG, AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
+        Logger.d(TAG, appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
         Logger.d(TAG, "dng:" + Boolean.toString(ParameterHandler.IsDngActive()));
 
         mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener,null);
@@ -310,7 +311,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             catch (CameraAccessException ex)
             {
                 cameraHolder.CloseCamera();
-                cameraHolder.OpenCamera(AppSettingsManager.APPSETTINGSMANAGER.GetCurrentCamera());
+                cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
             }
 
         }
@@ -361,7 +362,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
 
                     isWorking = false;
-                    MediaScannerManager.ScanMedia(AppSettingsManager.APPSETTINGSMANAGER.context, file);
+                    MediaScannerManager.ScanMedia(context, file);
                     eventHandler.WorkFinished(file);
                     if (burstcount == imagecount) {
                         workfinished(true);
@@ -382,9 +383,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         File file;
         Logger.d(TAG, "Create JPEG");
         if (burstcount > 1)
-            file = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), "_" + imagecount + ".jpg"));
+            file = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), "_" + imagecount + ".jpg"));
         else
-            file = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), ".jpg"));
+            file = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), ".jpg"));
         checkFileExists(file);
         Image image = reader.acquireNextImage();
         while (image == null) {
@@ -402,7 +403,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         /*if (burstcount > 1)
             file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_" + imagecount + ".dng"));
         else*/
-            file = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), ".dng"));
+            file = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), ".dng"));
         //checkFileExists(file);
         Image image = reader.acquireNextImage();
         while (image == null) {
@@ -417,16 +418,16 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             byte[] bytes = new byte[buffer.remaining()];
             buffer.get(bytes);
             ParcelFileDescriptor pfd = null;
-            if (!AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal())
+            if (!appSettingsManager.GetWriteExternal())
                 dngConverter.SetBayerData(bytes, file.getAbsolutePath());
             else
             {
-                Uri uri = Uri.parse(AppSettingsManager.APPSETTINGSMANAGER.GetBaseFolder());
-                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(AppSettingsManager.APPSETTINGSMANAGER);
+                Uri uri = Uri.parse(appSettingsManager.GetBaseFolder());
+                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,context);
                 DocumentFile wr = df.createFile("image/dng", file.getName());
                 try {
 
-                    pfd = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+                    pfd = context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
                     if (pfd != null)
                         dngConverter.SetBayerDataFD(bytes, pfd, file.getName());
                 } catch (FileNotFoundException | IllegalArgumentException e) {
@@ -462,13 +463,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             dngCreator.setOrientation(mDngResult.get(CaptureResult.JPEG_ORIENTATION));
             try
             {
-                if (!AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal())
+                if (!appSettingsManager.GetWriteExternal())
                     dngCreator.writeImage(new FileOutputStream(file), image);
                 else
                 {
-                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(AppSettingsManager.APPSETTINGSMANAGER);
+                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,context);
                     DocumentFile wr = df.createFile("image/*", file.getName());
-                    dngCreator.writeImage(AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri()), image);
+                    dngCreator.writeImage(context.getContentResolver().openOutputStream(wr.getUri()), image);
                 }
             } catch (IOException e) {
                 Logger.exception(e);
@@ -483,9 +484,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         File file;
         Logger.d(TAG, "Create DNG VIA RAw2DNG");
         if (burstcount > 1)
-            file = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), "_" + imagecount + ".dng"));
+            file = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), "_" + imagecount + ".dng"));
         else
-            file = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), ".dng"));
+            file = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), ".dng"));
         checkFileExists(file);
         Image image = reader.acquireNextImage();
         while (image == null) {
@@ -496,15 +497,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         byte[] bytes = new byte[buffer.remaining()];
         buffer.get(bytes);
         ParcelFileDescriptor pfd = null;
-        if (!AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal())
+        if (!appSettingsManager.GetWriteExternal())
             dngConverter.SetBayerData(bytes, file.getAbsolutePath());
         else
         {
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(AppSettingsManager.APPSETTINGSMANAGER);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,context);
             DocumentFile wr = df.createFile("image/*", file.getName());
             try {
 
-                pfd = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+                pfd = context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
                 if (pfd != null)
                     dngConverter.SetBayerDataFD(bytes, pfd, file.getName());
             } catch (FileNotFoundException | IllegalArgumentException e) {
@@ -566,9 +567,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         float[] reduction1;
         float[] reduction2;
         float[]finalnoise;
-        String cmat = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTTING_CUSTOMMATRIX);
+        String cmat = appSettingsManager.getString(AppSettingsManager.SETTTING_CUSTOMMATRIX);
         if (cmat != null && !cmat.equals("") &&!cmat.equals("off")) {
-            CustomMatrix mat  = new CustomMatrix();
+            CustomMatrix mat  = new CustomMatrix(appSettingsManager);
             color1 = mat.ColorMatrix1;
             color2 = mat.ColorMatrix2;
             neutral = mat.NeutralMatrix;
@@ -691,15 +692,15 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void startPreview() {
 
-        picSize = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_PICTURESIZE);
+        picSize = appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE);
         Logger.d(TAG, "Start Preview");
         largestImageSize = Collections.max(
                 Arrays.asList(baseCameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
                 new BaseCameraHolderApi2.CompareSizesByArea());
-        picFormat = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
+        picFormat = appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
         if (picFormat.equals("")) {
             picFormat = BaseCameraHolderApi2.JPEG;
-            AppSettingsManager.APPSETTINGSMANAGER.setString(AppSettingsManager.SETTING_PICTUREFORMAT, BaseCameraHolderApi2.JPEG);
+            appSettingsManager.setString(AppSettingsManager.SETTING_PICTUREFORMAT, BaseCameraHolderApi2.JPEG);
             ParameterHandler.PictureFormat.BackgroundValueHasChanged(BaseCameraHolderApi2.JPEG);
 
         }
@@ -737,7 +738,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         }
 
         //OrientationHACK
-        if(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+        if(appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
             baseCameraHolder.mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, 180);
         else
             baseCameraHolder.mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, 0);
@@ -819,14 +820,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             OutputStream output = null;
             ParcelFileDescriptor pfd = null;
             try {
-                if (!AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal())
+                if (!appSettingsManager.GetWriteExternal())
                     output = new FileOutputStream(mFile);
                 else
                 {
 
-                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(AppSettingsManager.APPSETTINGSMANAGER);
+                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,context);
                     DocumentFile wr = df.createFile("*/*", mFile.getName());
-                    output = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri(),"rw");
+                    output = context.getContentResolver().openOutputStream(wr.getUri(),"rw");
                 }
                 output.write(bytes);
             } catch (IOException e) {

@@ -18,11 +18,13 @@ public class ThemeHandler implements I_ModuleEvent
     private MainActivity activity_v2;
     private LinearLayout uiLayout;
     private AbstractFragment uiFragment;
+    private AppSettingsManager appSettingsManager;
 
-    public ThemeHandler(MainActivity activity_v2)
+    public ThemeHandler(MainActivity activity_v2,AppSettingsManager appSettingsManager)
     {
         this.activity_v2 = activity_v2;
         uiLayout = (LinearLayout) activity_v2.findViewById(R.id.themeFragmentholder);
+        this.appSettingsManager = appSettingsManager;
     }
 
     public AbstractFragment getCurrenttheme()
@@ -33,15 +35,15 @@ public class ThemeHandler implements I_ModuleEvent
 
     public AbstractFragment GetThemeFragment(AbstractCameraUiWrapper cameraUiWrapper)
     {
-        String theme = AppSettingsManager.APPSETTINGSMANAGER.GetTheme();
-        if(theme.equals("Ambient") || theme.equals("Material")|| theme.equals("Minimal") || theme.equals("Nubia") || theme.equals("Classic")) {
+        String theme = appSettingsManager.GetTheme();
+        if(theme == null || theme.equals("Ambient") || theme.equals("Material")|| theme.equals("Minimal") || theme.equals("Nubia") || theme.equals("Classic") || theme.equals("")) {
             theme = "Sample";
-            AppSettingsManager.APPSETTINGSMANAGER.SetTheme("Sample");
+            appSettingsManager.SetTheme("Sample");
         }
         if (theme.equals("Sample"))
         {
             SampleThemeFragment sampleThemeFragment = new SampleThemeFragment();
-            sampleThemeFragment.SetStuff(activity_v2);
+            sampleThemeFragment.SetStuff(activity_v2,appSettingsManager);
             sampleThemeFragment.SetCameraUIWrapper(cameraUiWrapper);
             uiFragment = sampleThemeFragment;
         }

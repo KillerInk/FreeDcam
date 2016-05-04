@@ -20,9 +20,21 @@ import com.troop.freedcam.R;
 public class GuideHandler extends Fragment implements AbstractModeParameter.I_ModeParameterEvent , I_ParametersLoaded {
     private View view;
     private ImageView img;
-    Context contextt;
     private AbstractCameraUiWrapper cameraUiWrapper;
     private float quckRationMath;
+    private AppSettingsManager appSettingsManager;
+
+    public static GuideHandler GetInstance(AppSettingsManager appSettingsManager)
+    {
+        GuideHandler g = new GuideHandler();
+        g.SetAppSettingsManager(appSettingsManager);
+        return g;
+    }
+
+    public void SetAppSettingsManager(AppSettingsManager appSettingsManager)
+    {
+        this.appSettingsManager = appSettingsManager;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -210,7 +222,7 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
     private AbstractModeParameter.I_ModeParameterEvent previewSizeChanged = new AbstractModeParameter.I_ModeParameterEvent() {
         @Override
         public void onValueChanged(String val) {
-            String img = AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_GUIDE);
+            String img = appSettingsManager.getString(AppSettingsManager.SETTING_GUIDE);
             if (val != null && !val.equals("")&& img != null && !img.equals("") && !img.equals("None")) {
                 String size[] = val.split("x");
                 quckRationMath = Float.valueOf(size[0]) / Float.valueOf(size[1]);

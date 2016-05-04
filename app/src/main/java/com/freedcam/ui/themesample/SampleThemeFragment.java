@@ -15,6 +15,7 @@ import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.themesample.subfragments.CameraUiFragment;
 import com.freedcam.ui.themesample.subfragments.SettingsMenuFragment;
 import com.freedcam.ui.views.PagingView;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedviewer.screenslide.ScreenSlideFragment;
 import com.troop.freedcam.R;
 
@@ -36,15 +37,16 @@ public class SampleThemeFragment extends AbstractFragment
     private SettingsMenuFragment settingsMenuFragment;
     private ScreenSlideFragment screenSlideFragment;
     private boolean pagerTouchAllowed = true;
+    private AppSettingsManager appSettingsManager;
 
     public SampleThemeFragment()
     {
     }
 
     @Override
-    public void SetStuff(I_Activity i_activity) {
+    public void SetStuff(I_Activity i_activity, AppSettingsManager appSettingsManager) {
         this.i_activity = i_activity;
-
+        this.appSettingsManager = appSettingsManager;
     }
 
     @Override
@@ -56,7 +58,7 @@ public class SampleThemeFragment extends AbstractFragment
         }
         if (settingsMenuFragment != null)
         {
-            settingsMenuFragment.SetStuff(i_activity);
+            //settingsMenuFragment.SetStuff(i_activity,appSettingsManager);
             settingsMenuFragment.SetCameraUIWrapper(wrapper);
         }
 
@@ -74,6 +76,9 @@ public class SampleThemeFragment extends AbstractFragment
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.mPager = (PagingView)view.findViewById(R.id.viewPager_fragmentHolder);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
+        mPager.setAdapter(mPagerAdapter);
+        mPager.setCurrentItem(1);
 
     }
 
@@ -86,9 +91,7 @@ public class SampleThemeFragment extends AbstractFragment
     @Override
     public void onResume() {
         super.onResume();
-        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
-        mPager.setCurrentItem(1);
+
 
     }
 
@@ -150,14 +153,16 @@ public class SampleThemeFragment extends AbstractFragment
             {
                 if (settingsMenuFragment == null)
                     settingsMenuFragment = new SettingsMenuFragment();
-                settingsMenuFragment.SetStuff(i_activity);
+                settingsMenuFragment.SetStuff(i_activity,appSettingsManager);
                 settingsMenuFragment.SetCameraUIWrapper(wrapper);
                 return settingsMenuFragment;
             }
             else if (position == 2)
             {
-                if (screenSlideFragment == null)
+                if (screenSlideFragment == null) {
                     screenSlideFragment = new ScreenSlideFragment();
+                }
+                screenSlideFragment.SetAppSettingsManager(appSettingsManager);
                 screenSlideFragment.SetOnThumbClick(onThumbBackClick);
                 return screenSlideFragment;
             }
@@ -165,7 +170,7 @@ public class SampleThemeFragment extends AbstractFragment
             {
                 if (cameraUiFragment == null)
                     cameraUiFragment = new CameraUiFragment();
-                cameraUiFragment.SetStuff(i_activity,onThumbClick);
+                cameraUiFragment.SetStuff(i_activity,onThumbClick,appSettingsManager);
                 cameraUiFragment.SetCameraUIWrapper(wrapper);
                 return cameraUiFragment;
             }

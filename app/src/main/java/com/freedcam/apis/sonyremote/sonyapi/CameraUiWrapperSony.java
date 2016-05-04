@@ -1,5 +1,6 @@
 package com.freedcam.apis.sonyremote.sonyapi;
 
+import android.content.Context;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -28,15 +29,15 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
         return AppSettingsManager.API_SONY;
     }
 
-    public CameraUiWrapperSony(SurfaceView preview) {
-        super();
+    public CameraUiWrapperSony(SurfaceView preview, Context context,AppSettingsManager appSettingsManager) {
+        super(appSettingsManager);
         this.surfaceView = (SimpleStreamSurfaceView)preview;
         this.surfaceView.getHolder().addCallback(this);
-        this.cameraHolder = new CameraHolderSony(preview.getContext(), surfaceView, this, uiHandler);
-        camParametersHandler = new ParameterHandlerSony(this, uiHandler, (SimpleStreamSurfaceView)surfaceView);
+        this.cameraHolder = new CameraHolderSony(preview.getContext(), surfaceView, this, uiHandler,appSettingsManager);
+        camParametersHandler = new ParameterHandlerSony(this, uiHandler, (SimpleStreamSurfaceView)surfaceView, context,appSettingsManager);
         cameraHolder.ParameterHandler = (ParameterHandlerSony)camParametersHandler;
 
-        moduleHandler = new ModuleHandlerSony(cameraHolder);
+        moduleHandler = new ModuleHandlerSony(cameraHolder,context,appSettingsManager);
         this.Focus = new FocusHandlerSony(this);
         super.cameraHolder = cameraHolder;
         cameraHolder.focusHandlerSony =(FocusHandlerSony) Focus;

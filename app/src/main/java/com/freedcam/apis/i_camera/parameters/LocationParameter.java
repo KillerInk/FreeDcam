@@ -22,15 +22,19 @@ public class LocationParameter extends AbstractModeParameter implements Location
 {
     private final AbstractCameraHolder cameraHolder;
     private LocationManager locationManager;
+    private Context context;
+    private AppSettingsManager appSettingsManager;
 
     private final int updateTime = 60*1000;
     private final int updateDistance = 15;
 
 
-    public LocationParameter(Handler uiHandler, AbstractCameraHolder cameraHolder) {
+    public LocationParameter(Handler uiHandler, AbstractCameraHolder cameraHolder, Context context, AppSettingsManager appSettingsManager) {
         super(uiHandler);
+        this.context = context;
         this.cameraHolder = cameraHolder;
-        locationManager = (LocationManager) AppSettingsManager.APPSETTINGSMANAGER.context.getSystemService(Context.LOCATION_SERVICE);
+        this.appSettingsManager = appSettingsManager;
+        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         if (GetValue().equals(StringUtils.ON))
             startLocationListing();
     }
@@ -43,9 +47,9 @@ public class LocationParameter extends AbstractModeParameter implements Location
     @Override
     public String GetValue()
     {
-        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_LOCATION).equals(""))
-            AppSettingsManager.APPSETTINGSMANAGER.setString(AppSettingsManager.SETTING_LOCATION, StringUtils.OFF);
-        return AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_LOCATION);
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_LOCATION).equals(""))
+            appSettingsManager.setString(AppSettingsManager.SETTING_LOCATION, StringUtils.OFF);
+        return appSettingsManager.getString(AppSettingsManager.SETTING_LOCATION);
     }
 
     @Override
@@ -56,7 +60,7 @@ public class LocationParameter extends AbstractModeParameter implements Location
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        AppSettingsManager.APPSETTINGSMANAGER.setString(AppSettingsManager.SETTING_LOCATION, valueToSet);
+        appSettingsManager.setString(AppSettingsManager.SETTING_LOCATION, valueToSet);
         if (valueToSet.equals(StringUtils.OFF))
             stopLocationListining();
         if (valueToSet.equals(StringUtils.ON))
@@ -130,7 +134,7 @@ public class LocationParameter extends AbstractModeParameter implements Location
         }
         else
         {
-            Toast.makeText(AppSettingsManager.APPSETTINGSMANAGER.context, "Gps and Network are deactivated", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Gps and Network are deactivated", Toast.LENGTH_LONG).show();
             Logger.d("Location", "Gps and Network are deactivated");
         }
     }

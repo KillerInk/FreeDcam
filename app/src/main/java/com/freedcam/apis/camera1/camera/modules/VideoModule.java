@@ -1,5 +1,6 @@
 package com.freedcam.apis.camera1.camera.modules;
 
+import android.content.Context;
 import android.media.MediaRecorder;
 import android.os.Environment;
 
@@ -20,8 +21,8 @@ public class VideoModule extends AbstractVideoModule
     private static String TAG = VideoModule.class.getSimpleName();
     private VideoMediaProfile currentProfile;
 
-    public VideoModule(BaseCameraHolder cameraHandler, ModuleEventHandler eventHandler) {
-        super(cameraHandler, eventHandler);
+    public VideoModule(BaseCameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context,AppSettingsManager appSettingsManager) {
+        super(cameraHandler, eventHandler,context, appSettingsManager);
     }
 
 
@@ -64,10 +65,10 @@ public class VideoModule extends AbstractVideoModule
                 break;
             case Timelapse:
                 float frame = 60;
-                if(!AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).equals(""))
-                    frame = Float.parseFloat(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).replace(",", "."));
+                if(!appSettingsManager.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).equals(""))
+                    frame = Float.parseFloat(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME).replace(",", "."));
                 else
-                    AppSettingsManager.APPSETTINGSMANAGER.setString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, ""+frame);
+                    appSettingsManager.setString(AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME, ""+frame);
                 recorder.setCaptureRate(frame);
                 break;
         }
@@ -81,7 +82,7 @@ public class VideoModule extends AbstractVideoModule
     {
 
         if (ParameterHandler.VideoHDR != null)
-            if(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_VIDEOHDR).equals("on") && ParameterHandler.VideoHDR.IsSupported())
+            if(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEOHDR).equals("on") && ParameterHandler.VideoHDR.IsSupported())
                 ParameterHandler.VideoHDR.SetValue("on", true);
         loadProfileSpecificParameters();
     }
@@ -95,7 +96,7 @@ public class VideoModule extends AbstractVideoModule
     private void loadProfileSpecificParameters()
     {
         VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter)ParameterHandler.VideoProfiles;
-        currentProfile = videoProfilesG3Parameter.GetCameraProfile(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_VIDEPROFILE));
+        currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         if (currentProfile.Mode == VideoMediaProfile.VideoMode.Highspeed)
         {
             if(currentProfile.ProfileName.equals("1080pHFR") && (DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W)||DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)))

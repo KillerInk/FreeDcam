@@ -1,5 +1,6 @@
 package com.freedcam.utils;
 
+import android.content.Context;
 import android.net.Uri;
 import android.support.v4.provider.DocumentFile;
 
@@ -21,20 +22,20 @@ public class FileUtils
         }
     }
 
-    public static DocumentFile getExternalSdDocumentFile(AppSettingsManager appSettingsManager)
+    public static DocumentFile getExternalSdDocumentFile(AppSettingsManager appSettingsManager, Context context)
     {
         DocumentFile sdDir = null;
         if (appSettingsManager != null && appSettingsManager.GetBaseFolder() != null && !appSettingsManager.GetBaseFolder().equals("")) {
             Uri uri = Uri.parse(appSettingsManager.GetBaseFolder());
-            sdDir = DocumentFile.fromTreeUri(appSettingsManager.context, uri);
+            sdDir = DocumentFile.fromTreeUri(context, uri);
         }
         return sdDir;
     }
 
-    private static DocumentFile getDCIMDocumentFolder(boolean create, AppSettingsManager appSettingsManager) {
+    private static DocumentFile getDCIMDocumentFolder(boolean create, AppSettingsManager appSettingsManager,Context context) {
         DocumentFile documentFile = null;
         DocumentFile sdDir;
-        if ((sdDir = getExternalSdDocumentFile(appSettingsManager)) != null) {
+        if ((sdDir = getExternalSdDocumentFile(appSettingsManager,context)) != null) {
             documentFile = sdDir.findFile("DCIM");
             if (documentFile == null && create)
                 documentFile = sdDir.createDirectory("DCIM");
@@ -42,11 +43,11 @@ public class FileUtils
         return documentFile;
     }
 
-    public static DocumentFile getFreeDcamDocumentFolder(AppSettingsManager appSettingsManager)
+    public static DocumentFile getFreeDcamDocumentFolder(AppSettingsManager appSettingsManager,Context context)
     {
         DocumentFile dcimfolder;
         DocumentFile freedcamfolder = null;
-        if((dcimfolder = getDCIMDocumentFolder(true, appSettingsManager)) !=null)
+        if((dcimfolder = getDCIMDocumentFolder(true, appSettingsManager,context)) !=null)
         {
             freedcamfolder = dcimfolder.findFile("FreeDcam");
             if (freedcamfolder == null && true)
@@ -55,10 +56,10 @@ public class FileUtils
         return freedcamfolder;
     }
 
-    public static boolean delteDocumentFile(File file, AppSettingsManager appSettingsManager) throws NullPointerException
+    public static boolean delteDocumentFile(File file, AppSettingsManager appSettingsManager,Context context) throws NullPointerException
     {
         if (!file.delete()) {
-            DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(appSettingsManager);
+            DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(appSettingsManager,context);
             if (sdDir == null)
                 throw new NullPointerException();
             String baseS = sdDir.getName();

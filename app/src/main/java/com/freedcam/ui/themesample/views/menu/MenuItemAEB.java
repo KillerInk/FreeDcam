@@ -27,6 +27,7 @@ public class MenuItemAEB extends LinearLayout {
     private int current;
     private AbstractCameraUiWrapper cameraUiWrapper;
     private String settingsname;
+    private AppSettingsManager appSettingsManager;
 
 
     public MenuItemAEB(Context context) {
@@ -93,7 +94,7 @@ public class MenuItemAEB extends LinearLayout {
 
     private void setCurrent(int current) {
         String tempcurrent = String.valueOf(current);
-        AppSettingsManager.APPSETTINGSMANAGER.setString(settingsname, tempcurrent);
+        appSettingsManager.setString(settingsname, tempcurrent);
         if (cameraUiWrapper != null && cameraUiWrapper.camParametersHandler != null && cameraUiWrapper.camParametersHandler.captureBurstExposures != null) {
             if ((cameraUiWrapper.camParametersHandler.captureBurstExposures.IsSupported())) {
                 cameraUiWrapper.camParametersHandler.captureBurstExposures.SetValue("on", true);
@@ -105,10 +106,10 @@ public class MenuItemAEB extends LinearLayout {
     public void SetStuff(AppSettingsManager appSettingsManager, String settingvalue) {
 
         this.settingsname = settingvalue;
-
+        this.appSettingsManager = appSettingsManager;
         String exp="";
         if (appSettingsManager != null)
-        exp = AppSettingsManager.APPSETTINGSMANAGER.getString(settingsname);
+        exp = appSettingsManager.getString(settingsname);
         if (exp == null || exp.equals("")) {
             exp = "0";
             current = Integer.parseInt(exp);

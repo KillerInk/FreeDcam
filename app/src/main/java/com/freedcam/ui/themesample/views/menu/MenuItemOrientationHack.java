@@ -33,9 +33,9 @@ public class MenuItemOrientationHack extends MenuItem
             this.setVisibility(View.VISIBLE);
         else
             this.setVisibility(View.GONE);
-        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals(""))
-            AppSettingsManager.APPSETTINGSMANAGER.setString(AppSettingsManager.SETTING_OrientationHack, StringUtils.OFF);
-        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(""))
+            appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack, StringUtils.OFF);
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
             onValueChanged(StringUtils.ON);
         else
             onValueChanged(StringUtils.OFF);
@@ -49,7 +49,7 @@ public class MenuItemOrientationHack extends MenuItem
     @Override
     public void SetValue(String value)
     {
-        AppSettingsManager.APPSETTINGSMANAGER.setString(AppSettingsManager.SETTING_OrientationHack, value);
+        appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack, value);
         if (cameraUiWrapper instanceof CameraUiWrapper) {
             ((CamParametersHandler) cameraUiWrapper.camParametersHandler).SetCameraRotation();
             ((CamParametersHandler) cameraUiWrapper.camParametersHandler).SetPictureOrientation(0);

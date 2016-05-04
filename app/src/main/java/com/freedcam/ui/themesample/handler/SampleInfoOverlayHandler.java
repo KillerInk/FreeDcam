@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.freedcam.ui.AbstractInfoOverlayHandler;
+import com.freedcam.utils.AppSettingsManager;
 import com.troop.freedcam.R;
 
 /**
@@ -19,9 +20,9 @@ public class SampleInfoOverlayHandler extends AbstractInfoOverlayHandler
     private TextView tdngsupported;
     private TextView tbuidlmodel;
     TextView tappversion;
-    public SampleInfoOverlayHandler(View view)
+    public SampleInfoOverlayHandler(View view, AppSettingsManager appSettingsManager)
     {
-        super(view.getContext());
+        super(view.getContext(),appSettingsManager);
         tbattery = (TextView)view.findViewById(R.id.textView_battery);
         tsize = (TextView)view.findViewById(R.id.textView_size);
         tformat = (TextView)view.findViewById(R.id.textView_format);

@@ -77,7 +77,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     public CameraCharacteristics characteristics;
     public String VideoSize;
     public I_PreviewWrapper ModulePreview;
-    RenderScript mRS;
+    private RenderScript mRS;
     public ViewfinderProcessor mProcessor;
     public CaptureSessionHandler CaptureSessionH;
 
@@ -87,9 +87,9 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
     boolean errorRecieved = false;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public BaseCameraHolderApi2(Context context,I_CameraChangedListner cameraChangedListner, Handler UIHandler)
+    public BaseCameraHolderApi2(Context context,I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager appSettingsManager)
     {
-        super(cameraChangedListner, UIHandler);
+        super(cameraChangedListner, UIHandler,appSettingsManager);
         this.context = context;
         this.manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         CaptureSessionH = new CaptureSessionHandler();
@@ -123,7 +123,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             characteristics = manager.getCameraCharacteristics(CurrentCamera + "");
             if (!isLegacyDevice())
             {
-                mRS = RenderScript.create(AppSettingsManager.APPSETTINGSMANAGER.context);
+                mRS = RenderScript.create(context);
                 mProcessor = new ViewfinderProcessor(mRS);
                 //printCharacteristics();
             }
@@ -543,7 +543,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         return characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY;
     }
 
-    public static boolean IsLegacy(AppSettingsManager appSettingsManager)
+    public static boolean IsLegacy(AppSettingsManager appSettingsManager,Context context)
     {
         boolean legacy = true;
         Semaphore mCameraOpenCloseLock = new Semaphore(1);
@@ -552,7 +552,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
                 throw new RuntimeException("Time out waiting to lock camera opening.");
             }
-            CameraManager manager = (CameraManager) appSettingsManager.context.getSystemService(Context.CAMERA_SERVICE);
+            CameraManager manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
             CameraCharacteristics characteristics = manager.getCameraCharacteristics("0");
             legacy = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY;
             manager = null;
@@ -585,7 +585,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
         public CaptureSessionHandler()
         {
             surfaces = new ArrayList<>();
-            Display display = ((WindowManager)AppSettingsManager.APPSETTINGSMANAGER.context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+            Display display = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
             displaySize = new Point();
             display.getRealSize(displaySize);
         }
@@ -678,7 +678,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             if (video)
             {
                 matrix.setRectToRect(bufferRect, viewRect, Matrix.ScaleToFit.FILL);
-                if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+                if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
                     matrix.preRotate(orientationWithHack, centerX, centerY);
                 else
                     matrix.preRotate(orientation, centerX, centerY);
@@ -686,7 +686,7 @@ public class BaseCameraHolderApi2 extends AbstractCameraHolder
             else
             {
                 matrix.setRectToRect(viewRect, viewRect, Matrix.ScaleToFit.FILL);
-                if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+                if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
                     matrix.postRotate(orientationWithHack, centerX, centerY);
                 else
                     matrix.postRotate(orientation, centerX, centerY);

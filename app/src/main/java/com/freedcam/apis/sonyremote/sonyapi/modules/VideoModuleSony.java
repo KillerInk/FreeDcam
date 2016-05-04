@@ -1,9 +1,12 @@
 package com.freedcam.apis.sonyremote.sonyapi.modules;
 
+import android.content.Context;
+
 import com.freedcam.apis.sonyremote.sonyapi.CameraHolderSony;
 import com.freedcam.apis.i_camera.modules.AbstractModule;
 import com.freedcam.apis.i_camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.i_camera.modules.ModuleEventHandler;
+import com.freedcam.utils.AppSettingsManager;
 
 /**
  * Created by troop on 08.06.2015.
@@ -13,8 +16,8 @@ public class VideoModuleSony extends AbstractModule implements I_CameraStatusCha
     private static String TAG = VideoModuleSony.class.getSimpleName();
     private CameraHolderSony cameraHolder;
 
-    public VideoModuleSony(CameraHolderSony cameraHandler, ModuleEventHandler eventHandler) {
-        super(cameraHandler, eventHandler);
+    public VideoModuleSony(CameraHolderSony cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
+        super(cameraHandler, eventHandler, context,appSettingsManager);
         this.name = AbstractModuleHandler.MODULE_VIDEO;
         this.cameraHolder = cameraHandler;
 

@@ -36,9 +36,9 @@ public class MenuItemTimer extends MenuItem
     }
 
     @Override
-    public void SetStuff(I_Activity i_activity, String settingvalue) {
-        super.SetStuff(i_activity, settingvalue);
-        onValueChanged(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_TIMER));
+    public void SetStuff(I_Activity i_activity, String settingvalue,AppSettingsManager appSettingsManager) {
+        super.SetStuff(i_activity, settingvalue,appSettingsManager);
+        //onValueChanged(appSettingsManager.getString(AppSettingsManager.SETTING_TIMER));
     }
 
     @Override
@@ -50,7 +50,7 @@ public class MenuItemTimer extends MenuItem
     @Override
     public void SetValue(String value)
     {
-        AppSettingsManager.APPSETTINGSMANAGER.setString(AppSettingsManager.SETTING_TIMER, value);
+        appSettingsManager.setString(AppSettingsManager.SETTING_TIMER, value);
         onValueChanged(value);
     }
 }

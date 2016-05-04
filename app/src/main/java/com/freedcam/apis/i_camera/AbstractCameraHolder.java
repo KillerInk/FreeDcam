@@ -9,6 +9,7 @@ import com.freedcam.apis.i_camera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.i_camera.interfaces.I_CameraHolder;
 import com.freedcam.apis.i_camera.modules.I_Callbacks;
 import com.freedcam.apis.i_camera.parameters.AbstractParameterHandler;
+import com.freedcam.utils.AppSettingsManager;
 
 import java.util.HashMap;
 
@@ -26,6 +27,7 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     public SurfaceHolder surfaceHolder;
     protected I_CameraChangedListner cameraChangedListner;
     protected Handler UIHandler;
+    protected AppSettingsManager appSettingsManager;
 
     protected CameraStates currentState = CameraStates.closed;
     public enum CameraStates
@@ -38,10 +40,10 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     }
 
 
-    protected AbstractCameraHolder(I_CameraChangedListner cameraChangedListner, Handler UIHandler)
+    protected AbstractCameraHolder(I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager appSettingsManager)
     {
         this.cameraChangedListner = cameraChangedListner;
-
+        this.appSettingsManager = appSettingsManager;
         this.UIHandler = UIHandler;
     }
 

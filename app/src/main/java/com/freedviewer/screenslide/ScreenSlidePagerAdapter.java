@@ -27,14 +27,16 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     private final String TAG = ScreenSlidePagerAdapter.class.getSimpleName();
     private String FilePathToLoad = "";
     private GridViewFragment.FormatTypes filestoshow = GridViewFragment.FormatTypes.all;
+    private AppSettingsManager appSettingsManager;
 
-    public ScreenSlidePagerAdapter(FragmentManager fm, ViewPager mPager, ScreenSlideFragment.FragmentClickClistner fragmentclickListner, GridViewFragment.FormatTypes filestoshow)
+    public ScreenSlidePagerAdapter(FragmentManager fm, ViewPager mPager, ScreenSlideFragment.FragmentClickClistner fragmentclickListner, GridViewFragment.FormatTypes filestoshow,AppSettingsManager appSettingsManager)
     {
         super(fm);
         files = new ArrayList<>();
         this.mPager = mPager;
         this.fragmentclickListner = fragmentclickListner;
         this.filestoshow = filestoshow;
+        this.appSettingsManager = appSettingsManager;
     }
 
     public void SetFileToLoadPath(String Filetoload)
@@ -145,7 +147,7 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
             files = null;
             return;
         }
-        FileHolder.readFilesFromFolder(folder, images, filestoshow,AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal());
+        FileHolder.readFilesFromFolder(folder, images, filestoshow,appSettingsManager.GetWriteExternal());
         files = images;
         Logger.d(TAG, "readFiles sucess, FilesCount" + files.size());
         this.notifyDataSetChanged();

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
 /**
@@ -19,8 +20,11 @@ public abstract class AbstractCameraFragment extends Fragment
     protected AbstractCameraUiWrapper cameraUiWrapper;
     protected View view;
     protected CamerUiWrapperRdy onrdy;
-    public AbstractCameraFragment()
+    protected AppSettingsManager appSettingsManager;
+
+    public void SetAppSettingsManager(AppSettingsManager appSettingsManager)
     {
+        this.appSettingsManager = appSettingsManager;
     }
 
     @Override

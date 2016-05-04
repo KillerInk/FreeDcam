@@ -65,16 +65,13 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
         sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_HORIZONT).equals("Off") || AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_HORIZONT).equals(""))
-            view.setVisibility(View.GONE);
-        else
-            startSensorListing();
+
         return view;
     }
 
     @Override
     public void onValueChanged(String val) {
-        if(AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_HORIZONT).equals("On"))
+        if(appSettingsManager.getString(AppSettingsManager.SETTING_HORIZONT).equals("On"))
         {
             startSensorListing();
             view.setVisibility(View.VISIBLE);
@@ -114,7 +111,7 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
     }
     private void startSensorListing()
     {
-        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_HORIZONT).equals("On")) {
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_HORIZONT).equals("On")) {
             sensorManager.registerListener(msl, accelerometer, 1000000, sensorHandler);
             sensorManager.registerListener(msl, magnetometer, 1000000, sensorHandler);
         }
@@ -134,7 +131,10 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
     @Override
     public void onResume(){
         super.onResume();
-        startSensorListing();
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_HORIZONT).equals("Off") || appSettingsManager.getString(AppSettingsManager.SETTING_HORIZONT).equals(""))
+            view.setVisibility(View.GONE);
+        else
+            startSensorListing();
     }
 
     private class MySensorListener implements SensorEventListener {

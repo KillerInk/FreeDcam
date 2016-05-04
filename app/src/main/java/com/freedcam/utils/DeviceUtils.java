@@ -11,7 +11,6 @@ import com.troop.freedcam.R;
  */
 public class DeviceUtils
 {
-    private static Context contex;
     private static Devices currentdevice;
 
     public static Devices DEVICE()
@@ -34,29 +33,16 @@ public class DeviceUtils
         return false;
     }
 
-    public static void SETCONTEXT(Context context)
+    public static void CheckAndSetDevice(Context context)
     {
-        contex = context;
-        currentdevice = getDevice();
+        currentdevice = getDevice(context);
     }
 
     public static void DESTROY()
     {
-        contex = null;
         currentdevice = null;
     }
 
-    public static void RELEASE()
-    {
-        if (contex != null)
-            contex =null;
-
-    }
-
-    public static boolean HAS_CONTEXT()
-    {
-        return contex != null;
-    }
 
     final public static Devices[] AlcatelIdol3_Moto_MSM8982_8994 = {Devices.Moto_MSM8982_8994, Devices.Alcatel_Idol3 };
     final public static Devices[] MOTOX = {Devices.Moto_MSM8982_8994, Devices.Moto_MSM8974 };
@@ -88,119 +74,119 @@ public class DeviceUtils
                     Devices.ZTEADV234,
             };
 
-    private static Devices getDevice()
+    private static Devices getDevice(Context context)
     {
-        if (isAlcatel_Idol3())
+        if (isAlcatel_Idol3(context))
             return Devices.Alcatel_Idol3;
-        if (isAlcatelIdol3small())
+        if (isAlcatelIdol3small(context))
             return Devices.Alcatel_Idol3_small;
-        else if (isAsus_Zenfon2())
+        else if (isAsus_Zenfon2(context))
             return Devices.Asus_Zenfon2;
-        else if (isGioneE7())
+        else if (isGioneE7(context))
             return Devices.GioneE7;
-        else if (isEvo3d())
+        else if (isEvo3d(context))
             return Devices.Htc_Evo3d;
-        else if (isHTC_M8())
+        else if (isHTC_M8(context))
             return Devices.Htc_M8;
-        else if (isHTC_M9())
+        else if (isHTC_M9(context))
             return Devices.Htc_M9;
-        else if (isHtc_One_SV())
+        else if (isHtc_One_SV(context))
             return Devices.Htc_One_Sv;
-        else if (isHtc_One_XL())
+        else if (isHtc_One_XL(context))
             return Devices.Htc_One_Xl;
-        else if (isI_Mobile_I_StyleQ6())
+        else if (isI_Mobile_I_StyleQ6(context))
             return Devices.I_Mobile_I_StyleQ6;
-        else if (isLenovoK910())
+        else if (isLenovoK910(context))
             return Devices.LenovoK910;
-        else if (isLenovoK920())
+        else if (isLenovoK920(context))
             return Devices.LenovoK920;
-        else if (isLenovoK4NOTE())
+        else if (isLenovoK4NOTE(context))
             return Devices.Lenovo_K4Note_MTK;
-        else if (isG2())
+        else if (isG2(context))
             return Devices.LG_G2;
-        else if (isLG_G3())
+        else if (isLG_G3(context))
             return Devices.LG_G3;
-        else if (isG4())
+        else if (isG4(context))
             return Devices.LG_G4;
-        else if (isMeizuMX4())
+        else if (isMeizuMX4(context))
             return Devices.MeizuMX4_MTK;
-        else if (isMeizuMX5())
+        else if (isMeizuMX5(context))
             return Devices.MeizuMX5_MTK;
-        else if (isMoto_MSM8974())
+        else if (isMoto_MSM8974(context))
             return Devices.Moto_MSM8974;
-        else if (isMoto_MSM8982_8994())
+        else if (isMoto_MSM8982_8994(context))
             return Devices.Moto_MSM8982_8994;
-        else if (isNexus4())
+        else if (isNexus4(context))
             return Devices.Nexus4;
-        else if (isOnePlusOne())
+        else if (isOnePlusOne(context))
             return Devices.OnePlusOne;
-        else if (isOnePlusTwo())
+        else if (isOnePlusTwo(context))
             return Devices.OnePlusTwo;
-        else if (isRedmiNote())
+        else if (isRedmiNote(context))
             return Devices.Xiaomi_RedmiNote;
-        else if (isRedmiNote2())
+        else if (isRedmiNote2(context))
             return Devices.Xiaomi_RedmiNote2_MTK;
-        else if (isRetro())
+        else if (isRetro(context))
             return Devices.Retro_MTK;
-        else if (isSamsung_S6_edge())
+        else if (isSamsung_S6_edge(context))
             return Devices.Samsung_S6_edge;
-        else if (isSamsung_S6_edge_plus())
+        else if (isSamsung_S6_edge_plus(context))
             return Devices.Samsung_S6_edge_plus;
-        else if (isSonyADV())
+        else if (isSonyADV(context))
             return Devices.SonyADV;
-        else if (isSonyM5_MTK())
+        else if (isSonyM5_MTK(context))
             return Devices.SonyM5_MTK;
-        else if(isSonyM4_QC())
+        else if(isSonyM4_QC(context))
             return Devices.SonyM4_QC;
-        else if(isSonyC5_MTK())
+        else if(isSonyC5_MTK(context))
             return Devices.SonyC5_MTK;
-        else if (isXperiaL())
+        else if (isXperiaL(context))
             return Devices.Sony_XperiaL;
-        else if (isTHL5000())
+        else if (isTHL5000(context))
             return Devices.THL5000_MTK;
-        else if (isVivo_Xplay3s())
+        else if (isVivo_Xplay3s(context))
             return Devices.Vivo_Xplay3s;
-        else if (isXiaomiMI3W())
+        else if (isXiaomiMI3W(context))
             return Devices.XiaomiMI3W;
-        else if (isXiaomiMI4W())
+        else if (isXiaomiMI4W(context))
             return Devices.XiaomiMI4W;
-        else if(isXiaomiMI4C())
+        else if(isXiaomiMI4C(context))
             return Devices.XiaomiMI4C;
-        else if(isXiaomiMI5())
+        else if(isXiaomiMI5(context))
             return Devices.XiaomiMI5;
-        else if (isXiaomiMI_Note_Pro())
+        else if (isXiaomiMI_Note_Pro(context))
             return Devices.XiaomiMI_Note_Pro;
-        else if (isXiaomiMI_Note3_Pro())
+        else if (isXiaomiMI_Note3_Pro(context))
             return Devices.XiaomiMI_Note3_Pro;
-        else if(isXiaomi_Redmi_Note3())
+        else if(isXiaomi_Redmi_Note3(context))
             return Devices.Xiaomi_Redmi_Note3;
-        else if (isYureka())
+        else if (isYureka(context))
             return Devices.Yu_Yureka;
-        else if (isZTEADV())
+        else if (isZTEADV(context))
             return Devices.ZTE_ADV;
-        else if (isZTEADVIMX214())
+        else if (isZTEADVIMX214(context))
             return Devices.ZTEADVIMX214;
-        else if (isZTEADV234())
+        else if (isZTEADV234(context))
             return Devices.ZTEADV234;
-        else if(isHTCA9_QC())
+        else if(isHTCA9_QC(context))
             return Devices.HTC_OneA9;
-        else if(isLenovo_K50())
+        else if(isLenovo_K50(context))
             return Devices.Lenovo_K50_MTK;
-        else if(isForwardArt())
+        else if(isForwardArt(context))
             return Devices.ForwardArt_MTK;
-        else if(isHuawei_P8_lite())
+        else if(isHuawei_P8_lite(context))
             return Devices.p8lite;
-        else if(isHuawei_P8())
+        else if(isHuawei_P8(context))
             return Devices.p8;
-        else if(isHuawei_Honor_6())
+        else if(isHuawei_Honor_6(context))
             return Devices.honor6;
-        else if(is985N())
+        else if(is985N(context))
             return Devices.Alcatel_985n;
-        else if(isJiayu_S3())
+        else if(isJiayu_S3(context))
             return Devices.Jiayu_S3;
-        else if(isAquaris_E5())
+        else if(isAquaris_E5(context))
             return Devices.Aquaris_E5;
-        else if(isLenovoVibeP1())
+        else if(isLenovoVibeP1(context))
             return Devices.Lenovo_VibeP1;
         else
             return Devices.UNKNOWN;
@@ -383,240 +369,235 @@ public class DeviceUtils
         return IS_DEVICE_ONEOF(camera1NO_RAW_STREAM);
     }
 
-    private static boolean isMoto_MSM8974()
+    private static boolean isMoto_MSM8974(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.isX2k14));
     }
 
-    private static boolean isMoto_MSM8982_8994()
+    private static boolean isMoto_MSM8982_8994(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.isX_Style_Pure_Play));
     }
 
-    private static boolean isG4()
+    private static boolean isG4(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.g4));
     }
 
-    private static boolean isLG_G3()
+    private static boolean isLG_G3(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.g3));
     }
 
-    private static boolean isG2()
+    private static boolean isG2(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.g2));
     }
 
-    private static boolean isEvo3d()
+    private static boolean isEvo3d(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.evo3d));
     }
 
-    private static boolean isAlcatelIdol3small()
+    private static boolean isAlcatelIdol3small(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.Alcatel_Idol_3_small));
     }
 
-    private static boolean isAquaris_E5()
+    private static boolean isAquaris_E5(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.AQ_E5));
     }
 
-    private static boolean isHuawei_P8_lite()
+    private static boolean isHuawei_P8_lite(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.p8Lite));
     }
 
-    private static boolean isHuawei_P8()
+    private static boolean isHuawei_P8(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.p8));
     }
 
-    private static boolean isHuawei_Honor_6()
+    private static boolean isHuawei_Honor_6(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.Honor6));
     }
 
-    private static boolean isHTC_M8()
+    private static boolean isHTC_M8(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.htc_m8));
     }
 
-    private static boolean isHTC_M9()
+    private static boolean isHTC_M9(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.htc_m9));
     }
 
-    private static boolean isHtc_One_SV()
+    private static boolean isHtc_One_SV(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.Htc_One_SV));
     }
 
-    private static boolean isHtc_One_XL() { return Build.MODEL.toLowerCase().contains("one xl");}
+    private static boolean isHtc_One_XL(Context contex) { return Build.MODEL.toLowerCase().contains("one xl");}
 
-    private static boolean isZTEADV()
+    private static boolean isZTEADV(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.zteadv));
     }
 
-    private static boolean isZTEADVIMX214()
+    private static boolean isZTEADVIMX214(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.zteadvIMX214));
     }
 
-    private static boolean isZTEADV234()
+    private static boolean isZTEADV234(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.zteadvIMX234));
     }
 
-    private static boolean hasIMX135()
+    private static boolean hasIMX135(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.hasImx135));
     }
 
-    private static boolean hasIMX214()
+    private static boolean hasIMX214(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.hasImx214));
     }
 
-    private static boolean isSonyADV()
+    private static boolean isSonyADV(Context contex)
     {
         return containsDevice(contex.getResources().getStringArray(R.array.sony_adv));
     }
 
-    public static boolean isLenovoK910()
+    public static boolean isLenovoK910(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.LenovoK910));
     }
-    public static boolean isLenovoK920()
+    public static boolean isLenovoK920(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.LenovoK920));
     }
 
-    public static boolean isLenovoK4NOTE()
+    public static boolean isLenovoK4NOTE(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.Lenovo_K4Note));
     }
 
-    public static boolean isLenovoVibeP1()
+    public static boolean isLenovoVibeP1(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.Lenovo_VibeP1));
     }
 
-    public static boolean isSonyM5_MTK()
+    public static boolean isSonyM5_MTK(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.SonyM5));
     }
-    public static boolean isSonyC5_MTK()
+    public static boolean isSonyC5_MTK(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.SonyC5));
     }
 
-    public static boolean isSonyM4_QC()
+    public static boolean isSonyM4_QC(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.SonyM4));
     }
 
-    public static boolean isHTCA9_QC()
+    public static boolean isHTCA9_QC(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.OneA9));
     }
 
-    public static boolean isRetro()
+    public static boolean isRetro(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.Retro));
     }
 
-    public static boolean isJiayu_S3()
+    public static boolean isJiayu_S3(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.Jiayu_S3));
     }
 
 
-    public static  boolean isXperiaL()
+    public static  boolean isXperiaL(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.Sony_XperiaL));
     }
 
-    public static boolean isYureka()
+    public static boolean isYureka(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.YuYureka));
 
     }
 
-    private static boolean isNexus4() {return isDevice(contex.getResources().getStringArray(R.array.Nex4));}
+    private static boolean isNexus4(Context contex) {return isDevice(contex.getResources().getStringArray(R.array.Nex4));}
 
-    private static boolean isGioneE7() {return isDevice(contex.getResources().getStringArray(R.array.GioneE7));}
+    private static boolean isGioneE7(Context contex) {return isDevice(contex.getResources().getStringArray(R.array.GioneE7));}
 
-    private static boolean isOnePlusOne(){ return isDevice(contex.getResources().getStringArray(R.array.OnePlusOne));}
+    private static boolean isOnePlusOne(Context contex){ return isDevice(contex.getResources().getStringArray(R.array.OnePlusOne));}
 
-    private static boolean isOnePlusTwo(){ return isDevice(contex.getResources().getStringArray(R.array.OnePlusTwo));}
+    private static boolean isOnePlusTwo(Context contex){ return isDevice(contex.getResources().getStringArray(R.array.OnePlusTwo));}
 
-    private static boolean isRedmiNote() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_RedmiNote));}
-    private static boolean isRedmiNote2() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_RedmiNote2));}
+    private static boolean isRedmiNote(Context contex) { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_RedmiNote));}
+    private static boolean isRedmiNote2(Context contex) { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_RedmiNote2));}
 
-    private static boolean isXiaomiMI3W() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi3));}
-    private static boolean isXiaomiMI4W() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi4));}
-    private static boolean isXiaomiMI4C()
+    private static boolean isXiaomiMI3W(Context contex) { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi3));}
+    private static boolean isXiaomiMI4W(Context contex) { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi4));}
+    private static boolean isXiaomiMI4C(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi4C));
     }
-    private static boolean isXiaomiMI5()
+    private static boolean isXiaomiMI5(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_MI5));
     }
 
-    private static boolean isXiaomiMI_Note_Pro() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi_Note_Pro));}
+    private static boolean isXiaomiMI_Note_Pro(Context contex) { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi_Note_Pro));}
 
-    private static boolean isXiaomiMI_Note3_Pro() { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi_Note3_Pro));}
-    private static boolean isXiaomi_Redmi_Note3(){ return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_RedmiNote3));}
+    private static boolean isXiaomiMI_Note3_Pro(Context contex) { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi_Note3_Pro));}
+    private static boolean isXiaomi_Redmi_Note3(Context contex){ return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_RedmiNote3));}
 
-    private static boolean isAlcatel_Idol3() { return isDevice(contex.getResources().getStringArray(R.array.Alcatel_Idol_3));}
+    private static boolean isAlcatel_Idol3(Context contex) { return isDevice(contex.getResources().getStringArray(R.array.Alcatel_Idol_3));}
 
-    private static boolean isVivo_Xplay3s() { return isDevice(contex.getResources().getStringArray(R.array.Vivo_Xplay3s));}
+    private static boolean isVivo_Xplay3s(Context contex) { return isDevice(contex.getResources().getStringArray(R.array.Vivo_Xplay3s));}
 
-    private static boolean isSamsung_S6_edge_plus() { return isDevice(contex.getResources().getStringArray(R.array.Samsung_S6_edge_plus));}
-    private static boolean isSamsung_S6_edge() { return isDevice(contex.getResources().getStringArray(R.array.Samsung_S6_edge));}
+    private static boolean isSamsung_S6_edge_plus(Context contex) { return isDevice(contex.getResources().getStringArray(R.array.Samsung_S6_edge_plus));}
+    private static boolean isSamsung_S6_edge(Context contex) { return isDevice(contex.getResources().getStringArray(R.array.Samsung_S6_edge));}
 
     ///MTK DEVICES
 
-    static String MTK = "P6Life,thl 5000,Philips W8555,MX4";
-    public static boolean isMediaTekDevice()
-    {
-        return isForwardArt() || isMeizuMX4() || isTHL5000() || isI_Mobile_I_StyleQ6() || isMeizuMX5() || isSonyM5_MTK()|| isRedmiNote2() || isRetro();
-    }
 
-    private static boolean isI_Mobile_I_StyleQ6() { return isDevice(contex.getResources().getStringArray(R.array.I_Mobile_I_StyleQ6));}
+    private static boolean isI_Mobile_I_StyleQ6(Context contex) { return isDevice(contex.getResources().getStringArray(R.array.I_Mobile_I_StyleQ6));}
 
-    private static boolean isMeizuMX4()
+    private static boolean isMeizuMX4(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.meizu_mx4));
     }
 
-    private static boolean is985N()
+    private static boolean is985N(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.Alcatel_985N));
     }
 
-    private static boolean isMeizuMX5()
+    private static boolean isMeizuMX5(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.meizu_mx5));
     }
-    private static boolean isTHL5000()
+    private static boolean isTHL5000(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.thl5000));
     }
 
-    private static boolean isLenovo_K50()
+    private static boolean isLenovo_K50(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.K50));
     }
-    private static boolean isForwardArt()
+    private static boolean isForwardArt(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.Forward_Art));
     }
-    private static boolean isAsus_Zenfon2()
+    private static boolean isAsus_Zenfon2(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.Asus_Zenfon2));
     }

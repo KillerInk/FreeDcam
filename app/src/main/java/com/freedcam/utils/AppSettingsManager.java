@@ -6,19 +6,31 @@ import android.content.pm.PackageManager;
 
 import com.freedcam.apis.i_camera.modules.AbstractModuleHandler;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * Created by troop on 19.08.2014.
  */
 public class AppSettingsManager
 {
-    final private static String TAG = AppSettingsManager.class.getSimpleName();
-    SharedPreferences appSettings;
-    public Context context;
+    final private String TAG = AppSettingsManager.class.getSimpleName();
+    final String appsettingspath = StringUtils.GetFreeDcamConfigFolder+"setting.txt";
+    /*SharedPreferences appSettings;
+    public Context context;*/
     private int currentcamera = 0;
-    String camApiString = API_1;
+    private String camApiString = API_1;
 
-    public static AppSettingsManager APPSETTINGSMANAGER;
 
     final public static String SETTING_CURRENTCAMERA = "currentcamera";
     final public static String SETTING_ANTIBANDINGMODE = "antibandingmode";
@@ -139,142 +151,225 @@ public class AppSettingsManager
 
     final public static String SETTING_BASE_FOLDER = "base_folder";
 
-    public AppSettingsManager(SharedPreferences appSettings, Context context)
+    private HashMap<String,String> appsettingsList = new HashMap<>();
+
+    public AppSettingsManager()
     {
-        this.appSettings = appSettings;
-        try {
-            String appver = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
-            if (!appSettings.getString(APPVERSION, "").equals(appver))
-            {
-                appSettings.edit().clear().commit();
-                appSettings.edit().putString(APPVERSION, appver).commit();
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            Logger.exception(e);
-        }
-        this.context = context;
-        APPSETTINGSMANAGER = this;
+        loadAppSettings();
     }
 
     public void setCamApi(String api)
     {
         camApiString = api;
-        appSettings.edit().putString(SETTING_SONYAPI, api).apply();
+        appsettingsList.put(SETTING_SONYAPI,api);
     }
 
     public String getCamApi()
     {
-        camApiString = appSettings.getString(SETTING_SONYAPI, API_1);
+        camApiString = appsettingsList.get(SETTING_SONYAPI);
         return camApiString;
     }
 
     public void setshowHelpOverlay(boolean value)
     {
-        appSettings.edit().putBoolean("showhelpoverlay", value).apply();
+        setBoolean("showhelpoverlay",value);
     }
 
     public boolean getShowHelpOverlay()
     {
-        return appSettings.getBoolean("showhelpoverlay", true);
+        return getBoolean("showhelpoverlay", true);
     }
 
     public void SetBaseFolder(String uri)
     {
-        appSettings.edit().putString(AppSettingsManager.SETTING_BASE_FOLDER, uri).apply();
+        appsettingsList.put(SETTING_BASE_FOLDER,uri);
     }
 
     public String GetBaseFolder() {
-        return appSettings.getString(AppSettingsManager.SETTING_BASE_FOLDER, "");
+        return getString(SETTING_BASE_FOLDER,"");
     }
 
     public void SetTheme(String theme)
     {
-        appSettings.edit().putString(AppSettingsManager.SETTING_Theme, theme).apply();
+        appsettingsList.put(SETTING_Theme,theme);
     }
 
     public String GetTheme()
     {
-        return appSettings.getString(AppSettingsManager.SETTING_Theme, "Classic");
+        String t = appsettingsList.get(SETTING_Theme);
+        if (t == null)
+            t = "Sample";
+        return t;
     }
 
 
     public void SetCurrentCamera(int currentcamera)
     {
         this.currentcamera = currentcamera;
-        appSettings.edit().putInt(SETTING_CURRENTCAMERA, currentcamera).apply();
+        appsettingsList.put(SETTING_CURRENTCAMERA, currentcamera+"");
     }
 
     public int GetCurrentCamera()
     {
-        currentcamera = appSettings.getInt(SETTING_CURRENTCAMERA, 0);
-        return currentcamera;
+        final String cam = appsettingsList.get(SETTING_CURRENTCAMERA);
+        if (cam == null || cam.equals(""))
+            return 0;
+        return Integer.parseInt(cam);
     }
 
     public void SetCurrentModule(String modulename)
     {
-        String newstring;
-        if (API_SONY.equals(camApiString))
-            newstring = SETTING_CURRENTMODULE + API_SONY;
-        else if(API_1.equals(camApiString))
-            newstring = SETTING_CURRENTMODULE;
-        else
-            newstring = SETTING_CURRENTMODULE + API_2;
-        appSettings.edit().putString(newstring, modulename).apply();
+        appsettingsList.put(getSettingString(SETTING_CURRENTMODULE), modulename);
     }
 
     public String GetCurrentModule()
     {
-        String newstring;
-        if (API_SONY.equals(camApiString))
-            newstring = SETTING_CURRENTMODULE + API_SONY;
-        else if(API_1.equals(camApiString))
-            newstring = SETTING_CURRENTMODULE;
-        else
-            newstring = SETTING_CURRENTMODULE + API_2;
-        return appSettings.getString(newstring, AbstractModuleHandler.MODULE_PICTURE);
+        final String mod = appsettingsList.get(getSettingString(SETTING_CURRENTMODULE));
+        if (mod != null && !mod.equals(""))
+            return mod;
+        return AbstractModuleHandler.MODULE_PICTURE;
     }
 
-    public String getString(String valueToGet)
+    private String getSettingString(String settingsName)
     {
-        String newstring;
+        final StringBuilder newstring = new StringBuilder();
         if (API_SONY.equals(camApiString))
-            newstring = valueToGet + API_SONY;
+            newstring.append(settingsName).append(API_SONY);
         else if(API_1.equals(camApiString))
-            newstring = valueToGet + currentcamera;
+            newstring.append(settingsName).append(currentcamera);
         else
-            newstring = valueToGet + currentcamera + API_2;
-        return appSettings.getString(newstring, "");
+            newstring.append(settingsName).append(currentcamera).append(API_2);
+        return newstring.toString();
     }
 
-    public void setString(String settingsName, String Value)
-    {
-        String newstring;
-        if (API_SONY.equals(camApiString))
-            newstring = settingsName + API_SONY;
-        else if(API_1.equals(camApiString))
-            newstring = settingsName + currentcamera;
-        else
-            newstring = settingsName + currentcamera + API_2;
-        appSettings.edit().putString(newstring, Value).apply();
-    }
+
 
     public boolean GetWriteExternal()
     {
-        return appSettings.getBoolean(AppSettingsManager.SETTING_EXTERNALSD, false);
+        return getBoolean(AppSettingsManager.SETTING_EXTERNALSD, false);
     }
 
     public void SetWriteExternal(boolean write)
     {
-        appSettings.edit().putBoolean(AppSettingsManager.SETTING_EXTERNALSD, write).apply();
+        setBoolean(SETTING_EXTERNALSD,write);
+
     }
 
     public void SetCamera2FullSupported(String value)
     {
-        appSettings.edit().putString(AppSettingsManager.CAMERA2FULLSUPPORTED, value).apply();
+        appsettingsList.put(CAMERA2FULLSUPPORTED, value);
     }
 
     public String IsCamera2FullSupported()
     {
-        return appSettings.getString(AppSettingsManager.CAMERA2FULLSUPPORTED, "");
+        String t = appsettingsList.get(AppSettingsManager.CAMERA2FULLSUPPORTED);
+        if (t != null)
+            return t;
+        return "";
+    }
+
+    private void loadAppSettings()
+    {
+        File appsettings = new File(appsettingspath);
+        if (appsettings.exists())
+        {
+            BufferedReader br = null;
+
+            try {
+                br = new BufferedReader(new FileReader(appsettings));
+
+
+            String line;
+            int count = 0;
+            while ((line = br.readLine()) != null)
+            {
+                String[]split = line.split("=");
+                appsettingsList.put(split[0],split[1]);
+            }
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            finally {
+                if (br != null) {
+                    try {
+                        br.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
+    public void SaveAppSettings()
+    {
+        File mprof = new File(appsettingspath);
+
+        if(!mprof.exists()) {
+            try {
+                mprof.createNewFile();
+            } catch (IOException e) {
+                Logger.exception(e);
+            }
+        }
+
+        BufferedWriter br = null;
+        try
+        {
+            br = new BufferedWriter(new FileWriter(mprof));
+
+            for (Map.Entry<String,String> entry : appsettingsList.entrySet()) {
+                br.write(entry.getKey() + "=" + entry.getValue()+"\n");
+            }
+        } catch (IOException e)
+        {
+            Logger.exception(e);
+        }
+        finally
+        {
+            try {
+                br.close();
+            } catch (IOException e) {
+                Logger.exception(e);
+            }
+        }
+
+    }
+
+    public String getString(String valueToGet, String defaultValue)
+    {
+        String ret = appsettingsList.get(getSettingString(valueToGet));
+        if (ret!=null && !ret.equals(""))
+            return appsettingsList.get(ret);
+        else return defaultValue;
+    }
+
+    public String getString(String valueToGet)
+    {
+        String ret = appsettingsList.get(getSettingString(valueToGet));
+        if (ret!=null && !ret.equals(""))
+            return ret;
+        else return "";
+    }
+
+    public void setString(String settingsName, String Value)
+    {
+        appsettingsList.put(getSettingString(settingsName),Value);
+    }
+
+    public boolean getBoolean(String valueToGet, boolean defaultValue)
+    {
+        String tmp = getString(valueToGet,defaultValue+"");
+        if (tmp!=null && !tmp.equals(""))
+            return Boolean.parseBoolean(tmp);
+        else return defaultValue;
+    }
+
+    public void setBoolean(String valueToSet, boolean defaultValue)
+    {
+        setString(valueToSet,defaultValue+"");
     }
 }

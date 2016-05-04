@@ -1,6 +1,7 @@
 package com.freedcam.apis.camera2.camera2.parameters;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.os.Handler;
@@ -58,9 +59,9 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
     private BaseCameraHolderApi2 cameraHolder;
 
-    public ParameterHandlerApi2(CameraUiWrapperApi2 cameraHolder, Handler uiHandler)
+    public ParameterHandlerApi2(CameraUiWrapperApi2 cameraHolder, Handler uiHandler, Context context,AppSettingsManager appSettingsManager)
     {
-        super(cameraHolder.cameraHolder, uiHandler);
+        super(cameraHolder.cameraHolder, uiHandler,context,appSettingsManager);
         this.wrapper = cameraHolder;
         this.cameraHolder = (BaseCameraHolderApi2) cameraHolder.cameraHolder;
 
@@ -74,7 +75,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         {
             Logger.d(TAG, keys.get(i).getName());
         }
-        Module = new ModuleParameters(uiHandler, wrapper);
+        Module = new ModuleParameters(uiHandler, wrapper,appSettingsManager);
         FlashMode = new FlashModeApi2(uiHandler,this.cameraHolder);
         SceneMode = new SceneModeApi2(uiHandler,this.cameraHolder);
         ColorMode = new ColorModeApi2(uiHandler,this.cameraHolder);
@@ -171,7 +172,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
     @Override
     public void SetPictureOrientation(int orientation)
     {
-        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
         {
             int or = orientation +180;
             if (or >360)

@@ -1,6 +1,9 @@
 package com.freedcam.apis.sonyremote.sonyapi.modules;
 
+import android.content.Context;
+
 import com.freedcam.apis.sonyremote.sonyapi.CameraHolderSony;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedcam.apis.i_camera.modules.AbstractModuleHandler;
 
@@ -12,9 +15,9 @@ public class ModuleHandlerSony extends AbstractModuleHandler implements CameraHo
     private CameraHolderSony cameraHolder;
     private final String TAG = ModuleHandlerSony.class.getSimpleName();
 
-    public ModuleHandlerSony(CameraHolderSony cameraHolder)
+    public ModuleHandlerSony(CameraHolderSony cameraHolder, Context context, AppSettingsManager appSettingsManager)
     {
-        super(cameraHolder);
+        super(cameraHolder,context,appSettingsManager);
         this.cameraHolder = cameraHolder;
         cameraHolder.cameraShotMode = this;
         initModules();
@@ -22,9 +25,9 @@ public class ModuleHandlerSony extends AbstractModuleHandler implements CameraHo
 
     protected void initModules()
     {
-        PictureModuleSony pic = new PictureModuleSony(cameraHolder, moduleEventHandler);
+        PictureModuleSony pic = new PictureModuleSony(cameraHolder, moduleEventHandler,context,appSettingsManager);
         moduleList.put(pic.ModuleName(), pic);
-        VideoModuleSony mov = new VideoModuleSony(cameraHolder, moduleEventHandler);
+        VideoModuleSony mov = new VideoModuleSony(cameraHolder, moduleEventHandler,context,appSettingsManager);
         moduleList.put(mov.ModuleName(), mov);
         //init the Modules DeviceDepending
         //splitting modules make the code foreach device cleaner

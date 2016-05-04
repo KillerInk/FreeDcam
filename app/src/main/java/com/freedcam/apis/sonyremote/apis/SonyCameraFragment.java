@@ -156,7 +156,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
 
     private void setupWrapper()
     {
-        this.cameraUiWrapper = new CameraUiWrapperSony(surfaceView);
+        this.cameraUiWrapper = new CameraUiWrapperSony(surfaceView,getContext(),appSettingsManager);
         cameraUiWrapper.SetCameraChangedListner(this);
         if (onrdy != null)
             onrdy.onCameraUiWrapperRdy(cameraUiWrapper);

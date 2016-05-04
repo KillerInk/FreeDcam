@@ -47,7 +47,7 @@ public class FocusManualParameter extends  BaseManualParameter
             this.value = "cur-focus-scale";
             this.min_value = "min-focus-pos-ratio";
         }
-        else if(DeviceUtils.isLenovoK920() || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
+        else if(DeviceUtils.IS(Devices.Devices.LenovoK920) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
         {
             this.isSupported = true;
             this.max_value = "max-focus-pos-index";

@@ -1,6 +1,7 @@
 package com.freedcam.apis.camera1.camera;
 
 
+import android.content.Context;
 import android.os.Build;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -42,31 +43,31 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         return AppSettingsManager.API_1;
     }
 
-    public CameraUiWrapper(SurfaceView preview,TextureViewRatio previewTexture)
+    public CameraUiWrapper(SurfaceView preview, TextureViewRatio previewTexture, Context context,AppSettingsManager appSettingsManager)
     {
-        super();
+        super(appSettingsManager);
 
         this.preview = (ExtendedSurfaceView)preview;
         //attache the callback to the Campreview
         preview.getHolder().addCallback(this);
 
         this.errorHandler = this;
-        this.cameraHolder = new BaseCameraHolder(this, uiHandler);
+        this.cameraHolder = new BaseCameraHolder(this, uiHandler,appSettingsManager);
         super.cameraHolder = cameraHolder;
         this.cameraHolder.errorHandler = errorHandler;
 
-        this.camParametersHandler = new CamParametersHandler(this, uiHandler);
+        this.camParametersHandler = new CamParametersHandler(this, uiHandler,context,appSettingsManager);
         this.cameraHolder.SetParameterHandler((CamParametersHandler)camParametersHandler);
         camParametersHandler.AddParametersLoadedListner(this);
         this.preview.ParametersHandler = camParametersHandler;
         //camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this.preview);
-        moduleHandler = new ModuleHandler(cameraHolder);
+        moduleHandler = new ModuleHandler(cameraHolder,context,appSettingsManager);
         moduleHandler.moduleEventHandler.addListner(this);
 
         Focus = new FocusHandler(this);
         this.cameraHolder.Focus = Focus;
         if (Build.VERSION.SDK_INT >= 18) {
-            previewHandler = new PreviewHandler(previewTexture, this, AppSettingsManager.APPSETTINGSMANAGER.context);
+            previewHandler = new PreviewHandler(previewTexture, this, context);
             SetCameraChangedListner(previewHandler);
         }
         else
@@ -77,7 +78,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
 
     @Override
     public void StartCamera() {
-        cameraHolder.OpenCamera(AppSettingsManager.APPSETTINGSMANAGER.GetCurrentCamera());
+        cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
         Logger.d(TAG, "opencamera");
     }
 

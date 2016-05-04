@@ -37,7 +37,7 @@ public class MenuItemHighFramerateVideo extends MenuItem
         if (parameter != null && parameter.IsSupported())
         {
             if (settingsname != null && !settingsname.equals(""))
-                AppSettingsManager.APPSETTINGSMANAGER.setString(settingsname, value);
+                appSettingsManager.setString(settingsname, value);
             if (modulesToShow.contains(moduleHandler.GetCurrentModuleName()))
                 parameter.SetValue(value, true);
             onValueChanged(value);

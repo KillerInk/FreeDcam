@@ -1,5 +1,6 @@
 package com.freedcam.apis.camera1.camera.modules;
 
+import android.content.Context;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
@@ -30,10 +31,12 @@ public abstract class AbstractVideoModule extends AbstractModule
     protected BaseCameraHolder baseCameraHolder;
     private static String TAG = AbstractVideoModule.class.getSimpleName();
     private ParcelFileDescriptor fileDescriptor;
+    private Context context;
 
-    public AbstractVideoModule(BaseCameraHolder cameraHandler, ModuleEventHandler eventHandler) {
-        super(cameraHandler, eventHandler);
+    public AbstractVideoModule(BaseCameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
+        super(cameraHandler, eventHandler,context,appSettingsManager);
         name  = ModuleHandler.MODULE_VIDEO;
+        this.context = context;
         this.baseCameraHolder = cameraHandler;
     }
 
@@ -93,11 +96,11 @@ public abstract class AbstractVideoModule extends AbstractModule
                 }
             });
 
-            mediaSavePath = StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), ".mp4");
+            mediaSavePath = StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), ".mp4");
 
             setRecorderOutPutFile(mediaSavePath);
 
-            if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_OrientationHack).equals("true"))
+            if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals("true"))
                 recorder.setOrientationHint(180);
             else
                 recorder.setOrientationHint(0);
@@ -169,7 +172,7 @@ public abstract class AbstractVideoModule extends AbstractModule
                 e1.printStackTrace();
             }
             final File file = new File(mediaSavePath);
-            MediaScannerManager.ScanMedia(AppSettingsManager.APPSETTINGSMANAGER.context.getApplicationContext(), file);
+            MediaScannerManager.ScanMedia(context, file);
             eventHandler.WorkFinished(file);
             eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
         }
@@ -179,15 +182,15 @@ public abstract class AbstractVideoModule extends AbstractModule
     protected void setRecorderOutPutFile(String s)
     {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT
-                || (!AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT))
+                || (!appSettingsManager.GetWriteExternal() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT))
             recorder.setOutputFile(s);
         else
         {
             File f = new File(s);
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(AppSettingsManager.APPSETTINGSMANAGER);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, context);
             DocumentFile wr = df.createFile("*/*", f.getName());
             try {
-                fileDescriptor = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+                fileDescriptor = context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
                 recorder.setOutputFile(fileDescriptor.getFileDescriptor());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

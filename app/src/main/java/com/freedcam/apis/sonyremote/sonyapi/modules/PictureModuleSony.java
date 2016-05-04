@@ -1,5 +1,6 @@
 package com.freedcam.apis.sonyremote.sonyapi.modules;
 
+import android.content.Context;
 import android.support.v4.provider.DocumentFile;
 
 import com.freedcam.apis.sonyremote.sonyapi.CameraHolderSony;
@@ -28,12 +29,9 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
 {
     private static String TAG = PictureModuleSony.class.getSimpleName();
     private CameraHolderSony cameraHolder;
-    private PictureModuleSony() {
-        super();
-    }
 
-    public PictureModuleSony(CameraHolderSony cameraHandler, ModuleEventHandler eventHandler) {
-        super(cameraHandler, eventHandler);
+    public PictureModuleSony(CameraHolderSony cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
+        super(cameraHandler, eventHandler,context,appSettingsManager);
         name = AbstractModuleHandler.MODULE_PICTURE;
         this.cameraHolder = cameraHandler;
 
@@ -104,7 +102,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     @Override
     public void onPictureTaken(URL url)
     {
-        File file = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), ".jpg"));
+        File file = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), ".jpg"));
         try {
             file.createNewFile();
         } catch (IOException e) {
@@ -114,13 +112,13 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
         OutputStream output = null;
         try {
             inputStream = new BufferedInputStream(url.openStream());
-            if (!StringUtils.IS_L_OR_BIG() ||StringUtils.WRITE_NOT_EX_AND_L_ORBigger())
+            if (!StringUtils.IS_L_OR_BIG() ||StringUtils.WRITE_NOT_EX_AND_L_ORBigger(appSettingsManager))
                 output = new FileOutputStream(file);
             else
             {
-                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(AppSettingsManager.APPSETTINGSMANAGER);
+                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,context);
                 DocumentFile wr = df.createFile("image/jpeg", file.getName());
-                output = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openOutputStream(wr.getUri());
+                output = context.getContentResolver().openOutputStream(wr.getUri());
             }
             int bufferSize = 1024;
             byte[] buffer = new byte[bufferSize];
@@ -149,7 +147,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
             }
         }
 
-        MediaScannerManager.ScanMedia(AppSettingsManager.APPSETTINGSMANAGER.context.getApplicationContext(), file);
+        MediaScannerManager.ScanMedia(context.getApplicationContext(), file);
         eventHandler.WorkFinished(file);
     }
 

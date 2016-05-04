@@ -41,6 +41,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     private final int stringColorActive = Color.parseColor("#FF000000");
     private boolean imageusing = false;
     private int pos = 0;
+    private AppSettingsManager appSettingsManager;
 
     private final BlockingQueue<Integer> valueQueue = new ArrayBlockingQueue<>(3);
 
@@ -150,9 +151,9 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
         }*/
     }
 
-    public void SetStuff(String settingsName)
+    public void SetStuff(String settingsName, AppSettingsManager appSettingsManager)
     {
-
+        this.appSettingsManager = appSettingsManager;
         this.settingsname = settingsName;
     }
 
@@ -321,7 +322,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
             return;
         parameter.SetValue(runValue);
         if (!(parameter instanceof BaseManualParameterSony) && settingsname != null) {
-            AppSettingsManager.APPSETTINGSMANAGER.setString(settingsname, runValue + "");
+            appSettingsManager.setString(settingsname, runValue + "");
         }
         currentlysettingsparameter = false;
     }

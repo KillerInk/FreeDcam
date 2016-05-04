@@ -49,7 +49,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
 
     public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity)
     {
-        super.SetStuff(i_activity);
+        super.SetStuff(i_activity,appSettingsManager);
     }
 
     @Override
@@ -90,9 +90,8 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
 
     private void loadLeftFragment()
     {
-        if (leftMenuFragment == null)
-            leftMenuFragment = new LeftMenuFragment();
-        leftMenuFragment.SetStuff(i_activity);
+        leftMenuFragment = new LeftMenuFragment();
+        leftMenuFragment.SetStuff(i_activity,appSettingsManager);
         leftMenuFragment.SetCameraUIWrapper(wrapper);
         leftMenuFragment.SetMenuItemClickListner(this);
         try {
@@ -104,9 +103,8 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         {}
     }
     private void loadRightFragment() {
-        if ( rightMenuFragment == null)
-            rightMenuFragment = new RightMenuFragment();
-        rightMenuFragment.SetStuff(i_activity);
+        rightMenuFragment = new RightMenuFragment();
+        rightMenuFragment.SetStuff(i_activity,appSettingsManager);
         rightMenuFragment.SetCameraUIWrapper(wrapper);
         rightMenuFragment.SetMenuItemClickListner(this);
         try {

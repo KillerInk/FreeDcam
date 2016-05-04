@@ -46,7 +46,7 @@ public class FocusManualClassHandler
         {
             return new BaseFocusManual(parameters, cur_focus_scale,max_focus_pos_ratio, min_focus_pos_ratio,focusMode_manual,parametersHandler,1,2);
         }
-        else if(DeviceUtils.isLenovoK920())
+        else if(DeviceUtils.IS(DeviceUtils.Devices.LenovoK920))
         {
             return new BaseFocusManual(parameters, manual_focus_position,max_focus_pos_index, min_focus_pos_index,focusMode_manual,parametersHandler,1,1);
         }

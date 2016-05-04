@@ -9,6 +9,7 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.TextureView;
 
+import com.freedcam.apis.apis.AbstractCameraFragment;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.i_camera.AbstractCameraHolder;
 import com.freedcam.apis.i_camera.FocusRect;
@@ -17,6 +18,7 @@ import com.freedcam.apis.i_camera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.i_camera.interfaces.I_error;
 import com.freedcam.apis.i_camera.modules.CameraFocusEvent;
 import com.freedcam.apis.i_camera.modules.I_Callbacks;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 import com.lge.hardware.LGCamera;
@@ -69,9 +71,9 @@ public class BaseCameraHolder extends AbstractCameraHolder
         LegacyHAL
     }
 
-    public BaseCameraHolder(I_CameraChangedListner cameraChangedListner, Handler UIHandler)
+    public BaseCameraHolder(I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager appSettingsManager)
     {
-        super(cameraChangedListner, UIHandler);
+        super(cameraChangedListner, UIHandler,appSettingsManager);
         //hasSamsungFramework();
         hasLGFramework();
         if (DeviceFrameWork == Frameworks.Normal)

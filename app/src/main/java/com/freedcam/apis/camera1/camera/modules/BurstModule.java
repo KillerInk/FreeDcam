@@ -1,5 +1,6 @@
 package com.freedcam.apis.camera1.camera.modules;
 
+import android.content.Context;
 import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
@@ -9,6 +10,7 @@ import com.freedcam.apis.camera1.camera.BaseCameraHolder;
 import com.freedcam.apis.i_camera.modules.AbstractModule;
 import com.freedcam.apis.i_camera.modules.I_Callbacks;
 import com.freedcam.apis.i_camera.modules.ModuleEventHandler;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
 
@@ -30,9 +32,9 @@ public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCa
     String currentBurstFolder;
     int count;
     BaseCameraHolder baseCameraHolder;
-    public BurstModule(BaseCameraHolder cameraHandler, ModuleEventHandler eventHandler)
+    public BurstModule(BaseCameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager)
     {
-        super(cameraHandler, eventHandler);
+        super(cameraHandler, eventHandler,context,appSettingsManager);
         this.name = ModuleHandler.MODULE_BURST;
         this.baseCameraHolder = (BaseCameraHolder)cameraHandler;
     }

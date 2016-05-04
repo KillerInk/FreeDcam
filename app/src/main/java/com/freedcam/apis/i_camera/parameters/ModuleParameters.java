@@ -16,9 +16,11 @@ import java.util.List;
 public class ModuleParameters extends AbstractModeParameter {
 
     private AbstractCameraUiWrapper cameraUiWrapper;
-    public ModuleParameters(Handler uiHandler, AbstractCameraUiWrapper cameraUiWrapper) {
+    private AppSettingsManager appSettingsManager;
+    public ModuleParameters(Handler uiHandler, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager) {
         super(uiHandler);
         this.cameraUiWrapper = cameraUiWrapper;
+        this.appSettingsManager = appSettingsManager;
     }
 
     @Override
@@ -41,7 +43,7 @@ public class ModuleParameters extends AbstractModeParameter {
     public void SetValue(String valueToSet, boolean setToCamera) {
         for (HashMap.Entry<String, AbstractModule> module : cameraUiWrapper.moduleHandler.moduleList.entrySet()) {
             if (valueToSet.equals(module.getValue().LongName())) {
-                AppSettingsManager.APPSETTINGSMANAGER.SetCurrentModule(module.getValue().ModuleName());
+                appSettingsManager.SetCurrentModule(module.getValue().ModuleName());
                 cameraUiWrapper.moduleHandler.SetModule(module.getValue().ModuleName());
                 break;
             }

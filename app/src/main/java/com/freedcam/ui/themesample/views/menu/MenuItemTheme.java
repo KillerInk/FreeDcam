@@ -40,17 +40,17 @@ public class MenuItemTheme extends MenuItem {
         else
             this.setVisibility(VISIBLE);
         this.parameter = parameter;
-        String s = AppSettingsManager.APPSETTINGSMANAGER.GetTheme();
-        if (s.equals("")) {
-            s = "Classic";
-            AppSettingsManager.APPSETTINGSMANAGER.setString(settingsname, s);
+        String s = appSettingsManager.GetTheme();
+        if (s == null || s.equals("")) {
+            s = "Sample";
+            appSettingsManager.setString(settingsname, s);
         }
         valueText.setText(s);
     }
 
     @Override
     public void SetValue(String value) {
-        AppSettingsManager.APPSETTINGSMANAGER.SetTheme(value);
+        appSettingsManager.SetTheme(value);
         i_activity.SetTheme(value);
         onValueChanged(value);
     }

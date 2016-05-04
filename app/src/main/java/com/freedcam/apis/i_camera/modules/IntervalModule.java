@@ -1,6 +1,9 @@
 package com.freedcam.apis.i_camera.modules;
 
+import android.content.Context;
+
 import com.freedcam.apis.i_camera.AbstractCameraHolder;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
 /**
@@ -11,11 +14,11 @@ public class IntervalModule extends AbstractModule implements AbstractModuleHand
     private AbstractModule picModule;
     private IntervalHandler intervalHandler;
 
-    public IntervalModule(AbstractCameraHolder cameraHandler, ModuleEventHandler eventHandler, AbstractModule picModule) {
-        super(cameraHandler, eventHandler);
+    public IntervalModule(AbstractCameraHolder cameraHandler, ModuleEventHandler eventHandler, AbstractModule picModule, Context context, AppSettingsManager appSettingsManager) {
+        super(cameraHandler, eventHandler,context,appSettingsManager);
         this.picModule = picModule;
 
-        intervalHandler = new IntervalHandler(picModule);
+        intervalHandler = new IntervalHandler(picModule,appSettingsManager);
         this.name = AbstractModuleHandler.MODULE_INTERVAL;
     }
 

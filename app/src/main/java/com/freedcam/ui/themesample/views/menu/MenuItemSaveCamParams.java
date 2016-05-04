@@ -14,6 +14,7 @@ import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.i_camera.parameters.AbstractModeParameter;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.themesample.subfragments.Interfaces;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 
@@ -79,7 +80,7 @@ public class MenuItemSaveCamParams extends MenuItem
     }
 
     @Override
-    public void SetStuff(I_Activity i_activity, String settingvalue) {
+    public void SetStuff(I_Activity i_activity, String settingvalue, AppSettingsManager appSettingsManager) {
 
     }
 

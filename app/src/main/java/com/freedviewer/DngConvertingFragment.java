@@ -50,12 +50,14 @@ public class DngConvertingFragment extends Fragment
     private DngSupportedDevices.DngProfile dngprofile;
     private Handler handler;
     private Button closeButton;
+    private AppSettingsManager appSettingsManager;
 
     public static final String EXTRA_FILESTOCONVERT = "extra_files_to_convert";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DeviceUtils.SETCONTEXT(getContext());
+        DeviceUtils.CheckAndSetDevice(getContext());
+        appSettingsManager = new AppSettingsManager();
         handler = new Handler();
         view = inflater.inflate(R.layout.dngconvertingfragment, container, false);
         this.editTextwidth = (EditText)view.findViewById(R.id.editText_width);
@@ -246,12 +248,12 @@ public class DngConvertingFragment extends Fragment
             dng.SetBayerData(data, out);
         else
         {
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(AppSettingsManager.APPSETTINGSMANAGER);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, getContext());
             DocumentFile wr = df.createFile("image/dng", file.getName().replace(StringUtils.FileEnding.JPG, StringUtils.FileEnding.DNG));
             ParcelFileDescriptor pfd = null;
             try {
 
-                pfd = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+                pfd = getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
             } catch (FileNotFoundException | IllegalArgumentException e) {
                 Logger.exception(e);
             }

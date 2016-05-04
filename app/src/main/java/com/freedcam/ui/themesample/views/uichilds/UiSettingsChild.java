@@ -34,6 +34,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     protected Interfaces.I_MenuItemClick onItemClick;
     private final boolean logging =false;
     private boolean fromleft = false;
+    protected   AppSettingsManager appSettingsManager;
 
     public UiSettingsChild(Context context) {
         super(context);
@@ -41,10 +42,11 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         init(context);
     }
 
-    public void SetStuff(I_Activity i_activity, String settingvalue)
+    public void SetStuff(I_Activity i_activity, String settingvalue, AppSettingsManager appSettingsManager)
     {
         this.i_activity = i_activity;
         this.settingsname = settingvalue;
+        this.appSettingsManager = appSettingsManager;
     }
 
     public UiSettingsChild(Context context, AttributeSet attrs)
@@ -181,7 +183,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         if (parameter != null && parameter.IsSupported())
         {
             if (settingsname != null && !settingsname.equals(""))
-                AppSettingsManager.APPSETTINGSMANAGER.setString(settingsname, value);
+                appSettingsManager.setString(settingsname, value);
             try {
                 parameter.SetValue(value, true);
             }

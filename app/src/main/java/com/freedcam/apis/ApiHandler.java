@@ -1,5 +1,6 @@
 package com.freedcam.apis;
 
+import android.content.Context;
 import android.os.Build;
 
 import com.freedcam.apis.apis.AbstractCameraFragment;
@@ -18,29 +19,33 @@ import com.freedcam.utils.FreeDPool;
 public class ApiHandler
 {
     private static String TAG = ApiHandler.class.getSimpleName();
+    private Context context;
+    private AppSettingsManager appSettingsManager;
 
     ApiEvent event;
 
-    public ApiHandler(ApiEvent event) {
+    public ApiHandler(Context context, ApiEvent event,AppSettingsManager appSettingsManager) {
         this.event = event;
+        this.context = context;
+        this.appSettingsManager = appSettingsManager;
     }
 
     public void CheckApi()
     {
-        if (AppSettingsManager.APPSETTINGSMANAGER.IsCamera2FullSupported().equals(""))
+        if (appSettingsManager.IsCamera2FullSupported().equals(""))
         {
             if (Build.VERSION.SDK_INT >= 21)
             {
                 FreeDPool.Execute(new Runnable() {
                     @Override
                     public void run() {
-                        boolean legacy = BaseCameraHolderApi2.IsLegacy(AppSettingsManager.APPSETTINGSMANAGER);
+                        boolean legacy = BaseCameraHolderApi2.IsLegacy(appSettingsManager,context);
                         if (legacy) {
-                            AppSettingsManager.APPSETTINGSMANAGER.SetCamera2FullSupported("false");
-                            AppSettingsManager.APPSETTINGSMANAGER.setCamApi(AppSettingsManager.API_1);
+                            appSettingsManager.SetCamera2FullSupported("false");
+                            appSettingsManager.setCamApi(AppSettingsManager.API_1);
                         } else {
-                            AppSettingsManager.APPSETTINGSMANAGER.SetCamera2FullSupported("true");
-                            AppSettingsManager.APPSETTINGSMANAGER.setCamApi(AppSettingsManager.API_2);
+                            appSettingsManager.SetCamera2FullSupported("true");
+                            appSettingsManager.setCamApi(AppSettingsManager.API_2);
                         }
                         event.apiDetectionDone();
                     }
@@ -48,7 +53,7 @@ public class ApiHandler
 
             }
             else {
-                AppSettingsManager.APPSETTINGSMANAGER.SetCamera2FullSupported("false");
+                appSettingsManager.SetCamera2FullSupported("false");
                 event.apiDetectionDone();
             }
         }
@@ -60,12 +65,12 @@ public class ApiHandler
     public AbstractCameraFragment getCameraFragment()
     {
         AbstractCameraFragment ret;
-        if (AppSettingsManager.APPSETTINGSMANAGER.getCamApi().equals(AppSettingsManager.API_SONY))
+        if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_SONY))
         {
             ret = new SonyCameraFragment();
 
         }
-        else if (AppSettingsManager.APPSETTINGSMANAGER.getCamApi().equals(AppSettingsManager.API_2))
+        else if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_2))
         {
             ret = new Camera2Fragment();
         }
@@ -73,6 +78,7 @@ public class ApiHandler
         {
             ret = new Camera1Fragment();
         }
+        ret.SetAppSettingsManager(appSettingsManager);
         return ret;
     }
 

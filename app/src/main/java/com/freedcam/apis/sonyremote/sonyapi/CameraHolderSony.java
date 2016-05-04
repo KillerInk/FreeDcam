@@ -16,6 +16,7 @@ import com.freedcam.apis.sonyremote.sonyapi.sonystuff.SimpleCameraEventObserver;
 import com.freedcam.apis.sonyremote.sonyapi.sonystuff.SimpleRemoteApi;
 import com.freedcam.apis.sonyremote.sonyapi.sonystuff.SimpleStreamSurfaceView;
 import com.freedcam.apis.sonyremote.sonyapi.sonystuff.SonyUtils;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedcam.apis.i_camera.AbstractCameraHolder;
 import com.freedcam.apis.i_camera.interfaces.I_CameraChangedListner;
@@ -337,9 +338,9 @@ public class CameraHolderSony extends AbstractCameraHolder
 
 
 
-    public CameraHolderSony(Context context, SimpleStreamSurfaceView simpleStreamSurfaceView, I_CameraChangedListner cameraChangedListner,Handler UIHandler)
+    public CameraHolderSony(Context context, SimpleStreamSurfaceView simpleStreamSurfaceView, I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager appSettingsManager)
     {
-        super(cameraChangedListner, UIHandler);
+        super(cameraChangedListner, UIHandler,appSettingsManager);
         this.context = context;
         this.mLiveviewSurface = simpleStreamSurfaceView;
     }

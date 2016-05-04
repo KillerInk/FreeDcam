@@ -1,6 +1,7 @@
 package com.freedcam.apis.i_camera;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.view.SurfaceView;
 
 import com.freedcam.apis.i_camera.interfaces.I_CameraChangedListner;
@@ -31,13 +32,15 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     private List<I_CameraChangedListner> cameraChangedListners;
 
     protected Handler uiHandler;
+    protected AppSettingsManager appSettingsManager;
 
 
     public abstract String CameraApiName();
 
-    protected AbstractCameraUiWrapper()
+    protected AbstractCameraUiWrapper(AppSettingsManager appSettingsManager)
     {   cameraChangedListners = new CopyOnWriteArrayList<>();
-        uiHandler = new Handler(AppSettingsManager.APPSETTINGSMANAGER.context.getMainLooper());
+        uiHandler = new Handler(Looper.getMainLooper());
+        this.appSettingsManager = appSettingsManager;
     }
 
 

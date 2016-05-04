@@ -54,7 +54,7 @@ public class MenuItemSDSave extends MenuItem implements I_Activity.I_OnActivityR
                 lastval = value;
                 i_activity.ChooseSDCard(this);
             } else {
-                AppSettingsManager.APPSETTINGSMANAGER.SetWriteExternal(false);
+                appSettingsManager.SetWriteExternal(false);
                 onValueChanged(value);
             }
         }
@@ -79,14 +79,14 @@ public class MenuItemSDSave extends MenuItem implements I_Activity.I_OnActivityR
                 Logger.exception(ex);
             }
             if (canWriteExternal) {
-                AppSettingsManager.APPSETTINGSMANAGER.SetWriteExternal(true);
+                appSettingsManager.SetWriteExternal(true);
                 onValueChanged(SDModeParameter.external);
             } else {
                 Toast.makeText(context, "Cant write to External SD, pls insert SD or apply SD fix", Toast.LENGTH_LONG).show();
                 onValueChanged(SDModeParameter.internal);
             }
         } else {
-            AppSettingsManager.APPSETTINGSMANAGER.SetWriteExternal(false);
+            appSettingsManager.SetWriteExternal(false);
             onValueChanged(value);
         }
     }
@@ -103,30 +103,14 @@ public class MenuItemSDSave extends MenuItem implements I_Activity.I_OnActivityR
         DocumentFile f = DocumentFile.fromTreeUri(context, uri);
         if (f.canWrite() && lastval.equals(SDModeParameter.external))
         {
-            AppSettingsManager.APPSETTINGSMANAGER.SetWriteExternal(true);
+            appSettingsManager.SetWriteExternal(true);
             onValueChanged(SDModeParameter.external);
         }
         else
         {
-            AppSettingsManager.APPSETTINGSMANAGER.SetWriteExternal(false);
+            appSettingsManager.SetWriteExternal(false);
             onValueChanged(SDModeParameter.internal);
         }
         lastval = "";
-        /*ParcelFileDescriptor pfd = null;
-        try {
-            pfd = context.getContentResolver().openFileDescriptor(freeuri, "w");
-
-            FileOutputStream fileOutputStream =
-                    new FileOutputStream(pfd.getFileDescriptor());
-            fileOutputStream.write(("CRACK IT UP!!!! " +
-                    System.currentTimeMillis() + "\n").getBytes());
-            // Let the document provider know you're done by closing the stream.
-            fileOutputStream.close();
-            pfd.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 }

@@ -35,18 +35,18 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
         return AppSettingsManager.API_2;
     }
 
-    public CameraUiWrapperApi2(Context context, AutoFitTextureView preview)
+    public CameraUiWrapperApi2(Context context, AutoFitTextureView preview, AppSettingsManager appSettingsManager)
     {
-        super();
+        super(appSettingsManager);
         this.preview = preview;
         this.preview.setSurfaceTextureListener(this);
         this.context = context;
         this.errorHandler = this;
-        this.cameraHolder = new BaseCameraHolderApi2(context, this, uiHandler);
+        this.cameraHolder = new BaseCameraHolderApi2(context, this, uiHandler,appSettingsManager);
         super.cameraHolder = this.cameraHolder;
-        this.camParametersHandler = new ParameterHandlerApi2(this, uiHandler);
+        this.camParametersHandler = new ParameterHandlerApi2(this, uiHandler,context,appSettingsManager);
         this.cameraHolder.SetParameterHandler(camParametersHandler);
-        this.moduleHandler = new ModuleHandlerApi2(cameraHolder);
+        this.moduleHandler = new ModuleHandlerApi2(cameraHolder,context,appSettingsManager);
         this.Focus = new FocusHandlerApi2(this);
         this.cameraHolder.Focus = Focus;
         Logger.d(TAG, "Constructor done");
@@ -54,7 +54,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
 
     @Override
     public void StartCamera() {
-        cameraHolder.OpenCamera(AppSettingsManager.APPSETTINGSMANAGER.GetCurrentCamera());
+        cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
         Logger.d(TAG, "opencamera");
     }
 
@@ -84,7 +84,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
 
         Logger.d(TAG, "Camera Opened and Preview Started");
         super.onCameraOpen(message);
-        moduleHandler.SetModule(AppSettingsManager.APPSETTINGSMANAGER.GetCurrentModule());
+        moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
     }
 
     @Override

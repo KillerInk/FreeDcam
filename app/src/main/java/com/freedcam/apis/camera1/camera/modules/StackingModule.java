@@ -1,5 +1,7 @@
 package com.freedcam.apis.camera1.camera.modules;
 
+import android.content.Context;
+
 import com.freedcam.apis.camera1.camera.BaseCameraHolder;
 import com.freedcam.apis.camera1.camera.modules.image_saver.I_WorkeDone;
 import com.freedcam.apis.camera1.camera.modules.image_saver.StackSaver;
@@ -22,8 +24,8 @@ public class StackingModule extends PictureModule implements I_WorkeDone {
 
     private StackSaver stackSaver;
 
-    public StackingModule(BaseCameraHolder cameraHandler, ModuleEventHandler eventHandler) {
-        super(cameraHandler, eventHandler);
+    public StackingModule(BaseCameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context,AppSettingsManager appSettingsManager) {
+        super(cameraHandler, eventHandler,context,appSettingsManager);
         name = ModuleHandler.MODULE_STACKING;
 
     }
@@ -100,7 +102,7 @@ public class StackingModule extends PictureModule implements I_WorkeDone {
     @Override
     public void LoadNeededParameters()
     {
-        stackSaver = new StackSaver(baseCameraHolder, StackingModule.this);
+        stackSaver = new StackSaver(baseCameraHolder, StackingModule.this,context,appSettingsManager);
     }
 
     @Override
@@ -119,7 +121,7 @@ public class StackingModule extends PictureModule implements I_WorkeDone {
         else {
             stopworking();
 
-            MediaScannerManager.ScanMedia(AppSettingsManager.APPSETTINGSMANAGER.context.getApplicationContext(), file);
+            MediaScannerManager.ScanMedia(context.getApplicationContext(), file);
             eventHandler.WorkFinished(file);
         }
     }

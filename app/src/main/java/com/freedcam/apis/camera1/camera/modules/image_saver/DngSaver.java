@@ -1,5 +1,6 @@
 package com.freedcam.apis.camera1.camera.modules.image_saver;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
@@ -35,9 +36,9 @@ public class DngSaver extends JpegSaver
   //  MetaDataExtractor meta;
 
     private final String TAG = DngSaver.class.getSimpleName();
-    public DngSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone)
+    public DngSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Context context,AppSettingsManager appSettingsManager)
     {
-        super(cameraHolder, i_workeDone);
+        super(cameraHolder, i_workeDone,context,appSettingsManager);
         dngConverter = RawToDng.GetInstance();
        // meta = new MetaDataExtractor();
 
@@ -77,7 +78,7 @@ public class DngSaver extends JpegSaver
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-                File f = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), fileEnding));
+                File f = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), fileEnding));
                 processData(data, f, true);
             }
         });
@@ -171,7 +172,7 @@ public class DngSaver extends JpegSaver
 
         Log.d("Raw File Size ", data.length + "");
         if (!StringUtils.IS_L_OR_BIG()
-                || StringUtils.WRITE_NOT_EX_AND_L_ORBigger()) {
+                || StringUtils.WRITE_NOT_EX_AND_L_ORBigger(appSettingsManager)) {
             checkFileExists(file);
             dngConverter.SetBayerData(data, file.getAbsolutePath());
             dngConverter.WriteDNG(DeviceUtils.DEVICE());
@@ -179,14 +180,14 @@ public class DngSaver extends JpegSaver
         }
         else {
 
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(AppSettingsManager.APPSETTINGSMANAGER);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,context);
             Logger.d(TAG,"Filepath: " +df.getUri().toString());
             DocumentFile wr = df.createFile("image/dng", file.getName().replace(".jpg", ".dng"));
             Logger.d(TAG,"Filepath: " +wr.getUri().toString());
             ParcelFileDescriptor pfd = null;
             try {
 
-                pfd = AppSettingsManager.APPSETTINGSMANAGER.context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+                pfd = context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
             } catch (FileNotFoundException | IllegalArgumentException e) {
                 Logger.exception(e);
             }

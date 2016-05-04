@@ -17,11 +17,13 @@ public class HardwareKeyHandler
     private final MainActivity activity;
     private AbstractCameraUiWrapper cameraUiWrapper;
     private final String TAG = HardwareKeyHandler.class.getSimpleName();
+    private AppSettingsManager appSettingsManager;
 
 
-    public HardwareKeyHandler(MainActivity activity)
+    public HardwareKeyHandler(MainActivity activity, AppSettingsManager appSettingsManager)
     {
         this.activity = activity;
+        this.appSettingsManager = appSettingsManager;
     }
 
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
@@ -35,11 +37,11 @@ public class HardwareKeyHandler
         boolean longKeyPress = false;
         int appSettingsKeyShutter = 0;
 
-        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLP))
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLP))
             appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_UP;
-        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLM))
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLM))
             appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_DOWN;
-        if (AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.Hook) || AppSettingsManager.APPSETTINGSMANAGER.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(""))
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.Hook) || appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(""))
             appSettingsKeyShutter = KeyEvent.KEYCODE_HEADSETHOOK;
 
         if(keyCode == KeyEvent.KEYCODE_3D_MODE ||keyCode == KeyEvent.KEYCODE_POWER || keyCode == appSettingsKeyShutter || keyCode == KeyEvent.KEYCODE_UNKNOWN)

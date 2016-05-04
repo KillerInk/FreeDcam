@@ -13,6 +13,7 @@ import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.I_swipe;
 import com.freedcam.ui.SwipeMenuListner;
 import com.freedcam.ui.themesample.views.uichilds.UiSettingsChild;
+import com.freedcam.utils.AppSettingsManager;
 import com.troop.freedcam.R;
 
 /**
@@ -94,8 +95,8 @@ public class MenuItem extends UiSettingsChild implements View.OnClickListener, I
             onItemClick.onMenuItemClick(this, false);
     }
 
-    public void SetStuff(I_Activity i_activity, String settingvalue) {
-        super.SetStuff(i_activity, settingvalue);
+    public void SetStuff(I_Activity i_activity, String settingvalue, AppSettingsManager appSettingsManager) {
+        super.SetStuff(i_activity, settingvalue,appSettingsManager);
 
     }
 

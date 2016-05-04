@@ -24,7 +24,7 @@ import java.io.File;
  */
 public abstract class AbstractFragmentActivity extends FragmentActivity implements I_Activity
 {
-
+    protected AppSettingsManager appSettingsManager;
     private final int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -34,12 +34,13 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        appSettingsManager = new AppSettingsManager();
         if (!FreeDPool.IsInit())
             FreeDPool.INIT(getMuliplier());
         Context ctx = getApplicationContext();
         BitmapHelper.INIT(ctx);
-        new AppSettingsManager(PreferenceManager.getDefaultSharedPreferences(ctx), ctx);
-        DeviceUtils.SETCONTEXT(ctx);
+
+        DeviceUtils.CheckAndSetDevice(ctx);
         HIDENAVBAR();
     }
 
@@ -61,7 +62,7 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        AppSettingsManager.APPSETTINGSMANAGER = null;
+        appSettingsManager.SaveAppSettings();
         BitmapHelper.DESTROY();
         DeviceUtils.DESTROY();
         if (FreeDPool.IsInit())
@@ -161,7 +162,7 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
 
 
                 getContentResolver().takePersistableUriPermission(uri,takeFlags);
-                AppSettingsManager.APPSETTINGSMANAGER.SetBaseFolder(uri.toString());
+                appSettingsManager.SetBaseFolder(uri.toString());
                 if (resultCallback != null)
                 {
                     resultCallback.onActivityResultCallback(uri);

@@ -1,5 +1,6 @@
 package com.freedcam.apis.i_camera.parameters;
 
+import android.content.Context;
 import android.os.Handler;
 
 import com.freedcam.apis.i_camera.AbstractCameraHolder;
@@ -19,6 +20,8 @@ public abstract class AbstractParameterHandler
      */
     protected Handler uiHandler;
     private ArrayList<I_ParametersLoaded> parametersLoadedListner;
+    protected Context context;
+    protected AppSettingsManager appSettingsManager;
 
     public AbstractManualParameter ManualBrightness;
     public AbstractManualParameter ManualEdge;
@@ -143,20 +146,22 @@ public abstract class AbstractParameterHandler
 
 
 
-    public AbstractParameterHandler(AbstractCameraHolder cameraHolder, Handler uiHandler)
+    public AbstractParameterHandler(AbstractCameraHolder cameraHolder, Handler uiHandler, Context context, AppSettingsManager appSettingsManager)
     {
         this.cameraHolder = cameraHolder;
         this.uiHandler = uiHandler;
+        this.context = context;
+        this.appSettingsManager = appSettingsManager;
         parametersLoadedListner = new ArrayList<>();
         parametersLoadedListner.clear();
 
         GuideList = new GuideList(uiHandler);
         ThemeList = new ThemeList(uiHandler);
-        locationParameter = new LocationParameter(uiHandler,cameraHolder);
+        locationParameter = new LocationParameter(uiHandler,cameraHolder,context,appSettingsManager);
         IntervalDuration = new IntervalDurationParameter(uiHandler);
         IntervalShutterSleep = new IntervalShutterSleepParameter(uiHandler);
         Horizont = new Horizont(uiHandler);
-        SdSaveLocation = new SDModeParameter(uiHandler);
+        SdSaveLocation = new SDModeParameter(uiHandler,appSettingsManager);
 
     }
 
@@ -251,10 +256,10 @@ public abstract class AbstractParameterHandler
     {
         if (parameter != null && parameter.IsSupported() && settingsval != null && !settingsval.equals(""))
         {
-            if (AppSettingsManager.APPSETTINGSMANAGER.getString(settingsval).equals(""))
-                AppSettingsManager.APPSETTINGSMANAGER.setString(settingsval, parameter.GetValue());
+            if (appSettingsManager.getString(settingsval).equals(""))
+                appSettingsManager.setString(settingsval, parameter.GetValue());
             else
-                parameter.SetValue(AppSettingsManager.APPSETTINGSMANAGER.getString(settingsval), false);
+                parameter.SetValue(appSettingsManager.getString(settingsval), false);
         }
     }
 
@@ -262,10 +267,10 @@ public abstract class AbstractParameterHandler
     {
         if (parameter != null && parameter.IsSupported() && settingsval != null && !settingsval.equals(""))
         {
-            if (AppSettingsManager.APPSETTINGSMANAGER.getString(settingsval).equals(""))
-                AppSettingsManager.APPSETTINGSMANAGER.setString(settingsval, parameter.GetValue()+"");
+            if (appSettingsManager.getString(settingsval).equals(""))
+                appSettingsManager.setString(settingsval, parameter.GetValue()+"");
             else
-                parameter.SetValue(Integer.parseInt(AppSettingsManager.APPSETTINGSMANAGER.getString(settingsval)));
+                parameter.SetValue(Integer.parseInt(appSettingsManager.getString(settingsval)));
         }
     }
 

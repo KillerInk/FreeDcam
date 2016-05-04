@@ -1,5 +1,6 @@
 package com.freedcam.apis.sonyremote.sonyapi.parameters;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -22,6 +23,7 @@ import com.freedcam.apis.sonyremote.sonyapi.parameters.modes.WhiteBalanceModeSon
 import com.freedcam.apis.sonyremote.sonyapi.parameters.modes.ZoomSettingSony;
 import com.freedcam.apis.sonyremote.sonyapi.sonystuff.SimpleRemoteApi;
 import com.freedcam.apis.sonyremote.sonyapi.sonystuff.SimpleStreamSurfaceView;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.i_camera.parameters.AbstractParameterHandler;
@@ -46,9 +48,9 @@ public class ParameterHandlerSony extends AbstractParameterHandler
     private SimpleStreamSurfaceView surfaceView;
     private AbstractCameraUiWrapper wrapper;
 
-    public ParameterHandlerSony(AbstractCameraUiWrapper cameraHolder, Handler uiHandler, SimpleStreamSurfaceView surfaceView)
+    public ParameterHandlerSony(AbstractCameraUiWrapper cameraHolder, Handler uiHandler, SimpleStreamSurfaceView surfaceView, Context context, AppSettingsManager appSettingsManager)
     {
-        super(cameraHolder.cameraHolder, uiHandler);
+        super(cameraHolder.cameraHolder, uiHandler,context,appSettingsManager);
         this.cameraHolder = (CameraHolderSony)cameraHolder.cameraHolder;
         parametersChangedList  = new ArrayList<>();
         this.surfaceView = surfaceView;
@@ -80,7 +82,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
 
     private void createParameters()
     {
-        Module = new ModuleParameters(uiHandler, wrapper);
+        Module = new ModuleParameters(uiHandler, wrapper,appSettingsManager);
         PictureSize = new PictureSizeSony(uiHandler, "setStillSize", "getAvailableStillSize", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)PictureSize);
 

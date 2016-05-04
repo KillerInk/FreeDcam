@@ -136,7 +136,7 @@ public class BitmapHelper
         }
     }
 
-    public static boolean DeleteFile(FileHolder file, AppSettingsManager appSettingsManager) throws NullPointerException
+    public static boolean DeleteFile(FileHolder file, AppSettingsManager appSettingsManager,Context context) throws NullPointerException
     {
         boolean del = false;
         DeleteCache(file.getFile());
@@ -145,7 +145,7 @@ public class BitmapHelper
             del = file.getFile().delete();
         }
         if (!del && StringUtils.IS_L_OR_BIG())
-            del =FileUtils.delteDocumentFile(file.getFile(),appSettingsManager);
+            del =FileUtils.delteDocumentFile(file.getFile(),appSettingsManager,context);
         if (del)
         {
             if (files != null)

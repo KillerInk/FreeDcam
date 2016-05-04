@@ -309,9 +309,9 @@ public class StringUtils
     {
         return new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
     }
-    public static boolean WRITE_NOT_EX_AND_L_ORBigger()
+    public static boolean WRITE_NOT_EX_AND_L_ORBigger(AppSettingsManager appSettingsManager)
     {
-        return(!AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT);
+        return(!appSettingsManager.GetWriteExternal() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT);
     }
 
     public static boolean IS_L_OR_BIG()

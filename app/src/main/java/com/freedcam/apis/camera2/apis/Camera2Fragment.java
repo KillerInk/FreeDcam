@@ -30,7 +30,7 @@ public class Camera2Fragment extends AbstractCameraFragment
     @Override
     public void onResume() {
         super.onResume();
-        this.cameraUiWrapper = new CameraUiWrapperApi2(view.getContext(),textureView);
+        this.cameraUiWrapper = new CameraUiWrapperApi2(view.getContext(),textureView,appSettingsManager);
         if (onrdy != null)
             onrdy.onCameraUiWrapperRdy(cameraUiWrapper);
     }

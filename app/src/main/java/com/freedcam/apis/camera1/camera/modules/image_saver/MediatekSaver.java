@@ -1,5 +1,7 @@
 package com.freedcam.apis.camera1.camera.modules.image_saver;
 
+import android.content.Context;
+
 import com.freedcam.apis.camera1.camera.BaseCameraHolder;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
@@ -20,8 +22,8 @@ public class MediatekSaver extends JpegSaver {
     private File holdFile = null;
 
     private final String fileEnding = ".jpg";
-    public MediatekSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone) {
-        super(cameraHolder, i_workeDone);
+    public MediatekSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Context context, AppSettingsManager appSettingsManager) {
+        super(cameraHolder, i_workeDone,context, appSettingsManager);
     }
 
     private final String TAG = "MediatekIMG";
@@ -53,7 +55,7 @@ public class MediatekSaver extends JpegSaver {
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-                holdFile = new File(StringUtils.getFilePath(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), fileEnding));
+                holdFile = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), fileEnding));
                 Logger.d(TAG, "HolderFilePath:" + holdFile.getAbsolutePath());
                 if (ParameterHandler.PictureFormat.GetValue().equals("jpeg")) {
                     //savejpeg
@@ -106,7 +108,7 @@ public class MediatekSaver extends JpegSaver {
         File dng = new File(holdFile.getAbsolutePath().replace(StringUtils.FileEnding.JPG, StringUtils.FileEnding.DNG));
 
         Logger.d(TAG,"DNGfile:" + dng.getAbsolutePath());
-        DngSaver saver = new DngSaver(cameraHolder, iWorkeDone);
+        DngSaver saver = new DngSaver(cameraHolder, iWorkeDone,context, appSettingsManager);
         saver.processData(data, dng, false);
 
         data = null;
