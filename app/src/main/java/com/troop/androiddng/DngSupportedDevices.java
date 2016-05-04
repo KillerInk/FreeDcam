@@ -13,6 +13,7 @@ public class DngSupportedDevices
     private final static int Qcom = 1;
     private final static int Plain = 2;
     private final static int Mipi16 = 3;
+    public final static int Mipi12 = 4;
 
     public DngProfile getProfile(DeviceUtils.Devices device, int filesize)
     {

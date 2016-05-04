@@ -48,7 +48,9 @@ public class BaseCameraHolder extends AbstractCameraHolder
     private I_Callbacks.ShutterCallback shutterCallback;
     private Surface surfaceHolder;
 
-    //public boolean hasLGFrameWork = false;
+    public boolean isMotorolaExt = false;
+    public boolean isMotorolaExtMediaRecorder = false;
+
     public Frameworks DeviceFrameWork = Frameworks.Normal;
     public Location gpsLocation;
     public int Orientation;
@@ -63,7 +65,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
     {
         Normal,
         LG,
-        MTK
+        MTK,
+        LegacyHAL
     }
 
     public BaseCameraHolder(I_CameraChangedListner cameraChangedListner, Handler UIHandler)
@@ -71,6 +74,8 @@ public class BaseCameraHolder extends AbstractCameraHolder
         super(cameraChangedListner, UIHandler);
         //hasSamsungFramework();
         hasLGFramework();
+        if (DeviceFrameWork == Frameworks.Normal)
+            isLegacyHAL();
         if (DeviceFrameWork == Frameworks.Normal)
             isMTKDevice();
     }
@@ -115,6 +120,98 @@ public class BaseCameraHolder extends AbstractCameraHolder
 
     }
 
+    private void isMotoExt()
+    {
+        try {
+            Class c = Class.forName("com.motorola.android.camera.CameraMotExt");
+            Logger.d(TAG, "Has Moto Framework");
+            isMotorolaExt = true;
+
+        } catch (ExceptionInInitializerError e) {
+
+            isMotorolaExt = false;
+            Logger.d(TAG, "No Moto Framework");
+        }
+        catch (UnsatisfiedLinkError er)
+        {
+            isMotorolaExt = false;
+            Logger.d(TAG, "No Moto Framework");
+        }
+        catch (ClassNotFoundException e)
+        {
+            isMotorolaExt = false;
+            Logger.d(TAG, "No Moto Framework");
+        }
+        catch (Exception e) {
+
+            isMotorolaExt = false;
+            Logger.d(TAG, "No Moto Framework");
+        }
+        try {
+            Class c = Class.forName("com.motorola.android.media.MediaRecorderExt");
+            Logger.d(TAG, "Has Moto Framework");
+            isMotorolaExtMediaRecorder = true;
+
+        } catch (ExceptionInInitializerError e) {
+
+            isMotorolaExtMediaRecorder = false;
+            Logger.d(TAG, "No Moto Framework");
+        }
+        catch (UnsatisfiedLinkError er)
+        {
+            isMotorolaExtMediaRecorder = false;
+            Logger.d(TAG, "No Moto Framework");
+        }
+        catch (ClassNotFoundException e)
+        {
+            isMotorolaExtMediaRecorder = false;
+            Logger.d(TAG, "No Moto Framework");
+        }
+        catch (Exception e) {
+
+            isMotorolaExtMediaRecorder = false;
+            Logger.d(TAG, "No Moto Framework");
+        }
+
+    }
+
+    private void isLegacyHAL()
+    {
+        try {
+            Class camera = Class.forName("android.hardware.Camera");
+            Method[] meths = camera.getMethods();
+            Method app = null;
+            for (Method m : meths)
+            {
+                if (m.getName().equals("openLegacy"))
+                    app = m;
+            }
+            if (app != null) {
+                DeviceFrameWork = Frameworks.LegacyHAL;
+                Logger.d(TAG,"LegacyHAL found");
+            }
+        } catch (ClassNotFoundException e) {
+            Logger.e(TAG,e.getMessage());
+            DeviceFrameWork = Frameworks.Normal;
+            Logger.d(TAG, "LegacyHAL not found");
+        }
+        catch (NullPointerException ex)
+        {
+            Logger.e(TAG,ex.getMessage());
+            DeviceFrameWork = Frameworks.Normal;
+            Logger.d(TAG, "No LegacyHAL");
+        }
+        catch (UnsatisfiedLinkError er)
+        {
+            DeviceFrameWork = Frameworks.Normal;
+            Logger.d(TAG, "No LegacyHAL");
+        }
+        catch (ExceptionInInitializerError e) {
+
+            DeviceFrameWork = Frameworks.Normal;
+            Logger.d(TAG, "No LegacyHAL");
+        }
+    }
     private void isMTKDevice()
     {
         try {
@@ -178,6 +275,17 @@ public class BaseCameraHolder extends AbstractCameraHolder
             {
                 setMtkAppMode();
                 mCamera = Camera.open(camera);
+            }
+            else if(DeviceFrameWork == Frameworks.LegacyHAL)
+            {
+                mCamera = openWrapper(camera);
+
+                isMotoExt();
+                if(isMotorolaExt) {
+                    Camera.Parameters paras = mCamera.getParameters();
+                    paras.set("mot-app", "true");
+                }
+
             }
             else
             {
@@ -437,6 +545,27 @@ public class BaseCameraHolder extends AbstractCameraHolder
             Logger.exception(ex);
         }
 
+    }
+
+    private static Camera openWrapper(int n) {
+        Class[] arrclass = new Class[]{Integer.TYPE, Integer.TYPE};
+        try {
+            Method method = Class.forName("android.hardware.Camera").getDeclaredMethod("openLegacy", arrclass);
+            Object[] arrobject = new Object[]{n, 256};
+            return (Camera)method.invoke(null, arrobject);
+        }
+        catch (NoSuchMethodException e) {
+            Logger.e(TAG, e.getMessage());
+            return Camera.open(n);}
+        catch (ClassNotFoundException e) {
+            Logger.e(TAG, e.getMessage());
+            return Camera.open(n);}
+        catch (IllegalAccessException e) {
+            Logger.e(TAG, e.getMessage());
+            return Camera.open(n);}
+        catch (InvocationTargetException e) {
+            Logger.e(TAG, e.getMessage());
+            return Camera.open(n);}
     }
 
     private void setMtkAppMode()
