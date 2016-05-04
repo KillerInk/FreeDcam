@@ -41,7 +41,3 @@ https://github.com/LibRaw/LibRaw
 
 TouchImageview
 https://github.com/MikeOrtiz/TouchImageView
-
-
-join us at irc:
-irc://irc.euirc.net:6665/freedcam

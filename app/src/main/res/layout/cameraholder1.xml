@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <view
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        class="com.freedcam.apis.camera1.camera.ExtendedSurfaceView"
+        android:id="@+id/exSurface"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="false"
+        android:layout_centerHorizontal="true" />
+    <com.freedcam.apis.camera1.camera.TextureViewRatio
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textureView_preview"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

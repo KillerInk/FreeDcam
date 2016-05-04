@@ -1,0 +1,51 @@
+package com.freedcam.ui.themesample.views.uichilds;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.TextView;
+
+import com.freedcam.ui.themesample.subfragments.Interfaces;
+import com.troop.freedcam.R;
+
+/**
+ * Created by troop on 16.06.2015.
+ */
+public class SimpleValueChild extends FrameLayout implements View.OnClickListener
+{
+
+    private TextView textView;
+    private Interfaces.I_CloseNotice closeNotice;
+    public SimpleValueChild(Context context)
+    {
+        super(context);
+        init(context);
+    }
+
+    public SimpleValueChild(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context);
+    }
+
+    private void init(Context context)
+    {
+        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.simplevaluechild, this);
+        this.textView = (TextView)findViewById(R.id.simplevaluetext);
+        this.setOnClickListener(this);
+    }
+
+    public void SetString(String text, Interfaces.I_CloseNotice closeNotice)
+    {
+        textView.setText(text);
+        this.closeNotice = closeNotice;
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+        closeNotice.onClose(textView.getText().toString());
+    }
+}

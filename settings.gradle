@@ -1,1 +1,1 @@
-include ':app', ':androiddng', ':abstractcamera', ':sonyapi', ':camera1', ':camera2', ':guide', ':imageviewer', ':themesample', ':imageconverter', ':views', ':filelogger'
+include ':app'

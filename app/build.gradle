@@ -13,6 +13,42 @@ android {
     }
     lintOptions{checkReleaseBuilds false}
 
+    sourceSets
+            {
+                main {
+
+                    jni.srcDirs = []
+                    jniLibs.srcDir 'libs'
+
+                }
+
+
+                Properties properties = new Properties()
+                properties.load(project.rootProject.file('local.properties').newDataInputStream())
+                def ndkDir = properties.getProperty('ndk.dir')
+                task ndkBuild(type: Exec) {
+                    commandLine "$ndkDir/ndk-build.cmd", "--directory", "$projectDir/src/main/jni/", '-j', Runtime.runtime.availableProcessors(),
+                            "APP_PLATFORM=android-21",
+                            "APP_BUILD_SCRIPT=$projectDir/src/main/jni/Android.mk",
+                            "NDK_OUT=$buildDir/jni/obj",
+                            "NDK_APP_DST_DIR=$projectDir/libs/\$(TARGET_ARCH_ABI)"
+                }
+
+                task nativeLibsToJar(type: Jar, description: 'create a jar with native libs') {
+                    destinationDir file("$buildDir/jni/libs")
+                    baseName 'jni'
+                    from fileTree(dir: "$buildDir/jni/libs", include: '**/*.so')
+                    into 'lib/'
+                }
+
+                tasks.withType(JavaCompile) {
+                    compileTask -> compileTask.dependsOn nativeLibsToJar
+                }
+
+                nativeLibsToJar.dependsOn 'ndkBuild'
+
+            }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -25,14 +61,9 @@ android {
 
 dependencies {
     provided files('libs/extended_framework_hardware.jar')
-    compile project(':abstractcamera')
-    compile project(':androiddng')
-    compile project(':sonyapi')
-    compile project(':camera1')
-    compile project(':camera2')
-    compile project(':imageviewer')
-    compile project(':themesample')
-    compile project(':imageconverter')
-    compile project(':views')
-    compile project(':filelogger')
+    compile 'com.android.support:support-v4:23.3.0'
+    provided files('libs/com.lge.frameworks.jar')
+    compile files('libs/xmpcore-5.1.2.jar')
+    compile files('libs/metadata-extractor-2.7.0.jar')
+    provided files('libs/real3d.jar')
 }

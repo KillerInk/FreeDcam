@@ -41,7 +41,7 @@
         android:largeHeap="true">
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.freedcam.MainActivity"
             android:label="FreeDCam"
 
             android:icon="@drawable/launcher_freedcam"
@@ -63,7 +63,7 @@
         </activity>
 
         <activity
-            android:name=".ShareActivity"
+            android:name="com.freedcam.ShareActivity"
             android:label="FreeDCam"
             android:screenOrientation="landscape"
             android:icon="@drawable/launcher_freedcam"
@@ -77,7 +77,7 @@
         </activity>
 
         <activity
-            android:name="troop.com.imageviewer.GridViewActivity"
+            android:name="com.freedviewer.GridViewActivity"
             android:label="FreeDCam Viewer"
 
             android:icon="@drawable/launcher_imageviewer"
