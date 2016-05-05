@@ -5,8 +5,8 @@ import android.os.Handler;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
-import com.freedcam.apis.i_camera.interfaces.I_CameraHolder;
-import com.freedcam.apis.i_camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
+import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 
 
 import java.util.ArrayList;

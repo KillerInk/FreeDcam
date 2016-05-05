@@ -15,8 +15,8 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
-import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.i_camera.parameters.AbstractModeParameter;
+import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.utils.AppSettingsManager;
 import com.troop.freedcam.R;

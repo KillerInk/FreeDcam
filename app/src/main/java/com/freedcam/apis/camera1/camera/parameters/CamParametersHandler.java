@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.FocusHandler;
 import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_LGG4;
@@ -40,11 +40,11 @@ import com.freedcam.apis.camera1.camera.parameters.modes.VideoProfilesG3Paramete
 import com.freedcam.apis.camera1.camera.parameters.modes.VideoProfilesParameter;
 import com.freedcam.apis.camera1.camera.parameters.modes.VideoStabilizationParameter;
 import com.freedcam.apis.camera1.camera.parameters.modes.VirtualLensFilter;
-import com.freedcam.apis.i_camera.FocusRect;
-import com.freedcam.apis.i_camera.parameters.AbstractParameterHandler;
-import com.freedcam.apis.i_camera.parameters.LocationParameter;
-import com.freedcam.apis.i_camera.parameters.MatrixChooserParameter;
-import com.freedcam.apis.i_camera.parameters.ModuleParameters;
+import com.freedcam.apis.basecamera.camera.FocusRect;
+import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.basecamera.camera.parameters.modes.LocationParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.ModuleParameters;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
@@ -63,7 +63,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     private HashMap<String, String> cameraParameters;
     public HashMap<String, String> getParameters(){return cameraParameters;}
-    public BaseCameraHolder cameraHolder;
+    public CameraHolderApi1 cameraHolder;
     public BaseModeParameter DualMode;
     private CameraUiWrapper cameraUiWrapper;
 
@@ -102,7 +102,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     private void initParameters()
     {
-        if (cameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.LG)
+        if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.LG)
             cameraParameters.put("lge-camera","1");
         logParameters(cameraParameters);
 
@@ -271,7 +271,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            PreviewFPS = new PreviewFpsParameter(uiHandler, cameraParameters, "preview-frame-rate-values", (BaseCameraHolder)cameraHolder);
+            PreviewFPS = new PreviewFpsParameter(uiHandler, cameraParameters, "preview-frame-rate-values", (CameraHolderApi1)cameraHolder);
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -361,7 +361,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         /*try {
-            Histogram = new BaseModeParameter(uiHandler,cameraParameters,baseCameraHolder, "histogram", "histogram-values");
+            Histogram = new BaseModeParameter(uiHandler,cameraParameters,cameraHolderApi1, "histogram", "histogram-values");
         } catch (Exception e) {
             Logger.exception(e);
         }*/
@@ -393,7 +393,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         createVideoHDR();
 
         try {
-            if (cameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
+            if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
                 VideoProfilesG3 = new VideoProfilesG3Parameter(uiHandler,cameraParameters,cameraHolder, "", cameraUiWrapper);
             else
                 VideoProfiles = new VideoProfilesParameter(uiHandler,cameraParameters,cameraHolder, "", cameraUiWrapper);
@@ -500,7 +500,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         ParametersHasLoaded();
 
         try {
-            if (cameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)
+            if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.MTK)
                 Mediatek();
         } catch (Exception e) {
             Logger.exception(e);
@@ -786,7 +786,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
                 Runnable r = new Runnable() {
                     public void run() {
-                    //    ((BaseCameraHolder)cameraHolder).baseSetParamTest();
+                    //    ((CameraHolderApi1)cameraHolder).baseSetParamTest();
 
                        // cameraParameters.put("focus-areas", "(" + lF.left + "," + lF.top + "," + lF.right + "," + lF.bottom + ",1000)");
                        // cameraHolder.SetCameraParameters(cameraParameters);
@@ -812,7 +812,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     public boolean isMTK()
     {
-           return DeviceUtils.IS(DeviceUtils.Devices.Alcatel_985n) || cameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.MTK || DeviceUtils.IS(DeviceUtils.Devices.SonyC5_MTK);
+           return DeviceUtils.IS(DeviceUtils.Devices.Alcatel_985n) || cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.MTK || DeviceUtils.IS(DeviceUtils.Devices.SonyC5_MTK);
 
 
     }
@@ -891,7 +891,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try
         {
-            ((BaseCameraHolder)cameraHolder).SetOrientation(orientation);
+            ((CameraHolderApi1)cameraHolder).SetOrientation(orientation);
         }
         catch (Exception e)
         {
@@ -906,9 +906,9 @@ public class CamParametersHandler extends AbstractParameterHandler
             appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack , StringUtils.OFF);
         }
         if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.OFF))
-            ((BaseCameraHolder)cameraHolder).SetCameraRotation(0);
+            ((CameraHolderApi1)cameraHolder).SetCameraRotation(0);
         else
-            ((BaseCameraHolder)cameraHolder).SetCameraRotation(180);
+            ((CameraHolderApi1)cameraHolder).SetCameraRotation(180);
     }
     @Override
     public void LockExposureAndWhiteBalance(boolean value)

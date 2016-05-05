@@ -3,7 +3,7 @@ package com.freedcam.apis.camera1.camera.modules.image_saver;
 import android.content.Context;
 import android.support.v4.provider.DocumentFile;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.FreeDPool;
@@ -21,7 +21,7 @@ import java.io.OutputStream;
 public class RawSaver extends JpegSaver
 {
     final public String fileEnding = ".bayer";
-    public RawSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Context context, AppSettingsManager appSettingsManager) {
+    public RawSaver(CameraHolderApi1 cameraHolder, I_WorkeDone i_workeDone, Context context, AppSettingsManager appSettingsManager) {
         super(cameraHolder, i_workeDone,context, appSettingsManager);
     }
 

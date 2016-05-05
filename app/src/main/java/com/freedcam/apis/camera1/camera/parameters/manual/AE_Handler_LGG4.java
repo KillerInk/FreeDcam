@@ -1,6 +1,6 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.Logger;
 
@@ -27,7 +27,7 @@ public class AE_Handler_LGG4
         iso,
     }
 
-    public AE_Handler_LGG4(HashMap<String, String> parameters, BaseCameraHolder cameraHolder, CamParametersHandler camParametersHandler)
+    public AE_Handler_LGG4(HashMap<String, String> parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler)
     {
         this.camParametersHandler = camParametersHandler;
         this.isoManualParameter = new ISOManualParameterG4(parameters,cameraHolder, camParametersHandler, aeevent);

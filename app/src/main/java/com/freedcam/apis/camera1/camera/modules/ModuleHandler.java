@@ -3,10 +3,10 @@ package com.freedcam.apis.camera1.camera.modules;
 
 import android.content.Context;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
-import com.freedcam.apis.i_camera.AbstractCameraHolder;
-import com.freedcam.apis.i_camera.modules.AbstractModuleHandler;
-import com.freedcam.apis.i_camera.modules.IntervalModule;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.basecamera.camera.modules.IntervalModule;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
@@ -15,14 +15,14 @@ import com.freedcam.utils.Logger;
  */
 public class ModuleHandler extends AbstractModuleHandler
 {
-    private BaseCameraHolder cameraHolder;
+    private CameraHolderApi1 cameraHolder;
     private static String TAG = "freedcam.ModuleHandler";
 
 
     public  ModuleHandler (AbstractCameraHolder cameraHolder, Context context, AppSettingsManager appSettingsManager)
     {
         super(cameraHolder,context,appSettingsManager);
-        this.cameraHolder = (BaseCameraHolder) cameraHolder;
+        this.cameraHolder = (CameraHolderApi1) cameraHolder;
         initModules();
 
     }
@@ -31,7 +31,7 @@ public class ModuleHandler extends AbstractModuleHandler
     {
         //init the Modules DeviceDepending
         //splitting modules make the code foreach device cleaner
-        if (cameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.MTK)
+        if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.MTK)
         {
             Logger.d(TAG, "load mtk picmodule");
             PictureModuleMTK thl5000 = new PictureModuleMTK(this.cameraHolder, moduleEventHandler,context,appSettingsManager);
@@ -48,7 +48,7 @@ public class ModuleHandler extends AbstractModuleHandler
             moduleList.put(intervalModule.ModuleName(), intervalModule);
         }
 
-        if (cameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.LG)
+        if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.LG)
         {
             Logger.d(TAG, "load lg videomodule");
             VideoModuleG3 videoModuleG3 = new VideoModuleG3(this.cameraHolder, moduleEventHandler,context,appSettingsManager);

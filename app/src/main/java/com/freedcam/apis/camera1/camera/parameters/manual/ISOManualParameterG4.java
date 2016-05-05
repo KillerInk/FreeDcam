@@ -1,20 +1,20 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
-import com.freedcam.apis.i_camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ISOManualParameterG4 extends BaseManualParameter
 {
-    private BaseCameraHolder baseCameraHolder;
+    private CameraHolderApi1 cameraHolderApi1;
     private AE_Handler_LGG4.AeManualEvent manualEvent;
 
-    public ISOManualParameterG4(HashMap<String, String> parameters, BaseCameraHolder cameraHolder, AbstractParameterHandler camParametersHandler, AE_Handler_LGG4.AeManualEvent manualevent) {
+    public ISOManualParameterG4(HashMap<String, String> parameters, CameraHolderApi1 cameraHolder, AbstractParameterHandler camParametersHandler, AE_Handler_LGG4.AeManualEvent manualevent) {
         super(parameters, "", "", "", camParametersHandler,1);
 
-        this.baseCameraHolder = cameraHolder;
+        this.cameraHolderApi1 = cameraHolder;
 
         this.isSupported = true;
         this.isVisible = isSupported;

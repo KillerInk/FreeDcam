@@ -5,8 +5,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.freedcam.apis.camera1.camera.ExtendedSurfaceView;
-import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.sonyremote.sonyapi.CameraUiWrapperSony;
+import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
+import com.freedcam.apis.sonyremote.camera.CameraUiWrapperSony;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.I_Activity;
 

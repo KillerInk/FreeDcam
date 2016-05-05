@@ -17,10 +17,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
-import com.freedcam.apis.camera2.camera2.CameraUiWrapperApi2;
-import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.i_camera.FocusRect;
-import com.freedcam.apis.sonyremote.sonyapi.CameraUiWrapperSony;
+import com.freedcam.apis.camera2.camera.CameraUiWrapperApi2;
+import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.camera.FocusRect;
+import com.freedcam.apis.sonyremote.camera.CameraUiWrapperSony;
 import com.freedcam.ui.AbstractFocusImageHandler;
 import com.freedcam.ui.ImageViewTouchAreaHandler;
 import com.freedcam.ui.themesample.SampleThemeFragment;

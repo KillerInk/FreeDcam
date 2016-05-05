@@ -11,10 +11,6 @@ public interface I_Activity
 {
     void SwitchCameraAPI(String Api);
     void SetTheme(String Theme);
-    int[] GetScreenSize();
-    void ShowHistogram(boolean enable);
-    void loadImageViewerFragment(File file);
-    void loadCameraUiFragment();
     void closeActivity();
     void ChooseSDCard(I_OnActivityResultCallback callback);
     interface I_OnActivityResultCallback

@@ -4,8 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 
-import com.freedcam.apis.i_camera.parameters.AbstractModeParameter;
-import com.freedcam.utils.AppSettingsManager;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 
 /**
  * Created by troop on 14.06.2015.

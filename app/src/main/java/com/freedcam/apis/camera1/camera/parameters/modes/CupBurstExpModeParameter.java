@@ -2,7 +2,7 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.os.Handler;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
@@ -15,7 +15,7 @@ public class CupBurstExpModeParameter extends BaseModeParameter
 {
     final String TAG = CupBurstExpModeParameter.class.getSimpleName();
     private AppSettingsManager appSettingsManager;
-    public CupBurstExpModeParameter(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String values, AppSettingsManager appSettingsManager) {
+    public CupBurstExpModeParameter(Handler uihandler, HashMap<String, String> parameters, CameraHolderApi1 cameraHolder, String values, AppSettingsManager appSettingsManager) {
         super(uihandler, parameters, cameraHolder, "capture-burst-exposures", "");
         this.appSettingsManager = appSettingsManager;
 
@@ -52,14 +52,14 @@ public class CupBurstExpModeParameter extends BaseModeParameter
 
         parameters.put("ae-bracket-hdr","Off");
         try {
-            baseCameraHolder.SetCameraParameters(parameters);
+            cameraHolderApi1.SetCameraParameters(parameters);
         } catch (Exception ex) {
             Logger.exception(ex);
         }
         String newvalue[] = "0,0,0".split(",");
         if (valueToSet.equals("on")) {
-            //if (baseCameraHolder.ParameterHandler.aeb1.GetValue() != null) {
-                //newvalue[0] = baseCameraHolder.ParameterHandler.aeb1.GetValue();
+            //if (cameraHolderApi1.ParameterHandler.aeb1.GetValue() != null) {
+                //newvalue[0] = cameraHolderApi1.ParameterHandler.aeb1.GetValue();
             newvalue[0] = appSettingsManager.getString(AppSettingsManager.SETTING_AEB1);
             if(newvalue[0] == null || newvalue[0].equals(""))
                 newvalue[0] = "5";
@@ -73,7 +73,7 @@ public class CupBurstExpModeParameter extends BaseModeParameter
 
         parameters.put("capture-burst-exposures",newvalue[0]+","+newvalue[1]+","+newvalue[2]);
         try {
-            baseCameraHolder.SetCameraParameters(parameters);
+            cameraHolderApi1.SetCameraParameters(parameters);
             //super.BackgroundValueHasChanged(newvalue[0]+","+newvalue[1]+","+newvalue[2]);
         } catch (Exception e) {
             Logger.exception(e);

@@ -5,23 +5,15 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
-import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
-import com.freedcam.apis.apis.AbstractCameraFragment;
-import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.i_camera.interfaces.I_CameraChangedListner;
-import com.freedcam.apis.i_camera.interfaces.I_Module;
-import com.freedcam.apis.i_camera.interfaces.I_error;
-import com.freedcam.apis.i_camera.modules.I_ModuleEvent;
+import com.freedcam.apis.basecamera.apis.AbstractCameraFragment;
+import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.ApiHandler;
 import com.freedcam.ui.handler.HardwareKeyHandler;
 import com.freedcam.ui.handler.I_orientation;
@@ -304,48 +296,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         themeHandler.GetThemeFragment(cameraFragment.GetCameraUiWrapper());
     }
 
-    @Override
-    public int[] GetScreenSize() {
-        int width = 0;
-        int height = 0;
 
-        if (Build.VERSION.SDK_INT >= 17) {
-            WindowManager wm = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
-            Point size =  new Point();
-            wm.getDefaultDisplay().getRealSize(size);
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                width = size.x;
-                height = size.y;
-            }
-            else {
-                height = size.x;
-                width = size.y;
-            }
-        }
-        else
-        {
-            DisplayMetrics metrics = getResources().getDisplayMetrics();
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                width = metrics.widthPixels;
-                height = metrics.heightPixels;
-            }
-            else {
-                width = metrics.heightPixels;
-                height = metrics.widthPixels;
-            }
-        }
-        return new int[]{width,height};
-    }
-
-    @Override
-    public void
-    ShowHistogram(boolean enable) {}
-
-    @Override
-    public void loadCameraUiFragment()
-    {
-        themeHandler.GetThemeFragment(cameraFragment.GetCameraUiWrapper());
-    }
 
     @Override
     public void closeActivity()

@@ -5,9 +5,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.i_camera.interfaces.I_CameraChangedListner;
-import com.freedcam.apis.i_camera.interfaces.I_Module;
+import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
+import com.freedcam.apis.basecamera.camera.interfaces.I_Module;
 import com.troop.freedcam.R;
 
 

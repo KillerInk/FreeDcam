@@ -2,9 +2,9 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.os.Handler;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
-import com.freedcam.apis.i_camera.modules.I_ModuleEvent;
-import com.freedcam.apis.i_camera.parameters.AbstractModeParameter;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.utils.Logger;
 
 
@@ -20,7 +20,7 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
     boolean isSupported = false;
     boolean isVisible = true;
     HashMap<String, String> parameters;
-    BaseCameraHolder baseCameraHolder;
+    CameraHolderApi1 cameraHolderApi1;
     protected boolean firststart = true;
     private static String TAG = BaseModeParameter.class.getSimpleName();
 
@@ -39,13 +39,13 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
      * @param values
      * the string to get the values avail/supported for @param value
      */
-    public BaseModeParameter(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value, String values)
+    public BaseModeParameter(Handler uihandler, HashMap<String, String> parameters, CameraHolderApi1 cameraHolder, String value, String values)
     {
         super(uihandler);
         this.parameters = parameters;
         this.value = value;
         this.values = values;
-        this.baseCameraHolder = cameraHolder;
+        this.cameraHolderApi1 = cameraHolder;
         if (parameters != null && !value.isEmpty() && parameters.containsKey(value) && parameters.containsKey(values))
         {
             String tmp = parameters.get(value);
@@ -88,7 +88,7 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
         BackgroundValueHasChanged(valueToSet);
         if (setToCam) {
             try {
-                baseCameraHolder.SetCameraParameters(parameters);
+                cameraHolderApi1.SetCameraParameters(parameters);
 
             } catch (Exception ex) {
                 Logger.exception(ex);

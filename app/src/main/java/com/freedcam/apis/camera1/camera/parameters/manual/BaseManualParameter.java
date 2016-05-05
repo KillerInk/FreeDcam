@@ -1,11 +1,11 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import com.freedcam.apis.camera1.camera.parameters.modes.PictureFormatHandler;
-import com.freedcam.apis.i_camera.modules.AbstractModuleHandler;
-import com.freedcam.apis.i_camera.modules.I_ModuleEvent;
-import com.freedcam.apis.i_camera.parameters.AbstractManualParameter;
-import com.freedcam.apis.i_camera.parameters.AbstractModeParameter;
-import com.freedcam.apis.i_camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
+import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 

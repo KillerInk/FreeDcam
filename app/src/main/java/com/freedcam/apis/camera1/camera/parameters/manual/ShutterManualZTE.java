@@ -3,8 +3,8 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 import android.os.Handler;
 
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
-import com.freedcam.apis.i_camera.interfaces.I_CameraHolder;
-import com.freedcam.apis.i_camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
+import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 

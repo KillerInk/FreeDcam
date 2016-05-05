@@ -1,18 +1,18 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
-import com.freedcam.apis.i_camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
 
 public class ISOManualParameter extends BaseManualParameter {
 
-    private BaseCameraHolder baseCameraHolder;
-    public ISOManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, BaseCameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
+    private CameraHolderApi1 cameraHolderApi1;
+    public ISOManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, CameraHolderApi1 cameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler,1);
 
-        this.baseCameraHolder = cameraHolder;
+        this.cameraHolderApi1 = cameraHolder;
         //TODO add missing logic
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
             this.isSupported = false;

@@ -2,7 +2,7 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.os.Handler;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.utils.DeviceUtils;
 
@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public class VirtualLensFilter extends  BaseModeParameter {
 
-    private BaseCameraHolder cameraHolder;
+    private CameraHolderApi1 cameraHolder;
     private CameraUiWrapper cameraUiWrapper;
 
     private static final int[] asT = new int[]{0, 1, 2, 3, 4, 5, 6};
@@ -21,7 +21,7 @@ public class VirtualLensFilter extends  BaseModeParameter {
             "100 0 0 0 100 0 0 0 100 0 100 100", "100 0 0 0 100 0 0 0 100 0 85 0", "100 0 0 0 100 0 0 0 100 80 80 0"
             , "100 0 0 0 100 0 0 0 100 80 0 0", "100 0 0 0 100 0 0 0 50 115 20 70", "100 0 0 0 100 0 0 0 40 -60 -60 -60"
             , "100 0 0 0 100 0 0 0 40 -60 -60 -60", "100 0 0 0 100 0 0 0 40 -60 -60 -60", "100 0 0 0 100 0 0 0 40 -60 -60 -60"};
-    public VirtualLensFilter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String values, CameraUiWrapper cameraUiWrapper)
+    public VirtualLensFilter(Handler handler, HashMap<String, String> parameters, CameraHolderApi1 parameterChanged, String values, CameraUiWrapper cameraUiWrapper)
     {
         super(handler, parameters, parameterChanged, "", "");
 
@@ -99,7 +99,7 @@ public class VirtualLensFilter extends  BaseModeParameter {
 
 
         }
-        baseCameraHolder.SetCameraParameters(parameters);
+        cameraHolderApi1.SetCameraParameters(parameters);
     }
 
     @Override

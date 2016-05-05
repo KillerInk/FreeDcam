@@ -3,11 +3,11 @@ package com.freedcam.apis.camera1.camera.modules;
 import android.content.Context;
 import android.media.MediaRecorder;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.camera1.camera.parameters.modes.VideoProfilesG3Parameter;
-import com.freedcam.apis.i_camera.modules.ModuleEventHandler;
-import com.freedcam.apis.i_camera.modules.VideoMediaProfile;
+import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
+import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
 import com.lge.media.MediaRecorderEx;
@@ -23,7 +23,7 @@ public class VideoModuleG3 extends AbstractVideoModule
 
     final static String TAG = VideoModuleG3.class.getSimpleName();
 
-    public VideoModuleG3(BaseCameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
+    public VideoModuleG3(CameraHolderApi1 cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
         super(cameraHandler, eventHandler,context,appSettingsManager);
     }
 
@@ -33,7 +33,7 @@ public class VideoModuleG3 extends AbstractVideoModule
         try {
             recorder = new MediaRecorderEx();
             recorder.reset();
-            recorder.setCamera(baseCameraHolder.GetCamera());
+            recorder.setCamera(cameraHolderApi1.GetCamera());
             recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
             switch (currentProfile.Mode)
             {
@@ -138,7 +138,7 @@ public class VideoModuleG3 extends AbstractVideoModule
         String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
         ParameterHandler.PreviewSize.SetValue(size,true);
         ParameterHandler.VideoSize.SetValue(size,true);
-        baseCameraHolder.StopPreview();
-        baseCameraHolder.StartPreview();
+        cameraHolderApi1.StopPreview();
+        cameraHolderApi1.StartPreview();
     }
 }

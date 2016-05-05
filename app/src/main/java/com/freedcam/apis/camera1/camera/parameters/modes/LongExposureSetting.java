@@ -2,7 +2,7 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.os.Handler;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 
 import java.util.HashMap;
 
@@ -11,7 +11,7 @@ import java.util.HashMap;
  */
 public class LongExposureSetting extends BaseModeParameter
 {
-    public LongExposureSetting(Handler handler,HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String value, String values) {
+    public LongExposureSetting(Handler handler, HashMap<String, String> parameters, CameraHolderApi1 parameterChanged, String value, String values) {
         super( handler,parameters, parameterChanged, value, values);
     }
 

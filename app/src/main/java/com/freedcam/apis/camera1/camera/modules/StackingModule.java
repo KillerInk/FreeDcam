@@ -2,10 +2,10 @@ package com.freedcam.apis.camera1.camera.modules;
 
 import android.content.Context;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.modules.image_saver.I_WorkeDone;
 import com.freedcam.apis.camera1.camera.modules.image_saver.StackSaver;
-import com.freedcam.apis.i_camera.modules.ModuleEventHandler;
+import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.FreeDPool;
@@ -24,7 +24,7 @@ public class StackingModule extends PictureModule implements I_WorkeDone {
 
     private StackSaver stackSaver;
 
-    public StackingModule(BaseCameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context,AppSettingsManager appSettingsManager) {
+    public StackingModule(CameraHolderApi1 cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
         super(cameraHandler, eventHandler,context,appSettingsManager);
         name = ModuleHandler.MODULE_STACKING;
 
@@ -76,7 +76,7 @@ public class StackingModule extends PictureModule implements I_WorkeDone {
 
                 final String picFormat = ParameterHandler.PictureFormat.GetValue();
                 if (picFormat.equals("jpeg")) {
-                    //final StackSaver stackSaver = new StackSaver(baseCameraHolder, StackingModule.this);
+                    //final StackSaver stackSaver = new StackSaver(cameraHolderApi1, StackingModule.this);
 
                     stackSaver.TakePicture();
                 }
@@ -102,7 +102,7 @@ public class StackingModule extends PictureModule implements I_WorkeDone {
     @Override
     public void LoadNeededParameters()
     {
-        stackSaver = new StackSaver(baseCameraHolder, StackingModule.this,context,appSettingsManager);
+        stackSaver = new StackSaver(cameraHolderApi1, StackingModule.this,context,appSettingsManager);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class StackingModule extends PictureModule implements I_WorkeDone {
     public void OnWorkDone(File file)
     {
 
-        baseCameraHolder.StartPreview();
+        cameraHolderApi1.StartPreview();
 
         if(KeepStacking)
             takePicture();
@@ -129,7 +129,7 @@ public class StackingModule extends PictureModule implements I_WorkeDone {
     @Override
     public void OnError(String error)
     {
-        baseCameraHolder.errorHandler.OnError(error);
+        cameraHolderApi1.errorHandler.OnError(error);
         stopworking();
     }
 
@@ -139,7 +139,7 @@ public class StackingModule extends PictureModule implements I_WorkeDone {
         public void onPictureTaken(byte[] data) {
             final String picFormat = ParameterHandler.PictureFormat.GetValue();
             if (picFormat.equals("jpeg")) {
-                final JpegSaver jpegSaver = new JpegSaver(baseCameraHolder, aeBracketDone);
+                final JpegSaver jpegSaver = new JpegSaver(cameraHolderApi1, aeBracketDone);
                 jpegSaver.saveBytesToFile(data, new File(StringUtils.getFilePathHDR(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), jpegSaver.fileEnding, hdrCount)),true);
             }
 
@@ -156,7 +156,7 @@ public class StackingModule extends PictureModule implements I_WorkeDone {
         @Override
         public void OnError(String error)
         {
-            baseCameraHolder.errorHandler.OnError(error);
+            cameraHolderApi1.errorHandler.OnError(error);
             stopworking();
         }
     };*/

@@ -2,10 +2,10 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.os.Handler;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.utils.Logger;
-import com.freedcam.apis.i_camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
@@ -20,7 +20,7 @@ public class NightModeParameter extends BaseModeParameter
     private String state = "";
     private String format = "";
     private String curmodule = "";
-    public NightModeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
+    public NightModeParameter(Handler handler, HashMap<String, String> parameters, CameraHolderApi1 parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
         super(handler, parameters, parameterChanged, "", "");
 
         this.isSupported = DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES);
@@ -47,9 +47,9 @@ public class NightModeParameter extends BaseModeParameter
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)||DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote))
         {
             if (valueToSet.equals("on")) {
-                baseCameraHolder.GetParameterHandler().morphoHDR.SetValue("false", true);
-                baseCameraHolder.GetParameterHandler().HDRMode.BackgroundValueHasChanged("off");
-                baseCameraHolder.GetParameterHandler().AE_Bracket.SetValue("AE-Bracket", true);
+                cameraHolderApi1.GetParameterHandler().morphoHDR.SetValue("false", true);
+                cameraHolderApi1.GetParameterHandler().HDRMode.BackgroundValueHasChanged("off");
+                cameraHolderApi1.GetParameterHandler().AE_Bracket.SetValue("AE-Bracket", true);
                 parameters.put("morpho-hht", "true");
             } else {
                 parameters.put("ae-bracket-hdr", "Off");
@@ -59,7 +59,7 @@ public class NightModeParameter extends BaseModeParameter
         else
             parameters.put("night_key", valueToSet);
         try {
-            baseCameraHolder.SetCameraParameters(parameters);
+            cameraHolderApi1.SetCameraParameters(parameters);
             super.BackgroundValueHasChanged(valueToSet);
         }
         catch (Exception ex)

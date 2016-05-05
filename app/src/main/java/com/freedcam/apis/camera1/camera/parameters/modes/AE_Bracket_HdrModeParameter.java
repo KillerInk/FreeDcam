@@ -2,7 +2,7 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.os.Handler;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 
 import java.util.HashMap;
 
@@ -11,7 +11,7 @@ import java.util.HashMap;
  */
 public class AE_Bracket_HdrModeParameter extends BaseModeParameter
 {
-    public AE_Bracket_HdrModeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String value, String values) {
+    public AE_Bracket_HdrModeParameter(Handler handler, HashMap<String, String> parameters, CameraHolderApi1 cameraHolder, String value, String values) {
         super(handler, parameters, cameraHolder, value, values);
     }
 
@@ -19,12 +19,12 @@ public class AE_Bracket_HdrModeParameter extends BaseModeParameter
     public void SetValue(String valueToSet, boolean setToCam)
     {
         if (valueToSet.equals("AE-Bracket")) {
-            baseCameraHolder.GetParameterHandler().captureBurstExposures.SetValue("on",true);
-            if (baseCameraHolder.GetParameterHandler().ZSL.GetValue().equals("off")){
-                baseCameraHolder.GetParameterHandler().ZSL.SetValue("on", true);}
+            cameraHolderApi1.GetParameterHandler().captureBurstExposures.SetValue("on",true);
+            if (cameraHolderApi1.GetParameterHandler().ZSL.GetValue().equals("off")){
+                cameraHolderApi1.GetParameterHandler().ZSL.SetValue("on", true);}
         }
         else {
-            baseCameraHolder.GetParameterHandler().ZSL.SetValue("off",true);
+            cameraHolderApi1.GetParameterHandler().ZSL.SetValue("off",true);
         }
         super.SetValue(valueToSet, setToCam);
     }

@@ -1,6 +1,6 @@
 package com.freedcam.apis.camera1.camera.modules;
 
-import com.freedcam.apis.i_camera.modules.VideoMediaProfile;
+import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile;
 import com.lge.media.CamcorderProfileEx;
 
 /**

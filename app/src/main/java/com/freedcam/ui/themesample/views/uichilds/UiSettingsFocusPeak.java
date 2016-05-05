@@ -3,8 +3,8 @@ package com.freedcam.ui.themesample.views.uichilds;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.i_camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.ui.themesample.subfragments.Interfaces;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;

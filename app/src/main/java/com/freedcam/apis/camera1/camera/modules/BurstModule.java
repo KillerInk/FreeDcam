@@ -6,10 +6,10 @@ import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.os.Environment;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
-import com.freedcam.apis.i_camera.modules.AbstractModule;
-import com.freedcam.apis.i_camera.modules.I_Callbacks;
-import com.freedcam.apis.i_camera.modules.ModuleEventHandler;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.basecamera.camera.modules.AbstractModule;
+import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
+import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
@@ -31,12 +31,12 @@ public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCa
     boolean doBurst = false;
     String currentBurstFolder;
     int count;
-    BaseCameraHolder baseCameraHolder;
-    public BurstModule(BaseCameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager)
+    CameraHolderApi1 cameraHolderApi1;
+    public BurstModule(CameraHolderApi1 cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager)
     {
         super(cameraHandler, eventHandler,context,appSettingsManager);
         this.name = ModuleHandler.MODULE_BURST;
-        this.baseCameraHolder = (BaseCameraHolder)cameraHandler;
+        this.cameraHolderApi1 = (CameraHolderApi1)cameraHandler;
     }
 
     @Override
@@ -79,14 +79,14 @@ public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCa
     {
         if (enable)
         {
-            baseCameraHolder.SetPreviewCallback(this);
+            cameraHolderApi1.SetPreviewCallback(this);
             currentBurstFolder = createNewFolder();
             count = 0;
 
         }
         else
         {
-            baseCameraHolder.ResetPreviewCallback();
+            cameraHolderApi1.ResetPreviewCallback();
 
         }
         doBurst = enable;

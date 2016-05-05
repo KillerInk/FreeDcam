@@ -3,10 +3,10 @@ package com.freedcam.apis;
 import android.content.Context;
 import android.os.Build;
 
-import com.freedcam.apis.apis.AbstractCameraFragment;
+import com.freedcam.apis.basecamera.apis.AbstractCameraFragment;
 import com.freedcam.apis.camera1.apis.Camera1Fragment;
 import com.freedcam.apis.camera2.apis.Camera2Fragment;
-import com.freedcam.apis.camera2.camera2.BaseCameraHolderApi2;
+import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.apis.sonyremote.apis.SonyCameraFragment;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
@@ -39,7 +39,7 @@ public class ApiHandler
                 FreeDPool.Execute(new Runnable() {
                     @Override
                     public void run() {
-                        boolean legacy = BaseCameraHolderApi2.IsLegacy(appSettingsManager,context);
+                        boolean legacy = CameraHolderApi2.IsLegacy(appSettingsManager,context);
                         if (legacy) {
                             appSettingsManager.SetCamera2FullSupported("false");
                             appSettingsManager.setCamApi(AppSettingsManager.API_1);

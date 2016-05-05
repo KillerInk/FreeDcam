@@ -2,10 +2,9 @@ package com.freedcam.apis.camera1.camera.modules;
 
 import android.content.Context;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.modules.image_saver.MediatekSaver;
-import com.freedcam.apis.i_camera.modules.AbstractModule;
-import com.freedcam.apis.i_camera.modules.ModuleEventHandler;
+import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.utils.AppSettingsManager;
 
 /**
@@ -14,9 +13,9 @@ import com.freedcam.utils.AppSettingsManager;
 public class PictureModuleMTK extends PictureModule
 {
     private static String TAG = PictureModuleMTK.class.getSimpleName();
-    public PictureModuleMTK(BaseCameraHolder baseCameraHolder, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager)
+    public PictureModuleMTK(CameraHolderApi1 cameraHolderApi1, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager)
     {
-        super(baseCameraHolder, eventHandler,context,appSettingsManager);
+        super(cameraHolderApi1, eventHandler,context,appSettingsManager);
 
     }
 
@@ -26,7 +25,7 @@ public class PictureModuleMTK extends PictureModule
         if (!this.isWorking)
         {
             startworking();
-            final MediatekSaver mtksaver = new MediatekSaver(baseCameraHolder, this, context,appSettingsManager);
+            final MediatekSaver mtksaver = new MediatekSaver(cameraHolderApi1, this, context,appSettingsManager);
             mtksaver.TakePicture();
 
         }

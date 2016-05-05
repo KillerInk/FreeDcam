@@ -3,7 +3,7 @@ package com.freedcam.ui.handler;
 import android.view.KeyEvent;
 
 import com.freedcam.MainActivity;
-import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;

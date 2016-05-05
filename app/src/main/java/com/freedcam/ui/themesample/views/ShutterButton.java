@@ -6,10 +6,10 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 
-import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.i_camera.modules.AbstractModuleHandler;
-import com.freedcam.apis.i_camera.modules.I_ModuleEvent;
-import com.freedcam.apis.i_camera.parameters.AbstractModeParameter;
+import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.ui.themesample.handler.UserMessageHandler;
 import com.freedcam.utils.Logger;
 import com.troop.freedcam.R;

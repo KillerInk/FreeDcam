@@ -2,7 +2,7 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.os.Handler;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.utils.Logger;
 
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class PictureSizeParameter extends BaseModeParameter
 {
     final String TAG = PictureSizeParameter.class.getSimpleName();
-    public PictureSizeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String values) {
+    public PictureSizeParameter(Handler handler, HashMap<String, String> parameters, CameraHolderApi1 parameterChanged, String values) {
         super(handler, parameters, parameterChanged, "picture-size", "picture-size-values");
     }
 
@@ -23,7 +23,7 @@ public class PictureSizeParameter extends BaseModeParameter
         parameters.put("picture-size" , valueToSet);
 
         try {
-            baseCameraHolder.SetCameraParameters(parameters);
+            cameraHolderApi1.SetCameraParameters(parameters);
             BackgroundValueHasChanged(valueToSet);
         }
         catch (Exception ex)

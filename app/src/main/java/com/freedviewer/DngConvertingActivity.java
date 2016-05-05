@@ -37,25 +37,6 @@ public class DngConvertingActivity extends FragmentActivity implements I_Activit
 
     }
 
-    @Override
-    public int[] GetScreenSize() {
-        return new int[0];
-    }
-
-    @Override
-    public void ShowHistogram(boolean enable) {
-
-    }
-
-    @Override
-    public void loadImageViewerFragment(File file) {
-
-    }
-
-    @Override
-    public void loadCameraUiFragment() {
-
-    }
 
     @Override
     public void closeActivity() {

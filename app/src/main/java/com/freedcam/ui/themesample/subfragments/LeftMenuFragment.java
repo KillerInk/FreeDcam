@@ -12,10 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
-import com.freedcam.apis.camera2.camera2.CameraUiWrapperApi2;
-import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.i_camera.parameters.ApiParameter;
-import com.freedcam.apis.i_camera.parameters.ParameterExternalShutter;
+import com.freedcam.apis.camera2.camera.CameraUiWrapperApi2;
+import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.camera.parameters.modes.ApiParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.ParameterExternalShutter;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.AppSettingsManager;

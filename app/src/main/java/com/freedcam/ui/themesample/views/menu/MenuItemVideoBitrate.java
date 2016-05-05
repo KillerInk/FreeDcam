@@ -3,7 +3,7 @@ package com.freedcam.ui.themesample.views.menu;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.freedcam.apis.i_camera.parameters.AbstractModeParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.utils.AppSettingsManager;
 
 import java.util.ArrayList;

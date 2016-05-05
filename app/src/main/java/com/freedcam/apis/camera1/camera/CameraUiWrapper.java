@@ -9,14 +9,14 @@ import android.view.View;
 
 import com.freedcam.apis.camera1.camera.modules.ModuleHandler;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
-import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.i_camera.Size;
-import com.freedcam.apis.i_camera.interfaces.I_Module;
-import com.freedcam.apis.i_camera.interfaces.I_error;
-import com.freedcam.apis.i_camera.modules.I_Callbacks;
-import com.freedcam.apis.i_camera.modules.I_ModuleEvent;
-import com.freedcam.apis.i_camera.parameters.AbstractModeParameter;
-import com.freedcam.apis.i_camera.parameters.I_ParametersLoaded;
+import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.camera.Size;
+import com.freedcam.apis.basecamera.camera.interfaces.I_Module;
+import com.freedcam.apis.basecamera.camera.interfaces.I_error;
+import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
+import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.camera.parameters.I_ParametersLoaded;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
@@ -34,7 +34,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     protected ExtendedSurfaceView preview;
     protected I_error errorHandler;
     private static String TAG = CameraUiWrapper.class.getSimpleName();
-    public BaseCameraHolder cameraHolder;
+    public CameraHolderApi1 cameraHolder;
     public PreviewHandler previewHandler;
     boolean cameraRdy = false;
 
@@ -52,7 +52,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         preview.getHolder().addCallback(this);
 
         this.errorHandler = this;
-        this.cameraHolder = new BaseCameraHolder(this, uiHandler,appSettingsManager);
+        this.cameraHolder = new CameraHolderApi1(this, uiHandler,appSettingsManager);
         super.cameraHolder = cameraHolder;
         this.cameraHolder.errorHandler = errorHandler;
 

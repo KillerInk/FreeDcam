@@ -3,7 +3,7 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 import android.os.Build;
 import android.os.Handler;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.utils.StringUtils;
 import com.imageconverter.PreviewHandler;
 
@@ -14,7 +14,7 @@ import com.imageconverter.PreviewHandler;
 public class FocusPeakModeParameter extends BaseModeParameter {
 
     private PreviewHandler previewHandler;
-    public FocusPeakModeParameter(Handler uihandler, BaseCameraHolder cameraHolder, PreviewHandler previewHandler)
+    public FocusPeakModeParameter(Handler uihandler, CameraHolderApi1 cameraHolder, PreviewHandler previewHandler)
     {
         super(uihandler, null, cameraHolder, "", "");
         this.previewHandler = previewHandler;
@@ -29,7 +29,7 @@ public class FocusPeakModeParameter extends BaseModeParameter {
     public void SetValue(String valueToSet, boolean setToCam) {
         if (valueToSet.equals(StringUtils.ON))
         {
-            baseCameraHolder.GetParameterHandler().FocusMode.SetValue(baseCameraHolder.GetParameterHandler().FocusMode.GetValue(),true);
+            cameraHolderApi1.GetParameterHandler().FocusMode.SetValue(cameraHolderApi1.GetParameterHandler().FocusMode.GetValue(),true);
             previewHandler.Enable(true);
         }
         else

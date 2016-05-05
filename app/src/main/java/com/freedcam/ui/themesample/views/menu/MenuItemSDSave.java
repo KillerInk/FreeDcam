@@ -7,9 +7,8 @@ import android.support.v4.provider.DocumentFile;
 import android.util.AttributeSet;
 import android.widget.Toast;
 
-import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.i_camera.parameters.SDModeParameter;
-import com.freedcam.utils.AppSettingsManager;
+import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.camera.parameters.modes.SDModeParameter;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;

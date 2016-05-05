@@ -1,6 +1,6 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
-import com.freedcam.apis.i_camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.utils.Logger;
 
 import java.util.ArrayList;

@@ -2,8 +2,8 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.os.Handler;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
-import com.freedcam.apis.i_camera.interfaces.I_CameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
 
 import java.util.HashMap;
 /**
@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class VideoStabilizationParameter extends  BaseModeParameter {
     I_CameraHolder baseCameraHolder;
     private final String[] vs_values = {"true", "false"};
-    public VideoStabilizationParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String values)
+    public VideoStabilizationParameter(Handler handler, HashMap<String, String> parameters, CameraHolderApi1 parameterChanged, String values)
     {
 
         super(handler, parameters, parameterChanged, "video-stabilization", "");

@@ -10,9 +10,9 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.StatFs;
 
-import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.i_camera.modules.AbstractModuleHandler;
-import com.freedcam.apis.i_camera.modules.I_ModuleEvent;
+import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.StringUtils;
 

@@ -2,8 +2,8 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.os.Handler;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
-import com.freedcam.apis.camera1.camera.BaseCameraHolder.Frameworks;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1.Frameworks;
 import com.freedcam.apis.camera1.camera.modules.ModuleHandler;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.DeviceUtils;
@@ -44,7 +44,7 @@ public class PictureFormatHandler extends BaseModeParameter
      * @param parameters   Hold the Camera Parameters
      * @param cameraHolder Hold the camera object
      */
-    public PictureFormatHandler(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, CamParametersHandler camParametersHandler)
+    public PictureFormatHandler(Handler uihandler, HashMap<String, String> parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler)
     {
         super(uihandler, parameters, cameraHolder, "", "");
         switch (cameraHolder.DeviceFrameWork)
@@ -108,8 +108,8 @@ public class PictureFormatHandler extends BaseModeParameter
 
         Logger.d(TAG, "SetValue:" + valueToSet);
         captureMode = valueToSet;
-        final Frameworks f = baseCameraHolder.DeviceFrameWork;
-        if (baseCameraHolder.DeviceFrameWork == Frameworks.Normal || baseCameraHolder.DeviceFrameWork == Frameworks.LG)
+        final Frameworks f = cameraHolderApi1.DeviceFrameWork;
+        if (cameraHolderApi1.DeviceFrameWork == Frameworks.Normal || cameraHolderApi1.DeviceFrameWork == Frameworks.LG)
         {
             switch (valueToSet)
             {
@@ -118,11 +118,11 @@ public class PictureFormatHandler extends BaseModeParameter
                     break;
                 case "bayer":
                     setString(rawFormat,setToCam);
-                    baseCameraHolder.GetParameterHandler().SetDngActive(false);
+                    cameraHolderApi1.GetParameterHandler().SetDngActive(false);
                     break;
                 case "dng":
                     setString(rawFormat,setToCam);
-                    baseCameraHolder.GetParameterHandler().SetDngActive(true);
+                    cameraHolderApi1.GetParameterHandler().SetDngActive(true);
                     break;
             }
         }
@@ -133,11 +133,11 @@ public class PictureFormatHandler extends BaseModeParameter
     {
         Logger.d(TAG, "setString:" +val);
         parameters.put(PICFORMAT, val);
-        baseCameraHolder.SetCameraParameters(parameters);
-        if(baseCameraHolder.DeviceFrameWork == BaseCameraHolder.Frameworks.LG && setTocam)
+        cameraHolderApi1.SetCameraParameters(parameters);
+        if(cameraHolderApi1.DeviceFrameWork == CameraHolderApi1.Frameworks.LG && setTocam)
         {
-            baseCameraHolder.StopPreview();
-            baseCameraHolder.StartPreview();
+            cameraHolderApi1.StopPreview();
+            cameraHolderApi1.StartPreview();
         }
         firststart = false;
     }
@@ -211,7 +211,7 @@ public class PictureFormatHandler extends BaseModeParameter
          * @param cameraHolder Hold the camera object
          * @param values
          */
-        public BayerFormat(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String values) {
+        public BayerFormat(Handler uihandler, HashMap<String, String> parameters, CameraHolderApi1 cameraHolder, String values) {
             super(uihandler, parameters, cameraHolder, "", "");
         }
 

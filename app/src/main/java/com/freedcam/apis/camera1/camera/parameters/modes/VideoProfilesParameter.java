@@ -3,10 +3,10 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 import android.media.CamcorderProfile;
 import android.os.Handler;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
-import com.freedcam.apis.i_camera.modules.AbstractModuleHandler;
-import com.freedcam.apis.i_camera.modules.VideoMediaProfile;
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 
@@ -23,13 +23,13 @@ public class VideoProfilesParameter extends BaseModeParameter
 {
     private final String TAG = VideoProfilesParameter.class.getSimpleName();
     private HashMap<String, VideoMediaProfile> supportedProfiles;
-    private BaseCameraHolder cameraHolder;
+    private CameraHolderApi1 cameraHolder;
     private CameraUiWrapper cameraUiWrapper;
     private String profile;
     private static final String _720phfr = "720HFR";
     public static final String _4kUHD = "4kUHD";
 
-    public VideoProfilesParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
+    public VideoProfilesParameter(Handler handler, HashMap<String, String> parameters, CameraHolderApi1 parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
         super(handler,parameters, parameterChanged, "", "");
         this.cameraHolder = parameterChanged;
         this.cameraUiWrapper = cameraUiWrapper;

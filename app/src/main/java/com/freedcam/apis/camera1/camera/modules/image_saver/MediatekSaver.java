@@ -2,7 +2,7 @@ package com.freedcam.apis.camera1.camera.modules.image_saver;
 
 import android.content.Context;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
@@ -22,7 +22,7 @@ public class MediatekSaver extends JpegSaver {
     private File holdFile = null;
 
     private final String fileEnding = ".jpg";
-    public MediatekSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Context context, AppSettingsManager appSettingsManager) {
+    public MediatekSaver(CameraHolderApi1 cameraHolder, I_WorkeDone i_workeDone, Context context, AppSettingsManager appSettingsManager) {
         super(cameraHolder, i_workeDone,context, appSettingsManager);
     }
 

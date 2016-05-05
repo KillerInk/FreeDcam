@@ -1,10 +1,7 @@
 package com.freedcam.ui.handler;
 
-import android.widget.LinearLayout;
-
 import com.freedcam.MainActivity;
-import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.i_camera.modules.I_ModuleEvent;
+import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.themesample.SampleThemeFragment;

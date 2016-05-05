@@ -3,9 +3,9 @@ package com.freedcam.apis.camera1.camera.modules.image_saver;
 import android.content.Context;
 import android.support.v4.provider.DocumentFile;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
-import com.freedcam.apis.i_camera.modules.I_Callbacks;
+import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.FreeDPool;
@@ -26,7 +26,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
 
     private String TAG = JpegSaver.class.getSimpleName();
 
-    BaseCameraHolder cameraHolder;
+    CameraHolderApi1 cameraHolder;
     I_WorkeDone iWorkeDone;
 
     final public String fileEnding = ".jpg";
@@ -35,7 +35,7 @@ public class JpegSaver implements I_Callbacks.PictureCallback
     protected Context context;
     protected AppSettingsManager appSettingsManager;
 
-    public JpegSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Context context, AppSettingsManager appSettingsManager)
+    public JpegSaver(CameraHolderApi1 cameraHolder, I_WorkeDone i_workeDone, Context context, AppSettingsManager appSettingsManager)
     {
         this.cameraHolder = cameraHolder;
         this.ParameterHandler = (CamParametersHandler)cameraHolder.GetParameterHandler();

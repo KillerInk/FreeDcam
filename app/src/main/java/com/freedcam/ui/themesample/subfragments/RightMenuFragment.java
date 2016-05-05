@@ -10,7 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
-import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.themesample.views.menu.MenuItem;

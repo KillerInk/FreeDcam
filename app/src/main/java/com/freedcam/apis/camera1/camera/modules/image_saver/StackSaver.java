@@ -3,8 +3,8 @@ package com.freedcam.apis.camera1.camera.modules.image_saver;
 import android.content.Context;
 
 import com.defcomk.jni.staxxer.StaxxerJNI;
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
-import com.freedcam.apis.i_camera.Size;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.basecamera.camera.Size;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
@@ -29,7 +29,7 @@ public class StackSaver extends JpegSaver {
     private boolean NewSession = false;
     private String SessionFolder="";
 
-    public StackSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Context context,AppSettingsManager appSettingsManager)
+    public StackSaver(CameraHolderApi1 cameraHolder, I_WorkeDone i_workeDone, Context context, AppSettingsManager appSettingsManager)
     {
         super(cameraHolder, i_workeDone,context,appSettingsManager);
         jpg2rgb = StaxxerJNI.GetInstance();

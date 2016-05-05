@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.freedcam.apis.i_camera.interfaces.I_Focus;
+import com.freedcam.apis.basecamera.camera.interfaces.I_Focus;
 
 /**
  * Created by troop on 09.06.2015.

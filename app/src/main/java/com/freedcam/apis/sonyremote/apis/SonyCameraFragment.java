@@ -13,15 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.freedcam.apis.apis.AbstractCameraFragment;
-import com.freedcam.apis.i_camera.interfaces.I_Module;
-import com.freedcam.apis.sonyremote.sonyapi.CameraUiWrapperSony;
-import com.freedcam.apis.sonyremote.sonyapi.sonystuff.ServerDevice;
-import com.freedcam.apis.sonyremote.sonyapi.sonystuff.SimpleSsdpClient;
-import com.freedcam.apis.sonyremote.sonyapi.sonystuff.SimpleStreamSurfaceView;
-import com.freedcam.apis.sonyremote.sonyapi.sonystuff.WifiUtils;
+import com.freedcam.apis.basecamera.apis.AbstractCameraFragment;
+import com.freedcam.apis.basecamera.camera.interfaces.I_Module;
+import com.freedcam.apis.sonyremote.camera.CameraUiWrapperSony;
+import com.freedcam.apis.sonyremote.camera.sonystuff.ServerDevice;
+import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleSsdpClient;
+import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleStreamSurfaceView;
+import com.freedcam.apis.sonyremote.camera.sonystuff.WifiUtils;
 import com.freedcam.utils.Logger;
-import com.freedcam.apis.i_camera.interfaces.I_CameraChangedListner;
+import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.R;
 
 /**

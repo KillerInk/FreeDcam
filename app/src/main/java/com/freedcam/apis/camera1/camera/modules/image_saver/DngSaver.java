@@ -11,7 +11,7 @@ import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.FileUtils;
@@ -36,7 +36,7 @@ public class DngSaver extends JpegSaver
   //  MetaDataExtractor meta;
 
     private final String TAG = DngSaver.class.getSimpleName();
-    public DngSaver(BaseCameraHolder cameraHolder, I_WorkeDone i_workeDone, Context context,AppSettingsManager appSettingsManager)
+    public DngSaver(CameraHolderApi1 cameraHolder, I_WorkeDone i_workeDone, Context context, AppSettingsManager appSettingsManager)
     {
         super(cameraHolder, i_workeDone,context,appSettingsManager);
         dngConverter = RawToDng.GetInstance();

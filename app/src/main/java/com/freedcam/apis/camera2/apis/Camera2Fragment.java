@@ -5,9 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.freedcam.apis.apis.AbstractCameraFragment;
-import com.freedcam.apis.camera2.camera2.AutoFitTextureView;
-import com.freedcam.apis.camera2.camera2.CameraUiWrapperApi2;
+import com.freedcam.apis.basecamera.apis.AbstractCameraFragment;
+import com.freedcam.apis.camera2.camera.AutoFitTextureView;
+import com.freedcam.apis.camera2.camera.CameraUiWrapperApi2;
 import com.troop.freedcam.R;
 
 

@@ -2,7 +2,7 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.os.Handler;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
@@ -17,7 +17,7 @@ public class OisParameter extends BaseModeParameter {
      * @param cameraHolder Hold the camera object
      * @param values
      */
-    public OisParameter(Handler uihandler, HashMap<String, String> parameters, BaseCameraHolder cameraHolder, String values) {
+    public OisParameter(Handler uihandler, HashMap<String, String> parameters, CameraHolderApi1 cameraHolder, String values) {
         super(uihandler, parameters, cameraHolder, "", "");
     }
 
@@ -33,11 +33,11 @@ public class OisParameter extends BaseModeParameter {
         else if (DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI5))
         {
             parameters.put("ois", valueToSet);
-            baseCameraHolder.SetCameraParameters(parameters);
+            cameraHolderApi1.SetCameraParameters(parameters);
     }
         else
             parameters.put("hw_ois_enable", valueToSet);
-        baseCameraHolder.SetCameraParameters(parameters);
+        cameraHolderApi1.SetCameraParameters(parameters);
     }
 
     @Override

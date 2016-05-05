@@ -1,6 +1,6 @@
 package com.freedcam.ui;
 
-import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.utils.AppSettingsManager;
 
 /**

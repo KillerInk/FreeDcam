@@ -5,11 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.freedcam.apis.apis.AbstractCameraFragment;
+import com.freedcam.apis.basecamera.apis.AbstractCameraFragment;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.ExtendedSurfaceView;
 import com.freedcam.apis.camera1.camera.TextureViewRatio;
-import com.freedcam.utils.AppSettingsManager;
 import com.troop.freedcam.R;
 
 /**

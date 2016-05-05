@@ -4,12 +4,12 @@ import android.hardware.Camera;
 import android.view.MotionEvent;
 
 
-import com.freedcam.apis.i_camera.AbstractFocusHandler;
-import com.freedcam.apis.i_camera.FocusRect;
-import com.freedcam.apis.i_camera.modules.CameraFocusEvent;
-import com.freedcam.apis.i_camera.modules.I_Callbacks;
-import com.freedcam.apis.i_camera.parameters.AbstractModeParameter;
-import com.freedcam.apis.i_camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.basecamera.camera.AbstractFocusHandler;
+import com.freedcam.apis.basecamera.camera.FocusRect;
+import com.freedcam.apis.basecamera.camera.modules.CameraFocusEvent;
+import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.utils.DeviceUtils;
 
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.List;
 public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.AutoFocusCallback
 {
     final String TAG = FocusHandler.class.getSimpleName();
-    private final BaseCameraHolder cameraHolder;
+    private final CameraHolderApi1 cameraHolder;
     private final CameraUiWrapper cameraUiWrapper;
     private final AbstractParameterHandler parametersHandler;
 
@@ -34,7 +34,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
         @Override
         public void onValueChanged(String val)
         {
-            if (cameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.MTK) {
+            if (cameraHolder.DeviceFrameWork != CameraHolderApi1.Frameworks.MTK) {
                 if (val.equals("auto") || val.equals("macro") || val.equals("touch")) {
                     if (focusEvent != null)
                         focusEvent.TouchToFocusSupported(true);
@@ -76,7 +76,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
         @Override
         public void onValueChanged(String val)
         {
-            if(cameraHolder.DeviceFrameWork != BaseCameraHolder.Frameworks.MTK)
+            if(cameraHolder.DeviceFrameWork != CameraHolderApi1.Frameworks.MTK)
             {
                 if (val.contains("spot")) {
                     if (focusEvent != null) {

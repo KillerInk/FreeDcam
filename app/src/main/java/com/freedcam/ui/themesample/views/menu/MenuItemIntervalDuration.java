@@ -3,7 +3,7 @@ package com.freedcam.ui.themesample.views.menu;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.I_Activity;
 

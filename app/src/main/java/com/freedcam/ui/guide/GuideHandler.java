@@ -1,6 +1,5 @@
 package com.freedcam.ui.guide;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.freedcam.apis.i_camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.i_camera.parameters.AbstractModeParameter;
-import com.freedcam.apis.i_camera.parameters.I_ParametersLoaded;
+import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.camera.parameters.I_ParametersLoaded;
 import com.freedcam.utils.AppSettingsManager;
 import com.troop.freedcam.R;
 

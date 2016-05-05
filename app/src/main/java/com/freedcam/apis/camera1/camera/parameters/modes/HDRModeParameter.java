@@ -2,10 +2,10 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.os.Handler;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.utils.Logger;
-import com.freedcam.apis.i_camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.utils.DeviceUtils;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class HDRModeParameter extends BaseModeParameter
     private String format = "";
     private String curmodule = "";
 
-    public HDRModeParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
+    public HDRModeParameter(Handler handler, HashMap<String, String> parameters, CameraHolderApi1 parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
         super(handler, parameters, parameterChanged, "", "");
 
         this.isSupported = false;
@@ -82,9 +82,9 @@ public class HDRModeParameter extends BaseModeParameter
                 ||DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote))
         {
             if (valueToSet.equals("on")) {
-                baseCameraHolder.GetParameterHandler().morphoHHT.SetValue("false", true);
-                baseCameraHolder.GetParameterHandler().NightMode.BackgroundValueHasChanged("off");
-                baseCameraHolder.GetParameterHandler().AE_Bracket.SetValue("AE-Bracket", true);
+                cameraHolderApi1.GetParameterHandler().morphoHHT.SetValue("false", true);
+                cameraHolderApi1.GetParameterHandler().NightMode.BackgroundValueHasChanged("off");
+                cameraHolderApi1.GetParameterHandler().AE_Bracket.SetValue("AE-Bracket", true);
                 parameters.put("morpho-hdr", "true");
             } else {
                 parameters.put("ae-bracket-hdr", "Off");
@@ -122,7 +122,7 @@ public class HDRModeParameter extends BaseModeParameter
             }
         }
         try {
-            baseCameraHolder.SetCameraParameters(parameters);
+            cameraHolderApi1.SetCameraParameters(parameters);
             super.BackgroundValueHasChanged(valueToSet);
         }
         catch (Exception ex)

@@ -2,7 +2,7 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.os.Handler;
 
-import com.freedcam.apis.camera1.camera.BaseCameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.utils.Logger;
 
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class ExposureLockParameter extends BaseModeParameter
 {
     final String TAG = ExposureLockParameter.class.getSimpleName();
-    public ExposureLockParameter(Handler handler, HashMap<String, String> parameters, BaseCameraHolder parameterChanged, String values) {
+    public ExposureLockParameter(Handler handler, HashMap<String, String> parameters, CameraHolderApi1 parameterChanged, String values) {
         super(handler, parameters, parameterChanged, "", "");
     }
 
@@ -37,7 +37,7 @@ public class ExposureLockParameter extends BaseModeParameter
         //if (parameters.get("auto-whitebalance-lock-supported").equals("true"))
             //parameters.put("auto-whitebalance-lock", valueToSet);
         try {
-            baseCameraHolder.SetCameraParameters(parameters);
+            cameraHolderApi1.SetCameraParameters(parameters);
         }
         catch (Exception ex)
         {
