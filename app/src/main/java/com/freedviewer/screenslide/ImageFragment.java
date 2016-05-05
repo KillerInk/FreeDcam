@@ -11,7 +11,7 @@ import android.widget.ProgressBar;
 
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
-import com.freedviewer.BitmapHelper;
+import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.holder.FileHolder;
 import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.R;

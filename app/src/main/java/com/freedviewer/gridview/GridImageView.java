@@ -1,4 +1,4 @@
-package com.freedviewer.gridimageviews;
+package com.freedviewer.gridview;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,9 +12,7 @@ import android.widget.TextView;
 
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
-import com.freedviewer.BitmapHelper;
-import com.freedviewer.gridviewfragments.BaseGridViewFragment;
-import com.freedviewer.gridviewfragments.GridViewFragment;
+import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.holder.BaseHolder;
 import com.freedviewer.holder.FileHolder;
 import com.troop.freedcam.R;

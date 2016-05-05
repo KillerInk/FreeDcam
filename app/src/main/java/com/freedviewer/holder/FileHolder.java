@@ -2,7 +2,7 @@ package com.freedviewer.holder;
 
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
-import com.freedviewer.gridviewfragments.GridViewFragment;
+import com.freedviewer.gridview.GridViewFragment;
 
 import java.io.File;
 import java.util.ArrayList;

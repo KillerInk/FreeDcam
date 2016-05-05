@@ -1,14 +1,11 @@
-package com.freedviewer;
+package com.freedviewer.dngconvert;
 
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.I_Activity;
-
-import java.io.File;
 
 /**
  * Created by troop on 22.12.2015.

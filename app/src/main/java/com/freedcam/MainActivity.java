@@ -22,7 +22,7 @@ import com.freedcam.ui.handler.ThemeHandler;
 import com.freedcam.ui.handler.TimerHandler;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
-import com.freedviewer.AbstractFragmentActivity;
+import com.AbstractFragmentActivity;
 import com.troop.freedcam.R;
 
 import java.io.File;

@@ -15,7 +15,7 @@ import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.modules.I_WorkEvent;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
-import com.freedviewer.BitmapHelper;
+import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.screenslide.ScreenSlideFragment;
 import com.troop.freedcam.R;
 

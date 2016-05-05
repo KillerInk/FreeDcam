@@ -1,4 +1,4 @@
-package com.freedviewer;
+package com;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,8 +15,7 @@ import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.FreeDPool;
-
-import java.io.File;
+import com.freedviewer.helper.BitmapHelper;
 
 /**
  * Created by troop on 28.03.2016.

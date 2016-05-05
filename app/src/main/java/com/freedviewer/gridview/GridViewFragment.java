@@ -1,4 +1,4 @@
-package com.freedviewer.gridviewfragments;
+package com.freedviewer.gridview;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -28,11 +28,10 @@ import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
-import com.freedviewer.BitmapHelper;
-import com.freedviewer.DngConvertingActivity;
-import com.freedviewer.DngConvertingFragment;
-import com.freedviewer.ScreenSlideActivity;
-import com.freedviewer.gridimageviews.GridImageView;
+import com.freedviewer.helper.BitmapHelper;
+import com.freedviewer.dngconvert.DngConvertingActivity;
+import com.freedviewer.dngconvert.DngConvertingFragment;
+import com.freedviewer.screenslide.ScreenSlideTestActivity;
 import com.freedviewer.holder.FileHolder;
 import com.troop.freedcam.R;
 
@@ -202,16 +201,16 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
             case normal:
                 if (!mPagerAdapter.GetFileHolder(position).IsFolder())
                 {
-                    final Intent i = new Intent(getActivity(), ScreenSlideActivity.class);
-                    i.putExtra(ScreenSlideActivity.EXTRA_IMAGE, position);
+                    final Intent i = new Intent(getActivity(), ScreenSlideTestActivity.class);
+                    i.putExtra(ScreenSlideTestActivity.EXTRA_IMAGE, position);
                     if (mPagerAdapter.getFiles() != null &&mPagerAdapter.getFiles().size() >0)
                     {
                         if (!mPagerAdapter.GetFileHolder(position).IsFolder())
-                            i.putExtra(ScreenSlideActivity.IMAGE_PATH, mPagerAdapter.GetFileHolder(position).getFile().getParentFile().getAbsolutePath());
+                            i.putExtra(ScreenSlideTestActivity.IMAGE_PATH, mPagerAdapter.GetFileHolder(position).getFile().getParentFile().getAbsolutePath());
                         else
-                            i.putExtra(ScreenSlideActivity.IMAGE_PATH,  mPagerAdapter.GetFileHolder(position).getFile().getAbsolutePath());
+                            i.putExtra(ScreenSlideTestActivity.IMAGE_PATH,  mPagerAdapter.GetFileHolder(position).getFile().getAbsolutePath());
                     }
-                    i.putExtra(ScreenSlideActivity.FileType, formatsToShow.name());
+                    i.putExtra(ScreenSlideTestActivity.FileType, formatsToShow.name());
                     startActivity(i);
                 }
                 else

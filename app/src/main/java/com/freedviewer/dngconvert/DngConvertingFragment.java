@@ -1,4 +1,4 @@
-package com.freedviewer;
+package com.freedviewer.dngconvert;
 
 import android.app.ProgressDialog;
 import android.content.Intent;

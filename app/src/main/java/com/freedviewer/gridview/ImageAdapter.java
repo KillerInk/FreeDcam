@@ -1,4 +1,4 @@
-package com.freedviewer.gridviewfragments;
+package com.freedviewer.gridview;
 
 import android.content.Context;
 import android.view.View;
@@ -6,8 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.freedcam.utils.Logger;
-import com.freedviewer.BitmapHelper;
-import com.freedviewer.gridimageviews.GridImageView;
+import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.holder.FileHolder;
 
 import java.io.File;

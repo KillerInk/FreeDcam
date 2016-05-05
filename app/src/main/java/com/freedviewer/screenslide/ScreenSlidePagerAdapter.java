@@ -7,7 +7,7 @@ import android.support.v4.view.ViewPager;
 
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
-import com.freedviewer.gridviewfragments.GridViewFragment;
+import com.freedviewer.gridview.GridViewFragment;
 import com.freedviewer.holder.FileHolder;
 
 import java.io.File;

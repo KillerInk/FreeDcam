@@ -1,7 +1,7 @@
 package com.freedviewer.holder;
 
-import com.freedviewer.gridviewfragments.BaseGridViewFragment;
-import com.freedviewer.gridviewfragments.GridViewFragment;
+import com.freedviewer.gridview.BaseGridViewFragment;
+import com.freedviewer.gridview.GridViewFragment;
 
 /**
  * Created by Ingo on 27.12.2015.

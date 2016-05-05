@@ -1,18 +1,18 @@
-package com.freedviewer;
+package com.freedviewer.screenslide;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
 import com.freedcam.utils.AppSettingsManager;
-import com.freedviewer.gridviewfragments.GridViewFragment;
-import com.freedviewer.screenslide.ScreenSlideFragment;
+import com.AbstractFragmentActivity;
+import com.freedviewer.gridview.GridViewFragment;
 
 /**
  * Created by troop on 21.08.2015.
  */
-public class ScreenSlideActivity extends AbstractFragmentActivity
+public class ScreenSlideTestActivity extends AbstractFragmentActivity
 {
-    private final static String TAG = ScreenSlideActivity.class.getSimpleName();
+    private final static String TAG = ScreenSlideTestActivity.class.getSimpleName();
     public static final String EXTRA_IMAGE = "extra_image";
     public static final String IMAGE_PATH = "image_path";
     public static final String FileType = "filetype";

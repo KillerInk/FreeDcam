@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.freedviewer;
+package com.freedviewer.helper;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;

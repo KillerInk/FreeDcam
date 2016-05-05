@@ -1,4 +1,4 @@
-package com.freedviewer.gridviewfragments;
+package com.freedviewer.gridview;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

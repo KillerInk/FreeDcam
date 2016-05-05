@@ -3,7 +3,8 @@ package com.freedviewer;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
-import com.freedviewer.gridviewfragments.GridViewFragment;
+import com.AbstractFragmentActivity;
+import com.freedviewer.gridview.GridViewFragment;
 
 /**
  * Created by troop on 11.12.2015.

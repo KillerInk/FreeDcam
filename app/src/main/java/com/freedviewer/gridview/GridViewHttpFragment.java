@@ -1,4 +1,4 @@
-package com.freedviewer.gridviewfragments;
+package com.freedviewer.gridview;
 
 import android.content.Context;
 import android.os.Bundle;
