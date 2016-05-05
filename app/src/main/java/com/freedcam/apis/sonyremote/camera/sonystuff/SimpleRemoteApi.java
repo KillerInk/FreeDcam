@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Simple Camera Remote API wrapper class. (JSON based API <--> Java API)
+ * Simple Camera Remote API cameraUiWrapper class. (JSON based API <--> Java API)
  */
 public class SimpleRemoteApi {
 

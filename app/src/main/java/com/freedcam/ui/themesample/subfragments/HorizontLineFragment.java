@@ -27,7 +27,6 @@ import com.troop.freedcam.R;
 public class HorizontLineFragment extends AbstractFragment implements AbstractModeParameter.I_ModeParameterEvent{
 
     private View view;
-    private AbstractCameraUiWrapper cameraUiWrapper;
 
     private ImageView lineImage;
     private ImageView upImage;

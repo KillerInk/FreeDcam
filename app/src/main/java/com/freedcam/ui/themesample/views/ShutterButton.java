@@ -92,7 +92,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
             cameraUiWrapper.camParametersHandler.ContShootMode.addEventListner(contshotListner);
 
         ModuleChanged("");
-        Logger.d(TAG, "Set wrapper to ShutterButton");
+        Logger.d(TAG, "Set cameraUiWrapper to ShutterButton");
     }
 
     private void switchBackground(Showstate showstate, boolean animate)

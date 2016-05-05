@@ -29,11 +29,10 @@ public class SampleThemeFragment extends AbstractFragment
     final String TAG = SampleThemeFragment.class.getSimpleName();
 
     private I_Activity i_activity;
-    private CameraUiFragment cameraUiFragment;
 
     private PagingView mPager;
     private PagerAdapter mPagerAdapter;
-
+    private CameraUiFragment cameraUiFragment;
     private SettingsMenuFragment settingsMenuFragment;
     private ScreenSlideFragment screenSlideFragment;
     private boolean pagerTouchAllowed = true;
@@ -43,25 +42,31 @@ public class SampleThemeFragment extends AbstractFragment
     {
     }
 
+    public static SampleThemeFragment GetInstance(I_Activity i_activity, AppSettingsManager appSettingsManager,AbstractCameraUiWrapper cameraUiWrapper)
+    {
+        SampleThemeFragment sampleThemeFragment = new SampleThemeFragment();
+        sampleThemeFragment.i_activity = i_activity;
+        sampleThemeFragment.appSettingsManager = appSettingsManager;
+        sampleThemeFragment.cameraUiWrapper = cameraUiWrapper;
+        return sampleThemeFragment;
+    }
+
     @Override
     public void SetStuff(I_Activity i_activity, AppSettingsManager appSettingsManager) {
-        this.i_activity = i_activity;
-        this.appSettingsManager = appSettingsManager;
     }
 
     @Override
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper)
     {
-        this.wrapper = wrapper;
-        if (cameraUiFragment != null) {
-            cameraUiFragment.SetCameraUIWrapper(wrapper);
-        }
-        if (settingsMenuFragment != null)
+        if (wrapper != null)
         {
-            //settingsMenuFragment.SetStuff(i_activity,appSettingsManager);
-            settingsMenuFragment.SetCameraUIWrapper(wrapper);
+            this.cameraUiWrapper = wrapper;
+            if (cameraUiFragment != null) {
+                cameraUiFragment.SetCameraUIWrapper(wrapper);
+            }
+            if (settingsMenuFragment != null)
+                settingsMenuFragment.SetCameraUIWrapper(wrapper);
         }
-
     }
 
 
@@ -92,6 +97,10 @@ public class SampleThemeFragment extends AbstractFragment
     public void onResume() {
         super.onResume();
 
+        /*if (settingsMenuFragment != null)
+        {
+            settingsMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
+        }*/
 
     }
 
@@ -154,7 +163,7 @@ public class SampleThemeFragment extends AbstractFragment
                 if (settingsMenuFragment == null)
                     settingsMenuFragment = new SettingsMenuFragment();
                 settingsMenuFragment.SetStuff(i_activity,appSettingsManager);
-                settingsMenuFragment.SetCameraUIWrapper(wrapper);
+                settingsMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
                 return settingsMenuFragment;
             }
             else if (position == 2)
@@ -168,10 +177,7 @@ public class SampleThemeFragment extends AbstractFragment
             }
             else
             {
-                if (cameraUiFragment == null)
-                    cameraUiFragment = new CameraUiFragment();
-                cameraUiFragment.SetStuff(i_activity,onThumbClick,appSettingsManager);
-                cameraUiFragment.SetCameraUIWrapper(wrapper);
+                cameraUiFragment = CameraUiFragment.GetInstance(i_activity,onThumbClick,appSettingsManager,cameraUiWrapper);
                 return cameraUiFragment;
             }
         }

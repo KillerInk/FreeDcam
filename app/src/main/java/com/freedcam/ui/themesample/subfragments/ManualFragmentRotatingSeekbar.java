@@ -127,7 +127,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
 
         previewZoom = (ManualButton)view.findViewById(R.id.manual_zoom_preview);
         previewZoom.setOnClickListener(manualButtonClickListner);
-        if (wrapper != null)
+        if (cameraUiWrapper != null)
             setWrapper();
     }
 
@@ -157,28 +157,28 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
     }
 
     private void setWrapper() {
-        contrast.SetAbstractManualParameter(wrapper.camParametersHandler.ManualContrast);
-        burst.SetAbstractManualParameter(wrapper.camParametersHandler.Burst);
-        brightness.SetAbstractManualParameter(wrapper.camParametersHandler.ManualBrightness);
-        wb.SetAbstractManualParameter(wrapper.camParametersHandler.CCT);
-        convergence.SetAbstractManualParameter(wrapper.camParametersHandler.ManualConvergence);
-        exposure.SetAbstractManualParameter(wrapper.camParametersHandler.ManualExposure);
-        fx.SetAbstractManualParameter(wrapper.camParametersHandler.FX);
-        mf.SetAbstractManualParameter(wrapper.camParametersHandler.ManualFocus);
-        saturation.SetAbstractManualParameter(wrapper.camParametersHandler.ManualSaturation);
-        sharpness.SetAbstractManualParameter(wrapper.camParametersHandler.ManualSharpness);
-        shutter.SetAbstractManualParameter(wrapper.camParametersHandler.ManualShutter);
-        iso.SetAbstractManualParameter(wrapper.camParametersHandler.ISOManual);
-        zoom.SetAbstractManualParameter(wrapper.camParametersHandler.Zoom);
-        aperture.SetAbstractManualParameter(wrapper.camParametersHandler.ManualFNumber);
-        skintone.SetAbstractManualParameter(wrapper.camParametersHandler.Skintone);
-        programshift.SetAbstractManualParameter(wrapper.camParametersHandler.ProgramShift);
-        previewZoom.SetAbstractManualParameter(wrapper.camParametersHandler.PreviewZoom);
+        contrast.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualContrast);
+        burst.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.Burst);
+        brightness.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualBrightness);
+        wb.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.CCT);
+        convergence.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualConvergence);
+        exposure.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualExposure);
+        fx.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.FX);
+        mf.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualFocus);
+        saturation.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualSaturation);
+        sharpness.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualSharpness);
+        shutter.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualShutter);
+        iso.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ISOManual);
+        zoom.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.Zoom);
+        aperture.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualFNumber);
+        skintone.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.Skintone);
+        programshift.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ProgramShift);
+        previewZoom.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.PreviewZoom);
     }
 
     @Override
     public void ParametersLoaded() {
-        if (wrapper != null)
+        if (cameraUiWrapper != null)
             setWrapper();
     }
 
@@ -232,7 +232,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
     {
         Logger.d(TAG, "onProgressChanged:" + progress);
         currentValuePos = progress;
-        if (!(wrapper instanceof CameraUiWrapperSony)) {
+        if (!(cameraUiWrapper instanceof CameraUiWrapperSony)) {
             currentButton.setValueToParameters(progress);
             currentButton.onCurrentValueChanged(progress);
 
@@ -246,7 +246,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        if (wrapper instanceof CameraUiWrapperSony) {
+        if (cameraUiWrapper instanceof CameraUiWrapperSony) {
             currentButton.setValueToParameters(currentValuePos);
             currentButton.onCurrentValueChanged(currentValuePos);
         }

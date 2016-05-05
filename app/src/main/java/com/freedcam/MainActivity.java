@@ -230,7 +230,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     }
 
     /**
-     * gets thrown when the cameraui wrapper is created sucessfull and all items are up like modulehandler
+     * gets thrown when the cameraui cameraUiWrapper is created sucessfull and all items are up like modulehandler
      * and rdy to register listners
      * @param cameraUiWrapper the cameraWrapper to register the listners
      */

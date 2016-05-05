@@ -92,7 +92,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
     {
         leftMenuFragment = new LeftMenuFragment();
         leftMenuFragment.SetStuff(i_activity,appSettingsManager);
-        leftMenuFragment.SetCameraUIWrapper(wrapper);
+        leftMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
         leftMenuFragment.SetMenuItemClickListner(this);
         try {
             android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
@@ -105,7 +105,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
     private void loadRightFragment() {
         rightMenuFragment = new RightMenuFragment();
         rightMenuFragment.SetStuff(i_activity,appSettingsManager);
-        rightMenuFragment.SetCameraUIWrapper(wrapper);
+        rightMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
         rightMenuFragment.SetMenuItemClickListner(this);
         try {
             android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();

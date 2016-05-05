@@ -75,21 +75,30 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
     private File lastFile;
     private AppSettingsManager appSettingsManager;
 
-    HorizontLineFragment horizontLineFragment;
+    private HorizontLineFragment horizontLineFragment;
+
+    public static CameraUiFragment GetInstance(I_Activity i_activity, ScreenSlideFragment.I_ThumbClick thumbClick, AppSettingsManager appSettingsManager,AbstractCameraUiWrapper cameraUiWrapper)
+    {
+        CameraUiFragment cameraUiFragment = new CameraUiFragment();
+        cameraUiFragment.i_activity = i_activity;
+        cameraUiFragment.thumbClick = thumbClick;
+        cameraUiFragment.appSettingsManager = appSettingsManager;
+        cameraUiFragment.cameraUiWrapper = cameraUiWrapper;
+        cameraUiFragment.cameraUiWrapper.camParametersHandler.AddParametersLoadedListner(cameraUiFragment);
+        return cameraUiFragment;
+    }
 
     public void SetStuff(I_Activity i_activity, ScreenSlideFragment.I_ThumbClick thumbClick, AppSettingsManager appSettingsManager)
     {
-        this.i_activity = i_activity;
-        this.thumbClick = thumbClick;
-        this.appSettingsManager = appSettingsManager;
+
     }
 
     @Override
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper)
     {
-        if (this.wrapper == wrapper)
+        if (this.cameraUiWrapper == wrapper)
             return;
-        this.wrapper = wrapper;
+        this.cameraUiWrapper = wrapper;
         if (wrapper != null && wrapper.camParametersHandler != null)
             wrapper.camParametersHandler.AddParametersLoadedListner(this);
         if(view != null)
@@ -98,38 +107,38 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
 
     private void setWrapper()
     {
-        if (wrapper == null || wrapper.camParametersHandler == null)
+        if (cameraUiWrapper == null || cameraUiWrapper.camParametersHandler == null)
         {
-            Logger.d(TAG, "failed to set wrapper");
+            Logger.d(TAG, "failed to set cameraUiWrapper");
             return;
         }
-        flash.SetParameter(wrapper.camParametersHandler.FlashMode);
-        iso.SetParameter(wrapper.camParametersHandler.IsoMode);
-        autoexposure.SetParameter(wrapper.camParametersHandler.ExposureMode);
-        whitebalance.SetParameter(wrapper.camParametersHandler.WhiteBalanceMode);
-        focus.SetParameter(wrapper.camParametersHandler.FocusMode);
-        night.SetParameter(wrapper.camParametersHandler.NightMode);
-        aepriority.SetParameter(wrapper.camParametersHandler.AE_PriorityMode);
-        thumbView.INIT(wrapper);
+        flash.SetParameter(cameraUiWrapper.camParametersHandler.FlashMode);
+        iso.SetParameter(cameraUiWrapper.camParametersHandler.IsoMode);
+        autoexposure.SetParameter(cameraUiWrapper.camParametersHandler.ExposureMode);
+        whitebalance.SetParameter(cameraUiWrapper.camParametersHandler.WhiteBalanceMode);
+        focus.SetParameter(cameraUiWrapper.camParametersHandler.FocusMode);
+        night.SetParameter(cameraUiWrapper.camParametersHandler.NightMode);
+        aepriority.SetParameter(cameraUiWrapper.camParametersHandler.AE_PriorityMode);
+        thumbView.INIT(cameraUiWrapper);
 
-        cameraSwitch.SetCameraUiWrapper(wrapper);
-        focusImageHandler.SetCamerUIWrapper(wrapper);
+        cameraSwitch.SetCameraUiWrapper(cameraUiWrapper);
+        focusImageHandler.SetCamerUIWrapper(cameraUiWrapper);
         UserMessageHandler messageHandler = new UserMessageHandler(view);
-        messageHandler.SetCameraUiWrapper(wrapper);
-        shutterButton.SetCameraUIWrapper(wrapper, messageHandler);
-        format.SetParameter(wrapper.camParametersHandler.PictureFormat);
-        contShot.SetParameter(wrapper.camParametersHandler.ContShootMode);
+        messageHandler.SetCameraUiWrapper(cameraUiWrapper);
+        shutterButton.SetCameraUIWrapper(cameraUiWrapper, messageHandler);
+        format.SetParameter(cameraUiWrapper.camParametersHandler.PictureFormat);
+        contShot.SetParameter(cameraUiWrapper.camParametersHandler.ContShootMode);
         if (manualModesFragment != null)
-            manualModesFragment.SetCameraUIWrapper(wrapper);
-        if (wrapper.camParametersHandler.Focuspeak != null) {
-            focuspeak.SetParameter(wrapper.camParametersHandler.Focuspeak);
-            wrapper.camParametersHandler.AddParametersLoadedListner(focuspeak);
+            manualModesFragment.SetCameraUIWrapper(cameraUiWrapper);
+        if (cameraUiWrapper.camParametersHandler.Focuspeak != null) {
+            focuspeak.SetParameter(cameraUiWrapper.camParametersHandler.Focuspeak);
+            cameraUiWrapper.camParametersHandler.AddParametersLoadedListner(focuspeak);
         }
-        guideHandler.setCameraUiWrapper(wrapper);
-        focuspeak.SetCameraUiWrapper(wrapper);
-        modeSwitch.SetCameraUiWrapper(wrapper);
-        hdr_switch.SetParameter(wrapper.camParametersHandler.HDRMode);
-        horizontLineFragment.setCameraUiWrapper(wrapper);
+        guideHandler.setCameraUiWrapper(cameraUiWrapper);
+        focuspeak.SetCameraUiWrapper(cameraUiWrapper);
+        modeSwitch.SetCameraUiWrapper(cameraUiWrapper);
+        hdr_switch.SetParameter(cameraUiWrapper.camParametersHandler.HDRMode);
+        horizontLineFragment.setCameraUiWrapper(cameraUiWrapper);
 
 
     }
@@ -207,7 +216,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         cameraSwitch.SetStuff(i_activity, AppSettingsManager.SETTING_CURRENTCAMERA,appSettingsManager);
 
         infoOverlayHandler = new SampleInfoOverlayHandler(view,appSettingsManager);
-        infoOverlayHandler.setCameraUIWrapper(wrapper);
+        infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
 
         focusImageHandler = new FocusImageHandler(view, this);
 
@@ -251,7 +260,7 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         horizontLineFragment.SetStuff(i_activity,appSettingsManager);
 
 
-        manualModesFragment.SetCameraUIWrapper(wrapper);
+        manualModesFragment.SetCameraUIWrapper(cameraUiWrapper);
 
         transaction = getChildFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.bottom_to_top_enter, R.anim.empty);

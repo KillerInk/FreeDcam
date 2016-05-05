@@ -15,14 +15,14 @@ import com.freedcam.utils.AppSettingsManager;
  */
 public abstract class AbstractFragment extends Fragment implements I_Fragment
 {
-    protected AbstractCameraUiWrapper wrapper;
+    protected AbstractCameraUiWrapper cameraUiWrapper;
     protected I_Activity i_activity;
     protected View view;
     protected AppSettingsManager appSettingsManager;
 
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper)
     {
-        this.wrapper = wrapper;
+        this.cameraUiWrapper = wrapper;
     }
 
     @Override

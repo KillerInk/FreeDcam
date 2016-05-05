@@ -47,9 +47,7 @@ public class ThemeHandler
         //load sampleFragment
         if (theme.equals("Sample"))
         {
-            SampleThemeFragment sampleThemeFragment = new SampleThemeFragment();
-            sampleThemeFragment.SetStuff(activity_v2,appSettingsManager);
-            sampleThemeFragment.SetCameraUIWrapper(cameraUiWrapper);
+            SampleThemeFragment sampleThemeFragment = SampleThemeFragment.GetInstance(activity_v2,appSettingsManager,cameraUiWrapper);
             uiFragment = sampleThemeFragment;
         }
         inflateFragment(uiFragment);

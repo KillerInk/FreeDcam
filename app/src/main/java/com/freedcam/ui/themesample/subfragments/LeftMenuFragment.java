@@ -173,38 +173,38 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
     private void setWrapper()
     {
-        if (themeItem == null ||wrapper == null)
+        if (themeItem == null || cameraUiWrapper == null)
             return;
         themeItem.SetStuff(i_activity,AppSettingsManager.SETTING_Theme,appSettingsManager);
-        themeItem.SetParameter(wrapper.camParametersHandler.ThemeList);
+        themeItem.SetParameter(cameraUiWrapper.camParametersHandler.ThemeList);
         themeItem.SetMenuItemListner(this);
 
         pictureSize.SetStuff(i_activity, AppSettingsManager.SETTING_PICTURESIZE,appSettingsManager);
-        pictureSize.SetParameter(wrapper.camParametersHandler.PictureSize);
+        pictureSize.SetParameter(cameraUiWrapper.camParametersHandler.PictureSize);
         pictureSize.SetMenuItemListner(this);
 
         sdSave.SetStuff(i_activity, AppSettingsManager.SETTING_EXTERNALSD,appSettingsManager);
-        sdSave.SetCameraUiWrapper(wrapper);
+        sdSave.SetCameraUiWrapper(cameraUiWrapper);
         sdSave.SetMenuItemListner(this);
 
         menuItemInterval.SetStuff(i_activity, AppSettingsManager.SETTING_INTERVAL,appSettingsManager);
-        menuItemInterval.SetCameraUIWrapper(wrapper);
+        menuItemInterval.SetCameraUIWrapper(cameraUiWrapper);
         menuItemInterval.SetMenuItemListner(this);
 
         menuItemIntervalDuration.SetStuff(i_activity, AppSettingsManager.SETTING_INTERVAL_DURATION,appSettingsManager);
-        menuItemIntervalDuration.SetCameraUIWrapper(wrapper);
+        menuItemIntervalDuration.SetCameraUIWrapper(cameraUiWrapper);
         menuItemIntervalDuration.SetMenuItemListner(this);
 
         menuItemTimer.SetStuff(i_activity, AppSettingsManager.SETTING_TIMER,appSettingsManager);
-        menuItemTimer.SetCameraUIWrapper(wrapper);
+        menuItemTimer.SetCameraUIWrapper(cameraUiWrapper);
         menuItemTimer.SetMenuItemListner(this);
 
         menuItemGPS.SetStuff(i_activity, AppSettingsManager.SETTING_LOCATION,appSettingsManager);
-        menuItemGPS.SetCameraUIWrapper(wrapper);
+        menuItemGPS.SetCameraUIWrapper(cameraUiWrapper);
         menuItemGPS.SetMenuItemListner(this);
 
         guide.SetStuff(i_activity, AppSettingsManager.SETTING_GUIDE,appSettingsManager);
-        guide.SetParameter(wrapper.camParametersHandler.GuideList);
+        guide.SetParameter(cameraUiWrapper.camParametersHandler.GuideList);
         guide.SetMenuItemListner(this);
 
         api.SetStuff(i_activity, null,appSettingsManager);
@@ -216,32 +216,32 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         externalShutter.SetMenuItemListner(this);
 
         orientationHack.SetStuff(i_activity, null,appSettingsManager);
-        orientationHack.SetCameraUIWrapper(wrapper);
+        orientationHack.SetCameraUIWrapper(cameraUiWrapper);
         orientationHack.SetMenuItemListner(this);
 
         jpegQuality.SetStuff(i_activity, AppSettingsManager.SETTING_JPEGQUALITY,appSettingsManager);
-        jpegQuality.SetParameter(wrapper.camParametersHandler.JpegQuality);
+        jpegQuality.SetParameter(cameraUiWrapper.camParametersHandler.JpegQuality);
         jpegQuality.SetMenuItemListner(this);
 
         videoProfile.SetStuff(i_activity, AppSettingsManager.SETTING_VIDEPROFILE,appSettingsManager);
-        if (wrapper.camParametersHandler.VideoProfiles != null)
-            videoProfile.SetParameter(wrapper.camParametersHandler.VideoProfiles);
-        else if (wrapper.camParametersHandler.VideoProfilesG3 != null)
-            videoProfile.SetParameter(wrapper.camParametersHandler.VideoProfilesG3);
+        if (cameraUiWrapper.camParametersHandler.VideoProfiles != null)
+            videoProfile.SetParameter(cameraUiWrapper.camParametersHandler.VideoProfiles);
+        else if (cameraUiWrapper.camParametersHandler.VideoProfilesG3 != null)
+            videoProfile.SetParameter(cameraUiWrapper.camParametersHandler.VideoProfilesG3);
         else {
             videoProfile.SetParameter(null);
         }
         videoProfile.SetMenuItemListner(this);
 
         videoHDR.SetStuff(i_activity, AppSettingsManager.SETTING_VIDEOHDR,appSettingsManager);
-        videoHDR.SetParameter(wrapper.camParametersHandler.VideoHDR);
+        videoHDR.SetParameter(cameraUiWrapper.camParametersHandler.VideoHDR);
         videoHDR.SetMenuItemListner(this);
-        videoHDR.SetModulesToShow(wrapper.moduleHandler.VideoModules, wrapper.moduleHandler);
+        videoHDR.SetModulesToShow(cameraUiWrapper.moduleHandler.VideoModules, cameraUiWrapper.moduleHandler);
         ///////////////////////////   Highspeed Recording //////////////////////////////////////////
 
         VideoSize.SetStuff(i_activity, AppSettingsManager.SETTING_VIDEOSIZE,appSettingsManager);
-        if (!(wrapper instanceof CameraUiWrapper) && wrapper.camParametersHandler.VideoSize != null && wrapper.camParametersHandler.VideoSize.IsSupported()) {
-            VideoSize.SetParameter(wrapper.camParametersHandler.VideoSize);
+        if (!(cameraUiWrapper instanceof CameraUiWrapper) && cameraUiWrapper.camParametersHandler.VideoSize != null && cameraUiWrapper.camParametersHandler.VideoSize.IsSupported()) {
+            VideoSize.SetParameter(cameraUiWrapper.camParametersHandler.VideoSize);
             VideoSize.SetMenuItemListner(this);
             VideoSize.setVisibility(View.VISIBLE);
         }
@@ -249,18 +249,18 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
             VideoSize.setVisibility(View.GONE);
 
         videoStabilization.SetStuff(i_activity, AppSettingsManager.SETTING_VIDEOSTABILIZATION,appSettingsManager);
-        videoStabilization.SetParameter(wrapper.camParametersHandler.VideoStabilization);
+        videoStabilization.SetParameter(cameraUiWrapper.camParametersHandler.VideoStabilization);
         videoStabilization.SetMenuItemListner(this);
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
-        if (wrapper instanceof CameraUiWrapper) {
+        if (cameraUiWrapper instanceof CameraUiWrapper) {
 
             timeLapseFrames.setVisibility(View.VISIBLE);
             timeLapseFrames.SetStuff(appSettingsManager);
             videoProfileEditor.setVisibility(View.VISIBLE);
         }
-        else if (wrapper instanceof CameraUiWrapperApi2)
+        else if (cameraUiWrapper instanceof CameraUiWrapperApi2)
         {
             timeLapseFrames.setVisibility(View.GONE);
             videoProfileEditor.setVisibility(View.VISIBLE);
@@ -272,16 +272,16 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         }
 
 
-        saveCamParams.setCameraUiWrapper(wrapper);
+        saveCamParams.setCameraUiWrapper(cameraUiWrapper);
 
         if (DEBUG)
         {
             PreviewFormat.SetStuff(i_activity, null,appSettingsManager);
-            PreviewFormat.SetParameter(wrapper.camParametersHandler.PreviewFormat);
+            PreviewFormat.SetParameter(cameraUiWrapper.camParametersHandler.PreviewFormat);
             PreviewFormat.SetMenuItemListner(this);
             PreviewFormat.setVisibility(View.VISIBLE);
             PreviewSize.SetStuff(i_activity, null,appSettingsManager);
-            PreviewSize.SetParameter(wrapper.camParametersHandler.PreviewSize);
+            PreviewSize.SetParameter(cameraUiWrapper.camParametersHandler.PreviewSize);
             PreviewSize.SetMenuItemListner(this);
             PreviewSize.setVisibility(View.VISIBLE);
         }
@@ -291,17 +291,17 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         }
 
         horizont.SetStuff(i_activity, AppSettingsManager.SETTING_HORIZONT,appSettingsManager);
-        horizont.SetParameter(wrapper.camParametersHandler.Horizont);
+        horizont.SetParameter(cameraUiWrapper.camParametersHandler.Horizont);
         horizont.SetMenuItemListner(this);
 
-        if(wrapper instanceof CameraUiWrapper)
+        if(cameraUiWrapper instanceof CameraUiWrapper)
         {
             AEB1.SetStuff(appSettingsManager, AppSettingsManager.SETTING_AEB1);
-            AEB1.SetCameraUIWrapper(wrapper);
+            AEB1.SetCameraUIWrapper(cameraUiWrapper);
             AEB2.SetStuff(appSettingsManager, AppSettingsManager.SETTING_AEB2);
-            AEB2.SetCameraUIWrapper(wrapper);
+            AEB2.SetCameraUIWrapper(cameraUiWrapper);
             AEB3.SetStuff(appSettingsManager, AppSettingsManager.SETTING_AEB3);
-            AEB3.SetCameraUIWrapper(wrapper);
+            AEB3.SetCameraUIWrapper(cameraUiWrapper);
         }
         else
         {
@@ -311,18 +311,18 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         }
 
         opcode.SetStuff(i_activity, "",appSettingsManager);
-        opcode.SetParameter(wrapper.camParametersHandler.opcode);
+        opcode.SetParameter(cameraUiWrapper.camParametersHandler.opcode);
         opcode.SetMenuItemListner(this);
 
         bayerFormatItem.SetStuff(i_activity, AppSettingsManager.SETTTING_BAYERFORMAT,appSettingsManager);
-        bayerFormatItem.SetParameter(wrapper.camParametersHandler.bayerformat);
+        bayerFormatItem.SetParameter(cameraUiWrapper.camParametersHandler.bayerformat);
         bayerFormatItem.SetMenuItemListner(this);
 
         matrixChooser.SetStuff(i_activity, AppSettingsManager.SETTTING_CUSTOMMATRIX,appSettingsManager);
-        matrixChooser.SetParameter(wrapper.camParametersHandler.matrixChooser);
+        matrixChooser.SetParameter(cameraUiWrapper.camParametersHandler.matrixChooser);
         matrixChooser.SetMenuItemListner(this);
 
-        /*previewZoom.SetParameter(wrapper.camParametersHandler.PreviewZoom);
+        /*previewZoom.SetParameter(cameraUiWrapper.camParametersHandler.PreviewZoom);
         previewZoom.SetMenuItemListner(this);*/
 
     }

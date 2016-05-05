@@ -130,7 +130,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         /*if(cameraUiWrapper instanceof CameraUiWrapperApi2)
         {
             awbRect = centerImageView(awbArea);
-            if(wrapper.Focus.isWbMeteringSupported())
+            if(cameraUiWrapper.Focus.isWbMeteringSupported())
                 awbArea.setVisibility(View.VISIBLE);
             else
                 awbArea.setVisibility(View.GONE);

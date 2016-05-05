@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Ingo on 26.12.2014.
  *
- * This lowlevel class is implemented for all apis as wrapper for their parameters
+ * This lowlevel class is implemented for all apis as cameraUiWrapper for their parameters
  * only this class should used by the ui
  */
 public class AbstractModeParameter implements I_ModeParameter
