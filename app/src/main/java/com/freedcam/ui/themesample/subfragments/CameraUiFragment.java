@@ -84,7 +84,8 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         cameraUiFragment.thumbClick = thumbClick;
         cameraUiFragment.appSettingsManager = appSettingsManager;
         cameraUiFragment.cameraUiWrapper = cameraUiWrapper;
-        cameraUiFragment.cameraUiWrapper.camParametersHandler.AddParametersLoadedListner(cameraUiFragment);
+        if (cameraUiWrapper != null)
+            cameraUiFragment.cameraUiWrapper.camParametersHandler.AddParametersLoadedListner(cameraUiFragment);
         return cameraUiFragment;
     }
 

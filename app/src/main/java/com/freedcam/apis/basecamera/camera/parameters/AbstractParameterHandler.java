@@ -112,8 +112,6 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter Module;
     public AbstractModeParameter ZoomSetting;
     //public AbstractModeParameter PreviewZoom;
-    //
-    public AbstractModeParameter ThemeList;
     public boolean isExposureAndWBLocked = false;
     private boolean isDngActive = false;
     public boolean IsDngActive(){ return this.isDngActive; }
@@ -165,7 +163,6 @@ public abstract class AbstractParameterHandler
         parametersLoadedListner.clear();
 
         GuideList = new GuideList(uiHandler);
-        ThemeList = new ThemeList(uiHandler);
         locationParameter = new LocationParameter(uiHandler,cameraHolder,context,appSettingsManager);
         IntervalDuration = new IntervalDurationParameter(uiHandler);
         IntervalShutterSleep = new IntervalShutterSleepParameter(uiHandler);

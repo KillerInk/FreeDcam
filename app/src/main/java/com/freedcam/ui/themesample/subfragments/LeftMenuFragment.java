@@ -44,7 +44,6 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 {
 
     private final boolean DEBUG = false;
-    private MenuItemTheme themeItem;
     private MenuItem bayerFormatItem;
     private MenuItem opcode;
     private MenuItem pictureSize;
@@ -106,7 +105,6 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        themeItem = (MenuItemTheme)view.findViewById(R.id.MenuItemTheme);
 
         videoProfileEditor = (MenuItem_VideoProfEditor)view.findViewById(R.id.MenuItem_VideoProfileEditor);
 
@@ -173,12 +171,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
     private void setWrapper()
     {
-        if (themeItem == null || cameraUiWrapper == null)
+        if (cameraUiWrapper == null)
             return;
-        themeItem.SetStuff(i_activity,AppSettingsManager.SETTING_Theme,appSettingsManager);
-        themeItem.SetParameter(cameraUiWrapper.camParametersHandler.ThemeList);
-        themeItem.SetMenuItemListner(this);
-
         pictureSize.SetStuff(i_activity, AppSettingsManager.SETTING_PICTURESIZE,appSettingsManager);
         pictureSize.SetParameter(cameraUiWrapper.camParametersHandler.PictureSize);
         pictureSize.SetMenuItemListner(this);

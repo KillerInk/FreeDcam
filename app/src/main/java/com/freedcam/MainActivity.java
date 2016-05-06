@@ -18,8 +18,8 @@ import com.freedcam.apis.ApiHandler;
 import com.freedcam.ui.handler.HardwareKeyHandler;
 import com.freedcam.ui.handler.I_orientation;
 import com.freedcam.ui.handler.OrientationHandler;
-import com.freedcam.ui.handler.ThemeHandler;
 import com.freedcam.ui.handler.TimerHandler;
+import com.freedcam.ui.themesample.SampleThemeFragment;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 import com.AbstractFragmentActivity;
@@ -44,7 +44,6 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     private ApiHandler apiHandler;
     private TimerHandler timerHandler;
     //handel the themes and create the ui fragment
-    private ThemeHandler themeHandler;
     //holds the current api fragment
     private AbstractCameraFragment cameraFragment;
     //hold the state if logging to file is true when folder /sdcard/DCIM/DEBUG/ is created
@@ -52,6 +51,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     //holds the default UncaughtExecptionHandler from activity wich get replaced with own to have a change to save
     //fc to file and pass it back when done and let app crash as it should
     private Thread.UncaughtExceptionHandler defaultEXhandler;
+    private SampleThemeFragment sampleThemeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -167,7 +167,6 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
 
         checkSaveLogToFile();
         orientationHandler = new OrientationHandler(this, this);
-        themeHandler = new ThemeHandler(this,appSettingsManager);
         timerHandler = new TimerHandler(this);
         //setup apihandler and register listner for apiDetectionDone
         apiHandler = new ApiHandler(getApplicationContext(),this,appSettingsManager);
@@ -175,10 +174,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         apiHandler.CheckApi();
         hardwareKeyHandler = new HardwareKeyHandler(this,appSettingsManager);
         //load the cameraui
-        if (cameraFragment != null)
-            themeHandler.GetThemeFragment(cameraFragment.GetCameraUiWrapper());
-        else // reset ui to hide items, thats the case when sonyapi is on at appstart
-            themeHandler.GetThemeFragment(null);
+        loadUiFragment();
     }
 
     /**
@@ -226,7 +222,15 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
             cameraFragment = null;
         }
         Logger.d(TAG, "destroyed cameraWrapper");
+    }
 
+    private void loadUiFragment()
+    {
+        sampleThemeFragment = SampleThemeFragment.GetInstance(this,appSettingsManager,null);
+        android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
+        transaction.replace(R.id.themeFragmentholder, sampleThemeFragment, "Main");
+        transaction.commitAllowingStateLoss();
     }
 
     /**
@@ -238,7 +242,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     public void onCameraUiWrapperRdy(AbstractCameraUiWrapper cameraUiWrapper)
     {
         cameraUiWrapper.moduleHandler.SetWorkListner(orientationHandler);
-        themeHandler.getCurrenttheme().SetCameraUIWrapper(cameraUiWrapper);
+        sampleThemeFragment.SetCameraUIWrapper(cameraUiWrapper);
         hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper);
         Logger.d(TAG, "add events");
         cameraUiWrapper.moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
@@ -293,7 +297,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     @Override
     public void SetTheme(String Theme)
     {
-        themeHandler.GetThemeFragment(cameraFragment.GetCameraUiWrapper());
+
     }
 
 

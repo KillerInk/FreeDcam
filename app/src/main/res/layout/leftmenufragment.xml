@@ -391,18 +391,6 @@
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp" />
 
-                <com.freedcam.ui.themesample.views.menu.MenuItemTheme
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/MenuItemTheme"
-                    app:Description="@string/setting_theme_description"
-                    app:HeaderText="@string/setting_theme_header"
-                    app:ValueText="Test"
-                    android:layout_marginBottom="1dp"
-                    android:visibility="gone"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp" />
-
                 <com.freedcam.ui.themesample.views.menu.MenuItemSaveCamParams
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
