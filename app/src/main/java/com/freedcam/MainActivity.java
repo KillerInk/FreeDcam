@@ -82,7 +82,9 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     {
         super.onResume();
         Logger.d(TAGLIFE, "Activity onResume");
-        if (checkMarshmallowPermissions())
+        if (checkMarshmallowPermissions() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            createHandlers();
+        else
             createHandlers();
     }
 
@@ -111,21 +113,28 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     @TargetApi(Build.VERSION_CODES.M)
     private boolean checkMarshmallowPermissions()
     {
-        if (checkSelfPermission(Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        try {
+            if (checkSelfPermission(Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_WIFI_STATE,
+                        Manifest.permission.CHANGE_WIFI_STATE,}, 1);
+                return false;
+            }
+        }
+
+        catch (NoSuchMethodError e)
         {
-            requestPermissions(new String[]{
-                            Manifest.permission.CAMERA,
-                            Manifest.permission.READ_EXTERNAL_STORAGE,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            Manifest.permission.RECORD_AUDIO,
-                            Manifest.permission.ACCESS_COARSE_LOCATION,
-                            Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_WIFI_STATE,
-                            Manifest.permission.CHANGE_WIFI_STATE,}, 1);
-            return false;
+            e.printStackTrace();
         }
         return true;
+
     }
 
     @Override

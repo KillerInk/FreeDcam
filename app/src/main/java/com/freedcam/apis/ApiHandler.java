@@ -54,6 +54,7 @@ public class ApiHandler
             }
             else {
                 appSettingsManager.SetCamera2FullSupported("false");
+                appSettingsManager.setCamApi(AppSettingsManager.API_1);
                 event.apiDetectionDone();
             }
         }
