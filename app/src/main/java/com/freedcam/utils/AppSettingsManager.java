@@ -9,6 +9,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -229,11 +231,11 @@ public class AppSettingsManager
     {
         final StringBuilder newstring = new StringBuilder();
         if (API_SONY.equals(camApiString))
-            newstring.append(settingsName).append(API_SONY);
+            newstring.append(API_SONY).append(settingsName);
         else if(API_1.equals(camApiString))
-            newstring.append(settingsName).append(currentcamera);
+            newstring.append(API_1).append(settingsName).append(currentcamera);
         else
-            newstring.append(settingsName).append(currentcamera).append(API_2);
+            newstring.append(API_2).append(settingsName).append(currentcamera);
         return newstring.toString();
     }
 

@@ -11,13 +11,16 @@ import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class BurstManualParam extends BaseManualParameter {
+public class BurstManualParam extends BaseManualParameter
+{
 
-    CameraHolderApi1 cameraHolderApi1;
+    final String TAG = BurstManualParam.class.getSimpleName();
+
     public BurstManualParam(HashMap<String, String> parameters, AbstractParameterHandler camParametersHandler) {
         super(parameters, "", "", "", camParametersHandler,1);
 
@@ -44,6 +47,7 @@ public class BurstManualParam extends BaseManualParameter {
             else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
                 max =  6;
             stringvalues = createStringArray(2,max,1);
+            currentInt = 0;
         }
     }
 
@@ -74,23 +78,32 @@ public class BurstManualParam extends BaseManualParameter {
     @Override
     public void SetValue(int valueToSet)
     {
-        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)|| parameters.containsKey("num-snaps-per-shutter"))
-            parameters.put("num-snaps-per-shutter", String.valueOf(1));
         currentInt = valueToSet;
 
-        if(!parameters.containsKey("burst-num")){
+        if (parameters.containsKey("num-snaps-per-shutter") ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
+        {
+            if (currentInt == 0)
+                parameters.put("num-snaps-per-shutter", 1+"");
+            else
+                parameters.put("num-snaps-per-shutter", stringvalues[currentInt]);
+            Logger.d(TAG, "num-snaps-per-shutter"+ stringvalues[currentInt]);
 
-            if (valueToSet == 0)
-            parameters.put("snapshot-burst-num", String.valueOf(0));
-        else
-            parameters.put("snapshot-burst-num", stringvalues[valueToSet]);
         }
-        else
+        if (!parameters.containsKey("burst-num"))
+        {
+            if (currentInt == 0)
+                parameters.put("snapshot-burst-num", String.valueOf(0));
+            else
+                parameters.put("snapshot-burst-num", stringvalues[currentInt]);
+            Logger.d(TAG, "snapshot-burst-num"+ stringvalues[currentInt]);
+        }
+        else if(parameters.containsKey("burst-num"))
         {
             if (valueToSet == 0)
                 parameters.put("burst-num", String.valueOf(0));
             else
-                parameters.put("burst-num", stringvalues[valueToSet]);
+                parameters.put("burst-num", stringvalues[currentInt]);
+            Logger.d(TAG, "burst-num"+ stringvalues[currentInt]);
         }
 
         camParametersHandler.SetParametersToCamera(parameters);

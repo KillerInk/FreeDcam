@@ -262,7 +262,7 @@ public abstract class AbstractParameterHandler
     {
         if (parameter != null && parameter.IsSupported() && settingsval != null && !settingsval.equals(""))
         {
-            if (appSettingsManager.getString(settingsval).equals(""))
+            if (appSettingsManager.getString(settingsval).equals("") || appSettingsManager.getString(settingsval).equals(null))
                 appSettingsManager.setString(settingsval, parameter.GetValue());
             else
                 parameter.SetValue(appSettingsManager.getString(settingsval), false);
@@ -273,7 +273,7 @@ public abstract class AbstractParameterHandler
     {
         if (parameter != null && parameter.IsSupported() && settingsval != null && !settingsval.equals(""))
         {
-            if (appSettingsManager.getString(settingsval).equals(""))
+            if (appSettingsManager.getString(settingsval).equals("") || appSettingsManager.getString(settingsval).equals(null))
                 appSettingsManager.setString(settingsval, parameter.GetValue()+"");
             else
                 parameter.SetValue(Integer.parseInt(appSettingsManager.getString(settingsval)));

@@ -107,19 +107,25 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             public void run()
             {
                 if (!waitForPicture)
+                {
+                    Logger.d(TAG, "Got pic data but did not wait for pic");
                     return;
+                }
                 burstcount++;
                 final String picFormat = ParameterHandler.PictureFormat.GetValue();
                 saveImage(data,picFormat);
                 //Handel Burst capture
                 if (ParameterHandler.Burst != null && ParameterHandler.Burst.IsSupported() && ParameterHandler.Burst.GetValue() > 1)
                 {
+                    Logger.d(TAG, "BurstCapture Count:" + burstcount + "/"+ParameterHandler.Burst.GetValue());
                     if (burstcount == ParameterHandler.Burst.GetValue())
                     {
+                        Logger.d(TAG, "BurstCapture done");
                         waitForPicture = false;
                         workfinished(true);
                         cameraHolder.StartPreview();
                     }
+
                 }
                 else //handel normal capture
                 {

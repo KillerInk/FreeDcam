@@ -977,10 +977,6 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     }
 
-    @Override
-    public void SetAppSettingsToParameters() {
-        super.SetAppSettingsToParameters();
-    }
     public void FPSRangeLock (int min,int max){
         String mMin =String.valueOf(min*1000);
         String mMax =String.valueOf(max*1000);
