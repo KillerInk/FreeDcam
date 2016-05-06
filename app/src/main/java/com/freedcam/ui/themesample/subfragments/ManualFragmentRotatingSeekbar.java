@@ -22,7 +22,7 @@ import com.troop.freedcam.R;
 /**
  * Created by troop on 08.12.2015.
  */
-public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I_ParametersLoaded, SeekBar.OnSeekBarChangeListener, AbstractManualParameter.I_ManualParameterEvent
+public class ManualFragmentRotatingSeekbar extends AbstractFragment implements SeekBar.OnSeekBarChangeListener, AbstractManualParameter.I_ManualParameterEvent
 {
     private int currentValuePos = 0;
 
@@ -127,36 +127,10 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
 
         previewZoom = (ManualButton)view.findViewById(R.id.manual_zoom_preview);
         previewZoom.setOnClickListener(manualButtonClickListner);
-        if (cameraUiWrapper != null)
-            setWrapper();
-    }
-
-
-
-    @Override
-    public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper)
-    {
-        super.SetCameraUIWrapper(wrapper);
-        //at this point a nullpointer could happen because the fragemnt is possible not added to the activity
-        //but if its added notify it about the change
-        try {
-            wrapper.camParametersHandler.AddParametersLoadedListner(this);
-            setWrapper();
-        }
-        catch (NullPointerException ex)
-        {
-            Logger.exception(ex);
-        }
-
-
     }
 
     @Override
-    public void SetStuff( I_Activity i_activity,AppSettingsManager appSettingsManager) {
-        super.SetStuff(i_activity,appSettingsManager);
-    }
-
-    private void setWrapper() {
+    protected void setCameraUiWrapperToUi() {
         contrast.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualContrast);
         burst.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.Burst);
         brightness.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualBrightness);
@@ -174,12 +148,6 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements I
         skintone.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.Skintone);
         programshift.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ProgramShift);
         previewZoom.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.PreviewZoom);
-    }
-
-    @Override
-    public void ParametersLoaded() {
-        if (cameraUiWrapper != null)
-            setWrapper();
     }
 
     //######## ManualButton Stuff#####

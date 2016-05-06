@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.ui.AbstractFragment;
+import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.AppSettingsManager;
 import com.troop.freedcam.R;
 
@@ -46,7 +47,13 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
     private Handler sensorHandler;
     private MySensorListener msl =new MySensorListener();
 
-
+    public static HorizontLineFragment GetInstance(I_Activity i_activity, AppSettingsManager appSettingsManager)
+    {
+        HorizontLineFragment horizontLineFragment = new HorizontLineFragment();
+        horizontLineFragment.i_activity = i_activity;
+        horizontLineFragment.appSettingsManager = appSettingsManager;
+        return horizontLineFragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

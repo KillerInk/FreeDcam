@@ -1,17 +1,13 @@
 package com.freedcam.ui.themesample.subfragments;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.ui.AbstractFragment;
+import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.themesample.views.menu.MenuItem;
 import com.freedcam.ui.themesample.views.uichilds.UiSettingsChild;
@@ -52,12 +48,13 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
 
     private MenuItem LensFilter;
 
-    private ScrollView scrollView;
-    private FrameLayout settingsMenu;
-    private final String KEY_SETTINGSOPEN = "key_settingsopen";
-    private SharedPreferences sharedPref;
-    private boolean settingsOpen;
-    private LinearLayout leftholder;
+    public static RightMenuFragment GetInstance(I_Activity i_activity, AppSettingsManager appSettingsManager)
+    {
+        RightMenuFragment s = new RightMenuFragment();
+        s.i_activity = i_activity;
+        s.appSettingsManager = appSettingsManager;
+        return s;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -71,70 +68,39 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         scene = (MenuItem)view.findViewById(R.id.MenuItemScene);
-
         color = (MenuItem)view.findViewById(R.id.MenuItemColor);
-
         cctMode = (MenuItem)view.findViewById(R.id.MenuItemCCTMode);
-
         objectTrackingMode = (MenuItem)view.findViewById(R.id.MenuItemObjectTracking);
-
         toneMapMode = (MenuItem)view.findViewById(R.id.MenuItemTonemap);
-
         postViewSize = (MenuItem)view.findViewById(R.id.MenuItemPostViewSize);
-
         controleMode = (MenuItem)view.findViewById(R.id.MenuItemControlMode);
-
         redeyeflash = (MenuItem)view.findViewById(R.id.MenuItemRedEye);
-
         antiBanding = (MenuItem)view.findViewById(R.id.MenuItemAntiBanding);
-
         ipp = (MenuItem)view.findViewById(R.id.MenuItemIpp);
-
         lensShade = (MenuItem)view.findViewById(R.id.MenuItemLensShade);
-
         sceneDetectMode = (MenuItem)view.findViewById(R.id.MenuItemSceneDetection);
-
         waveletdenoiseMode = (MenuItem)view.findViewById(R.id.MenuItemWaveletDenoise);
-
         digitalImageStabilization = (MenuItem)view.findViewById(R.id.MenuItemDigitalImageStab);
-
         memoryColorEnhancement = (MenuItem)view.findViewById(R.id.MenuItemMemoryColorEnhanc);
-
         ZeroShutterLag = (MenuItem)view.findViewById(R.id.MenuItemZSL);
-
         nonZSLmanualMode = (MenuItem)view.findViewById(R.id.MenuItemNonManualZSL);
-
         correlatedDoubleSampling = (MenuItem)view.findViewById(R.id.MenuItemCorrelatedDoubleSampling);
-
         temporalDenoise = (MenuItem)view.findViewById(R.id.MenuItemTemporalDenoise);
-
         edgeMode = (MenuItem)view.findViewById(R.id.MenuItemEdgeMode);
-
         hotPixelMode = (MenuItem)view.findViewById(R.id.MenuItemHotPixelMode);
-
         opticalImageStabilization = (MenuItem)view.findViewById(R.id.MenuItemOIS);
-
         LensFilter = (MenuItem)view.findViewById(R.id.LensFilter);
-
-        scrollView = (ScrollView) view.findViewById(R.id.scrollView2);
-        settingsMenu =  (FrameLayout)getActivity().findViewById(R.id.settingsMenuHolder);
-
         zoomSetting = (MenuItem)view.findViewById(R.id.MenuItemZoomSetting);
-
-        sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        settingsOpen = sharedPref.getBoolean(KEY_SETTINGSOPEN, false);
-        leftholder = (LinearLayout) getActivity().findViewById(R.id.guideHolder);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        setWrapper();
     }
 
-    private void setWrapper()
+    @Override
+    protected void setCameraUiWrapperToUi()
     {
-        Logger.d(TAG, "setWrapper");
         if (cameraUiWrapper == null)
             return;
         scene.SetStuff(i_activity, AppSettingsManager.SETTING_SCENEMODE,appSettingsManager);
@@ -242,12 +208,5 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
     @Override
     public void onMenuItemClick(UiSettingsChild item, boolean fromLeftFragment) {
         onMenuItemClick.onMenuItemClick(item, false);
-    }
-
-    @Override
-    public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper) {
-        super.SetCameraUIWrapper(wrapper);
-        if (view != null)
-            setWrapper();
     }
 }

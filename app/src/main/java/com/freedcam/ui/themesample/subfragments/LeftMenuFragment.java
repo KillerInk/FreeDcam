@@ -35,14 +35,15 @@ import com.freedcam.ui.themesample.views.menu.MenuItemVideoHDR;
 import com.freedcam.ui.themesample.views.menu.MenuItemVideoProfile;
 import com.freedcam.ui.themesample.views.menu.MenuItem_VideoProfEditor;
 import com.freedcam.ui.themesample.views.uichilds.UiSettingsChild;
+import com.freedcam.utils.Logger;
 import com.troop.freedcam.R;
 
 /**
  * Created by troop on 15.06.2015.
  */
-public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_MenuItemClick, I_swipe
+public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_MenuItemClick
 {
-
+    private final String TAG = LeftMenuFragment.class.getSimpleName();
     private final boolean DEBUG = false;
     private MenuItem bayerFormatItem;
     private MenuItem opcode;
@@ -84,22 +85,18 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
     private Interfaces.I_MenuItemClick onMenuItemClick;
 
-    private ScrollView scrollView;
-    private FrameLayout settingsMenu;
-    private final String KEY_SETTINGSOPEN = "key_settingsopen";
-    private SharedPreferences sharedPref;
-    private boolean settingsOpen;
-    private LinearLayout leftholder;
+    public static LeftMenuFragment GetInstance(I_Activity i_activity, AppSettingsManager appSettingsManager)
+    {
+        LeftMenuFragment s = new LeftMenuFragment();
+        s.i_activity = i_activity;
+        s.appSettingsManager = appSettingsManager;
+        return s;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         return inflater.inflate(R.layout.leftmenufragment, container, false);
-    }
-
-    @Override
-    public void SetStuff(I_Activity i_activity, AppSettingsManager appSettingsManager) {
-        super.SetStuff(i_activity, appSettingsManager);
     }
 
     @Override
@@ -154,22 +151,15 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         opcode = (MenuItem)view.findViewById(R.id.MenuItemOpCode);
 
         matrixChooser = (MenuItem)view.findViewById(R.id.MenuItemMatrixChooser);
-
-        scrollView = (ScrollView) view.findViewById(R.id.scrollView);
-        settingsMenu =  (FrameLayout)getActivity().findViewById(R.id.settingsMenuHolder);
-        sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        settingsOpen = sharedPref.getBoolean(KEY_SETTINGSOPEN, false);
-        leftholder = (LinearLayout) getActivity().findViewById(R.id.guideHolder);
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        setWrapper();
     }
 
-    private void setWrapper()
+    @Override
+    protected void setCameraUiWrapperToUi()
     {
         if (cameraUiWrapper == null)
             return;
@@ -315,10 +305,6 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         matrixChooser.SetStuff(i_activity, AppSettingsManager.SETTTING_CUSTOMMATRIX,appSettingsManager);
         matrixChooser.SetParameter(cameraUiWrapper.camParametersHandler.matrixChooser);
         matrixChooser.SetMenuItemListner(this);
-
-        /*previewZoom.SetParameter(cameraUiWrapper.camParametersHandler.PreviewZoom);
-        previewZoom.SetMenuItemListner(this);*/
-
     }
 
     public void SetMenuItemClickListner(Interfaces.I_MenuItemClick menuItemClick)
@@ -326,49 +312,10 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         this.onMenuItemClick = menuItemClick;
     }
 
-
-
     @Override
     public void onMenuItemClick(UiSettingsChild item, boolean fromLeftFragment) {
         onMenuItemClick.onMenuItemClick(item, true);
     }
 
-    @Override
-    public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper) {
-        super.SetCameraUIWrapper(wrapper);
-            setWrapper();
-    }
 
-    @Override
-    public void doLeftToRightSwipe() {
-
-    }
-
-    @Override
-    public void doRightToLeftSwipe() {
-        settingsOpen = false;
-        sharedPref.edit().putBoolean(KEY_SETTINGSOPEN, settingsOpen).commit();
-        float width = leftholder.getWidth();
-        settingsMenu.animate().translationX(-width).setDuration(300);
-    }
-
-    @Override
-    public void doTopToBottomSwipe() {
-
-    }
-
-    @Override
-    public void doBottomToTopSwipe() {
-
-    }
-
-    @Override
-    public void onClick(int x, int y) {
-
-    }
-
-    @Override
-    public void onMotionEvent(MotionEvent event) {
-
-    }
 }

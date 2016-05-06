@@ -10,13 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.camera.parameters.I_ParametersLoaded;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.themesample.subfragments.CameraUiFragment;
 import com.freedcam.ui.themesample.subfragments.SettingsMenuFragment;
 import com.freedcam.ui.views.PagingView;
 import com.freedcam.utils.AppSettingsManager;
+import com.freedcam.utils.Logger;
 import com.freedviewer.screenslide.ScreenSlideFragment;
+import com.lge.imageutil.Log;
 import com.troop.freedcam.R;
 
 import java.io.File;
@@ -24,7 +27,7 @@ import java.io.File;
 /**
  * Created by troop on 09.06.2015.
  */
-public class SampleThemeFragment extends AbstractFragment
+public class SampleThemeFragment extends AbstractFragment implements I_ParametersLoaded
 {
     final String TAG = SampleThemeFragment.class.getSimpleName();
 
@@ -52,21 +55,18 @@ public class SampleThemeFragment extends AbstractFragment
     }
 
     @Override
-    public void SetStuff(I_Activity i_activity, AppSettingsManager appSettingsManager) {
-    }
-
-    @Override
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper)
     {
+        Logger.d(TAG, "SetCameraUiWrapper");
+        this.cameraUiWrapper = wrapper;
         if (wrapper != null)
-        {
-            this.cameraUiWrapper = wrapper;
-            if (cameraUiFragment != null) {
-                cameraUiFragment.SetCameraUIWrapper(wrapper);
-            }
-            if (settingsMenuFragment != null)
-                settingsMenuFragment.SetCameraUIWrapper(wrapper);
+            wrapper.camParametersHandler.AddParametersLoadedListner(this);
+        if (cameraUiFragment != null) {
+            cameraUiFragment.SetCameraUIWrapper(wrapper);
         }
+        if (settingsMenuFragment != null)
+            settingsMenuFragment.SetCameraUIWrapper(wrapper);
+
     }
 
 
@@ -84,23 +84,6 @@ public class SampleThemeFragment extends AbstractFragment
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(1);
-
-    }
-
-    @Override
-    public void onDestroyView()
-    {
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        /*if (settingsMenuFragment != null)
-        {
-            settingsMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
-        }*/
 
     }
 
@@ -146,6 +129,15 @@ public class SampleThemeFragment extends AbstractFragment
             mPager.EnableScroll(true);
     }
 
+    @Override
+    public void ParametersLoaded() {
+        if (cameraUiFragment != null) {
+            cameraUiFragment.SetCameraUIWrapper(cameraUiWrapper);
+        }
+        if (settingsMenuFragment != null)
+            settingsMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
+    }
+
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     {
 
@@ -161,23 +153,25 @@ public class SampleThemeFragment extends AbstractFragment
             if (position == 0)
             {
                 if (settingsMenuFragment == null)
-                    settingsMenuFragment = new SettingsMenuFragment();
-                settingsMenuFragment.SetStuff(i_activity,appSettingsManager);
-                settingsMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
+                {
+                    settingsMenuFragment = SettingsMenuFragment.GetInstance(i_activity,appSettingsManager);
+                    settingsMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
+                }
                 return settingsMenuFragment;
             }
             else if (position == 2)
             {
                 if (screenSlideFragment == null) {
                     screenSlideFragment = new ScreenSlideFragment();
+                    screenSlideFragment.SetAppSettingsManager(appSettingsManager);
+                    screenSlideFragment.SetOnThumbClick(onThumbBackClick);
                 }
-                screenSlideFragment.SetAppSettingsManager(appSettingsManager);
-                screenSlideFragment.SetOnThumbClick(onThumbBackClick);
                 return screenSlideFragment;
             }
             else
             {
-                cameraUiFragment = CameraUiFragment.GetInstance(i_activity,onThumbClick,appSettingsManager,cameraUiWrapper);
+                if (cameraUiFragment == null)
+                    cameraUiFragment = CameraUiFragment.GetInstance(i_activity,onThumbClick,appSettingsManager,cameraUiWrapper);
                 return cameraUiFragment;
             }
         }

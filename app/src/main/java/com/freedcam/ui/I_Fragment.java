@@ -9,5 +9,5 @@ import com.freedcam.utils.AppSettingsManager;
 interface I_Fragment
 {
     void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper);
-    void SetStuff(I_Activity i_activity, AppSettingsManager appSettingsManager);
+
 }

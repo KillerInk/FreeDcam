@@ -23,14 +23,12 @@ public abstract class AbstractFragment extends Fragment implements I_Fragment
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper)
     {
         this.cameraUiWrapper = wrapper;
+        if (cameraUiWrapper != null)
+            setCameraUiWrapperToUi();
     }
 
-    @Override
-    public void SetStuff(I_Activity i_activity, AppSettingsManager appSettingsManager)
-    {
-        this.i_activity =i_activity;
-        this.appSettingsManager = appSettingsManager;
-    }
+    protected void setCameraUiWrapperToUi()
+    {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

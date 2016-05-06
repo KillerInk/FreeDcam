@@ -1,14 +1,11 @@
 package com.freedcam.ui.themesample.subfragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.basecamera.camera.parameters.I_ParametersLoaded;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.I_Activity;
@@ -20,11 +17,9 @@ import com.troop.freedcam.R;
 /**
  * Created by troop on 14.06.2015.
  */
-public class SettingsMenuFragment extends AbstractFragment implements Interfaces.I_CloseNotice, Interfaces.I_MenuItemClick, I_ParametersLoaded
+public class SettingsMenuFragment extends AbstractFragment implements Interfaces.I_CloseNotice, Interfaces.I_MenuItemClick
 {
     private final String TAG = SettingsMenuFragment.class.getSimpleName();
-    private LinearLayout left_Holder;
-    private LinearLayout right_Holder;
     private LeftMenuFragment leftMenuFragment;
     private RightMenuFragment rightMenuFragment;
     private ValuesMenuFragment valuesMenuFragment;
@@ -37,19 +32,19 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
 
     private UiSettingsChild currentOpendItem;
 
-    @Override
-    public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper) {
-        super.SetCameraUIWrapper(wrapper);
-        Log.d(TAG,"Set Wrapper");
-        if (wrapper != null && wrapper.camParametersHandler != null)
-            wrapper.camParametersHandler.AddParametersLoadedListner(this);
-        //if(getActivity() != null)
-        //    setWrapper();
+    public static SettingsMenuFragment GetInstance(I_Activity i_activity, AppSettingsManager appSettingsManager)
+    {
+        SettingsMenuFragment settingsMenuFragment = new SettingsMenuFragment();
+        settingsMenuFragment.i_activity = i_activity;
+        settingsMenuFragment.appSettingsManager = appSettingsManager;
+        return settingsMenuFragment;
     }
 
-    public void SetStuff(AppSettingsManager appSettingsManager, I_Activity i_activity)
+    @Override
+    public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper)
     {
-        super.SetStuff(i_activity,appSettingsManager);
+        super.SetCameraUIWrapper(wrapper);
+        Logger.d(TAG, "SetCameraUiWrapper");
     }
 
     @Override
@@ -62,38 +57,36 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
-        right_Holder = (LinearLayout)view.findViewById(R.id.right_holder);
-        left_Holder = (LinearLayout)view.findViewById(R.id.left_holder);
+        loadLeftFragment();
+        loadRightFragment();
         Logger.d(TAG,"onviewCreated");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Logger.d(TAG,"onResume");
-        setWrapper();
+        setCameraUiWrapperToUi();
     }
 
-    private void setWrapper()
+    @Override
+    protected void setCameraUiWrapperToUi()
     {
-        Logger.d("SettingsmenuFragment", "set CameraWrapper");
-        try {
+        Logger.d(TAG, "set CameraWrapper");
+        if (value_menu_status != VALUE_MENU_CLOSED)
             closeValueMenu();
-            loadLeftFragment();
-            loadRightFragment();
-        }
-        catch (NullPointerException e){
-            Logger.exception(e);
-        }
+        if (rightMenuFragment != null)
+            rightMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
+        if (leftMenuFragment != null)
+            leftMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
         value_menu_status = VALUE_MENU_CLOSED;
     }
 
     private void loadLeftFragment()
     {
-        leftMenuFragment = new LeftMenuFragment();
-        leftMenuFragment.SetStuff(i_activity,appSettingsManager);
-        leftMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
-        leftMenuFragment.SetMenuItemClickListner(this);
+        if (leftMenuFragment == null) {
+            leftMenuFragment = LeftMenuFragment.GetInstance(i_activity,appSettingsManager);
+            leftMenuFragment.SetMenuItemClickListner(this);
+        }
         try {
             android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
@@ -102,11 +95,13 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         }catch (NullPointerException | IllegalStateException ex)
         {}
     }
-    private void loadRightFragment() {
-        rightMenuFragment = new RightMenuFragment();
-        rightMenuFragment.SetStuff(i_activity,appSettingsManager);
-        rightMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
-        rightMenuFragment.SetMenuItemClickListner(this);
+    private void loadRightFragment()
+    {
+        if (rightMenuFragment == null)
+        {
+            rightMenuFragment = RightMenuFragment.GetInstance(i_activity,appSettingsManager);
+            rightMenuFragment.SetMenuItemClickListner(this);
+        }
         try {
             android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
@@ -136,17 +131,6 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         }
         currentOpendItem = null;
         value_menu_status = VALUE_MENU_CLOSED;
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroyView()
-    {
-        super.onDestroyView();
     }
 
     @Override
@@ -189,10 +173,5 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
             transaction.addToBackStack(null);
             transaction.commitAllowingStateLoss();
         }
-    }
-
-    @Override
-    public void ParametersLoaded() {
-        setWrapper();
     }
 }

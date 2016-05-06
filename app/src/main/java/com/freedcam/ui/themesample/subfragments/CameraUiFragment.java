@@ -39,7 +39,7 @@ import java.io.File;
 /**
  * Created by troop on 14.06.2015.
  */
-public class CameraUiFragment extends AbstractFragment implements I_ParametersLoaded, Interfaces.I_MenuItemClick, Interfaces.I_CloseNotice, I_swipe, View.OnClickListener
+public class CameraUiFragment extends AbstractFragment implements Interfaces.I_MenuItemClick, Interfaces.I_CloseNotice, I_swipe, View.OnClickListener
 {
     final String TAG = CameraUiFragment.class.getSimpleName();
     private UiSettingsChild flash;
@@ -84,30 +84,11 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         cameraUiFragment.thumbClick = thumbClick;
         cameraUiFragment.appSettingsManager = appSettingsManager;
         cameraUiFragment.cameraUiWrapper = cameraUiWrapper;
-        if (cameraUiWrapper != null)
-            cameraUiFragment.cameraUiWrapper.camParametersHandler.AddParametersLoadedListner(cameraUiFragment);
         return cameraUiFragment;
     }
 
-    public void SetStuff(I_Activity i_activity, ScreenSlideFragment.I_ThumbClick thumbClick, AppSettingsManager appSettingsManager)
-    {
-
-    }
-
     @Override
-    public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper)
-    {
-        if (this.cameraUiWrapper == wrapper)
-            return;
-        this.cameraUiWrapper = wrapper;
-        if (wrapper != null && wrapper.camParametersHandler != null)
-            wrapper.camParametersHandler.AddParametersLoadedListner(this);
-        if(view != null)
-            setWrapper();
-    }
-
-    private void setWrapper()
-    {
+    protected void setCameraUiWrapperToUi() {
         if (cameraUiWrapper == null || cameraUiWrapper.camParametersHandler == null)
         {
             Logger.d(TAG, "failed to set cameraUiWrapper");
@@ -140,8 +121,6 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         modeSwitch.SetCameraUiWrapper(cameraUiWrapper);
         hdr_switch.SetParameter(cameraUiWrapper.camParametersHandler.HDRMode);
         horizontLineFragment.setCameraUiWrapper(cameraUiWrapper);
-
-
     }
 
     @Override
@@ -233,35 +212,15 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         this.hdr_switch = (UiSettingsChild)view.findViewById(R.id.hdr_toggle);
         hdr_switch.SetStuff(i_activity, AppSettingsManager.SETTING_HDRMODE,appSettingsManager);
         hdr_switch.SetMenuItemListner(this,true);
-        ///
 
-        if(!manualsettingsIsOpen)
-            manualModes_holder.setVisibility(View.GONE);
-        LinearLayout guidHolder = (LinearLayout) view.findViewById(R.id.guideHolder);
-    }
+        manualModesFragment = new ManualFragmentRotatingSeekbar();
 
-    @Override
-    public void onDestroyView()
-    {
-        super.onDestroyView();
-    }
+        horizontLineFragment = HorizontLineFragment.GetInstance(i_activity,appSettingsManager);
 
-    @Override
-    public void onResume() {
-        super.onResume();
         guideHandler =GuideHandler.GetInstance(appSettingsManager);
         android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.guideHolder, guideHandler, "Guide");
         transaction.commitAllowingStateLoss();
-
-        manualModesFragment = new ManualFragmentRotatingSeekbar();
-        manualModesFragment.SetStuff(i_activity,appSettingsManager);
-
-        horizontLineFragment = new HorizontLineFragment();
-        horizontLineFragment.SetStuff(i_activity,appSettingsManager);
-
-
-        manualModesFragment.SetCameraUIWrapper(cameraUiWrapper);
 
         transaction = getChildFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.bottom_to_top_enter, R.anim.empty);
@@ -282,8 +241,15 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
             transaction.addToBackStack(null);
             transaction.commitAllowingStateLoss();
         }
-        setWrapper();
 
+        if(!manualsettingsIsOpen)
+            manualModes_holder.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setCameraUiWrapperToUi();
         infoOverlayHandler.StartUpdating();
     }
 
@@ -298,26 +264,6 @@ public class CameraUiFragment extends AbstractFragment implements I_ParametersLo
         super.onPause();
 
     }
-
-    @Override
-    public void ParametersLoaded() {
-        setWrapper();
-    }
-
-    View.OnClickListener settingsButtonClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v)
-        {
-            Logger.d(TAG, "OnSettingsClick settings open:" + manualsettingsIsOpen);
-            if (manualsettingsIsOpen) {
-                hide_ManualSettings();
-            }
-            else {
-
-                showManualSettings();
-            }
-        }
-    };
 
     private void hide_ManualSettings()
     {
