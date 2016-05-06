@@ -97,5 +97,33 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.freedviewer.screenslide.ScreenSlideActivity"
+            android:label="GridView"
+            >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+            </intent-filter>
+
+
+
+        </activity>
+        <activity
+            android:name="com.freedviewer.dngconvert.DngConvertingActivity"
+            android:label="GridView">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.freedcam.ui.themesample.subfragments.VideoProfileEditorActivity"
+            android:label="GridView">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
     </application>
 </manifest>

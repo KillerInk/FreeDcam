@@ -10,9 +10,9 @@ import com.freedviewer.gridview.GridViewFragment;
 /**
  * Created by troop on 21.08.2015.
  */
-public class ScreenSlideTestActivity extends AbstractFragmentActivity
+public class ScreenSlideActivity extends AbstractFragmentActivity
 {
-    private final static String TAG = ScreenSlideTestActivity.class.getSimpleName();
+    private final static String TAG = ScreenSlideActivity.class.getSimpleName();
     public static final String EXTRA_IMAGE = "extra_image";
     public static final String IMAGE_PATH = "image_path";
     public static final String FileType = "filetype";
