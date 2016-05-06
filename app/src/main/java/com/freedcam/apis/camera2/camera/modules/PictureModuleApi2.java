@@ -322,17 +322,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         isWorking = false;
     }
 
-    private void checkFileExists(File fileName) {
-        if(!fileName.getParentFile().exists())
-            fileName.getParentFile().mkdirs();
-        if (!fileName.exists() && fileName.canWrite())
-            try {
-                fileName.createNewFile();
-            } catch (IOException e) {
-                Logger.exception(e);
-            }
-    }
-
     private final ImageReader.OnImageAvailableListener mOnRawImageAvailableListener = new ImageReader.OnImageAvailableListener()
     {
         @Override

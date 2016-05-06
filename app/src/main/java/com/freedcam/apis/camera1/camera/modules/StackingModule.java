@@ -45,7 +45,7 @@ public class StackingModule extends PictureModule implements I_WorkeDone {
 
                 ParameterHandler.ZSL.SetValue("off", true);
 
-            startworking();
+            workstarted();
 
             final String picFormat = ParameterHandler.PictureFormat.GetValue();
             if (picFormat.equals("jpeg") || picFormat.equals("yuv422") )
@@ -102,7 +102,7 @@ public class StackingModule extends PictureModule implements I_WorkeDone {
     @Override
     public void LoadNeededParameters()
     {
-        stackSaver = new StackSaver(cameraHolderApi1, StackingModule.this,context,appSettingsManager);
+        stackSaver = new StackSaver(cameraHolder, StackingModule.this,context,appSettingsManager);
     }
 
     @Override
@@ -114,12 +114,12 @@ public class StackingModule extends PictureModule implements I_WorkeDone {
     public void OnWorkDone(File file)
     {
 
-        cameraHolderApi1.StartPreview();
+        cameraHolder.StartPreview();
 
         if(KeepStacking)
             takePicture();
         else {
-            stopworking();
+            workfinished(true);
 
             MediaScannerManager.ScanMedia(context.getApplicationContext(), file);
             eventHandler.WorkFinished(file);
@@ -129,8 +129,8 @@ public class StackingModule extends PictureModule implements I_WorkeDone {
     @Override
     public void OnError(String error)
     {
-        cameraHolderApi1.errorHandler.OnError(error);
-        stopworking();
+        cameraHolder.errorHandler.OnError(error);
+        workfinished(false);
     }
 
 

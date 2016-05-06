@@ -2,12 +2,20 @@ package com.freedcam.apis.basecamera.camera.modules;
 
 
 import android.content.Context;
+import android.support.v4.provider.DocumentFile;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.camera.interfaces.I_Module;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.utils.AppSettingsManager;
+import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
+import com.freedcam.utils.StringUtils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * Created by troop on 15.08.2014.
@@ -41,16 +49,25 @@ public abstract class AbstractModule implements I_Module
         this.workerListner = workerListner;
     }
 
+    /**
+     * throw this when camera starts working to notify ui
+     */
     protected void workstarted()
     {
         Logger.d(TAG, "work started");
+        isWorking = true;
         if (this.workerListner != null)
             workerListner.onWorkStarted();
     }
 
+    /**
+     * throw this when work is done to notify ui
+     * @param finish
+     */
     protected void workfinished(final boolean finish)
     {
         Logger.d(TAG, "work finished");
+        isWorking = false;
         if (workerListner != null)
             workerListner.onWorkFinished(finish);
     }
@@ -85,4 +102,47 @@ public abstract class AbstractModule implements I_Module
 
     @Override
     public abstract String ShortName();
+
+    public void saveBytesToFile(byte[] bytes, File fileName)
+    {
+        Logger.d(TAG, "Start Saving Bytes");
+        OutputStream outStream = null;
+        try {
+            if (!StringUtils.IS_L_OR_BIG() || StringUtils.WRITE_NOT_EX_AND_L_ORBigger(appSettingsManager))
+            {
+                checkFileExists(fileName);
+                outStream = new FileOutputStream(fileName);
+            }
+            else
+            {
+                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,context);
+                Logger.d(TAG,"Filepath: " +df.getUri().toString());
+                DocumentFile wr = df.createFile("image/*", fileName.getName());
+                Logger.d(TAG,"Filepath: " +wr.getUri().toString());
+                outStream = context.getContentResolver().openOutputStream(wr.getUri());
+            }
+            outStream.write(bytes);
+            outStream.flush();
+            outStream.close();
+
+
+        } catch (IOException e) {
+            Logger.exception(e);
+        }
+        Logger.d(TAG, "End Saving Bytes");
+    }
+
+    protected void checkFileExists(File fileName)
+    {
+        if (fileName.getParentFile() == null)
+            return;
+        if(!fileName.getParentFile().exists())
+            fileName.getParentFile().mkdirs();
+        if (!fileName.exists())
+            try {
+                fileName.createNewFile();
+            } catch (IOException e) {
+                Logger.exception(e);
+            }
+    }
 }

@@ -3,11 +3,7 @@ package com.freedcam.apis.camera1.camera.modules;
 import android.content.Context;
 
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
-import com.freedcam.apis.camera1.camera.modules.image_saver.DngSaver;
 import com.freedcam.apis.camera1.camera.modules.image_saver.I_WorkeDone;
-import com.freedcam.apis.camera1.camera.modules.image_saver.JpegSaver;
-import com.freedcam.apis.camera1.camera.modules.image_saver.JpsSaver;
-import com.freedcam.apis.camera1.camera.modules.image_saver.RawSaver;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
@@ -23,7 +19,7 @@ import java.io.File;
 /**
  * Created by troop on 16.08.2014.
  */
-public class BracketModule extends PictureModule implements I_WorkeDone
+public class BracketModule extends PictureModule
 {
 
     private final String TAG = BracketModule.class.getSimpleName();
@@ -54,18 +50,28 @@ public class BracketModule extends PictureModule implements I_WorkeDone
         {
             files = new File[3];
             hdrCount = 0;
-            if (dngcapture && ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
+            String picformat = ParameterHandler.PictureFormat.GetValue();
+            if (picformat.equals("dng") ||picformat.equals("bayer"))
             {
-                ParameterHandler.ZSL.SetValue("off",true);
+                if (ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
+                    ParameterHandler.ZSL.SetValue("off", true);
             }
-            startworking();
-            LoadAEB();
+            workstarted();
+            waitForPicture = true;
+            loade_ae_bracket();
             if (aeBrackethdr && ParameterHandler.PictureFormat.GetValue().equals("jpeg"))
             {
-                cameraHolderApi1.TakePicture(null, aeBracketCallback);
+                cameraHolder.TakePicture(null, aeBracketCallback);
             }
-            else {
-                takePicture();
+            else
+            {
+                setExposureToCamera();
+                try {
+                    Thread.sleep(800);
+                } catch (InterruptedException e) {
+                    Logger.exception(e);
+                }
+                cameraHolder.TakePicture(null,BracketModule.this);
             }
         }
         return true;
@@ -89,69 +95,17 @@ public class BracketModule extends PictureModule implements I_WorkeDone
     @Override
     public void LoadNeededParameters()
     {
-        LoadAEB();
+        loade_ae_bracket();
     }
 
     @Override
-    public void UnloadNeededParameters(){
+    public void UnloadNeededParameters()
+    {
         if (aeBrackethdr)
             ParameterHandler.AE_Bracket.SetValue("Off", true);
     }
 
     //I_Module END
-
-    protected void takePicture()
-    {
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                setExposureToCamera();
-                try {
-                    Thread.sleep(800);
-                } catch (InterruptedException e) {
-                    Logger.exception(e);
-                }
-
-                final String picFormat = ParameterHandler.PictureFormat.GetValue();
-                if (picFormat.equals("jpeg")) {
-                    final JpegSaver jpegSaver = new JpegSaver(cameraHolderApi1, BracketModule.this,context,appSettingsManager);
-                    jpegSaver.TakePicture();
-                } else if (!ParameterHandler.IsDngActive() && picFormat.contains(StringUtils.FileEnding.BAYER)) {
-                    final RawSaver rawSaver = new RawSaver(cameraHolderApi1, BracketModule.this,context,appSettingsManager);
-                    rawSaver.TakePicture();
-                } else if (ParameterHandler.IsDngActive() && picFormat.contains(StringUtils.FileEnding.DNG)) {
-                    DngSaver dngSaver = new DngSaver(cameraHolderApi1, BracketModule.this,context,appSettingsManager);
-                    dngSaver.TakePicture();
-                }
-            }
-        });
-    }
-
-    @Override
-    public void OnWorkDone(File file)
-    {
-        ((CamParametersHandler)ParameterHandler).SetParametersToCamera(((CamParametersHandler)ParameterHandler).getParameters());
-        cameraHolderApi1.StartPreview();
-        if (hdrCount == 2)
-        {
-            stopworking();
-            ParameterHandler.ManualExposure.SetValue(ogExpoValue);
-        }
-        else if (hdrCount < 2)
-        {
-            hdrCount++;
-            takePicture();
-        }
-        MediaScannerManager.ScanMedia(context.getApplicationContext(), file);
-        eventHandler.WorkFinished(file);
-    }
-
-    @Override
-    public void OnError(String error)
-    {
-        cameraHolderApi1.errorHandler.OnError(error);
-        stopworking();
-    }
 
     private void setExposureToCamera()
     {
@@ -264,46 +218,23 @@ public class BracketModule extends PictureModule implements I_WorkeDone
     I_Callbacks.PictureCallback aeBracketCallback = new I_Callbacks.PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data) {
+            if (!waitForPicture)
+                return;
+            hdrCount++;
             final String picFormat = ParameterHandler.PictureFormat.GetValue();
-            if (picFormat.equals("jpeg")) {
-                final JpegSaver jpegSaver = new JpegSaver(cameraHolderApi1, aeBracketDone,context,appSettingsManager);
-                jpegSaver.saveBytesToFile(data, new File(StringUtils.getFilePathHDR(appSettingsManager.GetWriteExternal(), jpegSaver.fileEnding, hdrCount)),true);
+            saveImage(data,picFormat);
+            if (hdrCount == 3)//handel normal capture
+            {
+                waitForPicture = false;
+                workfinished(true);
+                cameraHolder.StartPreview();
+
             }
-            else if (picFormat.equals(StringUtils.FileEnding.JPS)) {
-                final JpsSaver jpsSaver = new JpsSaver(cameraHolderApi1, aeBracketDone,context,appSettingsManager);
-                jpsSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathHDR(appSettingsManager.GetWriteExternal(), jpsSaver.fileEnding, hdrCount)),true);
-            }
-            else if (!ParameterHandler.IsDngActive() && (picFormat.contains(StringUtils.FileEnding.BAYER)|| picFormat.equals(StringUtils.FileEnding.RAW))) {
-                final RawSaver rawSaver = new RawSaver(cameraHolderApi1, aeBracketDone,context,appSettingsManager);
-                rawSaver.saveBytesToFile(data,  new File(StringUtils.getFilePathHDR(appSettingsManager.GetWriteExternal(), rawSaver.fileEnding, hdrCount)),true);
-            } else if (ParameterHandler.IsDngActive() && picFormat.contains(StringUtils.FileEnding.DNG)) {
-                DngSaver dngSaver = new DngSaver(cameraHolderApi1, aeBracketDone,context,appSettingsManager);
-                dngSaver.processData(data, new File(StringUtils.getFilePathHDR(appSettingsManager.GetWriteExternal(), dngSaver.fileEnding, hdrCount)),true);
-            }
+
         }
     };
 
-    I_WorkeDone aeBracketDone = new I_WorkeDone() {
-        @Override
-        public void OnWorkDone(File file) {
-            MediaScannerManager.ScanMedia(context.getApplicationContext(), file);
-            eventHandler.WorkFinished(file);
-            if (hdrCount == 2) {
-                stopworking();
-                cameraHolderApi1.StartPreview();
-            }
-            else if (hdrCount < 2)
-                hdrCount++;
-        }
-
-        @Override
-        public void OnError(String error)
-        {
-            cameraHolderApi1.errorHandler.OnError(error);
-            stopworking();
-        }
-    };
-    private void LoadAEB()
+    private void loade_ae_bracket()
     {
         if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
         {
@@ -318,6 +249,43 @@ public class BracketModule extends PictureModule implements I_WorkeDone
 
         }
 
+    }
+
+    @Override
+    public void onPictureTaken(final byte[] data)
+    {
+        FreeDPool.Execute(new Runnable() {
+            @Override
+            public void run()
+            {
+                if (!waitForPicture)
+                    return;
+                hdrCount++;
+                final String picFormat = ParameterHandler.PictureFormat.GetValue();
+                saveImage(data,picFormat);
+                cameraHolder.StartPreview();
+                if (hdrCount == 3)//handel normal capture
+                {
+                    waitForPicture = false;
+                    workfinished(true);
+                }
+                else
+                {
+                    setExposureToCamera();
+                    try {
+                        Thread.sleep(800);
+                    } catch (InterruptedException e) {
+                        Logger.exception(e);
+                    }
+                    cameraHolder.TakePicture(null,BracketModule.this);
+                }
+            }
+        });
+    }
+
+    protected File getFile(String fileending)
+    {
+        return new File(StringUtils.getFilePathHDR(appSettingsManager.GetWriteExternal(), fileending, hdrCount));
     }
 
 }
