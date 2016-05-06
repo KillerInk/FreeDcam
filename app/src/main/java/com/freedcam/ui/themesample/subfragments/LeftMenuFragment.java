@@ -156,6 +156,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     @Override
     public void onResume() {
         super.onResume();
+        setCameraUiWrapperToUi();
     }
 
     @Override
