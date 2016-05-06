@@ -19,7 +19,7 @@ import java.util.Date;
  * Created by GeorgeKiarie on 13/04/2016.
  */
 public class StackSaver extends JpegSaver {
-    private final String TAG = DngSaver.class.getSimpleName();
+    private final String TAG = JpegSaver.class.getSimpleName();
     private byte[] buffered = null;
     private int FrameCount = 0;
     Size size;

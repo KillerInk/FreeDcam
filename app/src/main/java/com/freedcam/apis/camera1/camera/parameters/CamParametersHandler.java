@@ -891,7 +891,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         try
         {
-            ((CameraHolderApi1)cameraHolder).SetOrientation(orientation);
+            cameraHolder.SetOrientation(orientation);
         }
         catch (Exception e)
         {
@@ -906,9 +906,9 @@ public class CamParametersHandler extends AbstractParameterHandler
             appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack , StringUtils.OFF);
         }
         if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.OFF))
-            ((CameraHolderApi1)cameraHolder).SetCameraRotation(0);
+            cameraHolder.SetCameraRotation(0);
         else
-            ((CameraHolderApi1)cameraHolder).SetCameraRotation(180);
+            cameraHolder.SetCameraRotation(180);
     }
     @Override
     public void LockExposureAndWhiteBalance(boolean value)
