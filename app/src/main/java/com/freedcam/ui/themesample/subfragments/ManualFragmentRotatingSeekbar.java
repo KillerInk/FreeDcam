@@ -49,6 +49,15 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements S
     private ManualButton previewZoom;
 
     private final String TAG = ManualFragmentRotatingSeekbar.class.getSimpleName();
+
+    public static ManualFragmentRotatingSeekbar GetInstance(AppSettingsManager appSettingsManager, I_Activity activity)
+    {
+        ManualFragmentRotatingSeekbar mf = new ManualFragmentRotatingSeekbar();
+        mf.appSettingsManager = appSettingsManager;
+        mf.i_activity = activity;
+        return mf;
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         return inflater.inflate(R.layout.manual_fragment_rotatingseekbar, container, false);
@@ -86,7 +95,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements S
         brightness.setOnClickListener(manualButtonClickListner);
 
         burst = (ManualButton)view.findViewById(R.id.manual_burst);
-        burst.SetStuff("",appSettingsManager);
+        burst.SetStuff(AppSettingsManager.MBURST,appSettingsManager);
         burst.setOnClickListener(manualButtonClickListner);
 
         wb = (ManualButton)view.findViewById(R.id.manual_wb);

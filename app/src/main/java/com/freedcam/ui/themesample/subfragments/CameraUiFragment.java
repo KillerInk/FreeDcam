@@ -213,7 +213,7 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
         hdr_switch.SetStuff(i_activity, AppSettingsManager.SETTING_HDRMODE,appSettingsManager);
         hdr_switch.SetMenuItemListner(this,true);
 
-        manualModesFragment = new ManualFragmentRotatingSeekbar();
+        manualModesFragment = ManualFragmentRotatingSeekbar.GetInstance(appSettingsManager,i_activity);
 
         horizontLineFragment = HorizontLineFragment.GetInstance(i_activity,appSettingsManager);
 
