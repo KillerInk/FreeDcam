@@ -9,8 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,7 +80,7 @@ public class AppSettingsManager
     final public static String SETTTING_CUSTOMMATRIX ="custommatrix";
     ////////// overide end
     final public static String SETTING_VIDEOTIMELAPSEFRAME = "timelapseframe";
-    final public static String SETTING_SONYAPI = "sonyapi";
+    final public static String SETTING_API = "sonyapi";
     final public static String SETTING_DNG = "dng";
     final public static String SETTING_AEBRACKETACTIVE = "aebracketactive";
     final public static String SETTING_OBJECTTRACKING = "objecttracking";
@@ -158,12 +156,12 @@ public class AppSettingsManager
     public void setCamApi(String api)
     {
         camApiString = api;
-        appsettingsList.put(SETTING_SONYAPI,api);
+        appsettingsList.put(SETTING_API,api);
     }
 
     public String getCamApi()
     {
-        camApiString = appsettingsList.get(SETTING_SONYAPI);
+        camApiString = appsettingsList.get(SETTING_API);
         return camApiString;
     }
 
