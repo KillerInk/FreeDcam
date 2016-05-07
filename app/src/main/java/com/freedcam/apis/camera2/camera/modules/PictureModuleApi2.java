@@ -34,7 +34,7 @@ import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
 import com.troop.androiddng.CustomMatrix;
 import com.troop.androiddng.DngSupportedDevices;
-import com.troop.androiddng.RawToDng;
+import com.freedcam.Native.RawToDng;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.utils.FreeDPool;

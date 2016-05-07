@@ -8,7 +8,7 @@ import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
-import com.troop.androiddng.RawToDng;
+import com.freedcam.Native.RawToDng;
 
 import java.io.File;
 import java.io.FileReader;

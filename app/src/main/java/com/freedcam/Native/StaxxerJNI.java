@@ -1,4 +1,4 @@
-package com.defcomk.jni.staxxer;
+package com.freedcam.Native;
 
 import java.nio.ByteBuffer;
 

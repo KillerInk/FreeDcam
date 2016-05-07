@@ -1,4 +1,4 @@
-package com.troop.freedcam.lib;
+package com.freedcam.Native;
 
 import android.graphics.Bitmap;
 import android.view.Surface;

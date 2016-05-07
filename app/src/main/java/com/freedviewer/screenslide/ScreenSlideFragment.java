@@ -35,7 +35,7 @@ import com.freedcam.utils.StringUtils;
 import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.gridview.GridViewFragment;
 import com.freedviewer.holder.FileHolder;
-import com.troop.androiddng.RawToDng;
+import com.freedcam.Native.RawToDng;
 import com.troop.freedcam.R;
 
 import java.io.File;

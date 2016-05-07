@@ -2,7 +2,7 @@ package com.freedcam.apis.camera1.camera.modules.image_saver;
 
 import android.content.Context;
 
-import com.defcomk.jni.staxxer.StaxxerJNI;
+import com.freedcam.Native.StaxxerJNI;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.basecamera.camera.Size;
 import com.freedcam.utils.AppSettingsManager;

@@ -25,7 +25,7 @@ import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 import com.troop.androiddng.DngSupportedDevices;
 import com.troop.androiddng.Matrixes;
-import com.troop.androiddng.RawToDng;
+import com.freedcam.Native.RawToDng;
 import com.troop.freedcam.R;
 
 import java.io.File;

@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
 
-import com.defcomk.jni.libraw.RawUtils;
+import com.freedcam.Native.RawUtils;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.StringUtils;

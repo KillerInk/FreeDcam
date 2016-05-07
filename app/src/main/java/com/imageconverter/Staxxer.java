@@ -10,7 +10,7 @@ import android.renderscript.RenderScript;
 import android.renderscript.Type;
 import android.view.Surface;
 
-import com.defcomk.jni.staxxer.StaxxerJNI;
+import com.freedcam.Native.StaxxerJNI;
 import com.freedcam.apis.basecamera.camera.Size;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.camera.interfaces.I_Module;

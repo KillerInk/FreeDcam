@@ -13,7 +13,7 @@
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
 
-extern "C" JNIEXPORT jbyteArray JNICALL Java_com_defcomk_jni_libraw_RawUtils_BitmapExtractor(JNIEnv * env, jobject obj,jbyteArray bufferBytes, jint blackLevel)
+extern "C" JNIEXPORT jbyteArray JNICALL Java_com_freedcam_Native_RawUtils_BitmapExtractor(JNIEnv * env, jobject obj,jbyteArray bufferBytes, jint blackLevel)
 {
 	char outfn[1024];
 	LibRaw raw;
@@ -85,7 +85,7 @@ extern "C" JNIEXPORT jbyteArray JNICALL Java_com_defcomk_jni_libraw_RawUtils_Bit
 	return ret;
 }
 
-extern "C" JNIEXPORT jbyteArray JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpackThumbnailBytes(JNIEnv * env, jobject obj, jstring jfilename)
+extern "C" JNIEXPORT jbyteArray JNICALL Java_com_freedcam_Native_RawUtils_unpackThumbnailBytes(JNIEnv * env, jobject obj, jstring jfilename)
 {
 	LibRaw raw;
 
@@ -113,7 +113,7 @@ extern "C" JNIEXPORT jbyteArray JNICALL Java_com_defcomk_jni_libraw_RawUtils_unp
 	return jb;
 }
 
-extern "C" JNIEXPORT void JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpackRawByte(JNIEnv * env, jobject obj, jstring jfilename, jbyteArray bufferBytes, jint blackLevel, jfloat aperture, jfloat focalLength, jfloat shutterSpeed, jfloat isoSpeed)
+extern "C" JNIEXPORT void JNICALL Java_com_freedcam_Native_RawUtils_unpackRawByte(JNIEnv * env, jobject obj, jstring jfilename, jbyteArray bufferBytes, jint blackLevel, jfloat aperture, jfloat focalLength, jfloat shutterSpeed, jfloat isoSpeed)
 {
     jclass classHashMap = (env)->FindClass("java/util/HashMap");
     jmethodID methodPut = (env)->GetMethodID(classHashMap, "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
@@ -212,7 +212,7 @@ extern "C" JNIEXPORT void JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpackRaw
 	//return bufferBytes;
 }
 
-extern "C" JNIEXPORT jint JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpackThumbnailToFile(JNIEnv * env, jobject obj, jstring jrawfilename, jstring jthumbfilename) {
+extern "C" JNIEXPORT jint JNICALL Java_com_freedcam_Native_RawUtils_unpackThumbnailToFile(JNIEnv * env, jobject obj, jstring jrawfilename, jstring jthumbfilename) {
     LibRaw raw;
 
 	jboolean bIsCopy;
@@ -235,7 +235,7 @@ extern "C" JNIEXPORT jint JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpackThu
     return ret;
 }
 
-extern "C" JNIEXPORT void JNICALL Java_com_defcomk_jni_libraw_RawUtils_parseExif(JNIEnv * env, jobject obj, jstring jfilename, jobject jexifMap) {
+extern "C" JNIEXPORT void JNICALL Java_com_freedcam_Native_RawUtils_parseExif(JNIEnv * env, jobject obj, jstring jfilename, jobject jexifMap) {
 
 //    jclass ExifInterface = (env)->FindClass("android/media/ExifInterface");
 //    jmethodID SetAttributeMethod = (env)->GetMethodID(ExifInterface, "setAttribute", "(Ljava/lang/String;Ljava/lang/String;)V");
@@ -279,7 +279,7 @@ extern "C" JNIEXPORT void JNICALL Java_com_defcomk_jni_libraw_RawUtils_parseExif
 	raw.recycle();
 }
 
-extern "C" JNIEXPORT jobject JNICALL Java_com_defcomk_jni_libraw_RawUtils_unpackRAW(JNIEnv * env, jobject obj, jstring jfilename) {
+extern "C" JNIEXPORT jobject JNICALL Java_com_freedcam_Native_RawUtils_unpackRAW(JNIEnv * env, jobject obj, jstring jfilename) {
 	int ret;
 	LibRaw raw;
 #define P1 raw.imgdata.idata

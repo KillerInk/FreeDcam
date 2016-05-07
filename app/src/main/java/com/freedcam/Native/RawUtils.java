@@ -1,4 +1,4 @@
-package com.defcomk.jni.libraw;
+package com.freedcam.Native;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
