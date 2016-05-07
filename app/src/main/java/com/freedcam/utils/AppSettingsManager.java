@@ -359,7 +359,7 @@ public class AppSettingsManager
 
     public boolean getBoolean(String valueToGet, boolean defaultValue)
     {
-        String tmp = getString(valueToGet,defaultValue+"");
+        String tmp = appsettingsList.get(getSettingString(valueToGet));
         if (tmp!=null && !tmp.equals(""))
             return Boolean.parseBoolean(tmp);
         else return defaultValue;
