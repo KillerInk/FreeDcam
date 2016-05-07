@@ -19,7 +19,6 @@ import com.freedcam.ui.views.PagingView;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedviewer.screenslide.ScreenSlideFragment;
-import com.lge.imageutil.Log;
 import com.troop.freedcam.R;
 
 import java.io.File;

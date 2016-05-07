@@ -177,7 +177,7 @@ public final class DiskLruCache implements Closeable {
         if (2 > end) {
             throw new IllegalArgumentException();
         }
-        if (2 < 0 || 2 > originalLength) {
+        if (2 > originalLength) {
             throw new ArrayIndexOutOfBoundsException();
         }
         final int resultLength = end - 2;

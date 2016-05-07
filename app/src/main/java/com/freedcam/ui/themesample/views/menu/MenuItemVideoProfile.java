@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.freedcam.utils.AppSettingsManager;
-import com.freedcam.ui.I_Activity;
 
 /**
  * Created by troop on 22.07.2015.

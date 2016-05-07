@@ -432,7 +432,7 @@ public class SimpleCameraEventObserver {
         String postview = JsonUtils.findStringInformation(replyJson, 19, "postviewImageSize", "currentPostviewImageSize");
         if (postview != null && !postview.equals(""))
         {
-            sendLog("getEvent postviewSize: " + postview.toString());
+            sendLog("getEvent postviewSize: " + postview);
             firePostviewChangedListener(postview);
         }
 
@@ -581,7 +581,7 @@ public class SimpleCameraEventObserver {
         String[] contshots = JsonUtils.findStringArrayInformation(replyJson, 38, "contShootingMode", "candidate");
         if (contshots != null && contshots.length > 0)
         {
-            sendLog("getEvent contshots: " +contshot.toString());
+            sendLog("getEvent contshots: " + contshot);
             fireContShotModesChangedListener(contshots);
         }
 

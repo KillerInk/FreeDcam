@@ -2,8 +2,6 @@ package com.freedcam.ui;
 
 import android.net.Uri;
 
-import java.io.File;
-
 /**
  * Created by troop on 22.03.2015.
  */

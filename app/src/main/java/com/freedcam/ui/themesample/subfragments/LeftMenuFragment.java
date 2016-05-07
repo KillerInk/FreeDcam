@@ -1,25 +1,17 @@
 package com.freedcam.ui.themesample.subfragments;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera2.camera.CameraUiWrapperApi2;
-import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.parameters.modes.ApiParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.ParameterExternalShutter;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.AppSettingsManager;
-import com.freedcam.ui.I_swipe;
 import com.freedcam.ui.themesample.views.menu.MenuItem;
 import com.freedcam.ui.themesample.views.menu.MenuItemAEB;
 import com.freedcam.ui.themesample.views.menu.MenuItemGPS;
@@ -28,14 +20,12 @@ import com.freedcam.ui.themesample.views.menu.MenuItemIntervalDuration;
 import com.freedcam.ui.themesample.views.menu.MenuItemOrientationHack;
 import com.freedcam.ui.themesample.views.menu.MenuItemSDSave;
 import com.freedcam.ui.themesample.views.menu.MenuItemSaveCamParams;
-import com.freedcam.ui.themesample.views.menu.MenuItemTheme;
 import com.freedcam.ui.themesample.views.menu.MenuItemTimeLapseFrames;
 import com.freedcam.ui.themesample.views.menu.MenuItemTimer;
 import com.freedcam.ui.themesample.views.menu.MenuItemVideoHDR;
 import com.freedcam.ui.themesample.views.menu.MenuItemVideoProfile;
 import com.freedcam.ui.themesample.views.menu.MenuItem_VideoProfEditor;
 import com.freedcam.ui.themesample.views.uichilds.UiSettingsChild;
-import com.freedcam.utils.Logger;
 import com.troop.freedcam.R;
 
 /**

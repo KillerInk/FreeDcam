@@ -50,7 +50,7 @@ public class FileUtils
         if((dcimfolder = getDCIMDocumentFolder(true, appSettingsManager,context)) !=null)
         {
             freedcamfolder = dcimfolder.findFile("FreeDcam");
-            if (freedcamfolder == null && true)
+            if (freedcamfolder == null)
                 freedcamfolder = dcimfolder.createDirectory("FreeDcam");
         }
         return freedcamfolder;

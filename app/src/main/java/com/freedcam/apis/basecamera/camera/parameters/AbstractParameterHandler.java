@@ -13,7 +13,6 @@ import com.freedcam.apis.basecamera.camera.parameters.modes.IntervalDurationPara
 import com.freedcam.apis.basecamera.camera.parameters.modes.IntervalShutterSleepParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.LocationParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.SDModeParameter;
-import com.freedcam.apis.basecamera.camera.parameters.modes.ThemeList;
 import com.freedcam.utils.AppSettingsManager;
 
 import java.util.ArrayList;
