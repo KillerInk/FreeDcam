@@ -1,6 +1,7 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.utils.Logger;
 
 import java.util.HashMap;
 
@@ -23,7 +24,6 @@ public class CCTManual_SonyM4 extends BaseCCTManual {
             parameters.put("manual-wb-type", "color-temperature");
             parameters.put("manual-wb-value", stringvalues[currentInt]);
         } catch (Exception ex) {
-
-        }
+            Logger.e(CCTManual_SonyM4.class.getName(),ex.getMessage());}
     }
 }

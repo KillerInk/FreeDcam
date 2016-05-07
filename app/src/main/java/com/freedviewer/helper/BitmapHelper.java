@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import com.freedcam.Native.RawUtils;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
+import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 import com.freedviewer.holder.FileHolder;
 
@@ -86,6 +87,7 @@ public class BitmapHelper
                     }
                     catch (IllegalArgumentException ex)
                     {
+                        Logger.e(BitmapHelper.class.getName(),ex.getMessage());
 
                     }
                 }

@@ -173,7 +173,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                     mCaptureSession = null;
                 }
             }
-           catch (Exception e) {}
+           catch (Exception e) {Logger.e(CameraHolderApi2.class.getName(),e.getMessage());}
 
             if (null != mCameraDevice)
             {
@@ -398,24 +398,21 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                                     GetParameterHandler().ManualShutter.ThrowCurrentValueStringCHanged("1/60");
                             }
                             catch (Exception e)
-                            {
-
-                            }
+                            {Logger.e(CameraHolderApi2.class.getName(),e.getMessage());}
                             try {
                                 final int  iso = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
                                 GetParameterHandler().ISOManual.ThrowCurrentValueStringCHanged("" + iso);
                             }
-                            catch (NullPointerException ex) {}
+                            catch (NullPointerException ex) {Logger.e(CameraHolderApi2.class.getName(),ex.getMessage());}
                             try {
                                 final float  mf = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
                                 GetParameterHandler().ManualFocus.ThrowCurrentValueStringCHanged(StringUtils.TrimmFloatString(mf + ""));
                             }
-                            catch (NullPointerException ex) {}
+                            catch (NullPointerException ex) {Logger.e(CameraHolderApi2.class.getName(),ex.getMessage());}
                         }
                     }
                     catch (NullPointerException ex)
-                    {
-                    }
+                    {Logger.e(CameraHolderApi2.class.getName(),ex.getMessage());}
                 }
             }
 

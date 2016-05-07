@@ -14,6 +14,7 @@ import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.utils.AppSettingsManager;
+import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 
 import java.text.SimpleDateFormat;
@@ -84,7 +85,8 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
             context.unregisterReceiver(batteryBroadCastListner);
         }
         catch (IllegalArgumentException ex)
-        {}
+        {
+            Logger.e(AbstractInfoOverlayHandler.class.getName(),ex.getMessage());}
 
     }
 
