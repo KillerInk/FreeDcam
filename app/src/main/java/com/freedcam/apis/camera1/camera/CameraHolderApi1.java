@@ -81,11 +81,17 @@ public class CameraHolderApi1 extends AbstractCameraHolder
             isMTKDevice();
     }
 
-    public void baseSetParamTest(String a , String b)
+    public void SetParamsDirect(String a , String b)
     {
         Camera.Parameters p = mCamera.getParameters();
         p.set(a, b);
         mCamera.setParameters(p);
+    }
+
+    public String GetParamsDirect(String para)
+    {
+        Camera.Parameters p = mCamera.getParameters();
+        return p.get(para);
     }
 
     private void hasLGFramework()

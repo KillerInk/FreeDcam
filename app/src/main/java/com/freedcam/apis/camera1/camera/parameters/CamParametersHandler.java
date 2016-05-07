@@ -759,6 +759,7 @@ public class CamParametersHandler extends AbstractParameterHandler
                     public void run() {
                         //cameraParameters.put("metering-areas", "(" + lF.left + "," + lF.top + "," + lF.right + "," + lF.bottom + ",100)");
                         cameraParameters.put("touch-aec","on");
+                        cameraParameters.put("selectable-zone-af","spot-metering");
                         cameraParameters.put("raw-size","4208x3120");
                         cameraParameters.put("touch-index-aec", lF.x + "," + lF.y);
                         cameraHolder.SetCameraParameters(cameraParameters);
@@ -820,7 +821,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     public float getMTKShutterSpeed()
     {
         if(cameraParameters.containsKey("eng-capture-shutter-speed")) {
-            if (Float.parseFloat((cameraParameters.get("eng-capture-shutter-speed"))) == 0) {
+            if (Float.parseFloat((cameraHolder.GetParamsDirect("eng-capture-shutter-speed"))) == 0) {
                 return 0.0f;
             } else
                 return Float.parseFloat((cameraParameters.get("eng-capture-shutter-speed"))) / 1000000;
@@ -839,20 +840,34 @@ public class CamParametersHandler extends AbstractParameterHandler
     public int getMTKISO()
     {
         if(cameraParameters.containsKey("eng-capture-sensor-gain")) {
-            if (Integer.parseInt(cameraParameters.get("eng-capture-sensor-gain")) == 0) {
+            if (Integer.parseInt(cameraHolder.GetParamsDirect("eng-capture-sensor-gain")) == 0) {
                 return 0;
             }
-            return Integer.parseInt(cameraParameters.get("eng-capture-sensor-gain")) / 256 * 100;
+            return Integer.parseInt(cameraHolder.GetParamsDirect("eng-capture-sensor-gain")) / 256 * 100;
         }
         else if(cameraParameters.containsKey("cap-sr-g"))
         {
-            if (Integer.parseInt(cameraParameters.get("cap-sr-g")) == 0) {
+            if (Integer.parseInt(cameraHolder.GetParamsDirect("cap-sr-g")) == 0) {
                 return 0;
             }
-            return Integer.parseInt(cameraParameters.get("cap-sr-g")) / 256 * 100;
+            return Integer.parseInt(cameraHolder.GetParamsDirect("cap-sr-g")) / 256 * 100;
         }
         else
             return 0;
+    }
+
+    public float getQCISO()
+    {
+
+        if(cameraParameters.containsKey("cur-exposure-time"))
+        {
+            float a= Float.parseFloat(cameraHolder.GetParamsDirect("cur-exposure-time")) * 1000;
+            return a / 1000000;
+
+        }
+        else
+            return 0.0f;
+
     }
 
     public float getQCShutterSpeed()
@@ -860,7 +875,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         if(cameraParameters.containsKey("cur-exposure-time"))
         {
-            float a= Float.parseFloat(cameraParameters.get("cur-exposure-time")) * 1000;
+            float a= Float.parseFloat(cameraHolder.GetParamsDirect("cur-exposure-time")) * 1000;
             return a / 1000000;
 
         }
