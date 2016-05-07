@@ -233,8 +233,8 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
 
-        String help = appSettingsManager.getString(AppSettingsManager.SETTING_HELP);
-        if (help.equals("") || help.equals("true")) {
+        boolean showhelp = appSettingsManager.getShowHelpOverlay();
+        if (showhelp) {
             transaction = getChildFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
             transaction.replace(R.id.helpfragment_container, HelpFragment.getFragment(helpfragmentCloser,appSettingsManager));

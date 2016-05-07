@@ -68,11 +68,11 @@ public class HelpFragment extends Fragment
                     case 4:
                         if (dontshowagain.isChecked())
                         {
-                            appSettingsManager.setString(AppSettingsManager.SETTING_HELP, "false");
+                            appSettingsManager.setshowHelpOverlay(false);
                         }
                         else
                         {
-                            appSettingsManager.setString(AppSettingsManager.SETTING_HELP, "true");
+                            appSettingsManager.setshowHelpOverlay(true);
                         }
                         closer.Close(HelpFragment.this);
                 }
