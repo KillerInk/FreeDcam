@@ -117,6 +117,12 @@
 
     </string-array>
 
+    <string-array name="htc_m10">
+        <item>HTC One M10</item>
+        <item>HTC 10</item>
+
+    </string-array>
+
     <string-array name="zteadv">
         <item>NX503A</item>
         <item>NX503J</item>

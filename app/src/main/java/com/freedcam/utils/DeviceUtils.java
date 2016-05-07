@@ -99,6 +99,7 @@ public class DeviceUtils
         Htc_Evo3d,
         Htc_M8,
         Htc_M9,
+        Htc_M10,
         Htc_One_Sv,
         Htc_One_Xl,
         HTC_OneA9,
@@ -253,7 +254,7 @@ public class DeviceUtils
 
 
     /**
-     * identfy the current device
+     * identify the current device
      */
     private static Devices getDevice(Context context)
     {
@@ -271,6 +272,8 @@ public class DeviceUtils
             return Devices.Htc_M8;
         else if (isHTC_M9(context))
             return Devices.Htc_M9;
+        else if(isHTC_M10(context))
+            return Devices.Htc_M10;
         else if (isHtc_One_SV(context))
             return Devices.Htc_One_Sv;
         else if (isHtc_One_XL(context))
@@ -460,6 +463,10 @@ public class DeviceUtils
     private static boolean isHTC_M9(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.htc_m9));
+    }
+    private static boolean isHTC_M10(Context contex)
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.htc_m10));
     }
 
     private static boolean isHtc_One_SV(Context contex)

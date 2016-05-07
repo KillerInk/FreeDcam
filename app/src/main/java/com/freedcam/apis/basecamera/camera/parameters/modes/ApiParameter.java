@@ -25,7 +25,7 @@ public class ApiParameter extends AbstractModeParameter
     @Override
     public String[] GetValues()
     {
-        if (DEBUG || DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
+        if (DEBUG || DeviceUtils.IS(DeviceUtils.Devices.LG_G4) || DeviceUtils.IS(DeviceUtils.Devices.Htc_M10))
         {
             return new String[]{AppSettingsManager.API_SONY, AppSettingsManager.API_2, AppSettingsManager.API_1};
         }
