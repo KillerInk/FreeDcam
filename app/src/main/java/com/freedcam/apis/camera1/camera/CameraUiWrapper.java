@@ -18,6 +18,7 @@ import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.camera.parameters.I_ParametersLoaded;
 import com.freedcam.utils.AppSettingsManager;
+import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.imageconverter.PreviewHandler;
@@ -310,15 +311,27 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         // Try to find an size match aspect ratio and size
         for (Size size : sizes)
         {
-            if (size.width <= 1280 && size.height <= 720 && size.width >= 640 && size.height >= 480)  {
-                double ratio = (double) size.width / size.height;
-                if (ratio < targetRatio +  ASPECT_TOLERANCE && ratio > targetRatio - ASPECT_TOLERANCE )
-                {
-                    optimalSize = size;
-                    minDiff = Math.abs(size.height - h);
-                    break;
-                }
+            if(DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)) {
+                if (size.width <= 1440 && size.height <= 1080 && size.width >= 640 && size.height >= 480) {
+                    double ratio = (double) size.width / size.height;
+                    if (ratio < targetRatio + ASPECT_TOLERANCE && ratio > targetRatio - ASPECT_TOLERANCE) {
+                        optimalSize = size;
+                        minDiff = Math.abs(size.height - h);
+                        break;
+                    }
 
+                }
+            }
+            else {
+                if (size.width <= 1280 && size.height <= 720 && size.width >= 640 && size.height >= 480) {
+                    double ratio = (double) size.width / size.height;
+                    if (ratio < targetRatio + ASPECT_TOLERANCE && ratio > targetRatio - ASPECT_TOLERANCE) {
+                        optimalSize = size;
+                        minDiff = Math.abs(size.height - h);
+                        break;
+                    }
+
+                }
             }
         }
         // Cannot find the one match the aspect ratio, ignore the requirement
@@ -326,10 +339,20 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
             minDiff = Double.MAX_VALUE;
             for (Size size : sizes)
             {
-                if (size.width <= 1280 && size.height <= 720 && size.width >= 640 && size.height >= 480)  {
-                    if (Math.abs(size.height - h) < minDiff) {
-                        optimalSize = size;
-                        minDiff = Math.abs(size.height - h);
+                if(DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)) {
+                    if (size.width <= 1440 && size.height <= 1080 && size.width >= 640 && size.height >= 480) {
+                        if (Math.abs(size.height - h) < minDiff) {
+                            optimalSize = size;
+                            minDiff = Math.abs(size.height - h);
+                        }
+                    }
+                }
+                else {
+                    if (size.width <= 1280 && size.height <= 720 && size.width >= 640 && size.height >= 480) {
+                        if (Math.abs(size.height - h) < minDiff) {
+                            optimalSize = size;
+                            minDiff = Math.abs(size.height - h);
+                        }
                     }
                 }
             }
