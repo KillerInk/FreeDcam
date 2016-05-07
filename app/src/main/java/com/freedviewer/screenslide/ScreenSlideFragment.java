@@ -422,10 +422,31 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
                         iso.post(new Runnable() {
                             @Override
                             public void run() {
-                                iso.setText("ISO:" +exifsub.getString(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT));
-                                shutter.setText("S:" +exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME));
-                                fnumber.setText("f~:" +exifsub.getString(ExifSubIFDDirectory.TAG_FNUMBER));
-                                focal.setText("A:" +exifsub.getString(ExifSubIFDDirectory.TAG_FOCAL_LENGTH));
+                                try {
+                                    shutter.setText("S:" +exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME));
+                                }catch (NullPointerException e){
+                                    shutter.setVisibility(View.GONE);
+                                }
+                                try
+                                {
+                                    fnumber.setText("f~:" +exifsub.getString(ExifSubIFDDirectory.TAG_FNUMBER));
+                                }catch (NullPointerException e){
+                                    fnumber.setVisibility(View.GONE);
+                                }
+                                try {
+                                    focal.setText("A:" +exifsub.getString(ExifSubIFDDirectory.TAG_FOCAL_LENGTH));
+                                }catch (NullPointerException e){
+                                    focal.setVisibility(View.GONE);
+                                }
+                                try {
+                                    iso.setText("ISO:" +exifsub.getString(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT));
+                                }catch (NullPointerException e){
+                                    iso.setVisibility(View.GONE);
+                                }
+
+
+
+
                             }
                         });
 
