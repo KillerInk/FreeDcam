@@ -75,6 +75,7 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
     private AppSettingsManager appSettingsManager;
 
     private HorizontLineFragment horizontLineFragment;
+    private int LeftWidth = 0;
 
     public static CameraUiFragment GetInstance(I_Activity i_activity, ScreenSlideFragment.I_ThumbClick thumbClick, AppSettingsManager appSettingsManager,AbstractCameraUiWrapper cameraUiWrapper)
     {
@@ -84,6 +85,16 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
         cameraUiFragment.appSettingsManager = appSettingsManager;
         cameraUiFragment.cameraUiWrapper = cameraUiWrapper;
         return cameraUiFragment;
+    }
+
+    public CameraUiFragment()
+    {
+
+    }
+
+    public int GetLeftUI_Width()
+    {
+        return LeftWidth;
     }
 
     @Override
@@ -141,6 +152,7 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
         sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         manualsettingsIsOpen = sharedPref.getBoolean(KEY_MANUALMENUOPEN, false);
         LinearLayout left_cameraUI_holder = (LinearLayout) view.findViewById(R.id.left_ui_holder);
+        LeftWidth = left_cameraUI_holder.getWidth();
         RelativeLayout right_camerUI_holder = (RelativeLayout) view.findViewById(R.id.right_ui_holder);
         this.manualModes_holder = (FrameLayout)view.findViewById(R.id.manualModesHolder);
         LinearLayout LC = (LinearLayout) view.findViewById(R.id.LCover);
