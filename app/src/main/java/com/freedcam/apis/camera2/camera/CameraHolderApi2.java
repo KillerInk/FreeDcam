@@ -58,6 +58,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
     public static String JPEG = "jpeg";
     public static String RAW_SENSOR = "raw_sensor";
     public static String RAW10 = "raw10";
+    public static String RAW12 = "raw12";
 
     public boolean isWorking = false;
     private Context context;
@@ -103,7 +104,6 @@ public class CameraHolderApi2 extends AbstractCameraHolder
     @Override
     public boolean OpenCamera(int camera)
     {
-        //startBackgroundThread();
         Logger.d(TAG, "Open Camera");
         CurrentCamera = camera;
         String cam = camera +"";
@@ -113,7 +113,6 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                 return false;
             }
         }
-
         try
         {
             if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
@@ -256,7 +255,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
             try {
 
                 mPreviewRequestBuilder.set(key, value);
-                mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), mCaptureCallback,
+                mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
                         null);
 
             } catch (CameraAccessException e) {
@@ -344,7 +343,6 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                 Logger.exception(e);
             }
             ((ParameterHandlerApi2)GetParameterHandler()).Init();
-            //SetLastUsedParameters(mPreviewRequestBuilder);
         }
 
         @Override
@@ -361,8 +359,6 @@ public class CameraHolderApi2 extends AbstractCameraHolder
         {
             Logger.d(TAG, "Camera Error" + error);
             mCameraOpenCloseLock.release();
-            /*cameraDevice.close();
-            mCameraDevice = null;*/
             errorRecieved = true;
             UIHandler.post(new Runnable() {
                 @Override
@@ -374,7 +370,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
         }
     };
 
-    public CameraCaptureSession.CaptureCallback mCaptureCallback = new CameraCaptureSession.CaptureCallback()
+    public CameraCaptureSession.CaptureCallback cameraBackroundValuesChangedListner = new CameraCaptureSession.CaptureCallback()
     {
         @Override
         public void onCaptureSequenceCompleted(CameraCaptureSession session, int sequenceId, long frameNumber) {
@@ -439,7 +435,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                                 CameraMetadata.CONTROL_AF_STATE_INACTIVE);
                         mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,CaptureRequest.CONTROL_AF_TRIGGER_START);
                         try {
-                            mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback,
+                            mCaptureSession.capture(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
                                     null);
                         } catch (CameraAccessException e) {
                             Logger.exception(e);
@@ -464,7 +460,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                                 CameraMetadata.CONTROL_AF_STATE_INACTIVE);
                         mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,CaptureRequest.CONTROL_AF_TRIGGER_START);
                         try {
-                            mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback,
+                            mCaptureSession.capture(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
                                     null);
                         } catch (CameraAccessException e) {
                             Logger.exception(e);
@@ -717,7 +713,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
             try {
                 // Finally, we start displaying the camera previewSize.
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
-                        mCaptureCallback, null);
+                        cameraBackroundValuesChangedListner, null);
             } catch (CameraAccessException | IllegalStateException e) {
                 mCaptureSession =null;
             }

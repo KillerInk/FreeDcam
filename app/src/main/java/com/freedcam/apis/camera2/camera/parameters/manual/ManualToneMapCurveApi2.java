@@ -144,7 +144,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
                 TonemapCurve tonemapCurve = new TonemapCurve(tonemap, tonemap, tonemap);
                 cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
                 try {
-                    cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
+                    cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
                             null);
                 } catch (CameraAccessException | NullPointerException e) {
                     Logger.exception(e);
@@ -221,7 +221,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
             TonemapCurve tonemapCurve = new TonemapCurve(tonemap,tonemap,tonemap);
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
             try {
-                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
+                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
                         null);
             } catch (CameraAccessException | NullPointerException e) {
                 Logger.exception(e);

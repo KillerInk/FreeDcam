@@ -109,7 +109,7 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
                 return;
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
             try {
-                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
+                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
                         null);
             } catch (CameraAccessException | NullPointerException e) {
                 Logger.exception(e);

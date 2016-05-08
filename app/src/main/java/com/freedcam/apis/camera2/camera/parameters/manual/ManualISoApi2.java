@@ -70,7 +70,7 @@ public class ManualISoApi2 extends ManualExposureTimeApi2 implements AbstractMod
                 camParametersHandler.ExposureMode.SetValue("off",true);
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, Integer.parseInt(stringvalues[valueToSet]));
             try {
-                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
+                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
                         null);
             } catch (CameraAccessException | NullPointerException e) {
                 Logger.exception(e);

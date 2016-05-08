@@ -305,7 +305,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             mState = STATE_PREVIEW;
             //cameraHolder.mCaptureSession.abortCaptures();
             try {
-                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
+                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
                         null);
             }
             catch (CameraAccessException ex)

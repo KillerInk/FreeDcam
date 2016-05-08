@@ -218,7 +218,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
             baseCameraHolder.mCaptureSession = cameraCaptureSession;
             try {
                 baseCameraHolder.mCaptureSession.setRepeatingRequest(baseCameraHolder.mPreviewRequestBuilder.build(),
-                        baseCameraHolder.mCaptureCallback, null);
+                        baseCameraHolder.cameraBackroundValuesChangedListner, null);
                 //cameraHolderApi1.SetLastUsedParameters(cameraHolderApi1.mPreviewRequestBuilder);
                 mediaRecorder.start();
                 isRecording = true;
