@@ -54,8 +54,6 @@ public class ManualExposureTimeApi2 extends AbstractManualParameter implements A
             millimax = 10000000;
         else if (DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8982_8994))
             millimax = 10000000;
-        else if (DeviceUtils.IS(DeviceUtils.Devices.Htc_M10))
-            millimax = 60000000;
         else
             millimax = (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper()).intValue() / 1000;
         int millimin = (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower()).intValue() / 1000;
