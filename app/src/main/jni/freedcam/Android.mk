@@ -81,7 +81,7 @@ include $(BUILD_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE    := libfreedcam
-LOCAL_SRC_FILES := RawToDng.cpp librawutils/librawutils.cpp ImageProcessorWrapper.cpp ImageProcessor.cpp surfacenativedraw.cpp Staxxer.cpp
+LOCAL_SRC_FILES := raw2dng/RawToDng.cpp librawutils/librawutils.cpp imageprocessor/ImageProcessorWrapper.cpp imageprocessor/ImageProcessor.cpp imageprocessor/surfacenativedraw.cpp imageprocessor/Staxxer.cpp
 LOCAL_CPPFLAGS := -fexceptions -fopenmp
 LOCAL_CFLAGS += -fopenmp
 LOCAL_LDFLAGS += -fopenmp
