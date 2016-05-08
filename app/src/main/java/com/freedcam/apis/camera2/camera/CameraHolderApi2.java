@@ -173,7 +173,10 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                     mCaptureSession = null;
                 }
             }
-           catch (Exception e) {Logger.e(CameraHolderApi2.class.getName(),e.getMessage());}
+           catch (Exception e)
+           {
+               Logger.exception(e);
+           }
 
             if (null != mCameraDevice)
             {
@@ -403,12 +406,14 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                                 final int  iso = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
                                 GetParameterHandler().ISOManual.ThrowCurrentValueStringCHanged("" + iso);
                             }
-                            catch (NullPointerException ex) {Logger.e(CameraHolderApi2.class.getName(),ex.getMessage());}
+                            catch (NullPointerException ex) {
+                                Logger.exception(ex);
+                            }
                             try {
                                 final float  mf = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
                                 GetParameterHandler().ManualFocus.ThrowCurrentValueStringCHanged(StringUtils.TrimmFloatString(mf + ""));
                             }
-                            catch (NullPointerException ex) {Logger.e(CameraHolderApi2.class.getName(),ex.getMessage());}
+                            catch (NullPointerException ex) {Logger.exception(ex);}
                         }
                     }
                     catch (NullPointerException ex)
@@ -711,7 +716,6 @@ public class CameraHolderApi2 extends AbstractCameraHolder
 
             try {
                 // Finally, we start displaying the camera previewSize.
-                //ParameterHandler.SetAppSettingsToParameters();
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
                         mCaptureCallback, null);
             } catch (CameraAccessException | IllegalStateException e) {
