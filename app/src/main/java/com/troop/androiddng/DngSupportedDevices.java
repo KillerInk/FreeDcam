@@ -10,9 +10,9 @@ public class DngSupportedDevices
 {
 
     public final static int Mipi = 0;
-    private final static int Qcom = 1;
-    private final static int Plain = 2;
-    private final static int Mipi16 = 3;
+    public final static int Qcom = 1;
+    public final static int Plain = 2;
+    public final static int Mipi16 = 3;
     public final static int Mipi12 = 4;
 
     public DngProfile getProfile(DeviceUtils.Devices device, int filesize)
@@ -307,9 +307,14 @@ public class DngSupportedDevices
         }
     }
 
+    public DngProfile getProfile(int blacklevel, int widht, int height,int rawFormat, String bayerPattern, int rowsize, float[] matrix1, float[] matrix2, float[] neutral, float[] fmatrix1, float[] fmatrix2, float[] rmatrix1, float[] rmatrix2, float[] noise)
+    {
+        return new DngProfile(blacklevel,widht,height, rawFormat,bayerPattern, 0,new CustomMatrix(matrix1,matrix2,neutral,fmatrix1,fmatrix2,rmatrix1,rmatrix2,noise));
+    }
+
     public DngProfile getProfile(int blacklevel, int widht, int height, String bayerPattern, int rowsize, float[] matrix1, float[] matrix2, float[] neutral, float[] fmatrix1, float[] fmatrix2, float[] rmatrix1, float[] rmatrix2, float[] noise)
     {
-        return new DngProfile(blacklevel,widht,height, DngSupportedDevices.Mipi,bayerPattern, 0,new CustomMatrix(matrix1,matrix2,neutral,fmatrix1,fmatrix2,rmatrix1,rmatrix2,noise));
+        return getProfile(blacklevel,widht,height, DngSupportedDevices.Mipi,bayerPattern, 0,matrix1,matrix2,neutral,fmatrix1,fmatrix2,rmatrix1,rmatrix2,noise);
     }
 
     public class Nexus6Profile extends DngProfile
