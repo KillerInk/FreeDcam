@@ -9,7 +9,7 @@ public class StaxxerJNI {
 
     static
     {
-        System.loadLibrary("Staxxer");
+        System.loadLibrary("freedcam");
     }
     private ByteBuffer nativeHandler = null;
     private static native void StoreMerged(ByteBuffer nativeHandler,byte[] fromRS);

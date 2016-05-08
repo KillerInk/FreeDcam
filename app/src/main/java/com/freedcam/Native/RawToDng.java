@@ -22,7 +22,7 @@ public class RawToDng
 {
     static
     {
-        System.loadLibrary("RawToDng");
+        System.loadLibrary("freedcam");
     }
 
     private static final String TAG = RawToDng.class.getSimpleName();

@@ -1,6 +1,5 @@
 LOCAL_PATH := $(call my-dir)
 
-
 include $(CLEAR_VARS)
 
 LOCAL_ARM_MODE := arm
@@ -45,14 +44,14 @@ LOCAL_TIFF_SRC_FILES := \
 	tiff/libtiff/tif_swab.c \
 	tiff/libtiff/tif_strip.c
 
-LOCAL_TIFF_SRC_FILES += tiff/port/lfind.c 
+LOCAL_TIFF_SRC_FILES += tiff/port/lfind.c
 ###########################################################
 
 LOCAL_SRC_FILES:= $(LOCAL_TIFF_SRC_FILES)
 LOCAL_C_INCLUDES += \
 					$(LOCAL_PATH)/tiff/libtiff \
 					$(LOCAL_PATH)/jpeg
-LOCAL_CFLAGS += -DAVOID_TABLES 
+LOCAL_CFLAGS += -DAVOID_TABLES
 LOCAL_CFLAGS += -O3 -fstrict-aliasing -fprefetch-loop-arrays
 #LOCAL_CFLAGS := -fpermissive
 LOCAL_MODULE:= libtiff
@@ -62,38 +61,41 @@ LOCAL_LDLIBS := -lz \
 	-ljpeg
 LOCAL_STATIC_LIBRARIES  += $(LOCAL_PATH)/libs
 #LOCAL_PRELINK_MODULE:=false
-#include $(BUILD_STATIC_LIBRARY)
 include $(BUILD_STATIC_LIBRARY)
 
 
-#include $(CLEAR_VARS)
+#librawutils
+#used for compiling libraw
+include $(CLEAR_VARS)
+LOCAL_CPPFLAGS  := -fexceptions -frtti
+LOCAL_MODULE     := libraw					# name of your module
+LOCAL_LDLIBS	:=	-llog #-fopenmp
+LOCAL_SRC_FILES  :=  swab.cpp internal/dcraw_common.cpp internal/dcraw_fileio.cpp internal/demosaic_packs.cpp src/libraw_cxx.cpp src/libraw_c_api.cpp src/libraw_datastream.cpp
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/libraw
+include $(BUILD_STATIC_LIBRARY)
 
-#LOCAL_MODULE := tiffdecoder
 
-#LOCAL_CFLAGS := -DANDROID_NDK -fpermissive
 
-#LOCAL_SRC_FILES := \
-	tiffdecoder.c
 
-#LOCAL_LDLIBS := -ldl -llog
-#LOCAL_SHARED_LIBRARIES := tiff
-#include $(BUILD_SHARED_LIBRARY)
+
 
 include $(CLEAR_VARS)
-LOCAL_MODULE    := libRawToDng
-LOCAL_SRC_FILES := RawToDng.cpp
+LOCAL_MODULE    := libfreedcam
+LOCAL_SRC_FILES := RawToDng.cpp librawutils/librawutils.cpp ImageProcessorWrapper.cpp ImageProcessor.cpp surfacenativedraw.cpp Staxxer.cpp
 LOCAL_CPPFLAGS := -fexceptions -fopenmp
 LOCAL_CFLAGS += -fopenmp
 LOCAL_LDFLAGS += -fopenmp
 LOCAL_LDLIBS := -lz \
 	-L $(LOCAL_PATH)/libs \
 	-lm \
-	-ljpeg \
-	-llog
+	-llog \
+	-fopenmp \
+	-ljnigraphics \
+	-landroid
 LOCAL_C_INCLUDES += \
 					$(LOCAL_PATH)/tiff/libtiff \
-                    $(LOCAL_PATH)/jpeg
-LOCAL_STATIC_LIBRARIES := libtiff
+                    $(LOCAL_PATH)/../libjpeg/jpeg-9b/
+LOCAL_STATIC_LIBRARIES := libtiff libraw libjpeg
 include $(BUILD_SHARED_LIBRARY)
 
 

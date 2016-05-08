@@ -19,7 +19,7 @@ class ImageProcessorWrapper
 
     static
     {
-        System.loadLibrary("com/imageconverter");
+        System.loadLibrary("freedcam");
     }
 
     private ByteBuffer nativeHandler = null;
