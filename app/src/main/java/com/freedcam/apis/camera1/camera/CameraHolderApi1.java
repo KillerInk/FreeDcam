@@ -602,7 +602,7 @@ public class CameraHolderApi1 extends AbstractCameraHolder
 
 
 
-    private void runObjectTrackingReflection()
+  /*  private void runObjectTrackingReflection()
     {
         try {
             Class camera = Class.forName("com.lge.hardware.LGCamera");
@@ -625,7 +625,7 @@ public class CameraHolderApi1 extends AbstractCameraHolder
         } catch (NoSuchMethodException e) {
             Logger.e(TAG,e.getMessage());
         }
-    }
+    }*/
 
     @Override
     public void SetPreviewCallback(final I_Callbacks.PreviewCallback previewCallback)
