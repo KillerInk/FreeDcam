@@ -70,7 +70,7 @@ public class ZoomApi2 extends AbstractManualParameter
         Rect zoom = new Rect(cropW, cropH,m.width()-cropW, m.height() - cropH);
         cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SCALER_CROP_REGION, zoom);
         try {
-            cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
+            cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
                     null);
         } catch (CameraAccessException | NullPointerException e) {
             Logger.exception(e);

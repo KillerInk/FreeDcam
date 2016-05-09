@@ -86,7 +86,7 @@ public class ManualWbCtApi2  extends  AbstractManualParameter implements Abstrac
         wbChannelVector =  new RggbChannelVector(rf,gf,gf,bf);
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.COLOR_CORRECTION_GAINS, wbChannelVector);
         try {
-            cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
+            cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
                     null);
         } catch (CameraAccessException | NullPointerException e) {
             Logger.exception(e);

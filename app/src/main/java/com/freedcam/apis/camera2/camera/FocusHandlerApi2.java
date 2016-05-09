@@ -125,7 +125,7 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
             // Tell #mCaptureCallback to wait for the lock.
             //mState = PictureModuleApi2.STATE_WAITING_LOCK;
             if (cameraHolder.mCaptureSession != null)
-                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
+                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
                     null);
             if (focusEvent != null)
                 focusEvent.FocusStarted(focusRect);
@@ -144,7 +144,7 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
             //cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
             // After this, the camera will go back to the normal state of preview.
             mState = PictureModuleApi2.STATE_PREVIEW;
-            cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
+            cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
                     null);
 
         } catch (CameraAccessException e) {
@@ -199,7 +199,7 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
             cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
             // Tell #mCaptureCallback to wait for the precapture sequence to be set.
             //mState = PictureModuleApi2.STATE_WAITING_PRECAPTURE;
-            cameraHolder.mCaptureSession.capture(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
+            cameraHolder.mCaptureSession.capture(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
                     null);
         } catch (CameraAccessException e) {
             Logger.exception(e);
@@ -264,7 +264,7 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
     {
         /*cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AWB_LOCK, false);
         try {
-            cameraHolder.mCaptureSession.capture(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
+            cameraHolder.mCaptureSession.capture(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
                     null);
         } catch (CameraAccessException e) {
             Logger.exception(e);

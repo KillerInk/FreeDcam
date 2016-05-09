@@ -113,9 +113,11 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     @TargetApi(Build.VERSION_CODES.M)
     private boolean checkMarshmallowPermissions()
     {
-        try {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
             if (checkSelfPermission(Manifest.permission.CAMERA)
-                    != PackageManager.PERMISSION_GRANTED && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    != PackageManager.PERMISSION_GRANTED )
+            {
                 requestPermissions(new String[]{
                         Manifest.permission.CAMERA,
                         Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -127,14 +129,9 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
                         Manifest.permission.CHANGE_WIFI_STATE,}, 1);
                 return false;
             }
+            else return true;
         }
-
-        catch (NoSuchMethodError e)
-        {
-            e.printStackTrace();
-        }
-        return true;
-
+        else return true;
     }
 
     @Override

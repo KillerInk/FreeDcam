@@ -305,7 +305,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             mState = STATE_PREVIEW;
             //cameraHolder.mCaptureSession.abortCaptures();
             try {
-                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
+                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
                         null);
             }
             catch (CameraAccessException ex)
@@ -340,15 +340,24 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     File file = null;
                     Handler handler = new Handler(Looper.getMainLooper());
                     imagecount++;
-                    if (reader.getImageFormat() == ImageFormat.JPEG) {
-                        file = process_jpeg(burstcount, reader);
-                    } else if (reader.getImageFormat() == ImageFormat.RAW10) {
-                        file = process_raw10(burstcount, reader);
+                    switch (reader.getImageFormat())
+                    {
+                        case ImageFormat.JPEG:
+                            file = process_jpeg(burstcount, reader);
+                            break;
+                        case ImageFormat.RAW10:
+                            file = process_rawWithDngConverter(burstcount, reader,DngSupportedDevices.Mipi);
+                            break;
+                        case ImageFormat.RAW12:
+                            file = process_rawWithDngConverter(burstcount, reader,DngSupportedDevices.Mipi12);
+                            break;
+                        case ImageFormat.RAW_SENSOR:
+                            if(DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8974) || DeviceUtils.IS(DeviceUtils.Devices.OnePlusTwo))
+                                file = process_rawWithDngConverter(burstcount, reader,DngSupportedDevices.Mipi16);
+                            else
+                                file = process_rawSensor(burstcount, reader);
 
-                    } else if (reader.getImageFormat() == ImageFormat.RAW_SENSOR /*&& cameraHolder.ParameterHandler.IsDngActive()*/) {
-                        file = process_rawSensor(burstcount, reader);
                     }
-
 
                     isWorking = false;
                     MediaScannerManager.ScanMedia(context, file);
@@ -398,78 +407,28 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         while (image == null) {
             image = reader.acquireNextImage();
         }
-
-
-        if(DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8974) || DeviceUtils.IS(DeviceUtils.Devices.OnePlusTwo))
+        DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, mDngResult);
+        dngCreator.setOrientation(mDngResult.get(CaptureResult.JPEG_ORIENTATION));
+        try
         {
-            final RawToDng dngConverter = RawToDng.GetInstance();
-            ByteBuffer buffer = image.getPlanes()[0].getBuffer();
-            byte[] bytes = new byte[buffer.remaining()];
-            buffer.get(bytes);
-            ParcelFileDescriptor pfd = null;
             if (!appSettingsManager.GetWriteExternal())
-                dngConverter.SetBayerData(bytes, file.getAbsolutePath());
+                dngCreator.writeImage(new FileOutputStream(file), image);
             else
             {
-                Uri uri = Uri.parse(appSettingsManager.GetBaseFolder());
                 DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,context);
-                DocumentFile wr = df.createFile("image/dng", file.getName());
-                try {
-
-                    pfd = context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
-                    if (pfd != null)
-                        dngConverter.SetBayerDataFD(bytes, pfd, file.getName());
-                } catch (FileNotFoundException | IllegalArgumentException e) {
-                    Logger.exception(e);
-                }
+                DocumentFile wr = df.createFile("image/*", file.getName());
+                dngCreator.writeImage(context.getContentResolver().openOutputStream(wr.getUri()), image);
             }
-            float fnum, focal = 0;
-            fnum = 2.0f;
-            focal = 4.7f;
-            Logger.d("Freedcam RawCM2",String.valueOf(bytes.length));
-
-            //  int mISO = mDngResult.get(CaptureResult.SENSOR_SENSITIVITY));
-            double mExposuretime;
-            int mFlash;
-
-
-            dngConverter.setExifData(0, 0, 0, fnum, focal, "0", cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.JPEG_ORIENTATION).toString(), 0);
-
-            dngConverter.WriteDNG(DeviceUtils.DEVICE());
-            dngConverter.RELEASE();
-            image.close();
-            bytes = null;
-            if (pfd != null)
-                try {
-                    pfd.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        } catch (IOException e) {
+            Logger.exception(e);
         }
-        else
-        {
-            DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, mDngResult);
-            dngCreator.setOrientation(mDngResult.get(CaptureResult.JPEG_ORIENTATION));
-            try
-            {
-                if (!appSettingsManager.GetWriteExternal())
-                    dngCreator.writeImage(new FileOutputStream(file), image);
-                else
-                {
-                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,context);
-                    DocumentFile wr = df.createFile("image/*", file.getName());
-                    dngCreator.writeImage(context.getContentResolver().openOutputStream(wr.getUri()), image);
-                }
-            } catch (IOException e) {
-                Logger.exception(e);
-            }
-            image.close();
-        }
+        image.close();
+
         return file;
     }
 
     @NonNull
-    private File process_raw10(int burstcount, ImageReader reader) {
+    private File process_rawWithDngConverter(int burstcount, ImageReader reader, int rawFormat) {
         File file;
         Logger.d(TAG, "Create DNG VIA RAw2DNG");
         if (burstcount > 1)
@@ -603,7 +562,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         }
 
         DngSupportedDevices d = new DngSupportedDevices();
-        DngSupportedDevices.DngProfile prof = d.getProfile(black,image.getWidth(), image.getHeight(), colorpattern, 0,
+        DngSupportedDevices.DngProfile prof = d.getProfile(black,image.getWidth(), image.getHeight(),rawFormat, colorpattern, 0,
                 color1,
                 color2,
                 neutral,
@@ -772,8 +731,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, burst);
             else if (picFormat.equals(CameraHolderApi2.RAW10))
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW10, burst);
-            else
+            else if (picFormat.equals(CameraHolderApi2.RAW_SENSOR))
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW_SENSOR, burst);
+            else if (picFormat.equals(CameraHolderApi2.RAW12))
+                mImageReader = ImageReader.newInstance(mImageWidth,mImageHeight, ImageFormat.RAW12,burst);
             baseCameraHolder.CaptureSessionH.AddSurface(mImageReader.getSurface(),false);
             baseCameraHolder.CaptureSessionH.CreateCaptureSession();
         }

@@ -131,6 +131,7 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
         modeSwitch.SetCameraUiWrapper(cameraUiWrapper);
         hdr_switch.SetParameter(cameraUiWrapper.camParametersHandler.HDRMode);
         horizontLineFragment.setCameraUiWrapper(cameraUiWrapper);
+        infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
     }
 
     @Override

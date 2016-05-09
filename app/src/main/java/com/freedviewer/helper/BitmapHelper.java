@@ -87,7 +87,7 @@ public class BitmapHelper
                     }
                     catch (IllegalArgumentException ex)
                     {
-                        Logger.e(BitmapHelper.class.getName(),ex.getMessage());
+                        Logger.exception(ex);
 
                     }
                 }

@@ -58,6 +58,8 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
             ret.add(CameraHolderApi2.RAW_SENSOR);
         if(cameraHolder.map.isOutputSupportedFor(ImageFormat.JPEG))
             ret.add(CameraHolderApi2.JPEG);
+        if (cameraHolder.map.isOutputSupportedFor(ImageFormat.RAW12))
+            ret.add(CameraHolderApi2.RAW12);
         return ret.toArray(new String[ret.size()]);
     }
 }

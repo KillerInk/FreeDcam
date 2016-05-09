@@ -86,7 +86,7 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
         }
         catch (IllegalArgumentException ex)
         {
-            Logger.e(AbstractInfoOverlayHandler.class.getName(),ex.getMessage());}
+            Logger.exception(ex );}
 
     }
 

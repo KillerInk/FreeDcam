@@ -167,12 +167,15 @@ public class AppSettingsManager
 
     public void setshowHelpOverlay(boolean value)
     {
-        setBoolean("showhelpoverlay",value);
+        appsettingsList.put("showhelpoverlay",value+"");
     }
 
     public boolean getShowHelpOverlay()
     {
-        return getBoolean("showhelpoverlay", true);
+        String tmp = appsettingsList.get("showhelpoverlay");
+        if (tmp!=null && !tmp.equals(""))
+            return Boolean.parseBoolean(tmp);
+        else return true;
     }
 
     public void SetBaseFolder(String uri)
@@ -214,18 +217,18 @@ public class AppSettingsManager
 
     public void SetCurrentModule(String modulename)
     {
-        appsettingsList.put(getSettingString(SETTING_CURRENTMODULE), modulename);
+        appsettingsList.put(getApiSettingString(SETTING_CURRENTMODULE), modulename);
     }
 
     public String GetCurrentModule()
     {
-        final String mod = appsettingsList.get(getSettingString(SETTING_CURRENTMODULE));
+        final String mod = appsettingsList.get(getApiSettingString(SETTING_CURRENTMODULE));
         if (mod != null && !mod.equals(""))
             return mod;
         return AbstractModuleHandler.MODULE_PICTURE;
     }
 
-    private String getSettingString(String settingsName)
+    private String getApiSettingString(String settingsName)
     {
         final StringBuilder newstring = new StringBuilder();
         if (API_SONY.equals(camApiString))
@@ -336,7 +339,7 @@ public class AppSettingsManager
 
     public String getString(String valueToGet, String defaultValue)
     {
-        String ret = appsettingsList.get(getSettingString(valueToGet));
+        String ret = appsettingsList.get(getApiSettingString(valueToGet));
         if (ret!=null && !ret.equals(""))
             return appsettingsList.get(ret);
         else return defaultValue;
@@ -344,7 +347,7 @@ public class AppSettingsManager
 
     public String getString(String valueToGet)
     {
-        String ret = appsettingsList.get(getSettingString(valueToGet));
+        String ret = appsettingsList.get(getApiSettingString(valueToGet));
         if (ret!=null && !ret.equals(""))
             return ret;
         else return "";
@@ -352,12 +355,12 @@ public class AppSettingsManager
 
     public void setString(String settingsName, String Value)
     {
-        appsettingsList.put(getSettingString(settingsName),Value);
+        appsettingsList.put(getApiSettingString(settingsName),Value);
     }
 
     public boolean getBoolean(String valueToGet, boolean defaultValue)
     {
-        String tmp = appsettingsList.get(getSettingString(valueToGet));
+        String tmp = appsettingsList.get(getApiSettingString(valueToGet));
         if (tmp!=null && !tmp.equals(""))
             return Boolean.parseBoolean(tmp);
         else return defaultValue;

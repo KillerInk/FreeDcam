@@ -107,7 +107,7 @@ public class CacheHelper
                         if (out != null) {
                             out.close();
                         }
-                    } catch (IOException e) { Logger.e(CacheHelper.class.getName(),e.getMessage());}
+                    } catch (IOException e) { Logger.exception(e);}
                 }
             }
         }
@@ -125,7 +125,7 @@ public class CacheHelper
             while (mDiskCacheStarting) {
                 try {
                     mDiskCacheLock.wait();
-                } catch (InterruptedException e) {Logger.e(CacheHelper.class.getName(),e.getMessage());}
+                } catch (InterruptedException e) {Logger.exception(e);}
             }
             if (mDiskLruCache != null) {
                 InputStream inputStream = null;
@@ -143,13 +143,13 @@ public class CacheHelper
                         }
                     }
                 } catch (final IOException e) {
-                    Logger.e(CacheHelper.class.getName(),e.getMessage());
+                    Logger.exception(e);
                 } finally {
                     try {
                         if (inputStream != null) {
                             inputStream.close();
                         }
-                    } catch (IOException e) {Logger.e(CacheHelper.class.getName(),e.getMessage());}
+                    } catch (IOException e) {Logger.exception(e);}
                 }
             }
             return bitmap;

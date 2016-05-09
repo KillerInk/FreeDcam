@@ -24,6 +24,6 @@ public class CCTManual_SonyM4 extends BaseCCTManual {
             parameters.put("manual-wb-type", "color-temperature");
             parameters.put("manual-wb-value", stringvalues[currentInt]);
         } catch (Exception ex) {
-            Logger.e(CCTManual_SonyM4.class.getName(),ex.getMessage());}
+            Logger.exception(ex);}
     }
 }

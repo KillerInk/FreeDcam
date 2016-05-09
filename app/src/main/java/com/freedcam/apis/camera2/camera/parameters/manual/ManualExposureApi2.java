@@ -63,7 +63,7 @@ public class ManualExposureApi2 extends AbstractManualParameter implements Abstr
         int t = valueToSet-(stringvalues.length/2);
         cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, t);
         try {
-            cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.mCaptureCallback,
+            cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
                     null);
         } catch (CameraAccessException | NullPointerException e) {
             Logger.exception(e);
