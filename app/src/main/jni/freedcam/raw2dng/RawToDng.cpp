@@ -96,11 +96,11 @@ public:
     float *colorMatrix1;
     float *colorMatrix2;
     float *neutralColorMatrix;
-    float *fowardMatrix1;
-    float *fowardMatrix2;
-    float *reductionMatrix1;
-    float *reductionMatrix2;
-    float *noiseMatrix;
+    float *fowardMatrix1 =NULL;
+    float *fowardMatrix2=NULL;
+    float *reductionMatrix1=NULL;
+    float *reductionMatrix2=NULL;
+    float *noiseMatrix=NULL;
     char* bayerformat;
     int rawType;
     long rawSize;
@@ -293,12 +293,16 @@ JNIEXPORT void JNICALL Java_com_freedcam_Native_RawToDng_SetBayerInfo(JNIEnv *en
     writer->colorMatrix1 = env->GetFloatArrayElements(colorMatrix1, 0);
     writer->colorMatrix2 =env->GetFloatArrayElements(colorMatrix2, 0);
     writer->neutralColorMatrix = env->GetFloatArrayElements(neutralColor, 0);
-
-    writer->fowardMatrix1 = env->GetFloatArrayElements(fowardMatrix1, 0);
-    writer->fowardMatrix2 =env->GetFloatArrayElements(fowardMatrix2, 0);
-    writer->reductionMatrix1 = env->GetFloatArrayElements(reductionMatrix1, 0);
-    writer->reductionMatrix2 =env->GetFloatArrayElements(reductionMatrix2, 0);
-    writer->noiseMatrix =env->GetFloatArrayElements(noiseMatrix, 0);
+    if(fowardMatrix1 != NULL)
+        writer->fowardMatrix1 = env->GetFloatArrayElements(fowardMatrix1, 0);
+    if(fowardMatrix2 != NULL)
+        writer->fowardMatrix2 =env->GetFloatArrayElements(fowardMatrix2, 0);
+    if(reductionMatrix1 != NULL)
+        writer->reductionMatrix1 = env->GetFloatArrayElements(reductionMatrix1, 0);
+    if(reductionMatrix2 != NULL)
+        writer->reductionMatrix2 =env->GetFloatArrayElements(reductionMatrix2, 0);
+    if(noiseMatrix != NULL)
+        writer->noiseMatrix =env->GetFloatArrayElements(noiseMatrix, 0);
 
     writer->bayerformat = (char*)  env->GetStringUTFChars(bayerformat,0);
     writer->rawheight = height;
@@ -387,16 +391,18 @@ void writeIfd0(TIFF *tif, DngWriter *writer)
     LOGD("colormatrix1");
     TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, writer->neutralColorMatrix);
     LOGD("neutralMatrix");
-    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 21);
-
-    TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 17);
+    if(writer->fowardMatrix1 != NULL)
+        TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 21);
+    if(writer->fowardMatrix2 != NULL)
+        TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 17);
 
     TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, writer->colorMatrix2);
-
-    TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  writer->fowardMatrix1);
-    TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  writer->fowardMatrix2);
-
-    TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  writer->noiseMatrix);
+    if(writer->fowardMatrix1 != NULL)
+        TIFFSetField(tif, TIFFTAG_FOWARDMATRIX1, 9,  writer->fowardMatrix1);
+    if(writer->fowardMatrix2 != NULL)
+        TIFFSetField(tif, TIFFTAG_FOWARDMATRIX2, 9,  writer->fowardMatrix2);
+    if(writer->noiseMatrix != NULL)
+        TIFFSetField(tif, TIFFTAG_NOISEPROFILE, 6,  writer->noiseMatrix);
     LOGD("colormatrix2");
 }
 
