@@ -502,7 +502,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             }
         }
         dng.setExifData(100, 0, 0, 0, 0, "", "0", 0);
-        dng.WriteDNG(null);
+        dng.WriteDNG(null,appSettingsManager);
         data = null;
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         intent.setData(Uri.fromFile(file));

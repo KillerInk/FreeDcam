@@ -570,7 +570,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 forward2,
                 reduction1,
                 reduction2,
-                finalnoise
+                finalnoise,
+                appSettingsManager
         );
 
         dngConverter.WriteDngWithProfile(prof);

@@ -211,7 +211,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         {
             checkFileExists(file);
             dngConverter.SetBayerData(data, file.getAbsolutePath());
-            dngConverter.WriteDNG(DeviceUtils.DEVICE());
+            dngConverter.WriteDNG(DeviceUtils.DEVICE(),appSettingsManager);
             dngConverter.RELEASE();
         }
         else
@@ -229,7 +229,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             }
             if (pfd != null) {
                 dngConverter.SetBayerDataFD(data, pfd, file.getName());
-                dngConverter.WriteDNG(DeviceUtils.DEVICE());
+                dngConverter.WriteDNG(DeviceUtils.DEVICE(),appSettingsManager);
                 dngConverter.RELEASE();
                 try {
                     pfd.close();

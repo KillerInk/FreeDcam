@@ -100,9 +100,9 @@ public class DngConvertingFragment extends Fragment
         this.filesToConvert = getActivity().getIntent().getStringArrayExtra(EXTRA_FILESTOCONVERT);
         if (filesToConvert != null && filesToConvert.length > 0) {
             DeviceUtils.Devices devices = DeviceUtils.DEVICE();
-            dngprofile = new DngSupportedDevices().getProfile(devices, (int) new File(filesToConvert[0]).length());
+            dngprofile = new DngSupportedDevices().getProfile(devices, (int) new File(filesToConvert[0]).length(),appSettingsManager);
             if (dngprofile == null) {
-                dngprofile = new DngSupportedDevices().GetEmptyProfile();
+                dngprofile = new DngSupportedDevices().GetEmptyProfile(appSettingsManager);
                 Toast.makeText(getContext(), R.string.unknown_raw_add_manual_stuff, Toast.LENGTH_LONG).show();
             }
             editTextwidth.setText(dngprofile.widht + "");
@@ -129,10 +129,10 @@ public class DngConvertingFragment extends Fragment
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         switch (position) {
                             case 0:
-                                dngprofile.matrixes = DngSupportedDevices.nexus6Matrix;
+                                dngprofile.matrixes = DngSupportedDevices.getNexus6Matrix(appSettingsManager);
                                 break;
                             case 1:
-                                dngprofile.matrixes = DngSupportedDevices.g4Matrix;
+                                dngprofile.matrixes = DngSupportedDevices.getG4Matrix(appSettingsManager);
                                 break;
                         }
                     }
