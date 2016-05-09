@@ -239,6 +239,7 @@ public abstract class AbstractParameterHandler
 
         setMode(morphoHDR, AppSettingsManager.SETTING_MORPHOHDR);
         setMode(morphoHHT, AppSettingsManager.SETTING_MORPHOHHT);
+        setMode(matrixChooser, AppSettingsManager.SETTTING_CUSTOMMATRIX);
 
         //setMode(PreviewZoom, AppSettingsManager.SETTINGS_PREVIEWZOOM);
 

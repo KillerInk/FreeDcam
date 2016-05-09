@@ -5,6 +5,7 @@ import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 
+import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModule;
@@ -211,7 +212,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         {
             checkFileExists(file);
             dngConverter.SetBayerData(data, file.getAbsolutePath());
-            dngConverter.WriteDNG(DeviceUtils.DEVICE(),appSettingsManager);
+            dngConverter.WriteDNG(DeviceUtils.DEVICE(),(MatrixChooserParameter)ParameterHandler.matrixChooser);
             dngConverter.RELEASE();
         }
         else
@@ -229,7 +230,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             }
             if (pfd != null) {
                 dngConverter.SetBayerDataFD(data, pfd, file.getName());
-                dngConverter.WriteDNG(DeviceUtils.DEVICE(),appSettingsManager);
+                dngConverter.WriteDNG(DeviceUtils.DEVICE(),(MatrixChooserParameter)ParameterHandler.matrixChooser);
                 dngConverter.RELEASE();
                 try {
                     pfd.close();

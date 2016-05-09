@@ -27,9 +27,6 @@ Projects used by FreeDcam
 MetadataExtractor  
 https://github.com/drewnoakes/metadata-extractor
 
-ArcSeekBar  
-https://github.com/carlosrobles/ArcSeekBar
-
 libtiff  
 http://www.remotesensing.org/libtiff/
 

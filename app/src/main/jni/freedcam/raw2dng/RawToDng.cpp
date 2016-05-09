@@ -391,9 +391,7 @@ void writeIfd0(TIFF *tif, DngWriter *writer)
     LOGD("colormatrix1");
     TIFFSetField(tif, TIFFTAG_ASSHOTNEUTRAL, 3, writer->neutralColorMatrix);
     LOGD("neutralMatrix");
-    if(writer->fowardMatrix1 != NULL)
         TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT1, 21);
-    if(writer->fowardMatrix2 != NULL)
         TIFFSetField(tif, TIFFTAG_CALIBRATIONILLUMINANT2, 17);
 
     TIFFSetField(tif, TIFFTAG_COLORMATRIX2, 9, writer->colorMatrix2);
