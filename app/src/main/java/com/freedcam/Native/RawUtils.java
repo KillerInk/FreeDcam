@@ -27,7 +27,7 @@ public class RawUtils {
 
     static {
         try {
-            System.loadLibrary("rawutils");
+            System.loadLibrary("freedcam");
         } catch (Throwable e) {
             Logger.exception(e);
         }
