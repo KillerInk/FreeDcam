@@ -59,7 +59,7 @@ public class ShutterClassHandler
         else if(DeviceUtils.IS(DeviceUtils.Devices.OnePlusOne) &&   !parameters.get("max-exposure-time").contains("."))
             return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,OppoIMX214.split(","), "max-exposure-time", "min-exposure-time");
 
-        else if( ( DeviceUtils.IS(DeviceUtils.Devices.OnePlusOne) || DeviceUtils.IS(DeviceUtils.Devices.Huawei_GX8) ) &&   parameters.get("max-exposure-time").contains("."))
+        else if(DeviceUtils.IS(DeviceUtils.Devices.OnePlusOne) &&   parameters.get("max-exposure-time").contains("."))
             return new ShutterManual_ExposureTime_Micro(parameters,parametersHandler,OppoIMX214.split(","),"exposure-time", "max-exposure-time", "min-exposure-time");
 
         else if((DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote) ||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W ) || DeviceUtils.IS(DeviceUtils.Devices.LenovoK920))&& parameters.get("max-exposure-time").contains("."))

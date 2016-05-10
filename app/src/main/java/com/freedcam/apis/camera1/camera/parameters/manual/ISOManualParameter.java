@@ -27,7 +27,7 @@ public class ISOManualParameter extends BaseManualParameter {
             {
                 this.isSupported=false;
             }
-            stringvalues = createStringArray(Integer.parseInt(min_value),Integer.parseInt(max_value),100);
+            stringvalues = createStringArray(Integer.parseInt(parameters.get(min_value)),Integer.parseInt(parameters.get(max_value)),100);
         }
         else
             this.isSupported = false;

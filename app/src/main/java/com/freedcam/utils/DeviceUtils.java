@@ -57,7 +57,17 @@ public class DeviceUtils
     *devices with the new qc hal
     *com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_QcomM.java
      */
-    final public static Devices[] QC_Manual_New = {Devices.SonyM4_QC,Devices.Alcatel_Idol3,Devices.Moto_MSM8982_8994,Devices.Lenovo_VibeP1,Devices.XiaomiMI5, Devices.Xiaomi_Redmi_Note3,Devices.Aquaris_E5,Devices.Huawei_GX8};
+    final public static Devices[] QC_Manual_New =
+            {
+                    Devices.SonyM4_QC,
+                    Devices.Alcatel_Idol3,
+                    Devices.Moto_MSM8982_8994,
+                    Devices.Lenovo_VibeP1,
+                    Devices.XiaomiMI5,
+                    Devices.Xiaomi_Redmi_Note3,
+                    Devices.Aquaris_E5,
+                    Devices.Huawei_GX8
+            };
 
     /*Devices for that the opcode is added to download*/
     final public static Devices[] OpCodeRdyToDL =
