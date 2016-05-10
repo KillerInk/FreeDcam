@@ -630,7 +630,4 @@ public class DeviceUtils
     {
         return isDevice(contex.getResources().getStringArray(R.array.Asus_Zenfon2));
     }
-
-
-
 }

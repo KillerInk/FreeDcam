@@ -18,8 +18,6 @@ import java.util.HashMap;
 public class PictureFormatHandler extends BaseModeParameter
 {
     private final String TAG = PictureFormatHandler.class.getSimpleName();
-    private final String PICFORMATVALUES = "picture-format-values";
-    private final String PICFORMAT = "picture-format";
     private boolean rawSupported = false;
     private String captureMode = "jpeg";
     private String rawFormat;
@@ -51,7 +49,7 @@ public class PictureFormatHandler extends BaseModeParameter
         {
             case Normal://normal has no break so it runs always through lg
             case LG:
-                if (parameters.containsKey(PICFORMATVALUES))
+                if (parameters.get("picture-format-values") != null)
                 {
                     isSupported = true;
                     if (DeviceUtils.IS(DeviceUtils.Devices.LG_G2))
@@ -99,7 +97,7 @@ public class PictureFormatHandler extends BaseModeParameter
                 rawSupported = true;
                 break;
         }
-        Logger.d(TAG, "rawsupported:" + rawSupported);
+        Logger.d(TAG, "rawsupported:" + rawSupported + "isSupported:"+isSupported);
     }
 
     @Override
@@ -132,7 +130,7 @@ public class PictureFormatHandler extends BaseModeParameter
     private void setString(String val, boolean setTocam)
     {
         Logger.d(TAG, "setString:" +val);
-        parameters.put(PICFORMAT, val);
+        parameters.put("picture-format", val);
         cameraHolderApi1.SetCameraParameters(parameters);
         if(cameraHolderApi1.DeviceFrameWork == CameraHolderApi1.Frameworks.LG && setTocam)
         {
@@ -143,7 +141,9 @@ public class PictureFormatHandler extends BaseModeParameter
     }
 
     @Override
-    public boolean IsSupported() {
+    public boolean IsSupported()
+    {
+        Logger.d(TAG,"IsSupported:"+isSupported);
         return isSupported;
     }
 
@@ -180,21 +180,6 @@ public class PictureFormatHandler extends BaseModeParameter
                 break;
         }
         return super.ModuleChanged(module);
-    }
-
-    @Override
-    public void onValueChanged(String val) {
-        super.onValueChanged(val);
-    }
-
-    @Override
-    public void onIsSupportedChanged(boolean isSupported) {
-        super.onIsSupportedChanged(isSupported);
-    }
-
-    @Override
-    public void onIsSetSupportedChanged(boolean isSupported) {
-        super.onIsSetSupportedChanged(isSupported);
     }
 
     @Override

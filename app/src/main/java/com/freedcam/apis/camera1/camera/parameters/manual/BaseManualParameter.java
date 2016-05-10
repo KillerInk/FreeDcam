@@ -73,7 +73,7 @@ public class BaseManualParameter extends AbstractManualParameter
         {
             if (parameters.containsKey(this.value) && parameters.containsKey(max_value) && parameters.containsKey(min_value))
             {
-                Logger.d(TAG, "parameters contains all 3 parameters");
+                Logger.d(TAG, "parameters contains all 3 parameters " + value +" " + min_value +" " + max_value );
                 if (!parameters.get(min_value).equals("") && !parameters.get(max_value).equals(""))
                 {
                     Logger.d(TAG, "parameters get min/max success");
