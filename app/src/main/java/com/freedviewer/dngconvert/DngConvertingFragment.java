@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.FileUtils;
@@ -51,6 +52,7 @@ public class DngConvertingFragment extends Fragment
     private Handler handler;
     private Button closeButton;
     private AppSettingsManager appSettingsManager;
+    private MatrixChooserParameter matrixChooserParameter;
 
     public static final String EXTRA_FILESTOCONVERT = "extra_files_to_convert";
     @Override
@@ -64,8 +66,10 @@ public class DngConvertingFragment extends Fragment
         this.editTextheight = (EditText)view.findViewById(R.id.editText_height);
         this.editTextblacklvl = (EditText)view.findViewById(R.id.editText_blacklevel);
         this.spinnerMatrixProfile = (Spinner)view.findViewById(R.id.spinner_MatrixProfile);
-        ArrayAdapter<CharSequence> matrixadapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.matrixes, android.R.layout.simple_spinner_item);
+        matrixChooserParameter = new MatrixChooserParameter(handler);
+        String[] items = matrixChooserParameter.GetValues();
+        ArrayAdapter<String> matrixadapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item,items);
+        //ArrayAdapter<CharSequence> matrixadapter = ArrayAdapter.createFromResource(getContext(),R.array.matrixes, android.R.layout.simple_spinner_item);
         matrixadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMatrixProfile.setAdapter(matrixadapter);
 
@@ -91,6 +95,7 @@ public class DngConvertingFragment extends Fragment
                 getActivity().finish();
             }
         });
+        matrixChooserParameter = new MatrixChooserParameter(handler);
         return view;
     }
 
@@ -100,7 +105,7 @@ public class DngConvertingFragment extends Fragment
         this.filesToConvert = getActivity().getIntent().getStringArrayExtra(EXTRA_FILESTOCONVERT);
         if (filesToConvert != null && filesToConvert.length > 0) {
             DeviceUtils.Devices devices = DeviceUtils.DEVICE();
-            dngprofile = new DngSupportedDevices().getProfile(devices, (int) new File(filesToConvert[0]).length());
+            dngprofile = new DngSupportedDevices().getProfile(devices, (int) new File(filesToConvert[0]).length(),new MatrixChooserParameter(null));
             if (dngprofile == null) {
                 dngprofile = new DngSupportedDevices().GetEmptyProfile();
                 Toast.makeText(getContext(), R.string.unknown_raw_add_manual_stuff, Toast.LENGTH_LONG).show();
@@ -129,10 +134,10 @@ public class DngConvertingFragment extends Fragment
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         switch (position) {
                             case 0:
-                                dngprofile.matrixes = DngSupportedDevices.nexus6Matrix;
+                                dngprofile.matrixes = matrixChooserParameter.GetCustomMatrixNotOverWritten(MatrixChooserParameter.NEXUS6);
                                 break;
                             case 1:
-                                dngprofile.matrixes = DngSupportedDevices.g4Matrix;
+                                dngprofile.matrixes = matrixChooserParameter.GetCustomMatrixNotOverWritten(MatrixChooserParameter.G4);
                                 break;
                         }
                     }

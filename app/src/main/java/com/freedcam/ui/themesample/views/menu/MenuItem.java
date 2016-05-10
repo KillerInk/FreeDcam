@@ -83,6 +83,7 @@ public class MenuItem extends UiSettingsChild implements View.OnClickListener, I
         inflater.inflate(R.layout.menu_item, this);
     }
 
+    @Override
     public void onValueChanged(String val)
     {
         sendLog("Set Value to:" + val);
@@ -95,11 +96,11 @@ public class MenuItem extends UiSettingsChild implements View.OnClickListener, I
             onItemClick.onMenuItemClick(this, false);
     }
 
+    @Override
     public void SetStuff(I_Activity i_activity, String settingvalue, AppSettingsManager appSettingsManager) {
         super.SetStuff(i_activity, settingvalue,appSettingsManager);
 
     }
-
 
     @Override
     public void doLeftToRightSwipe()

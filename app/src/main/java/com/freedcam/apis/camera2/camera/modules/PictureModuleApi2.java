@@ -27,6 +27,7 @@ import android.util.Rational;
 import android.util.Size;
 import android.view.Surface;
 
+import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.handler.MediaScannerManager;
@@ -517,7 +518,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         float[]finalnoise;
         String cmat = appSettingsManager.getString(AppSettingsManager.SETTTING_CUSTOMMATRIX);
         if (cmat != null && !cmat.equals("") &&!cmat.equals("off")) {
-            CustomMatrix mat  = new CustomMatrix(appSettingsManager);
+            CustomMatrix mat  = ((MatrixChooserParameter)ParameterHandler.matrixChooser).GetCustomMatrix(cmat);
             color1 = mat.ColorMatrix1;
             color2 = mat.ColorMatrix2;
             neutral = mat.NeutralMatrix;

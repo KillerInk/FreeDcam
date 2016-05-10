@@ -165,22 +165,6 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
                         startActivity(chooser);
                     }
 
-                } else {
-
-                    FreeDPool.Execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            final File tmp = file.getFile();
-                            convertRawToDng(tmp);
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    ((ScreenSlideFragment) getParentFragment()).addFile(tmp);
-                                }
-                            });
-                        }
-                    });
-
                 }
             }
         });
@@ -458,55 +442,6 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             });
 
 
-    }
-
-    private void convertRawToDng(File file)
-    {
-        byte[] data = null;
-        try {
-            data = RawToDng.readFile(file);
-            Logger.d("Main", "Filesize: " + data.length + " File:" + file.getAbsolutePath());
-
-        } catch (IOException e) {
-            Logger.exception(e);
-        }
-
-        String out =null;
-        if (file.getName().endsWith(StringUtils.FileEnding.RAW))
-            out = file.getAbsolutePath().replace(StringUtils.FileEnding.RAW, StringUtils.FileEnding.DNG);
-        if (file.getName().endsWith(StringUtils.FileEnding.BAYER))
-            out = file.getAbsolutePath().replace(StringUtils.FileEnding.BAYER, StringUtils.FileEnding.DNG);
-        RawToDng dng = RawToDng.GetInstance();
-        if (!StringUtils.IS_L_OR_BIG()
-                || file.canWrite())
-            dng.SetBayerData(data, out);
-        else
-        {
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,getContext());
-            DocumentFile wr = df.createFile("image/dng", file.getName().replace(StringUtils.FileEnding.JPG, StringUtils.FileEnding.DNG));
-            ParcelFileDescriptor pfd = null;
-            try {
-
-                pfd = getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
-            } catch (FileNotFoundException | IllegalArgumentException e) {
-                Logger.exception(e);
-            }
-            if (pfd != null) {
-                dng.SetBayerDataFD(data, pfd, file.getName());
-                try {
-                    pfd.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                pfd = null;
-            }
-        }
-        dng.setExifData(100, 0, 0, 0, 0, "", "0", 0);
-        dng.WriteDNG(null);
-        data = null;
-        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        intent.setData(Uri.fromFile(file));
-        getActivity().sendBroadcast(intent);
     }
 
     class historunner implements Runnable

@@ -81,8 +81,9 @@ public class PictureModuleMTK extends PictureModule
                     cameraHolder.StartPreview();
 
                 }
-
-
+                waitForPicture = false;
+                workfinished(true);
+                cameraHolder.StartPreview();
             }
         });
     }

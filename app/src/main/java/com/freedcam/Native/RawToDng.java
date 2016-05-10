@@ -4,6 +4,8 @@ import android.location.Location;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
 
+import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
@@ -319,11 +321,11 @@ public class RawToDng
 
 
 
-    public void WriteDNG(DeviceUtils.Devices device)
+    public void WriteDNG(DeviceUtils.Devices device, MatrixChooserParameter matrixChooserParameter)
     {
         if (device != null)
         {
-            DngSupportedDevices.DngProfile profile = new DngSupportedDevices().getProfile(device, (int)GetRawSize());
+            DngSupportedDevices.DngProfile profile = new DngSupportedDevices().getProfile(device, (int)GetRawSize(), matrixChooserParameter);
             //if (profile.rowsize == 0)
                 //profile.rowsize = Calculate_rowSize((int)GetRawSize(), profile.height);
             if (profile == null)

@@ -152,7 +152,7 @@ public class Logger
                         StringBuilder b = new StringBuilder();
                         b.append(DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime()));
                         b.append(":(D) ");
-                        b.append(TAG +":");
+                        b.append(TAG).append(":");
                         b.append(msg);
                         writer.write(b.toString());
                         writer.newLine();

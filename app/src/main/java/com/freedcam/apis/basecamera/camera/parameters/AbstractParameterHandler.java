@@ -239,6 +239,7 @@ public abstract class AbstractParameterHandler
 
         setMode(morphoHDR, AppSettingsManager.SETTING_MORPHOHDR);
         setMode(morphoHHT, AppSettingsManager.SETTING_MORPHOHHT);
+        setMode(matrixChooser, AppSettingsManager.SETTTING_CUSTOMMATRIX);
 
         //setMode(PreviewZoom, AppSettingsManager.SETTINGS_PREVIEWZOOM);
 
@@ -261,7 +262,7 @@ public abstract class AbstractParameterHandler
     {
         if (parameter != null && parameter.IsSupported() && settingsval != null && !settingsval.equals(""))
         {
-            if (appSettingsManager.getString(settingsval).equals("") || appSettingsManager.getString(settingsval).equals(null))
+            if (appSettingsManager.getString(settingsval).equals("") || appSettingsManager.getString(settingsval) == null)
                 appSettingsManager.setString(settingsval, parameter.GetValue());
             else
                 parameter.SetValue(appSettingsManager.getString(settingsval), false);

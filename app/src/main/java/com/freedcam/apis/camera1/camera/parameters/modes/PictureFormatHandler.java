@@ -19,8 +19,6 @@ import java.util.HashMap;
 public class PictureFormatHandler extends BaseModeParameter
 {
     private final String TAG = PictureFormatHandler.class.getSimpleName();
-    private final String PICFORMATVALUES = "picture-format-values";
-    private final String PICFORMAT = "picture-format";
     private boolean rawSupported = false;
     private String captureMode = "jpeg";
     private String rawFormat;
@@ -48,61 +46,58 @@ public class PictureFormatHandler extends BaseModeParameter
     public PictureFormatHandler(Handler uihandler, HashMap<String, String> parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler)
     {
         super(uihandler, parameters, cameraHolder, "", "");
-        switch (cameraHolder.DeviceFrameWork)
+        if (cameraHolderApi1.DeviceFrameWork == Frameworks.MTK)
         {
-            case Normal://normal has no break so it runs always through lg
-            case LG:
-                if (parameters.containsKey(PICFORMATVALUES))
-                {
-                    isSupported = true;
-                    if (DeviceUtils.IS(DeviceUtils.Devices.LG_G2))
-                        rawFormat = "bayer-mipi-10bggr";
-                    if (DeviceUtils.IS(DeviceUtils.Devices.HTC_OneA9))
-                        rawFormat = "bayer-mipi-10rggb";
+            Logger.d(TAG,"mtk");
+            isSupported = true;
+            rawSupported = true;
+        }
+        else
+        {
+            Logger.d(TAG,"default");
+            isSupported = true;
+            if (DeviceUtils.IS(DeviceUtils.Devices.LG_G2))
+                rawFormat = "bayer-mipi-10bggr";
+            if (DeviceUtils.IS(DeviceUtils.Devices.HTC_OneA9))
+                rawFormat = "bayer-mipi-10rggb";
                     if(DeviceUtils.IS(DeviceUtils.Devices.Htc_M8) && Build.VERSION.SDK_INT >= 23)
                         rawFormat = "bayer-mipi-10grbg";
-                    else
-                    {
-                        String formats = parameters.get("picture-format-values");
-                        if (formats.contains("bayer-mipi") || formats.contains("raw"))
+            else
+            {
+                String formats = parameters.get("picture-format-values");
+                if (formats.contains("bayer-mipi") || formats.contains("raw"))
+                {
+                    rawSupported = true;
+                    String forms[] = formats.split(",");
+                    for (String s : forms) {
+                        if (s.contains("bayer-mipi") || s.contains("raw"))
                         {
-                            rawSupported = true;
-                            String forms[] = formats.split(",");
-                            for (String s : forms) {
-                                if (s.contains("bayer-mipi") || s.contains("raw"))
-                                {
-                                    rawFormat = s;
-                                    break;
-                                }
-                            }
-                        }
-                        if (formats.contains("bayer"))
-                        {
-                            ArrayList<String> tmp = new ArrayList<>();
-                            String forms[] = formats.split(",");
-                            for (String s : forms) {
-                                if (s.contains("bayer"))
-                                {
-                                    tmp.add(s);
-                                }
-                            }
-                            rawFormats = new String[tmp.size()];
-                            tmp.toArray(rawFormats);
-                            if (tmp.size()>0) {
-                                BayerFormats = new BayerFormat(uihandler, parameters, cameraHolder, "");
-                                camParametersHandler.bayerformat = BayerFormats;
-                            }
-
+                            rawFormat = s;
+                            break;
                         }
                     }
                 }
-                break;
-            case MTK:
-                isSupported = true;
-                rawSupported = true;
-                break;
+                if (formats.contains("bayer"))
+                {
+                    ArrayList<String> tmp = new ArrayList<>();
+                    String forms[] = formats.split(",");
+                    for (String s : forms) {
+                        if (s.contains("bayer"))
+                        {
+                            tmp.add(s);
+                        }
+                    }
+                    rawFormats = new String[tmp.size()];
+                    tmp.toArray(rawFormats);
+                    if (tmp.size()>0) {
+                        BayerFormats = new BayerFormat(uihandler, parameters, cameraHolder, "");
+                        camParametersHandler.bayerformat = BayerFormats;
+                    }
+
+                }
+            }
         }
-        Logger.d(TAG, "rawsupported:" + rawSupported);
+        Logger.d(TAG, "rawsupported:" + rawSupported + "isSupported:"+isSupported);
     }
 
     @Override
@@ -135,7 +130,7 @@ public class PictureFormatHandler extends BaseModeParameter
     private void setString(String val, boolean setTocam)
     {
         Logger.d(TAG, "setString:" +val);
-        parameters.put(PICFORMAT, val);
+        parameters.put("picture-format", val);
         cameraHolderApi1.SetCameraParameters(parameters);
         if(cameraHolderApi1.DeviceFrameWork == CameraHolderApi1.Frameworks.LG && setTocam || (DeviceUtils.IS(DeviceUtils.Devices.Htc_M8) && Build.VERSION.SDK_INT >= 23))
         {
@@ -146,7 +141,9 @@ public class PictureFormatHandler extends BaseModeParameter
     }
 
     @Override
-    public boolean IsSupported() {
+    public boolean IsSupported()
+    {
+        Logger.d(TAG,"IsSupported:"+isSupported);
         return isSupported;
     }
 
@@ -183,21 +180,6 @@ public class PictureFormatHandler extends BaseModeParameter
                 break;
         }
         return super.ModuleChanged(module);
-    }
-
-    @Override
-    public void onValueChanged(String val) {
-        super.onValueChanged(val);
-    }
-
-    @Override
-    public void onIsSupportedChanged(boolean isSupported) {
-        super.onIsSupportedChanged(isSupported);
-    }
-
-    @Override
-    public void onIsSetSupportedChanged(boolean isSupported) {
-        super.onIsSetSupportedChanged(isSupported);
     }
 
     @Override

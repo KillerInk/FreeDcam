@@ -125,7 +125,7 @@ public class RawToDngTestActivity extends Activity {
 						RawToDng dng = RawToDng.GetInstance();
 						dng.SetBayerData(data, out);
 						dng.setExifData(100, 0, 0, 0, 0, "", "0", 0);
-						dng.WriteDNG(devices);
+						dng.WriteDNG(devices,null);
 						data = null;
 						Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
 						intent.setData(Uri.fromFile(file));

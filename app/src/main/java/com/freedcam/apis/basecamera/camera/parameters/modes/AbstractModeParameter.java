@@ -105,7 +105,7 @@ public class AbstractModeParameter implements I_ModeParameter
 
     /**
      * Throws the event to all registerd listners that the value has changed
-     * @param value
+     * @param value the new String value that should get applied to the listners
      */
     public void BackgroundValueHasChanged(final String value)
     {
