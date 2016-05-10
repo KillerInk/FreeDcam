@@ -115,6 +115,7 @@ public class DeviceUtils
         Htc_One_Xl,
         HTC_OneA9,
         Huawei_GX8,
+        Huawei_HONOR5x,
         I_Mobile_I_StyleQ6,
         Jiayu_S3,
         LenovoK910,
@@ -196,6 +197,7 @@ public class DeviceUtils
             Devices.Htc_One_Xl,
             Devices.HTC_OneA9,
             Devices.Huawei_GX8,
+            Devices.Huawei_HONOR5x,
             Devices.I_Mobile_I_StyleQ6,
             Devices.Jiayu_S3,
             Devices.LenovoK910,
@@ -375,6 +377,8 @@ public class DeviceUtils
             return Devices.Lenovo_VibeP1;
         else if(isHuawei_GX8(context))
             return Devices.Huawei_GX8;
+        else if(isHuawei_Honor_5x(context))
+            return Devices.honor6;
         else
             return Devices.UNKNOWN;
 
@@ -456,6 +460,11 @@ public class DeviceUtils
     private static boolean isHuawei_Honor_6(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.Honor6));
+    }
+
+    private static boolean isHuawei_Honor_5x(Context contex)
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.Honor5X));
     }
 
     private static boolean isHuawei_GX8(Context contex)

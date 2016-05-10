@@ -157,6 +157,8 @@ public class DngSupportedDevices
                         return new DngProfile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case Huawei_GX8:
                         return new DngProfile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                    case Huawei_HONOR5x:
+                        return new DngProfile(64, 4208, 3120, Mipi, RGGB, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     default:
                         return new DngProfile(64, 4212, 3082, Mipi, BGGR, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                 }

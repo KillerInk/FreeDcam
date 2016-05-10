@@ -88,6 +88,29 @@
         <item>hi6210sft</item>
     </string-array>
 
+    <string-array name="Honor5X">
+        <item>KIW-L21</item>
+        <item>KIW-L22</item>
+        <item>KIW-L23</item>
+        <item>KIW-L24</item>
+        <item>KIW-CL00</item>
+        <item>KIW-TL00</item>
+        <item>KII-L21</item>
+        <item>KII-L22</item>
+        <item>KII-L23</item>
+        <item>KII-L24</item>
+        <item>HUAWEI KIW-L21</item>
+        <item>HUAWEI KIW-L22</item>
+        <item>HUAWEI KIW-L23</item>
+        <item>HUAWEI KIW-L24</item>
+        <item>HUAWEI KIW-CL00</item>
+        <item>HUAWEI KIW-TL00</item>
+        <item>HUAWEI -L21</item>
+        <item>HUAWEI KII-L22</item>
+        <item>HUAWEI KII-L23</item>
+        <item>HUAWEI KII-L24</item>
+    </string-array>
+
     <string-array name="GX8">
         <item>HUAWEI RIO-L01</item>
         <item>HUAWEI RIO-L02</item>
