@@ -291,12 +291,19 @@ public class CameraHolderApi1 extends AbstractCameraHolder
                 if(isMotorolaExt) {
                     Camera.Parameters paras = mCamera.getParameters();
                     paras.set("mot-app", "true");
+                    mCamera.setParameters(paras);
                 }
 
             }
             else
             {
                 mCamera = Camera.open(camera);
+                if(DeviceUtils.IS(DeviceUtils.Devices.Htc_M8))
+                {
+                    Camera.Parameters paras = mCamera.getParameters();
+                    paras.set("zsl", "off");
+                    mCamera.setParameters(paras);
+                }
             }
 
             isRdy = true;
