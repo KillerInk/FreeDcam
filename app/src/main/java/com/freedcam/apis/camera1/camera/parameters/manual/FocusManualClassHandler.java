@@ -30,6 +30,8 @@ public class FocusManualClassHandler
         {
             return new BaseFocusManual(parameters,manual_focus_position,0,79,focusMode_manual,parametersHandler,1,1);
         }
+        else if(DeviceUtils.IS(DeviceUtils.Devices.p8lite) || DeviceUtils.IS(DeviceUtils.Devices.Huawei_GX8))
+            return new FocusManualHuawei(parameters, "hw-vcm-end-value","hw-vcm-start-value", focusMode_manual,parametersHandler,10,0);
         else if (DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote))
         {
             return new BaseFocusManual(parameters,manual_focus_position,0,79,focusMode_manual,parametersHandler,1,1);
@@ -63,8 +65,6 @@ public class FocusManualClassHandler
             return  new FocusManualMTK(parameters, 0,1023,focusMode_manual,parametersHandler,10,1);
         else if(parameters.containsKey("focus-fs-fi-max") && parameters.containsKey("focus-fs-fi-min") && parameters.containsKey("focus-fs-fi"))
             return new FocusManualMTK(parameters,"focus-fs-fi","focus-fs-fi-max","focus-fs-fi-min", parametersHandler,10,0);
-        else if(DeviceUtils.IS(DeviceUtils.Devices.p8lite))
-            return new FocusManualKrillin(parameters, "hw-vcm-end-value","hw-vcm-start-value", focusMode_manual,parametersHandler,10,0);
         else if (parameters.containsKey("manual-focus-modes"))
             return new FocusManual_QcomM(parameters, "max-focus-pos-ratio","min-focus-pos-ratio", parametersHandler,1);
         else

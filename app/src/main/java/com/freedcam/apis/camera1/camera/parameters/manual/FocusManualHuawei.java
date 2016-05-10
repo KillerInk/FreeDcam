@@ -8,12 +8,12 @@ import java.util.HashMap;
 /**
  * Created by GeorgeKiarie on 02/04/2016.
  */
-public class FocusManualKrillin extends BaseFocusManual {
-    public FocusManualKrillin(HashMap<String, String> parameters, String maxValue, String MinValue, String manualFocusModeString, AbstractParameterHandler camParametersHandler, float step, int manualFocusType) {
+public class FocusManualHuawei extends BaseFocusManual {
+    public FocusManualHuawei(HashMap<String, String> parameters, String maxValue, String MinValue, String manualFocusModeString, AbstractParameterHandler camParametersHandler, float step, int manualFocusType) {
         super(parameters, "hw-manual-focus-step-value", "hw-vcm-end-value", "hw-vcm-start-value", FocusManualClassHandler.focusMode_manual, camParametersHandler, (float) 10, 0);
     }
 
-    public FocusManualKrillin(HashMap<String, String> parameters, String value, int min, int max, String manualFocusModeString, AbstractParameterHandler camParametersHandler, float step, int manualFocusType) {
+    public FocusManualHuawei(HashMap<String, String> parameters, String value, int min, int max, String manualFocusModeString, AbstractParameterHandler camParametersHandler, float step, int manualFocusType) {
         super(parameters, value, min, max, manualFocusModeString, camParametersHandler, step, manualFocusType);
     }
 

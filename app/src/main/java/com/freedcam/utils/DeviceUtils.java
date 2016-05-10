@@ -57,12 +57,13 @@ public class DeviceUtils
     *devices with the new qc hal
     *com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_QcomM.java
      */
-    final public static Devices[] QC_Manual_New = {Devices.SonyM4_QC,Devices.Alcatel_Idol3,Devices.Moto_MSM8982_8994,Devices.Lenovo_VibeP1,Devices.XiaomiMI5, Devices.Xiaomi_Redmi_Note3,Devices.Aquaris_E5};
+    final public static Devices[] QC_Manual_New = {Devices.SonyM4_QC,Devices.Alcatel_Idol3,Devices.Moto_MSM8982_8994,Devices.Lenovo_VibeP1,Devices.XiaomiMI5, Devices.Xiaomi_Redmi_Note3,Devices.Aquaris_E5,Devices.Huawei_GX8};
 
     /*Devices for that the opcode is added to download*/
     final public static Devices[] OpCodeRdyToDL =
             {
                     Devices.Aquaris_E5,
+                    Devices.Htc_M8,
                     Devices.Htc_M9,
                     Devices.HTC_OneA9,
                     Devices.Jiayu_S3,
@@ -103,6 +104,7 @@ public class DeviceUtils
         Htc_One_Sv,
         Htc_One_Xl,
         HTC_OneA9,
+        Huawei_GX8,
         I_Mobile_I_StyleQ6,
         Jiayu_S3,
         LenovoK910,
@@ -182,6 +184,7 @@ public class DeviceUtils
             Devices.Htc_One_Sv,
             Devices.Htc_One_Xl,
             Devices.HTC_OneA9,
+            Devices.Huawei_GX8,
             Devices.I_Mobile_I_StyleQ6,
             Devices.Jiayu_S3,
             Devices.LenovoK910,
@@ -356,6 +359,8 @@ public class DeviceUtils
             return Devices.Aquaris_E5;
         else if(isLenovoVibeP1(context))
             return Devices.Lenovo_VibeP1;
+        else if(isHuawei_GX8(context))
+            return Devices.Huawei_GX8;
         else
             return Devices.UNKNOWN;
 
@@ -437,6 +442,11 @@ public class DeviceUtils
     private static boolean isHuawei_Honor_6(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.Honor6));
+    }
+
+    private static boolean isHuawei_GX8(Context contex)
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.GX8));
     }
 
     private static boolean isHTC_M8(Context contex)
