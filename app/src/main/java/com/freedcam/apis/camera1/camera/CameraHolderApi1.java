@@ -75,8 +75,8 @@ public class CameraHolderApi1 extends AbstractCameraHolder
         super(cameraChangedListner, UIHandler,appSettingsManager);
         //hasSamsungFramework();
         hasLGFramework();
-        if (DeviceFrameWork == Frameworks.Normal)
-            isLegacyHAL();
+       // if (DeviceFrameWork == Frameworks.Normal)
+          //  isLegacyHAL();
         if (DeviceFrameWork == Frameworks.Normal)
             isMTKDevice();
     }
