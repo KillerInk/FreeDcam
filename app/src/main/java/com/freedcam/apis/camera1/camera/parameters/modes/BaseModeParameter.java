@@ -80,6 +80,7 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
         return isVisible;
     }
 
+    @Override
     public void SetValue(String valueToSet,  boolean setToCam)
     {
         if (valueToSet == null)
@@ -99,12 +100,12 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
     }
 
 
-
+    @Override
     public String GetValue()
     {
         return parameters.get(value);
     }
-
+    @Override
     public String[] GetValues()
     {
         return valuesArray;
