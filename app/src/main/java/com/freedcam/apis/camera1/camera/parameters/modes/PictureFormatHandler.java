@@ -1,5 +1,6 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
+import android.os.Build;
 import android.os.Handler;
 
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
@@ -58,6 +59,8 @@ public class PictureFormatHandler extends BaseModeParameter
                         rawFormat = "bayer-mipi-10bggr";
                     if (DeviceUtils.IS(DeviceUtils.Devices.HTC_OneA9))
                         rawFormat = "bayer-mipi-10rggb";
+                    if(DeviceUtils.IS(DeviceUtils.Devices.Htc_M8) && Build.VERSION.SDK_INT >= 23)
+                        rawFormat = "bayer-mipi-10grbg";
                     else
                     {
                         String formats = parameters.get("picture-format-values");
@@ -134,7 +137,7 @@ public class PictureFormatHandler extends BaseModeParameter
         Logger.d(TAG, "setString:" +val);
         parameters.put(PICFORMAT, val);
         cameraHolderApi1.SetCameraParameters(parameters);
-        if(cameraHolderApi1.DeviceFrameWork == CameraHolderApi1.Frameworks.LG && setTocam)
+        if(cameraHolderApi1.DeviceFrameWork == CameraHolderApi1.Frameworks.LG && setTocam || (DeviceUtils.IS(DeviceUtils.Devices.Htc_M8) && Build.VERSION.SDK_INT >= 23))
         {
             cameraHolderApi1.StopPreview();
             cameraHolderApi1.StartPreview();
