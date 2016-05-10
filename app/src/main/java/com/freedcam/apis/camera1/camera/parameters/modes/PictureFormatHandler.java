@@ -47,8 +47,11 @@ public class PictureFormatHandler extends BaseModeParameter
         super(uihandler, parameters, cameraHolder, "", "");
         switch (cameraHolder.DeviceFrameWork)
         {
-            case Normal://normal has no break so it runs always through lg
-            case LG:
+            case MTK:
+                isSupported = true;
+                rawSupported = true;
+                break;
+            default:
                 if (parameters.get("picture-format-values") != null)
                 {
                     isSupported = true;
@@ -91,11 +94,7 @@ public class PictureFormatHandler extends BaseModeParameter
                         }
                     }
                 }
-                break;
-            case MTK:
-                isSupported = true;
-                rawSupported = true;
-                break;
+
         }
         Logger.d(TAG, "rawsupported:" + rawSupported + "isSupported:"+isSupported);
     }
