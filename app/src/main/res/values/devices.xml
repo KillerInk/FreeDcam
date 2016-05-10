@@ -88,6 +88,17 @@
         <item>hi6210sft</item>
     </string-array>
 
+    <string-array name="GX8">
+        <item>HUAWEI RIO-L01</item>
+        <item>HUAWEI RIO-L02</item>
+        <item>HUAWEI RIO-L03</item>
+        <item>HUAWEI RIO-L04</item>
+        <item>RIO-L01</item>
+        <item>RIO-L02</item>
+        <item>RIO-L03</item>
+        <item>RIO-L04</item>
+    </string-array>
+
     <string-array name="htc_m8">
         <item>HTC One_M8"</item>
         <item>One M8</item>
