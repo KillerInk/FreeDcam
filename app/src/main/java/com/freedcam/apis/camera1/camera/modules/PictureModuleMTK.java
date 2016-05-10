@@ -75,8 +75,9 @@ public class PictureModuleMTK extends PictureModule
                     saveBytesToFile(data, holdFile);
 
                 }
-
-
+                waitForPicture = false;
+                workfinished(true);
+                cameraHolder.StartPreview();
             }
         });
     }
