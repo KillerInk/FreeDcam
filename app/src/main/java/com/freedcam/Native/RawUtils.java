@@ -211,17 +211,8 @@ public class RawUtils {
 
     private static HashMap<String, String> parseExif(String fileName) {
         HashMap<String, String> exif = new HashMap<>();
-        try {
-            if (false) {
-                ExifInterface oldExif = new ExifInterface(fileName);
-               
-            }
-            else {
-                parseExif(fileName, exif);
-            }
-        } catch (IOException e) {
-            Logger.exception(e);  //To change body of catch statement use File | Settings | File Templates.
-        }
+
+            parseExif(fileName, exif);
         return exif;
     }
 

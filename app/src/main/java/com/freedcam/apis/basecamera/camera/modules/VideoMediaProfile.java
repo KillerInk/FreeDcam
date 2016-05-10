@@ -122,21 +122,21 @@ public class VideoMediaProfile
     private String GetString()
     {
         StringBuilder b = new StringBuilder();
-        b.append(audioBitRate +" ");
-        b.append(audioChannels +" ");
-        b.append(audioCodec +" ");
-        b.append(audioSampleRate +" ");
-        b.append(duration +" ");
-        b.append(fileFormat +" ");
-        b.append(quality +" ");
-        b.append(videoBitRate +" ");
-        b.append(videoCodec +" ");
-        b.append(videoFrameRate +" ");
-        b.append(videoFrameHeight +" ");
-        b.append(videoFrameWidth +" ");
-        b.append(ProfileName +" ");
-        b.append(Mode.toString()+ " ");
-        b.append(isAudioActive + " ");
+        b.append(audioBitRate +" ")
+        .append(audioChannels +" ")
+        .append(audioCodec +" ")
+        .append(audioSampleRate +" ")
+        .append(duration +" ")
+        .append(fileFormat +" ")
+        .append(quality +" ")
+        .append(videoBitRate +" ")
+        .append(videoCodec +" ")
+        .append(videoFrameRate +" ")
+        .append(videoFrameHeight +" ")
+        .append(videoFrameWidth +" ")
+        .append(ProfileName +" ")
+        .append(Mode.toString()+ " ")
+        .append(isAudioActive + " ");
         return b.toString();
     }
 

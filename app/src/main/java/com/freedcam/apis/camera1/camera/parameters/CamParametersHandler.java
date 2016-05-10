@@ -156,17 +156,23 @@ public class CamParametersHandler extends AbstractParameterHandler
         try {
             AE_Handler_LGG4 aeHandlerG4;
             if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
-                aeHandlerG4 = new AE_Handler_LGG4(cameraParameters,cameraHolder,this);
+            {
+                Logger.d(TAG, "Use AE_Handler_G4");
+                aeHandlerG4 = new AE_Handler_LGG4(cameraParameters, cameraHolder, this);
+            }
             else if(cameraParameters.containsKey("m-ss") && cameraParameters.containsKey("m-sr-g"))
             {
+                Logger.d(TAG, "Use AE_Handler_MTK");
                 AE_Handler_MTK aeHandlerMTK = new AE_Handler_MTK(cameraParameters, cameraHolder, this);
             }
             else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994) ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
             {
+                Logger.d(TAG, "Use AE_Handler_QcomM");
                 AE_Handler_QcomM aeHandlerQcomM = new AE_Handler_QcomM(uiHandler, cameraParameters, cameraHolder, this);
             }
             else
             {
+                Logger.d(TAG, "Use ShutterClassHandler and ISOManualParameter");
                 ManualShutter = ShutterClassHandler.getShutterClass(cameraParameters, this, cameraHolder);
                 ISOManual = new ISOManualParameter(cameraParameters, "", "", "",cameraHolder, this);
             }
@@ -1026,10 +1032,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     public void SetLGCamera()
     {
-        if (true)
-            cameraParameters.put("lge-camera", "1");
-        else
-            cameraParameters.put("lge-camera", "0");
+        cameraParameters.put("lge-camera", "1");
         SetParametersToCamera(cameraParameters);
     }
 

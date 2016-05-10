@@ -261,9 +261,8 @@ public class StringUtils
             builder.append(File.separator).append("IMG_");
         if (fileEnding.equals(".mp4"))
             builder.append(File.separator).append("MOV_");
-        Date date = new Date();
-        builder.append(getStringDatePAttern().format(date));
-        builder.append(fileEnding);
+        builder.append(getStringDatePAttern().format(new Date()))
+        .append(fileEnding);
         return builder.toString();
     }
 
@@ -279,10 +278,9 @@ public class StringUtils
             builder.append(File.separator).append("IMG_");
         if (fileEnding.equals(".mp4"))
             builder.append(File.separator).append("MOV_");
-        Date date = new Date();
-        builder.append(getStringDatePAttern().format(date));
-        builder.append("_HDR" + hdrcount);
-        builder.append(fileEnding);
+        builder.append(getStringDatePAttern().format(new Date()))
+        .append("_HDR" + hdrcount)
+        .append(fileEnding);
         return builder.toString();
     }
 
