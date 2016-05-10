@@ -45,56 +45,54 @@ public class PictureFormatHandler extends BaseModeParameter
     public PictureFormatHandler(Handler uihandler, HashMap<String, String> parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler)
     {
         super(uihandler, parameters, cameraHolder, "", "");
-        switch (cameraHolder.DeviceFrameWork)
+        if (cameraHolderApi1.DeviceFrameWork == Frameworks.MTK)
         {
-            case MTK:
-                isSupported = true;
-                rawSupported = true;
-                break;
-            default:
-                if (parameters.get("picture-format-values") != null)
+            Logger.d(TAG,"mtk");
+            isSupported = true;
+            rawSupported = true;
+        }
+        else
+        {
+            Logger.d(TAG,"default");
+            isSupported = true;
+            if (DeviceUtils.IS(DeviceUtils.Devices.LG_G2))
+                rawFormat = "bayer-mipi-10bggr";
+            if (DeviceUtils.IS(DeviceUtils.Devices.HTC_OneA9))
+                rawFormat = "bayer-mipi-10rggb";
+            else
+            {
+                String formats = parameters.get("picture-format-values");
+                if (formats.contains("bayer-mipi") || formats.contains("raw"))
                 {
-                    isSupported = true;
-                    if (DeviceUtils.IS(DeviceUtils.Devices.LG_G2))
-                        rawFormat = "bayer-mipi-10bggr";
-                    if (DeviceUtils.IS(DeviceUtils.Devices.HTC_OneA9))
-                        rawFormat = "bayer-mipi-10rggb";
-                    else
-                    {
-                        String formats = parameters.get("picture-format-values");
-                        if (formats.contains("bayer-mipi") || formats.contains("raw"))
+                    rawSupported = true;
+                    String forms[] = formats.split(",");
+                    for (String s : forms) {
+                        if (s.contains("bayer-mipi") || s.contains("raw"))
                         {
-                            rawSupported = true;
-                            String forms[] = formats.split(",");
-                            for (String s : forms) {
-                                if (s.contains("bayer-mipi") || s.contains("raw"))
-                                {
-                                    rawFormat = s;
-                                    break;
-                                }
-                            }
-                        }
-                        if (formats.contains("bayer"))
-                        {
-                            ArrayList<String> tmp = new ArrayList<>();
-                            String forms[] = formats.split(",");
-                            for (String s : forms) {
-                                if (s.contains("bayer"))
-                                {
-                                    tmp.add(s);
-                                }
-                            }
-                            rawFormats = new String[tmp.size()];
-                            tmp.toArray(rawFormats);
-                            if (tmp.size()>0) {
-                                BayerFormats = new BayerFormat(uihandler, parameters, cameraHolder, "");
-                                camParametersHandler.bayerformat = BayerFormats;
-                            }
-
+                            rawFormat = s;
+                            break;
                         }
                     }
                 }
+                if (formats.contains("bayer"))
+                {
+                    ArrayList<String> tmp = new ArrayList<>();
+                    String forms[] = formats.split(",");
+                    for (String s : forms) {
+                        if (s.contains("bayer"))
+                        {
+                            tmp.add(s);
+                        }
+                    }
+                    rawFormats = new String[tmp.size()];
+                    tmp.toArray(rawFormats);
+                    if (tmp.size()>0) {
+                        BayerFormats = new BayerFormat(uihandler, parameters, cameraHolder, "");
+                        camParametersHandler.bayerformat = BayerFormats;
+                    }
 
+                }
+            }
         }
         Logger.d(TAG, "rawsupported:" + rawSupported + "isSupported:"+isSupported);
     }
