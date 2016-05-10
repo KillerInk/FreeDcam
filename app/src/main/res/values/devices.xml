@@ -214,6 +214,10 @@
     <string-array name="meizu_mx4">
         <item>MX4</item>
     </string-array>
+
+    <string-array name="meizu_m2note">
+    <item>m2 note</item>
+    </string-array>
     <string-array name="meizu_mx5">
         <item>MX5</item>
     </string-array>

@@ -117,6 +117,7 @@ public class DeviceUtils
         LG_G4,
         MeizuMX4_MTK,
         MeizuMX5_MTK,
+        Meizu_m2Note_MTK,
         Moto_MSM8974,
         Moto_MSM8982_8994,
         Nexus4,
@@ -197,6 +198,7 @@ public class DeviceUtils
             Devices.LG_G4,
             Devices.MeizuMX4_MTK,
             Devices.MeizuMX5_MTK,
+            Devices.Meizu_m2Note_MTK,
             Devices.Moto_MSM8982_8994,
             Devices.Moto_MSM8974,
             Devices.OnePlusOne,
@@ -283,6 +285,8 @@ public class DeviceUtils
             return Devices.MeizuMX4_MTK;
         else if (isMeizuMX5(context))
             return Devices.MeizuMX5_MTK;
+        else if(isMeizum2Note(context))
+            return Devices.Meizu_m2Note_MTK;
         else if (isMoto_MSM8974(context))
             return Devices.Moto_MSM8974;
         else if (isMoto_MSM8982_8994(context))
@@ -602,6 +606,11 @@ public class DeviceUtils
     private static boolean isMeizuMX4(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.meizu_mx4));
+    }
+
+    private static boolean isMeizum2Note(Context contex)
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.meizu_m2note));
     }
 
     private static boolean is985N(Context contex)
