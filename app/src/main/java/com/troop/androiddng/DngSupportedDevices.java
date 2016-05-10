@@ -177,7 +177,7 @@ public class DngSupportedDevices
             case (16560128): {
                 switch (device) {
                     case XiaomiMI_Note_Pro:
-                        return new Nexus6Profile(64, 4208, 3120, Mipi16, RGGB, 0);
+                        return new Nexus6Profile(64, 4208, 3120, Mipi16, GRBG, 0);
                     default:
                         return new Nexus6Profile(64, 4212, 3120, Mipi, RGGB, 0);
                 }

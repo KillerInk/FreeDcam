@@ -56,13 +56,15 @@ public class PictureModuleMTK extends PictureModule
             public void run()
             {
                 final String picformat = ParameterHandler.PictureFormat.GetValue();
-                holdFile = getFile(picformat);
+                holdFile = getFile("."+picformat);
                 Logger.d(TAG, "HolderFilePath:" + holdFile.getAbsolutePath());
                 if (picformat.equals("jpeg")) {
                     //savejpeg
                     saveBytesToFile(data, holdFile);
                     try {
                         DeviceSwitcher().delete();
+                        workfinished(true);
+                        cameraHolder.StartPreview();
                     } catch (Exception ex) {
 
                     }
@@ -70,9 +72,13 @@ public class PictureModuleMTK extends PictureModule
                     //savejpeg
                     saveBytesToFile(data, holdFile);
                     CreateDNG_DeleteRaw();
+                    workfinished(true);
+                    cameraHolder.StartPreview();
                 } else if (picformat.equals(StringUtils.FileEnding.BAYER)) {
                     //savejpeg
                     saveBytesToFile(data, holdFile);
+                    workfinished(true);
+                    cameraHolder.StartPreview();
 
                 }
 
