@@ -166,19 +166,9 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
             StartCamera();
         if (!PreviewSurfaceRdy || !cameraRdy)
             return;
-
-
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                cameraHolder.SetErrorCallback(CameraUiWrapper.this);
-                cameraHolder.SetSurface(preview.getHolder());
-
-                cameraHolder.StartPreview();
-            }
-        });
-
-
+        cameraHolder.SetErrorCallback(CameraUiWrapper.this);
+        cameraHolder.SetSurface(preview.getHolder());
+        cameraHolder.StartPreview();
         super.onCameraOpenFinish("");
     }
 
