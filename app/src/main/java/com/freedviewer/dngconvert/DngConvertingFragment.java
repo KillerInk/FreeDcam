@@ -66,8 +66,10 @@ public class DngConvertingFragment extends Fragment
         this.editTextheight = (EditText)view.findViewById(R.id.editText_height);
         this.editTextblacklvl = (EditText)view.findViewById(R.id.editText_blacklevel);
         this.spinnerMatrixProfile = (Spinner)view.findViewById(R.id.spinner_MatrixProfile);
-        ArrayAdapter<CharSequence> matrixadapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.matrixes, android.R.layout.simple_spinner_item);
+        matrixChooserParameter = new MatrixChooserParameter(handler);
+        String[] items = matrixChooserParameter.GetValues();
+        ArrayAdapter<String> matrixadapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item,items);
+        //ArrayAdapter<CharSequence> matrixadapter = ArrayAdapter.createFromResource(getContext(),R.array.matrixes, android.R.layout.simple_spinner_item);
         matrixadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMatrixProfile.setAdapter(matrixadapter);
 

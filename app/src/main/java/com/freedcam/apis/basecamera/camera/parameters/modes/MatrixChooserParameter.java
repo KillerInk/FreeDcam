@@ -43,13 +43,12 @@ public class MatrixChooserParameter extends AbstractModeParameter
         custommatrixes = new HashMap<>();
         custommatrixes.put("off",null);
         addDefaultMatrixes(custommatrixes);
-        if(files == null || files.length == 0)
+        if(files != null || files.length > 0)
         {
-            return;
-        }
-        for (File f: files)
-        {
-            custommatrixes.put(f.getName(), CustomMatrix.loadCustomMatrixFromFile(f));
+            for (File f: files)
+            {
+                custommatrixes.put(f.getName(), CustomMatrix.loadCustomMatrixFromFile(f));
+            }
         }
         if (custommatrixes.size() >0)
             isSupported = true;
