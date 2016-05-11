@@ -157,7 +157,7 @@ public class BracketModule extends PictureModule
                 ParameterHandler.ManualShutter.SetValue(DoStopCalc(value));
             }
            TODO */
-            ((CamParametersHandler)ParameterHandler).SetEVBracket(value + "");
+            ParameterHandler.SetEVBracket(value + "");
             Logger.d(TAG, "HDR Exposure SET");
         }
     }

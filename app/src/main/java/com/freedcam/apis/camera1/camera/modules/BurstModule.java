@@ -36,7 +36,7 @@ public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCa
     {
         super(cameraHandler, eventHandler,context,appSettingsManager);
         this.name = ModuleHandler.MODULE_BURST;
-        this.cameraHolderApi1 = (CameraHolderApi1)cameraHandler;
+        this.cameraHolderApi1 = cameraHandler;
     }
 
     @Override
