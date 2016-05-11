@@ -21,14 +21,17 @@ public class ShutterManual_ExposureTime_Micro extends BaseManualParameter
         try {
             if (shuttervalues == null)
             {
-                if (!parameters.get(minval).contains("."))
+                Logger.d(TAG, "minexpo = "+parameters.get(min_value) + " maxexpo = " + parameters.get(max_value));
+                if (!parameters.get(min_value).contains("."))
                 {
+                    Logger.d(TAG, "Micro does not contain .  load int");
                     int min = Integer.parseInt(parameters.get(min_value));
                     int max = Integer.parseInt(parameters.get(max_value));
                     stringvalues = StringUtils.getSupportedShutterValues(min, max, true);
                 }
                 else
                 {
+                    Logger.d(TAG, "Micro contain .  *100000");
                     double tmpMin = Double.parseDouble(parameters.get(min_value))*1000000;
                     double tmpMax = Double.parseDouble(parameters.get(max_value))*1000000;
                     int min = (int)tmpMin;
