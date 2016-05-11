@@ -378,7 +378,7 @@ public class DeviceUtils
         else if(isHuawei_GX8(context))
             return Devices.Huawei_GX8;
         else if(isHuawei_Honor_5x(context))
-            return Devices.honor6;
+            return Devices.Huawei_HONOR5x;
         else
             return Devices.UNKNOWN;
 

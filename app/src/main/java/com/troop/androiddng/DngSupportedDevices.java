@@ -195,7 +195,13 @@ public class DngSupportedDevices
                         return new DngProfile(64, 4212, 3120, Qcom, RGGB, getG3_rowSizeL, matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case LenovoK910:
                         return new DngProfile(64, 4212, 3120, Qcom, BGGR, getG3_rowSizeL,
+
                                 matrixChooser.GetCustomMatrix(MatrixChooserParameter.G4));
+                    case Huawei_HONOR5x:
+                    case Huawei_GX8:
+
+                        return new DngProfile(64, 4212, 3120, Qcom, RGGB, getG3_rowSizeL,
+                                matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case LG_G3:
                         return new DngProfile(64, 4212, 3082, Qcom, BGGR, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case Yu_Yureka:
