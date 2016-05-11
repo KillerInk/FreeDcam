@@ -175,6 +175,7 @@
         <item>RGGB</item>
         <item>GRBG</item>
         <item>GBRG</item>
+        <item>RGBW</item>
     </string-array>
     <string-array name="matrixes">
         <item>Nexus6</item>

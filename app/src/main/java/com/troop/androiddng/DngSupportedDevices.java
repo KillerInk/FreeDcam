@@ -328,4 +328,6 @@ public class DngSupportedDevices
     public static String RGGB = "rggb";
     public static final String GRBG = "grbg";
     public static final String GBRG =  "gbrg";
+
+    public static final String RGBW =  "rgbw";
 }

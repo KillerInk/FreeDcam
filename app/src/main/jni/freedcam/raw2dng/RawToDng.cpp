@@ -801,6 +801,8 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
         TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\001\002");
     if(0 == strcmp(writer->bayerformat , "gbrg"))
         TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\001\002\0\001");
+    if(0 == strcmp(writer->bayerformat , "rgbw"))
+        TIFFSetField (tif, TIFFTAG_CFAPATTERN, "\0\001\002\006");
     long white=0x3ff;
     TIFFSetField (tif, TIFFTAG_WHITELEVEL, 1, &white);
 

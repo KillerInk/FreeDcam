@@ -122,6 +122,8 @@ public class DngConvertingFragment extends Fragment
                 spinnerColorPattern.setSelection(2);
             else if (dngprofile.BayerPattern.equals(DngSupportedDevices.GBRG))
                 spinnerColorPattern.setSelection(3);
+            else if (dngprofile.BayerPattern.equals(DngSupportedDevices.RGBW))
+                spinnerColorPattern.setSelection(4);
 
             if (dngprofile.matrixes.ColorMatrix1.equals(Matrixes.Nex6CCM1))
                 spinnerMatrixProfile.setSelection(0);
@@ -163,6 +165,8 @@ public class DngConvertingFragment extends Fragment
                                 break;
                             case 3:
                                 dngprofile.BayerPattern = DngSupportedDevices.GBRG;
+                            case 4:
+                                dngprofile.BayerPattern = DngSupportedDevices.RGBW;
                         }
                     }
 
