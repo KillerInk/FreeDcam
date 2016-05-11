@@ -1,28 +1,50 @@
 package com.freedcam.apis.camera1.camera.modules;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.Type;
 
+import com.freedcam.Native.StaxxerJNI;
+import com.freedcam.apis.basecamera.camera.Size;
+import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.modules.image_saver.I_WorkeDone;
-import com.freedcam.apis.camera1.camera.modules.image_saver.StackSaver;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
+import com.freedcam.utils.StringUtils;
+import com.imageconverter.ScriptC_imagestack_rgb_to_argb;
+import com.imageconverter.Staxxer;
 
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
 
 /**
  * Created by GeorgeKiarie on 13/04/2016.
  */
-public class StackingModule extends PictureModule implements I_WorkeDone {
-
-    private int FrameCount = 0;
+public class StackingModule extends PictureModule implements I_Callbacks.PictureCallback
+{
+    final String TAG = StackingModule.class.getSimpleName();
     private boolean KeepStacking = true;
+    private int FrameCount = 0;
 
-    private StackSaver stackSaver;
+    private StaxxerJNI jpg2rgb;
+    private boolean NewSession = false;
+    private String SessionFolder="";
+
+    private Allocation mAllocationInput;
+    private Allocation mAllocationOutput;
+    private ScriptC_imagestack_rgb_to_argb imagestack;
+    private RenderScript mRS;
 
     public StackingModule(CameraHolderApi1 cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
         super(cameraHandler, eventHandler,context,appSettingsManager);
@@ -41,16 +63,12 @@ public class StackingModule extends PictureModule implements I_WorkeDone {
 
         if (!isWorking)
         {
-
-
-                ParameterHandler.ZSL.SetValue("off", true);
-
+            initRsStuff();
+            ParameterHandler.ZSL.SetValue("off", true);
             workstarted();
-
             final String picFormat = ParameterHandler.PictureFormat.GetValue();
-            if (picFormat.equals("jpeg") || picFormat.equals("yuv422") )
-                takePicture();
-
+            if (picFormat.equals("jpeg"))
+                cameraHolder.TakePicture(null, this);
             return true;
         }
 
@@ -61,25 +79,14 @@ public class StackingModule extends PictureModule implements I_WorkeDone {
 
     }
 
-
-    private void takePicture()
-    {
+    @Override
+    public void onPictureTaken(final byte[] data) {
+        Logger.d(TAG, "Take Picture Callback");
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
-                    Logger.exception(e);
-                }
-
-                final String picFormat = ParameterHandler.PictureFormat.GetValue();
-                if (picFormat.equals("jpeg")) {
-                    //final StackSaver stackSaver = new StackSaver(cameraHolderApi1, StackingModule.this);
-
-                    stackSaver.TakePicture();
-                }
+                File f = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), ".jpg"));
+                processData(data, f);
             }
         });
     }
@@ -102,7 +109,7 @@ public class StackingModule extends PictureModule implements I_WorkeDone {
     @Override
     public void LoadNeededParameters()
     {
-        stackSaver = new StackSaver(cameraHolder, StackingModule.this,context,appSettingsManager);
+        jpg2rgb = StaxxerJNI.GetInstance();
     }
 
     @Override
@@ -110,54 +117,69 @@ public class StackingModule extends PictureModule implements I_WorkeDone {
 
     }
 
-    @Override
-    public void OnWorkDone(File file)
-    {
+
+    private void processData(byte[] data, File file) {
+        Logger.d(TAG,"The Data Is " + data.length + " bytes Long" + " and the path is " + file.getAbsolutePath());
+        if(!NewSession) {
+            SessionFolder = "/sdcard/DCIM/FreeDcam/" + StringUtils.getStringDatePAttern().format(new Date()) + "/";
+
+            NewSession = true;
+        }
+        File f = new File(SessionFolder+StringUtils.getStringDatePAttern().format(new Date())+".jpg");
+        saveBytesToFile(data,f);
+        byte[] tmp = jpg2rgb.ExtractRGB(data);
+         int size =mAllocationInput.getBytesSize();
+        mAllocationInput.copyFrom(data);
+        imagestack.set_gCurrentFrame(mAllocationInput);
+        imagestack.forEach_stackimage(mAllocationOutput);
 
         cameraHolder.StartPreview();
 
         if(KeepStacking)
-            takePicture();
-        else {
-            workfinished(true);
+            cameraHolder.TakePicture(null, this);
+        else
+        {
+            int mWidth = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[0]);
+            int mHeight = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[1]);
+            Bitmap map = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
+            mAllocationOutput.copyTo(map);
+            try {
+                FileOutputStream fos = new FileOutputStream(new File(SessionFolder+ StringUtils.getStringDatePAttern().format(new Date())+"_Stack.jpg"));
+                map.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                fos.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
+            workfinished(true);
             MediaScannerManager.ScanMedia(context.getApplicationContext(), file);
             eventHandler.WorkFinished(file);
         }
     }
 
-    @Override
-    public void OnError(String error)
+    private void initRsStuff()
     {
-        cameraHolder.errorHandler.OnError(error);
-        workfinished(false);
+        if(mRS == null)
+        {
+            mRS = RenderScript.create(context.getApplicationContext());
+            mRS.setPriority(RenderScript.Priority.LOW);
+        }
+        int mWidth = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[0]);
+        int mHeight = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[1]);
+        Type.Builder tbIn = new Type.Builder(mRS, Element.I8_3(mRS));
+        tbIn.setX(mWidth);
+        tbIn.setY(mHeight);
+
+        Type.Builder tbIn2 = new Type.Builder(mRS, Element.RGBA_8888(mRS));
+        tbIn2.setX(mWidth);
+        tbIn2.setY(mHeight);
+
+        mAllocationInput = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+        mAllocationOutput = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+
+        imagestack = new ScriptC_imagestack_rgb_to_argb(mRS);
     }
 
-
-   /* I_Callbacks.PictureCallback aeBracketCallback = new I_Callbacks.PictureCallback() {
-        @Override
-        public void onPictureTaken(byte[] data) {
-            final String picFormat = ParameterHandler.PictureFormat.GetValue();
-            if (picFormat.equals("jpeg")) {
-                final JpegSaver jpegSaver = new JpegSaver(cameraHolderApi1, aeBracketDone);
-                jpegSaver.saveBytesToFile(data, new File(StringUtils.getFilePathHDR(AppSettingsManager.APPSETTINGSMANAGER.GetWriteExternal(), jpegSaver.fileEnding, hdrCount)),true);
-            }
-
-        }
-    };
-
-    I_WorkeDone aeBracketDone = new I_WorkeDone() {
-        @Override
-        public void OnWorkDone(File file) {
-            MediaScannerManager.ScanMedia(AppSettingsManager.APPSETTINGSMANAGER.context.getApplicationContext(), file);
-            eventHandler.WorkFinished(file);
-
-        }
-        @Override
-        public void OnError(String error)
-        {
-            cameraHolderApi1.errorHandler.OnError(error);
-            stopworking();
-        }
-    };*/
 }

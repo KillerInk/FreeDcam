@@ -31,13 +31,12 @@ import java.util.Date;
  */
 public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I_ModuleEvent
 {
-    private final String TAG = PreviewHandler.class.getSimpleName();
+    private final String TAG = Staxxer.class.getSimpleName();
 
 
     private int mHeight;
     private int mWidth;
     private RenderScript mRS;
-    private Allocation mAllocationOut;
     private Allocation mAllocationMain;
     private Allocation mAllocationSub;
     private Surface mSurface;
@@ -58,11 +57,6 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
 
         this.context = context;
         jpg2rgb = StaxxerJNI.GetInstance();
-        //this.size = size;
-
-       // cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
-       // output.setSurfaceTextureListener(previewSurfaceListner);
-       // clear_preview("Ctor");
     }
 
     public void Enable()
@@ -115,28 +109,13 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
             tbIn.setX(mWidth);
             tbIn.setY(mHeight);
 
-            Type.Builder tbIn2 = new Type.Builder(mRS, Element.RGB_888(mRS));
+            Type.Builder tbIn2 = new Type.Builder(mRS, Element.RGBA_8888(mRS));
             tbIn2.setX(mWidth);
             tbIn2.setY(mHeight);
 
-
-
-            if (mAllocationOut != null)
-                mAllocationOut.setSurface(null);
-
             mAllocationMain = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
             mAllocationSub = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
-           // mAllocationMerged = Allocation.createTyped(mRS, tbIn3.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
 
-            Type.Builder tbOut = new Type.Builder(mRS, Element.RGBA_8888(mRS));
-            tbOut.setX(mWidth);
-            tbOut.setY(mHeight);
-
-            mAllocationOut = Allocation.createTyped(mRS, tbOut.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT | Allocation.USAGE_IO_OUTPUT);
-            if (mSurface != null)
-                mAllocationOut.setSurface(mSurface);
-            else
-                Logger.d(TAG, "surfaceNull");
             imagestack = new ScriptC_imagestack_rgb_to_argb(mRS);
             Logger.d(TAG, "script done enabled: " + enable);
         }
@@ -150,63 +129,40 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
 
     public void Process(final byte[] frameA,final byte[] frameB , final boolean bufferInStaxxer, final String SessionPath)
     {
-//        System.out.println("Entered RS Classs" +" ImageA="+frameA.length+" ImageB="+frameB.length);
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 isWorking = true;
-                System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
-                if (!bufferInStaxxer){
-                    System.out.println("Im In Line"+new Exception().getStackTrace()[0].getLineNumber());
+                if (!bufferInStaxxer)
+                {
                     mAllocationMain.copyFrom(frameA);
-                    System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
                     mAllocationSub.copyFrom(frameB);
-                    System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
-                imagestack.set_gCurrentFrame(mAllocationMain);
-                    System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
-                imagestack.set_gLastFrame(mAllocationSub);
-                    System.out.println("Im In Line"+new Exception().getStackTrace()[0].getLineNumber());}
+                    imagestack.set_gCurrentFrame(mAllocationMain);
+                }
 
                 else
                 {
-                    System.out.println("Im In Line"+new Exception().getStackTrace()[0].getLineNumber());
                     mAllocationMain.copyFrom(frameB);
-                    System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
                     mAllocationSub.copyFrom(jpg2rgb.ExtractRGB(mergedByteStream));
-                    System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
                     imagestack.set_gCurrentFrame(mAllocationMain);
-                    System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
-                    imagestack.set_gLastFrame(mAllocationSub);
-                    System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
+                }
+                imagestack.forEach_stackimage(mAllocationSub);
+                //that will cause oom! you cant create allocs direct from bitmap
+                merged = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
+                mAllocationSub.copyTo(merged);
+                try
+                {
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    merged.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                    mergedByteStream = bos.toByteArray();
+                    Merged2File(mergedByteStream,SessionPath);
+                }
+                catch (Exception x)
+                {
+                    Logger.exception(x);
                 }
 
-
-                System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
-                imagestack.forEach_stackimage(mAllocationOut);
-                System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
-                merged = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
-                System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
-                mAllocationOut.copyTo(merged);
-
-                System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
-
-
-               try {
-
-
-                   ByteArrayOutputStream bos = new ByteArrayOutputStream();
-
-                   merged.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-                   mergedByteStream = bos.toByteArray();
-                   Merged2File(mergedByteStream,SessionPath);
-
-               }
-               catch (Exception x)
-               {
-x.printStackTrace();
-               }
-
-              //  mAllocationOut.ioSend();
+                //  mAllocationOut.ioSend();
                 System.out.println("Im In Line" + new Exception().getStackTrace()[0].getLineNumber());
                 isWorking = false;
                 System.out.println("Im In Line"+new Exception().getStackTrace()[0].getLineNumber());

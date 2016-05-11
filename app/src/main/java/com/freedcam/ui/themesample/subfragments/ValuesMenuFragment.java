@@ -31,7 +31,8 @@ public class ValuesMenuFragment extends Fragment implements ListView.OnItemClick
         super.onViewCreated(view, savedInstanceState);
         listView = (ListView)view.findViewById(R.id.values_fragment_listview);
 
-
+        if(item == null)
+            return;
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity().getApplicationContext(),
                 R.layout.listviewlayout, R.id.listviewlayout_textview, item);
         //attach adapter to the listview and fill

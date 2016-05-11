@@ -24,9 +24,10 @@ public class ShutterManual_ExposureTime_Micro extends BaseManualParameter
                 Logger.d(TAG, "minexpo = "+parameters.get(min_value) + " maxexpo = " + parameters.get(max_value));
                 if (!parameters.get(min_value).contains("."))
                 {
-                    Logger.d(TAG, "Micro does not contain .  load int");
+                    Logger.d(TAG, "Micro does not contain . load int");
                     int min = Integer.parseInt(parameters.get(min_value));
                     int max = Integer.parseInt(parameters.get(max_value));
+                    Logger.d(TAG, "min converterd = "+min + " max converterd = " + max);
                     stringvalues = StringUtils.getSupportedShutterValues(min, max, true);
                 }
                 else
@@ -36,6 +37,7 @@ public class ShutterManual_ExposureTime_Micro extends BaseManualParameter
                     double tmpMax = Double.parseDouble(parameters.get(max_value))*1000000;
                     int min = (int)tmpMin;
                     int max = (int)tmpMax;
+                    Logger.d(TAG, "min converterd = "+min + " max converterd = " + max);
                     stringvalues = StringUtils.getSupportedShutterValues(min, max, true);
                 }
 
@@ -49,6 +51,7 @@ public class ShutterManual_ExposureTime_Micro extends BaseManualParameter
             Logger.exception(ex);
             isSupported = false;
         }
+        Logger.d(TAG, "isSupported:" +isSupported);
     }
 
     @Override
