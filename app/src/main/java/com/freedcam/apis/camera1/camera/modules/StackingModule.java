@@ -2,6 +2,7 @@ package com.freedcam.apis.camera1.camera.modules;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
@@ -128,12 +129,12 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
         }
         File f = new File(SessionFolder+StringUtils.getStringDatePAttern().format(new Date())+".jpg");
         saveBytesToFile(data,f);
-
-        byte[] tmp = jpg2rgb.ExtractRGB(data);
+        Bitmap map2 = BitmapFactory.decodeByteArray(data, 0,data.length);
+        /*byte[] tmp = jpg2rgb.ExtractRGB(data);
         Logger.d(TAG, "RGB data size :" + tmp.length);
         int size =mAllocationInput.getBytesSize();
-        Logger.d(TAG, "InputAllocation Size:" + size);
-        mAllocationInput.copyFrom(tmp);
+        Logger.d(TAG, "InputAllocation Size:" + size);*/
+        mAllocationInput.copyFrom(map2);
         Logger.d(TAG, "Copied data to inputalloc");
         imagestack.set_gCurrentFrame(mAllocationInput);
         imagestack.set_gLastFrame(mAllocationOutput);
@@ -189,7 +190,7 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
         tbIn2.setX(mWidth);
         tbIn2.setY(mHeight);
 
-        mAllocationInput = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+        mAllocationInput = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
         mAllocationOutput = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
 
         imagestack = new ScriptC_imagestack_rgb_to_argb(mRS);

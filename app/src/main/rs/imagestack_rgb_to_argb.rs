@@ -5,9 +5,9 @@
     rs_allocation gLastFrame;
     uchar4 __attribute__((kernel)) stackimage(uint32_t x, uint32_t y) {
         uchar4 lastPixel;
-        uchar3 curPixel;
+        uchar4 curPixel;
         //rsDebug("x/y", x,y);
-        curPixel = rsGetElementAt_uchar3(gCurrentFrame, x, y);
+        curPixel = rsGetElementAt_uchar4(gCurrentFrame, x, y);
         //rsDebug("curPixel", curPixel);
         lastPixel = rsGetElementAt_uchar4(gLastFrame, x, y);
         //rsDebug("lastPixel", lastPixel);
