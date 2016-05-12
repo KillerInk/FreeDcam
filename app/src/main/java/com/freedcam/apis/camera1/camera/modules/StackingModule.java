@@ -2,6 +2,7 @@ package com.freedcam.apis.camera1.camera.modules;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.ImageFormat;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
@@ -127,18 +128,29 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
         }
         File f = new File(SessionFolder+StringUtils.getStringDatePAttern().format(new Date())+".jpg");
         saveBytesToFile(data,f);
+
         byte[] tmp = jpg2rgb.ExtractRGB(data);
-         int size =mAllocationInput.getBytesSize();
-        mAllocationInput.copyFrom(data);
+        Logger.d(TAG, "RGB data size :" + tmp.length);
+        int size =mAllocationInput.getBytesSize();
+        Logger.d(TAG, "InputAllocation Size:" + size);
+        mAllocationInput.copyFrom(tmp);
+        Logger.d(TAG, "Copied data to inputalloc");
         imagestack.set_gCurrentFrame(mAllocationInput);
+        Logger.d(TAG, "setted inputalloc to RS");
         imagestack.forEach_stackimage(mAllocationOutput);
+        Logger.d(TAG, "runned stackimage");
 
         cameraHolder.StartPreview();
+        Logger.d(TAG, "start preview");
 
         if(KeepStacking)
+        {
+            Logger.d(TAG, "keepstacking take next pic");
             cameraHolder.TakePicture(null, this);
+        }
         else
         {
+            Logger.d(TAG, "End of Stacking create bitmap and compress");
             int mWidth = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[0]);
             int mHeight = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[1]);
             Bitmap map = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
@@ -168,9 +180,9 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
         }
         int mWidth = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[0]);
         int mHeight = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[1]);
-        Type.Builder tbIn = new Type.Builder(mRS, Element.I8_3(mRS));
-        tbIn.setX(mWidth);
-        tbIn.setY(mHeight);
+        Type.Builder tbIn = new Type.Builder(mRS, Element.U8(mRS));
+        tbIn.setX(mWidth*mHeight*3);
+        //tbIn.setY(mHeight);
 
         Type.Builder tbIn2 = new Type.Builder(mRS, Element.RGBA_8888(mRS));
         tbIn2.setX(mWidth);
