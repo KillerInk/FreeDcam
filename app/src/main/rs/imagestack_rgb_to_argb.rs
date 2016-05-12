@@ -6,11 +6,12 @@
     uchar4 __attribute__((kernel)) stackimage(uint32_t x, uint32_t y) {
         uchar4 lastPixel;
         uchar3 curPixel;
+        //rsDebug("x/y", x,y);
         curPixel = rsGetElementAt_uchar3(gCurrentFrame, x, y);
-        lastPixel = rsGetElementAt_uchar4(gLastFrame, x, y);
-        int4 rgb;
         //rsDebug("curPixel", curPixel);
+        lastPixel = rsGetElementAt_uchar4(gLastFrame, x, y);
         //rsDebug("lastPixel", lastPixel);
+        int4 rgb;
         rgb.r = (curPixel.r + lastPixel.r)/2;
         rgb.g = (curPixel.g + lastPixel.b)/2;
         rgb.b = (curPixel.b + lastPixel.b)/2;
@@ -19,7 +20,8 @@
         if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
         if (rgb.b > 255) rgb.b = 255; if(rgb.b < 0) rgb.b = 0;
 
-        //rsDebug("rgb", rgb);
+
         uchar4 out = convert_uchar4(rgb);
+        //rsDebug("out Pixel", out);
         return out;
     }

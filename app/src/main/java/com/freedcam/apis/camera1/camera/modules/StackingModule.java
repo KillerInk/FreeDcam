@@ -136,6 +136,7 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
         mAllocationInput.copyFrom(tmp);
         Logger.d(TAG, "Copied data to inputalloc");
         imagestack.set_gCurrentFrame(mAllocationInput);
+        imagestack.set_gLastFrame(mAllocationOutput);
         Logger.d(TAG, "setted inputalloc to RS");
         imagestack.forEach_stackimage(mAllocationOutput);
         Logger.d(TAG, "runned stackimage");
@@ -181,8 +182,8 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
         int mWidth = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[0]);
         int mHeight = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[1]);
         Type.Builder tbIn = new Type.Builder(mRS, Element.U8(mRS));
-        tbIn.setX(mWidth*mHeight*3);
-        //tbIn.setY(mHeight);
+        tbIn.setX(mWidth*3);
+        tbIn.setY(mHeight);
 
         Type.Builder tbIn2 = new Type.Builder(mRS, Element.RGBA_8888(mRS));
         tbIn2.setX(mWidth);
