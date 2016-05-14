@@ -15,21 +15,28 @@ import java.util.HashMap;
 
 /**
  * Created by troop on 12.12.2014.
+ * holds the instance for the camera to work with
  */
 public abstract class AbstractCameraHolder implements I_CameraHolder
 {
     protected boolean isRdy = false;
 
     public boolean isPreviewRunning = false;
+    //holds the parameters for the camera
     private AbstractParameterHandler ParameterHandler;
+    //handel focus realted stuff
     public AbstractFocusHandler Focus;
-    public AbstractExposureMeterHandler ExposureM;
     public SurfaceHolder surfaceHolder;
+    //the listner to for camera state changes
     protected I_CameraChangedListner cameraChangedListner;
+    //handler wich runs in mainthread
     protected Handler UIHandler;
+    //holds the appsettings
     protected AppSettingsManager appSettingsManager;
 
+    //the current camera state
     protected CameraStates currentState = CameraStates.closed;
+
     public enum CameraStates
     {
         opening,
@@ -40,6 +47,12 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     }
 
 
+    /**
+     *
+     * @param cameraChangedListner to listen on camera state changes
+     * @param UIHandler handler to invoke mainthread
+     * @param appSettingsManager
+     */
     protected AbstractCameraHolder(I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager appSettingsManager)
     {
         this.cameraChangedListner = cameraChangedListner;
@@ -47,6 +60,10 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
         this.UIHandler = UIHandler;
     }
 
+    /**
+     * Send message to UI
+     * @param msg to send
+     */
     public void SendUIMessage(String msg)
     {
         if (cameraChangedListner != null)
@@ -65,6 +82,10 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
         currentState = CameraStates.closed;
     }
 
+    /**
+     *
+     * @return the count of avail cameras
+     */
     @Override
     public int CameraCout() {
         return 0;

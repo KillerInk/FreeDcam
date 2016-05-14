@@ -25,11 +25,6 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
 
     private static String TAG = AbstractModuleHandler.class.getSimpleName();
     public ModuleEventHandler moduleEventHandler;
-    public ArrayList<String> PictureModules;
-    public ArrayList<String> LongeExpoModules;
-    public ArrayList<String> VideoModules;
-    public ArrayList<String> AllModules;
-    public ArrayList<String> HDRModule;
     public HashMap<String, AbstractModule> moduleList;
     protected AbstractModule currentModule;
     AbstractCameraHolder cameraHolder;
@@ -59,20 +54,6 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
 
         moduleEventHandler = new ModuleEventHandler();
         workers = new ArrayList<>();
-        PictureModules = new ArrayList<>();
-        PictureModules.add(MODULE_PICTURE);
-        PictureModules.add(MODULE_BURST);
-        PictureModules.add(MODULE_HDR);
-        //PictureModules.add();
-        VideoModules = new ArrayList<>();
-        VideoModules.add(MODULE_VIDEO);
-        AllModules = new ArrayList<>();
-        AllModules.add(MODULE_ALL);
-        LongeExpoModules = new ArrayList<>();
-        LongeExpoModules.add(MODULE_LONGEXPO);
-
-        HDRModule = new ArrayList<>();
-        HDRModule.add(MODULE_HDR);
 
         workerListner = new I_worker() {
             @Override
@@ -108,9 +89,12 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
         };
     }
 
+    /**
+     * Load the new module
+     * @param name of the module to load
+     */
     @Override
-    public void SetModule(String name)
-    {
+    public void SetModule(String name) {
         if (currentModule !=null) {
             currentModule.UnloadNeededParameters();
             currentModule.SetWorkerListner(null);

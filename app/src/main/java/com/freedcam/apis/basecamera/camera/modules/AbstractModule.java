@@ -77,8 +77,11 @@ public abstract class AbstractModule implements I_Module
         return name;
     }
 
+
     @Override
-    public abstract boolean DoWork();
+    public boolean DoWork() {
+        return false;
+    }
 
     @Override
     public boolean IsWorking() {

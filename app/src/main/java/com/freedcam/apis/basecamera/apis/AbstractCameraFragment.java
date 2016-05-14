@@ -13,14 +13,18 @@ import com.freedcam.utils.Logger;
 
 /**
  * Created by troop on 06.06.2015.
+ * That Fragment is used as base for all camera apis added.
  */
 public abstract class AbstractCameraFragment extends Fragment
 {
     private final String TAG = AbstractCameraFragment.class.getSimpleName();
 
+    //the cameraWrapper to hold
     protected AbstractCameraUiWrapper cameraUiWrapper;
     protected View view;
+    //the even listner when the camerauiwrapper is rdy to get attached to ui
     protected CamerUiWrapperRdy onrdy;
+    //holds the appsettings
     protected AppSettingsManager appSettingsManager;
 
     public void SetAppSettingsManager(AppSettingsManager appSettingsManager)
@@ -28,33 +32,29 @@ public abstract class AbstractCameraFragment extends Fragment
         this.appSettingsManager = appSettingsManager;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        Logger.d(TAG, "onCreateView");
-
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState)
-    {
-
-        super.onViewCreated(view, savedInstanceState);
-    }
-
+    /**
+     *
+     * @return the current instance of the cameruiwrapper
+     */
     public AbstractCameraUiWrapper GetCameraUiWrapper()
     {
         return cameraUiWrapper;
     }
 
+    /**
+     *
+     * @param rdy the listner that gets thrown when the cameraUIwrapper
+     *            has loaded all stuff and is rdy to get attached to ui.
+     */
     public void Init(CamerUiWrapperRdy rdy)
     {
         this.onrdy = rdy;
     }
 
 
-
+    /**
+     * shutdown the current camera instance
+     */
     public void DestroyCameraUiWrapper()
     {
         if (cameraUiWrapper != null)
@@ -70,13 +70,12 @@ public abstract class AbstractCameraFragment extends Fragment
         }
     }
 
+    /**
+     * inteface for event listning when the camerauiwrapper is rdy
+     */
     public interface CamerUiWrapperRdy
     {
         void onCameraUiWrapperRdy(AbstractCameraUiWrapper cameraUiWrapper);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
 }

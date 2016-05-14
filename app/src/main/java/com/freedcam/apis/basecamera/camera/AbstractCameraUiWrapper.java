@@ -22,16 +22,37 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_CameraChangedListner, I_error
 {
     private final String TAG = AbstractCameraUiWrapper.class.getSimpleName();
+    /**
+     * Holds all modules avail for the api, and handel it
+     */
     public AbstractModuleHandler moduleHandler;
+    /**
+     * parameters for avail for the cameraHolder
+     */
     public AbstractParameterHandler camParametersHandler;
+    /**
+     * holds the current camera
+     */
     public AbstractCameraHolder cameraHolder;
+    /**
+     * handels focus releated stuff for the current camera
+     */
     public AbstractFocusHandler Focus;
 
     protected boolean PreviewSurfaceRdy = false;
 
+    /**
+     * holds the listners that get informed when the camera state change
+     */
     private List<I_CameraChangedListner> cameraChangedListners;
 
+    /**
+     * holds handler to invoke stuff in ui thread
+     */
     protected Handler uiHandler;
+    /**
+     * holds the appsettings for the current camera
+     */
     protected AppSettingsManager appSettingsManager;
 
 
@@ -44,6 +65,10 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     }
 
 
+    /**
+     * adds a new listner for camera state changes
+     * @param cameraChangedListner to add
+     */
     public void SetCameraChangedListner(I_CameraChangedListner cameraChangedListner)
     {
         cameraChangedListners.add(cameraChangedListner);
@@ -70,11 +95,16 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     {
     }
 
+    /**
+     * Starts a new work with the current active module
+     * the module must handle the workstate on its own if it gets hit twice while work is already in progress
+     */
     @Override
     public void DoWork()
     {
         moduleHandler.DoWork();
     }
+
 
     @Override
     public void onCameraOpen(final String message)
