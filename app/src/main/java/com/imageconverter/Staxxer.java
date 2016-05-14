@@ -40,7 +40,7 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
     private Allocation mAllocationMain;
     private Allocation mAllocationSub;
     private Surface mSurface;
-    private ScriptC_imagestack_rgb_to_argb imagestack;
+    private ScriptC_imagestack imagestack;
     private boolean enable = false;
     private boolean doWork = false;
     private Context context;
@@ -116,7 +116,7 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
             mAllocationMain = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
             mAllocationSub = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
 
-            imagestack = new ScriptC_imagestack_rgb_to_argb(mRS);
+            imagestack = new ScriptC_imagestack(mRS);
             Logger.d(TAG, "script done enabled: " + enable);
         }
         catch (RSRuntimeException ex)
@@ -146,7 +146,7 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
                     mAllocationSub.copyFrom(jpg2rgb.ExtractRGB(mergedByteStream));
                     imagestack.set_gCurrentFrame(mAllocationMain);
                 }
-                imagestack.forEach_stackimage(mAllocationSub);
+                imagestack.forEach_stackimage_avarage(mAllocationSub);
                 //that will cause oom! you cant create allocs direct from bitmap
                 merged = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
                 mAllocationSub.copyTo(merged);

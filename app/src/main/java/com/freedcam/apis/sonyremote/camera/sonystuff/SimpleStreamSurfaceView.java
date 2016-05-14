@@ -31,7 +31,7 @@ import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParamete
 import com.imageconverter.ScriptC_brightness;
 import com.imageconverter.ScriptC_contrast;
 import com.imageconverter.ScriptC_focuspeak_argb;
-import com.imageconverter.ScriptC_imagestack_argb;
+import com.imageconverter.ScriptC_imagestack;
 import com.imageconverter.ScriptC_starfinder;
 
 
@@ -67,7 +67,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private Allocation mInputAllocation2;
     private Allocation mOutputAllocation;
     private ScriptC_focuspeak_argb focuspeak_argb;
-    private ScriptC_imagestack_argb imagestack_argb;
+    private ScriptC_imagestack imagestack_argb;
     private ScriptC_brightness brightnessRS;
     private ScriptC_contrast contrastRS;
     private ScriptC_starfinder starfinderRS;
@@ -167,7 +167,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         if (Build.VERSION.SDK_INT >= 18) {
             mRS = RenderScript.create(context);
             focuspeak_argb = new ScriptC_focuspeak_argb(mRS);
-            imagestack_argb = new ScriptC_imagestack_argb(mRS);
+            imagestack_argb = new ScriptC_imagestack(mRS);
             brightnessRS = new ScriptC_brightness(mRS);
             contrastRS = new ScriptC_contrast(mRS);
             blurRS = ScriptIntrinsicBlur.create(mRS, Element.U8_4(mRS));
@@ -371,6 +371,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
      * 
      * @param frame
      */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     private void drawFrame(Bitmap frame, DataExtractor dataExtractor, DataExtractor frameExtractor)
     {
         try {
@@ -493,6 +494,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         {Logger.exception(ex);}
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     private boolean drawNightPreview(Bitmap frame, DataExtractor frameExtractor, Rect src, Rect dst) {
         mInputAllocation.copyFrom(frame);
         blurRS.setInput(mInputAllocation);
@@ -505,7 +507,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             mInputAllocation2.copyFrom(drawBitmap);
         imagestack_argb.set_gCurrentFrame(mInputAllocation);
         imagestack_argb.set_gLastFrame(mInputAllocation2);
-        imagestack_argb.forEach_stackimage(mOutputAllocation);
+        imagestack_argb.forEach_stackimage_avarage(mOutputAllocation);
         mOutputAllocation.copyTo(drawBitmap);
 
         if (currentImageStackCount < 3)

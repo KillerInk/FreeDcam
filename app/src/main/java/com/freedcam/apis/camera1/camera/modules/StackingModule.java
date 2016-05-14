@@ -3,25 +3,20 @@ package com.freedcam.apis.camera1.camera.modules;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.ImageFormat;
+
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.Type;
-
-import com.freedcam.Native.StaxxerJNI;
-import com.freedcam.apis.basecamera.camera.Size;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
-import com.freedcam.apis.camera1.camera.modules.image_saver.I_WorkeDone;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
-import com.imageconverter.ScriptC_imagestack_rgb_to_argb;
-import com.imageconverter.Staxxer;
+import com.imageconverter.ScriptC_imagestack;
 
 
 import java.io.File;
@@ -43,7 +38,7 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
 
     private Allocation mAllocationInput;
     private Allocation mAllocationOutput;
-    private ScriptC_imagestack_rgb_to_argb imagestack;
+    private ScriptC_imagestack imagestack;
     private RenderScript mRS;
 
     public StackingModule(CameraHolderApi1 cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
@@ -146,7 +141,7 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
         imagestack.set_gCurrentFrame(mAllocationInput);
         imagestack.set_gLastFrame(mAllocationOutput);
         Logger.d(TAG, "setted inputalloc to RS");
-        imagestack.forEach_stackimage(mAllocationOutput);
+        imagestack.forEach_stackimage_avarage(mAllocationOutput);
         Logger.d(TAG, "runned stackimage");
         cameraHolder.SendUIMessage("Stacked Picture: " + FrameCount++);
 
@@ -201,7 +196,7 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
         mAllocationInput = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
         mAllocationOutput = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
 
-        imagestack = new ScriptC_imagestack_rgb_to_argb(mRS);
+        imagestack = new ScriptC_imagestack(mRS);
     }
 
 }
