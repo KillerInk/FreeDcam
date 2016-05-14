@@ -5,7 +5,7 @@ import android.os.Handler;
 
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.utils.StringUtils;
-import com.imageconverter.PreviewHandler;
+import com.freedcam.apis.camera1.camera.renderscript.FocusPeakProcessorAp1;
 
 
 /**
@@ -13,11 +13,11 @@ import com.imageconverter.PreviewHandler;
  */
 public class FocusPeakModeParameter extends BaseModeParameter {
 
-    private PreviewHandler previewHandler;
-    public FocusPeakModeParameter(Handler uihandler, CameraHolderApi1 cameraHolder, PreviewHandler previewHandler)
+    private FocusPeakProcessorAp1 focusPeakProcessorAp1;
+    public FocusPeakModeParameter(Handler uihandler, CameraHolderApi1 cameraHolder, FocusPeakProcessorAp1 focusPeakProcessorAp1)
     {
         super(uihandler, null, cameraHolder, "", "");
-        this.previewHandler = previewHandler;
+        this.focusPeakProcessorAp1 = focusPeakProcessorAp1;
     }
 
     @Override
@@ -30,16 +30,16 @@ public class FocusPeakModeParameter extends BaseModeParameter {
         if (valueToSet.equals(StringUtils.ON))
         {
             cameraHolderApi1.GetParameterHandler().FocusMode.SetValue(cameraHolderApi1.GetParameterHandler().FocusMode.GetValue(),true);
-            previewHandler.Enable(true);
+            focusPeakProcessorAp1.Enable(true);
         }
         else
-            previewHandler.Enable(false);
+            focusPeakProcessorAp1.Enable(false);
     }
 
     @Override
     public String GetValue()
     {
-        if (previewHandler.isEnable())
+        if (focusPeakProcessorAp1.isEnable())
             return StringUtils.ON;
         else
             return StringUtils.OFF;

@@ -440,7 +440,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            Focuspeak = new FocusPeakModeParameter(uiHandler,cameraHolder,cameraUiWrapper.previewHandler);
+            Focuspeak = new FocusPeakModeParameter(uiHandler,cameraHolder,cameraUiWrapper.focusPeakProcessorAp1);
         } catch (Exception e) {
             Logger.exception(e);
         }

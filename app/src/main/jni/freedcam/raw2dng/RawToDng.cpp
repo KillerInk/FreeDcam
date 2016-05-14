@@ -96,11 +96,11 @@ public:
     float *colorMatrix1;
     float *colorMatrix2;
     float *neutralColorMatrix;
-    float *fowardMatrix1 =NULL;
-    float *fowardMatrix2=NULL;
-    float *reductionMatrix1=NULL;
-    float *reductionMatrix2=NULL;
-    float *noiseMatrix=NULL;
+    float *fowardMatrix1;
+    float *fowardMatrix2;
+    float *reductionMatrix1;
+    float *reductionMatrix2;
+    float *noiseMatrix;
     char* bayerformat;
     int rawType;
     long rawSize;

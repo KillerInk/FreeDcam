@@ -1,4 +1,4 @@
-package com.imageconverter;
+package com.freedcam.apis.camera1.camera.renderscript;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -25,13 +25,14 @@ import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 
 
+
 /**
  * Created by troop on 24.08.2015.
  */
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedListner,I_ModuleEvent
+public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraChangedListner,I_ModuleEvent
 {
-    private final String TAG = PreviewHandler.class.getSimpleName();
+    private final String TAG = FocusPeakProcessorAp1.class.getSimpleName();
     private I_AspectRatio output;
     private AbstractCameraUiWrapper cameraUiWrapper;
 
@@ -46,7 +47,7 @@ public class PreviewHandler implements Camera.PreviewCallback, I_CameraChangedLi
     private boolean doWork = false;
     private Context context;
 
-    public PreviewHandler(I_AspectRatio output, AbstractCameraUiWrapper cameraUiWrapper, Context context)
+    public FocusPeakProcessorAp1(I_AspectRatio output, AbstractCameraUiWrapper cameraUiWrapper, Context context)
     {
         Logger.d(TAG, "Ctor");
         this.output = output;

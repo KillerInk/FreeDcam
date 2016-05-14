@@ -38,7 +38,7 @@ import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
 import com.freedcam.utils.StringUtils;
-import com.imageconverter.ViewfinderProcessor;
+import com.freedcam.apis.camera2.camera.renderscript.FocuspeakProcessorApi2;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -79,7 +79,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
     public String VideoSize;
     public I_PreviewWrapper ModulePreview;
     private RenderScript mRS;
-    public ViewfinderProcessor mProcessor;
+    public FocuspeakProcessorApi2 mProcessor;
     public CaptureSessionHandler CaptureSessionH;
 
     int afState;
@@ -123,7 +123,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
             if (!isLegacyDevice())
             {
                 mRS = RenderScript.create(context);
-                mProcessor = new ViewfinderProcessor(mRS);
+                mProcessor = new FocuspeakProcessorApi2(mRS);
                 //printCharacteristics();
             }
             map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);

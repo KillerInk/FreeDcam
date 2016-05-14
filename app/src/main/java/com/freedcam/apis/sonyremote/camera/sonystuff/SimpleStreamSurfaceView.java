@@ -490,7 +490,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             getHolder().unlockCanvasAndPost(canvas);
         }
         catch(IllegalStateException ex)
-        {}
+        {Logger.exception(ex);}
     }
 
     private boolean drawNightPreview(Bitmap frame, DataExtractor frameExtractor, Rect src, Rect dst) {

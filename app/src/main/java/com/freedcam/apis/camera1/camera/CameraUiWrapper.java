@@ -19,9 +19,8 @@ import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParamete
 import com.freedcam.apis.basecamera.camera.parameters.I_ParametersLoaded;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
-import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
-import com.imageconverter.PreviewHandler;
+import com.freedcam.apis.camera1.camera.renderscript.FocusPeakProcessorAp1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +35,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     protected I_error errorHandler;
     private static String TAG = CameraUiWrapper.class.getSimpleName();
     public CameraHolderApi1 cameraHolder;
-    public PreviewHandler previewHandler;
+    public FocusPeakProcessorAp1 focusPeakProcessorAp1;
     boolean cameraRdy = false;
 
     @Override
@@ -68,8 +67,8 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         Focus = new FocusHandler(this);
         this.cameraHolder.Focus = Focus;
         if (Build.VERSION.SDK_INT >= 18) {
-            previewHandler = new PreviewHandler(previewTexture, this, context);
-            SetCameraChangedListner(previewHandler);
+            focusPeakProcessorAp1 = new FocusPeakProcessorAp1(previewTexture, this, context);
+            SetCameraChangedListner(focusPeakProcessorAp1);
         }
         else
             previewTexture.setVisibility(View.GONE);
@@ -240,8 +239,8 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
                     public void run() {
                         if (preview != null)
                             preview.setAspectRatio(size.width, size.height);
-                        if (previewHandler != null)
-                            previewHandler.SetAspectRatio(size.width,size.height);
+                        if (focusPeakProcessorAp1 != null)
+                            focusPeakProcessorAp1.SetAspectRatio(size.width,size.height);
                     }
                 });
 
@@ -263,8 +262,8 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
                     public void run() {
                         if (preview != null)
                             preview.setAspectRatio(size.width, size.height);
-                        if (previewHandler != null)
-                            previewHandler.SetAspectRatio(size.width,size.height);
+                        if (focusPeakProcessorAp1 != null)
+                            focusPeakProcessorAp1.SetAspectRatio(size.width,size.height);
                     }
                 });
 

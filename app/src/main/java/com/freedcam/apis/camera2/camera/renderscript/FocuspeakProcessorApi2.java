@@ -1,4 +1,4 @@
-package com.imageconverter;
+package com.freedcam.apis.camera2.camera.renderscript;
 
     /*
      * Copyright (C) 2015 The Android Open Source Project
@@ -34,9 +34,9 @@ import com.freedcam.utils.Logger;
  * Renderscript-based Focus peaking viewfinder
  */
 @TargetApi(Build.VERSION_CODES.KITKAT)
-public class ViewfinderProcessor
+public class FocuspeakProcessorApi2
 {
-    private final String TAG = ViewfinderProcessor.class.getSimpleName();
+    private final String TAG = FocuspeakProcessorApi2.class.getSimpleName();
     private int mCount;
     long mLastTime;
     private float mFps;
@@ -51,7 +51,7 @@ public class ViewfinderProcessor
 
     private RenderScript rs;
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public ViewfinderProcessor(RenderScript rs)
+    public FocuspeakProcessorApi2(RenderScript rs)
     {
         Logger.d(TAG, "Ctor");
         this.rs = rs;
