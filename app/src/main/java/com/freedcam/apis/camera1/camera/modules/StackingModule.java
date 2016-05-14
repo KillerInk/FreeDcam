@@ -62,6 +62,8 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
         Logger.d(TAG, "isWorking: " + isWorking + " KeepStacking: " + KeepStacking);
         if (!isWorking && !KeepStacking)
         {
+            FrameCount = 0;
+            NewSession = false;
             Logger.d(TAG,"Start Stacking");
             KeepStacking = true;
             initRsStuff();
