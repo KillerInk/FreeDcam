@@ -95,56 +95,62 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         Logger.d(TAG, "Set cameraUiWrapper to ShutterButton");
     }
 
-    private void switchBackground(Showstate showstate, boolean animate)
+    private void switchBackground(final Showstate showstate,final boolean animate)
     {
-        currentShow = showstate;
-        Logger.d(TAG, "switchBackground:" + currentShow);
-        switch (showstate)
-        {
-            case video_recording_stopped:
-                setBackgroundResource(R.drawable.video_recording_stop);
-                break;
-            case video_recording_started:
-                setBackgroundResource(R.drawable.video_recording_start);
-                break;
-            case image_capture_stopped:
-                setBackgroundResource(R.drawable.shutteropenanimation);
-                break;
-            case image_capture_started:
-                setBackgroundResource(R.drawable.shuttercloseanimation);
-                break;
-            case continouse_capture_start:
-                setBackgroundResource(R.drawable.contshot_start);
-                break;
-            case continouse_capture_cancel_whilework:
-                setBackgroundResource(R.drawable.contshot_cancel_whilework);
-                break;
-            case continouse_capture_cancel_nowork:
-                setBackgroundResource(R.drawable.video_recording_stop);
-                break;
-            case continouse_capture_stop_fromcancel:
-                setBackgroundResource(R.drawable.contshot_stop_normal);
-                break;
-            case continouse_capture_stop:
-                setBackgroundResource(R.drawable.contshot_stop_normal);
-                break;
-            case continouse_capture_open:
-                setBackgroundResource(R.drawable.contshot_cancel_shown_open);
-                break;
-            case continouse_capture_close:
-                setBackgroundResource(R.drawable.contshot_cancel_shown_close);
-                break;
+        this.post(new Runnable() {
+            @Override
+            public void run() {
+                currentShow = showstate;
+                Logger.d(TAG, "switchBackground:" + currentShow);
+                switch (showstate)
+                {
+                    case video_recording_stopped:
+                        setBackgroundResource(R.drawable.video_recording_stop);
+                        break;
+                    case video_recording_started:
+                        setBackgroundResource(R.drawable.video_recording_start);
+                        break;
+                    case image_capture_stopped:
+                        setBackgroundResource(R.drawable.shutteropenanimation);
+                        break;
+                    case image_capture_started:
+                        setBackgroundResource(R.drawable.shuttercloseanimation);
+                        break;
+                    case continouse_capture_start:
+                        setBackgroundResource(R.drawable.contshot_start);
+                        break;
+                    case continouse_capture_cancel_whilework:
+                        setBackgroundResource(R.drawable.contshot_cancel_whilework);
+                        break;
+                    case continouse_capture_cancel_nowork:
+                        setBackgroundResource(R.drawable.video_recording_stop);
+                        break;
+                    case continouse_capture_stop_fromcancel:
+                        setBackgroundResource(R.drawable.contshot_stop_normal);
+                        break;
+                    case continouse_capture_stop:
+                        setBackgroundResource(R.drawable.contshot_stop_normal);
+                        break;
+                    case continouse_capture_open:
+                        setBackgroundResource(R.drawable.contshot_cancel_shown_open);
+                        break;
+                    case continouse_capture_close:
+                        setBackgroundResource(R.drawable.contshot_cancel_shown_close);
+                        break;
 
 
-        }
-        shutterOpenAnimation = (AnimationDrawable) getBackground();
-        if (animate) {
-            if (shutterOpenAnimation.isRunning()) {
-                shutterOpenAnimation.stop();
+                }
+                shutterOpenAnimation = (AnimationDrawable) getBackground();
+                if (animate) {
+                    if (shutterOpenAnimation.isRunning()) {
+                        shutterOpenAnimation.stop();
+                    }
+                    shutterOpenAnimation.setOneShot(true);
+                    shutterOpenAnimation.start();
+                }
             }
-            shutterOpenAnimation.setOneShot(true);
-            shutterOpenAnimation.start();
-        }
+        });
+
     }
 
     @Override
@@ -183,6 +189,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     public void onWorkStarted()
     {
         Logger.d(TAG, "onWorkStarted CurrentShow:" + currentShow);
+
         switch (currentShow)
         {
             case video_recording_stopped:

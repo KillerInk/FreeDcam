@@ -211,7 +211,6 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         videoHDR.SetStuff(i_activity, AppSettingsManager.SETTING_VIDEOHDR,appSettingsManager);
         videoHDR.SetParameter(cameraUiWrapper.camParametersHandler.VideoHDR);
         videoHDR.SetMenuItemListner(this);
-        videoHDR.SetModulesToShow(cameraUiWrapper.moduleHandler.VideoModules, cameraUiWrapper.moduleHandler);
         ///////////////////////////   Highspeed Recording //////////////////////////////////////////
 
         VideoSize.SetStuff(i_activity, AppSettingsManager.SETTING_VIDEOSIZE,appSettingsManager);

@@ -266,6 +266,17 @@ public class StringUtils
         return builder.toString();
     }
 
+    public static String GetDCIMFolder(boolean external)
+    {
+        final StringBuilder builder = new StringBuilder();
+        if (external)
+            builder.append(GetExternalSDCARD());
+        else
+            builder.append(GetInternalSDCARD());
+        builder.append(DCIMFolder);
+        return builder.toString();
+    }
+
     public static String getFilePathHDR(boolean externalSd, String fileEnding, int hdrcount)
     {
         final StringBuilder builder = new StringBuilder();

@@ -36,10 +36,8 @@ import java.util.Date;
 public class StackingModule extends PictureModule implements I_Callbacks.PictureCallback
 {
     final String TAG = StackingModule.class.getSimpleName();
-    private boolean KeepStacking = true;
+    private boolean KeepStacking = false;
     private int FrameCount = 0;
-
-    private StaxxerJNI jpg2rgb;
     private boolean NewSession = false;
     private String SessionFolder="";
 
@@ -61,23 +59,28 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
 
     @Override
     public boolean DoWork() {
-
-
-        if (!isWorking)
+        Logger.d(TAG, "isWorking: " + isWorking + " KeepStacking: " + KeepStacking);
+        if (!isWorking && !KeepStacking)
         {
+            Logger.d(TAG,"Start Stacking");
+            KeepStacking = true;
             initRsStuff();
             ParameterHandler.ZSL.SetValue("off", true);
             workstarted();
             final String picFormat = ParameterHandler.PictureFormat.GetValue();
-            if (picFormat.equals("jpeg"))
-                cameraHolder.TakePicture(null, this);
+            if (!picFormat.equals("jpeg"))
+                ParameterHandler.PictureFormat.SetValue("jpeg",true);
+
+            cameraHolder.TakePicture(null, this);
             return true;
         }
-
-        else {
+        else if (KeepStacking)
+        {
+            Logger.d(TAG, "Stop Stacking");
             KeepStacking = false;
             return false;
         }
+        return false;
 
     }
 
@@ -111,7 +114,7 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
     @Override
     public void LoadNeededParameters()
     {
-        jpg2rgb = StaxxerJNI.GetInstance();
+
     }
 
     @Override
@@ -120,20 +123,22 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
     }
 
 
-    private void processData(byte[] data, File file) {
+    private void processData(byte[] data, File file)
+    {
+        cameraHolder.StartPreview();
+        Logger.d(TAG, "start preview");
         Logger.d(TAG,"The Data Is " + data.length + " bytes Long" + " and the path is " + file.getAbsolutePath());
         if(!NewSession) {
-            SessionFolder = "/sdcard/DCIM/FreeDcam/" + StringUtils.getStringDatePAttern().format(new Date()) + "/";
+            SessionFolder = StringUtils.GetDCIMFolder(appSettingsManager.GetWriteExternal())+ StringUtils.getStringDatePAttern().format(new Date()) + "/";
 
             NewSession = true;
         }
         File f = new File(SessionFolder+StringUtils.getStringDatePAttern().format(new Date())+".jpg");
         saveBytesToFile(data,f);
+        MediaScannerManager.ScanMedia(context, f);
+        workfinished(true);
         Bitmap map2 = BitmapFactory.decodeByteArray(data, 0,data.length);
-        /*byte[] tmp = jpg2rgb.ExtractRGB(data);
-        Logger.d(TAG, "RGB data size :" + tmp.length);
-        int size =mAllocationInput.getBytesSize();
-        Logger.d(TAG, "InputAllocation Size:" + size);*/
+
         mAllocationInput.copyFrom(map2);
         Logger.d(TAG, "Copied data to inputalloc");
         imagestack.set_gCurrentFrame(mAllocationInput);
@@ -141,12 +146,13 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
         Logger.d(TAG, "setted inputalloc to RS");
         imagestack.forEach_stackimage(mAllocationOutput);
         Logger.d(TAG, "runned stackimage");
+        cameraHolder.SendUIMessage("Stacked Picture: " + FrameCount++);
 
-        cameraHolder.StartPreview();
-        Logger.d(TAG, "start preview");
 
         if(KeepStacking)
         {
+
+            workstarted();
             Logger.d(TAG, "keepstacking take next pic");
             cameraHolder.TakePicture(null, this);
         }
@@ -168,7 +174,7 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
             }
 
             workfinished(true);
-            MediaScannerManager.ScanMedia(context.getApplicationContext(), file);
+            MediaScannerManager.ScanMedia(context, file);
             eventHandler.WorkFinished(file);
         }
     }
@@ -177,7 +183,7 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
     {
         if(mRS == null)
         {
-            mRS = RenderScript.create(context.getApplicationContext());
+            mRS = RenderScript.create(context);
             mRS.setPriority(RenderScript.Priority.LOW);
         }
         int mWidth = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[0]);
