@@ -2,6 +2,7 @@ package com.freedcam.apis.camera1.camera.modules;
 
 
 import android.content.Context;
+import android.os.Build;
 
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
@@ -65,8 +66,10 @@ public class ModuleHandler extends AbstractModuleHandler
         BracketModule bracketModule = new BracketModule(this.cameraHolder, moduleEventHandler,context,appSettingsManager);
         moduleList.put(bracketModule.ModuleName(), bracketModule);
 
-        StackingModule sTax = new StackingModule(this.cameraHolder, moduleEventHandler,context,appSettingsManager);
-        moduleList.put(sTax.ModuleName(),sTax);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            StackingModule sTax = new StackingModule(this.cameraHolder, moduleEventHandler, context, appSettingsManager);
+            moduleList.put(sTax.ModuleName(), sTax);
+        }
 
         //BurstModule burstModule = new BurstModule(this.cameraHolder, soundPlayer, appSettingsManager, moduleEventHandler);
         //moduleList.put(burstModule.ModuleName(), burstModule);
