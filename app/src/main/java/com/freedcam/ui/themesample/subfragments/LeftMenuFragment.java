@@ -73,6 +73,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
     private MenuItem matrixChooser;
 
+    private MenuItem imageStackMode;
+
     private Interfaces.I_MenuItemClick onMenuItemClick;
 
     public static LeftMenuFragment GetInstance(I_Activity i_activity, AppSettingsManager appSettingsManager)
@@ -141,6 +143,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         opcode = (MenuItem)view.findViewById(R.id.MenuItemOpCode);
 
         matrixChooser = (MenuItem)view.findViewById(R.id.MenuItemMatrixChooser);
+
+        imageStackMode = (MenuItem)view.findViewById(R.id.MenuItemImageStack);
     }
 
     @Override
@@ -295,6 +299,10 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         matrixChooser.SetStuff(i_activity, AppSettingsManager.SETTTING_CUSTOMMATRIX,appSettingsManager);
         matrixChooser.SetParameter(cameraUiWrapper.camParametersHandler.matrixChooser);
         matrixChooser.SetMenuItemListner(this);
+
+        imageStackMode.SetStuff(i_activity, AppSettingsManager.SETTING_STACKMODE, appSettingsManager);
+        imageStackMode.SetParameter(cameraUiWrapper.camParametersHandler.imageStackMode);
+        imageStackMode.SetMenuItemListner(this);
     }
 
     public void SetMenuItemClickListner(Interfaces.I_MenuItemClick menuItemClick)

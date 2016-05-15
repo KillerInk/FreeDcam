@@ -33,9 +33,11 @@
     <string name="setting_videohsr_header">Video HSR: </string>
     <string name="setting_videobitrate_header">Video Bitrate: </string>
     <string name="setting_vs_header">Video Stabilization: </string>
-    <string name="setting_hdr_">HDR</string>
+    <string name="setting_hdr_">Bracket</string>
     <string name="setting_aebracket_header">AE-Bracket: </string>
     <string name="setting_aebracket_description">If ON the camera takes 3 Images in one Shot</string>
+    <string name="setting_imagestack_header">ImageStack Mode: </string>
+    <string name="setting_imagestack_description">Select how the Images get Stacked</string>
 
     <string name="setting_freedcam_">Freedcam Settings</string>
     <string name="setting_api_header">API:</string>
@@ -167,6 +169,7 @@
     <string name="converttodng">Convert to DNG</string>
     <string name="no_sel_raw">No selected RAW file, pls return back and select it</string>
     <string name="files_selected">Files selected:</string>
+    <string name="setting_imagestack">ImageStack</string>
 
 
     <!-- DO NOT TRANSLATE START -->

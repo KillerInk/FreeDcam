@@ -36,6 +36,7 @@ import com.freedcam.apis.camera1.camera.parameters.modes.PictureSizeParameter;
 import com.freedcam.apis.camera1.camera.parameters.modes.PreviewFormatParameter;
 import com.freedcam.apis.camera1.camera.parameters.modes.PreviewFpsParameter;
 import com.freedcam.apis.camera1.camera.parameters.modes.PreviewSizeParameter;
+import com.freedcam.apis.camera1.camera.parameters.modes.StackModeParameter;
 import com.freedcam.apis.camera1.camera.parameters.modes.VideoProfilesG3Parameter;
 import com.freedcam.apis.camera1.camera.parameters.modes.VideoProfilesParameter;
 import com.freedcam.apis.camera1.camera.parameters.modes.VideoStabilizationParameter;
@@ -482,6 +483,8 @@ public class CamParametersHandler extends AbstractParameterHandler
         } catch (Exception e) {
             Logger.exception(e);
         }
+
+        imageStackMode = new StackModeParameter(uiHandler,cameraParameters,cameraHolder,"","");
 
         opcode = new OpCodeParameter(uiHandler);
 

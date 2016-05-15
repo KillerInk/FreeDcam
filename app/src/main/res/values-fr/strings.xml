@@ -15,7 +15,7 @@
     <string name="setting_videohdr_description">Active l\'enregistrement vidéo HDR</string>
     <string name="setting_videohdr_header">Vidéo HDR: </string>
 
-    <string name="setting_hdr_">HDR</string>
+    <string name="setting_hdr_">Bracket</string>
     <string name="setting_aebracket_header">AE-Bracket: </string>
     <string name="setting_aebracket_description">Si activé l\'appareil capture 3 images en une fois</string>
 

@@ -141,6 +141,7 @@ public class AppSettingsManager
     final public static String SETTING_AEB1= "aeb1";
     final public static String SETTING_AEB2= "aeb2";
     final public static String SETTING_AEB3= "aeb3";
+    final public static String SETTING_STACKMODE = "stackmode";
 
     final public static String SETTINGS_PREVIEWZOOM = "previewzoom";
 

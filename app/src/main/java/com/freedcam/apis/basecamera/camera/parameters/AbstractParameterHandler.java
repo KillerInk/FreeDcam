@@ -149,6 +149,7 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter opcode;
     public AbstractModeParameter bayerformat;
     public AbstractModeParameter matrixChooser;
+    public AbstractModeParameter imageStackMode;
 
 
 
@@ -240,6 +241,7 @@ public abstract class AbstractParameterHandler
         setMode(morphoHDR, AppSettingsManager.SETTING_MORPHOHDR);
         setMode(morphoHHT, AppSettingsManager.SETTING_MORPHOHHT);
         setMode(matrixChooser, AppSettingsManager.SETTTING_CUSTOMMATRIX);
+        setMode(imageStackMode,AppSettingsManager.SETTING_STACKMODE);
 
         //setMode(PreviewZoom, AppSettingsManager.SETTINGS_PREVIEWZOOM);
 

@@ -15,7 +15,7 @@
     <string name="setting_videohdr_description">turn on to enable hdr video</string>
     <string name="setting_videohdr_header">Video HDR: </string>
 
-    <string name="setting_hdr_">HDR</string>
+    <string name="setting_hdr_">Bracket</string>
     <string name="setting_aebracket_header">AE-Bracket: </string>
     <string name="setting_aebracket_description">If ON the camera takes 3 Images in one Shot</string>
 
