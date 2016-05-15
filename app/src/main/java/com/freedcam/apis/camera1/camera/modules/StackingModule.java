@@ -145,10 +145,7 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
             imagestack.set_gCurrentFrame(mAllocationInput);
             imagestack.set_gLastFrame(mAllocationOutput);
             Logger.d(TAG, "setted inputalloc to RS");
-            if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE))
-                imagestack.forEach_stackimage_avarage(mAllocationOutput);
-            else
-                imagestack.forEach_stackimage_lighten(mAllocationOutput);
+            imagestack.forEach_stackimage_median(mAllocationOutput);
             Logger.d(TAG, "runned stackimage");
             cameraHolder.SendUIMessage("Stacked Picture: " + FrameCount++);
 
