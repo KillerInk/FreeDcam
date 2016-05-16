@@ -19,9 +19,9 @@
         curPixel = rsGetElementAt_uchar4(gCurrentFrame, x, y);
         lastPixel = rsGetElementAt_uchar4(gLastFrame, x, y);
         uchar4 rgb;
-        rgb.r = curPixel.r/2 + lastPixel.r/2;
-        rgb.g = curPixel.g/2 + lastPixel.b/2;
-        rgb.b = curPixel.b/2 + lastPixel.b/2;
+        rgb.r = (curPixel.r/2 + lastPixel.r/2)-2;
+        rgb.g = (curPixel.g/2 + lastPixel.b/2)-2;
+        rgb.b = (curPixel.b/2 + lastPixel.b/2)-2;
         rgb.a = 255;
         if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
         if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
@@ -39,7 +39,11 @@
         if(curPixel.r > lastPixel.r && curPixel.g > lastPixel.g && curPixel.b > lastPixel.b)
             rgb = curPixel;
         else
-            rgb = lastPixel;
+        {
+            rgb.r = (curPixel.r/2 + lastPixel.r/2)-2;
+            rgb.g = (curPixel.g/2 + lastPixel.b/2)-2;
+            rgb.b = (curPixel.b/2 + lastPixel.b/2)-2;
+        }
         if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
         if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
         if (rgb.b > 255) rgb.b = 255; if(rgb.b < 0) rgb.b = 0;
