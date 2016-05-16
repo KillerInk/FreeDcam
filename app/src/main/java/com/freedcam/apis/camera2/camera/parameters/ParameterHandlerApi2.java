@@ -6,6 +6,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.os.Handler;
 
+import com.freedcam.apis.camera1.camera.parameters.modes.StackModeParameter;
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.apis.camera2.camera.CameraUiWrapperApi2;
 import com.freedcam.apis.camera2.camera.FocusHandlerApi2;
@@ -141,6 +142,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         VideoProfiles = new VideoProfilesApi2(uiHandler,cameraHolder,(CameraUiWrapperApi2)wrapper);
         oismode = new OisModeApi2(uiHandler,cameraHolder);
         matrixChooser = new MatrixChooserParameter(uiHandler);
+        imageStackMode = new StackModeParameter(null,null,null,null,null);
 
         uiHandler.post(new Runnable() {
             @Override
