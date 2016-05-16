@@ -177,6 +177,7 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
         {
             Logger.d(TAG, "End of Stacking create bitmap and compress");
             FrameCount = 0;
+            workstarted();
             for (File s : capturedPics)
             {
                 cameraHolder.SendUIMessage("Stacked: " + FrameCount++ + "/"+ capturedPics.size());
