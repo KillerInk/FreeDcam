@@ -22,7 +22,9 @@ import com.imageconverter.ScriptField_MinMaxPixel;
 
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by GeorgeKiarie on 13/04/2016.
@@ -39,6 +41,7 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
     private ScriptField_MinMaxPixel medianMinMax;
     private ScriptC_imagestack imagestack;
     private RenderScript mRS;
+    private List<File> capturedPics;
 
     public StackingModule(CameraHolderApi1 cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
         super(cameraHandler, eventHandler,context,appSettingsManager);
@@ -60,6 +63,7 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
             SessionFolder = StringUtils.GetDCIMFolder(appSettingsManager.GetWriteExternal())+ StringUtils.getStringDatePAttern().format(new Date()) + "/";
             Logger.d(TAG,"Start Stacking");
             KeepStacking = true;
+            capturedPics = new ArrayList<>();
             initRsStuff();
             ParameterHandler.ZSL.SetValue("off", true);
             workstarted();
@@ -154,10 +158,45 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
         Logger.d(TAG,"The Data Is " + data.length + " bytes Long" + " and the path is " + file.getAbsolutePath());
         File f = new File(SessionFolder+StringUtils.getStringDatePAttern().format(new Date())+".jpg");
         saveBytesToFile(data,f);
+        capturedPics.add(f);
         MediaScannerManager.ScanMedia(context, f);
         workfinished(true);
 
-        mAllocationInput.copyFrom(BitmapFactory.decodeByteArray(data, 0, data.length));
+
+        Logger.d(TAG, "runned stackimage");
+        cameraHolder.SendUIMessage("Captured Picture: " + FrameCount++);
+
+
+        if (KeepStacking)
+        {
+            workstarted();
+            Logger.d(TAG, "keepstacking take next pic");
+            cameraHolder.TakePicture(null, this);
+        }
+        else
+        {
+            Logger.d(TAG, "End of Stacking create bitmap and compress");
+            FrameCount = 0;
+            for (File s : capturedPics)
+            {
+                cameraHolder.SendUIMessage("Stacked: " + FrameCount++ + "/"+ capturedPics.size());
+                stackImage(s);
+            }
+            int mWidth = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[0]);
+            int mHeight = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[1]);
+            final Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
+            mAllocationOutput.copyTo(outputBitmap);
+            File stackedImg = new File(SessionFolder + StringUtils.getStringDatePAttern().format(new Date()) + "_Stack.jpg");
+            SaveBitmapToFile(outputBitmap,stackedImg);
+            workfinished(true);
+            MediaScannerManager.ScanMedia(context, stackedImg);
+            eventHandler.WorkFinished(file);
+        }
+    }
+
+    private void stackImage(File file)
+    {
+        mAllocationInput.copyFrom(BitmapFactory.decodeFile(file.getAbsolutePath()));
         Logger.d(TAG, "Copied data to inputalloc");
         imagestack.set_gCurrentFrame(mAllocationInput);
         imagestack.set_gLastFrame(mAllocationOutput);
@@ -177,31 +216,7 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
             imagestack.bind_medianMinMaxPixel(medianMinMax);
             imagestack.forEach_stackimage_median(mAllocationOutput);
         }
-        Logger.d(TAG, "runned stackimage");
-        cameraHolder.SendUIMessage("Stacked Picture: " + FrameCount++);
-
-
-        if (KeepStacking)
-        {
-            workstarted();
-            Logger.d(TAG, "keepstacking take next pic");
-            cameraHolder.TakePicture(null, this);
-        }
-        else
-        {
-            Logger.d(TAG, "End of Stacking create bitmap and compress");
-            int mWidth = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[0]);
-            int mHeight = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[1]);
-            final Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
-            mAllocationOutput.copyTo(outputBitmap);
-            File stackedImg = new File(SessionFolder + StringUtils.getStringDatePAttern().format(new Date()) + "_Stack.jpg");
-            SaveBitmapToFile(outputBitmap,stackedImg);
-            workfinished(true);
-            MediaScannerManager.ScanMedia(context, stackedImg);
-            eventHandler.WorkFinished(file);
-        }
     }
-
 
 
 }
