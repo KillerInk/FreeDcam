@@ -2,6 +2,7 @@ package com.freedcam.apis.basecamera.camera.modules;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v4.provider.DocumentFile;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
@@ -13,6 +14,7 @@ import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -133,6 +135,38 @@ public abstract class AbstractModule implements I_Module
             Logger.exception(e);
         }
         Logger.d(TAG, "End Saving Bytes");
+    }
+
+    public void SaveBitmapToFile(Bitmap bitmap, File file)
+    {
+        OutputStream outStream = null;
+        if (!StringUtils.IS_L_OR_BIG() || StringUtils.WRITE_NOT_EX_AND_L_ORBigger(appSettingsManager)) {
+            try {
+                outStream= new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+                outStream.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else
+        {
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,context);
+            Logger.d(TAG,"Filepath: " +df.getUri().toString());
+            DocumentFile wr = df.createFile("image/*", file.getName());
+            Logger.d(TAG,"Filepath: " +wr.getUri().toString());
+            try {
+                outStream = context.getContentResolver().openOutputStream(wr.getUri());
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+                outStream.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     protected void checkFileExists(File fileName)

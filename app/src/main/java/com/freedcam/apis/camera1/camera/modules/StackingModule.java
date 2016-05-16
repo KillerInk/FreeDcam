@@ -121,6 +121,32 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
 
     }
 
+    private void initRsStuff()
+    {
+        if(mRS == null)
+        {
+            mRS = RenderScript.create(context);
+            mRS.setPriority(RenderScript.Priority.LOW);
+        }
+        int mWidth = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[0]);
+        int mHeight = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[1]);
+        Type.Builder tbIn2 = new Type.Builder(mRS, Element.RGBA_8888(mRS));
+        tbIn2.setX(mWidth);
+        tbIn2.setY(mHeight);
+        if (!ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.MEDIAN))
+        {
+            mAllocationInput = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+            mAllocationOutput = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+        }
+        else
+        {
+            mAllocationInput = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+            mAllocationOutput = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+            medianMinMax = new ScriptField_MinMaxPixel(mRS, mWidth*mHeight);
+        }
+        imagestack = new ScriptC_imagestack(mRS);
+    }
+
 
     private void processData(byte[] data, File file)
     {
@@ -131,129 +157,46 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
         saveBytesToFile(data,f);
         MediaScannerManager.ScanMedia(context, f);
         workfinished(true);
-        if (!ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.MEDIAN))
-        {
-            processAvarageLighten(data, file);
-        }
-        else
-        {
-            Bitmap map2 = BitmapFactory.decodeByteArray(data, 0, data.length);
 
-            mAllocationInput.copyFrom(map2);
-            Logger.d(TAG, "Copied data to inputalloc");
-            imagestack.bind_medianMinMaxPixel(medianMinMax);
-            imagestack.set_gCurrentFrame(mAllocationInput);
-            imagestack.set_gLastFrame(mAllocationOutput);
-            Logger.d(TAG, "setted inputalloc to RS");
-            imagestack.forEach_stackimage_median(mAllocationOutput);
-            Logger.d(TAG, "runned stackimage");
-            cameraHolder.SendUIMessage("Stacked Picture: " + FrameCount++);
-
-
-            if (KeepStacking) {
-
-                workstarted();
-                Logger.d(TAG, "keepstacking take next pic");
-                cameraHolder.TakePicture(null, this);
-            } else {
-                Logger.d(TAG, "End of Stacking create bitmap and compress");
-                int mWidth = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[0]);
-                int mHeight = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[1]);
-                Bitmap map = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
-                mAllocationOutput.copyTo(map);
-                File stackedImg = new File(SessionFolder + StringUtils.getStringDatePAttern().format(new Date()) + "_Stack.jpg");
-                try {
-                    FileOutputStream fos = new FileOutputStream(stackedImg);
-                    map.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                    fos.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                workfinished(true);
-                MediaScannerManager.ScanMedia(context, stackedImg);
-                eventHandler.WorkFinished(file);
-            }
-        }
-    }
-
-    private void processAvarageLighten(byte[] data, File file) {
-        Bitmap map2 = BitmapFactory.decodeByteArray(data, 0, data.length);
-
-        mAllocationInput.copyFrom(map2);
+        mAllocationInput.copyFrom(BitmapFactory.decodeByteArray(data, 0, data.length));
         Logger.d(TAG, "Copied data to inputalloc");
         imagestack.set_gCurrentFrame(mAllocationInput);
         imagestack.set_gLastFrame(mAllocationOutput);
         Logger.d(TAG, "setted inputalloc to RS");
         if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE))
             imagestack.forEach_stackimage_avarage(mAllocationOutput);
-        else
+        else if(ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.LIGHTEN))
             imagestack.forEach_stackimage_lighten(mAllocationOutput);
+        else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.MEDIAN))
+        {
+            imagestack.bind_medianMinMaxPixel(medianMinMax);
+            imagestack.forEach_stackimage_median(mAllocationOutput);
+        }
         Logger.d(TAG, "runned stackimage");
         cameraHolder.SendUIMessage("Stacked Picture: " + FrameCount++);
 
 
-        if (KeepStacking) {
-
+        if (KeepStacking)
+        {
             workstarted();
             Logger.d(TAG, "keepstacking take next pic");
             cameraHolder.TakePicture(null, this);
-        } else {
+        }
+        else
+        {
             Logger.d(TAG, "End of Stacking create bitmap and compress");
             int mWidth = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[0]);
             int mHeight = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[1]);
-            Bitmap map = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
-            mAllocationOutput.copyTo(map);
+            final Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
+            mAllocationOutput.copyTo(outputBitmap);
             File stackedImg = new File(SessionFolder + StringUtils.getStringDatePAttern().format(new Date()) + "_Stack.jpg");
-            try {
-                FileOutputStream fos = new FileOutputStream(stackedImg);
-                map.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                fos.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            SaveBitmapToFile(outputBitmap,stackedImg);
             workfinished(true);
             MediaScannerManager.ScanMedia(context, stackedImg);
             eventHandler.WorkFinished(file);
         }
     }
 
-    private void initRsStuff()
-    {
-        if(mRS == null)
-        {
-            mRS = RenderScript.create(context);
-            mRS.setPriority(RenderScript.Priority.LOW);
-        }
-        if (!ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.MEDIAN))
-        {
-            int mWidth = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[0]);
-            int mHeight = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[1]);
-            Type.Builder tbIn2 = new Type.Builder(mRS, Element.RGBA_8888(mRS));
-            tbIn2.setX(mWidth);
-            tbIn2.setY(mHeight);
 
-            mAllocationInput = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
-            mAllocationOutput = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
-        }
-        else
-        {
-            int mWidth = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[0]);
-            int mHeight = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[1]);
-            Type.Builder tbIn2 = new Type.Builder(mRS, Element.RGBA_8888(mRS));
-            tbIn2.setX(mWidth);
-            tbIn2.setY(mHeight);
-            mAllocationInput = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
-            mAllocationOutput = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
-            medianMinMax = new ScriptField_MinMaxPixel(mRS, mWidth*mHeight);
-        }
-
-        imagestack = new ScriptC_imagestack(mRS);
-    }
 
 }
