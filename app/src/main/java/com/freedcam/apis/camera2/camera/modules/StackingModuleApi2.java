@@ -53,6 +53,7 @@ public class StackingModuleApi2 extends AbstractModuleApi2
     private HandlerThread mProcessingThread;
     private Handler mProcessingHandler;
     private boolean keepstacking = false;
+    private boolean afterFilesave = false;
 
     private ScriptIntrinsicYuvToRGB yuvToRgbIntrinsic;
 
@@ -71,45 +72,64 @@ public class StackingModuleApi2 extends AbstractModuleApi2
         return "Stacking";
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void startPreview()
     {
-        previewSize = new Size(ParameterHandler.PictureSize.GetValue());
-        mHeight = previewSize.height;
-        mWidth = previewSize.width;
-        initRs();
-
-        SurfaceTexture texture = baseCameraHolder.textureView.getSurfaceTexture();
-
-        texture.setDefaultBufferSize(previewSize.width, previewSize.height);
-        previewsurface = new Surface(texture);
-        mOutputAllocation.setSurface(previewsurface);
-        //baseCameraHolder.CaptureSessionH.AddSurface(previewsurface,true);
-        baseCameraHolder.CaptureSessionH.SetTextureViewSize(mWidth,mHeight,0,180,false);
-        camerasurface = mInputAllocation.getSurface();
-        baseCameraHolder.CaptureSessionH.AddSurface(camerasurface,true);
-
-
-        baseCameraHolder.CaptureSessionH.CreateCaptureSession();
-
-        if (mProcessingTask != null) {
-
-            while (mProcessingTask.working) {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    Logger.exception(e);
-                }
-            }
-            mProcessingTask = null;
+        if (afterFilesave)
+        {
+            afterFilesave =false;
+            baseCameraHolder.CaptureSessionH.CreateCaptureSession();
         }
-        mProcessingTask = new ProcessingTask(mInputAllocation);
+        else {
+            previewSize = new Size(ParameterHandler.PictureSize.GetValue());
+            mHeight = previewSize.height;
+            mWidth = previewSize.width;
+            Type.Builder yuvTypeBuilder = new Type.Builder(mRS, Element.YUV(mRS));
+            yuvTypeBuilder.setX(mWidth);
+            yuvTypeBuilder.setY(mHeight);
+            yuvTypeBuilder.setYuvFormat(ImageFormat.YUV_420_888);
+            mInputAllocation = Allocation.createTyped(mRS, yuvTypeBuilder.create(),
+                    Allocation.USAGE_IO_INPUT | Allocation.USAGE_SCRIPT);
+            Type.Builder rgbTypeBuilder = new Type.Builder(mRS, Element.RGBA_8888(mRS));
+            rgbTypeBuilder.setX(mWidth);
+            rgbTypeBuilder.setY(mHeight);
+            mOutputAllocation = Allocation.createTyped(mRS, rgbTypeBuilder.create(),
+                    Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
+            medianMinMax = new ScriptField_MinMaxPixel(mRS, mWidth * mHeight);
+
+            SurfaceTexture texture = baseCameraHolder.textureView.getSurfaceTexture();
+
+            texture.setDefaultBufferSize(previewSize.width, previewSize.height);
+            previewsurface = new Surface(texture);
+            mOutputAllocation.setSurface(previewsurface);
+            //baseCameraHolder.CaptureSessionH.AddSurface(previewsurface,true);
+            baseCameraHolder.CaptureSessionH.SetTextureViewSize(mWidth, mHeight, 0, 180, false);
+            camerasurface = mInputAllocation.getSurface();
+            baseCameraHolder.CaptureSessionH.AddSurface(camerasurface, true);
+
+
+            baseCameraHolder.CaptureSessionH.CreateCaptureSession();
+
+            if (mProcessingTask != null) {
+
+                while (mProcessingTask.working) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        Logger.exception(e);
+                    }
+                }
+                mProcessingTask = null;
+            }
+            mProcessingTask = new ProcessingTask(mInputAllocation);
+        }
     }
 
     @Override
-    public void stopPreview() {
-        baseCameraHolder.CaptureSessionH.CloseCaptureSession();
+    public void stopPreview()
+    {
+        baseCameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
     }
 
     @Override
@@ -122,18 +142,23 @@ public class StackingModuleApi2 extends AbstractModuleApi2
         else
         {
             baseCameraHolder.StopPreview();
-            final Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
-            mOutputAllocation.copyTo(outputBitmap);
-            File stackedImg = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), "_stack.jpg"));
-            SaveBitmapToFile(outputBitmap,stackedImg);
-            workfinished(true);
-            MediaScannerManager.ScanMedia(context, stackedImg);
-            eventHandler.WorkFinished(stackedImg);
-            keepstacking =false;
-            baseCameraHolder.StartPreview();
+            saveImageToFile();
+            afterFilesave = true;
+            startPreview();
         }
 
         return super.DoWork();
+    }
+
+    private void saveImageToFile() {
+        final Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
+        mOutputAllocation.copyTo(outputBitmap);
+        File stackedImg = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), "_stack.jpg"));
+        SaveBitmapToFile(outputBitmap,stackedImg);
+        workfinished(true);
+        MediaScannerManager.ScanMedia(context, stackedImg);
+        eventHandler.WorkFinished(stackedImg);
+        keepstacking =false;
     }
 
     @Override
@@ -142,39 +167,52 @@ public class StackingModuleApi2 extends AbstractModuleApi2
         mProcessingThread = new HandlerThread("StackingModuleApi2");
         mProcessingThread.start();
         mProcessingHandler = new Handler(mProcessingThread.getLooper());
+        if (mRS == null)
+            mRS = RenderScript.create(context);
+        if (yuvToRgbIntrinsic == null)
+            yuvToRgbIntrinsic = ScriptIntrinsicYuvToRGB.create(mRS, Element.U8_4(mRS));
+        if(imagestack == null);
+            imagestack = new ScriptC_imagestack(mRS);
+        imagestack.set_yuvinput(true);
 
         baseCameraHolder.StartPreview();
     }
 
     @Override
-    public void UnloadNeededParameters() {
+    public void UnloadNeededParameters()
+    {
+        if (keepstacking)
+            keepstacking = false;
+        baseCameraHolder.StopPreview();
+        Logger.d(TAG, "UnloadNeededParameters");
+        if (mProcessingTask != null) {
+
+            while (mProcessingTask.working)
+            {
+                saveImageToFile();
+                keepstacking = false;
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    Logger.exception(e);
+                }
+            }
+            mProcessingTask = null;
+        }
         baseCameraHolder.CaptureSessionH.CloseCaptureSession();
+        mOutputAllocation = null;
+        mInputAllocation = null;
+
         previewsurface = null;
         camerasurface = null;
-        kill();
+
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     private void initRs()
     {
-        if (mRS == null)
-            mRS = RenderScript.create(context);
-        Type.Builder yuvTypeBuilder = new Type.Builder(mRS, Element.YUV(mRS));
-        yuvTypeBuilder.setX(mWidth);
-        yuvTypeBuilder.setY(mHeight);
-        yuvTypeBuilder.setYuvFormat(ImageFormat.YUV_420_888);
-        mInputAllocation = Allocation.createTyped(mRS, yuvTypeBuilder.create(),
-                Allocation.USAGE_IO_INPUT | Allocation.USAGE_SCRIPT);
-        Type.Builder rgbTypeBuilder = new Type.Builder(mRS, Element.RGBA_8888(mRS));
-        rgbTypeBuilder.setX(mWidth);
-        rgbTypeBuilder.setY(mHeight);
-        mOutputAllocation = Allocation.createTyped(mRS, rgbTypeBuilder.create(),
-                Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
 
-        yuvToRgbIntrinsic = ScriptIntrinsicYuvToRGB.create(mRS, Element.U8_4(mRS));
-        imagestack = new ScriptC_imagestack(mRS);
-        imagestack.set_yuvinput(true);
-        medianMinMax = new ScriptField_MinMaxPixel(mRS, mWidth*mHeight);
+
     }
 
     /**
@@ -246,28 +284,5 @@ public class StackingModuleApi2 extends AbstractModuleApi2
         }
     }
 
-    public void kill()
-    {
-        if (mProcessingTask != null) {
 
-            while (mProcessingTask.working) {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    Logger.exception(e);
-                }
-            }
-            mProcessingTask = null;
-        }
-        if (mInputAllocation != null) {
-            mInputAllocation.setOnBufferAvailableListener(null);
-        }
-        if (mOutputAllocation != null)
-        {
-            mOutputAllocation.setSurface(null);
-            //mOutputAllocation = null;
-        }
-
-
-    }
 }
