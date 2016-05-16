@@ -65,7 +65,6 @@
     //  pix   pix  pix
     uchar4 __attribute__((kernel)) stackimage_avarage1x3(uint32_t x, uint32_t y)
     {
-        uchar4 curPixel, lastPixel, curPixelX1,lastPixelX1,curPixelY1,lastPixelY1;
         float4 cPix, lPix, cPixX1,lPixX1, cPixY1, lPixY1 , mergedPix;
 
         uchar4 rgb =rsGetElementAt_uchar4(gCurrentFrame, x, y);
@@ -83,12 +82,10 @@
         }
         else
         {
-            curPixel = rsGetElementAt_uchar4(gCurrentFrame, x, y);
-            lastPixel = rsGetElementAt_uchar4(gLastFrame, x, y);
-            rgb.r = (curPixel.r/2 + lastPixel.r/2)-2;
-            rgb.g = (curPixel.g/2 + lastPixel.b/2)-2;
-            rgb.b = (curPixel.b/2 + lastPixel.b/2)-2;
-            rgb.a = 255;
+            cPix = rsUnpackColor8888(rsGetElementAt_uchar4(gCurrentFrame, x, y));
+            lPix = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x, y));
+            mergedPix = (cPix + lPix)/2;
+            rgb = rsPackColorTo8888(mergedPix);
 
         }
         if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
