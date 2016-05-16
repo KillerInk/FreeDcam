@@ -426,5 +426,7 @@
     <string-array name="Xiaomi_RedmiNote3">
         <item>Redmi Note 3</item>
         <item>Xiaomi Redmi Note 3</item>
+        <item>kenzo</item>
+        <item>Kenzo</item>
     </string-array>
 </resources>
