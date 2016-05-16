@@ -15,6 +15,7 @@ public class StackModeParameter extends BaseModeParameter
     public static String AVARAGE = "avarage";
     public static String AVARAGE1x2 = "avarage1x2";
     public static String AVARAGE1x3 = "avarage1x3";
+    public static String AVARAGE3x3 = "avarage3x3";
     public static String LIGHTEN = "lighten";
     public static String MEDIAN = "median";
 
@@ -52,6 +53,6 @@ public class StackModeParameter extends BaseModeParameter
 
     @Override
     public String[] GetValues() {
-        return new String[] {AVARAGE, AVARAGE1x2, AVARAGE1x3, LIGHTEN,MEDIAN };
+        return new String[] {AVARAGE, AVARAGE1x2, AVARAGE1x3, AVARAGE3x3, LIGHTEN,MEDIAN };
     }
 }

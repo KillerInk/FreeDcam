@@ -168,6 +168,8 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
             imagestack.forEach_stackimage_avarage1x2(mAllocationOutput);
         else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE1x3))
             imagestack.forEach_stackimage_avarage1x3(mAllocationOutput);
+        else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE3x3))
+            imagestack.forEach_stackimage_avarage3x3(mAllocationOutput);
         else if(ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.LIGHTEN))
             imagestack.forEach_stackimage_lighten(mAllocationOutput);
         else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.MEDIAN))

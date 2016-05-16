@@ -14,8 +14,6 @@
     int Width;
     int Height;
 
-
-
     uchar4 __attribute__((kernel)) stackimage_avarage(uint32_t x, uint32_t y) {
         float4 curPixel, lastPixel, merged;
         uchar4 rgb;
@@ -85,6 +83,56 @@
             cPix = rsUnpackColor8888(rsGetElementAt_uchar4(gCurrentFrame, x, y));
             lPix = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x, y));
             mergedPix = (cPix + lPix)/2;
+            rgb = rsPackColorTo8888(mergedPix);
+
+        }
+        if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
+        if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
+        if (rgb.b > 255) rgb.b = 255; if(rgb.b < 0) rgb.b = 0;
+        return rgb;
+    }
+
+    // takes three pixel sample shows a 3x3 array PIX are the used one
+    //  PIX1   PIX2  PIX3
+    //  PIX4   PIX5  PIX6
+    //  PIX7   PIX8  PIX9
+    uchar4 __attribute__((kernel)) stackimage_avarage3x3(uint32_t x, uint32_t y)
+    {
+        float4 PIX1, PIX2, PIX3,PIX4, PIX5, PIX6 , PIX7, PIX8, PIX9,
+        PIX1L, PIX2L, PIX3L,PIX4L, PIX5L, PIX6L , PIX7L, PIX8L, PIX9L, mergedPix;
+
+        uchar4 rgb =rsGetElementAt_uchar4(gCurrentFrame, x, y);
+        //rsDebug("Width", x);
+        if(x > 0 && x+1 < Width && y > 0 && y+1 < Height)
+        {
+            PIX5 = rsUnpackColor8888(rgb); // pixel that get merged
+            PIX1 = rsUnpackColor8888(rsGetElementAt_uchar4(gCurrentFrame, x-1, y-1));
+            PIX2 = rsUnpackColor8888(rsGetElementAt_uchar4(gCurrentFrame, x, y-1));
+            PIX3 = rsUnpackColor8888(rsGetElementAt_uchar4(gCurrentFrame, x+1, y-1));
+            PIX4 = rsUnpackColor8888(rsGetElementAt_uchar4(gCurrentFrame, x-1, y));
+            PIX6 = rsUnpackColor8888(rsGetElementAt_uchar4(gCurrentFrame, x+1, y));
+            PIX7 = rsUnpackColor8888(rsGetElementAt_uchar4(gCurrentFrame, x+1, y+1));
+            PIX8 = rsUnpackColor8888(rsGetElementAt_uchar4(gCurrentFrame, x, y+1));
+            PIX9 = rsUnpackColor8888(rsGetElementAt_uchar4(gCurrentFrame, x+1, y+1));
+
+            PIX5L = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x, y)); // pixel that get merged
+            PIX1L = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x-1, y-1));
+            PIX2L = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x, y-1));
+            PIX3L = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x+1, y-1));
+            PIX4L = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x-1, y));
+            PIX6L = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x+1, y));
+            PIX7L = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x+1, y+1));
+            PIX8L = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x, y+1));
+            PIX9L = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x+1, y+1));
+
+            mergedPix = (PIX1 + PIX2 +PIX3+PIX4+PIX5+PIX6+PIX7+PIX8+PIX9+PIX1L + PIX2L +PIX3L+PIX4L+PIX5L+PIX6L+PIX7L+PIX8L+PIX9L)/18;
+            rgb = rsPackColorTo8888(mergedPix);
+        }
+        else
+        {
+            PIX5 = rsUnpackColor8888(rsGetElementAt_uchar4(gCurrentFrame, x, y));
+            PIX5L = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x, y));
+            mergedPix = (PIX5 + PIX5L)/2;
             rgb = rsPackColorTo8888(mergedPix);
 
         }
