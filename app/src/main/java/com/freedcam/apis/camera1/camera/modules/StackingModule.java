@@ -145,6 +145,8 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
             medianMinMax = new ScriptField_MinMaxPixel(mRS, mWidth*mHeight);
         }
         imagestack = new ScriptC_imagestack(mRS);
+        imagestack.set_Width(mWidth);
+        imagestack.set_Height(mHeight);
     }
 
 
@@ -165,6 +167,10 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
         Logger.d(TAG, "setted inputalloc to RS");
         if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE))
             imagestack.forEach_stackimage_avarage(mAllocationOutput);
+        else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE1x2))
+            imagestack.forEach_stackimage_avarage2x1(mAllocationOutput);
+        else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE2x2))
+            imagestack.forEach_stackimage_avarage2x2(mAllocationOutput);
         else if(ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.LIGHTEN))
             imagestack.forEach_stackimage_lighten(mAllocationOutput);
         else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.MEDIAN))

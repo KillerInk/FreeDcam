@@ -13,6 +13,8 @@ import java.util.HashMap;
 public class StackModeParameter extends BaseModeParameter
 {
     public static String AVARAGE = "avarage";
+    public static String AVARAGE1x2 = "avarage1x2";
+    public static String AVARAGE2x2 = "avarage2x2";
     public static String LIGHTEN = "lighten";
     public static String MEDIAN = "median";
 
@@ -50,6 +52,6 @@ public class StackModeParameter extends BaseModeParameter
 
     @Override
     public String[] GetValues() {
-        return new String[] {AVARAGE, LIGHTEN,MEDIAN };
+        return new String[] {AVARAGE, AVARAGE1x2, AVARAGE2x2, LIGHTEN,MEDIAN };
     }
 }
