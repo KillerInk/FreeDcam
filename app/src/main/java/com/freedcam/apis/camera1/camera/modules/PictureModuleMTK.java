@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
+import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
@@ -63,27 +64,22 @@ public class PictureModuleMTK extends PictureModule
                     saveBytesToFile(data, holdFile);
                     try {
                         DeviceSwitcher().delete();
-                        workfinished(true);
-                        cameraHolder.StartPreview();
                     } catch (Exception ex) {
-
+                        Logger.exception(ex);
                     }
                 } else if (picformat.equals(StringUtils.FileEnding.DNG)) {
                     //savejpeg
                     saveBytesToFile(data, holdFile);
                     CreateDNG_DeleteRaw();
-                    workfinished(true);
-                    cameraHolder.StartPreview();
                 } else if (picformat.equals(StringUtils.FileEnding.BAYER)) {
                     //savejpeg
                     saveBytesToFile(data, holdFile);
-                    workfinished(true);
-                    cameraHolder.StartPreview();
-
                 }
                 waitForPicture = false;
                 workfinished(true);
                 cameraHolder.StartPreview();
+                MediaScannerManager.ScanMedia(context,holdFile);
+                eventHandler.WorkFinished(holdFile);
             }
         });
     }
@@ -113,6 +109,7 @@ public class PictureModuleMTK extends PictureModule
         }
         File dng = new File(holdFile.getAbsolutePath().replace(StringUtils.FileEnding.JPG, StringUtils.FileEnding.DNG));
         saveDng(data,dng);
+        MediaScannerManager.ScanMedia(context,dng);
         data = null;
         rawfile.delete();
     }
