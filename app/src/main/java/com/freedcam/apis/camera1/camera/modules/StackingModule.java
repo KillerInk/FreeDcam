@@ -22,9 +22,6 @@ import com.imageconverter.ScriptField_MinMaxPixel;
 
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -168,9 +165,9 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
         if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE))
             imagestack.forEach_stackimage_avarage(mAllocationOutput);
         else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE1x2))
-            imagestack.forEach_stackimage_avarage2x1(mAllocationOutput);
-        else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE2x2))
-            imagestack.forEach_stackimage_avarage2x2(mAllocationOutput);
+            imagestack.forEach_stackimage_avarage1x2(mAllocationOutput);
+        else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE1x3))
+            imagestack.forEach_stackimage_avarage1x3(mAllocationOutput);
         else if(ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.LIGHTEN))
             imagestack.forEach_stackimage_lighten(mAllocationOutput);
         else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.MEDIAN))

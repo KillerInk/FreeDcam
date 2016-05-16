@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '23.0.2'
+    buildToolsVersion '23.0.3'
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 23
@@ -61,9 +61,9 @@ android {
 
 dependencies {
     provided files('libs/extended_framework_hardware.jar')
-    compile 'com.android.support:support-v4:23.2.0'
     provided files('libs/com.lge.frameworks.jar')
     compile files('libs/xmpcore-5.1.2.jar')
     compile files('libs/metadata-extractor-2.7.0.jar')
     provided files('libs/real3d.jar')
+    compile 'com.android.support:support-v4:23.3.0'
 }

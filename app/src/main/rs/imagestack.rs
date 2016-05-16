@@ -29,7 +29,11 @@
         return rgb;
     }
 
-    uchar4 __attribute__((kernel)) stackimage_avarage2x1(uint32_t x, uint32_t y)
+    // takes two pixel sample shows a 3x3 array PIX are the used one
+    // PIX PIX pix
+    // pix pix pix
+    // pix pix pix
+    uchar4 __attribute__((kernel)) stackimage_avarage1x2(uint32_t x, uint32_t y)
     {
         float4 curPixel, lastPixel, curPixel1,lastPixel1,merged;
         uchar4 rgb;
@@ -55,7 +59,11 @@
         return rgb;
     }
 
-    uchar4 __attribute__((kernel)) stackimage_avarage2x2(uint32_t x, uint32_t y)
+    // takes three pixel sample shows a 3x3 array PIX are the used one
+    //  PIX   PIX  pix
+    //  PIX   pix  pix
+    //  pix   pix  pix
+    uchar4 __attribute__((kernel)) stackimage_avarage1x3(uint32_t x, uint32_t y)
     {
         uchar4 curPixel, lastPixel, curPixelX1,lastPixelX1,curPixelY1,lastPixelY1;
         float4 cPix, lPix, cPixX1,lPixX1, cPixY1, lPixY1 , mergedPix;
@@ -95,7 +103,7 @@
         uchar4 rgb;
         curPixel = rsUnpackColor8888(rsGetElementAt_uchar4(gCurrentFrame, x, y));
         lastPixel = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x, y));
-        if(curPixel > lastPixel)
+        if(curPixel.x > lastPixel.x && curPixel.y > lastPixel.y && curPixel.z > lastPixel.z)
             rgb = rsPackColorTo8888(curPixel);
         else
             rgb = rsPackColorTo8888(lastPixel);
