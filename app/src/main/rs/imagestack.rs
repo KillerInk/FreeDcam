@@ -69,43 +69,36 @@
     uchar4 __attribute__((kernel)) stackimage_avarage2x2(uint32_t x, uint32_t y)
         {
             uchar4 curPixel, lastPixel, curPixelX1,lastPixelX1,curPixelY1,lastPixelY1;
-            int r,g,b;
-            uchar4 rgb;
-            rsDebug("Width", x);
-            if(x < Width && y < Height)
-            {
-                curPixel = rsGetElementAt_uchar4(gCurrentFrame, x, y);
-                lastPixel = rsGetElementAt_uchar4(gLastFrame, x, y);
-                curPixelX1 = rsGetElementAt_uchar4(gCurrentFrame, x+1, y);
-                lastPixelX1 = rsGetElementAt_uchar4(gLastFrame, x+1, y);
-                curPixelY1 = rsGetElementAt_uchar4(gCurrentFrame, x, y+1);
-                lastPixelY1 = rsGetElementAt_uchar4(gLastFrame, x, y+1);
-                //rsDebug("all Pixel init", curPixel);
-                r = (curPixel.r + lastPixel.r + curPixelX1.r + lastPixelX1.r + curPixelY1.r + lastPixelY1.r)/6;
-                g = (curPixel.g + lastPixel.g + curPixelX1.g + lastPixelX1.g + curPixelY1.g + lastPixelY1.g)/6;
-                b = (curPixel.b + lastPixel.b + curPixelX1.b + lastPixelX1.b + curPixelY1.b + lastPixelY1.b)/6;
-                if (r > 255) r = 255; if(r < 0) r = 0;
-                if (g > 255) g = 255; if(g < 0) g = 0;
-                if (b > 255) b = 255; if(b < 0) b = 0;
-                rgb.r = r;
-                rgb.g = g;
-                rgb.b = b;
-                rgb.a = 255;
+            float4 cPix, lPix, cPixX1,lPixX1, cPixY1, lPixY1 , mergedPix;
 
+            uchar4 rgb =rsGetElementAt_uchar4(gCurrentFrame, x, y);
+            //rsDebug("Width", x);
+            if(x+1 < Width && y+1 < Height)
+            {
+                cPix = rsUnpackColor8888(rgb);
+                lPix = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x, y));
+                cPixX1 = rsUnpackColor8888(rsGetElementAt_uchar4(gCurrentFrame, x+1, y));
+                lPixX1 = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x+1, y));
+                cPixY1 = rsUnpackColor8888(rsGetElementAt_uchar4(gCurrentFrame, x, y+1));
+                lPixY1 = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x, y+1));
+                mergedPix = (cPix + lPix + cPixX1 + lPixX1 + cPixY1 + lPixY1)/6;
+                rgb = rsPackColorTo8888(mergedPix);
             }
             else
             {
+                rsDebug("Width", Width);
+                rsDebug("Height", Height);
                 curPixel = rsGetElementAt_uchar4(gCurrentFrame, x, y);
                 lastPixel = rsGetElementAt_uchar4(gLastFrame, x, y);
                 rgb.r = (curPixel.r/2 + lastPixel.r/2)-2;
                 rgb.g = (curPixel.g/2 + lastPixel.b/2)-2;
                 rgb.b = (curPixel.b/2 + lastPixel.b/2)-2;
                 rgb.a = 255;
-                if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
-                if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
-                if (rgb.b > 255) rgb.b = 255; if(rgb.b < 0) rgb.b = 0;
-            }
 
+            }
+            if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
+            if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
+            if (rgb.b > 255) rgb.b = 255; if(rgb.b < 0) rgb.b = 0;
             return rgb;
         }
 
