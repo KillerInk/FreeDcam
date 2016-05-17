@@ -60,7 +60,6 @@ android {
 }
 
 dependencies {
-    provided files('libs/extended_framework_hardware.jar')
     provided files('libs/com.lge.frameworks.jar')
     compile files('libs/xmpcore-5.1.2.jar')
     compile files('libs/metadata-extractor-2.7.0.jar')
