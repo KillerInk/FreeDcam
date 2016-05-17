@@ -222,7 +222,8 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         public void onValueChanged(String val)
         {
             if(moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_PICTURE) || moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_HDR)
-                    || moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_INTERVAL))
+                    || moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_INTERVAL)
+                    || moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_STACKING))
             {
                 Size sizefromCam = new Size(camParametersHandler.PictureSize.GetValue());
                 List<Size> sizes = new ArrayList<>();

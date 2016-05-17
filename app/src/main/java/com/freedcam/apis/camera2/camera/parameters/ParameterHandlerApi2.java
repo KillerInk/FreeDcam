@@ -235,6 +235,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         setMode(HotPixelMode, AppSettingsManager.SETTING_HOTPIXEL);
         setMode(ToneMapMode, AppSettingsManager.SETTING_TONEMAP);
         setMode(ControlMode, AppSettingsManager.SETTING_CONTROLMODE);
+        setMode(imageStackMode, AppSettingsManager.SETTING_STACKMODE);
         //setMode(Focuspeak, AppSettingsManager.SETTING_FOCUSPEAK);
 
         //setManualMode(ManualBrightness, AppSettingsManager.MWB);
