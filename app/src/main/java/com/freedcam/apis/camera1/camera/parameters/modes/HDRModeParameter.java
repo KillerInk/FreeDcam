@@ -145,7 +145,7 @@ public class HDRModeParameter extends BaseModeParameter
         }
         else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
         {
-            if (parameters.get("hdr-mode")!= null)
+            if (parameters.get("hdr-mode")== null)
                 parameters.set("hdr-mode", "0");
             if (parameters.get("hdr-mode").equals("0"))
                 return "off";
