@@ -562,7 +562,7 @@ public class CamParametersHandler extends AbstractParameterHandler
                 ManualBrightness =  new BaseManualParameter(cameraParameters,"brightness", "brightness-max", "brightness-min",this,1);
 
             }
-            else if (cameraParameters.get("brightness")!= null && cameraParameters.get("brightness-values")!= null)
+            else if (cameraParameters.get("brightness")!= null && cameraParameters.get("brightness-values")== null)
             {
                 //p920hack
                 if (cameraParameters.get("max-brightness")!= null && cameraParameters.get("brightness-max")!= null)
@@ -592,7 +592,8 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
     }
 
-    private void createManualContrast() {
+    private void createManualContrast()
+    {
         try {
             if (cameraParameters.get("contrast")!= null && cameraParameters.get("contrast-values")!= null)
             {
@@ -601,7 +602,7 @@ public class CamParametersHandler extends AbstractParameterHandler
                 ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "contrast-max", "contrast-min",this,1);
 
             }
-            else if (cameraParameters.get("contrast")!= null && cameraParameters.get("contrast-values")!= null)
+            else if (cameraParameters.get("contrast")!= null && cameraParameters.get("contrast-values")== null)
             {
                 //p920 hack
                 if (cameraParameters.get("max-contrast")!= null && cameraParameters.get("contrast-max")!= null) {
@@ -678,7 +679,7 @@ public class CamParametersHandler extends AbstractParameterHandler
                 ManualSharpness =  new BaseManualParameter(cameraParameters,"edge", "edge-max", "edge-min",this,1);
 
             }
-            else if (cameraParameters.get("sharpness")!= null && cameraParameters.get("sharpness-values")!= null)
+            else if (cameraParameters.get("sharpness")!= null && cameraParameters.get("sharpness-values")== null)
             {
                 if (cameraParameters.get("max-sharpness")!= null && cameraParameters.get("sharpness-max")!= null) {
                     cameraParameters.set("max-sharpness", "100");
@@ -717,7 +718,7 @@ public class CamParametersHandler extends AbstractParameterHandler
                 ManualSaturation =  new BaseManualParameter(cameraParameters,"saturation", "saturation-max", "saturation-min",this,1);
 
             }
-            else if (cameraParameters.get("saturation")!= null && cameraParameters.get("saturation-values")!= null)
+            else if (cameraParameters.get("saturation")!= null && cameraParameters.get("saturation-values")== null)
             {
                 //p920 hack
                 if (cameraParameters.get("max-saturation")!= null && cameraParameters.get("saturation-max")!= null) {
