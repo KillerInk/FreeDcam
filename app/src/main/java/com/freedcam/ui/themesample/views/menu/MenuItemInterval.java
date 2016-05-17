@@ -12,28 +12,22 @@ import com.freedcam.ui.I_Activity;
  */
 public class MenuItemInterval extends MenuItem
 {
-    private AbstractCameraUiWrapper cameraUiWrapper;
-
     public MenuItemInterval(Context context) {
         super(context);
     }
 
     public MenuItemInterval(Context context, AttributeSet attrs) {
         super(context, attrs);
-
     }
 
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
-        this.cameraUiWrapper = cameraUiWrapper;
         super.SetParameter(cameraUiWrapper.camParametersHandler.IntervalShutterSleep);
-        
     }
 
     @Override
     public void SetStuff(I_Activity i_activity, String settingvalue,AppSettingsManager appSettingsManager) {
         super.SetStuff(i_activity, settingvalue,appSettingsManager);
-        //onValueChanged(appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL));
     }
 
     @Override
