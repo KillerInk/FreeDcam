@@ -1,6 +1,7 @@
 package com.freedcam.apis.camera1.camera.parameters;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Handler;
@@ -52,6 +53,7 @@ import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -810,7 +812,10 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
         else
         {
-            cameraParameters.set("focus-areas", "("+focusAreas.left+ ","+ focusAreas.top+","+ focusAreas.right+ ","+ focusAreas.bottom +",1000)");
+            final Camera.Area a = new Camera.Area(new Rect(focusAreas.left,focusAreas.top,focusAreas.right,focusAreas.bottom),1000);
+            ArrayList<Camera.Area> ar = new ArrayList<>();
+            ar.add(a);
+            cameraParameters.setFocusAreas(ar);
             SetParametersToCamera(cameraParameters);
         }
     }
