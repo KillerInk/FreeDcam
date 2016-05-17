@@ -15,9 +15,17 @@ import java.util.HashMap;
 public class ExposureManualParameter extends BaseManualParameter
 {
     private final String TAG = ExposureManualParameter.class.getSimpleName();
-    public ExposureManualParameter(Camera.Parameters parameters, String value, String MinValue, CamParametersHandler camParametersHandler, float step) {
-        super(parameters, value, "max-exposure-compensation", "min-exposure-compensation", camParametersHandler,step);
+    public ExposureManualParameter(Camera.Parameters parameters, CamParametersHandler camParametersHandler, float step) {
+        super(parameters,"", "", "", camParametersHandler,step);
+        stringvalues = createStringArray(parameters.getMinExposureCompensation(),parameters.getMaxExposureCompensation(),parameters.getExposureCompensationStep());
+        isSupported = true;
+        isVisible = true;
         Logger.d(TAG, "Is Supported:" + isSupported);
+    }
+
+    @Override
+    public boolean IsSupported() {
+        return true;
     }
 
     @Override
@@ -35,17 +43,10 @@ public class ExposureManualParameter extends BaseManualParameter
     @Override
     protected void setvalue(int valueToset)
     {
-
         if(stringvalues == null || stringvalues.length == 0)
             return;
-        if (valueToset < 0 && parameters.get(min_value).contains("-"))
-            valueToset = valueToset+stringvalues.length/2;
-        currentInt = valueToset;
-        int t = valueToset;
-        if (parameters.get(min_value).contains("-"))
-            t = t-(stringvalues.length/2);
-        Logger.d(TAG, "Set "+ value +" to: " +t);
-        parameters.set(value, t + "");
+        currentInt = valueToset-(stringvalues.length/2);
+        parameters.setExposureCompensation(currentInt);
         try
         {
             camParametersHandler.SetParametersToCamera(parameters);
@@ -56,9 +57,15 @@ public class ExposureManualParameter extends BaseManualParameter
         }
         ThrowCurrentValueChanged(currentInt);
         ThrowCurrentValueStringCHanged(stringvalues[valueToset]);
-
     }
 
+    @Override
+    public int GetValue() {
+        return currentInt+stringvalues.length/2;
+    }
 
-
+    @Override
+    public String GetStringValue() {
+        return stringvalues[currentInt+stringvalues.length/2];
+    }
 }

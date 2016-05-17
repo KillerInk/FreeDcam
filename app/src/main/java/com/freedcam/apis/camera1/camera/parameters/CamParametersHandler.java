@@ -743,13 +743,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     private void createManualExposure() {
         try
         {
-            float expostep = 1;
-            if(cameraParameters.get("exposure-compensation-step")!= null)
-                expostep = Float.parseFloat(cameraParameters.get("exposure-compensation-step"));
-            if (cameraParameters.get("lg-ev-ctrl")!= null)
-                ManualExposure = new ExposureManualParameter(cameraParameters,"lg-ev-ctrl", "min-exposure-compensation", this,expostep);
-            else if(cameraParameters.get("exposure-compensation")!= null)
-                ManualExposure = new ExposureManualParameter(cameraParameters,"exposure-compensation", "min-exposure-compensation", this,expostep);
+            ManualExposure = new ExposureManualParameter(cameraParameters, this,1);
         } catch (Exception e) {
             Logger.exception(e);
         }
