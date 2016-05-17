@@ -2,8 +2,11 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 
 
 
+import android.hardware.Camera;
+
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 
 import java.util.HashMap;
 
@@ -20,7 +23,7 @@ public class ShutterManualParameterG4 extends BaseManualParameter
     private I_CameraHolder baseCameraHolder;
     private AE_Handler_LGG4.AeManualEvent manualevent;
 
-    public ShutterManualParameterG4(HashMap<String, String> parameters, I_CameraHolder baseCameraHolder, AbstractParameterHandler camParametersHandler, AE_Handler_LGG4.AeManualEvent manualevent) {
+    public ShutterManualParameterG4(Camera.Parameters parameters, I_CameraHolder baseCameraHolder, CamParametersHandler camParametersHandler, AE_Handler_LGG4.AeManualEvent manualevent) {
         super(parameters, "", "", "", camParametersHandler,1);
 
         this.baseCameraHolder = baseCameraHolder;
@@ -64,12 +67,12 @@ public class ShutterManualParameterG4 extends BaseManualParameter
 
         if (value == 0)
         {
-            parameters.put("shutter-speed", "0");
+            parameters.set("shutter-speed", "0");
         }
         else
         {
             currentInt = value;
-            parameters.put("shutter-speed", stringvalues[value]);
+            parameters.set("shutter-speed", stringvalues[value]);
         }
         ThrowCurrentValueStringCHanged(stringvalues[value]);
     }

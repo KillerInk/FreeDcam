@@ -1,8 +1,11 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
 
+import android.hardware.Camera;
+
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 
 import java.util.HashMap;
 
@@ -15,7 +18,7 @@ public class ShutterManualKrillin extends BaseManualParameter {
     private I_CameraHolder baseCameraHolder;
     //AE_Handler_LGG4.AeManualEvent manualevent;
 
-    public ShutterManualKrillin(HashMap<String, String> parameters, I_CameraHolder baseCameraHolder, AbstractParameterHandler camParametersHandler) {
+    public ShutterManualKrillin(Camera.Parameters parameters, I_CameraHolder baseCameraHolder, CamParametersHandler camParametersHandler) {
         super(parameters, "", "", "", camParametersHandler, 1);
 
         this.baseCameraHolder = baseCameraHolder;
@@ -58,12 +61,12 @@ public class ShutterManualKrillin extends BaseManualParameter {
     private void setValue(int value) {
 
         if (value == 0) {
-            parameters.put("hw-hwcamera-flag", "on");
-            parameters.put("hw-manual-exposure-value", "auto");
+            parameters.set("hw-hwcamera-flag", "on");
+            parameters.set("hw-manual-exposure-value", "auto");
         } else {
             currentInt = value;
-            parameters.put("hw-hwcamera-flag", "on");
-            parameters.put("hw-manual-exposure-value", stringvalues[value]);
+            parameters.set("hw-hwcamera-flag", "on");
+            parameters.set("hw-manual-exposure-value", stringvalues[value]);
         }
         ThrowCurrentValueStringCHanged(stringvalues[value]);
     }

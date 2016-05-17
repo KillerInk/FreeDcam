@@ -1,7 +1,10 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
+import android.hardware.Camera;
+
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +17,7 @@ public class ISOManualParameterMTK extends BaseManualParameter
     private CameraHolderApi1 cameraHolderApi1;
     private AE_Handler_MTK.AeManualEvent manualEvent;
 
-    public ISOManualParameterMTK(HashMap<String, String> parameters, CameraHolderApi1 cameraHolder, AbstractParameterHandler camParametersHandler, AE_Handler_MTK.AeManualEvent manualevent) {
+    public ISOManualParameterMTK(Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler, AE_Handler_MTK.AeManualEvent manualevent) {
         super(parameters, "", "", "", camParametersHandler,1);
 
         this.cameraHolderApi1 = cameraHolder;
@@ -66,13 +69,13 @@ public class ISOManualParameterMTK extends BaseManualParameter
 
         if (value == 0)
         {
-            parameters.put("m-sr-g", "0");
+            parameters.set("m-sr-g", "0");
         }
         else
         {
             currentInt = value;
             //cap-isp-g= 1024 == iso100? cause cap-sr-g=7808 / 1024 *100 = 762,5 same with 256 = 3050
-            parameters.put("m-sr-g", String.valueOf((Integer.valueOf( stringvalues[value])/100)*1024));
+            parameters.set("m-sr-g", String.valueOf((Integer.valueOf( stringvalues[value])/100)*1024));
         }
         ThrowCurrentValueStringCHanged(stringvalues[value]);
     }

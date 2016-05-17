@@ -1,5 +1,6 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
+import android.hardware.Camera;
 import android.os.Handler;
 
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
@@ -19,8 +20,8 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
     protected String values;
     boolean isSupported = false;
     boolean isVisible = true;
-    HashMap<String, String> parameters;
-    CameraHolderApi1 cameraHolderApi1;
+    protected Camera.Parameters  parameters;
+    protected CameraHolderApi1 cameraHolderApi1;
     protected boolean firststart = true;
     private static String TAG = BaseModeParameter.class.getSimpleName();
 
@@ -39,14 +40,14 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
      * @param values
      * the string to get the values avail/supported for @param value
      */
-    public BaseModeParameter(Handler uihandler, HashMap<String, String> parameters, CameraHolderApi1 cameraHolder, String value, String values)
+    public BaseModeParameter(Handler uihandler, Camera.Parameters  parameters, CameraHolderApi1 cameraHolder, String value, String values)
     {
         super(uihandler);
         this.parameters = parameters;
         this.value = value;
         this.values = values;
         this.cameraHolderApi1 = cameraHolder;
-        if (parameters != null && !value.isEmpty() && parameters.containsKey(value) && parameters.containsKey(values))
+        if (parameters != null && !value.isEmpty() && parameters.get(value) != null && parameters.get(values) != null)
         {
             String tmp = parameters.get(value);
             if (!tmp.isEmpty())
@@ -85,7 +86,7 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
     {
         if (valueToSet == null)
             return;
-        parameters.put(value, valueToSet);
+        parameters.set(value, valueToSet);
         Logger.d(TAG, "set " + value + " to " + valueToSet);
         BackgroundValueHasChanged(valueToSet);
         if (setToCam) {

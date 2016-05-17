@@ -1,5 +1,6 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
+import android.hardware.Camera;
 import android.os.Build;
 import android.os.Handler;
 
@@ -43,7 +44,7 @@ public class PictureFormatHandler extends BaseModeParameter
      * @param parameters   Hold the Camera Parameters
      * @param cameraHolder Hold the camera object
      */
-    public PictureFormatHandler(Handler uihandler, HashMap<String, String> parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler)
+    public PictureFormatHandler(Handler uihandler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler)
     {
         super(uihandler, parameters, cameraHolder, "", "");
         if (cameraHolderApi1.DeviceFrameWork == Frameworks.MTK)
@@ -136,7 +137,7 @@ public class PictureFormatHandler extends BaseModeParameter
     private void setString(String val, boolean setTocam)
     {
         Logger.d(TAG, "setString:" +val);
-        parameters.put("picture-format", val);
+        parameters.set("picture-format", val);
         cameraHolderApi1.SetCameraParameters(parameters);
         if(cameraHolderApi1.DeviceFrameWork == CameraHolderApi1.Frameworks.LG && setTocam || (DeviceUtils.IS(DeviceUtils.Devices.Htc_M8) && Build.VERSION.SDK_INT >= 23))
         {
@@ -202,7 +203,7 @@ public class PictureFormatHandler extends BaseModeParameter
          * @param cameraHolder Hold the camera object
          * @param values
          */
-        public BayerFormat(Handler uihandler, HashMap<String, String> parameters, CameraHolderApi1 cameraHolder, String values) {
+        public BayerFormat(Handler uihandler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, String values) {
             super(uihandler, parameters, cameraHolder, "", "");
         }
 

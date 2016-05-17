@@ -1,5 +1,6 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
+import android.hardware.Camera;
 import android.os.Build;
 import android.os.Handler;
 
@@ -27,7 +28,7 @@ public class StackModeParameter extends BaseModeParameter
      * @param value        The String to get/set the value from the parameters
      * @param values
      */
-    public StackModeParameter(Handler uihandler, HashMap<String, String> parameters, CameraHolderApi1 cameraHolder, String value, String values) {
+    public StackModeParameter(Handler uihandler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, String value, String values) {
         super(uihandler, parameters, cameraHolder, value, values);
     }
 

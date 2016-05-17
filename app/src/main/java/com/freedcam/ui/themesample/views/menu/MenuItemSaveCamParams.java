@@ -148,14 +148,8 @@ public class MenuItemSaveCamParams extends MenuItem
     {
         String[] paras = null;
         CameraHolderApi1 holder = (CameraHolderApi1)cameraUiWrapper.cameraHolder;
-        if (holder.DeviceFrameWork == CameraHolderApi1.Frameworks.LG)
-        {
-            paras = holder.getLgParameters().split(";");
-        }
-        else
-        {
-            paras = holder.GetCamera().getParameters().flatten().split(";");
-        }
+
+        paras = holder.GetCamera().getParameters().flatten().split(";");
 
         Arrays.sort(paras);
 

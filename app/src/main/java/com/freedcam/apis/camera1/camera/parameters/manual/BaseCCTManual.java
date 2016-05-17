@@ -1,6 +1,9 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
+import android.hardware.Camera;
+
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.Logger;
 
 import java.util.ArrayList;
@@ -22,15 +25,15 @@ public class BaseCCTManual extends BaseManualParameter
      * @param camParametersHandler
      * @param step
      */
-    public BaseCCTManual(HashMap<String, String> parameters, String value, String maxValue, String MinValue
-            , AbstractParameterHandler camParametersHandler, float step,
+    public BaseCCTManual(Camera.Parameters parameters, String value, String maxValue, String MinValue
+            , CamParametersHandler camParametersHandler, float step,
                          String wbmode) {
         super(parameters, value, maxValue, MinValue, camParametersHandler, step);
         this.manual_WbMode = wbmode;
     }
 
-    public BaseCCTManual(HashMap<String, String> parameters, String value, int max, int min
-            , AbstractParameterHandler camParametersHandler, float step, String wbmode) {
+    public BaseCCTManual(Camera.Parameters parameters, String value, int max, int min
+            , CamParametersHandler camParametersHandler, float step, String wbmode) {
         super(parameters, value, "", "", camParametersHandler, step);
         this.isSupported = true;
         this.isVisible = true;
@@ -55,7 +58,7 @@ public class BaseCCTManual extends BaseManualParameter
     {
         if (!camParametersHandler.WhiteBalanceMode.GetValue().equals(manual_WbMode) && manual_WbMode != "")
             camParametersHandler.WhiteBalanceMode.SetValue(manual_WbMode, true);
-        parameters.put(value, stringvalues[currentInt]);
+        parameters.set(value, stringvalues[currentInt]);
         Logger.d(TAG, "Set "+value+" to : " + stringvalues[currentInt]);
 
     }

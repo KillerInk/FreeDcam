@@ -1,6 +1,9 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
+import android.hardware.Camera;
+
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.Logger;
 
 import java.util.ArrayList;
@@ -28,7 +31,7 @@ public class FocusManual_QcomM extends BaseManualParameter
      * @param camParametersHandler
      * @param step
      */
-    public FocusManual_QcomM(HashMap<String, String> parameters, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler, float step)
+    public FocusManual_QcomM(Camera.Parameters parameters, String maxValue, String MinValue, CamParametersHandler camParametersHandler, float step)
     {
         super(parameters, "manual-focus-position", "max-focus-pos-ratio", "min-focus-pos-ratio", camParametersHandler, (float) 1);
     }
@@ -53,7 +56,7 @@ public class FocusManual_QcomM extends BaseManualParameter
 
         if (valueToSet == 0)
         {
-            parameters.put("manual-focus", "off");
+            parameters.set("manual-focus", "off");
             camParametersHandler.SetParametersToCamera(parameters);
             camParametersHandler.FocusMode.SetValue("auto", true);
             Logger.d(TAG, "Set Focusmode to : auto");
@@ -62,11 +65,11 @@ public class FocusManual_QcomM extends BaseManualParameter
         {
             if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !camParametersHandler.FocusMode.GetValue().equals(manualFocusModeString)) {//do not set "manual" to "manual"
                 camParametersHandler.FocusMode.SetValue(manualFocusModeString, false);
-                parameters.put("manual-focus", "scale-mode");
+                parameters.set("manual-focus", "scale-mode");
                 camParametersHandler.SetParametersToCamera(parameters);
             }
 
-            parameters.put(value, stringvalues[currentInt]);
+            parameters.set(value, stringvalues[currentInt]);
             Logger.d(TAG, "Set "+ value +" to : " + stringvalues[currentInt]);
             camParametersHandler.SetParametersToCamera(parameters);
         }

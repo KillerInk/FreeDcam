@@ -1,6 +1,9 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
+import android.hardware.Camera;
+
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.Logger;
 
 import java.util.HashMap;
@@ -9,13 +12,13 @@ import java.util.HashMap;
  * Created by troop on 28.03.2016.
  */
 public class FocusManualMTK extends BaseFocusManual {
-    public FocusManualMTK(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler, float step, int manualFocusType) {
+    public FocusManualMTK(Camera.Parameters parameters, String value, String maxValue, String MinValue, CamParametersHandler camParametersHandler, float step, int manualFocusType) {
         super(parameters, "focus-fs-fi", "focus-fs-fi-max", "focus-fs-fi-min", FocusManualClassHandler.focusMode_manual, camParametersHandler, (float) 10, 0);
         isSupported = true;
         isVisible = isSupported;
     }
 
-    public FocusManualMTK(HashMap<String, String> parameters, int min, int max, String manualFocusModeString, AbstractParameterHandler camParametersHandler, float step, int manualFocusType) {
+    public FocusManualMTK(Camera.Parameters parameters, int min, int max, String manualFocusModeString, CamParametersHandler camParametersHandler, float step, int manualFocusType) {
         super(parameters, "afeng-pos", 0, 1023, FocusManualClassHandler.focusMode_manual, camParametersHandler, (float) 10, 1);
         this.isSupported = true;
         this.isVisible = true;
@@ -38,7 +41,7 @@ public class FocusManualMTK extends BaseFocusManual {
             if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !camParametersHandler.FocusMode.GetValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
                 camParametersHandler.FocusMode.SetValue(manualFocusModeString, false);
 
-            parameters.put(value, stringvalues[currentInt]);
+            parameters.set(value, stringvalues[currentInt]);
             Logger.d(TAG, "Set "+ value +" to : " + stringvalues[currentInt]);
             camParametersHandler.SetParametersToCamera(parameters);
         }

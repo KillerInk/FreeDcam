@@ -38,8 +38,6 @@ public class CameraHolderApi1 extends AbstractCameraHolder
 
     final int BUFFERCOUNT = 5;
     private Camera mCamera;
-
-    private Camera.Parameters mCameraParam;
     private LGCamera lgCamera;
     private LGCamera.LGParameters lgParameters;
     final static String TAG = CameraHolderApi1.class.getSimpleName();
@@ -356,36 +354,9 @@ public class CameraHolderApi1 extends AbstractCameraHolder
         return isRdy;
     }
 
-    @Override
-    public boolean SetCameraParameters(final HashMap<String, String> parameters)
+    public boolean SetCameraParameters(Camera.Parameters parameters)
     {
-        try {
-            String ret = "";
-            for (Map.Entry s : parameters.entrySet()) {
-                ret += s.getKey() + "=" + s.getValue() + ";";
-            }
-            if (DeviceFrameWork == Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/) {
-                Camera.Parameters p = lgParameters.getParameters();
-                p.unflatten(ret);
-                lgParameters.setParameters(p);
-                Logger.d(TAG, "Set lg Parameters");
-            } else {
-
-                Camera.Parameters p = mCamera.getParameters();
-                p.unflatten(ret);
-                mCamera.setParameters(p);
-                Logger.d(TAG, "Set Parameters");
-            }
-        }
-        catch (Exception ex)
-        {
-            Logger.d(TAG,"Parameters Set failed");
-            Logger.exception(ex);
-        }
-
-
-
-
+        mCamera.setParameters(parameters);
         return true;
     }
 
@@ -411,24 +382,9 @@ public class CameraHolderApi1 extends AbstractCameraHolder
         return false;
     }
 
-    public boolean SetTextureView(TextureView textureView)
-    {
-        try
-        {
-            mCamera.setPreviewTexture(textureView.getSurfaceTexture());
-            this.textureView = textureView;
-            this.surfaceHolder = new Surface(textureView.getSurfaceTexture());
-            return  true;
-        } catch (IOException e) {
-            Logger.exception(e);
-
-        }
-        return false;
-    }
 
     public Surface getSurfaceHolder()
     {
-
         return  surfaceHolder;
     }
 
@@ -483,30 +439,9 @@ public class CameraHolderApi1 extends AbstractCameraHolder
         }
     }
 
-    public HashMap<String, String> GetCameraParameters()
+    public Camera.Parameters GetCameraParameters()
     {
-        String[] split = null;
-        if (DeviceFrameWork == Frameworks.LG)
-            split = lgCamera.getLGParameters().getParameters().flatten().split(";");
-        else
-            split = mCamera.getParameters().flatten().split(";");
-        HashMap<String, String> map = new HashMap<>();
-        for (String s: split)
-        {
-            String[] valSplit = s.split("=");
-            boolean sucess = false;
-            try
-            {
-                map.put(valSplit[0], valSplit[1]);
-            }
-            catch (Exception ex)
-            {
-                map.put(valSplit[0], "");
-            }
-
-        }
-
-        return map;
+        return mCamera.getParameters();
     }
 
     public void TakePicture(final I_Callbacks.PictureCallback raw, final I_Callbacks.PictureCallback picture)
@@ -607,32 +542,6 @@ public class CameraHolderApi1 extends AbstractCameraHolder
         }
     }
 
-
-
-  /*  private void runObjectTrackingReflection()
-    {
-        try {
-            Class camera = Class.forName("com.lge.hardware.LGCamera");
-            Method[] meths = camera.getMethods();
-            Method obtrack = null;
-            for (Method m : meths)
-            {
-                if (m.getName().equals("runObjectTracking"))
-                    obtrack = m;
-            }
-            if (obtrack == null)
-                throw new  NoSuchMethodException();
-            obtrack.invoke(lgCamera, null);
-        } catch (ClassNotFoundException e) {
-            Logger.e(TAG,e.getMessage());
-        } catch (IllegalAccessException e) {
-            Logger.e(TAG,e.getMessage());
-        } catch (InvocationTargetException e) {
-            Logger.e(TAG,e.getMessage());
-        } catch (NoSuchMethodException e) {
-            Logger.e(TAG,e.getMessage());
-        }
-    }*/
 
     @Override
     public void SetPreviewCallback(final I_Callbacks.PreviewCallback previewCallback)
@@ -831,16 +740,12 @@ public class CameraHolderApi1 extends AbstractCameraHolder
     {
         if (!isRdy)
             return;
-            mCamera.setDisplayOrientation(rotation);
+        mCamera.setDisplayOrientation(rotation);
     }
 
     public Camera GetCamera() {
         return mCamera;
     }
 
-    public String getLgParameters()
-    {
-        return lgParameters.getParameters().flatten();
-    }
 
 }

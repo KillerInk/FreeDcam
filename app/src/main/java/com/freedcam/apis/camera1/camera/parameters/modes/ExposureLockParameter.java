@@ -1,5 +1,6 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
+import android.hardware.Camera;
 import android.os.Handler;
 
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
@@ -13,29 +14,20 @@ import java.util.HashMap;
 public class ExposureLockParameter extends BaseModeParameter
 {
     final String TAG = ExposureLockParameter.class.getSimpleName();
-    public ExposureLockParameter(Handler handler, HashMap<String, String> parameters, CameraHolderApi1 parameterChanged, String values) {
+    public ExposureLockParameter(Handler handler, Camera.Parameters parameters, CameraHolderApi1 parameterChanged, String values) {
         super(handler, parameters, parameterChanged, "", "");
     }
 
     @Override
     public boolean IsSupported() {
-        if (parameters.containsKey("auto-exposure-lock-supported"))
-        {
-            if (parameters.get("auto-exposure-lock-supported").equals("true"))
-            {
-                return true;
-            }
-        }
-            return false;
+        return parameters.isAutoExposureLockSupported();
     }
 
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        if (parameters.get("auto-exposure-lock-supported").equals("true"))
-            parameters.put("auto-exposure-lock", valueToSet);
-        //if (parameters.get("auto-whitebalance-lock-supported").equals("true"))
-            //parameters.put("auto-whitebalance-lock", valueToSet);
+        if (parameters.isAutoExposureLockSupported())
+            parameters.setAutoExposureLock(Boolean.parseBoolean(valueToSet));
         try {
             cameraHolderApi1.SetCameraParameters(parameters);
         }
@@ -48,9 +40,8 @@ public class ExposureLockParameter extends BaseModeParameter
     @Override
     public String GetValue()
     {
-        if (!parameters.containsKey("auto-exposure-lock"))
-            parameters.put("auto-exposure-lock","false");
-        return parameters.get("auto-exposure-lock");
+
+        return parameters.getAutoExposureLock()+"";
     }
 
     @Override

@@ -1,6 +1,9 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
+import android.hardware.Camera;
+
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 
@@ -29,7 +32,7 @@ public class CCTManualParameter extends BaseManualParameter
     private int min = -1;
     private int max = -1;
     private String manualWbMode;
-    public CCTManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue,AbstractParameterHandler camParametersHandler)
+    public CCTManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, CamParametersHandler camParametersHandler)
     {
         super(parameters, "", "", "", camParametersHandler,1);
 
@@ -49,34 +52,34 @@ public class CCTManualParameter extends BaseManualParameter
         else
         {
             //check first all possible values
-            if (parameters.containsKey(WBCURRENT))
+            if (parameters.get(WBCURRENT) != null)
                 this.value = WBCURRENT;
-            else if (parameters.containsKey(WB_CCT))
+            else if (parameters.get(WB_CCT)!=null)
                 this.value = WB_CCT;
-            else if (parameters.containsKey(WB_CT))
+            else if (parameters.get(WB_CT)!= null)
                 this.value = WB_CT;
-            else if (parameters.containsKey(WB_MANUAL))
+            else if (parameters.get(WB_MANUAL)!= null)
                 this.value = WB_MANUAL;
-            else if (parameters.containsKey(MANUAL_WB_VALUE))
+            else if (parameters.get(MANUAL_WB_VALUE)!= null)
                 this.value = MANUAL_WB_VALUE;
-            else if (parameters.containsKey(LG_WB))
+            else if (parameters.get(LG_WB)!= null)
                 this.value = LG_WB;
 
             //check all possible max values
-            if (parameters.containsKey(MAX_WB_CCT)) {
+            if (parameters.get(MAX_WB_CCT)!= null) {
                 setmax(MAX_WB_CCT);
             }
-            else if (parameters.containsKey(MAX_WB_CT))
+            else if (parameters.get(MAX_WB_CT)!= null)
                 setmax(MAX_WB_CT);
-            else if (parameters.containsKey(LG_Max))
+            else if (parameters.get(LG_Max)!= null)
                 setmax(LG_Max);
 
             //check all possible min values
-            if (parameters.containsKey(MIN_WB_CCT)) {
+            if (parameters.get(MIN_WB_CCT)!= null) {
                 setmin(MIN_WB_CCT);
-            } else if (parameters.containsKey(MIN_WB_CT))
+            } else if (parameters.get(MIN_WB_CT)!= null)
                 setmin(MIN_WB_CT);
-            else if (parameters.containsKey(LG_Min))
+            else if (parameters.get(LG_Min)!= null)
                 setmin(LG_Min);
 
             //check wbmode manual
@@ -160,21 +163,21 @@ public class CCTManualParameter extends BaseManualParameter
         //set to auto
         if (currentInt == 0) {
             if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9)) {
-                parameters.put(value, "-1");
+                parameters.set(value, "-1");
             } else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
-                parameters.put(value, "0");
+                parameters.set(value, "0");
             else
                 camParametersHandler.WhiteBalanceMode.SetValue("auto", true);
         } else //set manual wb mode and value
         {
             if (!camParametersHandler.WhiteBalanceMode.GetValue().equals(manualWbMode) && manualWbMode != "")
                 camParametersHandler.WhiteBalanceMode.SetValue(manualWbMode, true);
-            parameters.put(value, stringvalues[currentInt]);
+            parameters.set(value, stringvalues[currentInt]);
 
-            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New) || parameters.containsKey("manual-wb-modes"))
+            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New) || parameters.get("manual-wb-modes")!= null)
                 try {
-                    parameters.put("manual-wb-type", "color-temperature");
-                    parameters.put("manual-wb-value", stringvalues[currentInt]);
+                    parameters.set("manual-wb-type", "color-temperature");
+                    parameters.set("manual-wb-value", stringvalues[currentInt]);
                 } catch (Exception ex) {
 
                 }

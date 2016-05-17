@@ -1,5 +1,6 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
+import android.hardware.Camera;
 import android.os.Build;
 
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
@@ -28,7 +29,7 @@ public class CCTManualClassHandler
     final static String WB_MODE_MANUAL = "manual";
     final static String WB_MODE_MANUAL_CCT = "manual-cct";
 
-    public static BaseManualParameter GetCCT_Class(HashMap<String, String> parameters, CamParametersHandler parametersHandler, I_CameraHolder cameraHolder)
+    public static BaseManualParameter GetCCT_Class(Camera.Parameters parameters, CamParametersHandler parametersHandler, I_CameraHolder cameraHolder)
     {
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) && !DeviceUtils.isCyanogenMod())
         {
@@ -50,26 +51,26 @@ public class CCTManualClassHandler
         else
         {
             String wbModeval ="", wbcur ="", wbmax = "",wbmin = "";
-            if (parameters.containsKey(WBCURRENT))
+            if (parameters.get(WBCURRENT)!=null)
                 wbcur = WBCURRENT;
-            else if (parameters.containsKey(WB_CCT))
+            else if (parameters.get(WB_CCT) != null)
                 wbcur = WB_CCT;
-            else if (parameters.containsKey(WB_CT))
+            else if (parameters.get(WB_CT) != null)
                 wbcur = WB_CT;
-            else if (parameters.containsKey(WB_MANUAL))
+            else if (parameters.get(WB_MANUAL) != null)
                 wbcur = WB_MANUAL;
-            else if (parameters.containsKey(MANUAL_WB_VALUE))
+            else if (parameters.get(MANUAL_WB_VALUE) != null)
                 wbcur = MANUAL_WB_VALUE;
 
-            if (parameters.containsKey(MAX_WB_CCT)) {
+            if (parameters.get(MAX_WB_CCT) != null) {
                 wbmax = MAX_WB_CCT;
             }
-            else if (parameters.containsKey(MAX_WB_CT))
+            else if (parameters.get(MAX_WB_CT)!= null)
                 wbmax =MAX_WB_CT;
 
-            if (parameters.containsKey(MIN_WB_CCT)) {
+            if (parameters.get(MIN_WB_CCT)!= null) {
                 wbmin =MIN_WB_CCT;
-            } else if (parameters.containsKey(MIN_WB_CT))
+            } else if (parameters.get(MIN_WB_CT)!= null)
                 wbmin =MIN_WB_CT;
 
             if (arrayContainsString(parametersHandler.WhiteBalanceMode.GetValues(), WB_MODE_MANUAL))

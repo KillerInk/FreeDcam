@@ -164,12 +164,6 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         createParameters();
     }
 
-
-    @Override
-    public void SetParametersToCamera(HashMap<String, String> list) {
-
-    }
-
     @Override
     public void LockExposureAndWhiteBalance(boolean lock) {
 

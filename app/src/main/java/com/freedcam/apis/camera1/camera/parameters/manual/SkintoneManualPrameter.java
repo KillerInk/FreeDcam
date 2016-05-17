@@ -1,6 +1,9 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
+import android.hardware.Camera;
+
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
@@ -15,7 +18,7 @@ public class SkintoneManualPrameter extends BaseManualParameter {
      * @param MinValue
      * @param camParametersHandler
      */
-    public SkintoneManualPrameter(HashMap<String, String> parameters, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler)
+    public SkintoneManualPrameter(Camera.Parameters parameters, String maxValue, String MinValue, CamParametersHandler camParametersHandler)
     {
         super(parameters, "", "", "", camParametersHandler,1);
         try
@@ -45,7 +48,7 @@ public class SkintoneManualPrameter extends BaseManualParameter {
     @Override
     protected void setvalue(int valueToSet) {
         camParametersHandler.SceneMode.SetValue("portrait", true);
-        parameters.put("skinToneEnhancement",valueToSet + "");
+        parameters.set("skinToneEnhancement",valueToSet + "");
         if (valueToSet == 0)
             camParametersHandler.SceneMode.SetValue("auto", true);
     }

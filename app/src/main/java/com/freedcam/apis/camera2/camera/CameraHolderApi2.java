@@ -223,10 +223,6 @@ public class CameraHolderApi2 extends AbstractCameraHolder
         return super.IsRdy();
     }
 
-    @Override
-    public boolean SetCameraParameters(HashMap<String,String> parameters) {
-        return  false;
-    }
 
     public boolean SetSurface(TextureView surfaceHolder)
     {

@@ -1,5 +1,8 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
+import android.hardware.Camera;
+
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.camera1.camera.parameters.modes.PictureFormatHandler;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
@@ -22,7 +25,7 @@ public class BaseManualParameter extends AbstractManualParameter
     /**
      * Holds the list of Supported parameters
      */
-    HashMap<String, String> parameters;
+    protected Camera.Parameters  parameters;
     /*
      * The name of the current value to get like brightness
      */
@@ -38,6 +41,8 @@ public class BaseManualParameter extends AbstractManualParameter
     protected String  min_value;
 
     protected float step;
+
+    protected CamParametersHandler camParametersHandler;
 
 
     private int default_value = 0;
@@ -62,8 +67,9 @@ public class BaseManualParameter extends AbstractManualParameter
      * @param @min_value
      * @param @camParametersHandler
      */
-    public BaseManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler, float step) {
+    public BaseManualParameter(Camera.Parameters  parameters, String value, String maxValue, String MinValue, CamParametersHandler camParametersHandler, float step) {
         super(camParametersHandler);
+        this.camParametersHandler = camParametersHandler;
         this.parameters = parameters;
         this.value = value;
         this.max_value = maxValue;
@@ -71,7 +77,7 @@ public class BaseManualParameter extends AbstractManualParameter
         this.step = step;
         if (!this.value.equals("") && !this.max_value.equals("") && !min_value.equals(""))
         {
-            if (parameters.containsKey(this.value) && parameters.containsKey(max_value) && parameters.containsKey(min_value))
+            if (parameters.get(this.value) != null && parameters.get(max_value) != null && parameters.get(min_value) != null)
             {
                 Logger.d(TAG, "parameters contains all 3 parameters " + value +" " + min_value +" " + max_value );
                 if (!parameters.get(min_value).equals("") && !parameters.get(max_value).equals(""))
@@ -140,7 +146,7 @@ public class BaseManualParameter extends AbstractManualParameter
         Logger.d(TAG, "set " + value + " to " + valueToset);
         if(stringvalues == null || stringvalues.length == 0)
             return;
-        parameters.put(value, stringvalues[valueToset]);
+        parameters.set(value, stringvalues[valueToset]);
         ThrowCurrentValueChanged(valueToset);
         ThrowCurrentValueStringCHanged(stringvalues[valueToset]);
         try

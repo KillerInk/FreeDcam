@@ -1,6 +1,9 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
+import android.hardware.Camera;
+
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.Logger;
 
 import java.util.HashMap;
@@ -9,11 +12,11 @@ import java.util.HashMap;
  * Created by GeorgeKiarie on 02/04/2016.
  */
 public class FocusManualHuawei extends BaseFocusManual {
-    public FocusManualHuawei(HashMap<String, String> parameters, String maxValue, String MinValue, String manualFocusModeString, AbstractParameterHandler camParametersHandler, float step, int manualFocusType) {
+    public FocusManualHuawei(Camera.Parameters parameters, String maxValue, String MinValue, String manualFocusModeString, CamParametersHandler camParametersHandler, float step, int manualFocusType) {
         super(parameters, "hw-manual-focus-step-value", "hw-vcm-end-value", "hw-vcm-start-value", FocusManualClassHandler.focusMode_manual, camParametersHandler, (float) 10, 0);
     }
 
-    public FocusManualHuawei(HashMap<String, String> parameters, String value, int min, int max, String manualFocusModeString, AbstractParameterHandler camParametersHandler, float step, int manualFocusType) {
+    public FocusManualHuawei(Camera.Parameters parameters, String value, int min, int max, String manualFocusModeString, CamParametersHandler camParametersHandler, float step, int manualFocusType) {
         super(parameters, value, min, max, manualFocusModeString, camParametersHandler, step, manualFocusType);
     }
 
@@ -25,16 +28,16 @@ public class FocusManualHuawei extends BaseFocusManual {
         if (valueToSet == 0)
         {
             camParametersHandler.FocusMode.SetValue("auto", true);
-            parameters.put("hw-hwcamera-flag","on");
-            parameters.put("hw-manual-focus-mode","off");
+            parameters.set("hw-hwcamera-flag","on");
+            parameters.set("hw-manual-focus-mode","off");
         }
         else
         {
             if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !camParametersHandler.FocusMode.GetValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
                 camParametersHandler.FocusMode.SetValue(manualFocusModeString, false);
-            parameters.put("hw-hwcamera-flag","on");
-            parameters.put("hw-manual-focus-mode","on");
-            parameters.put(value, stringvalues[currentInt]);
+            parameters.set("hw-hwcamera-flag","on");
+            parameters.set("hw-manual-focus-mode","on");
+            parameters.set(value, stringvalues[currentInt]);
             Logger.d(TAG, "Set " + value + " to : " + stringvalues[currentInt]);
             camParametersHandler.SetParametersToCamera(parameters);
         }

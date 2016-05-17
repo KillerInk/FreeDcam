@@ -2,8 +2,11 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 
 
 
+import android.hardware.Camera;
+
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
@@ -18,7 +21,7 @@ public class FocusManualParameterLG extends  BaseManualParameter
 
     private final DeviceUtils.Devices[] g3m_g4 = {DeviceUtils.Devices.LG_G3, DeviceUtils.Devices.LG_G4};
 
-    public FocusManualParameterLG(HashMap<String, String> parameters, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
+    public FocusManualParameterLG(Camera.Parameters parameters, String maxValue, String MinValue, I_CameraHolder cameraHolder, CamParametersHandler camParametersHandler) {
         super(parameters, "", "", "", camParametersHandler,1);
         this.baseCameraHolder = cameraHolder;
         isSupported = true;
@@ -46,7 +49,7 @@ public class FocusManualParameterLG extends  BaseManualParameter
             if (!camParametersHandler.FocusMode.GetValue().equals("normal")) {
                 camParametersHandler.FocusMode.SetValue("normal", true);
             }
-            parameters.put("manualfocus_step", stringvalues[valueToSet]);
+            parameters.set("manualfocus_step", stringvalues[valueToSet]);
             camParametersHandler.SetParametersToCamera(parameters);
         }
         else if (valueToSet == 0)

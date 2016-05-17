@@ -1,6 +1,9 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
+import android.hardware.Camera;
+
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.Logger;
 
 
@@ -27,7 +30,7 @@ public class BaseFocusManual extends BaseManualParameter
      * @param camParametersHandler
      * @param step
      */
-    public BaseFocusManual(HashMap<String, String> parameters, String value, String maxValue, String MinValue, String manualFocusModeString, AbstractParameterHandler camParametersHandler, float step, int manualFocusType) {
+    public BaseFocusManual(Camera.Parameters parameters, String value, String maxValue, String MinValue, String manualFocusModeString, CamParametersHandler camParametersHandler, float step, int manualFocusType) {
         super(parameters, value, maxValue, MinValue, camParametersHandler, step);
         this.manualFocusModeString = manualFocusModeString;
         this.manualFocusType = manualFocusType;
@@ -44,7 +47,7 @@ public class BaseFocusManual extends BaseManualParameter
      * @param step
      * @param manualFocusType
      */
-    public BaseFocusManual(HashMap<String, String> parameters, String value, int min,int max,String manualFocusModeString, AbstractParameterHandler camParametersHandler, float step,int manualFocusType) {
+    public BaseFocusManual(Camera.Parameters parameters, String value, int min,int max,String manualFocusModeString, CamParametersHandler camParametersHandler, float step,int manualFocusType) {
         super(parameters, value, "", "", camParametersHandler, step);
         this.isSupported = true;
         this.isVisible = true;
@@ -81,9 +84,9 @@ public class BaseFocusManual extends BaseManualParameter
         {
             if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !camParametersHandler.FocusMode.GetValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
                 camParametersHandler.FocusMode.SetValue(manualFocusModeString, false);
-            parameters.put("manual-focus-pos-type", manualFocusType+"");
+            parameters.set("manual-focus-pos-type", manualFocusType+"");
 
-            parameters.put(value, stringvalues[currentInt]);
+            parameters.set(value, stringvalues[currentInt]);
             Logger.d(TAG, "Set "+ value +" to : " + stringvalues[currentInt]);
             camParametersHandler.SetParametersToCamera(parameters);
         }

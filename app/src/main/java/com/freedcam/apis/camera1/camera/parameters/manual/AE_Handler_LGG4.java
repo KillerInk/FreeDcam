@@ -1,5 +1,7 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
+import android.hardware.Camera;
+
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.Logger;
@@ -15,7 +17,7 @@ public class AE_Handler_LGG4
     private ShutterManualParameterG4 shutterPrameter;
     private int currentIso = 0;
     private int currentShutter = 0;
-    private HashMap<String, String> parameters;
+    private Camera.Parameters parameters;
     boolean auto = true;
     private CamParametersHandler camParametersHandler;
 
@@ -27,7 +29,7 @@ public class AE_Handler_LGG4
         iso,
     }
 
-    public AE_Handler_LGG4(HashMap<String, String> parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler)
+    public AE_Handler_LGG4(Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler)
     {
         this.camParametersHandler = camParametersHandler;
         this.isoManualParameter = new ISOManualParameterG4(parameters,cameraHolder, camParametersHandler, aeevent);
@@ -62,9 +64,9 @@ public class AE_Handler_LGG4
                         shutterPrameter.setValue(0);
                         break;
                 }
-                parameters.put("lg-manual-mode-reset", "1");
+                parameters.set("lg-manual-mode-reset", "1");
                 camParametersHandler.SetParametersToCamera(parameters);
-                parameters.put("lg-manual-mode-reset", "0");
+                parameters.set("lg-manual-mode-reset", "0");
 
 
             }
@@ -96,7 +98,7 @@ public class AE_Handler_LGG4
                             break;
                     }
                 }
-                parameters.put("lg-manual-mode-reset", "0");
+                parameters.set("lg-manual-mode-reset", "0");
             }
             camParametersHandler.SetParametersToCamera(parameters);
             if (automode) {

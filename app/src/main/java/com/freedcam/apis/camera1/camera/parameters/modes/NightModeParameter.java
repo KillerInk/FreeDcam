@@ -1,5 +1,6 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
+import android.hardware.Camera;
 import android.os.Handler;
 
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
@@ -20,7 +21,7 @@ public class NightModeParameter extends BaseModeParameter
     private String state = "";
     private String format = "";
     private String curmodule = "";
-    public NightModeParameter(Handler handler, HashMap<String, String> parameters, CameraHolderApi1 parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
+    public NightModeParameter(Handler handler, Camera.Parameters parameters, CameraHolderApi1 parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
         super(handler, parameters, parameterChanged, "", "");
 
         this.isSupported = DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES);
@@ -50,14 +51,14 @@ public class NightModeParameter extends BaseModeParameter
                 cameraHolderApi1.GetParameterHandler().morphoHDR.SetValue("false", true);
                 cameraHolderApi1.GetParameterHandler().HDRMode.BackgroundValueHasChanged("off");
                 cameraHolderApi1.GetParameterHandler().AE_Bracket.SetValue("AE-Bracket", true);
-                parameters.put("morpho-hht", "true");
+                parameters.set("morpho-hht", "true");
             } else {
-                parameters.put("ae-bracket-hdr", "Off");
-                parameters.put("morpho-hht", "false");
+                parameters.set("ae-bracket-hdr", "Off");
+                parameters.set("morpho-hht", "false");
             }
         }
         else
-            parameters.put("night_key", valueToSet);
+            parameters.set("night_key", valueToSet);
         try {
             cameraHolderApi1.SetCameraParameters(parameters);
             super.BackgroundValueHasChanged(valueToSet);

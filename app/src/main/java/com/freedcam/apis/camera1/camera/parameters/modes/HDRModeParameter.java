@@ -1,5 +1,6 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
+import android.hardware.Camera;
 import android.os.Handler;
 
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
@@ -26,7 +27,7 @@ public class HDRModeParameter extends BaseModeParameter
     private String format = "";
     private String curmodule = "";
 
-    public HDRModeParameter(Handler handler, HashMap<String, String> parameters, CameraHolderApi1 parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
+    public HDRModeParameter(Handler handler, Camera.Parameters parameters, CameraHolderApi1 parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
         super(handler, parameters, parameterChanged, "", "");
 
         this.isSupported = false;
@@ -40,7 +41,7 @@ public class HDRModeParameter extends BaseModeParameter
         }
         else
         {
-            if (!parameters.containsKey("auto-hdr-supported"))
+            if (parameters.get("auto-hdr-supported")!=null)
                 this.isSupported = false;
             String autohdr = parameters.get("auto-hdr-supported");
             if (autohdr != null && !autohdr.equals("") && autohdr.equals("true")) {
@@ -85,10 +86,10 @@ public class HDRModeParameter extends BaseModeParameter
                 cameraHolderApi1.GetParameterHandler().morphoHHT.SetValue("false", true);
                 cameraHolderApi1.GetParameterHandler().NightMode.BackgroundValueHasChanged("off");
                 cameraHolderApi1.GetParameterHandler().AE_Bracket.SetValue("AE-Bracket", true);
-                parameters.put("morpho-hdr", "true");
+                parameters.set("morpho-hdr", "true");
             } else {
-                parameters.put("ae-bracket-hdr", "Off");
-                parameters.put("morpho-hdr", "false");
+                parameters.set("ae-bracket-hdr", "Off");
+                parameters.set("morpho-hdr", "false");
             }
         }
         else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
@@ -96,28 +97,28 @@ public class HDRModeParameter extends BaseModeParameter
             switch (valueToSet)
             {
                 case "on":
-                    parameters.put("hdr-mode", "1");
+                    parameters.set("hdr-mode", "1");
                     break;
                 case "off":
-                    parameters.put("hdr-mode", "0");
+                    parameters.set("hdr-mode", "0");
                     break;
                 case "auto":
-                    parameters.put("hdr-mode", "2");
+                    parameters.set("hdr-mode", "2");
             }
         }
         else {
             switch (valueToSet) {
                 case "off":
-                    parameters.put("scene-mode", "auto");
-                    parameters.put("auto-hdr-enable", "disable");
+                    parameters.set("scene-mode", "auto");
+                    parameters.set("auto-hdr-enable", "disable");
                     break;
                 case "on":
-                    parameters.put("scene-mode", "hdr");
-                    parameters.put("auto-hdr-enable", "enable");
+                    parameters.set("scene-mode", "hdr");
+                    parameters.set("auto-hdr-enable", "enable");
                     break;
                 case "auto":
-                    parameters.put("scene-mode", "asd");
-                    parameters.put("auto-hdr-enable", "enable");
+                    parameters.set("scene-mode", "asd");
+                    parameters.set("auto-hdr-enable", "enable");
                     break;
             }
         }
@@ -144,8 +145,8 @@ public class HDRModeParameter extends BaseModeParameter
         }
         else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
         {
-            if (!parameters.containsKey("hdr-mode"))
-                parameters.put("hdr-mode", "0");
+            if (parameters.get("hdr-mode")!= null)
+                parameters.set("hdr-mode", "0");
             if (parameters.get("hdr-mode").equals("0"))
                 return "off";
             else if (parameters.get("hdr-mode").equals("1"))
@@ -153,7 +154,7 @@ public class HDRModeParameter extends BaseModeParameter
             else
                 return "auto";
         }
-        else if(parameters.containsKey("auto-hdr-enable"))
+        else if(parameters.get("auto-hdr-enable")!= null)
         {
             if (parameters.get("auto-hdr-enable").equals("enable") && parameters.get("scene-mode").equals("hdr"))
                 return "on";

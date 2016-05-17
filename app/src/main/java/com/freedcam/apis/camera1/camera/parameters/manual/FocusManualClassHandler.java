@@ -1,5 +1,6 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
+import android.hardware.Camera;
 import android.os.Build;
 
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
@@ -24,7 +25,7 @@ public class FocusManualClassHandler
     private static final String min_focus_pos_ratio = "min-focus-pos-ratio";
 
 
-    public static BaseManualParameter GetManualFocus(HashMap<String, String> parameters, CamParametersHandler parametersHandler, I_CameraHolder cameraHolder)
+    public static BaseManualParameter GetManualFocus(Camera.Parameters parameters, CamParametersHandler parametersHandler, I_CameraHolder cameraHolder)
     {
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
         {
@@ -60,12 +61,12 @@ public class FocusManualClassHandler
             return new FocusManualParameterLG(parameters, "","", cameraHolder, parametersHandler);
         else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
             return new FocusManualParameterHTC(parameters, "","", cameraHolder,parametersHandler);
-        else if(parameters.containsKey("afeng-max-focus-step") || parametersHandler.isMTK() || DeviceUtils.IS(DeviceUtils.Devices.SonyC5_MTK)||DeviceUtils.IS(DeviceUtils.Devices.SonyM5_MTK) ||DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote2_MTK))
+        else if(parameters.get("afeng-max-focus-step")!=null || parametersHandler.isMTK() || DeviceUtils.IS(DeviceUtils.Devices.SonyC5_MTK)||DeviceUtils.IS(DeviceUtils.Devices.SonyM5_MTK) ||DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote2_MTK))
             //return new FocusManualMTK(parameters,"afeng-pos","afeng-max-focus-step","afeng-min-focus-step", focusMode_manual,parametersHandler,10,0);
             return  new FocusManualMTK(parameters, 0,1023,focusMode_manual,parametersHandler,10,1);
-        else if(parameters.containsKey("focus-fs-fi-max") && parameters.containsKey("focus-fs-fi-min") && parameters.containsKey("focus-fs-fi"))
+        else if(parameters.get("focus-fs-fi-max") != null && parameters.get("focus-fs-fi-min")!= null && parameters.get("focus-fs-fi")!= null)
             return new FocusManualMTK(parameters,"focus-fs-fi","focus-fs-fi-max","focus-fs-fi-min", parametersHandler,10,0);
-        else if (parameters.containsKey("manual-focus-modes"))
+        else if (parameters.get("manual-focus-modes")!= null)
             return new FocusManual_QcomM(parameters, "max-focus-pos-ratio","min-focus-pos-ratio", parametersHandler,1);
         else
             return null;

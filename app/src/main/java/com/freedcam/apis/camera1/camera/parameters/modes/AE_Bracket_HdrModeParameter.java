@@ -1,5 +1,6 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
+import android.hardware.Camera;
 import android.os.Handler;
 
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
@@ -11,7 +12,7 @@ import java.util.HashMap;
  */
 public class AE_Bracket_HdrModeParameter extends BaseModeParameter
 {
-    public AE_Bracket_HdrModeParameter(Handler handler, HashMap<String, String> parameters, CameraHolderApi1 cameraHolder, String value, String values) {
+    public AE_Bracket_HdrModeParameter(Handler handler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, String value, String values) {
         super(handler, parameters, cameraHolder, value, values);
     }
 

@@ -1,6 +1,9 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
+import android.hardware.Camera;
+
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.Logger;
 
 import java.util.ArrayList;
@@ -12,7 +15,7 @@ import java.util.HashMap;
 public class ExposureManualParameter extends BaseManualParameter
 {
     private final String TAG = ExposureManualParameter.class.getSimpleName();
-    public ExposureManualParameter(HashMap<String, String> parameters, String value, String MinValue, AbstractParameterHandler camParametersHandler, float step) {
+    public ExposureManualParameter(Camera.Parameters parameters, String value, String MinValue, CamParametersHandler camParametersHandler, float step) {
         super(parameters, value, "max-exposure-compensation", "min-exposure-compensation", camParametersHandler,step);
         Logger.d(TAG, "Is Supported:" + isSupported);
     }
@@ -42,7 +45,7 @@ public class ExposureManualParameter extends BaseManualParameter
         if (parameters.get(min_value).contains("-"))
             t = t-(stringvalues.length/2);
         Logger.d(TAG, "Set "+ value +" to: " +t);
-        parameters.put(value, t + "");
+        parameters.set(value, t + "");
         try
         {
             camParametersHandler.SetParametersToCamera(parameters);

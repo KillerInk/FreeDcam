@@ -24,13 +24,6 @@ public interface I_CameraHolder
     boolean IsRdy();
 
     /**
-     * The the parameters to the Camera
-     * @param parameters to set
-     * @return true when sucessfull, wrong when something went wrong
-     */
-    boolean SetCameraParameters(HashMap<String, String> parameters);
-
-    /**
      * The the surface to camera
      * @param texture to set
      * @return

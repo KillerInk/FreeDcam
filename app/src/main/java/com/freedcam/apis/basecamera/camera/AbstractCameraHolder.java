@@ -97,11 +97,6 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     }
 
     @Override
-    public boolean SetCameraParameters(HashMap<String, String> parameters) {
-        return false;
-    }
-
-    @Override
     public boolean SetSurface(SurfaceHolder texture) {
         return false;
     }

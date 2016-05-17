@@ -1,5 +1,6 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
+import android.hardware.Camera;
 import android.os.Handler;
 
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
@@ -41,7 +42,7 @@ public class ShutterManualZTE extends BaseManualParameter
      * @param MinValue
      * @param camParametersHandler
      */
-    public ShutterManualZTE(HashMap<String, String> parameters, String maxValue, String MinValue, I_CameraHolder baseCameraHolder, AbstractParameterHandler camParametersHandler) {
+    public ShutterManualZTE(Camera.Parameters parameters, String maxValue, String MinValue, I_CameraHolder baseCameraHolder, CamParametersHandler camParametersHandler) {
         super(parameters, "", "", "", camParametersHandler,1);
         this.baseCameraHolder = baseCameraHolder;
 
@@ -119,9 +120,9 @@ public class ShutterManualZTE extends BaseManualParameter
             Runnable r = new Runnable() {
                 public void run() {
 
-                    parameters.put("slow_shutter", shutterstring);
-                    parameters.put("slow_shutter_addition", "1");
-                    baseCameraHolder.SetCameraParameters(parameters);
+                    parameters.set("slow_shutter", shutterstring);
+                    parameters.set("slow_shutter_addition", "1");
+                    camParametersHandler.SetParametersToCamera(parameters);
 
                     if(Double.parseDouble(shutterstring) <= 0.5 && Double.parseDouble(shutterstring) >= 0.0005 ){
                         baseCameraHolder.StopPreview();

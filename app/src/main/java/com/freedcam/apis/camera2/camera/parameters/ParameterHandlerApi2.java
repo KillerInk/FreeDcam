@@ -161,10 +161,6 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
     }
 
-    @Override
-    public void SetParametersToCamera(HashMap<String, String> list) {
-
-    }
 
     @Override
     public void LockExposureAndWhiteBalance(boolean lock) {

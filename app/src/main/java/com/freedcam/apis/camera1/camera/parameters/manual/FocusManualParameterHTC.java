@@ -1,7 +1,10 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
+import android.hardware.Camera;
+
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,14 +17,14 @@ public class FocusManualParameterHTC extends  BaseManualParameter
     private I_CameraHolder baseCameraHolder;
     private final String TAG =FocusManualParameterHTC.class.getSimpleName();
 
-    public FocusManualParameterHTC(HashMap<String, String> parameters, String maxValue, String MinValue, I_CameraHolder cameraHolder, AbstractParameterHandler camParametersHandler) {
+    public FocusManualParameterHTC(Camera.Parameters parameters, String maxValue, String MinValue, I_CameraHolder cameraHolder, CamParametersHandler camParametersHandler) {
         super(parameters, "", "", "", camParametersHandler,1);
         this.baseCameraHolder = cameraHolder;
-        this.isSupported = parameters.containsKey("min-focus") && parameters.containsKey("max-focus");
+        this.isSupported = parameters.get("min-focus") != null && parameters.get("max-focus") != null;
         this.max_value = "max-focus";
         this.value = "focus";
         this.min_value = "min-focus";
-        parameters.put("","0");
+        parameters.set(value,"0");
         isVisible = isSupported;
         if (isSupported)
         {
@@ -49,12 +52,12 @@ public class FocusManualParameterHTC extends  BaseManualParameter
     {
         if(valueToSet != 0)
         {
-            parameters.put(value, stringvalues[valueToSet]);
+            parameters.set(value, stringvalues[valueToSet]);
             camParametersHandler.SetParametersToCamera(parameters);
         }
         else if (valueToSet == 0)
         {
-            parameters.put(value, valueToSet+"");
+            parameters.set(value, valueToSet+"");
             camParametersHandler.FocusMode.SetValue("auto", true);
         }
     }

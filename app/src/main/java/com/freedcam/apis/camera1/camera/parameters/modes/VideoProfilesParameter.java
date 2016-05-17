@@ -1,5 +1,6 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
+import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.os.Handler;
 
@@ -29,7 +30,7 @@ public class VideoProfilesParameter extends BaseModeParameter
     private static final String _720phfr = "720HFR";
     public static final String _4kUHD = "4kUHD";
 
-    public VideoProfilesParameter(Handler handler, HashMap<String, String> parameters, CameraHolderApi1 parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
+    public VideoProfilesParameter(Handler handler, Camera.Parameters parameters, CameraHolderApi1 parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
         super(handler,parameters, parameterChanged, "", "");
         this.cameraHolder = parameterChanged;
         this.cameraUiWrapper = cameraUiWrapper;
@@ -234,7 +235,7 @@ public class VideoProfilesParameter extends BaseModeParameter
             Logger.exception(e);
         }
 
-        if (supportedProfiles.get(_720phfr) == null && parameters.containsKey("video-hfr-values") && parameters.get("video-hfr-values").contains("120"))
+        if (supportedProfiles.get(_720phfr) == null && parameters.get("video-hfr-values")!=null && parameters.get("video-hfr-values").contains("120"))
         {
             Logger.d(TAG, "no 720phfr profile found, but hfr supported, try to add custom 720phfr");
             VideoMediaProfile t = supportedProfiles.get("720p").clone();
@@ -244,7 +245,7 @@ public class VideoProfilesParameter extends BaseModeParameter
             supportedProfiles.put("720pHFR",t);
         }
 
-        if (supportedProfiles.get(_4kUHD) == null && parameters.containsKey("video-size-values") && parameters.get("video-size-values").contains("3840x2160")
+        if (supportedProfiles.get(_4kUHD) == null && parameters.get("video-size-values") !=null&& parameters.get("video-size-values").contains("3840x2160")
                 || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) || DeviceUtils.IS(DeviceUtils.Devices.LenovoK920))
         {
             if (supportedProfiles.containsKey("1080p"))
@@ -261,8 +262,8 @@ public class VideoProfilesParameter extends BaseModeParameter
         }
 
 
-        if (parameters.containsKey("video-size-values") && parameters.get("video-size-values").contains("1920x1080")
-                && (parameters.containsKey("video-hfr-values")&& parameters.get("video-hfr-values").contains("60"))
+        if (parameters.get("video-size-values")!=null && parameters.get("video-size-values").contains("1920x1080")
+                && (parameters.get("video-hfr-values")!=null&& parameters.get("video-hfr-values").contains("60"))
                 || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)) //<--- that line is not needed. when parameters contains empty hfr it gets filled!
         {
             if (supportedProfiles.containsKey("1080p")) {

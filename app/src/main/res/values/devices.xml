@@ -135,6 +135,7 @@
         <item>HTC One_M8 dual sim</item>
         <item>HTC M8d</item>
         <item>HTC6525LVW</item>
+        <item>m8</item>
     </string-array>
     <string-array name="htc_m9">
         <item>HTC One_M9"</item>

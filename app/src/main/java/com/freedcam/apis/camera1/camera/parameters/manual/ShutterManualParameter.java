@@ -1,7 +1,9 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
+import android.hardware.Camera;
 import android.os.Build;
 
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.Logger;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.utils.DeviceUtils;
@@ -30,7 +32,7 @@ public class ShutterManualParameter extends BaseManualParameter
 
 
 
-    public ShutterManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
+    public ShutterManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, CamParametersHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler,1);
          if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
         {
@@ -47,7 +49,7 @@ public class ShutterManualParameter extends BaseManualParameter
             this.isSupported = true;
             stringvalues = ShutterClassHandler.Mi4WValues.split(",");
         }
-        else if (parameters.containsKey("exposure-time") || DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote)) {
+        else if (parameters.get("exposure-time")!= null || DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote)) {
             try {
 
                 int min = Integer.parseInt(parameters.get("min-exposure-time"));
@@ -75,7 +77,7 @@ public class ShutterManualParameter extends BaseManualParameter
     @Override
     protected void setvalue(int valueToSet)
     {
-        if ( parameters.containsKey("exposure-time") || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
+        if ( parameters.get("exposure-time")!= null || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
         {
             currentInt = valueToSet;
             String shutterstring = stringvalues[currentInt];
@@ -104,7 +106,7 @@ public class ShutterManualParameter extends BaseManualParameter
         }
         else
         {
-            parameters.put("exposure-time", valueToSet + "");
+            parameters.set("exposure-time", valueToSet + "");
             camParametersHandler.SetParametersToCamera(parameters);
         }
     }
@@ -112,10 +114,10 @@ public class ShutterManualParameter extends BaseManualParameter
     private void setShutterToAuto() {
         if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
         {
-            parameters.put("exposure-time", "0");
+            parameters.set("exposure-time", "0");
         }
-        else if (parameters.containsKey("exposure-time"))
-            parameters.put("exposure-time", 0+"");
+        else if (parameters.get("exposure-time")!= null)
+            parameters.set("exposure-time", 0+"");
         camParametersHandler.SetParametersToCamera(parameters);
     }
 
@@ -123,7 +125,7 @@ public class ShutterManualParameter extends BaseManualParameter
         if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994))
         {
             try {
-                parameters.put("exposure-time", String.valueOf(StringUtils.getMicroSec(shutterstring)));
+                parameters.set("exposure-time", String.valueOf(StringUtils.getMicroSec(shutterstring)));
             }
             catch (Exception ex)
             {
@@ -131,14 +133,14 @@ public class ShutterManualParameter extends BaseManualParameter
             }
 
         }
-        else if(parameters.containsKey("exposure-time")||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) || DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote))
+        else if(parameters.get("exposure-time")!= null||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) || DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote))
         {
             if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)&& Build.VERSION.SDK_INT < 23) {
                 shutterstring = StringUtils.FLOATtoSixty4(shutterstring);
-                parameters.put("exposure-time", shutterstring);
+                parameters.set("exposure-time", shutterstring);
             }
             else
-                parameters.put("exposure-time", String.valueOf(StringUtils.getMicroSec(shutterstring)));
+                parameters.set("exposure-time", String.valueOf(StringUtils.getMicroSec(shutterstring)));
         }
         camParametersHandler.SetParametersToCamera(parameters);
         return shutterstring;

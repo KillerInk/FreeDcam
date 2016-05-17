@@ -1,7 +1,10 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
+import android.hardware.Camera;
+
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,7 +14,7 @@ public class ISOManualParameterG4 extends BaseManualParameter
     private CameraHolderApi1 cameraHolderApi1;
     private AE_Handler_LGG4.AeManualEvent manualEvent;
 
-    public ISOManualParameterG4(HashMap<String, String> parameters, CameraHolderApi1 cameraHolder, AbstractParameterHandler camParametersHandler, AE_Handler_LGG4.AeManualEvent manualevent) {
+    public ISOManualParameterG4(Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler, AE_Handler_LGG4.AeManualEvent manualevent) {
         super(parameters, "", "", "", camParametersHandler,1);
 
         this.cameraHolderApi1 = cameraHolder;
@@ -65,12 +68,12 @@ public class ISOManualParameterG4 extends BaseManualParameter
 
         if (value == 0)
         {
-            parameters.put("lg-iso", "auto");
+            parameters.set("lg-iso", "auto");
         }
         else
         {
             currentInt = value;
-            parameters.put("lg-iso", stringvalues[value]);
+            parameters.set("lg-iso", stringvalues[value]);
         }
         ThrowCurrentValueStringCHanged(stringvalues[value]);
     }

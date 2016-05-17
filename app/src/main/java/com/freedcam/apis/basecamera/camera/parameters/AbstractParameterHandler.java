@@ -171,7 +171,6 @@ public abstract class AbstractParameterHandler
 
     }
 
-    public abstract void SetParametersToCamera(HashMap<String, String> list);
     public abstract void LockExposureAndWhiteBalance(boolean lock);
 
     public void SetFocusAREA(FocusRect focusAreas, FocusRect meteringAreas){}

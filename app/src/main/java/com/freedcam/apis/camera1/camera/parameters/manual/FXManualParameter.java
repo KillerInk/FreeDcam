@@ -1,7 +1,10 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
+import android.hardware.Camera;
+
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.DeviceUtils;
 
 import java.util.HashMap;
@@ -9,12 +12,12 @@ import java.util.HashMap;
 public class FXManualParameter extends BaseManualParameter {
 	
 	CameraHolderApi1 cameraHolderApi1;
-    public FXManualParameter(HashMap<String, String> parameters, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
+    public FXManualParameter(Camera.Parameters parameters, String maxValue, String MinValue, CamParametersHandler camParametersHandler) {
         super(parameters, "", "", "", camParametersHandler,1);
 
         //TODO add missing logic
     }
-  /*  public FXManualParameter(HashMap<String, String> parameters, String value, String maxValue, String MinValue, CameraHolderApi1 cameraHolder, AbstractParameterHandler camParametersHandler) {
+  /*  public FXManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, CameraHolderApi1 cameraHolder, AbstractParameterHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler);
 
         this.cameraHolderApi1 = cameraHolder;
@@ -60,7 +63,7 @@ public class FXManualParameter extends BaseManualParameter {
     @Override
     protected void setvalue(int valueToSet)
     {   
-    	parameters.put("morpho_effect_type", String.valueOf(valueToSet));
+    	parameters.set("morpho_effect_type", String.valueOf(valueToSet));
         camParametersHandler.SetParametersToCamera(parameters);
 
     }

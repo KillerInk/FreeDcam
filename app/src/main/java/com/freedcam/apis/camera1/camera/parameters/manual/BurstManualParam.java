@@ -4,11 +4,13 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
  * Created by George on 1/21/2015.
  */
 
+import android.hardware.Camera;
 import android.os.Build;
 
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 
@@ -20,7 +22,7 @@ public class BurstManualParam extends BaseManualParameter
 
     final String TAG = BurstManualParam.class.getSimpleName();
 
-    public BurstManualParam(HashMap<String, String> parameters, AbstractParameterHandler camParametersHandler) {
+    public BurstManualParam(Camera.Parameters parameters, CamParametersHandler camParametersHandler) {
         super(parameters, "", "", "", camParametersHandler,1);
 
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)
@@ -28,9 +30,9 @@ public class BurstManualParam extends BaseManualParameter
                 || DeviceUtils.IS(DeviceUtils.Devices.LG_G2)
                 || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)
                 || DeviceUtils.IS(DeviceUtils.Devices.LG_G4)
-                || parameters.containsKey("num-snaps-per-shutter")
-                || parameters.containsKey("snapshot-burst-num")
-                || parameters.containsKey("burst-num"))
+                || parameters.get("num-snaps-per-shutter") != null
+                || parameters.get("snapshot-burst-num") != null
+                || parameters.get("burst-num")!= null)
         {
             isSupported = true;
             int max = 10;
@@ -79,29 +81,29 @@ public class BurstManualParam extends BaseManualParameter
     {
         currentInt = valueToSet;
 
-        if (parameters.containsKey("num-snaps-per-shutter") ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
+        if (parameters.get("num-snaps-per-shutter") != null ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
         {
             if (currentInt == 0)
-                parameters.put("num-snaps-per-shutter", 1+"");
+                parameters.set("num-snaps-per-shutter", 1+"");
             else
-                parameters.put("num-snaps-per-shutter", stringvalues[currentInt]);
+                parameters.set("num-snaps-per-shutter", stringvalues[currentInt]);
             Logger.d(TAG, "num-snaps-per-shutter"+ stringvalues[currentInt]);
 
         }
-        if (!parameters.containsKey("burst-num"))
+        if (parameters.get("burst-num")!=null)
         {
             if (currentInt == 0)
-                parameters.put("snapshot-burst-num", String.valueOf(0));
+                parameters.set("snapshot-burst-num", String.valueOf(0));
             else
-                parameters.put("snapshot-burst-num", stringvalues[currentInt]);
+                parameters.set("snapshot-burst-num", stringvalues[currentInt]);
             Logger.d(TAG, "snapshot-burst-num"+ stringvalues[currentInt]);
         }
-        else if(parameters.containsKey("burst-num"))
+        else if(parameters.get("burst-num") != null)
         {
             if (valueToSet == 0)
-                parameters.put("burst-num", String.valueOf(0));
+                parameters.set("burst-num", String.valueOf(0));
             else
-                parameters.put("burst-num", stringvalues[currentInt]);
+                parameters.set("burst-num", stringvalues[currentInt]);
             Logger.d(TAG, "burst-num"+ stringvalues[currentInt]);
         }
 

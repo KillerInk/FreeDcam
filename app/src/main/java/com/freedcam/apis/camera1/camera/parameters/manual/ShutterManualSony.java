@@ -1,6 +1,9 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
+import android.hardware.Camera;
+
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 
@@ -18,7 +21,7 @@ public class ShutterManualSony extends BaseManualParameter
      * @param MinValue
      * @param camParametersHandler
      */
-    public ShutterManualSony(HashMap<String, String> parameters, String maxValue, String MinValue, AbstractParameterHandler camParametersHandler) {
+    public ShutterManualSony(Camera.Parameters parameters, String maxValue, String MinValue, CamParametersHandler camParametersHandler) {
         super(parameters, "", "", "", camParametersHandler,1);
         try {
             if (!parameters.get("sony-max-shutter-speed").equals(""))
@@ -49,8 +52,8 @@ public class ShutterManualSony extends BaseManualParameter
     protected void setvalue(int valueToSet)
     {
         currentInt = valueToSet;
-        parameters.put("sony-ae-mode", "manual");
-        parameters.put("sony-shutter-speed", stringvalues[currentInt]);
+        parameters.set("sony-ae-mode", "manual");
+        parameters.set("sony-shutter-speed", stringvalues[currentInt]);
         camParametersHandler.SetParametersToCamera(parameters);
     }
 }
