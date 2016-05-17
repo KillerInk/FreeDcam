@@ -66,21 +66,23 @@ public class CCTManualParameter extends BaseManualParameter
                 this.value = LG_WB;
 
             //check all possible max values
-            if (parameters.get(MAX_WB_CCT)!= null) {
-                setmax(MAX_WB_CCT);
-            }
-            else if (parameters.get(MAX_WB_CT)!= null)
-                setmax(MAX_WB_CT);
-            else if (parameters.get(LG_Max)!= null)
+            if (parameters.get(LG_Max)!= null)
                 setmax(LG_Max);
 
+            else if (parameters.get(MAX_WB_CT)!= null)
+                setmax(MAX_WB_CT);
+            else if (parameters.get(MAX_WB_CCT)!= null) {
+                setmax(MAX_WB_CCT);
+            }
+
             //check all possible min values
-            if (parameters.get(MIN_WB_CCT)!= null) {
-                setmin(MIN_WB_CCT);
-            } else if (parameters.get(MIN_WB_CT)!= null)
-                setmin(MIN_WB_CT);
-            else if (parameters.get(LG_Min)!= null)
+            if (parameters.get(LG_Min)!= null)
                 setmin(LG_Min);
+             else if (parameters.get(MIN_WB_CT)!= null)
+                setmin(MIN_WB_CT);
+            else if (parameters.get(MIN_WB_CCT)!= null) {
+                setmin(MIN_WB_CCT);
+            }
 
             //check wbmode manual
             if (arrayContainsString(camParametersHandler.WhiteBalanceMode.GetValues(), WB_MODE_MANUAL))
@@ -161,28 +163,30 @@ public class CCTManualParameter extends BaseManualParameter
     protected void setvalue(int valueToSet) {
         currentInt = valueToSet;
         //set to auto
-        if (currentInt == 0) {
-            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9)) {
+        if (currentInt == 0)
+        {
+            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
+            {
                 parameters.set(value, "-1");
             } else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
                 parameters.set(value, "0");
             else
                 camParametersHandler.WhiteBalanceMode.SetValue("auto", true);
-        } else //set manual wb mode and value
+        }
+        else //set manual wb mode and value
         {
             if (!camParametersHandler.WhiteBalanceMode.GetValue().equals(manualWbMode) && manualWbMode != "")
                 camParametersHandler.WhiteBalanceMode.SetValue(manualWbMode, true);
             parameters.set(value, stringvalues[currentInt]);
+            Logger.d(TAG,"set "+ value + " to " + stringvalues[currentInt]);
 
-            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New) || parameters.get("manual-wb-modes")!= null)
+            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
                 try {
                     parameters.set("manual-wb-type", "color-temperature");
                     parameters.set("manual-wb-value", stringvalues[currentInt]);
                 } catch (Exception ex) {
-
+                    Logger.exception(ex);
                 }
-
-
         }
         camParametersHandler.SetParametersToCamera(parameters);
     }
