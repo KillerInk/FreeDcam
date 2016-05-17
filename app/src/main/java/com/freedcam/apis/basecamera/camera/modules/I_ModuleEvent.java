@@ -5,5 +5,5 @@ package com.freedcam.apis.basecamera.camera.modules;
  */
 public interface I_ModuleEvent
 {
-    String ModuleChanged(String module);
+    void ModuleChanged(String module);
 }

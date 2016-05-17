@@ -189,7 +189,7 @@ public class HDRModeParameter extends BaseModeParameter
     }
 
     @Override
-    public String ModuleChanged(String module)
+    public void ModuleChanged(String module)
     {
         if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4) || supportauto || supporton) {
             curmodule = module;
@@ -212,7 +212,6 @@ public class HDRModeParameter extends BaseModeParameter
                     }
             }
         }
-        return null;
     }
 
     @Override

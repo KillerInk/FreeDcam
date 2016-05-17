@@ -211,7 +211,7 @@ public class BaseManualParameter extends AbstractManualParameter
 
     private I_ModuleEvent moduleListner =new I_ModuleEvent() {
         @Override
-        public String ModuleChanged(String module)
+        public void ModuleChanged(String module)
         {
             if (module.equals(AbstractModuleHandler.MODULE_VIDEO) && isSupported)
                 BackgroundIsSupportedChanged(true);
@@ -221,7 +221,6 @@ public class BaseManualParameter extends AbstractManualParameter
             {
                 BackgroundIsSupportedChanged(isVisible);
             }
-            return null;
         }
     };
 }

@@ -60,8 +60,7 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
     }
 
     @Override
-    public String ModuleChanged(String module) {
-        return null;
+    public void ModuleChanged(String module) {
     }
 
     private void startLooperThread()

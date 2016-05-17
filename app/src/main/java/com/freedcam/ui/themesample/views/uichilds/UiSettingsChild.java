@@ -255,8 +255,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     }
 
     @Override
-    public String ModuleChanged(String module) {
-        return null;
+    public void ModuleChanged(String module) {
     }
 
     @Override

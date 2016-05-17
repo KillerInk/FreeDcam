@@ -28,7 +28,7 @@ public class TimerHandler implements I_ModuleEvent, I_RecorderStateChanged
     }
 
     @Override
-    public String ModuleChanged(final String module)
+    public void ModuleChanged(final String module)
     {
         mainActivity.runOnUiThread(new Runnable() {
             @Override
@@ -39,8 +39,6 @@ public class TimerHandler implements I_ModuleEvent, I_RecorderStateChanged
                     timerText.setVisibility(View.GONE);
             }
         });
-
-        return null;
     }
 
 

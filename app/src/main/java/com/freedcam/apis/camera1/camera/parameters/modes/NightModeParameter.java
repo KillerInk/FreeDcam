@@ -92,7 +92,7 @@ public class NightModeParameter extends BaseModeParameter
     }
 
     @Override
-    public String ModuleChanged(String module)
+    public void ModuleChanged(String module)
     {
         if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
         {
@@ -110,7 +110,6 @@ public class NightModeParameter extends BaseModeParameter
                     }
             }
         }
-        return null;
     }
 
     @Override

@@ -257,7 +257,7 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
     }
 
     @Override
-    public String ModuleChanged(String module)
+    public void ModuleChanged(String module)
     {
         Logger.d(TAG, "ModuleChanged(String):" + module + " enabled:" +enable);
         if (module.equals(AbstractModuleHandler.MODULE_STACKING)
@@ -272,7 +272,6 @@ public class Staxxer implements Camera.PreviewCallback, I_CameraChangedListner,I
             setDoWork(false);
             setEnable(enable);
         }
-        return null;
     }
 
     private void setDoWork(boolean work) {this.doWork = work;}

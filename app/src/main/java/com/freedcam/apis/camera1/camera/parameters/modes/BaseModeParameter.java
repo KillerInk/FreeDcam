@@ -113,8 +113,8 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
     }
 
     @Override
-    public String ModuleChanged(String module) {
-        return null;
+    public void ModuleChanged(String module) {
+
     }
 
     @Override

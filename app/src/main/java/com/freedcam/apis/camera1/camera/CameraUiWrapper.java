@@ -352,10 +352,9 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     }
 
     @Override
-    public String ModuleChanged(String module)
+    public void ModuleChanged(String module)
     {
         onPreviewSizeShouldChange.onValueChanged("");
-        return null;
     }
 
     @Override

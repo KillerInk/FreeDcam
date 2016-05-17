@@ -173,7 +173,7 @@ public class PictureFormatHandler extends BaseModeParameter
     }
 
     @Override
-    public String ModuleChanged(String module)
+    public void ModuleChanged(String module)
     {
         switch (module)
         {
@@ -186,7 +186,6 @@ public class PictureFormatHandler extends BaseModeParameter
                 BackgroundIsSupportedChanged(false);
                 break;
         }
-        return super.ModuleChanged(module);
     }
 
     @Override

@@ -123,7 +123,7 @@ public class BurstManualParam extends BaseManualParameter
 
     private I_ModuleEvent moduleListner =new I_ModuleEvent() {
         @Override
-        public String ModuleChanged(String module)
+        public void ModuleChanged(String module)
         {
             if ((module.equals(AbstractModuleHandler.MODULE_VIDEO) || module.equals(AbstractModuleHandler.MODULE_HDR)) && isSupported)
                 BackgroundIsSupportedChanged(false);
@@ -133,7 +133,6 @@ public class BurstManualParam extends BaseManualParameter
             {
                 BackgroundIsSupportedChanged(true);
             }
-            return null;
         }
     };
 

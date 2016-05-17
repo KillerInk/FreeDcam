@@ -47,7 +47,6 @@ public class UiSettingsChildExit extends UiSettingsChild
     }
 
     @Override
-    public String ModuleChanged(String module) {
-        return null;
+    public void ModuleChanged(String module) {
     }
 }

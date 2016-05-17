@@ -42,7 +42,7 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
     }
 
     @Override
-    public String ModuleChanged(String module)
+    public void ModuleChanged(String module)
     {
         valueText.post(new Runnable() {
             @Override
@@ -51,7 +51,5 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
                     valueText.setText(cameraUiWrapper.moduleHandler.GetCurrentModule().ShortName());
             }
         });
-
-        return module;
     }
 }

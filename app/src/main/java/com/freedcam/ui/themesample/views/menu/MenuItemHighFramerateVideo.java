@@ -44,9 +44,8 @@ public class MenuItemHighFramerateVideo extends MenuItem
     }
 
     @Override
-    public String ModuleChanged(String module) {
+    public void ModuleChanged(String module) {
         this.currentModule = module;
-        return  null;
     }
 
     @Override

@@ -293,7 +293,7 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
     }
 
     @Override
-    public String ModuleChanged(String module)
+    public void ModuleChanged(String module)
     {
         Logger.d(TAG, "ModuleChanged(String):" + module + " enabled:" +enable);
         if (module.equals(AbstractModuleHandler.MODULE_PICTURE)
@@ -308,7 +308,6 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
             setDoWork(false);
             setEnable(enable);
         }
-        return null;
     }
 
     private void setDoWork(boolean work) {this.doWork = work;}

@@ -154,7 +154,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     }
 
     @Override
-    public String ModuleChanged(String module) {
+    public void ModuleChanged(String module) {
 
         Logger.d(TAG, "Module Changed");
         if (cameraUiWrapper.camParametersHandler.ContShootMode != null && cameraUiWrapper.camParametersHandler.ContShootMode.IsSupported())
@@ -179,8 +179,6 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
 
             }
         });
-        return null;
-
     }
 
     private int workerCounter = 0;

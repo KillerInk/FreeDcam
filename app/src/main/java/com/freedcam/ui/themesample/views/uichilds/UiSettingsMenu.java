@@ -55,8 +55,7 @@ public class UiSettingsMenu extends UiSettingsChild {
     }
 
     @Override
-    public String ModuleChanged(String module) {
-        return null;
+    public void ModuleChanged(String module) {
     }
 
     @Override
