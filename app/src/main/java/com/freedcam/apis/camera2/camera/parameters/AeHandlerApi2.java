@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 /**
  * Created by troop on 18.05.2016.
+ * Handels all related stuff when ae gets turned off/on and hide/show in that case the manual stuff in ui
  */
 public class AeHandlerApi2
 {
@@ -38,6 +39,7 @@ public class AeHandlerApi2
         manualExposureApi2 = new ManualExposureApi2(parameterHandler);
         manualExposureTimeApi2 = new ManualExposureTimeApi2(parameterHandler);
         manualISoApi2 = new ManualISoApi2(parameterHandler);
+        //pass stuff to the parameterhandler that it get used by the ui
         parameterHandler.ExposureMode = aeModeApi2;
         parameterHandler.ManualShutter = manualExposureTimeApi2;
         parameterHandler.ManualExposure = manualExposureApi2;
@@ -54,27 +56,30 @@ public class AeHandlerApi2
         on_auto_flash_redeye,
     }
 
+    //when the ae mode change set the visiblity to the ui items
     private void setManualItemsSetSupport(AEModes aeModes)
     {
-        switch (aeModes)
+        if (aeModes == AEModes.off)
         {
-            case off:
-                manualExposureApi2.BackgroundIsSetSupportedChanged(false);
-                manualISoApi2.BackgroundIsSetSupportedChanged(true);
-                manualExposureTimeApi2.BackgroundIsSetSupportedChanged(true);
-                break;
-            case on:
-            case on_auto_flash:
-            case on_always_flash:
-            case on_auto_flash_redeye:
-                manualExposureApi2.BackgroundIsSetSupportedChanged(true);
-                manualISoApi2.BackgroundIsSetSupportedChanged(true);
-                manualExposureTimeApi2.BackgroundIsSetSupportedChanged(false);
-                break;
+            //hide manualexposuretime ui item
+            manualExposureApi2.BackgroundIsSupportedChanged(false);
+            //enable manualiso item in ui
+            manualISoApi2.BackgroundIsSetSupportedChanged(true);
+            //enable manual exposuretime in ui
+            manualExposureTimeApi2.BackgroundIsSetSupportedChanged(true);
+        }
+        else
+        {
+            manualExposureApi2.BackgroundIsSetSupportedChanged(true);
+            manualISoApi2.BackgroundIsSetSupportedChanged(true);
+            manualExposureTimeApi2.BackgroundIsSetSupportedChanged(false);
         }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    /**
+     * set the new aemode to the camera
+     */
     private void setAeMode(AEModes aeMode)
     {
         activeAeMode = aeMode;
