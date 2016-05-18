@@ -14,8 +14,6 @@ import com.freedcam.apis.camera2.camera.parameters.manual.BurstApi2;
 import com.freedcam.apis.camera2.camera.parameters.manual.ManualFocus;
 import com.freedcam.apis.camera2.camera.parameters.manual.ManualToneMapCurveApi2;
 import com.freedcam.apis.camera2.camera.parameters.manual.ManualWbCtApi2;
-import com.freedcam.apis.camera2.camera.parameters.manual.ZoomApi2;
-import com.freedcam.apis.camera2.camera.parameters.modes.AeModeApi2;
 import com.freedcam.apis.camera2.camera.parameters.modes.AntibandingApi2;
 import com.freedcam.apis.camera2.camera.parameters.modes.ColorCorrectionModeApi2;
 import com.freedcam.apis.camera2.camera.parameters.modes.ColorModeApi2;
@@ -60,7 +58,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
     {
         super(cameraHolder.cameraHolder, uiHandler,context,appSettingsManager);
         this.wrapper = cameraHolder;
-        this.cameraHolder = (CameraHolderApi2) cameraHolder.cameraHolder;
+        this.cameraHolder = cameraHolder.cameraHolder;
 
     }
 
@@ -225,7 +223,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         setManualMode(ManualSharpness,AppSettingsManager.MSHARPNESS);
         setManualMode(ManualShutter, AppSettingsManager.MSHUTTERSPEED);
         setManualMode(ManualBrightness, AppSettingsManager.MBRIGHTNESS);
-        setManualMode(ISOManual, AppSettingsManager.MISO);
+        //setManualMode(ISOManual, AppSettingsManager.MISO);
         setManualMode(ManualSaturation, AppSettingsManager.MSATURATION);
         setManualMode(CCT,AppSettingsManager.MCCT);
 
