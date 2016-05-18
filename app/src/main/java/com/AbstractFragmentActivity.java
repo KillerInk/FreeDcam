@@ -33,8 +33,8 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         appSettingsManager = new AppSettingsManager();
-        if (!FreeDPool.IsInit())
-            FreeDPool.INIT(getMuliplier());
+        /*if (!FreeDPool.IsInit())
+            FreeDPool.INIT(getMuliplier());*/
         Context ctx = getApplicationContext();
         BitmapHelper.INIT(ctx);
 
@@ -63,8 +63,8 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
         appSettingsManager.SaveAppSettings();
         BitmapHelper.DESTROY();
         DeviceUtils.DESTROY();
-        if (FreeDPool.IsInit())
-            FreeDPool.Destroy();
+       /* if (FreeDPool.IsInit())
+            FreeDPool.Destroy();*/
     }
 
     private void HIDENAVBAR()

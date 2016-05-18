@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
  */
 public class FreeDPool
 {
-    private static ExecutorService executor;
+    /*private static ExecutorService executor;
     private static boolean isInit = false;
     private static int multiplier = 2;
 
@@ -33,18 +33,19 @@ public class FreeDPool
     public static boolean IsInit()
     {
         return  isInit;
-    }
+    }*/
 
     public static void Execute(Runnable runnable)
     {
-        try {
+        new Thread(runnable).start();
+        /*try {
             if (executor == null)
                 INIT(multiplier);
             if(runnable !=  null)
                 executor.execute(runnable);
         }
         catch (NullPointerException ex)
-        {}
+        {}*/
 
     }
 }
