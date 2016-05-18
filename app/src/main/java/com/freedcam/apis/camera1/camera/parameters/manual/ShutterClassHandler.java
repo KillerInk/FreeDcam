@@ -49,9 +49,6 @@ public class ShutterClassHandler
         else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
            return new  ShutterManualZTE(parameters, "","", cameraHolder, parametersHandler);
 
-       // else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
-         //   return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,OppoIMX214.split(","));
-
         else if(DeviceUtils.IS(DeviceUtils.Devices.ForwardArt_MTK))
             return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,TEST.split(","), "max-exposure-time", "min-exposure-time");
 
@@ -59,23 +56,23 @@ public class ShutterClassHandler
             return new ShutterManualParameterHTC(parameters, "","",parametersHandler);
 
         else if(DeviceUtils.IS(DeviceUtils.Devices.OnePlusOne) &&   !parameters.get("max-exposure-time").contains("."))
-            return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,OppoIMX214.split(","), "max-exposure-time", "min-exposure-time");
+            return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,null, "max-exposure-time", "min-exposure-time");
 
         else if(DeviceUtils.IS(DeviceUtils.Devices.OnePlusOne) &&   parameters.get("max-exposure-time").contains("."))
-            return new ShutterManual_ExposureTime_Micro(parameters,parametersHandler,OppoIMX214.split(","),"exposure-time", "max-exposure-time", "min-exposure-time");
+            return new ShutterManual_ExposureTime_Micro(parameters,parametersHandler,null,"exposure-time", "max-exposure-time", "min-exposure-time");
 
         else if((DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote) ||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W ) || DeviceUtils.IS(DeviceUtils.Devices.LenovoK920))&& parameters.get("max-exposure-time").contains("."))
-            return new ShutterManual_ExposureTime_Micro(parameters,parametersHandler,Mi3WValues.split(","),"exposure-time", "max-exposure-time", "min-exposure-time");
+            return new ShutterManual_ExposureTime_Micro(parameters,parametersHandler,null,"exposure-time", "max-exposure-time", "min-exposure-time");
 
         else if((DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro) || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4W))&&  parameters.get("max-exposure-time").contains("."))
-            return new ShutterManual_ExposureTime_Micro(parameters,parametersHandler,Mi4WValues.split(","),"exposure-time", "max-exposure-time", "min-exposure-time");
+            return new ShutterManual_ExposureTime_Micro(parameters,parametersHandler,null,"exposure-time", "max-exposure-time", "min-exposure-time");
 
         else if((DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote) || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W) || DeviceUtils.IS(DeviceUtils.Devices.LenovoK920))
                 && (parameters.get("max-exposure-time") !=null&& !parameters.get("max-exposure-time").contains(".")))
-            return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,Mi3WValues.split(","), "max-exposure-time", "min-exposure-time");
+            return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,null, "max-exposure-time", "min-exposure-time");
         else if((DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro) || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4W))
                 && (parameters.get("max-exposure-time") != null&& !parameters.get("max-exposure-time").contains(".")))
-            return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,Mi4WValues.split(","), "max-exposure-time", "min-exposure-time");
+            return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,null, "max-exposure-time", "min-exposure-time");
         else if (DeviceUtils.IsMarshMallowG3())
             return null;
         else if ((parameters.get("max-exposure-time")!= null&& parameters.get("max-exposure-time").contains(".")))
