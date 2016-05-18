@@ -13,9 +13,7 @@ import com.freedcam.apis.camera2.camera.FocusHandlerApi2;
 import com.freedcam.apis.camera2.camera.parameters.manual.BurstApi2;
 import com.freedcam.apis.camera2.camera.parameters.manual.ManualFocus;
 import com.freedcam.apis.camera2.camera.parameters.manual.ManualToneMapCurveApi2;
-import com.freedcam.apis.camera2.camera.parameters.manual.ManualWbCtApi2;
 import com.freedcam.apis.camera2.camera.parameters.modes.AntibandingApi2;
-import com.freedcam.apis.camera2.camera.parameters.modes.ColorCorrectionModeApi2;
 import com.freedcam.apis.camera2.camera.parameters.modes.ColorModeApi2;
 import com.freedcam.apis.camera2.camera.parameters.modes.ControlModesApi2;
 import com.freedcam.apis.camera2.camera.parameters.modes.DenoiseModeApi2;
@@ -31,7 +29,6 @@ import com.freedcam.apis.camera2.camera.parameters.modes.PictureSizeModeApi2;
 import com.freedcam.apis.camera2.camera.parameters.modes.SceneModeApi2;
 import com.freedcam.apis.camera2.camera.parameters.modes.ToneMapModeApi2;
 import com.freedcam.apis.camera2.camera.parameters.modes.VideoProfilesApi2;
-import com.freedcam.apis.camera2.camera.parameters.modes.WhiteBalanceApi2;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.ModuleParameters;
 import com.freedcam.utils.AppSettingsManager;
@@ -75,8 +72,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         SceneMode = new SceneModeApi2(uiHandler,this.cameraHolder);
         ColorMode = new ColorModeApi2(uiHandler,this.cameraHolder);
 
-        ColorCorrectionMode = new ColorCorrectionModeApi2(uiHandler,cameraHolder);
-        WhiteBalanceMode = new WhiteBalanceApi2(uiHandler,cameraHolder, (ColorCorrectionModeApi2)ColorCorrectionMode);
+        WbHandler wbHandler = new WbHandler(uiHandler,cameraHolder,this);
         //AE mode start
         AeHandlerApi2 aeHandlerApi2 = new AeHandlerApi2(uiHandler,cameraHolder,this);
         //ae mode end
@@ -90,12 +86,6 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         final ManualFocus mf = new ManualFocus(this,cameraHolder);
         ManualFocus = mf;
         //MF END
-
-        //CCT START
-        final ManualWbCtApi2 cct = new ManualWbCtApi2(this,cameraHolder);
-        CCT = cct;
-        WhiteBalanceMode.addEventListner(cct);
-        //cct end
 
         EdgeMode = new EdgeModeApi2(uiHandler,cameraHolder);
         DigitalImageStabilization = new ImageStabApi2(uiHandler,cameraHolder);
