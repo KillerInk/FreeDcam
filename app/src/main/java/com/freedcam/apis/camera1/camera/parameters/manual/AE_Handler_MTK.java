@@ -34,7 +34,7 @@ public class AE_Handler_MTK
             this.camParametersHandler = camParametersHandler;
             this.isoManualParameter = new ISOManualParameterMTK(parameters,cameraHolder, camParametersHandler, aeevent);
             camParametersHandler.ISOManual = isoManualParameter;
-            this.shutterPrameter = new ShutterManualMtk(parameters,cameraHolder, camParametersHandler, aeevent);
+            this.shutterPrameter = new ShutterManualMtk(parameters, camParametersHandler, aeevent);
             camParametersHandler.ManualShutter = shutterPrameter;
             this.parameters = parameters;
         }

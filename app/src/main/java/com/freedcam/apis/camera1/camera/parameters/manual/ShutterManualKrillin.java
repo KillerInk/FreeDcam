@@ -17,13 +17,14 @@ public class ShutterManualKrillin extends BaseManualParameter {
     private static String TAG = "freedcam.ShutterManualKrillin";
     private I_CameraHolder baseCameraHolder;
     //AE_Handler_LGG4.AeManualEvent manualevent;
+    private String KrillinShutterValues = "Auto,1/30000,1/15000,1/10000,1/8000,1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,2,4,8,15,30,32";
 
     public ShutterManualKrillin(Camera.Parameters parameters, I_CameraHolder baseCameraHolder, CamParametersHandler camParametersHandler) {
         super(parameters, "", "", "", camParametersHandler, 1);
 
         this.baseCameraHolder = baseCameraHolder;
         this.isSupported = true;
-        stringvalues = ShutterManualParameter.KrillinShutterValues.split(",");
+        stringvalues = KrillinShutterValues.split(",");
         // this.manualevent =manualevent;
     }
 
