@@ -1,0 +1,389 @@
+package com.freedcam.apis.camera2.camera.parameters;
+
+import android.annotation.TargetApi;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CaptureRequest;
+import android.os.Build;
+import android.os.Handler;
+
+import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
+import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.apis.camera2.camera.parameters.modes.BaseModeApi2;
+import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.Logger;
+import com.freedcam.utils.StringUtils;
+
+import java.util.ArrayList;
+
+/**
+ * Created by troop on 18.05.2016.
+ */
+public class AeHandlerApi2
+{
+    private CameraHolderApi2 cameraHolder;
+    private ParameterHandlerApi2 parameterHandler;
+    private AeModeApi2 aeModeApi2;
+    private ManualExposureApi2 manualExposureApi2;
+    private ManualExposureTimeApi2 manualExposureTimeApi2;
+    private ManualISoApi2 manualISoApi2;
+
+    private AEModes activeAeMode = AEModes.on;
+
+    public AeHandlerApi2(Handler handler, CameraHolderApi2 cameraHolderApi2, ParameterHandlerApi2 parameterHandler)
+    {
+        this.cameraHolder = cameraHolderApi2;
+        this.parameterHandler = parameterHandler;
+        aeModeApi2 = new AeModeApi2(handler,cameraHolder);
+        manualExposureApi2 = new ManualExposureApi2(parameterHandler);
+        manualExposureTimeApi2 = new ManualExposureTimeApi2(parameterHandler);
+        manualISoApi2 = new ManualISoApi2(parameterHandler);
+        parameterHandler.ExposureMode = aeModeApi2;
+        parameterHandler.ManualShutter = manualExposureTimeApi2;
+        parameterHandler.ManualExposure = manualExposureApi2;
+        parameterHandler.ISOManual = manualISoApi2;
+
+    }
+
+    public enum AEModes
+    {
+        off,
+        on,
+        on_auto_flash,
+        on_always_flash,
+        on_auto_flash_redeye,
+    }
+
+    private void setManualItemsSetSupport(AEModes aeModes)
+    {
+        switch (aeModes)
+        {
+            case off:
+                manualExposureApi2.BackgroundIsSetSupportedChanged(false);
+                manualISoApi2.BackgroundIsSetSupportedChanged(true);
+                manualExposureTimeApi2.BackgroundIsSetSupportedChanged(true);
+                break;
+            case on:
+            case on_auto_flash:
+            case on_always_flash:
+            case on_auto_flash_redeye:
+                manualExposureApi2.BackgroundIsSetSupportedChanged(true);
+                manualISoApi2.BackgroundIsSetSupportedChanged(true);
+                manualExposureTimeApi2.BackgroundIsSetSupportedChanged(false);
+                break;
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setAeMode(AEModes aeMode)
+    {
+        activeAeMode = aeMode;
+        cameraHolder.SetParameterToCam(CaptureRequest.CONTROL_AE_MODE, activeAeMode.ordinal());
+        aeModeApi2.BackgroundValueHasChanged(activeAeMode.toString());
+        setManualItemsSetSupport(activeAeMode);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public class AeModeApi2 extends BaseModeApi2
+    {
+        private boolean isSupported = false;
+        private String[] aemodeStringValues;
+        public AeModeApi2(Handler handler, CameraHolderApi2 cameraHolderApi2) {
+            super(handler, cameraHolderApi2);
+            int[] values = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES);
+            aemodeStringValues= new String[values.length];
+            for (int i = 0; i < values.length; i++)
+            {
+                try {
+                    AEModes sceneModes = AEModes.values()[values[i]];
+                    aemodeStringValues[i] = sceneModes.toString();
+                }
+                catch (Exception ex)
+                {
+                    aemodeStringValues[i] = "unknown Scene" + values[i];
+                }
+            }
+            if (aemodeStringValues.length > 1)
+                this.isSupported = true;
+        }
+
+        @Override
+        public boolean IsSupported()
+        {
+            return this.isSupported;
+        }
+
+        @Override
+        public void SetValue(String valueToSet, boolean setToCamera)
+        {
+            if (valueToSet.contains("unknown Scene"))
+                return;
+            setAeMode(Enum.valueOf(AEModes.class, valueToSet));
+        }
+
+        @Override
+        public String GetValue()
+        {
+            if (cameraHolder == null ||cameraHolder.mPreviewRequestBuilder == null)
+                return null;
+            int i = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_MODE);
+            AEModes sceneModes = AEModes.values()[i];
+            return sceneModes.toString();
+        }
+
+        @Override
+        public String[] GetValues()
+        {
+            return aemodeStringValues;
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public class ManualExposureApi2 extends AbstractManualParameter
+    {
+        final String TAG = ManualExposureApi2.class.getSimpleName();
+
+        public ManualExposureApi2(ParameterHandlerApi2 parameterHandlerApi2) {
+            super(parameterHandlerApi2);
+            int max = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getUpper();
+            int min = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getLower();
+            float step = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP).floatValue();
+            stringvalues = createStringArray(min, max, step);
+            currentInt = stringvalues.length / 2;
+        }
+
+        protected String[] createStringArray(int min, int max, float stepp) {
+            ArrayList<String> ar = new ArrayList<>();
+            for (int i = min; i <= max; i++) {
+                String s = String.format("%.1f", i * stepp);
+                ar.add(s);
+            }
+            return ar.toArray(new String[ar.size()]);
+        }
+
+        @Override
+        public int GetValue() {
+            return super.GetValue();
+        }
+
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        public void SetValue(int valueToSet) {
+            if (cameraHolder == null || cameraHolder.mPreviewRequestBuilder == null || cameraHolder.mCaptureSession == null)
+                return;
+            currentInt = valueToSet;
+            if (stringvalues == null || stringvalues.length == 0)
+                return;
+            int t = valueToSet - (stringvalues.length / 2);
+            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, t);
+            try {
+                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
+                        null);
+            } catch (CameraAccessException | NullPointerException e) {
+                Logger.exception(e);
+            }
+        }
+
+        @Override
+        public boolean IsSupported() {
+            return cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE) != null;
+        }
+
+        @Override
+        public boolean IsSetSupported() {
+            return activeAeMode != AEModes.off;
+        }
+
+        @Override
+        public boolean IsVisible() {
+            return true;
+        }
+
+    }
+
+    /**
+     * Created by troop on 06.03.2015.
+     */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public class ManualExposureTimeApi2 extends AbstractManualParameter
+    {
+        private boolean canSet = false;
+        boolean isSupported = false;
+        final String TAG = ManualExposureTimeApi2.class.getSimpleName();
+        boolean firststart = true;
+        private int onetoThirty = 0;
+        private int millimax = 0;
+        public ManualExposureTimeApi2(ParameterHandlerApi2 camParametersHandler) {
+            super(camParametersHandler);
+            this.isSupported = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE) != null;
+            try {
+                findMinMaxValue();
+            }
+            catch (NullPointerException ex)
+            {
+                this.isSupported = false;
+            }
+        }
+
+        private void findMinMaxValue()
+        {
+
+            Logger.d(TAG, "max exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper());
+            Logger.d(TAG, "min exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower());
+            //866 975 130 = 0,8sec
+            if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4) && Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1)
+                millimax = 60000000;
+            else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4) && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)
+                millimax = 45000000;
+            else if (DeviceUtils.IS(DeviceUtils.Devices.Samsung_S6_edge_plus))
+                millimax = 10000000;
+            else if (DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8982_8994))
+                millimax = 10000000;
+            else
+                millimax = (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper()).intValue() / 1000;
+            int millimin = (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower()).intValue() / 1000;
+            stringvalues = StringUtils.getSupportedShutterValues(millimin, millimax,false);
+            for (int i = 0; i < stringvalues.length; i++)
+                if (stringvalues[i].equals("1/30"))
+                    onetoThirty = i;
+        }
+
+        @Override
+        public int GetValue()
+        {
+            return currentInt;
+        }
+
+        @Override
+        public String GetStringValue()
+        {
+            return stringvalues[currentInt];
+        }
+
+
+        @Override
+        public String[] getStringValues() {
+            return stringvalues;
+        }
+
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        public void SetValue(int valueToSet)
+        {
+            if (valueToSet >= stringvalues.length)
+                valueToSet = stringvalues.length - 1;
+            currentInt = valueToSet;
+            if (valueToSet > 0) {
+                long val = (long) (StringUtils.getMilliSecondStringFromShutterString(stringvalues[valueToSet]) * 1000f);
+                Logger.d(TAG, "ExposureTimeToSet:" + val);
+                if (val > 800000000) {
+                    Logger.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
+                    val = 800000000;
+                }
+                //check if calced value is not bigger then max returned from cam
+                if (val > millimax*1000)
+                    val = millimax *1000;
+                if (cameraHolder == null || cameraHolder.mPreviewRequestBuilder == null)
+                    return;
+                cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
+                try {
+                    cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
+                            null);
+                } catch (CameraAccessException | NullPointerException e) {
+                    Logger.exception(e);
+                }
+                ThrowCurrentValueChanged(valueToSet);
+            }
+        }
+
+        @Override
+        public boolean IsSupported()
+        {
+            return isSupported;
+        }
+
+        @Override
+        public boolean IsVisible() {
+            return isSupported;
+        }
+
+        @Override
+        public boolean IsSetSupported() {
+            return activeAeMode == AEModes.off;
+        }
+    }
+
+    /**
+     * Created by troop on 28.04.2015.
+     */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public class ManualISoApi2 extends ManualExposureTimeApi2
+    {
+        final String TAG = ManualISoApi2.class.getSimpleName();
+        private boolean isSupported = false;
+        public ManualISoApi2(ParameterHandlerApi2 camParametersHandler) {
+            super(camParametersHandler);
+            currentInt = 0;
+            ArrayList<String> ar = new ArrayList<>();
+            try {
+                for (int i = 0; i <= cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE).getUpper(); i += 50) {
+                    if (i == 0)
+                        ar.add("auto");
+                    else
+                        ar.add(i + "");
+                }
+                this.stringvalues = new String[ar.size()];
+                ar.toArray(stringvalues);
+            }
+            catch (NullPointerException ex)
+            {
+                this.isSupported = false;
+            }
+        }
+
+        @Override
+        public boolean IsVisible() {
+            return true;
+        }
+
+        @Override
+        public boolean IsSupported() {
+            return cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_SENSITIVITY_RANGE) != null;
+        }
+
+
+        @Override
+        public void SetValue(int valueToSet)
+        {
+            //workaround when value was -1 to avoid outofarray ex
+            if (valueToSet == -1)
+                valueToSet = 0;
+            //////////////////////
+            currentInt = valueToSet;
+            if (cameraHolder == null ||cameraHolder.mPreviewRequestBuilder == null || cameraHolder.mCaptureSession == null)
+                return;
+            if (valueToSet == 0)
+            {
+                setAeMode(AEModes.on);
+            }
+            else
+            {
+                if (activeAeMode != AEModes.off)
+                    setAeMode(AEModes.off);
+                cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, Integer.parseInt(stringvalues[valueToSet]));
+                try {
+                    cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
+                            null);
+                } catch (CameraAccessException | NullPointerException e) {
+                    Logger.exception(e);
+                }
+            }
+        }
+
+        @Override
+        public boolean IsSetSupported() {
+            return true;
+        }
+    }
+
+}

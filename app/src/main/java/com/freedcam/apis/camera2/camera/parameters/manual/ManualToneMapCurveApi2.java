@@ -7,7 +7,9 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.TonemapCurve;
 import android.os.Build;
 
+import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.apis.camera2.camera.parameters.AeHandlerApi2;
 import com.freedcam.apis.camera2.camera.parameters.ParameterHandlerApi2;
 import com.freedcam.utils.Logger;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
@@ -29,12 +31,14 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
     public Contrast contrast;
     public Brightness brightness;
     private boolean visible = false;
+    private CameraHolderApi2 cameraHolder;
 
 
     public ManualToneMapCurveApi2(ParameterHandlerApi2 camParametersHandler, CameraHolderApi2 cameraHolder)
     {
-        this.contrast = new Contrast(camParametersHandler,cameraHolder);
-        this.brightness = new Brightness(camParametersHandler,cameraHolder);
+        this.cameraHolder = cameraHolder;
+        this.contrast = new Contrast(camParametersHandler);
+        this.brightness = new Brightness(camParametersHandler);
     }
 
     private boolean canSet = false;
@@ -80,14 +84,16 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
     }
 
 
-    public class Contrast extends ManualExposureApi2
+    public class Contrast extends AbstractManualParameter
     {
         boolean firststart = true;
-        public Contrast(ParameterHandlerApi2 camParametersHandler, CameraHolderApi2 cameraHolder) {
-            super(camParametersHandler, cameraHolder);
+        public Contrast(ParameterHandlerApi2 camParametersHandler) {
+            super(camParametersHandler);
             this.stringvalues = createStringArray(0,100,1);
             this.currentInt = 50;
         }
+
+
 
         @Override
         public int GetValue() {
@@ -175,11 +181,11 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
         }
     }
 
-    public class Brightness extends ManualExposureApi2
+    public class Brightness extends AbstractManualParameter
     {
 
-        public Brightness(ParameterHandlerApi2 camParametersHandler, CameraHolderApi2 cameraHolder) {
-            super(camParametersHandler, cameraHolder);
+        public Brightness(ParameterHandlerApi2 camParametersHandler) {
+            super(camParametersHandler);
             stringvalues = createStringArray(0,100,1);
             this.currentInt = 50;
         }

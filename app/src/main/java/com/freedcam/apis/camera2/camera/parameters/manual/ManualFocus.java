@@ -6,6 +6,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 
+import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.apis.camera2.camera.parameters.ParameterHandlerApi2;
 import com.freedcam.utils.Logger;
@@ -16,12 +17,14 @@ import com.freedcam.utils.StringUtils;
  * Created by troop on 28.04.2015.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeParameter.I_ModeParameterEvent
+public class ManualFocus extends AbstractManualParameter
 {
-
+    private final String TAG = ManualFocus.class.getSimpleName();
+    private CameraHolderApi2 cameraHolder;
     public ManualFocus(ParameterHandlerApi2 camParametersHandler, CameraHolderApi2 cameraHolder)
     {
-        super(camParametersHandler, cameraHolder);
+        super(camParametersHandler);
+        this.cameraHolder =cameraHolder;
         try {
             int max = (int)(cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE)*10);
             stringvalues = createStringArray(0, max,1);
@@ -106,40 +109,11 @@ public class ManualFocus extends ManualExposureTimeApi2 implements AbstractModeP
         return isSupported;
     }
 
-    //implementation I_ModeParameterEvent
-
     @Override
     public boolean IsSetSupported() {
         return true;
     }
-    @Override
-    public void onValueChanged(String val)
-    {
-        /*if (val.equals("off"))
-        {
-            canSet = true;
-            BackgroundIsSetSupportedChanged(true);
-        }
-        else {
-            canSet = false;
-            BackgroundIsSetSupportedChanged(false);
-        }*/
-    }
 
-    @Override
-    public void onIsSupportedChanged(boolean isSupported) {
 
-    }
 
-    @Override
-    public void onIsSetSupportedChanged(boolean isSupported) {
-
-    }
-
-    @Override
-    public void onValuesChanged(String[] values) {
-
-    }
-
-    //implementation I_ModeParameterEvent END
 }

@@ -11,10 +11,7 @@ import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.apis.camera2.camera.CameraUiWrapperApi2;
 import com.freedcam.apis.camera2.camera.FocusHandlerApi2;
 import com.freedcam.apis.camera2.camera.parameters.manual.BurstApi2;
-import com.freedcam.apis.camera2.camera.parameters.manual.ManualExposureApi2;
-import com.freedcam.apis.camera2.camera.parameters.manual.ManualExposureTimeApi2;
 import com.freedcam.apis.camera2.camera.parameters.manual.ManualFocus;
-import com.freedcam.apis.camera2.camera.parameters.manual.ManualISoApi2;
 import com.freedcam.apis.camera2.camera.parameters.manual.ManualToneMapCurveApi2;
 import com.freedcam.apis.camera2.camera.parameters.manual.ManualWbCtApi2;
 import com.freedcam.apis.camera2.camera.parameters.manual.ZoomApi2;
@@ -45,7 +42,6 @@ import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.utils.StringUtils;
 
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -84,30 +80,17 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         ColorCorrectionMode = new ColorCorrectionModeApi2(uiHandler,cameraHolder);
         WhiteBalanceMode = new WhiteBalanceApi2(uiHandler,cameraHolder, (ColorCorrectionModeApi2)ColorCorrectionMode);
         //AE mode start
-        final AeModeApi2 AE = new AeModeApi2(uiHandler,this.cameraHolder);
-        ExposureMode = AE;
+        AeHandlerApi2 aeHandlerApi2 = new AeHandlerApi2(uiHandler,cameraHolder,this);
         //ae mode end
         AntiBandingMode = new AntibandingApi2(uiHandler,cameraHolder);
         PictureSize = new PictureSizeModeApi2(uiHandler,this.cameraHolder);
 
         FocusMode = new FocusModeApi2(uiHandler, cameraHolder);
-        ManualExposure = new ManualExposureApi2(this, cameraHolder);
-        AE.addEventListner((ManualExposureApi2)ManualExposure);
-        //manual iso
-        final ManualISoApi2 miso = new ManualISoApi2(this,cameraHolder);
-        AE.addEventListner(miso);
-        ISOManual = miso;
-        //manual iso END
-        Zoom = new ZoomApi2(this, cameraHolder);
-        //shuttertime
-        final ManualExposureTimeApi2 ManualExposureTIme = new ManualExposureTimeApi2(this, cameraHolder);
-        ManualShutter = ManualExposureTIme;
-        AE.addEventListner(ManualExposureTIme);
+
         //shuttertime END
         //MF
         final ManualFocus mf = new ManualFocus(this,cameraHolder);
         ManualFocus = mf;
-        FocusMode.addEventListner(mf);
         //MF END
 
         //CCT START
