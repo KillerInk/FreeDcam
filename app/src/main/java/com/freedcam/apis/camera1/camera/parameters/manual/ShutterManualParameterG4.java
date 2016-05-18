@@ -15,20 +15,14 @@ import java.util.HashMap;
  */
 public class ShutterManualParameterG4 extends BaseManualParameter
 {
-    /*M8 Stuff
-    //M_SHUTTER_SPEED_MARKER=1/8000,1/1000,1/125,1/15,0.5,4 ???
-    //return cameraController.getStringCameraParameter("shutter-threshold");
-    */
     private static String TAG = "freedcam.ShutterManualParameterG4";
-    private I_CameraHolder baseCameraHolder;
     private AE_Handler_LGG4.AeManualEvent manualevent;
 
-    public ShutterManualParameterG4(Camera.Parameters parameters, I_CameraHolder baseCameraHolder, CamParametersHandler camParametersHandler, AE_Handler_LGG4.AeManualEvent manualevent) {
+    public ShutterManualParameterG4(Camera.Parameters parameters, CamParametersHandler camParametersHandler, AE_Handler_LGG4.AeManualEvent manualevent) {
         super(parameters, "", "", "", camParametersHandler,1);
-
-        this.baseCameraHolder = baseCameraHolder;
         this.isSupported = true;
-        stringvalues = ShutterManualParameter.LGG4Values.split(",");
+        stringvalues = parameters.get("shutter-speed-values").replace(",0","").split(",");
+        stringvalues[0] = "Auto";
         this.manualevent =manualevent;
     }
 

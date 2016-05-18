@@ -14,18 +14,11 @@ import java.util.HashMap;
  */
 public class ShutterManualMtk extends BaseManualParameter
 {
-    /*M8 Stuff
-    //M_SHUTTER_SPEED_MARKER=1/8000,1/1000,1/125,1/15,0.5,4 ???
-    //return cameraController.getStringCameraParameter("shutter-threshold");
-    */
     private static String TAG = ShutterManualMtk.class.getSimpleName();
-    private I_CameraHolder baseCameraHolder;
     private AE_Handler_MTK.AeManualEvent manualevent;
 
-    public ShutterManualMtk(Camera.Parameters parameters, I_CameraHolder baseCameraHolder, CamParametersHandler camParametersHandler, AE_Handler_MTK.AeManualEvent manualevent) {
+    public ShutterManualMtk(Camera.Parameters parameters, CamParametersHandler camParametersHandler, AE_Handler_MTK.AeManualEvent manualevent) {
         super(parameters, "", "", "", camParametersHandler,1);
-
-        this.baseCameraHolder = baseCameraHolder;
         this.isSupported = true;
         stringvalues = ShutterManualParameter.LGG4Values.split(",");
         this.manualevent =manualevent;

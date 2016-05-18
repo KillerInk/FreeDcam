@@ -16,21 +16,13 @@ import java.util.HashMap;
  */
 public class ShutterManualParameter extends BaseManualParameter
 {
-    /*M8 Stuff
-    //M_SHUTTER_SPEED_MARKER=1/8000,1/1000,1/125,1/15,0.5,4 ???
-    //return cameraController.getStringCameraParameter("shutter-threshold");
-    */
     private static String TAG = "freedcam.ShutterManualParameter";
-    private Double Cur;
 
     public static String LGG4Values = "Auto,1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,2,4,8,15,30";
 
     public static String KrillinShutterValues = "Auto,1/30000,1/15000,1/10000,1/8000,1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,2,4,8,15,30,32";
 
     public static String xIMX214_IMX230 = "Auto,1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,1/1.9,1/1.8,1/1.7,1/1.6,1/1.5,1/1.4,1";
-
-
-
 
     public ShutterManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, CamParametersHandler camParametersHandler) {
         super(parameters, value, maxValue, MinValue, camParametersHandler,1);
@@ -85,8 +77,6 @@ public class ShutterManualParameter extends BaseManualParameter
                 String split[] = shutterstring.split("/");
                 Double a = Double.parseDouble(split[0]) / Double.parseDouble(split[1]);
                 shutterstring = "" + a;
-                Cur = a;
-
             }
             if(!stringvalues[currentInt].equals("Auto"))
             {
