@@ -70,7 +70,7 @@ public class AeHandlerApi2
         }
         else
         {
-            manualExposureApi2.BackgroundIsSetSupportedChanged(true);
+            manualExposureApi2.BackgroundIsSupportedChanged(true);
             manualISoApi2.BackgroundIsSetSupportedChanged(true);
             manualExposureTimeApi2.BackgroundIsSetSupportedChanged(false);
         }

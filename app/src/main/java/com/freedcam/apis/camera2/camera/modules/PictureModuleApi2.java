@@ -641,6 +641,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void startPreview() {
 
+        if (baseCameraHolder.mPreviewRequestBuilder == null)
+            return;
         picSize = appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE);
         Logger.d(TAG, "Start Preview");
         largestImageSize = Collections.max(
@@ -685,6 +687,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             mImageWidth = largestImageSize.getWidth();
             mImageHeight = largestImageSize.getHeight();
         }
+
 
         //OrientationHACK
         if(appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))

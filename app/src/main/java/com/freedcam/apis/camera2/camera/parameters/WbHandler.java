@@ -68,6 +68,8 @@ public class WbHandler
     private void setWbMode(WhiteBalanceValues wbMode)
     {
         //set new mode as activemode
+        if (colorCorrectionMode == null || manualWbCt == null)
+            return;
         activeWbMode =wbMode;
         if (wbMode != WhiteBalanceValues.OFF)
         {
