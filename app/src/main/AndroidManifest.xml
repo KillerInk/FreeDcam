@@ -47,9 +47,6 @@
             android:icon="@drawable/launcher_freedcam"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection"
             android:screenOrientation="landscape"
-            android:clearTaskOnLaunch="false"
-            android:excludeFromRecents="false"
-            android:finishOnTaskLaunch="false"
             android:hardwareAccelerated = "true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -67,9 +64,7 @@
             android:label="FreeDCam"
             android:screenOrientation="landscape"
             android:icon="@drawable/launcher_freedcam"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:clearTaskOnLaunch="true"
-            android:excludeFromRecents="true">
+            android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.media.action.IMAGE_CAPTURE" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -81,20 +76,12 @@
             android:label="FreeDCam Viewer"
 
             android:icon="@drawable/launcher_imageviewer"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection"
-
-            android:clearTaskOnLaunch="false"
-            android:excludeFromRecents="false">
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-            </intent-filter>
         </activity>
 
         <activity

@@ -270,6 +270,8 @@ public class AeHandlerApi2
         @Override
         public void SetValue(int valueToSet)
         {
+            if (cameraHolder == null || cameraHolder.mCaptureSession == null)
+                return;
             if (valueToSet >= stringvalues.length)
                 valueToSet = stringvalues.length - 1;
             currentInt = valueToSet;

@@ -24,6 +24,7 @@ import com.freedcam.apis.camera1.camera.parameters.modes.StackModeParameter;
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.AppSettingsManager;
+import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 import com.imageconverter.ScriptC_imagestack;
@@ -153,11 +154,17 @@ public class StackingModuleApi2 extends AbstractModuleApi2
     private void saveImageToFile() {
         final Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
         mOutputAllocation.copyTo(outputBitmap);
-        File stackedImg = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), "_stack.jpg"));
-        SaveBitmapToFile(outputBitmap,stackedImg);
-        workfinished(true);
-        MediaScannerManager.ScanMedia(context, stackedImg);
-        eventHandler.WorkFinished(stackedImg);
+        FreeDPool.Execute(new Runnable() {
+            @Override
+            public void run() {
+                File stackedImg = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), "_stack.jpg"));
+                SaveBitmapToFile(outputBitmap,stackedImg);
+                workfinished(true);
+                MediaScannerManager.ScanMedia(context, stackedImg);
+                eventHandler.WorkFinished(stackedImg);
+            }
+        });
+
         keepstacking =false;
     }
 

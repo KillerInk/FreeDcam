@@ -117,6 +117,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     {
         PreviewSurfaceRdy =false;
 
+        StopPreview();
         StopCamera();
     }
 

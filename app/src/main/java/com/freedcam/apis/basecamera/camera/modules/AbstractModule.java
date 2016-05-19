@@ -115,7 +115,7 @@ public abstract class AbstractModule implements I_Module
         Logger.d(TAG, "Start Saving Bytes");
         OutputStream outStream = null;
         try {
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&& appSettingsManager.GetWriteExternal()))
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&& !appSettingsManager.GetWriteExternal()))
             {
                 checkFileExists(fileName);
                 outStream = new FileOutputStream(fileName);
@@ -142,7 +142,10 @@ public abstract class AbstractModule implements I_Module
     public void SaveBitmapToFile(Bitmap bitmap, File file)
     {
         OutputStream outStream = null;
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && appSettingsManager.GetWriteExternal())) {
+        boolean writetoExternalSD = appSettingsManager.GetWriteExternal();
+        Logger.d(TAG, "Write External " + writetoExternalSD);
+        if ((Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) || (!writetoExternalSD && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP))
+        {
             try {
                 outStream= new FileOutputStream(file);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);

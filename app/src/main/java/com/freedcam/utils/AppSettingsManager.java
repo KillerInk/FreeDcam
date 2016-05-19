@@ -245,7 +245,7 @@ public class AppSettingsManager
 
     public boolean GetWriteExternal()
     {
-        return getBoolean(AppSettingsManager.SETTING_EXTERNALSD, false);
+        return getBoolean(SETTING_EXTERNALSD, false);
     }
 
     public void SetWriteExternal(boolean write)
@@ -261,7 +261,7 @@ public class AppSettingsManager
 
     public String IsCamera2FullSupported()
     {
-        String t = appsettingsList.get(AppSettingsManager.CAMERA2FULLSUPPORTED);
+        String t = appsettingsList.get(CAMERA2FULLSUPPORTED);
         if (t != null)
             return t;
         return "";

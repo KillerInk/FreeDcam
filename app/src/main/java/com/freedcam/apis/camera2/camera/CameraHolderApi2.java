@@ -613,7 +613,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
             Logger.d(this.TAG, "CreateCaptureSession: Surfaces Count:" + surfaces.size());
             try {
                 mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, null);
-            } catch (CameraAccessException e) {
+            } catch (CameraAccessException | SecurityException e) {
                 Logger.exception(e);
             }
         }

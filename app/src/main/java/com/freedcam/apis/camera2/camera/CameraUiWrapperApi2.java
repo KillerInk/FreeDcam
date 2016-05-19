@@ -123,6 +123,8 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     {
         Logger.d(TAG, "Surface destroyed");
         this.PreviewSurfaceRdy = false;
+        StopPreview();
+        StopCamera();
         return false;
     }
 

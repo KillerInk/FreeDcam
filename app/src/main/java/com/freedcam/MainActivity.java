@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -205,7 +206,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         unloadCameraFragment();
         cameraFragment = apiHandler.getCameraFragment();
         cameraFragment.Init(this);
-        android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
         transaction.add(R.id.cameraFragmentHolder, cameraFragment, "CameraFragment");
         transaction.commitAllowingStateLoss();
@@ -219,8 +220,14 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         if(orientationHandler != null)
             orientationHandler.Stop();
 
-        if (cameraFragment != null) {
-            android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (cameraFragment != null)
+        {
+            //kill the cam bevor the fragment gets removed to make sure when
+            // new camerafragment gets created and its texture view is created the cam get started
+            //when its done in textureviews destory method its already to late and we get a security ex lack of privilege
+            if (cameraFragment.GetCameraUiWrapper() != null)
+                cameraFragment.GetCameraUiWrapper().StopCamera();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             transaction.remove(cameraFragment);
             transaction.commitAllowingStateLoss();

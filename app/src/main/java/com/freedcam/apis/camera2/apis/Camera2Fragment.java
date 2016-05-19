@@ -22,7 +22,9 @@ public class Camera2Fragment extends AbstractCameraFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.cameraholder2, container, false);
         textureView = (AutoFitTextureView) view.findViewById(R.id.autofitview);
-
+        this.cameraUiWrapper = new CameraUiWrapperApi2(view.getContext(),textureView,appSettingsManager);
+        if (onrdy != null)
+            onrdy.onCameraUiWrapperRdy(cameraUiWrapper);
         super.onCreateView(inflater,container,savedInstanceState);
         return view;
     }
@@ -30,16 +32,11 @@ public class Camera2Fragment extends AbstractCameraFragment
     @Override
     public void onResume() {
         super.onResume();
-        this.cameraUiWrapper = new CameraUiWrapperApi2(view.getContext(),textureView,appSettingsManager);
-        if (onrdy != null)
-            onrdy.onCameraUiWrapperRdy(cameraUiWrapper);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        cameraUiWrapper.StopPreview();
-        cameraUiWrapper.StopCamera();
     }
 
     @Override
