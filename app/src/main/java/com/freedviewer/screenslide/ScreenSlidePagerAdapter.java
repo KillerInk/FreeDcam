@@ -147,6 +147,8 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
             files = null;
             return;
         }
+        if (appSettingsManager == null)
+            appSettingsManager = new AppSettingsManager();
         FileHolder.readFilesFromFolder(folder, images, filestoshow,appSettingsManager.GetWriteExternal());
         files = images;
         Logger.d(TAG, "readFiles sucess, FilesCount" + files.size());
