@@ -50,18 +50,12 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        return inflater.inflate(R.layout.settingsmenufragment, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        this.view = view;
+        super.onCreateView(inflater,container,savedInstanceState);
+        view = inflater.inflate(R.layout.settingsmenufragment, container, false);
         loadLeftFragment();
         loadRightFragment();
-        Logger.d(TAG,"onviewCreated");
+        return view;
     }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -93,7 +87,9 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
             transaction.replace(R.id.left_holder, leftMenuFragment);
             transaction.commitAllowingStateLoss();
         }catch (NullPointerException | IllegalStateException ex)
-        {}
+        {
+            Logger.exception(ex);
+        }
     }
     private void loadRightFragment()
     {
@@ -109,7 +105,9 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
             transaction.commitAllowingStateLoss();
         }
         catch (NullPointerException | IllegalStateException ex)
-        {}
+        {
+            Logger.exception(ex);
+        }
     }
 
 

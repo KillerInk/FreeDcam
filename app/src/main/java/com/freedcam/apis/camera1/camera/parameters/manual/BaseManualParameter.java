@@ -21,7 +21,7 @@ import java.util.HashMap;
 public class BaseManualParameter extends AbstractManualParameter
 {
 
-    private static String TAG = StringUtils.TAG + BaseManualParameter.class.getSimpleName();
+    private static String TAG = BaseManualParameter.class.getSimpleName();
     /**
      * Holds the list of Supported parameters
      */
@@ -45,6 +45,7 @@ public class BaseManualParameter extends AbstractManualParameter
     protected CamParametersHandler camParametersHandler;
 
 
+
     private int default_value = 0;
     public void Set_Default_Value(int val){default_value = val; Logger.d(TAG, "set default to:" + val);}
     public int Get_Default_Value(){return default_value;}
@@ -54,7 +55,7 @@ public class BaseManualParameter extends AbstractManualParameter
         if (isSupported)
         {
             Logger.d(TAG,"Reset Back from:" + currentInt + " to:" + default_value);
-            setvalue(default_value);
+            SetValue(default_value);
             ThrowCurrentValueChanged(default_value);
         }
     }
@@ -140,7 +141,7 @@ public class BaseManualParameter extends AbstractManualParameter
     }
 
     @Override
-    protected void setvalue(int valueToset)
+    public void SetValue(int valueToset)
     {
         currentInt = valueToset;
         Logger.d(TAG, "set " + value + " to " + valueToset);

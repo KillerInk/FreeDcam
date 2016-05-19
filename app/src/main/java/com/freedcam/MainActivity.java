@@ -32,8 +32,8 @@ import java.io.File;
  */
 public class MainActivity extends AbstractFragmentActivity implements I_orientation, AbstractCameraFragment.CamerUiWrapperRdy, ApiHandler.ApiEvent
 {
-    private final String TAG = StringUtils.TAG + MainActivity.class.getSimpleName();
-    private final String TAGLIFE = StringUtils.TAG + "LifeCycle";
+    private final String TAG =MainActivity.class.getSimpleName();
+    private final String TAGLIFE = "LifeCycle";
 
     private ViewGroup appViewGroup;
     //listen to orientation changes
@@ -56,10 +56,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        super.onCreate(null);
-
-        LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        appViewGroup = (ViewGroup) inflater.inflate(R.layout.freedcam_main_activity, null);
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.freedcam_main_activity);
 
         //Get default handler for uncaught exceptions. to let fc app as it should
@@ -75,6 +72,8 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
                 defaultEXhandler.uncaughtException(thread,e);
             }
         });
+
+        sampleThemeFragment = (SampleThemeFragment) getSupportFragmentManager().findFragmentById(R.id.sampleThemeFragment);
     }
 
     @Override
@@ -180,7 +179,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         apiHandler.CheckApi();
         hardwareKeyHandler = new HardwareKeyHandler(this,appSettingsManager);
         //load the cameraui
-        loadUiFragment();
+        sampleThemeFragment.SetAppSettingsManager(appSettingsManager);
     }
 
     /**
@@ -228,15 +227,6 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
             cameraFragment = null;
         }
         Logger.d(TAG, "destroyed cameraWrapper");
-    }
-
-    private void loadUiFragment()
-    {
-        sampleThemeFragment = SampleThemeFragment.GetInstance(this,appSettingsManager,null);
-        android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
-        transaction.replace(R.id.themeFragmentholder, sampleThemeFragment, "Main");
-        transaction.commitAllowingStateLoss();
     }
 
     /**

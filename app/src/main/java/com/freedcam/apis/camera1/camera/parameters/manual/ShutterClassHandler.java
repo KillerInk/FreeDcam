@@ -2,6 +2,7 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
 
+import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
 import com.freedcam.utils.DeviceUtils;
@@ -41,7 +42,7 @@ public class ShutterClassHandler
 
 
 
-    public static BaseManualParameter getShutterClass(Camera.Parameters parameters, CamParametersHandler parametersHandler, I_CameraHolder cameraHolder)
+    public static AbstractManualParameter getShutterClass(Camera.Parameters parameters, CamParametersHandler parametersHandler, I_CameraHolder cameraHolder)
     {
         if (DeviceUtils.IS(DeviceUtils.Devices.SonyADV))
             return new ShutterManualSony(parameters, "","",parametersHandler);

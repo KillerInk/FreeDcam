@@ -1,6 +1,7 @@
 package com.freedcam.apis.camera1.camera.modules;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
 import android.util.Log;
@@ -216,7 +217,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             }
         }
 
-        if (!StringUtils.IS_L_OR_BIG() || StringUtils.WRITE_NOT_EX_AND_L_ORBigger(appSettingsManager))
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !appSettingsManager.GetWriteExternal()))
         {
             Logger.d(TAG, "Write To internal or kitkat<");
             checkFileExists(file);

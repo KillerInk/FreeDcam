@@ -21,7 +21,7 @@ public class FocusManualHuawei extends BaseFocusManual {
     }
 
     @Override
-    protected void setvalue(final int valueToSet)
+    public void SetValue(final int valueToSet)
     {
         currentInt = valueToSet;
 

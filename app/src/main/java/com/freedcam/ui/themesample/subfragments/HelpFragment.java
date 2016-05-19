@@ -38,12 +38,8 @@ public class HelpFragment extends Fragment
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        return inflater.inflate(R.layout.help_fragment,container,false);
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        super.onCreateView(inflater,container,savedInstanceState);
+        View view = inflater.inflate(R.layout.help_fragment,container,false);
         this.finger = (ImageView)view.findViewById(R.id.imageView_finger);
         this.description = (TextView)view.findViewById(R.id.textView_description);
         this.dontshowagain =(CheckBox)view.findViewById(R.id.checkBox_dontShowAgain);
@@ -79,8 +75,8 @@ public class HelpFragment extends Fragment
             }
         });
         showOpenSettingsMenu();
+        return view;
     }
-
 
 
     private void showOpenSettingsMenu()

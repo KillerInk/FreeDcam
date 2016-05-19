@@ -3,6 +3,7 @@ package com.freedviewer.dngconvert;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
@@ -252,7 +253,7 @@ public class DngConvertingFragment extends Fragment
         if (file.getName().endsWith(StringUtils.FileEnding.BAYER))
             out = file.getAbsolutePath().replace(StringUtils.FileEnding.BAYER, StringUtils.FileEnding.DNG);
         RawToDng dng = RawToDng.GetInstance();
-        if (!StringUtils.IS_L_OR_BIG()
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP
                 || file.canWrite())
             dng.SetBayerData(data, out);
         else

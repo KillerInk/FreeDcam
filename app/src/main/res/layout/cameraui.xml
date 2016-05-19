@@ -255,7 +255,7 @@
             android:layout_gravity="center_horizontal"
             android:background="@drawable/quck_set_format2"
             android:layout_marginTop="3dp"
-            android:layout_marginBottom="10dp"/>/>
+            android:layout_marginBottom="10dp"/>
 
 
     </LinearLayout>

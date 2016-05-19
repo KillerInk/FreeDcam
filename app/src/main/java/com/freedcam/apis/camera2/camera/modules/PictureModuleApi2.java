@@ -27,6 +27,7 @@ import android.util.Rational;
 import android.util.Size;
 import android.view.Surface;
 
+import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualShutter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.utils.AppSettingsManager;
@@ -60,7 +61,7 @@ import java.util.List;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class PictureModuleApi2 extends AbstractModuleApi2
 {
-    private static String TAG = StringUtils.TAG +PictureModuleApi2.class.getSimpleName();
+    private static String TAG = PictureModuleApi2.class.getSimpleName();
     private CameraHolderApi2 cameraHolder;
     private int mState;
     /**
@@ -198,7 +199,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             try {
                 long val = 0;
                 if(!ParameterHandler.ManualShutter.GetStringValue().equals("Auto"))
-                    val = (long)(StringUtils.getMilliSecondStringFromShutterString(ParameterHandler.ManualShutter.getStringValues()[ParameterHandler.ManualShutter.GetValue()]) * 1000f);
+                    val = (long)(AbstractManualShutter.getMilliSecondStringFromShutterString(ParameterHandler.ManualShutter.getStringValues()[ParameterHandler.ManualShutter.GetValue()]) * 1000f);
                 else
                     val= cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
                 Logger.d(TAG, "Set ExposureTime for Capture to:" + val);
@@ -240,6 +241,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             Logger.exception(e);
         }
     }
+
+
 
     private CameraCaptureSession.CaptureCallback CaptureCallback
             = new CameraCaptureSession.CaptureCallback()
@@ -641,7 +644,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void startPreview() {
 
-        if (baseCameraHolder.mPreviewRequestBuilder == null)
+        if (baseCameraHolder == null || baseCameraHolder.mPreviewRequestBuilder == null)
             return;
         picSize = appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE);
         Logger.d(TAG, "Start Preview");
@@ -811,10 +814,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     public void UnloadNeededParameters()
     {
         Logger.d(TAG, "UnloadNeededParameters");
-        cameraHolder.CaptureSessionH.CloseCaptureSession();
         cameraHolder.mProcessor.kill();
-        previewsurface = null;
-        camerasurface = null;
+        cameraHolder.CaptureSessionH.CloseCaptureSession();
+
     }
 
     private RenderScript.RSErrorHandler rsErrorHandler = new RenderScript.RSErrorHandler()

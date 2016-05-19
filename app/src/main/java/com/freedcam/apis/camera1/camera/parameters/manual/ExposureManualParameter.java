@@ -41,7 +41,7 @@ public class ExposureManualParameter extends BaseManualParameter
     }
 
     @Override
-    protected void setvalue(int valueToset)
+    public void SetValue(int valueToset)
     {
         if(stringvalues == null || stringvalues.length == 0)
             return;

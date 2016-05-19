@@ -32,12 +32,12 @@ public abstract class AbstractFragment extends Fragment implements I_Fragment
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(null);
+        super.onCreate(savedInstanceState);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, null);
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 }

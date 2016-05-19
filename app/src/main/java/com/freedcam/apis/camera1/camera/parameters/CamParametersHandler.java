@@ -6,6 +6,8 @@ import android.hardware.Camera;
 import android.os.Build;
 import android.os.Handler;
 
+import com.freedcam.apis.basecamera.camera.interfaces.I_Module;
+import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.FocusHandler;
@@ -115,7 +117,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         // register their listners there if its postprocessing parameter
         try {
             PictureFormat = new PictureFormatHandler(uiHandler,cameraParameters, cameraHolder, this);
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner((PictureFormatHandler) PictureFormat);
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner((I_ModuleEvent) PictureFormat);
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -949,7 +951,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         cameraParameters.set("afeng_raw_dump_flag", "1");
         cameraParameters.set("isp-mode", "1");
         cameraParameters.set("rawsave-mode", "2");
-        cameraParameters.set("rawfname", "/mnt/sdcard/DCIM/FreeDCam/mtk_."+StringUtils.FileEnding.BAYER);
+        cameraParameters.set("rawfname", StringUtils.GetInternalSDCARD()+"/DCIM/FreeDCam/mtk_."+StringUtils.FileEnding.BAYER);
         cameraParameters.set("zsd-mode", "on");
         try {
             Thread.sleep(200);
@@ -1017,7 +1019,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         cameraParameters.set("afeng_raw_dump_flag", "1");
         cameraParameters.set("rawsave-mode", "2");
         cameraParameters.set("isp-mode", "1");
-        cameraParameters.set("rawfname", "/mnt/sdcard/DCIM/test."+StringUtils.FileEnding.BAYER);
+        cameraParameters.set("rawfname", StringUtils.GetInternalSDCARD()+"/DCIM/test."+StringUtils.FileEnding.BAYER);
     }
 
 

@@ -50,7 +50,7 @@ public class FocusManual_QcomM extends BaseManualParameter
     }
 
     @Override
-    protected void setvalue(final int valueToSet)
+    public void SetValue(final int valueToSet)
     {
         currentInt = valueToSet;
 

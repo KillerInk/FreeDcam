@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#1b1b1b"
@@ -49,5 +50,12 @@
 
         android:layout_alignParentLeft="true">
     </LinearLayout>
+
+    <fragment
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:name="com.freedcam.ui.themesample.SampleThemeFragment"
+        android:id="@+id/sampleThemeFragment"
+        tools:layout="@layout/samplethemefragment" />
 
 </RelativeLayout>

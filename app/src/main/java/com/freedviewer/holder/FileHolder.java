@@ -1,5 +1,7 @@
 package com.freedviewer.holder;
 
+import android.os.Build;
+
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 import com.freedviewer.gridview.GridViewFragment;
@@ -77,20 +79,20 @@ public class FileHolder extends BaseHolder
     public static List<FileHolder> getDCIMFiles()
     {
         List<FileHolder> f = new ArrayList<>();
-        if (!StringUtils.IS_L_OR_BIG()) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             File internal = new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder);
             if (internal != null)
                 Logger.d(TAG, "InternalSDPath:" + internal.getAbsolutePath());
-            FileHolder.readFilesFromFolder(internal, f, GridViewFragment.FormatTypes.all, false);
+            readFilesFromFolder(internal, f, GridViewFragment.FormatTypes.all, false);
             try {
-                File fs = StringUtils.GetExternalSDCARD();
+                File fs = new File(StringUtils.GetExternalSDCARD());
                 if (fs != null && fs.exists()) {
                     File external = new File(fs + StringUtils.freedcamFolder);
                     if (external != null && external.exists())
                         Logger.d(TAG, "ExternalSDPath:" + external.getAbsolutePath());
                     else
                         Logger.d(TAG, "No ExternalSDFound");
-                    FileHolder.readFilesFromFolder(external, f, GridViewFragment.FormatTypes.all, true);
+                    readFilesFromFolder(external, f, GridViewFragment.FormatTypes.all, true);
                 }
             } catch (NullPointerException ex) {
                 Logger.e(TAG, "Looks like there is no External SD");
@@ -101,7 +103,7 @@ public class FileHolder extends BaseHolder
             List<FileHolder> dcims= getDCIMDirs();
             for (FileHolder fileHolder : dcims)
             {
-                FileHolder.readFilesFromFolder(fileHolder.getFile(),f, GridViewFragment.FormatTypes.all, fileHolder.isExternalSD());
+                readFilesFromFolder(fileHolder.getFile(),f, GridViewFragment.FormatTypes.all, fileHolder.isExternalSD());
             }
         }
 
@@ -112,7 +114,7 @@ public class FileHolder extends BaseHolder
     public static List<FileHolder> getDCIMDirs()
     {
         ArrayList<FileHolder> list = new ArrayList<>();
-        if (!StringUtils.IS_L_OR_BIG())
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP)
         {
             File internalSDCIM = new File(StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder);
             File[] f = internalSDCIM.listFiles();
@@ -123,7 +125,7 @@ public class FileHolder extends BaseHolder
                 }
             }
             try {
-                File fs = StringUtils.GetExternalSDCARD();
+                File fs = new File(StringUtils.GetExternalSDCARD());
                 if (fs != null && fs.exists()) {
                     File externalSDCIM = new File(StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder);
                     f = externalSDCIM.listFiles();
@@ -138,7 +140,7 @@ public class FileHolder extends BaseHolder
         }
         else
         {
-            File[] files =  StringUtils.DIR_ANDROID_STORAGE.listFiles();
+            File[] files =  getStorageDirectory().listFiles();
             boolean internalfound = false;
             boolean externalfound = false;
             for (File file : files)
@@ -200,7 +202,16 @@ public class FileHolder extends BaseHolder
 
         }
         SortFileHolder(list);
+        Logger.d(TAG,"#############Found DCIM Folders:");
+        for (FileHolder fileHolder : list)
+            Logger.d(TAG,fileHolder.getFile().getAbsolutePath());
+        Logger.d(TAG,"#############END DCIM Folders:");
         return list;
+    }
+
+    private static  File getStorageDirectory() {
+        String path = System.getenv("ANDROID_STORAGE");
+        return path == null ? new File("/storage") : new File(path);
     }
 
     private static void SortFileHolder(List<FileHolder> f)

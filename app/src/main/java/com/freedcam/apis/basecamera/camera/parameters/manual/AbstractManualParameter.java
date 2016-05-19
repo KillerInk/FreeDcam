@@ -172,17 +172,15 @@ public abstract class AbstractManualParameter implements I_ManualParameter
      *
      * @return returns all values possible vales as StringArray
      */
+    @Override
     public String[] getStringValues() { return  stringvalues;}
 
     @Override
     public void SetValue(int valueToSet)
     {
-        setvalue(valueToSet);
+
         //ThrowCurrentValueChanged(valueToSet);
     }
-
-    protected void setvalue(int valueToset)
-    {}
 
     protected String[] createStringArray(int min,int max, float step)
     {

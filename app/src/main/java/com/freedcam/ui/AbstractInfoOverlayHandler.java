@@ -17,6 +17,7 @@ import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -25,15 +26,15 @@ import java.util.Date;
  */
 public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
 {
-    Handler handler;
+    private Handler handler;
     protected AbstractCameraUiWrapper cameraUiWrapper;
     boolean started = false;
-    Context context;
+    private Context context;
 
     protected String batteryLevel;
-    BatteryBroadCastListner batteryBroadCastListner;
+    private BatteryBroadCastListner batteryBroadCastListner;
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
     protected String timeString;
 
     //this holds the format for video or picture
@@ -142,21 +143,15 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
         }
     }
 
-    private void setVideoRecordingTime()
-    {
-
-    }
-
     public void getStorageSpace()
     {
-        try {
-            //Storage.setText(StringUtils.readableFileSize(Environment.getExternalStorageDirectory().getUsableSpace()));
-
+        try
+        {
             //defcomg was here 24/01/2015
             if(!cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
                 storageSpace = Avail4PIC();
             else
-                storageSpace =StringUtils.readableFileSize(SDspace());
+                storageSpace =readableFileSize(SDspace());
         }
         catch (Exception ex)
         {
@@ -164,6 +159,13 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
         }
 
 
+    }
+
+    private String readableFileSize(long size) {
+        if(size <= 0) return "0";
+        final String[] units = new String[] { "B", "KB", "MB", "GB", "TB" };
+        int digitGroups = (int) (Math.log10(size)/Math.log10(1024));
+        return new DecimalFormat("#,##0.#").format(size/Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
 
     private  String Avail4PIC()
@@ -176,18 +178,17 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
     }
     private double Calc()
     {
-        double calc;
         String res [] = appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
 
         if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer"))
         {
             if (Build.MANUFACTURER.contains("HTC"))
-                return calc = Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) * 16 / 8;
+                return Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) * 16 / 8;
             else
-                return calc = Integer.parseInt(res[0]) *Integer.parseInt(res[1]) * 10 / 8;
+                return Integer.parseInt(res[0]) *Integer.parseInt(res[1]) * 10 / 8;
         }
         else
-            return calc = Integer.parseInt(res[0]) *Integer.parseInt(res[1]) * 8 / 8;
+            return Integer.parseInt(res[0]) *Integer.parseInt(res[1]) * 8 / 8;
     }
 
     private long SDspace()

@@ -59,13 +59,9 @@ public class ImageFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        super.onCreateView(inflater,container,savedInstanceState);
         mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
-        return inflater.inflate(R.layout.imageframent, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        View view = inflater.inflate(R.layout.imageframent, container, false);
         this.imageView = (TouchImageView)view.findViewById(R.id.imageView_PicView);
 
         if(savedInstanceState != null && file == null)
@@ -84,8 +80,9 @@ public class ImageFragment extends Fragment
                 }
             });
         }
-        Logger.d(TAG,"onViewCreated");
+        return view;
     }
+
 
 
 

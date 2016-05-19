@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
+import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualShutter;
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.apis.camera2.camera.parameters.modes.BaseModeApi2;
 import com.freedcam.utils.DeviceUtils;
@@ -210,13 +211,10 @@ public class AeHandlerApi2
      * Created by troop on 06.03.2015.
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public class ManualExposureTimeApi2 extends AbstractManualParameter
+    public class ManualExposureTimeApi2 extends AbstractManualShutter
     {
-        private boolean canSet = false;
         boolean isSupported = false;
         final String TAG = ManualExposureTimeApi2.class.getSimpleName();
-        boolean firststart = true;
-        private int onetoThirty = 0;
         private int millimax = 0;
         public ManualExposureTimeApi2(ParameterHandlerApi2 camParametersHandler) {
             super(camParametersHandler);
@@ -247,10 +245,7 @@ public class AeHandlerApi2
             else
                 millimax = (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper()).intValue() / 1000;
             int millimin = (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower()).intValue() / 1000;
-            stringvalues = StringUtils.getSupportedShutterValues(millimin, millimax,false);
-            for (int i = 0; i < stringvalues.length; i++)
-                if (stringvalues[i].equals("1/30"))
-                    onetoThirty = i;
+            stringvalues = getSupportedShutterValues(millimin, millimax,false);
         }
 
         @Override
@@ -279,7 +274,7 @@ public class AeHandlerApi2
                 valueToSet = stringvalues.length - 1;
             currentInt = valueToSet;
             if (valueToSet > 0) {
-                long val = (long) (StringUtils.getMilliSecondStringFromShutterString(stringvalues[valueToSet]) * 1000f);
+                long val = (long) (getMilliSecondStringFromShutterString(stringvalues[valueToSet]) * 1000f);
                 Logger.d(TAG, "ExposureTimeToSet:" + val);
                 if (val > 800000000) {
                     Logger.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
@@ -325,7 +320,6 @@ public class AeHandlerApi2
     public class ManualISoApi2 extends ManualExposureTimeApi2
     {
         final String TAG = ManualISoApi2.class.getSimpleName();
-        private boolean isSupported = false;
         public ManualISoApi2(ParameterHandlerApi2 camParametersHandler) {
             super(camParametersHandler);
             currentInt = 0;

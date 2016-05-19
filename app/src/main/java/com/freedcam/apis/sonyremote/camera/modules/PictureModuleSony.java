@@ -1,6 +1,7 @@
 package com.freedcam.apis.sonyremote.camera.modules;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.v4.provider.DocumentFile;
 
 import com.freedcam.apis.sonyremote.camera.CameraHolderSony;
@@ -112,7 +113,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
         OutputStream output = null;
         try {
             inputStream = new BufferedInputStream(url.openStream());
-            if (!StringUtils.IS_L_OR_BIG() ||StringUtils.WRITE_NOT_EX_AND_L_ORBigger(appSettingsManager))
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP ||(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !appSettingsManager.GetWriteExternal()))
                 output = new FileOutputStream(file);
             else
             {

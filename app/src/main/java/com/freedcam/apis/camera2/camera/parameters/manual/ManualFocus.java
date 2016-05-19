@@ -48,7 +48,7 @@ public class ManualFocus extends AbstractManualParameter
             return "Auto";
         else {
             if (isSupported)
-                return StringUtils.TrimmFloatString(cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE) + "");
+                return StringUtils.TrimmFloatString4Places(cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE) + "");
         }
         return "";
     }

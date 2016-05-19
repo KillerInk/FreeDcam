@@ -57,7 +57,7 @@ public class ISOManualParameter extends BaseManualParameter {
     }
 
     @Override
-    protected void setvalue(int valueToSet)
+    public void SetValue(int valueToSet)
     {
         currentInt = valueToSet;
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))

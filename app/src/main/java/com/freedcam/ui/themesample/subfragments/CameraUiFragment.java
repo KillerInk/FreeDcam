@@ -3,6 +3,7 @@ package com.freedcam.ui.themesample.subfragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -92,11 +93,6 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
 
     }
 
-    public int GetLeftUI_Width()
-    {
-        return LeftWidth;
-    }
-
     @Override
     protected void setCameraUiWrapperToUi() {
         if (cameraUiWrapper == null || cameraUiWrapper.camParametersHandler == null)
@@ -135,21 +131,14 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        super.onCreateView(inflater,container,savedInstanceState);
         Logger.d(TAG, "####################ONCREATEDVIEW####################");
 
         touchHandler = new SwipeMenuListner(this);
+        view = inflater.inflate(R.layout.cameraui, container, false);
 
-        return inflater.inflate(R.layout.cameraui, container, false);
-    }
-
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState)
-    {
-        super.onViewCreated(view, savedInstanceState);
-        this.view = view;
-        Logger.d(TAG, "####################VIEW CREATED####################");
         sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         manualsettingsIsOpen = sharedPref.getBoolean(KEY_MANUALMENUOPEN, false);
         LinearLayout left_cameraUI_holder = (LinearLayout) view.findViewById(R.id.left_ui_holder);
@@ -230,7 +219,7 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
         horizontLineFragment = HorizontLineFragment.GetInstance(i_activity,appSettingsManager);
 
         guideHandler =GuideHandler.GetInstance(appSettingsManager);
-        android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.guideHolder, guideHandler, "Guide");
         transaction.commitAllowingStateLoss();
 
@@ -256,7 +245,10 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
 
         if(!manualsettingsIsOpen)
             manualModes_holder.setVisibility(View.GONE);
+
+        return view;
     }
+
 
     @Override
     public void onResume() {
@@ -340,7 +332,7 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
     private void infalteIntoHolder(int id, HorizontalValuesFragment fragment)
     {
 
-        android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.left_to_right_enter, 0);
         transaction.replace(id, fragment);
         transaction.commitAllowingStateLoss();
@@ -416,7 +408,7 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
     private i_HelpFragment helpfragmentCloser = new i_HelpFragment() {
         @Override
         public void Close(android.support.v4.app.Fragment fragment) {
-            android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.remove(fragment);
             transaction.addToBackStack(null);
             transaction.commitAllowingStateLoss();

@@ -1,5 +1,6 @@
 package com.freedcam.apis.basecamera.camera.parameters.modes;
 
+import android.os.Build;
 import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
@@ -16,6 +17,7 @@ public class SDModeParameter extends AbstractModeParameter
     final public static String internal = "Internal";
     final public static String external ="External";
     private AppSettingsManager appSettingsManager;
+
     public SDModeParameter(Handler uiHandler,AppSettingsManager appSettingsManager) {
         super(uiHandler);
         this.appSettingsManager = appSettingsManager;
@@ -35,8 +37,8 @@ public class SDModeParameter extends AbstractModeParameter
     public boolean IsSupported()
     {
         try {
-            if (!StringUtils.IS_L_OR_BIG()) {
-                File file = StringUtils.GetExternalSDCARD();
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+                File file = new File(StringUtils.GetExternalSDCARD());
                 return file.exists();
             }
             else

@@ -3,6 +3,7 @@ package com.freedcam.apis.basecamera.camera.modules;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.support.v4.provider.DocumentFile;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
@@ -44,6 +45,7 @@ public abstract class AbstractModule implements I_Module
         this.ParameterHandler = baseCameraHolder.GetParameterHandler();
         this.context = context;
         this.appSettingsManager = appSettingsManager;
+
     }
 
     public void SetWorkerListner(AbstractModuleHandler.I_worker workerListner)
@@ -113,7 +115,7 @@ public abstract class AbstractModule implements I_Module
         Logger.d(TAG, "Start Saving Bytes");
         OutputStream outStream = null;
         try {
-            if (!StringUtils.IS_L_OR_BIG() || StringUtils.WRITE_NOT_EX_AND_L_ORBigger(appSettingsManager))
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&& appSettingsManager.GetWriteExternal()))
             {
                 checkFileExists(fileName);
                 outStream = new FileOutputStream(fileName);
@@ -140,7 +142,7 @@ public abstract class AbstractModule implements I_Module
     public void SaveBitmapToFile(Bitmap bitmap, File file)
     {
         OutputStream outStream = null;
-        if (!StringUtils.IS_L_OR_BIG() || StringUtils.WRITE_NOT_EX_AND_L_ORBigger(appSettingsManager)) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && appSettingsManager.GetWriteExternal())) {
             try {
                 outStream= new FileOutputStream(file);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);

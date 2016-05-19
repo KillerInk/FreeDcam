@@ -3,6 +3,7 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 import android.hardware.Camera;
 
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualShutter;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
@@ -12,9 +13,11 @@ import java.util.HashMap;
 /**
  * Created by troop on 21.02.2016.
  */
-public class ShutterManualSony extends BaseManualParameter
+public class ShutterManualSony extends AbstractManualShutter
 {
     final String TAG = ShutterManualSony.class.getSimpleName();
+    private CamParametersHandler camParametersHandler;
+    private Camera.Parameters parameters;
     /**
      * @param parameters
      * @param maxValue
@@ -22,14 +25,16 @@ public class ShutterManualSony extends BaseManualParameter
      * @param camParametersHandler
      */
     public ShutterManualSony(Camera.Parameters parameters, String maxValue, String MinValue, CamParametersHandler camParametersHandler) {
-        super(parameters, "", "", "", camParametersHandler,1);
+        super(camParametersHandler);
+        this.camParametersHandler = camParametersHandler;
+        this.parameters = parameters;
         try {
             if (!parameters.get("sony-max-shutter-speed").equals(""))
             {
                 try {
                     int min = Integer.parseInt(parameters.get("sony-min-shutter-speed"));
                     int max = Integer.parseInt(parameters.get("sony-max-shutter-speed"));
-                    stringvalues = StringUtils.getSupportedShutterValues(min, max,true);
+                    stringvalues = getSupportedShutterValues(min, max,true);
                     this.isSupported = true;
                 } catch (NumberFormatException ex) {
                     Logger.exception(ex);
@@ -49,7 +54,7 @@ public class ShutterManualSony extends BaseManualParameter
     }
 
     @Override
-    protected void setvalue(int valueToSet)
+    public void SetValue(int valueToSet)
     {
         currentInt = valueToSet;
         parameters.set("sony-ae-mode", "manual");

@@ -43,7 +43,7 @@ public class ShutterManualMtk extends BaseManualParameter
     }
 
     @Override
-    protected void setvalue(int valueToSet)
+    public void SetValue(int valueToSet)
     {
         if (valueToSet == 0)
         {

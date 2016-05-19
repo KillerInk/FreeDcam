@@ -25,14 +25,14 @@ public class ShutterManual_ExposureTime_FloatToSixty extends ShutterManual_Expos
     }
 
     @Override
-    protected void setvalue(int valueToset)
+    public void SetValue(int valueToset)
     {
         currentInt = valueToset;
         if(!stringvalues[currentInt].equals("Auto"))
         {
-            String shutterstring = StringUtils.FormatShutterStringToDouble(stringvalues[currentInt]);
+            String shutterstring = FormatShutterStringToDouble(stringvalues[currentInt]);
             Logger.d(TAG, "StringUtils.FormatShutterStringToDouble:" + shutterstring);
-            shutterstring = StringUtils.FLOATtoSixty4(shutterstring);
+            shutterstring = FLOATtoSixty4(shutterstring);
             parameters.set("exposure-time", shutterstring);
         }
         else

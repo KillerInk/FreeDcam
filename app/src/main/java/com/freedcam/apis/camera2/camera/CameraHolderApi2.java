@@ -163,7 +163,6 @@ public class CameraHolderApi2 extends AbstractCameraHolder
         try {
             Logger.d(TAG,"Close Camera");
             mCameraOpenCloseLock.acquire();
-            mProcessor.kill();
             try
             {
                 if (null != mCaptureSession)
@@ -403,7 +402,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                             }
                             try {
                                 final float  mf = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
-                                GetParameterHandler().ManualFocus.ThrowCurrentValueStringCHanged(StringUtils.TrimmFloatString(mf + ""));
+                                GetParameterHandler().ManualFocus.ThrowCurrentValueStringCHanged(StringUtils.TrimmFloatString4Places(mf + ""));
                             }
                             catch (NullPointerException ex) {Logger.exception(ex);}
                         }

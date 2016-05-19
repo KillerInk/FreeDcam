@@ -541,7 +541,7 @@ private DialogInterface.OnClickListener dialogDeleteClickListener = new DialogIn
                 if (!hasfilesSelected)
                     return;
                 //else show dialog
-                if (!StringUtils.IS_L_OR_BIG() || !mPagerAdapter.getFiles().get(0).isExternalSD())
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || !mPagerAdapter.getFiles().get(0).isExternalSD())
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setMessage(R.string.delete_files).setPositiveButton(R.string.yes, dialogDeleteClickListener)

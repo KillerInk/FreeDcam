@@ -48,6 +48,8 @@ public class FocusModeApi2 extends BaseModeApi2
     @Override
     public String GetValue()
     {
+        if (cameraHolder.mPreviewRequestBuilder ==null)
+            return null;
         int i = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AF_MODE);
         FocusModes sceneModes = FocusModes.values()[i];
         return sceneModes.toString();

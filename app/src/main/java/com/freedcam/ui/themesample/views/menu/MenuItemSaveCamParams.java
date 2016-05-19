@@ -153,7 +153,6 @@ public class MenuItemSaveCamParams extends MenuItem
         Arrays.sort(paras);
 
         FileOutputStream outputStream;
-
         File freedcamdir = new File(Environment.getExternalStorageDirectory() + StringUtils.freedcamFolder);
         if (!freedcamdir.exists())
             freedcamdir.mkdirs();

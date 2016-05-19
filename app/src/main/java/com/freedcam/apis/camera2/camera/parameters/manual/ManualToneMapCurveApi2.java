@@ -160,7 +160,10 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
         }
 
         @Override
-        public boolean IsSupported() {
+        public boolean IsSupported()
+        {
+            if (cameraHolder == null || cameraHolder.characteristics == null)
+                return  false;
             return cameraHolder.characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null
                     && cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
         }

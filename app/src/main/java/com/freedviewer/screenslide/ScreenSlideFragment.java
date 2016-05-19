@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.app.Fragment;
@@ -92,17 +93,8 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        return inflater.inflate(R.layout.screenslide_fragment, container, false);
-    }
-
-    public ScreenSlideFragment()
-    {}
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState)
-    {
-        super.onViewCreated(view, savedInstanceState);
-        Logger.d(TAG, "onViewCreated");
+        super.onCreateView(inflater,container,savedInstanceState);
+        View view = inflater.inflate(R.layout.screenslide_fragment, container, false);
         mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
 
         // Instantiate a ViewPager and a PagerAdapter.
@@ -173,7 +165,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!StringUtils.IS_L_OR_BIG() || StringUtils.WRITE_NOT_EX_AND_L_ORBigger(appSettingsManager)) {
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&&appSettingsManager.GetWriteExternal())) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
                             .setNegativeButton("No", dialogClickListener).show();
@@ -192,19 +184,9 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
 
             }
         });
-
-
-    }
-
-    @Override
-    public void onResume()
-    {
-        Logger.d(TAG,"onResume");
-        super.onResume();
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),mPager,fragmentclickListner,filestoshow,appSettingsManager);
         mPager.setAdapter(mPagerAdapter);
         mPager.addOnPageChangeListener(this);
-
         if (FilePathToLoad.equals("")) {
             mPagerAdapter.SetFiles(FileHolder.getDCIMFiles());
         }
@@ -219,12 +201,14 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             } else
                 mPager.setCurrentItem(defitem);
         }
+
+        return view;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
+    public ScreenSlideFragment()
+    {
     }
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

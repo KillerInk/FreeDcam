@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
+import android.os.Build;
 import android.provider.MediaStore;
 
 import com.freedcam.Native.RawUtils;
@@ -142,11 +143,11 @@ public class BitmapHelper
     {
         boolean del = false;
         DeleteCache(file.getFile());
-        if (!StringUtils.IS_L_OR_BIG() || file.getFile().canWrite())
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || file.getFile().canWrite())
         {
             del = file.getFile().delete();
         }
-        if (!del && StringUtils.IS_L_OR_BIG())
+        if (!del && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             del =FileUtils.delteDocumentFile(file.getFile(),appSettingsManager,context);
         if (del)
         {

@@ -50,7 +50,7 @@ public class ISOManualParameterG4 extends BaseManualParameter
     }
 
     @Override
-    protected void setvalue(int valueToSet)
+    public void SetValue(int valueToSet)
     {
         currentInt = valueToSet;
         if (valueToSet == 0)

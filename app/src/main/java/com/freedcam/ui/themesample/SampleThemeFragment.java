@@ -44,13 +44,18 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
     {
     }
 
-    public static SampleThemeFragment GetInstance(I_Activity i_activity, AppSettingsManager appSettingsManager,AbstractCameraUiWrapper cameraUiWrapper)
+    public static SampleThemeFragment GetInstance(AppSettingsManager appSettingsManager,AbstractCameraUiWrapper cameraUiWrapper)
     {
         SampleThemeFragment sampleThemeFragment = new SampleThemeFragment();
-        sampleThemeFragment.i_activity = i_activity;
-        sampleThemeFragment.appSettingsManager = appSettingsManager;
+        sampleThemeFragment.SetAppSettingsManager(appSettingsManager);
         sampleThemeFragment.cameraUiWrapper = cameraUiWrapper;
         return sampleThemeFragment;
+    }
+
+    public void SetAppSettingsManager(AppSettingsManager appSettingsManager)
+    {
+        this.appSettingsManager = appSettingsManager;
+        this.i_activity = (I_Activity)getActivity();
     }
 
     @Override
@@ -72,25 +77,15 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        super.onCreateView(inflater, container, null);
-        return inflater.inflate(R.layout.samplethemefragment, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.samplethemefragment, container, false);
         this.mPager = (PagingView)view.findViewById(R.id.viewPager_fragmentHolder);
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(1);
-
+        return view;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-
-    }
 
     private ScreenSlideFragment.I_ThumbClick onThumbClick = new ScreenSlideFragment.I_ThumbClick() {
         @Override

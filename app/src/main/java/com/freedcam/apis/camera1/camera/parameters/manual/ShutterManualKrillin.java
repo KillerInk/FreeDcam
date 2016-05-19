@@ -45,32 +45,20 @@ public class ShutterManualKrillin extends BaseManualParameter {
     }
 
     @Override
-    protected void setvalue(int valueToSet) {
-        /*if (valueToSet == 0)
-        {
-            manualevent.onManualChanged(AE_Handler_LGG4.AeManual.shutter, true, valueToSet);
-        }
-        else
-        {
-            manualevent.onManualChanged(AE_Handler_LGG4.AeManual.shutter, false, valueToSet);
-        }*/
-        setValue(valueToSet);
-
-
-    }
-
-    private void setValue(int value) {
-
-        if (value == 0) {
+    public void SetValue(int valueToSet) {
+        if (valueToSet == 0) {
             parameters.set("hw-hwcamera-flag", "on");
             parameters.set("hw-manual-exposure-value", "auto");
         } else {
-            currentInt = value;
+            currentInt = valueToSet;
             parameters.set("hw-hwcamera-flag", "on");
-            parameters.set("hw-manual-exposure-value", stringvalues[value]);
+            parameters.set("hw-manual-exposure-value", stringvalues[currentInt]);
         }
-        ThrowCurrentValueStringCHanged(stringvalues[value]);
+        ThrowCurrentValueStringCHanged(stringvalues[valueToSet]);
+
+
     }
+
 
 
     @Override

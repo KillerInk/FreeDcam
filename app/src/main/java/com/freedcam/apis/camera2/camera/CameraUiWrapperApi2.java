@@ -28,7 +28,7 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
     private AutoFitTextureView preview;
     protected I_error errorHandler;
 
-    private static String TAG = StringUtils.TAG + CameraUiWrapperApi2.class.getSimpleName();
+    private static String TAG = CameraUiWrapperApi2.class.getSimpleName();
 
     @Override
     public String CameraApiName() {

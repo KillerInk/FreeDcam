@@ -7,6 +7,7 @@ import com.freedcam.apis.basecamera.camera.interfaces.I_ModuleHandler;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -25,7 +26,7 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
 
     private static String TAG = AbstractModuleHandler.class.getSimpleName();
     public ModuleEventHandler moduleEventHandler;
-    public HashMap<String, AbstractModule> moduleList;
+    public AbstractMap<String, AbstractModule> moduleList;
     protected AbstractModule currentModule;
     AbstractCameraHolder cameraHolder;
 

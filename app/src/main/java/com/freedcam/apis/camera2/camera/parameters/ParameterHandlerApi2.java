@@ -45,7 +45,7 @@ import java.util.List;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class ParameterHandlerApi2 extends AbstractParameterHandler
 {
-    private static String TAG = StringUtils.TAG + ParameterHandlerApi2.class.getSimpleName();
+    private static String TAG = ParameterHandlerApi2.class.getSimpleName();
     private ManualToneMapCurveApi2 manualToneMapCurveApi2;
     private CameraUiWrapperApi2 wrapper;
 

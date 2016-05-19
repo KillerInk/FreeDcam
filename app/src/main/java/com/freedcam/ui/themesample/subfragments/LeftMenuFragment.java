@@ -88,12 +88,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        return inflater.inflate(R.layout.leftmenufragment, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        super.onCreateView(inflater,container,savedInstanceState);
+        View view = inflater.inflate(R.layout.leftmenufragment, container, false);
 
         videoProfileEditor = (MenuItem_VideoProfEditor)view.findViewById(R.id.MenuItem_VideoProfileEditor);
 
@@ -145,12 +141,8 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         matrixChooser = (MenuItem)view.findViewById(R.id.MenuItemMatrixChooser);
 
         imageStackMode = (MenuItem)view.findViewById(R.id.MenuItemImageStack);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         setCameraUiWrapperToUi();
+        return view;
     }
 
     @Override

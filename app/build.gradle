@@ -57,6 +57,9 @@ android {
     }
     productFlavors {
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -65,4 +68,5 @@ dependencies {
     compile files('libs/metadata-extractor-2.7.0.jar')
     provided files('libs/real3d.jar')
     compile 'com.android.support:support-v4:23.3.0'
+    debugCompile 'junit:junit:4.12'
 }

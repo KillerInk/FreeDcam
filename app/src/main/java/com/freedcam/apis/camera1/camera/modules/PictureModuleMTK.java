@@ -38,7 +38,7 @@ public class PictureModuleMTK extends PictureModule
             waitForPicture = true;
             if (ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.BAYER) || ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.DNG)) {
                 String timestamp = String.valueOf(System.currentTimeMillis());
-                ParameterHandler.Set_RAWFNAME("/mnt/sdcard/DCIM/FreeDCam/" + "mtk" + timestamp + StringUtils.FileEnding.GetWithDot());
+                ParameterHandler.Set_RAWFNAME(StringUtils.GetInternalSDCARD()+"/DCIM/FreeDCam/" + "mtk" + timestamp + ".bayer");
             }
             cameraHolder.TakePicture(null, this);
         }

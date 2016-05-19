@@ -57,14 +57,8 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        super.onCreateView(inflater,container,savedInstanceState);
         this.view = inflater.inflate(R.layout.rightmenufragment, container, false);
-
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         scene = (MenuItem)view.findViewById(R.id.MenuItemScene);
         color = (MenuItem)view.findViewById(R.id.MenuItemColor);
         cctMode = (MenuItem)view.findViewById(R.id.MenuItemCCTMode);
@@ -89,13 +83,10 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
         opticalImageStabilization = (MenuItem)view.findViewById(R.id.MenuItemOIS);
         LensFilter = (MenuItem)view.findViewById(R.id.LensFilter);
         zoomSetting = (MenuItem)view.findViewById(R.id.MenuItemZoomSetting);
+        setCameraUiWrapperToUi();
+        return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        setCameraUiWrapperToUi();
-    }
 
     @Override
     protected void setCameraUiWrapperToUi()

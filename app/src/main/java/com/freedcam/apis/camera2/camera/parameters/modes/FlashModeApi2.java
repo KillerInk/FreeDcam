@@ -42,6 +42,8 @@ public class FlashModeApi2 extends BaseModeApi2 {
     @Override
     public String GetValue()
     {
+        if (cameraHolder == null ||cameraHolder.mPreviewRequestBuilder == null)
+            return null;
         int i = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.FLASH_MODE);
         FlashModes sceneModes = FlashModes.values()[i];
         return sceneModes.toString();
