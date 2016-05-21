@@ -125,6 +125,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     @Override
     public void startPreview()
     {
+        if (currentVideoProfile == null)
+            return;
         previewSize = new Size(currentVideoProfile.videoFrameWidth,currentVideoProfile.videoFrameHeight);
         baseCameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(), previewSize.getHeight(), 270,90,true);
 

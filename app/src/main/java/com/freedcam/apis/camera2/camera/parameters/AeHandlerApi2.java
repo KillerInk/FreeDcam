@@ -7,6 +7,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.os.Handler;
 
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualShutter;
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
@@ -278,7 +279,7 @@ public class AeHandlerApi2
             if (valueToSet > 0) {
                 long val = (long) (getMilliSecondStringFromShutterString(stringvalues[valueToSet]) * 1000f);
                 Logger.d(TAG, "ExposureTimeToSet:" + val);
-                if (val > 800000000) {
+                if (val > 800000000 &&!camParametersHandler.Module.GetValue().equals("Stack")) {
                     Logger.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
                     val = 800000000;
                 }

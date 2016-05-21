@@ -610,6 +610,8 @@ public class CameraHolderApi2 extends AbstractCameraHolder
 
         public void CreateCaptureSession()
         {
+            if(mCameraDevice == null)
+                return;
             Logger.d(this.TAG, "CreateCaptureSession: Surfaces Count:" + surfaces.size());
             try {
                 mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, null);
@@ -642,7 +644,16 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                 Logger.exception(ex);
                 mCaptureSession = null;
             }
+        }
 
+        public void StartRepeatingCaptureSession()
+        {
+            try {
+                mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
+                        null);
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
         }
 
         public void CloseCaptureSession()

@@ -3,6 +3,7 @@ package com.freedcam.ui.themesample.views;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -59,21 +60,33 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
             public void onClick(View v) {
                 if (cameraUiWrapper != null)
                 {
-
                     if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_INTERVAL) ||contshot || cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_STACKING))
                     {
+                        Logger.d(TAG, "is contshoot, interval or stack");
                         if (!cameraUiWrapper.moduleHandler.GetCurrentModule().DoWork())
                         {
+                            Logger.d(TAG, "module has work running");
                             if (cameraUiWrapper.moduleHandler.GetCurrentModule().IsWorking())
+                            {
+                                Logger.d(TAG, "module is working, set cancel");
                                 switchBackground(Showstate.continouse_capture_cancel_whilework, true);
-                            else
-                                switchBackground(Showstate.continouse_capture_cancel_nowork,true);
+                            }
+                            else {
+                                Logger.d(TAG, "module is not working, set nowork");
+                                switchBackground(Showstate.continouse_capture_cancel_nowork, true);
+                            }
                         }
                         else
-                            switchBackground(Showstate.continouse_capture_start,false);
+                        {
+                            Logger.d(TAG, "module has no work running");
+                            switchBackground(Showstate.continouse_capture_start, false);
+                        }
                     }
                     else
+                    {
+                        Logger.d(TAG, "normal DoWork");
                         cameraUiWrapper.moduleHandler.GetCurrentModule().DoWork();
+                    }
                 }
             }
         });
@@ -181,8 +194,6 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         });
     }
 
-    private int workerCounter = 0;
-    private int finishcounter = 0;
     @Override
     public void onWorkStarted()
     {
@@ -203,14 +214,11 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
                 switchBackground(Showstate.continouse_capture_open,true);
                 break;
         }
-        workerCounter++;
-        finishcounter = 0;
     }
 
     @Override
     public void onWorkFinished(boolean finished)
     {
-        Logger.d(TAG, "workstarted " + workerCounter + " worfinshed " + finishcounter++);
         Logger.d(TAG, "onWorkFinished CurrentShow:" + currentShow);
         this.post(new Runnable() {
             @Override

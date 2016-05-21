@@ -80,7 +80,7 @@ public class StackingModuleApi2 extends AbstractModuleApi2
         if (afterFilesave)
         {
             afterFilesave =false;
-            baseCameraHolder.CaptureSessionH.CreateCaptureSession();
+            baseCameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
         }
         else {
             previewSize = new Size(ParameterHandler.PictureSize.GetValue());
@@ -136,19 +136,19 @@ public class StackingModuleApi2 extends AbstractModuleApi2
     @Override
     public boolean DoWork()
     {
-        if (!keepstacking) {
+        if (!keepstacking && !isWorking) {
             workstarted();
             keepstacking = true;
+            return true;
         }
         else
         {
-            baseCameraHolder.StopPreview();
+            stopPreview();
             saveImageToFile();
             afterFilesave = true;
             startPreview();
+            return false;
         }
-
-        return super.DoWork();
     }
 
     private void saveImageToFile() {
@@ -188,15 +188,12 @@ public class StackingModuleApi2 extends AbstractModuleApi2
     @Override
     public void UnloadNeededParameters()
     {
-        if (keepstacking)
-            keepstacking = false;
-        baseCameraHolder.StopPreview();
         Logger.d(TAG, "UnloadNeededParameters");
+        baseCameraHolder.CaptureSessionH.CloseCaptureSession();
         if (mProcessingTask != null) {
 
             while (mProcessingTask.working)
             {
-                saveImageToFile();
                 keepstacking = false;
                 try {
                     Thread.sleep(100);
@@ -206,19 +203,14 @@ public class StackingModuleApi2 extends AbstractModuleApi2
             }
             mProcessingTask = null;
         }
-        baseCameraHolder.CaptureSessionH.CloseCaptureSession();
-        mOutputAllocation = null;
-        mInputAllocation = null;
-
-        previewsurface = null;
-        camerasurface = null;
-
-    }
-
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    private void initRs()
-    {
-
+        if (mInputAllocation != null) {
+            mInputAllocation.setOnBufferAvailableListener(null);
+        }
+        if (mOutputAllocation != null)
+        {
+            mOutputAllocation.setSurface(null);
+            //mOutputAllocation = null;
+        }
 
     }
 
@@ -244,7 +236,7 @@ public class StackingModuleApi2 extends AbstractModuleApi2
         @Override
         public void run()
         {
-            working = true;
+
             // Find out how many frames have arrived
             int pendingFrames;
             synchronized (this) {
@@ -287,7 +279,6 @@ public class StackingModuleApi2 extends AbstractModuleApi2
                 yuvToRgbIntrinsic.forEach(mOutputAllocation);
             }
             mOutputAllocation.ioSend();
-            working = false;
         }
     }
 
