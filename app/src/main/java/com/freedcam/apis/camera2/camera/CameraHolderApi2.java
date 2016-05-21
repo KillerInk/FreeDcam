@@ -261,6 +261,15 @@ public class CameraHolderApi2 extends AbstractCameraHolder
         CaptureSessionH.StartCaptureSession();
     }
 
+    public <T> void SetFocusArea(@NonNull CaptureRequest.Key<T> key, T value)
+    {
+        if (mPreviewRequestBuilder == null)
+            return;
+        Logger.d(TAG, "Set :" + key.getName() + " to " + value.toString());
+        mPreviewRequestBuilder.set(key,value);
+        SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_START);
+    }
+
     public <T> T get(CaptureRequest.Key<T> key)
     {
         if (mPreviewRequestBuilder == null)
@@ -380,7 +389,8 @@ public class CameraHolderApi2 extends AbstractCameraHolder
         @Override
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result)
         {
-            boolean setTOCam = false;
+            Logger.d(TAG,result.get(TotalCaptureResult.SENSOR_SENSITIVITY).toString() + " / " + request.get(CaptureRequest.SENSOR_SENSITIVITY).toString());
+            Logger.d(TAG,result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME).toString() + " / " + request.get(CaptureRequest.SENSOR_EXPOSURE_TIME));
             if (GetParameterHandler().ManualShutter != null && GetParameterHandler().ManualShutter.IsSupported())
             {
                 if (result != null && result.getPartialResults().size() > 0)
@@ -460,7 +470,6 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                         break;
                 }
                 Logger.d(TAG, "new AF_STATE :"+state);
-                setTOCam = true;
             }
             if(result.get(CaptureResult.CONTROL_AE_STATE) != null && aeState != result.get(CaptureResult.CONTROL_AE_STATE))
             {

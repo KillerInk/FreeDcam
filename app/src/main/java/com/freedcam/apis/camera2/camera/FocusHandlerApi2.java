@@ -109,35 +109,10 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
         logFocusRect(targetFocusRect);
         MeteringRectangle rectangle = new MeteringRectangle(targetFocusRect.left,targetFocusRect.top,targetFocusRect.right,targetFocusRect.bottom, 1000);
         MeteringRectangle[] mre = { rectangle};
-        cameraHolder.SetParameter(CaptureRequest.CONTROL_AF_REGIONS, mre);
-        lockFocus();
+        cameraHolder.SetFocusArea(CaptureRequest.CONTROL_AF_REGIONS, mre);
+        if (focusEvent != null)
+            focusEvent.FocusStarted(focusRect);
     }
-
-    /**
-     * Lock the focus as the first step for a still image capture.
-     */
-    private void lockFocus() {
-            // This is how to tell the camera to lock focus.
-            cameraHolder.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_START);
-            // Tell #mCaptureCallback to wait for the lock.
-            //mState = PictureModuleApi2.STATE_WAITING_LOCK;
-            if (focusEvent != null)
-                focusEvent.FocusStarted(focusRect);
-    }
-
-    /**
-     * Unlock the focus. This method should be called when still image capture sequence is finished.
-     */
-    private void unlockFocus() {
-            Logger.d(TAG, "CaptureDone Unlock Focus");
-            // Reset the autofucos trigger
-            //cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
-            // After this, the camera will go back to the normal state of preview.
-            mState = PictureModuleApi2.STATE_PREVIEW;
-            cameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
-    }
-
-
 
     public AbstractModeParameter.I_ModeParameterEvent aeModeListner = new AbstractModeParameter.I_ModeParameterEvent() {
         @Override
