@@ -14,7 +14,6 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.ColorSpaceTransform;
 import android.media.Image;
 import android.media.ImageReader;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -62,7 +61,7 @@ import java.util.List;
 public class PictureModuleApi2 extends AbstractModuleApi2
 {
     private static String TAG = PictureModuleApi2.class.getSimpleName();
-    private CameraHolderApi2 cameraHolder;
+
     private int mState;
     /**
      * Camera state: Showing camera preview.
@@ -102,7 +101,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
     public PictureModuleApi2(CameraHolderApi2 cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
         super(cameraHandler, eventHandler,context,appSettingsManager);
-        this.cameraHolder = (CameraHolderApi2)cameraHandler;
         this.name = AbstractModuleHandler.MODULE_PICTURE;
         handler = new Handler(Looper.getMainLooper());
 
@@ -160,68 +158,68 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             captureBuilder.addTarget(mImageReader.getSurface());
             // Use the same AE and AF modes as the preview.
             try {
-                captureBuilder.set(CaptureRequest.CONTROL_AF_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AF_MODE));
+                captureBuilder.set(CaptureRequest.CONTROL_AF_MODE, cameraHolder.get(CaptureRequest.CONTROL_AF_MODE));
             }catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_MODE));
+                captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, cameraHolder.get(CaptureRequest.CONTROL_AE_MODE));
             }catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                captureBuilder.set(CaptureRequest.FLASH_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.FLASH_MODE));
+                captureBuilder.set(CaptureRequest.FLASH_MODE, cameraHolder.get(CaptureRequest.FLASH_MODE));
             }catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                captureBuilder.set(CaptureRequest.COLOR_CORRECTION_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.COLOR_CORRECTION_MODE));
+                captureBuilder.set(CaptureRequest.COLOR_CORRECTION_MODE, cameraHolder.get(CaptureRequest.COLOR_CORRECTION_MODE));
             }catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                captureBuilder.set(CaptureRequest.COLOR_CORRECTION_TRANSFORM, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.COLOR_CORRECTION_TRANSFORM));
+                captureBuilder.set(CaptureRequest.COLOR_CORRECTION_TRANSFORM, cameraHolder.get(CaptureRequest.COLOR_CORRECTION_TRANSFORM));
             }catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                captureBuilder.set(CaptureRequest.COLOR_CORRECTION_GAINS, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.COLOR_CORRECTION_GAINS));
+                captureBuilder.set(CaptureRequest.COLOR_CORRECTION_GAINS, cameraHolder.get(CaptureRequest.COLOR_CORRECTION_GAINS));
             }catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                captureBuilder.set(CaptureRequest.TONEMAP_CURVE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.TONEMAP_CURVE));
+                captureBuilder.set(CaptureRequest.TONEMAP_CURVE, cameraHolder.get(CaptureRequest.TONEMAP_CURVE));
             }catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                int awb = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AWB_MODE);
+                int awb = cameraHolder.get(CaptureRequest.CONTROL_AWB_MODE);
                 captureBuilder.set(CaptureRequest.CONTROL_AWB_MODE, awb );
             }catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                captureBuilder.set(CaptureRequest.EDGE_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.EDGE_MODE));
+                captureBuilder.set(CaptureRequest.EDGE_MODE, cameraHolder.get(CaptureRequest.EDGE_MODE));
             }catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                captureBuilder.set(CaptureRequest.HOT_PIXEL_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.HOT_PIXEL_MODE));
+                captureBuilder.set(CaptureRequest.HOT_PIXEL_MODE, cameraHolder.get(CaptureRequest.HOT_PIXEL_MODE));
             }catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                captureBuilder.set(CaptureRequest.NOISE_REDUCTION_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.NOISE_REDUCTION_MODE));
+                captureBuilder.set(CaptureRequest.NOISE_REDUCTION_MODE, cameraHolder.get(CaptureRequest.NOISE_REDUCTION_MODE));
             }catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                captureBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION));
+                captureBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, cameraHolder.get(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION));
             }catch (NullPointerException ex){Logger.exception(ex);}
             try {
                 long val = 0;
                 if(!ParameterHandler.ManualShutter.GetStringValue().equals("Auto"))
                     val = (long)(AbstractManualShutter.getMilliSecondStringFromShutterString(ParameterHandler.ManualShutter.getStringValues()[ParameterHandler.ManualShutter.GetValue()]) * 1000f);
                 else
-                    val= cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
+                    val= cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
                 Logger.d(TAG, "Set ExposureTime for Capture to:" + val);
                 captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
             }catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                captureBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.SENSOR_SENSITIVITY));
+                captureBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, cameraHolder.get(CaptureRequest.SENSOR_SENSITIVITY));
             }catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                captureBuilder.set(CaptureRequest.CONTROL_EFFECT_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_EFFECT_MODE));
+                captureBuilder.set(CaptureRequest.CONTROL_EFFECT_MODE, cameraHolder.get(CaptureRequest.CONTROL_EFFECT_MODE));
             }catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                captureBuilder.set(CaptureRequest.CONTROL_SCENE_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_SCENE_MODE));
+                captureBuilder.set(CaptureRequest.CONTROL_SCENE_MODE, cameraHolder.get(CaptureRequest.CONTROL_SCENE_MODE));
             }catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                captureBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE));
+                captureBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, cameraHolder.get(CaptureRequest.LENS_FOCUS_DISTANCE));
             }catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                    captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.JPEG_ORIENTATION));
+                    captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, cameraHolder.get(CaptureRequest.JPEG_ORIENTATION));
             }catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                captureBuilder.set(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE));
+                captureBuilder.set(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, cameraHolder.get(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE));
             }
             catch (NullPointerException ex)
             {Logger.exception(ex);}
@@ -307,17 +305,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             //cameraHolder.SetLastUsedParameters(cameraHolder.mPreviewRequestBuilder);
             // After this, the camera will go back to the normal state of preview.
             mState = STATE_PREVIEW;
-            //cameraHolder.mCaptureSession.abortCaptures();
-            try {
-                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
-                        null);
-            }
-            catch (CameraAccessException ex)
-            {
-                cameraHolder.CloseCamera();
-                cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
-            }
-
+            cameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
         }
         catch (NullPointerException ex) {
             Logger.exception(ex);
@@ -474,7 +462,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         int mFlash = mDngResult.get(CaptureResult.FLASH_STATE).intValue();
         double exposurecompensation= mDngResult.get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION).doubleValue();
 
-        dngConverter.setExifData(mISO, mExposuretime, mFlash, fnum, focal, "0", cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.JPEG_ORIENTATION).toString(), exposurecompensation);
+        dngConverter.setExifData(mISO, mExposuretime, mFlash, fnum, focal, "0", cameraHolder.get(CaptureRequest.JPEG_ORIENTATION).toString(), exposurecompensation);
 
         int black  = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_BLACK_LEVEL_PATTERN).getOffsetForIndex(0,0);
         int c= cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_COLOR_FILTER_ARRANGEMENT);
@@ -644,12 +632,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void startPreview() {
 
-        if (baseCameraHolder == null || baseCameraHolder.mPreviewRequestBuilder == null)
+        if (this.cameraHolder == null)
             return;
         picSize = appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE);
         Logger.d(TAG, "Start Preview");
         largestImageSize = Collections.max(
-                Arrays.asList(baseCameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
+                Arrays.asList(this.cameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
                 new CameraHolderApi2.CompareSizesByArea());
         picFormat = appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
         if (picFormat.equals("")) {
@@ -679,14 +667,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         else if (picFormat.equals(CameraHolderApi2.RAW_SENSOR))
         {
             Logger.d(TAG, "ImageReader RAW_SENOSR");
-            largestImageSize = Collections.max(Arrays.asList(baseCameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CameraHolderApi2.CompareSizesByArea());
+            largestImageSize = Collections.max(Arrays.asList(this.cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CameraHolderApi2.CompareSizesByArea());
             mImageWidth = largestImageSize.getWidth();
             mImageHeight = largestImageSize.getHeight();
         }
         else if (picFormat.equals(CameraHolderApi2.RAW10))
         {
             Logger.d(TAG, "ImageReader RAW_SENOSR");
-            largestImageSize = Collections.max(Arrays.asList(baseCameraHolder.map.getOutputSizes(ImageFormat.RAW10)), new CameraHolderApi2.CompareSizesByArea());
+            largestImageSize = Collections.max(Arrays.asList(this.cameraHolder.map.getOutputSizes(ImageFormat.RAW10)), new CameraHolderApi2.CompareSizesByArea());
             mImageWidth = largestImageSize.getWidth();
             mImageHeight = largestImageSize.getHeight();
         }
@@ -694,9 +682,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
         //OrientationHACK
         if(appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
-            baseCameraHolder.mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, 180);
+            this.cameraHolder.SetParameterRepeating(CaptureRequest.JPEG_ORIENTATION, 180);
         else
-            baseCameraHolder.mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, 0);
+            this.cameraHolder.SetParameterRepeating(CaptureRequest.JPEG_ORIENTATION, 0);
 
         // Here, we create a CameraCaptureSession for camera previewSize.
         if (ParameterHandler.Burst == null)
@@ -717,22 +705,22 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         try {
             Logger.d(TAG, "Set Burst to:" + burst);
-            previewSize = CameraHolderApi2.getSizeForPreviewDependingOnImageSize(baseCameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), cameraHolder.characteristics, mImageWidth, mImageHeight);
-            if (baseCameraHolder.mProcessor != null)
+            previewSize = CameraHolderApi2.getSizeForPreviewDependingOnImageSize(this.cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), cameraHolder.characteristics, mImageWidth, mImageHeight);
+            if (this.cameraHolder.mProcessor != null)
             {
-                baseCameraHolder.mProcessor.kill();
+                this.cameraHolder.mProcessor.kill();
             }
-            baseCameraHolder.mProcessor.setRenderScriptErrorListner(rsErrorHandler);
-            baseCameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(),previewSize.getHeight(),0,180,false);
-            SurfaceTexture texture = baseCameraHolder.textureView.getSurfaceTexture();
+            this.cameraHolder.mProcessor.setRenderScriptErrorListner(rsErrorHandler);
+            this.cameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(),previewSize.getHeight(),0,180,false);
+            SurfaceTexture texture = this.cameraHolder.textureView.getSurfaceTexture();
             texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
             previewsurface = new Surface(texture);
 
-            baseCameraHolder.mProcessor.Reset(previewSize.getWidth(), previewSize.getHeight());
+            this.cameraHolder.mProcessor.Reset(previewSize.getWidth(), previewSize.getHeight());
             Logger.d(TAG, "Previewsurface vailid:" + previewsurface.isValid());
-            baseCameraHolder.mProcessor.setOutputSurface(previewsurface);
-            camerasurface = baseCameraHolder.mProcessor.getInputSurface();
-            baseCameraHolder.CaptureSessionH.AddSurface(camerasurface,true);
+            this.cameraHolder.mProcessor.setOutputSurface(previewsurface);
+            camerasurface = this.cameraHolder.mProcessor.getInputSurface();
+            this.cameraHolder.CaptureSessionH.AddSurface(camerasurface,true);
 
             if (picFormat.equals(CameraHolderApi2.JPEG))
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, burst);
@@ -742,10 +730,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW_SENSOR, burst);
             else if (picFormat.equals(CameraHolderApi2.RAW12))
                 mImageReader = ImageReader.newInstance(mImageWidth,mImageHeight, ImageFormat.RAW12,burst);
-            baseCameraHolder.CaptureSessionH.AddSurface(mImageReader.getSurface(),false);
-            baseCameraHolder.CaptureSessionH.CreateCaptureSession();
+            this.cameraHolder.CaptureSessionH.AddSurface(mImageReader.getSurface(),false);
+            this.cameraHolder.CaptureSessionH.CreateCaptureSession();
         }
-        catch(Exception ex){Logger.exception(ex);}
+        catch(Exception ex)
+        {
+            Logger.exception(ex);
+        }
         if (ParameterHandler.Burst != null)
             ParameterHandler.Burst.ThrowCurrentValueChanged(ParameterHandler.Burst.GetValue());
     }
@@ -805,9 +796,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void LoadNeededParameters()
     {
+        super.LoadNeededParameters();
         Logger.d(TAG, "LoadNeededParameters");
-        cameraHolder.ModulePreview = this;
-        cameraHolder.StartPreview();
+        startPreview();
     }
 
     @Override

@@ -24,6 +24,7 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Handler;
 import android.renderscript.RenderScript;
+import android.support.annotation.NonNull;
 import android.util.Size;
 import android.view.Display;
 import android.view.Surface;
@@ -43,7 +44,6 @@ import com.freedcam.apis.camera2.camera.renderscript.FocuspeakProcessorApi2;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
@@ -69,7 +69,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
     public AutoFitTextureView textureView;
 
     //this is needed for the previewSize...
-    public CaptureRequest.Builder mPreviewRequestBuilder;
+    private CaptureRequest.Builder mPreviewRequestBuilder;
     I_Callbacks.PreviewCallback previewCallback;
 
     public CameraCaptureSession mCaptureSession;
@@ -243,24 +243,29 @@ public class CameraHolderApi2 extends AbstractCameraHolder
             ModulePreview.stopPreview();
     }
 
-    public void SetParameterToCam(CaptureRequest.Key<Integer> key, int value)
+    public <T> void SetParameterRepeating(@NonNull CaptureRequest.Key<T> key, T value)
     {
-        if (mCaptureSession != null)
-        {
-            try {
+        if (mPreviewRequestBuilder == null)
+            return;
+        Logger.d(TAG, "Set :" + key.getName() + " to " + value.toString());
+        mPreviewRequestBuilder.set(key,value);
+        CaptureSessionH.StartRepeatingCaptureSession();
+    }
 
-                mPreviewRequestBuilder.set(key, value);
-                mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
-                        null);
+    public <T> void SetParameter(@NonNull CaptureRequest.Key<T> key, T value)
+    {
+        if (mPreviewRequestBuilder == null)
+            return;
+        Logger.d(TAG, "Set :" + key.getName() + " to " + value.toString());
+        mPreviewRequestBuilder.set(key,value);
+        CaptureSessionH.StartCaptureSession();
+    }
 
-            } catch (CameraAccessException e) {
-                Logger.exception(e);
-            }
-        }
-        else if (mPreviewRequestBuilder != null)
-        {
-            mPreviewRequestBuilder.set(key, value);
-        }
+    public <T> T get(CaptureRequest.Key<T> key)
+    {
+        if (mPreviewRequestBuilder == null)
+            return null;
+        return mPreviewRequestBuilder.get(key);
     }
 
     @Override
@@ -382,7 +387,8 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                 {
                     try
                     {
-                        if (!GetParameterHandler().ExposureMode.GetValue().equals("off") && !GetParameterHandler().ControlMode.equals("off")) {
+                        if (!GetParameterHandler().ExposureMode.GetValue().equals("off") && !GetParameterHandler().ControlMode.equals("off"))
+                        {
                             try {
                                 final long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
                                 if(expores != 0) {
@@ -392,7 +398,9 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                                     GetParameterHandler().ManualShutter.ThrowCurrentValueStringCHanged("1/60");
                             }
                             catch (Exception e)
-                            {Logger.e(CameraHolderApi2.class.getName(),e.getMessage());}
+                            {
+                                Logger.exception(e);
+                            }
                             try {
                                 final int  iso = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
                                 GetParameterHandler().ISOManual.ThrowCurrentValueStringCHanged("" + iso);
@@ -408,7 +416,9 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                         }
                     }
                     catch (NullPointerException ex)
-                    {Logger.e(CameraHolderApi2.class.getName(),ex.getMessage());}
+                    {
+                        Logger.exception(ex);
+                    }
                 }
             }
 
@@ -426,15 +436,8 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                         break;
                     case 2:
                         state = "PASSIVE_FOCUSED";
-                        mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
-                                CameraMetadata.CONTROL_AF_STATE_INACTIVE);
-                        mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,CaptureRequest.CONTROL_AF_TRIGGER_START);
-                        try {
-                            mCaptureSession.capture(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
-                                    null);
-                        } catch (CameraAccessException e) {
-                            Logger.exception(e);
-                        }
+                        SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,
+                                CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
                         break;
                     case 3:
                         state="ACTIVE_SCAN";
@@ -443,6 +446,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                         state = "FOCUSED_LOCKED";
                         if (Focus.focusEvent != null)
                             Focus.focusEvent.FocusFinished(true);
+
                         break;
                     case 5:
                         state = "NOT_FOCUSED_LOCKED";
@@ -451,15 +455,8 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                         break;
                     case 6:
                         state ="PASSIVE_UNFOCUSED";
-                        mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
-                                CameraMetadata.CONTROL_AF_STATE_INACTIVE);
-                        mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,CaptureRequest.CONTROL_AF_TRIGGER_START);
-                        try {
-                            mCaptureSession.capture(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
-                                    null);
-                        } catch (CameraAccessException e) {
-                            Logger.exception(e);
-                        }
+                        SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,
+                                CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
                         break;
                 }
                 Logger.d(TAG, "new AF_STATE :"+state);
@@ -467,12 +464,29 @@ public class CameraHolderApi2 extends AbstractCameraHolder
             }
             if(result.get(CaptureResult.CONTROL_AE_STATE) != null && aeState != result.get(CaptureResult.CONTROL_AE_STATE))
             {
+
                 aeState = result.get(CaptureResult.CONTROL_AE_STATE);
-                if (aeState == CaptureResult.CONTROL_AE_STATE_LOCKED || aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED )
+                switch (aeState)
                 {
-                    mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,
-                            CameraMetadata.CONTROL_AE_STATE_INACTIVE);
-                    setTOCam = true;
+                    case CaptureResult.CONTROL_AE_STATE_CONVERGED:
+                        Logger.d(TAG, "AESTATE: Converged");
+                        break;
+                    case CaptureResult.CONTROL_AE_STATE_FLASH_REQUIRED:
+                        Logger.d(TAG, "AESTATE: FLASH_REQUIRED");
+                        break;
+                    case CaptureResult.CONTROL_AE_STATE_INACTIVE:
+                        Logger.d(TAG, "AESTATE: INACTIVE");
+
+                        break;
+                    case CaptureResult.CONTROL_AE_STATE_LOCKED:
+                        Logger.d(TAG, "AESTATE: LOCKED");
+                        break;
+                    case CaptureResult.CONTROL_AE_STATE_PRECAPTURE:
+                        Logger.d(TAG, "AESTATE: PRECAPTURE");
+                        break;
+                    case CaptureResult.CONTROL_AE_STATE_SEARCHING:
+                        Logger.d(TAG, "AESTATE: SEARCHING");
+                        break;
                 }
             }
         }
@@ -495,19 +509,13 @@ public class CameraHolderApi2 extends AbstractCameraHolder
 
     private String getShutterString(long val)
     {
-        try {
-            int mili = (int) val / 10000;
-            //double sec =  mili / 1000;
-            if (mili < 80000)
-                return 1 + "/" + (10000000 / mili);
-            else {
-                float t = mili / 10000;
-                return String.format("%01.1f", t);
-            }
-        }
-        catch (Exception ex)
-        {
-            return "1/60";
+        int mili = (int) val / 10000;
+        //double sec =  mili / 1000;
+        if (mili < 80000)
+            return 1 + "/" + (10000000 / mili);
+        else {
+            float t = mili / 10000;
+            return String.format("%01.1f", t);
         }
     }
 
@@ -648,13 +656,33 @@ public class CameraHolderApi2 extends AbstractCameraHolder
 
         public void StartRepeatingCaptureSession()
         {
+            if (mCaptureSession == null)
+                return;
             try {
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
                         null);
             } catch (CameraAccessException e) {
                 e.printStackTrace();
+                CloseCamera();
+                OpenCamera(appSettingsManager.GetCurrentCamera());
             }
         }
+
+        public void StartCaptureSession()
+        {
+            if (mCaptureSession == null)
+                return;
+            try {
+                mCaptureSession.capture(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
+                        null);
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+                CloseCamera();
+                OpenCamera(appSettingsManager.GetCurrentCamera());
+            }
+        }
+
+
 
         public void CloseCaptureSession()
         {
@@ -731,4 +759,6 @@ public class CameraHolderApi2 extends AbstractCameraHolder
 
         }
     };
+
+
 }

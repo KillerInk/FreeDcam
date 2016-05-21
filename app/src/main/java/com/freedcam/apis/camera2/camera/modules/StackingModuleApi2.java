@@ -3,7 +3,6 @@ package com.freedcam.apis.camera2.camera.modules;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
@@ -19,7 +18,6 @@ import android.view.Surface;
 import com.freedcam.apis.basecamera.camera.Size;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.camera1.camera.modules.ModuleHandler;
-import com.freedcam.apis.camera1.camera.modules.StackingModule;
 import com.freedcam.apis.camera1.camera.parameters.modes.StackModeParameter;
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.ui.handler.MediaScannerManager;
@@ -31,7 +29,6 @@ import com.imageconverter.ScriptC_imagestack;
 import com.imageconverter.ScriptField_MinMaxPixel;
 
 import java.io.File;
-import java.util.Date;
 
 /**
  * Created by troop on 16.05.2016.
@@ -80,7 +77,7 @@ public class StackingModuleApi2 extends AbstractModuleApi2
         if (afterFilesave)
         {
             afterFilesave =false;
-            baseCameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
+            cameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
         }
         else {
             previewSize = new Size(ParameterHandler.PictureSize.GetValue());
@@ -99,18 +96,19 @@ public class StackingModuleApi2 extends AbstractModuleApi2
                     Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
             medianMinMax = new ScriptField_MinMaxPixel(mRS, mWidth * mHeight);
 
-            SurfaceTexture texture = baseCameraHolder.textureView.getSurfaceTexture();
+            cameraHolder.CaptureSessionH.SetTextureViewSize(mWidth, mHeight, 0, 180, false);
+            SurfaceTexture texture = cameraHolder.textureView.getSurfaceTexture();
 
             texture.setDefaultBufferSize(previewSize.width, previewSize.height);
             previewsurface = new Surface(texture);
             mOutputAllocation.setSurface(previewsurface);
-            //baseCameraHolder.CaptureSessionH.AddSurface(previewsurface,true);
-            baseCameraHolder.CaptureSessionH.SetTextureViewSize(mWidth, mHeight, 0, 180, false);
+            //cameraHolder.CaptureSessionH.AddSurface(previewsurface,true);
+
             camerasurface = mInputAllocation.getSurface();
-            baseCameraHolder.CaptureSessionH.AddSurface(camerasurface, true);
+            cameraHolder.CaptureSessionH.AddSurface(camerasurface, true);
 
 
-            baseCameraHolder.CaptureSessionH.CreateCaptureSession();
+            cameraHolder.CaptureSessionH.CreateCaptureSession();
 
             if (mProcessingTask != null) {
 
@@ -130,7 +128,7 @@ public class StackingModuleApi2 extends AbstractModuleApi2
     @Override
     public void stopPreview()
     {
-        baseCameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
+        cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
     }
 
     @Override
@@ -170,7 +168,7 @@ public class StackingModuleApi2 extends AbstractModuleApi2
 
     @Override
     public void LoadNeededParameters() {
-        baseCameraHolder.ModulePreview = this;
+        super.LoadNeededParameters();
         mProcessingThread = new HandlerThread("StackingModuleApi2");
         mProcessingThread.start();
         mProcessingHandler = new Handler(mProcessingThread.getLooper());
@@ -182,14 +180,14 @@ public class StackingModuleApi2 extends AbstractModuleApi2
             imagestack = new ScriptC_imagestack(mRS);
         imagestack.set_yuvinput(true);
 
-        baseCameraHolder.StartPreview();
+        startPreview();
     }
 
     @Override
     public void UnloadNeededParameters()
     {
         Logger.d(TAG, "UnloadNeededParameters");
-        baseCameraHolder.CaptureSessionH.CloseCaptureSession();
+        cameraHolder.CaptureSessionH.CloseCaptureSession();
         if (mProcessingTask != null) {
 
             while (mProcessingTask.working)

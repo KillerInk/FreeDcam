@@ -1,20 +1,17 @@
 package com.freedcam.apis.camera2.camera.parameters;
 
 import android.annotation.TargetApi;
-import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.os.Handler;
 
-import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualShutter;
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.apis.camera2.camera.parameters.modes.BaseModeApi2;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
-import com.freedcam.utils.StringUtils;
 
 import java.util.ArrayList;
 
@@ -73,6 +70,7 @@ public class AeHandlerApi2
         else
         {
             manualExposureApi2.BackgroundIsSupportedChanged(true);
+            manualExposureApi2.BackgroundIsSetSupportedChanged(true);
             manualISoApi2.BackgroundIsSetSupportedChanged(true);
             manualExposureTimeApi2.BackgroundIsSetSupportedChanged(false);
         }
@@ -85,7 +83,7 @@ public class AeHandlerApi2
     private void setAeMode(AEModes aeMode)
     {
         activeAeMode = aeMode;
-        cameraHolder.SetParameterToCam(CaptureRequest.CONTROL_AE_MODE, activeAeMode.ordinal());
+        cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_MODE, activeAeMode.ordinal());
         aeModeApi2.BackgroundValueHasChanged(activeAeMode.toString());
         setManualItemsSetSupport(activeAeMode);
     }
@@ -131,9 +129,9 @@ public class AeHandlerApi2
         @Override
         public String GetValue()
         {
-            if (cameraHolder == null ||cameraHolder.mPreviewRequestBuilder == null)
+            if (cameraHolder == null)
                 return null;
-            int i = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AE_MODE);
+            int i = cameraHolder.get(CaptureRequest.CONTROL_AE_MODE);
             AEModes sceneModes = AEModes.values()[i];
             return sceneModes.toString();
         }
@@ -176,19 +174,13 @@ public class AeHandlerApi2
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void SetValue(int valueToSet) {
-            if (cameraHolder == null || cameraHolder.mPreviewRequestBuilder == null || cameraHolder.mCaptureSession == null)
+            if (cameraHolder == null || cameraHolder.mCaptureSession == null)
                 return;
             currentInt = valueToSet;
             if (stringvalues == null || stringvalues.length == 0)
                 return;
             int t = valueToSet - (stringvalues.length / 2);
-            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, t);
-            try {
-                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
-                        null);
-            } catch (CameraAccessException | NullPointerException e) {
-                Logger.exception(e);
-            }
+            cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, t);
         }
 
         @Override
@@ -271,7 +263,7 @@ public class AeHandlerApi2
         @Override
         public void SetValue(int valueToSet)
         {
-            if (cameraHolder == null || cameraHolder.mCaptureSession == null)
+            if (cameraHolder == null)
                 return;
             if (valueToSet >= stringvalues.length)
                 valueToSet = stringvalues.length - 1;
@@ -286,15 +278,7 @@ public class AeHandlerApi2
                 //check if calced value is not bigger then max returned from cam
                 if (val > millimax*1000)
                     val = millimax *1000;
-                if (cameraHolder == null || cameraHolder.mPreviewRequestBuilder == null)
-                    return;
-                cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
-                try {
-                    cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
-                            null);
-                } catch (CameraAccessException | NullPointerException e) {
-                    Logger.exception(e);
-                }
+                cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
                 ThrowCurrentValueChanged(valueToSet);
             }
         }
@@ -358,11 +342,12 @@ public class AeHandlerApi2
         public void SetValue(int valueToSet)
         {
             //workaround when value was -1 to avoid outofarray ex
+            Logger.d(TAG, "set Manual Iso: " +valueToSet);
             if (valueToSet == -1)
                 valueToSet = 0;
             //////////////////////
             currentInt = valueToSet;
-            if (cameraHolder == null ||cameraHolder.mPreviewRequestBuilder == null || cameraHolder.mCaptureSession == null)
+            if (cameraHolder == null || cameraHolder.mCaptureSession == null)
                 return;
             if (valueToSet == 0)
             {
@@ -372,13 +357,7 @@ public class AeHandlerApi2
             {
                 if (activeAeMode != AEModes.off)
                     setAeMode(AEModes.off);
-                cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, Integer.parseInt(stringvalues[valueToSet]));
-                try {
-                    cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
-                            null);
-                } catch (CameraAccessException | NullPointerException e) {
-                    Logger.exception(e);
-                }
+                cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_SENSITIVITY, Integer.parseInt(stringvalues[valueToSet]));
             }
         }
 

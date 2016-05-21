@@ -36,7 +36,7 @@ public class ToneMapModeApi2 extends BaseModeApi2 {
         if (valueToSet.contains("unknown Scene"))
             return;
         ToneMapModes sceneModes = Enum.valueOf(ToneMapModes.class, valueToSet);
-        cameraHolder.SetParameterToCam(CaptureRequest.TONEMAP_MODE, sceneModes.ordinal());
+        cameraHolder.SetParameterRepeating(CaptureRequest.TONEMAP_MODE, sceneModes.ordinal());
         BackgroundValueHasChanged(valueToSet);
     }
 
@@ -44,7 +44,7 @@ public class ToneMapModeApi2 extends BaseModeApi2 {
     @Override
     public String GetValue()
     {
-        int i = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.TONEMAP_MODE);
+        int i = cameraHolder.get(CaptureRequest.TONEMAP_MODE);
         ToneMapModes sceneModes = ToneMapModes.values()[i];
         return sceneModes.toString();
 

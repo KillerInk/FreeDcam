@@ -35,16 +35,16 @@ public class FlashModeApi2 extends BaseModeApi2 {
         if (valueToSet.contains("unknown Scene"))
             return;
         FlashModes sceneModes = Enum.valueOf(FlashModes.class, valueToSet);
-        cameraHolder.SetParameterToCam(CaptureRequest.FLASH_MODE, sceneModes.ordinal());
+        cameraHolder.SetParameterRepeating(CaptureRequest.FLASH_MODE, sceneModes.ordinal());
     }
 
 
     @Override
     public String GetValue()
     {
-        if (cameraHolder == null ||cameraHolder.mPreviewRequestBuilder == null)
+        if (cameraHolder == null)
             return null;
-        int i = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.FLASH_MODE);
+        int i = cameraHolder.get(CaptureRequest.FLASH_MODE);
         FlashModes sceneModes = FlashModes.values()[i];
         return sceneModes.toString();
 

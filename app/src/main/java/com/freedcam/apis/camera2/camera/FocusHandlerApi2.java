@@ -2,7 +2,6 @@ package com.freedcam.apis.camera2.camera;
 
 import android.annotation.TargetApi;
 import android.graphics.Rect;
-import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
@@ -110,7 +109,7 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
         logFocusRect(targetFocusRect);
         MeteringRectangle rectangle = new MeteringRectangle(targetFocusRect.left,targetFocusRect.top,targetFocusRect.right,targetFocusRect.bottom, 1000);
         MeteringRectangle[] mre = { rectangle};
-        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_REGIONS, mre);
+        cameraHolder.SetParameter(CaptureRequest.CONTROL_AF_REGIONS, mre);
         lockFocus();
     }
 
@@ -118,39 +117,24 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
      * Lock the focus as the first step for a still image capture.
      */
     private void lockFocus() {
-        try
-        {
             // This is how to tell the camera to lock focus.
-            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_START);
+            cameraHolder.SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_START);
             // Tell #mCaptureCallback to wait for the lock.
             //mState = PictureModuleApi2.STATE_WAITING_LOCK;
-            if (cameraHolder.mCaptureSession != null)
-                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
-                    null);
             if (focusEvent != null)
                 focusEvent.FocusStarted(focusRect);
-        } catch (CameraAccessException e) {
-            Logger.exception(e);
-        }
     }
 
     /**
      * Unlock the focus. This method should be called when still image capture sequence is finished.
      */
     private void unlockFocus() {
-        try {
             Logger.d(TAG, "CaptureDone Unlock Focus");
             // Reset the autofucos trigger
             //cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
             // After this, the camera will go back to the normal state of preview.
             mState = PictureModuleApi2.STATE_PREVIEW;
-            cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
-                    null);
-
-        } catch (CameraAccessException e) {
-            Logger.exception(e);
-        }
-
+            cameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
     }
 
 
@@ -192,20 +176,6 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
         }
     };
 
-    private void lockAE() {
-        try {
-            Logger.d(TAG, "Run Precapture");
-            // This is how to tell the camera to trigger.
-            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
-            // Tell #mCaptureCallback to wait for the precapture sequence to be set.
-            //mState = PictureModuleApi2.STATE_WAITING_PRECAPTURE;
-            cameraHolder.mCaptureSession.capture(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
-                    null);
-        } catch (CameraAccessException e) {
-            Logger.exception(e);
-        }
-    }
-
     @Override
     public void SetMeteringAreas(FocusRect rect, int width, int height)
     {
@@ -220,8 +190,8 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
             rect.bottom = m.bottom;
         MeteringRectangle rectangle = new MeteringRectangle(rect.left,rect.top,rect.right,rect.bottom, 1000);
         MeteringRectangle[] mre = { rectangle};
-        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_REGIONS, mre);
-        lockAE();
+        cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_REGIONS, mre);
+        cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
     }
 
     public AbstractModeParameter.I_ModeParameterEvent awbModeListner = new AbstractModeParameter.I_ModeParameterEvent() {
@@ -280,8 +250,8 @@ public class FocusHandlerApi2 extends AbstractFocusHandler implements I_Paramete
             rect.bottom = m.bottom;
         MeteringRectangle rectangle = new MeteringRectangle(rect.left,rect.top,rect.right,rect.bottom, 1000);
         MeteringRectangle[] mre = { rectangle};
-        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AWB_REGIONS, mre);
-        lockAE();
+        cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AWB_REGIONS, mre);
+        cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
 
     }
 

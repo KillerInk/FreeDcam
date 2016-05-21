@@ -54,7 +54,7 @@ public class ColorModeApi2 extends BaseModeApi2
         if (valueToSet.contains("unknown Scene"))
             return;
         ColorModes sceneModes = Enum.valueOf(ColorModes.class, valueToSet);
-        cameraHolder.SetParameterToCam(CaptureRequest.CONTROL_EFFECT_MODE, sceneModes.ordinal());
+        cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_EFFECT_MODE, sceneModes.ordinal());
         //cameraHolder.mPreviewRequestBuilder.build();
     }
 
@@ -63,7 +63,7 @@ public class ColorModeApi2 extends BaseModeApi2
     {
         int i = 0;
         try {
-            i = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_EFFECT_MODE);
+            i = cameraHolder.get(CaptureRequest.CONTROL_EFFECT_MODE);
         }
         catch (Exception ex)
         {

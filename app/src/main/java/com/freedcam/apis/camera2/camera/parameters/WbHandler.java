@@ -1,7 +1,6 @@
 package com.freedcam.apis.camera2.camera.parameters;
 
 import android.annotation.TargetApi;
-import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.RggbChannelVector;
@@ -125,13 +124,13 @@ public class WbHandler
             {
                 String t = valueToSet.substring(valueToSet.length() -2);
                 int i = Integer.parseInt(t);
-                cameraHolder.SetParameterToCam(CaptureRequest.CONTROL_AWB_MODE, i);
+                cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AWB_MODE, i);
             }
             else
             {
                 WhiteBalanceValues sceneModes = Enum.valueOf(WhiteBalanceValues.class, valueToSet);
                 setWbMode(sceneModes);
-                cameraHolder.SetParameterToCam(CaptureRequest.CONTROL_AWB_MODE, sceneModes.ordinal());
+                cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AWB_MODE, sceneModes.ordinal());
             }
             BackgroundValueHasChanged(valueToSet);
         }
@@ -139,9 +138,9 @@ public class WbHandler
         @Override
         public String GetValue()
         {
-            if (cameraHolder != null && cameraHolder.mPreviewRequestBuilder != null)
+            if (cameraHolder != null)
             {
-                int i = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_AWB_MODE);
+                int i = cameraHolder.get(CaptureRequest.CONTROL_AWB_MODE);
                 WhiteBalanceValues sceneModes = WhiteBalanceValues.values()[i];
                 return sceneModes.toString();
             }
@@ -236,13 +235,7 @@ public class WbHandler
             Logger.d(TAG, "r:" +rgb[0] +" g:"+rgb[1] +" b:"+rgb[2]);
             Logger.d(TAG, "ColorTemp=" + valueToSet + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
             wbChannelVector =  new RggbChannelVector(rf,gf,gf,bf);
-            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.COLOR_CORRECTION_GAINS, wbChannelVector);
-            try {
-                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
-                        null);
-            } catch (CameraAccessException | NullPointerException e) {
-                Logger.exception(e);
-            }
+            cameraHolder.SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_GAINS, wbChannelVector);
 
         }
 
@@ -300,7 +293,7 @@ public class WbHandler
 
         @Override
         public boolean IsSupported() {
-            return cameraHolder != null && cameraHolder.mPreviewRequestBuilder != null && cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.COLOR_CORRECTION_MODE) != null;
+            return cameraHolder != null && cameraHolder.get(CaptureRequest.COLOR_CORRECTION_MODE) != null;
         }
 
         @Override
@@ -314,7 +307,7 @@ public class WbHandler
 
         private void setValue(ColorCorrectionModes modes)
         {
-            cameraHolder.SetParameterToCam(CaptureRequest.COLOR_CORRECTION_MODE, modes.ordinal());
+            cameraHolder.SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_MODE, modes.ordinal());
         }
 
 
@@ -322,7 +315,7 @@ public class WbHandler
         public String GetValue()
         {
             try {
-                int i = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.COLOR_CORRECTION_MODE);
+                int i = cameraHolder.get(CaptureRequest.COLOR_CORRECTION_MODE);
                 ColorCorrectionModes sceneModes = ColorCorrectionModes.values()[i];
                 return sceneModes.toString();
             }

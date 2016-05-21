@@ -2,14 +2,12 @@ package com.freedcam.apis.camera2.camera.parameters.manual;
 
 import android.annotation.TargetApi;
 import android.graphics.Rect;
-import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.apis.camera2.camera.parameters.ParameterHandlerApi2;
-import com.freedcam.utils.Logger;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 
 /**
@@ -68,13 +66,7 @@ public class ZoomApi2 extends AbstractManualParameter
         cropW -= cropW & 3;
         cropH -= cropH & 3;
         Rect zoom = new Rect(cropW, cropH,m.width()-cropW, m.height() - cropH);
-        cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.SCALER_CROP_REGION, zoom);
-        try {
-            cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
-                    null);
-        } catch (CameraAccessException | NullPointerException e) {
-            Logger.exception(e);
-        }
+        cameraHolder.SetParameterRepeating(CaptureRequest.SCALER_CROP_REGION, zoom);
     }
 
     public Rect getZoomRect(float zoom, int imgWidth, int imgHeight)

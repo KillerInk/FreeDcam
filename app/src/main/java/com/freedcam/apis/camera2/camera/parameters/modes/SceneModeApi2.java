@@ -59,7 +59,7 @@ public class SceneModeApi2 extends  BaseModeApi2
         if (valueToSet.contains("unknown Scene"))
             return;
         SceneModes sceneModes = Enum.valueOf(SceneModes.class, valueToSet);
-        cameraHolder.SetParameterToCam(CaptureRequest.CONTROL_SCENE_MODE, sceneModes.ordinal());
+        cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_SCENE_MODE, sceneModes.ordinal());
         //cameraHolder.mPreviewRequestBuilder.build();
     }
 
@@ -67,7 +67,7 @@ public class SceneModeApi2 extends  BaseModeApi2
     public String GetValue()
     {
 
-            int i = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_SCENE_MODE);
+            int i = cameraHolder.get(CaptureRequest.CONTROL_SCENE_MODE);
             SceneModes sceneModes = SceneModes.values()[i];
             return sceneModes.toString();
 

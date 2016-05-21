@@ -19,7 +19,7 @@ import com.freedcam.utils.AppSettingsManager;
  */
 public abstract class AbstractModuleApi2 extends AbstractModule implements I_PreviewWrapper
 {
-    protected CameraHolderApi2 baseCameraHolder;
+    protected CameraHolderApi2 cameraHolder;
     protected AbstractParameterHandler ParameterHandler;
 
     protected boolean isWorking = false;
@@ -30,8 +30,8 @@ public abstract class AbstractModuleApi2 extends AbstractModule implements I_Pre
     public AbstractModuleApi2(CameraHolderApi2 cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager)
     {
         super(cameraHandler,eventHandler,context,appSettingsManager);
-        this.baseCameraHolder = cameraHandler;
-        this.ParameterHandler = baseCameraHolder.GetParameterHandler();
+        this.cameraHolder = cameraHandler;
+        this.ParameterHandler = cameraHolder.GetParameterHandler();
         Display display = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         displaySize = new Point();
         display.getRealSize(displaySize);
@@ -55,7 +55,7 @@ public abstract class AbstractModuleApi2 extends AbstractModule implements I_Pre
     @Override
     public void LoadNeededParameters()
     {
-        baseCameraHolder.ModulePreview = this;
+        cameraHolder.ModulePreview = this;
     }
 
     @Override

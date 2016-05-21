@@ -1,13 +1,11 @@
 package com.freedcam.apis.camera2.camera.parameters.modes;
 
 import android.annotation.TargetApi;
-import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.os.Handler;
 
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
-import com.freedcam.utils.Logger;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 
 /**
@@ -51,13 +49,7 @@ public class BaseModeApi2 extends AbstractModeParameter
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setIntKey(CaptureRequest.Key<Integer> key, int value)
     {
-        cameraHolder.mPreviewRequestBuilder.set(key, value);
-        try {
-            cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
-                    null);
-        } catch (CameraAccessException e) {
-            Logger.exception(e);
-        }
+        cameraHolder.SetParameterRepeating(key, value);
     }
 
 

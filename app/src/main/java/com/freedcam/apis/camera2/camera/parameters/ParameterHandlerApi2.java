@@ -148,12 +148,12 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
                 or = or - 360;
             orientation = or;
         }
-        if (cameraHolder == null || cameraHolder.mPreviewRequestBuilder == null || cameraHolder.isWorking || !cameraHolder.isPreviewRunning)
+        if (cameraHolder == null || cameraHolder.isWorking || !cameraHolder.isPreviewRunning)
             return;
         try
         {
             Logger.d(TAG, "Set Orientation to:" + orientation);
-            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, orientation);
+            cameraHolder.SetParameterRepeating(CaptureRequest.JPEG_ORIENTATION, orientation);
         }
         catch (NullPointerException e)
         {

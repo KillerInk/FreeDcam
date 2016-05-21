@@ -33,14 +33,14 @@ public class ControlModesApi2 extends BaseModeApi2
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
         ControlModes modes = Enum.valueOf(ControlModes.class, valueToSet);
-        cameraHolder.SetParameterToCam(CaptureRequest.CONTROL_MODE, modes.ordinal());
+        cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_MODE, modes.ordinal());
     }
 
     @Override
     public String GetValue() {
         int i = 0;
         try {
-            i = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.CONTROL_MODE);
+            i = cameraHolder.get(CaptureRequest.CONTROL_MODE);
         }
         catch (Exception ex)
         {

@@ -37,7 +37,7 @@ public class OisModeApi2 extends BaseModeApi2
         if (valueToSet.contains("unknown Focus"))
             return;
         OISModes sceneModes = Enum.valueOf(OISModes.class, valueToSet);
-        cameraHolder.SetParameterToCam(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, sceneModes.ordinal());
+        cameraHolder.SetParameterRepeating(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, sceneModes.ordinal());
         BackgroundValueHasChanged(valueToSet);
         //cameraHolder.mPreviewRequestBuilder.build();
     }
@@ -46,7 +46,7 @@ public class OisModeApi2 extends BaseModeApi2
     public String GetValue()
     {
 
-        int i = cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE);
+        int i = cameraHolder.get(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE);
         OISModes sceneModes = OISModes.values()[i];
         return sceneModes.toString();
 

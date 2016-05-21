@@ -1,7 +1,6 @@
 package com.freedcam.apis.camera2.camera.parameters.manual;
 
 import android.annotation.TargetApi;
-import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
@@ -10,7 +9,6 @@ import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParam
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.apis.camera2.camera.parameters.ParameterHandlerApi2;
 import com.freedcam.utils.Logger;
-import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.utils.StringUtils;
 
 /**
@@ -38,7 +36,7 @@ public class ManualFocus extends AbstractManualParameter
 
     @Override
     public int GetValue() {
-        return (int)(cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE)* 10);
+        return (int)(cameraHolder.get(CaptureRequest.LENS_FOCUS_DISTANCE)* 10);
     }
 
     @Override
@@ -48,7 +46,7 @@ public class ManualFocus extends AbstractManualParameter
             return "Auto";
         else {
             if (isSupported)
-                return StringUtils.TrimmFloatString4Places(cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE) + "");
+                return StringUtils.TrimmFloatString4Places(cameraHolder.get(CaptureRequest.LENS_FOCUS_DISTANCE) + "");
         }
         return "";
     }
@@ -66,14 +64,7 @@ public class ManualFocus extends AbstractManualParameter
         {
             if (!camParametersHandler.FocusMode.GetValue().equals("off"))
                 camParametersHandler.FocusMode.SetValue("off",true);
-            cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, (float) valueToSet / 10);
-
-            try {
-                cameraHolder.mCaptureSession.setRepeatingRequest(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
-                        null);
-            } catch (CameraAccessException | NullPointerException e) {
-                Logger.exception(e);
-            }
+            cameraHolder.SetParameterRepeating(CaptureRequest.LENS_FOCUS_DISTANCE, (float) valueToSet / 10);
         }
     }
 
@@ -89,7 +80,7 @@ public class ManualFocus extends AbstractManualParameter
                 isSupported = true;
         }
         try {
-            Logger.d(TAG, "LensFocusDistance" + cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE));
+            Logger.d(TAG, "LensFocusDistance" + cameraHolder.get(CaptureRequest.LENS_FOCUS_DISTANCE));
         }
         catch (NullPointerException ex){}
         try {
@@ -98,7 +89,7 @@ public class ManualFocus extends AbstractManualParameter
         catch (NullPointerException ex){}
 
 
-        if (cameraHolder.mPreviewRequestBuilder.get(CaptureRequest.LENS_FOCUS_DISTANCE) == null
+        if (cameraHolder.get(CaptureRequest.LENS_FOCUS_DISTANCE) == null
                 || cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE) == 0)
             isSupported = false;
         return  isSupported;
