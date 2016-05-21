@@ -83,6 +83,11 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
     }
 
     @Override
+    public boolean IsSetSupported() {
+        return isSupported;
+    }
+
+    @Override
     public boolean IsVisible() {
         return IsSupported();
     }
