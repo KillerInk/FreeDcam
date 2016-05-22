@@ -81,6 +81,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
         View view = inflater.inflate(R.layout.samplethemefragment, container, false);
         this.mPager = (PagingView)view.findViewById(R.id.viewPager_fragmentHolder);
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
+        mPager.setOffscreenPageLimit(2);
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(1);
         return view;
