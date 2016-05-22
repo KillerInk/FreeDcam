@@ -45,14 +45,25 @@ import java.io.IOException;
 /**
  * Created by troop on 18.09.2015.
  */
-public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageChangeListener, I_Activity.I_OnActivityResultCallback
+public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageChangeListener, I_Activity.I_OnActivityResultCallback, ImageFragment.I_WaitForWorkFinish
 {
+
+    public interface I_ThumbClick
+    {
+        void onThumbClick();
+        void newImageRecieved(File file);
+    }
+
+    public interface FragmentClickClistner
+    {
+        void onClick(Fragment fragment);
+    }
+
+
+
     private final static String TAG = ScreenSlideFragment.class.getSimpleName();
-    final public static String SAVESTATE_FILEPATH = "savestae_filepath";
-    private final static String SAVESTATE_ITEMINT = "savestate_itemint";
     private int mImageThumbSize = 0;
     private AppSettingsManager appSettingsManager;
-
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -87,6 +98,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     //hold the showed file
     private FileHolder file;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -111,13 +123,6 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             }
         });
 
-        if(savedInstanceState != null)
-        {
-            FilePathToLoad = (String) savedInstanceState.get(SAVESTATE_FILEPATH);
-            defitem = (int)savedInstanceState.get(SAVESTATE_ITEMINT);
-            Logger.d(TAG, "have file to load from saveinstance onCreated" + FilePathToLoad);
-
-        }
 
         bottombar =(LinearLayout)view.findViewById(R.id.bottom_bar);
 
@@ -206,14 +211,6 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     {
     }
 
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putString(SAVESTATE_FILEPATH, FilePathToLoad);
-        outState.putInt(SAVESTATE_ITEMINT, mPager.getCurrentItem());
-        super.onSaveInstanceState(outState);
-    }
-
     public void SetAppSettingsManager(AppSettingsManager appSettingsManager)
     {
         this.appSettingsManager = appSettingsManager;
@@ -225,14 +222,43 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     }
 
     @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        updateUi(mPagerAdapter.getCurrentFile());
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+    {
+
     }
 
     @Override
     public void onPageSelected(int position)
     {
         updateUi(mPagerAdapter.getCurrentFile());
+        ImageFragment fragment = (ImageFragment)mPagerAdapter.getRegisteredFragment(position);
+        int[] histodata = fragment.GetHistogramData();
+        if (histodata != null)
+        {
+            histogram.setVisibility(View.VISIBLE);
+            histogram.SetHistogramData(histodata);
+        }
+        else
+        {
+            histogram.setVisibility(View.GONE);
+            fragment.SetWaitForWorkFinishLisnter(this, position);
+        }
+
+    }
+
+    @Override
+    public void HistograRdyToSet(final int[] histodata, final int position)
+    {
+        histogram.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mPager.getCurrentItem() == position)
+                {
+                    histogram.setVisibility(View.VISIBLE);
+                    histogram.SetHistogramData(histodata);
+                }
+            }
+        });
     }
 
     @Override
@@ -243,17 +269,6 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     @Override
     public void onActivityResultCallback(Uri uri) {
 
-    }
-
-    public interface I_ThumbClick
-    {
-        void onThumbClick();
-        void newImageRecieved(File file);
-    }
-
-    public interface FragmentClickClistner
-    {
-        void onClick(Fragment fragment);
     }
 
     private FragmentClickClistner fragmentclickListner = new FragmentClickClistner() {
@@ -279,7 +294,8 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     {
         if (mPagerAdapter != null) {
             Logger.d(TAG, "addFile: " +file.getName());
-            reloadFilesAndSetLastPos();
+            mPagerAdapter.addFile(file);
+            //reloadFilesAndSetLastPos();
         }
     }
 
@@ -321,26 +337,20 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             if (file.getFile().getName().endsWith(StringUtils.FileEnding.JPG) || file.getFile().getName().endsWith(StringUtils.FileEnding.JPS)) {
                 processJpeg(file.getFile());
                 exifinfo.setVisibility(View.VISIBLE);
-                //myHistogram.setVisibility(View.VISIBLE);
                 play.setVisibility(View.VISIBLE);
             }
             if (file.getFile().getName().endsWith(StringUtils.FileEnding.MP4)) {
                 exifinfo.setVisibility(View.GONE);
-                //myHistogram.setVisibility(View.GONE);
                 play.setVisibility(View.VISIBLE);
             }
             if (file.getFile().getName().endsWith(StringUtils.FileEnding.DNG)) {
                 exifinfo.setVisibility(View.GONE);
-                //myHistogram.setVisibility(View.VISIBLE);
                 play.setVisibility(View.VISIBLE);
             }
             if (file.getFile().getName().endsWith(StringUtils.FileEnding.RAW) || file.getFile().getName().endsWith(StringUtils.FileEnding.BAYER)) {
                 exifinfo.setVisibility(View.GONE);
-                //myHistogram.setVisibility(View.VISIBLE);
                 play.setVisibility(View.GONE);
             }
-            //FreeDPool.Execute(new historunner(file));
-
 
         }
         else
@@ -425,20 +435,4 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
 
     }
 
-    class historunner implements Runnable
-    {
-        FileHolder f;
-        historunner(FileHolder f)
-        {
-            this.f = f;
-        }
-
-        @Override
-        public void run() {
-            Bitmap b =BitmapHelper.getBitmap(f.getFile(),true, mImageThumbSize,mImageThumbSize);
-            if (this.f == file)
-                histogram.setBitmap(b,false);
-            b = null;
-        }
-    }
 }

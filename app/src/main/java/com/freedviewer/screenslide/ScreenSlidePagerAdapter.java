@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.SparseArray;
+import android.view.ViewGroup;
 
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
@@ -28,6 +30,7 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     private String FilePathToLoad = "";
     private GridViewFragment.FormatTypes filestoshow = GridViewFragment.FormatTypes.all;
     private AppSettingsManager appSettingsManager;
+    private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
 
     public ScreenSlidePagerAdapter(FragmentManager fm, ViewPager mPager, ScreenSlideFragment.FragmentClickClistner fragmentclickListner, GridViewFragment.FormatTypes filestoshow,AppSettingsManager appSettingsManager)
     {
@@ -70,40 +73,6 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
             return files.get(mPager.getCurrentItem());
         else
             return null;
-    }
-
-    @Override
-    public Fragment getItem(int position)
-    {
-        ImageFragment  currentFragment = new ImageFragment();
-        if (files == null || files.size() == 0)
-            currentFragment.SetFilePath(null);
-        else
-            currentFragment.SetFilePath(files.get(position));
-        currentFragment.SetOnclickLisnter(fragmentclickListner);
-
-        return currentFragment;
-    }
-
-    @Override
-    public int getCount()
-    {
-        if(files != null)
-            return files.size();
-        else return 1;
-    }
-
-    @Override
-    public int getItemPosition(Object object) {
-        FileHolder file = ((ImageFragment) object).GetFilePath();
-        int position = files.indexOf(file);
-        if (position >= 0) {
-            // The current data matches the data in this active fragment, so let it be as it is.
-            return position;
-        } else {
-            // Returning POSITION_NONE means the current data does not matches the data this fragment is showing right now.  Returning POSITION_NONE constant will force the fragment to redraw its view layout all over again and show new data.
-            return POSITION_NONE;
-        }
     }
 
     public void addFile(File file)
@@ -154,5 +123,60 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
         Logger.d(TAG, "readFiles sucess, FilesCount" + files.size());
         this.notifyDataSetChanged();
         mPager.setCurrentItem(0);
+    }
+
+
+
+    //FragmentStatePagerAdapter implementation START
+
+    @Override
+    public Fragment getItem(int position)
+    {
+        ImageFragment  currentFragment = new ImageFragment();
+        if (files == null || files.size() == 0)
+            currentFragment.SetFilePath(null);
+        else
+            currentFragment.SetFilePath(files.get(position));
+        currentFragment.SetOnclickLisnter(fragmentclickListner);
+
+        return currentFragment;
+    }
+
+    @Override
+    public int getCount()
+    {
+        if(files != null)
+            return files.size();
+        else return 1;
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        FileHolder file = ((ImageFragment) object).GetFilePath();
+        int position = files.indexOf(file);
+        if (position >= 0) {
+            // The current data matches the data in this active fragment, so let it be as it is.
+            return position;
+        } else {
+            // Returning POSITION_NONE means the current data does not matches the data this fragment is showing right now.  Returning POSITION_NONE constant will force the fragment to redraw its view layout all over again and show new data.
+            return POSITION_NONE;
+        }
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        Fragment fragment = (Fragment) super.instantiateItem(container, position);
+        registeredFragments.put(position, fragment);
+        return fragment;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        registeredFragments.remove(position);
+        super.destroyItem(container, position, object);
+    }
+
+    public Fragment getRegisteredFragment(int position) {
+        return registeredFragments.get(position);
     }
 }
