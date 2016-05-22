@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.freedcam.utils.AppSettingsManager;
+import com.freedcam.utils.StringUtils;
 import com.troop.freedcam.R;
 
 /**
@@ -124,7 +125,7 @@ public class HelpFragment extends Fragment
         animation.setRepeatMode(Animation.INFINITE);
         animation.setFillAfter(true);
         finger.startAnimation(animation);
-        description.setText("Swipe from top to bottom to close Manuals");
+        description.setText("Swipe from top to bottom to close Manuals\r\n\r\nif you can't the heat use Google camera :)");
         nextButton.setText("Close");
         dontshowagain.setVisibility(View.VISIBLE);
     }
