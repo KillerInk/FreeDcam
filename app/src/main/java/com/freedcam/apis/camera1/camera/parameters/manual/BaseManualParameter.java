@@ -116,7 +116,7 @@ public class BaseManualParameter extends AbstractManualParameter
     @Override
     public boolean IsSupported()
     {
-        return this.isSupported;
+        return isSupported;
     }
 
     @Override
@@ -126,7 +126,7 @@ public class BaseManualParameter extends AbstractManualParameter
 
     @Override
     public boolean IsVisible() {
-        return super.IsVisible();
+        return isVisible;
     }
 
     @Override

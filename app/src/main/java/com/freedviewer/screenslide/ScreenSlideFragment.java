@@ -393,52 +393,45 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
 
     private void processJpeg(final File file)
     {
-
-            FreeDPool.Execute(new Runnable() {
-                @Override
-                public void run() {
-                    try {
+        FreeDPool.Execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
                     final Metadata metadata = JpegMetadataReader.readMetadata(file);
                     final Directory exifsub = metadata.getDirectory(ExifSubIFDDirectory.class);
-                        iso.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    shutter.setText("S:" +exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME));
-                                }catch (NullPointerException e){
-                                    shutter.setVisibility(View.GONE);
-                                }
-                                try
-                                {
-                                    fnumber.setText("f~:" +exifsub.getString(ExifSubIFDDirectory.TAG_FNUMBER));
-                                }catch (NullPointerException e){
-                                    fnumber.setVisibility(View.GONE);
-                                }
-                                try {
-                                    focal.setText("A:" +exifsub.getString(ExifSubIFDDirectory.TAG_FOCAL_LENGTH));
-                                }catch (NullPointerException e){
-                                    focal.setVisibility(View.GONE);
-                                }
-                                try {
-                                    iso.setText("ISO:" +exifsub.getString(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT));
-                                }catch (NullPointerException e){
-                                    iso.setVisibility(View.GONE);
-                                }
-
-
-
-
+                    iso.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                shutter.setText("S:" +exifsub.getString(ExifSubIFDDirectory.TAG_EXPOSURE_TIME));
+                            }catch (NullPointerException e){
+                                shutter.setVisibility(View.GONE);
                             }
-                        });
+                            try
+                            {
+                                fnumber.setText("f~:" +exifsub.getString(ExifSubIFDDirectory.TAG_FNUMBER));
+                            }catch (NullPointerException e){
+                                fnumber.setVisibility(View.GONE);
+                            }
+                            try {
+                                focal.setText("A:" +exifsub.getString(ExifSubIFDDirectory.TAG_FOCAL_LENGTH));
+                            }catch (NullPointerException e){
+                                focal.setVisibility(View.GONE);
+                            }
+                            try {
+                                iso.setText("ISO:" +exifsub.getString(ExifSubIFDDirectory.TAG_ISO_EQUIVALENT));
+                            }catch (NullPointerException e){
+                                iso.setVisibility(View.GONE);
+                            }
+                        }
+                    });
 
-                    } catch (NullPointerException | JpegProcessingException | IOException ex)
-                    {
-                        Logger.d(TAG, "Failed to read Exif");
-                    }
+                } catch (NullPointerException | JpegProcessingException | IOException ex)
+                {
+                    Logger.d(TAG, "Failed to read Exif");
                 }
-            });
-
-
+            }
+        });
     }
 
 }
