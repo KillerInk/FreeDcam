@@ -62,6 +62,12 @@ public class DngSupportedDevices
                     case Jiayu_S3:
                         return new DngProfile(64, 4208, 3120, Plain, RGGB, 0, matrixChooser.GetCustomMatrix(MatrixChooserParameter.IMX214));
                 }
+            case 16560158:
+                switch (device)
+                {
+                    case HTC_OneE8:
+                        return new DngProfile(16,4224,3136,Mipi16,BGGR,0, matrixChooser.GetCustomMatrix(MatrixChooserParameter.OmniVision));
+                }
             case 26357760: //oneplus
                 return new DngProfile(16,4224,3120,Plain,BGGR,0, matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 16473600: //oneplus

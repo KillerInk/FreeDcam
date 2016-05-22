@@ -239,6 +239,10 @@
         <item>MX4</item>
     </string-array>
 
+    <string-array name="One_E8">
+        <item>HTC One_E8</item>
+    </string-array>
+
     <string-array name="meizu_m2note">
     <item>m2 note</item>
     </string-array>
