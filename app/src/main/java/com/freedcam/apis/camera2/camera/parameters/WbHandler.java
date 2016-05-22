@@ -139,7 +139,7 @@ public class WbHandler
         @Override
         public String GetValue()
         {
-            if (cameraHolder != null)
+            if (cameraHolder != null || !cameraHolder.get(CaptureRequest.CONTROL_AWB_MODE).equals("null"))
             {
                 int i = cameraHolder.get(CaptureRequest.CONTROL_AWB_MODE);
                 WhiteBalanceValues sceneModes = WhiteBalanceValues.values()[i];
