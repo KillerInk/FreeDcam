@@ -1,5 +1,5 @@
 #include <jni.h>
-#include <tiff/libtiff/tiffio.h>
+#include <../tiff/libtiff/tiffio.h>
 //#include <include/tif_dir.h>
 //#include <include/tif_config.h>
 #include <stdio.h>
@@ -11,7 +11,7 @@
 #include <time.h>
 #include <math.h>
 #include <android/log.h>
-#include <tiff/libtiff/tif_dir.h>
+#include <../tiff/libtiff/tif_dir.h>
 #define  LOG_TAG    "freedcam.RawToDngNative"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 

@@ -4,3 +4,6 @@
 [submodule "imageconverter/src/main/jni/libraw/LibRaw"]
 	path = imageconverter/src/main/jni/libraw/LibRaw
 	url = https://github.com/troop/LibRaw.git
+[submodule "app/src/main/jni/LibRaw"]
+	path = app/src/main/jni/LibRaw
+	url = https://github.com/troop/LibRaw.git
