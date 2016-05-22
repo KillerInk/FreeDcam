@@ -1,18 +1,10 @@
 package com.freedcam.utils;
 
-import android.hardware.Camera;
-import android.os.Build;
 import android.os.Environment;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Ingo on 04.10.2014.

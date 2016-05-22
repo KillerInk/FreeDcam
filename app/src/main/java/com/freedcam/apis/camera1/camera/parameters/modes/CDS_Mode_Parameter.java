@@ -4,10 +4,8 @@ import android.hardware.Camera;
 import android.os.Handler;
 
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
-import com.freedcam.utils.Logger;
 import com.freedcam.utils.DeviceUtils;
-
-import java.util.HashMap;
+import com.freedcam.utils.Logger;
 
 /**
  * Created by Ingo on 12.04.2015.
@@ -28,7 +26,7 @@ public class CDS_Mode_Parameter extends BaseModeParameter
         }
         catch (Exception ex)
         {
-
+            Logger.exception(ex);
         }
         if (!this.isSupported)
         {

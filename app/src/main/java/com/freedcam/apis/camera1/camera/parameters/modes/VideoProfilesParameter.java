@@ -4,10 +4,10 @@ import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.os.Handler;
 
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
-import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 

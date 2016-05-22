@@ -2,10 +2,10 @@ package com.freedcam.apis.sonyremote.camera.modules;
 
 import android.content.Context;
 
-import com.freedcam.apis.sonyremote.camera.CameraHolderSony;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
+import com.freedcam.apis.sonyremote.camera.CameraHolderSony;
 import com.freedcam.utils.AppSettingsManager;
 
 /**

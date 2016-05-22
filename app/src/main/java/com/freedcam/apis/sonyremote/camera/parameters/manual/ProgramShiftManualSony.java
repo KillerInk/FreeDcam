@@ -2,8 +2,8 @@ package com.freedcam.apis.sonyremote.camera.parameters.manual;
 
 import com.freedcam.apis.sonyremote.camera.parameters.ParameterHandlerSony;
 import com.freedcam.apis.sonyremote.camera.sonystuff.JsonUtils;
-import com.freedcam.utils.Logger;
 import com.freedcam.utils.FreeDPool;
+import com.freedcam.utils.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONException;

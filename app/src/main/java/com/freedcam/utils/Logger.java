@@ -149,12 +149,11 @@ public class Logger
                 @Override
                 public void run() {
                     try {
-                        StringBuilder b = new StringBuilder();
-                        b.append(DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime()));
-                        b.append(":(D) ");
-                        b.append(TAG).append(":");
-                        b.append(msg);
-                        writer.write(b.toString());
+                        String b = String.valueOf(DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime())) +
+                                ":(D) " +
+                                TAG + ":" +
+                                msg;
+                        writer.write(b);
                         writer.newLine();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -170,12 +169,11 @@ public class Logger
                 @Override
                 public void run() {
                     try {
-                        StringBuilder b = new StringBuilder();
-                        b.append(DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime()));
-                        b.append(":(E) ");
-                        b.append(TAG);
-                        b.append(msg);
-                        writer.write(b.toString());
+                        String b = String.valueOf(DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime())) +
+                                ":(E) " +
+                                TAG +
+                                msg;
+                        writer.write(b);
                         writer.newLine();
                     } catch (IOException e) {
                         e.printStackTrace();

@@ -4,6 +4,10 @@ import android.content.Context;
 import android.location.Location;
 import android.os.Handler;
 
+import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
+import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
+import com.freedcam.apis.basecamera.camera.modules.CameraFocusEvent;
+import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
 import com.freedcam.apis.sonyremote.camera.modules.I_CameraStatusChanged;
 import com.freedcam.apis.sonyremote.camera.modules.I_PictureCallback;
 import com.freedcam.apis.sonyremote.camera.modules.ModuleHandlerSony;
@@ -17,12 +21,8 @@ import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleRemoteApi;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleStreamSurfaceView;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SonyUtils;
 import com.freedcam.utils.AppSettingsManager;
-import com.freedcam.utils.Logger;
-import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
-import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
-import com.freedcam.apis.basecamera.camera.modules.CameraFocusEvent;
-import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
 import com.freedcam.utils.FreeDPool;
+import com.freedcam.utils.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONException;

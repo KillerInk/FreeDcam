@@ -3,10 +3,7 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
 
-import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
-
-import java.util.HashMap;
 
 /**
  * Created by troop on 01.09.2014.

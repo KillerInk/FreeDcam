@@ -6,8 +6,6 @@ import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.Logger;
 
-import java.util.HashMap;
-
 /**
  * Created by GeorgeKiarie on 20/04/2016.
  */

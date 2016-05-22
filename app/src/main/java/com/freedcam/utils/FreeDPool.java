@@ -1,8 +1,5 @@
 package com.freedcam.utils;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 /**
  * Created by troop on 29.03.2016.
  */

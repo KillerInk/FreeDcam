@@ -24,16 +24,15 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.freedcam.utils.FreeDPool;
-import com.freedcam.utils.Logger;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.utils.FreeDPool;
+import com.freedcam.utils.Logger;
 import com.imageconverter.ScriptC_brightness;
 import com.imageconverter.ScriptC_contrast;
 import com.imageconverter.ScriptC_focuspeak_argb;
 import com.imageconverter.ScriptC_imagestack;
 import com.imageconverter.ScriptC_starfinder;
-
 
 import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -520,7 +519,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         {
             mInputAllocation.copyFrom(drawBitmap);
             brightnessRS.set_gCurrentFrame(mInputAllocation);
-            brightnessRS.set_brightness((float) (100 / 255.0f));
+            brightnessRS.set_brightness(100 / 255.0f);
             brightnessRS.forEach_processBrightness(mOutputAllocation);
             mOutputAllocation.copyTo(drawBitmap);
             mInputAllocation.copyFrom(drawBitmap);

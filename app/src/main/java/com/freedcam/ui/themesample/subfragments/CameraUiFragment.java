@@ -14,7 +14,6 @@ import android.widget.RelativeLayout;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.ui.AbstractFragment;
-import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.I_swipe;
 import com.freedcam.ui.SwipeMenuListner;
@@ -30,6 +29,7 @@ import com.freedcam.ui.themesample.views.uichilds.UiSettingsChildExit;
 import com.freedcam.ui.themesample.views.uichilds.UiSettingsChildModuleSwitch;
 import com.freedcam.ui.themesample.views.uichilds.UiSettingsFocusPeak;
 import com.freedcam.ui.themesample.views.uichilds.UiSettingsMenu;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedviewer.screenslide.ScreenSlideFragment;
 import com.troop.freedcam.R;
@@ -303,7 +303,7 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
         }
         if (horizontalValuesFragment != null)
             horizontalValuesFragment.Clear();
-        View l = (View)view.findViewById(R.id.cameraui_values_fragment_holder);
+        View l = view.findViewById(R.id.cameraui_values_fragment_holder);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.leftMargin = getResources().getDimensionPixelSize(R.dimen.manualitemwidth);

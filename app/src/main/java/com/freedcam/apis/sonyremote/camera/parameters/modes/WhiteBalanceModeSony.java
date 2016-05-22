@@ -4,8 +4,8 @@ import android.os.Handler;
 
 import com.freedcam.apis.sonyremote.camera.parameters.manual.WbCTManualSony;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleRemoteApi;
-import com.freedcam.utils.Logger;
 import com.freedcam.utils.FreeDPool;
+import com.freedcam.utils.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONException;

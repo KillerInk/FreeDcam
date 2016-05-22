@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.OrientationEventListener;
 
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
+import com.freedcam.utils.Logger;
 
 /**
  * Created by troop on 17.09.2014.
@@ -32,7 +33,7 @@ public class OrientationHandler implements AbstractModuleHandler.I_worker
                         }
                         catch (NullPointerException ex)
                         {
-
+                            Logger.exception(ex);
                         }
                     }
                 }

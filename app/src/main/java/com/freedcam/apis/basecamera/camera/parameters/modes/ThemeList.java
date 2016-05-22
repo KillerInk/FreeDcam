@@ -2,8 +2,6 @@ package com.freedcam.apis.basecamera.camera.parameters.modes;
 
 import android.os.Handler;
 
-import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
-
 /**
  * Created by George on 3/9/2015.
  */

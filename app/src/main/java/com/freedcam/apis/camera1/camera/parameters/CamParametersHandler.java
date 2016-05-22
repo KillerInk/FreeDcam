@@ -6,8 +6,12 @@ import android.hardware.Camera;
 import android.os.Build;
 import android.os.Handler;
 
-import com.freedcam.apis.basecamera.camera.interfaces.I_Module;
+import com.freedcam.apis.basecamera.camera.FocusRect;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
+import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.basecamera.camera.parameters.modes.LocationParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.ModuleParameters;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.FocusHandler;
@@ -45,19 +49,12 @@ import com.freedcam.apis.camera1.camera.parameters.modes.VideoProfilesG3Paramete
 import com.freedcam.apis.camera1.camera.parameters.modes.VideoProfilesParameter;
 import com.freedcam.apis.camera1.camera.parameters.modes.VideoStabilizationParameter;
 import com.freedcam.apis.camera1.camera.parameters.modes.VirtualLensFilter;
-import com.freedcam.apis.basecamera.camera.FocusRect;
-import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
-import com.freedcam.apis.basecamera.camera.parameters.modes.LocationParameter;
-import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
-import com.freedcam.apis.basecamera.camera.parameters.modes.ModuleParameters;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by troop on 17.08.2014.
@@ -283,7 +280,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            PreviewFPS = new PreviewFpsParameter(uiHandler, cameraParameters, "preview-frame-rate-values", (CameraHolderApi1)cameraHolder);
+            PreviewFPS = new PreviewFpsParameter(uiHandler, cameraParameters, "preview-frame-rate-values", cameraHolder);
         } catch (Exception e) {
             Logger.exception(e);
         }

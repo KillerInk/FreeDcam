@@ -6,16 +6,15 @@ import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
 
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.camera.modules.I_RecorderStateChanged;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
-import com.freedcam.utils.AppSettingsManager;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.ui.handler.MediaScannerManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
-
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -193,11 +192,11 @@ public abstract class AbstractVideoModule extends AbstractModule
                 fileDescriptor = context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
                 recorder.setOutputFile(fileDescriptor.getFileDescriptor());
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                Logger.exception(e);
                 try {
                     fileDescriptor.close();
                 } catch (IOException e1) {
-                    e1.printStackTrace();
+                    Logger.exception(e1);
                 }
             }
         }

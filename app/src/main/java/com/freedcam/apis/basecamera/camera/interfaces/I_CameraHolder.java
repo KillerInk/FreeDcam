@@ -2,8 +2,6 @@ package com.freedcam.apis.basecamera.camera.interfaces;
 
 import android.view.SurfaceHolder;
 
-import java.util.HashMap;
-
 /**
  * Created by troop on 15.08.2014.
  */

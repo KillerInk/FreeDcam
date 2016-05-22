@@ -6,9 +6,9 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 
+import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.apis.camera2.camera.parameters.ParameterHandlerApi2;
-import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 
 /**
  * Created by troop on 06.03.2015.

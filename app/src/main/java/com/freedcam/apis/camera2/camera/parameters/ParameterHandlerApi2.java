@@ -6,6 +6,9 @@ import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.os.Handler;
 
+import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.ModuleParameters;
 import com.freedcam.apis.camera1.camera.parameters.modes.StackModeParameter;
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.apis.camera2.camera.CameraUiWrapperApi2;
@@ -29,13 +32,9 @@ import com.freedcam.apis.camera2.camera.parameters.modes.PictureSizeModeApi2;
 import com.freedcam.apis.camera2.camera.parameters.modes.SceneModeApi2;
 import com.freedcam.apis.camera2.camera.parameters.modes.ToneMapModeApi2;
 import com.freedcam.apis.camera2.camera.parameters.modes.VideoProfilesApi2;
-import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
-import com.freedcam.apis.basecamera.camera.parameters.modes.ModuleParameters;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
-import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.utils.StringUtils;
-
 
 import java.util.List;
 
@@ -110,7 +109,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         Burst = new BurstApi2(this,cameraHolder);
         Focuspeak = new FocusPeakModeApi2(uiHandler,cameraHolder);
         //VideoSize = new VideoSizeModeApi2(uiHandler,cameraHolder);
-        VideoProfiles = new VideoProfilesApi2(uiHandler,cameraHolder,(CameraUiWrapperApi2)wrapper);
+        VideoProfiles = new VideoProfilesApi2(uiHandler,cameraHolder,wrapper);
         oismode = new OisModeApi2(uiHandler,cameraHolder);
         matrixChooser = new MatrixChooserParameter(uiHandler);
         imageStackMode = new StackModeParameter(null,null,null,null,null);
@@ -124,7 +123,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
                 }
                 catch (NullPointerException ex)
                 {
-
+                    Logger.exception(ex);
                 }
             }
         });

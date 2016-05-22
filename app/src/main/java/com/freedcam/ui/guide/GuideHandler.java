@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.camera.parameters.I_ParametersLoaded;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.utils.AppSettingsManager;
 import com.troop.freedcam.R;
 
@@ -66,80 +66,116 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
                 @Override
                 public void run() {
                     if (quckRationMath < 1.44f) {
-                        if (str.equals("Golden Spiral")) {
-                            img.setImageResource(R.drawable.ic_guide_golden_spiral_4_3);
-                        } else if (str.equals("Rule Of Thirds")) {
-                            img.setImageResource(R.drawable.ic_guide_rule_3rd_4_3);
-                        } else if (str.equals("Square 1:1")) {
-                            img.setImageResource(R.drawable.ic_guide_insta_1_1);
-                        } else if (str.equals("Square 4:3"))
-                            img.setImageResource(R.drawable.ic_guide_insta_4_3);
-                        else if (str.equals("Square 16:9"))
-                            img.setImageResource(R.drawable.ic_guide_insta_16_9);
-                        else if (str.equals("Diagonal Type 1"))
-                            img.setImageResource(R.drawable.ic_guide_diagonal_type_1_4_3);
-                        else if (str.equals("Diagonal Type 2"))
-                            img.setImageResource(R.drawable.ic_guide_diagonal_type_2_4_3);
-                        else if (str.equals("Diagonal Type 3"))
-                            img.setImageResource(R.drawable.ic_guide_diagonal_type_3);
-                        else if (str.equals("Diagonal Type 4"))
-                            img.setImageResource(R.drawable.ic_guide_diagonal_type_4);
-                        else if (str.equals("Diagonal Type 5"))
-                            img.setImageResource(R.drawable.ic_guide_diagonal_type_5);
-                        else if (str.equals("Golden Ratio"))
-                            img.setImageResource(R.drawable.ic_guide_golden_ratio_type_1_4_3);
-                        else if (str.equals("Golden Hybrid"))
-                            img.setImageResource(R.drawable.ic_guide_golden_spriral_ratio_4_3);
-                        else if (str.equals("Golden R/S 1"))
-                            img.setImageResource(R.drawable.ic_guide_golden_fuse1_4_3);
-                        else if (str.equals("Golden R/S 2"))
-                            img.setImageResource(R.drawable.ic_guide_golden_fusion2_4_3);
-                        else if (str.equals("Golden Triangle"))
-                            img.setImageResource(R.drawable.ic_guide_golden_triangle_4_3);
-                        else if (str.equals("Group POV Five"))
-                            img.setImageResource(R.drawable.ic_guide_groufie_five);
-                        else if (str.equals("Group POV Three"))
-                            img.setImageResource(R.drawable.ic_guide_groufie_three);
-                        else if (str.equals("Group POV Potrait"))
-                            img.setImageResource(R.drawable.ic_guide_groupshot_potrait);
-                        else if (str.equals("Group POV Full"))
-                            img.setImageResource(R.drawable.ic_guide_groupshot_fullbody);
-                        else if (str.equals("Group POV Elvated"))
-                            img.setImageResource(R.drawable.ic_guide_groupshot_elevated_pov);
-                        else if (str.equals("Group by Depth"))
-                            img.setImageResource(R.drawable.ic_guide_groupshot_outfocusing);
-                        else if (str.equals("Group Center Lead"))
-                            img.setImageResource(R.drawable.ic_guide_groupshot_center_leader);
-                        else if (str.equals("Center Type x"))
-                            img.setImageResource(R.drawable.ic_guide_center_type_1_4_3);
-                        else if (str.equals("Center Type +"))
-                            img.setImageResource(R.drawable.ic_guide_center_type_2_4_3);
-                        else if (str.equals("None"))
-                            img.setImageBitmap(null);
+                        switch (str) {
+                            case "Golden Spiral":
+                                img.setImageResource(R.drawable.ic_guide_golden_spiral_4_3);
+                                break;
+                            case "Rule Of Thirds":
+                                img.setImageResource(R.drawable.ic_guide_rule_3rd_4_3);
+                                break;
+                            case "Square 1:1":
+                                img.setImageResource(R.drawable.ic_guide_insta_1_1);
+                                break;
+                            case "Square 4:3":
+                                img.setImageResource(R.drawable.ic_guide_insta_4_3);
+                                break;
+                            case "Square 16:9":
+                                img.setImageResource(R.drawable.ic_guide_insta_16_9);
+                                break;
+                            case "Diagonal Type 1":
+                                img.setImageResource(R.drawable.ic_guide_diagonal_type_1_4_3);
+                                break;
+                            case "Diagonal Type 2":
+                                img.setImageResource(R.drawable.ic_guide_diagonal_type_2_4_3);
+                                break;
+                            case "Diagonal Type 3":
+                                img.setImageResource(R.drawable.ic_guide_diagonal_type_3);
+                                break;
+                            case "Diagonal Type 4":
+                                img.setImageResource(R.drawable.ic_guide_diagonal_type_4);
+                                break;
+                            case "Diagonal Type 5":
+                                img.setImageResource(R.drawable.ic_guide_diagonal_type_5);
+                                break;
+                            case "Golden Ratio":
+                                img.setImageResource(R.drawable.ic_guide_golden_ratio_type_1_4_3);
+                                break;
+                            case "Golden Hybrid":
+                                img.setImageResource(R.drawable.ic_guide_golden_spriral_ratio_4_3);
+                                break;
+                            case "Golden R/S 1":
+                                img.setImageResource(R.drawable.ic_guide_golden_fuse1_4_3);
+                                break;
+                            case "Golden R/S 2":
+                                img.setImageResource(R.drawable.ic_guide_golden_fusion2_4_3);
+                                break;
+                            case "Golden Triangle":
+                                img.setImageResource(R.drawable.ic_guide_golden_triangle_4_3);
+                                break;
+                            case "Group POV Five":
+                                img.setImageResource(R.drawable.ic_guide_groufie_five);
+                                break;
+                            case "Group POV Three":
+                                img.setImageResource(R.drawable.ic_guide_groufie_three);
+                                break;
+                            case "Group POV Potrait":
+                                img.setImageResource(R.drawable.ic_guide_groupshot_potrait);
+                                break;
+                            case "Group POV Full":
+                                img.setImageResource(R.drawable.ic_guide_groupshot_fullbody);
+                                break;
+                            case "Group POV Elvated":
+                                img.setImageResource(R.drawable.ic_guide_groupshot_elevated_pov);
+                                break;
+                            case "Group by Depth":
+                                img.setImageResource(R.drawable.ic_guide_groupshot_outfocusing);
+                                break;
+                            case "Group Center Lead":
+                                img.setImageResource(R.drawable.ic_guide_groupshot_center_leader);
+                                break;
+                            case "Center Type x":
+                                img.setImageResource(R.drawable.ic_guide_center_type_1_4_3);
+                                break;
+                            case "Center Type +":
+                                img.setImageResource(R.drawable.ic_guide_center_type_2_4_3);
+                                break;
+                            case "None":
+                                img.setImageBitmap(null);
+                                break;
+                        }
                         img.invalidate();
                     }
                     else
                     {
-                        if (str.equals("Golden Spiral")) {
-
-                            img.setImageResource(R.drawable.ic_guide_golden_spiral_16_9);
+                        switch (str) {
+                            case "Golden Spiral":
+                                img.setImageResource(R.drawable.ic_guide_golden_spiral_16_9);
+                                break;
+                            case "Golden Triangle":
+                                img.setImageResource(R.drawable.ic_golden_triangle_16_9);
+                                break;
+                            case "Rule Of Thirds":
+                                img.setImageResource(R.drawable.ic_guide_rule_3rd_16_9);
+                                break;
+                            case "Center Type x":
+                                img.setImageResource(R.drawable.ic_guide_center_type_1_4_3);
+                                break;
+                            case "Center Type +":
+                                img.setImageResource(R.drawable.ic_guide_center_type_2_4_3);
+                                break;
+                            case "Square 1:1":
+                                img.setImageResource(R.drawable.ic_guide_insta_1_1);
+                                break;
+                            case "Square 4:3":
+                                img.setImageResource(R.drawable.ic_guide_insta_4_3);
+                                break;
+                            case "Square 16:9":
+                                img.setImageResource(R.drawable.ic_guide_insta_16_9);
+                                break;
+                            case "None":
+                                img.setImageBitmap(null);
+                                break;
                         }
-                        else if (str.equals("Golden Triangle"))
-                            img.setImageResource(R.drawable.ic_golden_triangle_16_9);
-                        else if (str.equals("Rule Of Thirds"))
-                            img.setImageResource(R.drawable.ic_guide_rule_3rd_16_9);
-                        else if (str.equals("Center Type x"))
-                            img.setImageResource(R.drawable.ic_guide_center_type_1_4_3);
-                        else if (str.equals("Center Type +"))
-                            img.setImageResource(R.drawable.ic_guide_center_type_2_4_3);
-                        else if (str.equals("Square 1:1")) {
-                            img.setImageResource(R.drawable.ic_guide_insta_1_1);
-                        } else if (str.equals("Square 4:3"))
-                            img.setImageResource(R.drawable.ic_guide_insta_4_3);
-                        else if (str.equals("Square 16:9"))
-                            img.setImageResource(R.drawable.ic_guide_insta_16_9);
-                        else if (str.equals("None"))
-                            img.setImageBitmap(null);
                         img.invalidate();
 
                     }

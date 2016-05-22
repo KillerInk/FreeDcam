@@ -7,13 +7,12 @@ import android.os.Build;
 import android.view.SurfaceView;
 import android.view.TextureView;
 
+import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.camera.interfaces.I_error;
 import com.freedcam.apis.camera2.camera.modules.ModuleHandlerApi2;
 import com.freedcam.apis.camera2.camera.parameters.ParameterHandlerApi2;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
-import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.basecamera.camera.interfaces.I_error;
-import com.freedcam.utils.StringUtils;
 
 
 /**

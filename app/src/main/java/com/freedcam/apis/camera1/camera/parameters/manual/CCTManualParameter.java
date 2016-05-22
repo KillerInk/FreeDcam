@@ -2,13 +2,11 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
 
-import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class CCTManualParameter extends BaseManualParameter
 {

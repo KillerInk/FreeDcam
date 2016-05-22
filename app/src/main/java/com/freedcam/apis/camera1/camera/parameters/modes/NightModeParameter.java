@@ -3,13 +3,11 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 import android.hardware.Camera;
 import android.os.Handler;
 
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
-import com.freedcam.utils.Logger;
-import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.utils.DeviceUtils;
-
-import java.util.HashMap;
+import com.freedcam.utils.Logger;
 
 /**
  * Created by troop on 26.09.2014.

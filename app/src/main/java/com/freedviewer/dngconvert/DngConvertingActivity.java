@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
-import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.I_Activity;
+import com.freedcam.utils.AppSettingsManager;
 
 /**
  * Created by troop on 22.12.2015.

@@ -3,19 +3,11 @@ package com.freedcam.apis.basecamera.camera.parameters.modes;
 import android.os.Handler;
 import android.util.Log;
 
-import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
-import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 import com.troop.androiddng.CustomMatrix;
-import com.troop.androiddng.Matrixes;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by troop on 02.05.2016.
@@ -336,7 +328,7 @@ public class MatrixChooserParameter extends AbstractModeParameter
 
     private final float[] G4_noise_3x1_matrix =
             {
-                    0.8853462669953089f, (float) 0, (float) 0.8853462669953089f, 0f, 0.8853462669953089f,0f
+                    0.8853462669953089f, (float) 0, 0.8853462669953089f, 0f, 0.8853462669953089f,0f
             };
 
 
@@ -367,7 +359,7 @@ public class MatrixChooserParameter extends AbstractModeParameter
                     0.671875f, 0.171875f, 0.1171875f, 0.2109375f, 0.953125f, -0.1640625f, -0.0234375f, -0.25f, 1.09375f
             };
 
-    private final float[] OV_REDUCTION =
+   /* private final float[] OV_REDUCTION =
             {
                     1, -1, -1,
                     -1, 1, 1,
@@ -379,7 +371,7 @@ public class MatrixChooserParameter extends AbstractModeParameter
                     1, -1, -1,
                     -1, 1, 1,
                     -1, 1, 1
-            };
+            };*/
 
     private float[] OV_NREDUCTION_Matrix =
             {

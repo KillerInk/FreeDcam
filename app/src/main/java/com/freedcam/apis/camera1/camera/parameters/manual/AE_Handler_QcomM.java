@@ -3,13 +3,10 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 import android.hardware.Camera;
 import android.os.Handler;
 
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.camera1.camera.parameters.modes.BaseModeParameter;
-import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
-
-
-import java.util.HashMap;
 
 
 /**
@@ -35,25 +32,23 @@ public class AE_Handler_QcomM
         @Override
         public void onValueChanged(String val)
         {
-            if (val.equals("off"))
-            {
-                exposureTime.BackgroundIsSetSupportedChanged(false);
-                isoManual.BackgroundIsSetSupportedChanged(false);
-            }
-            else if (val.equals("exp-time-priority"))
-            {
-                exposureTime.BackgroundIsSetSupportedChanged(true);
-                isoManual.BackgroundIsSetSupportedChanged(false);
-            }
-            else if(val.equals("iso-priority"))
-            {
-                exposureTime.BackgroundIsSetSupportedChanged(false);
-                isoManual.BackgroundIsSetSupportedChanged(true);
-            }
-            else if (val.equals("user-setting"))
-            {
-                exposureTime.BackgroundIsSetSupportedChanged(true);
-                isoManual.BackgroundIsSetSupportedChanged(true);
+            switch (val) {
+                case "off":
+                    exposureTime.BackgroundIsSetSupportedChanged(false);
+                    isoManual.BackgroundIsSetSupportedChanged(false);
+                    break;
+                case "exp-time-priority":
+                    exposureTime.BackgroundIsSetSupportedChanged(true);
+                    isoManual.BackgroundIsSetSupportedChanged(false);
+                    break;
+                case "iso-priority":
+                    exposureTime.BackgroundIsSetSupportedChanged(false);
+                    isoManual.BackgroundIsSetSupportedChanged(true);
+                    break;
+                case "user-setting":
+                    exposureTime.BackgroundIsSetSupportedChanged(true);
+                    isoManual.BackgroundIsSetSupportedChanged(true);
+                    break;
             }
 
         }

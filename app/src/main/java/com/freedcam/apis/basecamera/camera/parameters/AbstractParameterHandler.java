@@ -16,7 +16,6 @@ import com.freedcam.apis.basecamera.camera.parameters.modes.SDModeParameter;
 import com.freedcam.utils.AppSettingsManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by troop on 09.12.2014.

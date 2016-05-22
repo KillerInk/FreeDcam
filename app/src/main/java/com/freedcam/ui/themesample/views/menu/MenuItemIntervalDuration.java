@@ -4,8 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
-import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.I_Activity;
+import com.freedcam.utils.AppSettingsManager;
 
 /**
  * Created by GeorgeKiarie on 10/4/2015.

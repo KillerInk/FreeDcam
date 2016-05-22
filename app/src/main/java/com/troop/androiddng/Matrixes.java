@@ -1,7 +1,5 @@
 package com.troop.androiddng;
 
-import java.util.HashMap;
-
 /**
  * Created by Ingo on 02.08.2015.
  */
@@ -63,7 +61,7 @@ public class Matrixes
 
     public static final float[] G4_noise_3x1_matrix =
             {
-                    0.8853462669953089f, (float) 0, (float) 0.8853462669953089f, 0f, 0.8853462669953089f,0f
+                    0.8853462669953089f, 0f,  0.8853462669953089f, 0f, 0.8853462669953089f,0f
             };
 
         //FRONT CAM

@@ -5,13 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.freedcam.apis.camera1.camera.CameraUiWrapper;
-import com.freedcam.apis.camera2.camera.CameraUiWrapperApi2;
 import com.freedcam.apis.basecamera.camera.parameters.modes.ApiParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.ParameterExternalShutter;
+import com.freedcam.apis.camera1.camera.CameraUiWrapper;
+import com.freedcam.apis.camera2.camera.CameraUiWrapperApi2;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.ui.I_Activity;
-import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.themesample.views.menu.MenuItem;
 import com.freedcam.ui.themesample.views.menu.MenuItemAEB;
 import com.freedcam.ui.themesample.views.menu.MenuItemGPS;
@@ -26,6 +25,7 @@ import com.freedcam.ui.themesample.views.menu.MenuItemVideoHDR;
 import com.freedcam.ui.themesample.views.menu.MenuItemVideoProfile;
 import com.freedcam.ui.themesample.views.menu.MenuItem_VideoProfEditor;
 import com.freedcam.ui.themesample.views.uichilds.UiSettingsChild;
+import com.freedcam.utils.AppSettingsManager;
 import com.troop.freedcam.R;
 
 /**

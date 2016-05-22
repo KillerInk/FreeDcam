@@ -3,19 +3,17 @@ package com.freedcam.apis.camera2.camera;
 import android.annotation.TargetApi;
 import android.graphics.Rect;
 import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.MeteringRectangle;
 import android.os.Build;
 import android.view.MotionEvent;
 
-import com.freedcam.apis.camera2.camera.modules.PictureModuleApi2;
-import com.freedcam.utils.Logger;
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.AbstractFocusHandler;
 import com.freedcam.apis.basecamera.camera.FocusRect;
-import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.camera.parameters.I_ParametersLoaded;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.utils.Logger;
 
 /**
  * Created by troop on 12.12.2014.

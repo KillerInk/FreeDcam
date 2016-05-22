@@ -33,7 +33,7 @@ import java.io.File;
 /**
  * Created by troop on 16.05.2016.
  */
-@TargetApi(Build.VERSION_CODES.M)
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class StackingModuleApi2 extends AbstractModuleApi2
 {
     private final String TAG = StackingModuleApi2.class.getSimpleName();
@@ -70,7 +70,6 @@ public class StackingModuleApi2 extends AbstractModuleApi2
         return "Stacking";
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void startPreview()
     {
@@ -79,7 +78,8 @@ public class StackingModuleApi2 extends AbstractModuleApi2
             afterFilesave =false;
             cameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
         }
-        else {
+        else
+        {
             previewSize = new Size(ParameterHandler.PictureSize.GetValue());
             mHeight = previewSize.height;
             mWidth = previewSize.width;
@@ -107,7 +107,9 @@ public class StackingModuleApi2 extends AbstractModuleApi2
             camerasurface = mInputAllocation.getSurface();
             cameraHolder.CaptureSessionH.AddSurface(camerasurface, true);
 
-
+            imagestack.set_gCurrentFrame(mInputAllocation);
+            imagestack.set_gLastFrame(mOutputAllocation);
+            imagestack.bind_medianMinMaxPixel(medianMinMax);
             cameraHolder.CaptureSessionH.CreateCaptureSession();
 
             if (mProcessingTask != null) {
@@ -252,8 +254,7 @@ public class StackingModuleApi2 extends AbstractModuleApi2
                 return;
             if (keepstacking)
             {
-                imagestack.set_gCurrentFrame(mInputAllocation);
-                imagestack.set_gLastFrame(mOutputAllocation);
+
                 // Run processing pass
                 if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE))
                     imagestack.forEach_stackimage_avarage(mOutputAllocation);
@@ -267,7 +268,6 @@ public class StackingModuleApi2 extends AbstractModuleApi2
                     imagestack.forEach_stackimage_lighten(mOutputAllocation);
                 else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.MEDIAN))
                 {
-                    imagestack.bind_medianMinMaxPixel(medianMinMax);
                     imagestack.forEach_stackimage_median(mOutputAllocation);
                 }
             }

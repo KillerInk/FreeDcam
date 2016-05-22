@@ -4,7 +4,6 @@ import android.os.Build;
 
 import com.freedcam.apis.sonyremote.camera.parameters.ParameterHandlerSony;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleStreamSurfaceView;
-import com.freedcam.utils.StringUtils;
 
 import java.util.Set;
 

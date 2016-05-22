@@ -3,13 +3,12 @@ package com.freedcam.apis.camera1.camera;
 import android.hardware.Camera;
 import android.view.MotionEvent;
 
-
 import com.freedcam.apis.basecamera.camera.AbstractFocusHandler;
 import com.freedcam.apis.basecamera.camera.FocusRect;
 import com.freedcam.apis.basecamera.camera.modules.CameraFocusEvent;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
-import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.utils.DeviceUtils;
 
 import java.util.List;

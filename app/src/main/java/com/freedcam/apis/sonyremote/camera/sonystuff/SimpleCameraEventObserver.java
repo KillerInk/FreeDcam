@@ -7,8 +7,8 @@ package com.freedcam.apis.sonyremote.camera.sonystuff;
 import android.content.Context;
 import android.os.Handler;
 
-import com.freedcam.utils.Logger;
 import com.freedcam.utils.FreeDPool;
+import com.freedcam.utils.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -505,7 +506,7 @@ public class SimpleCameraEventObserver {
         String[] focusmodes = JsonUtils.findStringArrayInformation(replyJson, 28, "focusMode", "focusModeCandidates");
         if (focusmodes != null && focusmodes.length > 0)
         {
-            sendLog("getEvent focusmodes: " +focusmodes.toString());
+            sendLog("getEvent focusmodes: " + Arrays.toString(focusmodes));
             fireFocusModesChangedListener(focusmodes);
         }
         //29 iso
@@ -552,7 +553,7 @@ public class SimpleCameraEventObserver {
         String[] zoomSettings = JsonUtils.findStringArrayInformation(replyJson, 36, "zoomSetting", "candidate");
         if (zoomSettings != null && zoomSettings.length > 0)
         {
-            sendLog("getEvent imageformats: " + zoomSettings.toString());
+            sendLog("getEvent imageformats: " + Arrays.toString(zoomSettings));
             fireZoomSettingsChangedListener(zoomSettings);
         }
 
@@ -566,7 +567,7 @@ public class SimpleCameraEventObserver {
         String[] imageformats = JsonUtils.findStringArrayInformation(replyJson, 37, "stillQuality", "candidate");
         if (imageformats != null && imageformats.length > 0)
         {
-            sendLog("getEvent imageformats: " + imageformats.toString());
+            sendLog("getEvent imageformats: " + Arrays.toString(imageformats));
             fireImageFormatsChangedListener(imageformats);
         }
 
@@ -620,7 +621,7 @@ public class SimpleCameraEventObserver {
         String[] tfs= JsonUtils.findStringArrayInformation(replyJson, 55, "trackingFocus", "candidate");
         if (tfs != null && contshots.length > 0)
         {
-            sendLog("getEvent contshots: " +tfs.toString());
+            sendLog("getEvent contshots: " + Arrays.toString(tfs));
             fireTrackingFocusModesChangedListener(tfs);
         }
         //56 BatteryStatus
@@ -692,7 +693,7 @@ public class SimpleCameraEventObserver {
     private void processShutterSpeedStuff(JSONObject replyJson) throws JSONException
     {
         String[] shuttervals = JsonUtils.findStringArrayInformation(replyJson, 32, "shutterSpeed", "shutterSpeedCandidates");
-        if (shuttervals != null && !shuttervals.equals(mShuttervals) && shuttervals.length > 0)
+        if (shuttervals != null && !Arrays.equals(shuttervals, mShuttervals) && shuttervals.length > 0)
         {
             mShuttervals = shuttervals;
             fireShutterValuesChangeListener(mShuttervals);
@@ -709,7 +710,7 @@ public class SimpleCameraEventObserver {
     private void processFnumberStuff(JSONObject replyJson) throws JSONException {
         String[] fnumbervals = JsonUtils.findStringArrayInformation(replyJson, 27, "fNumber", "fNumberCandidates");
 
-        if (fnumbervals != null && !fnumbervals.equals(mFnumbervals) && fnumbervals.length > 0)
+        if (fnumbervals != null && !Arrays.equals(fnumbervals, mFnumbervals) && fnumbervals.length > 0)
         {
             sendLog("getEvent fnumber vals: " + fnumbervals.length);
             mFnumbervals = fnumbervals;
@@ -729,10 +730,10 @@ public class SimpleCameraEventObserver {
     private void processIsoStuff(JSONObject replyJson) throws JSONException {
         String[] isovals = JsonUtils.findStringArrayInformation(replyJson, 29, "isoSpeedRate", "isoSpeedRateCandidates");
 
-        if (isovals != null && !isovals.equals(mIsovals) && isovals.length > 0)
+        if (isovals != null && !Arrays.equals(isovals, mIsovals) && isovals.length > 0)
         {
             mIsovals = isovals;
-            sendLog("getEvent isovalues: " + isovals);
+            sendLog("getEvent isovalues: " + Arrays.toString(isovals));
             fireIsoValuesChangeListener(mIsovals);
         }
         String isoval = JsonUtils.findStringInformation(replyJson,29, "isoSpeedRate", "currentIsoSpeedRate");

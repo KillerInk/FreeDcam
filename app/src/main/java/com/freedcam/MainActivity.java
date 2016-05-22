@@ -3,19 +3,18 @@ package com.freedcam;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.AbstractFragmentActivity;
+import com.freedcam.apis.ApiHandler;
 import com.freedcam.apis.basecamera.apis.AbstractCameraFragment;
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.ApiHandler;
 import com.freedcam.ui.handler.HardwareKeyHandler;
 import com.freedcam.ui.handler.I_orientation;
 import com.freedcam.ui.handler.OrientationHandler;
@@ -23,7 +22,6 @@ import com.freedcam.ui.handler.TimerHandler;
 import com.freedcam.ui.themesample.SampleThemeFragment;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
-import com.AbstractFragmentActivity;
 import com.troop.freedcam.R;
 
 import java.io.File;

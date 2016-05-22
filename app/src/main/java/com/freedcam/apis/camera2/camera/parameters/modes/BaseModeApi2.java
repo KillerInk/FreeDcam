@@ -5,8 +5,8 @@ import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 import android.os.Handler;
 
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 
 /**
  * Created by troop on 12.12.2014.

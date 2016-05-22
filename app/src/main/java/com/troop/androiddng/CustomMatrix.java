@@ -1,6 +1,5 @@
 package com.troop.androiddng;
 
-import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 
@@ -27,7 +26,7 @@ public class CustomMatrix
     final public static String MEDIAPROFILESPATH = StringUtils.GetFreeDcamConfigFolder+"matrix/";
     private static final String TAG = CustomMatrix.class.getSimpleName();
 
-    private CustomMatrix(){};
+    private CustomMatrix(){}
 
     public CustomMatrix(float[]matrix1, float[] matrix2, float[]neutral,float[]fmatrix1, float[] fmatrix2,float[]rmatrix1, float[] rmatrix2,float[]noise)
     {

@@ -9,7 +9,6 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.TextureView;
 
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.camera.FocusRect;
 import com.freedcam.apis.basecamera.camera.Size;
@@ -17,6 +16,7 @@ import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.camera.interfaces.I_error;
 import com.freedcam.apis.basecamera.camera.modules.CameraFocusEvent;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
@@ -26,9 +26,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by troop on 15.08.2014.

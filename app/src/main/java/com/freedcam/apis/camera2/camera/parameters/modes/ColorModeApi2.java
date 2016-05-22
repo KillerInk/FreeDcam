@@ -1,14 +1,18 @@
 package com.freedcam.apis.camera2.camera.parameters.modes;
 
+import android.annotation.TargetApi;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
+import android.os.Build;
 import android.os.Handler;
 
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.utils.Logger;
 
 /**
  * Created by troop on 16.12.2014.
  */
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class ColorModeApi2 extends BaseModeApi2
 {
     /*
@@ -35,6 +39,7 @@ public class ColorModeApi2 extends BaseModeApi2
         aqua,
 
     }
+
     public ColorModeApi2(Handler handler, CameraHolderApi2 cameraHolderApi2) {
         super(handler, cameraHolderApi2);
         int[] values = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS);
@@ -67,7 +72,7 @@ public class ColorModeApi2 extends BaseModeApi2
         }
         catch (Exception ex)
         {
-
+            Logger.exception(ex);
         }
 
         ColorModes sceneModes = ColorModes.values()[i];
@@ -77,7 +82,7 @@ public class ColorModeApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        int[] values = (int[]) cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS);
+        int[] values = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS);
         String[] retvals = new String[values.length];
         for (int i = 0; i < values.length; i++)
         {

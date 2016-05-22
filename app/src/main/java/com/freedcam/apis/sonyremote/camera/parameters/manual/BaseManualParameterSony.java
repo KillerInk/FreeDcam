@@ -1,18 +1,19 @@
 package com.freedcam.apis.sonyremote.camera.parameters.manual;
 
+import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.sonyremote.camera.parameters.ParameterHandlerSony;
 import com.freedcam.apis.sonyremote.camera.parameters.modes.I_SonyApi;
 import com.freedcam.apis.sonyremote.camera.sonystuff.JsonUtils;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleRemoteApi;
-import com.freedcam.utils.Logger;
-import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.utils.FreeDPool;
+import com.freedcam.utils.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Set;
 
 /**
@@ -179,7 +180,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     @Override
     public void onValuesChanged(String[] values)
     {
-        sendLog("onValueSChanged = "  +values.toString());
+        sendLog("onValueSChanged = "  + Arrays.toString(values));
         this.stringvalues = values;
     }
 

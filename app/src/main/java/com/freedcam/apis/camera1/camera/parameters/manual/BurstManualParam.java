@@ -9,13 +9,11 @@ import android.os.Build;
 
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
-import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class BurstManualParam extends BaseManualParameter
 {

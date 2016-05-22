@@ -3,23 +3,22 @@ package com.freedcam.apis.camera1.camera.modules;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.Type;
+
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.modes.StackModeParameter;
-import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.handler.MediaScannerManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 import com.imageconverter.ScriptC_imagestack;
 import com.imageconverter.ScriptField_MinMaxPixel;
-
 
 import java.io.File;
 import java.util.ArrayList;

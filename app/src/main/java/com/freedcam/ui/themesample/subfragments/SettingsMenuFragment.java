@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.ui.AbstractFragment;
-import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.themesample.views.menu.MenuItemTheme;
 import com.freedcam.ui.themesample.views.uichilds.UiSettingsChild;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.troop.freedcam.R;
 

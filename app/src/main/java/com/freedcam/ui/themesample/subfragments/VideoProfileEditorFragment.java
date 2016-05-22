@@ -86,7 +86,7 @@ public class VideoProfileEditorFragment extends Fragment
         }
         catch (NullPointerException ex)
         {
-            
+            Logger.exception(ex);
         }
     }
 

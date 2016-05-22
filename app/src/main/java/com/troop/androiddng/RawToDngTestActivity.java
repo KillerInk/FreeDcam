@@ -11,8 +11,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.freedcam.Native.RawToDng;
-import com.freedcam.utils.Logger;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 import com.troop.freedcam.R;
 

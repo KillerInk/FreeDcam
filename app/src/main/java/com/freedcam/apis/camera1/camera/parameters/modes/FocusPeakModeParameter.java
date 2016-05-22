@@ -4,8 +4,8 @@ import android.os.Build;
 import android.os.Handler;
 
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
-import com.freedcam.utils.StringUtils;
 import com.freedcam.apis.camera1.camera.renderscript.FocusPeakProcessorAp1;
+import com.freedcam.utils.StringUtils;
 
 
 /**

@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.ParcelFileDescriptor;
 import android.support.v4.app.Fragment;
 import android.support.v4.provider.DocumentFile;
 import android.support.v4.view.ViewPager;
@@ -25,22 +24,20 @@ import com.drew.imaging.jpeg.JpegProcessingException;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
-import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.ui.views.MyHistogram;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
-import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.gridview.GridViewFragment;
+import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.holder.FileHolder;
-import com.freedcam.Native.RawToDng;
 import com.troop.freedcam.R;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 

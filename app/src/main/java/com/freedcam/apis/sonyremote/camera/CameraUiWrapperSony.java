@@ -4,12 +4,12 @@ import android.content.Context;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.interfaces.I_Module;
 import com.freedcam.apis.sonyremote.camera.modules.ModuleHandlerSony;
 import com.freedcam.apis.sonyremote.camera.parameters.ParameterHandlerSony;
 import com.freedcam.apis.sonyremote.camera.sonystuff.ServerDevice;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleStreamSurfaceView;
-import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
 
@@ -34,7 +34,7 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
         this.surfaceView = (SimpleStreamSurfaceView)preview;
         this.surfaceView.getHolder().addCallback(this);
         this.cameraHolder = new CameraHolderSony(preview.getContext(), surfaceView, this, uiHandler,appSettingsManager);
-        camParametersHandler = new ParameterHandlerSony(this, uiHandler, (SimpleStreamSurfaceView)surfaceView, context,appSettingsManager);
+        camParametersHandler = new ParameterHandlerSony(this, uiHandler, surfaceView, context,appSettingsManager);
         cameraHolder.ParameterHandler = (ParameterHandlerSony)camParametersHandler;
 
         moduleHandler = new ModuleHandlerSony(cameraHolder,context,appSettingsManager);

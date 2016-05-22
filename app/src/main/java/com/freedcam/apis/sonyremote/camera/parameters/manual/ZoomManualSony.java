@@ -2,8 +2,8 @@ package com.freedcam.apis.sonyremote.camera.parameters.manual;
 
 import com.freedcam.apis.sonyremote.camera.parameters.ParameterHandlerSony;
 import com.freedcam.apis.sonyremote.camera.sonystuff.JsonUtils;
-import com.freedcam.utils.Logger;
 import com.freedcam.utils.FreeDPool;
+import com.freedcam.utils.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -127,13 +127,10 @@ public class ZoomManualSony extends BaseManualParameterSony
     }
 
 
-    private boolean checkIfIntIsInRange(int a, int b)
-    {
+    private boolean checkIfIntIsInRange(int a, int b) {
         // 1 = 1
-        if (a == b)
-            return  true;
-            //1 = 3
-        else return a - 5 <= b && a + 5 >= b;
+        //1 = 3
+        return a == b || a - 5 <= b && a + 5 >= b;
     }
 
     public String GetStringValue()

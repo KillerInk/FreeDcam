@@ -3,11 +3,11 @@ package com.freedcam.apis.camera2.camera.parameters.modes;
 import android.media.CamcorderProfile;
 import android.os.Handler;
 
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile;
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.apis.camera2.camera.CameraUiWrapperApi2;
-import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile;
 import com.freedcam.utils.Logger;
-import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 
 import java.io.File;
 import java.io.IOException;

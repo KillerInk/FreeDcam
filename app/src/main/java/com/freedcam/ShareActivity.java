@@ -22,7 +22,7 @@ public class ShareActivity extends MainActivity implements I_WorkEvent
         super.onCreate(savedInstanceState);
         this.callerIntent = getIntent();
         data = callerIntent.getData();
-        Uri imageUri = (Uri) callerIntent.getParcelableExtra(MediaStore.EXTRA_OUTPUT);
+        Uri imageUri = callerIntent.getParcelableExtra(MediaStore.EXTRA_OUTPUT);
 
         /*cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(this);
         if(!cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_PICTURE))

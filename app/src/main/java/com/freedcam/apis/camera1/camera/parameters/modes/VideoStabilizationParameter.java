@@ -3,10 +3,8 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 import android.hardware.Camera;
 import android.os.Handler;
 
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
-
-import java.util.HashMap;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 /**
  * Created by Ar4eR on 10.12.15.
  */

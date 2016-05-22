@@ -9,7 +9,6 @@ import com.freedcam.apis.basecamera.apis.AbstractCameraFragment;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.ExtendedSurfaceView;
 import com.freedcam.apis.camera1.camera.TextureViewRatio;
-import com.freedcam.ui.themesample.subfragments.CameraUiFragment;
 import com.troop.freedcam.R;
 
 /**

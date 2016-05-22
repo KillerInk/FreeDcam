@@ -7,8 +7,6 @@ import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.utils.DeviceUtils;
 
-import java.util.HashMap;
-
 /**
  * Created by GeorgeKiarie on 9/24/2015.
  */

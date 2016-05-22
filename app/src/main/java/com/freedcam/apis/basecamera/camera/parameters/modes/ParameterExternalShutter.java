@@ -1,6 +1,5 @@
 package com.freedcam.apis.basecamera.camera.parameters.modes;
 
-import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.utils.AppSettingsManager;
 
 /**

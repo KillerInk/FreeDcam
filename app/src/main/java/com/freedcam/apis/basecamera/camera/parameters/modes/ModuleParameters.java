@@ -4,7 +4,6 @@ import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModule;
-import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.utils.AppSettingsManager;
 
 import java.util.ArrayList;

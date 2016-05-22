@@ -21,18 +21,18 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.handler.MediaScannerManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
-import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.dngconvert.DngConvertingActivity;
 import com.freedviewer.dngconvert.DngConvertingFragment;
-import com.freedviewer.screenslide.ScreenSlideActivity;
+import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.holder.FileHolder;
+import com.freedviewer.screenslide.ScreenSlideActivity;
 import com.troop.freedcam.R;
 
 import java.io.File;

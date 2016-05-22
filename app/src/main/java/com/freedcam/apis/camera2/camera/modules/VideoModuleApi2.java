@@ -11,15 +11,16 @@ import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
 import android.util.Size;
 import android.view.Surface;
+
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.basecamera.camera.modules.I_RecorderStateChanged;
+import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
+import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile;
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.apis.camera2.camera.parameters.modes.VideoProfilesApi2;
-import com.freedcam.apis.basecamera.camera.modules.I_RecorderStateChanged;
-import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
-import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
-import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.utils.StringUtils;
 
 import java.io.File;
@@ -214,7 +215,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         @Override
         public void onConfigured(CameraCaptureSession cameraCaptureSession)
         {
-            VideoModuleApi2.this.cameraHolder.mCaptureSession = cameraCaptureSession;
+            VideoModuleApi2.this.cameraHolder.CaptureSessionH.SetCaptureSession(cameraCaptureSession);
             VideoModuleApi2.this.cameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
             mediaRecorder.start();
             isRecording = true;
@@ -224,7 +225,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         @Override
         public void onConfigureFailed(CameraCaptureSession cameraCaptureSession)
         {
-
+            Logger.d(TAG, "Failed to Config CaptureSession");
         }
     };
 }

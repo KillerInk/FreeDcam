@@ -7,10 +7,10 @@ import android.hardware.camera2.params.TonemapCurve;
 import android.os.Build;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.apis.camera2.camera.parameters.ParameterHandlerApi2;
 import com.freedcam.utils.Logger;
-import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 
 /**
  * Created by troop on 05.05.2015.
@@ -152,12 +152,8 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
         }
 
         @Override
-        public boolean IsSupported()
-        {
-            if (cameraHolder == null || cameraHolder.characteristics == null)
-                return  false;
-            return cameraHolder.characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null
-                    && cameraHolder.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
+        public boolean IsSupported() {
+            return !(cameraHolder == null || cameraHolder.characteristics == null) && cameraHolder.characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null && cameraHolder.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
         }
 
         @Override
@@ -227,10 +223,9 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
         @Override
         public boolean IsSupported()
         {
-            if (cameraHolder == null || cameraHolder.characteristics == null)
+            if (cameraHolder == null || cameraHolder.characteristics == null || cameraHolder.characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) == null )
                 return false;
-            return cameraHolder.characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null
-                    && cameraHolder.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
+            return  cameraHolder.get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
         }
 
         @Override

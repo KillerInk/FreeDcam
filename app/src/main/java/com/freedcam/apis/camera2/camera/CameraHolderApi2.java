@@ -25,21 +25,22 @@ import android.os.Build;
 import android.os.Handler;
 import android.renderscript.RenderScript;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Size;
 import android.view.Display;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.WindowManager;
 
-import com.freedcam.apis.camera2.camera.modules.I_PreviewWrapper;
-import com.freedcam.apis.camera2.camera.parameters.ParameterHandlerApi2;
-import com.freedcam.utils.AppSettingsManager;
-import com.freedcam.utils.Logger;
 import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
-import com.freedcam.utils.StringUtils;
+import com.freedcam.apis.camera2.camera.modules.I_PreviewWrapper;
+import com.freedcam.apis.camera2.camera.parameters.ParameterHandlerApi2;
 import com.freedcam.apis.camera2.camera.renderscript.FocuspeakProcessorApi2;
+import com.freedcam.utils.AppSettingsManager;
+import com.freedcam.utils.Logger;
+import com.freedcam.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -72,7 +73,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
     private CaptureRequest.Builder mPreviewRequestBuilder;
     I_Callbacks.PreviewCallback previewCallback;
 
-    public CameraCaptureSession mCaptureSession;
+    private CameraCaptureSession mCaptureSession;
     public StreamConfigurationMap map;
     public int CurrentCamera;
     public CameraCharacteristics characteristics;
@@ -333,7 +334,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
 
     CameraDevice.StateCallback mStateCallback = new CameraDevice.StateCallback() {
         @Override
-        public void onOpened(CameraDevice cameraDevice) {
+        public void onOpened(@NonNull CameraDevice cameraDevice) {
             // This method is called when the camera is opened.  We start camera previewSize here.
             mCameraOpenCloseLock.release();
             mCameraDevice = cameraDevice;
@@ -355,7 +356,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
         }
 
         @Override
-        public void onDisconnected(CameraDevice cameraDevice)
+        public void onDisconnected(@NonNull CameraDevice cameraDevice)
         {
             Logger.d(TAG,"Camera Disconnected");
             mCameraOpenCloseLock.release();
@@ -364,7 +365,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
         }
 
         @Override
-        public void onError(CameraDevice cameraDevice, final int error)
+        public void onError(@NonNull CameraDevice cameraDevice, final int error)
         {
             Logger.d(TAG, "Camera Error" + error);
             mCameraOpenCloseLock.release();
@@ -389,8 +390,8 @@ public class CameraHolderApi2 extends AbstractCameraHolder
         @Override
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result)
         {
-            Logger.d(TAG,result.get(TotalCaptureResult.SENSOR_SENSITIVITY).toString() + " / " + request.get(CaptureRequest.SENSOR_SENSITIVITY).toString());
-            Logger.d(TAG,result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME).toString() + " / " + request.get(CaptureRequest.SENSOR_EXPOSURE_TIME));
+            //Logger.d(TAG,result.get(TotalCaptureResult.SENSOR_SENSITIVITY).toString() + " / " + request.get(CaptureRequest.SENSOR_SENSITIVITY).toString());
+            //Logger.d(TAG,result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME).toString() + " / " + request.get(CaptureRequest.SENSOR_EXPOSURE_TIME));
             if (GetParameterHandler().ManualShutter != null && GetParameterHandler().ManualShutter.IsSupported())
             {
                 if (result != null && result.getPartialResults().size() > 0)
@@ -504,10 +505,6 @@ public class CameraHolderApi2 extends AbstractCameraHolder
         public void onCaptureProgressed(CameraCaptureSession session, CaptureRequest request, CaptureResult partialResult) {
             super.onCaptureProgressed(session, request, partialResult);
         }
-
-        private void process(CaptureResult result)
-        {
-        }
     };
 
 
@@ -598,6 +595,16 @@ public class CameraHolderApi2 extends AbstractCameraHolder
             Display display = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
             displaySize = new Point();
             display.getRealSize(displaySize);
+        }
+
+        public void SetCaptureSession(CameraCaptureSession cameraCaptureSession)
+        {
+            mCaptureSession = cameraCaptureSession;
+        }
+
+        public CameraCaptureSession GetActiveCameraCaptureSession()
+        {
+            return mCaptureSession;
         }
 
         public void AddSurface(Surface surface, boolean addtoPreviewRequestBuilder)
@@ -691,6 +698,15 @@ public class CameraHolderApi2 extends AbstractCameraHolder
             }
         }
 
+        public void StartCapture(@NonNull CaptureRequest.Builder request,
+                                 @Nullable CameraCaptureSession.CaptureCallback listener, @Nullable Handler handler)
+        {
+            try {
+                mCaptureSession.capture(request.build(),listener,handler);
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
+        }
 
 
         public void CloseCaptureSession()

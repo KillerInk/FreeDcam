@@ -4,22 +4,21 @@ import android.content.Context;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
-import android.util.Log;
 
-import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.Native.RawToDng;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
-import com.freedcam.utils.AppSettingsManager;
+import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.ui.handler.MediaScannerManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
-import com.freedcam.Native.RawToDng;
 
 import java.io.File;
 import java.io.FileNotFoundException;

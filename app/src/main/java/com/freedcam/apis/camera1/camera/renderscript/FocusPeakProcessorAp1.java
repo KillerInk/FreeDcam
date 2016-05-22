@@ -29,7 +29,7 @@ import com.freedcam.utils.Logger;
 /**
  * Created by troop on 24.08.2015.
  */
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+@TargetApi(Build.VERSION_CODES.KITKAT)
 public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraChangedListner,I_ModuleEvent
 {
     private final String TAG = FocusPeakProcessorAp1.class.getSimpleName();
@@ -73,6 +73,7 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
             if(mRS == null) {
                 mRS = RenderScript.create(context.getApplicationContext());
                 mRS.setPriority(RenderScript.Priority.LOW);
+                mScriptFocusPeak = new ScriptC_focus_peak_cam1(mRS);
             }
             show_preview();
             final Size size = new Size(cameraUiWrapper.camParametersHandler.PreviewSize.GetValue());
@@ -124,7 +125,9 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
             Logger.d(TAG, "reset allocs to :" + width + "x" + height);
             try {
                 cameraUiWrapper.cameraHolder.ResetPreviewCallback();
-            } catch (NullPointerException ex) {
+            } catch (NullPointerException ex)
+            {
+                Logger.exception(ex);
             }
 
             Type.Builder tbIn = new Type.Builder(mRS, Element.U8(mRS));
@@ -145,7 +148,7 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
                 mAllocationOut.setSurface(mSurface);
             else
                 Logger.d(TAG, "surfaceNull");
-            mScriptFocusPeak = new ScriptC_focus_peak_cam1(mRS);
+            mScriptFocusPeak.set_gCurrentFrame(mAllocationIn);
             Logger.d(TAG, "script done enabled: " + enable);
             cameraUiWrapper.cameraHolder.SetPreviewCallback(this);
         }
@@ -242,7 +245,6 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
             public void run() {
                 isWorking = true;
                 mAllocationIn.copyFrom(data);
-                mScriptFocusPeak.set_gCurrentFrame(mAllocationIn);
                 mScriptFocusPeak.forEach_peak(mAllocationOut);
                 mAllocationOut.ioSend();
                 isWorking = false;

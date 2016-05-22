@@ -4,15 +4,14 @@ import android.content.Context;
 import android.os.Build;
 import android.support.v4.provider.DocumentFile;
 
-import com.freedcam.apis.sonyremote.camera.CameraHolderSony;
-import com.freedcam.utils.AppSettingsManager;
-import com.freedcam.ui.handler.MediaScannerManager;
-import com.freedcam.utils.FileUtils;
-import com.freedcam.utils.Logger;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
-
+import com.freedcam.apis.sonyremote.camera.CameraHolderSony;
+import com.freedcam.ui.handler.MediaScannerManager;
+import com.freedcam.utils.AppSettingsManager;
+import com.freedcam.utils.FileUtils;
+import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 
 import java.io.BufferedInputStream;

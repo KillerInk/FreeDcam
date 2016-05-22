@@ -3,7 +3,6 @@ package com.freedcam.ui.themesample.views;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 

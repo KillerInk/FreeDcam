@@ -6,6 +6,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.RggbChannelVector;
 import android.os.Build;
 import android.os.Handler;
+
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.apis.camera2.camera.parameters.modes.BaseModeApi2;
@@ -319,7 +320,10 @@ public class WbHandler
                 ColorCorrectionModes sceneModes = ColorCorrectionModes.values()[i];
                 return sceneModes.toString();
             }
-            catch (NullPointerException ex){}
+            catch (NullPointerException ex)
+            {
+                Logger.exception(ex);
+            }
             return "";
 
 

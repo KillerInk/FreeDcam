@@ -7,20 +7,20 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
-import com.freedcam.apis.camera1.camera.modules.ModuleHandler;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.Size;
 import com.freedcam.apis.basecamera.camera.interfaces.I_Module;
 import com.freedcam.apis.basecamera.camera.interfaces.I_error;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
-import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.camera.parameters.I_ParametersLoaded;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.camera1.camera.modules.ModuleHandler;
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.renderscript.FocusPeakProcessorAp1;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
-import com.freedcam.apis.camera1.camera.renderscript.FocusPeakProcessorAp1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +57,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         this.cameraHolder.errorHandler = errorHandler;
 
         this.camParametersHandler = new CamParametersHandler(this, uiHandler,context,appSettingsManager);
-        this.cameraHolder.SetParameterHandler((CamParametersHandler)camParametersHandler);
+        this.cameraHolder.SetParameterHandler(camParametersHandler);
         camParametersHandler.AddParametersLoadedListner(this);
         this.preview.ParametersHandler = camParametersHandler;
         //camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this.preview);
@@ -104,7 +104,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     {
         Logger.d(TAG, "surface created");
         PreviewSurfaceRdy = true;
-        startPreviewinternal();
+        StartCamera();
     }
 
     @Override
@@ -149,23 +149,6 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         cameraRdy = true;
         super.onCameraOpen(message);
         ((CamParametersHandler)camParametersHandler).LoadParametersFromCamera();
-        startPreviewinternal();
-    }
-
-    /**this gets called twice
-     * once when camera is open
-     * and second when previewsurface is rdy.
-     * that way the cam can started faster and we dont have to care about when surface needs longer to load or the cam
-     * when both are up preview gets started
-     */
-
-    private void startPreviewinternal()
-    {
-        Logger.d(TAG,"startPreviewinternal previewRdy:" + PreviewSurfaceRdy +" cameraRdy" +cameraRdy);
-        if (PreviewSurfaceRdy && !cameraRdy)
-            StartCamera();
-        if (!PreviewSurfaceRdy || !cameraRdy)
-            return;
         cameraHolder.SetErrorCallback(CameraUiWrapper.this);
         cameraHolder.SetSurface(preview.getHolder());
         cameraHolder.StartPreview();
@@ -222,7 +205,8 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         @Override
         public void onValueChanged(String val)
         {
-            if(moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_PICTURE) || moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_HDR)
+            if(moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_PICTURE)
+                    || moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_HDR)
                     || moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_INTERVAL)
                     || moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_STACKING))
             {

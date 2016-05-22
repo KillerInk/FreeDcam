@@ -26,21 +26,21 @@ import android.util.Rational;
 import android.util.Size;
 import android.view.Surface;
 
-import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualShutter;
-import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
-import com.freedcam.utils.AppSettingsManager;
-import com.freedcam.ui.handler.MediaScannerManager;
-import com.freedcam.utils.FileUtils;
-import com.freedcam.utils.Logger;
-import com.troop.androiddng.CustomMatrix;
-import com.troop.androiddng.DngSupportedDevices;
 import com.freedcam.Native.RawToDng;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
-import com.freedcam.utils.FreeDPool;
+import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualShutter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
+import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.ui.handler.MediaScannerManager;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.FileUtils;
+import com.freedcam.utils.FreeDPool;
+import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
+import com.troop.androiddng.CustomMatrix;
+import com.troop.androiddng.DngSupportedDevices;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -61,30 +61,7 @@ import java.util.List;
 public class PictureModuleApi2 extends AbstractModuleApi2
 {
     private static String TAG = PictureModuleApi2.class.getSimpleName();
-
-    private int mState;
-    /**
-     * Camera state: Showing camera preview.
-     */
-    public static final int STATE_PREVIEW = 0;
-    /**
-     * Camera state: Waiting for the focus to be locked.
-     */
-    public static final int STATE_WAITING_LOCK = 1;
-    /**
-     * Camera state: Waiting for the exposure to be precapture state.
-     */
-    public static final int STATE_WAITING_PRECAPTURE = 2;
-    /**
-     * Camera state: Waiting for the exposure state to be something other than precapture.
-     */
-    public static final int STATE_WAITING_NON_PRECAPTURE = 3;
-    /**
-     * Camera state: Picture was taken.
-     */
-    public static final int STATE_PICTURE_TAKEN = 4;
     private TotalCaptureResult mDngResult;
-
     private Size largestImageSize;
     private String picFormat;
     private String picSize;
@@ -92,10 +69,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private int mImageHeight;
     private ImageReader mImageReader;
     private Size previewSize;
-
     private Surface previewsurface;
     private Surface camerasurface;
-
     private Handler handler;
     private int imagecount = 0;
 
@@ -121,7 +96,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         if (!cameraHolder.isWorking && !isWorking)
         {
-            /*get pic size*/
             workstarted();
             TakePicture();
         }
@@ -142,8 +116,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 captureStillPicture();
             }
         });
-
-        //lockFocus();
     }
 
     /**
@@ -229,12 +201,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 captureList.add(captureBuilder.build());
             }
             imagecount = 0;
-            cameraHolder.mCaptureSession.stopRepeating();
-            //captureBuilder.removeTarget(cameraHolder.previewsurface);
             mDngResult = null;
 
-            //cameraHolder.mCaptureSession.captureBurst(captureList, CaptureCallback, backgroundHandler);
-            cameraHolder.mCaptureSession.capture(captureBuilder.build(),CaptureCallback,handler);
+            cameraHolder.CaptureSessionH.StartCapture(captureBuilder,CaptureCallback,handler);
         } catch (CameraAccessException e) {
             Logger.exception(e);
         }
@@ -283,11 +252,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             }
             catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                Logger.d(TAG, "Sensor NoiseProfile" + mDngResult.get(CaptureResult.SENSOR_NOISE_PROFILE).toString());
+                Logger.d(TAG, "Sensor NoiseProfile" + Arrays.toString(mDngResult.get(CaptureResult.SENSOR_NOISE_PROFILE)));
             }
             catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                Logger.d(TAG, "Sensor NeutralColorPoint" + mDngResult.get(CaptureResult.SENSOR_NEUTRAL_COLOR_POINT).toString());
+                Logger.d(TAG, "Sensor NeutralColorPoint" + Arrays.toString(mDngResult.get(CaptureResult.SENSOR_NEUTRAL_COLOR_POINT)));
             }
             catch (NullPointerException ex){Logger.exception(ex);}
             try {
@@ -302,9 +271,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         try
         {
             Logger.d(TAG, "CaptureDone");
-            //cameraHolder.SetLastUsedParameters(cameraHolder.mPreviewRequestBuilder);
-            // After this, the camera will go back to the normal state of preview.
-            mState = STATE_PREVIEW;
             cameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
         }
         catch (NullPointerException ex) {

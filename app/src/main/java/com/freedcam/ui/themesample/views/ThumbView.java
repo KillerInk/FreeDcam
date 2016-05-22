@@ -64,7 +64,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
             WorkHasFinished(BitmapHelper.getFiles().get(0).getFile());
         }
         catch (NullPointerException | IndexOutOfBoundsException ex)
-        {}
+        {Logger.exception(ex);}
 
     }
 
@@ -89,6 +89,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
                     try {
                         showThumb(filePath);
                     } catch (NullPointerException ex) {
+                        Logger.exception(ex);
                     }
 
                     hasWork = false;

@@ -30,14 +30,17 @@ public class NightModeSony extends BaseModeParameterSony
 
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        if (valueToSet.equals(StringUtils.ON))
-            simpleStreamSurfaceView.nightmode = on;
-        else if(valueToSet.equals(GRAYSCALE))
-            simpleStreamSurfaceView.nightmode = grayscale;
-        /*else if(valueToSet.equals(ZOOMPREVIEW))
-            simpleStreamSurfaceView.nightmode = zoompreview;*/
-        else
-            simpleStreamSurfaceView.nightmode = off;
+        switch (valueToSet) {
+            case StringUtils.ON:
+                simpleStreamSurfaceView.nightmode = on;
+                break;
+            case GRAYSCALE:
+                simpleStreamSurfaceView.nightmode = grayscale;
+                break;
+            default:
+                simpleStreamSurfaceView.nightmode = off;
+                break;
+        }
     }
 
     @Override

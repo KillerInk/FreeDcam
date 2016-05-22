@@ -3,8 +3,8 @@ package com.freedviewer.screenslide;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
-import com.freedcam.utils.AppSettingsManager;
 import com.AbstractFragmentActivity;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedviewer.gridview.GridViewFragment;
 
 /**

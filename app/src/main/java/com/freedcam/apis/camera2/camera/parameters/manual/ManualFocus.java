@@ -30,6 +30,7 @@ public class ManualFocus extends AbstractManualParameter
         }
         catch (NullPointerException ex)
         {
+            Logger.exception(ex);
         }
 
     }
@@ -82,11 +83,11 @@ public class ManualFocus extends AbstractManualParameter
         try {
             Logger.d(TAG, "LensFocusDistance" + cameraHolder.get(CaptureRequest.LENS_FOCUS_DISTANCE));
         }
-        catch (NullPointerException ex){}
+        catch (NullPointerException ex){Logger.exception(ex);}
         try {
             Logger.d(TAG, "LensMinFocusDistance" + cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE));
         }
-        catch (NullPointerException ex){}
+        catch (NullPointerException ex){Logger.exception(ex);}
 
 
         if (cameraHolder.get(CaptureRequest.LENS_FOCUS_DISTANCE) == null

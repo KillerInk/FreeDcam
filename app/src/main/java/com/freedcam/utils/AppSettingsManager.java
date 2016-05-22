@@ -171,12 +171,9 @@ public class AppSettingsManager
         appsettingsList.put("showhelpoverlay",value+"");
     }
 
-    public boolean getShowHelpOverlay()
-    {
+    public boolean getShowHelpOverlay() {
         String tmp = appsettingsList.get("showhelpoverlay");
-        if (tmp!=null && !tmp.equals(""))
-            return Boolean.parseBoolean(tmp);
-        else return true;
+        return !(tmp != null && !tmp.equals("")) || Boolean.parseBoolean(tmp);
     }
 
     public void SetBaseFolder(String uri)
@@ -276,18 +273,12 @@ public class AppSettingsManager
 
             try {
                 br = new BufferedReader(new FileReader(appsettings));
-
-
-            String line;
-            int count = 0;
-            while ((line = br.readLine()) != null)
-            {
-                String[]split = line.split("=");
-                appsettingsList.put(split[0],split[1]);
-            }
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                String line;
+                while ((line = br.readLine()) != null)
+                {
+                    String[]split = line.split("=");
+                    appsettingsList.put(split[0],split[1]);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

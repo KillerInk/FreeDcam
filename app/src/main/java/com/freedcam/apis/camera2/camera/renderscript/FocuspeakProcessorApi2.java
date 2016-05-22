@@ -81,6 +81,8 @@ public class FocuspeakProcessorApi2
         rgbTypeBuilder.setY(height);
         mOutputAllocation = Allocation.createTyped(rs, rgbTypeBuilder.create(),
                 Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
+        mScriptFocusPeak.set_gCurrentFrame(mInputAllocation);
+        yuvToRgbIntrinsic.setInput(mInputAllocation);
 
         if (mProcessingTask != null) {
 
@@ -173,13 +175,13 @@ public class FocuspeakProcessorApi2
             if (mOutputAllocation == null)
                 return;
             if (peak) {
-                mScriptFocusPeak.set_gCurrentFrame(mInputAllocation);
+
                 // Run processing pass
                 mScriptFocusPeak.forEach_peak(mOutputAllocation);
             }
             else
             {
-                yuvToRgbIntrinsic.setInput(mInputAllocation);
+
                 yuvToRgbIntrinsic.forEach(mOutputAllocation);
             }
             mOutputAllocation.ioSend();

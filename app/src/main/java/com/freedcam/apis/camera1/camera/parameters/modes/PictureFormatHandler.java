@@ -12,7 +12,6 @@ import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by troop on 05.02.2016.

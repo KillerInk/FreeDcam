@@ -10,10 +10,10 @@ import android.widget.SeekBar;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.sonyremote.camera.CameraUiWrapperSony;
 import com.freedcam.ui.AbstractFragment;
-import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.themesample.views.ManualButton;
 import com.freedcam.ui.views.RotatingSeekbar;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.troop.freedcam.R;
 

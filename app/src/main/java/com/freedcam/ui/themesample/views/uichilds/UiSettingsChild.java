@@ -10,11 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
-import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.camera.parameters.I_ParametersLoaded;
-import com.freedcam.utils.AppSettingsManager;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.themesample.subfragments.Interfaces;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.troop.freedcam.R;
 

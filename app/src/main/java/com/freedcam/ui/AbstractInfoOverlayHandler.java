@@ -15,7 +15,6 @@ import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
-import com.freedcam.utils.StringUtils;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;

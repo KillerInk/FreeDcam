@@ -121,23 +121,22 @@ public class VideoMediaProfile
 
     private String GetString()
     {
-        StringBuilder b = new StringBuilder();
-        b.append(audioBitRate +" ")
-        .append(audioChannels +" ")
-        .append(audioCodec +" ")
-        .append(audioSampleRate +" ")
-        .append(duration +" ")
-        .append(fileFormat +" ")
-        .append(quality +" ")
-        .append(videoBitRate +" ")
-        .append(videoCodec +" ")
-        .append(videoFrameRate +" ")
-        .append(videoFrameHeight +" ")
-        .append(videoFrameWidth +" ")
-        .append(ProfileName +" ")
-        .append(Mode.toString()+ " ")
-        .append(isAudioActive + " ");
-        return b.toString();
+        String b = (audioBitRate + " ") +
+                audioChannels + " " +
+                audioCodec + " " +
+                audioSampleRate + " " +
+                duration + " " +
+                fileFormat + " " +
+                quality + " " +
+                videoBitRate + " " +
+                videoCodec + " " +
+                videoFrameRate + " " +
+                videoFrameHeight + " " +
+                videoFrameWidth + " " +
+                ProfileName + " " +
+                Mode.toString() + " " +
+                isAudioActive + " ";
+        return b;
     }
 
     public VideoMediaProfile clone()
@@ -190,7 +189,9 @@ public class VideoMediaProfile
                 for (VideoMediaProfile profile : list.values())
                     br.write(profile.GetString() +"\n");
                 br.close();
-            } catch (IOException e) {
+            } catch (IOException e)
+            {
+                Logger.exception(e);
             }
         }
     }

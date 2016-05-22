@@ -1,15 +1,10 @@
 package com;
 
-import com.freedcam.utils.StringUtils;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by troop on 19.05.2016.

@@ -56,7 +56,6 @@ LOCAL_CFLAGS += -O3 -fstrict-aliasing -fprefetch-loop-arrays
 #LOCAL_CFLAGS := -fpermissive
 LOCAL_MODULE:= libtiff
 LOCAL_LDLIBS := -lz \
-	-L $(LOCAL_PATH)/libs \
 	-lm \
 	-ljpeg
 LOCAL_STATIC_LIBRARIES  += $(LOCAL_PATH)/libs
@@ -81,7 +80,7 @@ include $(BUILD_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE    := libfreedcam
-LOCAL_SRC_FILES := raw2dng/RawToDng.cpp librawutils/librawutils.cpp imageprocessor/ImageProcessorWrapper.cpp imageprocessor/ImageProcessor.cpp imageprocessor/surfacenativedraw.cpp imageprocessor/Staxxer.cpp
+LOCAL_SRC_FILES := raw2dng/RawToDng.cpp librawutils/librawutils.cpp
 LOCAL_CPPFLAGS := -fexceptions -fopenmp
 LOCAL_CFLAGS += -fopenmp
 LOCAL_LDFLAGS += -fopenmp

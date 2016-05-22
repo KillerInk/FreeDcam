@@ -3,8 +3,8 @@ package com.freedcam.apis.sonyremote.camera.parameters.modes;
 import android.os.Build;
 import android.os.Handler;
 
-import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleStreamSurfaceView;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleStreamSurfaceView;
 
 /**
  * Created by troop on 25.03.2016.

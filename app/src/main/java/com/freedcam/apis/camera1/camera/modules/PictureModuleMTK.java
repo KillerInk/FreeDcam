@@ -2,14 +2,14 @@ package com.freedcam.apis.camera1.camera.modules;
 
 import android.content.Context;
 
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.Native.RawToDng;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
-import com.freedcam.Native.RawToDng;
 
 import java.io.File;
 import java.io.FileReader;
@@ -59,21 +59,25 @@ public class PictureModuleMTK extends PictureModule
                 final String picformat = ParameterHandler.PictureFormat.GetValue();
                 holdFile = getFile("."+picformat);
                 Logger.d(TAG, "HolderFilePath:" + holdFile.getAbsolutePath());
-                if (picformat.equals("jpeg")) {
-                    //savejpeg
-                    saveBytesToFile(data, holdFile);
-                    try {
-                        DeviceSwitcher().delete();
-                    } catch (Exception ex) {
-                        Logger.exception(ex);
-                    }
-                } else if (picformat.equals(StringUtils.FileEnding.DNG)) {
-                    //savejpeg
-                    saveBytesToFile(data, holdFile);
-                    CreateDNG_DeleteRaw();
-                } else if (picformat.equals(StringUtils.FileEnding.BAYER)) {
-                    //savejpeg
-                    saveBytesToFile(data, holdFile);
+                switch (picformat) {
+                    case "jpeg":
+                        //savejpeg
+                        saveBytesToFile(data, holdFile);
+                        try {
+                            DeviceSwitcher().delete();
+                        } catch (Exception ex) {
+                            Logger.exception(ex);
+                        }
+                        break;
+                    case StringUtils.FileEnding.DNG:
+                        //savejpeg
+                        saveBytesToFile(data, holdFile);
+                        CreateDNG_DeleteRaw();
+                        break;
+                    case StringUtils.FileEnding.BAYER:
+                        //savejpeg
+                        saveBytesToFile(data, holdFile);
+                        break;
                 }
                 waitForPicture = false;
                 workfinished(true);

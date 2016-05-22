@@ -7,10 +7,9 @@ import android.os.Build;
 import android.view.Display;
 import android.view.WindowManager;
 
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
-import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.apis.camera2.camera.parameters.ParameterHandlerApi2;
 import com.freedcam.utils.AppSettingsManager;
 

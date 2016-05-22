@@ -3,10 +3,10 @@ package com.freedcam.apis.camera2.camera.parameters.manual;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
-import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 
 /**
  * Created by troop on 10.09.2015.

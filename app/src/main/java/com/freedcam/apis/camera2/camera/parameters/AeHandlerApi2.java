@@ -174,7 +174,7 @@ public class AeHandlerApi2
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void SetValue(int valueToSet) {
-            if (cameraHolder == null || cameraHolder.mCaptureSession == null)
+            if (cameraHolder == null || cameraHolder.CaptureSessionH.GetActiveCameraCaptureSession() == null)
                 return;
             currentInt = valueToSet;
             if (stringvalues == null || stringvalues.length == 0)
@@ -347,7 +347,7 @@ public class AeHandlerApi2
                 valueToSet = 0;
             //////////////////////
             currentInt = valueToSet;
-            if (cameraHolder == null || cameraHolder.mCaptureSession == null)
+            if (cameraHolder == null || cameraHolder.CaptureSessionH.GetActiveCameraCaptureSession() == null)
                 return;
             if (valueToSet == 0)
             {

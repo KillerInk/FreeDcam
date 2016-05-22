@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.freedcam.apis.basecamera.apis.AbstractCameraFragment;
+import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.camera.interfaces.I_Module;
 import com.freedcam.apis.sonyremote.camera.CameraUiWrapperSony;
 import com.freedcam.apis.sonyremote.camera.sonystuff.ServerDevice;
@@ -21,7 +22,6 @@ import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleSsdpClient;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleStreamSurfaceView;
 import com.freedcam.apis.sonyremote.camera.sonystuff.WifiUtils;
 import com.freedcam.utils.Logger;
-import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
 import com.troop.freedcam.R;
 
 /**
@@ -51,11 +51,16 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.cameraholdersony, container, false);
         surfaceView = (SimpleStreamSurfaceView) view.findViewById(R.id.view);
 
         this.textView_wifi =(TextView)view.findViewById(R.id.textView_wificonnect);
-        super.onCreateView(inflater, container, savedInstanceState);
+        setupWrapper();
+        wifiReciever = new WifiScanReceiver();
+        wifiConnectedReceiver = new WifiConnectedReceiver();
+        wifiUtils = new WifiUtils(view.getContext());
+        mSsdpClient = new SimpleSsdpClient();
 
         return view;
     }
@@ -138,22 +143,6 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
         });
     }
 
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-        //getActivity().registerReceiver(wifiConnectedReceiver, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
-        setupWrapper();
-        wifiReciever = new WifiScanReceiver();
-        wifiConnectedReceiver = new WifiConnectedReceiver();
-        wifiUtils = new WifiUtils(view.getContext());
-        mSsdpClient = new SimpleSsdpClient();
-
-        startScanning();
-
-        //connect();
-    }
-
     private void setupWrapper()
     {
         this.cameraUiWrapper = new CameraUiWrapperSony(surfaceView,getContext(),appSettingsManager);
@@ -174,10 +163,15 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        startScanning();
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         getActivity().unregisterReceiver(wifiReciever);
-        //getActivity().unregisterReceiver(wifiConnectedReceiver);
     }
 
     private void getConfiguredNetworks()

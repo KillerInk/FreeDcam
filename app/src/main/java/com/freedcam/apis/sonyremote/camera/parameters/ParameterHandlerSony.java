@@ -4,6 +4,9 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.basecamera.camera.parameters.modes.ModuleParameters;
 import com.freedcam.apis.sonyremote.camera.CameraHolderSony;
 import com.freedcam.apis.sonyremote.camera.parameters.manual.BaseManualParameterSony;
 import com.freedcam.apis.sonyremote.camera.parameters.manual.ExposureCompManualParameterSony;
@@ -25,12 +28,8 @@ import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleRemoteApi;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleStreamSurfaceView;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
-import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
-import com.freedcam.apis.basecamera.camera.parameters.modes.ModuleParameters;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 

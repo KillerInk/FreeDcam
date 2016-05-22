@@ -7,8 +7,6 @@ import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
-import java.util.HashMap;
-
 /**
  * Created by Ar4eR on 05.02.16.
  */
@@ -26,14 +24,18 @@ public class CupBurstExpModeParameter extends BaseModeParameter
             if (cbe != null || !cbe.equals(""))
                 this.isSupported = true;
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
+            Logger.exception(ex);
         }
         try {
             String aeb =  parameters.get("ae-bracket-hdr");
             if (aeb != null || !aeb.equals(""))
                 this.isSupported = true;
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
+            Logger.exception(ex);
         }
     }
 

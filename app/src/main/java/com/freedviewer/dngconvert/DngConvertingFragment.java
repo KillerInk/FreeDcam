@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.freedcam.Native.RawToDng;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
@@ -27,12 +28,12 @@ import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 import com.troop.androiddng.DngSupportedDevices;
 import com.troop.androiddng.Matrixes;
-import com.freedcam.Native.RawToDng;
 import com.troop.freedcam.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Created by troop on 22.12.2015.
@@ -69,7 +70,7 @@ public class DngConvertingFragment extends Fragment
         this.spinnerMatrixProfile = (Spinner)view.findViewById(R.id.spinner_MatrixProfile);
         matrixChooserParameter = new MatrixChooserParameter(handler);
         String[] items = matrixChooserParameter.GetValues();
-        ArrayAdapter<String> matrixadapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item,items);
+        ArrayAdapter<String> matrixadapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, items);
         //ArrayAdapter<CharSequence> matrixadapter = ArrayAdapter.createFromResource(getContext(),R.array.matrixes, android.R.layout.simple_spinner_item);
         matrixadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMatrixProfile.setAdapter(matrixadapter);
@@ -126,7 +127,7 @@ public class DngConvertingFragment extends Fragment
             else if (dngprofile.BayerPattern.equals(DngSupportedDevices.RGBW))
                 spinnerColorPattern.setSelection(4);
 
-            if (dngprofile.matrixes.ColorMatrix1.equals(Matrixes.Nex6CCM1))
+            if (Arrays.equals(dngprofile.matrixes.ColorMatrix1, Matrixes.Nex6CCM1))
                 spinnerMatrixProfile.setSelection(0);
             else
                 spinnerMatrixProfile.setSelection(1);

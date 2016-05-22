@@ -3,13 +3,10 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 import android.hardware.Camera;
 import android.os.Handler;
 
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
-import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
-
-import java.util.HashMap;
 
 /**
  * Created by troop on 25.11.2015.
@@ -98,7 +95,7 @@ public class ShutterManualZTE extends BaseManualParameter
             Handler handler = new Handler();
             Runnable r = new Runnable() {
                 public void run() {
-                    ((CamParametersHandler)camParametersHandler).SetZTESlowShutter();
+                    camParametersHandler.SetZTESlowShutter();
                     baseCameraHolder.StopPreview();
                     baseCameraHolder.StartPreview();
                 }
@@ -107,7 +104,7 @@ public class ShutterManualZTE extends BaseManualParameter
         }
         catch (Exception ex)
         {
-
+            Logger.exception(ex);
         }
 
     }

@@ -12,7 +12,6 @@ import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
-import com.freedcam.utils.StringUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -150,8 +149,6 @@ public abstract class AbstractModule implements I_Module
                 outStream= new FileOutputStream(file);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
                 outStream.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -166,8 +163,6 @@ public abstract class AbstractModule implements I_Module
                 outStream = context.getContentResolver().openOutputStream(wr.getUri());
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
                 outStream.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }

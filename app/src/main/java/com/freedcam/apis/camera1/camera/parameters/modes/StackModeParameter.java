@@ -6,8 +6,6 @@ import android.os.Handler;
 
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 
-import java.util.HashMap;
-
 /**
  * Created by Ingo on 15.05.2016.
  */

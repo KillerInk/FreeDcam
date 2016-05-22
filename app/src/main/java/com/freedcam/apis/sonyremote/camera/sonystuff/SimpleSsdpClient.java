@@ -4,8 +4,8 @@
 
 package com.freedcam.apis.sonyremote.camera.sonystuff;
 
-import com.freedcam.utils.Logger;
 import com.freedcam.utils.FreeDPool;
+import com.freedcam.utils.Logger;
 
 import java.io.IOException;
 import java.io.InterruptedIOException;

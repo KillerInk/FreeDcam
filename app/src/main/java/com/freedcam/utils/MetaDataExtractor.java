@@ -77,6 +77,7 @@ class MetaDataExtractor {
 
                         //v.setText(exposureTime+" "+ iso+" "+ flash+" "+isoActual);
                     } catch (IOException e) {
+                        Logger.exception(e);
                     }
                 }
             });
@@ -121,7 +122,9 @@ class MetaDataExtractor {
 
 
                         //v.setText(exposureTime+" "+ iso+" "+ flash+" "+isoActual);
-                    } catch (IOException e) {
+                    } catch (IOException e)
+                    {
+                        Logger.exception(e);
                     }
 
                 }
@@ -141,7 +144,9 @@ class MetaDataExtractor {
                             .redirectErrorStream(true)
                             .start();
                     process.destroy();
-                } catch (IOException e) {
+                } catch (IOException e)
+                {
+                    Logger.exception(e);
                 }
             }
         });
