@@ -48,7 +48,7 @@ public class DeviceUtils
     final public static Devices[] MOTOX = {Devices.Moto_MSM8982_8994, Devices.Moto_MSM8974 };
     final public static Devices[] MI3_4 = {Devices.XiaomiMI4W, Devices.XiaomiMI3W };
     final public static Devices[] LG_G2_3 = {Devices.LG_G2, Devices.LG_G3};
-    final public static Devices[] HTC_m8_9 = {Devices.Htc_M8, Devices.Htc_M9,Devices.HTC_OneA9};
+    final public static Devices[] HTC_m8_9 = {Devices.Htc_M8, Devices.Htc_M9,Devices.HTC_OneA9,Devices.Htc_M8};
     final public static Devices[] ZTE_DEVICES = {Devices.ZTE_ADV,Devices.ZTEADVIMX214,Devices.ZTEADV234};
     final public static Devices[] Sony_DEVICES = {Devices.SonyM4_QC,Devices.SonyC5_MTK,Devices.SonyM5_MTK};
     final public static Devices[] Krillin_DEVICES = {Devices.p8,Devices.p8lite,Devices.honor6};
@@ -76,6 +76,8 @@ public class DeviceUtils
                     Devices.Htc_M8,
                     Devices.Htc_M9,
                     Devices.HTC_OneA9,
+                    Devices.Huawei_GX8,
+                    Devices.Huawei_HONOR5x,
                     Devices.Jiayu_S3,
                     Devices.LG_G2,
                     Devices.LG_G3,
@@ -114,6 +116,7 @@ public class DeviceUtils
         Htc_One_Sv,
         Htc_One_Xl,
         HTC_OneA9,
+        HTC_OneE8,
         Huawei_GX8,
         Huawei_HONOR5x,
         I_Mobile_I_StyleQ6,
@@ -196,6 +199,7 @@ public class DeviceUtils
             Devices.Htc_One_Sv,
             Devices.Htc_One_Xl,
             Devices.HTC_OneA9,
+            Devices.HTC_OneE8,
             Devices.Huawei_GX8,
             Devices.Huawei_HONOR5x,
             Devices.I_Mobile_I_StyleQ6,
@@ -379,6 +383,8 @@ public class DeviceUtils
             return Devices.Huawei_GX8;
         else if(isHuawei_Honor_5x(context))
             return Devices.Huawei_HONOR5x;
+        else if(HTC_ONE_E8(context))
+            return Devices.HTC_OneE8;
         else
             return Devices.UNKNOWN;
 
@@ -405,6 +411,11 @@ public class DeviceUtils
             }
         }
         return supported;
+    }
+
+    private static boolean HTC_ONE_E8(Context contex)
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.One_E8));
     }
 
     private static boolean isMoto_MSM8974(Context contex)
