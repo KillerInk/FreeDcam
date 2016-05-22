@@ -76,6 +76,8 @@ public class DeviceUtils
                     Devices.Htc_M8,
                     Devices.Htc_M9,
                     Devices.HTC_OneA9,
+                    Devices.Huawei_GX8,
+                    Devices.Huawei_HONOR5x,
                     Devices.Jiayu_S3,
                     Devices.LG_G2,
                     Devices.LG_G3,
