@@ -18,6 +18,7 @@ import com.freedviewer.holder.FileHolder;
 import com.troop.freedcam.R;
 
 import java.lang.ref.WeakReference;
+import java.util.concurrent.ExecutorService;
 
 /**
  * Created by troop on 11.12.2015.
@@ -37,6 +38,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
     private int mImageThumbSize;
     private ProgressBar progressBar;
     private final String TAG = GridImageView.class.getSimpleName();
+    private ExecutorService executor;
 
     private GridViewFragment.ViewStates viewstate = BaseGridViewFragment.ViewStates.normal;
 
@@ -78,17 +80,13 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         });*/
     }
 
+    public void SetThreadPool(ExecutorService executor)
+    {
+        this.executor = executor;
+    }
+
     public BaseHolder getFileHolder(){return fileHolder;}
 
-    public void setImageDrawable(Drawable asyncDrawable)
-    {
-        imageView.setImageDrawable(asyncDrawable);
-    }
-
-    public void setImageBitmap(Bitmap bitmap)
-    {
-        imageView.setImageBitmap(bitmap);
-    }
 
     public void SetEventListner(BaseHolder fileHolder)
     {
@@ -173,7 +171,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         {
             imageView.setImageResource(R.drawable.noimage);
             progressBar.setVisibility(VISIBLE);
-            FreeDPool.Execute(new BitmapLoadRunnable(this,fileHolder));
+            executor.execute(new BitmapLoadRunnable(this,fileHolder));
         }
         else {
             progressBar.setVisibility(GONE);

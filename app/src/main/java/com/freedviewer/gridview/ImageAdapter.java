@@ -12,6 +12,8 @@ import com.freedviewer.holder.FileHolder;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by troop on 28.03.2016.
@@ -23,6 +25,7 @@ class ImageAdapter extends BaseAdapter
     private GridViewFragment.FormatTypes formatsToShow = GridViewFragment.FormatTypes.all;
     private BaseGridViewFragment.ViewStates currentViewState = BaseGridViewFragment.ViewStates.normal;
     private int mImageThumbSize = 0;
+    private ExecutorService executor;
 
     private final String TAG = ImageAdapter.class.getSimpleName();
 
@@ -31,6 +34,15 @@ class ImageAdapter extends BaseAdapter
         mContext = context;
         files = new ArrayList<>();
         this.mImageThumbSize = mImageThumbSize;
+        executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    }
+
+    public void Destroy()
+    {
+        if (executor != null)
+            executor.shutdown();
+        while (!executor.isShutdown())
+        {}
     }
 
     @Override
@@ -57,6 +69,7 @@ class ImageAdapter extends BaseAdapter
         } else {
             imageView = (GridImageView) convertView;
         }
+        imageView.SetThreadPool(executor);
         Logger.d(TAG, "filessize:" +files.size() + " position:"+position);
         if (files.size() <= position)
             position = files.size() -1;

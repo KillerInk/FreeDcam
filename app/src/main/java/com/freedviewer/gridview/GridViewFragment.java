@@ -37,6 +37,8 @@ import com.troop.freedcam.R;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by troop on 11.12.2015.
@@ -44,7 +46,6 @@ import java.util.ArrayList;
 public class GridViewFragment extends BaseGridViewFragment implements I_Activity.I_OnActivityResultCallback
 {
     private ImageAdapter mPagerAdapter;
-    //private List<FileHolder> files;
 
     private final String TAG = GridViewFragment.class.getSimpleName();
 
@@ -61,6 +62,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
     private int filesSelectedCount =0;
     private boolean isRootDir = true;
     private AppSettingsManager appSettingsManager;
+
 
     public enum FormatTypes
     {
@@ -106,10 +108,15 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         rawToDngButton.setVisibility(View.GONE);
         rawToDngButton.setOnClickListener(onRawToDngClick);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            checkMarshmallowPermissions();
+        }
+        else
+            load();
 
         return view;
     }
-
 
     @Override
     protected void inflate(LayoutInflater inflater, ViewGroup container) {
@@ -117,48 +124,35 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if(savedInstanceState != null)
-        {
-            savedInstanceFilePath = (String) savedInstanceState.get(savedInstanceString);
-
-        }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putString(savedInstanceString, savedInstanceFilePath);
-        super.onSaveInstanceState(outState);
+    public void onDestroyView()
+    {
+        if (mPagerAdapter != null)
+            mPagerAdapter.Destroy();
+        super.onDestroyView();
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(savedInstanceState != null){
-            savedInstanceFilePath = (String) savedInstanceState.get(savedInstanceString);
-        }
-        mPagerAdapter = new ImageAdapter(getContext(), getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size));
-        gridView.setAdapter(mPagerAdapter);
-        setViewMode(ViewStates.normal);
+
+
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            checkMarshmallowPermissions();
-        }
-        else
-            load();
+
     }
-
-
 
     private void load()
     {
+        if (mPagerAdapter == null)
+        {
+            mPagerAdapter = new ImageAdapter(getContext(), getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size));
+            gridView.setAdapter(mPagerAdapter);
+            setViewMode(ViewStates.normal);
+        }
         if (savedInstanceFilePath == null)
             mPagerAdapter.loadDCIMFolders();
         else

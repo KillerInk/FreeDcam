@@ -232,6 +232,12 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     {
         updateUi(mPagerAdapter.getCurrentFile());
         ImageFragment fragment = (ImageFragment)mPagerAdapter.getRegisteredFragment(position);
+        if (fragment == null)
+        {
+            histogram.setVisibility(View.GONE);
+            return;
+        }
+
         int[] histodata = fragment.GetHistogramData();
         if (histodata != null)
         {
