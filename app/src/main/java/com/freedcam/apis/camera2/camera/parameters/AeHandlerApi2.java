@@ -250,6 +250,8 @@ public class AeHandlerApi2
         @Override
         public String GetStringValue()
         {
+            if (stringvalues == null || stringvalues.length == 0 || currentInt > stringvalues.length)
+                return "error";
             return stringvalues[currentInt];
         }
 
