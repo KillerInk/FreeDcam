@@ -141,9 +141,17 @@ public class WbHandler
         {
             if (cameraHolder != null || !cameraHolder.get(CaptureRequest.CONTROL_AWB_MODE).equals("null"))
             {
-                int i = cameraHolder.get(CaptureRequest.CONTROL_AWB_MODE);
-                WhiteBalanceValues sceneModes = WhiteBalanceValues.values()[i];
-                return sceneModes.toString();
+                try {
+                    int i = cameraHolder.get(CaptureRequest.CONTROL_AWB_MODE);
+                    WhiteBalanceValues sceneModes = WhiteBalanceValues.values()[i];
+                    return sceneModes.toString();
+                }
+                catch (NullPointerException ex)
+                {
+                    Logger.exception(ex);
+                    return "AUTO";
+                }
+
             }
             else
                 return "AUTO";
