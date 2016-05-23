@@ -96,13 +96,13 @@ public class VideoModuleG3 extends AbstractVideoModule
     }
 
     @Override
-    public void LoadNeededParameters()
+    public void InitModule()
     {
         loadProfileSpecificParameters();
     }
 
     @Override
-    public void UnloadNeededParameters() {
+    public void DestroyModule() {
 
     }
 

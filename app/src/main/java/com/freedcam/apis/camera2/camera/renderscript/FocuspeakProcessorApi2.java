@@ -29,6 +29,7 @@ import android.renderscript.Type;
 import android.view.Surface;
 
 import com.freedcam.utils.Logger;
+import com.freedcam.utils.RenderScriptHandler;
 
 /**
  * Renderscript-based Focus peaking viewfinder
@@ -40,49 +41,45 @@ public class FocuspeakProcessorApi2
     private int mCount;
     long mLastTime;
     private float mFps;
-    private Allocation mInputAllocation;
-    private Allocation mOutputAllocation;
     private HandlerThread mProcessingThread;
     private Handler mProcessingHandler;
     private ScriptC_focus_peak mScriptFocusPeak;
     private ScriptIntrinsicYuvToRGB yuvToRgbIntrinsic;
     private ProcessingTask mProcessingTask;
     public boolean peak = false;
+    private RenderScriptHandler renderScriptHandler;
 
-    private RenderScript rs;
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public FocuspeakProcessorApi2(RenderScript rs)
+    public FocuspeakProcessorApi2(RenderScriptHandler renderScriptHandler)
     {
         Logger.d(TAG, "Ctor");
-        this.rs = rs;
+        this.renderScriptHandler = renderScriptHandler;
         mProcessingThread = new HandlerThread("ViewfinderProcessor");
         mProcessingThread.start();
         mProcessingHandler = new Handler(mProcessingThread.getLooper());
-        mScriptFocusPeak = new ScriptC_focus_peak(rs);
-        yuvToRgbIntrinsic = ScriptIntrinsicYuvToRGB.create(rs, Element.U8_4(rs));
+        mScriptFocusPeak = new ScriptC_focus_peak(renderScriptHandler.GetRenderScript());
+        yuvToRgbIntrinsic = ScriptIntrinsicYuvToRGB.create(renderScriptHandler.GetRenderScript(), Element.U8_4(renderScriptHandler.GetRenderScript()));
     }
 
     public void setRenderScriptErrorListner(RenderScript.RSErrorHandler errorListner)
     {
-        rs.setErrorHandler(errorListner);
+        renderScriptHandler.GetRenderScript().setErrorHandler(errorListner);
     }
 
     public void Reset(int width,int height)
     {
         Logger.d(TAG,"Reset:"+width +"x"+height);
-        Type.Builder yuvTypeBuilder = new Type.Builder(rs, Element.YUV(rs));
+        Type.Builder yuvTypeBuilder = new Type.Builder(renderScriptHandler.GetRenderScript(), Element.YUV(renderScriptHandler.GetRenderScript()));
         yuvTypeBuilder.setX(width);
         yuvTypeBuilder.setY(height);
         yuvTypeBuilder.setYuvFormat(ImageFormat.YUV_420_888);
-        mInputAllocation = Allocation.createTyped(rs, yuvTypeBuilder.create(),
-                Allocation.USAGE_IO_INPUT | Allocation.USAGE_SCRIPT);
-        Type.Builder rgbTypeBuilder = new Type.Builder(rs, Element.RGBA_8888(rs));
+
+        Type.Builder rgbTypeBuilder = new Type.Builder(renderScriptHandler.GetRenderScript(), Element.RGBA_8888(renderScriptHandler.GetRenderScript()));
         rgbTypeBuilder.setX(width);
         rgbTypeBuilder.setY(height);
-        mOutputAllocation = Allocation.createTyped(rs, rgbTypeBuilder.create(),
-                Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
-        mScriptFocusPeak.set_gCurrentFrame(mInputAllocation);
-        yuvToRgbIntrinsic.setInput(mInputAllocation);
+        renderScriptHandler.SetAllocsTypeBuilder(yuvTypeBuilder,rgbTypeBuilder);
+        mScriptFocusPeak.set_gCurrentFrame(renderScriptHandler.GetInputAllocation());
+        yuvToRgbIntrinsic.setInput(renderScriptHandler.GetInputAllocation());
 
         if (mProcessingTask != null) {
 
@@ -95,15 +92,15 @@ public class FocuspeakProcessorApi2
             }
             mProcessingTask = null;
         }
-        mProcessingTask = new ProcessingTask(mInputAllocation);
+        mProcessingTask = new ProcessingTask(renderScriptHandler.GetInputAllocation());
     }
 
     public Surface getInputSurface() {
-        return mInputAllocation.getSurface();
+        return renderScriptHandler.GetInputAllocationSurface();
     }
     public void setOutputSurface(Surface output)
     {
-        mOutputAllocation.setSurface(output);
+        renderScriptHandler.SetSurfaceToOutputAllocation(output);
         Logger.d(TAG,"setOutputSurface");
     }
 
@@ -119,17 +116,9 @@ public class FocuspeakProcessorApi2
                 }
             }
             mProcessingTask = null;
-        }
-        if (mInputAllocation != null) {
-            mInputAllocation.setOnBufferAvailableListener(null);
-        }
-        if (mOutputAllocation != null)
-        {
-            mOutputAllocation.setSurface(null);
-            //mOutputAllocation = null;
+            renderScriptHandler.SetSurfaceToOutputAllocation(null);
         }
         Logger.d(TAG,"kill()");
-
     }
 
     public float getmFps() {
@@ -172,19 +161,19 @@ public class FocuspeakProcessorApi2
                 mInputAllocation.ioReceive();
             }
             mCount++;
-            if (mOutputAllocation == null)
+            if (renderScriptHandler.GetOutputAllocation() == null)
                 return;
             if (peak) {
 
                 // Run processing pass
-                mScriptFocusPeak.forEach_peak(mOutputAllocation);
+                mScriptFocusPeak.forEach_peak(renderScriptHandler.GetOutputAllocation());
             }
             else
             {
 
-                yuvToRgbIntrinsic.forEach(mOutputAllocation);
+                yuvToRgbIntrinsic.forEach(renderScriptHandler.GetOutputAllocation());
             }
-            mOutputAllocation.ioSend();
+            renderScriptHandler.GetOutputAllocation().ioSend();
             working = false;
         }
     }

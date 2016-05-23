@@ -95,12 +95,12 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
     @Override
     public void SetModule(String name) {
         if (currentModule !=null) {
-            currentModule.UnloadNeededParameters();
+            currentModule.DestroyModule();
             currentModule.SetWorkerListner(null);
 
         }
         currentModule = moduleList.get(name);
-        currentModule.LoadNeededParameters();
+        currentModule.InitModule();
         moduleEventHandler.ModuleHasChanged(currentModule.ModuleName());
         currentModule.SetWorkerListner(workerListner);
         Logger.d(TAG, "Set Module to " + name);

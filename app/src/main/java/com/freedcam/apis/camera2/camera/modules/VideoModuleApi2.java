@@ -68,10 +68,10 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     }
 
     @Override
-    public void LoadNeededParameters()
+    public void InitModule()
     {
-        Logger.d(TAG, "LoadNeededParameters");
-        super.LoadNeededParameters();
+        Logger.d(TAG, "InitModule");
+        super.InitModule();
         VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) ParameterHandler.VideoProfiles;
         currentVideoProfile = profilesApi2.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         startPreview();
@@ -79,9 +79,9 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void UnloadNeededParameters()
+    public void DestroyModule()
     {
-        Logger.d(TAG, "UnloadNeededParameters");
+        Logger.d(TAG, "DestroyModule");
         cameraHolder.CaptureSessionH.CloseCaptureSession();
         previewsurface = null;
     }
@@ -123,12 +123,11 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     @Override
     public void startPreview()
     {
-        if (currentVideoProfile == null)
-            return;
+
         previewSize = new Size(currentVideoProfile.videoFrameWidth,currentVideoProfile.videoFrameHeight);
         this.cameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(), previewSize.getHeight(), 270,90,true);
 
-        SurfaceTexture texture = this.cameraHolder.textureView.getSurfaceTexture();
+        SurfaceTexture texture = cameraHolder.CaptureSessionH.getSurfaceTexture();
 
         texture.setDefaultBufferSize(currentVideoProfile.videoFrameWidth,currentVideoProfile.videoFrameHeight);
         previewsurface = new Surface(texture);
@@ -144,7 +143,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
     @Override
     public void stopPreview() {
-        UnloadNeededParameters();
+        DestroyModule();
     }
 
 

@@ -45,13 +45,13 @@ public class VideoModuleSony extends AbstractModule implements I_CameraStatusCha
     }
 
     @Override
-    public void LoadNeededParameters() {
+    public void InitModule() {
         cameraHolder.CameraStatusListner = this;
         onCameraStatusChanged(cameraHolder.GetCameraStatus());
     }
 
     @Override
-    public void UnloadNeededParameters() {
+    public void DestroyModule() {
 
     }
 

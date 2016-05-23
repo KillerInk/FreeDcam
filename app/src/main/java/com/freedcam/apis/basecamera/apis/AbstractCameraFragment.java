@@ -6,6 +6,7 @@ import android.view.View;
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
+import com.freedcam.utils.RenderScriptHandler;
 
 /**
  * Created by troop on 06.06.2015.
@@ -22,6 +23,11 @@ public abstract class AbstractCameraFragment extends Fragment
     protected CamerUiWrapperRdy onrdy;
     //holds the appsettings
     protected AppSettingsManager appSettingsManager;
+    protected RenderScriptHandler renderScriptHandler;
+    public void SetRenderScriptHandler(RenderScriptHandler renderScriptHandler)
+    {
+        this.renderScriptHandler = renderScriptHandler;
+    }
 
     public void SetAppSettingsManager(AppSettingsManager appSettingsManager)
     {

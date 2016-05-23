@@ -53,13 +53,13 @@ public abstract class AbstractModuleApi2 extends AbstractModule implements I_Pre
     }
 
     @Override
-    public void LoadNeededParameters()
+    public void InitModule()
     {
         cameraHolder.ModulePreview = this;
     }
 
     @Override
-    public void UnloadNeededParameters() {
+    public void DestroyModule() {
 
     }
 }

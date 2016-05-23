@@ -10,6 +10,7 @@ import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.apis.sonyremote.apis.SonyCameraFragment;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
+import com.freedcam.utils.RenderScriptHandler;
 
 
 /**
@@ -21,13 +22,15 @@ public class ApiHandler
     private final  String TAG = ApiHandler.class.getSimpleName();
     private Context context;
     private AppSettingsManager appSettingsManager;
+    private RenderScriptHandler renderScriptHandler;
 
     private ApiEvent event;
 
-    public ApiHandler(Context context, ApiEvent event,AppSettingsManager appSettingsManager) {
+    public ApiHandler(Context context, ApiEvent event, AppSettingsManager appSettingsManager, RenderScriptHandler renderScriptHandler) {
         this.event = event;
         this.context = context;
         this.appSettingsManager = appSettingsManager;
+        this.renderScriptHandler = renderScriptHandler;
     }
 
     public void CheckApi()
@@ -74,6 +77,7 @@ public class ApiHandler
         else if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_2))
         {
             ret = new Camera2Fragment();
+            ret.SetRenderScriptHandler(renderScriptHandler);
         }
         else
         {

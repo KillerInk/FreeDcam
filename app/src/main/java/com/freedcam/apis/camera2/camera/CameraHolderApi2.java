@@ -8,6 +8,7 @@ import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -41,6 +42,7 @@ import com.freedcam.apis.camera2.camera.parameters.ParameterHandlerApi2;
 import com.freedcam.apis.camera2.camera.renderscript.FocuspeakProcessorApi2;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
+import com.freedcam.utils.RenderScriptHandler;
 import com.freedcam.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -68,7 +70,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
     public CameraManager manager;
     public CameraDevice mCameraDevice;
     private Semaphore mCameraOpenCloseLock = new Semaphore(1);
-    public AutoFitTextureView textureView;
+    private AutoFitTextureView textureView;
 
     //this is needed for the previewSize...
     private CaptureRequest.Builder mPreviewRequestBuilder;
@@ -80,9 +82,9 @@ public class CameraHolderApi2 extends AbstractCameraHolder
     public CameraCharacteristics characteristics;
     public String VideoSize;
     public I_PreviewWrapper ModulePreview;
-    private RenderScript mRS;
     public FocuspeakProcessorApi2 mProcessor;
     public CaptureSessionHandler CaptureSessionH;
+    private RenderScriptHandler renderScriptHandler;
 
     int afState;
     int aeState;
@@ -90,12 +92,13 @@ public class CameraHolderApi2 extends AbstractCameraHolder
     boolean errorRecieved = false;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public CameraHolderApi2(Context context, I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager appSettingsManager)
+    public CameraHolderApi2(Context context, I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager appSettingsManager, RenderScriptHandler renderScriptHandler)
     {
         super(cameraChangedListner, UIHandler,appSettingsManager);
         this.context = context;
         this.manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         CaptureSessionH = new CaptureSessionHandler();
+        this.renderScriptHandler = renderScriptHandler;
 
     }
 
@@ -124,8 +127,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
             characteristics = manager.getCameraCharacteristics(CurrentCamera + "");
             if (!isLegacyDevice())
             {
-                mRS = RenderScript.create(context);
-                mProcessor = new FocuspeakProcessorApi2(mRS);
+                mProcessor = new FocuspeakProcessorApi2(renderScriptHandler);
                 //printCharacteristics();
             }
             map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
@@ -354,12 +356,8 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                     cameraChangedListner.onCameraOpen("");
                 }
             });
-            try {
-                mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-            } catch (CameraAccessException | SecurityException e) {
-                Logger.exception(e);
-            }
-            ((ParameterHandlerApi2)GetParameterHandler()).Init();
+
+            CaptureSessionH.CreatePreviewRequestBuilder();
         }
 
         @Override
@@ -609,17 +607,36 @@ public class CameraHolderApi2 extends AbstractCameraHolder
             mCaptureSession = cameraCaptureSession;
         }
 
+        public void CreatePreviewRequestBuilder()
+        {
+            try {
+                mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+                ((ParameterHandlerApi2)GetParameterHandler()).Init();
+            } catch (CameraAccessException e) {
+                Logger.exception(e);
+            }
+        }
+
         public CameraCaptureSession GetActiveCameraCaptureSession()
         {
             return mCaptureSession;
         }
 
+        public SurfaceTexture getSurfaceTexture()
+        {
+            return textureView.getSurfaceTexture();
+        }
+
         public void AddSurface(Surface surface, boolean addtoPreviewRequestBuilder)
         {
             Logger.d(this.TAG, "AddSurface");
+            if (surfaces.contains(surface))
+                return;
             surfaces.add(surface);
             if (addtoPreviewRequestBuilder)
+            {
                 mPreviewRequestBuilder.addTarget(surface);
+            }
         }
 
         public void RemoveSurface(Surface surface)
@@ -628,6 +645,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
             if (surfaces.contains(surface))
                 surfaces.remove(surface);
             mPreviewRequestBuilder.removeTarget(surface);
+
         }
 
         public void Clear()
@@ -637,6 +655,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                 for (Surface s: surfaces)
                     mPreviewRequestBuilder.removeTarget(s);
             surfaces.clear();
+
         }
 
         public void CreateCaptureSession()
@@ -717,8 +736,17 @@ public class CameraHolderApi2 extends AbstractCameraHolder
             StopRepeatingCaptureSession();
             Clear();
             if (mCaptureSession != null)
+            {
+                try {
+                    mCaptureSession.abortCaptures();
+                } catch (CameraAccessException e) {
+                    e.printStackTrace();
+                }
                 mCaptureSession.close();
+
+            }
             mCaptureSession = null;
+
         }
 
         public void SetTextureViewSize(int w, int h, int orientation, int orientationWithHack,boolean video)

@@ -44,6 +44,8 @@ public class FlashModeApi2 extends BaseModeApi2 {
     {
         if (cameraHolder == null)
             return null;
+        if (cameraHolder.get(CaptureRequest.FLASH_MODE) == null)
+            return "error";
         int i = cameraHolder.get(CaptureRequest.FLASH_MODE);
         FlashModes sceneModes = FlashModes.values()[i];
         return sceneModes.toString();

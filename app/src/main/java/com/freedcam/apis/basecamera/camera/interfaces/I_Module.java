@@ -37,11 +37,11 @@ public interface I_Module
     /**
      * geht thrown when the module gets loaded
      */
-    void LoadNeededParameters();
+    void InitModule();
 
     /**
      * get thrown when the module get unloaded and a new gets loaded
      */
-    void UnloadNeededParameters();
+    void DestroyModule();
 
 }

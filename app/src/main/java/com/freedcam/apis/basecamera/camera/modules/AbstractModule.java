@@ -85,13 +85,13 @@ public abstract class AbstractModule implements I_Module
      * this gets called when the module gets loaded. set here specific paramerters that are needed by the module
      */
     @Override
-    public abstract void LoadNeededParameters();
+    public abstract void InitModule();
 
     /**
-     * this gets called when module gets unloaded reset the parameters that where set on LoadNeededParameters
+     * this gets called when module gets unloaded reset the parameters that where set on InitModule
      */
     @Override
-    public abstract void UnloadNeededParameters();
+    public abstract void DestroyModule();
 
     @Override
     public abstract String LongName();

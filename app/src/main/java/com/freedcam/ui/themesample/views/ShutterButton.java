@@ -16,6 +16,7 @@ import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParamete
 import com.freedcam.ui.themesample.handler.UserMessageHandler;
 import com.freedcam.utils.Logger;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.drawable;
 
 /**
  * Created by troop on 20.06.2015.
@@ -26,7 +27,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, I_worker
     private AnimationDrawable shutterOpenAnimation;
     private String TAG = ShutterButton.class.getSimpleName();
     private CaptureModes currentShow = CaptureModes.image_capture_stop;
-    private boolean contshot = false;
+    private boolean contshot;
 
     public ShutterButton(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -40,7 +41,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, I_worker
 
     private void init()
     {
-        this.setOnClickListener(new OnClickListener() {
+        setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (cameraUiWrapper != null)
@@ -69,7 +70,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, I_worker
 
     private void switchBackground(final CaptureModes showstate,final boolean animate)
     {
-        this.post(new Runnable() {
+        post(new Runnable() {
             @Override
             public void run() {
                 currentShow = showstate;
@@ -77,34 +78,34 @@ public class ShutterButton extends Button implements I_ModuleEvent, I_worker
                 switch (showstate)
                 {
                     case video_recording_stop:
-                        setBackgroundResource(R.drawable.video_recording_stop);
+                        setBackgroundResource(drawable.video_recording_stop);
                         break;
                     case video_recording_start:
-                        setBackgroundResource(R.drawable.video_recording_start);
+                        setBackgroundResource(drawable.video_recording_start);
                         break;
                     case image_capture_stop:
-                        setBackgroundResource(R.drawable.shutteropenanimation);
+                        setBackgroundResource(drawable.shutteropenanimation);
                         break;
                     case image_capture_start:
-                        setBackgroundResource(R.drawable.shuttercloseanimation);
+                        setBackgroundResource(drawable.shuttercloseanimation);
                         break;
                     case continouse_capture_start:
-                        setBackgroundResource(R.drawable.close_open_shutter_start_to_stop); // closed to opend shutter, set start to cancel
+                        setBackgroundResource(drawable.close_open_shutter_start_to_stop); // closed to opend shutter, set start to cancel
                         break;
                     case cont_capture_stop_while_working:
-                        setBackgroundResource(R.drawable.alltime_open_shutter_stop_to_start); // opend shutter, set stop to start
+                        setBackgroundResource(drawable.alltime_open_shutter_stop_to_start); // opend shutter, set stop to start
                         break;
                     case cont_capture_stop_while_notworking:
-                        setBackgroundResource(R.drawable.video_recording_stop); //closed shutter , set stop to start animation
+                        setBackgroundResource(drawable.video_recording_stop); //closed shutter , set stop to start animation
                         break;
                     case continouse_capture_stop:
-                        setBackgroundResource(R.drawable.open_close_shutter_stop_to_start);//close shutter animation and set stop to start button
+                        setBackgroundResource(drawable.open_close_shutter_stop_to_start);//close shutter animation and set stop to start button
                         break;
                     case continouse_capture_work_start:
-                        setBackgroundResource(R.drawable.close_start_shutter_alltime_stop);//shows shutter open animation with stopbutton
+                        setBackgroundResource(drawable.close_start_shutter_alltime_stop);//shows shutter open animation with stopbutton
                         break;
                     case continouse_capture_work_stop:
-                        setBackgroundResource(R.drawable.start_close_shutter_alltime_stop);//shows shutter close animation with stopbutton
+                        setBackgroundResource(drawable.start_close_shutter_alltime_stop);//shows shutter close animation with stopbutton
                         break;
 
 
@@ -131,7 +132,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, I_worker
             contshotListner.onValueChanged(cameraUiWrapper.camParametersHandler.ContShootMode.GetValue());
 
         }
-        this.post(new Runnable() {
+        post(new Runnable() {
             @Override
             public void run() {
                 if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))

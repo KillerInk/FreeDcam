@@ -664,7 +664,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void stopPreview()
     {
-        UnloadNeededParameters();
+        DestroyModule();
     }
 
     private void SetBurst(int burst)
@@ -674,19 +674,19 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             previewSize = CameraHolderApi2.getSizeForPreviewDependingOnImageSize(this.cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), cameraHolder.characteristics, mImageWidth, mImageHeight);
             if (this.cameraHolder.mProcessor != null)
             {
-                this.cameraHolder.mProcessor.kill();
+                cameraHolder.mProcessor.kill();
             }
-            this.cameraHolder.mProcessor.setRenderScriptErrorListner(rsErrorHandler);
-            this.cameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(),previewSize.getHeight(),0,180,false);
-            SurfaceTexture texture = this.cameraHolder.textureView.getSurfaceTexture();
+            cameraHolder.mProcessor.setRenderScriptErrorListner(rsErrorHandler);
+            cameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(),previewSize.getHeight(),0,180,false);
+            SurfaceTexture texture = cameraHolder.CaptureSessionH.getSurfaceTexture();
             texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
             previewsurface = new Surface(texture);
 
-            this.cameraHolder.mProcessor.Reset(previewSize.getWidth(), previewSize.getHeight());
+            cameraHolder.mProcessor.Reset(previewSize.getWidth(), previewSize.getHeight());
             Logger.d(TAG, "Previewsurface vailid:" + previewsurface.isValid());
-            this.cameraHolder.mProcessor.setOutputSurface(previewsurface);
-            camerasurface = this.cameraHolder.mProcessor.getInputSurface();
-            this.cameraHolder.CaptureSessionH.AddSurface(camerasurface,true);
+            cameraHolder.mProcessor.setOutputSurface(previewsurface);
+            camerasurface = cameraHolder.mProcessor.getInputSurface();
+            cameraHolder.CaptureSessionH.AddSurface(camerasurface,true);
 
             if (picFormat.equals(CameraHolderApi2.JPEG))
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, burst);
@@ -696,8 +696,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW_SENSOR, burst);
             else if (picFormat.equals(CameraHolderApi2.RAW12))
                 mImageReader = ImageReader.newInstance(mImageWidth,mImageHeight, ImageFormat.RAW12,burst);
-            this.cameraHolder.CaptureSessionH.AddSurface(mImageReader.getSurface(),false);
-            this.cameraHolder.CaptureSessionH.CreateCaptureSession();
+            cameraHolder.CaptureSessionH.AddSurface(mImageReader.getSurface(),false);
+            cameraHolder.CaptureSessionH.CreateCaptureSession();
         }
         catch(Exception ex)
         {
@@ -760,20 +760,19 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     }
 
     @Override
-    public void LoadNeededParameters()
+    public void InitModule()
     {
-        super.LoadNeededParameters();
-        Logger.d(TAG, "LoadNeededParameters");
+        super.InitModule();
+        Logger.d(TAG, "InitModule");
         startPreview();
     }
 
     @Override
-    public void UnloadNeededParameters()
+    public void DestroyModule()
     {
-        Logger.d(TAG, "UnloadNeededParameters");
-        cameraHolder.mProcessor.kill();
+        Logger.d(TAG, "DestroyModule");
         cameraHolder.CaptureSessionH.CloseCaptureSession();
-
+        cameraHolder.mProcessor.kill();
     }
 
     private RenderScript.RSErrorHandler rsErrorHandler = new RenderScript.RSErrorHandler()
@@ -784,8 +783,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             eventHandler.RunOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    UnloadNeededParameters();
-                    LoadNeededParameters();
+                    DestroyModule();
+                    InitModule();
                 }
             });
 

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.AbstractFragmentActivity;
 import com.freedcam.apis.ApiHandler;
 import com.freedcam.apis.basecamera.apis.AbstractCameraFragment;
+import com.freedcam.apis.basecamera.apis.AbstractCameraFragment.CamerUiWrapperRdy;
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.ui.handler.HardwareKeyHandler;
 import com.freedcam.ui.handler.I_orientation;
@@ -21,6 +22,7 @@ import com.freedcam.ui.handler.OrientationHandler;
 import com.freedcam.ui.handler.TimerHandler;
 import com.freedcam.ui.themesample.SampleThemeFragment;
 import com.freedcam.utils.Logger;
+import com.freedcam.utils.RenderScriptHandler;
 import com.freedcam.utils.StringUtils;
 import com.troop.freedcam.R;
 
@@ -29,7 +31,7 @@ import java.io.File;
 /**
  * Created by troop on 18.08.2014.
  */
-public class MainActivity extends AbstractFragmentActivity implements I_orientation, AbstractCameraFragment.CamerUiWrapperRdy, ApiHandler.ApiEvent
+public class MainActivity extends AbstractFragmentActivity implements I_orientation, CamerUiWrapperRdy, ApiHandler.ApiEvent
 {
     private final String TAG =MainActivity.class.getSimpleName();
     private final String TAGLIFE = "LifeCycle";
@@ -51,6 +53,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     //fc to file and pass it back when done and let app crash as it should
     private Thread.UncaughtExceptionHandler defaultEXhandler;
     private SampleThemeFragment sampleThemeFragment;
+    private RenderScriptHandler renderScriptHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -71,7 +74,8 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
                 defaultEXhandler.uncaughtException(thread,e);
             }
         });
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            renderScriptHandler = new RenderScriptHandler(getApplicationContext());
         sampleThemeFragment = (SampleThemeFragment) getSupportFragmentManager().findFragmentById(R.id.sampleThemeFragment);
     }
 
@@ -173,7 +177,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         orientationHandler = new OrientationHandler(this, this);
         timerHandler = new TimerHandler(this);
         //setup apihandler and register listner for apiDetectionDone
-        apiHandler = new ApiHandler(getApplicationContext(),this,appSettingsManager);
+        apiHandler = new ApiHandler(getApplicationContext(),this,appSettingsManager,renderScriptHandler);
         //check if camera is camera2 full device
         apiHandler.CheckApi();
         hardwareKeyHandler = new HardwareKeyHandler(this,appSettingsManager);

@@ -13,6 +13,7 @@ import com.freedcam.apis.camera2.camera.modules.ModuleHandlerApi2;
 import com.freedcam.apis.camera2.camera.parameters.ParameterHandlerApi2;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
+import com.freedcam.utils.RenderScriptHandler;
 
 
 /**
@@ -34,18 +35,18 @@ public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements Text
         return AppSettingsManager.API_2;
     }
 
-    public CameraUiWrapperApi2(Context context, AutoFitTextureView preview, AppSettingsManager appSettingsManager)
+    public CameraUiWrapperApi2(Context context, AutoFitTextureView preview, AppSettingsManager appSettingsManager, RenderScriptHandler renderScriptHandler)
     {
         super(appSettingsManager);
         this.preview = preview;
         this.preview.setSurfaceTextureListener(this);
         this.context = context;
         this.errorHandler = this;
-        this.cameraHolder = new CameraHolderApi2(context, this, uiHandler,appSettingsManager);
+        this.cameraHolder = new CameraHolderApi2(context, this, uiHandler,appSettingsManager,renderScriptHandler);
         super.cameraHolder = this.cameraHolder;
         this.camParametersHandler = new ParameterHandlerApi2(this, uiHandler,context,appSettingsManager);
         this.cameraHolder.SetParameterHandler(camParametersHandler);
-        this.moduleHandler = new ModuleHandlerApi2(cameraHolder,context,appSettingsManager);
+        this.moduleHandler = new ModuleHandlerApi2(cameraHolder,context,appSettingsManager,renderScriptHandler);
         this.Focus = new FocusHandlerApi2(this);
         this.cameraHolder.Focus = Focus;
         Logger.d(TAG, "Constructor done");

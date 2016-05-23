@@ -43,7 +43,7 @@ public class VideoProfilesParameter extends BaseModeParameter
     {
         profile = valueToSet;
         if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null && cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
-            cameraUiWrapper.moduleHandler.GetCurrentModule().LoadNeededParameters();
+            cameraUiWrapper.moduleHandler.GetCurrentModule().InitModule();
 
     }
 

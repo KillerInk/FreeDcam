@@ -250,8 +250,8 @@ public class VideoProfilesApi2 extends BaseModeApi2
         profile = valueToSet;
         if (cameraUiWrapperApi2.moduleHandler.GetCurrentModule() != null && cameraUiWrapperApi2.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
         {
-            cameraUiWrapperApi2.moduleHandler.GetCurrentModule().UnloadNeededParameters();
-            cameraUiWrapperApi2.moduleHandler.GetCurrentModule().LoadNeededParameters();
+            cameraUiWrapperApi2.moduleHandler.GetCurrentModule().DestroyModule();
+            cameraUiWrapperApi2.moduleHandler.GetCurrentModule().InitModule();
         }
 
     }

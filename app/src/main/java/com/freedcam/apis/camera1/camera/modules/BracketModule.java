@@ -92,13 +92,13 @@ public class BracketModule extends PictureModule
     }
 
     @Override
-    public void LoadNeededParameters()
+    public void InitModule()
     {
         loade_ae_bracket();
     }
 
     @Override
-    public void UnloadNeededParameters()
+    public void DestroyModule()
     {
         if (aeBrackethdr)
             ParameterHandler.AE_Bracket.SetValue("Off", true);

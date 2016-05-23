@@ -78,7 +78,7 @@ public class VideoModule extends AbstractVideoModule
 
 
     @Override
-    public void LoadNeededParameters()
+    public void InitModule()
     {
 
         if (ParameterHandler.VideoHDR != null)
@@ -88,7 +88,7 @@ public class VideoModule extends AbstractVideoModule
     }
 
     @Override
-    public void UnloadNeededParameters() {
+    public void DestroyModule() {
         if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported())
             ParameterHandler.VideoHDR.SetValue("off", true);
     }

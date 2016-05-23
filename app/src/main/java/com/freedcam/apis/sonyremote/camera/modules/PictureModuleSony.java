@@ -80,15 +80,15 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     }
 
     @Override
-    public void LoadNeededParameters()
+    public void InitModule()
     {
-        Logger.d(TAG, "LoadNeededParameters");
+        Logger.d(TAG, "InitModule");
         cameraHolder.CameraStatusListner = this;
         onCameraStatusChanged(cameraHolder.GetCameraStatus());
     }
 
     @Override
-    public void UnloadNeededParameters() {
+    public void DestroyModule() {
 
     }
 

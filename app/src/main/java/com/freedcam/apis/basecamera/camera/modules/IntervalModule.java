@@ -63,12 +63,12 @@ public class IntervalModule extends AbstractModule implements I_worker
     }
 
     @Override
-    public void LoadNeededParameters() {
+    public void InitModule() {
         picModule.SetWorkerListner(this);
     }
 
     @Override
-    public void UnloadNeededParameters() {
+    public void DestroyModule() {
 
     }
 

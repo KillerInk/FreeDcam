@@ -96,9 +96,9 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     }
 
     @Override
-    public void LoadNeededParameters()
+    public void InitModule()
     {
-        Logger.d(TAG,"LoadNeededParameters");
+        Logger.d(TAG,"InitModule");
         ParameterHandler.PreviewFormat.SetValue("yuv420sp",true);
         if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported() && !ParameterHandler.VideoHDR.GetValue().equals("off"))
             ParameterHandler.VideoHDR.SetValue("off", true);
@@ -107,7 +107,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     }
 
     @Override
-    public void UnloadNeededParameters()
+    public void DestroyModule()
     {
     }
 

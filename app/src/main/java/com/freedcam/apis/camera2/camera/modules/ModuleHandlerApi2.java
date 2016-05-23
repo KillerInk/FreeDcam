@@ -7,6 +7,7 @@ import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.IntervalModule;
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.utils.AppSettingsManager;
+import com.freedcam.utils.RenderScriptHandler;
 
 /**
  * Created by troop on 12.12.2014.
@@ -18,13 +19,15 @@ public class ModuleHandlerApi2 extends AbstractModuleHandler
 
     private static String TAG = "freedcam.ModuleHandler";
     private AppSettingsManager appSettingsManager;
+    private RenderScriptHandler renderScriptHandler;
 
 
-    public  ModuleHandlerApi2 (AbstractCameraHolder cameraHolder, Context context, AppSettingsManager appSettingsManager)
+    public  ModuleHandlerApi2 (AbstractCameraHolder cameraHolder, Context context, AppSettingsManager appSettingsManager, RenderScriptHandler renderScriptHandler)
     {
         super(cameraHolder,context,appSettingsManager);
         this.cameraHolder = (CameraHolderApi2) cameraHolder;
         this.appSettingsManager = appSettingsManager;
+        this.renderScriptHandler = renderScriptHandler;
         initModules();
     }
 
@@ -36,7 +39,7 @@ public class ModuleHandlerApi2 extends AbstractModuleHandler
         moduleList.put(intervalModule.ModuleName(), intervalModule);
         VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(cameraHolder,moduleEventHandler,context,appSettingsManager);
         moduleList.put(videoModuleApi2.ModuleName(), videoModuleApi2);
-        StackingModuleApi2 stackingModuleApi2 = new StackingModuleApi2(cameraHolder,moduleEventHandler,context,appSettingsManager);
+        StackingModuleApi2 stackingModuleApi2 = new StackingModuleApi2(cameraHolder,moduleEventHandler,context,appSettingsManager, renderScriptHandler);
         moduleList.put(stackingModuleApi2.ModuleName(), stackingModuleApi2);
         //init the Modules DeviceDepending
         //splitting modules make the code foreach device cleaner

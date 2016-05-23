@@ -31,14 +31,14 @@ public class IntervalApi2 extends IntervalModule implements I_PreviewWrapper
     }
 
     @Override
-    public void LoadNeededParameters()
+    public void InitModule()
     {
-        super.LoadNeededParameters();
-        picModule.LoadNeededParameters();
+        super.InitModule();
+        picModule.InitModule();
     }
 
     @Override
-    public void UnloadNeededParameters() {
-        picModule.UnloadNeededParameters();
+    public void DestroyModule() {
+        picModule.DestroyModule();
     }
 }

@@ -117,13 +117,13 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
     }
 
     @Override
-    public void LoadNeededParameters()
+    public void InitModule()
     {
 
     }
 
     @Override
-    public void UnloadNeededParameters(){
+    public void DestroyModule(){
 
     }
 
