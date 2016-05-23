@@ -8,6 +8,8 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.Type;
 
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
@@ -65,11 +67,11 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
             capturedPics = new ArrayList<>();
             initRsStuff();
             ParameterHandler.ZSL.SetValue("off", true);
-            workstarted();
+            changeWorkState(AbstractModuleHandler.CaptureModes.continouse_capture_start);
             final String picFormat = ParameterHandler.PictureFormat.GetValue();
             if (!picFormat.equals("jpeg"))
                 ParameterHandler.PictureFormat.SetValue("jpeg",true);
-
+            isWorking =true;
             cameraHolder.TakePicture(null, this);
             return true;
         }
@@ -77,6 +79,10 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
         {
             Logger.d(TAG, "Stop Stacking");
             KeepStacking = false;
+            if (isWorking)
+                changeWorkState(CaptureModes.cont_capture_stop_while_working);
+            else
+                changeWorkState(CaptureModes.cont_capture_stop_while_notworking);
             return false;
         }
         return false;
@@ -133,20 +139,19 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
         Type.Builder tbIn2 = new Type.Builder(mRS, Element.RGBA_8888(mRS));
         tbIn2.setX(mWidth);
         tbIn2.setY(mHeight);
-        if (!ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.MEDIAN))
-        {
-            mAllocationInput = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
-            mAllocationOutput = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
-        }
-        else
-        {
-            mAllocationInput = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
-            mAllocationOutput = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
-            medianMinMax = new ScriptField_MinMaxPixel(mRS, mWidth*mHeight);
-        }
+        mAllocationInput = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+        mAllocationOutput = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
         imagestack = new ScriptC_imagestack(mRS);
         imagestack.set_Width(mWidth);
         imagestack.set_Height(mHeight);
+        if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.MEDIAN))
+        {
+            medianMinMax = new ScriptField_MinMaxPixel(mRS, mWidth * mHeight);
+            imagestack.bind_medianMinMaxPixel(medianMinMax);
+        }
+
+        imagestack.set_gCurrentFrame(mAllocationInput);
+        imagestack.set_gLastFrame(mAllocationOutput);
     }
 
 
@@ -155,40 +160,48 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
         cameraHolder.StartPreview();
         Logger.d(TAG, "start preview");
         Logger.d(TAG,"The Data Is " + data.length + " bytes Long" + " and the path is " + file.getAbsolutePath());
+        //create file to save
         File f = new File(SessionFolder+StringUtils.getStringDatePAttern().format(new Date())+".jpg");
+        //save file
         saveBytesToFile(data,f);
+        //add file for later stack
         capturedPics.add(f);
+        //Add file to media storage that its visible by mtp
         MediaScannerManager.ScanMedia(context, f);
-        workfinished(true);
 
-
-        Logger.d(TAG, "runned stackimage");
+        isWorking = false;
+        //notice ui/shutterbutton about the current workstate
+        changeWorkState(CaptureModes.continouse_capture_work_stop);
         cameraHolder.SendUIMessage("Captured Picture: " + FrameCount++);
-
-
+        //Take next picture for later stacking aslong keepstacking is true
         if (KeepStacking)
         {
-            workstarted();
+            changeWorkState(CaptureModes.continouse_capture_work_start);
             Logger.d(TAG, "keepstacking take next pic");
+            isWorking = true;
             cameraHolder.TakePicture(null, this);
         }
-        else
+        else //keepstacking is false, lets start mergin all pics
         {
             Logger.d(TAG, "End of Stacking create bitmap and compress");
             FrameCount = 0;
-            workstarted();
+            isWorking = true;
+            changeWorkState(CaptureModes.continouse_capture_work_start);
+
             for (File s : capturedPics)
             {
                 cameraHolder.SendUIMessage("Stacked: " + FrameCount++ + "/"+ capturedPics.size());
                 stackImage(s);
             }
+            changeWorkState(AbstractModuleHandler.CaptureModes.continouse_capture_work_stop);
             int mWidth = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[0]);
             int mHeight = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[1]);
             final Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
             mAllocationOutput.copyTo(outputBitmap);
             File stackedImg = new File(SessionFolder + StringUtils.getStringDatePAttern().format(new Date()) + "_Stack.jpg");
             SaveBitmapToFile(outputBitmap,stackedImg);
-            workfinished(true);
+            isWorking = false;
+            changeWorkState(CaptureModes.continouse_capture_stop);
             MediaScannerManager.ScanMedia(context, stackedImg);
             eventHandler.WorkFinished(file);
         }
@@ -198,8 +211,7 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
     {
         mAllocationInput.copyFrom(BitmapFactory.decodeFile(file.getAbsolutePath()));
         Logger.d(TAG, "Copied data to inputalloc");
-        imagestack.set_gCurrentFrame(mAllocationInput);
-        imagestack.set_gLastFrame(mAllocationOutput);
+
         Logger.d(TAG, "setted inputalloc to RS");
         if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE))
             imagestack.forEach_stackimage_avarage(mAllocationOutput);

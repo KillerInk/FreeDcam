@@ -7,6 +7,7 @@ import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
 
 import com.freedcam.apis.basecamera.camera.modules.AbstractModule;
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.I_RecorderStateChanged;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
@@ -76,7 +77,7 @@ public abstract class AbstractVideoModule extends AbstractModule
     protected void startRecording()
     {
         prepareRecorder();
-        workstarted();
+        changeWorkState(AbstractModuleHandler.CaptureModes.video_recording_start);
 
     }
 
@@ -128,6 +129,7 @@ public abstract class AbstractVideoModule extends AbstractModule
                 isWorking = false;
                 cameraHolderApi1.GetCamera().lock();
                 recorder.release();
+                isWorking = false;
             }
         }
         catch (NullPointerException ex)
@@ -139,6 +141,7 @@ public abstract class AbstractVideoModule extends AbstractModule
             isWorking = false;
             cameraHolderApi1.GetCamera().lock();
             recorder.release();
+            isWorking = false;
         }
     }
 
@@ -174,8 +177,9 @@ public abstract class AbstractVideoModule extends AbstractModule
             MediaScannerManager.ScanMedia(context, file);
             eventHandler.WorkFinished(file);
             eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
+            isWorking = false;
         }
-        workfinished(true);
+        changeWorkState(AbstractModuleHandler.CaptureModes.video_recording_stop);
     }
 
     protected void setRecorderOutPutFile(String s)

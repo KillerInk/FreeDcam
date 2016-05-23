@@ -8,13 +8,14 @@ import android.support.v4.provider.DocumentFile;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.camera.interfaces.I_Module;
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.I_worker;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -31,10 +32,11 @@ public abstract class AbstractModule implements I_Module
     public String name;
 
     protected ModuleEventHandler eventHandler;
-    protected AbstractModuleHandler.I_worker workerListner;
-    final static String TAG = AbstractModule.class.getSimpleName();
+    protected I_worker workerListner;
+    final private String TAG = AbstractModule.class.getSimpleName();
     protected Context context;
     protected AppSettingsManager appSettingsManager;
+    protected CaptureModes currentWorkState;
 
 
     public AbstractModule(AbstractCameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager)
@@ -47,7 +49,7 @@ public abstract class AbstractModule implements I_Module
 
     }
 
-    public void SetWorkerListner(AbstractModuleHandler.I_worker workerListner)
+    public void SetWorkerListner(I_worker workerListner)
     {
         this.workerListner = workerListner;
     }
@@ -55,24 +57,12 @@ public abstract class AbstractModule implements I_Module
     /**
      * throw this when camera starts working to notify ui
      */
-    protected void workstarted()
+    protected void changeWorkState(CaptureModes captureModes)
     {
         Logger.d(TAG, "work started");
-        isWorking = true;
+        currentWorkState = captureModes;
         if (this.workerListner != null)
-            workerListner.onWorkStarted();
-    }
-
-    /**
-     * throw this when work is done to notify ui
-     * @param finish
-     */
-    protected void workfinished(final boolean finish)
-    {
-        Logger.d(TAG, "work finished");
-        isWorking = false;
-        if (workerListner != null)
-            workerListner.onWorkFinished(finish);
+            workerListner.onCaptureStateChanged(captureModes);
     }
 
     @Override

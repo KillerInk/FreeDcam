@@ -7,6 +7,8 @@ import android.support.v4.provider.DocumentFile;
 
 import com.freedcam.Native.RawToDng;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModule;
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
@@ -71,6 +73,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         Logger.d(TAG, "DoWork:isWorking:"+isWorking);
         if (!this.isWorking)
         {
+            isWorking = true;
             String picformat = ParameterHandler.PictureFormat.GetValue();
             Logger.d(TAG,"DoWork:picformat:" + picformat);
             if (picformat.equals("dng") ||picformat.equals("bayer"))
@@ -82,7 +85,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                     Logger.d(TAG,"ZSL state after turning it off:" + ParameterHandler.ZSL.GetValue());
                 }
             }
-            workstarted();
+            changeWorkState(AbstractModuleHandler.CaptureModes.image_capture_start);
             waitForPicture = true;
             burstcount = 0;
             cameraHolder.TakePicture(null, this);
@@ -116,7 +119,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         {
             Logger.d(TAG, "Got pic data but did not wait for pic");
             waitForPicture = false;
-            workfinished(true);
+            changeWorkState(CaptureModes.image_capture_stop);
             cameraHolder.StartPreview();
             return;
         }
@@ -137,16 +140,19 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             {
                 Logger.d(TAG, "BurstCapture done");
                 waitForPicture = false;
-                workfinished(true);
+                isWorking = false;
                 cameraHolder.StartPreview();
+                changeWorkState(CaptureModes.image_capture_stop);
             }
         }
         else //handel normal capture
         {
+            isWorking = false;
             waitForPicture = false;
-            workfinished(true);
             cameraHolder.StartPreview();
+            changeWorkState(CaptureModes.image_capture_stop);
         }
+
 
     }
 

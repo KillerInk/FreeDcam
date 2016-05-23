@@ -2,6 +2,8 @@ package com.freedcam.apis.camera1.camera.modules;
 
 import android.content.Context;
 
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
@@ -53,7 +55,7 @@ public class BracketModule extends PictureModule
                 if (ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
                     ParameterHandler.ZSL.SetValue("off", true);
             }
-            workstarted();
+            changeWorkState(AbstractModuleHandler.CaptureModes.image_capture_start);
             waitForPicture = true;
             loade_ae_bracket();
             if (aeBrackethdr && ParameterHandler.PictureFormat.GetValue().equals("jpeg"))
@@ -223,7 +225,7 @@ public class BracketModule extends PictureModule
             if (hdrCount == 3)//handel normal capture
             {
                 waitForPicture = false;
-                workfinished(true);
+                changeWorkState(AbstractModuleHandler.CaptureModes.image_capture_stop);
                 cameraHolder.StartPreview();
 
             }
@@ -256,7 +258,10 @@ public class BracketModule extends PictureModule
             public void run()
             {
                 if (!waitForPicture)
+                {
+                    isWorking = false;
                     return;
+                }
                 hdrCount++;
                 final String picFormat = ParameterHandler.PictureFormat.GetValue();
                 saveImage(data,picFormat);
@@ -264,7 +269,8 @@ public class BracketModule extends PictureModule
                 if (hdrCount == 3)//handel normal capture
                 {
                     waitForPicture = false;
-                    workfinished(true);
+                    isWorking = false;
+                    changeWorkState(CaptureModes.image_capture_stop);
                 }
                 else
                 {

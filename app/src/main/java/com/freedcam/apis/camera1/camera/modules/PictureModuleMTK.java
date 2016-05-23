@@ -3,6 +3,7 @@ package com.freedcam.apis.camera1.camera.modules;
 import android.content.Context;
 
 import com.freedcam.Native.RawToDng;
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.ui.handler.MediaScannerManager;
@@ -33,13 +34,14 @@ public class PictureModuleMTK extends PictureModule
     {
         if (!this.isWorking)
         {
-            workstarted();
+            changeWorkState(CaptureModes.image_capture_start);
             Logger.d(TAG, "Start Take Picture");
             waitForPicture = true;
             if (ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.BAYER) || ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.DNG)) {
                 String timestamp = String.valueOf(System.currentTimeMillis());
                 ParameterHandler.Set_RAWFNAME(StringUtils.GetInternalSDCARD()+"/DCIM/FreeDCam/" + "mtk" + timestamp + ".bayer");
             }
+            isWorking = true;
             cameraHolder.TakePicture(null, this);
         }
         return true;
@@ -80,10 +82,11 @@ public class PictureModuleMTK extends PictureModule
                         break;
                 }
                 waitForPicture = false;
-                workfinished(true);
+                changeWorkState(CaptureModes.image_capture_stop);
                 cameraHolder.StartPreview();
                 MediaScannerManager.ScanMedia(context,holdFile);
                 eventHandler.WorkFinished(holdFile);
+                isWorking = false;
             }
         });
     }

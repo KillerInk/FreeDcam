@@ -28,6 +28,7 @@ import android.view.Surface;
 
 import com.freedcam.Native.RawToDng;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualShutter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
@@ -96,7 +97,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         if (!cameraHolder.isWorking && !isWorking)
         {
-            workstarted();
             TakePicture();
         }
         return true;
@@ -202,7 +202,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             }
             imagecount = 0;
             mDngResult = null;
-
+            changeWorkState(CaptureModes.image_capture_start);
             cameraHolder.CaptureSessionH.StartCapture(captureBuilder,CaptureCallback,handler);
         } catch (CameraAccessException e) {
             Logger.exception(e);
@@ -320,8 +320,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     isWorking = false;
                     MediaScannerManager.ScanMedia(context, file);
                     eventHandler.WorkFinished(file);
+                    changeWorkState(CaptureModes.image_capture_stop);
                     if (burstcount == imagecount) {
-                        workfinished(true);
                         handler.post(new Runnable() {
                             @Override
                             public void run() {

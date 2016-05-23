@@ -61,11 +61,11 @@ public class VideoModuleSony extends AbstractModule implements I_CameraStatusCha
         if (status.equals("IDLE") && isWorking)
         {
             this.isWorking = false;
-            workfinished(true);
+            changeWorkState(AbstractModuleHandler.CaptureModes.video_recording_stop);
         }
         else if (status.equals("MovieWaitRecStart") && !isWorking) {
             this.isWorking = true;
-            workstarted();
+            changeWorkState(AbstractModuleHandler.CaptureModes.video_recording_start);
         }
 
     }

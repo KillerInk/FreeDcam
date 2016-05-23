@@ -16,6 +16,8 @@ import android.renderscript.Type;
 import android.view.Surface;
 
 import com.freedcam.apis.basecamera.camera.Size;
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.camera1.camera.modules.ModuleHandler;
 import com.freedcam.apis.camera1.camera.parameters.modes.StackModeParameter;
@@ -137,12 +139,13 @@ public class StackingModuleApi2 extends AbstractModuleApi2
     public boolean DoWork()
     {
         if (!keepstacking && !isWorking) {
-            workstarted();
+            changeWorkState(CaptureModes.continouse_capture_start);
             keepstacking = true;
             return true;
         }
         else
         {
+            changeWorkState(CaptureModes.cont_capture_stop_while_working);
             stopPreview();
             saveImageToFile();
             afterFilesave = true;
@@ -159,9 +162,10 @@ public class StackingModuleApi2 extends AbstractModuleApi2
             public void run() {
                 File stackedImg = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), "_stack.jpg"));
                 SaveBitmapToFile(outputBitmap,stackedImg);
-                workfinished(true);
+                changeWorkState(AbstractModuleHandler.CaptureModes.continouse_capture_stop);
                 MediaScannerManager.ScanMedia(context, stackedImg);
                 eventHandler.WorkFinished(stackedImg);
+                isWorking = false;
             }
         });
 

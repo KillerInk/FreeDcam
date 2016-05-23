@@ -16,10 +16,24 @@ import java.util.HashMap;
  */
 public abstract class AbstractModuleHandler implements I_ModuleHandler
 {
+
+    public enum CaptureModes
+    {
+        video_recording_stop,
+        video_recording_start,
+        image_capture_stop,
+        image_capture_start,
+        continouse_capture_start,
+        continouse_capture_stop,
+        continouse_capture_work_start,
+        continouse_capture_work_stop,
+        cont_capture_stop_while_working,
+        cont_capture_stop_while_notworking,
+    }
+
     public interface I_worker
     {
-        void onWorkStarted();
-        void onWorkFinished(boolean finished);
+        void onCaptureStateChanged(CaptureModes captureModes);
     }
 
     ArrayList<I_worker> workers;
@@ -58,7 +72,7 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
 
         workerListner = new I_worker() {
             @Override
-            public void onWorkStarted() {
+            public void onCaptureStateChanged(CaptureModes captureModes) {
                 for (int i =0; i < workers.size(); i++)
                 {
                     if (workers.get(i) == null) {
@@ -67,23 +81,7 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
                     }
                     else
                     {
-                        workers.get(i).onWorkStarted();
-                    }
-                }
-            }
-
-            @Override
-            public void onWorkFinished(final boolean finished)
-            {
-                for (int i =0; i < workers.size(); i++)
-                {
-                    if (workers.get(i) == null) {
-                        workers.remove(i);
-                        i--;
-                    }
-                    else
-                    {
-                        workers.get(i).onWorkFinished(finished);
+                        workers.get(i).onCaptureStateChanged(captureModes);
                     }
                 }
             }

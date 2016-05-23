@@ -64,12 +64,29 @@ public class OrientationHandler implements AbstractModuleHandler.I_worker
     }
 
     @Override
-    public void onWorkStarted() {
-        Stop();
+    public void onCaptureStateChanged(AbstractModuleHandler.CaptureModes modes)
+    {
+        switch (modes)
+        {
+            case video_recording_stop:
+                Start();
+                break;
+            case video_recording_start:
+                Stop();
+                break;
+            case image_capture_stop:
+                Start();
+                break;
+            case image_capture_start:
+                Stop();
+                break;
+            case continouse_capture_start:
+                Stop();
+                break;
+            case continouse_capture_stop:
+                Start();
+                break;
+        }
     }
 
-    @Override
-    public void onWorkFinished(boolean finished) {
-        Start();
-    }
 }

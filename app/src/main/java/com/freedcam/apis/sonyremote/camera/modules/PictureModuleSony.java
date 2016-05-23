@@ -49,18 +49,28 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
         if (cameraHolder.ParameterHandler.ContShootMode != null && cameraHolder.ParameterHandler.ContShootMode.IsSupported()) {
             String shootmode = cameraHolder.ParameterHandler.ContShootMode.GetValue();
             if (!this.isWorking && shootmode.equals("Single"))
+            {
+                changeWorkState(AbstractModuleHandler.CaptureModes.image_capture_start);
                 takePicture();
-            else if (!this.isWorking) {
+            }
+            else if (!this.isWorking)
+            {
+                changeWorkState(AbstractModuleHandler.CaptureModes.continouse_capture_start);
                 cameraHolder.startContShoot(this);
                 return true;
-            } else {
+            } else
+            {
+                changeWorkState(AbstractModuleHandler.CaptureModes.cont_capture_stop_while_working);
                 cameraHolder.stopContShoot(this);
                 return false;
             }
         }
         else
             if (!this.isWorking)
+            {
+                changeWorkState(AbstractModuleHandler.CaptureModes.image_capture_start);
                 takePicture();
+            }
         return true;
     }
 
@@ -159,11 +169,17 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
         if (status.equals("IDLE") && isWorking)
         {
             this.isWorking = false;
-            workfinished(true);
+            if (currentWorkState == AbstractModuleHandler.CaptureModes.image_capture_start)
+                changeWorkState(AbstractModuleHandler.CaptureModes.image_capture_stop);
+            else if (currentWorkState == AbstractModuleHandler.CaptureModes.continouse_capture_work_start || currentWorkState == AbstractModuleHandler.CaptureModes.continouse_capture_start)
+                changeWorkState(AbstractModuleHandler.CaptureModes.continouse_capture_work_stop);
         }
         else if ((status.equals("StillCapturing") || status.equals("StillSaving")) && !isWorking) {
             this.isWorking = true;
-            workstarted();
+            if (currentWorkState == AbstractModuleHandler.CaptureModes.image_capture_stop)
+                changeWorkState(AbstractModuleHandler.CaptureModes.image_capture_start);
+            else if (currentWorkState == AbstractModuleHandler.CaptureModes.continouse_capture_work_stop || currentWorkState == AbstractModuleHandler.CaptureModes.continouse_capture_stop)
+                changeWorkState(AbstractModuleHandler.CaptureModes.continouse_capture_work_start);
         }
 
     }
