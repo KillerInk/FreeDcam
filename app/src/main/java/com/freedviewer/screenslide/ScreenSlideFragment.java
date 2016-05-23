@@ -224,12 +224,6 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
     {
-
-    }
-
-    @Override
-    public void onPageSelected(int position)
-    {
         updateUi(mPagerAdapter.getCurrentFile());
         ImageFragment fragment = (ImageFragment)mPagerAdapter.getRegisteredFragment(position);
         if (fragment == null)
@@ -241,7 +235,8 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         int[] histodata = fragment.GetHistogramData();
         if (histodata != null)
         {
-            histogram.setVisibility(View.VISIBLE);
+            if (topbar.getVisibility() == View.VISIBLE)
+                histogram.setVisibility(View.VISIBLE);
             histogram.SetHistogramData(histodata);
         }
         else
@@ -249,6 +244,12 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             histogram.setVisibility(View.GONE);
             fragment.SetWaitForWorkFinishLisnter(this, position);
         }
+    }
+
+    @Override
+    public void onPageSelected(int position)
+    {
+
 
     }
 
@@ -260,7 +261,8 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             public void run() {
                 if (mPager.getCurrentItem() == position)
                 {
-                    histogram.setVisibility(View.VISIBLE);
+                    if (topbar.getVisibility() == View.VISIBLE)
+                        histogram.setVisibility(View.VISIBLE);
                     histogram.SetHistogramData(histodata);
                 }
             }
