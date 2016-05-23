@@ -26,6 +26,7 @@ import android.os.Handler;
 import android.renderscript.RenderScript;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.util.Size;
 import android.view.Display;
 import android.view.Surface;
@@ -168,8 +169,14 @@ public class CameraHolderApi2 extends AbstractCameraHolder
             {
                 if (null != mCaptureSession)
                 {
+                    mProcessor.kill();
+                    mCaptureSession.stopRepeating();
+                    mCaptureSession.abortCaptures();
                     mCaptureSession.close();
+                    CaptureSessionH.Clear();
+                    mPreviewRequestBuilder = null;
                     mCaptureSession = null;
+
                 }
             }
            catch (Exception e)
@@ -678,9 +685,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
                         null);
             } catch (CameraAccessException e) {
-                e.printStackTrace();
-                CloseCamera();
-                OpenCamera(appSettingsManager.GetCurrentCamera());
+                Logger.exception(e);
             }
         }
 
@@ -692,9 +697,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                 mCaptureSession.capture(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
                         null);
             } catch (CameraAccessException e) {
-                e.printStackTrace();
-                CloseCamera();
-                OpenCamera(appSettingsManager.GetCurrentCamera());
+               Logger.exception(e);
             }
         }
 
