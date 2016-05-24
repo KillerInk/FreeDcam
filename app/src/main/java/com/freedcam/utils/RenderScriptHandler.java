@@ -6,11 +6,8 @@ import android.os.Build;
 import android.renderscript.Allocation;
 import android.renderscript.RenderScript;
 import android.renderscript.RenderScript.Priority;
-import android.renderscript.ScriptIntrinsicYuvToRGB;
 import android.renderscript.Type;
 import android.view.Surface;
-
-import com.freedcam.apis.camera2.camera.renderscript.ScriptC_focus_peak;
 
 /**
  * Created by troop on 23.05.2016.
@@ -23,8 +20,6 @@ public class RenderScriptHandler
     private RenderScript mRS;
     private Type.Builder inputbuilder;
     private Type.Builder outputbuilder;
-    private ScriptC_focus_peak mScriptFocusPeak;
-    private ScriptIntrinsicYuvToRGB yuvToRgbIntrinsic;
 
     public RenderScriptHandler(Context context)
     {
@@ -32,25 +27,25 @@ public class RenderScriptHandler
         mRS.setPriority(Priority.LOW);
     }
 
-    public void SetAllocsTypeBuilder(Type.Builder inputBuilder, Type.Builder outputBuilder)
+    public void SetAllocsTypeBuilder(Type.Builder inputBuilder, Type.Builder outputBuilder, int inputUsage, int outputUsage)
     {
         this.inputbuilder = inputBuilder;
         this.outputbuilder = outputBuilder;
-        mAllocationIn = Allocation.createTyped(mRS, inputbuilder.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_IO_INPUT | Allocation.USAGE_SCRIPT);
-        mAllocationOut = Allocation.createTyped(mRS, outputbuilder.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
+        mAllocationIn = Allocation.createTyped(mRS, inputbuilder.create(), Allocation.MipmapControl.MIPMAP_NONE,  inputUsage);
+        mAllocationOut = Allocation.createTyped(mRS, outputbuilder.create(), Allocation.MipmapControl.MIPMAP_NONE, outputUsage);
     }
 
-    public Allocation GetOutputAllocation()
+    public Allocation GetOut()
     {
         return  mAllocationOut;
     }
 
-    public Allocation GetInputAllocation()
+    public Allocation GetIn()
     {
         return mAllocationIn;
     }
 
-    public RenderScript GetRenderScript()
+    public RenderScript GetRS()
     {
         return mRS;
     }

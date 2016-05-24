@@ -2,6 +2,7 @@ package com.freedcam.apis.camera1.camera;
 
 
 import android.content.Context;
+import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -21,6 +22,7 @@ import com.freedcam.apis.camera1.camera.renderscript.FocusPeakProcessorAp1;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
+import com.freedcam.utils.RenderScriptHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +45,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         return AppSettingsManager.API_1;
     }
 
-    public CameraUiWrapper(SurfaceView preview, TextureViewRatio previewTexture, Context context,AppSettingsManager appSettingsManager)
+    public CameraUiWrapper(SurfaceView preview, TextureViewRatio previewTexture, Context context, AppSettingsManager appSettingsManager, RenderScriptHandler renderScriptHandler)
     {
         super(appSettingsManager);
 
@@ -67,7 +69,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         Focus = new FocusHandler(this);
         this.cameraHolder.Focus = Focus;
         if (Build.VERSION.SDK_INT >= 18) {
-            focusPeakProcessorAp1 = new FocusPeakProcessorAp1(previewTexture, this, context);
+            focusPeakProcessorAp1 = new FocusPeakProcessorAp1(previewTexture, this, context,renderScriptHandler);
             SetCameraChangedListner(focusPeakProcessorAp1);
         }
         else

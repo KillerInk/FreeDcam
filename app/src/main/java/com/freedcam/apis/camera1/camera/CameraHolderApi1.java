@@ -34,7 +34,7 @@ import java.util.List;
 public class CameraHolderApi1 extends AbstractCameraHolder
 {
 
-    final int BUFFERCOUNT = 5;
+    final int BUFFERCOUNT = 3;
     private Camera mCamera;
     private LGCamera lgCamera;
     private LGCamera.LGParameters lgParameters;
@@ -544,7 +544,6 @@ public class CameraHolderApi1 extends AbstractCameraHolder
     @Override
     public void SetPreviewCallback(final I_Callbacks.PreviewCallback previewCallback)
     {
-        I_Callbacks.PreviewCallback previewCallback1 = previewCallback;
         if (!isPreviewRunning && !isRdy)
             return;
 
@@ -586,9 +585,7 @@ public class CameraHolderApi1 extends AbstractCameraHolder
     public void ResetPreviewCallback()
     {
         try {
-            if (textureView != null) {
-                mCamera.setPreviewCallbackWithBuffer(null);
-            }
+            mCamera.setPreviewCallbackWithBuffer(null);
         }
         catch (NullPointerException ex)
         {

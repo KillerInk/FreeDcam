@@ -686,7 +686,6 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                 mCaptureSession.stopRepeating();
             } catch (CameraAccessException e) {
                 Logger.exception(e);
-
             }
             catch (IllegalStateException ex)
             {
@@ -736,11 +735,6 @@ public class CameraHolderApi2 extends AbstractCameraHolder
             Clear();
             if (mCaptureSession != null)
             {
-                try {
-                    mCaptureSession.abortCaptures();
-                } catch (CameraAccessException e) {
-                    e.printStackTrace();
-                }
                 mCaptureSession.close();
 
             }

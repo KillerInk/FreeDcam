@@ -34,7 +34,7 @@ public class Camera1Fragment extends AbstractCameraFragment
         extendedSurfaceView = (ExtendedSurfaceView) view.findViewById(R.id.exSurface);
         preview = (TextureViewRatio) view.findViewById(R.id.textureView_preview);
 
-        this.cameraUiWrapper = new CameraUiWrapper(extendedSurfaceView, preview, getContext(),appSettingsManager);
+        this.cameraUiWrapper = new CameraUiWrapper(extendedSurfaceView, preview, getContext(),appSettingsManager,renderScriptHandler);
         if (onrdy != null)
             onrdy.onCameraUiWrapperRdy(cameraUiWrapper);
 

@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
-import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicYuvToRGB;
 import android.renderscript.Type;
 import android.view.Surface;
@@ -85,15 +84,15 @@ public class StackingModuleApi2 extends AbstractModuleApi2
             previewSize = new Size(ParameterHandler.PictureSize.GetValue());
             mHeight = previewSize.height;
             mWidth = previewSize.width;
-            Type.Builder yuvTypeBuilder = new Type.Builder(renderScriptHandler.GetRenderScript(), Element.YUV(renderScriptHandler.GetRenderScript()));
+            Type.Builder yuvTypeBuilder = new Type.Builder(renderScriptHandler.GetRS(), Element.YUV(renderScriptHandler.GetRS()));
             yuvTypeBuilder.setX(mWidth);
             yuvTypeBuilder.setY(mHeight);
             yuvTypeBuilder.setYuvFormat(ImageFormat.YUV_420_888);
-            Type.Builder rgbTypeBuilder = new Type.Builder(renderScriptHandler.GetRenderScript(), Element.RGBA_8888(renderScriptHandler.GetRenderScript()));
+            Type.Builder rgbTypeBuilder = new Type.Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
             rgbTypeBuilder.setX(mWidth);
             rgbTypeBuilder.setY(mHeight);
-            renderScriptHandler.SetAllocsTypeBuilder(yuvTypeBuilder,rgbTypeBuilder);
-            medianMinMax = new ScriptField_MinMaxPixel(renderScriptHandler.GetRenderScript(), mWidth * mHeight);
+            renderScriptHandler.SetAllocsTypeBuilder(yuvTypeBuilder,rgbTypeBuilder,Allocation.USAGE_IO_INPUT | Allocation.USAGE_SCRIPT,  Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
+            medianMinMax = new ScriptField_MinMaxPixel(renderScriptHandler.GetRS(), mWidth * mHeight);
 
             cameraHolder.CaptureSessionH.SetTextureViewSize(mWidth, mHeight, 0, 180, false);
             SurfaceTexture texture = cameraHolder.CaptureSessionH.getSurfaceTexture();
@@ -104,8 +103,8 @@ public class StackingModuleApi2 extends AbstractModuleApi2
             camerasurface = renderScriptHandler.GetInputAllocationSurface();
             cameraHolder.CaptureSessionH.AddSurface(camerasurface, true);
 
-            imagestack.set_gCurrentFrame(renderScriptHandler.GetInputAllocation());
-            imagestack.set_gLastFrame(renderScriptHandler.GetOutputAllocation());
+            imagestack.set_gCurrentFrame(renderScriptHandler.GetIn());
+            imagestack.set_gLastFrame(renderScriptHandler.GetOut());
             imagestack.bind_medianMinMaxPixel(medianMinMax);
             cameraHolder.CaptureSessionH.CreateCaptureSession();
 
@@ -120,7 +119,7 @@ public class StackingModuleApi2 extends AbstractModuleApi2
                 }
                 mProcessingTask = null;
             }
-            mProcessingTask = new ProcessingTask(renderScriptHandler.GetInputAllocation());
+            mProcessingTask = new ProcessingTask(renderScriptHandler.GetIn());
         }
     }
 
@@ -151,7 +150,7 @@ public class StackingModuleApi2 extends AbstractModuleApi2
 
     private void saveImageToFile() {
         final Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
-        renderScriptHandler.GetOutputAllocation().copyTo(outputBitmap);
+        renderScriptHandler.GetOut().copyTo(outputBitmap);
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
@@ -174,9 +173,9 @@ public class StackingModuleApi2 extends AbstractModuleApi2
         mProcessingThread.start();
         mProcessingHandler = new Handler(mProcessingThread.getLooper());
         if (yuvToRgbIntrinsic == null)
-            yuvToRgbIntrinsic = ScriptIntrinsicYuvToRGB.create(renderScriptHandler.GetRenderScript(), Element.U8_4(renderScriptHandler.GetRenderScript()));
+            yuvToRgbIntrinsic = ScriptIntrinsicYuvToRGB.create(renderScriptHandler.GetRS(), Element.U8_4(renderScriptHandler.GetRS()));
         if(imagestack == null);
-            imagestack = new ScriptC_imagestack(renderScriptHandler.GetRenderScript());
+            imagestack = new ScriptC_imagestack(renderScriptHandler.GetRS());
         imagestack.set_yuvinput(true);
 
         startPreview();
@@ -200,12 +199,12 @@ public class StackingModuleApi2 extends AbstractModuleApi2
             }
             mProcessingTask = null;
         }
-        if (renderScriptHandler.GetInputAllocation() != null) {
-            renderScriptHandler.GetInputAllocation().setOnBufferAvailableListener(null);
+        if (renderScriptHandler.GetIn() != null) {
+            renderScriptHandler.GetIn().setOnBufferAvailableListener(null);
         }
-        if (renderScriptHandler.GetOutputAllocation() != null)
+        if (renderScriptHandler.GetOut() != null)
         {
-            renderScriptHandler.GetOutputAllocation().setSurface(null);
+            renderScriptHandler.GetOut().setSurface(null);
             //mOutputAllocation = null;
         }
 
@@ -247,33 +246,33 @@ public class StackingModuleApi2 extends AbstractModuleApi2
             {
                 mInputAllocation.ioReceive();
             }
-            if (renderScriptHandler.GetOutputAllocation() == null)
+            if (renderScriptHandler.GetOut() == null)
                 return;
             if (keepstacking)
             {
 
                 // Run processing pass
                 if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE))
-                    imagestack.forEach_stackimage_avarage(renderScriptHandler.GetOutputAllocation());
+                    imagestack.forEach_stackimage_avarage(renderScriptHandler.GetOut());
                 else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE1x2))
-                    imagestack.forEach_stackimage_avarage1x2(renderScriptHandler.GetOutputAllocation());
+                    imagestack.forEach_stackimage_avarage1x2(renderScriptHandler.GetOut());
                 else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE1x3))
-                    imagestack.forEach_stackimage_avarage1x3(renderScriptHandler.GetOutputAllocation());
+                    imagestack.forEach_stackimage_avarage1x3(renderScriptHandler.GetOut());
                 else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE3x3))
-                    imagestack.forEach_stackimage_avarage3x3(renderScriptHandler.GetOutputAllocation());
+                    imagestack.forEach_stackimage_avarage3x3(renderScriptHandler.GetOut());
                 else if(ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.LIGHTEN))
-                    imagestack.forEach_stackimage_lighten(renderScriptHandler.GetOutputAllocation());
+                    imagestack.forEach_stackimage_lighten(renderScriptHandler.GetOut());
                 else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.MEDIAN))
                 {
-                    imagestack.forEach_stackimage_median(renderScriptHandler.GetOutputAllocation());
+                    imagestack.forEach_stackimage_median(renderScriptHandler.GetOut());
                 }
             }
             else
             {
-                yuvToRgbIntrinsic.setInput(renderScriptHandler.GetInputAllocation());
-                yuvToRgbIntrinsic.forEach(renderScriptHandler.GetOutputAllocation());
+                yuvToRgbIntrinsic.setInput(renderScriptHandler.GetIn());
+                yuvToRgbIntrinsic.forEach(renderScriptHandler.GetOut());
             }
-            renderScriptHandler.GetOutputAllocation().ioSend();
+            renderScriptHandler.GetOut().ioSend();
         }
     }
 

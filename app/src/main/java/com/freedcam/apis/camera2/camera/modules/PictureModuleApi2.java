@@ -676,7 +676,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             {
                 cameraHolder.mProcessor.kill();
             }
-            cameraHolder.mProcessor.setRenderScriptErrorListner(rsErrorHandler);
+
             cameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(),previewSize.getHeight(),0,180,false);
             SurfaceTexture texture = cameraHolder.CaptureSessionH.getSurfaceTexture();
             texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
@@ -775,20 +775,5 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         cameraHolder.mProcessor.kill();
     }
 
-    private RenderScript.RSErrorHandler rsErrorHandler = new RenderScript.RSErrorHandler()
-    {
-        @Override
-        public void run() {
-            super.run();
-            eventHandler.RunOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    DestroyModule();
-                    InitModule();
-                }
-            });
-
-        }
-    };
 
 }

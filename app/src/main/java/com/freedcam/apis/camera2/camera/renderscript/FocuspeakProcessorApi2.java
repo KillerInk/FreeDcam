@@ -57,29 +57,29 @@ public class FocuspeakProcessorApi2
         mProcessingThread = new HandlerThread("ViewfinderProcessor");
         mProcessingThread.start();
         mProcessingHandler = new Handler(mProcessingThread.getLooper());
-        mScriptFocusPeak = new ScriptC_focus_peak(renderScriptHandler.GetRenderScript());
-        yuvToRgbIntrinsic = ScriptIntrinsicYuvToRGB.create(renderScriptHandler.GetRenderScript(), Element.U8_4(renderScriptHandler.GetRenderScript()));
+        mScriptFocusPeak = new ScriptC_focus_peak(renderScriptHandler.GetRS());
+        yuvToRgbIntrinsic = ScriptIntrinsicYuvToRGB.create(renderScriptHandler.GetRS(), Element.U8_4(renderScriptHandler.GetRS()));
     }
 
     public void setRenderScriptErrorListner(RenderScript.RSErrorHandler errorListner)
     {
-        renderScriptHandler.GetRenderScript().setErrorHandler(errorListner);
+        renderScriptHandler.GetRS().setErrorHandler(errorListner);
     }
 
     public void Reset(int width,int height)
     {
         Logger.d(TAG,"Reset:"+width +"x"+height);
-        Type.Builder yuvTypeBuilder = new Type.Builder(renderScriptHandler.GetRenderScript(), Element.YUV(renderScriptHandler.GetRenderScript()));
+        Type.Builder yuvTypeBuilder = new Type.Builder(renderScriptHandler.GetRS(), Element.YUV(renderScriptHandler.GetRS()));
         yuvTypeBuilder.setX(width);
         yuvTypeBuilder.setY(height);
         yuvTypeBuilder.setYuvFormat(ImageFormat.YUV_420_888);
 
-        Type.Builder rgbTypeBuilder = new Type.Builder(renderScriptHandler.GetRenderScript(), Element.RGBA_8888(renderScriptHandler.GetRenderScript()));
+        Type.Builder rgbTypeBuilder = new Type.Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
         rgbTypeBuilder.setX(width);
         rgbTypeBuilder.setY(height);
-        renderScriptHandler.SetAllocsTypeBuilder(yuvTypeBuilder,rgbTypeBuilder);
-        mScriptFocusPeak.set_gCurrentFrame(renderScriptHandler.GetInputAllocation());
-        yuvToRgbIntrinsic.setInput(renderScriptHandler.GetInputAllocation());
+        renderScriptHandler.SetAllocsTypeBuilder(yuvTypeBuilder,rgbTypeBuilder, Allocation.USAGE_IO_INPUT | Allocation.USAGE_SCRIPT,  Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
+        mScriptFocusPeak.set_gCurrentFrame(renderScriptHandler.GetIn());
+        yuvToRgbIntrinsic.setInput(renderScriptHandler.GetIn());
 
         if (mProcessingTask != null) {
 
@@ -92,7 +92,7 @@ public class FocuspeakProcessorApi2
             }
             mProcessingTask = null;
         }
-        mProcessingTask = new ProcessingTask(renderScriptHandler.GetInputAllocation());
+        mProcessingTask = new ProcessingTask();
     }
 
     public Surface getInputSurface() {
@@ -116,7 +116,14 @@ public class FocuspeakProcessorApi2
                 }
             }
             mProcessingTask = null;
-            //renderScriptHandler.SetSurfaceToOutputAllocation(null);
+            if (renderScriptHandler.GetIn() != null) {
+                renderScriptHandler.GetIn().setOnBufferAvailableListener(null);
+            }
+            if (renderScriptHandler.GetOut() != null)
+            {
+                renderScriptHandler.GetOut().setSurface(null);
+                //mOutputAllocation = null;
+            }
         }
         Logger.d(TAG,"kill()");
     }
@@ -130,11 +137,9 @@ public class FocuspeakProcessorApi2
     @TargetApi(Build.VERSION_CODES.KITKAT)
     class ProcessingTask implements Runnable, Allocation.OnBufferAvailableListener {
         private int mPendingFrames = 0;
-        private Allocation mInputAllocation;
         private boolean working = false;
-        public ProcessingTask(Allocation input) {
-            mInputAllocation = input;
-            mInputAllocation.setOnBufferAvailableListener(this);
+        public ProcessingTask() {
+            renderScriptHandler.GetIn().setOnBufferAvailableListener(this);
         }
         @Override
         public void onBufferAvailable(Allocation a) {
@@ -158,22 +163,22 @@ public class FocuspeakProcessorApi2
             // Get to newest input
             for (int i = 0; i < pendingFrames; i++)
             {
-                mInputAllocation.ioReceive();
+                renderScriptHandler.GetIn().ioReceive();
             }
             mCount++;
-            if (renderScriptHandler.GetOutputAllocation() == null)
+            if (renderScriptHandler.GetOut() == null)
                 return;
             if (peak) {
 
                 // Run processing pass
-                mScriptFocusPeak.forEach_peak(renderScriptHandler.GetOutputAllocation());
+                mScriptFocusPeak.forEach_peak(renderScriptHandler.GetOut());
             }
             else
             {
 
-                yuvToRgbIntrinsic.forEach(renderScriptHandler.GetOutputAllocation());
+                yuvToRgbIntrinsic.forEach(renderScriptHandler.GetOut());
             }
-            renderScriptHandler.GetOutputAllocation().ioSend();
+            renderScriptHandler.GetOut().ioSend();
             working = false;
         }
     }

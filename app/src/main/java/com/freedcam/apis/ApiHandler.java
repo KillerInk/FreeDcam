@@ -82,6 +82,7 @@ public class ApiHandler
         else
         {
             ret = new Camera1Fragment();
+            ret.SetRenderScriptHandler(renderScriptHandler);
         }
         ret.SetAppSettingsManager(appSettingsManager);
         return ret;

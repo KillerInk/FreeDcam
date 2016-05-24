@@ -23,7 +23,7 @@ import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.ui.I_AspectRatio;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
-
+import com.freedcam.utils.RenderScriptHandler;
 
 
 /**
@@ -38,23 +38,24 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
 
     private int mHeight;
     private int mWidth;
-    private RenderScript mRS;
-    private Allocation mAllocationOut;
-    private Allocation mAllocationIn;
     private Surface mSurface;
     private ScriptC_focus_peak_cam1 mScriptFocusPeak;
     private boolean enable = false;
     private boolean doWork = false;
     private Context context;
+    private RenderScriptHandler renderScriptHandler;
 
-    public FocusPeakProcessorAp1(I_AspectRatio output, AbstractCameraUiWrapper cameraUiWrapper, Context context)
+    public FocusPeakProcessorAp1(I_AspectRatio output, AbstractCameraUiWrapper cameraUiWrapper, Context context, RenderScriptHandler renderScriptHandler)
     {
         Logger.d(TAG, "Ctor");
         this.output = output;
         this.cameraUiWrapper = cameraUiWrapper;
         this.context = context;
+        this.renderScriptHandler = renderScriptHandler;
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         output.setSurfaceTextureListener(previewSurfaceListner);
+
+        mScriptFocusPeak = new ScriptC_focus_peak_cam1(renderScriptHandler.GetRS());
         clear_preview("Ctor");
     }
 
@@ -70,11 +71,6 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
         Logger.d(TAG, "setEnable" + enabled);
         if (enabled)
         {
-            if(mRS == null) {
-                mRS = RenderScript.create(context.getApplicationContext());
-                mRS.setPriority(RenderScript.Priority.LOW);
-                mScriptFocusPeak = new ScriptC_focus_peak_cam1(mRS);
-            }
             show_preview();
             final Size size = new Size(cameraUiWrapper.camParametersHandler.PreviewSize.GetValue());
             reset(size.width, size.height);
@@ -86,9 +82,6 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
             Logger.d(TAG, "stop focuspeak");
             cameraUiWrapper.cameraHolder.ResetPreviewCallback();
             clear_preview("setEnable");
-            if (mRS != null)
-                mRS.finish();
-            //mRS = null;
 
         }
         if(cameraUiWrapper.camParametersHandler.Focuspeak != null && cameraUiWrapper.camParametersHandler.Focuspeak.IsSupported())
@@ -117,11 +110,6 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
         try {
             mHeight = height;
             mWidth = width;
-            if (mRS == null) {
-                Logger.d(TAG, "rest called but mRS is null");
-                clear_preview("reset");
-                return;
-            }
             Logger.d(TAG, "reset allocs to :" + width + "x" + height);
             try {
                 cameraUiWrapper.cameraHolder.ResetPreviewCallback();
@@ -130,25 +118,24 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
                 Logger.exception(ex);
             }
 
-            Type.Builder tbIn = new Type.Builder(mRS, Element.U8(mRS));
+            Type.Builder tbIn = new Type.Builder(renderScriptHandler.GetRS(), Element.U8(renderScriptHandler.GetRS()));
             tbIn.setX(mWidth);
             tbIn.setY(mHeight);
             tbIn.setYuvFormat(ImageFormat.NV21);
-            if (mAllocationOut != null)
-                mAllocationOut.setSurface(null);
+            if (renderScriptHandler.GetOut()!= null)
+                renderScriptHandler.GetOut().setSurface(null);
 
-            mAllocationIn = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
 
-            Type.Builder tbOut = new Type.Builder(mRS, Element.RGBA_8888(mRS));
+            Type.Builder tbOut = new Type.Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
             tbOut.setX(mWidth);
             tbOut.setY(mHeight);
+            renderScriptHandler.SetAllocsTypeBuilder(tbIn,tbOut,Allocation.USAGE_SCRIPT, Allocation.USAGE_SCRIPT | Allocation.USAGE_IO_OUTPUT);
 
-            mAllocationOut = Allocation.createTyped(mRS, tbOut.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT | Allocation.USAGE_IO_OUTPUT);
             if (mSurface != null)
-                mAllocationOut.setSurface(mSurface);
+                renderScriptHandler.GetOut().setSurface(mSurface);
             else
                 Logger.d(TAG, "surfaceNull");
-            mScriptFocusPeak.set_gCurrentFrame(mAllocationIn);
+            mScriptFocusPeak.set_gCurrentFrame(renderScriptHandler.GetIn());
             Logger.d(TAG, "script done enabled: " + enable);
             cameraUiWrapper.cameraHolder.SetPreviewCallback(this);
         }
@@ -167,8 +154,8 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
             mHeight = height;
             Logger.d(TAG, "SurfaceSizeAvail");
             mSurface = new Surface(surface);
-            if (mAllocationOut != null)
-                mAllocationOut.setSurface(mSurface);
+            if (renderScriptHandler.GetOut() != null)
+                renderScriptHandler.GetOut().setSurface(mSurface);
             else
                 Logger.d(TAG, "Allocout null");
         }
@@ -177,8 +164,8 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
         public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
             Logger.d(TAG, "SurfaceSizeChanged");
             mSurface = new Surface(surface);
-            if (mAllocationOut != null)
-                mAllocationOut.setSurface(mSurface);
+            if (renderScriptHandler.GetOut()  != null)
+                renderScriptHandler.GetOut().setSurface(mSurface);
             else {
                 Logger.d(TAG, "Allocout null");
 
@@ -244,9 +231,9 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
             @Override
             public void run() {
                 isWorking = true;
-                mAllocationIn.copyFrom(data);
-                mScriptFocusPeak.forEach_peak(mAllocationOut);
-                mAllocationOut.ioSend();
+                renderScriptHandler.GetIn().copyFrom(data);
+                mScriptFocusPeak.forEach_peak(renderScriptHandler.GetOut());
+                renderScriptHandler.GetOut().ioSend();
                 isWorking = false;
             }
         });
