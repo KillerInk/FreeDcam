@@ -61,46 +61,14 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.freedcam_main_activity);
 
-        //Get default handler for uncaught exceptions. to let fc app as it should
-        defaultEXhandler = Thread.getDefaultUncaughtExceptionHandler();
-        //set up own ex handler to have a change to catch the fc bevor app dies
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread thread, Throwable e)
-            {
-                //yeahaw app crash print ex to logger
-                Logger.exception(e);
-                //set back default exhandler and let app die
-                defaultEXhandler.uncaughtException(thread,e);
-            }
-        });
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-            renderScriptHandler = new RenderScriptHandler(getApplicationContext());
-        sampleThemeFragment = (SampleThemeFragment) getSupportFragmentManager().findFragmentById(R.id.sampleThemeFragment);
-    }
-
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
         Logger.d(TAGLIFE, "Activity onResume");
-        if (checkMarshmallowPermissions() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        if (checkMarshmallowPermissions())
             createHandlers();
         else
             createHandlers();
-    }
 
-    @Override
-    protected void onPause()
-    {
-        super.onPause();
-        unloadCameraFragment();
-        Logger.d(TAGLIFE, "Activity onPause");
-    }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
+
     }
 
     @Override
@@ -118,7 +86,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
             if (checkSelfPermission(Manifest.permission.CAMERA)
-                    != PackageManager.PERMISSION_GRANTED )
+                    != PackageManager.PERMISSION_GRANTED || checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
             {
                 requestPermissions(new String[]{
                         Manifest.permission.CAMERA,
@@ -131,9 +99,8 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
                         Manifest.permission.CHANGE_WIFI_STATE,}, 1);
                 return false;
             }
-            else return true;
         }
-        else return true;
+        return true;
     }
 
     @Override
@@ -171,8 +138,24 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         }
     }
 
-    private void createHandlers() {
-
+    private void createHandlers()
+    {
+        //Get default handler for uncaught exceptions. to let fc app as it should
+        defaultEXhandler = Thread.getDefaultUncaughtExceptionHandler();
+        //set up own ex handler to have a change to catch the fc bevor app dies
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread thread, Throwable e)
+            {
+                //yeahaw app crash print ex to logger
+                Logger.exception(e);
+                //set back default exhandler and let app die
+                defaultEXhandler.uncaughtException(thread,e);
+            }
+        });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            renderScriptHandler = new RenderScriptHandler(getApplicationContext());
+        sampleThemeFragment = (SampleThemeFragment) getSupportFragmentManager().findFragmentById(R.id.sampleThemeFragment);
         checkSaveLogToFile();
         orientationHandler = new OrientationHandler(this, this);
         timerHandler = new TimerHandler(this);
