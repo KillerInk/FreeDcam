@@ -116,7 +116,7 @@ public class FocuspeakProcessorApi2
                 }
             }
             mProcessingTask = null;
-            renderScriptHandler.SetSurfaceToOutputAllocation(null);
+            //renderScriptHandler.SetSurfaceToOutputAllocation(null);
         }
         Logger.d(TAG,"kill()");
     }

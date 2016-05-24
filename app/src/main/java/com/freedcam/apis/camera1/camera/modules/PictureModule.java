@@ -85,7 +85,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
                     Logger.d(TAG,"ZSL state after turning it off:" + ParameterHandler.ZSL.GetValue());
                 }
             }
-            changeWorkState(AbstractModuleHandler.CaptureModes.image_capture_start);
+            changeWorkState(CaptureModes.image_capture_start);
             waitForPicture = true;
             burstcount = 0;
             cameraHolder.TakePicture(null, this);

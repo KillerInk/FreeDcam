@@ -176,7 +176,6 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                     mCaptureSession.abortCaptures();
                     mCaptureSession.close();
                     CaptureSessionH.Clear();
-                    mPreviewRequestBuilder = null;
                     mCaptureSession = null;
 
                 }

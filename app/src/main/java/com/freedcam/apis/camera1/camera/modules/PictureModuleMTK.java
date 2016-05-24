@@ -34,7 +34,7 @@ public class PictureModuleMTK extends PictureModule
     {
         if (!this.isWorking)
         {
-            changeWorkState(CaptureModes.image_capture_start);
+
             Logger.d(TAG, "Start Take Picture");
             waitForPicture = true;
             if (ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.BAYER) || ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.DNG)) {
@@ -42,6 +42,7 @@ public class PictureModuleMTK extends PictureModule
                 ParameterHandler.Set_RAWFNAME(StringUtils.GetInternalSDCARD()+"/DCIM/FreeDCam/" + "mtk" + timestamp + ".bayer");
             }
             isWorking = true;
+            changeWorkState(CaptureModes.image_capture_start);
             cameraHolder.TakePicture(null, this);
         }
         return true;
@@ -82,11 +83,11 @@ public class PictureModuleMTK extends PictureModule
                         break;
                 }
                 waitForPicture = false;
-                changeWorkState(CaptureModes.image_capture_stop);
                 cameraHolder.StartPreview();
                 MediaScannerManager.ScanMedia(context,holdFile);
                 eventHandler.WorkFinished(holdFile);
                 isWorking = false;
+                changeWorkState(CaptureModes.image_capture_stop);
             }
         });
     }
