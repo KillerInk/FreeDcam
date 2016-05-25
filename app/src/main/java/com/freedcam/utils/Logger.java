@@ -92,15 +92,10 @@ public class Logger
     {
         private FileWriter outputStream;
         private BufferedWriter writer;
-        private HandlerThread backgroundThread;
-        private Handler backgroundHandler;
         private File file;
 
         public FileLogger()
         {
-            backgroundThread = new HandlerThread(TAG);
-            backgroundThread.start();
-            backgroundHandler = new Handler(backgroundThread.getLooper());
             file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/FreeDcam/" + "DEBUG/"+ Build.MODEL + "_" + DateFormat.format("yyyy-MM-dd_hh.mm.ss", new Date().getTime()) + ".txt");
             try {
                 outputStream = new FileWriter(file);
@@ -125,7 +120,7 @@ public class Logger
                 try {
                     outputStream.flush();
                 } catch (IOException e) {
-                    Logger.exception(e);
+                    e.printStackTrace();
                 }
                 try {
                     writer.close();
@@ -140,47 +135,35 @@ public class Logger
                     e.printStackTrace();
                 }
             }
-            backgroundThread.quit();
+
         }
 
         public void WriteLogDebug(final String TAG,final String msg)
         {
-            backgroundHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        String b = String.valueOf(DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime())) +
-                                ":(D) " +
-                                TAG + ":" +
-                                msg;
-                        writer.write(b);
-                        writer.newLine();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-
+            try {
+                String b = String.valueOf(DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime())) +
+                        ":(D) " +
+                        TAG + ":" +
+                        msg;
+                writer.write(b);
+                writer.newLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         public void WriteLogErrorDebug(final String TAG,final String msg)
         {
-            backgroundHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        String b = String.valueOf(DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime())) +
-                                ":(E) " +
-                                TAG +
-                                msg;
-                        writer.write(b);
-                        writer.newLine();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-
+            try {
+                String b = String.valueOf(DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime())) +
+                        ":(E) " +
+                        TAG +
+                        msg;
+                writer.write(b);
+                writer.newLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         public void WriteEx(Throwable ex)
