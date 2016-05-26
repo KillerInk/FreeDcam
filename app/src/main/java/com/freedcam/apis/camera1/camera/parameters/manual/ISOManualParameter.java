@@ -41,10 +41,14 @@ public class ISOManualParameter extends BaseManualParameter {
 
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9)) {
             return Integer.parseInt(parameters.get("iso-st"));
-        } else {
+        } else
+        {
+            final String tmp = parameters.get(value);
+            if (tmp.equals("auto"))
+                return 0;
             try {
                 return Integer.parseInt(parameters.get(value));
-            } catch (NullPointerException ex) {
+            } catch (NullPointerException | NumberFormatException ex) {
                 return 0;
             }
 
