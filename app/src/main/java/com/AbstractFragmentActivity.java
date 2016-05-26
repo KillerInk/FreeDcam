@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.Logger;
 import com.freedviewer.helper.BitmapHelper;
 
 /**
@@ -21,6 +22,7 @@ import com.freedviewer.helper.BitmapHelper;
  */
 public abstract class AbstractFragmentActivity extends FragmentActivity implements I_Activity
 {
+    private final String TAG = AbstractFragmentActivity.class.getSimpleName();
     protected AppSettingsManager appSettingsManager;
     private final int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -28,12 +30,16 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
             | View.SYSTEM_UI_FLAG_FULLSCREEN
             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    protected void createHandlers()
+    {
+        Logger.d(TAG, "createHandlers()");
         appSettingsManager = new AppSettingsManager();
-        /*if (!FreeDPool.IsInit())
-            FreeDPool.INIT(getMuliplier());*/
         Context ctx = getApplicationContext();
         BitmapHelper.INIT(ctx);
 
@@ -41,13 +47,13 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
         HIDENAVBAR();
     }
 
-    @Override
+    /*@Override
     protected void onResume() {
         super.onResume();
         HIDENAVBAR();
         if (BitmapHelper.CACHE == null)
             BitmapHelper.INIT(getApplicationContext());
-    }
+    }*/
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

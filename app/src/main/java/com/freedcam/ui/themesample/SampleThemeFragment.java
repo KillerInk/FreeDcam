@@ -55,7 +55,6 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
     public void SetAppSettingsManager(AppSettingsManager appSettingsManager)
     {
         this.appSettingsManager = appSettingsManager;
-        this.i_activity = (I_Activity)getActivity();
     }
 
     @Override
@@ -78,6 +77,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container, savedInstanceState);
+        this.i_activity = (I_Activity)getActivity();
         View view = inflater.inflate(R.layout.samplethemefragment, container, false);
         this.mPager = (PagingView)view.findViewById(R.id.viewPager_fragmentHolder);
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());

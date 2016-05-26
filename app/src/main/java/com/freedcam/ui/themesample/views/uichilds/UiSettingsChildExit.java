@@ -19,8 +19,10 @@ public class UiSettingsChildExit extends UiSettingsChild
         super(context, attrs);
         this.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v) {
-                i_activity.closeActivity();
+            public void onClick(View v)
+            {
+                if (i_activity != null)
+                    i_activity.closeActivity();
             }
         });
     }

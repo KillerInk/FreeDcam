@@ -51,11 +51,5 @@
         android:layout_alignParentLeft="true">
     </LinearLayout>
 
-    <fragment
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:name="com.freedcam.ui.themesample.SampleThemeFragment"
-        android:id="@+id/sampleThemeFragment"
-        tools:layout="@layout/samplethemefragment" />
 
 </RelativeLayout>

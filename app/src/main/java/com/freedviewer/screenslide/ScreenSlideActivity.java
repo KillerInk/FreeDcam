@@ -21,6 +21,7 @@ public class ScreenSlideActivity extends AbstractFragmentActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        createHandlers();
         if (getSupportFragmentManager().findFragmentByTag(TAG) == null)
         {
             ScreenSlideFragment fragment = new ScreenSlideFragment();

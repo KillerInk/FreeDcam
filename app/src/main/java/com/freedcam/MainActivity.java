@@ -62,24 +62,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         setContentView(R.layout.freedcam_main_activity);
 
         Logger.d(TAGLIFE, "Activity onResume");
-        if (checkMarshmallowPermissions())
-            createHandlers();
-        else
-            createHandlers();
-    }
 
-    @Override
-    protected void onDestroy()
-    {
-        super.onDestroy();
-        if (savelogtofile) {
-            Logger.StopLogging();
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.M)
-    private boolean checkMarshmallowPermissions()
-    {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
             if (checkSelfPermission(Manifest.permission.CAMERA)
@@ -94,10 +77,21 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
                         Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.ACCESS_WIFI_STATE,
                         Manifest.permission.CHANGE_WIFI_STATE,}, 1);
-                return false;
             }
+            else
+                createHandlers();
         }
-        return true;
+        else
+            createHandlers();
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        if (savelogtofile) {
+            Logger.StopLogging();
+        }
     }
 
     @Override
@@ -134,9 +128,11 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
             Logger.StartLogging();
         }
     }
-
-    private void createHandlers()
+    @Override
+    protected void createHandlers()
     {
+        Logger.d(TAG, "createHandlers()");
+        super.createHandlers();
         //Get default handler for uncaught exceptions. to let fc app as it should
         defaultEXhandler = Thread.getDefaultUncaughtExceptionHandler();
         //set up own ex handler to have a change to catch the fc bevor app dies
@@ -150,10 +146,10 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
                 defaultEXhandler.uncaughtException(thread,e);
             }
         });
-        
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
             renderScriptHandler = new RenderScriptHandler(getApplicationContext());
-        sampleThemeFragment = (SampleThemeFragment) getSupportFragmentManager().findFragmentById(R.id.sampleThemeFragment);
+
         checkSaveLogToFile();
         orientationHandler = new OrientationHandler(this, this);
         timerHandler = new TimerHandler(this);
@@ -163,7 +159,12 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         apiHandler.CheckApi();
         hardwareKeyHandler = new HardwareKeyHandler(this,appSettingsManager);
         //load the cameraui
+        sampleThemeFragment = new SampleThemeFragment();
         sampleThemeFragment.SetAppSettingsManager(appSettingsManager);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
+        transaction.add(R.id.themeFragmentholder, sampleThemeFragment, "CameraFragment");
+        transaction.commitAllowingStateLoss();
     }
 
     /**
