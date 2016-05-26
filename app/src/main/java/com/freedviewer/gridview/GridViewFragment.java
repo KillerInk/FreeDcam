@@ -390,7 +390,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         mPagerAdapter.notifyDataSetChanged();
         if (isRootDir)
         {
-            deleteButton.setVisibility(View.GONE);
+            deleteButton.setVisibility(View.VISIBLE);
             rawToDngButton.setVisibility(View.GONE);
             filetypeButton.setVisibility(View.GONE);
             filesSelected.setVisibility(View.GONE);

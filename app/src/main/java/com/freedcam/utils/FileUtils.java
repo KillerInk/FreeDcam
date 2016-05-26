@@ -2,6 +2,7 @@ package com.freedcam.utils;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.support.v4.provider.DocumentFile;
 
 import java.io.File;
@@ -58,7 +59,25 @@ public class FileUtils
 
     public static boolean delteDocumentFile(File file, AppSettingsManager appSettingsManager,Context context) throws NullPointerException
     {
-        if (!file.delete()) {
+        if (file.isDirectory())
+        {
+            File[] files = file.listFiles();
+            for (File f : files)
+                deletFile(f, appSettingsManager, context);
+            deletFile(file, appSettingsManager, context);
+        }
+        else
+        {
+            Boolean d = deletFile(file, appSettingsManager, context);
+            if (d != null) return d;
+        }
+        return true;
+    }
+
+    @Nullable
+    private static Boolean deletFile(File file, AppSettingsManager appSettingsManager, Context context) {
+        if (!file.delete())
+        {
             DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(appSettingsManager,context);
             if (sdDir == null)
                 throw new NullPointerException();
@@ -82,7 +101,7 @@ public class FileUtils
             Logger.d("delteDocumentFile", "file delted:" + d);
             return d;
         }
-        return true;
+        return null;
     }
 
 
