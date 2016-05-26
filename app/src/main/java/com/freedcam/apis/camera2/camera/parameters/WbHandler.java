@@ -222,7 +222,7 @@ public class WbHandler
         @Override
         public void SetValue(int valueToSet)
         {
-            if (valueToSet == 0)
+            if (valueToSet == 0) // = auto
                 return;
             currentInt =valueToSet;
             valueToSet = Integer.parseInt(stringvalues[valueToSet]);

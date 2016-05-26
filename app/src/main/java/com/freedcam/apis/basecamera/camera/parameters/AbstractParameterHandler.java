@@ -2,6 +2,7 @@ package com.freedcam.apis.basecamera.camera.parameters;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.camera.FocusRect;
@@ -14,6 +15,7 @@ import com.freedcam.apis.basecamera.camera.parameters.modes.IntervalShutterSleep
 import com.freedcam.apis.basecamera.camera.parameters.modes.LocationParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.SDModeParameter;
 import com.freedcam.utils.AppSettingsManager;
+import com.freedcam.utils.Logger;
 
 import java.util.ArrayList;
 
@@ -22,6 +24,7 @@ import java.util.ArrayList;
  */
 public abstract class AbstractParameterHandler
 {
+    final String TAG = AbstractParameterHandler.class.getSimpleName();
     /**
      * Holds the UI/Main Thread
      */
@@ -276,7 +279,17 @@ public abstract class AbstractParameterHandler
             if (appSettingsManager.getString(settingsval).equals("") || appSettingsManager.getString(settingsval).equals(null))
                 appSettingsManager.setString(settingsval, parameter.GetValue()+"");
             else
-                parameter.SetValue(Integer.parseInt(appSettingsManager.getString(settingsval)));
+            {
+                try {
+                    final int tmp = Integer.parseInt(appSettingsManager.getString(settingsval));
+                    parameter.SetValue(tmp);
+                }
+                catch (NumberFormatException ex)
+                {
+                    Logger.exception(ex);
+                }
+
+            }
         }
     }
 
