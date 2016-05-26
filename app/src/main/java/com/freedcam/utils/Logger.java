@@ -88,6 +88,20 @@ public class Logger
         fileLogger = null;
     }
 
+    public static void DUMPLOGTOFILE()
+    {
+        File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/FreeDcam/" + "CRASH/" + Build.MODEL + "_" + DateFormat.format("yyyy-MM-dd_hh.mm.ss", new Date().getTime()) + ".txt");
+        if (!f.getParentFile().exists())
+            f.getParentFile().mkdirs();
+            try {
+                Runtime.getRuntime().exec(
+                        "logcat  -d -f " + f.getAbsolutePath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+    }
+
     private static class FileLogger
     {
         private FileWriter outputStream;

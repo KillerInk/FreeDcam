@@ -66,9 +66,6 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
             createHandlers();
         else
             createHandlers();
-
-
-
     }
 
     @Override
@@ -148,11 +145,12 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
             public void uncaughtException(Thread thread, Throwable e)
             {
                 //yeahaw app crash print ex to logger
-                Logger.exception(e);
+                Logger.DUMPLOGTOFILE();
                 //set back default exhandler and let app die
                 defaultEXhandler.uncaughtException(thread,e);
             }
         });
+        
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
             renderScriptHandler = new RenderScriptHandler(getApplicationContext());
         sampleThemeFragment = (SampleThemeFragment) getSupportFragmentManager().findFragmentById(R.id.sampleThemeFragment);
