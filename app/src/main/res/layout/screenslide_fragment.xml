@@ -25,7 +25,7 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/app_icon_size"
+        android:layout_height="@dimen/gridview_topbar_height"
         android:layout_below="@+id/imageView_PicView"
         android:id="@+id/top_bar"
         android:layout_alignParentLeft="false"
@@ -34,34 +34,39 @@
         android:background="#82ffffff">
 
         <Button
-            android:layout_width="@dimen/app_icon_size"
-            android:layout_height="@dimen/app_icon_size"
+            android:layout_width="@dimen/gridview_topbar_height"
+            android:layout_height="@dimen/gridview_topbar_height"
+            android:id="@+id/button_closeView"
+            android:textSize="10dp"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentEnd="false"
+            android:background="@drawable/go_back"
+            android:layout_alignParentLeft="false"
+            android:layout_marginLeft="10dp" />
+
+        <Button
+            android:layout_width="@dimen/gridview_topbar_height"
+            android:layout_height="@dimen/gridview_topbar_height"
             android:id="@+id/button_play"
             android:layout_alignParentBottom="false"
             android:textSize="10dp"
             android:layout_alignParentLeft="false"
-            android:background="@drawable/ic_play" />
+            android:background="@drawable/ic_play"
+            android:layout_alignParentRight="false"
+            android:layout_toLeftOf="@+id/button_delete"
+            android:layout_marginRight="10dp" />
 
         <Button
-            android:layout_width="@dimen/app_icon_size"
-            android:layout_height="@dimen/app_icon_size"
+            android:layout_width="@dimen/gridview_topbar_height"
+            android:layout_height="@dimen/gridview_topbar_height"
             android:id="@+id/button_delete"
             android:layout_alignParentBottom="false"
             android:textSize="10dp"
             android:layout_alignParentLeft="false"
-            android:layout_toRightOf="@+id/button_play"
-            android:layout_marginLeft="5dp"
-            android:background="@drawable/delete" />
-    <Button
-        android:layout_width="@dimen/app_icon_size"
-        android:layout_height="@dimen/app_icon_size"
-        android:id="@+id/button_closeView"
-        android:textSize="10dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:background="@drawable/go_back"
-        android:layout_marginRight="10dp" />
+            android:background="@drawable/delete"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp" />
     </RelativeLayout>
     <LinearLayout
         android:orientation="vertical"
