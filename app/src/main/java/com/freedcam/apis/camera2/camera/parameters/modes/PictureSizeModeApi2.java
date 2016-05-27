@@ -13,7 +13,7 @@ import com.freedcam.apis.camera2.camera.CameraHolderApi2;
  */
 public class PictureSizeModeApi2 extends BaseModeApi2
 {
-    private String size;
+    private String size = "1920x1080";
     public PictureSizeModeApi2(Handler handler,CameraHolderApi2 cameraHolderApi2) {
         super(handler, cameraHolderApi2);
     }
@@ -38,7 +38,6 @@ public class PictureSizeModeApi2 extends BaseModeApi2
     @Override
     public String GetValue()
     {
-
         return size;
     }
 
