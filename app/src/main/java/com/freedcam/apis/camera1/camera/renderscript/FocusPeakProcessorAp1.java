@@ -20,10 +20,15 @@ import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.camera.interfaces.I_Module;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
+import com.freedcam.apis.camera1.camera.CameraUiWrapper;
+import com.freedcam.apis.sonyremote.camera.sonystuff.DataExtractor;
 import com.freedcam.ui.I_AspectRatio;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.RenderScriptHandler;
+
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 
 /**
@@ -34,7 +39,7 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
 {
     private final String TAG = FocusPeakProcessorAp1.class.getSimpleName();
     private I_AspectRatio output;
-    private AbstractCameraUiWrapper cameraUiWrapper;
+    private CameraUiWrapper cameraUiWrapper;
 
     private int mHeight;
     private int mWidth;
@@ -42,10 +47,13 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
     private ScriptC_focus_peak_cam1 mScriptFocusPeak;
     private boolean enable = false;
     private boolean doWork = false;
+    private boolean isWorking = false;
     private Context context;
     private RenderScriptHandler renderScriptHandler;
+    private int expectedByteSize;
+    private final BlockingQueue<byte[]> frameQueue = new ArrayBlockingQueue<>(2);
 
-    public FocusPeakProcessorAp1(I_AspectRatio output, AbstractCameraUiWrapper cameraUiWrapper, Context context, RenderScriptHandler renderScriptHandler)
+    public FocusPeakProcessorAp1(I_AspectRatio output, CameraUiWrapper cameraUiWrapper, Context context, RenderScriptHandler renderScriptHandler)
     {
         Logger.d(TAG, "Ctor");
         this.output = output;
@@ -71,11 +79,12 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
         Logger.d(TAG, "setEnable" + enabled);
         if (enabled)
         {
-            show_preview();
             final Size size = new Size(cameraUiWrapper.camParametersHandler.PreviewSize.GetValue());
             reset(size.width, size.height);
+            startPeak();
             Logger.d(TAG, "Set PreviewCallback");
             Logger.d(TAG, "enable focuspeak");
+            show_preview();
         }
         else
         {
@@ -103,6 +112,44 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
         }
     }
 
+    private void startPeak()
+    {
+        FreeDPool.Execute(new Runnable() {
+            @Override
+            public void run() {
+                isWorking = true;
+                byte[] tmp;
+                while (enable)
+                {
+                    try {
+                        //take one stored frame for processing
+                        tmp = frameQueue.take();
+                        renderScriptHandler.GetIn().copyFrom(tmp);
+
+                        mScriptFocusPeak.forEach_peak(renderScriptHandler.GetOut());
+                        renderScriptHandler.GetOut().ioSend();
+                        //pass frame back to camera that it get reused
+                        cameraUiWrapper.cameraHolder.GetCamera().addCallbackBuffer(tmp);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    finally
+                    {
+                        //clear frames and pass them back the camera
+                        while (frameQueue.size()>0)
+                            try {
+                                cameraUiWrapper.cameraHolder.GetCamera().addCallbackBuffer(frameQueue.take());
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        frameQueue.clear();
+                    }
+                }
+                isWorking = false;
+            }
+        });
+    }
+
     public boolean isEnable() { return  enable;}
 
     private void reset(int width, int height)
@@ -110,6 +157,9 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
         try {
             mHeight = height;
             mWidth = width;
+            expectedByteSize = mHeight * mWidth *
+                    ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8;
+
             Logger.d(TAG, "reset allocs to :" + width + "x" + height);
             try {
                 cameraUiWrapper.cameraHolder.ResetPreviewCallback();
@@ -146,49 +196,6 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
         }
     }
 
-    private TextureView.SurfaceTextureListener previewSurfaceListner = new TextureView.SurfaceTextureListener() {
-        @Override
-        public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
-        {
-            mWidth = width;
-            mHeight = height;
-            Logger.d(TAG, "SurfaceSizeAvail");
-            mSurface = new Surface(surface);
-            if (renderScriptHandler.GetOut() != null)
-                renderScriptHandler.GetOut().setSurface(mSurface);
-            else
-                Logger.d(TAG, "Allocout null");
-        }
-
-        @Override
-        public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
-            Logger.d(TAG, "SurfaceSizeChanged");
-            mSurface = new Surface(surface);
-            if (renderScriptHandler.GetOut()  != null)
-                renderScriptHandler.GetOut().setSurface(mSurface);
-            else {
-                Logger.d(TAG, "Allocout null");
-
-            }
-        }
-
-        @Override
-        public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-            Logger.d(TAG, "SurfaceDestroyed");
-            clear_preview("onSurfaceTextureDestroyed");
-            mSurface = null;
-
-
-            return false;
-        }
-
-        @Override
-        public void onSurfaceTextureUpdated(SurfaceTexture surface) {
-
-        }
-    };
-
-
     public void SetAspectRatio(int w, int h)
     {
         Logger.d(TAG, "SetAspectRatio enable: " +enable);
@@ -197,47 +204,41 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
             reset(w,h);
     }
 
-    private boolean isWorking = false;
+
     @Override
     public void onPreviewFrame(final byte[] data, Camera camera)
     {
-        if (!enable)
+        if (data == null)
+            return;
+        else if (!enable)
         {
             Logger.d(TAG, "onPreviewFrame enabled:" +enable);
             camera.addCallbackBuffer(data);
             cameraUiWrapper.cameraHolder.ResetPreviewCallback();
             return;
         }
-        if (!doWork) {
+        else if (!doWork) {
             camera.addCallbackBuffer(data);
             return;
         }
-        if (data == null)
-            return;
-        if (isWorking) {
-            camera.addCallbackBuffer(data);
-            return;
-        }
-
-        int teosize = mHeight * mWidth *
-                ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8;
-        if (teosize != data.length) {
+        else if (expectedByteSize != data.length) {
             Logger.d(TAG, "frame size does not match rendersize");
             Camera.Size s = camera.getParameters().getPreviewSize();
             reset(s.width, s.height);
             return;
         }
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                isWorking = true;
-                renderScriptHandler.GetIn().copyFrom(data);
-                mScriptFocusPeak.forEach_peak(renderScriptHandler.GetOut());
-                renderScriptHandler.GetOut().ioSend();
-                isWorking = false;
+        //if limit is reached pass one frame back to the camera that i can get resused
+        if (frameQueue.size() == 2)
+        {
+            try {
+                camera.addCallbackBuffer(frameQueue.take());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        });
-        camera.addCallbackBuffer(data);
+        }
+        //store new frame, dont pass it back to the camera else it get cleaned
+        frameQueue.add(data);
+
     }
 
     @Override
@@ -300,4 +301,46 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
     }
 
     private void setDoWork(boolean work) {this.doWork = work;}
+
+    private TextureView.SurfaceTextureListener previewSurfaceListner = new TextureView.SurfaceTextureListener() {
+        @Override
+        public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
+        {
+            mWidth = width;
+            mHeight = height;
+            Logger.d(TAG, "SurfaceSizeAvail");
+            mSurface = new Surface(surface);
+            if (renderScriptHandler.GetOut() != null)
+                renderScriptHandler.GetOut().setSurface(mSurface);
+            else
+                Logger.d(TAG, "Allocout null");
+        }
+
+        @Override
+        public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+            Logger.d(TAG, "SurfaceSizeChanged");
+            mSurface = new Surface(surface);
+            if (renderScriptHandler.GetOut()  != null)
+                renderScriptHandler.GetOut().setSurface(mSurface);
+            else {
+                Logger.d(TAG, "Allocout null");
+
+            }
+        }
+
+        @Override
+        public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+            Logger.d(TAG, "SurfaceDestroyed");
+            clear_preview("onSurfaceTextureDestroyed");
+            mSurface = null;
+
+
+            return false;
+        }
+
+        @Override
+        public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+
+        }
+    };
 }
