@@ -55,19 +55,20 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
             BitmapHelper.INIT(getApplicationContext());
     }*/
 
-    @Override
+/*    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus)
             HIDENAVBAR();
-    }
+    }*/
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onDestroy()
+    {
         appSettingsManager.SaveAppSettings();
         BitmapHelper.DESTROY();
         DeviceUtils.DESTROY();
+        super.onDestroy();
        /* if (FreeDPool.IsInit())
             FreeDPool.Destroy();*/
     }
