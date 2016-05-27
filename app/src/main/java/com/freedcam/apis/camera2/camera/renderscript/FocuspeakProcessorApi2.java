@@ -43,8 +43,6 @@ public class FocuspeakProcessorApi2
     private float mFps;
     private HandlerThread mProcessingThread;
     private Handler mProcessingHandler;
-    private ScriptC_focus_peak mScriptFocusPeak;
-    private ScriptIntrinsicYuvToRGB yuvToRgbIntrinsic;
     private ProcessingTask mProcessingTask;
     public boolean peak = false;
     private RenderScriptHandler renderScriptHandler;
@@ -57,8 +55,7 @@ public class FocuspeakProcessorApi2
         mProcessingThread = new HandlerThread("ViewfinderProcessor");
         mProcessingThread.start();
         mProcessingHandler = new Handler(mProcessingThread.getLooper());
-        mScriptFocusPeak = new ScriptC_focus_peak(renderScriptHandler.GetRS());
-        yuvToRgbIntrinsic = ScriptIntrinsicYuvToRGB.create(renderScriptHandler.GetRS(), Element.U8_4(renderScriptHandler.GetRS()));
+
     }
 
     public void setRenderScriptErrorListner(RenderScript.RSErrorHandler errorListner)
@@ -78,8 +75,8 @@ public class FocuspeakProcessorApi2
         rgbTypeBuilder.setX(width);
         rgbTypeBuilder.setY(height);
         renderScriptHandler.SetAllocsTypeBuilder(yuvTypeBuilder,rgbTypeBuilder, Allocation.USAGE_IO_INPUT | Allocation.USAGE_SCRIPT,  Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
-        mScriptFocusPeak.set_gCurrentFrame(renderScriptHandler.GetIn());
-        yuvToRgbIntrinsic.setInput(renderScriptHandler.GetIn());
+        renderScriptHandler.ScriptFocusPeakApi2.set_gCurrentFrame(renderScriptHandler.GetIn());
+        renderScriptHandler.yuvToRgbIntrinsic.setInput(renderScriptHandler.GetIn());
 
         if (mProcessingTask != null) {
 
@@ -171,12 +168,12 @@ public class FocuspeakProcessorApi2
             if (peak) {
 
                 // Run processing pass
-                mScriptFocusPeak.forEach_peak(renderScriptHandler.GetOut());
+                renderScriptHandler.ScriptFocusPeakApi2.forEach_peak(renderScriptHandler.GetOut());
             }
             else
             {
 
-                yuvToRgbIntrinsic.forEach(renderScriptHandler.GetOut());
+                renderScriptHandler.yuvToRgbIntrinsic.forEach(renderScriptHandler.GetOut());
             }
             renderScriptHandler.GetOut().ioSend();
             working = false;

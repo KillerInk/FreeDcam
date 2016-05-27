@@ -44,7 +44,7 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
     private int mHeight;
     private int mWidth;
     private Surface mSurface;
-    private ScriptC_focus_peak_cam1 mScriptFocusPeak;
+
     private boolean enable = false;
     private boolean doWork = false;
     private boolean isWorking = false;
@@ -63,7 +63,7 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
         output.setSurfaceTextureListener(previewSurfaceListner);
 
-        mScriptFocusPeak = new ScriptC_focus_peak_cam1(renderScriptHandler.GetRS());
+
         clear_preview("Ctor");
     }
 
@@ -126,7 +126,7 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
                         tmp = frameQueue.take();
                         renderScriptHandler.GetIn().copyFrom(tmp);
 
-                        mScriptFocusPeak.forEach_peak(renderScriptHandler.GetOut());
+                        renderScriptHandler.ScriptFocusPeakApi1.forEach_peak(renderScriptHandler.GetOut());
                         renderScriptHandler.GetOut().ioSend();
                         //pass frame back to camera that it get reused
                         cameraUiWrapper.cameraHolder.GetCamera().addCallbackBuffer(tmp);
@@ -185,7 +185,7 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
                 renderScriptHandler.GetOut().setSurface(mSurface);
             else
                 Logger.d(TAG, "surfaceNull");
-            mScriptFocusPeak.set_gCurrentFrame(renderScriptHandler.GetIn());
+            renderScriptHandler.ScriptFocusPeakApi1.set_gCurrentFrame(renderScriptHandler.GetIn());
             Logger.d(TAG, "script done enabled: " + enable);
             cameraUiWrapper.cameraHolder.SetPreviewCallback(this);
         }
