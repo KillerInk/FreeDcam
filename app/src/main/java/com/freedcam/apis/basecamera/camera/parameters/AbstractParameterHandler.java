@@ -265,10 +265,19 @@ public abstract class AbstractParameterHandler
     {
         if (parameter != null && parameter.IsSupported() && settingsval != null && !settingsval.equals(""))
         {
+            Logger.d(TAG, parameter.getClass().getSimpleName() + " load settings: " + settingsval);
             if (appSettingsManager.getString(settingsval).equals("") || appSettingsManager.getString(settingsval) == null)
-                appSettingsManager.setString(settingsval, parameter.GetValue());
+            {
+                final String tmp = parameter.GetValue();
+                Logger.d(TAG, settingsval + " is empty, set default from camera : " +tmp);
+                appSettingsManager.setString(settingsval, tmp);
+            }
             else
-                parameter.SetValue(appSettingsManager.getString(settingsval), false);
+            {
+                final String tmp = appSettingsManager.getString(settingsval);
+                Logger.d(TAG, "Found AppSetting: "+settingsval+" set to: " + tmp);
+                parameter.SetValue(tmp, false);
+            }
         }
     }
 
@@ -276,12 +285,18 @@ public abstract class AbstractParameterHandler
     {
         if (parameter != null && parameter.IsSupported() && settingsval != null && !settingsval.equals(""))
         {
+            Logger.d(TAG, parameter.getClass().getSimpleName() + " load settings: " + settingsval);
             if (appSettingsManager.getString(settingsval).equals("") || appSettingsManager.getString(settingsval).equals(null))
-                appSettingsManager.setString(settingsval, parameter.GetValue()+"");
+            {
+                final String tmp = parameter.GetValue()+"";
+                Logger.d(TAG, settingsval + " is empty, set default from camera : " +tmp);
+                appSettingsManager.setString(settingsval, tmp);
+            }
             else
             {
                 try {
                     final int tmp = Integer.parseInt(appSettingsManager.getString(settingsval));
+                    Logger.d(TAG, "Found AppSetting: "+settingsval+" set to: " + tmp);
                     parameter.SetValue(tmp);
                 }
                 catch (NumberFormatException ex)
