@@ -56,18 +56,23 @@ public class PictureFormatHandler extends BaseModeParameter
         {
             Logger.d(TAG,"default");
             isSupported = true;
-            if (DeviceUtils.IS(DeviceUtils.Devices.LG_G2)){
+            if (DeviceUtils.IS(DeviceUtils.Devices.LG_G2))
+            {
                 isSupported = true;
                 rawSupported = true;
-                rawFormat = "bayer-mipi-10bggr";}
-            if (DeviceUtils.IS(DeviceUtils.Devices.HTC_OneA9)){
+                rawFormat = "bayer-mipi-10bggr";
+            }
+            else if (DeviceUtils.IS(DeviceUtils.Devices.HTC_OneA9))
+            {
                 isSupported = true;
                 rawSupported = true;
-                rawFormat = "bayer-mipi-10rggb";}
-            if(DeviceUtils.IS(DeviceUtils.Devices.Htc_M8) && Build.VERSION.SDK_INT >= 21){
+                rawFormat = "bayer-mipi-10rggb";
+            }
+            else if(DeviceUtils.IS(DeviceUtils.Devices.Htc_M8) && Build.VERSION.SDK_INT >= 21)
+            {
                 isSupported = true;
                 rawSupported = true;
-                        rawFormat = "bayer-qcom-10grbg";}
+                rawFormat = "bayer-qcom-10grbg";}
             else
             {
                 String formats = parameters.get("picture-format-values");
@@ -129,6 +134,8 @@ public class PictureFormatHandler extends BaseModeParameter
                     cameraHolderApi1.GetParameterHandler().SetDngActive(true);
                     break;
             }
+            cameraHolderApi1.StopPreview();
+            cameraHolderApi1.StartPreview();
         }
         BackgroundValueHasChanged(valueToSet);
     }
