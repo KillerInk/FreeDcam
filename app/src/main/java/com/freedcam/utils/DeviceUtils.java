@@ -349,8 +349,6 @@ public class DeviceUtils
             return Devices.XiaomiMI_Note_Pro;
         else if (isXiaomiMI_Note3_Pro(context))
             return Devices.XiaomiMI_Note3_Pro;
-        else if(isXiaomi_Redmi_Note3(context))
-            return Devices.Xiaomi_Redmi_Note3;
         else if (isYureka(context))
             return Devices.Yu_Yureka;
         else if (isZTEADV(context))
@@ -619,7 +617,6 @@ public class DeviceUtils
     private static boolean isXiaomiMI_Note_Pro(Context contex) { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi_Note_Pro));}
 
     private static boolean isXiaomiMI_Note3_Pro(Context contex) { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi_Note3_Pro));}
-    private static boolean isXiaomi_Redmi_Note3(Context contex){ return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_RedmiNote3));}
 
     private static boolean isAlcatel_Idol3(Context contex) { return isDevice(contex.getResources().getStringArray(R.array.Alcatel_Idol_3));}
 

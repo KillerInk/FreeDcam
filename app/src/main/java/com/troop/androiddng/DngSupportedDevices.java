@@ -200,7 +200,6 @@ public class DngSupportedDevices
                 }
             }
             case 19906560://e7mipi
-                //return new Nexus6Profile(0, 4608, 3456, Mipi, BGGR, 0);
             return new DngProfile(16, 4608, 3456, Mipi, BGGR, 0,
                     matrixChooser.GetCustomMatrix(MatrixChooserParameter.OmniVision));
             case 19992576:  //lenovo k920
@@ -211,7 +210,7 @@ public class DngSupportedDevices
             case 20041728: // DEVICE?
                 return new DngProfile(64, 5344,3000,Mipi16, RGGB,0,
                         matrixChooser.GetCustomMatrix(MatrixChooserParameter.G4));
-            case 20389888: //xiaomi redmi note3 pro
+            case 20389888: //xiaomi redmi note3 / pro
                 return new DngProfile(64, 4632, 3480, Mipi16, GRBG, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 21233664: //e7qcom
                 return new DngProfile(16, 4608, 3456, Qcom, BGGR, 0,
