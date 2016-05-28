@@ -33,7 +33,6 @@
     <string name="setting_orientation_header">Correction d\'orientation: </string>
     <string name="setting_orientation_description">Rotation de 180° autorisée si activé</string>
     <string name="setting_sdcard_header">Carte SD: </string>
-    <string name="setting_sdcard_description">Périphérique d\'enregistrement. NOTE: Depuis KitKat il n\'est possible d\'enregistrer sur une carte mémoire externe  que si voutre téléphone est rooté et le SDFix appliqué!</string>
     <string name="setting_theme_header">Thème: </string>
     <string name="setting_theme_description">Choisir le thème préféré</string>
     <string name="setting_savecamparams_header">Enregistrer les paramètres photo</string>

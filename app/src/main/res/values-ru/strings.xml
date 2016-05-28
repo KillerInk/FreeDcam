@@ -39,7 +39,6 @@
     <string name="setting_orientation_header">Коррекция ориентации: </string>
     <string name="setting_orientation_description">Переворот камеры на 180°</string>
     <string name="setting_sdcard_header">SD карта: </string>
-    <string name="setting_sdcard_description">Место сохранения. Заметка: С KitKat Вы можете сохранять только на внешнюю SD если у Вас есть рут</string>
     <string name="setting_theme_header">Тема: </string>
     <string name="setting_theme_description">Выберите любимую тему</string>
     <string name="setting_savecamparams_header">Сохранить параметры</string>

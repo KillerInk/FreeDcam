@@ -32,7 +32,6 @@
     <string name="setting_orientation_header">Orientierungs Korrektur: </string>
     <string name="setting_orientation_description">Rotiert die Kamera um 180° wenn aktiviert</string>
     <string name="setting_sdcard_header">SD Card: </string>
-    <string name="setting_sdcard_description">Datei speicher Ort. Seit Kitkat is es nur möglich auf die externe SD zuspeichern wenn das Gerät gerooted ist und der SDFix angewendet wurde!</string>
     <string name="setting_theme_header">Theme: </string>
     <string name="setting_theme_description">Choose your favorite Theme</string>
 

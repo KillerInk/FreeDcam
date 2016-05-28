@@ -24,4 +24,7 @@
     <dimen name="screenslide_histogram_width">130dp</dimen>
     <dimen name="screenslide_histogram_height">100dp</dimen>
     <dimen name="app_icon_size">30dp</dimen>
+    <dimen name="settings_menu_item_description">11dp</dimen>
+    <dimen name="settings_menu_item_header_value">13dp</dimen>
+    <dimen name="settings_menu_item_header">15dp</dimen>
 </resources>

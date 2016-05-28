@@ -55,7 +55,10 @@
     <string name="setting_orientation_header">Orientation Correction: </string>
     <string name="setting_orientation_description">Rotates the Camera 180° if ON</string>
     <string name="setting_sdcard_header">SD Card: </string>
-    <string name="setting_sdcard_description">File save location. NOTE: Since KitKat you can save only to external SD when your Device is rooted and the SDFix is applied!</string>
+    <string name="setting_sdcard_description">File save location.\n
+        NOTE: On KitKat you can save only to external SD when your Device is rooted and the SDFix is applied!\n
+        On Lollipop and Marshmallow choose the root of your SDcard!
+    </string>
 
     <string name="setting_interval_header">Shutter Fire Interval</string>
     <string name="setting_interval_texter">Interval</string>
