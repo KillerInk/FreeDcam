@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedviewer.gridview.GridViewFragment;
+import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.holder.FileHolder;
 
 import java.io.File;
@@ -31,8 +32,9 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     private GridViewFragment.FormatTypes filestoshow = GridViewFragment.FormatTypes.all;
     private AppSettingsManager appSettingsManager;
     private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
+    private BitmapHelper bitmapHelper;
 
-    public ScreenSlidePagerAdapter(FragmentManager fm, ViewPager mPager, ScreenSlideFragment.FragmentClickClistner fragmentclickListner, GridViewFragment.FormatTypes filestoshow,AppSettingsManager appSettingsManager)
+    public ScreenSlidePagerAdapter(FragmentManager fm, ViewPager mPager, ScreenSlideFragment.FragmentClickClistner fragmentclickListner, GridViewFragment.FormatTypes filestoshow,AppSettingsManager appSettingsManager, BitmapHelper bitmapHelper)
     {
         super(fm);
         files = new ArrayList<>();
@@ -40,6 +42,7 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
         this.fragmentclickListner = fragmentclickListner;
         this.filestoshow = filestoshow;
         this.appSettingsManager = appSettingsManager;
+        this.bitmapHelper =bitmapHelper;
     }
 
     public void SetFileToLoadPath(String Filetoload)
@@ -116,8 +119,6 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
             files = null;
             return;
         }
-        if (appSettingsManager == null)
-            appSettingsManager = new AppSettingsManager();
         FileHolder.readFilesFromFolder(folder, images, filestoshow,appSettingsManager.GetWriteExternal());
         files = images;
         Logger.d(TAG, "readFiles sucess, FilesCount" + files.size());
@@ -133,6 +134,7 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     public Fragment getItem(int position)
     {
         ImageFragment  currentFragment = new ImageFragment();
+        currentFragment.SetBitmapHelper(bitmapHelper);
         if (files == null || files.size() == 0)
             currentFragment.SetFilePath(null);
         else

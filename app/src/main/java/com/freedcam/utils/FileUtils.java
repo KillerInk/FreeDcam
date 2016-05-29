@@ -80,7 +80,7 @@ public class FileUtils
         {
             DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(appSettingsManager,context);
             if (sdDir == null)
-                throw new NullPointerException();
+                return false;
             String baseS = sdDir.getName();
             String fileFolder = file.getAbsolutePath();
             String[] split = fileFolder.split("/");

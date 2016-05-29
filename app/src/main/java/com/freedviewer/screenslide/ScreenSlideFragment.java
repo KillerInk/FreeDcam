@@ -95,6 +95,13 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     private RelativeLayout topbar;
     //hold the showed file
     private FileHolder file;
+    private BitmapHelper bitmapHelper;
+
+    public void SetAppSettingsManagerAndBitmapHelper(AppSettingsManager appSettingsManager, BitmapHelper helper)
+    {
+        this.appSettingsManager = appSettingsManager;
+        this.bitmapHelper = helper;
+    }
 
 
     @Override
@@ -184,7 +191,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
 
             }
         });
-        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),mPager,fragmentclickListner,filestoshow,appSettingsManager);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),mPager,fragmentclickListner,filestoshow,appSettingsManager,bitmapHelper);
         mPager.setAdapter(mPagerAdapter);
         mPager.addOnPageChangeListener(this);
         if (FilePathToLoad.equals("")) {
@@ -209,10 +216,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     {
     }
 
-    public void SetAppSettingsManager(AppSettingsManager appSettingsManager)
-    {
-        this.appSettingsManager = appSettingsManager;
-    }
+
 
     public void SetOnThumbClick(I_ThumbClick thumbClick)
     {
@@ -321,7 +325,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
-                    BitmapHelper.DeleteFile(file,appSettingsManager,getContext());
+                    bitmapHelper.DeleteFile(file,appSettingsManager,getContext());
                     MediaScannerManager.ScanMedia(getContext(), file.getFile());
                     reloadFilesAndSetLastPos();
                     break;

@@ -160,7 +160,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         hardwareKeyHandler = new HardwareKeyHandler(this,appSettingsManager);
         //load the cameraui
         sampleThemeFragment = new SampleThemeFragment();
-        sampleThemeFragment.SetAppSettingsManager(appSettingsManager);
+        sampleThemeFragment.SetAppSettingsManagerAndBitmapHelper(appSettingsManager, bitmapHelper);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
         transaction.add(R.id.themeFragmentholder, sampleThemeFragment, "CameraFragment");

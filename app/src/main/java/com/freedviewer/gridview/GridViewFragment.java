@@ -62,7 +62,13 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
     private int filesSelectedCount =0;
     private boolean isRootDir = true;
     private AppSettingsManager appSettingsManager;
+    private BitmapHelper bitmapHelper;
 
+    public void SetBitmapHelperAndAppSettings(BitmapHelper helper, AppSettingsManager appSettingsManager)
+    {
+        this.bitmapHelper =helper;
+        this.appSettingsManager = appSettingsManager;
+    }
 
     public enum FormatTypes
     {
@@ -86,7 +92,6 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container, savedInstanceState);
-        appSettingsManager = new AppSettingsManager();
         deleteButton = (Button)view.findViewById(R.id.button_deltePics);
         deleteButton.setVisibility(View.GONE);
         deleteButton.setOnClickListener(onDeltedButtonClick);
@@ -135,7 +140,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
     {
         if (mPagerAdapter == null)
         {
-            mPagerAdapter = new ImageAdapter(getContext(), getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size));
+            mPagerAdapter = new ImageAdapter(getContext(), getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size), bitmapHelper);
             gridView.setAdapter(mPagerAdapter);
             setViewMode(ViewStates.normal);
         }
@@ -478,7 +483,7 @@ private DialogInterface.OnClickListener dialogDeleteClickListener = new DialogIn
                     if (mPagerAdapter.getFiles().get(i).IsSelected())
                     {
                         FileHolder f = mPagerAdapter.getFiles().get(i);
-                        boolean del = BitmapHelper.DeleteFile(f,appSettingsManager, getContext());
+                        boolean del = bitmapHelper.DeleteFile(f,appSettingsManager, getContext());
                         MediaScannerManager.ScanMedia(getContext(), f.getFile());
                         Logger.d(TAG, "file: " + f.getFile().getName() + " deleted:" + del);
                         i--;

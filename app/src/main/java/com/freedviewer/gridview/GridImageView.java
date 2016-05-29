@@ -39,6 +39,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
     private ProgressBar progressBar;
     private final String TAG = GridImageView.class.getSimpleName();
     private ExecutorService executor;
+    private BitmapHelper bitmapHelper;
 
     private GridViewFragment.ViewStates viewstate = BaseGridViewFragment.ViewStates.normal;
 
@@ -46,6 +47,12 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
     public GridImageView(Context context) {
         super(context);
         init(context);
+    }
+
+    public GridImageView(Context context, ExecutorService executor, BitmapHelper bitmapHelper) {
+        super(context);
+        init(context);
+        SetThreadPoolAndBitmapHelper(executor,bitmapHelper);
     }
 
     public GridImageView(Context context, AttributeSet attrs) {
@@ -80,8 +87,9 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         });*/
     }
 
-    public void SetThreadPool(ExecutorService executor)
+    public void SetThreadPoolAndBitmapHelper(ExecutorService executor, BitmapHelper bitmapHelper)
     {
+        this.bitmapHelper =bitmapHelper;
         this.executor = executor;
     }
 
@@ -152,20 +160,11 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
             checkBox.setImageDrawable(getResources().getDrawable(R.drawable.cust_cb_unsel));
     }
 
-
-    public void SetBackGroundRes(int resid)
-    {
-        imageView.setImageBitmap(null);
-        imageView.setBackgroundResource(resid);
-    }
-
     public void loadFile(FileHolder fileHolder, int mImageThumbSize)
     {
         this.fileHolder = fileHolder;
         this.mImageThumbSize = mImageThumbSize;
         Logger.d(TAG, "load file:" + fileHolder.getFile().getName());
-        if (BitmapHelper.CACHE == null)
-            BitmapHelper.INIT(getContext());
         imageView.setImageBitmap(null);
         if (!fileHolder.getFile().isDirectory())
         {
@@ -210,7 +209,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         public void run()
         {
             Logger.d(TAG, "load file:" + this.fileHolder.getFile().getName());
-            final Bitmap bitmap = BitmapHelper.getBitmap(this.fileHolder.getFile(), true, mImageThumbSize, mImageThumbSize);
+            final Bitmap bitmap = GridImageView.this.bitmapHelper.getBitmap(this.fileHolder.getFile(), true, mImageThumbSize, mImageThumbSize);
             if (imageviewRef != null && bitmap != null) {
                 final GridImageView imageView = imageviewRef.get();
                 if (imageView != null && imageView.getFileHolder() == fileHolder)

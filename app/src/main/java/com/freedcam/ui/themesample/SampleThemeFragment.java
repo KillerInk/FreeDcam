@@ -18,6 +18,7 @@ import com.freedcam.ui.themesample.subfragments.SettingsMenuFragment;
 import com.freedcam.ui.views.PagingView;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
+import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.screenslide.ScreenSlideFragment;
 import com.troop.freedcam.R;
 
@@ -39,22 +40,24 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
     private ScreenSlideFragment screenSlideFragment;
     private boolean pagerTouchAllowed = true;
     private AppSettingsManager appSettingsManager;
+    private BitmapHelper bitmapHelper;
 
     public SampleThemeFragment()
     {
     }
 
-    public static SampleThemeFragment GetInstance(AppSettingsManager appSettingsManager,AbstractCameraUiWrapper cameraUiWrapper)
+    public static SampleThemeFragment GetInstance(AppSettingsManager appSettingsManager,AbstractCameraUiWrapper cameraUiWrapper, BitmapHelper bitmapHelper)
     {
         SampleThemeFragment sampleThemeFragment = new SampleThemeFragment();
-        sampleThemeFragment.SetAppSettingsManager(appSettingsManager);
+        sampleThemeFragment.SetAppSettingsManagerAndBitmapHelper(appSettingsManager, bitmapHelper);
         sampleThemeFragment.cameraUiWrapper = cameraUiWrapper;
         return sampleThemeFragment;
     }
 
-    public void SetAppSettingsManager(AppSettingsManager appSettingsManager)
+    public void SetAppSettingsManagerAndBitmapHelper(AppSettingsManager appSettingsManager, BitmapHelper bitmapHelper)
     {
         this.appSettingsManager = appSettingsManager;
+        this.bitmapHelper =bitmapHelper;
     }
 
     @Override
@@ -158,7 +161,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
             {
                 if (screenSlideFragment == null) {
                     screenSlideFragment = new ScreenSlideFragment();
-                    screenSlideFragment.SetAppSettingsManager(appSettingsManager);
+                    screenSlideFragment.SetAppSettingsManagerAndBitmapHelper(appSettingsManager, bitmapHelper);
                     screenSlideFragment.SetOnThumbClick(onThumbBackClick);
                 }
                 return screenSlideFragment;
@@ -166,7 +169,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
             else
             {
                 if (cameraUiFragment == null)
-                    cameraUiFragment = CameraUiFragment.GetInstance(i_activity,onThumbClick,appSettingsManager,cameraUiWrapper);
+                    cameraUiFragment = CameraUiFragment.GetInstance(i_activity,onThumbClick,appSettingsManager,cameraUiWrapper, bitmapHelper);
                 return cameraUiFragment;
             }
         }

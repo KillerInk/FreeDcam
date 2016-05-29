@@ -40,6 +40,12 @@ public class ImageFragment extends Fragment
     private boolean isWorking = false;
     private I_WaitForWorkFinish waitForWorkFinish;
     private int position = -1;
+    private BitmapHelper bitmapHelper;
+
+    public void SetBitmapHelper(BitmapHelper bitmapHelper)
+    {
+        this.bitmapHelper =bitmapHelper;
+    }
 
     /**
      * Set the file to load by this fragment
@@ -152,7 +158,7 @@ public class ImageFragment extends Fragment
     {
         Bitmap response =null;
         try {
-            response = BitmapHelper.getBitmap(file.getFile(),false,mImageThumbSize,mImageThumbSize);
+            response = bitmapHelper.getBitmap(file.getFile(),false,mImageThumbSize,mImageThumbSize);
             createHistogramm(response);
         }
         catch (IllegalArgumentException ex)

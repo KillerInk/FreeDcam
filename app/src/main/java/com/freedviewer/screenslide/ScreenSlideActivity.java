@@ -26,7 +26,7 @@ public class ScreenSlideActivity extends AbstractFragmentActivity
         if (fragment == null)
         {
             fragment = new ScreenSlideFragment();
-            fragment.SetAppSettingsManager(new AppSettingsManager());
+            fragment.SetAppSettingsManagerAndBitmapHelper(appSettingsManager,bitmapHelper);
             final int extraCurrentItem = getIntent().getIntExtra(EXTRA_IMAGE, -1);
             final String path = getIntent().getStringExtra(IMAGE_PATH);
             if (extraCurrentItem != -1) {
