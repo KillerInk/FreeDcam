@@ -223,13 +223,6 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         }
     }
 
-
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
-    {
-        return  super.onItemLongClick(parent,view,position,id);
-    }
-
     private void showFileSelectionPopup(View v) {
         PopupMenu popup = new PopupMenu(this.getContext(), v);
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -283,96 +276,6 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         inflater.inflate(R.menu.filetypepopupmenu, popup.getMenu());
         popup.show();
     }
-
-    private View.OnClickListener onGobBackClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View view)
-        {
-            if (currentViewState == ViewStates.normal)
-            {
-                if (mPagerAdapter.getFiles() != null && mPagerAdapter.getFiles().size() > 0)
-                {
-                    File topPath =  mPagerAdapter.GetFileHolder(0).getFile().getParentFile().getParentFile();
-                    if (topPath.getName().equals("DCIM") && !isRootDir)
-                    {
-                        savedInstanceFilePath = null;
-                        mPagerAdapter.loadDCIMFolders();
-                        isRootDir = true;
-                        setViewMode(currentViewState);
-                    }
-                    else if (isRootDir)
-                    {
-                        getActivity().finish();
-                    }
-                    else
-                    {
-                        isRootDir = false;
-                        mPagerAdapter.loadFiles(mPagerAdapter.GetFileHolder(0).getFile());
-                        savedInstanceFilePath =  mPagerAdapter.GetFileHolder(0).getFile().getAbsolutePath();
-                        setViewMode(currentViewState);
-                    }
-
-                }
-                else
-                {
-                    mPagerAdapter.loadDCIMFolders();
-                    isRootDir = true;
-                    setViewMode(currentViewState);
-                }
-            }
-            else if (currentViewState == ViewStates.selection)
-            {
-                for (int i = 0; i< mPagerAdapter.getFiles().size(); i++)
-                {
-                    FileHolder f =  mPagerAdapter.GetFileHolder(i);
-                    f.SetSelected(false);
-                }
-                setViewMode(ViewStates.normal);
-            }
-        }
-    };
-
-
-
-
-    @Override
-    public void onActivityResultCallback(Uri uri) {
-
-    }
-
-    private View.OnClickListener onRawToDngClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v)
-        {
-            if (requestMode == RequestModes.none)
-            {
-                requestMode = RequestModes.rawToDng;
-                setViewMode(ViewStates.selection);
-            }
-            else if (requestMode == RequestModes.rawToDng)
-            {
-                ArrayList<String> ar = new ArrayList<>();
-                for (FileHolder f : mPagerAdapter.getFiles()) {
-                    if (f.IsSelected() &&
-                       (f.getFile().getName().toLowerCase().endsWith(StringUtils.FileEnding.RAW) ||f.getFile().getName().toLowerCase().endsWith(StringUtils.FileEnding.BAYER))) {
-                        ar.add(f.getFile().getAbsolutePath());
-                    }
-
-                }
-                for (FileHolder f : mPagerAdapter.getFiles()) {
-                    f.SetSelected(false);
-                }
-                setViewMode(ViewStates.normal);
-                final Intent i = new Intent(getActivity(), DngConvertingActivity.class);
-                String[] t = new String[ar.size()];
-                ar.toArray(t);
-                i.putExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT, t);
-                startActivity(i);
-            }
-        }
-
-    };
-
 
     private void setViewMode(ViewStates viewState)
     {
@@ -443,33 +346,8 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         filesSelected.setText(getString(R.string.files_selected) + filesSelectedCount);
     }
 
-/*
-DELTE FILES STUFF
- */
-private DialogInterface.OnClickListener dialogDeleteClickListener = new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            switch (which){
-                case DialogInterface.BUTTON_POSITIVE:
-                    deleteFiles();
-                    break;
-
-                case DialogInterface.BUTTON_NEGATIVE:
-                    setViewMode(ViewStates.normal);
-                    for (int i = 0; i< mPagerAdapter.getFiles().size(); i++)
-                    {
-                        FileHolder f =  mPagerAdapter.GetFileHolder(i);
-                        f.SetSelected(false);
-                    }
-                    break;
-            }
-        }
-    };
-
     private void deleteFiles()
     {
-
-
         FreeDPool.Execute(new Runnable()
         {
             @Override
@@ -502,6 +380,117 @@ private DialogInterface.OnClickListener dialogDeleteClickListener = new DialogIn
         });
     }
 
+    private View.OnClickListener onGobBackClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view)
+        {
+            if (currentViewState == ViewStates.normal)
+            {
+                if (mPagerAdapter.getFiles() != null && mPagerAdapter.getFiles().size() > 0)
+                {
+                    File topPath =  mPagerAdapter.GetFileHolder(0).getFile().getParentFile().getParentFile();
+                    if (topPath.getName().equals("DCIM") && !isRootDir)
+                    {
+                        savedInstanceFilePath = null;
+                        mPagerAdapter.loadDCIMFolders();
+                        isRootDir = true;
+                        setViewMode(currentViewState);
+                    }
+                    else if (isRootDir)
+                    {
+                        getActivity().finish();
+                    }
+                    else
+                    {
+                        isRootDir = false;
+                        mPagerAdapter.loadFiles(mPagerAdapter.GetFileHolder(0).getFile());
+                        savedInstanceFilePath =  mPagerAdapter.GetFileHolder(0).getFile().getAbsolutePath();
+                        setViewMode(currentViewState);
+                    }
+                }
+                else
+                {
+                    mPagerAdapter.loadDCIMFolders();
+                    isRootDir = true;
+                    setViewMode(currentViewState);
+                }
+            }
+            else if (currentViewState == ViewStates.selection)
+            {
+                for (int i = 0; i< mPagerAdapter.getFiles().size(); i++)
+                {
+                    FileHolder f =  mPagerAdapter.GetFileHolder(i);
+                    f.SetSelected(false);
+                }
+                setViewMode(ViewStates.normal);
+            }
+        }
+    };
+
+
+
+
+    @Override
+    public void onActivityResultCallback(Uri uri) {
+
+    }
+
+    private View.OnClickListener onRawToDngClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v)
+        {
+            if (requestMode == RequestModes.none)
+            {
+                requestMode = RequestModes.rawToDng;
+                setViewMode(ViewStates.selection);
+            }
+            else if (requestMode == RequestModes.rawToDng)
+            {
+                ArrayList<String> ar = new ArrayList<>();
+                for (FileHolder f : mPagerAdapter.getFiles()) {
+                    if (f.IsSelected() &&
+                            (f.getFile().getName().toLowerCase().endsWith(StringUtils.FileEnding.RAW) ||f.getFile().getName().toLowerCase().endsWith(StringUtils.FileEnding.BAYER))) {
+                        ar.add(f.getFile().getAbsolutePath());
+                    }
+
+                }
+                for (FileHolder f : mPagerAdapter.getFiles()) {
+                    f.SetSelected(false);
+                }
+                setViewMode(ViewStates.normal);
+                final Intent i = new Intent(getActivity(), DngConvertingActivity.class);
+                String[] t = new String[ar.size()];
+                ar.toArray(t);
+                i.putExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT, t);
+                startActivity(i);
+            }
+        }
+
+    };
+
+    /*
+    DELTE FILES STUFF
+     */
+    private DialogInterface.OnClickListener dialogDeleteClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    deleteFiles();
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    setViewMode(ViewStates.normal);
+                    for (int i = 0; i< mPagerAdapter.getFiles().size(); i++)
+                    {
+                        FileHolder f =  mPagerAdapter.GetFileHolder(i);
+                        f.SetSelected(false);
+                    }
+                    break;
+            }
+        }
+    };
+
     private View.OnClickListener onDeltedButtonClick = new View.OnClickListener() {
         @Override
         public void onClick(View v)
@@ -520,7 +509,6 @@ private DialogInterface.OnClickListener dialogDeleteClickListener = new DialogIn
                         hasfilesSelected = true;
                         break;
                     }
-
                 }
                 //if no files selected skip dialog
                 if (!hasfilesSelected)
@@ -545,16 +533,12 @@ private DialogInterface.OnClickListener dialogDeleteClickListener = new DialogIn
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                         builder.setMessage(R.string.delete_files).setPositiveButton(R.string.yes, dialogDeleteClickListener)
                                 .setNegativeButton(R.string.no, dialogDeleteClickListener).show();
-
                     }
                 }
-
 
             }
         }
     };
-
-
 }
 
 
