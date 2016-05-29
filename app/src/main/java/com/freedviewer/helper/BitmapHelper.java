@@ -84,7 +84,7 @@ public class BitmapHelper
                         || file.getAbsolutePath().endsWith(StringUtils.FileEnding.RAW) || file.getAbsolutePath().endsWith(StringUtils.FileEnding.BAYER))
                 {
                     try {
-                        response = RawUtils.UnPackRAW(file.getAbsolutePath());
+                        response = new RawUtils().UnPackRAW(file.getAbsolutePath());
                     }
                     catch (IllegalArgumentException ex)
                     {

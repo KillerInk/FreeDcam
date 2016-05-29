@@ -134,8 +134,6 @@ public class PictureFormatHandler extends BaseModeParameter
                     cameraHolderApi1.GetParameterHandler().SetDngActive(true);
                     break;
             }
-            cameraHolderApi1.StopPreview();
-            cameraHolderApi1.StartPreview();
         }
         BackgroundValueHasChanged(valueToSet);
     }
