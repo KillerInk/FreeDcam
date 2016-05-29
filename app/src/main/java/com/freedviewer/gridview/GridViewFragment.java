@@ -364,7 +364,8 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                         boolean del = bitmapHelper.DeleteFile(f,appSettingsManager, getContext());
                         MediaScannerManager.ScanMedia(getContext(), f.getFile());
                         Logger.d(TAG, "file: " + f.getFile().getName() + " deleted:" + del);
-                        i--;
+                        if (del)
+                            i--;
                         filesdeletedCount++;
                     }
                 }
