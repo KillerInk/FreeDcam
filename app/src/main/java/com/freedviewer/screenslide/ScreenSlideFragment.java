@@ -48,6 +48,7 @@ import java.io.IOException;
 public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageChangeListener, I_Activity.I_OnActivityResultCallback, ImageFragment.I_WaitForWorkFinish
 {
 
+    final public static String TAG = ScreenSlideFragment.class.getSimpleName();
     public interface I_ThumbClick
     {
         void onThumbClick();
@@ -59,9 +60,6 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         void onClick(Fragment fragment);
     }
 
-
-
-    private final static String TAG = ScreenSlideFragment.class.getSimpleName();
     private int mImageThumbSize = 0;
     private AppSettingsManager appSettingsManager;
 
@@ -367,29 +365,6 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             histogram.setVisibility(View.GONE);
             deleteButton.setVisibility(View.GONE);
             play.setVisibility(View.GONE);
-        }
-    }
-
-
-
-
-    public void SetVisibility(boolean Visible)
-    {
-        if (deleteButton == null)
-            return;
-        if (!Visible)
-        {
-            deleteButton.setVisibility(View.GONE);
-            play.setVisibility(View.GONE);
-            histogram.setVisibility(View.GONE);
-            bottombar.setVisibility(View.GONE);
-        }
-        else
-        {
-            deleteButton.setVisibility(View.VISIBLE);
-            play.setVisibility(View.VISIBLE);
-            histogram.setVisibility(View.VISIBLE);
-            bottombar.setVisibility(View.VISIBLE);
         }
     }
 

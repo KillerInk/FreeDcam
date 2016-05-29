@@ -59,7 +59,7 @@ public class DngConvertingFragment extends Fragment
     public static final String EXTRA_FILESTOCONVERT = "extra_files_to_convert";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreateView(inflater,container,savedInstanceState);
         DeviceUtils.CheckAndSetDevice(getContext());
         appSettingsManager = new AppSettingsManager();
         handler = new Handler();

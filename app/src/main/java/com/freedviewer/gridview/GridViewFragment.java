@@ -131,20 +131,6 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         super.onDestroyView();
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-
-    }
-
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-
-    }
-
     private void load()
     {
         if (mPagerAdapter == null)

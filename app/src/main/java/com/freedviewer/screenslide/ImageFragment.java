@@ -131,6 +131,7 @@ public class ImageFragment extends Fragment
 
     private void loadImage()
     {
+        Logger.d(TAG,"loadImage()"+ file.getFile().getName());
         isWorking = true;
         final Bitmap response = getBitmap();
         imageView.post(new Runnable() {

@@ -22,9 +22,10 @@ public class ScreenSlideActivity extends AbstractFragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createHandlers();
-        if (getSupportFragmentManager().findFragmentByTag(TAG) == null)
+        ScreenSlideFragment fragment = (ScreenSlideFragment) getSupportFragmentManager().findFragmentByTag(ScreenSlideFragment.TAG);
+        if (fragment == null)
         {
-            ScreenSlideFragment fragment = new ScreenSlideFragment();
+            fragment = new ScreenSlideFragment();
             fragment.SetAppSettingsManager(new AppSettingsManager());
             final int extraCurrentItem = getIntent().getIntExtra(EXTRA_IMAGE, -1);
             final String path = getIntent().getStringExtra(IMAGE_PATH);
@@ -33,12 +34,13 @@ public class ScreenSlideActivity extends AbstractFragmentActivity
             }
             if (path != null && !path.equals(""))
                 fragment.FilePathToLoad = path;
-            fragment.defitem = extra;
-            fragment.filestoshow = GridViewFragment.FormatTypes.valueOf(getIntent().getStringExtra(FileType));
-            final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(android.R.id.content, fragment, TAG);
-            ft.commit();
+
         }
+        fragment.defitem = extra;
+        fragment.filestoshow = GridViewFragment.FormatTypes.valueOf(getIntent().getStringExtra(FileType));
+        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.add(android.R.id.content, fragment, TAG);
+        ft.commit();
     }
 
     @Override
