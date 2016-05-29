@@ -256,6 +256,8 @@ public class StackingModuleApi2 extends AbstractModuleApi2
                     renderScriptHandler.imagestack.forEach_stackimage_avarage3x3(renderScriptHandler.GetOut());
                 else if(ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.LIGHTEN))
                     renderScriptHandler.imagestack.forEach_stackimage_lighten(renderScriptHandler.GetOut());
+                else if(ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.LIGHTEN_V))
+                    renderScriptHandler.imagestack.forEach_stackimage_lightenV(renderScriptHandler.GetOut());
                 else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.MEDIAN))
                 {
                     renderScriptHandler.imagestack.forEach_stackimage_median(renderScriptHandler.GetOut());
