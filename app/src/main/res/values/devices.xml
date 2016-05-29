@@ -22,6 +22,9 @@
         <item>g2</item>
         <item>VS980 4G</item>
     </string-array>
+    <string-array name="g2pro">
+        <item>LG-D838</item>
+    </string-array>
     <string-array name="g3">
         <item>AS985</item>
         <item>LG-AS990</item>
