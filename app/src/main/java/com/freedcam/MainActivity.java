@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
@@ -134,18 +135,28 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         Logger.d(TAG, "createHandlers()");
         super.createHandlers();
         //Get default handler for uncaught exceptions. to let fc app as it should
-       /* defaultEXhandler = Thread.getDefaultUncaughtExceptionHandler();
+        defaultEXhandler = Thread.getDefaultUncaughtExceptionHandler();
         //set up own ex handler to have a change to catch the fc bevor app dies
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
-            public void uncaughtException(Thread thread, Throwable e)
+            public void uncaughtException(Thread thread,final Throwable e)
             {
                 //yeahaw app crash print ex to logger
-                Logger.DUMPLOGTOFILE();
+                if (thread != Looper.getMainLooper().getThread())
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run()
+                        {
+                            Logger.LogUncaughtEX(e);
+                        }
+                    });
+                else
+                    Logger.LogUncaughtEX(e);
+
                 //set back default exhandler and let app die
                 defaultEXhandler.uncaughtException(thread,e);
             }
-        });*/
+        });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
             renderScriptHandler = new RenderScriptHandler(getApplicationContext());
