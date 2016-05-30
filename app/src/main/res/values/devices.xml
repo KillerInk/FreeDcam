@@ -242,6 +242,15 @@
         <item>MX4</item>
     </string-array>
 
+    <string-array name="G_Turbo">
+        <item>MotoG3-TE</item>
+    </string-array>
+
+    <string-array name="Moto_G3">
+        <item>MotoG3</item>
+        <item>MotoG3-TE</item>
+    </string-array>
+
     <string-array name="One_E8">
         <item>HTC One_E8</item>
     </string-array>

@@ -300,7 +300,7 @@ public class CameraHolderApi1 extends AbstractCameraHolder
                     paras.set("zsl", "off");
                     mCamera.setParameters(paras);
                 }
-                else if(DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8974))
+                else if(DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8974) || DeviceUtils.IS(DeviceUtils.Devices.MotoG3))
                 {
                     Camera.Parameters paras = mCamera.getParameters();
                     paras.set("mot-app", "true");

@@ -135,6 +135,8 @@ public class DeviceUtils
         Meizu_m2Note_MTK,
         Moto_MSM8974,
         Moto_MSM8982_8994,
+        MotoG3,
+        MotoG_Turbo,
         Nexus4,
         OnePlusOne,
         OnePlusTwo,
@@ -387,6 +389,10 @@ public class DeviceUtils
             return Devices.Huawei_HONOR5x;
         else if(HTC_ONE_E8(context))
             return Devices.HTC_OneE8;
+        else if(isMotoG3(context))
+            return Devices.MotoG3;
+        else if(isMotoGTurbo(context))
+            return Devices.MotoG_Turbo;
         else
             return Devices.UNKNOWN;
 
@@ -413,6 +419,17 @@ public class DeviceUtils
             }
         }
         return supported;
+    }
+
+
+    private static boolean isMotoG3(Context contex)
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.Moto_G3));
+    }
+
+    private static boolean isMotoGTurbo(Context contex)
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.G_Turbo));
     }
 
     private static boolean HTC_ONE_E8(Context contex)
