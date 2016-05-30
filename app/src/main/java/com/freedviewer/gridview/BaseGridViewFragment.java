@@ -31,6 +31,7 @@ public class BaseGridViewFragment extends Fragment  implements AdapterView.OnIte
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        super.onCreateView(inflater,container,savedInstanceState);
         inflate(inflater, container);
         view = inflater.inflate(R.layout.gridviewfragment, container, false);
         this.gridView = (GridView) view.findViewById(R.id.gridView);

@@ -7,7 +7,7 @@ import android.media.ThumbnailUtils;
 import android.os.Build;
 import android.provider.MediaStore;
 
-import com.freedcam.Native.RawUtils;
+import com.freedcam.jni.RawUtils;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
@@ -23,18 +23,18 @@ import java.util.List;
  */
 public class BitmapHelper
 {
-    public static CacheHelper CACHE;
-    private static List<FileEvent> fileListners;
-    private static List<FileHolder> files;
+    public  CacheHelper CACHE;
+    private  List<FileEvent> fileListners;
+    private  List<FileHolder> files;
 
-    public static void INIT(Context context)
+    public BitmapHelper(Context context)
     {
         CACHE = new CacheHelper(context);
         fileListners =  new ArrayList<>();
         files = FileHolder.getDCIMFiles();
     }
 
-    public static void DESTROY()
+    public  void DESTROY()
     {
         CACHE = null;
         if (fileListners != null)
@@ -47,7 +47,7 @@ public class BitmapHelper
 
     private BitmapHelper(){}
 
-    public static Bitmap getBitmap(final File file,final boolean thumb,final int mImageThumbSizeW,final int  mImageThumbSizeH)
+    public Bitmap getBitmap(final File file,final boolean thumb,final int mImageThumbSizeW,final int  mImageThumbSizeH)
     {
         Bitmap response = null;
         try {
@@ -84,7 +84,7 @@ public class BitmapHelper
                         || file.getAbsolutePath().endsWith(StringUtils.FileEnding.RAW) || file.getAbsolutePath().endsWith(StringUtils.FileEnding.BAYER))
                 {
                     try {
-                        response = RawUtils.UnPackRAW(file.getAbsolutePath());
+                        response = new RawUtils().UnPackRAW(file.getAbsolutePath());
                     }
                     catch (IllegalArgumentException ex)
                     {
@@ -109,7 +109,7 @@ public class BitmapHelper
         return  response;
     }
 
-    public static void DeleteCache(File file)
+    public  void DeleteCache(File file)
     {
         if (CACHE == null)
             return;
@@ -123,7 +123,7 @@ public class BitmapHelper
         void onFileAdded(File file);
     }
 
-    private static void throwOnFileDeleted(File file)
+    private void throwOnFileDeleted(File file)
     {
         if (fileListners == null)
             return;
@@ -139,7 +139,7 @@ public class BitmapHelper
         }
     }
 
-    public static boolean DeleteFile(FileHolder file, AppSettingsManager appSettingsManager,Context context) throws NullPointerException
+    public boolean DeleteFile(FileHolder file, AppSettingsManager appSettingsManager,Context context) throws NullPointerException
     {
         boolean del = false;
         DeleteCache(file.getFile());
@@ -158,7 +158,7 @@ public class BitmapHelper
         return del;
     }
 
-    private static void throwOnFileAdded(File file)
+    private void throwOnFileAdded(File file)
     {
         if (fileListners == null)
             return;
@@ -174,7 +174,7 @@ public class BitmapHelper
         }
     }
 
-    public static void AddFile(FileHolder file)
+    public void AddFile(FileHolder file)
     {
         if (files == null)
             return;
@@ -182,7 +182,7 @@ public class BitmapHelper
         throwOnFileAdded(file.getFile());
     }
 
-    public static boolean AddFileListner(FileEvent event)
+    public boolean AddFileListner(FileEvent event)
     {
         if (fileListners == null)
             return false;
@@ -193,15 +193,10 @@ public class BitmapHelper
         }
     }
 
-    public static List<FileHolder> getFiles()
+    public List<FileHolder> getFiles()
     {
         return files;
     }
 
-    public static List<FileHolder> getDCIMDirs()
-    {
-        files = FileHolder.getDCIMDirs();
-        return files;
-    }
 }
 

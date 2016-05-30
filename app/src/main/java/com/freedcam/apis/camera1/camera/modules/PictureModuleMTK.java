@@ -2,7 +2,7 @@ package com.freedcam.apis.camera1.camera.modules;
 
 import android.content.Context;
 
-import com.freedcam.Native.RawToDng;
+import com.freedcam.jni.RawToDng;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;

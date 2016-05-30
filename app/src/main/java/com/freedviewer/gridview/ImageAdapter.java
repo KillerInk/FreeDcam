@@ -26,12 +26,14 @@ class ImageAdapter extends BaseAdapter
     private BaseGridViewFragment.ViewStates currentViewState = BaseGridViewFragment.ViewStates.normal;
     private int mImageThumbSize = 0;
     private ExecutorService executor;
+    private BitmapHelper bitmapHelper;
 
     private final String TAG = ImageAdapter.class.getSimpleName();
 
-    public ImageAdapter(Context context, int mImageThumbSize) {
+    public ImageAdapter(Context context, int mImageThumbSize, BitmapHelper bitmapHelper) {
         super();
         mContext = context;
+        this.bitmapHelper =bitmapHelper;
         files = new ArrayList<>();
         this.mImageThumbSize = mImageThumbSize;
         executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
@@ -65,11 +67,11 @@ class ImageAdapter extends BaseAdapter
     public View getView(int position, View convertView, ViewGroup container) {
         GridImageView imageView;
         if (convertView == null) { // if it's not recycled, initialize some attributes
-            imageView = new GridImageView(mContext);
+            imageView = new GridImageView(mContext,executor,bitmapHelper);
         } else {
             imageView = (GridImageView) convertView;
+            imageView.SetThreadPoolAndBitmapHelper(executor,bitmapHelper);
         }
-        imageView.SetThreadPool(executor);
         Logger.d(TAG, "filessize:" +files.size() + " position:"+position);
         if (files.size() <= position)
             position = files.size() -1;
@@ -99,7 +101,7 @@ class ImageAdapter extends BaseAdapter
     {
         if(files.size() > 0)
             files.clear();
-        files = BitmapHelper.getDCIMDirs();
+        files = FileHolder.getDCIMDirs();
 
         for (FileHolder f: files)
         {
@@ -124,6 +126,11 @@ class ImageAdapter extends BaseAdapter
     public void SetFormatToShow(GridViewFragment.FormatTypes formatsToShow)
     {
         this.formatsToShow = formatsToShow;
+    }
+
+    public void delteFile(FileHolder holder)
+    {
+        files.remove(holder);
     }
 
     public List<FileHolder> getFiles()

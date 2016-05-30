@@ -19,7 +19,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.freedcam.Native.RawToDng;
+import com.freedcam.jni.RawToDng;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
@@ -59,7 +59,7 @@ public class DngConvertingFragment extends Fragment
     public static final String EXTRA_FILESTOCONVERT = "extra_files_to_convert";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreateView(inflater,container,savedInstanceState);
         DeviceUtils.CheckAndSetDevice(getContext());
         appSettingsManager = new AppSettingsManager();
         handler = new Handler();

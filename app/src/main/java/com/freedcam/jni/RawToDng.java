@@ -1,4 +1,4 @@
-package com.freedcam.Native;
+package com.freedcam.jni;
 
 import android.location.Location;
 import android.os.Build;
@@ -38,20 +38,20 @@ public class RawToDng
 
 
     private ByteBuffer nativeHandler = null;
-    private static native long GetRawBytesSize(ByteBuffer nativeHandler);
-    private static native int GetRawHeight(ByteBuffer nativeHandler);
-    private static native void SetGPSData(ByteBuffer nativeHandler,double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime);
-    private static native void SetThumbData(ByteBuffer nativeHandler,byte[] mThumb, int widht, int height);
-    private static native void WriteDNG(ByteBuffer nativeHandler);
-    private static native void Release(ByteBuffer nativeHandler);
-    private static native void SetOpCode3(ByteBuffer nativeHandler, byte[] opcode);
-    private static native void SetOpCode2(ByteBuffer nativeHandler, byte[] opcode);
-    private static native void SetRawHeight(ByteBuffer nativeHandler,int height);
-    private static native void SetModelAndMake(ByteBuffer nativeHandler,String model, String make);
-    private static native void SetBayerData(ByteBuffer nativeHandler,byte[] fileBytes, String fileout);
-    private static native void SetBayerDataFD(ByteBuffer nativeHandler,byte[] fileBytes, int fileout, String filename);
-    private static native void SetLensData(ByteBuffer nativeHandler,byte[] fileBytes, String hasLensData);
-    private static native void SetBayerInfo(ByteBuffer nativeHandler,
+    private native long GetRawBytesSize(ByteBuffer nativeHandler);
+    private native int GetRawHeight(ByteBuffer nativeHandler);
+    private native void SetGPSData(ByteBuffer nativeHandler,double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime);
+    private native void SetThumbData(ByteBuffer nativeHandler,byte[] mThumb, int widht, int height);
+    private native void WriteDNG(ByteBuffer nativeHandler);
+    private native void Release(ByteBuffer nativeHandler);
+    private native void SetOpCode3(ByteBuffer nativeHandler, byte[] opcode);
+    private native void SetOpCode2(ByteBuffer nativeHandler, byte[] opcode);
+    private native void SetRawHeight(ByteBuffer nativeHandler,int height);
+    private native void SetModelAndMake(ByteBuffer nativeHandler,String model, String make);
+    private native void SetBayerData(ByteBuffer nativeHandler,byte[] fileBytes, String fileout);
+    private native void SetBayerDataFD(ByteBuffer nativeHandler,byte[] fileBytes, int fileout, String filename);
+    private native void SetLensData(ByteBuffer nativeHandler,byte[] fileBytes, String hasLensData);
+    private native void SetBayerInfo(ByteBuffer nativeHandler,
                                      float[] colorMatrix1,
                                      float[] colorMatrix2,
                                      float[] neutralColor,
@@ -66,8 +66,8 @@ public class RawToDng
                                      String devicename,
                                      int rawType,int width,int height);
 
-    private static native ByteBuffer Create();
-    private static native void SetExifData(ByteBuffer nativeHandler,
+    private native ByteBuffer Create();
+    private native void SetExifData(ByteBuffer nativeHandler,
                                            int iso,
                                            double expo,
                                            int flash,
@@ -77,6 +77,11 @@ public class RawToDng
                                            String orientation,
                                            double exposureIndex);
    // public static native String getFilePath();
+
+    public static RawToDng GetInstance()
+    {
+        return new RawToDng();
+    }
 
     private RawToDng()
     {
@@ -174,10 +179,7 @@ public class RawToDng
     }
 
 
-    public static RawToDng GetInstance()
-    {
-        return new RawToDng();
-    }
+
 
     private long GetRawSize()
     {

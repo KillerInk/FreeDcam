@@ -35,6 +35,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
     private ScreenSlideFragment.I_ThumbClick click;
     private int mImageThumbSize = 0;
     private Context context;
+    private BitmapHelper bitmapHelper;
 
     public ThumbView(Context context) {
         super(context);
@@ -56,23 +57,24 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        try {
-            mask = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.maskthumb);
-            mImageThumbSize = context.getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size);
-            BitmapHelper.AddFileListner(this);
-
-            WorkHasFinished(BitmapHelper.getFiles().get(0).getFile());
-        }
-        catch (NullPointerException | IndexOutOfBoundsException ex)
-        {Logger.exception(ex);}
 
     }
 
-    public void INIT(AbstractCameraUiWrapper cameraUiWrapper)
+    public void INIT(AbstractCameraUiWrapper cameraUiWrapper,  BitmapHelper bitmapHelper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
+        this.bitmapHelper = bitmapHelper;
         if(cameraUiWrapper != null && cameraUiWrapper.moduleHandler != null && cameraUiWrapper.moduleHandler.moduleEventHandler != null)
             cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(this);
+        try {
+            mask = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.maskthumb);
+            mImageThumbSize = context.getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size);
+            bitmapHelper.AddFileListner(this);
+
+            WorkHasFinished(bitmapHelper.getFiles().get(0).getFile());
+        }
+        catch (NullPointerException | IndexOutOfBoundsException ex)
+        {Logger.exception(ex);}
 
 
     }
@@ -106,7 +108,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
             bitmap.recycle();
             bitmap = null;
         }
-        bitmap = BitmapHelper.getBitmap(filePath, true, mImageThumbSize, mImageThumbSize);
+        bitmap = bitmapHelper.getBitmap(filePath, true, mImageThumbSize, mImageThumbSize);
         final Bitmap drawMap = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas drawc = new Canvas(drawMap);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -145,7 +147,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, View.OnClickLis
 
     @Override
     public void onFileDeleted(File file) {
-        WorkHasFinished(BitmapHelper.getFiles().get(0).getFile());
+        WorkHasFinished(bitmapHelper.getFiles().get(0).getFile());
     }
 
     @Override

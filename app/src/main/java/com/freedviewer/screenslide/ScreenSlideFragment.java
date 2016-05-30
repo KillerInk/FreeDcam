@@ -48,6 +48,7 @@ import java.io.IOException;
 public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageChangeListener, I_Activity.I_OnActivityResultCallback, ImageFragment.I_WaitForWorkFinish
 {
 
+    final public static String TAG = ScreenSlideFragment.class.getSimpleName();
     public interface I_ThumbClick
     {
         void onThumbClick();
@@ -59,9 +60,6 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         void onClick(Fragment fragment);
     }
 
-
-
-    private final static String TAG = ScreenSlideFragment.class.getSimpleName();
     private int mImageThumbSize = 0;
     private AppSettingsManager appSettingsManager;
 
@@ -97,6 +95,13 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     private RelativeLayout topbar;
     //hold the showed file
     private FileHolder file;
+    private BitmapHelper bitmapHelper;
+
+    public void SetAppSettingsManagerAndBitmapHelper(AppSettingsManager appSettingsManager, BitmapHelper helper)
+    {
+        this.appSettingsManager = appSettingsManager;
+        this.bitmapHelper = helper;
+    }
 
 
     @Override
@@ -167,7 +172,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&&appSettingsManager.GetWriteExternal())) {
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !appSettingsManager.GetWriteExternal())) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
                             .setNegativeButton("No", dialogClickListener).show();
@@ -186,7 +191,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
 
             }
         });
-        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),mPager,fragmentclickListner,filestoshow,appSettingsManager);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),mPager,fragmentclickListner,filestoshow,appSettingsManager,bitmapHelper);
         mPager.setAdapter(mPagerAdapter);
         mPager.addOnPageChangeListener(this);
         if (FilePathToLoad.equals("")) {
@@ -211,10 +216,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     {
     }
 
-    public void SetAppSettingsManager(AppSettingsManager appSettingsManager)
-    {
-        this.appSettingsManager = appSettingsManager;
-    }
+
 
     public void SetOnThumbClick(I_ThumbClick thumbClick)
     {
@@ -323,7 +325,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
-                    BitmapHelper.DeleteFile(file,appSettingsManager,getContext());
+                    bitmapHelper.DeleteFile(file,appSettingsManager,getContext());
                     MediaScannerManager.ScanMedia(getContext(), file.getFile());
                     reloadFilesAndSetLastPos();
                     break;
@@ -367,29 +369,6 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             histogram.setVisibility(View.GONE);
             deleteButton.setVisibility(View.GONE);
             play.setVisibility(View.GONE);
-        }
-    }
-
-
-
-
-    public void SetVisibility(boolean Visible)
-    {
-        if (deleteButton == null)
-            return;
-        if (!Visible)
-        {
-            deleteButton.setVisibility(View.GONE);
-            play.setVisibility(View.GONE);
-            histogram.setVisibility(View.GONE);
-            bottombar.setVisibility(View.GONE);
-        }
-        else
-        {
-            deleteButton.setVisibility(View.VISIBLE);
-            play.setVisibility(View.VISIBLE);
-            histogram.setVisibility(View.VISIBLE);
-            bottombar.setVisibility(View.VISIBLE);
         }
     }
 

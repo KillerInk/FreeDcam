@@ -31,6 +31,7 @@ import com.freedcam.ui.themesample.views.uichilds.UiSettingsFocusPeak;
 import com.freedcam.ui.themesample.views.uichilds.UiSettingsMenu;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
+import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.screenslide.ScreenSlideFragment;
 import com.troop.freedcam.R;
 
@@ -77,14 +78,16 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
 
     private HorizontLineFragment horizontLineFragment;
     private int LeftWidth = 0;
+    private BitmapHelper bitmapHelper;
 
-    public static CameraUiFragment GetInstance(I_Activity i_activity, ScreenSlideFragment.I_ThumbClick thumbClick, AppSettingsManager appSettingsManager,AbstractCameraUiWrapper cameraUiWrapper)
+    public static CameraUiFragment GetInstance(I_Activity i_activity, ScreenSlideFragment.I_ThumbClick thumbClick, AppSettingsManager appSettingsManager, AbstractCameraUiWrapper cameraUiWrapper, BitmapHelper bitmapHelper)
     {
         CameraUiFragment cameraUiFragment = new CameraUiFragment();
         cameraUiFragment.i_activity = i_activity;
         cameraUiFragment.thumbClick = thumbClick;
         cameraUiFragment.appSettingsManager = appSettingsManager;
         cameraUiFragment.cameraUiWrapper = cameraUiWrapper;
+        cameraUiFragment.bitmapHelper = bitmapHelper;
         return cameraUiFragment;
     }
 
@@ -107,7 +110,7 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
         focus.SetParameter(cameraUiWrapper.camParametersHandler.FocusMode);
         night.SetParameter(cameraUiWrapper.camParametersHandler.NightMode);
         aepriority.SetParameter(cameraUiWrapper.camParametersHandler.AE_PriorityMode);
-        thumbView.INIT(cameraUiWrapper);
+        thumbView.INIT(cameraUiWrapper,bitmapHelper);
 
         cameraSwitch.SetCameraUiWrapper(cameraUiWrapper);
         focusImageHandler.SetCamerUIWrapper(cameraUiWrapper);

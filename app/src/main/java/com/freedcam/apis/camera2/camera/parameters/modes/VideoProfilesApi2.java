@@ -40,7 +40,13 @@ public class VideoProfilesApi2 extends BaseModeApi2
     }
 
     @Override
-    public String GetValue() {
+    public String GetValue()
+    {
+        if (profile == null && supportedProfiles != null)
+        {
+            List<String> keys = new ArrayList<>(supportedProfiles.keySet());
+            profile = keys.get(0);
+        }
         return profile;
     }
 

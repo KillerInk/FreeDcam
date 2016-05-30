@@ -22,7 +22,7 @@ public class OisParameter extends BaseModeParameter {
 
     @Override
     public boolean IsSupported() {
-        return DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4) || DeviceUtils.IS(DeviceUtils.Devices.p8lite) || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI5);
+        return DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G2pro) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4) || DeviceUtils.IS(DeviceUtils.Devices.p8lite) || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI5);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class OisParameter extends BaseModeParameter {
 
     @Override
     public String[] GetValues() {
-        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G2pro)  || DeviceUtils.IS(DeviceUtils.Devices.LG_G4) )
         return new String[] {
                 "preview-capture","capture","video","centering-only","centering-off"
         };

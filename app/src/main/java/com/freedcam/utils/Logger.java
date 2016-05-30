@@ -21,8 +21,8 @@ import java.util.Date;
  */
 public class Logger
 {
-    private static FileLogger fileLogger;
-    private static String TAG = Logger.class.getSimpleName();
+    private static Logger.FileLogger fileLogger;
+    private static final String TAG = Logger.class.getSimpleName();
 
     public static void d(String TAG,String msg)
     {
@@ -99,21 +99,46 @@ public class Logger
             } catch (IOException e) {
                 e.printStackTrace();
             }
+    }
 
+    public static void LogUncaughtEX(Throwable throwable)
+    {
+        boolean logwasnull =false;
+        if (logwasnull = fileLogger == null)
+        {
+            File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/FreeDcam/" + "CRASH/" + Build.MODEL + "_" + DateFormat.format("yyyy-MM-dd_hh.mm.ss", new Date().getTime()) + ".txt");
+            if (!f.getParentFile().exists())
+                f.getParentFile().mkdirs();
+            Logger.fileLogger = new Logger.FileLogger(f);
+        }
+        Logger.fileLogger.WriteEx(throwable);
+        if (logwasnull)
+            Logger.fileLogger.Destroy();
     }
 
     private static class FileLogger
     {
         private FileWriter outputStream;
         private BufferedWriter writer;
-        private File file;
+        private final File file;
 
         public FileLogger()
         {
-            file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/FreeDcam/" + "DEBUG/"+ Build.MODEL + "_" + DateFormat.format("yyyy-MM-dd_hh.mm.ss", new Date().getTime()) + ".txt");
+            this.file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/FreeDcam/" + "DEBUG/"+ Build.MODEL + "_" + DateFormat.format("yyyy_MM_dd_hh_mm_ss", new Date().getTime()) + ".txt");
             try {
-                outputStream = new FileWriter(file);
-                writer = new BufferedWriter(outputStream);
+                this.outputStream = new FileWriter(this.file);
+                this.writer = new BufferedWriter(this.outputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public FileLogger(File file)
+        {
+            this.file = file;
+            try {
+                this.outputStream = new FileWriter(file);
+                this.writer = new BufferedWriter(this.outputStream);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -123,28 +148,28 @@ public class Logger
         public void Destroy()
         {
 
-            if (outputStream != null)
+            if (this.outputStream != null)
             {
                 try {
-                    writer.flush();
+                    this.writer.flush();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
                 try {
-                    outputStream.flush();
+                    this.outputStream.flush();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 try {
-                    writer.close();
-                    writer = null;
+                    this.writer.close();
+                    this.writer = null;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 try {
-                    outputStream.close();
-                    outputStream = null;
+                    this.outputStream.close();
+                    this.outputStream = null;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -152,29 +177,29 @@ public class Logger
 
         }
 
-        public void WriteLogDebug(final String TAG,final String msg)
+        public void WriteLogDebug(String TAG, String msg)
         {
             try {
-                String b = String.valueOf(DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime())) +
+                String b = DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime()) +
                         ":(D) " +
                         TAG + ":" +
                         msg;
-                writer.write(b);
-                writer.newLine();
+                this.writer.write(b);
+                this.writer.newLine();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        public void WriteLogErrorDebug(final String TAG,final String msg)
+        public void WriteLogErrorDebug(String TAG, String msg)
         {
             try {
-                String b = String.valueOf(DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime())) +
+                String b = DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime()) +
                         ":(E) " +
                         TAG +
                         msg;
-                writer.write(b);
-                writer.newLine();
+                this.writer.write(b);
+                this.writer.newLine();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -185,12 +210,12 @@ public class Logger
             StringWriter errors = new StringWriter();
             ex.printStackTrace(new PrintWriter(errors));
             try {
-                writer.write(errors.toString());
+                this.writer.write(errors.toString());
             } catch (IOException e) {
-                if (file != null)
+                if (this.file != null)
                 {
                     try {
-                        FileWriter fr = new FileWriter(file);
+                        FileWriter fr = new FileWriter(this.file);
                         fr.write(errors.toString());
                         fr.close();
                     } catch (IOException e1) {

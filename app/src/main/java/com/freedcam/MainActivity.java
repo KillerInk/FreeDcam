@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
@@ -138,10 +139,20 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         //set up own ex handler to have a change to catch the fc bevor app dies
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
-            public void uncaughtException(Thread thread, Throwable e)
+            public void uncaughtException(Thread thread,final Throwable e)
             {
                 //yeahaw app crash print ex to logger
-                Logger.DUMPLOGTOFILE();
+                if (thread != Looper.getMainLooper().getThread())
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run()
+                        {
+                            Logger.LogUncaughtEX(e);
+                        }
+                    });
+                else
+                    Logger.LogUncaughtEX(e);
+
                 //set back default exhandler and let app die
                 defaultEXhandler.uncaughtException(thread,e);
             }
@@ -160,7 +171,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         hardwareKeyHandler = new HardwareKeyHandler(this,appSettingsManager);
         //load the cameraui
         sampleThemeFragment = new SampleThemeFragment();
-        sampleThemeFragment.SetAppSettingsManager(appSettingsManager);
+        sampleThemeFragment.SetAppSettingsManagerAndBitmapHelper(appSettingsManager, bitmapHelper);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
         transaction.add(R.id.themeFragmentholder, sampleThemeFragment, "CameraFragment");

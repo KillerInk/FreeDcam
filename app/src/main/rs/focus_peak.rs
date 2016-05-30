@@ -17,6 +17,7 @@
 #pragma rs java_package_name(com.freedcam.apis.camera2.camera.renderscript)
 #pragma rs_fp_relaxed
 rs_allocation gCurrentFrame;
+
 uchar4 __attribute__((kernel)) peak(uint32_t x, uint32_t y) {
     uchar4 curPixel;
     curPixel.r = rsGetElementAtYuv_uchar_Y(gCurrentFrame, x, y);
@@ -52,6 +53,9 @@ uchar4 __attribute__((kernel)) peak(uint32_t x, uint32_t y) {
             mergedPixel.g * 1814 / 1024 - 227;
     rgb.a = 255;
     // Write out merged HDR result
-    uchar4 out = convert_uchar4(clamp(rgb, 0, 255));
+    if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
+    if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
+    if (rgb.b > 255) rgb.b = 255; if(rgb.b < 0) rgb.b = 0;
+    uchar4 out = convert_uchar4(rgb);
     return out;
 }

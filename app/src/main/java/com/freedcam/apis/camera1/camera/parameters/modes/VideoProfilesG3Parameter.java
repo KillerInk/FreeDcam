@@ -53,7 +53,13 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
     }
 
     @Override
-    public String GetValue() {
+    public String GetValue()
+    {
+        if (profile == null && supportedProfiles != null)
+        {
+            List<String> keys = new ArrayList<>(supportedProfiles.keySet());
+            profile = keys.get(0);
+        }
         return profile;
     }
 

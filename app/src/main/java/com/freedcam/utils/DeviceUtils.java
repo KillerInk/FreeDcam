@@ -127,6 +127,7 @@ public class DeviceUtils
         Lenovo_K50_MTK,
         Lenovo_VibeP1,
         LG_G2,
+        LG_G2pro,
         LG_G3,
         LG_G4,
         MeizuMX4_MTK,
@@ -211,6 +212,7 @@ public class DeviceUtils
             Devices.Lenovo_K50_MTK,
             Devices.LG_G3,
             Devices.LG_G2,
+            Devices.LG_G2pro,
             Devices.LG_G4,
             Devices.MeizuMX4_MTK,
             Devices.MeizuMX5_MTK,
@@ -293,6 +295,8 @@ public class DeviceUtils
             return Devices.Lenovo_K4Note_MTK;
         else if (isG2(context))
             return Devices.LG_G2;
+        else if (isG2pro(context))
+            return Devices.LG_G2pro;
         else if (isLG_G3(context))
             return Devices.LG_G3;
         else if (isG4(context))
@@ -349,8 +353,6 @@ public class DeviceUtils
             return Devices.XiaomiMI_Note_Pro;
         else if (isXiaomiMI_Note3_Pro(context))
             return Devices.XiaomiMI_Note3_Pro;
-        else if(isXiaomi_Redmi_Note3(context))
-            return Devices.Xiaomi_Redmi_Note3;
         else if (isYureka(context))
             return Devices.Yu_Yureka;
         else if (isZTEADV(context))
@@ -441,6 +443,11 @@ public class DeviceUtils
     private static boolean isG2(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.g2));
+    }
+
+    private static boolean isG2pro(Context contex)
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.g2pro));
     }
 
     private static boolean isEvo3d(Context contex)
@@ -619,7 +626,6 @@ public class DeviceUtils
     private static boolean isXiaomiMI_Note_Pro(Context contex) { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi_Note_Pro));}
 
     private static boolean isXiaomiMI_Note3_Pro(Context contex) { return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_Mi_Note3_Pro));}
-    private static boolean isXiaomi_Redmi_Note3(Context contex){ return isDevice(contex.getResources().getStringArray(R.array.Xiaomi_RedmiNote3));}
 
     private static boolean isAlcatel_Idol3(Context contex) { return isDevice(contex.getResources().getStringArray(R.array.Alcatel_Idol_3));}
 

@@ -1,4 +1,4 @@
-package com.freedcam.Native;
+package com.freedcam.jni;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,44 +21,43 @@ public class RawUtils {
     final static String TAG = RawUtils.class.getSimpleName();
     private static int DEFAULT_JPG_QUALITY = 85;
 
-    private RawUtils() {
+    public RawUtils() {
 
     }
 
-    static {
-        try {
-            System.loadLibrary("freedcam");
-        } catch (Throwable e) {
-            Logger.exception(e);
-        }
+    static
+    {
+        System.loadLibrary("freedcam");
     }
 
 
-    private static native byte[] unpackThumbnailBytes(String fileName);
+    private native byte[] unpackThumbnailBytes(String fileName);
 
-    private static native Bitmap unpackRAW(String fileName);
+    private native Bitmap unpackRAW(String fileName);
     
-    public static native void unpackRawByte(String fileName, byte[] xraw, int blackLevel,float aperture,float focalLength,float shutterSpeed,float iso);
+    public native void unpackRawByte(String fileName, byte[] xraw, int blackLevel,float aperture,float focalLength,float shutterSpeed,float iso);
 
-    public static native byte[] BitmapExtractor(byte[] xraw, int blackLevel);
+    public native byte[] BitmapExtractor(byte[] xraw, int blackLevel);
 
-    private static native int unpackThumbnailToFile(String rawFileName, String thumbFileName);
+    private native int unpackThumbnailToFile(String rawFileName, String thumbFileName);
 
-    private static native void parseExif(String fileName, Object exifMap);
+    private native void parseExif(String fileName, Object exifMap);
 
 
-    public static byte[] unpackThumbNailToBytes(String filename)
+    public  byte[] unpackThumbNailToBytes(String filename)
     {
         return unpackThumbnailBytes(filename);
     }
 
-    public static Bitmap UnPackRAW(String file)
+    public Bitmap UnPackRAW(String file)
     {
+        if (file == null || file.equals(""))
+            return null;
         return unpackRAW(file);
     }
 
 
-    public static byte[] convertFileToByteArray(File f)
+    public byte[] convertFileToByteArray(File f)
     {
         byte[] byteArray = null;
         try
@@ -89,7 +88,7 @@ public class RawUtils {
      * @param width
      * @return
      */
-    private static Bitmap unpackThumbnailBitmapToFit(String fileName, int width, int height) {
+    private Bitmap unpackThumbnailBitmapToFit(String fileName, int width, int height) {
         //TimeChecker t = TimeChecker.newInstance();
         //t.prepare();
         Bitmap thumbnail;
@@ -124,16 +123,16 @@ public class RawUtils {
      * @param thumbFileName
      * @return
      */
-    public static boolean saveThumbnailToFile(String rawFileName, String thumbFileName) {
+    public boolean saveThumbnailToFile(String rawFileName, String thumbFileName) {
         return (unpackThumbnailToFile(rawFileName, thumbFileName) == 0);
     }
 
-    public static boolean saveThumbnailToFitToFile(String rawFileName, String scaledFileName, int width, int height) {
+    public boolean saveThumbnailToFitToFile(String rawFileName, String scaledFileName, int width, int height) {
         Bitmap bitmap = unpackThumbnailBitmapToFit(rawFileName, width, height);
         if (bitmap == null || bitmap.getByteCount() == 0) {
             return false;
         }
-        HashMap exifMap = RawUtils.parseExif(rawFileName);
+        HashMap exifMap = parseExif(rawFileName);
         int flip = Integer.valueOf((String)exifMap.get(ExifInterface.TAG_ORIENTATION));
         if (flip != 0) {
             Matrix matrix = new Matrix();
@@ -153,7 +152,7 @@ public class RawUtils {
         return compressBitmapAndSave(bitmap, scaledFileName);
     }
 
-    public static boolean scaleJPGAndSave(String originFileName, String scaledFileName, int width, int height) {
+    public boolean scaleJPGAndSave(String originFileName, String scaledFileName, int width, int height) {
 
         Bitmap bitmap = null;
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -179,7 +178,7 @@ public class RawUtils {
         return compressBitmapAndSave(bitmap, scaledFileName);
     }
 
-    private static boolean compressBitmapAndSave(Bitmap bitmap, String savedFileName) {
+    private boolean compressBitmapAndSave(Bitmap bitmap, String savedFileName) {
         boolean result = false;
 
         if (bitmap == null) {
@@ -209,7 +208,7 @@ public class RawUtils {
     }
 
 
-    private static HashMap<String, String> parseExif(String fileName) {
+    private HashMap<String, String> parseExif(String fileName) {
         HashMap<String, String> exif = new HashMap<>();
 
             parseExif(fileName, exif);

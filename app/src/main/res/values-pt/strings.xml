@@ -47,7 +47,6 @@
     <string name="setting_orientation_header">Correção de Orientação: </string>
     <string name="setting_orientation_description">Gira a Câmera em 180 ° se ON</string>
     <string name="setting_sdcard_header">SD Card: </string>
-    <string name="setting_sdcard_description">Salvar Arquivo. ATENÇÃO: KitKat só Pode Salvar em SD Externo Quando o Dispositivo Está enraizado e SDFix é aplicado!</string>
 
     <string name="setting_interval_header">Intervalo de Fogo do Obturador </string>
     <string name="setting_interval_texter">Intervalo</string>

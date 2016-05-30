@@ -192,6 +192,24 @@
         return rgb;
     }
 
+    uchar4 __attribute__((kernel)) stackimage_lightenV(uint32_t x, uint32_t y)
+        {
+            float4 curPixel, lastPixel;
+            uchar4 rgb;
+            curPixel = getRgb(x, y);
+            int V1 = 0.299 *curPixel.x +  0.587 * curPixel.y + 0.114 +curPixel.z;
+            lastPixel = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x, y));
+            int V2 = 0.299 *lastPixel.x +  0.587 * lastPixel.y + 0.114 +lastPixel.z;
+            if(V1 > V2)
+                rgb = rsPackColorTo8888(curPixel);
+            else
+                rgb = rsPackColorTo8888(lastPixel);
+            if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
+            if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
+            if (rgb.b > 255) rgb.b = 255; if(rgb.b < 0) rgb.b = 0;
+            return rgb;
+        }
+
     uchar4 __attribute__((kernel)) stackimage_median(uint32_t x, uint32_t y)
     {
         uchar4 curPixel, lastPixel;
