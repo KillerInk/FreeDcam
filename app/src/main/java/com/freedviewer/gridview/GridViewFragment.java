@@ -364,16 +364,20 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                         boolean del = bitmapHelper.DeleteFile(f,appSettingsManager, getContext());
                         MediaScannerManager.ScanMedia(getContext(), f.getFile());
                         Logger.d(TAG, "file: " + f.getFile().getName() + " deleted:" + del);
-                        if (del)
+                        if (del) {
                             i--;
+                            mPagerAdapter.delteFile(f);
+                        }
                         filesdeletedCount++;
                     }
                 }
+
                 GridViewFragment.this.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
 
                         setViewMode(ViewStates.normal);
+                        mPagerAdapter.notifyDataSetChanged();
                     }
                 });
 

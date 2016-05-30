@@ -128,6 +128,11 @@ class ImageAdapter extends BaseAdapter
         this.formatsToShow = formatsToShow;
     }
 
+    public void delteFile(FileHolder holder)
+    {
+        files.remove(holder);
+    }
+
     public List<FileHolder> getFiles()
     {
         return files;
