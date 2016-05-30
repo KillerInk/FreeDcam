@@ -84,7 +84,10 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
             return;
         mPager.setAdapter(null);
         Logger.d(TAG, "addfile:" +file.getName() + " currentCount:"+files.size());
-        files.add(new FileHolder(file, files.get(0).isExternalSD()));
+        if (files.size() >0)
+            files.add(new FileHolder(file, files.get(0).isExternalSD()));
+        else
+            files.add(new FileHolder(file, false));
         Collections.sort(files, new Comparator<FileHolder>() {
             public int compare(FileHolder f1, FileHolder f2) {
                 return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
