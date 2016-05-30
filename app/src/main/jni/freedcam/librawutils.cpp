@@ -299,12 +299,25 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_freedcam_jni_RawUtils_unpackRAW(JN
 	//raw.recycle();
 
 	const char *strFilename = (env)->GetStringUTFChars(jfilename, &bIsCopy);
-	raw.open_file(strFilename);
+	if((ret = raw.open_file(strFilename)) != LIBRAW_SUCCESS)
+	{
+	    LOGD("ERROR open File %s",libraw_strerror(ret));
+	    return NULL;
+	}
+
 	LOGD("File opend");
 
-	ret = raw.unpack();
+    if((ret = raw.unpack()) != LIBRAW_SUCCESS)
+    {
+        LOGD("ERROR unpack File %s",libraw_strerror(ret));
+	    return NULL;
+    }
 	LOGD("unpacked img %i", ret);
-	ret = raw.dcraw_process();
+	if((ret = raw.dcraw_process()) != LIBRAW_SUCCESS)
+	{
+        LOGD("ERROR unpack File %s",libraw_strerror(ret));
+        return NULL;
+    }
 	LOGD("processing dcraw %i", ret);
 	libraw_processed_image_t *image = raw.dcraw_make_mem_image(&ret);
 
@@ -350,11 +363,16 @@ extern "C" JNIEXPORT jobject JNICALL Java_com_freedcam_jni_RawUtils_unpackRAW(JN
         AndroidBitmap_unlockPixels(env, newBitmap);
         LOGD("pixel unlocked");
 		//raw.free_image();
-		LibRaw::dcraw_clear_mem(image);
+		//LibRaw::dcraw_clear_mem(image);
 
 	}
 	(env)->ReleaseStringUTFChars(jfilename, strFilename);
-	raw.recycle();
+	// recycle() is needed only if we want to free the resources right now.
+    // If we process files in a cycle, the next open_file()
+    // will also call recycle(). If a fatal error has happened, it means that recycle()
+    // has already been called (repeated call will not cause any harm either).
+	// we don't evoke recycle() or call the desctructor; C++ will do everything for us
+	//raw.recycle();
 	LOGD("rawdata recycled");
 
     return newBitmap;
