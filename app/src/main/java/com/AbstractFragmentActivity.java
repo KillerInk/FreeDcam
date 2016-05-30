@@ -64,9 +64,15 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
     }
 
     @Override
-    protected void onDestroy()
+    protected void onPause()
     {
         appSettingsManager.SaveAppSettings();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy()
+    {
         DeviceUtils.DESTROY();
         super.onDestroy();
        /* if (FreeDPool.IsInit())
