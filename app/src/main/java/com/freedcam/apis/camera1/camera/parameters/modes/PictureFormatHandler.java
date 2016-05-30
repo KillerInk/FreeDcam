@@ -143,11 +143,11 @@ public class PictureFormatHandler extends BaseModeParameter
         Logger.d(TAG, "setString:" +val);
         parameters.set("picture-format", val);
         cameraHolderApi1.SetCameraParameters(parameters);
-        if(cameraHolderApi1.DeviceFrameWork == CameraHolderApi1.Frameworks.LG && setTocam || (DeviceUtils.IS(DeviceUtils.Devices.Htc_M8) && Build.VERSION.SDK_INT >= 23))
+        /*if(cameraHolderApi1.DeviceFrameWork == CameraHolderApi1.Frameworks.LG && setTocam)
         {
             cameraHolderApi1.StopPreview();
             cameraHolderApi1.StartPreview();
-        }
+        }*/
         firststart = false;
     }
 
