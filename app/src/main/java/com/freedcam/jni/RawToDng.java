@@ -1,4 +1,4 @@
-package com.freedcam.Native;
+package com.freedcam.jni;
 
 import android.location.Location;
 import android.os.Build;

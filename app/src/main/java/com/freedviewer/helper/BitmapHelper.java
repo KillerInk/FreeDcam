@@ -7,7 +7,7 @@ import android.media.ThumbnailUtils;
 import android.os.Build;
 import android.provider.MediaStore;
 
-import com.freedcam.Native.RawUtils;
+import com.freedcam.jni.RawUtils;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;

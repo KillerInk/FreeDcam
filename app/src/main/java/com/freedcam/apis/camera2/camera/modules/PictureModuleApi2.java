@@ -18,7 +18,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.ParcelFileDescriptor;
-import android.renderscript.RenderScript;
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
 import android.util.Pair;
@@ -26,7 +25,7 @@ import android.util.Rational;
 import android.util.Size;
 import android.view.Surface;
 
-import com.freedcam.Native.RawToDng;
+import com.freedcam.jni.RawToDng;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;

@@ -1,4 +1,4 @@
-package com.freedcam.Native;
+package com.freedcam.jni;
 
 import java.nio.ByteBuffer;
 
