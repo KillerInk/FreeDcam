@@ -134,7 +134,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         Logger.d(TAG, "createHandlers()");
         super.createHandlers();
         //Get default handler for uncaught exceptions. to let fc app as it should
-        defaultEXhandler = Thread.getDefaultUncaughtExceptionHandler();
+       /* defaultEXhandler = Thread.getDefaultUncaughtExceptionHandler();
         //set up own ex handler to have a change to catch the fc bevor app dies
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
@@ -145,7 +145,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
                 //set back default exhandler and let app die
                 defaultEXhandler.uncaughtException(thread,e);
             }
-        });
+        });*/
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
             renderScriptHandler = new RenderScriptHandler(getApplicationContext());
