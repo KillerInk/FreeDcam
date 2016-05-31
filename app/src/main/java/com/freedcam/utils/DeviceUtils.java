@@ -190,7 +190,7 @@ public class DeviceUtils
      * holds all Devices that are added
      * @com.troop.androiddng.DngSupportedDevices.java
      */
-    private static Devices[] camera1DNGsupported = {
+    private static Devices[] camera1DNGsupported = { //52 Raw Supported Devices
             Devices.Alcatel_Idol3,
             Devices.Alcatel_Idol3_small,
             Devices.Alcatel_985n,
