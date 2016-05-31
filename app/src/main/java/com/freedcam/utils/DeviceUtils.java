@@ -116,6 +116,7 @@ public class DeviceUtils
         Htc_One_Xl,
         HTC_OneA9,
         HTC_OneE8,
+        HTC_Desire500,
         Huawei_GX8,
         Huawei_HONOR5x,
         I_Mobile_I_StyleQ6,
@@ -202,6 +203,7 @@ public class DeviceUtils
             Devices.Htc_One_Xl,
             Devices.HTC_OneA9,
             Devices.HTC_OneE8,
+            Devices.HTC_Desire500,
             Devices.Huawei_GX8,
             Devices.Huawei_HONOR5x,
             Devices.I_Mobile_I_StyleQ6,
@@ -392,6 +394,8 @@ public class DeviceUtils
             return Devices.MotoG3;
         else if(isMotoGTurbo(context))
             return Devices.MotoG_Turbo;
+        else if(isHTC_Desire500(context))
+            return Devices.HTC_Desire500;
         else
             return Devices.UNKNOWN;
 
@@ -464,6 +468,11 @@ public class DeviceUtils
     private static boolean isG2pro(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.g2pro));
+    }
+
+    private static boolean isHTC_Desire500(Context contex)
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.Desire500));
     }
 
     private static boolean isEvo3d(Context contex)
