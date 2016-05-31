@@ -1,16 +1,33 @@
-package com.freedcam.apis.basecamera.camera.parameters.manual;
+package com;
 
-import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import org.junit.Test;
+import android.test.suitebuilder.annotation.SmallTest;
 
 import java.util.ArrayList;
 
 /**
- * Created by troop on 19.05.2016.
+ * Created by troop on 31.05.2016.
  */
-public class AbstractManualShutter extends AbstractManualParameter
+public class ShutterTest
 {
 
-    private String shutterValues = "Auto,1/100000,1/90000,1/75000,1/50000,1/45000,1/30000,1/20000,1/12000,1/10000"+
+    @Test
+    public void readSHutter()
+    {
+        float tmpMin = Float.parseFloat("0.010514")*1000;
+        float tmpMax = Float.parseFloat("602.360952")*1000;
+        int min = (int)tmpMin;
+        int max = (int)tmpMax;
+        String ar[] = getSupportedShutterValues(min,max,false);
+        for (String s : ar) {
+            System.out.println("value " + s);
+            System.out.println(FormatShutterStringToDouble(s));
+            System.out.println(FLOATtoSixty4(FormatShutterStringToDouble(s)));
+            System.out.println(getMicroSecFromMilliseconds(FormatShutterStringToDouble(s)));
+        }
+    }
+
+    private  String ShutterValues = "Auto,1/100000,1/90000,1/75000,1/50000,1/45000,1/30000,1/20000,1/12000,1/10000"+
             ",1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000"+
             ",1/800,1/700,1/600,1/500,1/400,1/300,1/200,1/125,1/100,1/80,1/70,1/60"+
             ",1/50,1/40,1/35,1/30,1/25,1/20,1/15,1/13,1/10,1/9,1/8,1/7,1/6,1/5,1/4,1/3,1/2,0.8"+
@@ -19,13 +36,9 @@ public class AbstractManualShutter extends AbstractManualParameter
             ",30.0,31.0,32.0,33.0,35.0,36.0,37.0,38.0,39.0,40.0,41.0,42.0,43.0,44,45.0,46.0"+
             ",47.0,48.0,49.0,50.0,51.0,52.0,53.0,54.0,55.0,56.0,57.0,58.0,59.0,60.0,120.0,240.0";
 
-    public AbstractManualShutter(AbstractParameterHandler camParametersHandler) {
-        super(camParametersHandler);
-    }
-
     public String[] getSupportedShutterValues(int minMillisec, int maxMiliisec, boolean withautomode)
     {
-        final String[] allvalues = shutterValues.split(",");
+        final String[] allvalues = ShutterValues.split(",");
         boolean foundmin = false, foundmax = false;
         ArrayList<String> tmp = new ArrayList<>();
         if (withautomode)
@@ -37,10 +50,11 @@ public class AbstractManualShutter extends AbstractManualParameter
             float a;
             if (s.contains("/")) {
                 String split[] = s.split("/");
-                a =(Float.parseFloat(split[0]) / Float.parseFloat(split[1])*1000000f);
+                a =Float.parseFloat(split[0]) / Float.parseFloat(split[1])*1000000f;
             }
             else
                 a = (Float.parseFloat(s)*1000000f);
+            System.out.println(a);
 
             if (a>= minMillisec && a <= maxMiliisec)
                 tmp.add(s);
@@ -59,29 +73,14 @@ public class AbstractManualShutter extends AbstractManualParameter
         return tmp.toArray(new String[tmp.size()]);
     }
 
-    /**
-     * Checks if the the string looks like 1/50 and if yes it gets formated to double
-     * @param shutterstring
-     * @return
-     */
     public String FormatShutterStringToDouble(String shutterstring)
     {
         if (shutterstring.contains("/")) {
             String split[] = shutterstring.split("/");
-            Double a = Double.parseDouble(split[0]) / Double.parseDouble(split[1]);
+            float a = Float.parseFloat(split[0]) / Float.parseFloat(split[1]);
             shutterstring = "" + a;
         }
         return shutterstring;
-    }
-
-    /**
-     *
-     * @param shutterString 693.863262
-     * @return 693863262
-     */
-    public String getMicroSecFromMilliseconds(String shutterString)
-    {
-        return (Double.parseDouble(shutterString) * 1000)+"";
     }
 
     public String FLOATtoSixty4(String a)
@@ -92,16 +91,8 @@ public class AbstractManualShutter extends AbstractManualParameter
         return String.valueOf(d);
     }
 
-    public static long getMilliSecondStringFromShutterString(String shuttervalue)
+    public String getMicroSecFromMilliseconds(String shutterString)
     {
-        float a;
-        if (shuttervalue.contains("/")) {
-            String split[] = shuttervalue.split("/");
-            a =(Float.parseFloat(split[0]) / Float.parseFloat(split[1])*1000000f);
-        }
-        else
-            a = (Float.parseFloat(shuttervalue)*1000000f);
-        a = Math.round(a);
-        return  (long)a;
+        return (Float.parseFloat(shutterString) * 1000)+"";
     }
 }

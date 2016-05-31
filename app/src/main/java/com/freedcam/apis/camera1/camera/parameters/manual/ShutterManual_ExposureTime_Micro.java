@@ -55,9 +55,9 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
                 }
                 else
                 {
-                    Logger.d(TAG, "Micro contain .  *100000");
-                    double tmpMin = Double.parseDouble(parameters.get(min_value))*1000000;
-                    double tmpMax = Double.parseDouble(parameters.get(max_value))*1000000;
+                    Logger.d(TAG, "Micro contain .  *1000");
+                    double tmpMin = Double.parseDouble(parameters.get(min_value))*1000;
+                    double tmpMax = Double.parseDouble(parameters.get(max_value))*1000;
                     min = (int)tmpMin;
                     max = (int)tmpMax;
                     Logger.d(TAG, "min converterd = "+min + " max converterd = " + max);
@@ -96,8 +96,8 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
         {
             String shutterstring = FormatShutterStringToDouble(stringvalues[currentInt]);
             Logger.d(TAG, "StringUtils.FormatShutterStringToDouble:" + shutterstring);
-            shutterstring = getMicroSec(shutterstring);
-            Logger.d(TAG, " StringUtils.getMicroSec"+ shutterstring);
+            shutterstring = getMicroSecFromMilliseconds(shutterstring);
+            Logger.d(TAG, " StringUtils.getMicroSecFromMilliseconds"+ shutterstring);
             parameters.set(value, shutterstring);
         }
         else

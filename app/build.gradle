@@ -8,8 +8,14 @@ android {
         targetSdkVersion 23
         versionCode 73
         versionName '3.3.133beta6'
+        versionCode 76
+        versionName '3.3.133beta9'
+        versionCode 77
+        versionName '3.3.133beta10'
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 18
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     lintOptions{checkReleaseBuilds false}
 
@@ -68,5 +74,7 @@ dependencies {
     compile files('libs/metadata-extractor-2.7.0.jar')
     provided files('libs/real3d.jar')
     compile 'com.android.support:support-v4:23.3.0'
-    debugCompile 'junit:junit:4.12'
+    androidTestCompile 'junit:junit:4.12'
+    testCompile 'junit:junit:4.12'
 }
+
