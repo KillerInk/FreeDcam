@@ -191,7 +191,6 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         setMode(AE_Bracket, AppSettingsManager.SETTING_AEBRACKET);
         setMode(Histogram, AppSettingsManager.SETTING_HISTOGRAM);
         setMode(VideoProfiles, AppSettingsManager.SETTING_VIDEPROFILE);
-        setMode(VideoProfilesG3, AppSettingsManager.SETTING_VIDEPROFILE);
         setMode(VideoHDR, AppSettingsManager.SETTING_VIDEOHDR);
         setMode(VideoSize, AppSettingsManager.SETTING_VIDEOSIZE);
         setMode(WhiteBalanceMode,AppSettingsManager.SETTING_WHITEBALANCEMODE);
@@ -212,7 +211,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         setManualMode(ManualSharpness,AppSettingsManager.MSHARPNESS);
         setManualMode(ManualShutter, AppSettingsManager.MSHUTTERSPEED);
         setManualMode(ManualBrightness, AppSettingsManager.MBRIGHTNESS);
-        //setManualMode(ISOManual, AppSettingsManager.MISO);
+        //setManualMode(ManualIso, AppSettingsManager.MISO);
         setManualMode(ManualSaturation, AppSettingsManager.MSATURATION);
         setManualMode(CCT,AppSettingsManager.MCCT);
 

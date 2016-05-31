@@ -42,7 +42,7 @@ public class AeHandlerApi2
         parameterHandler.ExposureMode = aeModeApi2;
         parameterHandler.ManualShutter = manualExposureTimeApi2;
         parameterHandler.ManualExposure = manualExposureApi2;
-        parameterHandler.ISOManual = manualISoApi2;
+        parameterHandler.ManualIso = manualISoApi2;
 
     }
 

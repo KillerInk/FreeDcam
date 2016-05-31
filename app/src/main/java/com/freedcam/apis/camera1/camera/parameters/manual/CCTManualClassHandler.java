@@ -43,7 +43,7 @@ public class CCTManualClassHandler
         else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
             return new CCTManual_SonyM4(parameters, 8000,2000,parametersHandler,100, WB_MODE_MANUAL_CCT);
         else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
-            return new CCTManualG4(parameters, LG_Max, LG_Min,parametersHandler,100,"");
+            return new CCTManualG4(parameters,parametersHandler);
         else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
             return new CCTManualHtc(parameters, MAX_WB_CT, MIN_WB_CT, parametersHandler,100,"");
         else

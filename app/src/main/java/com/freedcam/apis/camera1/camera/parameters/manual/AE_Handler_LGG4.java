@@ -31,7 +31,7 @@ public class AE_Handler_LGG4
     {
         this.camParametersHandler = camParametersHandler;
         this.isoManualParameter = new ISOManualParameterG4(parameters,cameraHolder, camParametersHandler, aeevent);
-        camParametersHandler.ISOManual = isoManualParameter;
+        camParametersHandler.ManualIso = isoManualParameter;
         this.shutterPrameter = new ShutterManualParameterG4(parameters, camParametersHandler, aeevent);
         camParametersHandler.ManualShutter = shutterPrameter;
         this.parameters = parameters;

@@ -9,12 +9,15 @@ import android.os.Handler;
 import com.freedcam.apis.basecamera.camera.FocusRect;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.LocationParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.ModuleParameters;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.FocusHandler;
+import com.freedcam.apis.camera1.camera.parameters.device.AbstractDevice;
+import com.freedcam.apis.camera1.camera.parameters.device.RedmiNote3;
 import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_LGG4;
 import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_MTK;
 import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_QcomM;
@@ -102,6 +105,21 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
     }
 
+    private void setDeviceParameters(AbstractDevice device)
+    {
+        AbstractManualParameter shutter = device.getExposureTimeParameter();
+        if (shutter != null)
+            ManualShutter = shutter;
+        AbstractManualParameter mf = device.getManualFocusParameter();
+        if (mf != null)
+            ManualFocus = mf;
+        AbstractManualParameter iso = device.getIsoParameter();
+        if (iso != null)
+            ManualIso = iso;
+        AbstractManualParameter cct =  device.getCCTParameter();
+        if (cct !=  null)
+            CCT =cct;
+    }
 
     private void initParameters()
     {
@@ -157,11 +175,14 @@ public class CamParametersHandler extends AbstractParameterHandler
         createManualSharpness();
 
         try {
-            AE_Handler_LGG4 aeHandlerG4;
-            if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
+            if (DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_Redmi_Note3))
+            {
+                setDeviceParameters(new RedmiNote3(uiHandler,cameraParameters,cameraHolder,this));
+            }
+            else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
             {
                 Logger.d(TAG, "Use AE_Handler_G4");
-                aeHandlerG4 = new AE_Handler_LGG4(cameraParameters, cameraHolder, this);
+                AE_Handler_LGG4 aeHandlerG4 = new AE_Handler_LGG4(cameraParameters, cameraHolder, this);
             }
             else if(cameraParameters.get("m-ss") != null && cameraParameters.get("m-sr-g")!= null)
             {
@@ -177,7 +198,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             {
                 Logger.d(TAG, "Use ShutterClassHandler and ISOManualParameter");
                 ManualShutter = ShutterClassHandler.getShutterClass(cameraParameters, this, cameraHolder);
-                ISOManual = new ISOManualParameter(cameraParameters, this);
+                ManualIso = new ISOManualParameter(cameraParameters, this);
             }
         } catch (Exception e) {
             Logger.exception(e);
@@ -403,7 +424,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         try {
             if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
-                VideoProfilesG3 = new VideoProfilesG3Parameter(uiHandler,cameraParameters,cameraHolder, "", cameraUiWrapper);
+                VideoProfiles = new VideoProfilesG3Parameter(uiHandler,cameraParameters,cameraHolder, "", cameraUiWrapper);
             else
                 VideoProfiles = new VideoProfilesParameter(uiHandler,cameraParameters,cameraHolder, "", cameraUiWrapper);
         } catch (Exception e) {

@@ -26,8 +26,10 @@ public class FileUtils
     public static DocumentFile getExternalSdDocumentFile(AppSettingsManager appSettingsManager, Context context)
     {
         DocumentFile sdDir = null;
-        if (appSettingsManager != null && appSettingsManager.GetBaseFolder() != null && !appSettingsManager.GetBaseFolder().equals("")) {
-            Uri uri = Uri.parse(appSettingsManager.GetBaseFolder());
+        if (appSettingsManager != null)
+        {
+            String extSdFolder =  appSettingsManager.GetBaseFolder();
+            Uri uri = Uri.parse(extSdFolder);
             sdDir = DocumentFile.fromTreeUri(context, uri);
         }
         return sdDir;

@@ -167,8 +167,10 @@ public class DngConvertingFragment extends Fragment
                                 break;
                             case 3:
                                 dngprofile.BayerPattern = DngSupportedDevices.GBRG;
+                                break;
                             case 4:
                                 dngprofile.BayerPattern = DngSupportedDevices.RGBW;
+                                break;
                         }
                     }
 

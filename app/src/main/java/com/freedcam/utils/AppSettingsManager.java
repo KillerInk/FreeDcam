@@ -20,8 +20,6 @@ public class AppSettingsManager
 {
     final private String TAG = AppSettingsManager.class.getSimpleName();
     final String appsettingspath = StringUtils.GetFreeDcamConfigFolder+"setting.txt";
-    /*SharedPreferences appSettings;
-    public Context context;*/
     private int currentcamera = 0;
     private String camApiString = API_1;
 
@@ -147,10 +145,11 @@ public class AppSettingsManager
 
     final public static String SETTING_BASE_FOLDER = "base_folder";
 
-    private HashMap<String,String> appsettingsList = new HashMap<>();
+    private HashMap<String,String> appsettingsList;
 
     public AppSettingsManager()
     {
+        appsettingsList = new HashMap<>();
         loadAppSettings();
     }
 
@@ -182,7 +181,7 @@ public class AppSettingsManager
     }
 
     public String GetBaseFolder() {
-        return getString(SETTING_BASE_FOLDER,"");
+        return appsettingsList.get(SETTING_BASE_FOLDER);
     }
 
     public void SetTheme(String theme)
@@ -226,6 +225,16 @@ public class AppSettingsManager
         return AbstractModuleHandler.MODULE_PICTURE;
     }
 
+    /**
+     * All apis can have same parameters and to use same SETTINGS strings in ui
+     * that create the extended string to load it
+     * so when setting is like mexposure it gets extended to camera1mexposure0
+     * camera1 is the api
+     * mexposure is the settingsName
+     * 0 is the camera to that the settings belong
+     * @param settingsName to use
+     * @return
+     */
     private String getApiSettingString(String settingsName)
     {
         final StringBuilder newstring = new StringBuilder();

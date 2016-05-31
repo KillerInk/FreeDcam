@@ -12,7 +12,7 @@ public class CCTManualG4 extends BaseCCTManual {
         super(parameters, value, max, min, camParametersHandler, step, wbmode);
     }
 
-    public CCTManualG4(Camera.Parameters parameters, String maxValue, String MinValue, CamParametersHandler camParametersHandler, float step, String wbmode) {
+    public CCTManualG4(Camera.Parameters parameters,CamParametersHandler camParametersHandler) {
         super(parameters, CCTManualClassHandler.LG_WB, CCTManualClassHandler.LG_Max, CCTManualClassHandler.LG_Min, camParametersHandler, (float) 100, "");
     }
 

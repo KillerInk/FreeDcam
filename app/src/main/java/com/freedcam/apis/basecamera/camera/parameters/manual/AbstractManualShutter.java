@@ -79,7 +79,7 @@ public class AbstractManualShutter extends AbstractManualParameter
      * @param shutterString 693.863262
      * @return 693863262
      */
-    public String getMicroSec(String shutterString)
+    public String getMicroSecFromMilliseconds(String shutterString)
     {
         return (Double.parseDouble(shutterString) * 1000)+"";
     }

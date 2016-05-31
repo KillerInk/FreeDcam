@@ -31,7 +31,7 @@ public class AE_Handler_MTK
         {
             this.camParametersHandler = camParametersHandler;
             this.isoManualParameter = new ISOManualParameterMTK(parameters,cameraHolder, camParametersHandler, aeevent);
-            camParametersHandler.ISOManual = isoManualParameter;
+            camParametersHandler.ManualIso = isoManualParameter;
             this.shutterPrameter = new ShutterManualMtk(parameters, camParametersHandler, aeevent);
             camParametersHandler.ManualShutter = shutterPrameter;
             this.parameters = parameters;
@@ -62,11 +62,6 @@ public class AE_Handler_MTK
                             shutterPrameter.setValue(0);
                             break;
                     }
-                   // parameters.put("lg-manual-mode-reset", "1");
-                   // camParametersHandler.SetParametersToCamera(parameters);
-                   // parameters.put("lg-manual-mode-reset", "0");
-
-
                 }
                 else
                 {
