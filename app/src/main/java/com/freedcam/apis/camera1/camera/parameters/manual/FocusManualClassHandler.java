@@ -34,7 +34,7 @@ public class FocusManualClassHandler
         {
             return new BaseFocusManual(parameters,manual_focus_position,0,79,focusMode_manual,parametersHandler,1,1);
         }
-        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4C))
+        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4C)|| DeviceUtils.IS(DeviceUtils.Devices.MotoG3)  )
         {
             return new BaseFocusManual(parameters,manual_focus_position,0,1000,focusMode_manual,parametersHandler,10,1);
         }
@@ -42,9 +42,9 @@ public class FocusManualClassHandler
         {
             return new BaseFocusManual(parameters,manual_focus_position,0,1000,focusMode_manual,parametersHandler,10,2);
         }*/
-        else if (DeviceUtils.IS(DeviceUtils.Devices.Alcatel_Idol3) || DeviceUtils.IS(DeviceUtils.Devices.MotoG3) || DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8982_8994))
+        else if (DeviceUtils.IS(DeviceUtils.Devices.Alcatel_Idol3) || DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8982_8994))
         {
-            return new BaseFocusManual(parameters, cur_focus_scale,max_focus_pos_ratio, min_focus_pos_ratio,focusMode_manual,parametersHandler,1,2);
+            return new BaseFocusManual(parameters, manual_focus_position,0, 100,focusMode_manual,parametersHandler,1,2);
         }
         else if(DeviceUtils.IS(DeviceUtils.Devices.LenovoK920))
         {
