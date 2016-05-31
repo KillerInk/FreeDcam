@@ -203,7 +203,7 @@ public class RawToDng
                             double exposureIndex)
     {
         if (nativeHandler != null)
-        SetExifData(nativeHandler, iso, expo, flash, fNum, focalL, imagedescription, orientation, exposureIndex);
+            SetExifData(nativeHandler, iso, expo, flash, fNum, focalL, imagedescription, orientation, exposureIndex);
     }
 
     private float[] parseGpsvalue(double val)
@@ -313,11 +313,6 @@ public class RawToDng
 
         }
     }
-
-/*    private Byte[] raw2byte()
-    {
-
-    }*/
 
 
 

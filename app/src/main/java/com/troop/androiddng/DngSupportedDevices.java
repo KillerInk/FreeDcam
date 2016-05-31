@@ -224,6 +224,8 @@ public class DngSupportedDevices
                         return new DngProfile(64, 4192, 3104, Plain, RGGB, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case Xiaomi_RedmiNote2_MTK:
                         return new DngProfile(64, 4192, 3104, Plain, GBRG, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                    case Xiaomi_Redmi_Note3:
+                        return new DngProfile(64, 4192, 3104, Plain, GBRG, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case Lenovo_K50_MTK:
                         return new DngProfile(16, 4192, 3104, Plain, BGGR, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case Lenovo_K4Note_MTK:
