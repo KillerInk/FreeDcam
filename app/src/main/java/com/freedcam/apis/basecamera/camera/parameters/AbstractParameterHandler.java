@@ -91,7 +91,6 @@ public abstract class AbstractParameterHandler
     public AbstractModeParameter CDS_Mode;
 
     public AbstractModeParameter VideoProfiles;
-    public AbstractModeParameter VideoProfilesG3;
     public AbstractModeParameter VideoSize;
     public AbstractModeParameter VideoHDR;
     public AbstractModeParameter VideoHighFramerateVideo;
@@ -213,10 +212,7 @@ public abstract class AbstractParameterHandler
         setMode(NonZslManualMode, AppSettingsManager.SETTING_NONZSLMANUALMODE);
 
         setMode(Histogram, AppSettingsManager.SETTING_HISTOGRAM);
-        if(VideoProfiles != null)
-            setMode(VideoProfiles, AppSettingsManager.SETTING_VIDEPROFILE);
-        else if (VideoProfilesG3 != null)
-            setMode(VideoProfilesG3, AppSettingsManager.SETTING_VIDEPROFILE);
+        setMode(VideoProfiles, AppSettingsManager.SETTING_VIDEPROFILE);
         setMode(VideoHDR, AppSettingsManager.SETTING_VIDEOHDR);
         setMode(VideoSize, AppSettingsManager.SETTING_VIDEOSIZE);
         setMode(VideoStabilization,AppSettingsManager.SETTING_VIDEOSTABILIZATION);

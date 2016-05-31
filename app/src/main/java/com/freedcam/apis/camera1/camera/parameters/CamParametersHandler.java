@@ -424,7 +424,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         try {
             if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
-                VideoProfilesG3 = new VideoProfilesG3Parameter(uiHandler,cameraParameters,cameraHolder, "", cameraUiWrapper);
+                VideoProfiles = new VideoProfilesG3Parameter(uiHandler,cameraParameters,cameraHolder, "", cameraUiWrapper);
             else
                 VideoProfiles = new VideoProfilesParameter(uiHandler,cameraParameters,cameraHolder, "", cameraUiWrapper);
         } catch (Exception e) {

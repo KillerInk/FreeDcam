@@ -195,13 +195,9 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         jpegQuality.SetMenuItemListner(this);
 
         videoProfile.SetStuff(i_activity, AppSettingsManager.SETTING_VIDEPROFILE,appSettingsManager);
+
         if (cameraUiWrapper.camParametersHandler.VideoProfiles != null)
             videoProfile.SetParameter(cameraUiWrapper.camParametersHandler.VideoProfiles);
-        else if (cameraUiWrapper.camParametersHandler.VideoProfilesG3 != null)
-            videoProfile.SetParameter(cameraUiWrapper.camParametersHandler.VideoProfilesG3);
-        else {
-            videoProfile.SetParameter(null);
-        }
         videoProfile.SetMenuItemListner(this);
 
         videoHDR.SetStuff(i_activity, AppSettingsManager.SETTING_VIDEOHDR,appSettingsManager);
