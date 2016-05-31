@@ -25,7 +25,7 @@ public class AE_Handler_QcomM
         this.exposureTime = new ShutterManual_ExposureTime_Micro(parameters,camParametersHandler,null,"exposure-time", "max-exposure-time", "min-exposure-time");
         camParametersHandler.ManualShutter = exposureTime;
         this.isoManual = new ISOManualParameter(parameters,camParametersHandler);
-        camParametersHandler.ISOManual =isoManual;
+        camParametersHandler.ManualIso =isoManual;
     }
 
     AbstractModeParameter.I_ModeParameterEvent aemodeChangedListner = new AbstractModeParameter.I_ModeParameterEvent() {

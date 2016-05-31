@@ -15,13 +15,12 @@ public class FocusManualMTK extends BaseFocusManual {
         isVisible = isSupported;
     }
 
-    public FocusManualMTK(Camera.Parameters parameters, int min, int max, String manualFocusModeString, CamParametersHandler camParametersHandler, float step, int manualFocusType) {
+    public FocusManualMTK(Camera.Parameters parameters, CamParametersHandler camParametersHandler) {
         super(parameters, "afeng-pos", 0, 1023, FocusManualClassHandler.focusMode_manual, camParametersHandler, (float) 10, 1);
         this.isSupported = true;
         this.isVisible = true;
         this.manualFocusModeString = FocusManualClassHandler.focusMode_manual;
         this.stringvalues = createStringArray(0, 1023, (float) 10);
-        //this.manualFocusType = manualFocusType;
     }
 
     @Override

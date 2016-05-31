@@ -119,12 +119,12 @@ public class CameraHolderSony extends AbstractCameraHolder
         @Override
         public void onIsoChanged(String iso)
         {
-            ParameterHandler.ISOManual.ThrowCurrentValueStringCHanged(iso);
+            ParameterHandler.ManualIso.ThrowCurrentValueStringCHanged(iso);
         }
 
         @Override
         public void onIsoValuesChanged(String[] isovals) {
-            ParameterHandler.ISOManual.BackgroundValuesChanged(isovals);
+            ParameterHandler.ManualIso.BackgroundValuesChanged(isovals);
         }
 
         @Override

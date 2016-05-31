@@ -59,12 +59,11 @@ public class FocusManualClassHandler
         else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
             return new FocusManualParameterHTC(parameters, "","", cameraHolder,parametersHandler);
         else if(parameters.get("afeng-max-focus-step")!=null || parametersHandler.isMTK() || DeviceUtils.IS(DeviceUtils.Devices.SonyC5_MTK)||DeviceUtils.IS(DeviceUtils.Devices.SonyM5_MTK) ||DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote2_MTK))
-            //return new FocusManualMTK(parameters,"afeng-pos","afeng-max-focus-step","afeng-min-focus-step", focusMode_manual,parametersHandler,10,0);
-            return  new FocusManualMTK(parameters, 0,1023,focusMode_manual,parametersHandler,10,1);
+            return  new FocusManualMTK(parameters,parametersHandler);
         else if(parameters.get("focus-fs-fi-max") != null && parameters.get("focus-fs-fi-min")!= null && parameters.get("focus-fs-fi")!= null)
             return new FocusManualMTK(parameters,"focus-fs-fi","focus-fs-fi-max","focus-fs-fi-min", parametersHandler,10,0);
         else if (parameters.get("manual-focus-modes")!= null)
-            return new FocusManual_QcomM(parameters, "max-focus-pos-ratio","min-focus-pos-ratio", parametersHandler,1);
+            return new FocusManual_QcomM(parameters, parametersHandler,1);
         else
             return null;
 

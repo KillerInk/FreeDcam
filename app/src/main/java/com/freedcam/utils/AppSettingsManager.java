@@ -20,8 +20,6 @@ public class AppSettingsManager
 {
     final private String TAG = AppSettingsManager.class.getSimpleName();
     final String appsettingspath = StringUtils.GetFreeDcamConfigFolder+"setting.txt";
-    /*SharedPreferences appSettings;
-    public Context context;*/
     private int currentcamera = 0;
     private String camApiString = API_1;
 
@@ -147,10 +145,11 @@ public class AppSettingsManager
 
     final public static String SETTING_BASE_FOLDER = "base_folder";
 
-    private HashMap<String,String> appsettingsList = new HashMap<>();
+    private HashMap<String,String> appsettingsList;
 
     public AppSettingsManager()
     {
+        appsettingsList = new HashMap<>();
         loadAppSettings();
     }
 

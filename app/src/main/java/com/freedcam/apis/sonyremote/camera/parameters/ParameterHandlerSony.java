@@ -116,8 +116,8 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         parametersChangedList.add((BaseManualParameterSony) ManualShutter);
         ManualFNumber = new BaseManualParameterSony("getFNumber","getAvailableFNumber","setFNumber",this);
         parametersChangedList.add((BaseManualParameterSony) ManualFNumber);
-        ISOManual = new BaseManualParameterSony("getIsoSpeedRate", "getAvailableIsoSpeedRate","setIsoSpeedRate", this);
-        parametersChangedList.add((BaseManualParameterSony) ISOManual);
+        ManualIso = new BaseManualParameterSony("getIsoSpeedRate", "getAvailableIsoSpeedRate","setIsoSpeedRate", this);
+        parametersChangedList.add((BaseManualParameterSony) ManualIso);
 
         ManualExposure = new ExposureCompManualParameterSony("getAvailableExposureCompensation", "setExposureCompensation", this);
         parametersChangedList.add((BaseManualParameterSony) ManualExposure);

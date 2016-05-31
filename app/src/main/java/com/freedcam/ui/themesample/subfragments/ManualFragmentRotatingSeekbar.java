@@ -149,7 +149,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements S
         saturation.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualSaturation);
         sharpness.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualSharpness);
         shutter.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualShutter);
-        iso.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ISOManual);
+        iso.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualIso);
         zoom.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.Zoom);
         aperture.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualFNumber);
         skintone.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.Skintone);

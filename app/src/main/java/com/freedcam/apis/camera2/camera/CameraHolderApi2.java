@@ -24,10 +24,8 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.location.Location;
 import android.os.Build;
 import android.os.Handler;
-import android.renderscript.RenderScript;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.util.Size;
 import android.view.Display;
 import android.view.Surface;
@@ -418,7 +416,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
                             }
                             try {
                                 final int  iso = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
-                                GetParameterHandler().ISOManual.ThrowCurrentValueStringCHanged("" + iso);
+                                GetParameterHandler().ManualIso.ThrowCurrentValueStringCHanged("" + iso);
                             }
                             catch (NullPointerException ex) {
                                 Logger.exception(ex);

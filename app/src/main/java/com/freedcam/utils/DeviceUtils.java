@@ -64,7 +64,6 @@ public class DeviceUtils
                     Devices.Moto_MSM8982_8994,
                     Devices.Lenovo_VibeP1,
                     Devices.XiaomiMI5,
-                    Devices.Xiaomi_Redmi_Note3,
                     Devices.Aquaris_E5,
                     Devices.Huawei_GX8
             };

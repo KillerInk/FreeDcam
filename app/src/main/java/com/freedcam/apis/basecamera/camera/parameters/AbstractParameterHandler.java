@@ -47,7 +47,7 @@ public abstract class AbstractParameterHandler
     public AbstractManualParameter Burst;
     public AbstractManualParameter CCT;
     public AbstractManualParameter FX;
-    public AbstractManualParameter ISOManual;
+    public AbstractManualParameter ManualIso;
     public AbstractManualParameter Zoom;
     public AbstractManualParameter Skintone;
     public AbstractManualParameter ProgramShift;
@@ -254,7 +254,7 @@ public abstract class AbstractParameterHandler
         setManualMode(ManualSharpness,AppSettingsManager.MSHARPNESS);
         setManualMode(ManualShutter, AppSettingsManager.MSHUTTERSPEED);
         setManualMode(ManualBrightness, AppSettingsManager.MBRIGHTNESS);
-        //setManualMode(ISOManual, AppSettingsManager.MISO);
+        //setManualMode(ManualIso, AppSettingsManager.MISO);
         setManualMode(ManualSaturation, AppSettingsManager.MSATURATION);
         //setManualMode(CCT,AppSettingsManager.MWB);
 
