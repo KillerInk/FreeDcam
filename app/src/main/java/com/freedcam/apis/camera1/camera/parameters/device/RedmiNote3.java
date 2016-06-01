@@ -4,6 +4,7 @@ import android.hardware.Camera;
 import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1.Frameworks;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
@@ -11,6 +12,10 @@ import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_MTK;
 import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_QcomM;
 import com.freedcam.apis.camera1.camera.parameters.manual.FocusManualMTK;
 import com.freedcam.apis.camera1.camera.parameters.manual.FocusManual_QcomM;
+import com.troop.androiddng.DngProfile;
+import com.troop.androiddng.DngSupportedDevices;
+
+import static com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter.*;
 
 /**
  * Created by troop on 31.05.2016.
@@ -52,6 +57,18 @@ public class RedmiNote3 extends AbstractDevice
 
     @Override
     public AbstractManualParameter getCCTParameter() {
+        return null;
+    }
+
+    @Override
+    public DngProfile getDngProfile(int filesize) {
+        switch (filesize)
+        {
+            case 26023936://xiaomi redmi note3 mtk
+                return new DngProfile(64, 4192, 3104, DngProfile.Plain, DngProfile.GBRG, 0, matrixChooserParameter.GetCustomMatrix(NEXUS6));
+            case 20389888: //xiaomi redmi note3 / pro
+                return new DngProfile(64, 4632, 3480, DngProfile.Mipi16, DngProfile.GRBG, 0,matrixChooserParameter.GetCustomMatrix(NEXUS6));
+        }
         return null;
     }
 }

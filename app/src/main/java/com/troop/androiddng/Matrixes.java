@@ -65,10 +65,10 @@ public class Matrixes
             };
 
         //FRONT CAM
-        static float[] neutral_light_front = {0.230904f, 0.20558f,0.266458f};
+    public static float[] neutral_light_front = {0.230904f, 0.20558f,0.266458f};
 
-        static float[] CC_D65_FRONT = {1.51605f,-0.53394002f,1.1425781f,-0.22262f,1.415243f,-0.19262999f,1.1601563f,-0.52266997f,1.50258f };
-        static float[] CC_A_FRONT = {1.487381f, -0.50427997f,1.1347656f,-0.2105f, 1.392174f,-0.18192001f, 1.1513672f,-0.49362999f,1.474659f };
+    public static float[] CC_D65_FRONT = {1.51605f,-0.53394002f,1.1425781f,-0.22262f,1.415243f,-0.19262999f,1.1601563f,-0.52266997f,1.50258f };
+    public static float[] CC_A_FRONT = {1.487381f, -0.50427997f,1.1347656f,-0.2105f, 1.392174f,-0.18192001f, 1.1513672f,-0.49362999f,1.474659f };
 
     public static final float[]  Nex6CCM1 =
             {
