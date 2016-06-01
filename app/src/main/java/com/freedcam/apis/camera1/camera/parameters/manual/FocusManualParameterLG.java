@@ -15,7 +15,7 @@ public class FocusManualParameterLG extends  BaseManualParameter
     private I_CameraHolder baseCameraHolder;
     private static String TAG ="freedcam.ManualFocusG4";
 
-    public FocusManualParameterLG(Camera.Parameters parameters, String maxValue, String MinValue, I_CameraHolder cameraHolder, CamParametersHandler camParametersHandler) {
+    public FocusManualParameterLG(Camera.Parameters parameters, I_CameraHolder cameraHolder, CamParametersHandler camParametersHandler) {
         super(parameters, "", "", "", camParametersHandler,1);
         this.baseCameraHolder = cameraHolder;
         isSupported = true;

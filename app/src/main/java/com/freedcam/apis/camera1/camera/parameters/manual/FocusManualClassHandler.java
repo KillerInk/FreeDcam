@@ -50,12 +50,8 @@ public class FocusManualClassHandler
         {
             return new BaseFocusManual(parameters, manual_focus_position,max_focus_pos_index, min_focus_pos_index,focusMode_manual,parametersHandler,1,1);
         }
-        else if (DeviceUtils.IsMarshMallowG3())
-        {
-            return new BaseFocusManual(parameters,manual_focus_position,0,1023,focusMode_manual,parametersHandler,10,1);
-        }
-        else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4) || (DeviceUtils.IS(DeviceUtils.Devices.LG_G3) && Build.VERSION.SDK_INT < 21) || DeviceUtils.IS(DeviceUtils.Devices.LG_G2))
-            return new FocusManualParameterLG(parameters, "","", cameraHolder, parametersHandler);
+        else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G2))
+            return new FocusManualParameterLG(parameters,cameraHolder, parametersHandler);
         else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
             return new FocusManualParameterHTC(parameters, "","", cameraHolder,parametersHandler);
         else if(parameters.get("afeng-max-focus-step")!=null || parametersHandler.isMTK() || DeviceUtils.IS(DeviceUtils.Devices.SonyC5_MTK)||DeviceUtils.IS(DeviceUtils.Devices.SonyM5_MTK) ||DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote2_MTK))

@@ -17,6 +17,8 @@ import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.FocusHandler;
 import com.freedcam.apis.camera1.camera.parameters.device.AbstractDevice;
+import com.freedcam.apis.camera1.camera.parameters.device.LG_G3;
+import com.freedcam.apis.camera1.camera.parameters.device.LG_G4;
 import com.freedcam.apis.camera1.camera.parameters.device.RedmiNote3;
 import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_LGG4;
 import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_MTK;
@@ -179,10 +181,13 @@ public class CamParametersHandler extends AbstractParameterHandler
             {
                 setDeviceParameters(new RedmiNote3(uiHandler,cameraParameters,cameraHolder,this));
             }
+            else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G3))
+            {
+                setDeviceParameters(new LG_G3(uiHandler,cameraParameters,cameraHolder,this));
+            }
             else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
             {
-                Logger.d(TAG, "Use AE_Handler_G4");
-                AE_Handler_LGG4 aeHandlerG4 = new AE_Handler_LGG4(cameraParameters, cameraHolder, this);
+                setDeviceParameters(new LG_G4(uiHandler,cameraParameters,cameraHolder,this));
             }
             else if(cameraParameters.get("m-ss") != null && cameraParameters.get("m-sr-g")!= null)
             {

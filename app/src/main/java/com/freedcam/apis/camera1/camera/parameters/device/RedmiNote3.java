@@ -20,17 +20,10 @@ public class RedmiNote3 extends AbstractDevice
     private Frameworks frameworks;
     private AE_Handler_MTK ae_handler_mtk;
     private AE_Handler_QcomM ae_handler_qcomM;
-    private Handler uihandler;
-    private Camera.Parameters parameters;
-    private CameraHolderApi1 cameraHolder;
-    private CamParametersHandler camParametersHandler;
     public RedmiNote3(Handler uihandler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler)
     {
+        super(uihandler,parameters,cameraHolder,camParametersHandler);
         this.frameworks = cameraHolder.DeviceFrameWork;
-        this.uihandler = uihandler;
-        this.parameters = parameters;
-        this.cameraHolder = cameraHolder;
-        this.camParametersHandler = camParametersHandler;
         if (frameworks == Frameworks.MTK)
             ae_handler_mtk = new AE_Handler_MTK(parameters,cameraHolder,camParametersHandler);
         else
