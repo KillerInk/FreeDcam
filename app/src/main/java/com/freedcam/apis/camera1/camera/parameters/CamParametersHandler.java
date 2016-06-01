@@ -19,7 +19,7 @@ import com.freedcam.apis.camera1.camera.FocusHandler;
 import com.freedcam.apis.camera1.camera.parameters.device.AbstractDevice;
 import com.freedcam.apis.camera1.camera.parameters.device.LG_G3;
 import com.freedcam.apis.camera1.camera.parameters.device.LG_G4;
-import com.freedcam.apis.camera1.camera.parameters.device.Xiaomi_Redmi_Note3;
+import com.freedcam.apis.camera1.camera.parameters.device.Xiaomi_Redmi_Note3_QC_MTK;
 import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_MTK;
 import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_QcomM;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseManualParameter;
@@ -178,7 +178,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         try {
             if (DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_Redmi_Note3))
             {
-                setDeviceParameters(new Xiaomi_Redmi_Note3(uiHandler,cameraParameters,cameraHolder,this));
+                setDeviceParameters(new Xiaomi_Redmi_Note3_QC_MTK(uiHandler,cameraParameters,cameraHolder,this));
             }
             else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G3))
             {

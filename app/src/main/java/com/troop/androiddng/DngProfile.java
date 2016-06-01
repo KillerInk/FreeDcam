@@ -20,6 +20,7 @@ public class DngProfile
     public static final String RGBW =  "rgbw";
 
     public static final int ROWSIZE = 5264;
+    public static final int HTCM8_rowSize = 3360;
 
     public int blacklevel;
     public int widht;
