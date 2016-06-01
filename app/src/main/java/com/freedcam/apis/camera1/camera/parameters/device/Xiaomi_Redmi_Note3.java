@@ -20,12 +20,12 @@ import static com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooser
 /**
  * Created by troop on 31.05.2016.
  */
-public class RedmiNote3 extends AbstractDevice
+public class Xiaomi_Redmi_Note3 extends AbstractDevice
 {
     private Frameworks frameworks;
     private AE_Handler_MTK ae_handler_mtk;
     private AE_Handler_QcomM ae_handler_qcomM;
-    public RedmiNote3(Handler uihandler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler)
+    public Xiaomi_Redmi_Note3(Handler uihandler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler)
     {
         super(uihandler,parameters,cameraHolder,camParametersHandler);
         this.frameworks = cameraHolder.DeviceFrameWork;

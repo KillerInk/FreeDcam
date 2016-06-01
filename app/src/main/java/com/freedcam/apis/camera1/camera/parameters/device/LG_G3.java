@@ -24,11 +24,13 @@ public class LG_G3 extends AbstractDevice
         super(uihandler, parameters, cameraHolder, camParametersHandler);
     }
 
+    //not supported by device
     @Override
     public AbstractManualParameter getExposureTimeParameter() {
         return null;
     }
 
+    //not supported by device
     @Override
     public AbstractManualParameter getIsoParameter() {
         return null;
