@@ -157,7 +157,6 @@ public class DeviceUtils
         XiaomiMI4C,
         XiaomiMI5,
         XiaomiMI_Note_Pro,
-        XiaomiMI_Note3_Pro,
         Xiaomi_Redmi_Note3,
         Yu_Yureka,
         ZTE_ADV,
@@ -236,9 +235,8 @@ public class DeviceUtils
             Devices.XiaomiMI4W,
             Devices.XiaomiMI4C,
             Devices.XiaomiMI_Note_Pro,
-            Devices.XiaomiMI_Note3_Pro,
-            Devices.Xiaomi_RedmiNote2_MTK,
             Devices.Xiaomi_Redmi_Note3,
+            Devices.Xiaomi_RedmiNote2_MTK,
             Devices.Yu_Yureka,
             Devices.ZTE_ADV,
             Devices.ZTEADVIMX214,
@@ -355,7 +353,7 @@ public class DeviceUtils
         else if (isXiaomiMI_Note_Pro(context))
             return Devices.XiaomiMI_Note_Pro;
         else if (isXiaomiMI_Note3_Pro(context))
-            return Devices.XiaomiMI_Note3_Pro;
+            return Devices.Xiaomi_Redmi_Note3;
         else if (isYureka(context))
             return Devices.Yu_Yureka;
         else if (isZTEADV(context))
