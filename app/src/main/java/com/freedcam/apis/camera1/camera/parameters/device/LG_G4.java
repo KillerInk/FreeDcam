@@ -9,6 +9,7 @@ import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_LGG4;
 import com.freedcam.apis.camera1.camera.parameters.manual.CCTManualG4;
 import com.freedcam.apis.camera1.camera.parameters.manual.FocusManualParameterLG;
+import com.troop.androiddng.DngProfile;
 
 /**
  * Created by troop on 01.06.2016.
@@ -39,5 +40,10 @@ public class LG_G4 extends AbstractDevice {
     @Override
     public AbstractManualParameter getCCTParameter() {
         return new CCTManualG4(parameters,camParametersHandler);
+    }
+
+    @Override
+    public DngProfile getDngProfile(int filesize) {
+        return null;
     }
 }

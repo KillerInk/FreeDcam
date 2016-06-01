@@ -26,6 +26,7 @@ import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
+import com.troop.androiddng.DngProfile;
 import com.troop.androiddng.DngSupportedDevices;
 import com.troop.androiddng.Matrixes;
 import com.troop.freedcam.R;
@@ -50,7 +51,7 @@ public class DngConvertingFragment extends Fragment
     private Spinner spinnerrawFormat;
     private Button buttonconvertToDng;
     private String[] filesToConvert;
-    private DngSupportedDevices.DngProfile dngprofile;
+    private DngProfile dngprofile;
     private Handler handler;
     private Button closeButton;
     private AppSettingsManager appSettingsManager;
@@ -116,15 +117,15 @@ public class DngConvertingFragment extends Fragment
             editTextheight.setText(dngprofile.height + "");
             editTextblacklvl.setText(dngprofile.blacklevel + "");
 
-            if (dngprofile.BayerPattern.equals(DngSupportedDevices.BGGR))
+            if (dngprofile.BayerPattern.equals(DngProfile.BGGR))
                 spinnerColorPattern.setSelection(0);
-            else if (dngprofile.BayerPattern.equals(DngSupportedDevices.RGGB))
+            else if (dngprofile.BayerPattern.equals(DngProfile.RGGB))
                 spinnerColorPattern.setSelection(1);
-            else if (dngprofile.BayerPattern.equals(DngSupportedDevices.GRBG))
+            else if (dngprofile.BayerPattern.equals(DngProfile.GRBG))
                 spinnerColorPattern.setSelection(2);
-            else if (dngprofile.BayerPattern.equals(DngSupportedDevices.GBRG))
+            else if (dngprofile.BayerPattern.equals(DngProfile.GBRG))
                 spinnerColorPattern.setSelection(3);
-            else if (dngprofile.BayerPattern.equals(DngSupportedDevices.RGBW))
+            else if (dngprofile.BayerPattern.equals(DngProfile.RGBW))
                 spinnerColorPattern.setSelection(4);
 
             if (Arrays.equals(dngprofile.matrixes.ColorMatrix1, Matrixes.Nex6CCM1))
@@ -157,19 +158,19 @@ public class DngConvertingFragment extends Fragment
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         switch (position) {
                             case 0:
-                                dngprofile.BayerPattern = DngSupportedDevices.BGGR;
+                                dngprofile.BayerPattern = DngProfile.BGGR;
                                 break;
                             case 1:
-                                dngprofile.BayerPattern = DngSupportedDevices.RGGB;
+                                dngprofile.BayerPattern = DngProfile.RGGB;
                                 break;
                             case 2:
-                                dngprofile.BayerPattern = DngSupportedDevices.GRBG;
+                                dngprofile.BayerPattern = DngProfile.GRBG;
                                 break;
                             case 3:
-                                dngprofile.BayerPattern = DngSupportedDevices.GBRG;
+                                dngprofile.BayerPattern = DngProfile.GBRG;
                                 break;
                             case 4:
-                                dngprofile.BayerPattern = DngSupportedDevices.RGBW;
+                                dngprofile.BayerPattern = DngProfile.RGBW;
                                 break;
                         }
                     }

@@ -9,7 +9,6 @@ public class KEYS {
 
     public static final String KEY_QUALCOMM_CAMERA = "qc-camera-features";
 
-
     // Manual Focus Keys
     public static final String KEY_MANUAL_FOCUS_MODE_VALUE = "manual-focus-modes";
     public static final String KEY_FOCUS_MODE_MANUAL = "manual";
@@ -31,6 +30,21 @@ public class KEYS {
     // Manual Focus Gettable
     public static final String KEY_MANUAL_FOCUS_SCALE = "cur-focus-scale";
     public static final String KEY_MANUAL_FOCUS_DIOPTER = "cur-focus-diopter";
+
+    public final static String WBCURRENT = "wb-current-cct";
+    public final static String WB_CCT = "wb-cct";
+    public final static String WB_CT = "wb-ct";
+    public final static String WB_MANUAL = "wb-manual-cct";
+    public final static String MANUAL_WB_VALUE = "manual-wb-value";
+    public final static String MAX_WB_CCT = "max-wb-cct";
+    public final static String MIN_WB_CCT = "min-wb-cct";
+    public final static String MAX_WB_CT = "max-wb-ct";
+    public final static String MIN_WB_CT = "min-wb-ct";
+    public final static String LG_Min = "lg-wb-supported-min";
+    public final static String LG_Max = "lg-wb-supported-max";
+    public final static String LG_WB = "lg-wb";
+    public final static String WB_MODE_MANUAL = "manual";
+    public final static String WB_MODE_MANUAL_CCT = "manual-cct";
 
 
     //MediaTEk

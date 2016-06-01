@@ -40,6 +40,7 @@ import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 import com.troop.androiddng.CustomMatrix;
+import com.troop.androiddng.DngProfile;
 import com.troop.androiddng.DngSupportedDevices;
 
 import java.io.File;
@@ -303,14 +304,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                             file = process_jpeg(burstcount, reader);
                             break;
                         case ImageFormat.RAW10:
-                            file = process_rawWithDngConverter(burstcount, reader,DngSupportedDevices.Mipi);
+                            file = process_rawWithDngConverter(burstcount, reader, DngProfile.Mipi);
                             break;
                         case ImageFormat.RAW12:
-                            file = process_rawWithDngConverter(burstcount, reader,DngSupportedDevices.Mipi12);
+                            file = process_rawWithDngConverter(burstcount, reader,DngProfile.Mipi12);
                             break;
                         case ImageFormat.RAW_SENSOR:
                             if(DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8974) || DeviceUtils.IS(DeviceUtils.Devices.OnePlusTwo))
-                                file = process_rawWithDngConverter(burstcount, reader,DngSupportedDevices.Mipi16);
+                                file = process_rawWithDngConverter(burstcount, reader,DngProfile.Mipi16);
                             else
                                 file = process_rawSensor(burstcount, reader);
 
@@ -436,28 +437,28 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         switch (c)
         {
             case 1:
-                colorpattern = DngSupportedDevices.GRBG;
+                colorpattern = DngProfile.GRBG;
                 cfaOut[0] = 1;
                 cfaOut[1] = 0;
                 cfaOut[2] = 2;
                 cfaOut[3] = 1;
                 break;
             case 2:
-                colorpattern = DngSupportedDevices.GBRG;
+                colorpattern = DngProfile.GBRG;
                 cfaOut[0] = 1;
                 cfaOut[1] = 2;
                 cfaOut[2] = 0;
                 cfaOut[3] = 1;
                 break;
             case 3:
-                colorpattern = DngSupportedDevices.BGGR;
+                colorpattern = DngProfile.BGGR;
                 cfaOut[0] = 2;
                 cfaOut[1] = 1;
                 cfaOut[2] = 1;
                 cfaOut[3] = 0;
                 break;
             default:
-                colorpattern = DngSupportedDevices.RGGB;
+                colorpattern = DngProfile.RGGB;
                 cfaOut[0] = 0;
                 cfaOut[1] = 1;
                 cfaOut[2] = 1;
@@ -519,7 +520,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         }
 
         DngSupportedDevices d = new DngSupportedDevices();
-        DngSupportedDevices.DngProfile prof = d.getProfile(black,image.getWidth(), image.getHeight(),rawFormat, colorpattern, 0,
+        DngProfile prof = d.getProfile(black,image.getWidth(), image.getHeight(),rawFormat, colorpattern, 0,
                 color1,
                 color2,
                 neutral,

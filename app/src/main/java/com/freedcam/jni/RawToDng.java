@@ -8,6 +8,7 @@ import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParamet
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
+import com.troop.androiddng.DngProfile;
 import com.troop.androiddng.DngSupportedDevices;
 
 import java.io.File;
@@ -320,7 +321,7 @@ public class RawToDng
     {
         if (device != null)
         {
-            DngSupportedDevices.DngProfile profile = new DngSupportedDevices().getProfile(device, (int)GetRawSize(), matrixChooserParameter);
+            DngProfile profile = new DngSupportedDevices().getProfile(device, (int)GetRawSize(), matrixChooserParameter);
             //if (profile.rowsize == 0)
                 //profile.rowsize = Calculate_rowSize((int)GetRawSize(), profile.height);
             if (profile == null)
@@ -338,7 +339,7 @@ public class RawToDng
         }
     }
 
-    public void WriteDngWithProfile(DngSupportedDevices.DngProfile profile)
+    public void WriteDngWithProfile(DngProfile profile)
     {
         if (profile == null)
             return;
