@@ -4,6 +4,7 @@ import android.hardware.Camera;
 import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_LGG4;
@@ -44,6 +45,12 @@ public class LG_G4 extends AbstractDevice {
 
     @Override
     public DngProfile getDngProfile(int filesize) {
+        switch (filesize)
+        {
+            case 19976192: //g4 bayer mipi camera1
+                return new DngProfile(64, 5312,2988,DngProfile.Mipi16, DngProfile.BGGR,0,
+                        matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.G4));
+        }
         return null;
     }
 }
