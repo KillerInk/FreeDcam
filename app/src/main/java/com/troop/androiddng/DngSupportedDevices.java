@@ -84,8 +84,8 @@ public class DngSupportedDevices
                 //TODO somethings wrong with it;
                 return new DngProfile(16, 3264, 2448, Qcom, BGGR, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             }
-            case 10782464: //HTC one xl
-                return new DngProfile(64, 2592, 1944, Qcom, GRBG, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+            case 10782464: //mytouch 4g slide / desire 500 not sure about black level 64 has green cast
+                return new DngProfile(0, 3282, 2448, Qcom, GRBG, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 10788864: //xperia L
                 return new DngProfile(64, 3282, 2448, Qcom, BGGR, XperiaL_rowSize,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
 

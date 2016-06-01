@@ -116,6 +116,7 @@ public class DeviceUtils
         Htc_One_Xl,
         HTC_OneA9,
         HTC_OneE8,
+        HTC_Desire500,
         Huawei_GX8,
         Huawei_HONOR5x,
         I_Mobile_I_StyleQ6,
@@ -134,6 +135,8 @@ public class DeviceUtils
         Meizu_m2Note_MTK,
         Moto_MSM8974,
         Moto_MSM8982_8994,
+        MotoG3,
+        MotoG_Turbo,
         Nexus4,
         OnePlusOne,
         OnePlusTwo,
@@ -187,7 +190,7 @@ public class DeviceUtils
      * holds all Devices that are added
      * @com.troop.androiddng.DngSupportedDevices.java
      */
-    private static Devices[] camera1DNGsupported = {
+    private static Devices[] camera1DNGsupported = { //52 Raw Supported Devices
             Devices.Alcatel_Idol3,
             Devices.Alcatel_Idol3_small,
             Devices.Alcatel_985n,
@@ -200,6 +203,7 @@ public class DeviceUtils
             Devices.Htc_One_Xl,
             Devices.HTC_OneA9,
             Devices.HTC_OneE8,
+            Devices.HTC_Desire500,
             Devices.Huawei_GX8,
             Devices.Huawei_HONOR5x,
             Devices.I_Mobile_I_StyleQ6,
@@ -386,6 +390,12 @@ public class DeviceUtils
             return Devices.Huawei_HONOR5x;
         else if(HTC_ONE_E8(context))
             return Devices.HTC_OneE8;
+        else if(isMotoG3(context))
+            return Devices.MotoG3;
+        else if(isMotoGTurbo(context))
+            return Devices.MotoG_Turbo;
+        else if(isHTC_Desire500(context))
+            return Devices.HTC_Desire500;
         else
             return Devices.UNKNOWN;
 
@@ -412,6 +422,17 @@ public class DeviceUtils
             }
         }
         return supported;
+    }
+
+
+    private static boolean isMotoG3(Context contex)
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.Moto_G3));
+    }
+
+    private static boolean isMotoGTurbo(Context contex)
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.G_Turbo));
     }
 
     private static boolean HTC_ONE_E8(Context contex)
@@ -447,6 +468,11 @@ public class DeviceUtils
     private static boolean isG2pro(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.g2pro));
+    }
+
+    private static boolean isHTC_Desire500(Context contex)
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.Desire500));
     }
 
     private static boolean isEvo3d(Context contex)

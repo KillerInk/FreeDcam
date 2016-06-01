@@ -1,6 +1,6 @@
 /* -*- C -*-
  * File: libraw_datastream.h
- * Copyright 2008-2013 LibRaw LLC (info@libraw.org)
+ * Copyright 2008-2016 LibRaw LLC (info@libraw.org)
  * Created: Sun Jan 18 13:07:35 2009
  *
  * LibRaw Data stream interface
@@ -45,6 +45,26 @@ it under the terms of the one of three licenses as you choose:
 #define WIN32SECURECALLS
 #endif
 #endif
+
+#ifdef USE_DNGSDK
+
+#if defined(WIN32)
+#define qWinOS 1
+#define qMacOS 0
+#elif defined(__APPLE__)
+#define qWinOS 0
+#define qMacOS 1
+#else
+/* define OS types for DNG here */
+#endif
+#define qDNGXMPDocOps  0
+#define qDNGUseLibJPEG 1
+#define qDNGXMPFiles   0
+#define qDNGExperimental 1
+#define qDNGThreadSafe 1
+#include "dng_stream.h"
+#endif /* DNGSDK */
+
 
 #define IOERROR() do { throw LIBRAW_EXCEPTION_IO_EOF; } while(0)
 
@@ -116,12 +136,12 @@ class DllDef  LibRaw_file_datastream: public LibRaw_abstract_datastream
     virtual INT64       tell();
     virtual INT64	size() { return _fsize;}
     virtual int         get_char()
-        { 
+        {
             if(substream) return substream->get_char();
-            return f->sbumpc();  
+            return f->sbumpc();
         }
-    virtual char*       gets(char *str, int sz); 
-    virtual int         scanf_one(const char *fmt, void*val); 
+    virtual char*       gets(char *str, int sz);
+    virtual int         scanf_one(const char *fmt, void*val);
     virtual const char* fname();
 #if defined(_WIN32) && !defined(__MINGW32__) && defined(_MSC_VER) && (_MSC_VER > 1310)
     virtual const wchar_t* wfname();
@@ -148,7 +168,7 @@ class DllDef  LibRaw_buffer_datastream : public LibRaw_abstract_datastream
     virtual char*       gets(char *s, int sz);
     virtual int         scanf_one(const char *fmt, void* val);
     virtual int         get_char()
-    { 
+    {
         if(substream) return substream->get_char();
         if(streampos>=streamsize)
             return -1;
@@ -172,7 +192,7 @@ class DllDef LibRaw_bigfile_datastream : public LibRaw_abstract_datastream
     virtual int         jpeg_src(void *jpegdata);
     virtual void        *make_jas_stream();
 
-    virtual int         read(void * ptr,size_t size, size_t nmemb); 
+    virtual int         read(void * ptr,size_t size, size_t nmemb);
     virtual int         eof();
     virtual int         seek(INT64 o, int whence);
     virtual INT64       tell();
@@ -187,7 +207,7 @@ class DllDef LibRaw_bigfile_datastream : public LibRaw_abstract_datastream
     virtual int         subfile_open(const char *fn);
     virtual void        subfile_close();
     virtual int         get_char()
-    { 
+    {
 #ifndef WIN32
         return substream?substream->get_char():getc_unlocked(f);
 #else
@@ -205,7 +225,7 @@ protected:
 };
 
 #ifdef WIN32
-class DllDef  LibRaw_windows_datastream : public LibRaw_buffer_datastream 
+class DllDef  LibRaw_windows_datastream : public LibRaw_buffer_datastream
 {
 public:
     /* ctor: high level constructor opens a file by name */
@@ -231,6 +251,45 @@ protected:
 
 #endif
 
+#ifdef USE_DNGSDK
+
+class libraw_dng_stream: public dng_stream
+{
+public:
+	libraw_dng_stream(LibRaw_abstract_datastream* p): dng_stream((dng_abort_sniffer*)NULL,kBigBufferSize,0),parent_stream(p)
+	{
+		if(parent_stream)
+		{
+			off = parent_stream->tell();
+			parent_stream->seek(0UL,SEEK_SET); /* seek to start */
+		}
+	}
+	~libraw_dng_stream(){
+		if(parent_stream)
+			parent_stream->seek(off,SEEK_SET);
+	}
+	virtual uint64 DoGetLength (){
+		if(parent_stream)
+			return parent_stream->size();
+		return 0;
+	}
+	virtual void DoRead (void *data, uint32 count, uint64 offset)
+	{
+		if(parent_stream)
+		{
+			parent_stream->seek(offset,SEEK_SET);
+			parent_stream->read(data,1,count);
+		}
+	}
+
+private:
+	libraw_dng_stream (const libraw_dng_stream &stream);
+	libraw_dng_stream & operator= (const libraw_dng_stream &stream);
+	LibRaw_abstract_datastream *parent_stream;
+	INT64 off;
+};
+
+#endif
 
 #endif /* cplusplus */
 

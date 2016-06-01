@@ -76,6 +76,9 @@ public class PictureFormatHandler extends BaseModeParameter
             else
             {
                 String formats = parameters.get("picture-format-values");
+                if (DeviceUtils.IS(DeviceUtils.Devices.MotoG3)||DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8974))
+                    formats = "bayer-mipi-10bggr,bayer-ideal-qcom-10bggr,bayer-qcom-10bggr,bayer-mipi-10rggb,bayer-ideal-qcom-10rggb,bayer-qcom-10rggb,bayer-mipi-10grbg,bayer-ideal-qcom-10grbg,bayer-qcom-10grbg,bayer-mipi-10gbrg,bayer-ideal-qcom-10gbrg,bayer-qcom-10gbrg";
+
                 if (formats.contains("bayer-mipi") || formats.contains("raw"))
                 {
                     rawSupported = true;

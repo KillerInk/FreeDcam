@@ -6,10 +6,6 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 73
-        versionName '3.3.133beta6'
-        versionCode 76
-        versionName '3.3.133beta9'
         versionCode 77
         versionName '3.3.133beta10'
         applicationId "troop.com.freedcam"
@@ -73,7 +69,7 @@ dependencies {
     compile files('libs/xmpcore-5.1.2.jar')
     compile files('libs/metadata-extractor-2.7.0.jar')
     provided files('libs/real3d.jar')
-    compile 'com.android.support:support-v4:23.3.0'
+    compile 'com.android.support:support-v4:23.2.0'
     androidTestCompile 'junit:junit:4.12'
     testCompile 'junit:junit:4.12'
 }
