@@ -17,8 +17,20 @@ import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.FocusHandler;
 import com.freedcam.apis.camera1.camera.parameters.device.AbstractDevice;
+import com.freedcam.apis.camera1.camera.parameters.device.Alcatel_Idol3;
+import com.freedcam.apis.camera1.camera.parameters.device.Alcatel_Idol3_small;
+import com.freedcam.apis.camera1.camera.parameters.device.Aquaris_E5;
+import com.freedcam.apis.camera1.camera.parameters.device.ForwardArt_MTK;
+import com.freedcam.apis.camera1.camera.parameters.device.LG_G2;
 import com.freedcam.apis.camera1.camera.parameters.device.LG_G3;
 import com.freedcam.apis.camera1.camera.parameters.device.LG_G4;
+import com.freedcam.apis.camera1.camera.parameters.device.Lenovo_K4Note_MTK;
+import com.freedcam.apis.camera1.camera.parameters.device.Lenovo_K50_MTK;
+import com.freedcam.apis.camera1.camera.parameters.device.Meizu_MX4_5_MTK;
+import com.freedcam.apis.camera1.camera.parameters.device.Retro_MTK;
+import com.freedcam.apis.camera1.camera.parameters.device.Sony_M5_MTK;
+import com.freedcam.apis.camera1.camera.parameters.device.THL5000_MTK;
+import com.freedcam.apis.camera1.camera.parameters.device.Xiaomi_Redmi_Note2_MTK;
 import com.freedcam.apis.camera1.camera.parameters.device.Xiaomi_Redmi_Note3_QC_MTK;
 import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_MTK;
 import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_QcomM;
@@ -73,6 +85,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     public CameraHolderApi1 cameraHolder;
     public BaseModeParameter DualMode;
     private CameraUiWrapper cameraUiWrapper;
+    public AbstractDevice Device;
 
     public CamParametersHandler(CameraUiWrapper cameraUiWrapper, Handler uiHandler, Context context,AppSettingsManager appSettingsManager)
     {
@@ -106,21 +119,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
     }
 
-    private void setDeviceParameters(AbstractDevice device)
-    {
-        AbstractManualParameter shutter = device.getExposureTimeParameter();
-        if (shutter != null)
-            ManualShutter = shutter;
-        AbstractManualParameter mf = device.getManualFocusParameter();
-        if (mf != null)
-            ManualFocus = mf;
-        AbstractManualParameter iso = device.getIsoParameter();
-        if (iso != null)
-            ManualIso = iso;
-        AbstractManualParameter cct =  device.getCCTParameter();
-        if (cct !=  null)
-            CCT =cct;
-    }
+
 
     private void initParameters()
     {
@@ -175,35 +174,12 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         createManualSharpness();
 
-        try {
-            if (DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_Redmi_Note3))
-            {
-                setDeviceParameters(new Xiaomi_Redmi_Note3_QC_MTK(uiHandler,cameraParameters,cameraHolder,this));
-            }
-            else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G3))
-            {
-                setDeviceParameters(new LG_G3(uiHandler,cameraParameters,cameraHolder,this));
-            }
-            else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
-            {
-                setDeviceParameters(new LG_G4(uiHandler,cameraParameters,cameraHolder,this));
-            }
-            else if(cameraParameters.get("m-ss") != null && cameraParameters.get("m-sr-g")!= null)
-            {
-                Logger.d(TAG, "Use AE_Handler_MTK");
-                AE_Handler_MTK aeHandlerMTK = new AE_Handler_MTK(cameraParameters, cameraHolder, this);
-            }
-            else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994) ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
-            {
-                Logger.d(TAG, "Use AE_Handler_QcomM");
-                AE_Handler_QcomM aeHandlerQcomM = new AE_Handler_QcomM(uiHandler, cameraParameters, cameraHolder, this);
-            }
-            else
-            {
-                Logger.d(TAG, "Use ShutterClassHandler and ISOManualParameter");
-                ManualShutter = ShutterClassHandler.getShutterClass(cameraParameters, this, cameraHolder);
-                ManualIso = new ISOManualParameter(cameraParameters, this);
-            }
+        if (DeviceUtils.isCamera1DNGSupportedDevice())
+            matrixChooser = new MatrixChooserParameter(uiHandler);
+
+        try
+        {
+            loadDeviceSpecificStuff();
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -514,9 +490,6 @@ public class CamParametersHandler extends AbstractParameterHandler
         imageStackMode = new StackModeParameter(uiHandler,cameraParameters,cameraHolder,"","");
 
         opcode = new OpCodeParameter(uiHandler);
-
-        if (DeviceUtils.isCamera1DNGSupportedDevice())
-            matrixChooser = new MatrixChooserParameter(uiHandler);
 
         try {
             Module = new ModuleParameters(uiHandler, cameraUiWrapper,appSettingsManager);
@@ -1072,5 +1045,196 @@ public class CamParametersHandler extends AbstractParameterHandler
         SetParametersToCamera(cameraParameters);
     }
 
+
+    private void loadDeviceSpecificStuff()
+    {
+        switch (DeviceUtils.DEVICE())
+        {
+//                case Alcatel_985n:
+//                    break;
+//                case p8:
+//                    break;
+//                case p8lite:
+//                    break;
+//                case honor6:
+//                    break;
+            case Aquaris_E5:
+                Device = new Aquaris_E5(uiHandler,cameraParameters,cameraHolder,this);
+                break;
+            case Alcatel_Idol3:
+                Device = new Alcatel_Idol3(uiHandler,cameraParameters,cameraHolder,this);
+                break;
+            case Alcatel_Idol3_small:
+                Device = new Alcatel_Idol3_small(uiHandler,cameraParameters,cameraHolder,this);
+                break;
+//                case Asus_Zenfon2:
+//                    break;
+//                case GioneE7:
+//                    break;
+            case ForwardArt_MTK:
+                Device = new ForwardArt_MTK(uiHandler,cameraParameters,cameraHolder,this);
+                break;
+//                case Htc_Evo3d:
+//                    break;
+//                case Htc_M8:
+//                    break;
+//                case Htc_M9:
+//                    break;
+//                case Htc_M10:
+//                    break;
+//                case Htc_One_Sv:
+//                    break;
+//                case Htc_One_Xl:
+//                    break;
+//                case HTC_OneA9:
+//                    break;
+//                case HTC_OneE8:
+//                    break;
+//                case HTC_Desire500:
+//                    break;
+//                case Huawei_GX8:
+//                    break;
+//                case Huawei_HONOR5x:
+//                    break;
+//                case I_Mobile_I_StyleQ6:
+//                    break;
+//                case Jiayu_S3:
+//                    break;
+//                case LenovoK910:
+//                    break;
+//                case LenovoK920:
+//                    break;
+            case Lenovo_K4Note_MTK:
+                Device = new Lenovo_K4Note_MTK(uiHandler, cameraParameters,cameraHolder,this);
+                break;
+            case Lenovo_K50_MTK:
+                Device = new Lenovo_K50_MTK(uiHandler,cameraParameters,cameraHolder,this);
+                break;
+//                case Lenovo_VibeP1:
+//                    break;
+            case LG_G2:
+                Device = new LG_G2(uiHandler,cameraParameters,cameraHolder,this);
+                break;
+//                case LG_G2pro:
+//                    break;
+            case LG_G3:
+                Device = new LG_G3(uiHandler,cameraParameters,cameraHolder,this);
+                break;
+            case LG_G4:
+                Device = new LG_G4(uiHandler,cameraParameters,cameraHolder,this);
+                break;
+            case MeizuMX4_MTK:
+            case MeizuMX5_MTK:
+                Device = new Meizu_MX4_5_MTK(uiHandler,cameraParameters,cameraHolder,this);
+                break;
+            case Meizu_m2Note_MTK:
+                break;
+//                case Moto_MSM8974:
+//                    break;
+//                case Moto_MSM8982_8994:
+//                    break;
+//                case MotoG3:
+//                    break;
+//                case MotoG_Turbo:
+//                    break;
+//                case Nexus4:
+//                    break;
+//                case OnePlusOne:
+//                    break;
+//                case OnePlusTwo:
+//                    break;
+//                case Xiaomi_RedmiNote:
+//                    break;
+            case Xiaomi_RedmiNote2_MTK:
+                Device = new Xiaomi_Redmi_Note2_MTK(uiHandler,cameraParameters,cameraHolder,this);
+                break;
+            case Retro_MTK:
+                Device = new Retro_MTK(uiHandler,cameraParameters,cameraHolder,this);
+                break;
+//                case Samsung_S6_edge:
+//                    break;
+//                case Samsung_S6_edge_plus:
+//                    break;
+//                case SonyADV:
+//                    break;
+//            case SonyM5_MTK:
+//                Device = new Sony_M5_MTK(uiHandler,cameraParameters,cameraHolder,this);
+//                break;
+//                case SonyM4_QC:
+//                    break;
+//            case SonyC5_MTK:
+//                break;
+//                case Sony_XperiaL:
+//                    break;
+            case THL5000_MTK:
+                Device = new THL5000_MTK(uiHandler,cameraParameters,cameraHolder,this);
+                break;
+//                case Vivo_Xplay3s:
+//                    break;
+//                case XiaomiMI3W:
+//                    break;
+//                case XiaomiMI4W:
+//                    break;
+//                case XiaomiMI4C:
+//                    break;
+//                case XiaomiMI5:
+//                    break;
+//                case XiaomiMI_Note_Pro:
+//                    break;
+            case Xiaomi_Redmi_Note3:
+                Device = new Xiaomi_Redmi_Note3_QC_MTK(uiHandler,cameraParameters,cameraHolder,this);
+                break;
+//                case Yu_Yureka:
+//                    break;
+//                case ZTE_ADV:
+//                    break;
+//                case ZTEADVIMX214:
+//                    break;
+//                case ZTEADV234:
+//                    break;
+            default:
+                Device = null;
+                loadOldLookup();
+                break;
+        }
+        if (Device != null)
+            setDeviceParameters(Device);
+    }
+
+    private void loadOldLookup()
+    {
+        if(cameraParameters.get("m-ss") != null && cameraParameters.get("m-sr-g")!= null)
+        {
+            Logger.d(TAG, "Use AE_Handler_MTK");
+            AE_Handler_MTK aeHandlerMTK = new AE_Handler_MTK(cameraParameters, cameraHolder, this);
+        }
+        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994) ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
+        {
+            Logger.d(TAG, "Use AE_Handler_QcomM");
+            AE_Handler_QcomM aeHandlerQcomM = new AE_Handler_QcomM(uiHandler, cameraParameters, cameraHolder, this);
+        }
+        else
+        {
+            Logger.d(TAG, "Use ShutterClassHandler and ISOManualParameter");
+            ManualShutter = ShutterClassHandler.getShutterClass(cameraParameters, this, cameraHolder);
+            ManualIso = new ISOManualParameter(cameraParameters, this);
+        }
+    }
+
+    private void setDeviceParameters(AbstractDevice device)
+    {
+        AbstractManualParameter shutter = device.getExposureTimeParameter();
+        if (shutter != null)
+            ManualShutter = shutter;
+        AbstractManualParameter mf = device.getManualFocusParameter();
+        if (mf != null)
+            ManualFocus = mf;
+        AbstractManualParameter iso = device.getIsoParameter();
+        if (iso != null)
+            ManualIso = iso;
+        AbstractManualParameter cct =  device.getCCTParameter();
+        if (cct !=  null)
+            CCT =cct;
+    }
 
 }

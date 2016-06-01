@@ -11,29 +11,9 @@ import com.troop.androiddng.DngProfile;
 /**
  * Created by troop on 01.06.2016.
  */
-public class Sony_M5 extends AbstractDevice {
-    public Sony_M5(Handler uihandler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler) {
+public class Sony_M5_MTK extends BaseMTKDevice {
+    public Sony_M5_MTK(Handler uihandler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler) {
         super(uihandler, parameters, cameraHolder, camParametersHandler);
-    }
-
-    @Override
-    public AbstractManualParameter getExposureTimeParameter() {
-        return null;
-    }
-
-    @Override
-    public AbstractManualParameter getIsoParameter() {
-        return null;
-    }
-
-    @Override
-    public AbstractManualParameter getManualFocusParameter() {
-        return null;
-    }
-
-    @Override
-    public AbstractManualParameter getCCTParameter() {
-        return null;
     }
 
     @Override

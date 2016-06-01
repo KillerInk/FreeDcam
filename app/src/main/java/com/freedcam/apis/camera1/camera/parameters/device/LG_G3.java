@@ -8,6 +8,7 @@ import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParam
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseFocusManual;
 import com.freedcam.apis.camera1.camera.parameters.manual.FocusManualParameterLG;
 import com.troop.androiddng.CustomMatrix;
@@ -40,7 +41,7 @@ public class LG_G3 extends AbstractDevice
     public AbstractManualParameter getManualFocusParameter() {
         if (VERSION.SDK_INT >= VERSION_CODES.M)
         {
-            return new BaseFocusManual(parameters,"manual-focus-position",0,1023,"manual",camParametersHandler,10,1);
+            return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,1023,KEYS.KEY_FOCUS_MODE_MANUAL,camParametersHandler,10,1);
         }
         else if (VERSION.SDK_INT < 21)
             return new FocusManualParameterLG(parameters,cameraHolder, camParametersHandler);
