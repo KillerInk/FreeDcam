@@ -16,6 +16,12 @@ public class Lenovo_K50_MTK extends BaseMTKDevice {
         super(uihandler, parameters, cameraUiWrapper);
     }
 
+
+    @Override
+    public boolean IsDngSupported() {
+        return true;
+    }
+
     @Override
     public DngProfile getDngProfile(int filesize)
     {

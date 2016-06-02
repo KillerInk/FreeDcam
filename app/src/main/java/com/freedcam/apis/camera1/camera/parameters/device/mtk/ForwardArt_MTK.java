@@ -24,6 +24,11 @@ public class ForwardArt_MTK extends BaseMTKDevice {
     }
 
     @Override
+    public boolean IsDngSupported() {
+        return true;
+    }
+
+    @Override
     public DngProfile getDngProfile(int filesize)
     {
         switch (filesize) {

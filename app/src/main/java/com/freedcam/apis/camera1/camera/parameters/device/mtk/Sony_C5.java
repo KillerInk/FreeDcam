@@ -17,6 +17,12 @@ public class Sony_C5 extends BaseMTKDevice {
     }
 
     @Override
+    public boolean IsDngSupported() {
+        return true;
+    }
+
+
+    @Override
     public DngProfile getDngProfile(int filesize)
     {
         switch (filesize)

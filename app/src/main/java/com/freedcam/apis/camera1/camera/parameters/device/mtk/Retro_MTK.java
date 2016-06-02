@@ -17,6 +17,11 @@ public class Retro_MTK extends BaseMTKDevice {
     }
 
     @Override
+    public boolean IsDngSupported() {
+        return true;
+    }
+
+    @Override
     public DngProfile getDngProfile(int filesize)
     {
         //TODO NOT SURE IF THATS THE CORRECT SIZE someone forgot to commit that device...

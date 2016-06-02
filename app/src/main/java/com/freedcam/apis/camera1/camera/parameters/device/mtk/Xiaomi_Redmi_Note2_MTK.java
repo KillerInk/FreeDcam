@@ -17,6 +17,11 @@ public class Xiaomi_Redmi_Note2_MTK extends BaseMTKDevice {
     }
 
     @Override
+    public boolean IsDngSupported() {
+        return true;
+    }
+
+    @Override
     public DngProfile getDngProfile(int filesize) {
         return new DngProfile(64, 4192, 3104, DngProfile.Plain, DngProfile.GBRG, 0,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
     }

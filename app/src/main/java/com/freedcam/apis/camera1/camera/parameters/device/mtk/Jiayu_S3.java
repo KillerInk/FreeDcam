@@ -21,6 +21,11 @@ public class Jiayu_S3 extends BaseMTKDevice {
     }
 
     @Override
+    public boolean IsDngSupported() {
+        return true;
+    }
+
+    @Override
     public DngProfile getDngProfile(int filesize)
     {
         switch (filesize)

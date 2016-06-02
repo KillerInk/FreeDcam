@@ -43,8 +43,8 @@ public class BaseMTKDevice extends AbstractDevice
     {
         if(parameters.get("afeng-max-focus-step")!=null)
             return new FocusManualMTK(parameters,camParametersHandler);
-        else  if(parameters.get("focus-fs-fi-max") != null)
-            return new FocusManualMTK(parameters,"focus-fs-fi","focus-fs-fi-max","focus-fs-fi-min", camParametersHandler,10,0);
+       /* else  if(parameters.get("focus-fs-fi-max") != null)
+            return new FocusManualMTK(parameters,"focus-fs-fi","focus-fs-fi-max","focus-fs-fi-min", camParametersHandler,10,0);*/
         else
             return null;
     }

@@ -17,6 +17,11 @@ public class Alcatel_985n extends BaseMTKDevice {
     }
 
     @Override
+    public boolean IsDngSupported() {
+        return true;
+    }
+
+    @Override
     public DngProfile getDngProfile(int filesize) {
         switch (filesize) {
             case 9830400: //NGM Forward Art
