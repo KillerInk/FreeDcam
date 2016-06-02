@@ -11,33 +11,8 @@ import com.troop.androiddng.DngProfile;
 /**
  * Created by troop on 01.06.2016.
  */
-public class Xiaomi_Mi4W extends AbstractDevice {
+public class Xiaomi_Mi4W extends Xiaomi_Mi3W {
     public Xiaomi_Mi4W(Handler uihandler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler) {
         super(uihandler, parameters, cameraHolder, camParametersHandler);
-    }
-
-    @Override
-    public AbstractManualParameter getExposureTimeParameter() {
-        return null;
-    }
-
-    @Override
-    public AbstractManualParameter getIsoParameter() {
-        return null;
-    }
-
-    @Override
-    public AbstractManualParameter getManualFocusParameter() {
-        return null;
-    }
-
-    @Override
-    public AbstractManualParameter getCCTParameter() {
-        return null;
-    }
-
-    @Override
-    public DngProfile getDngProfile(int filesize) {
-        return null;
     }
 }
