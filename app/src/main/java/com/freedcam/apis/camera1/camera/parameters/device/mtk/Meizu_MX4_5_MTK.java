@@ -3,9 +3,11 @@ package com.freedcam.apis.camera1.camera.parameters.device.mtk;
 import android.hardware.Camera;
 import android.os.Handler;
 
+import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.device.BaseMTKDevice;
+import com.freedcam.apis.camera1.camera.parameters.manual.ShutterManualMeizu;
 import com.troop.androiddng.DngProfile;
 
 /**
@@ -14,6 +16,11 @@ import com.troop.androiddng.DngProfile;
 public class Meizu_MX4_5_MTK extends BaseMTKDevice {
     public Meizu_MX4_5_MTK(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(uihandler, parameters, cameraUiWrapper);
+    }
+
+    @Override
+    public AbstractManualParameter getExposureTimeParameter() {
+        return new ShutterManualMeizu(parameters, cameraHolder, camParametersHandler);
     }
 
     @Override
