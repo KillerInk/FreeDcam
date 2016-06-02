@@ -33,7 +33,11 @@ public abstract class AbstractDevice
         this.cameraUiWrapper = cameraUiWrapper;
         this.cameraHolder = cameraUiWrapper.cameraHolder;
         this.camParametersHandler = (CamParametersHandler) cameraUiWrapper.camParametersHandler;
-        this.matrixChooserParameter = (MatrixChooserParameter)camParametersHandler.matrixChooser;
+        if (IsDngSupported())
+        {
+            this.matrixChooserParameter = new MatrixChooserParameter(uihandler);
+            camParametersHandler.matrixChooser = matrixChooserParameter;
+        }
     }
 
     public abstract boolean IsDngSupported();

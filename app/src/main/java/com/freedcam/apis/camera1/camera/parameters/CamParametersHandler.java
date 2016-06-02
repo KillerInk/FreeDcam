@@ -1257,10 +1257,6 @@ public class CamParametersHandler extends AbstractParameterHandler
         AbstractModeParameter video = device.getVideoProfileMode();
         if (video != null)
             VideoProfiles = video;
-        if (device.IsDngSupported())
-        {
-            matrixChooser = new MatrixChooserParameter(uiHandler);
-        }
     }
 
 }
