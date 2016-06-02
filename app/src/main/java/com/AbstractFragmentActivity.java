@@ -35,10 +35,6 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    protected void createHandlers()
-    {
         Logger.d(TAG, "createHandlers()");
         appSettingsManager = new AppSettingsManager(getApplicationContext());
         Context ctx = getApplicationContext();
@@ -47,14 +43,6 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
         DeviceUtils.CheckAndSetDevice(ctx);
         HIDENAVBAR();
     }
-
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-        HIDENAVBAR();
-        if (BitmapHelper.CACHE == null)
-            BitmapHelper.INIT(getApplicationContext());
-    }*/
 
    @Override
     public void onWindowFocusChanged(boolean hasFocus) {

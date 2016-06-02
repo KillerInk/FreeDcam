@@ -16,7 +16,6 @@ public class GridViewActivity extends AbstractFragmentActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        createHandlers();
         if (getSupportFragmentManager().findFragmentByTag(TAG) == null)
         {
             final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

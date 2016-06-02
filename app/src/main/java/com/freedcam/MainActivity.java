@@ -62,7 +62,16 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.freedcam_main_activity);
 
-        Logger.d(TAGLIFE, "Activity onResume");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            renderScriptHandler = new RenderScriptHandler(getApplicationContext());
+
+        //load the cameraui
+        sampleThemeFragment = new SampleThemeFragment();
+        sampleThemeFragment.SetAppSettingsManagerAndBitmapHelper(appSettingsManager, bitmapHelper);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
+        transaction.add(R.id.themeFragmentholder, sampleThemeFragment, "CameraFragment");
+        transaction.commitAllowingStateLoss();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
@@ -129,11 +138,10 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
             Logger.StartLogging();
         }
     }
-    @Override
-    protected void createHandlers()
+
+    private void createHandlers()
     {
         Logger.d(TAG, "createHandlers()");
-        super.createHandlers();
         //Get default handler for uncaught exceptions. to let fc app as it should
         defaultEXhandler = Thread.getDefaultUncaughtExceptionHandler();
         //set up own ex handler to have a change to catch the fc bevor app dies
@@ -158,9 +166,6 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
             }
         });
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-            renderScriptHandler = new RenderScriptHandler(getApplicationContext());
-
         checkSaveLogToFile();
         orientationHandler = new OrientationHandler(this, this);
         timerHandler = new TimerHandler(this);
@@ -169,13 +174,6 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         //check if camera is camera2 full device
         apiHandler.CheckApi();
         hardwareKeyHandler = new HardwareKeyHandler(this,appSettingsManager);
-        //load the cameraui
-        sampleThemeFragment = new SampleThemeFragment();
-        sampleThemeFragment.SetAppSettingsManagerAndBitmapHelper(appSettingsManager, bitmapHelper);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
-        transaction.add(R.id.themeFragmentholder, sampleThemeFragment, "CameraFragment");
-        transaction.commitAllowingStateLoss();
     }
 
     /**
