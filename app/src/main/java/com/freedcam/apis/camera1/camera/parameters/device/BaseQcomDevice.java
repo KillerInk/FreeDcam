@@ -24,13 +24,13 @@ public class BaseQcomDevice extends AbstractDevice {
 
     @Override
     public boolean IsDngSupported() {
-        return true;
+        return false;
     }
 
     @Override
     public AbstractManualParameter getExposureTimeParameter()
     {
-        if (parameters.get(KEYS.MAX_EXPOSURE_TIME) != null && parameters.get(KEYS.EXPOSURE_TIME) != null) {
+        if (parameters.get(KEYS.MAX_EXPOSURE_TIME) != null && parameters.get(KEYS.EXPOSURE_TIME) != null && parameters.get(KEYS.MIN_EXPOSURE_TIME )!= null) {
             if (!parameters.get(KEYS.MAX_EXPOSURE_TIME).contains("."))
                 return new ShutterManual_ExposureTime_FloatToSixty(parameters, camParametersHandler, null);
             else
@@ -47,7 +47,7 @@ public class BaseQcomDevice extends AbstractDevice {
     @Override
     public AbstractManualParameter getManualFocusParameter()
     {
-        if (parameters.get(KEYS.KEY_MANUAL_FOCUS_POSITION) != null)
+        if (parameters.get(KEYS.KEY_MANUAL_FOCUS_POSITION) != null && arrayContainsString(camParametersHandler.FocusMode.GetValues(), KEYS.KEY_FOCUS_MODE_MANUAL))
             return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,1000,KEYS.KEY_FOCUS_MODE_MANUAL,camParametersHandler,10,1);
         return null;
     }
