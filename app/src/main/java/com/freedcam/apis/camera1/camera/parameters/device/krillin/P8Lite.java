@@ -1,4 +1,4 @@
-package com.freedcam.apis.camera1.camera.parameters.device.qcom;
+package com.freedcam.apis.camera1.camera.parameters.device.krillin;
 
 import android.hardware.Camera;
 import android.os.Handler;
