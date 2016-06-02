@@ -21,17 +21,21 @@ import com.freedcam.apis.camera1.camera.parameters.device.Alcatel_Idol3;
 import com.freedcam.apis.camera1.camera.parameters.device.Alcatel_Idol3_small;
 import com.freedcam.apis.camera1.camera.parameters.device.Aquaris_E5;
 import com.freedcam.apis.camera1.camera.parameters.device.ForwardArt_MTK;
+import com.freedcam.apis.camera1.camera.parameters.device.GioneE7;
+import com.freedcam.apis.camera1.camera.parameters.device.HTC_M8;
 import com.freedcam.apis.camera1.camera.parameters.device.LG_G2;
 import com.freedcam.apis.camera1.camera.parameters.device.LG_G3;
 import com.freedcam.apis.camera1.camera.parameters.device.LG_G4;
 import com.freedcam.apis.camera1.camera.parameters.device.Lenovo_K4Note_MTK;
 import com.freedcam.apis.camera1.camera.parameters.device.Lenovo_K50_MTK;
+import com.freedcam.apis.camera1.camera.parameters.device.Meizu_M2_Note_MTK;
 import com.freedcam.apis.camera1.camera.parameters.device.Meizu_MX4_5_MTK;
 import com.freedcam.apis.camera1.camera.parameters.device.Retro_MTK;
 import com.freedcam.apis.camera1.camera.parameters.device.Sony_M5_MTK;
 import com.freedcam.apis.camera1.camera.parameters.device.THL5000_MTK;
 import com.freedcam.apis.camera1.camera.parameters.device.Xiaomi_Redmi_Note2_MTK;
 import com.freedcam.apis.camera1.camera.parameters.device.Xiaomi_Redmi_Note3_QC_MTK;
+import com.freedcam.apis.camera1.camera.parameters.device.Yu_Yureka;
 import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_MTK;
 import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_QcomM;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseManualParameter;
@@ -1069,15 +1073,17 @@ public class CamParametersHandler extends AbstractParameterHandler
                 break;
 //                case Asus_Zenfon2:
 //                    break;
-//                case GioneE7:
-//                    break;
+            case GioneE7:
+                Device = new GioneE7(uiHandler,cameraParameters,cameraHolder,this);
+                break;
             case ForwardArt_MTK:
                 Device = new ForwardArt_MTK(uiHandler,cameraParameters,cameraHolder,this);
                 break;
 //                case Htc_Evo3d:
 //                    break;
-//                case Htc_M8:
-//                    break;
+            case Htc_M8:
+                Device = new HTC_M8(uiHandler,cameraParameters,cameraHolder,this);
+                break;
 //                case Htc_M9:
 //                    break;
 //                case Htc_M10:
@@ -1128,6 +1134,7 @@ public class CamParametersHandler extends AbstractParameterHandler
                 Device = new Meizu_MX4_5_MTK(uiHandler,cameraParameters,cameraHolder,this);
                 break;
             case Meizu_m2Note_MTK:
+                Device = new Meizu_M2_Note_MTK(uiHandler,cameraParameters,cameraHolder,this);
                 break;
 //                case Moto_MSM8974:
 //                    break;
@@ -1184,8 +1191,9 @@ public class CamParametersHandler extends AbstractParameterHandler
             case Xiaomi_Redmi_Note3:
                 Device = new Xiaomi_Redmi_Note3_QC_MTK(uiHandler,cameraParameters,cameraHolder,this);
                 break;
-//                case Yu_Yureka:
-//                    break;
+            case Yu_Yureka:
+                Device = new Yu_Yureka(uiHandler,cameraParameters,cameraHolder,this);
+                break;
 //                case ZTE_ADV:
 //                    break;
 //                case ZTEADVIMX214:

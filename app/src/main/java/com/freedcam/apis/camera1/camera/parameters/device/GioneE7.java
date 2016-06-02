@@ -4,6 +4,7 @@ import android.hardware.Camera;
 import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.troop.androiddng.DngProfile;
@@ -37,7 +38,24 @@ public class GioneE7 extends AbstractDevice {
     }
 
     @Override
-    public DngProfile getDngProfile(int filesize) {
+    public DngProfile getDngProfile(int filesize)
+    {
+        switch (filesize)
+        {
+            case 9990144://e7 front mipi
+                return new DngProfile(16, 3264, 2448, DngProfile.Mipi, DngProfile.BGGR, 4080,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+            case 10653696://e7 front qcom
+            {
+                //TODO somethings wrong with it;
+                return new DngProfile(16, 3264, 2448, DngProfile.Qcom, DngProfile.BGGR, 0,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+            }
+            case 19906560://e7mipi
+                return new DngProfile(16, 4608, 3456, DngProfile.Mipi, DngProfile.BGGR, 0,
+                        matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));
+            case 21233664: //e7qcom
+                return new DngProfile(16, 4608, 3456, DngProfile.Qcom, DngProfile.BGGR, 0,
+                        matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));
+        }
         return null;
     }
 }

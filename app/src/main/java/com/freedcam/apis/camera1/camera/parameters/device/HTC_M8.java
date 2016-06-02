@@ -4,8 +4,12 @@ import android.hardware.Camera;
 import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.manual.CCTManualHtc;
+import com.freedcam.apis.camera1.camera.parameters.manual.FocusManualParameterHTC;
+import com.freedcam.apis.camera1.camera.parameters.manual.ShutterManualParameterHTC;
 import com.troop.androiddng.DngProfile;
 
 /**
@@ -18,7 +22,7 @@ public class HTC_M8 extends AbstractDevice {
 
     @Override
     public AbstractManualParameter getExposureTimeParameter() {
-        return null;
+        return new ShutterManualParameterHTC(parameters,"","",camParametersHandler);
     }
 
     @Override
@@ -28,16 +32,20 @@ public class HTC_M8 extends AbstractDevice {
 
     @Override
     public AbstractManualParameter getManualFocusParameter() {
-        return null;
+        return new FocusManualParameterHTC(parameters, "","", cameraHolder,camParametersHandler);
     }
 
     @Override
     public AbstractManualParameter getCCTParameter() {
-        return null;
+        return new CCTManualHtc(parameters,camParametersHandler);
     }
 
     @Override
     public DngProfile getDngProfile(int filesize) {
+        if (filesize < 6000000 && filesize > 5382641) //qcom
+            return new DngProfile(0, 2688, 1520, DngProfile.Qcom, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));
+        else if (filesize <= 5382641 && filesize > 5000000)//M8 mipi
+            return new DngProfile(0, 2688, 1520, DngProfile.Mipi16, DngProfile.GRBG, DngProfile.HTCM8_rowSize,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));
         return null;
     }
 }

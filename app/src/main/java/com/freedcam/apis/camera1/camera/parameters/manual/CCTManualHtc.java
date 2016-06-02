@@ -12,7 +12,7 @@ public class CCTManualHtc extends BaseCCTManual {
         super(parameters, value, max, min, camParametersHandler, step, wbmode);
     }
 
-    public CCTManualHtc(Camera.Parameters parameters, String maxValue, String MinValue, CamParametersHandler camParametersHandler, float step, String wbmode) {
+    public CCTManualHtc(Camera.Parameters parameters, CamParametersHandler camParametersHandler) {
         super(parameters, CCTManualClassHandler.WB_CT, CCTManualClassHandler.MAX_WB_CT, CCTManualClassHandler.MIN_WB_CT, camParametersHandler, (float) 100, "");
     }
 
