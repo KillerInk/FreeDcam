@@ -63,6 +63,8 @@ public class LG_G2 extends AbstractDevice
         return null;
     }
 
+
+
     @Override
     public AbstractModeParameter getVideoProfileMode()
     {

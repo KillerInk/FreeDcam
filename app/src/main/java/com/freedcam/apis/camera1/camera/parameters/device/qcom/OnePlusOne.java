@@ -21,6 +21,9 @@ public class OnePlusOne extends BaseQcomDevice {
         super(uihandler, parameters, cameraUiWrapper);
     }
 
+    public boolean IsDngSupported() {
+        return true;
+    }
     @Override
     public DngProfile getDngProfile(int filesize)
     {

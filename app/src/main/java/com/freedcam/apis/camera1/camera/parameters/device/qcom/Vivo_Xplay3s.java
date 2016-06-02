@@ -26,6 +26,9 @@ public class Vivo_Xplay3s extends BaseQcomDevice {
         return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,KEYS.KEY_MAX_FOCUS_VCM_INDEX, KEYS.KEY_MIN_FOCUS_VCM_INDEX,KEYS.KEY_FOCUS_MODE_MANUAL,camParametersHandler,1,1);
     }
 
+    public boolean IsDngSupported() {
+        return true;
+    }
     @Override
     public DngProfile getDngProfile(int filesize) {
         switch (filesize)

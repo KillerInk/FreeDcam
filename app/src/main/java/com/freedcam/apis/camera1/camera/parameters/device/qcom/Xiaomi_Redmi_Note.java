@@ -26,6 +26,9 @@ public class Xiaomi_Redmi_Note extends BaseQcomDevice {
     {
         return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,79,KEYS.KEY_FOCUS_MODE_MANUAL,camParametersHandler,1,1);
     }
+    public boolean IsDngSupported() {
+        return true;
+    }
 
     @Override
     public DngProfile getDngProfile(int filesize)

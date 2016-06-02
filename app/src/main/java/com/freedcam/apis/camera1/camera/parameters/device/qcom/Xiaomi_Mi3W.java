@@ -38,6 +38,9 @@ public class Xiaomi_Mi3W extends BaseQcomDevice {
             return super.getCCTParameter();
     }
 
+    public boolean IsDngSupported() {
+        return true;
+    }
     @Override
     public DngProfile getDngProfile(int filesize)
     {

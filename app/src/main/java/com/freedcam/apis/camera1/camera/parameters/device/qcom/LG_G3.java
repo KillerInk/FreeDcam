@@ -37,6 +37,9 @@ public class LG_G3 extends LG_G2
         return null;
     }
 
+    public boolean IsDngSupported() {
+        return true;
+    }
     @Override
     public AbstractManualParameter getManualFocusParameter() {
         if (VERSION.SDK_INT >= VERSION_CODES.M)

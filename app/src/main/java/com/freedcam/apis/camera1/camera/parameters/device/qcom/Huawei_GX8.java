@@ -26,6 +26,10 @@ public class Huawei_GX8 extends BaseQcomDevice {
         return new FocusManualHuawei(parameters, "hw-vcm-end-value","hw-vcm-start-value", KEYS.KEY_FOCUS_MODE_MANUAL,camParametersHandler,10,0);
     }
 
+    public boolean IsDngSupported() {
+        return true;
+    }
+
     @Override
     public AbstractManualParameter getCCTParameter() {
         return null;

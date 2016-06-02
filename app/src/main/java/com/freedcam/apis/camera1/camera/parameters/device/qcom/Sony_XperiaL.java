@@ -18,6 +18,9 @@ public class Sony_XperiaL extends BaseQcomDevice {
     public Sony_XperiaL(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(uihandler, parameters, cameraUiWrapper);
     }
+    public boolean IsDngSupported() {
+        return true;
+    }
 
     @Override
     public DngProfile getDngProfile(int filesize)

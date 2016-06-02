@@ -34,6 +34,10 @@ public class ZTE_ADV_IMX214 extends ZTE_ADV {
     public AbstractManualParameter getCCTParameter() {
         return new BaseCCTManual(parameters,KEYS.WB_MANUAL,8000,2000,camParametersHandler,100, KEYS.WB_MODE_MANUAL_CCT);
     }
+
+    public boolean IsDngSupported() {
+        return true;
+    }
     @Override
     public DngProfile getDngProfile(int filesize) {
         switch (filesize)

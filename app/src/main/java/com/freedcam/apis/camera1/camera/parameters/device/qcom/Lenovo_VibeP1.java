@@ -31,7 +31,9 @@ public class Lenovo_VibeP1 extends BaseQcomDevice {
 
         return new BaseISOManual(parameters,"continuous-iso",parameters.getInt("min-iso"),parameters.getInt("max-iso"),camParametersHandler,1);
     }
-
+    public boolean IsDngSupported() {
+        return true;
+    }
     @Override
     public DngProfile getDngProfile(int filesize)
     {

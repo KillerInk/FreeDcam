@@ -18,7 +18,9 @@ public class HTC_One_E8 extends BaseQcomDevice {
     public HTC_One_E8(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(uihandler, parameters, cameraUiWrapper);
     }
-
+    public boolean IsDngSupported() {
+        return true;
+    }
     @Override
     public DngProfile getDngProfile(int filesize)
     {

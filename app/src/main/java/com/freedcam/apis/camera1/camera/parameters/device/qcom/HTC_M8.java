@@ -47,6 +47,8 @@ public class HTC_M8 extends AbstractDevice {
         return new CCTManualHtc(parameters,camParametersHandler);
     }
 
+
+
     @Override
     public DngProfile getDngProfile(int filesize) {
         if (filesize < 6000000 && filesize > 5382641) //qcom

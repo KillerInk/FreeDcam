@@ -41,7 +41,9 @@ public class LG_G4 extends LG_G2 {
     public AbstractManualParameter getCCTParameter() {
         return new CCTManualG4(parameters,camParametersHandler);
     }
-
+    public boolean IsDngSupported() {
+        return true;
+    }
     @Override
     public DngProfile getDngProfile(int filesize) {
         switch (filesize)
