@@ -1,5 +1,7 @@
 package com.freedcam.apis.camera1.camera.parameters;
 
+import com.freedcam.utils.StringUtils;
+
 /**
  * Created by GeorgeKiarie on 5/26/2016.
  */
@@ -45,6 +47,10 @@ public class KEYS {
     public final static String LG_WB = "lg-wb";
     public final static String WB_MODE_MANUAL = "manual";
     public final static String WB_MODE_MANUAL_CCT = "manual-cct";
+
+    public final static String MAX_EXPOSURE_TIME = "max-exposure-time";
+    public final static String MIN_EXPOSURE_TIME = "min-exposure-time";
+    public final static String EXPOSURE_TIME = "exposure-time";
 
 
     //MediaTEk

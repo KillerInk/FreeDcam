@@ -1,6 +1,7 @@
 package com.freedcam.apis.camera1.camera.parameters.device;
 
 import android.hardware.Camera;
+import android.os.Build;
 import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
@@ -9,9 +10,11 @@ import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.camera1.camera.parameters.KEYS;
+import com.freedcam.apis.camera1.camera.parameters.manual.BaseCCTManual;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseFocusManual;
 import com.freedcam.apis.camera1.camera.parameters.manual.ShutterManual_ExposureTime_FloatToSixty;
 import com.freedcam.apis.camera1.camera.parameters.manual.ShutterManual_ExposureTime_Micro;
+import com.freedcam.utils.DeviceUtils;
 import com.troop.androiddng.DngProfile;
 
 /**
@@ -24,7 +27,14 @@ public class Xiaomi_Mi3W extends BaseQcomDevice {
 
     @Override
     public AbstractManualParameter getCCTParameter() {
-        return null;
+        if(!DeviceUtils.isCyanogenMod()) {
+            if (Build.VERSION.SDK_INT < 23) {
+                return new BaseCCTManual(parameters, KEYS.WB_MANUAL, 7500, 2000, camParametersHandler, 100, KEYS.WB_MODE_MANUAL);
+            } else
+                return new BaseCCTManual(parameters, KEYS.WB_MANUAL, 8000, 2000, camParametersHandler, 100, KEYS.WB_MODE_MANUAL_CCT);
+        }
+        else
+            return super.getCCTParameter();
     }
 
     @Override

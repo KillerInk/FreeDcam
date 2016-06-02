@@ -3,6 +3,7 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 import android.hardware.Camera;
 
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.KEYS;
 
 /**
  * Created by Ingo on 06.03.2016.
@@ -13,7 +14,7 @@ public class CCTManualG4 extends BaseCCTManual {
     }
 
     public CCTManualG4(Camera.Parameters parameters,CamParametersHandler camParametersHandler) {
-        super(parameters, CCTManualClassHandler.LG_WB, CCTManualClassHandler.LG_Max, CCTManualClassHandler.LG_Min, camParametersHandler, (float) 100, "");
+        super(parameters, KEYS.LG_WB, KEYS.LG_Max, KEYS.LG_Min, camParametersHandler, (float) 100, "");
     }
 
     @Override
