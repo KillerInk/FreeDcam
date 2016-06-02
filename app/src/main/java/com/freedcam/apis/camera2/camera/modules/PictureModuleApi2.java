@@ -519,8 +519,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             //noise end
         }
 
-        DngSupportedDevices d = new DngSupportedDevices();
-        DngProfile prof = d.getProfile(black,image.getWidth(), image.getHeight(),rawFormat, colorpattern, 0,
+        DngProfile prof = DngProfile.getProfile(black,image.getWidth(), image.getHeight(),rawFormat, colorpattern, 0,
                 color1,
                 color2,
                 neutral,

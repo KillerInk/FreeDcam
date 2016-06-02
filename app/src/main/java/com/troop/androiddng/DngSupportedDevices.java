@@ -46,7 +46,7 @@ public class DngSupportedDevices
             case 3763584: //I_Mobile_I_StyleQ6
                 return new DngProfile(0, 1584, 1184, DngProfile.Plain, DngProfile.GRBG, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 5364240: //testing matrix DEVICE????
-                return new DngProfile(0, 2688, 1520, DngProfile.Mipi, DngProfile.GRBG, HTCM8_rowSize,
+                return new DngProfile(0, 2688, 1520, DngProfile.Mipi, DngProfile.GRBG, DngProfile.HTCM8_rowSize,
                         matrixChooser.GetCustomMatrix(MatrixChooserParameter.OmniVision));
             case 6299648:
                 return new DngProfile(16,2592,1944,DngProfile.Mipi,DngProfile.BGGR,0, matrixChooser.GetCustomMatrix(MatrixChooserParameter.OmniVision));
@@ -80,61 +80,61 @@ public class DngSupportedDevices
             case 10782464: //mytouch 4g slide / desire 500 not sure about black level 64 has green cast
                 return new DngProfile(0, 3282, 2448, DngProfile.Qcom, DngProfile.GRBG, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 10788864: //xperia L
-                return new DngProfile(64, 3282, 2448, DngProfile.Qcom, DngProfile.BGGR, XperiaL_rowSize,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(64, 3282, 2448, DngProfile.Qcom, DngProfile.BGGR, DngProfile.XperiaL_rowSize,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
 
             case 16224256://MIPI g2
             {
                 switch (device) {
                     case LG_G2:
-                        return new DngProfile(64, 4208, 3082, DngProfile.Mipi, DngProfile.BGGR, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4208, 3082, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case LG_G3:
-                        return new DngProfile(64, 4208, 3082, DngProfile.Mipi, DngProfile.BGGR, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4208, 3082, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     default:
-                        return new DngProfile(64, 4208, 3082, DngProfile.Mipi, DngProfile.BGGR, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4208, 3082, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                 }
             }
             case 16424960: {
                 switch (device) {
                     case Vivo_Xplay3s:
-                        return new DngProfile(64, 4212, 3120, DngProfile.Mipi, DngProfile.BGGR, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4212, 3120, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case Aquaris_E5:
                     case Xiaomi_RedmiNote:
-                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case Lenovo_VibeP1: //Says GRBG unsure if correct to be confirmed
-                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.GRBG, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.GRBG, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case XiaomiMI3W:
-                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case XiaomiMI4W:
-                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case Alcatel_Idol3:
                         return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case Alcatel_Idol3_small:
-                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.BGGR, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case OnePlusOne:
-                        return new DngProfile(64, 4212, 3120, DngProfile.Mipi, DngProfile.RGGB, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4212, 3120, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case SonyM4_QC:
-                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case ZTE_ADV:
-                       // return new Nexus6Profile(64, 4208, 3120, Mipi, BGGR, getG3_rowSizeL);
-                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.BGGR, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                       // return new Nexus6Profile(64, 4208, 3120, Mipi, BGGR, ROWSIZE);
+                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case ZTEADVIMX214:
-                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case LenovoK910:
-                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.BGGR, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case LG_G2:
-                        return new DngProfile(64, 4212, 3120, DngProfile.Mipi, DngProfile.BGGR, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4212, 3120, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case LG_G3:
-                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.BGGR, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case Yu_Yureka:
-                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.BGGR, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case HTC_OneA9:
-                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case Huawei_GX8:
-                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case Huawei_HONOR5x:
-                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     default:
-                        return new DngProfile(64, 4212, 3082, DngProfile.Mipi, DngProfile.BGGR, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4212, 3082, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                 }
             }
             case 16473600: //oneplus
@@ -152,36 +152,36 @@ public class DngSupportedDevices
                 }
             }
             case 17326080://qcom g3
-                return new DngProfile(64, 4164, 3120, DngProfile.Qcom, DngProfile.BGGR, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(64, 4164, 3120, DngProfile.Qcom, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 17522688: {
                 switch (device) {
                     case Vivo_Xplay3s:
-                        return new DngProfile(64, 4208, 3120, DngProfile.Qcom, DngProfile.BGGR, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4208, 3120, DngProfile.Qcom, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case Xiaomi_RedmiNote:
-                        return new DngProfile(64, 4212, 3082, DngProfile.Qcom, DngProfile.RGGB, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4212, 3082, DngProfile.Qcom, DngProfile.RGGB, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case XiaomiMI3W:
-                        return new DngProfile(0, 4212, 3120, DngProfile.Qcom, DngProfile.RGGB, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(0, 4212, 3120, DngProfile.Qcom, DngProfile.RGGB, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case XiaomiMI4W:
-                        return new DngProfile(0, 4212, 3120, DngProfile.Qcom, DngProfile.RGGB, getG3_rowSizeL,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(0, 4212, 3120, DngProfile.Qcom, DngProfile.RGGB, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case Alcatel_Idol3:
                         return new DngProfile(64, 4208, 3120, DngProfile.Qcom, DngProfile.RGGB, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case OnePlusOne:
-                        return new DngProfile(64, 4212, 3082, DngProfile.Qcom, DngProfile.RGGB, getG3_rowSizeL, matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4212, 3082, DngProfile.Qcom, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case ZTE_ADV:
-                        return new DngProfile(64, 4212, 3120, DngProfile.Qcom, DngProfile.BGGR, getG3_rowSizeL, matrixChooser.GetCustomMatrix(MatrixChooserParameter.G4));
+                        return new DngProfile(64, 4212, 3120, DngProfile.Qcom, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooser.GetCustomMatrix(MatrixChooserParameter.G4));
                     case ZTEADVIMX214:
-                        return new DngProfile(64, 4212, 3120, DngProfile.Qcom, DngProfile.RGGB, getG3_rowSizeL, matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4212, 3120, DngProfile.Qcom, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case LenovoK910:
-                        return new DngProfile(64, 4212, 3120, DngProfile.Qcom, DngProfile.BGGR, getG3_rowSizeL, matrixChooser.GetCustomMatrix(MatrixChooserParameter.G4));
+                        return new DngProfile(64, 4212, 3120, DngProfile.Qcom, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooser.GetCustomMatrix(MatrixChooserParameter.G4));
                     case Huawei_HONOR5x:
                     case Huawei_GX8:
-                        return new DngProfile(64, 4212, 3120, DngProfile.Qcom, DngProfile.RGGB, getG3_rowSizeL, matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4212, 3120, DngProfile.Qcom, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case LG_G3:
-                        return new DngProfile(64, 4212, 3082, DngProfile.Qcom, DngProfile.BGGR, getG3_rowSizeL, matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4212, 3082, DngProfile.Qcom, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     case Yu_Yureka:
-                        return new DngProfile(0, 4212, 3082, DngProfile.Qcom, DngProfile.BGGR, getG3_rowSizeL, matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(0, 4212, 3082, DngProfile.Qcom, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     default:
-                        return new DngProfile(64, 4208, 3120, DngProfile.Qcom, DngProfile.BGGR, getG3_rowSizeL, matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                        return new DngProfile(64, 4208, 3120, DngProfile.Qcom, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                 }
             }
             case 17612800: {
@@ -250,19 +250,12 @@ public class DngSupportedDevices
             if (filesize < 6000000 && filesize > 5382641)
                 return new DngProfile(0, 2688, 1520, DngProfile.Qcom, DngProfile.GRBG, 0, matrixChooser.GetCustomMatrix(MatrixChooserParameter.OmniVision));
             else if (filesize <= 5382641 && filesize > 5000000)//M8 mipi
-                return new DngProfile(0, 2688, 1520, DngProfile.Mipi16, DngProfile.GRBG, HTCM8_rowSize,matrixChooser.GetCustomMatrix(MatrixChooserParameter.OmniVision));
+                return new DngProfile(0, 2688, 1520, DngProfile.Mipi16, DngProfile.GRBG, DngProfile.HTCM8_rowSize,matrixChooser.GetCustomMatrix(MatrixChooserParameter.OmniVision));
             return null;
         }
         return null;
 
     }
-
-    public DngProfile getProfile(int blacklevel, int widht, int height,int rawFormat, String bayerPattern, int rowsize, float[] matrix1, float[] matrix2, float[] neutral, float[] fmatrix1, float[] fmatrix2, float[] rmatrix1, float[] rmatrix2, float[] noise)
-    {
-        return new DngProfile(blacklevel,widht,height, rawFormat,bayerPattern, 0,new CustomMatrix(matrix1,matrix2,neutral,fmatrix1,fmatrix2,rmatrix1,rmatrix2,noise));
-    }
-
-
 
     public DngProfile GetEmptyProfile()
     {
@@ -276,17 +269,4 @@ public class DngSupportedDevices
             Matrixes.Nexus6_reduction_matrix2,
             Matrixes.Nexus6_noise_3x1_matrix));
     }
-    private static final int g3_blacklevel = 64;
-    //16424960,4208,3120
-    private static final int g3_rowSizeKitKat = 5264;
-    //16224256,4152,3072
-    private static final int getG3_rowSizeL = 5264;
-    private static final int HTCM8_rowSize = 3360;
-    private static String HTCM8_Size= "2688x1520";
-    //Rawsize =  10788864
-    //RealSize = 10712448
-    private static final int XperiaL_rowSize = 4376;
-    public static String SonyXperiaLRawSize = "3282x2448";
-    public static String Optimus3DRawSize = "2608x1944";
-
 }
