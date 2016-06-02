@@ -3,6 +3,7 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 import android.hardware.Camera;
 
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.KEYS;
 import com.freedcam.utils.Logger;
 
 /**
@@ -10,7 +11,7 @@ import com.freedcam.utils.Logger;
  */
 public class FocusManualHuawei extends BaseFocusManual {
     public FocusManualHuawei(Camera.Parameters parameters, String maxValue, String MinValue, String manualFocusModeString, CamParametersHandler camParametersHandler, float step, int manualFocusType) {
-        super(parameters, "hw-manual-focus-step-value", "hw-vcm-end-value", "hw-vcm-start-value", FocusManualClassHandler.focusMode_manual, camParametersHandler, (float) 10, 0);
+        super(parameters, "hw-manual-focus-step-value", "hw-vcm-end-value", "hw-vcm-start-value", KEYS.KEY_FOCUS_MODE_MANUAL, camParametersHandler, (float) 10, 0);
     }
 
     public FocusManualHuawei(Camera.Parameters parameters, String value, int min, int max, String manualFocusModeString, CamParametersHandler camParametersHandler, float step, int manualFocusType) {

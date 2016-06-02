@@ -6,6 +6,8 @@ import android.os.Handler;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.KEYS;
+import com.freedcam.apis.camera1.camera.parameters.manual.FocusManualHuawei;
 import com.troop.androiddng.DngProfile;
 
 /**
@@ -28,7 +30,7 @@ public class P8Lite extends AbstractDevice {
 
     @Override
     public AbstractManualParameter getManualFocusParameter() {
-        return null;
+        return new FocusManualHuawei(parameters, "hw-vcm-end-value","hw-vcm-start-value", KEYS.KEY_FOCUS_MODE_MANUAL,camParametersHandler,10,0);
     }
 
     @Override

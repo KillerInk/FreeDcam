@@ -7,6 +7,8 @@ import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParam
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.KEYS;
+import com.freedcam.apis.camera1.camera.parameters.manual.BaseFocusManual;
 import com.troop.androiddng.DngProfile;
 
 /**
@@ -29,7 +31,7 @@ public class Xiaomi_Redmi_Note extends AbstractDevice {
 
     @Override
     public AbstractManualParameter getManualFocusParameter() {
-        return null;
+        return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,79,KEYS.KEY_FOCUS_MODE_MANUAL,camParametersHandler,1,1);
     }
 
     @Override

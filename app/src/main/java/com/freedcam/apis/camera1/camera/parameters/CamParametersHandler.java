@@ -38,7 +38,6 @@ import com.freedcam.apis.camera1.camera.parameters.device.Lenovo_K50_MTK;
 import com.freedcam.apis.camera1.camera.parameters.device.Meizu_M2_Note_MTK;
 import com.freedcam.apis.camera1.camera.parameters.device.Meizu_MX4_5_MTK;
 import com.freedcam.apis.camera1.camera.parameters.device.Retro_MTK;
-import com.freedcam.apis.camera1.camera.parameters.device.Sony_M5_MTK;
 import com.freedcam.apis.camera1.camera.parameters.device.THL5000_MTK;
 import com.freedcam.apis.camera1.camera.parameters.device.Xiaomi_Redmi_Note2_MTK;
 import com.freedcam.apis.camera1.camera.parameters.device.Xiaomi_Redmi_Note3_QC_MTK;
@@ -50,7 +49,6 @@ import com.freedcam.apis.camera1.camera.parameters.manual.BurstManualParam;
 import com.freedcam.apis.camera1.camera.parameters.manual.CCTManualParameter;
 import com.freedcam.apis.camera1.camera.parameters.manual.ExposureManualParameter;
 import com.freedcam.apis.camera1.camera.parameters.manual.FXManualParameter;
-import com.freedcam.apis.camera1.camera.parameters.manual.FocusManualClassHandler;
 import com.freedcam.apis.camera1.camera.parameters.manual.ISOManualParameter;
 import com.freedcam.apis.camera1.camera.parameters.manual.ShutterClassHandler;
 import com.freedcam.apis.camera1.camera.parameters.manual.SkintoneManualPrameter;
@@ -175,11 +173,6 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         createManualExposure();
 
-        try {
-                ManualFocus = FocusManualClassHandler.GetManualFocus(cameraParameters, this,cameraHolder);
-        } catch (Exception e) {
-            Logger.exception(e);
-        }
 
         createManualSaturation();
 
