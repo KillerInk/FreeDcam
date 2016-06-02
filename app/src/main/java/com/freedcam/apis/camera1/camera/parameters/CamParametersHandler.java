@@ -17,6 +17,7 @@ import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.FocusHandler;
 import com.freedcam.apis.camera1.camera.parameters.device.AbstractDevice;
+import com.freedcam.apis.camera1.camera.parameters.device.Alcatel_985n;
 import com.freedcam.apis.camera1.camera.parameters.device.Alcatel_Idol3;
 import com.freedcam.apis.camera1.camera.parameters.device.Alcatel_Idol3_small;
 import com.freedcam.apis.camera1.camera.parameters.device.Aquaris_E5;
@@ -1054,8 +1055,9 @@ public class CamParametersHandler extends AbstractParameterHandler
     {
         switch (DeviceUtils.DEVICE())
         {
-//                case Alcatel_985n:
-//                    break;
+            case Alcatel_985n:
+                Device = new Alcatel_985n(uiHandler,cameraParameters,cameraHolder,this);
+                break;
 //                case p8:
 //                    break;
 //                case p8lite:
