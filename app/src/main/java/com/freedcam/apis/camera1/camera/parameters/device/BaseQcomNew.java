@@ -4,12 +4,11 @@ import android.hardware.Camera;
 import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
-import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_QcomM;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseFocusManual;
-import com.freedcam.apis.camera1.camera.parameters.manual.CCTManual_SonyM4;
+import com.freedcam.apis.camera1.camera.parameters.manual.BaseWB_CCT_QC;
 import com.troop.androiddng.DngProfile;
 
 /**
@@ -48,7 +47,7 @@ public class BaseQcomNew extends AbstractDevice
 
     @Override
     public AbstractManualParameter getCCTParameter() {
-        return new CCTManual_SonyM4(parameters, 8000,2000,camParametersHandler,100, KEYS.WB_MODE_MANUAL_CCT);
+        return new BaseWB_CCT_QC(parameters, 8000,2000,camParametersHandler,100, KEYS.WB_MODE_MANUAL_CCT);
     }
 
     @Override

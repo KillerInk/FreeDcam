@@ -9,6 +9,8 @@ import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.camera1.camera.parameters.device.BaseQcomDevice;
+import com.freedcam.apis.camera1.camera.parameters.manual.BaseISOManual;
+import com.freedcam.apis.camera1.camera.parameters.manual.ShutterManual_ExposureTime_Micro;
 import com.troop.androiddng.DngProfile;
 
 /**
@@ -18,6 +20,21 @@ public class Sony_M4 extends BaseQcomDevice {
     public Sony_M4(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(uihandler, parameters, cameraUiWrapper);
     }
+    @Override
+    public AbstractManualParameter getExposureTimeParameter() {
+        return new ShutterManual_ExposureTime_Micro(parameters,camParametersHandler,null,"exposure-time", "max-exposure-time", "min-exposure-time");
+    }
+
+    @Override
+    public AbstractManualParameter getIsoParameter() {
+
+        return new BaseISOManual(parameters,"continuous-iso",parameters.getInt("min-iso"),parameters.getInt("max-iso"),camParametersHandler,1);
+    }
+    @Override
+    public boolean IsDngSupported() {
+        return true;
+    }
+
 
     @Override
     public DngProfile getDngProfile(int filesize)

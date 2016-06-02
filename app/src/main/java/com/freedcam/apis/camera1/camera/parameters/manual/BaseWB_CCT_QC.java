@@ -9,12 +9,12 @@ import com.freedcam.utils.Logger;
 /**
  * Created by Ingo on 06.03.2016.
  */
-public class CCTManual_SonyM4 extends BaseCCTManual {
-    public CCTManual_SonyM4(Camera.Parameters parameters, int max, int min, CamParametersHandler camParametersHandler, float step, String wbmode) {
+public class BaseWB_CCT_QC extends BaseCCTManual {
+    public BaseWB_CCT_QC(Camera.Parameters parameters, int max, int min, CamParametersHandler camParametersHandler, float step, String wbmode) {
         super(parameters, KEYS.WB_MANUAL, 8000, 2000, camParametersHandler, (float) 100, KEYS.WB_MODE_MANUAL_CCT);
     }
 
-    public CCTManual_SonyM4(Camera.Parameters parameters, String value, String maxValue, String MinValue, CamParametersHandler camParametersHandler, float step, String wbmode) {
+    public BaseWB_CCT_QC(Camera.Parameters parameters, String value, String maxValue, String MinValue, CamParametersHandler camParametersHandler, float step, String wbmode) {
         super(parameters, value, maxValue, MinValue, camParametersHandler, step, wbmode);
     }
 
