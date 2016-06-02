@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.jni.RawToDng;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
@@ -125,7 +126,7 @@ public class RawToDngTestActivity extends Activity {
 						RawToDng dng = RawToDng.GetInstance();
 						dng.SetBayerData(data, out);
 						dng.setExifData(100, 0, 0, 0, 0, "", "0", 0);
-						dng.WriteDNG(devices,null);
+						dng.WriteDngWithProfile(new DngSupportedDevices().getProfile(devices,data.length, new MatrixChooserParameter(null)));
 						data = null;
 						Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
 						intent.setData(Uri.fromFile(file));

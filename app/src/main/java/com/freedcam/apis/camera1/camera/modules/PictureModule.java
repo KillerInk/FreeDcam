@@ -226,7 +226,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             Logger.d(TAG, "Write To internal or kitkat<");
             checkFileExists(file);
             dngConverter.SetBayerData(data, file.getAbsolutePath());
-            dngConverter.WriteDNG(DeviceUtils.DEVICE(),(MatrixChooserParameter)ParameterHandler.matrixChooser);
+            dngConverter.WriteDngWithProfile(ParameterHandler.Device.getDngProfile(data.length));
             dngConverter.RELEASE();
         }
         else
@@ -241,9 +241,10 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             } catch (FileNotFoundException | IllegalArgumentException e) {
                 Logger.exception(e);
             }
-            if (pfd != null) {
+            if (pfd != null)
+            {
                 dngConverter.SetBayerDataFD(data, pfd, file.getName());
-                dngConverter.WriteDNG(DeviceUtils.DEVICE(),(MatrixChooserParameter)ParameterHandler.matrixChooser);
+                dngConverter.WriteDngWithProfile(ParameterHandler.Device.getDngProfile(data.length));
                 dngConverter.RELEASE();
                 try {
                     pfd.close();

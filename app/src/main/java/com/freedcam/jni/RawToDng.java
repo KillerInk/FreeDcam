@@ -317,7 +317,7 @@ public class RawToDng
 
 
 
-    public void WriteDNG(DeviceUtils.Devices device, MatrixChooserParameter matrixChooserParameter)
+    /*public void WriteDNG(DeviceUtils.Devices device, MatrixChooserParameter matrixChooserParameter)
     {
         if (device != null)
         {
@@ -337,7 +337,7 @@ public class RawToDng
             WriteDNG(nativeHandler);
             RELEASE();
         }
-    }
+    }*/
 
     public void WriteDngWithProfile(DngProfile profile)
     {
