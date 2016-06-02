@@ -165,6 +165,16 @@
 
     </string-array>
 
+    <string-array name="BB_PRIV">
+        <item>STV100</item>
+        <item>STV100-0</item>
+        <item>STV100-1</item>
+        <item>STV100-2</item>
+        <item>STV100-3</item>
+        <item>STV100-4</item>
+        <item>STV100-5</item>
+    </string-array>
+
     <string-array name="zteadv">
         <item>NX503A</item>
         <item>NX503J</item>

@@ -45,13 +45,10 @@ public class DeviceUtils
 
 
     final public static Devices[] AlcatelIdol3_Moto_MSM8982_8994 = {Devices.Moto_MSM8982_8994, Devices.Alcatel_Idol3 };
-    final public static Devices[] MOTOX = {Devices.Moto_MSM8982_8994, Devices.Moto_MSM8974 };
     final public static Devices[] MI3_4 = {Devices.XiaomiMI4W, Devices.XiaomiMI3W };
     final public static Devices[] LG_G2_3 = {Devices.LG_G2, Devices.LG_G3};
     final public static Devices[] HTC_m8_9 = {Devices.Htc_M8, Devices.Htc_M9,Devices.HTC_OneA9};
     final public static Devices[] ZTE_DEVICES = {Devices.ZTE_ADV,Devices.ZTEADVIMX214,Devices.ZTEADV234};
-    final public static Devices[] Sony_DEVICES = {Devices.SonyM4_QC,Devices.SonyC5_MTK,Devices.SonyM5_MTK};
-    final public static Devices[] Krillin_DEVICES = {Devices.p8,Devices.p8lite,Devices.honor6};
 
     /*Devices for that the opcode is added to download*/
     final public static Devices[] OpCodeRdyToDL =
@@ -84,9 +81,7 @@ public class DeviceUtils
     {
         UNKNOWN,
         Alcatel_985n,
-        p8,
-        p8lite,
-        honor6,
+        Blackberry_Priv,
         Aquaris_E5,
         Alcatel_Idol3,
         Alcatel_Idol3_small,
@@ -104,6 +99,7 @@ public class DeviceUtils
         HTC_Desire500,
         Huawei_GX8,
         Huawei_HONOR5x,
+        honor6,
         I_Mobile_I_StyleQ6,
         Jiayu_S3,
         LenovoK910,
@@ -125,6 +121,8 @@ public class DeviceUtils
         Nexus4,
         OnePlusOne,
         OnePlusTwo,
+        p8,
+        p8lite,
         Xiaomi_RedmiNote,
         Xiaomi_RedmiNote2_MTK,
         Retro_MTK,
@@ -305,6 +303,8 @@ public class DeviceUtils
             return Devices.MotoG_Turbo;
         else if(isHTC_Desire500(context))
             return Devices.HTC_Desire500;
+        else if(isBlackBerryPriv(context))
+            return Devices.Blackberry_Priv;
         else
             return Devices.UNKNOWN;
 
@@ -427,6 +427,11 @@ public class DeviceUtils
     private static boolean isHTC_M8(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(R.array.htc_m8));
+    }
+
+    private static boolean isBlackBerryPriv(Context contex)
+    {
+        return isDevice(contex.getResources().getStringArray(R.array.BB_PRIV));
     }
 
     private static boolean isHTC_M9(Context contex)
