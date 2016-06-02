@@ -1,5 +1,7 @@
 package com.freedcam.utils;
 
+import android.content.Context;
+
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 
 import java.io.BufferedReader;
@@ -19,7 +21,7 @@ import java.util.Map;
 public class AppSettingsManager
 {
     final private String TAG = AppSettingsManager.class.getSimpleName();
-    final String appsettingspath = StringUtils.GetFreeDcamConfigFolder+"setting.txt";
+    final private String appsettingspath;
     private int currentcamera = 0;
     private String camApiString = API_1;
 
@@ -147,9 +149,10 @@ public class AppSettingsManager
 
     private HashMap<String,String> appsettingsList;
 
-    public AppSettingsManager()
+    public AppSettingsManager(Context context)
     {
         appsettingsList = new HashMap<>();
+        appsettingspath = context.getCacheDir().getPath() +File.separator +"setting.txt";
         loadAppSettings();
     }
 

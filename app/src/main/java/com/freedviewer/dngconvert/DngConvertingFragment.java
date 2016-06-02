@@ -62,7 +62,7 @@ public class DngConvertingFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
         DeviceUtils.CheckAndSetDevice(getContext());
-        appSettingsManager = new AppSettingsManager();
+        appSettingsManager = new AppSettingsManager(getContext());
         handler = new Handler();
         view = inflater.inflate(R.layout.dngconvertingfragment, container, false);
         this.editTextwidth = (EditText)view.findViewById(R.id.editText_width);

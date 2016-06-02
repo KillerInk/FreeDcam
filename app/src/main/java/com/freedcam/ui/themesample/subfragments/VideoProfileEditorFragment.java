@@ -80,7 +80,7 @@ public class VideoProfileEditorFragment extends Fragment
             } catch (IOException e) {
                 Logger.exception(e);
             }
-        AppSettingsManager appSettingsManager = new AppSettingsManager();
+        AppSettingsManager appSettingsManager = new AppSettingsManager(getContext());
         try {
             setMediaProfile(videoMediaProfiles.get(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE)));
         }

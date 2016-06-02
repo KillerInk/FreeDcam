@@ -40,7 +40,7 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
     protected void createHandlers()
     {
         Logger.d(TAG, "createHandlers()");
-        appSettingsManager = new AppSettingsManager();
+        appSettingsManager = new AppSettingsManager(getApplicationContext());
         Context ctx = getApplicationContext();
         bitmapHelper =new BitmapHelper(getApplicationContext());
 
@@ -66,7 +66,13 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
     @Override
     protected void onPause()
     {
-        appSettingsManager.SaveAppSettings();
+        try {
+            appSettingsManager.SaveAppSettings();
+        }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
+        }
         super.onPause();
     }
 

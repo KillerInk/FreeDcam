@@ -15,7 +15,7 @@ public class DngConvertingActivity extends FragmentActivity implements I_Activit
     private final String TAG = DngConvertingActivity.class.getSimpleName();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new AppSettingsManager();
+        new AppSettingsManager(getApplicationContext());
         if (getSupportFragmentManager().findFragmentByTag(TAG) == null) {
             final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(android.R.id.content, new DngConvertingFragment(), TAG);
