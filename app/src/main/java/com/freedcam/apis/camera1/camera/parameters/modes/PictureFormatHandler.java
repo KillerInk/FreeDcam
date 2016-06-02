@@ -117,11 +117,9 @@ public class PictureFormatHandler extends BaseModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-
         Logger.d(TAG, "SetValue:" + valueToSet);
         captureMode = valueToSet;
-        final Frameworks f = cameraHolderApi1.DeviceFrameWork;
-        if (cameraHolderApi1.DeviceFrameWork == Frameworks.Normal || cameraHolderApi1.DeviceFrameWork == Frameworks.LG)
+        if (cameraHolderApi1.DeviceFrameWork != Frameworks.MTK)
         {
             switch (valueToSet)
             {
@@ -146,11 +144,6 @@ public class PictureFormatHandler extends BaseModeParameter
         Logger.d(TAG, "setString:" +val);
         parameters.set("picture-format", val);
         cameraHolderApi1.SetCameraParameters(parameters);
-        /*if(cameraHolderApi1.DeviceFrameWork == CameraHolderApi1.Frameworks.LG && setTocam)
-        {
-            cameraHolderApi1.StopPreview();
-            cameraHolderApi1.StartPreview();
-        }*/
         firststart = false;
     }
 

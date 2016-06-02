@@ -91,7 +91,7 @@ public class HDRModeParameter extends BaseModeParameter
                 parameters.set("morpho-hdr", "false");
             }
         }
-        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
+        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3))
         {
             switch (valueToSet)
             {
