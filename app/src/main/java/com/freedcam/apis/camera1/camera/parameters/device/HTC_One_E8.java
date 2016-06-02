@@ -4,6 +4,7 @@ import android.hardware.Camera;
 import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.troop.androiddng.DngProfile;
@@ -37,7 +38,13 @@ public class HTC_One_E8 extends AbstractDevice {
     }
 
     @Override
-    public DngProfile getDngProfile(int filesize) {
+    public DngProfile getDngProfile(int filesize)
+    {
+        switch (filesize)
+        {
+            case 16560128:
+                return new DngProfile(16,4224,3136,DngProfile.Mipi16,DngProfile.BGGR,0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));
+        }
         return null;
     }
 }

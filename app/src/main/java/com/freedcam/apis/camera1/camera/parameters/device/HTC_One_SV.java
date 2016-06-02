@@ -4,6 +4,7 @@ import android.hardware.Camera;
 import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.troop.androiddng.DngProfile;
@@ -37,7 +38,13 @@ public class HTC_One_SV extends AbstractDevice {
     }
 
     @Override
-    public DngProfile getDngProfile(int filesize) {
+    public DngProfile getDngProfile(int filesize)
+    {
+        switch (filesize)
+        {
+            case 6746112:// Htc One SV
+                return new DngProfile(64,2592,1944,DngProfile.Qcom,DngProfile.GRBG,0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+        }
         return null;
     }
 }

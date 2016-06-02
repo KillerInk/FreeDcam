@@ -4,6 +4,7 @@ import android.hardware.Camera;
 import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.troop.androiddng.DngProfile;
@@ -38,6 +39,11 @@ public class HTC_Desire500 extends AbstractDevice {
 
     @Override
     public DngProfile getDngProfile(int filesize) {
+        switch (filesize)
+        {
+            case 10782464: //mytouch 4g slide / desire 500 not sure about black level 64 has green cast
+                return new DngProfile(0, 3282, 2448, DngProfile.Qcom, DngProfile.GRBG, 0,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+        }
         return null;
     }
 }

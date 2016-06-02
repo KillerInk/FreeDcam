@@ -23,7 +23,13 @@ import com.freedcam.apis.camera1.camera.parameters.device.Alcatel_Idol3_small;
 import com.freedcam.apis.camera1.camera.parameters.device.Aquaris_E5;
 import com.freedcam.apis.camera1.camera.parameters.device.ForwardArt_MTK;
 import com.freedcam.apis.camera1.camera.parameters.device.GioneE7;
+import com.freedcam.apis.camera1.camera.parameters.device.HTC_Desire500;
 import com.freedcam.apis.camera1.camera.parameters.device.HTC_M8;
+import com.freedcam.apis.camera1.camera.parameters.device.HTC_M9;
+import com.freedcam.apis.camera1.camera.parameters.device.HTC_One_A9;
+import com.freedcam.apis.camera1.camera.parameters.device.HTC_One_E8;
+import com.freedcam.apis.camera1.camera.parameters.device.HTC_One_SV;
+import com.freedcam.apis.camera1.camera.parameters.device.HTC_One_XL;
 import com.freedcam.apis.camera1.camera.parameters.device.LG_G2;
 import com.freedcam.apis.camera1.camera.parameters.device.LG_G3;
 import com.freedcam.apis.camera1.camera.parameters.device.LG_G4;
@@ -1073,33 +1079,33 @@ public class CamParametersHandler extends AbstractParameterHandler
             case Alcatel_Idol3_small:
                 Device = new Alcatel_Idol3_small(uiHandler,cameraParameters,cameraHolder,this);
                 break;
-//                case Asus_Zenfon2:
-//                    break;
             case GioneE7:
                 Device = new GioneE7(uiHandler,cameraParameters,cameraHolder,this);
                 break;
             case ForwardArt_MTK:
                 Device = new ForwardArt_MTK(uiHandler,cameraParameters,cameraHolder,this);
                 break;
-//                case Htc_Evo3d:
-//                    break;
             case Htc_M8:
                 Device = new HTC_M8(uiHandler,cameraParameters,cameraHolder,this);
                 break;
-//                case Htc_M9:
-//                    break;
-//                case Htc_M10:
-//                    break;
-//                case Htc_One_Sv:
-//                    break;
-//                case Htc_One_Xl:
-//                    break;
-//                case HTC_OneA9:
-//                    break;
-//                case HTC_OneE8:
-//                    break;
-//                case HTC_Desire500:
-//                    break;
+            case Htc_M9:
+                Device = new HTC_M9(uiHandler, cameraParameters,cameraHolder,this);
+                break;
+            case Htc_One_Sv:
+                Device = new HTC_One_SV(uiHandler,cameraParameters,cameraHolder,this);
+                break;
+            case Htc_One_Xl:
+                Device = new HTC_One_XL(uiHandler,cameraParameters,cameraHolder,this);
+                break;
+            case HTC_OneA9:
+                Device = new HTC_One_A9(uiHandler,cameraParameters,cameraHolder,this);
+                break;
+            case HTC_OneE8:
+                Device = new HTC_One_E8(uiHandler,cameraParameters,cameraHolder,this);
+                break;
+            case HTC_Desire500:
+                Device = new HTC_Desire500(uiHandler,cameraParameters,cameraHolder,this);
+                break;
 //                case Huawei_GX8:
 //                    break;
 //                case Huawei_HONOR5x:

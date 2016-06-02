@@ -21,6 +21,7 @@ public class DngProfile
 
     public static final int ROWSIZE = 5264;
     public static final int HTCM8_rowSize = 3360;
+    public static final int XperiaL_rowSize = 4376;
 
     public int blacklevel;
     public int widht;

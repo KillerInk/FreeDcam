@@ -4,6 +4,7 @@ import android.hardware.Camera;
 import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.troop.androiddng.DngProfile;
@@ -37,7 +38,13 @@ public class Sony_XperiaL extends AbstractDevice {
     }
 
     @Override
-    public DngProfile getDngProfile(int filesize) {
+    public DngProfile getDngProfile(int filesize)
+    {
+        switch (filesize)
+        {
+            case 10788864: //xperia L
+                return new DngProfile(64, 3282, 2448, DngProfile.Qcom, DngProfile.BGGR, DngProfile.XperiaL_rowSize,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+        }
         return null;
     }
 }
