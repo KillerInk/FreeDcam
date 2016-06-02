@@ -6,32 +6,20 @@ import android.os.Handler;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.camera1.camera.parameters.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseFocusManual;
+import com.freedcam.apis.camera1.camera.parameters.manual.ShutterManual_ExposureTime_FloatToSixty;
+import com.freedcam.apis.camera1.camera.parameters.manual.ShutterManual_ExposureTime_Micro;
 import com.troop.androiddng.DngProfile;
 
 /**
  * Created by troop on 01.06.2016.
  */
-public class Xiaomi_Mi3W extends AbstractDevice {
-    public Xiaomi_Mi3W(Handler uihandler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler) {
-        super(uihandler, parameters, cameraHolder, camParametersHandler);
-    }
-
-    @Override
-    public AbstractManualParameter getExposureTimeParameter() {
-        return null;
-    }
-
-    @Override
-    public AbstractManualParameter getIsoParameter() {
-        return null;
-    }
-
-    @Override
-    public AbstractManualParameter getManualFocusParameter() {
-        return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,1000,KEYS.KEY_FOCUS_MODE_MANUAL,camParametersHandler,10,1);
+public class Xiaomi_Mi3W extends BaseQcomDevice {
+    public Xiaomi_Mi3W(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+        super(uihandler, parameters, cameraUiWrapper);
     }
 
     @Override

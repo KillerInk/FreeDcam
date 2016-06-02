@@ -5,6 +5,7 @@ import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_MTK;
 import com.freedcam.apis.camera1.camera.parameters.manual.FocusManualMTK;
@@ -15,8 +16,8 @@ import com.troop.androiddng.DngProfile;
  */
 public class BaseMTKDevice extends AbstractDevice
 {
-    public BaseMTKDevice(Handler uihandler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler) {
-        super(uihandler, parameters, cameraHolder, camParametersHandler);
+    public BaseMTKDevice(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+        super(uihandler, parameters, cameraUiWrapper);
         new AE_Handler_MTK(parameters,cameraHolder,camParametersHandler);
     }
     //set by aehandler to camparametershandler direct

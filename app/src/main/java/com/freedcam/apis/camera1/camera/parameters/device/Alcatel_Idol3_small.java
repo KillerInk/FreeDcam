@@ -6,6 +6,7 @@ import android.os.Handler;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.troop.androiddng.DngProfile;
 
@@ -14,8 +15,8 @@ import com.troop.androiddng.DngProfile;
  */
 public class Alcatel_Idol3_small extends Alcatel_Idol3
 {
-    public Alcatel_Idol3_small(Handler uihandler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler) {
-        super(uihandler, parameters, cameraHolder, camParametersHandler);
+    public Alcatel_Idol3_small(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+        super(uihandler, parameters, cameraUiWrapper);
     }
 
     @Override

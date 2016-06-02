@@ -35,18 +35,12 @@ public class ShutterManualZTE extends BaseManualParameter
 
     /**
      * @param parameters
-     * @param maxValue
-     * @param MinValue
      * @param camParametersHandler
      */
-    public ShutterManualZTE(Camera.Parameters parameters, String maxValue, String MinValue, I_CameraHolder baseCameraHolder, CamParametersHandler camParametersHandler) {
+    public ShutterManualZTE(Camera.Parameters parameters, I_CameraHolder baseCameraHolder, CamParametersHandler camParametersHandler) {
         super(parameters, "", "", "", camParametersHandler,1);
         this.baseCameraHolder = baseCameraHolder;
-
-        if(DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
-            stringvalues = Z7ShutterValues.split(",");
-        else
-            stringvalues = Z7ShutterValues.split(",");
+        stringvalues = Z7ShutterValues.split(",");
 
         this.isSupported = true;
     }

@@ -6,6 +6,7 @@ import android.os.Handler;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_LGG4;
 import com.freedcam.apis.camera1.camera.parameters.manual.CCTManualG4;
@@ -15,11 +16,11 @@ import com.troop.androiddng.DngProfile;
 /**
  * Created by troop on 01.06.2016.
  */
-public class LG_G4 extends AbstractDevice {
-    public LG_G4(Handler uihandler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler)
-    {
-        super(uihandler, parameters, cameraHolder, camParametersHandler);
+public class LG_G4 extends LG_G2 {
+    public LG_G4(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+        super(uihandler, parameters, cameraUiWrapper);
         new AE_Handler_LGG4(parameters,cameraHolder,camParametersHandler);
+        parameters.set("lge-camera","1");
     }
 
     //set due Ae handler

@@ -30,7 +30,7 @@ public class CCTManualParameter extends BaseManualParameter
     private int min = -1;
     private int max = -1;
     private String manualWbMode;
-    public CCTManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, CamParametersHandler camParametersHandler)
+    public CCTManualParameter(Camera.Parameters parameters,CamParametersHandler camParametersHandler)
     {
         super(parameters, "", "", "", camParametersHandler,1);
 

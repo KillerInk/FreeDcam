@@ -44,44 +44,12 @@ public class ShutterClassHandler
     {
         if (DeviceUtils.IS(DeviceUtils.Devices.SonyADV))
             return new ShutterManualSony(parameters, "","",parametersHandler);
-
-        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
-           return new  ShutterManualZTE(parameters, "","", cameraHolder, parametersHandler);
-
-        else if(DeviceUtils.IS(DeviceUtils.Devices.ForwardArt_MTK))
-            return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,null, "max-exposure-time", "min-exposure-time");
-
-        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
-            return new ShutterManualParameterHTC(parameters, "","",parametersHandler);
-
-        else if(DeviceUtils.IS(DeviceUtils.Devices.OnePlusOne) &&   !parameters.get("max-exposure-time").contains(".") || DeviceUtils.IS(DeviceUtils.Devices.MotoG3))
-            return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,null, "max-exposure-time", "min-exposure-time");
-
-        else if(DeviceUtils.IS(DeviceUtils.Devices.OnePlusOne) &&   parameters.get("max-exposure-time").contains("."))
-            return new ShutterManual_ExposureTime_Micro(parameters,parametersHandler,null,"exposure-time", "max-exposure-time", "min-exposure-time");
-
-        else if((DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote) ||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W ) || DeviceUtils.IS(DeviceUtils.Devices.LenovoK920))&& parameters.get("max-exposure-time").contains("."))
-            return new ShutterManual_ExposureTime_Micro(parameters,parametersHandler,null,"exposure-time", "max-exposure-time", "min-exposure-time");
-
-        else if((DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro) || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4W) || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4C))&&  parameters.get("max-exposure-time").contains("."))
-            return new ShutterManual_ExposureTime_Micro(parameters,parametersHandler,null,"exposure-time", "max-exposure-time", "min-exposure-time");
-
-        else if((DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote) || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W) || DeviceUtils.IS(DeviceUtils.Devices.LenovoK920))
-                && (parameters.get("max-exposure-time") !=null&& !parameters.get("max-exposure-time").contains(".")))
-            return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,null, "max-exposure-time", "min-exposure-time");
-        else if((DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro) || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4W))
-                && (parameters.get("max-exposure-time") != null&& !parameters.get("max-exposure-time").contains(".")))
-            return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,null, "max-exposure-time", "min-exposure-time");
-        else if (DeviceUtils.IsMarshMallowG3())
-            return null;
         else if ((parameters.get("max-exposure-time")!= null&& parameters.get("max-exposure-time").contains(".")))
             return new ShutterManual_ExposureTime_Micro(parameters,parametersHandler,null,"exposure-time", "max-exposure-time", "min-exposure-time");
         else if ((parameters.get("max-exposure-time")!= null&& !parameters.get("max-exposure-time").contains(".")))
-            return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,null, "max-exposure-time", "min-exposure-time");
+            return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,null);
         else if ((parameters.get("shutter-value")!= null&& parameters.get("shutter-value-supported").contains(",")))
-            return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,null, "max-exposure-time", "min-exposure-time");
-        else if (DeviceUtils.IS(DeviceUtils.Devices.p8lite))
-            return new ShutterManualKrillin(parameters,cameraHolder,parametersHandler);
+            return new ShutterManual_ExposureTime_FloatToSixty(parameters,parametersHandler,null);
         else
             return null;
     }
