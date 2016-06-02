@@ -13,29 +13,9 @@ import com.troop.androiddng.DngProfile;
 /**
  * Created by troop on 01.06.2016.
  */
-public class Vivo_Xplay3s extends AbstractDevice {
+public class Vivo_Xplay3s extends BaseQcomDevice {
     public Vivo_Xplay3s(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(uihandler, parameters, cameraUiWrapper);
-    }
-
-    @Override
-    public AbstractManualParameter getExposureTimeParameter() {
-        return null;
-    }
-
-    @Override
-    public AbstractManualParameter getIsoParameter() {
-        return null;
-    }
-
-    @Override
-    public AbstractManualParameter getManualFocusParameter() {
-        return null;
-    }
-
-    @Override
-    public AbstractManualParameter getCCTParameter() {
-        return null;
     }
 
     @Override

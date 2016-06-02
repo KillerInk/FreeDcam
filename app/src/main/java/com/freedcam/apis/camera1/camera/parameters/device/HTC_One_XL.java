@@ -13,31 +13,10 @@ import com.troop.androiddng.DngProfile;
 /**
  * Created by troop on 01.06.2016.
  */
-public class HTC_One_XL extends AbstractDevice {
+public class HTC_One_XL extends BaseQcomDevice {
     public HTC_One_XL(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(uihandler, parameters, cameraUiWrapper);
     }
-
-    @Override
-    public AbstractManualParameter getExposureTimeParameter() {
-        return null;
-    }
-
-    @Override
-    public AbstractManualParameter getIsoParameter() {
-        return null;
-    }
-
-    @Override
-    public AbstractManualParameter getManualFocusParameter() {
-        return null;
-    }
-
-    @Override
-    public AbstractManualParameter getCCTParameter() {
-        return null;
-    }
-
     @Override
     public DngProfile getDngProfile(int filesize)
     {

@@ -12,21 +12,23 @@ public class ISOManualParameter extends BaseManualParameter {
         //TODO add missing logic
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
             this.isSupported = false;
-        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
+        else
         {
+
             this.isSupported = true;
             this.max_value = "min-iso";
             this.value = "iso";
             this.min_value = "max-iso";
+            if (parameters.get(max_value) != null && parameters.get(min_value) != null) {
 
-            if(min_value.equals(null))
-            {
-                this.isSupported=false;
+                if (min_value.equals(null)) {
+                    this.isSupported = false;
+                }
+                stringvalues = createStringArray(Integer.parseInt(parameters.get(min_value)), Integer.parseInt(parameters.get(max_value)), 100);
             }
-            stringvalues = createStringArray(Integer.parseInt(parameters.get(min_value)),Integer.parseInt(parameters.get(max_value)),100);
+            else
+                isSupported = false;
         }
-        else
-            this.isSupported = false;
         isVisible = isSupported;
     }
 

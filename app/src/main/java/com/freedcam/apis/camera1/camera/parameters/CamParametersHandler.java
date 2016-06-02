@@ -202,8 +202,6 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         createManualSharpness();
 
-        if (DeviceUtils.isCamera1DNGSupportedDevice())
-            matrixChooser = new MatrixChooserParameter(uiHandler);
 
         try
         {
@@ -1265,6 +1263,10 @@ public class CamParametersHandler extends AbstractParameterHandler
         AbstractModeParameter video = device.getVideoProfileMode();
         if (video != null)
             VideoProfiles = video;
+        if (device.IsDngSupported())
+        {
+            matrixChooser = new MatrixChooserParameter(uiHandler);
+        }
     }
 
 }

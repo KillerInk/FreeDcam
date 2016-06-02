@@ -30,6 +30,7 @@ public class PictureFormatHandler extends BaseModeParameter
     private final static int DNG = 2;
 
     private BayerFormat BayerFormats;
+    private CamParametersHandler camParametersHandler;
 
     final static public String[] CaptureMode =
     {
@@ -46,6 +47,7 @@ public class PictureFormatHandler extends BaseModeParameter
     public PictureFormatHandler(Handler uihandler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler)
     {
         super(uihandler, parameters, cameraHolder, "", "");
+        this.camParametersHandler = camParametersHandler;
         if (cameraHolderApi1.DeviceFrameWork == Frameworks.MTK)
         {
             Logger.d(TAG,"mtk");
@@ -164,9 +166,9 @@ public class PictureFormatHandler extends BaseModeParameter
     {
         if (rawSupported && DeviceUtils.isCamera1NO_RAW_STREM())
             return new String[]{CaptureMode[JPEG]};
-        if (rawSupported && !DeviceUtils.isCamera1DNGSupportedDevice())
+        if (rawSupported && !camParametersHandler.Device.IsDngSupported())
             return new String[]{CaptureMode[JPEG],CaptureMode[RAW]};
-        else if(rawSupported && DeviceUtils.isCamera1DNGSupportedDevice())
+        else if(rawSupported && camParametersHandler.Device.IsDngSupported())
                 return new String[]{CaptureMode[JPEG],CaptureMode[DNG],CaptureMode[RAW]};
         else
             return new String[]{CaptureMode[JPEG]};

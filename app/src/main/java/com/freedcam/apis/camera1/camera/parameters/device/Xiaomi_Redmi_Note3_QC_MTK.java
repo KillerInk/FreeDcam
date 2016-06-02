@@ -29,6 +29,12 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
         else
             ae_handler_qcomM = new AE_Handler_QcomM(uihandler,parameters,cameraHolder,camParametersHandler);
     }
+
+    @Override
+    public boolean IsDngSupported() {
+        return true;
+    }
+
     //gets set due ae handler
     @Override
     public AbstractManualParameter getExposureTimeParameter()

@@ -16,6 +16,11 @@ public class DefaultDevice extends AbstractDevice {
     }
 
     @Override
+    public boolean IsDngSupported() {
+        return false;
+    }
+
+    @Override
     public AbstractManualParameter getExposureTimeParameter() {
         return null;
     }

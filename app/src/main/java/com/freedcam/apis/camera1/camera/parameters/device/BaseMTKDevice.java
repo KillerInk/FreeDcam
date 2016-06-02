@@ -20,6 +20,12 @@ public class BaseMTKDevice extends AbstractDevice
         super(uihandler, parameters, cameraUiWrapper);
         new AE_Handler_MTK(parameters,cameraHolder,camParametersHandler);
     }
+
+    @Override
+    public boolean IsDngSupported() {
+        return true;
+    }
+
     //set by aehandler to camparametershandler direct
     @Override
     public AbstractManualParameter getExposureTimeParameter() {

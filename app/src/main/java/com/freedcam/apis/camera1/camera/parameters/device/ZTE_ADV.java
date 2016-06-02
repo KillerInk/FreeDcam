@@ -16,7 +16,7 @@ import com.troop.androiddng.DngProfile;
 /**
  * Created by troop on 01.06.2016.
  */
-public class ZTE_ADV extends AbstractDevice {
+public class ZTE_ADV extends BaseQcomDevice {
     public ZTE_ADV(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(uihandler, parameters, cameraUiWrapper);
     }
@@ -27,18 +27,8 @@ public class ZTE_ADV extends AbstractDevice {
     }
 
     @Override
-    public AbstractManualParameter getIsoParameter() {
-        return null;
-    }
-
-    @Override
     public AbstractManualParameter getManualFocusParameter() {
         return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,79,KEYS.KEY_FOCUS_MODE_MANUAL,camParametersHandler,1,1);
-    }
-
-    @Override
-    public AbstractManualParameter getCCTParameter() {
-        return null;
     }
 
     @Override

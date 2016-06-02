@@ -13,29 +13,14 @@ import com.troop.androiddng.DngProfile;
 /**
  * Created by troop on 01.06.2016.
  */
-public class GioneE7 extends AbstractDevice {
+public class GioneE7 extends BaseQcomDevice {
     public GioneE7(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(uihandler, parameters, cameraUiWrapper);
     }
 
     @Override
-    public AbstractManualParameter getExposureTimeParameter() {
-        return null;
-    }
-
-    @Override
-    public AbstractManualParameter getIsoParameter() {
-        return null;
-    }
-
-    @Override
-    public AbstractManualParameter getManualFocusParameter() {
-        return null;
-    }
-
-    @Override
-    public AbstractManualParameter getCCTParameter() {
-        return null;
+    public boolean IsDngSupported() {
+        return true;
     }
 
     @Override

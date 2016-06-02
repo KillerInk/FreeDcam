@@ -21,6 +21,11 @@ public class P8Lite extends AbstractDevice {
     }
 
     @Override
+    public boolean IsDngSupported() {
+        return false;
+    }
+
+    @Override
     public AbstractManualParameter getExposureTimeParameter() {
         return new ShutterManualKrillin(parameters,cameraHolder,camParametersHandler);
     }

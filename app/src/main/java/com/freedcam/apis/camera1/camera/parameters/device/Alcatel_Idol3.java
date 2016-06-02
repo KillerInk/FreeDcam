@@ -25,6 +25,11 @@ public class Alcatel_Idol3 extends AbstractDevice
         aeHandlerQcomM = new AE_Handler_QcomM(uihandler, parameters, cameraHolder, camParametersHandler);
     }
 
+    @Override
+    public boolean IsDngSupported() {
+        return true;
+    }
+
     //set by aehandler
     @Override
     public AbstractManualParameter getExposureTimeParameter() {

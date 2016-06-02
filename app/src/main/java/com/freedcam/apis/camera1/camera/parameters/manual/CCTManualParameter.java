@@ -35,15 +35,12 @@ public class CCTManualParameter extends BaseManualParameter
         super(parameters, "", "", "", camParametersHandler,1);
 
         this.isSupported = false;
-        if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New) || DeviceUtils.IS(DeviceUtils.Devices.LenovoK920))
+        if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)|| DeviceUtils.IS(DeviceUtils.Devices.LenovoK920))
         {
             this.min = 2000;
             this.max = 8000;
             this.value = WB_MANUAL;
-            if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
-                this.manualWbMode = WB_MODE_MANUAL;
-            else
-                this.manualWbMode = WB_MODE_MANUAL_CCT;
+            this.manualWbMode = WB_MODE_MANUAL_CCT;
             this.isSupported = true;
             createStringArray(min,max,100);
         }
@@ -178,13 +175,6 @@ public class CCTManualParameter extends BaseManualParameter
             parameters.set(value, stringvalues[currentInt]);
             Logger.d(TAG,"set "+ value + " to " + stringvalues[currentInt]);
 
-            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.QC_Manual_New))
-                try {
-                    parameters.set("manual-wb-type", "color-temperature");
-                    parameters.set("manual-wb-value", stringvalues[currentInt]);
-                } catch (Exception ex) {
-                    Logger.exception(ex);
-                }
         }
         camParametersHandler.SetParametersToCamera(parameters);
     }

@@ -48,25 +48,10 @@ public class DeviceUtils
     final public static Devices[] MOTOX = {Devices.Moto_MSM8982_8994, Devices.Moto_MSM8974 };
     final public static Devices[] MI3_4 = {Devices.XiaomiMI4W, Devices.XiaomiMI3W };
     final public static Devices[] LG_G2_3 = {Devices.LG_G2, Devices.LG_G3};
-    final public static Devices[] HTC_m8_9 = {Devices.Htc_M8, Devices.Htc_M9,Devices.HTC_OneA9,Devices.Htc_M8};
+    final public static Devices[] HTC_m8_9 = {Devices.Htc_M8, Devices.Htc_M9,Devices.HTC_OneA9};
     final public static Devices[] ZTE_DEVICES = {Devices.ZTE_ADV,Devices.ZTEADVIMX214,Devices.ZTEADV234};
     final public static Devices[] Sony_DEVICES = {Devices.SonyM4_QC,Devices.SonyC5_MTK,Devices.SonyM5_MTK};
     final public static Devices[] Krillin_DEVICES = {Devices.p8,Devices.p8lite,Devices.honor6};
-
-    /**
-    *devices with the new qc hal
-    *com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_QcomM.java
-     */
-    final public static Devices[] QC_Manual_New =
-            {
-                    Devices.SonyM4_QC,
-                    Devices.Alcatel_Idol3,
-                    Devices.Moto_MSM8982_8994,
-                    Devices.Lenovo_VibeP1,
-                    Devices.XiaomiMI5,
-                    Devices.Aquaris_E5,
-                    Devices.Huawei_GX8
-            };
 
     /*Devices for that the opcode is added to download*/
     final public static Devices[] OpCodeRdyToDL =
@@ -164,12 +149,6 @@ public class DeviceUtils
         ZTEADV234,
     }
 
-    /*Identfiy LG_G3 Marshmallow*/
-    public static boolean IsMarshMallowG3()
-    {
-        return currentdevice == Devices.LG_G3 && Build.VERSION.SDK_INT == Build.VERSION_CODES.M;
-    }
-
     public static boolean isCyanogenMod() {
         try {
             return Class.forName("cyanogenmod.os.Build") != null;
@@ -177,73 +156,6 @@ public class DeviceUtils
         }
         return false;
     }
-
-
-
-    public static boolean isCamera1DNGSupportedDevice()
-    {
-        return IS_DEVICE_ONEOF(camera1DNGsupported);
-    }
-
-    /**
-     * holds all Devices that are added
-     * @com.troop.androiddng.DngSupportedDevices.java
-     */
-    private static Devices[] camera1DNGsupported = { //52 Raw Supported Devices
-            Devices.Alcatel_Idol3,
-            Devices.Alcatel_Idol3_small,
-            Devices.Alcatel_985n,
-            Devices.Aquaris_E5,
-            Devices.ForwardArt_MTK,
-            Devices.GioneE7,
-            Devices.Htc_M8,
-            Devices.Htc_M9,
-            Devices.Htc_One_Sv,
-            Devices.Htc_One_Xl,
-            Devices.HTC_OneA9,
-            Devices.HTC_OneE8,
-            Devices.HTC_Desire500,
-            Devices.Huawei_GX8,
-            Devices.Huawei_HONOR5x,
-            Devices.I_Mobile_I_StyleQ6,
-            Devices.Jiayu_S3,
-            Devices.LenovoK910,
-            Devices.LenovoK920,
-            Devices.Lenovo_VibeP1,
-            Devices.Lenovo_K4Note_MTK,
-            Devices.Lenovo_K50_MTK,
-            Devices.LG_G3,
-            Devices.LG_G2,
-            Devices.LG_G2pro,
-            Devices.LG_G4,
-            Devices.MeizuMX4_MTK,
-            Devices.MeizuMX5_MTK,
-            Devices.Meizu_m2Note_MTK,
-            Devices.Moto_MSM8982_8994,
-            Devices.Moto_MSM8974,
-            Devices.OnePlusOne,
-            Devices.OnePlusTwo,
-            Devices.Retro_MTK,
-            Devices.Sony_XperiaL,
-            Devices.SonyM5_MTK,
-            Devices.SonyC5_MTK,
-            Devices.SonyM4_QC,
-            Devices.THL5000_MTK,
-            Devices.Vivo_Xplay3s,
-            Devices.Xiaomi_RedmiNote,
-            Devices.XiaomiMI3W,
-            Devices.XiaomiMI4W,
-            Devices.XiaomiMI4C,
-            Devices.XiaomiMI_Note_Pro,
-            Devices.Xiaomi_Redmi_Note3,
-            Devices.Xiaomi_RedmiNote2_MTK,
-            Devices.Yu_Yureka,
-            Devices.ZTE_ADV,
-            Devices.ZTEADVIMX214,
-            Devices.ZTEADV234,
-            //,Devices.XiaomiMI5 Unknown Raw Failure need more MI5 user input alternate switch to HDR Scene for raw dump
-    };
-
 
     public static boolean isCamera1NO_RAW_STREM()
     {
@@ -257,7 +169,6 @@ public class DeviceUtils
             Devices.Asus_Zenfon2,
             Devices.Nexus4,
             Devices.Htc_Evo3d,
-
     };
 
 

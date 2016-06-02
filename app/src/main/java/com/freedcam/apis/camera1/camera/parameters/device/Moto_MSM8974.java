@@ -18,6 +18,11 @@ public class Moto_MSM8974 extends AbstractDevice {
     }
 
     @Override
+    public boolean IsDngSupported() {
+        return false;
+    }
+
+    @Override
     public AbstractManualParameter getExposureTimeParameter() {
         return null;
     }

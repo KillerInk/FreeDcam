@@ -22,11 +22,20 @@ public class BaseQcomDevice extends AbstractDevice {
     }
 
     @Override
-    public AbstractManualParameter getExposureTimeParameter() {
-        if (!parameters.get("max-exposure-time").contains("."))
-            return new ShutterManual_ExposureTime_FloatToSixty(parameters,camParametersHandler,null);
-        else
-            return new ShutterManual_ExposureTime_Micro(parameters,camParametersHandler,null,"exposure-time", "max-exposure-time", "min-exposure-time");
+    public boolean IsDngSupported() {
+        return true;
+    }
+
+    @Override
+    public AbstractManualParameter getExposureTimeParameter()
+    {
+        if (parameters.get("max-exposure-time") != null) {
+            if (!parameters.get("max-exposure-time").contains("."))
+                return new ShutterManual_ExposureTime_FloatToSixty(parameters, camParametersHandler, null);
+            else
+                return new ShutterManual_ExposureTime_Micro(parameters, camParametersHandler, null, "exposure-time", "max-exposure-time", "min-exposure-time");
+        }
+        return null;
     }
 
     @Override

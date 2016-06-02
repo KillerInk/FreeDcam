@@ -18,6 +18,11 @@ public class P8 extends AbstractDevice {
     }
 
     @Override
+    public boolean IsDngSupported() {
+        return false;
+    }
+
+    @Override
     public AbstractManualParameter getExposureTimeParameter() {
         return null;
     }

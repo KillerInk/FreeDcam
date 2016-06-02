@@ -22,6 +22,11 @@ public class HTC_M8 extends AbstractDevice {
     }
 
     @Override
+    public boolean IsDngSupported() {
+        return true;
+    }
+
+    @Override
     public AbstractManualParameter getExposureTimeParameter() {
         return new ShutterManualParameterHTC(parameters,"","",camParametersHandler);
     }

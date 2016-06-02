@@ -36,6 +36,7 @@ public abstract class AbstractDevice
         this.matrixChooserParameter = (MatrixChooserParameter)camParametersHandler.matrixChooser;
     }
 
+    public abstract boolean IsDngSupported();
     public abstract AbstractManualParameter getExposureTimeParameter();
     public abstract AbstractManualParameter getIsoParameter();
     public abstract AbstractManualParameter getManualFocusParameter();

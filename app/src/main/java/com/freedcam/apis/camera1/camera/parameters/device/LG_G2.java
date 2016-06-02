@@ -26,6 +26,11 @@ public class LG_G2 extends AbstractDevice
     }
 
     @Override
+    public boolean IsDngSupported() {
+        return true;
+    }
+
+    @Override
     public AbstractManualParameter getExposureTimeParameter() {
         return null;
     }
