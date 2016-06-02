@@ -201,7 +201,19 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         try
         {
-            loadDeviceSpecificStuff();
+            CamParametersHandlerEXT parametersHandlerEXT = new CamParametersHandlerEXT(cameraUiWrapper,uiHandler,cameraParameters,cameraHolder);
+            Device = parametersHandlerEXT.getDevice();
+            //loadDeviceSpecificStuff();
+            if (Device != null)
+                setDeviceParameters(Device);
+            else {
+                if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.MTK)
+                    Device = new BaseMTKDevice(uiHandler,cameraParameters,cameraUiWrapper);
+                else
+                    Device = new BaseQcomDevice(uiHandler,cameraParameters,cameraUiWrapper);
+                loadOldLookup();
+            }
+
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -1048,190 +1060,7 @@ public class CamParametersHandler extends AbstractParameterHandler
     }
 
 
-    private void loadDeviceSpecificStuff()
-    {
-        switch (DeviceUtils.DEVICE())
-        {
-            case Alcatel_985n:
-                Device = new Alcatel_985n(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-//                case p8:
-//                    break;
-//                case p8lite:
-//                    break;
-//                case honor6:
-//                    break;
-            case Aquaris_E5:
-                Device = new Aquaris_E5(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case Alcatel_Idol3:
-                Device = new Alcatel_Idol3(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case Alcatel_Idol3_small:
-                Device = new Alcatel_Idol3_small(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case GioneE7:
-                Device = new GioneE7(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case ForwardArt_MTK:
-                Device = new ForwardArt_MTK(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case Htc_M8:
-                Device = new HTC_M8(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case Htc_M9:
-                Device = new HTC_M9(uiHandler, cameraParameters,cameraUiWrapper);
-                break;
-            case Htc_One_Sv:
-                Device = new HTC_One_SV(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case Htc_One_Xl:
-                Device = new HTC_One_XL(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case HTC_OneA9:
-                Device = new HTC_One_A9(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case HTC_OneE8:
-                Device = new HTC_One_E8(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case HTC_Desire500:
-                Device = new HTC_Desire500(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case Huawei_GX8:
-                Device = new Huawei_GX8(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case Huawei_HONOR5x:
-                Device = new Huawei_Honor5x(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case I_Mobile_I_StyleQ6:
-                Device = new I_Mobile_IStyleQ6(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case Jiayu_S3:
-                Device = new Jiayu_S3(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case LenovoK910:
-                Device = new Lenovo_K910(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case LenovoK920:
-                Device = new Lenovo_K920(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case Lenovo_K4Note_MTK:
-                Device = new Lenovo_K4Note_MTK(uiHandler, cameraParameters,cameraUiWrapper);
-                break;
-            case Lenovo_K50_MTK:
-                Device = new Lenovo_K50_MTK(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case Lenovo_VibeP1:
-                Device = new Lenovo_VibeP1(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case LG_G2:
-                Device = new LG_G2(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-//                case LG_G2pro:
-//                    break;
-            case LG_G3:
-                Device = new LG_G3(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case LG_G4:
-                Device = new LG_G4(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case MeizuMX4_MTK:
-            case MeizuMX5_MTK:
-                Device = new Meizu_MX4_5_MTK(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case Meizu_m2Note_MTK:
-                Device = new Meizu_M2_Note_MTK(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-//                case Moto_MSM8974:
-//                    break;
-            case Moto_MSM8982_8994:
-                Device = new Moto_MSM8982_8994(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-//                case MotoG3:
-//                    break;
-//                case MotoG_Turbo:
-//                    break;
-//                case Nexus4:
-//                    break;
-            case OnePlusOne:
-                Device = new OnePlusOne(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case OnePlusTwo:
-                Device = new OnePlusTwo(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case Xiaomi_RedmiNote:
-                Device = new Xiaomi_Redmi_Note(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case Xiaomi_RedmiNote2_MTK:
-                Device = new Xiaomi_Redmi_Note2_MTK(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case Retro_MTK:
-                Device = new Retro_MTK(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-//                case Samsung_S6_edge:
-//                    break;
-//                case Samsung_S6_edge_plus:
-//                    break;
-//                case SonyADV:
-//                    break;
-            case SonyM5_MTK:
-                Device = new Sony_M5_MTK(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case SonyM4_QC:
-                Device = new Sony_M4(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case SonyC5_MTK:
-                Device = new Sony_C5(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case Sony_XperiaL:
-                Device = new Sony_XperiaL(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case THL5000_MTK:
-                Device = new THL5000_MTK(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case Vivo_Xplay3s:
-                Device = new Vivo_Xplay3s(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case XiaomiMI3W:
-                Device = new Xiaomi_Mi3W(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case XiaomiMI4W:
-                Device = new Xiaomi_Mi4W(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case XiaomiMI4C:
-                Device = new Xiaomi_Mi4c(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-//                case XiaomiMI5:
-//                    break;
-            case XiaomiMI_Note_Pro:
-                Device = new Xiaomi_Mi_Note_Pro(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case Xiaomi_Redmi_Note3:
-                Device = new Xiaomi_Redmi_Note3_QC_MTK(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case Yu_Yureka:
-                Device = new Yu_Yureka(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case ZTE_ADV:
-                Device = new ZTE_ADV(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case ZTEADVIMX214:
-                Device = new ZTE_ADV_IMX214(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            case ZTEADV234:
-                Device = new ZTE_ADV_IMX234(uiHandler,cameraParameters,cameraUiWrapper);
-                break;
-            default:
-                if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.MTK)
-                    Device = new BaseMTKDevice(uiHandler,cameraParameters,cameraUiWrapper);
-                else
-                    Device = new BaseQcomDevice(uiHandler,cameraParameters,cameraUiWrapper);
-                loadOldLookup();
-                break;
-        }
-        if (Device != null)
-            setDeviceParameters(Device);
-    }
+
 
     private void loadOldLookup()
     {
