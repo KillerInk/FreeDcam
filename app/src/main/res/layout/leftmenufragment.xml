@@ -13,7 +13,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/tap_ng">
+            android:background="@color/uiSettingsBackground">
 
             <!--<MenuItem
                 android:layout_width="fill_parent"
@@ -35,8 +35,8 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/setting_video_group_header"
-                    android:textColor="#000000"
-                    android:background="#ffffff"
+                    android:textColor="@android:color/background_light"
+                    android:background="@color/settingsmenuBackColor"
                     android:layout_marginBottom="1dp" />
 
                 <com.freedcam.ui.themesample.views.menu.MenuItemVideoProfile
@@ -50,7 +50,7 @@
                     android:layout_marginLeft="0dp" />
 
                 <com.freedcam.ui.themesample.views.menu.MenuItem_VideoProfEditor
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     app:Description="@string/setting_videoprofileeditor_description"
                     app:HeaderText="@string/setting_videoprofileeditor_header"
@@ -111,8 +111,8 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="@string/timelapse_frames"
                     android:id="@+id/textView14"
-                    android:textColor="#000000"
-                    android:background="#f4f4f4" />
+                    android:textColor="@color/menu_header_color"
+                    android:background="@color/settingsmenuBackColor" />
 
                 <com.freedcam.ui.themesample.views.menu.MenuItemTimeLapseFrames
                     android:layout_width="fill_parent"
@@ -136,8 +136,8 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/setting_picture_group_header"
                     android:id="@+id/textView4"
-                    android:textColor="#000000"
-                    android:background="#ffffff"
+                    android:textColor="@color/menu_header_color"
+                    android:background="@color/settingsmenuBackColor"
                     android:layout_marginBottom="1dp"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp" />
@@ -203,11 +203,11 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/setting_hdr_"
                     android:id="@+id/textView5"
-                    android:textColor="#000000"
+                    android:textColor="@color/menu_header_color"
                     android:layout_marginBottom="1dp"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp"
-                    android:background="#f4f4f4"
+                    android:background="@color/settingsmenuBackColor"
                     android:visibility="visible" />
 
                 <com.freedcam.ui.themesample.views.menu.MenuItemAEB
@@ -243,8 +243,8 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/setting_Automation"
                     android:id="@+id/textView13"
-                    android:textColor="#000000"
-                    android:background="#f4f4f4"
+                    android:textColor="@color/menu_header_color"
+                    android:background="@color/settingsmenuBackColor"
                     android:layout_marginBottom="1dp"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp" />
@@ -288,8 +288,8 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/setting_imagestack"
                     android:id="@+id/textView24"
-                    android:textColor="#000000"
-                    android:background="#f4f4f4"
+                    android:textColor="@color/menu_header_color"
+                    android:background="@color/settingsmenuBackColor"
                     android:layout_marginBottom="1dp"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp" />
@@ -319,8 +319,8 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/setting_freedcam_"
                     android:id="@+id/textView6"
-                    android:textColor="#000000"
-                    android:background="#ffffff"
+                    android:textColor="@color/menu_header_color"
+                    android:background="@color/settingsmenuBackColor"
                     android:layout_marginBottom="1dp"
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp" />

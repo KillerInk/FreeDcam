@@ -13,7 +13,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/tap_ng">
+            android:background="@color/uiSettingsBackground">
 
             <TextView
                 android:layout_width="fill_parent"
@@ -21,8 +21,8 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/setting_camera_"
                 android:id="@+id/legcset"
-                android:textColor="@color/menuTextColor"
-                android:background="#ffffff"
+                android:textColor="@color/uiSettingsTextColor"
+                android:background="@color/settingsmenuBackColor"
                 android:layout_marginBottom="1dp"
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />

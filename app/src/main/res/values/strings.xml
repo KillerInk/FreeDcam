@@ -5,20 +5,20 @@
     <string name="all_perms_granted">All permissions granted</string>
     <string name="all_perms_denied">All permissions denied, try yet</string>
     <string name="app_name">themesample</string>
-    <string name="setting_picture_group_header">Picture Settings</string>
-    <string name="setting_Automation">Automated Capture</string>
+    <string name="setting_picture_group_header">Picture Mode</string>
+    <string name="setting_Automation">Interval Mode Settings</string>
     <string name="setting_bayerformat_description">Sensor raw format mode to be encoded as DNG</string>
     <string name="setting_bayerformat_header">Bayer Format: </string>
-    <string name="setting_opcode_description">Click to download OPCode for DNG. Its used to reduce Vignette</string>
-    <string name="setting_opcode_header">OPCode: </string>
+    <string name="setting_opcode_description">Click to download OPCode for DNG. Used for flat field correction</string>
+    <string name="setting_opcode_header">Raw Flat Field: </string>
     <string name="setting_matrixchooser_description">Choose Custom ColorMatrix, when off default get used</string>
     <string name="setting_matrixchooser_header">CustomMatrix: </string>
     <string name="setting_jpegquality_description">Quality Value in % </string>
-    <string name="setting_jpegquality_header">JPEG Compression: </string>
-    <string name="setting_picturesize_description">Picture Size for JPEG: </string>
+    <string name="setting_jpegquality_header">JPEG Quality: </string>
+    <string name="setting_picturesize_description">Picture Size : </string>
     <string name="setting_picturesize_header">Size: </string>
 
-    <string name="setting_video_group_header">Video</string>
+    <string name="setting_video_group_header">Video Mode</string>
     <string name="setting_videoprofile_description">Media Profile used VideoRecording</string>
     <string name="setting_videoprofile_header">Video Profile: </string>
     <string name="setting_videoprofileeditor_description">Create Custom VideoProfiles</string>
@@ -33,28 +33,28 @@
     <string name="setting_videohsr_header">Video HSR: </string>
     <string name="setting_videobitrate_header">Video Bitrate: </string>
     <string name="setting_vs_header">Video Stabilization: </string>
-    <string name="setting_hdr_">Bracket</string>
+    <string name="setting_hdr_">Bracket Mode </string>
     <string name="setting_aebracket_header">AE-Bracket: </string>
     <string name="setting_aebracket_description">If ON the camera takes 3 Images in one Shot</string>
-    <string name="setting_imagestack_header">ImageStack Mode: </string>
+    <string name="setting_imagestack_header">Stacking Mode Settings: </string>
     <string name="setting_imagestack_description">Select how the Images get Stacked</string>
 
     <string name="setting_freedcam_">Freedcam Settings</string>
     <string name="setting_api_header">API:</string>
     <string name="setting_api_description">Select the Api you want to use</string>
-    <string name="setting_externalshutter_description">The key wich can trigger the shutter from a headset</string>
-    <string name="setting_externalshutter_header">ExternalShutterKey: </string>
-    <string name="setting_location_description">LocationInfo for Files</string>
-    <string name="setting_location_header">Location: </string>
-    <string name="setting_guide_description">Compositional Guides</string>
-    <string name="setting_guide_header">Guide: </string>
-    <string name="setting_horizont_description">Show horizont line</string>
-    <string name="setting_horizont_header">Horizont Line: </string>
+    <string name="setting_externalshutter_description">Alternate key which can trigger the shutter from ie headset, volume button</string>
+    <string name="setting_externalshutter_header">External Shutter Trigger: </string>
+    <string name="setting_location_description">Enables Geo-tagging in images </string>
+    <string name="setting_location_header">Geo-Tag Location: </string>
+    <string name="setting_guide_description">Overlays selected composition grid</string>
+    <string name="setting_guide_header">Grid: </string>
+    <string name="setting_horizont_description">Dual Axis Image Level to show image straightness</string>
+    <string name="setting_horizont_header">Image Level: </string>
     <string name="setting_focuspeak_description">Enables FocusPeak on the Preview</string>
     <string name="setting_focuspeak_header">Focuspeak: </string>
     <string name="setting_orientation_header">Orientation Correction: </string>
     <string name="setting_orientation_description">Rotates the Camera 180° if ON</string>
-    <string name="setting_sdcard_header">SD Card: </string>
+    <string name="setting_sdcard_header">Storage Location: </string>
     <string name="setting_sdcard_description">File save location.\n
         NOTE: On KitKat you can save only to external SD when your Device is rooted and the SDFix is applied!\n
         On Lollipop and Marshmallow choose the root of your SDcard!
@@ -75,7 +75,7 @@
     <string name="setting_savecamparams_description"> </string>
 
     <!-- rightmenufragment  -->
-    <string name="setting_camera_">Camera Settings</string>
+    <string name="setting_camera_">... Settings</string>
     <string name="setting_antiflicker_header">Anti Flicker: </string>
     <string name="setting_antiflicker_description">Reduce flickering on artificial light sources</string>
     <string name="setting_color_header">Color Effect: </string>
@@ -110,15 +110,15 @@
     <string name="setting_colorcorrection_description">Change this to manual or auto</string>
     <string name="setting_controlmode_header">Camera Control: </string>
     <string name="setting_controlmode_description">Controls the Main Camera Functions, turn off for full manual</string>
-    <string name="setting_edge_header">EdgeMode: </string>
+    <string name="setting_edge_header">Edge Mode: </string>
     <string name="setting_edge_description"></string>
-    <string name="setting_hotpixel_header">HotPixel Correction: </string>
+    <string name="setting_hotpixel_header">Hot Pixel Correction: </string>
     <string name="setting_hotpixel_description"></string>
     <string name="setting_tonemap_header">Tonemap: </string>
     <string name="setting_tonemap_description"></string>
 
     <string name="setting_sonycameraremote_">Sony Camera Remote Settings</string>
-    <string name="setting_objecttrack_header">ObjectTracking: </string>
+    <string name="setting_objecttrack_header">Object Tracking: </string>
     <string name="setting_objecttrack_description">Enable to set Focus on a Object to follow</string>
     <string name="setting_zoomsetting_header">Zoom Setting: </string>
     <string name="setting_zoomsetting_description">Set to enable/disable digital zoom</string>
@@ -126,7 +126,7 @@
     <string name="setting_postview_description">Size of the Images transfered from RemoteCam</string>
 
     <string name="setting_omap_">OMAP Settings</string>
-    <string name="setting_ipp_header">ImagePostProcessing: </string>
+    <string name="setting_ipp_header">Image Post Processing: </string>
     <string name="setting_ipp_description">The quality of the PostProcessing</string>
 
     <string name="setting_lg_">LG Settings</string>

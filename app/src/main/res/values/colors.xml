@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="menuBackgColor">#46ffffff</color>
-    <color name="menuTextColor">#ff000000</color>
-    <color name="settingsmenuBackColor" >#32FFFFFF</color>
+    <color name="menuTextColor">#000000</color>
+    <color name="settingsmenuBackColor" >#32ffffff</color>
     <color name="uiSettingsTextColor">#FFFFFFFF</color>
-    <color name="uiSettingsBackground">#46000000</color>
+    <color name="uiSettingsBackground">#bd000000</color>
     <color name="menu_header_color">#ffffffff</color>
 </resources>

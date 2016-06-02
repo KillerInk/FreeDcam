@@ -20,7 +20,7 @@
             android:text="Header:"
             android:id="@+id/textview_menuitem_header"
             android:textSize="@dimen/settings_menu_item_header"
-            android:textColor="@color/uiSettingsTextColor"
+            android:textColor="@android:color/holo_green_dark"
             android:textStyle="bold" />
 
         <TextView
@@ -31,7 +31,8 @@
             android:id="@+id/textview_menuitem_header_value"
             android:textSize="@dimen/settings_menu_item_header_value"
             android:textColor="@color/uiSettingsTextColor"
-            android:layout_marginLeft="2dp" />
+            android:layout_marginLeft="2dp"
+            android:typeface="sans" />
     </LinearLayout>
 
     <LinearLayout
@@ -49,6 +50,7 @@
             android:text="Description"
             android:id="@+id/textview_menuitem_description"
             android:textSize="@dimen/settings_menu_item_description"
-            android:textColor="@color/uiSettingsTextColor" />
+            android:textColor="@android:color/holo_orange_dark"
+            android:typeface="monospace" />
     </LinearLayout>
 </LinearLayout>
