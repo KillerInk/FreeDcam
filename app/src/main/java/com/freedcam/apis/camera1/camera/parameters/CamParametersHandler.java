@@ -531,7 +531,7 @@ public class CamParametersHandler extends AbstractParameterHandler
                 cameraParameters.set("brightness-max", "3");
                 cameraParameters.set("brightness-min", "0");
                 if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.MTK)
-                    ManualBrightness =  new BaseManualParamMTK(cameraParameters,"brightness", "brightness-max", "brightness-min",this,1);
+                    ManualBrightness =  new BaseManualParamMTK(cameraParameters,"brightness", "brightness-values",this);
                 else
                     ManualBrightness =  new BaseManualParameter(cameraParameters,"brightness", "brightness-max", "brightness-min",this,1);
 
@@ -574,7 +574,7 @@ public class CamParametersHandler extends AbstractParameterHandler
                 cameraParameters.set("contrast-max", "3");
                 cameraParameters.set("contrast-min", "0");
                 if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.MTK)
-                    ManualContrast =  new BaseManualParamMTK(cameraParameters,"contrast", "contrast-max", "contrast-min",this,1);
+                    ManualContrast =  new BaseManualParamMTK(cameraParameters,"contrast","contrast-values",this);
                 else
                     ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "contrast-max", "contrast-min",this,1);
 
@@ -699,7 +699,7 @@ public class CamParametersHandler extends AbstractParameterHandler
                 cameraParameters.set("saturation-max", "3");
                 cameraParameters.set("saturation-min", "0");
                 if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.MTK)
-                    ManualSaturation =  new BaseManualParamMTK(cameraParameters,"saturation", "saturation-max", "saturation-min",this,1);
+                    ManualSaturation =  new BaseManualParamMTK(cameraParameters,"saturation", "saturation-values",this);
                 else
                     ManualSaturation =  new BaseManualParameter(cameraParameters,"saturation", "saturation-max", "saturation-min",this,1);
 

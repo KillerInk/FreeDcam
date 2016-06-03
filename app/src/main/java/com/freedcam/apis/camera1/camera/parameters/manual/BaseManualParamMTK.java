@@ -9,132 +9,37 @@ import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParamete
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.camera1.camera.parameters.modes.PictureFormatHandler;
 import com.freedcam.utils.Logger;
+import com.freedcam.utils.StringUtils;
 
 /**
  * Created by GeorgeKiarie on 6/3/2016.
  */
-public class BaseManualParamMTK extends AbstractManualParameter
+public class BaseManualParamMTK extends BaseManualParameter
 {
-
-    private static String TAG = BaseManualParameter.class.getSimpleName();
-    /**
-     * Holds the list of Supported parameters
-     */
-    protected Camera.Parameters  parameters;
-    /*
-     * The name of the current value to get like brightness
-     */
-    protected String value;
-
-    /**
-     * The name of the current value to get like brightness-max
-     */
-    protected String max_value;
-    /**
-     * The name of the current value to get like brightness-min
-     */
-    protected String  min_value;
-
-    protected float step;
-
-    protected CamParametersHandler camParametersHandler;
-
-
+    private static String TAG = BaseManualParamMTK.class.getSimpleName();
 
     private int default_value = 0;
-    public void Set_Default_Value(int val){default_value = val; Logger.d(TAG, "set default to:" + val);}
-    public int Get_Default_Value(){return default_value;}
 
-    public void ResetToDefault()
-    {
-        if (isSupported)
-        {
-            Logger.d(TAG,"Reset Back from:" + currentInt + " to:" + default_value);
-            SetValue(default_value);
-            ThrowCurrentValueChanged(default_value);
-        }
-    }
-
-    /**
-     *
-     * @param @parameters
-     * @param @value
-     * @param @max_value
-     * @param @min_value
-     * @param @camParametersHandler
-     */
-    public BaseManualParamMTK(Camera.Parameters  parameters, String value, String maxValue, String MinValue, CamParametersHandler camParametersHandler, float step) {
-        super(camParametersHandler);
+    public BaseManualParamMTK(Camera.Parameters  parameters, String value, String values, CamParametersHandler camParametersHandler) {
+        super(parameters,value,"","",camParametersHandler,1);
         this.camParametersHandler = camParametersHandler;
         this.parameters = parameters;
         this.value = value;
-        this.max_value = maxValue;
-        this.min_value = MinValue;
-        this.step = step;
-        if (!this.value.equals("") && !this.max_value.equals("") && !min_value.equals(""))
+        //mtk stores that stuff like that brightness-values=low,middle,high
+        if (parameters.get(values)!= null)
         {
-            if (parameters.get(this.value) != null && parameters.get(max_value) != null && parameters.get(min_value) != null)
+            //get values
+            stringvalues = parameters.get(values).split(",");
+            String val = parameters.get(value);
+            //lookup current value
+            for (int i = 0; i < stringvalues.length; i++)
             {
-                Logger.d(TAG, "parameters contains all 3 parameters " + value +" " + min_value +" " + max_value );
-                if (!parameters.get(min_value).equals("") && !parameters.get(max_value).equals(""))
-                {
-                    Logger.d(TAG, "parameters get min/max success");
-                    stringvalues = createStringArray(Integer.parseInt(parameters.get(min_value)), Integer.parseInt(parameters.get(max_value)), step);
-                    currentString = parameters.get(this.value);
-                    if (parameters.get(min_value).contains("-"))
-                    {
-                        Logger.d(TAG, "processing negative values");
-                        currentInt = stringvalues.length /2 + Integer.parseInt(currentString);
-                        default_value = currentInt;
-                        this.isSupported = true;
-                        this.isVisible = isSupported;
-                    }
-                    else
-                    {
-                        Logger.d(TAG, "processing positiv values");
-                        for (int i = 0; i < stringvalues.length; i++) {
-                            if (stringvalues[i].equals(currentString)) {
-                                currentInt = i;
-                                default_value = i;
-
-                            }
-                            this.isSupported = true;
-                            this.isVisible = isSupported;
-                        }
-                    }
-
-                }
-                else
-                    Logger.d(TAG, "min or max is empty in parameters");
+                if (val.equals(stringvalues[i]))
+                    currentInt = i;
             }
-            else
-                Logger.d(TAG, "parameters does not contain value, max_value or min_value");
+            isSupported = true;
+            isVisible =true;
         }
-        else
-            Logger.d(TAG, "failed to lookup value, max_value or min_value are empty");
-    }
-    @Override
-    public boolean IsSupported()
-    {
-        return isSupported;
-    }
-
-    @Override
-    public boolean IsSetSupported() {
-        return true;
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return isVisible;
-    }
-
-
-
-    @Override
-    public int GetValue()
-    {
-        return super.GetValue();
     }
 
     @Override
@@ -144,7 +49,7 @@ public class BaseManualParamMTK extends AbstractManualParameter
         Logger.d(TAG, "set " + value + " to " + valueToset);
         if(stringvalues == null || stringvalues.length == 0)
             return;
-        parameters.set(value, getMatchedString(Integer.parseInt(stringvalues[valueToset])));
+        parameters.set(value, stringvalues[valueToset]);
         ThrowCurrentValueChanged(valueToset);
         ThrowCurrentValueStringCHanged(stringvalues[valueToset]);
         try
@@ -157,83 +62,4 @@ public class BaseManualParamMTK extends AbstractManualParameter
         }
     }
 
-    private String getMatchedString(int val)
-    {
-        switch (val)
-        {
-            case 0:
-                return "low";
-            case 1:
-                return "middle";
-            case 2:
-                return "high";
-            default:
-                return "middle";
-        }
-    }
-
-
-    public AbstractModeParameter.I_ModeParameterEvent GetPicFormatListner()
-    {
-        return picformatListner;
-    }
-
-    private AbstractModeParameter.I_ModeParameterEvent picformatListner = new AbstractModeParameter.I_ModeParameterEvent()
-    {
-
-        @Override
-        public void onValueChanged(String val)
-        {
-            if (val.equals(PictureFormatHandler.CaptureMode[PictureFormatHandler.JPEG]) && BaseManualParamMTK.this.isSupported)
-            {
-                isVisible = true;
-                BackgroundIsSupportedChanged(true);
-            }
-            else {
-                isVisible = false;
-                BackgroundIsSupportedChanged(false);
-                ResetToDefault();
-            }
-        }
-
-        @Override
-        public void onIsSupportedChanged(boolean isSupported) {
-
-        }
-
-        @Override
-        public void onIsSetSupportedChanged(boolean isSupported) {
-
-        }
-
-        @Override
-        public void onValuesChanged(String[] values) {
-
-        }
-
-        @Override
-        public void onVisibilityChanged(boolean visible) {
-
-        }
-    };
-
-    public I_ModuleEvent GetModuleListner()
-    {
-        return moduleListner;
-    }
-
-    private I_ModuleEvent moduleListner =new I_ModuleEvent() {
-        @Override
-        public void ModuleChanged(String module)
-        {
-            if (module.equals(AbstractModuleHandler.MODULE_VIDEO) && isSupported)
-                BackgroundIsSupportedChanged(true);
-            else if (module.equals(AbstractModuleHandler.MODULE_PICTURE)
-                    || module.equals(AbstractModuleHandler.MODULE_INTERVAL)
-                    || module.equals(AbstractModuleHandler.MODULE_HDR))
-            {
-                BackgroundIsSupportedChanged(isVisible);
-            }
-        }
-    };
 }

@@ -28,18 +28,19 @@ public class MatrixChooserParameter extends AbstractModeParameter
     public MatrixChooserParameter(Handler uiHandler)
     {
         super(uiHandler);
-        File confFolder = new File(StringUtils.GetFreeDcamConfigFolder+"matrix/");
-        if (!confFolder.exists())
-            confFolder.mkdir();
-        File[] files = confFolder.listFiles();
+
         custommatrixes = new HashMap<>();
         custommatrixes.put("off",null);
         addDefaultMatrixes(custommatrixes);
-        if(files != null || files.length > 0)
-        {
-            for (File f: files)
-            {
-                custommatrixes.put(f.getName(), CustomMatrix.loadCustomMatrixFromFile(f));
+        File confFolder = new File(StringUtils.GetFreeDcamConfigFolder+"matrix/");
+        if (confFolder != null) {
+            if (!confFolder.exists())
+                confFolder.mkdir();
+            File[] files = confFolder.listFiles();
+            if (files != null || files.length > 0) {
+                for (File f : files) {
+                    custommatrixes.put(f.getName(), CustomMatrix.loadCustomMatrixFromFile(f));
+                }
             }
         }
         if (custommatrixes.size() >0)
