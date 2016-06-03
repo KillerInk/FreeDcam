@@ -1,14 +1,11 @@
 package com.freedcam.apis.camera1.camera.parameters;
 
-import android.content.Context;
 import android.hardware.Camera;
 import android.os.Handler;
 
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.device.AbstractDevice;
-import com.freedcam.apis.camera1.camera.parameters.device.BaseMTKDevice;
-import com.freedcam.apis.camera1.camera.parameters.device.BaseQcomDevice;
 import com.freedcam.apis.camera1.camera.parameters.device.Xiaomi_Redmi_Note3_QC_MTK;
 import com.freedcam.apis.camera1.camera.parameters.device.mtk.Alcatel_985n;
 import com.freedcam.apis.camera1.camera.parameters.device.mtk.ForwardArt_MTK;
@@ -57,7 +54,6 @@ import com.freedcam.apis.camera1.camera.parameters.device.qcom.Yu_Yureka;
 import com.freedcam.apis.camera1.camera.parameters.device.qcom.ZTE_ADV;
 import com.freedcam.apis.camera1.camera.parameters.device.qcom.ZTE_ADV_IMX214;
 import com.freedcam.apis.camera1.camera.parameters.device.qcom.ZTE_ADV_IMX234;
-import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
 
 /**

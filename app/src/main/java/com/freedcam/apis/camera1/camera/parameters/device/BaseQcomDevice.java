@@ -4,9 +4,7 @@ import android.hardware.Camera;
 import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.camera1.camera.parameters.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseCCTManual;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseFocusManual;

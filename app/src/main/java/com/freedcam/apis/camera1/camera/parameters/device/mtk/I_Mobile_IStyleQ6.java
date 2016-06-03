@@ -3,13 +3,9 @@ package com.freedcam.apis.camera1.camera.parameters.device.mtk;
 import android.hardware.Camera;
 import android.os.Handler;
 
-import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.camera1.camera.parameters.device.BaseMTKDevice;
-import com.freedcam.apis.camera1.camera.parameters.device.BaseQcomDevice;
 import com.troop.androiddng.DngProfile;
 
 /**

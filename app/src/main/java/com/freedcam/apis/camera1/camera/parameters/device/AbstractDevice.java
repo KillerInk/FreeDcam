@@ -9,8 +9,6 @@ import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParamet
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
-import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_MTK;
-import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_QcomM;
 import com.freedcam.apis.camera1.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.androiddng.DngProfile;
 

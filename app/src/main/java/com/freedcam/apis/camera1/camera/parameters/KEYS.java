@@ -1,7 +1,5 @@
 package com.freedcam.apis.camera1.camera.parameters;
 
-import com.freedcam.utils.StringUtils;
-
 /**
  * Created by GeorgeKiarie on 5/26/2016.
  */

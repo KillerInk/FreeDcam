@@ -10,7 +10,6 @@ import com.freedcam.apis.basecamera.camera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
-import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.ui.handler.MediaScannerManager;

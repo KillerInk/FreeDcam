@@ -2,7 +2,6 @@ package com.freedcam.apis.camera1.camera;
 
 
 import android.content.Context;
-import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;

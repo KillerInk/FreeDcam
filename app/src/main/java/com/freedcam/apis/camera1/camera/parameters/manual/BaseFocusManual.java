@@ -29,7 +29,7 @@ public class BaseFocusManual extends BaseManualParameter
      */
     public BaseFocusManual(Camera.Parameters parameters, String value, String maxValue, String MinValue, String manualFocusModeString, CamParametersHandler camParametersHandler, float step, int manualFocusType) {
         super(parameters, value, maxValue, MinValue, camParametersHandler, step);
-        this.manualFocusModeString = manualFocusModeString;
+        this.manualFocusModeString = com.freedcam.apis.camera1.camera.parameters.KEYS.KEY_FOCUS_MODE_MANUAL;
         this.manualFocusType = manualFocusType;
     }
 

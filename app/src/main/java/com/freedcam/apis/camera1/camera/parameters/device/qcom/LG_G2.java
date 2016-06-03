@@ -8,11 +8,9 @@ import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParamete
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.apis.camera1.camera.parameters.device.AbstractDevice;
 import com.freedcam.apis.camera1.camera.parameters.manual.FocusManualParameterLG;
 import com.freedcam.apis.camera1.camera.parameters.modes.VideoProfilesG3Parameter;
-import com.freedcam.apis.camera1.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.androiddng.DngProfile;
 
 /**
