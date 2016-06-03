@@ -68,6 +68,7 @@ import com.freedcam.apis.camera1.camera.parameters.device.qcom.Yu_Yureka;
 import com.freedcam.apis.camera1.camera.parameters.device.qcom.ZTE_ADV;
 import com.freedcam.apis.camera1.camera.parameters.device.qcom.ZTE_ADV_IMX214;
 import com.freedcam.apis.camera1.camera.parameters.device.qcom.ZTE_ADV_IMX234;
+import com.freedcam.apis.camera1.camera.parameters.manual.BaseManualParamMTK;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.camera.parameters.manual.BurstManualParam;
 import com.freedcam.apis.camera1.camera.parameters.manual.ExposureManualParameter;
@@ -573,11 +574,15 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     private void createManualBrightness() {
         try {
+
             if (cameraParameters.get("brightness")!= null && cameraParameters.get("brightness-values")!= null)
             {
                 cameraParameters.set("brightness-max", "3");
                 cameraParameters.set("brightness-min", "0");
-                ManualBrightness =  new BaseManualParameter(cameraParameters,"brightness", "brightness-max", "brightness-min",this,1);
+                if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.MTK)
+                    ManualBrightness =  new BaseManualParamMTK(cameraParameters,"brightness", "brightness-max", "brightness-min",this,1);
+                else
+                    ManualBrightness =  new BaseManualParameter(cameraParameters,"brightness", "brightness-max", "brightness-min",this,1);
 
             }
             else if (cameraParameters.get("brightness")!= null && cameraParameters.get("brightness-values")== null)
@@ -617,7 +622,10 @@ public class CamParametersHandler extends AbstractParameterHandler
             {
                 cameraParameters.set("contrast-max", "3");
                 cameraParameters.set("contrast-min", "0");
-                ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "contrast-max", "contrast-min",this,1);
+                if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.MTK)
+                    ManualContrast =  new BaseManualParamMTK(cameraParameters,"contrast", "contrast-max", "contrast-min",this,1);
+                else
+                    ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "contrast-max", "contrast-min",this,1);
 
             }
             else if (cameraParameters.get("contrast")!= null && cameraParameters.get("contrast-values")== null)
@@ -694,7 +702,8 @@ public class CamParametersHandler extends AbstractParameterHandler
             {
                 cameraParameters.set("edge-max", "3");
                 cameraParameters.set("edge-min", "0");
-                ManualSharpness =  new BaseManualParameter(cameraParameters,"edge", "edge-max", "edge-min",this,1);
+                if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.MTK)
+                    ManualSharpness =  new BaseManualParameter(cameraParameters,"edge", "edge-max", "edge-min",this,1);
 
             }
             else if (cameraParameters.get("sharpness")!= null && cameraParameters.get("sharpness-values")== null)
@@ -733,7 +742,10 @@ public class CamParametersHandler extends AbstractParameterHandler
             {
                 cameraParameters.set("saturation-max", "3");
                 cameraParameters.set("saturation-min", "0");
-                ManualSaturation =  new BaseManualParameter(cameraParameters,"saturation", "saturation-max", "saturation-min",this,1);
+                if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.MTK)
+                    ManualSaturation =  new BaseManualParamMTK(cameraParameters,"saturation", "saturation-max", "saturation-min",this,1);
+                else
+                    ManualSaturation =  new BaseManualParameter(cameraParameters,"saturation", "saturation-max", "saturation-min",this,1);
 
             }
             else if (cameraParameters.get("saturation")!= null && cameraParameters.get("saturation-values")== null)
