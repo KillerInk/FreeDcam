@@ -665,7 +665,12 @@ public class CamParametersHandler extends AbstractParameterHandler
                         cameraParameters.set("video-hfr-values", "off,60,120");
                 }
             }
-            VideoHighFramerateVideo = new BaseModeParameter(uiHandler, cameraParameters, cameraHolder, "video-hfr", "video-hfr-values");
+
+            if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.MTK)
+                VideoHighFramerateVideo = new BaseModeParameter(uiHandler, cameraParameters, cameraHolder, "hsvr-prv-fps", "hsvr-prv-fps-values");
+            else
+                VideoHighFramerateVideo = new BaseModeParameter(uiHandler, cameraParameters, cameraHolder, "video-hfr", "video-hfr-values");
+
         } catch (Exception e) {
             Logger.exception(e);
         }
