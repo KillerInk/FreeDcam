@@ -27,10 +27,10 @@ public class AE_Handler_MTK
             iso,
         }
 
-        public AE_Handler_MTK(Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler)
+        public AE_Handler_MTK(Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler, int maxiso)
         {
             this.camParametersHandler = camParametersHandler;
-            this.isoManualParameter = new ISOManualParameterMTK(parameters,cameraHolder, camParametersHandler, aeevent);
+            this.isoManualParameter = new ISOManualParameterMTK(parameters,cameraHolder, camParametersHandler, aeevent, maxiso);
             camParametersHandler.ManualIso = isoManualParameter;
             this.shutterPrameter = new ShutterManualMtk(parameters, camParametersHandler, aeevent);
             camParametersHandler.ManualShutter = shutterPrameter;

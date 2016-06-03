@@ -15,7 +15,7 @@ public class ISOManualParameterMTK extends BaseManualParameter
     private CameraHolderApi1 cameraHolderApi1;
     private AE_Handler_MTK.AeManualEvent manualEvent;
 
-    public ISOManualParameterMTK(Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler, AE_Handler_MTK.AeManualEvent manualevent) {
+    public ISOManualParameterMTK(Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler, AE_Handler_MTK.AeManualEvent manualevent, int maxiso) {
         super(parameters, "", "", "", camParametersHandler,1);
 
         this.cameraHolderApi1 = cameraHolder;
@@ -24,7 +24,7 @@ public class ISOManualParameterMTK extends BaseManualParameter
         this.isVisible = isSupported;
         ArrayList<String> s = new ArrayList<>();
         s.add("Auto");
-        for (int i =100; i <= 1600; i +=100)
+        for (int i =100; i <= maxiso; i +=100)
         {
             s.add(i + "");
         }

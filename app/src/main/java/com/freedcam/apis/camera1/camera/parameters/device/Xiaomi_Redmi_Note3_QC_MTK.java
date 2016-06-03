@@ -25,7 +25,7 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
         super(uihandler, parameters, cameraUiWrapper);
         this.frameworks = cameraHolder.DeviceFrameWork;
         if (frameworks == Frameworks.MTK)
-            ae_handler_mtk = new AE_Handler_MTK(parameters,cameraHolder,camParametersHandler);
+            ae_handler_mtk = new AE_Handler_MTK(parameters,cameraHolder,camParametersHandler,2700);
         else
             ae_handler_qcomM = new AE_Handler_QcomM(uihandler,parameters,cameraHolder,camParametersHandler);
     }
