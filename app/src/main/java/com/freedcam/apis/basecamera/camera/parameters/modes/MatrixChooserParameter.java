@@ -3,6 +3,7 @@ package com.freedcam.apis.basecamera.camera.parameters.modes;
 import android.os.Handler;
 import android.util.Log;
 
+import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 import com.troop.androiddng.CustomMatrix;
 
@@ -37,11 +38,18 @@ public class MatrixChooserParameter extends AbstractModeParameter
             if (!confFolder.exists())
                 confFolder.mkdir();
             File[] files = confFolder.listFiles();
-            if (files != null || files.length > 0) {
-                for (File f : files) {
-                    custommatrixes.put(f.getName(), CustomMatrix.loadCustomMatrixFromFile(f));
+            try {
+                if (files != null && files.length > 0) {
+                    for (File f : files) {
+                        custommatrixes.put(f.getName(), CustomMatrix.loadCustomMatrixFromFile(f));
+                    }
                 }
             }
+            catch (NullPointerException ex)
+            {
+                Logger.exception(ex);
+            }
+
         }
         if (custommatrixes.size() >0)
             isSupported = true;
