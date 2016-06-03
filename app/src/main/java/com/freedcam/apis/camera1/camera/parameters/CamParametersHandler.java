@@ -151,18 +151,15 @@ public class CamParametersHandler extends AbstractParameterHandler
         createManualSharpness();
 
 
-        try
+        try //loadDeviceSpecificStuff
         {
-            CamParametersHandlerEXT parametersHandlerEXT = new CamParametersHandlerEXT(cameraUiWrapper,uiHandler,cameraParameters,cameraHolder);
-            Device = parametersHandlerEXT.getDevice();
-            //loadDeviceSpecificStuff();
+            Device = new CamParametersHandlerEXT().getDevice(cameraUiWrapper,uiHandler,cameraParameters,cameraHolder);
+
             if (Device != null)
                 setDeviceParameters(Device);
-            else {
-                if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.MTK)
-                    Device = new BaseMTKDevice(uiHandler,cameraParameters,cameraUiWrapper);
-                else
-                    Device = new BaseQcomDevice(uiHandler,cameraParameters,cameraUiWrapper);
+            else //should never happen!
+            {
+                Logger.d(TAG,"################# DEVICES IS NULL! FAIL!");
                 loadOldLookup();
             }
 
@@ -170,15 +167,11 @@ public class CamParametersHandler extends AbstractParameterHandler
             Logger.exception(e);
         }
 
-
         try {
             WhiteBalanceMode = new BaseModeParameter(uiHandler,cameraParameters, cameraHolder, "whitebalance", "whitebalance-values");
         } catch (Exception e) {
             Logger.exception(e);
         }
-
-        //PictureFormat.addEventListner(((BaseManualParameter)CCT).GetPicFormatListner());
-        //cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) CCT).GetModuleListner());
 
         try {
             Skintone = new SkintoneManualPrameter(cameraParameters, "","",this);
@@ -1039,6 +1032,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     private void setDeviceParameters(AbstractDevice device)
     {
+        Logger.d(TAG,"setDeviceParameters");
         AbstractManualParameter shutter = device.getExposureTimeParameter();
         if (shutter != null)
             ManualShutter = shutter;

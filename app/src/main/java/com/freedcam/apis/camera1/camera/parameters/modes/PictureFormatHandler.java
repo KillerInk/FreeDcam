@@ -166,10 +166,10 @@ public class PictureFormatHandler extends BaseModeParameter
     {
         if (rawSupported && DeviceUtils.isCamera1NO_RAW_STREM())
             return new String[]{CaptureMode[JPEG]};
-        if (rawSupported && !camParametersHandler.Device.IsDngSupported())
+        if (rawSupported && camParametersHandler != null && camParametersHandler.Device != null && !camParametersHandler.Device.IsDngSupported())
             return new String[]{CaptureMode[JPEG],CaptureMode[RAW]};
-        else if(rawSupported && camParametersHandler.Device.IsDngSupported())
-                return new String[]{CaptureMode[JPEG],CaptureMode[DNG],CaptureMode[RAW]};
+        else if(rawSupported && camParametersHandler != null && camParametersHandler.Device != null && camParametersHandler.Device.IsDngSupported())
+            return new String[]{CaptureMode[JPEG],CaptureMode[DNG],CaptureMode[RAW]};
         else
             return new String[]{CaptureMode[JPEG]};
     }

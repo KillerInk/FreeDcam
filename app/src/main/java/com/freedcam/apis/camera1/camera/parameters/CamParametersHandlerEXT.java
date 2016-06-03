@@ -4,8 +4,11 @@ import android.hardware.Camera;
 import android.os.Handler;
 
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraHolderApi1.Frameworks;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.device.AbstractDevice;
+import com.freedcam.apis.camera1.camera.parameters.device.BaseMTKDevice;
+import com.freedcam.apis.camera1.camera.parameters.device.BaseQcomDevice;
 import com.freedcam.apis.camera1.camera.parameters.device.Xiaomi_Redmi_Note3_QC_MTK;
 import com.freedcam.apis.camera1.camera.parameters.device.mtk.Alcatel_985n;
 import com.freedcam.apis.camera1.camera.parameters.device.mtk.ForwardArt_MTK;
@@ -55,29 +58,22 @@ import com.freedcam.apis.camera1.camera.parameters.device.qcom.ZTE_ADV;
 import com.freedcam.apis.camera1.camera.parameters.device.qcom.ZTE_ADV_IMX214;
 import com.freedcam.apis.camera1.camera.parameters.device.qcom.ZTE_ADV_IMX234;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.Logger;
 
 /**
  * Created by GeorgeKiarie on 6/2/2016.
  */
 public class CamParametersHandlerEXT  {
 
-    private CameraUiWrapper cameraUiWrapper;
-   private Handler uiHandler;
-   private Camera.Parameters cameraParameters;
-    private CameraHolderApi1 cameraHolder;
 
-    public CamParametersHandlerEXT(CameraUiWrapper cameraUiWrapper, Handler uiHandler, Camera.Parameters cameraParameters,CameraHolderApi1 cameraHolder)
+    public CamParametersHandlerEXT()
     {
-        this.uiHandler = uiHandler;
-        this.cameraParameters = cameraParameters;
-        this.cameraUiWrapper = cameraUiWrapper;
-        this.cameraHolder = cameraHolder;
-
     }
 
 
-    public AbstractDevice getDevice()
+    public AbstractDevice getDevice(CameraUiWrapper cameraUiWrapper, Handler uiHandler, Camera.Parameters cameraParameters,CameraHolderApi1 cameraHolder)
     {
+        Logger.d(CamParametersHandlerEXT.class.getSimpleName(), "getDevice " + DeviceUtils.DEVICE());
         switch (DeviceUtils.DEVICE())
         {
             case Alcatel_985n:
@@ -248,10 +244,16 @@ public class CamParametersHandlerEXT  {
                 
             case ZTEADV234:
                return new ZTE_ADV_IMX234(uiHandler,cameraParameters,cameraUiWrapper);
-                
             default:
-                return null;
-                
+                if (cameraHolder.DeviceFrameWork == Frameworks.MTK)
+                {
+                    Logger.d(CamParametersHandlerEXT.class.getSimpleName(), "USE DEFAULT MTK DEVICE");
+                    return new BaseMTKDevice(uiHandler, cameraParameters, cameraUiWrapper);
+                }
+                else {
+                    Logger.d(CamParametersHandlerEXT.class.getSimpleName(), "USE DEFAULT QCOM DEVICE");
+                    return new BaseQcomDevice(uiHandler, cameraParameters, cameraUiWrapper);
+                }
         }
         
     }
