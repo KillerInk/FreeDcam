@@ -35,6 +35,7 @@ public class OpCodeParameter extends AbstractModeParameter
     private final String TAG = OpCodeParameter.class.getSimpleName();
     private boolean hasOp2 = false;
     private boolean hasOp3 = false;
+    private boolean OpcodeEnabled = true;
     private boolean isSupported = false;
     public OpCodeParameter(Handler uiHandler)
     {
@@ -55,30 +56,38 @@ public class OpCodeParameter extends AbstractModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        if (hasOp2 || hasOp3)
-            return;
-        final String urlopc2 = "https://github.com/troop/FreeDcam/blob/PUBLIC/camera1_opcodes/"+DeviceUtils.DEVICE().toString()+"/opc2.bin?raw=true";
-        final String urlopc3 = "https://github.com/troop/FreeDcam/blob/PUBLIC/camera1_opcodes/"+DeviceUtils.DEVICE().toString()+"/opc3.bin?raw=true";
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    httpsGet(urlopc2, "opc2.bin");
-                } catch (IOException e) {
-                    Logger.exception(e);
+        if(valueToSet.equals("Download")) {
+            if (hasOp2 || hasOp3)
+                return;
+            final String urlopc2 = "https://github.com/troop/FreeDcam/blob/PUBLIC/camera1_opcodes/" + DeviceUtils.DEVICE().toString() + "/opc2.bin?raw=true";
+            final String urlopc3 = "https://github.com/troop/FreeDcam/blob/PUBLIC/camera1_opcodes/" + DeviceUtils.DEVICE().toString() + "/opc3.bin?raw=true";
+            FreeDPool.Execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        httpsGet(urlopc2, "opc2.bin");
+                    } catch (IOException e) {
+                        Logger.exception(e);
+                    }
                 }
-            }
-        });
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    httpsGet(urlopc3, "opc3.bin");
-                } catch (IOException e) {
-                    Logger.exception(e);
+            });
+            FreeDPool.Execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        httpsGet(urlopc3, "opc3.bin");
+                    } catch (IOException e) {
+                        Logger.exception(e);
+                    }
                 }
-            }
-        });
+            });
+        }
+        else if(valueToSet.equals("Disabled"))
+        {
+            OpcodeEnabled = false;
+        }
+        else
+            OpcodeEnabled = true;
     }
 
     @Override
@@ -93,7 +102,7 @@ public class OpCodeParameter extends AbstractModeParameter
 
     @Override
     public String[] GetValues() {
-        return new String[] {"Download"};
+        return new String[] {"Enabled,Disabled,Download"};
     }
 
     @Override
