@@ -22,7 +22,7 @@ public class AE_Handler_QcomM
         BaseModeParameter AE_Mode = new BaseModeParameter(uihandler, parameters, cameraHolder, "manual-exposure", "manual-exposure-modes");
         AE_Mode.addEventListner(aemodeChangedListner);
         camParametersHandler.AE_PriorityMode = AE_Mode;
-        this.exposureTime = new ShutterManual_ExposureTime_FloatToSixty(parameters,camParametersHandler,null);
+        this.exposureTime = new ShutterManual_ExposureTime_Micro(parameters,camParametersHandler,null,"exposure-time", "max-exposure-time", "min-exposure-time");
         camParametersHandler.ManualShutter = exposureTime;
         this.isoManual = new ISOManualParameter(parameters,camParametersHandler);
         camParametersHandler.ManualIso =isoManual;
