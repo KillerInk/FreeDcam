@@ -234,6 +234,8 @@ public class DngSupportedDevices
                     case Jiayu_S3:
                         return new DngProfile(64, 4208, 3120, DngProfile.Plain, DngProfile.RGGB, 0, matrixChooser.GetCustomMatrix(MatrixChooserParameter.IMX214));
                 }
+            case 15967488: // 8MP ALLview MTK Device
+                return new DngProfile(64, 3264, 2446, DngProfile.Plain, DngProfile.BGGR, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 26357760: //oneplus
                 return new DngProfile(16,4224,3120,DngProfile.Plain,DngProfile.BGGR,0, matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 27127808: //HTC M9 QCom
