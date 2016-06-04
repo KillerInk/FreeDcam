@@ -83,6 +83,7 @@ public class LG_G3 extends LG_G2
                                 Matrixes.G4_reduction_matrix2,
                                 Matrixes.G4_noise_3x1_matrix));
             case 16224256:
+				return new DngProfile(64, 4208, 3082, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 16424960:
                 return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 17326080://qcom g3
