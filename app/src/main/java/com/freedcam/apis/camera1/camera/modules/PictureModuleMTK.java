@@ -60,7 +60,8 @@ public class PictureModuleMTK extends PictureModule
             public void run()
             {
                 final String picformat = ParameterHandler.PictureFormat.GetValue();
-                holdFile = getFile("."+picformat);
+                // must always be jpg ending. dng gets created based on that
+                holdFile = getFile(".jpg");
                 Logger.d(TAG, "HolderFilePath:" + holdFile.getAbsolutePath());
                 switch (picformat) {
                     case "jpeg":
