@@ -12,117 +12,169 @@ import java.util.List;
 
 public abstract class AbstractManualParameter implements I_ManualParameter
 {
-
-    private List<I_ManualParameterEvent> events;
+    /**
+     *
+     */
+    private List<I_ManualParameterEvent> listners;
+    /**
+     * the parameterhandler
+     */
     protected AbstractParameterHandler camParametersHandler;
+    /**
+     * contains the values that are supported by the parameters
+     */
     protected String[] stringvalues;
+    /**
+     * the value that is currently in use by the parameters
+     */
     protected String currentString;
+    /**
+     * the true integer value that represents the the currentstring in the array stringvalues
+     * so on negative values  -1 = stringarray[stringarray/2 + -1] must get used
+     */
     protected int currentInt;
     /**
      * holds the state if the parameter is supported
      */
     protected boolean isSupported = false;
-
+    /**
+     * holds the state if the parameter should be visible to ui
+     */
     protected boolean isVisible = false;
 
     public AbstractManualParameter(AbstractParameterHandler camParametersHandler)
     {
         this.camParametersHandler = camParametersHandler;
-        events = new ArrayList<>();
+        listners = new ArrayList<>();
     }
 
     public interface I_ManualParameterEvent
     {
+        /**
+         * Notify the listner that the parameter support state has changed
+         * com.freedcam.ui.themesample.views.ManualButton.java
+         * @param value if true the parameter shown in ui is visible
+         *              if false the parameter is hidden
+         */
         void onIsSupportedChanged(boolean value);
+        /**
+         * Notify the listner that the parameter can changed/set state has changed
+         * com.freedcam.ui.themesample.views.ManualButton.java
+         * @param value if true the parameter shown in ui is accessible
+         *              if false the parameter is not accessible
+         */
         void onIsSetSupportedChanged(boolean value);
+        /**
+         * Notify the listner that the parameter has changed in the background
+         * com.freedcam.ui.themesample.views.ManualButton.java
+         * @param current int value representing the array state
+         */
         void onCurrentValueChanged(int current);
+        /**
+         * Notify the listner that the parameter has changed its values
+         * com.freedcam.ui.themesample.views.ManualButton.java
+         * @param values the new values
+         */
         void onValuesChanged(String[] values);
+        /**
+         * Notify the listner that the parameter has changed its value
+         * com.freedcam.ui.themesample.views.ManualButton.java
+         * @param value the new string value
+         */
         void onCurrentStringValueChanged(String value);
     }
 
 
+    /**
+     * Add and listner that get informed when somthings happen
+     * @param eventListner that gets informed
+     */
     public void addEventListner(I_ManualParameterEvent eventListner)
     {
-        if (!events.contains(eventListner))
-            events.add(eventListner);
+        if (!listners.contains(eventListner))
+            listners.add(eventListner);
     }
-    public void removeEventListner(I_ManualParameterEvent parameterEvent)
+    /**
+    * Remove the listner
+    * @param eventListner that gets informed
+    */
+    public void removeEventListner(I_ManualParameterEvent eventListner)
     {
-        if (events.contains(parameterEvent))
-            events.remove(parameterEvent);
+        if (listners.contains(eventListner))
+            listners.remove(eventListner);
     }
 
     public void ThrowCurrentValueChanged(int current)
     {
-        for (int i= 0; i< events.size(); i ++)
+        for (int i = 0; i< listners.size(); i ++)
         {
-            if (events.get(i) == null)
+            if (listners.get(i) == null)
             {
-                events.remove(i);
+                listners.remove(i);
                 i--;
 
             }
             else
-                events.get(i).onCurrentValueChanged(current);
+                listners.get(i).onCurrentValueChanged(current);
         }
     }
 
     public void ThrowCurrentValueStringCHanged(String value)
     {
-        for (int i= 0; i< events.size(); i ++)
+        for (int i = 0; i< listners.size(); i ++)
         {
-            if (events.get(i) == null)
+            if (listners.get(i) == null)
             {
-                events.remove(i);
+                listners.remove(i);
                 i--;
 
             }
             else
-                events.get(i).onCurrentStringValueChanged(value);
+                listners.get(i).onCurrentStringValueChanged(value);
         }
     }
 
     public void BackgroundIsSupportedChanged(boolean value)
     {
-        for (int i= 0; i< events.size(); i ++)
+        for (int i = 0; i< listners.size(); i ++)
         {
-            if (events.get(i) == null)
+            if (listners.get(i) == null)
             {
-                events.remove(i);
+                listners.remove(i);
                 i--;
 
             }
             else
-                events.get(i).onIsSupportedChanged(value);
+                listners.get(i).onIsSupportedChanged(value);
         }
     }
     public void BackgroundIsSetSupportedChanged(boolean value)
     {
-        for (int i= 0; i< events.size(); i ++)
+        for (int i = 0; i< listners.size(); i ++)
         {
-            if (events.get(i) == null)
+            if (listners.get(i) == null)
             {
-                events.remove(i);
+                listners.remove(i);
                 i--;
 
             }
             else
-                events.get(i).onIsSetSupportedChanged(value);
+                listners.get(i).onIsSetSupportedChanged(value);
         }
     }
 
     public void BackgroundValuesChanged(String[] value)
     {
-        for (int i= 0; i< events.size(); i ++)
+        for (int i = 0; i< listners.size(); i ++)
         {
-            if (events.get(i) == null)
+            if (listners.get(i) == null)
             {
-                events.remove(i);
+                listners.remove(i);
                 i--;
 
             }
             else
-                events.get(i).onValuesChanged(value);
+                listners.get(i).onValuesChanged(value);
         }
     }
 
@@ -170,7 +222,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
 
     /**
      *
-     * @return returns all values possible vales as StringArray
+     * @return returns all values as StringArray
      */
     @Override
     public String[] getStringValues() { return  stringvalues;}

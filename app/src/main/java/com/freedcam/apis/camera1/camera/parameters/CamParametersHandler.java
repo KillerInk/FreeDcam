@@ -6,6 +6,7 @@ import android.hardware.Camera;
 import android.os.Build;
 import android.os.Handler;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.FocusRect;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
@@ -17,8 +18,6 @@ import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.FocusHandler;
 import com.freedcam.apis.camera1.camera.parameters.device.AbstractDevice;
-import com.freedcam.apis.camera1.camera.parameters.device.BaseMTKDevice;
-import com.freedcam.apis.camera1.camera.parameters.device.BaseQcomDevice;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseManualParamMTK;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.camera.parameters.manual.BurstManualParam;
@@ -119,7 +118,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            PictureSize = new PictureSizeParameter(uiHandler,cameraParameters,cameraHolder, "picture-size-values");
+            PictureSize = new PictureSizeParameter(uiHandler,cameraParameters,cameraHolder);
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -198,7 +197,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
 
         try {
-            Zoom = new ZoomManualParameter(cameraParameters, "", "", this);
+            Zoom = new ZoomManualParameter(cameraParameters,this);
             PictureFormat.addEventListner(((BaseManualParameter)Zoom).GetPicFormatListner());
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Zoom).GetModuleListner());
         } catch (Exception e) {
@@ -234,7 +233,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            AE_Bracket = new BaseModeParameter(uiHandler,cameraParameters,cameraHolder, "ae-bracket-hdr", "ae-bracket-hdr-values");
+            AE_Bracket = new BaseModeParameter(uiHandler,cameraParameters,cameraHolder, KEYS.AE_BRACKET_HDR, KEYS.AE_BRACKET_HDR_VALUES);
         } catch (Exception e) {
             Logger.exception(e);
         }

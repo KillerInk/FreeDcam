@@ -6,6 +6,7 @@ import android.os.Handler;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
+import com.freedcam.apis.KEYS;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 
@@ -102,7 +103,7 @@ public class NightModeParameter extends BaseModeParameter
                     Hide();
                     break;
                 default:
-                    if (format.contains("jpeg")) {
+                    if (format.contains(KEYS.JPEG)) {
                         Show();
                         BackgroundIsSupportedChanged(true);
                     }
@@ -114,10 +115,10 @@ public class NightModeParameter extends BaseModeParameter
     public void onValueChanged(String val)
     {
         format = val;
-        if (val.contains("jpeg")&&!visible&&!curmodule.equals(AbstractModuleHandler.MODULE_HDR))
+        if (val.contains(KEYS.JPEG)&&!visible&&!curmodule.equals(AbstractModuleHandler.MODULE_HDR))
             Show();
 
-        else if (!val.contains("jpeg")&&visible) {
+        else if (!val.contains(KEYS.JPEG)&&visible) {
             if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
                 Show();
             else

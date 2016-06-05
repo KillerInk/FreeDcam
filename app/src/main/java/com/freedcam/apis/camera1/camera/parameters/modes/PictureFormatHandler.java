@@ -8,10 +8,13 @@ import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1.Frameworks;
 import com.freedcam.apis.camera1.camera.modules.ModuleHandler;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.KEYS;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 
 import java.util.ArrayList;
+
+import static com.freedcam.apis.KEYS.BAYER;
 
 /**
  * Created by troop on 05.02.2016.
@@ -20,7 +23,7 @@ public class PictureFormatHandler extends BaseModeParameter
 {
     private final String TAG = PictureFormatHandler.class.getSimpleName();
     private boolean rawSupported = false;
-    private String captureMode = "jpeg";
+    private String captureMode = KEYS.JPEG;
     private String rawFormat;
 
     private String[] rawFormats;
@@ -34,9 +37,9 @@ public class PictureFormatHandler extends BaseModeParameter
 
     final static public String[] CaptureMode =
     {
-        "jpeg",
-        "bayer",
-        "dng"
+            KEYS.JPEG,
+        BAYER,
+        KEYS.DNG
     };
 
     /***
@@ -62,22 +65,22 @@ public class PictureFormatHandler extends BaseModeParameter
             {
                 isSupported = true;
                 rawSupported = true;
-                rawFormat = "bayer-mipi-10bggr";
+                rawFormat = KEYS.BAYER_MIPI_10BGGR;
             }
             else if (DeviceUtils.IS(DeviceUtils.Devices.HTC_OneA9))
             {
                 isSupported = true;
                 rawSupported = true;
-                rawFormat = "bayer-mipi-10rggb";
+                rawFormat = KEYS.BAYER_MIPI_10RGGB;
             }
             else if(DeviceUtils.IS(DeviceUtils.Devices.Htc_M8) && Build.VERSION.SDK_INT >= 21)
             {
                 isSupported = true;
                 rawSupported = true;
-                rawFormat = "bayer-qcom-10grbg";}
+                rawFormat = KEYS.BAYER_QCOM_10GRBG;}
             else
             {
-                String formats = parameters.get("picture-format-values");
+                String formats = parameters.get(KEYS.PICTURE_FORMAT_VALUES);
                 if (DeviceUtils.IS(DeviceUtils.Devices.MotoG3)||DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8974))
                     formats = "bayer-mipi-10bggr,bayer-ideal-qcom-10bggr,bayer-qcom-10bggr,bayer-mipi-10rggb,bayer-ideal-qcom-10rggb,bayer-qcom-10rggb,bayer-mipi-10grbg,bayer-ideal-qcom-10grbg,bayer-qcom-10grbg,bayer-mipi-10gbrg,bayer-ideal-qcom-10gbrg,bayer-qcom-10gbrg";
 
@@ -93,12 +96,12 @@ public class PictureFormatHandler extends BaseModeParameter
                         }
                     }
                 }
-                if (formats.contains("bayer"))
+                if (formats.contains(KEYS.BAYER))
                 {
                     ArrayList<String> tmp = new ArrayList<>();
                     String forms[] = formats.split(",");
                     for (String s : forms) {
-                        if (s.contains("bayer"))
+                        if (s.contains(KEYS.BAYER))
                         {
                             tmp.add(s);
                         }
@@ -125,14 +128,14 @@ public class PictureFormatHandler extends BaseModeParameter
         {
             switch (valueToSet)
             {
-                case "jpeg":
+                case KEYS.JPEG:
                     setString(valueToSet,setToCam);
                     break;
-                case "bayer":
+                case BAYER:
                     setString(rawFormat,setToCam);
                     cameraHolderApi1.GetParameterHandler().SetDngActive(false);
                     break;
-                case "dng":
+                case KEYS.DNG:
                     setString(rawFormat,setToCam);
                     cameraHolderApi1.GetParameterHandler().SetDngActive(true);
                     break;
@@ -144,7 +147,7 @@ public class PictureFormatHandler extends BaseModeParameter
     private void setString(String val, boolean setTocam)
     {
         Logger.d(TAG, "setString:" +val);
-        parameters.set("picture-format", val);
+        parameters.set(KEYS.PICTURE_FORMAT, val);
         cameraHolderApi1.SetCameraParameters(parameters);
         firststart = false;
     }
@@ -233,8 +236,9 @@ public class PictureFormatHandler extends BaseModeParameter
         public void SetValue(String valueToSet, boolean setToCam)
         {
             rawFormat = valueToSet;
-            if (captureMode.equals("bayer")|| captureMode.equals("dng"))
-                PictureFormatHandler.this.SetValue(captureMode,true);
+            if (captureMode.equals(KEYS.BAYER)|| captureMode.equals(KEYS.DNG)) {
+                PictureFormatHandler.this.SetValue(captureMode, true);
+            }
         }
     }
 }

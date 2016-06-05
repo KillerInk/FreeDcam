@@ -4,6 +4,7 @@ import android.hardware.Camera;
 import android.os.Handler;
 
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.KEYS;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,10 +28,10 @@ public class SceneModeParameter extends BaseModeParameter {
     @Override
     public String[] GetValues()
     {
-        List<String> Trimmed = new ArrayList<>(Arrays.asList(parameters.get("scene-mode-values").split(",")));
+        List<String> Trimmed = new ArrayList<>(Arrays.asList(parameters.get(KEYS.SCENE_MODE_VALUES).split(",")));
 
-        if(Trimmed.contains("hdr")) {
-            Trimmed.remove("hdr");
+        if(Trimmed.contains(KEYS.SCENE_MODE_VALUES_HDR)) {
+            Trimmed.remove(KEYS.SCENE_MODE_VALUES_HDR);
             return Trimmed.toArray(new String[Trimmed.size()]);
         }
 

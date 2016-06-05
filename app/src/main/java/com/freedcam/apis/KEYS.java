@@ -1,9 +1,29 @@
-package com.freedcam.apis.camera1.camera.parameters;
+package com.freedcam.apis;
+
+import com.freedcam.utils.StringUtils;
 
 /**
  * Created by GeorgeKiarie on 5/26/2016.
  */
-public class KEYS {
+public final class KEYS {
+
+
+    public static final String TRUE = "true";
+    public static final String FALSE = "false";
+    public static final String ON = "on";
+    public static final String OFF = "off";
+    public static final String AUTO = "auto";
+    public static final String DISABLE = "disable";
+    public static final String ENABLE = "enable";
+
+    public static final String JPEG = "jpeg";
+    public static final String BAYER = "bayer";
+    public static final String DNG = "dng";
+
+    public static final String VIDEO_STABILIZATION = "video-stabilization";
+    public static final String VIDEO_STABILIZATION_SUPPORTED = "video-stabilization-supported";
+    public static final String PICTURE_FORMAT_VALUES = "picture-format-values";
+    public static final String PICTURE_FORMAT = "picture-format";
 
     //Qualcomm
 
@@ -31,10 +51,10 @@ public class KEYS {
     public static final String KEY_MANUAL_FOCUS_SCALE = "cur-focus-scale";
     public static final String KEY_MANUAL_FOCUS_DIOPTER = "cur-focus-diopter";
 
-    public final static String WBCURRENT = "wb-current-cct";
+    public final static String WB_CURRENT_CCT = "wb-current-cct";
     public final static String WB_CCT = "wb-cct";
     public final static String WB_CT = "wb-ct";
-    public final static String WB_MANUAL = "wb-manual-cct";
+    public final static String WB_MANUAL_CCT = "wb-manual-cct";
     public final static String MANUAL_WB_VALUE = "manual-wb-value";
     public final static String MAX_WB_CCT = "max-wb-cct";
     public final static String MIN_WB_CCT = "min-wb-cct";
@@ -49,7 +69,33 @@ public class KEYS {
     public final static String MAX_EXPOSURE_TIME = "max-exposure-time";
     public final static String MIN_EXPOSURE_TIME = "min-exposure-time";
     public final static String EXPOSURE_TIME = "exposure-time";
+    public final static String MANUAL_EXPOSURE = "manual-exposure";
+    public final static String MANUAL_EXPOSURE_MODES = "manual-exposure-modes";
+    public final static String MANUAL_EXPOSURE_MODES_OFF = OFF;
+    public final static String MANUAL_EXPOSURE_MODES_EXP_TIME_PRIORITY = "exp-time-priority";
+    public final static String MANUAL_EXPOSURE_MODES_ISO_PRIORITY = "iso-priority";
+    public final static String MANUAL_EXPOSURE_MODES_USER_SETTING = "user-setting";
 
+    public final static String AUTO_HDR_SUPPORTED = "auto-hdr-supported";
+    public final static String AUTO_HDR_ENABLE = "auto-hdr-enable";
+
+    public final static String SCENE_MODE_VALUES ="scene-mode-values";
+    public final static String SCENE_MODE = "scene-mode";
+    public final static String SCENE_MODE_VALUES_HDR ="hdr";
+    public final static String SCENE_MODE_VALUES_ASD ="asd";
+
+    public final static String AE_BRACKET_HDR = "ae-bracket-hdr";
+    public final static String AE_BRACKET_HDR_VALUES = "ae-bracket-hdr-values";
+    public final static String AE_BRACKET_HDR_VALUES_AE_BRACKET = "AE-Bracket";
+    public final static String AE_BRACKET_OFF = "Off";
+
+    public final static String MORPHO_HDR = "morpho-hdr";
+
+    public final static String HDR_MODE = "hdr-mode";
+
+    public final static String BAYER_MIPI_10BGGR = "bayer-mipi-10bggr";
+    public final static String BAYER_MIPI_10RGGB ="bayer-mipi-10rggb";
+    public final static String BAYER_QCOM_10GRBG = "bayer-qcom-10grbg";
 
     //MediaTEk
     public static final String KEY_MIN_FOCUS_MEDIATEK_VCM = "afeng-min-focus-step";

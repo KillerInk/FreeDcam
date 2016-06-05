@@ -130,6 +130,7 @@ public abstract class AbstractVideoModule extends AbstractModule
                 cameraHolderApi1.GetCamera().lock();
                 recorder.release();
                 isWorking = false;
+                changeWorkState(AbstractModuleHandler.CaptureModes.video_recording_stop);
             }
         }
         catch (NullPointerException ex)
@@ -142,6 +143,7 @@ public abstract class AbstractVideoModule extends AbstractModule
             cameraHolderApi1.GetCamera().lock();
             recorder.release();
             isWorking = false;
+            changeWorkState(AbstractModuleHandler.CaptureModes.video_recording_stop);
         }
     }
 

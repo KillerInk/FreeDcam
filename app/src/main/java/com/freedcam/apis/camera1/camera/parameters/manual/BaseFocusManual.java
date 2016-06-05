@@ -2,6 +2,7 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.Logger;
 
@@ -29,7 +30,7 @@ public class BaseFocusManual extends BaseManualParameter
      */
     public BaseFocusManual(Camera.Parameters parameters, String value, String maxValue, String MinValue, String manualFocusModeString, CamParametersHandler camParametersHandler, float step, int manualFocusType) {
         super(parameters, value, maxValue, MinValue, camParametersHandler, step);
-        this.manualFocusModeString = com.freedcam.apis.camera1.camera.parameters.KEYS.KEY_FOCUS_MODE_MANUAL;
+        this.manualFocusModeString = KEYS.KEY_FOCUS_MODE_MANUAL;
         this.manualFocusType = manualFocusType;
     }
 

@@ -6,7 +6,7 @@ import android.os.Handler;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
-import com.freedcam.apis.camera1.camera.parameters.KEYS;
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.device.BaseQcomDevice;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseCCTManual;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseFocusManual;
@@ -33,7 +33,7 @@ public class ZTE_ADV extends BaseQcomDevice {
 
     @Override
     public AbstractManualParameter getCCTParameter() {
-        return new BaseCCTManual(parameters,KEYS.WB_MANUAL,8000,2000,camParametersHandler,100, KEYS.WB_MODE_MANUAL_CCT);
+        return new BaseCCTManual(parameters,KEYS.WB_MANUAL_CCT,8000,2000,camParametersHandler,100, KEYS.WB_MODE_MANUAL_CCT);
     }
 
     @Override

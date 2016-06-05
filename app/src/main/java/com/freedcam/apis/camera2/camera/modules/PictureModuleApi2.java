@@ -25,6 +25,7 @@ import android.util.Rational;
 import android.util.Size;
 import android.view.Surface;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.jni.RawToDng;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
@@ -41,7 +42,6 @@ import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 import com.troop.androiddng.CustomMatrix;
 import com.troop.androiddng.DngProfile;
-import com.troop.androiddng.DngSupportedDevices;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -606,13 +606,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 new CameraHolderApi2.CompareSizesByArea());
         picFormat = appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
         if (picFormat.equals("")) {
-            picFormat = CameraHolderApi2.JPEG;
-            appSettingsManager.setString(AppSettingsManager.SETTING_PICTUREFORMAT, CameraHolderApi2.JPEG);
-            ParameterHandler.PictureFormat.BackgroundValueHasChanged(CameraHolderApi2.JPEG);
+            picFormat = KEYS.JPEG;
+            appSettingsManager.setString(AppSettingsManager.SETTING_PICTUREFORMAT, KEYS.JPEG);
+            ParameterHandler.PictureFormat.BackgroundValueHasChanged(KEYS.JPEG);
 
         }
 
-        if (picFormat.equals(CameraHolderApi2.JPEG))
+        if (picFormat.equals(KEYS.JPEG))
         {
             String[] split = picSize.split("x");
             int width, height;
@@ -687,7 +687,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             camerasurface = cameraHolder.mProcessor.getInputSurface();
             cameraHolder.CaptureSessionH.AddSurface(camerasurface,true);
 
-            if (picFormat.equals(CameraHolderApi2.JPEG))
+            if (picFormat.equals(KEYS.JPEG))
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, burst);
             else if (picFormat.equals(CameraHolderApi2.RAW10))
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW10, burst);

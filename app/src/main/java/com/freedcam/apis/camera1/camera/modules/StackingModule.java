@@ -13,6 +13,7 @@ import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.Capture
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.modes.StackModeParameter;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.AppSettingsManager;
@@ -69,8 +70,8 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
             ParameterHandler.ZSL.SetValue("off", true);
             changeWorkState(AbstractModuleHandler.CaptureModes.continouse_capture_start);
             final String picFormat = ParameterHandler.PictureFormat.GetValue();
-            if (!picFormat.equals("jpeg"))
-                ParameterHandler.PictureFormat.SetValue("jpeg",true);
+            if (!picFormat.equals(KEYS.JPEG))
+                ParameterHandler.PictureFormat.SetValue(KEYS.JPEG,true);
             isWorking =true;
             cameraHolder.TakePicture(null, this);
             return true;

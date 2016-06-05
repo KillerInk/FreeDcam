@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.StatFs;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
@@ -179,7 +180,7 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
     {
         String res [] = appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
 
-        if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains("bayer"))
+        if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains(KEYS.BAYER))
         {
             if (Build.MANUFACTURER.contains("HTC"))
                 return Integer.parseInt(res[0]) * 2 *Integer.parseInt(res[1]) * 16 / 8;

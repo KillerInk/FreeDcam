@@ -7,6 +7,7 @@ import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.Capture
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.KEYS;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
@@ -50,7 +51,7 @@ public class BracketModule extends PictureModule
             files = new File[3];
             hdrCount = 0;
             String picformat = ParameterHandler.PictureFormat.GetValue();
-            if (picformat.equals("dng") ||picformat.equals("bayer"))
+            if (picformat.equals(KEYS.DNG) ||picformat.equals(KEYS.BAYER))
             {
                 if (ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
                     ParameterHandler.ZSL.SetValue("off", true);
@@ -58,7 +59,7 @@ public class BracketModule extends PictureModule
             changeWorkState(AbstractModuleHandler.CaptureModes.image_capture_start);
             waitForPicture = true;
             loade_ae_bracket();
-            if (aeBrackethdr && ParameterHandler.PictureFormat.GetValue().equals("jpeg"))
+            if (aeBrackethdr && ParameterHandler.PictureFormat.GetValue().equals(KEYS.JPEG))
             {
                 cameraHolder.TakePicture(null, aeBracketCallback);
             }
@@ -237,7 +238,7 @@ public class BracketModule extends PictureModule
     {
         if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
         {
-            if (ParameterHandler.PictureFormat.GetValue().equals("jpeg")) {
+            if (ParameterHandler.PictureFormat.GetValue().equals(KEYS.JPEG)) {
                 aeBrackethdr = true;
                 ParameterHandler.AE_Bracket.SetValue("AE-Bracket", true);
             }

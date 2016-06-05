@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.jni.RawToDng;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
@@ -74,7 +75,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             isWorking = true;
             String picformat = ParameterHandler.PictureFormat.GetValue();
             Logger.d(TAG,"DoWork:picformat:" + picformat);
-            if (picformat.equals("dng") ||picformat.equals("bayer"))
+            if (picformat.equals(KEYS.DNG) ||picformat.equals(KEYS.BAYER))
             {
                 if (ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
                 {
@@ -168,7 +169,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
 
     private String getFileEnding(String picFormat)
     {
-        if (picFormat.equals("jpeg"))
+        if (picFormat.equals(KEYS.JPEG))
             return ".jpg";
         else if (picFormat.equals("jps"))
             return  ".jps";

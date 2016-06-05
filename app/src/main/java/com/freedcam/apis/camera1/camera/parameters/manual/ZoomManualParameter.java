@@ -10,7 +10,7 @@ import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
  */
 public class ZoomManualParameter extends  BaseManualParameter
 {
-    public ZoomManualParameter(Camera.Parameters parameters, String maxValue, String MinValue, CamParametersHandler camParametersHandler) {
+    public ZoomManualParameter(Camera.Parameters parameters, CamParametersHandler camParametersHandler) {
         super(parameters, "", "", "", camParametersHandler,1);
         this.value = "zoom";
         isSupported = false;

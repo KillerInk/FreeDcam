@@ -5,7 +5,7 @@ import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
-import com.freedcam.apis.camera1.camera.parameters.KEYS;
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseCCTManual;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseFocusManual;
 import com.freedcam.apis.camera1.camera.parameters.manual.ShutterManual_ExposureTime_FloatToSixty;
@@ -54,14 +54,14 @@ public class BaseQcomDevice extends AbstractDevice {
     public AbstractManualParameter getCCTParameter()
     {
         String wbModeval ="", wbcur ="", wbmax = "",wbmin = "";
-        if (parameters.get(KEYS.WBCURRENT)!=null)
-            wbcur = KEYS.WBCURRENT;
+        if (parameters.get(KEYS.WB_CURRENT_CCT)!=null)
+            wbcur = KEYS.WB_CURRENT_CCT;
         else if (parameters.get(KEYS.WB_CCT) != null)
             wbcur = KEYS.WB_CCT;
         else if (parameters.get(KEYS.WB_CT) != null)
             wbcur = KEYS.WB_CT;
-        else if (parameters.get(KEYS.WB_MANUAL) != null)
-            wbcur = KEYS.WB_MANUAL;
+        else if (parameters.get(KEYS.WB_MANUAL_CCT) != null)
+            wbcur = KEYS.WB_MANUAL_CCT;
         else if (parameters.get(KEYS.MANUAL_WB_VALUE) != null)
             wbcur = KEYS.MANUAL_WB_VALUE;
 

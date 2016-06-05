@@ -57,7 +57,6 @@ import java.util.concurrent.TimeUnit;
 public class CameraHolderApi2 extends AbstractCameraHolder
 {
     private static String TAG = CameraHolderApi2.class.getSimpleName();
-    public static String JPEG = "jpeg";
     public static String RAW_SENSOR = "raw_sensor";
     public static String RAW10 = "raw10";
     public static String RAW12 = "raw12";

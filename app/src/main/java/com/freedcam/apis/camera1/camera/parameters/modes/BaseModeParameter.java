@@ -25,6 +25,13 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
 
     protected String[] valuesArray;
 
+    public BaseModeParameter(Handler uihandler, Camera.Parameters  parameters, CameraHolderApi1 cameraHolder)
+    {
+        super(uihandler);
+        this.parameters = parameters;
+        this.cameraHolderApi1 = cameraHolder;
+    }
+
     /***
      *
      * @param uihandler
@@ -40,11 +47,9 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
      */
     public BaseModeParameter(Handler uihandler, Camera.Parameters  parameters, CameraHolderApi1 cameraHolder, String value, String values)
     {
-        super(uihandler);
-        this.parameters = parameters;
+        this(uihandler,parameters,cameraHolder);
         this.value = value;
         this.values = values;
-        this.cameraHolderApi1 = cameraHolder;
         if (parameters != null && !value.isEmpty() && parameters.get(value) != null && parameters.get(values) != null)
         {
             String tmp = parameters.get(value);

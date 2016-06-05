@@ -12,7 +12,7 @@ import com.freedcam.utils.Logger;
 public class PictureSizeParameter extends BaseModeParameter
 {
     final String TAG = PictureSizeParameter.class.getSimpleName();
-    public PictureSizeParameter(Handler handler, Camera.Parameters  parameters, CameraHolderApi1 parameterChanged, String values) {
+    public PictureSizeParameter(Handler handler, Camera.Parameters  parameters, CameraHolderApi1 parameterChanged) {
         super(handler, parameters, parameterChanged, "picture-size", "picture-size-values");
     }
 

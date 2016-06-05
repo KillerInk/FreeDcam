@@ -6,6 +6,7 @@ import android.os.Handler;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.modes.BaseModeParameter;
 
 
@@ -19,10 +20,10 @@ public class AE_Handler_QcomM
 
     public AE_Handler_QcomM(Handler uihandler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler)
     {
-        BaseModeParameter AE_Mode = new BaseModeParameter(uihandler, parameters, cameraHolder, "manual-exposure", "manual-exposure-modes");
+        BaseModeParameter AE_Mode = new BaseModeParameter(uihandler, parameters, cameraHolder, KEYS.MANUAL_EXPOSURE, KEYS.MANUAL_EXPOSURE_MODES);
         AE_Mode.addEventListner(aemodeChangedListner);
         camParametersHandler.AE_PriorityMode = AE_Mode;
-        this.exposureTime = new ShutterManual_ExposureTime_Micro(parameters,camParametersHandler,null,"exposure-time", "max-exposure-time", "min-exposure-time");
+        this.exposureTime = new ShutterManual_ExposureTime_Micro(parameters,camParametersHandler,null,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME);
         camParametersHandler.ManualShutter = exposureTime;
         this.isoManual = new ISOManualParameter(parameters,camParametersHandler);
         camParametersHandler.ManualIso =isoManual;
@@ -33,19 +34,19 @@ public class AE_Handler_QcomM
         public void onValueChanged(String val)
         {
             switch (val) {
-                case "off":
+                case KEYS.MANUAL_EXPOSURE_MODES_OFF:
                     exposureTime.BackgroundIsSetSupportedChanged(false);
                     isoManual.BackgroundIsSetSupportedChanged(false);
                     break;
-                case "exp-time-priority":
+                case KEYS.MANUAL_EXPOSURE_MODES_EXP_TIME_PRIORITY:
                     exposureTime.BackgroundIsSetSupportedChanged(true);
                     isoManual.BackgroundIsSetSupportedChanged(false);
                     break;
-                case "iso-priority":
+                case KEYS.MANUAL_EXPOSURE_MODES_ISO_PRIORITY:
                     exposureTime.BackgroundIsSetSupportedChanged(false);
                     isoManual.BackgroundIsSetSupportedChanged(true);
                     break;
-                case "user-setting":
+                case KEYS.MANUAL_EXPOSURE_MODES_USER_SETTING:
                     exposureTime.BackgroundIsSetSupportedChanged(true);
                     isoManual.BackgroundIsSetSupportedChanged(true);
                     break;

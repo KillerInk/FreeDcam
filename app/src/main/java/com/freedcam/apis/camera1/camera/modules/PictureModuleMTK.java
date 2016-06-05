@@ -2,6 +2,7 @@ package com.freedcam.apis.camera1.camera.modules;
 
 import android.content.Context;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.jni.RawToDng;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
@@ -64,7 +65,7 @@ public class PictureModuleMTK extends PictureModule
                 holdFile = getFile(".jpg");
                 Logger.d(TAG, "HolderFilePath:" + holdFile.getAbsolutePath());
                 switch (picformat) {
-                    case "jpeg":
+                    case KEYS.JPEG:
                         //savejpeg
                         saveBytesToFile(data, holdFile);
                         try {

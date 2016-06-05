@@ -31,7 +31,7 @@ public class ShareActivity extends MainActivity implements I_WorkEvent
         pictureModule.OverRidePath = imageUri.getPath();
         if (pictureModule.OverRidePath.endsWith(".jpg"))
         {
-            appSettingsManager.setString(AppSettingsManager.SETTING_PICTUREFORMAT, "jpeg");
+            appSettingsManager.setString(AppSettingsManager.SETTING_PICTUREFORMAT, KEYS.JPEG);
         }*/
 
     }
