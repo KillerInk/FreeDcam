@@ -26,13 +26,13 @@ import android.util.Size;
 import android.view.Surface;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.jni.RawToDng;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualShutter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.jni.RawToDng;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;

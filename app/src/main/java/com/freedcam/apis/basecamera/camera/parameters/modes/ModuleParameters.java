@@ -1,7 +1,5 @@
 package com.freedcam.apis.basecamera.camera.parameters.modes;
 
-import android.os.Handler;
-
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModule;
 import com.freedcam.utils.AppSettingsManager;
@@ -17,8 +15,8 @@ public class ModuleParameters extends AbstractModeParameter {
 
     private AbstractCameraUiWrapper cameraUiWrapper;
     private AppSettingsManager appSettingsManager;
-    public ModuleParameters(Handler uiHandler, AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager) {
-        super(uiHandler);
+    public ModuleParameters(AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager) {
+        super();
         this.cameraUiWrapper = cameraUiWrapper;
         this.appSettingsManager = appSettingsManager;
     }

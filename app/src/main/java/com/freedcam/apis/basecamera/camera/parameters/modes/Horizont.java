@@ -1,9 +1,6 @@
 package com.freedcam.apis.basecamera.camera.parameters.modes;
 
 
-import android.os.Handler;
-
-
 /**
  * Created by Ar4eR on 14.01.16.
  */
@@ -11,8 +8,8 @@ public class Horizont extends AbstractModeParameter {
 
     private String value;
 
-    public Horizont(Handler uiHandler) {
-        super(uiHandler);
+    public Horizont() {
+        super();
     }
 
 

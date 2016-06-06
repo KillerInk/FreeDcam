@@ -13,7 +13,7 @@ import com.troop.androiddng.DngProfile;
  */
 public class Moto_MSM8974 extends AbstractDevice {
     public Moto_MSM8974(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
-        super(uihandler, parameters, cameraUiWrapper);
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

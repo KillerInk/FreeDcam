@@ -1,7 +1,5 @@
 package com.freedcam.apis.sonyremote.camera.parameters.modes;
 
-import android.os.Handler;
-
 import com.freedcam.apis.sonyremote.camera.sonystuff.JsonUtils;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleRemoteApi;
 import com.freedcam.utils.Logger;
@@ -18,8 +16,8 @@ import java.io.IOException;
 public class ObjectTrackingSony extends BaseModeParameterSony
 {
     final String TAG = ObjectTrackingSony.class.getSimpleName();
-    public ObjectTrackingSony(Handler handler, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi) {
-        super(handler, "getTrackingFocus", "setTrackingFocus", "getAvailableTrackingFocus", mRemoteApi);
+    public ObjectTrackingSony(SimpleRemoteApi mRemoteApi) {
+        super("getTrackingFocus", "setTrackingFocus", "getAvailableTrackingFocus", mRemoteApi);
     }
 
     protected String[] processValuesToReturn() {

@@ -1,7 +1,5 @@
 package com.freedcam.apis.basecamera.camera.parameters.modes;
 
-import android.os.Handler;
-
 /**
  * Created by troop on 08.01.2016.
  */
@@ -10,8 +8,8 @@ public class IntervalDurationParameter extends AbstractModeParameter
 
     private String current = "1 min";
 
-    public IntervalDurationParameter(Handler uiHandler) {
-        super(uiHandler);
+    public IntervalDurationParameter() {
+        super();
     }
 
     @Override

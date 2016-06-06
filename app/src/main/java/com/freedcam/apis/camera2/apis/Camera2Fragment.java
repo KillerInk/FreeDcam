@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import com.freedcam.apis.basecamera.apis.AbstractCameraFragment;
 import com.freedcam.apis.camera2.camera.AutoFitTextureView;
 import com.freedcam.apis.camera2.camera.CameraUiWrapperApi2;
-import com.freedcam.utils.RenderScriptHandler;
 import com.troop.freedcam.R;
 
 

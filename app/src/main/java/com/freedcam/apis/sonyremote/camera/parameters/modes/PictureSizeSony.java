@@ -1,7 +1,5 @@
 package com.freedcam.apis.sonyremote.camera.parameters.modes;
 
-import android.os.Handler;
-
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleRemoteApi;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
@@ -18,9 +16,9 @@ import java.io.IOException;
 public class PictureSizeSony extends BaseModeParameterSony
 {
     final String TAG = PictureSizeSony.class.getSimpleName();
-    public PictureSizeSony(Handler handler, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi api)
+    public PictureSizeSony(SimpleRemoteApi api)
     {
-        super(handler, "getStillSize", "setStillSize", "getAvailableStillSize", api);
+        super("getStillSize", "setStillSize", "getAvailableStillSize", api);
     }
 
     @Override

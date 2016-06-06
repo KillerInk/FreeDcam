@@ -1,7 +1,6 @@
 package com.freedcam.apis.sonyremote.camera.parameters.modes;
 
 import android.os.Build;
-import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleStreamSurfaceView;
@@ -13,8 +12,8 @@ public class PreviewZoomSony extends AbstractModeParameter
 {
     private SimpleStreamSurfaceView surfaceView;
     private int zoomFactor = 8;
-    public PreviewZoomSony(Handler uiHandler, SimpleStreamSurfaceView surfaceView) {
-        super(uiHandler);
+    public PreviewZoomSony( SimpleStreamSurfaceView surfaceView) {
+        super();
         this.surfaceView = surfaceView;
     }
 

@@ -2,7 +2,7 @@ package com.freedcam.apis.basecamera.camera.parameters;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
+import android.os.Looper;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.camera.FocusRect;
@@ -154,21 +154,21 @@ public abstract class AbstractParameterHandler
 
 
 
-    public AbstractParameterHandler(AbstractCameraHolder cameraHolder, Handler uiHandler, Context context, AppSettingsManager appSettingsManager)
+    public AbstractParameterHandler(AbstractCameraHolder cameraHolder, Context context, AppSettingsManager appSettingsManager)
     {
         this.cameraHolder = cameraHolder;
-        this.uiHandler = uiHandler;
+        this.uiHandler = new Handler(Looper.getMainLooper());
         this.context = context;
         this.appSettingsManager = appSettingsManager;
         parametersLoadedListner = new ArrayList<>();
         parametersLoadedListner.clear();
 
-        GuideList = new GuideList(uiHandler);
-        locationParameter = new LocationParameter(uiHandler,cameraHolder,context,appSettingsManager);
-        IntervalDuration = new IntervalDurationParameter(uiHandler);
-        IntervalShutterSleep = new IntervalShutterSleepParameter(uiHandler);
-        Horizont = new Horizont(uiHandler);
-        SdSaveLocation = new SDModeParameter(uiHandler,appSettingsManager);
+        GuideList = new GuideList();
+        locationParameter = new LocationParameter(cameraHolder,context,appSettingsManager);
+        IntervalDuration = new IntervalDurationParameter();
+        IntervalShutterSleep = new IntervalShutterSleepParameter();
+        Horizont = new Horizont();
+        SdSaveLocation = new SDModeParameter(appSettingsManager);
 
     }
 

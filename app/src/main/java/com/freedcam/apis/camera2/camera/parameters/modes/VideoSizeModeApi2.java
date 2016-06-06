@@ -3,7 +3,6 @@ package com.freedcam.apis.camera2.camera.parameters.modes;
 import android.annotation.TargetApi;
 import android.media.MediaRecorder;
 import android.os.Build;
-import android.os.Handler;
 import android.util.Size;
 
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
@@ -12,8 +11,8 @@ import com.freedcam.apis.camera2.camera.CameraHolderApi2;
  * Created by troop on 26.11.2015.
  */
 public class VideoSizeModeApi2 extends BaseModeApi2 {
-    public VideoSizeModeApi2(Handler handler, CameraHolderApi2 cameraHolderApi2) {
-        super(handler, cameraHolderApi2);
+    public VideoSizeModeApi2(CameraHolderApi2 cameraHolderApi2) {
+        super(cameraHolderApi2);
     }
 
     public boolean IsSupported() {

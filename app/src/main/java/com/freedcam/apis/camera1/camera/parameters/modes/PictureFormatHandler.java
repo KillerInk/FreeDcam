@@ -2,13 +2,12 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.hardware.Camera;
 import android.os.Build;
-import android.os.Handler;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1.Frameworks;
 import com.freedcam.apis.camera1.camera.modules.ModuleHandler;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
-import com.freedcam.apis.KEYS;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 
@@ -43,13 +42,12 @@ public class PictureFormatHandler extends BaseModeParameter
     };
 
     /***
-     * @param uihandler    Holds the ui Thread to invoke the ui from antother thread
      * @param parameters   Hold the Camera Parameters
      * @param cameraHolder Hold the camera object
      */
-    public PictureFormatHandler(Handler uihandler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler)
+    public PictureFormatHandler(Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler)
     {
-        super(uihandler, parameters, cameraHolder, "", "");
+        super(parameters, cameraHolder, "", "");
         this.camParametersHandler = camParametersHandler;
         if (cameraHolderApi1.DeviceFrameWork == Frameworks.MTK)
         {
@@ -109,7 +107,7 @@ public class PictureFormatHandler extends BaseModeParameter
                     rawFormats = new String[tmp.size()];
                     tmp.toArray(rawFormats);
                     if (tmp.size()>0) {
-                        BayerFormats = new BayerFormat(uihandler, parameters, cameraHolder, "");
+                        BayerFormats = new BayerFormat(parameters, cameraHolder, "");
                         camParametersHandler.bayerformat = BayerFormats;
                     }
 
@@ -201,13 +199,12 @@ public class PictureFormatHandler extends BaseModeParameter
     {
 
         /***
-         * @param uihandler    Holds the ui Thread to invoke the ui from antother thread
          * @param parameters   Hold the Camera Parameters
          * @param cameraHolder Hold the camera object
          * @param values
          */
-        public BayerFormat(Handler uihandler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, String values) {
-            super(uihandler, parameters, cameraHolder, "", "");
+        public BayerFormat(Camera.Parameters parameters, CameraHolderApi1 cameraHolder, String values) {
+            super(parameters, cameraHolder, "", "");
         }
 
         @Override

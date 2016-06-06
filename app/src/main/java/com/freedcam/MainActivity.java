@@ -2,7 +2,6 @@ package com.freedcam;
 
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;

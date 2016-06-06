@@ -24,7 +24,6 @@ import android.os.HandlerThread;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicYuvToRGB;
 import android.renderscript.Type;
 import android.view.Surface;
 

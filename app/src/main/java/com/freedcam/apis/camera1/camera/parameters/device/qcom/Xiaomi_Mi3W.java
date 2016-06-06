@@ -4,10 +4,10 @@ import android.hardware.Camera;
 import android.os.Build;
 import android.os.Handler;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
-import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.device.BaseQcomDevice;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseCCTManual;
 import com.freedcam.utils.DeviceUtils;

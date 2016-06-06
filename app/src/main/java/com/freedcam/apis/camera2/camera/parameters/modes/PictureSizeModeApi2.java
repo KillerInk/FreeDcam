@@ -3,7 +3,6 @@ package com.freedcam.apis.camera2.camera.parameters.modes;
 import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
 import android.os.Build;
-import android.os.Handler;
 import android.util.Size;
 
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
@@ -14,8 +13,8 @@ import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 public class PictureSizeModeApi2 extends BaseModeApi2
 {
     private String size = "1920x1080";
-    public PictureSizeModeApi2(Handler handler,CameraHolderApi2 cameraHolderApi2) {
-        super(handler, cameraHolderApi2);
+    public PictureSizeModeApi2(CameraHolderApi2 cameraHolderApi2) {
+        super(cameraHolderApi2);
     }
     boolean firststart = true;
     @Override

@@ -15,7 +15,6 @@ import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParamete
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.ui.themesample.handler.UserMessageHandler;
 import com.freedcam.utils.Logger;
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.drawable;
 
 /**

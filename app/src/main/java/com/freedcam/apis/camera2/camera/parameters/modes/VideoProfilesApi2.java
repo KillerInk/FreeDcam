@@ -1,7 +1,6 @@
 package com.freedcam.apis.camera2.camera.parameters.modes;
 
 import android.media.CamcorderProfile;
-import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile;
@@ -26,9 +25,9 @@ public class VideoProfilesApi2 extends BaseModeApi2
     private String profile;
     private CameraUiWrapperApi2 cameraUiWrapperApi2;
 
-    public VideoProfilesApi2(Handler handler, CameraHolderApi2 cameraHolderApi2, CameraUiWrapperApi2 cameraUiWrapperApi2)
+    public VideoProfilesApi2(CameraHolderApi2 cameraHolderApi2, CameraUiWrapperApi2 cameraUiWrapperApi2)
     {
-        super(handler, cameraHolderApi2);
+        super(cameraHolderApi2);
         loadProfiles();
         this.isSupported = true;
         this.cameraUiWrapperApi2 = cameraUiWrapperApi2;

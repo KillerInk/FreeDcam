@@ -5,7 +5,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.widget.Toast;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
@@ -29,8 +28,8 @@ public class LocationParameter extends AbstractModeParameter implements Location
     private final int updateDistance = 15;
 
 
-    public LocationParameter(Handler uiHandler, AbstractCameraHolder cameraHolder, Context context, AppSettingsManager appSettingsManager) {
-        super(uiHandler);
+    public LocationParameter(AbstractCameraHolder cameraHolder, Context context, AppSettingsManager appSettingsManager) {
+        super();
         this.context = context;
         this.cameraHolder = cameraHolder;
         this.appSettingsManager = appSettingsManager;

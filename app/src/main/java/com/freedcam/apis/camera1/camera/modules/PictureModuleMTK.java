@@ -3,10 +3,10 @@ package com.freedcam.apis.camera1.camera.modules;
 import android.content.Context;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.jni.RawToDng;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.jni.RawToDng;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;

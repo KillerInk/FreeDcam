@@ -1,9 +1,7 @@
 package com.freedcam.apis.sonyremote.camera.parameters.modes;
 
 import android.os.Build;
-import android.os.Handler;
 
-import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleRemoteApi;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleStreamSurfaceView;
 import com.freedcam.utils.StringUtils;
 
@@ -18,8 +16,8 @@ public class FocusPeakSony extends BaseModeParameterSony {
     private SimpleStreamSurfaceView simpleStreamSurfaceView;
 
 
-    public FocusPeakSony(Handler handler, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi, SimpleStreamSurfaceView simpleStreamSurfaceView) {
-        super(handler, null, null, null, null);
+    public FocusPeakSony(SimpleStreamSurfaceView simpleStreamSurfaceView) {
+        super(null, null, null, null);
         this.simpleStreamSurfaceView = simpleStreamSurfaceView;
     }
 

@@ -34,7 +34,7 @@ public class AeHandlerApi2
     {
         this.cameraHolder = cameraHolderApi2;
         this.parameterHandler = parameterHandler;
-        aeModeApi2 = new AeModeApi2(handler,cameraHolder);
+        aeModeApi2 = new AeModeApi2(cameraHolder);
         manualExposureApi2 = new ManualExposureApi2(parameterHandler);
         manualExposureTimeApi2 = new ManualExposureTimeApi2(parameterHandler);
         manualISoApi2 = new ManualISoApi2(parameterHandler);
@@ -93,8 +93,8 @@ public class AeHandlerApi2
     {
         private boolean isSupported = false;
         private String[] aemodeStringValues;
-        public AeModeApi2(Handler handler, CameraHolderApi2 cameraHolderApi2) {
-            super(handler, cameraHolderApi2);
+        public AeModeApi2(CameraHolderApi2 cameraHolderApi2) {
+            super(cameraHolderApi2);
             int[] values = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES);
             aemodeStringValues= new String[values.length];
             for (int i = 0; i < values.length; i++)

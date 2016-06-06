@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
-import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
@@ -50,9 +49,9 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
     private CameraHolderApi2 cameraHolder;
 
-    public ParameterHandlerApi2(CameraUiWrapperApi2 cameraHolder, Handler uiHandler, Context context,AppSettingsManager appSettingsManager)
+    public ParameterHandlerApi2(CameraUiWrapperApi2 cameraHolder, Context context,AppSettingsManager appSettingsManager)
     {
-        super(cameraHolder.cameraHolder, uiHandler,context,appSettingsManager);
+        super(cameraHolder.cameraHolder,context,appSettingsManager);
         this.wrapper = cameraHolder;
         this.cameraHolder = cameraHolder.cameraHolder;
 
@@ -66,19 +65,19 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         {
             Logger.d(TAG, keys.get(i).getName());
         }
-        Module = new ModuleParameters(uiHandler, wrapper,appSettingsManager);
-        FlashMode = new FlashModeApi2(uiHandler,this.cameraHolder);
-        SceneMode = new SceneModeApi2(uiHandler,this.cameraHolder);
-        ColorMode = new ColorModeApi2(uiHandler,this.cameraHolder);
+        Module = new ModuleParameters(wrapper,appSettingsManager);
+        FlashMode = new FlashModeApi2(cameraHolder);
+        SceneMode = new SceneModeApi2(cameraHolder);
+        ColorMode = new ColorModeApi2(cameraHolder);
 
-        WbHandler wbHandler = new WbHandler(uiHandler,cameraHolder,this);
+        WbHandler wbHandler = new WbHandler(cameraHolder,this);
         //AE mode start
         AeHandlerApi2 aeHandlerApi2 = new AeHandlerApi2(uiHandler,cameraHolder,this);
         //ae mode end
-        AntiBandingMode = new AntibandingApi2(uiHandler,cameraHolder);
-        PictureSize = new PictureSizeModeApi2(uiHandler,this.cameraHolder);
+        AntiBandingMode = new AntibandingApi2(cameraHolder);
+        PictureSize = new PictureSizeModeApi2(cameraHolder);
 
-        FocusMode = new FocusModeApi2(uiHandler, cameraHolder);
+        FocusMode = new FocusModeApi2(cameraHolder);
 
         //shuttertime END
         //MF
@@ -86,33 +85,33 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         ManualFocus = mf;
         //MF END
 
-        EdgeMode = new EdgeModeApi2(uiHandler,cameraHolder);
-        DigitalImageStabilization = new ImageStabApi2(uiHandler,cameraHolder);
-        HotPixelMode = new HotPixelModeApi2(uiHandler,cameraHolder);
-        Denoise = new DenoiseModeApi2(uiHandler,cameraHolder);
+        EdgeMode = new EdgeModeApi2(cameraHolder);
+        DigitalImageStabilization = new ImageStabApi2(cameraHolder);
+        HotPixelMode = new HotPixelModeApi2(cameraHolder);
+        Denoise = new DenoiseModeApi2(cameraHolder);
         manualToneMapCurveApi2 = new ManualToneMapCurveApi2(this,cameraHolder);
         ManualContrast = manualToneMapCurveApi2.contrast;
         ManualBrightness = manualToneMapCurveApi2.brightness;
 
-        ToneMapMode = new ToneMapModeApi2(uiHandler,cameraHolder);
+        ToneMapMode = new ToneMapModeApi2(cameraHolder);
         ToneMapMode.addEventListner(manualToneMapCurveApi2);
 
-        PictureFormat = new PictureFormatParameterApi2(uiHandler,this.cameraHolder);
+        PictureFormat = new PictureFormatParameterApi2(cameraHolder);
 
         FocusMode.addEventListner(((FocusHandlerApi2)cameraHolder.Focus).focusModeListner);
         WhiteBalanceMode.addEventListner(((FocusHandlerApi2) cameraHolder.Focus).awbModeListner);
         ExposureMode.addEventListner(((FocusHandlerApi2) cameraHolder.Focus).aeModeListner);
         ((FocusHandlerApi2) cameraHolder.Focus).ParametersLoaded();
 
-        ControlMode = new ControlModesApi2(uiHandler, this.cameraHolder);
+        ControlMode = new ControlModesApi2(cameraHolder);
 
         Burst = new BurstApi2(this,cameraHolder);
-        Focuspeak = new FocusPeakModeApi2(uiHandler,cameraHolder);
+        Focuspeak = new FocusPeakModeApi2(cameraHolder);
         //VideoSize = new VideoSizeModeApi2(uiHandler,cameraHolder);
-        VideoProfiles = new VideoProfilesApi2(uiHandler,cameraHolder,wrapper);
-        oismode = new OisModeApi2(uiHandler,cameraHolder);
-        matrixChooser = new MatrixChooserParameter(uiHandler);
-        imageStackMode = new StackModeParameter(null,null,null,null,null);
+        VideoProfiles = new VideoProfilesApi2(cameraHolder,wrapper);
+        oismode = new OisModeApi2(cameraHolder);
+        matrixChooser = new MatrixChooserParameter();
+        imageStackMode = new StackModeParameter();
 
         uiHandler.post(new Runnable() {
             @Override

@@ -16,8 +16,7 @@ public class ParameterExternalShutter extends AbstractModeParameter
 
     public ParameterExternalShutter(AppSettingsManager appSettingsManager)
     {
-
-        super(null);
+        super();
         this.appSettingsManager = appSettingsManager;
     }
 

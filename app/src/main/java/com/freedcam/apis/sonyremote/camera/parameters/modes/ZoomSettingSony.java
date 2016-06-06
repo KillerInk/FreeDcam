@@ -1,7 +1,5 @@
 package com.freedcam.apis.sonyremote.camera.parameters.modes;
 
-import android.os.Handler;
-
 import com.freedcam.apis.sonyremote.camera.sonystuff.JsonUtils;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleRemoteApi;
 import com.freedcam.utils.Logger;
@@ -16,8 +14,8 @@ import java.io.IOException;
  * Created by troop on 09.04.2016.
  */
 public class ZoomSettingSony extends BaseModeParameterSony {
-    public ZoomSettingSony(Handler handler, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi) {
-        super(handler, "getZoomSetting", "setZoomSetting", "getAvailableZoomSetting", mRemoteApi);
+    public ZoomSettingSony(SimpleRemoteApi mRemoteApi) {
+        super("getZoomSetting", "setZoomSetting", "getAvailableZoomSetting", mRemoteApi);
     }
 
     protected String[] processValuesToReturn() {

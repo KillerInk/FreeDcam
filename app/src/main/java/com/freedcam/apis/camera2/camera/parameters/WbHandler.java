@@ -5,7 +5,6 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.RggbChannelVector;
 import android.os.Build;
-import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
@@ -27,12 +26,12 @@ public class WbHandler
 
     private WhiteBalanceValues activeWbMode = WhiteBalanceValues.AUTO;
 
-    public WbHandler(Handler handler, CameraHolderApi2 cameraHolderApi2, ParameterHandlerApi2 parameterHandlerApi2)
+    public WbHandler(CameraHolderApi2 cameraHolderApi2, ParameterHandlerApi2 parameterHandlerApi2)
     {
         this.cameraHolder=cameraHolderApi2;
         this.parameterHandler =parameterHandlerApi2;
-        colorCorrectionMode = new ColorCorrectionModeApi2(handler);
-        whiteBalanceApi2 = new WhiteBalanceApi2(handler);
+        colorCorrectionMode = new ColorCorrectionModeApi2();
+        whiteBalanceApi2 = new WhiteBalanceApi2();
         manualWbCt = new ManualWbCtApi2(parameterHandler);
         parameterHandler.CCT = manualWbCt;
         parameterHandler.WhiteBalanceMode = whiteBalanceApi2;
@@ -99,9 +98,9 @@ public class WbHandler
         private String lastcctmode = "FAST";
         private boolean isSupported = false;
 
-        public WhiteBalanceApi2(Handler handler)
+        public WhiteBalanceApi2()
         {
-            super(handler, cameraHolder);
+            super(cameraHolder);
             int[] values = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES);
             if (values.length > 1)
                 this.isSupported = true;
@@ -296,8 +295,8 @@ public class WbHandler
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public class ColorCorrectionModeApi2 extends BaseModeApi2 {
-        public ColorCorrectionModeApi2(Handler handler) {
-            super(handler, cameraHolder);
+        public ColorCorrectionModeApi2() {
+            super(cameraHolder);
         }
 
         @Override

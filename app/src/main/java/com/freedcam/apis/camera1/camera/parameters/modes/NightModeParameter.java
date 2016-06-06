@@ -1,12 +1,11 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.hardware.Camera;
-import android.os.Handler;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
-import com.freedcam.apis.KEYS;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 
@@ -20,8 +19,8 @@ public class NightModeParameter extends BaseModeParameter
     private String state = "";
     private String format = "";
     private String curmodule = "";
-    public NightModeParameter(Handler handler, Camera.Parameters parameters, CameraHolderApi1 parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
-        super(handler, parameters, parameterChanged, "", "");
+    public NightModeParameter(Camera.Parameters parameters, CameraHolderApi1 parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
+        super(parameters, parameterChanged, "", "");
 
         this.isSupported = DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES);
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)||DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote))

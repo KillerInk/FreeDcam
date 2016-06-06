@@ -13,7 +13,7 @@ import com.troop.androiddng.DngProfile;
  */
 public class P8 extends AbstractDevice {
     public P8(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
-        super(uihandler, parameters, cameraUiWrapper);
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

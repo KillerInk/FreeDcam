@@ -47,9 +47,9 @@ public class ParameterHandlerSony extends AbstractParameterHandler
     private SimpleStreamSurfaceView surfaceView;
     private AbstractCameraUiWrapper wrapper;
 
-    public ParameterHandlerSony(AbstractCameraUiWrapper cameraHolder, Handler uiHandler, SimpleStreamSurfaceView surfaceView, Context context, AppSettingsManager appSettingsManager)
+    public ParameterHandlerSony(AbstractCameraUiWrapper cameraHolder, SimpleStreamSurfaceView surfaceView, Context context, AppSettingsManager appSettingsManager)
     {
-        super(cameraHolder.cameraHolder, uiHandler,context,appSettingsManager);
+        super(cameraHolder.cameraHolder,context,appSettingsManager);
         this.cameraHolder = (CameraHolderSony)cameraHolder.cameraHolder;
         parametersChangedList  = new ArrayList<>();
         this.surfaceView = surfaceView;
@@ -81,32 +81,32 @@ public class ParameterHandlerSony extends AbstractParameterHandler
 
     private void createParameters()
     {
-        Module = new ModuleParameters(uiHandler, wrapper,appSettingsManager);
-        PictureSize = new PictureSizeSony(uiHandler, "setStillSize", "getAvailableStillSize", mRemoteApi);
+        Module = new ModuleParameters(wrapper,appSettingsManager);
+        PictureSize = new PictureSizeSony(mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)PictureSize);
 
-        PictureFormat = new PictureFormatSony(uiHandler, "setStillQuality", "getAvailableStillQuality", mRemoteApi);
+        PictureFormat = new PictureFormatSony("setStillQuality", "getAvailableStillQuality", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)PictureFormat);
 
-        FlashMode = new BaseModeParameterSony(uiHandler,"getFlashMode", "setFlashMode", "getAvailableFlashMode", mRemoteApi);
+        FlashMode = new BaseModeParameterSony("getFlashMode", "setFlashMode", "getAvailableFlashMode", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)FlashMode);
 
-        ExposureMode = new BaseModeParameterSony(uiHandler,"getExposureMode", "setExposureMode", "getAvailableExposureMode", mRemoteApi);
+        ExposureMode = new BaseModeParameterSony("getExposureMode", "setExposureMode", "getAvailableExposureMode", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)ExposureMode);
 
-        ContShootMode = new ContShootModeParameterSony(uiHandler, "setContShootingMode", "getAvailableContShootingMode", mRemoteApi);
+        ContShootMode = new ContShootModeParameterSony(mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)ContShootMode);
 
-        ContShootModeSpeed = new BaseModeParameterSony(uiHandler,"getContShootingSpeed", "setContShootingSpeed", "getAvailableContShootingSpeed", mRemoteApi);
+        ContShootModeSpeed = new BaseModeParameterSony("getContShootingSpeed", "setContShootingSpeed", "getAvailableContShootingSpeed", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)ContShootModeSpeed);
 
-        FocusMode = new BaseModeParameterSony(uiHandler,"getFocusMode", "setFocusMode", "getAvailableFocusMode", mRemoteApi);
+        FocusMode = new BaseModeParameterSony("getFocusMode", "setFocusMode", "getAvailableFocusMode", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)FocusMode);
 
-        ObjectTracking = new ObjectTrackingSony(uiHandler, "setTrackingFocus", "getAvailableTrackingFocus", mRemoteApi);
+        ObjectTracking = new ObjectTrackingSony(mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)ObjectTracking);
 
-        ZoomSetting = new ZoomSettingSony(uiHandler, "setZoomSetting", "getAvailableZoomSetting", mRemoteApi);
+        ZoomSetting = new ZoomSettingSony(mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony) ZoomSetting);
 
 
@@ -128,19 +128,19 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         CCT = new WbCTManualSony("","", this);
         parametersChangedList.add((BaseManualParameterSony) CCT);
 
-        WhiteBalanceMode = new WhiteBalanceModeSony(uiHandler, "setWhiteBalance", "getAvailableWhiteBalance", mRemoteApi, (WbCTManualSony)CCT);
+        WhiteBalanceMode = new WhiteBalanceModeSony(mRemoteApi, (WbCTManualSony)CCT);
         parametersChangedList.add((BaseModeParameterSony) WhiteBalanceMode);
 
-        PostViewSize = new BaseModeParameterSony(uiHandler, "getPostviewImageSize","setPostviewImageSize","getAvailablePostviewImageSize", mRemoteApi);
+        PostViewSize = new BaseModeParameterSony("getPostviewImageSize","setPostviewImageSize","getAvailablePostviewImageSize", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)PostViewSize);
 
-        VideoSize = new BaseModeParameterSony(uiHandler, "getMovieQuality", "setMovieQuality", "getAvailableMovieQuality", mRemoteApi);
+        VideoSize = new BaseModeParameterSony("getMovieQuality", "setMovieQuality", "getAvailableMovieQuality", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony) VideoSize);
 
-        Focuspeak = new FocusPeakSony(uiHandler, null,null,null, surfaceView);
+        Focuspeak = new FocusPeakSony(surfaceView);
         parametersChangedList.add((BaseModeParameterSony) Focuspeak);
 
-        NightMode = new NightModeSony(uiHandler, null,null,null,surfaceView);
+        NightMode = new NightModeSony(surfaceView);
         parametersChangedList.add((BaseModeParameterSony) NightMode);
 
         PreviewZoom = new PreviewZoomManual(surfaceView,this);

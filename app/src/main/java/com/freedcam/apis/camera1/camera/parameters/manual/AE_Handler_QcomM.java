@@ -1,12 +1,11 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
-import android.os.Handler;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
-import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.modes.BaseModeParameter;
 
 
@@ -18,9 +17,9 @@ public class AE_Handler_QcomM
     private ShutterManual_ExposureTime_Micro exposureTime;
     private ISOManualParameter isoManual;
 
-    public AE_Handler_QcomM(Handler uihandler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler)
+    public AE_Handler_QcomM(Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler)
     {
-        BaseModeParameter AE_Mode = new BaseModeParameter(uihandler, parameters, cameraHolder, KEYS.MANUAL_EXPOSURE, KEYS.MANUAL_EXPOSURE_MODES);
+        BaseModeParameter AE_Mode = new BaseModeParameter(parameters, cameraHolder, KEYS.MANUAL_EXPOSURE, KEYS.MANUAL_EXPOSURE_MODES);
         AE_Mode.addEventListner(aemodeChangedListner);
         camParametersHandler.AE_PriorityMode = AE_Mode;
         this.exposureTime = new ShutterManual_ExposureTime_Micro(parameters,camParametersHandler,null,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME);

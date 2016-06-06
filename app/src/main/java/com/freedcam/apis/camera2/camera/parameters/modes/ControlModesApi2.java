@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
-import android.os.Handler;
 
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.utils.Logger;
@@ -24,8 +23,8 @@ public class ControlModesApi2 extends BaseModeApi2
         OFF_KEEP_STATE
     }
 
-    public ControlModesApi2(Handler handler,CameraHolderApi2 cameraHolderApi2) {
-        super(handler, cameraHolderApi2);
+    public ControlModesApi2(CameraHolderApi2 cameraHolderApi2) {
+        super(cameraHolderApi2);
 
     }
 

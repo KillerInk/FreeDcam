@@ -19,7 +19,7 @@ import com.troop.androiddng.DngProfile;
 public class LG_G2 extends AbstractDevice
 {
     public LG_G2(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
-        super(uihandler, parameters, cameraUiWrapper);
+        super(parameters, cameraUiWrapper);
         if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.LG)
             parameters.set("lge-camera","1");
     }
@@ -67,7 +67,7 @@ public class LG_G2 extends AbstractDevice
     public AbstractModeParameter getVideoProfileMode()
     {
         if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
-            return new VideoProfilesG3Parameter(uihandler,parameters,cameraHolder, "", cameraUiWrapper);
+            return new VideoProfilesG3Parameter(parameters,cameraHolder, "", cameraUiWrapper);
         else
             return super.getVideoProfileMode();
     }

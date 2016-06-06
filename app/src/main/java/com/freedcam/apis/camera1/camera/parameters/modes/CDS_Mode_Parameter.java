@@ -1,7 +1,6 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.hardware.Camera;
-import android.os.Handler;
 
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.utils.DeviceUtils;
@@ -14,9 +13,9 @@ public class CDS_Mode_Parameter extends BaseModeParameter
 {
     final String TAG = CDS_Mode_Parameter.class.getSimpleName();
     final String[] cds_values = {"auto", "on", "off"};
-    public CDS_Mode_Parameter(Handler handler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, String value)
+    public CDS_Mode_Parameter(Camera.Parameters parameters, CameraHolderApi1 cameraHolder, String value)
     {
-        super(handler,parameters, cameraHolder, "", "");
+        super(parameters, cameraHolder, "", "");
         try {
             final String cds = parameters.get("cds-mode");
             if (cds != null && !cds.equals(""))

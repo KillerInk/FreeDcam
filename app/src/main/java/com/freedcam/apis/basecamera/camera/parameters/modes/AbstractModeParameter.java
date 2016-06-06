@@ -1,6 +1,7 @@
 package com.freedcam.apis.basecamera.camera.parameters.modes;
 
 import android.os.Handler;
+import android.os.Looper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +18,10 @@ public class AbstractModeParameter implements I_ModeParameter
     Handler uihandler;
     private static String TAG = AbstractModeParameter.class.getSimpleName();
 
-    public AbstractModeParameter(Handler uiHandler)
+    public AbstractModeParameter()
     {
         events = new ArrayList<>();
-        this.uihandler = uiHandler;
+        this.uihandler = new Handler(Looper.getMainLooper());
     }
 
     /**

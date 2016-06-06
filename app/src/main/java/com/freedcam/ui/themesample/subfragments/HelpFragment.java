@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.freedcam.utils.AppSettingsManager;
-import com.freedcam.utils.StringUtils;
 import com.troop.freedcam.R;
 
 /**

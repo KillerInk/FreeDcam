@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
-import android.renderscript.ScriptIntrinsicYuvToRGB;
 import android.renderscript.Type;
 import android.view.Surface;
 
@@ -27,7 +26,6 @@ import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.RenderScriptHandler;
 import com.freedcam.utils.StringUtils;
-import com.imageconverter.ScriptC_imagestack;
 import com.imageconverter.ScriptField_MinMaxPixel;
 
 import java.io.File;

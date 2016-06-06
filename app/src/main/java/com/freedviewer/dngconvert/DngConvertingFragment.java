@@ -19,8 +19,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.freedcam.jni.RawToDng;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
+import com.freedcam.jni.RawToDng;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.FileUtils;
@@ -69,7 +69,7 @@ public class DngConvertingFragment extends Fragment
         this.editTextheight = (EditText)view.findViewById(R.id.editText_height);
         this.editTextblacklvl = (EditText)view.findViewById(R.id.editText_blacklevel);
         this.spinnerMatrixProfile = (Spinner)view.findViewById(R.id.spinner_MatrixProfile);
-        matrixChooserParameter = new MatrixChooserParameter(handler);
+        matrixChooserParameter = new MatrixChooserParameter();
         String[] items = matrixChooserParameter.GetValues();
         ArrayAdapter<String> matrixadapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, items);
         //ArrayAdapter<CharSequence> matrixadapter = ArrayAdapter.createFromResource(getContext(),R.array.matrixes, android.R.layout.simple_spinner_item);
@@ -98,7 +98,7 @@ public class DngConvertingFragment extends Fragment
                 getActivity().finish();
             }
         });
-        matrixChooserParameter = new MatrixChooserParameter(handler);
+        matrixChooserParameter = new MatrixChooserParameter();
         return view;
     }
 
@@ -108,7 +108,7 @@ public class DngConvertingFragment extends Fragment
         this.filesToConvert = getActivity().getIntent().getStringArrayExtra(EXTRA_FILESTOCONVERT);
         if (filesToConvert != null && filesToConvert.length > 0) {
             DeviceUtils.Devices devices = DeviceUtils.DEVICE();
-            dngprofile = new DngSupportedDevices().getProfile(devices, (int) new File(filesToConvert[0]).length(),new MatrixChooserParameter(null));
+            dngprofile = new DngSupportedDevices().getProfile(devices, (int) new File(filesToConvert[0]).length(),new MatrixChooserParameter());
             if (dngprofile == null) {
                 dngprofile = new DngSupportedDevices().GetEmptyProfile();
                 Toast.makeText(getContext(), R.string.unknown_raw_add_manual_stuff, Toast.LENGTH_LONG).show();

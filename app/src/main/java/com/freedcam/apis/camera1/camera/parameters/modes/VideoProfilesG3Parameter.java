@@ -1,7 +1,6 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.hardware.Camera;
-import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile;
@@ -29,8 +28,8 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
     private CameraUiWrapper cameraUiWrapper;
     private String profile;
 
-    public VideoProfilesG3Parameter(Handler handler, Camera.Parameters parameters, CameraHolderApi1 parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
-        super(handler,parameters, parameterChanged, "", "");
+    public VideoProfilesG3Parameter(Camera.Parameters parameters, CameraHolderApi1 parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
+        super(parameters, parameterChanged, "", "");
         this.cameraHolder = parameterChanged;
         this.cameraUiWrapper = cameraUiWrapper;
         this.isSupported =true;

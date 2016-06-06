@@ -16,7 +16,7 @@ public class ApiParameter extends AbstractModeParameter
     private AppSettingsManager appSettingsManager;
 
     public ApiParameter(I_Activity i_activity,AppSettingsManager appSettingsManager) {
-        super(null);
+        super();
         this.i_activity = i_activity;
         this.appSettingsManager = appSettingsManager;
     }

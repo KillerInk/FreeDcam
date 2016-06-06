@@ -2,8 +2,6 @@ package com.freedcam.apis.basecamera.camera.parameters.modes;
 
 //defcomg was here
 
-import android.os.Handler;
-
 /**
  * Created by George on 1/19/2015.
  */
@@ -11,13 +9,8 @@ public class GuideList extends AbstractModeParameter
 {
 
     private String value;
-    public GuideList(Handler uiHandler) {
-        super(uiHandler);
-        //this.appSettingsManager = appSettingsManager;
-
-
-
-
+    public GuideList() {
+        super();
     }
 
 

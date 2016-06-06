@@ -1,7 +1,6 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.hardware.Camera;
-import android.os.Handler;
 
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.utils.AppSettingsManager;
@@ -14,8 +13,8 @@ public class CupBurstExpModeParameter extends BaseModeParameter
 {
     final String TAG = CupBurstExpModeParameter.class.getSimpleName();
     private AppSettingsManager appSettingsManager;
-    public CupBurstExpModeParameter(Handler uihandler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, String values, AppSettingsManager appSettingsManager) {
-        super(uihandler, parameters, cameraHolder, "capture-burst-exposures", "");
+    public CupBurstExpModeParameter(Camera.Parameters parameters, CameraHolderApi1 cameraHolder, String values, AppSettingsManager appSettingsManager) {
+        super(parameters, cameraHolder, "capture-burst-exposures", "");
         this.appSettingsManager = appSettingsManager;
 
         this.isSupported = false;

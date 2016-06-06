@@ -3,7 +3,6 @@ package com.freedcam.apis.camera2.camera.parameters.modes;
 import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
 import android.os.Build;
-import android.os.Handler;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
@@ -18,9 +17,9 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
     private CameraHolderApi2 cameraHolder;
     boolean firststart = true;
     private String format = KEYS.JPEG;
-    public PictureFormatParameterApi2(Handler handler,CameraHolderApi2 cameraHolderApi2)
+    public PictureFormatParameterApi2(CameraHolderApi2 cameraHolderApi2)
     {
-        super(handler, cameraHolderApi2);
+        super(cameraHolderApi2);
         this.cameraHolder = cameraHolderApi2;
     }
 

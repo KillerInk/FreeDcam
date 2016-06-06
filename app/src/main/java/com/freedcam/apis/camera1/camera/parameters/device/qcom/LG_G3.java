@@ -4,10 +4,11 @@ import android.hardware.Camera;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
+
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
-import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseFocusManual;
 import com.freedcam.apis.camera1.camera.parameters.manual.FocusManualParameterLG;
 import com.troop.androiddng.CustomMatrix;

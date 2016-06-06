@@ -17,8 +17,6 @@ import com.freedviewer.holder.FileHolder;
 import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.R;
 
-import java.io.File;
-
 /**
  * Created by troop on 21.08.2015.
  */

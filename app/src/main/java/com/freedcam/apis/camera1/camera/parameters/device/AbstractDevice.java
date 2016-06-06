@@ -24,16 +24,15 @@ public abstract class AbstractDevice
     protected CamParametersHandler camParametersHandler;
     protected MatrixChooserParameter matrixChooserParameter;
 
-    public AbstractDevice(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper)
+    public AbstractDevice(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper)
     {
-        this.uihandler = uihandler;
         this.parameters = parameters;
         this.cameraUiWrapper = cameraUiWrapper;
         this.cameraHolder = cameraUiWrapper.cameraHolder;
         this.camParametersHandler = (CamParametersHandler) cameraUiWrapper.camParametersHandler;
         if (IsDngSupported())
         {
-            this.matrixChooserParameter = new MatrixChooserParameter(uihandler);
+            this.matrixChooserParameter = new MatrixChooserParameter();
             camParametersHandler.matrixChooser = matrixChooserParameter;
         }
     }
@@ -46,6 +45,6 @@ public abstract class AbstractDevice
     public abstract DngProfile getDngProfile(int filesize);
     public AbstractModeParameter getVideoProfileMode()
     {
-        return new VideoProfilesParameter(uihandler,parameters,cameraHolder, "", cameraUiWrapper);
+        return new VideoProfilesParameter(parameters,cameraHolder, "", cameraUiWrapper);
     }
 }

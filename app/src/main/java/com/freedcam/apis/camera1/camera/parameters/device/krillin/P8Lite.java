@@ -3,9 +3,9 @@ package com.freedcam.apis.camera1.camera.parameters.device.krillin;
 import android.hardware.Camera;
 import android.os.Handler;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
-import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.device.AbstractDevice;
 import com.freedcam.apis.camera1.camera.parameters.manual.FocusManualHuawei;
 import com.freedcam.apis.camera1.camera.parameters.manual.ShutterManualKrillin;
@@ -16,7 +16,7 @@ import com.troop.androiddng.DngProfile;
  */
 public class P8Lite extends AbstractDevice {
     public P8Lite(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
-        super(uihandler, parameters, cameraUiWrapper);
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

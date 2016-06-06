@@ -7,7 +7,6 @@ import android.location.Location;
 import android.os.Handler;
 import android.view.Surface;
 import android.view.SurfaceHolder;
-import android.view.TextureView;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.camera.FocusRect;

@@ -1,7 +1,5 @@
 package com.freedcam.apis.sonyremote.camera.parameters.modes;
 
-import android.os.Handler;
-
 import com.freedcam.apis.sonyremote.camera.parameters.manual.WbCTManualSony;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleRemoteApi;
 import com.freedcam.utils.FreeDPool;
@@ -20,8 +18,8 @@ public class WhiteBalanceModeSony extends BaseModeParameterSony
 {
     final String TAG = WhiteBalanceModeSony.class.getSimpleName();
     private WbCTManualSony wb;
-    public WhiteBalanceModeSony(Handler handler, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi, WbCTManualSony wb) {
-        super(handler, "getWhiteBalance", "setWhiteBalance", "getAvailableWhiteBalance", mRemoteApi);
+    public WhiteBalanceModeSony(SimpleRemoteApi mRemoteApi, WbCTManualSony wb) {
+        super("getWhiteBalance", "setWhiteBalance", "getAvailableWhiteBalance", mRemoteApi);
         this.wb = wb;
     }
 

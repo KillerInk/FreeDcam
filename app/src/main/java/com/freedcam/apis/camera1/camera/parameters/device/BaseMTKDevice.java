@@ -15,7 +15,7 @@ import com.troop.androiddng.DngProfile;
 public class BaseMTKDevice extends AbstractDevice
 {
     public BaseMTKDevice(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
-        super(uihandler, parameters, cameraUiWrapper);
+        super(parameters, cameraUiWrapper);
         new AE_Handler_MTK(parameters,cameraHolder,camParametersHandler,1600);
     }
 

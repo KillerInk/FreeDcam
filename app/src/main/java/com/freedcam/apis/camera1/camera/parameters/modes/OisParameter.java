@@ -17,7 +17,7 @@ public class OisParameter extends BaseModeParameter {
      * @param values
      */
     public OisParameter(Handler uihandler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, String values) {
-        super(uihandler, parameters, cameraHolder, "", "");
+        super(parameters, cameraHolder, "", "");
     }
 
     @Override

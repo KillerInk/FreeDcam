@@ -1,7 +1,5 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
-import android.os.Handler;
-
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.FreeDPool;
@@ -37,9 +35,9 @@ public class OpCodeParameter extends AbstractModeParameter
     private boolean hasOp3 = false;
     private boolean OpcodeEnabled = true;
     private boolean isSupported = false;
-    public OpCodeParameter(Handler uiHandler)
+    public OpCodeParameter()
     {
-        super(uiHandler);
+        super();
         File op2 = new File(StringUtils.GetFreeDcamConfigFolder+"opc2.bin");
         if (op2.exists())
             hasOp2=true;

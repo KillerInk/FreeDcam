@@ -1,6 +1,5 @@
 package com.freedcam.apis.basecamera.camera.parameters.modes;
 
-import android.os.Handler;
 import android.util.Log;
 
 import com.freedcam.utils.Logger;
@@ -26,9 +25,9 @@ public class MatrixChooserParameter extends AbstractModeParameter
     private boolean isSupported =false;
 
     final String TAG = MatrixChooserParameter.class.getSimpleName();
-    public MatrixChooserParameter(Handler uiHandler)
+    public MatrixChooserParameter()
     {
-        super(uiHandler);
+        super();
 
         custommatrixes = new HashMap<>();
         custommatrixes.put("off",null);

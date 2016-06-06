@@ -1,7 +1,5 @@
 package com.freedcam.apis.sonyremote.camera.parameters.modes;
 
-import android.os.Handler;
-
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.sonyremote.camera.sonystuff.JsonUtils;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleRemoteApi;
@@ -35,9 +33,9 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
     protected String[] values;
     private static String TAG = BaseModeParameterSony.class.getSimpleName();
 
-    public BaseModeParameterSony(Handler handler,String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi)
+    public BaseModeParameterSony(String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi)
     {
-        super(handler);
+        super();
         this.VALUE_TO_GET = VALUE_TO_GET;
         this.VALUE_TO_SET = VALUE_TO_SET;
         this.VALUES_TO_GET = VALUES_TO_GET;

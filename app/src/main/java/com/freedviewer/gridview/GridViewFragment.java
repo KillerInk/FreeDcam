@@ -37,8 +37,6 @@ import com.troop.freedcam.R;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Created by troop on 11.12.2015.

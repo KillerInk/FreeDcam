@@ -1,7 +1,6 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.hardware.Camera;
-import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
@@ -37,17 +36,15 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
      */
     protected String[] valuesArray;
 
-    public BaseModeParameter(Handler uihandler, Camera.Parameters  parameters, CameraHolderApi1 cameraHolder)
+    public BaseModeParameter(Camera.Parameters  parameters, CameraHolderApi1 cameraHolder)
     {
-        super(uihandler);
+        super();
         this.parameters = parameters;
         this.cameraHolderApi1 = cameraHolder;
     }
 
     /***
      *
-     * @param uihandler
-     * Holds the ui Thread to invoke the ui from another thread
      * @param parameters
      * Hold the Camera Parameters
      * @param cameraHolder
@@ -57,9 +54,9 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
      * @param key_values
      * the string to get the values avail/supported for @param key_value
      */
-    public BaseModeParameter(Handler uihandler, Camera.Parameters  parameters, CameraHolderApi1 cameraHolder, String key_value, String key_values)
+    public BaseModeParameter(Camera.Parameters  parameters, CameraHolderApi1 cameraHolder, String key_value, String key_values)
     {
-        this(uihandler,parameters,cameraHolder);
+        this(parameters,cameraHolder);
         this.key_value = key_value;
         this.key_values = key_values;
         if (parameters != null && !key_value.isEmpty() && parameters.get(key_value) != null && parameters.get(key_values) != null)

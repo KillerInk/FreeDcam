@@ -231,7 +231,7 @@ public class DeviceSelector {
                return new Xiaomi_Mi_Note_Pro(uiHandler,cameraParameters,cameraUiWrapper);
                 
             case Xiaomi_Redmi_Note3:
-               return new Xiaomi_Redmi_Note3_QC_MTK(uiHandler,cameraParameters,cameraUiWrapper);
+               return new Xiaomi_Redmi_Note3_QC_MTK(cameraParameters,cameraUiWrapper);
                 
             case Yu_Yureka:
                return new Yu_Yureka(uiHandler,cameraParameters,cameraUiWrapper);

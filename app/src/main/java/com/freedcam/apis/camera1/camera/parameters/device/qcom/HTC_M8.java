@@ -17,7 +17,7 @@ import com.troop.androiddng.DngProfile;
  */
 public class HTC_M8 extends AbstractDevice {
     public HTC_M8(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
-        super(uihandler, parameters, cameraUiWrapper);
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

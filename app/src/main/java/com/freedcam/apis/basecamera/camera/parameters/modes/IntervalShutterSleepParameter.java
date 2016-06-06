@@ -1,15 +1,13 @@
 package com.freedcam.apis.basecamera.camera.parameters.modes;
 
-import android.os.Handler;
-
 /**
  * Created by troop on 08.01.2016.
  */
 public class IntervalShutterSleepParameter extends AbstractModeParameter
 {
     private String current = "1 sec";
-    public IntervalShutterSleepParameter(Handler uiHandler) {
-        super(uiHandler);
+    public IntervalShutterSleepParameter() {
+        super();
     }
 
     @Override

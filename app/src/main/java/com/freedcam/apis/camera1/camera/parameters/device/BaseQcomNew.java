@@ -3,9 +3,9 @@ package com.freedcam.apis.camera1.camera.parameters.device;
 import android.hardware.Camera;
 import android.os.Handler;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
-import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_QcomM;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseFocusManual;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseWB_CCT_QC;
@@ -19,8 +19,8 @@ public class BaseQcomNew extends AbstractDevice
     protected AE_Handler_QcomM aeHandlerQcomM;
 
     public BaseQcomNew(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
-        super(uihandler, parameters, cameraUiWrapper);
-        aeHandlerQcomM = new AE_Handler_QcomM(uihandler, parameters, cameraHolder, camParametersHandler);
+        super(parameters, cameraUiWrapper);
+        aeHandlerQcomM = new AE_Handler_QcomM(parameters, cameraHolder, camParametersHandler);
     }
 
     @Override

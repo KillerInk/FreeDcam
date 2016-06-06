@@ -1,7 +1,6 @@
 package com.freedcam.apis.basecamera.camera.parameters.modes;
 
 import android.os.Build;
-import android.os.Handler;
 
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.StringUtils;
@@ -17,8 +16,8 @@ public class SDModeParameter extends AbstractModeParameter
     final public static String external ="External";
     private AppSettingsManager appSettingsManager;
 
-    public SDModeParameter(Handler uiHandler,AppSettingsManager appSettingsManager) {
-        super(uiHandler);
+    public SDModeParameter(AppSettingsManager appSettingsManager) {
+        super();
         this.appSettingsManager = appSettingsManager;
     }
 

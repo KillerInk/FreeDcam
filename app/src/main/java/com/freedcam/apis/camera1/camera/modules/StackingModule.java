@@ -8,12 +8,12 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.Type;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
-import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.modes.StackModeParameter;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.AppSettingsManager;

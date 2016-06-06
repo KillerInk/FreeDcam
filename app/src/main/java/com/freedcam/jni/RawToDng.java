@@ -4,12 +4,10 @@ import android.location.Location;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
 
-import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 import com.troop.androiddng.DngProfile;
-import com.troop.androiddng.DngSupportedDevices;
 
 import java.io.File;
 import java.io.IOException;

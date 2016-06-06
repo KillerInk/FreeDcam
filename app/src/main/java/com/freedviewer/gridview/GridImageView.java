@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.holder.BaseHolder;
