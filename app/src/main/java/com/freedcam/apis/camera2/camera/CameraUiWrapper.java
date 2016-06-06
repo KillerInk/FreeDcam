@@ -10,7 +10,7 @@ import android.view.TextureView;
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.interfaces.I_error;
 import com.freedcam.apis.camera2.camera.modules.ModuleHandlerApi2;
-import com.freedcam.apis.camera2.camera.parameters.ParameterHandlerApi2;
+import com.freedcam.apis.camera2.camera.parameters.ParameterHandler;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.RenderScriptHandler;
@@ -44,7 +44,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements TextureV
         this.errorHandler = this;
         this.cameraHolder = new CameraHolder(context, this, uiHandler,appSettingsManager,renderScriptHandler);
         super.cameraHolder = this.cameraHolder;
-        this.parametersHandler = new ParameterHandlerApi2(this,context,appSettingsManager);
+        this.parametersHandler = new ParameterHandler(this,context,appSettingsManager);
         this.cameraHolder.SetParameterHandler(parametersHandler);
         this.moduleHandler = new ModuleHandlerApi2(cameraHolder,context,appSettingsManager,renderScriptHandler);
         this.Focus = new FocusHandler(this);

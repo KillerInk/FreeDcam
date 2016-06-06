@@ -9,7 +9,7 @@ import android.os.Build;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.camera2.camera.CameraHolder;
-import com.freedcam.apis.camera2.camera.parameters.ParameterHandlerApi2;
+import com.freedcam.apis.camera2.camera.parameters.ParameterHandler;
 import com.freedcam.utils.Logger;
 
 /**
@@ -32,7 +32,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
     private CameraHolder cameraHolder;
 
 
-    public ManualToneMapCurveApi2(ParameterHandlerApi2 camParametersHandler, CameraHolder cameraHolder)
+    public ManualToneMapCurveApi2(ParameterHandler camParametersHandler, CameraHolder cameraHolder)
     {
         this.cameraHolder = cameraHolder;
         this.contrast = new Contrast(camParametersHandler);
@@ -85,7 +85,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
     public class Contrast extends AbstractManualParameter
     {
         boolean firststart = true;
-        public Contrast(ParameterHandlerApi2 camParametersHandler) {
+        public Contrast(ParameterHandler camParametersHandler) {
             super(camParametersHandler);
             this.stringvalues = createStringArray(0,100,1);
             this.currentInt = 50;
@@ -175,7 +175,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
     public class Brightness extends AbstractManualParameter
     {
 
-        public Brightness(ParameterHandlerApi2 camParametersHandler) {
+        public Brightness(ParameterHandler camParametersHandler) {
             super(camParametersHandler);
             stringvalues = createStringArray(0,100,1);
             this.currentInt = 50;

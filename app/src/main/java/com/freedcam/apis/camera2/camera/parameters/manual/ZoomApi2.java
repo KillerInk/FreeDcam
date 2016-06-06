@@ -8,7 +8,7 @@ import android.os.Build;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.camera2.camera.CameraHolder;
-import com.freedcam.apis.camera2.camera.parameters.ParameterHandlerApi2;
+import com.freedcam.apis.camera2.camera.parameters.ParameterHandler;
 
 /**
  * Created by troop on 06.03.2015.
@@ -17,9 +17,9 @@ import com.freedcam.apis.camera2.camera.parameters.ParameterHandlerApi2;
 public class ZoomApi2 extends AbstractManualParameter
 {
     final String TAG = ZoomApi2.class.getSimpleName();
-    private ParameterHandlerApi2 camParametersHandler;
+    private ParameterHandler camParametersHandler;
     private CameraHolder cameraHolder;
-    public ZoomApi2(ParameterHandlerApi2 camParametersHandler, CameraHolder cameraHolder)  {
+    public ZoomApi2(ParameterHandler camParametersHandler, CameraHolder cameraHolder)  {
         super(camParametersHandler);
         this.cameraHolder = cameraHolder;
         this.camParametersHandler = camParametersHandler;

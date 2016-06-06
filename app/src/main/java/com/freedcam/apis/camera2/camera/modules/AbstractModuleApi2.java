@@ -10,7 +10,6 @@ import android.view.WindowManager;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.camera2.camera.CameraHolder;
-import com.freedcam.apis.camera2.camera.parameters.ParameterHandlerApi2;
 import com.freedcam.utils.AppSettingsManager;
 
 
@@ -20,7 +19,7 @@ import com.freedcam.utils.AppSettingsManager;
 public abstract class AbstractModuleApi2 extends AbstractModule implements I_PreviewWrapper
 {
     protected CameraHolder cameraHolder;
-    protected ParameterHandlerApi2 ParameterHandler;
+    protected com.freedcam.apis.camera2.camera.parameters.ParameterHandler ParameterHandler;
 
     protected boolean isWorking = false;
 
@@ -31,7 +30,7 @@ public abstract class AbstractModuleApi2 extends AbstractModule implements I_Pre
     {
         super(cameraHandler,eventHandler,context,appSettingsManager);
         this.cameraHolder = cameraHandler;
-        this.ParameterHandler = (ParameterHandlerApi2) cameraHolder.GetParameterHandler();
+        this.ParameterHandler = (com.freedcam.apis.camera2.camera.parameters.ParameterHandler) cameraHolder.GetParameterHandler();
         Display display = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         displaySize = new Point();
         display.getRealSize(displaySize);

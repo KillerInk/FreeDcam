@@ -19,22 +19,22 @@ import java.util.HashMap;
 public class WbHandler
 {
     private CameraHolder cameraHolder;
-    private ParameterHandlerApi2 parameterHandler;
+    private ParameterHandler parameterHandler;
     private WhiteBalanceApi2 whiteBalanceApi2;
     private ColorCorrectionModeApi2 colorCorrectionMode;
     private ManualWbCtApi2 manualWbCt;
 
     private WhiteBalanceValues activeWbMode = WhiteBalanceValues.AUTO;
 
-    public WbHandler(CameraHolder cameraHolder, ParameterHandlerApi2 parameterHandlerApi2)
+    public WbHandler(CameraHolder cameraHolder, ParameterHandler parameterHandler)
     {
         this.cameraHolder= cameraHolder;
-        this.parameterHandler =parameterHandlerApi2;
+        this.parameterHandler = parameterHandler;
         colorCorrectionMode = new ColorCorrectionModeApi2();
         whiteBalanceApi2 = new WhiteBalanceApi2();
-        manualWbCt = new ManualWbCtApi2(parameterHandler);
-        parameterHandler.CCT = manualWbCt;
-        parameterHandler.WhiteBalanceMode = whiteBalanceApi2;
+        manualWbCt = new ManualWbCtApi2(this.parameterHandler);
+        this.parameterHandler.CCT = manualWbCt;
+        this.parameterHandler.WhiteBalanceMode = whiteBalanceApi2;
         //dont make that avail for the ui
         //parameterHandler.ColorCorrectionMode = colorCorrectionMode;
 
@@ -192,7 +192,7 @@ public class WbHandler
 
         private final String TAG = ManualWbCtApi2.class.getSimpleName();
 
-        public ManualWbCtApi2(ParameterHandlerApi2 camParametersHandler) {
+        public ManualWbCtApi2(ParameterHandler camParametersHandler) {
             super(camParametersHandler);
             stringvalues = createStringArray(1500,10000,100);
             cctLookup = getCctlooup();

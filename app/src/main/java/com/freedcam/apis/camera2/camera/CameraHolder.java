@@ -36,7 +36,6 @@ import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
 import com.freedcam.apis.camera2.camera.modules.I_PreviewWrapper;
-import com.freedcam.apis.camera2.camera.parameters.ParameterHandlerApi2;
 import com.freedcam.apis.camera2.camera.renderscript.FocuspeakProcessorApi2;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
@@ -607,7 +606,7 @@ public class CameraHolder extends AbstractCameraHolder
         {
             try {
                 mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-                ((ParameterHandlerApi2)GetParameterHandler()).Init();
+                ((com.freedcam.apis.camera2.camera.parameters.ParameterHandler)GetParameterHandler()).Init();
             } catch (CameraAccessException e) {
                 Logger.exception(e);
             }

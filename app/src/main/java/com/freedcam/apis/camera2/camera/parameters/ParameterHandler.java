@@ -41,15 +41,15 @@ import java.util.List;
  * Created by troop on 12.12.2014.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class ParameterHandlerApi2 extends AbstractParameterHandler
+public class ParameterHandler extends AbstractParameterHandler
 {
-    private static String TAG = ParameterHandlerApi2.class.getSimpleName();
+    private static String TAG = ParameterHandler.class.getSimpleName();
     private ManualToneMapCurveApi2 manualToneMapCurveApi2;
     private CameraUiWrapper wrapper;
 
     private CameraHolder cameraHolder;
 
-    public ParameterHandlerApi2(CameraUiWrapper cameraHolder, Context context, AppSettingsManager appSettingsManager)
+    public ParameterHandler(CameraUiWrapper cameraHolder, Context context, AppSettingsManager appSettingsManager)
     {
         super(cameraHolder.cameraHolder,context,appSettingsManager);
         this.wrapper = cameraHolder;
@@ -72,7 +72,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
         WbHandler wbHandler = new WbHandler(cameraHolder,this);
         //AE mode start
-        AeHandlerApi2 aeHandlerApi2 = new AeHandlerApi2(uiHandler,cameraHolder,this);
+        AeHandler aeHandler = new AeHandler(uiHandler,cameraHolder,this);
         //ae mode end
         AntiBandingMode = new AntibandingApi2(cameraHolder);
         PictureSize = new PictureSizeModeApi2(cameraHolder);
