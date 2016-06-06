@@ -13,7 +13,7 @@ import com.freedcam.apis.KEYS;
 public class VideoStabilizationParameter extends  BaseModeParameter {
     I_CameraHolder baseCameraHolder;
     private final String[] vs_values = {KEYS.TRUE, KEYS.FALSE};
-    public VideoStabilizationParameter(Handler handler, Camera.Parameters parameters, CameraHolderApi1 parameterChanged, String values)
+    public VideoStabilizationParameter(Handler handler, Camera.Parameters parameters, CameraHolderApi1 parameterChanged)
     {
         super(handler, parameters, parameterChanged, KEYS.VIDEO_STABILIZATION, "");
         if (parameters.get(KEYS.VIDEO_STABILIZATION_SUPPORTED).equals(KEYS.TRUE))

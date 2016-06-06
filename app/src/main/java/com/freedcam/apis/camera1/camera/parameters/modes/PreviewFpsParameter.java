@@ -3,6 +3,7 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 import android.hardware.Camera;
 import android.os.Handler;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 
 /**
@@ -12,8 +13,8 @@ public class PreviewFpsParameter extends  BaseModeParameter
 {
     private CameraHolderApi1 cameraHolder;
 
-    public PreviewFpsParameter(Handler handler, Camera.Parameters parameters, String values, CameraHolderApi1 holder) {
-        super(handler ,parameters, holder, "preview-frame-rate", "preview-frame-rate-values");
+    public PreviewFpsParameter(Handler handler, Camera.Parameters parameters,CameraHolderApi1 holder) {
+        super(handler ,parameters, holder, KEYS.PREVIEW_FRAME_RATE, KEYS.PREVIEW_FRAME_RATE_VALUES);
         this.cameraHolder = holder;
     }
 

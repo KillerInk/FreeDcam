@@ -32,6 +32,46 @@ public final class KEYS {
 
     public static final String KEY_QUALCOMM_CAMERA = "qc-camera-features";
 
+    public static final String FOCUS_MODE = "focus-mode";
+    public static final String FOCUS_MODE_VALUES="focus-mode-values";
+
+    public static final String WHITEBALANCE = "whitebalance";
+    public static final String WHITEBALANCE_VALUES = "whitebalance-values";
+
+    public static final String COLOR_EFFECT = "effect";
+    public static final String COLOR_EFFECT_VALUES = "effect-values";
+
+    public static final String FLASH_MODE = "flash-mode";
+    public static final String FLASH_MODE_VALUES = "flash-mode-values";
+
+    public static final String ANTIBANDING = "antibanding";
+    public static final String ANTIBANDING_VALUES = "antibanding-values";
+
+    public static final String PREVIEW_FRAME_RATE_VALUES = "preview-frame-rate-values";
+    public static final String PREVIEW_FRAME_RATE ="preview-frame-rate";
+
+    public final static String REDEYE_REDUCTION = "redeye-reduction";
+    public final static String REDEYE_REDUCTION_VALUES = "redeye-reduction-values";
+
+    public final static String LENSSHADE = "lensshade";
+    public final static String LENSSHADE_VALUES = "lensshade-values";
+
+    public final static String SCENE_DETECT = "scene-detect";
+    public final static String SCENE_DETECT_VALUES= "scene-detect-values";
+
+    public final static String DENOISE = "denoise";
+    public final static String DENOISE_VALUES="denoise-values";
+
+    public final static String DIGITALIMAGESTABILIZATION = "dis";
+    public final static String DIGITALIMAGESTABILIZATION_VALUES = "dis-values";
+
+    public final static String MEMORYCOLORENHANCEMENT_VALUES = "mce-values";
+    public final static String MEMORYCOLORENHANCEMENT = "mce";
+
+    public final static String SKINETONEENHANCEMENT = "skinToneEnhancement";
+    public final static String SKINETONEENHANCEMENT_VALUES = "skinToneEnhancement-values";
+
+
     // Manual Focus Keys
     public static final String KEY_MANUAL_FOCUS_MODE_VALUE = "manual-focus-modes";
     public static final String KEY_FOCUS_MODE_MANUAL = "manual";
@@ -122,6 +162,9 @@ public final class KEYS {
     public static final String FOCUS_FS_FI_MAX = "focus-fs-fi-max";
     public static final String FOCUS_FS_FI_MIN = "focus-fs-fi-min";
 
+    public final static String MTK_NOISE_REDUCTION_MODE = "3dnr-mode";
+    public final static String MTK_NOISE_REDUCTION_MODE_VALUES = "3dnr-mode-values";
+
 
 
     //Krillin
@@ -148,6 +191,20 @@ public final class KEYS {
     public final static String MIN_FOCUS = "min-focus";
     public final static String FOCUS = "focus";
     public final static String ISO_ST =  "iso-st";
+
+
+    //omap
+    //seen on optimus3d to set 3d deepth
+    public static final String MANUAL_CONVERGENCE =  "manual-convergence";
+    public static final String SUPPORTED_MANUAL_CONVERGENCE_MAX = "supported-manual-convergence-max";
+    public static final String SUPPORTED_MANUAL_CONVERGENCE_MIN = "supported-manual-convergence-min";
+
+    public static final String IMAGEPOSTPROCESSING = "ipp";
+    public static final String IMAGEPOSTPROCESSING_VALUES = "ipp-values";
+
+    //sony
+    public static final String SONY_VS = "sony-vs";
+    public static final String SONY_VS_VALUES = "sony-vs-values";
 
 
 
