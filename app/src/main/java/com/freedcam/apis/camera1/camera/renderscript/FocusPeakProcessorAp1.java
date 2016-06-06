@@ -13,10 +13,10 @@ import android.renderscript.Type;
 import android.view.Surface;
 import android.view.TextureView;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.Size;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.camera.interfaces.I_Module;
-import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.ui.I_AspectRatio;
@@ -76,7 +76,7 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
         Logger.d(TAG, "setEnable" + enabled);
         if (enabled)
         {
-            final Size size = new Size(cameraUiWrapper.camParametersHandler.PreviewSize.GetValue());
+            final Size size = new Size(cameraUiWrapper.parametersHandler.PreviewSize.GetValue());
             reset(size.width, size.height);
             startPeak();
             Logger.d(TAG, "Set PreviewCallback");
@@ -90,8 +90,8 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
             clear_preview("setEnable");
 
         }
-        if(cameraUiWrapper.camParametersHandler.Focuspeak != null && cameraUiWrapper.camParametersHandler.Focuspeak.IsSupported())
-            cameraUiWrapper.camParametersHandler.Focuspeak.BackgroundValueHasChanged(enabled +"");
+        if(cameraUiWrapper.parametersHandler.Focuspeak != null && cameraUiWrapper.parametersHandler.Focuspeak.IsSupported())
+            cameraUiWrapper.parametersHandler.Focuspeak.BackgroundValueHasChanged(enabled +"");
     }
 
     private void clear_preview(String from)
@@ -283,9 +283,9 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
     public void ModuleChanged(String module)
     {
         Logger.d(TAG, "ModuleChanged(String):" + module + " enabled:" +enable);
-        if (module.equals(AbstractModuleHandler.MODULE_PICTURE)
-                ||module.equals(AbstractModuleHandler.MODULE_HDR)
-                ||module.equals(AbstractModuleHandler.MODULE_INTERVAL))
+        if (module.equals(KEYS.MODULE_PICTURE)
+                ||module.equals(KEYS.MODULE_HDR)
+                ||module.equals(KEYS.MODULE_INTERVAL))
         {
             setDoWork(true);
             setEnable(enable);

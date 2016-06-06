@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.themesample.subfragments.Interfaces;
@@ -146,7 +146,7 @@ public class MenuItemSaveCamParams extends MenuItem
     private void saveCamParameters()
     {
         String[] paras = null;
-        CameraHolderApi1 holder = (CameraHolderApi1)cameraUiWrapper.cameraHolder;
+        CameraHolder holder = (CameraHolder)cameraUiWrapper.cameraHolder;
 
         paras = holder.GetCamera().getParameters().flatten().split(";");
 

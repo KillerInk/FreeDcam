@@ -29,7 +29,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     /**
      * parameters for avail for the cameraHolder
      */
-    public AbstractParameterHandler camParametersHandler;
+    public AbstractParameterHandler parametersHandler;
     /**
      * holds the current camera
      */
@@ -148,7 +148,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     @Override
     public void onCameraClose(final String message)
     {
-        camParametersHandler.locationParameter.stopLocationListining();
+        parametersHandler.locationParameter.stopLocationListining();
         for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
             uiHandler.post(new Runnable() {
                 @Override

@@ -4,10 +4,9 @@ import android.hardware.Camera;
 import android.os.Build;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1.Frameworks;
-import com.freedcam.apis.camera1.camera.modules.ModuleHandler;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.CameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolder.Frameworks;
+import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 
@@ -32,7 +31,7 @@ public class PictureFormatHandler extends BaseModeParameter
     private final static int DNG = 2;
 
     private BayerFormat BayerFormats;
-    private CamParametersHandler camParametersHandler;
+    private ParametersHandler parametersHandler;
 
     final static public String[] CaptureMode =
     {
@@ -45,11 +44,11 @@ public class PictureFormatHandler extends BaseModeParameter
      * @param parameters   Hold the Camera Parameters
      * @param cameraHolder Hold the camera object
      */
-    public PictureFormatHandler(Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler)
+    public PictureFormatHandler(Camera.Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler)
     {
         super(parameters, cameraHolder, "", "");
-        this.camParametersHandler = camParametersHandler;
-        if (cameraHolderApi1.DeviceFrameWork == Frameworks.MTK)
+        this.parametersHandler = parametersHandler;
+        if (cameraHolder.DeviceFrameWork == Frameworks.MTK)
         {
             Logger.d(TAG,"mtk");
             isSupported = true;
@@ -108,7 +107,7 @@ public class PictureFormatHandler extends BaseModeParameter
                     tmp.toArray(rawFormats);
                     if (tmp.size()>0) {
                         BayerFormats = new BayerFormat(parameters, cameraHolder, "");
-                        camParametersHandler.bayerformat = BayerFormats;
+                        parametersHandler.bayerformat = BayerFormats;
                     }
 
                 }
@@ -122,7 +121,7 @@ public class PictureFormatHandler extends BaseModeParameter
     {
         Logger.d(TAG, "SetValue:" + valueToSet);
         captureMode = valueToSet;
-        if (cameraHolderApi1.DeviceFrameWork != Frameworks.MTK)
+        if (cameraHolder.DeviceFrameWork != Frameworks.MTK)
         {
             switch (valueToSet)
             {
@@ -131,11 +130,11 @@ public class PictureFormatHandler extends BaseModeParameter
                     break;
                 case BAYER:
                     setString(rawFormat,setToCam);
-                    cameraHolderApi1.GetParameterHandler().SetDngActive(false);
+                    cameraHolder.GetParameterHandler().SetDngActive(false);
                     break;
                 case KEYS.DNG:
                     setString(rawFormat,setToCam);
-                    cameraHolderApi1.GetParameterHandler().SetDngActive(true);
+                    cameraHolder.GetParameterHandler().SetDngActive(true);
                     break;
             }
         }
@@ -146,7 +145,7 @@ public class PictureFormatHandler extends BaseModeParameter
     {
         Logger.d(TAG, "setString:" +val);
         parameters.set(KEYS.PICTURE_FORMAT, val);
-        cameraHolderApi1.SetCameraParameters(parameters);
+        cameraHolder.SetCameraParameters(parameters);
     }
 
     @Override
@@ -166,9 +165,9 @@ public class PictureFormatHandler extends BaseModeParameter
     {
         if (rawSupported && DeviceUtils.isCamera1NO_RAW_STREM())
             return new String[]{CaptureMode[JPEG]};
-        if (rawSupported && camParametersHandler != null && camParametersHandler.Device != null && !camParametersHandler.Device.IsDngSupported())
+        if (rawSupported && parametersHandler != null && parametersHandler.Device != null && !parametersHandler.Device.IsDngSupported())
             return new String[]{CaptureMode[JPEG],CaptureMode[RAW]};
-        else if(rawSupported && camParametersHandler != null && camParametersHandler.Device != null && camParametersHandler.Device.IsDngSupported())
+        else if(rawSupported && parametersHandler != null && parametersHandler.Device != null && parametersHandler.Device.IsDngSupported())
             return new String[]{CaptureMode[JPEG],CaptureMode[DNG],CaptureMode[RAW]};
         else
             return new String[]{CaptureMode[JPEG]};
@@ -179,12 +178,12 @@ public class PictureFormatHandler extends BaseModeParameter
     {
         switch (module)
         {
-            case ModuleHandler.MODULE_PICTURE:
-            case ModuleHandler.MODULE_INTERVAL:
-            case ModuleHandler.MODULE_HDR:
+            case KEYS.MODULE_PICTURE:
+            case KEYS.MODULE_INTERVAL:
+            case KEYS.MODULE_HDR:
                 BackgroundIsSupportedChanged(true);
                 break;
-            case ModuleHandler.MODULE_VIDEO:
+            case KEYS.MODULE_VIDEO:
                 BackgroundIsSupportedChanged(false);
                 break;
         }
@@ -203,7 +202,7 @@ public class PictureFormatHandler extends BaseModeParameter
          * @param cameraHolder Hold the camera object
          * @param values
          */
-        public BayerFormat(Camera.Parameters parameters, CameraHolderApi1 cameraHolder, String values) {
+        public BayerFormat(Camera.Parameters parameters, CameraHolder cameraHolder, String values) {
             super(parameters, cameraHolder, "", "");
         }
 

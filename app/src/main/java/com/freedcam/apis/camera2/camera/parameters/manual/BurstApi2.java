@@ -6,7 +6,7 @@ import android.os.Looper;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.apis.camera2.camera.CameraHolder;
 
 /**
  * Created by troop on 10.09.2015.
@@ -14,11 +14,11 @@ import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 public class BurstApi2 extends AbstractManualParameter implements AbstractModeParameter.I_ModeParameterEvent
 {
     int current = 1;
-    CameraHolderApi2 cameraHolderApi2;
+    CameraHolder cameraHolder;
 
-    public BurstApi2(AbstractParameterHandler camParametersHandler, CameraHolderApi2 cameraHolderApi2) {
+    public BurstApi2(AbstractParameterHandler camParametersHandler, CameraHolder cameraHolder) {
         super(camParametersHandler);
-        this.cameraHolderApi2 = cameraHolderApi2;
+        this.cameraHolder = cameraHolder;
     }
 
     @Override
@@ -79,9 +79,9 @@ public class BurstApi2 extends AbstractManualParameter implements AbstractModePa
         h.post(new Runnable() {
             @Override
             public void run() {
-                cameraHolderApi2.StopPreview();
+                cameraHolder.StopPreview();
                 //TODO FIX BURST
-                //cameraHolderApi2.SetBurst(current+1);
+                //cameraHolder.SetBurst(current+1);
             }
         });
 

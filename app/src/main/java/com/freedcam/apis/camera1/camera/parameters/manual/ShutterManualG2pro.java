@@ -5,7 +5,7 @@ import android.os.Handler;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.utils.Logger;
 
 /**
@@ -20,10 +20,10 @@ public class ShutterManualG2pro extends BaseManualParameter
 
     /**
      * @param parameters
-     * @param camParametersHandler
+     * @param parametersHandler
      */
-    public ShutterManualG2pro(Camera.Parameters parameters, I_CameraHolder baseCameraHolder, CamParametersHandler camParametersHandler) {
-        super(parameters, "", "", "", camParametersHandler,1);
+    public ShutterManualG2pro(Camera.Parameters parameters, I_CameraHolder baseCameraHolder, ParametersHandler parametersHandler) {
+        super(parameters, "", "", "", parametersHandler,1);
         this.baseCameraHolder = baseCameraHolder;
 
         stringvalues = G2Pro.split(",");
@@ -79,7 +79,7 @@ public class ShutterManualG2pro extends BaseManualParameter
                 public void run() {
 
                     parameters.set("exposure-time", shutterstring);
-                    camParametersHandler.SetParametersToCamera(parameters);
+                    parametersHandler.SetParametersToCamera(parameters);
 
 
                 }

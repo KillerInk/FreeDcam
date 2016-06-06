@@ -79,9 +79,9 @@ public class MenuItemAEB extends LinearLayout {
         if (cameraUiWrapper == this.cameraUiWrapper)
             return;
         this.cameraUiWrapper = cameraUiWrapper;
-        if (cameraUiWrapper !=  null && cameraUiWrapper.camParametersHandler != null && cameraUiWrapper.camParametersHandler.ManualExposure != null)
+        if (cameraUiWrapper !=  null && cameraUiWrapper.parametersHandler != null && cameraUiWrapper.parametersHandler.ManualExposure != null)
         {
-            String[] v = cameraUiWrapper.camParametersHandler.ManualExposure.getStringValues();
+            String[] v = cameraUiWrapper.parametersHandler.ManualExposure.getStringValues();
             int le = v.length;
             min = -(le/2);
             max = le/2;
@@ -95,9 +95,9 @@ public class MenuItemAEB extends LinearLayout {
     private void setCurrent(int current) {
         String tempcurrent = String.valueOf(current);
         appSettingsManager.setString(settingsname, tempcurrent);
-        if (cameraUiWrapper != null && cameraUiWrapper.camParametersHandler != null && cameraUiWrapper.camParametersHandler.captureBurstExposures != null) {
-            if ((cameraUiWrapper.camParametersHandler.captureBurstExposures.IsSupported())) {
-                cameraUiWrapper.camParametersHandler.captureBurstExposures.SetValue("on", true);
+        if (cameraUiWrapper != null && cameraUiWrapper.parametersHandler != null && cameraUiWrapper.parametersHandler.captureBurstExposures != null) {
+            if ((cameraUiWrapper.parametersHandler.captureBurstExposures.IsSupported())) {
+                cameraUiWrapper.parametersHandler.captureBurstExposures.SetValue("on", true);
             }
             editText.setText(current +"");
         }

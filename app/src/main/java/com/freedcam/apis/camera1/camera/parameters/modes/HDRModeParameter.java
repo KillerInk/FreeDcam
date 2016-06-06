@@ -3,8 +3,7 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 import android.hardware.Camera;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
@@ -26,7 +25,7 @@ public class HDRModeParameter extends BaseModeParameter
     private String format = "";
     private String curmodule = "";
 
-    public HDRModeParameter(Camera.Parameters parameters, CameraHolderApi1 parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
+    public HDRModeParameter(Camera.Parameters parameters, CameraHolder parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
         super(parameters, parameterChanged, "", "");
 
         this.isSupported = false;
@@ -64,7 +63,7 @@ public class HDRModeParameter extends BaseModeParameter
         }
         if (isSupported) {
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
-            cameraUiWrapper.camParametersHandler.PictureFormat.addEventListner(this);
+            cameraUiWrapper.parametersHandler.PictureFormat.addEventListner(this);
         }
 
     }
@@ -82,12 +81,12 @@ public class HDRModeParameter extends BaseModeParameter
                 ||DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote))
         {
             if (valueToSet.equals(KEYS.ON)) {
-                cameraHolderApi1.GetParameterHandler().morphoHHT.SetValue(KEYS.FALSE, true);
-                cameraHolderApi1.GetParameterHandler().NightMode.BackgroundValueHasChanged(KEYS.OFF);
-                cameraHolderApi1.GetParameterHandler().AE_Bracket.SetValue(KEYS.AE_BRACKET_HDR_VALUES_AE_BRACKET, true);
+                cameraHolder.GetParameterHandler().morphoHHT.SetValue(KEYS.FALSE, true);
+                cameraHolder.GetParameterHandler().NightMode.BackgroundValueHasChanged(KEYS.OFF);
+                cameraHolder.GetParameterHandler().AE_Bracket.SetValue(KEYS.AE_BRACKET_HDR_VALUES_AE_BRACKET, true);
                 parameters.set(KEYS.MORPHO_HDR, KEYS.TRUE);
             } else {
-                cameraHolderApi1.GetParameterHandler().AE_Bracket.SetValue(KEYS.AE_BRACKET_OFF, true);
+                cameraHolder.GetParameterHandler().AE_Bracket.SetValue(KEYS.AE_BRACKET_OFF, true);
                 parameters.set(KEYS.MORPHO_HDR, KEYS.FALSE);
             }
         }
@@ -122,7 +121,7 @@ public class HDRModeParameter extends BaseModeParameter
             }
         }
         try {
-            cameraHolderApi1.SetCameraParameters(parameters);
+            cameraHolder.SetCameraParameters(parameters);
             super.BackgroundValueHasChanged(valueToSet);
         }
         catch (Exception ex)
@@ -193,8 +192,8 @@ public class HDRModeParameter extends BaseModeParameter
             curmodule = module;
             switch (module)
             {
-                case AbstractModuleHandler.MODULE_VIDEO:
-                case AbstractModuleHandler.MODULE_HDR:
+                case KEYS.MODULE_VIDEO:
+                case KEYS.MODULE_HDR:
                     Hide();
                     SetValue(KEYS.OFF,true);
                     break;
@@ -216,7 +215,7 @@ public class HDRModeParameter extends BaseModeParameter
     public void onValueChanged(String val)
     {
         format = val;
-        if (val.contains(KEYS.JPEG)&&!visible&&!curmodule.equals(AbstractModuleHandler.MODULE_HDR))
+        if (val.contains(KEYS.JPEG)&&!visible&&!curmodule.equals(KEYS.MODULE_HDR))
             Show();
 
         else if (!val.contains(KEYS.JPEG)&&visible) {

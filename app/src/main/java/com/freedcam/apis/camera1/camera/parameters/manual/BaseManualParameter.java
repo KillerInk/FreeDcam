@@ -2,11 +2,11 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
 
-import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.camera.parameters.modes.PictureFormatHandler;
 import com.freedcam.utils.Logger;
 
@@ -37,7 +37,7 @@ public class BaseManualParameter extends AbstractManualParameter
 
     protected float step;
 
-    protected CamParametersHandler camParametersHandler;
+    protected ParametersHandler parametersHandler;
 
 
 
@@ -61,11 +61,11 @@ public class BaseManualParameter extends AbstractManualParameter
      * @param @key_value
      * @param @key_max_value
      * @param @key_min_value
-     * @param @camParametersHandler
+     * @param @parametersHandler
      */
-    public BaseManualParameter(Camera.Parameters  parameters, String key_value, String maxValue, String MinValue, CamParametersHandler camParametersHandler, float step) {
-        super(camParametersHandler);
-        this.camParametersHandler = camParametersHandler;
+    public BaseManualParameter(Camera.Parameters  parameters, String key_value, String maxValue, String MinValue, ParametersHandler parametersHandler, float step) {
+        super(parametersHandler);
+        this.parametersHandler = parametersHandler;
         this.parameters = parameters;
         this.key_value = key_value;
         this.key_max_value = maxValue;
@@ -147,7 +147,7 @@ public class BaseManualParameter extends AbstractManualParameter
         ThrowCurrentValueStringCHanged(stringvalues[valueToset]);
         try
         {
-            camParametersHandler.SetParametersToCamera(parameters);
+            parametersHandler.SetParametersToCamera(parameters);
         }
         catch (Exception ex)
         {
@@ -209,11 +209,11 @@ public class BaseManualParameter extends AbstractManualParameter
         @Override
         public void ModuleChanged(String module)
         {
-            if (module.equals(AbstractModuleHandler.MODULE_VIDEO) && isSupported)
+            if (module.equals(KEYS.MODULE_VIDEO) && isSupported)
                 BackgroundIsSupportedChanged(true);
-            else if (module.equals(AbstractModuleHandler.MODULE_PICTURE)
-                    || module.equals(AbstractModuleHandler.MODULE_INTERVAL)
-                    || module.equals(AbstractModuleHandler.MODULE_HDR))
+            else if (module.equals(KEYS.MODULE_PICTURE)
+                    || module.equals(KEYS.MODULE_INTERVAL)
+                    || module.equals(KEYS.MODULE_HDR))
             {
                 BackgroundIsSupportedChanged(isVisible);
             }

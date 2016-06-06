@@ -2,7 +2,7 @@ package com.freedcam.utils;
 
 import android.content.Context;
 
-import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.KEYS;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -224,7 +224,7 @@ public class AppSettingsManager
         final String mod = appsettingsList.get(getApiSettingString(SETTING_CURRENTMODULE));
         if (mod != null && !mod.equals(""))
             return mod;
-        return AbstractModuleHandler.MODULE_PICTURE;
+        return KEYS.MODULE_PICTURE;
     }
 
     /**

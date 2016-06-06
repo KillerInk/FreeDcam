@@ -5,15 +5,15 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.apis.camera2.camera.CameraHolder;
 
 /**
  * Created by troop on 05.05.2015.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class ToneMapModeApi2 extends BaseModeApi2 {
-    public ToneMapModeApi2(CameraHolderApi2 cameraHolderApi2) {
-        super(cameraHolderApi2);
+    public ToneMapModeApi2(CameraHolder cameraHolder) {
+        super(cameraHolder);
     }
 
     public enum ToneMapModes

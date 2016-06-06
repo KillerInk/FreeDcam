@@ -13,13 +13,13 @@ import android.renderscript.Element;
 import android.renderscript.Type;
 import android.view.Surface;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.Size;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
-import com.freedcam.apis.camera1.camera.modules.ModuleHandler;
 import com.freedcam.apis.camera1.camera.parameters.modes.StackModeParameter;
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.apis.camera2.camera.CameraHolder;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
@@ -51,9 +51,9 @@ public class StackingModuleApi2 extends AbstractModuleApi2
     private RenderScriptHandler renderScriptHandler;
 
 
-    public StackingModuleApi2(CameraHolderApi2 cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager, RenderScriptHandler renderScriptHandler) {
+    public StackingModuleApi2(CameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager, RenderScriptHandler renderScriptHandler) {
         super(cameraHandler, eventHandler, context, appSettingsManager);
-        this.name = ModuleHandler.MODULE_STACKING;
+        this.name = KEYS.MODULE_STACKING;
         this.renderScriptHandler =renderScriptHandler;
     }
 

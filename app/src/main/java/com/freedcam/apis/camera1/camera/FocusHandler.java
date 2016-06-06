@@ -19,7 +19,7 @@ import java.util.List;
 public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.AutoFocusCallback
 {
     final String TAG = FocusHandler.class.getSimpleName();
-    private final CameraHolderApi1 cameraHolder;
+    private final CameraHolder cameraHolder;
     private final CameraUiWrapper cameraUiWrapper;
     private final AbstractParameterHandler parametersHandler;
 
@@ -33,7 +33,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
         @Override
         public void onValueChanged(String val)
         {
-            if (cameraHolder.DeviceFrameWork != CameraHolderApi1.Frameworks.MTK) {
+            if (cameraHolder.DeviceFrameWork != CameraHolder.Frameworks.MTK) {
                 if (val.equals("auto") || val.equals("macro") || val.equals("touch")) {
                     if (focusEvent != null)
                         focusEvent.TouchToFocusSupported(true);
@@ -75,7 +75,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
         @Override
         public void onValueChanged(String val)
         {
-            if(cameraHolder.DeviceFrameWork != CameraHolderApi1.Frameworks.MTK)
+            if(cameraHolder.DeviceFrameWork != CameraHolder.Frameworks.MTK)
             {
                 if (val.contains("spot")) {
                     if (focusEvent != null) {
@@ -124,7 +124,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.cameraHolder = cameraUiWrapper.cameraHolder;
-        this.parametersHandler = cameraUiWrapper.camParametersHandler;
+        this.parametersHandler = cameraUiWrapper.parametersHandler;
     }
 
     @Override

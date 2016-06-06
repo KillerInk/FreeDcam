@@ -2,10 +2,10 @@ package com.freedcam.apis.camera2.camera.parameters.modes;
 
 import android.media.CamcorderProfile;
 
-import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile;
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
-import com.freedcam.apis.camera2.camera.CameraUiWrapperApi2;
+import com.freedcam.apis.camera2.camera.CameraHolder;
+import com.freedcam.apis.camera2.camera.CameraUiWrapper;
 import com.freedcam.utils.Logger;
 
 import java.io.File;
@@ -23,14 +23,14 @@ public class VideoProfilesApi2 extends BaseModeApi2
     final String TAG = VideoProfilesApi2.class.getSimpleName();
     private HashMap<String, VideoMediaProfile> supportedProfiles;
     private String profile;
-    private CameraUiWrapperApi2 cameraUiWrapperApi2;
+    private CameraUiWrapper cameraUiWrapper;
 
-    public VideoProfilesApi2(CameraHolderApi2 cameraHolderApi2, CameraUiWrapperApi2 cameraUiWrapperApi2)
+    public VideoProfilesApi2(CameraHolder cameraHolder, CameraUiWrapper cameraUiWrapper)
     {
-        super(cameraHolderApi2);
+        super(cameraHolder);
         loadProfiles();
         this.isSupported = true;
-        this.cameraUiWrapperApi2 = cameraUiWrapperApi2;
+        this.cameraUiWrapper = cameraUiWrapper;
     }
 
     @Override
@@ -253,10 +253,10 @@ public class VideoProfilesApi2 extends BaseModeApi2
     public void SetValue(String valueToSet, boolean setToCam)
     {
         profile = valueToSet;
-        if (cameraUiWrapperApi2.moduleHandler.GetCurrentModule() != null && cameraUiWrapperApi2.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
+        if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null && cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
         {
-            cameraUiWrapperApi2.moduleHandler.GetCurrentModule().DestroyModule();
-            cameraUiWrapperApi2.moduleHandler.GetCurrentModule().InitModule();
+            cameraUiWrapper.moduleHandler.GetCurrentModule().DestroyModule();
+            cameraUiWrapper.moduleHandler.GetCurrentModule().InitModule();
         }
 
     }

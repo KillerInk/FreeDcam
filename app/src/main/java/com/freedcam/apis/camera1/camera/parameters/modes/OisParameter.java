@@ -3,7 +3,7 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 import android.hardware.Camera;
 import android.os.Handler;
 
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.utils.DeviceUtils;
 
 /**
@@ -16,7 +16,7 @@ public class OisParameter extends BaseModeParameter {
      * @param cameraHolder Hold the camera object
      * @param values
      */
-    public OisParameter(Handler uihandler, Camera.Parameters parameters, CameraHolderApi1 cameraHolder, String values) {
+    public OisParameter(Handler uihandler, Camera.Parameters parameters, CameraHolder cameraHolder, String values) {
         super(parameters, cameraHolder, "", "");
     }
 
@@ -33,7 +33,7 @@ public class OisParameter extends BaseModeParameter {
             parameters.set("ois", valueToSet);
         else
             parameters.set("hw_ois_enable", valueToSet);
-        cameraHolderApi1.SetCameraParameters(parameters);
+        cameraHolder.SetCameraParameters(parameters);
     }
 
     @Override

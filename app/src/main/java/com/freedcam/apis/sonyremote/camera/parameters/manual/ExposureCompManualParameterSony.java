@@ -1,6 +1,5 @@
 package com.freedcam.apis.sonyremote.camera.parameters.manual;
 
-import com.freedcam.apis.sonyremote.camera.parameters.ParameterHandlerSony;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 
@@ -16,8 +15,8 @@ import java.io.IOException;
 public class ExposureCompManualParameterSony extends BaseManualParameterSony
 {
     private static String TAG = ExposureCompManualParameterSony.class.getSimpleName();
-    public ExposureCompManualParameterSony(ParameterHandlerSony parameterHandlerSony) {
-        super("getExposureCompensation", "getAvailableExposureCompensation", "setExposureCompensation", parameterHandlerSony);
+    public ExposureCompManualParameterSony(com.freedcam.apis.sonyremote.camera.parameters.ParameterHandler parameterHandler) {
+        super("getExposureCompensation", "getAvailableExposureCompensation", "setExposureCompensation", parameterHandler);
         currentInt = -200;
     }
 

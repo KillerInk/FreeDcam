@@ -5,7 +5,7 @@ import android.graphics.ImageFormat;
 import android.os.Build;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.apis.camera2.camera.CameraHolder;
 
 import java.util.ArrayList;
 
@@ -14,13 +14,13 @@ import java.util.ArrayList;
  */
 public class PictureFormatParameterApi2 extends BaseModeApi2
 {
-    private CameraHolderApi2 cameraHolder;
+    private CameraHolder cameraHolder;
     boolean firststart = true;
     private String format = KEYS.JPEG;
-    public PictureFormatParameterApi2(CameraHolderApi2 cameraHolderApi2)
+    public PictureFormatParameterApi2(CameraHolder cameraHolder)
     {
-        super(cameraHolderApi2);
-        this.cameraHolder = cameraHolderApi2;
+        super(cameraHolder);
+        this.cameraHolder = cameraHolder;
     }
 
     @Override
@@ -53,13 +53,13 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
     {
         ArrayList<String> ret = new ArrayList<>();
         if (cameraHolder.map.isOutputSupportedFor(ImageFormat.RAW10))
-            ret.add(CameraHolderApi2.RAW10);
+            ret.add(CameraHolder.RAW10);
         if (cameraHolder.map.isOutputSupportedFor(ImageFormat.RAW_SENSOR))
-            ret.add(CameraHolderApi2.RAW_SENSOR);
+            ret.add(CameraHolder.RAW_SENSOR);
         if(cameraHolder.map.isOutputSupportedFor(ImageFormat.JPEG))
             ret.add(KEYS.JPEG);
         if (cameraHolder.map.isOutputSupportedFor(ImageFormat.RAW12))
-            ret.add(CameraHolderApi2.RAW12);
+            ret.add(CameraHolder.RAW12);
         return ret.toArray(new String[ret.size()]);
     }
 }

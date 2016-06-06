@@ -5,7 +5,7 @@ import android.os.Handler;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.utils.Logger;
 
 /**
@@ -22,10 +22,10 @@ public class ShutterManualMeizu extends BaseManualParameter
 
     /**
      * @param parameters
-     * @param camParametersHandler
+     * @param parametersHandler
      */
-    public ShutterManualMeizu(Camera.Parameters parameters, I_CameraHolder baseCameraHolder, CamParametersHandler camParametersHandler) {
-        super(parameters, "", "", "", camParametersHandler,1);
+    public ShutterManualMeizu(Camera.Parameters parameters, I_CameraHolder baseCameraHolder, ParametersHandler parametersHandler) {
+        super(parameters, "", "", "", parametersHandler,1);
         this.baseCameraHolder = baseCameraHolder;
 
             stringvalues = MX4Shutter.split(",");
@@ -81,7 +81,7 @@ public class ShutterManualMeizu extends BaseManualParameter
                 public void run() {
 
                     parameters.set("shutter-value", shutterstring);
-                    camParametersHandler.SetParametersToCamera(parameters);
+                    parametersHandler.SetParametersToCamera(parameters);
 
                     if(Double.parseDouble(shutterstring) <= 0.5 && Double.parseDouble(shutterstring) >= 0.0005 ){
                         baseCameraHolder.StopPreview();

@@ -3,8 +3,7 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 import android.hardware.Camera;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
@@ -19,7 +18,7 @@ public class NightModeParameter extends BaseModeParameter
     private String state = "";
     private String format = "";
     private String curmodule = "";
-    public NightModeParameter(Camera.Parameters parameters, CameraHolderApi1 parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
+    public NightModeParameter(Camera.Parameters parameters, CameraHolder parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
         super(parameters, parameterChanged, "", "");
 
         this.isSupported = DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES);
@@ -29,7 +28,7 @@ public class NightModeParameter extends BaseModeParameter
         }
         if (isSupported) {
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
-            cameraUiWrapper.camParametersHandler.PictureFormat.addEventListner(this);
+            cameraUiWrapper.parametersHandler.PictureFormat.addEventListner(this);
         }
 
     }
@@ -46,9 +45,9 @@ public class NightModeParameter extends BaseModeParameter
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)||DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote))
         {
             if (valueToSet.equals("on")) {
-                cameraHolderApi1.GetParameterHandler().morphoHDR.SetValue("false", true);
-                cameraHolderApi1.GetParameterHandler().HDRMode.BackgroundValueHasChanged("off");
-                cameraHolderApi1.GetParameterHandler().AE_Bracket.SetValue("AE-Bracket", true);
+                cameraHolder.GetParameterHandler().morphoHDR.SetValue("false", true);
+                cameraHolder.GetParameterHandler().HDRMode.BackgroundValueHasChanged("off");
+                cameraHolder.GetParameterHandler().AE_Bracket.SetValue("AE-Bracket", true);
                 parameters.set("morpho-hht", "true");
             } else {
                 parameters.set("ae-bracket-hdr", "Off");
@@ -58,7 +57,7 @@ public class NightModeParameter extends BaseModeParameter
         else
             parameters.set("night_key", valueToSet);
         try {
-            cameraHolderApi1.SetCameraParameters(parameters);
+            cameraHolder.SetCameraParameters(parameters);
             super.BackgroundValueHasChanged(valueToSet);
         }
         catch (Exception ex)
@@ -96,8 +95,8 @@ public class NightModeParameter extends BaseModeParameter
             curmodule = module;
             switch (module)
             {
-                case AbstractModuleHandler.MODULE_VIDEO:
-                case AbstractModuleHandler.MODULE_HDR:
+                case KEYS.MODULE_VIDEO:
+                case KEYS.MODULE_HDR:
                     Hide();
                     break;
                 default:
@@ -113,7 +112,7 @@ public class NightModeParameter extends BaseModeParameter
     public void onValueChanged(String val)
     {
         format = val;
-        if (val.contains(KEYS.JPEG)&&!visible&&!curmodule.equals(AbstractModuleHandler.MODULE_HDR))
+        if (val.contains(KEYS.JPEG)&&!visible&&!curmodule.equals(KEYS.MODULE_HDR))
             Show();
 
         else if (!val.contains(KEYS.JPEG)&&visible) {

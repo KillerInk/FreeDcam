@@ -20,7 +20,7 @@ public class MenuItemGPS extends MenuItem
 
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
-        super.SetParameter(cameraUiWrapper.camParametersHandler.locationParameter);
+        super.SetParameter(cameraUiWrapper.parametersHandler.locationParameter);
 
     }
 }

@@ -26,7 +26,7 @@ public class P8Lite extends AbstractDevice {
 
     @Override
     public AbstractManualParameter getExposureTimeParameter() {
-        return new ShutterManualKrillin(parameters,cameraHolder,camParametersHandler);
+        return new ShutterManualKrillin(parameters,cameraHolder, parametersHandler);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class P8Lite extends AbstractDevice {
 
     @Override
     public AbstractManualParameter getManualFocusParameter() {
-        return new FocusManualHuawei(parameters, "hw-vcm-end-value","hw-vcm-start-value", KEYS.KEY_FOCUS_MODE_MANUAL,camParametersHandler,10,0);
+        return new FocusManualHuawei(parameters, "hw-vcm-end-value","hw-vcm-start-value", KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler,10,0);
     }
 
     @Override

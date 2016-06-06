@@ -5,8 +5,8 @@ import android.media.MediaRecorder;
 
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.CameraHolder;
+import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.camera.parameters.modes.VideoProfilesG3Parameter;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
@@ -23,7 +23,7 @@ public class VideoModuleG3 extends AbstractVideoModule
 
     final static String TAG = VideoModuleG3.class.getSimpleName();
 
-    public VideoModuleG3(CameraHolderApi1 cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
+    public VideoModuleG3(CameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
         super(cameraHandler, eventHandler,context,appSettingsManager);
     }
 
@@ -33,7 +33,7 @@ public class VideoModuleG3 extends AbstractVideoModule
         try {
             recorder = new MediaRecorderEx();
             recorder.reset();
-            recorder.setCamera(cameraHolderApi1.GetCamera());
+            recorder.setCamera(cameraHolder.GetCamera());
             recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
             switch (currentProfile.Mode)
             {
@@ -116,11 +116,11 @@ public class VideoModuleG3 extends AbstractVideoModule
             ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
             ParameterHandler.Denoise.SetValue("denoise-off", true);
 
-            ((CamParametersHandler)ParameterHandler).SetDualRecorder();
-            //camParametersHandler.PreviewFormat.SetValue("nv12-venus", true);
+            ((ParametersHandler)ParameterHandler).SetDualRecorder();
+            //parametersHandler.PreviewFormat.SetValue("nv12-venus", true);
             if(!DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
                 ParameterHandler.PreviewFormat.SetValue("nv12-venus",true);
-            ((CamParametersHandler)ParameterHandler).SetLGCamera();
+            ((ParametersHandler)ParameterHandler).SetLGCamera();
             if (currentProfile.Mode == VideoMediaProfile.VideoMode.Highspeed)
             {
                 if (ParameterHandler.VideoHighFramerateVideo != null && ParameterHandler.VideoHighFramerateVideo.IsSupported())
@@ -132,13 +132,13 @@ public class VideoModuleG3 extends AbstractVideoModule
         else
         {
             ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
-            ((CamParametersHandler)ParameterHandler).SetLGCamera();
-            ((CamParametersHandler)ParameterHandler).SetDualRecorder();
+            ((ParametersHandler)ParameterHandler).SetLGCamera();
+            ((ParametersHandler)ParameterHandler).SetDualRecorder();
         }
         String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
         ParameterHandler.PreviewSize.SetValue(size,true);
         ParameterHandler.VideoSize.SetValue(size,true);
-        cameraHolderApi1.StopPreview();
-        cameraHolderApi1.StartPreview();
+        cameraHolder.StopPreview();
+        cameraHolder.StartPreview();
     }
 }

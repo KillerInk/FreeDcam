@@ -3,14 +3,14 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 import android.hardware.Camera;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 
 public class FXManualParameter extends BaseManualParameter {
 
-    public FXManualParameter(Camera.Parameters parameters,CamParametersHandler camParametersHandler) {
-        super(parameters, "", "", "", camParametersHandler,1);
+    public FXManualParameter(Camera.Parameters parameters,ParametersHandler parametersHandler) {
+        super(parameters, "", "", "", parametersHandler,1);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class FXManualParameter extends BaseManualParameter {
     public void SetValue(int valueToSet)
     {   
     	parameters.set(KEYS.MORPHO_EFFECT_TYPE, String.valueOf(valueToSet));
-        camParametersHandler.SetParametersToCamera(parameters);
+        parametersHandler.SetParametersToCamera(parameters);
 
     }
 

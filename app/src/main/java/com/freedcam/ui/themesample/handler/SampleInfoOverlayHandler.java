@@ -60,9 +60,9 @@ public class SampleInfoOverlayHandler extends AbstractInfoOverlayHandler
         tStorage.setText(storageSpace);
         /*if (1 > 2)
         {
-            if (((CameraUiWrapperApi2) cameraUiWrapper).cameraHolder == null || ((CameraUiWrapperApi2) cameraUiWrapper).cameraHolder.characteristics == null)
+            if (((CameraUiWrapper) cameraUiWrapper).cameraHolder == null || ((CameraUiWrapper) cameraUiWrapper).cameraHolder.characteristics == null)
                 return;
-            int devlvl = ((CameraUiWrapperApi2) cameraUiWrapper).cameraHolder.characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
+            int devlvl = ((CameraUiWrapper) cameraUiWrapper).cameraHolder.characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
             if(devlvl == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY)
                 tdngsupported.setText("LEGACY");
             else if(devlvl == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LIMITED)

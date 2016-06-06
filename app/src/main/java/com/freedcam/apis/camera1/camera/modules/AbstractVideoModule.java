@@ -6,11 +6,12 @@ import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.I_RecorderStateChanged;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
@@ -28,16 +29,16 @@ public abstract class AbstractVideoModule extends AbstractModule
 {
     protected MediaRecorder recorder;
     protected String mediaSavePath;
-    protected CameraHolderApi1 cameraHolderApi1;
+    protected CameraHolder cameraHolder;
     private static String TAG = AbstractVideoModule.class.getSimpleName();
     private ParcelFileDescriptor fileDescriptor;
     private Context context;
 
-    public AbstractVideoModule(CameraHolderApi1 cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
+    public AbstractVideoModule(CameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
         super(cameraHandler, eventHandler,context,appSettingsManager);
-        name  = ModuleHandler.MODULE_VIDEO;
+        name  = KEYS.MODULE_VIDEO;
         this.context = context;
-        this.cameraHolderApi1 = cameraHandler;
+        this.cameraHolder = cameraHandler;
     }
 
     @Override
@@ -87,7 +88,7 @@ public abstract class AbstractVideoModule extends AbstractModule
         {
             Logger.d(TAG, "InitMediaRecorder");
             isWorking = true;
-            cameraHolderApi1.GetCamera().unlock();
+            cameraHolder.GetCamera().unlock();
             recorder =  initRecorder();
             recorder.setOnErrorListener(new MediaRecorder.OnErrorListener() {
                 @Override
@@ -105,11 +106,11 @@ public abstract class AbstractVideoModule extends AbstractModule
             else
                 recorder.setOrientationHint(0);
 
-            // cameraHolderApi1.StopPreview();
+            // cameraHolder.StopPreview();
             //ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
 
-            recorder.setPreviewDisplay(cameraHolderApi1.getSurfaceHolder());
-            // cameraHolderApi1.StartPreview();
+            recorder.setPreviewDisplay(cameraHolder.getSurfaceHolder());
+            // cameraHolder.StartPreview();
 
             try {
                 Logger.d(TAG,"Preparing Recorder");
@@ -122,12 +123,12 @@ public abstract class AbstractVideoModule extends AbstractModule
             } catch (Exception e)
             {
                 Logger.e(TAG,"Recording failed");
-                cameraHolderApi1.errorHandler.OnError("Start Recording failed");
+                cameraHolder.errorHandler.OnError("Start Recording failed");
                 Logger.exception(e);
                 recorder.reset();
                 eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
                 isWorking = false;
-                cameraHolderApi1.GetCamera().lock();
+                cameraHolder.GetCamera().lock();
                 recorder.release();
                 isWorking = false;
                 changeWorkState(AbstractModuleHandler.CaptureModes.video_recording_stop);
@@ -136,11 +137,11 @@ public abstract class AbstractVideoModule extends AbstractModule
         catch (NullPointerException ex)
         {
             Logger.exception(ex);
-            cameraHolderApi1.errorHandler.OnError("Start Recording failed");
+            cameraHolder.errorHandler.OnError("Start Recording failed");
             recorder.reset();
             eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
             isWorking = false;
-            cameraHolderApi1.GetCamera().lock();
+            cameraHolder.GetCamera().lock();
             recorder.release();
             isWorking = false;
             changeWorkState(AbstractModuleHandler.CaptureModes.video_recording_stop);
@@ -158,13 +159,13 @@ public abstract class AbstractVideoModule extends AbstractModule
         catch (Exception ex)
         {
             Logger.e(TAG, "Stop Recording failed, was called bevor start");
-            cameraHolderApi1.errorHandler.OnError("Stop Recording failed, was called bevor start");
+            cameraHolder.errorHandler.OnError("Stop Recording failed, was called bevor start");
             Logger.e(TAG,ex.getMessage());
         }
         finally
         {
             recorder.reset();
-            cameraHolderApi1.GetCamera().lock();
+            cameraHolder.GetCamera().lock();
             recorder.release();
             isWorking = false;
             try {

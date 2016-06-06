@@ -5,14 +5,14 @@ import android.media.MediaRecorder;
 import android.os.Build;
 import android.util.Size;
 
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.apis.camera2.camera.CameraHolder;
 
 /**
  * Created by troop on 26.11.2015.
  */
 public class VideoSizeModeApi2 extends BaseModeApi2 {
-    public VideoSizeModeApi2(CameraHolderApi2 cameraHolderApi2) {
-        super(cameraHolderApi2);
+    public VideoSizeModeApi2(CameraHolder cameraHolder) {
+        super(cameraHolder);
     }
 
     public boolean IsSupported() {

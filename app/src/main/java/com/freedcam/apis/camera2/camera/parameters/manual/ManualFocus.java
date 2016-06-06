@@ -7,7 +7,7 @@ import android.os.Build;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.apis.camera2.camera.CameraHolder;
 import com.freedcam.apis.camera2.camera.parameters.ParameterHandlerApi2;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
@@ -19,8 +19,8 @@ import com.freedcam.utils.StringUtils;
 public class ManualFocus extends AbstractManualParameter
 {
     private final String TAG = ManualFocus.class.getSimpleName();
-    private CameraHolderApi2 cameraHolder;
-    public ManualFocus(ParameterHandlerApi2 camParametersHandler, CameraHolderApi2 cameraHolder)
+    private CameraHolder cameraHolder;
+    public ManualFocus(ParameterHandlerApi2 camParametersHandler, CameraHolder cameraHolder)
     {
         super(camParametersHandler);
         this.cameraHolder =cameraHolder;

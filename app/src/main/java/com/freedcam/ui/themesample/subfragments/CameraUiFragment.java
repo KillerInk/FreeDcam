@@ -98,18 +98,18 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
 
     @Override
     protected void setCameraUiWrapperToUi() {
-        if (cameraUiWrapper == null || cameraUiWrapper.camParametersHandler == null)
+        if (cameraUiWrapper == null || cameraUiWrapper.parametersHandler == null)
         {
             Logger.d(TAG, "failed to set cameraUiWrapper");
             return;
         }
-        flash.SetParameter(cameraUiWrapper.camParametersHandler.FlashMode);
-        iso.SetParameter(cameraUiWrapper.camParametersHandler.IsoMode);
-        autoexposure.SetParameter(cameraUiWrapper.camParametersHandler.ExposureMode);
-        whitebalance.SetParameter(cameraUiWrapper.camParametersHandler.WhiteBalanceMode);
-        focus.SetParameter(cameraUiWrapper.camParametersHandler.FocusMode);
-        night.SetParameter(cameraUiWrapper.camParametersHandler.NightMode);
-        aepriority.SetParameter(cameraUiWrapper.camParametersHandler.AE_PriorityMode);
+        flash.SetParameter(cameraUiWrapper.parametersHandler.FlashMode);
+        iso.SetParameter(cameraUiWrapper.parametersHandler.IsoMode);
+        autoexposure.SetParameter(cameraUiWrapper.parametersHandler.ExposureMode);
+        whitebalance.SetParameter(cameraUiWrapper.parametersHandler.WhiteBalanceMode);
+        focus.SetParameter(cameraUiWrapper.parametersHandler.FocusMode);
+        night.SetParameter(cameraUiWrapper.parametersHandler.NightMode);
+        aepriority.SetParameter(cameraUiWrapper.parametersHandler.AE_PriorityMode);
         thumbView.INIT(cameraUiWrapper,bitmapHelper);
 
         cameraSwitch.SetCameraUiWrapper(cameraUiWrapper);
@@ -117,18 +117,18 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
         UserMessageHandler messageHandler = new UserMessageHandler(view);
         messageHandler.SetCameraUiWrapper(cameraUiWrapper);
         shutterButton.SetCameraUIWrapper(cameraUiWrapper, messageHandler);
-        format.SetParameter(cameraUiWrapper.camParametersHandler.PictureFormat);
-        contShot.SetParameter(cameraUiWrapper.camParametersHandler.ContShootMode);
+        format.SetParameter(cameraUiWrapper.parametersHandler.PictureFormat);
+        contShot.SetParameter(cameraUiWrapper.parametersHandler.ContShootMode);
         if (manualModesFragment != null)
             manualModesFragment.SetCameraUIWrapper(cameraUiWrapper);
-        if (cameraUiWrapper.camParametersHandler.Focuspeak != null) {
-            focuspeak.SetParameter(cameraUiWrapper.camParametersHandler.Focuspeak);
-            cameraUiWrapper.camParametersHandler.AddParametersLoadedListner(focuspeak);
+        if (cameraUiWrapper.parametersHandler.Focuspeak != null) {
+            focuspeak.SetParameter(cameraUiWrapper.parametersHandler.Focuspeak);
+            cameraUiWrapper.parametersHandler.AddParametersLoadedListner(focuspeak);
         }
         guideHandler.setCameraUiWrapper(cameraUiWrapper);
         focuspeak.SetCameraUiWrapper(cameraUiWrapper);
         modeSwitch.SetCameraUiWrapper(cameraUiWrapper);
-        hdr_switch.SetParameter(cameraUiWrapper.camParametersHandler.HDRMode);
+        hdr_switch.SetParameter(cameraUiWrapper.parametersHandler.HDRMode);
         horizontLineFragment.setCameraUiWrapper(cameraUiWrapper);
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
     }

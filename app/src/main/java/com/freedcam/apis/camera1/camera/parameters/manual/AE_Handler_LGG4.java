@@ -3,8 +3,8 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 import android.hardware.Camera;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.CameraHolder;
+import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.utils.Logger;
 
 /**
@@ -18,7 +18,7 @@ public class AE_Handler_LGG4
     private int currentShutter = 0;
     private Camera.Parameters parameters;
     boolean auto = true;
-    private CamParametersHandler camParametersHandler;
+    private ParametersHandler parametersHandler;
 
     final String TAG = AE_Handler_LGG4.class.getSimpleName();
 
@@ -28,13 +28,13 @@ public class AE_Handler_LGG4
         iso,
     }
 
-    public AE_Handler_LGG4(Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler)
+    public AE_Handler_LGG4(Camera.Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler)
     {
-        this.camParametersHandler = camParametersHandler;
-        this.isoManualParameter = new ISOManualParameterG4(parameters,cameraHolder, camParametersHandler, aeevent);
-        camParametersHandler.ManualIso = isoManualParameter;
-        this.shutterPrameter = new ShutterManualParameterG4(parameters, camParametersHandler, aeevent);
-        camParametersHandler.ManualShutter = shutterPrameter;
+        this.parametersHandler = parametersHandler;
+        this.isoManualParameter = new ISOManualParameterG4(parameters,cameraHolder, parametersHandler, aeevent);
+        parametersHandler.ManualIso = isoManualParameter;
+        this.shutterPrameter = new ShutterManualParameterG4(parameters, parametersHandler, aeevent);
+        parametersHandler.ManualShutter = shutterPrameter;
         this.parameters = parameters;
     }
 
@@ -64,7 +64,7 @@ public class AE_Handler_LGG4
                         break;
                 }
                 parameters.set(KEYS.LG_MANUAL_MODE_RESET, "1");
-                camParametersHandler.SetParametersToCamera(parameters);
+                parametersHandler.SetParametersToCamera(parameters);
                 parameters.set(KEYS.LG_MANUAL_MODE_RESET, "0");
 
 
@@ -99,14 +99,14 @@ public class AE_Handler_LGG4
                 }
                 parameters.set(KEYS.LG_MANUAL_MODE_RESET, "0");
             }
-            camParametersHandler.SetParametersToCamera(parameters);
+            parametersHandler.SetParametersToCamera(parameters);
             if (automode) {
-                String t = camParametersHandler.IsoMode.GetValue();
+                String t = parametersHandler.IsoMode.GetValue();
                 if (!t.equals(KEYS.ISO100))
-                    camParametersHandler.IsoMode.SetValue(KEYS.ISO100, true);
+                    parametersHandler.IsoMode.SetValue(KEYS.ISO100, true);
                 else
-                    camParametersHandler.IsoMode.SetValue(KEYS.AUTO, true);
-                camParametersHandler.IsoMode.SetValue(t, true);
+                    parametersHandler.IsoMode.SetValue(KEYS.AUTO, true);
+                parametersHandler.IsoMode.SetValue(t, true);
             }
         }
     };

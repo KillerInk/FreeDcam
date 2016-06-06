@@ -6,8 +6,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.I_worker;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
@@ -60,8 +60,8 @@ public class ShutterButton extends Button implements I_ModuleEvent, I_worker
         this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.moduleHandler.SetWorkListner(this);
         cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
-        if (cameraUiWrapper.camParametersHandler.ContShootMode != null)
-            cameraUiWrapper.camParametersHandler.ContShootMode.addEventListner(contshotListner);
+        if (cameraUiWrapper.parametersHandler.ContShootMode != null)
+            cameraUiWrapper.parametersHandler.ContShootMode.addEventListner(contshotListner);
 
         ModuleChanged("");
         Logger.d(TAG, "Set cameraUiWrapper to ShutterButton");
@@ -126,24 +126,24 @@ public class ShutterButton extends Button implements I_ModuleEvent, I_worker
     public void ModuleChanged(String module) {
 
         Logger.d(TAG, "Module Changed");
-        if (cameraUiWrapper.camParametersHandler.ContShootMode != null && cameraUiWrapper.camParametersHandler.ContShootMode.IsSupported())
+        if (cameraUiWrapper.parametersHandler.ContShootMode != null && cameraUiWrapper.parametersHandler.ContShootMode.IsSupported())
         {
-            contshotListner.onValueChanged(cameraUiWrapper.camParametersHandler.ContShootMode.GetValue());
+            contshotListner.onValueChanged(cameraUiWrapper.parametersHandler.ContShootMode.GetValue());
 
         }
         post(new Runnable() {
             @Override
             public void run() {
-                if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
+                if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
                 {
                     switchBackground(CaptureModes.continouse_capture_stop.video_recording_stop, true);
                 }
-                else  if((cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_PICTURE)
-                        || cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_HDR))
+                else  if((cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_PICTURE)
+                        || cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_HDR))
                         && !contshot) {
                     switchBackground(CaptureModes.image_capture_stop,true);
                 }
-                else if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_INTERVAL) || contshot ||cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_STACKING))
+                else if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_INTERVAL) || contshot ||cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_STACKING))
                     switchBackground(CaptureModes.continouse_capture_start,false);
 
             }
@@ -164,7 +164,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, I_worker
         {
             //Single","Continuous","Spd Priority Cont.
             Logger.d(TAG, "contshot:" + val);
-            if (cameraUiWrapper.camParametersHandler.ContShootMode.GetValue().contains("Single")) {
+            if (cameraUiWrapper.parametersHandler.ContShootMode.GetValue().contains("Single")) {
                 switchBackground(CaptureModes.image_capture_start, false);
                 contshot = false;
             }

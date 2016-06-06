@@ -1,6 +1,5 @@
 package com.freedcam.apis.sonyremote.camera.parameters.manual;
 
-import com.freedcam.apis.sonyremote.camera.parameters.ParameterHandlerSony;
 import com.freedcam.apis.sonyremote.camera.sonystuff.JsonUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
@@ -23,8 +22,8 @@ public class ZoomManualSony extends BaseManualParameterSony
 
     private boolean fromUser = false;
 
-    public ZoomManualSony(ParameterHandlerSony parameterHandlerSony) {
-        super("actZoom", "", "actZoom", parameterHandlerSony);
+    public ZoomManualSony(com.freedcam.apis.sonyremote.camera.parameters.ParameterHandler parameterHandler) {
+        super("actZoom", "", "actZoom", parameterHandler);
     }
 
     @Override

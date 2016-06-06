@@ -5,9 +5,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.camera1.camera.CameraUiWrapper;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
-import com.freedcam.apis.camera2.camera.CameraUiWrapperApi2;
+import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
+import com.freedcam.apis.camera2.camera.CameraUiWrapper;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.StringUtils;
 
@@ -29,7 +28,7 @@ public class MenuItemOrientationHack extends MenuItem
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (cameraUiWrapper instanceof CameraUiWrapper || cameraUiWrapper instanceof CameraUiWrapperApi2)
+        if (cameraUiWrapper instanceof com.freedcam.apis.camera1.camera.CameraUiWrapper || cameraUiWrapper instanceof CameraUiWrapper)
             this.setVisibility(View.VISIBLE);
         else
             this.setVisibility(View.GONE);
@@ -50,14 +49,14 @@ public class MenuItemOrientationHack extends MenuItem
     public void SetValue(String value)
     {
         appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack, value);
-        if (cameraUiWrapper instanceof CameraUiWrapper) {
-            ((CamParametersHandler) cameraUiWrapper.camParametersHandler).SetCameraRotation();
-            ((CamParametersHandler) cameraUiWrapper.camParametersHandler).SetPictureOrientation(0);
+        if (cameraUiWrapper instanceof com.freedcam.apis.camera1.camera.CameraUiWrapper) {
+            ((ParametersHandler) cameraUiWrapper.parametersHandler).SetCameraRotation();
+            ((ParametersHandler) cameraUiWrapper.parametersHandler).SetPictureOrientation(0);
         }
-        else if(cameraUiWrapper instanceof CameraUiWrapperApi2)
+        else if(cameraUiWrapper instanceof CameraUiWrapper)
         {
-            ((CameraUiWrapperApi2) cameraUiWrapper).cameraHolder.StopPreview();
-            ((CameraUiWrapperApi2) cameraUiWrapper).cameraHolder.StartPreview();
+            ((CameraUiWrapper) cameraUiWrapper).cameraHolder.StopPreview();
+            ((CameraUiWrapper) cameraUiWrapper).cameraHolder.StartPreview();
 
         }
         onValueChanged(value);

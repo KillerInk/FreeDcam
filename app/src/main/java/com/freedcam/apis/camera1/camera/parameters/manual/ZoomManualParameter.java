@@ -3,15 +3,15 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
 
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 
 /**
  * Created by troop on 01.09.2014.
  */
 public class ZoomManualParameter extends  BaseManualParameter
 {
-    public ZoomManualParameter(Camera.Parameters parameters, CamParametersHandler camParametersHandler) {
-        super(parameters, "", "", "", camParametersHandler,1);
+    public ZoomManualParameter(Camera.Parameters parameters, ParametersHandler parametersHandler) {
+        super(parameters, "", "", "", parametersHandler,1);
         this.key_value = "zoom";
         isSupported = false;
         if (parameters.get("zoom-supported")!= null)
@@ -26,6 +26,6 @@ public class ZoomManualParameter extends  BaseManualParameter
     @Override
     public void SetValue(int valueToset) {
         parameters.set(key_value, valueToset + "");
-        camParametersHandler.SetParametersToCamera(parameters);
+        parametersHandler.SetParametersToCamera(parameters);
     }
 }

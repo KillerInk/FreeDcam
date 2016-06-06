@@ -2,6 +2,7 @@ package com.freedcam.apis.basecamera.camera.modules;
 
 import android.content.Context;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.camera.interfaces.I_ModuleHandler;
 import com.freedcam.utils.AppSettingsManager;
@@ -16,7 +17,6 @@ import java.util.HashMap;
  */
 public abstract class AbstractModuleHandler implements I_ModuleHandler
 {
-
     public enum CaptureModes
     {
         video_recording_stop,
@@ -42,20 +42,11 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
     public ModuleEventHandler moduleEventHandler;
     public AbstractMap<String, AbstractModule> moduleList;
     protected AbstractModule currentModule;
-    AbstractCameraHolder cameraHolder;
+    protected AbstractCameraHolder cameraHolder;
 
     protected I_worker workerListner;
 
-    public static final String MODULE_VIDEO = "module_video";
-    public static final String MODULE_PICTURE = "module_picture";
-    public static final String MODULE_HDR = "module_hdr";
-    public static final String MODULE_BURST = "module_burst";
-    public static final String MODULE_LONGEXPO = "module_longexposure";
-    public static final String MODULE_STACKING = "module_stacking";
-    public static final String MODULE_FILM_SNAPSHOT = "module_film_snapshot";
-    public static final String MODULE_FILM_VIDEO = "module_film_snapshot";
-    public static final String MODULE_INTERVAL = "module_interval";
-    public static final String MODULE_ALL = "module_all";
+
 
     protected Context context;
     protected AppSettingsManager appSettingsManager;
@@ -110,7 +101,7 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
     public String GetCurrentModuleName() {
         if (currentModule != null)
             return currentModule.ModuleName();
-        else return AbstractModuleHandler.MODULE_PICTURE;
+        else return KEYS.MODULE_PICTURE;
     }
 
     @Override

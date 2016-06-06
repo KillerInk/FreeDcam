@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.camera1.camera.ExtendedSurfaceView;
-import com.freedcam.apis.sonyremote.camera.CameraUiWrapperSony;
+import com.freedcam.apis.sonyremote.camera.CameraUiWrapper;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.AppSettingsManager;
 
@@ -48,7 +48,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
     public void SetCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (cameraUiWrapper instanceof CameraUiWrapperSony)
+        if (cameraUiWrapper instanceof CameraUiWrapper)
         {
             this.setVisibility(GONE);
         }

@@ -5,7 +5,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.apis.camera2.camera.CameraHolder;
 
 /**
  * Created by Ingo on 01.05.2015.
@@ -21,8 +21,8 @@ public class AntibandingApi2 extends BaseModeApi2
         AUTO,
 
     }
-    public AntibandingApi2(CameraHolderApi2 cameraHolderApi2) {
-        super(cameraHolderApi2);
+    public AntibandingApi2(CameraHolder cameraHolder) {
+        super(cameraHolder);
     }
 
     @Override

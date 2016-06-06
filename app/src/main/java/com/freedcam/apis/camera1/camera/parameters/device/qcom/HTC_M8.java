@@ -27,7 +27,7 @@ public class HTC_M8 extends AbstractDevice {
 
     @Override
     public AbstractManualParameter getExposureTimeParameter() {
-        return new ShutterManualParameterHTC(parameters,"","",camParametersHandler);
+        return new ShutterManualParameterHTC(parameters,"","", parametersHandler);
     }
 
     @Override
@@ -37,12 +37,12 @@ public class HTC_M8 extends AbstractDevice {
 
     @Override
     public AbstractManualParameter getManualFocusParameter() {
-        return new FocusManualParameterHTC(parameters, cameraHolder,camParametersHandler);
+        return new FocusManualParameterHTC(parameters, cameraHolder, parametersHandler);
     }
 
     @Override
     public AbstractManualParameter getCCTParameter() {
-        return new CCTManualHtc(parameters,camParametersHandler);
+        return new CCTManualHtc(parameters, parametersHandler);
     }
 
 

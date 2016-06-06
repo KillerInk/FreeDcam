@@ -2,6 +2,7 @@ package com.freedcam.apis.basecamera.camera.modules;
 
 import android.content.Context;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.I_worker;
@@ -22,7 +23,7 @@ public class IntervalModule extends AbstractModule implements I_worker
         this.picModule = picModule;
 
         intervalHandler = new IntervalHandler(picModule,appSettingsManager);
-        this.name = AbstractModuleHandler.MODULE_INTERVAL;
+        this.name = KEYS.MODULE_INTERVAL;
     }
 
     @Override

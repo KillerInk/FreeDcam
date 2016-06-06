@@ -7,6 +7,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.Size;
 import com.freedcam.apis.basecamera.camera.interfaces.I_Module;
@@ -16,7 +17,7 @@ import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.camera.parameters.I_ParametersLoaded;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.camera1.camera.modules.ModuleHandler;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.camera.renderscript.FocusPeakProcessorAp1;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
@@ -35,7 +36,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     protected ExtendedSurfaceView preview;
     protected I_error errorHandler;
     private static String TAG = CameraUiWrapper.class.getSimpleName();
-    public CameraHolderApi1 cameraHolder;
+    public CameraHolder cameraHolder;
     public FocusPeakProcessorAp1 focusPeakProcessorAp1;
     boolean cameraRdy = false;
 
@@ -53,15 +54,15 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         preview.getHolder().addCallback(this);
 
         this.errorHandler = this;
-        this.cameraHolder = new CameraHolderApi1(this, uiHandler,appSettingsManager);
+        this.cameraHolder = new CameraHolder(this, uiHandler,appSettingsManager);
         super.cameraHolder = cameraHolder;
         this.cameraHolder.errorHandler = errorHandler;
 
-        this.camParametersHandler = new CamParametersHandler(this,context,appSettingsManager);
-        this.cameraHolder.SetParameterHandler(camParametersHandler);
-        camParametersHandler.AddParametersLoadedListner(this);
-        this.preview.ParametersHandler = camParametersHandler;
-        //camParametersHandler.ParametersEventHandler.AddParametersLoadedListner(this.preview);
+        this.parametersHandler = new ParametersHandler(this,context,appSettingsManager);
+        this.cameraHolder.SetParameterHandler(parametersHandler);
+        parametersHandler.AddParametersLoadedListner(this);
+        this.preview.ParametersHandler = parametersHandler;
+        //parametersHandler.ParametersEventHandler.AddParametersLoadedListner(this.preview);
         moduleHandler = new ModuleHandler(cameraHolder,context,appSettingsManager);
         moduleHandler.moduleEventHandler.addListner(this);
 
@@ -125,8 +126,8 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     @Override
     public void ParametersLoaded()
     {
-        camParametersHandler.PictureSize.addEventListner(onPreviewSizeShouldChange);
-        //camParametersHandler.VideoSize.addEventListner(onPreviewSizeShouldChange);
+        parametersHandler.PictureSize.addEventListner(onPreviewSizeShouldChange);
+        //parametersHandler.VideoSize.addEventListner(onPreviewSizeShouldChange);
     }
 
     @Override
@@ -149,7 +150,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     {
         cameraRdy = true;
         super.onCameraOpen(message);
-        ((CamParametersHandler)camParametersHandler).LoadParametersFromCamera();
+        ((ParametersHandler) parametersHandler).LoadParametersFromCamera();
         cameraHolder.SetErrorCallback(CameraUiWrapper.this);
         cameraHolder.SetSurface(preview.getHolder());
         cameraHolder.StartPreview();
@@ -206,21 +207,21 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         @Override
         public void onValueChanged(String val)
         {
-            if(moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_PICTURE)
-                    || moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_HDR)
-                    || moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_INTERVAL)
-                    || moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_STACKING))
+            if(moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_PICTURE)
+                    || moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_HDR)
+                    || moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_INTERVAL)
+                    || moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_STACKING))
             {
-                Size sizefromCam = new Size(camParametersHandler.PictureSize.GetValue());
+                Size sizefromCam = new Size(parametersHandler.PictureSize.GetValue());
                 List<Size> sizes = new ArrayList<>();
-                String[] stringsSizes = camParametersHandler.PreviewSize.GetValues();
+                String[] stringsSizes = parametersHandler.PreviewSize.GetValues();
                 for (String s : stringsSizes) {
                     sizes.add(new Size(s));
                 }
                 final Size size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height);
                 Logger.d(TAG, "set size to " + size.width + "x" + size.height);
 
-                camParametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
+                parametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
                 uiHandler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -232,18 +233,18 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
                 });
 
             }
-            else if (moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_LONGEXPO) || moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_VIDEO))
+            else if (moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_LONGEXPO) || moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
             {
                 Size sizefromCam = new Size("1920x1080");
 
                 List<Size> sizes = new ArrayList<>();
-                String[] stringsSizes = camParametersHandler.PreviewSize.GetValues();
+                String[] stringsSizes = parametersHandler.PreviewSize.GetValues();
                 for (String s : stringsSizes) {
                     sizes.add(new Size(s));
                 }
                 final Size size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height);
                 Logger.d(TAG, "set size to " + size.width + "x" + size.height);
-                camParametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
+                parametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
                 uiHandler.post(new Runnable() {
                     @Override
                     public void run() {

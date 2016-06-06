@@ -4,7 +4,7 @@ import android.hardware.Camera;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraHolder;
 
 /**
  * Created by Ar4eR on 10.12.15.
@@ -12,7 +12,7 @@ import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 public class VideoStabilizationParameter extends  BaseModeParameter {
     I_CameraHolder baseCameraHolder;
     private final String[] vs_values = {KEYS.TRUE, KEYS.FALSE};
-    public VideoStabilizationParameter(Camera.Parameters parameters, CameraHolderApi1 parameterChanged)
+    public VideoStabilizationParameter(Camera.Parameters parameters, CameraHolder parameterChanged)
     {
         super(parameters, parameterChanged, KEYS.VIDEO_STABILIZATION, "");
         if (parameters.get(KEYS.VIDEO_STABILIZATION_SUPPORTED).equals(KEYS.TRUE))

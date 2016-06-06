@@ -54,9 +54,9 @@ import java.util.concurrent.TimeUnit;
  * Created by troop on 07.12.2014.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class CameraHolderApi2 extends AbstractCameraHolder
+public class CameraHolder extends AbstractCameraHolder
 {
-    private static String TAG = CameraHolderApi2.class.getSimpleName();
+    private static String TAG = CameraHolder.class.getSimpleName();
     public static String RAW_SENSOR = "raw_sensor";
     public static String RAW10 = "raw10";
     public static String RAW12 = "raw12";
@@ -89,7 +89,7 @@ public class CameraHolderApi2 extends AbstractCameraHolder
     boolean errorRecieved = false;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public CameraHolderApi2(Context context, I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager appSettingsManager, RenderScriptHandler renderScriptHandler)
+    public CameraHolder(Context context, I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager appSettingsManager, RenderScriptHandler renderScriptHandler)
     {
         super(cameraChangedListner, UIHandler,appSettingsManager);
         this.context = context;

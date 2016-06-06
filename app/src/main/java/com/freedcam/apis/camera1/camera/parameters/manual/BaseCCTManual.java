@@ -3,7 +3,7 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 import android.hardware.Camera;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.utils.Logger;
 
 import java.util.ArrayList;
@@ -21,19 +21,19 @@ public class BaseCCTManual extends BaseManualParameter
      * @param value
      * @param maxValue
      * @param MinValue
-     * @param camParametersHandler
+     * @param parametersHandler
      * @param step
      */
     public BaseCCTManual(Camera.Parameters parameters, String value, String maxValue, String MinValue
-            , CamParametersHandler camParametersHandler, float step,
+            , ParametersHandler parametersHandler, float step,
                          String wbmode) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler, step);
+        super(parameters, value, maxValue, MinValue, parametersHandler, step);
         this.manual_WbMode = wbmode;
     }
 
     public BaseCCTManual(Camera.Parameters parameters, String value, int max, int min
-            , CamParametersHandler camParametersHandler, float step, String wbmode) {
-        super(parameters, value, "", "", camParametersHandler, step);
+            , ParametersHandler parametersHandler, float step, String wbmode) {
+        super(parameters, value, "", "", parametersHandler, step);
         this.isSupported = true;
         this.isVisible = true;
         this.stringvalues = createStringArray(min,max,step);
@@ -50,13 +50,13 @@ public class BaseCCTManual extends BaseManualParameter
         {
             set_manual();
         }
-        camParametersHandler.SetParametersToCamera(parameters);
+        parametersHandler.SetParametersToCamera(parameters);
     }
 
     protected void set_manual()
     {
-        if (!camParametersHandler.WhiteBalanceMode.GetValue().equals(manual_WbMode) && manual_WbMode != "")
-            camParametersHandler.WhiteBalanceMode.SetValue(manual_WbMode, true);
+        if (!parametersHandler.WhiteBalanceMode.GetValue().equals(manual_WbMode) && manual_WbMode != "")
+            parametersHandler.WhiteBalanceMode.SetValue(manual_WbMode, true);
         parameters.set(key_value, stringvalues[currentInt]);
         Logger.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
 
@@ -64,7 +64,7 @@ public class BaseCCTManual extends BaseManualParameter
 
     protected void set_to_auto()
     {
-        camParametersHandler.WhiteBalanceMode.SetValue("auto", true);
+        parametersHandler.WhiteBalanceMode.SetValue("auto", true);
         Logger.d(TAG, "Set  to : auto");
     }
 

@@ -2,7 +2,7 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.hardware.Camera;
 
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
@@ -13,7 +13,7 @@ public class CupBurstExpModeParameter extends BaseModeParameter
 {
     final String TAG = CupBurstExpModeParameter.class.getSimpleName();
     private AppSettingsManager appSettingsManager;
-    public CupBurstExpModeParameter(Camera.Parameters parameters, CameraHolderApi1 cameraHolder, String values, AppSettingsManager appSettingsManager) {
+    public CupBurstExpModeParameter(Camera.Parameters parameters, CameraHolder cameraHolder, String values, AppSettingsManager appSettingsManager) {
         super(parameters, cameraHolder, "capture-burst-exposures", "");
         this.appSettingsManager = appSettingsManager;
 
@@ -54,14 +54,14 @@ public class CupBurstExpModeParameter extends BaseModeParameter
 
         parameters.set("ae-bracket-hdr","Off");
         try {
-            cameraHolderApi1.SetCameraParameters(parameters);
+            cameraHolder.SetCameraParameters(parameters);
         } catch (Exception ex) {
             Logger.exception(ex);
         }
         String newvalue[] = "0,0,0".split(",");
         if (valueToSet.equals("on")) {
-            //if (cameraHolderApi1.ParameterHandler.aeb1.GetValue() != null) {
-                //newvalue[0] = cameraHolderApi1.ParameterHandler.aeb1.GetValue();
+            //if (cameraHolder.ParameterHandler.aeb1.GetValue() != null) {
+                //newvalue[0] = cameraHolder.ParameterHandler.aeb1.GetValue();
             newvalue[0] = appSettingsManager.getString(AppSettingsManager.SETTING_AEB1);
             if(newvalue[0] == null || newvalue[0].equals(""))
                 newvalue[0] = "5";
@@ -75,7 +75,7 @@ public class CupBurstExpModeParameter extends BaseModeParameter
 
         parameters.set("capture-burst-exposures",newvalue[0]+","+newvalue[1]+","+newvalue[2]);
         try {
-            cameraHolderApi1.SetCameraParameters(parameters);
+            cameraHolder.SetCameraParameters(parameters);
             //super.BackgroundValueHasChanged(newvalue[0]+","+newvalue[1]+","+newvalue[2]);
         } catch (Exception e) {
             Logger.exception(e);

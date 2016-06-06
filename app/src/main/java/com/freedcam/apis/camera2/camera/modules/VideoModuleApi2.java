@@ -12,11 +12,11 @@ import android.support.v4.provider.DocumentFile;
 import android.util.Size;
 import android.view.Surface;
 
-import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.modules.I_RecorderStateChanged;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile;
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.apis.camera2.camera.CameraHolder;
 import com.freedcam.apis.camera2.camera.parameters.modes.VideoProfilesApi2;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
@@ -42,9 +42,9 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
     private MediaRecorder mediaRecorder;
 
-    public VideoModuleApi2(CameraHolderApi2 cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
+    public VideoModuleApi2(CameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
         super(cameraHandler, eventHandler,context,appSettingsManager);
-        this.name = AbstractModuleHandler.MODULE_VIDEO;
+        this.name = KEYS.MODULE_VIDEO;
     }
 
     @Override
@@ -131,8 +131,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
         texture.setDefaultBufferSize(currentVideoProfile.videoFrameWidth,currentVideoProfile.videoFrameHeight);
         previewsurface = new Surface(texture);
-       /* if (cameraHolderApi1.mProcessor != null) {
-            cameraHolderApi1.mProcessor.kill();
+       /* if (cameraHolder.mProcessor != null) {
+            cameraHolder.mProcessor.kill();
         }*/
         this.cameraHolder.CaptureSessionH.AddSurface(previewsurface,true);
 

@@ -5,15 +5,15 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.apis.camera2.camera.CameraHolder;
 
 /**
  * Created by Ingo on 01.05.2015.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class EdgeModeApi2 extends BaseModeApi2 {
-    public EdgeModeApi2(CameraHolderApi2 cameraHolderApi2) {
-        super(cameraHolderApi2);
+    public EdgeModeApi2(CameraHolder cameraHolder) {
+        super(cameraHolder);
     }
 
     public enum EdgeModes

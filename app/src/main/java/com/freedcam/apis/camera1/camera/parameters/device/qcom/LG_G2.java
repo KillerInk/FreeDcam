@@ -6,7 +6,7 @@ import android.os.Handler;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.device.AbstractDevice;
 import com.freedcam.apis.camera1.camera.parameters.manual.FocusManualParameterLG;
@@ -20,7 +20,7 @@ public class LG_G2 extends AbstractDevice
 {
     public LG_G2(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
-        if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.LG)
+        if (cameraHolder.DeviceFrameWork == CameraHolder.Frameworks.LG)
             parameters.set("lge-camera","1");
     }
 
@@ -41,7 +41,7 @@ public class LG_G2 extends AbstractDevice
 
     @Override
     public AbstractManualParameter getManualFocusParameter() {
-        return new FocusManualParameterLG(parameters,cameraHolder, camParametersHandler);
+        return new FocusManualParameterLG(parameters,cameraHolder, parametersHandler);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class LG_G2 extends AbstractDevice
     @Override
     public AbstractModeParameter getVideoProfileMode()
     {
-        if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
+        if (cameraHolder.DeviceFrameWork == CameraHolder.Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
             return new VideoProfilesG3Parameter(parameters,cameraHolder, "", cameraUiWrapper);
         else
             return super.getVideoProfileMode();

@@ -113,7 +113,7 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
     public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        cameraUiWrapper.camParametersHandler.Horizont.addEventListner(this);
+        cameraUiWrapper.parametersHandler.Horizont.addEventListner(this);
     }
     private void startSensorListing()
     {

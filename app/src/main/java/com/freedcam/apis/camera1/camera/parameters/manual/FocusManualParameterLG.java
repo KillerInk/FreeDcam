@@ -5,7 +5,7 @@ import android.hardware.Camera;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils;
 
 /**
@@ -16,8 +16,8 @@ public class FocusManualParameterLG extends  BaseManualParameter
     private I_CameraHolder baseCameraHolder;
     private static String TAG =FocusManualParameterLG.class.getSimpleName();
 
-    public FocusManualParameterLG(Camera.Parameters parameters, I_CameraHolder cameraHolder, CamParametersHandler camParametersHandler) {
-        super(parameters, "", "", "", camParametersHandler,1);
+    public FocusManualParameterLG(Camera.Parameters parameters, I_CameraHolder cameraHolder, ParametersHandler parametersHandler) {
+        super(parameters, "", "", "", parametersHandler,1);
         this.baseCameraHolder = cameraHolder;
         isSupported = true;
         isVisible = isSupported;
@@ -41,15 +41,15 @@ public class FocusManualParameterLG extends  BaseManualParameter
         currentInt = valueToSet;
         if(valueToSet != 0)
         {
-            if (!camParametersHandler.FocusMode.GetValue().equals(KEYS.FOCUS_MODE_NORMAL)) {
-                camParametersHandler.FocusMode.SetValue(KEYS.FOCUS_MODE_NORMAL, true);
+            if (!parametersHandler.FocusMode.GetValue().equals(KEYS.FOCUS_MODE_NORMAL)) {
+                parametersHandler.FocusMode.SetValue(KEYS.FOCUS_MODE_NORMAL, true);
             }
             parameters.set(KEYS.MANUALFOCUS_STEP, stringvalues[valueToSet]);
-            camParametersHandler.SetParametersToCamera(parameters);
+            parametersHandler.SetParametersToCamera(parameters);
         }
         else if (valueToSet == 0)
         {
-            camParametersHandler.FocusMode.SetValue(KEYS.AUTO, true);
+            parametersHandler.FocusMode.SetValue(KEYS.AUTO, true);
         }
 
 
@@ -58,7 +58,7 @@ public class FocusManualParameterLG extends  BaseManualParameter
     @Override
     public String GetStringValue()
     {
-        if (camParametersHandler.FocusMode.GetValue().equals(KEYS.AUTO))
+        if (parametersHandler.FocusMode.GetValue().equals(KEYS.AUTO))
             return KEYS.AUTO;
         else
             return GetValue()+"";

@@ -5,7 +5,7 @@ import android.content.Context;
 import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.IntervalModule;
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.apis.camera2.camera.CameraHolder;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.RenderScriptHandler;
 
@@ -15,7 +15,7 @@ import com.freedcam.utils.RenderScriptHandler;
 public class ModuleHandlerApi2 extends AbstractModuleHandler
 {
 
-    private CameraHolderApi2 cameraHolder;
+    private CameraHolder cameraHolder;
 
     private static String TAG = "freedcam.ModuleHandler";
     private AppSettingsManager appSettingsManager;
@@ -25,7 +25,7 @@ public class ModuleHandlerApi2 extends AbstractModuleHandler
     public  ModuleHandlerApi2 (AbstractCameraHolder cameraHolder, Context context, AppSettingsManager appSettingsManager, RenderScriptHandler renderScriptHandler)
     {
         super(cameraHolder,context,appSettingsManager);
-        this.cameraHolder = (CameraHolderApi2) cameraHolder;
+        this.cameraHolder = (CameraHolder) cameraHolder;
         this.appSettingsManager = appSettingsManager;
         this.renderScriptHandler = renderScriptHandler;
         initModules();

@@ -7,7 +7,7 @@ import android.view.SurfaceView;
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.interfaces.I_Module;
 import com.freedcam.apis.sonyremote.camera.modules.ModuleHandlerSony;
-import com.freedcam.apis.sonyremote.camera.parameters.ParameterHandlerSony;
+import com.freedcam.apis.sonyremote.camera.parameters.ParameterHandler;
 import com.freedcam.apis.sonyremote.camera.sonystuff.ServerDevice;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleStreamSurfaceView;
 import com.freedcam.utils.AppSettingsManager;
@@ -16,12 +16,12 @@ import com.freedcam.utils.FreeDPool;
 /**
  * Created by troop on 11.12.2014.
  */
-public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements SurfaceHolder.Callback
+public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceHolder.Callback
 {
     protected SimpleStreamSurfaceView surfaceView;
 
     public ServerDevice serverDevice;
-    public CameraHolderSony cameraHolder;
+    public CameraHolder cameraHolder;
 
 
     @Override
@@ -29,18 +29,18 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
         return AppSettingsManager.API_SONY;
     }
 
-    public CameraUiWrapperSony(SurfaceView preview, Context context,AppSettingsManager appSettingsManager) {
+    public CameraUiWrapper(SurfaceView preview, Context context, AppSettingsManager appSettingsManager) {
         super(appSettingsManager);
         this.surfaceView = (SimpleStreamSurfaceView)preview;
         this.surfaceView.getHolder().addCallback(this);
-        this.cameraHolder = new CameraHolderSony(preview.getContext(), surfaceView, this, uiHandler,appSettingsManager);
-        camParametersHandler = new ParameterHandlerSony(this, surfaceView, context,appSettingsManager);
-        cameraHolder.ParameterHandler = (ParameterHandlerSony)camParametersHandler;
+        this.cameraHolder = new CameraHolder(preview.getContext(), surfaceView, this, uiHandler,appSettingsManager);
+        parametersHandler = new ParameterHandler(this, surfaceView, context,appSettingsManager);
+        cameraHolder.ParameterHandler = (ParameterHandler) parametersHandler;
 
         moduleHandler = new ModuleHandlerSony(cameraHolder,context,appSettingsManager);
-        this.Focus = new FocusHandlerSony(this);
+        this.Focus = new FocusHandler(this);
         super.cameraHolder = cameraHolder;
-        cameraHolder.focusHandlerSony =(FocusHandlerSony) Focus;
+        cameraHolder.focusHandler =(FocusHandler) Focus;
         cameraHolder.moduleHandlerSony = (ModuleHandlerSony)moduleHandler;
     }
 

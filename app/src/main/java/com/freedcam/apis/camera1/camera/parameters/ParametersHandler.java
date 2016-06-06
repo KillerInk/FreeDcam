@@ -14,7 +14,7 @@ import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParam
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.LocationParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.ModuleParameters;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.FocusHandler;
 import com.freedcam.apis.camera1.camera.parameters.device.AbstractDevice;
@@ -54,19 +54,19 @@ import java.util.ArrayList;
 /**
  * Created by troop on 17.08.2014.
  */
-public class CamParametersHandler extends AbstractParameterHandler
+public class ParametersHandler extends AbstractParameterHandler
 {
 
-    private final String TAG = CamParametersHandler.class.getSimpleName();
+    private final String TAG = ParametersHandler.class.getSimpleName();
 
     private Camera.Parameters cameraParameters;
     public Camera.Parameters getParameters(){return cameraParameters;}
-    public CameraHolderApi1 cameraHolder;
+    public CameraHolder cameraHolder;
     public BaseModeParameter DualMode;
     private CameraUiWrapper cameraUiWrapper;
     public AbstractDevice Device;
 
-    public CamParametersHandler(CameraUiWrapper cameraUiWrapper, Context context,AppSettingsManager appSettingsManager)
+    public ParametersHandler(CameraUiWrapper cameraUiWrapper, Context context, AppSettingsManager appSettingsManager)
     {
         super(cameraUiWrapper.cameraHolder,context,appSettingsManager);
         cameraHolder = cameraUiWrapper.cameraHolder;
@@ -335,7 +335,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         /*try {
-            Histogram = new BaseModeParameter(uiHandler,cameraParameters,cameraHolderApi1, "histogram", "histogram-values");
+            Histogram = new BaseModeParameter(uiHandler,cameraParameters,cameraHolder, "histogram", "histogram-values");
         } catch (Exception e) {
             Logger.exception(e);
         }*/
@@ -466,7 +466,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         ParametersHasLoaded();
 
         try {
-            if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.MTK)
+            if (cameraHolder.DeviceFrameWork == CameraHolder.Frameworks.MTK)
                 Mediatek();
         } catch (Exception e) {
             Logger.exception(e);
@@ -516,7 +516,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             {
                 cameraParameters.set("brightness-max", "3");
                 cameraParameters.set("brightness-min", "0");
-                if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.MTK)
+                if (cameraHolder.DeviceFrameWork == CameraHolder.Frameworks.MTK)
                     ManualBrightness =  new BaseManualParamMTK(cameraParameters,"brightness", "brightness-values",this);
                 else
                     ManualBrightness =  new BaseManualParameter(cameraParameters,"brightness", "brightness-max", "brightness-min",this,1);
@@ -559,7 +559,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             {
                 cameraParameters.set("contrast-max", "3");
                 cameraParameters.set("contrast-min", "0");
-                if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.MTK)
+                if (cameraHolder.DeviceFrameWork == CameraHolder.Frameworks.MTK)
                     ManualContrast =  new BaseManualParamMTK(cameraParameters,"contrast","contrast-values",this);
                 else
                     ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "contrast-max", "contrast-min",this,1);
@@ -603,7 +603,7 @@ public class CamParametersHandler extends AbstractParameterHandler
                 }
             }
 
-            if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.MTK)
+            if (cameraHolder.DeviceFrameWork == CameraHolder.Frameworks.MTK)
                 VideoHighFramerateVideo = new BaseModeParameter(cameraParameters, cameraHolder, "hsvr-prv-fps", "hsvr-prv-fps-values");
             else
                 VideoHighFramerateVideo = new BaseModeParameter(cameraParameters, cameraHolder, "video-hfr", "video-hfr-values");
@@ -644,7 +644,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             {
                 cameraParameters.set("edge-max", "3");
                 cameraParameters.set("edge-min", "0");
-                if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.MTK)
+                if (cameraHolder.DeviceFrameWork == CameraHolder.Frameworks.MTK)
                     ManualSharpness =  new BaseManualParameter(cameraParameters,"edge", "edge-max", "edge-min",this,1);
 
             }
@@ -684,7 +684,7 @@ public class CamParametersHandler extends AbstractParameterHandler
             {
                 cameraParameters.set("saturation-max", "3");
                 cameraParameters.set("saturation-min", "0");
-                if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.MTK)
+                if (cameraHolder.DeviceFrameWork == CameraHolder.Frameworks.MTK)
                     ManualSaturation =  new BaseManualParamMTK(cameraParameters,"saturation", "saturation-values",this);
                 else
                     ManualSaturation =  new BaseManualParameter(cameraParameters,"saturation", "saturation-max", "saturation-min",this,1);
@@ -787,7 +787,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
     public boolean isMTK()
     {
-           return DeviceUtils.IS(DeviceUtils.Devices.Alcatel_985n) || cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.MTK || DeviceUtils.IS(DeviceUtils.Devices.SonyC5_MTK);
+           return DeviceUtils.IS(DeviceUtils.Devices.Alcatel_985n) || cameraHolder.DeviceFrameWork == CameraHolder.Frameworks.MTK || DeviceUtils.IS(DeviceUtils.Devices.SonyC5_MTK);
 
 
     }

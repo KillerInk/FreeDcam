@@ -2,10 +2,11 @@ package com.freedcam.apis.sonyremote.camera.modules;
 
 import android.content.Context;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
-import com.freedcam.apis.sonyremote.camera.CameraHolderSony;
+import com.freedcam.apis.sonyremote.camera.CameraHolder;
 import com.freedcam.utils.AppSettingsManager;
 
 /**
@@ -14,11 +15,11 @@ import com.freedcam.utils.AppSettingsManager;
 public class VideoModuleSony extends AbstractModule implements I_CameraStatusChanged
 {
     private static String TAG = VideoModuleSony.class.getSimpleName();
-    private CameraHolderSony cameraHolder;
+    private CameraHolder cameraHolder;
 
-    public VideoModuleSony(CameraHolderSony cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
+    public VideoModuleSony(CameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
         super(cameraHandler, eventHandler, context,appSettingsManager);
-        this.name = AbstractModuleHandler.MODULE_VIDEO;
+        this.name = KEYS.MODULE_VIDEO;
         this.cameraHolder = cameraHandler;
 
     }

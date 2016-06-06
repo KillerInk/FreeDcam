@@ -3,8 +3,8 @@ package com.freedcam.ui.themesample.views.uichilds;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.ui.themesample.subfragments.Interfaces;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
@@ -59,7 +59,7 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements Interfaces.I
     @Override
     public void ModuleChanged(String module)
     {
-        if ((module.equals(AbstractModuleHandler.MODULE_PICTURE) || module.equals(AbstractModuleHandler.MODULE_HDR)|| module.equals(AbstractModuleHandler.MODULE_INTERVAL)) && parameter != null && parameter.IsSupported())
+        if ((module.equals(KEYS.MODULE_PICTURE) || module.equals(KEYS.MODULE_HDR)|| module.equals(KEYS.MODULE_INTERVAL)) && parameter != null && parameter.IsSupported())
             this.setVisibility(VISIBLE);
         else
             this.setVisibility(GONE);

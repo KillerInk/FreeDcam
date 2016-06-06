@@ -3,7 +3,7 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 import android.hardware.Camera;
 
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.utils.DeviceUtils;
 
 /**
@@ -11,11 +11,11 @@ import com.freedcam.utils.DeviceUtils;
  */
 public class NonZslManualModeParameter extends BaseModeParameter
 {
-    private CameraHolderApi1 cameraHolderApi1;
+    private CameraHolder cameraHolder;
 
-    public NonZslManualModeParameter(Camera.Parameters parameters, CameraHolderApi1 parameterChanged, String values, I_CameraHolder baseCameraHolder) {
+    public NonZslManualModeParameter(Camera.Parameters parameters, CameraHolder parameterChanged, String values, I_CameraHolder baseCameraHolder) {
         super(parameters, parameterChanged, "non-zsl-manual-mode", "");
-        this.cameraHolderApi1 = (CameraHolderApi1) baseCameraHolder;
+        this.cameraHolder = (CameraHolder) baseCameraHolder;
     }
 
     @Override

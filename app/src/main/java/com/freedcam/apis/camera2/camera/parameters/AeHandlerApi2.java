@@ -8,7 +8,7 @@ import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualShutter;
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.apis.camera2.camera.CameraHolder;
 import com.freedcam.apis.camera2.camera.parameters.modes.BaseModeApi2;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
 public class AeHandlerApi2
 {
-    private CameraHolderApi2 cameraHolder;
+    private CameraHolder cameraHolder;
     private ParameterHandlerApi2 parameterHandler;
     private AeModeApi2 aeModeApi2;
     private ManualExposureApi2 manualExposureApi2;
@@ -30,11 +30,11 @@ public class AeHandlerApi2
 
     private AEModes activeAeMode = AEModes.on;
 
-    public AeHandlerApi2(Handler handler, CameraHolderApi2 cameraHolderApi2, ParameterHandlerApi2 parameterHandler)
+    public AeHandlerApi2(Handler handler, CameraHolder cameraHolder, ParameterHandlerApi2 parameterHandler)
     {
-        this.cameraHolder = cameraHolderApi2;
+        this.cameraHolder = cameraHolder;
         this.parameterHandler = parameterHandler;
-        aeModeApi2 = new AeModeApi2(cameraHolder);
+        aeModeApi2 = new AeModeApi2(this.cameraHolder);
         manualExposureApi2 = new ManualExposureApi2(parameterHandler);
         manualExposureTimeApi2 = new ManualExposureTimeApi2(parameterHandler);
         manualISoApi2 = new ManualISoApi2(parameterHandler);
@@ -93,9 +93,9 @@ public class AeHandlerApi2
     {
         private boolean isSupported = false;
         private String[] aemodeStringValues;
-        public AeModeApi2(CameraHolderApi2 cameraHolderApi2) {
-            super(cameraHolderApi2);
-            int[] values = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES);
+        public AeModeApi2(CameraHolder cameraHolder) {
+            super(cameraHolder);
+            int[] values = AeHandlerApi2.this.cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES);
             aemodeStringValues= new String[values.length];
             for (int i = 0; i < values.length; i++)
             {

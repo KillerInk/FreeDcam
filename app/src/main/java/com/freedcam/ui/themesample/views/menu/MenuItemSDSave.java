@@ -36,7 +36,7 @@ public class MenuItemSDSave extends MenuItem implements I_Activity.I_OnActivityR
     public void SetCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        super.SetParameter(cameraUiWrapper.camParametersHandler.SdSaveLocation);
+        super.SetParameter(cameraUiWrapper.parametersHandler.SdSaveLocation);
     }
 
     @Override

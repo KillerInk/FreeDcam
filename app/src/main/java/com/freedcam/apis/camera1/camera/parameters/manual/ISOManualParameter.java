@@ -3,12 +3,12 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 import android.hardware.Camera;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 
 public class ISOManualParameter extends BaseManualParameter {
 
-    public ISOManualParameter(Camera.Parameters parameters, CamParametersHandler camParametersHandler) {
-        super(parameters, "", "", "", camParametersHandler,1);
+    public ISOManualParameter(Camera.Parameters parameters, ParametersHandler parametersHandler) {
+        super(parameters, "", "", "", parametersHandler,1);
 
         this.isSupported = true;
         this.key_max_value = KEYS.MIN_ISO;

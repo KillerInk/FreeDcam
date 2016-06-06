@@ -21,7 +21,7 @@ public class Huawei_GX8 extends BaseQcomDevice {
 
     @Override
     public AbstractManualParameter getManualFocusParameter() {
-        return new FocusManualHuawei(parameters, "hw-vcm-end-value","hw-vcm-start-value", KEYS.KEY_FOCUS_MODE_MANUAL,camParametersHandler,10,0);
+        return new FocusManualHuawei(parameters, "hw-vcm-end-value","hw-vcm-start-value", KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler,10,0);
     }
 
     public boolean IsDngSupported() {

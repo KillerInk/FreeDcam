@@ -2,7 +2,7 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.os.Build;
 
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.renderscript.FocusPeakProcessorAp1;
 import com.freedcam.utils.StringUtils;
 
@@ -13,7 +13,7 @@ import com.freedcam.utils.StringUtils;
 public class FocusPeakModeParameter extends BaseModeParameter {
 
     private FocusPeakProcessorAp1 focusPeakProcessorAp1;
-    public FocusPeakModeParameter(CameraHolderApi1 cameraHolder, FocusPeakProcessorAp1 focusPeakProcessorAp1)
+    public FocusPeakModeParameter(CameraHolder cameraHolder, FocusPeakProcessorAp1 focusPeakProcessorAp1)
     {
         super(null, cameraHolder, "", "");
         this.focusPeakProcessorAp1 = focusPeakProcessorAp1;
@@ -28,7 +28,7 @@ public class FocusPeakModeParameter extends BaseModeParameter {
     public void SetValue(String valueToSet, boolean setToCam) {
         if (valueToSet.equals(StringUtils.ON))
         {
-            cameraHolderApi1.GetParameterHandler().FocusMode.SetValue(cameraHolderApi1.GetParameterHandler().FocusMode.GetValue(),true);
+            cameraHolder.GetParameterHandler().FocusMode.SetValue(cameraHolder.GetParameterHandler().FocusMode.GetValue(),true);
             focusPeakProcessorAp1.Enable(true);
         }
         else

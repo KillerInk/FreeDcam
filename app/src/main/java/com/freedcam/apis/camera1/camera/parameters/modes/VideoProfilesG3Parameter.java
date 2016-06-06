@@ -2,9 +2,9 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.hardware.Camera;
 
-import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.modules.VideoMediaProfileLG;
 import com.freedcam.utils.Logger;
@@ -24,13 +24,12 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
 {
     final String TAG = VideoProfilesG3Parameter.class.getSimpleName();
     private HashMap<String, VideoMediaProfile> supportedProfiles;
-    private CameraHolderApi1 cameraHolder;
     private CameraUiWrapper cameraUiWrapper;
     private String profile;
 
-    public VideoProfilesG3Parameter(Camera.Parameters parameters, CameraHolderApi1 parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
-        super(parameters, parameterChanged, "", "");
-        this.cameraHolder = parameterChanged;
+    public VideoProfilesG3Parameter(Camera.Parameters parameters, CameraHolder cameraHolder, String values, CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraHolder, "", "");
+        this.cameraHolder = cameraHolder;
         this.cameraUiWrapper = cameraUiWrapper;
         this.isSupported =true;
         loadProfiles();
@@ -41,7 +40,7 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
     {
         profile = valueToSet;
         BackgroundValueHasChanged(valueToSet);
-        if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null && cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
+        if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null && cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
             cameraUiWrapper.moduleHandler.GetCurrentModule().InitModule();
 
     }

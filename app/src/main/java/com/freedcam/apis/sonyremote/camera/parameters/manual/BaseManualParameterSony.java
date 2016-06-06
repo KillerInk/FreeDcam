@@ -1,7 +1,6 @@
 package com.freedcam.apis.sonyremote.camera.parameters.manual;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
-import com.freedcam.apis.sonyremote.camera.parameters.ParameterHandlerSony;
 import com.freedcam.apis.sonyremote.camera.parameters.modes.I_SonyApi;
 import com.freedcam.apis.sonyremote.camera.sonystuff.JsonUtils;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleRemoteApi;
@@ -24,7 +23,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     protected String VALUE_TO_GET;
     protected String VALUES_TO_GET;
     protected String VALUE_TO_SET;
-    protected ParameterHandlerSony ParameterHandler;
+    protected com.freedcam.apis.sonyremote.camera.parameters.ParameterHandler ParameterHandler;
     protected SimpleRemoteApi mRemoteApi;
     protected Set<String> mAvailableCameraApiSet;
     boolean isSupported = false;
@@ -34,14 +33,14 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
 
     private static String TAG = BaseManualParameterSony.class.getSimpleName();
 
-    public BaseManualParameterSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, ParameterHandlerSony parameterHandlerSony)
+    public BaseManualParameterSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, com.freedcam.apis.sonyremote.camera.parameters.ParameterHandler parameterHandler)
     {
-        super(parameterHandlerSony);
+        super(parameterHandler);
         this.VALUE_TO_GET = VALUE_TO_GET;
         this.VALUES_TO_GET = VALUES_TO_GET;
         this.VALUE_TO_SET = VALUE_TO_SET;
-        this.ParameterHandler = parameterHandlerSony;
-        this.mRemoteApi = parameterHandlerSony.mRemoteApi;
+        this.ParameterHandler = parameterHandler;
+        this.mRemoteApi = parameterHandler.mRemoteApi;
         addEventListner(this);
 
     }

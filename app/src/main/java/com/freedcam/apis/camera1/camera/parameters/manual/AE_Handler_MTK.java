@@ -3,8 +3,8 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 import android.hardware.Camera;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.CameraHolder;
+import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.utils.Logger;
 
 /**
@@ -18,7 +18,7 @@ public class AE_Handler_MTK
         private int currentShutter = 0;
         private Camera.Parameters parameters;
         boolean auto = true;
-        private CamParametersHandler camParametersHandler;
+        private ParametersHandler parametersHandler;
 
         final String TAG = AE_Handler_MTK.class.getSimpleName();
 
@@ -28,13 +28,13 @@ public class AE_Handler_MTK
             iso,
         }
 
-        public AE_Handler_MTK(Camera.Parameters parameters, CameraHolderApi1 cameraHolder, CamParametersHandler camParametersHandler, int maxiso)
+        public AE_Handler_MTK(Camera.Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler, int maxiso)
         {
-            this.camParametersHandler = camParametersHandler;
-            this.isoManualParameter = new ISOManualParameterMTK(parameters,cameraHolder, camParametersHandler, aeevent, maxiso);
-            camParametersHandler.ManualIso = isoManualParameter;
-            this.shutterPrameter = new ShutterManualMtk(parameters, camParametersHandler, aeevent);
-            camParametersHandler.ManualShutter = shutterPrameter;
+            this.parametersHandler = parametersHandler;
+            this.isoManualParameter = new ISOManualParameterMTK(parameters,cameraHolder, parametersHandler, aeevent, maxiso);
+            parametersHandler.ManualIso = isoManualParameter;
+            this.shutterPrameter = new ShutterManualMtk(parameters, parametersHandler, aeevent);
+            parametersHandler.ManualShutter = shutterPrameter;
             this.parameters = parameters;
         }
 
@@ -94,14 +94,14 @@ public class AE_Handler_MTK
                     }
                    // parameters.put("lg-manual-mode-reset", "0");
                 }
-                camParametersHandler.SetParametersToCamera(parameters);
+                parametersHandler.SetParametersToCamera(parameters);
                 if (automode) {
-                    String t = camParametersHandler.IsoMode.GetValue();
+                    String t = parametersHandler.IsoMode.GetValue();
                     if (!t.equals(KEYS.ISO100))
-                        camParametersHandler.IsoMode.SetValue(KEYS.ISO100, true);
+                        parametersHandler.IsoMode.SetValue(KEYS.ISO100, true);
                     else
-                        camParametersHandler.IsoMode.SetValue(KEYS.AUTO, true);
-                    camParametersHandler.IsoMode.SetValue(t, true);
+                        parametersHandler.IsoMode.SetValue(KEYS.AUTO, true);
+                    parametersHandler.IsoMode.SetValue(t, true);
                 }
             }
         };

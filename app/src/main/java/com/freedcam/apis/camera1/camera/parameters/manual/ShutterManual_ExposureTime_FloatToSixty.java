@@ -3,7 +3,7 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 import android.hardware.Camera;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.utils.Logger;
 
 /**
@@ -15,10 +15,10 @@ public class ShutterManual_ExposureTime_FloatToSixty extends ShutterManual_Expos
     private final static String TAG = ShutterManual_ExposureTime_FloatToSixty.class.getSimpleName();
     /**
      * @param parameters
-     * @param camParametersHandler
+     * @param parametersHandler
      */
-    public ShutterManual_ExposureTime_FloatToSixty(Camera.Parameters parameters, CamParametersHandler camParametersHandler, String[] shuttervalues) {
-        super(parameters, camParametersHandler, shuttervalues, "exposure-time", "max-exposure-time", "min-exposure-time");
+    public ShutterManual_ExposureTime_FloatToSixty(Camera.Parameters parameters, ParametersHandler parametersHandler, String[] shuttervalues) {
+        super(parameters, parametersHandler, shuttervalues, "exposure-time", "max-exposure-time", "min-exposure-time");
     }
 
     @Override
@@ -37,6 +37,6 @@ public class ShutterManual_ExposureTime_FloatToSixty extends ShutterManual_Expos
             parameters.set("exposure-time", "0");
             Logger.d(TAG, "set exposure time to auto");
         }
-        camParametersHandler.SetParametersToCamera(parameters);
+        parametersHandler.SetParametersToCamera(parameters);
     }
 }

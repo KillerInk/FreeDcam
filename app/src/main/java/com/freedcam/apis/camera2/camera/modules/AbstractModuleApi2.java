@@ -9,7 +9,7 @@ import android.view.WindowManager;
 
 import com.freedcam.apis.basecamera.camera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.apis.camera2.camera.CameraHolder;
 import com.freedcam.apis.camera2.camera.parameters.ParameterHandlerApi2;
 import com.freedcam.utils.AppSettingsManager;
 
@@ -19,7 +19,7 @@ import com.freedcam.utils.AppSettingsManager;
  */
 public abstract class AbstractModuleApi2 extends AbstractModule implements I_PreviewWrapper
 {
-    protected CameraHolderApi2 cameraHolder;
+    protected CameraHolder cameraHolder;
     protected ParameterHandlerApi2 ParameterHandler;
 
     protected boolean isWorking = false;
@@ -27,7 +27,7 @@ public abstract class AbstractModuleApi2 extends AbstractModule implements I_Pre
     protected Point displaySize;
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public AbstractModuleApi2(CameraHolderApi2 cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager)
+    public AbstractModuleApi2(CameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager)
     {
         super(cameraHandler,eventHandler,context,appSettingsManager);
         this.cameraHolder = cameraHandler;

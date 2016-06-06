@@ -22,7 +22,7 @@ public class MenuItemInterval extends MenuItem
 
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
-        super.SetParameter(cameraUiWrapper.camParametersHandler.IntervalShutterSleep);
+        super.SetParameter(cameraUiWrapper.parametersHandler.IntervalShutterSleep);
     }
 
     @Override

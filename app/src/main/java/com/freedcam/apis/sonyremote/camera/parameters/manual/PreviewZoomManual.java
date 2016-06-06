@@ -2,7 +2,6 @@ package com.freedcam.apis.sonyremote.camera.parameters.manual;
 
 import android.os.Build;
 
-import com.freedcam.apis.sonyremote.camera.parameters.ParameterHandlerSony;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleStreamSurfaceView;
 
 import java.util.Set;
@@ -15,8 +14,8 @@ public class PreviewZoomManual extends BaseManualParameterSony
     private SimpleStreamSurfaceView surfaceView;
     private int zoomFactor = 1;
 
-    public PreviewZoomManual(SimpleStreamSurfaceView surfaceView, ParameterHandlerSony parameterHandlerSony) {
-        super("", "", "", parameterHandlerSony);
+    public PreviewZoomManual(SimpleStreamSurfaceView surfaceView, com.freedcam.apis.sonyremote.camera.parameters.ParameterHandler parameterHandler) {
+        super("", "", "", parameterHandler);
         this.surfaceView = surfaceView;
         this.isSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
         stringvalues = new String[] {"1","2","4","8","10","12","14","16","18","20"};

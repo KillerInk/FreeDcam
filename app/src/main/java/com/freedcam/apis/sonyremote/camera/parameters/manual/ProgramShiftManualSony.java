@@ -1,6 +1,5 @@
 package com.freedcam.apis.sonyremote.camera.parameters.manual;
 
-import com.freedcam.apis.sonyremote.camera.parameters.ParameterHandlerSony;
 import com.freedcam.apis.sonyremote.camera.sonystuff.JsonUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
@@ -21,10 +20,10 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     private final String TAG = ProgramShiftManualSony.class.getSimpleName();
     private BaseManualParameterSony shutter;
     private BaseManualParameterSony fnumber;
-    public ProgramShiftManualSony(ParameterHandlerSony parameterHandlerSony) {
-        super("", "getSupportedProgramShift", "setProgramShift", parameterHandlerSony);
-        this.shutter = (BaseManualParameterSony)parameterHandlerSony.ManualShutter;
-        this.fnumber = (BaseManualParameterSony)parameterHandlerSony.ManualFNumber;
+    public ProgramShiftManualSony(com.freedcam.apis.sonyremote.camera.parameters.ParameterHandler parameterHandler) {
+        super("", "getSupportedProgramShift", "setProgramShift", parameterHandler);
+        this.shutter = (BaseManualParameterSony) parameterHandler.ManualShutter;
+        this.fnumber = (BaseManualParameterSony) parameterHandler.ManualFNumber;
     }
 
     @Override

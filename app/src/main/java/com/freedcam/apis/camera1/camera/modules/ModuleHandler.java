@@ -7,7 +7,7 @@ import android.os.Build;
 import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.IntervalModule;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
@@ -16,14 +16,14 @@ import com.freedcam.utils.Logger;
  */
 public class ModuleHandler extends AbstractModuleHandler
 {
-    private CameraHolderApi1 cameraHolder;
+    private CameraHolder cameraHolder;
     private static String TAG = "freedcam.ModuleHandler";
 
 
     public  ModuleHandler (AbstractCameraHolder cameraHolder, Context context, AppSettingsManager appSettingsManager)
     {
         super(cameraHolder,context,appSettingsManager);
-        this.cameraHolder = (CameraHolderApi1) cameraHolder;
+        this.cameraHolder = (CameraHolder) cameraHolder;
         initModules();
 
     }
@@ -32,7 +32,7 @@ public class ModuleHandler extends AbstractModuleHandler
     {
         //init the Modules DeviceDepending
         //splitting modules make the code foreach device cleaner
-        if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.MTK)
+        if (cameraHolder.DeviceFrameWork == CameraHolder.Frameworks.MTK)
         {
             Logger.d(TAG, "load mtk picmodule");
             PictureModuleMTK thl5000 = new PictureModuleMTK(this.cameraHolder, moduleEventHandler,context,appSettingsManager);
@@ -49,7 +49,7 @@ public class ModuleHandler extends AbstractModuleHandler
             moduleList.put(intervalModule.ModuleName(), intervalModule);
         }
 
-        if (cameraHolder.DeviceFrameWork == CameraHolderApi1.Frameworks.LG)
+        if (cameraHolder.DeviceFrameWork == CameraHolder.Frameworks.LG)
         {
             Logger.d(TAG, "load lg videomodule");
             VideoModuleG3 videoModuleG3 = new VideoModuleG3(this.cameraHolder, moduleEventHandler,context,appSettingsManager);

@@ -9,9 +9,9 @@ import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.ModuleParameters;
 import com.freedcam.apis.camera1.camera.parameters.modes.StackModeParameter;
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
-import com.freedcam.apis.camera2.camera.CameraUiWrapperApi2;
-import com.freedcam.apis.camera2.camera.FocusHandlerApi2;
+import com.freedcam.apis.camera2.camera.CameraHolder;
+import com.freedcam.apis.camera2.camera.CameraUiWrapper;
+import com.freedcam.apis.camera2.camera.FocusHandler;
 import com.freedcam.apis.camera2.camera.parameters.manual.BurstApi2;
 import com.freedcam.apis.camera2.camera.parameters.manual.ManualFocus;
 import com.freedcam.apis.camera2.camera.parameters.manual.ManualToneMapCurveApi2;
@@ -45,11 +45,11 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 {
     private static String TAG = ParameterHandlerApi2.class.getSimpleName();
     private ManualToneMapCurveApi2 manualToneMapCurveApi2;
-    private CameraUiWrapperApi2 wrapper;
+    private CameraUiWrapper wrapper;
 
-    private CameraHolderApi2 cameraHolder;
+    private CameraHolder cameraHolder;
 
-    public ParameterHandlerApi2(CameraUiWrapperApi2 cameraHolder, Context context,AppSettingsManager appSettingsManager)
+    public ParameterHandlerApi2(CameraUiWrapper cameraHolder, Context context, AppSettingsManager appSettingsManager)
     {
         super(cameraHolder.cameraHolder,context,appSettingsManager);
         this.wrapper = cameraHolder;
@@ -98,10 +98,10 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
 
         PictureFormat = new PictureFormatParameterApi2(cameraHolder);
 
-        FocusMode.addEventListner(((FocusHandlerApi2)cameraHolder.Focus).focusModeListner);
-        WhiteBalanceMode.addEventListner(((FocusHandlerApi2) cameraHolder.Focus).awbModeListner);
-        ExposureMode.addEventListner(((FocusHandlerApi2) cameraHolder.Focus).aeModeListner);
-        ((FocusHandlerApi2) cameraHolder.Focus).ParametersLoaded();
+        FocusMode.addEventListner(((FocusHandler)cameraHolder.Focus).focusModeListner);
+        WhiteBalanceMode.addEventListner(((FocusHandler) cameraHolder.Focus).awbModeListner);
+        ExposureMode.addEventListner(((FocusHandler) cameraHolder.Focus).aeModeListner);
+        ((FocusHandler) cameraHolder.Focus).ParametersLoaded();
 
         ControlMode = new ControlModesApi2(cameraHolder);
 

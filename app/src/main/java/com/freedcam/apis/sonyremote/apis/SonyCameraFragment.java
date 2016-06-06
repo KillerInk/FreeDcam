@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.freedcam.apis.basecamera.apis.AbstractCameraFragment;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.camera.interfaces.I_Module;
-import com.freedcam.apis.sonyremote.camera.CameraUiWrapperSony;
+import com.freedcam.apis.sonyremote.camera.CameraUiWrapper;
 import com.freedcam.apis.sonyremote.camera.sonystuff.ServerDevice;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleSsdpClient;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleStreamSurfaceView;
@@ -36,7 +36,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
     private WifiConnectedReceiver wifiConnectedReceiver;
     private SimpleSsdpClient mSsdpClient;
     private ServerDevice serverDevice;
-    private CameraUiWrapperSony cameraUiWrapper;
+    private CameraUiWrapper cameraUiWrapper;
 
     private TextView textView_wifi;
     private final int IDEL = 0;
@@ -145,7 +145,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
 
     private void setupWrapper()
     {
-        this.cameraUiWrapper = new CameraUiWrapperSony(surfaceView,getContext(),appSettingsManager);
+        this.cameraUiWrapper = new CameraUiWrapper(surfaceView,getContext(),appSettingsManager);
         cameraUiWrapper.SetCameraChangedListner(this);
         if (onrdy != null)
             onrdy.onCameraUiWrapperRdy(cameraUiWrapper);

@@ -4,9 +4,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.freedcam.MainActivity;
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.camera.modules.I_RecorderStateChanged;
-import com.freedcam.apis.camera1.camera.modules.ModuleHandler;
 import com.troop.freedcam.R;
 
 /**
@@ -33,7 +33,7 @@ public class TimerHandler implements I_ModuleEvent, I_RecorderStateChanged
         mainActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (module.equals(ModuleHandler.MODULE_VIDEO))
+                if (module.equals(KEYS.MODULE_VIDEO))
                     timerText.setVisibility(View.VISIBLE);
                 else
                     timerText.setVisibility(View.GONE);

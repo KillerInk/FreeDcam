@@ -5,7 +5,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.apis.camera2.camera.CameraHolder;
 
 /**
  * Created by troop on 13.12.2014.
@@ -38,10 +38,10 @@ public class SceneModeApi2 extends  BaseModeApi2
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public SceneModeApi2(CameraHolderApi2 cameraHolderApi2)
+    public SceneModeApi2(CameraHolder cameraHolder)
     {
-        super(cameraHolderApi2);
-        int[] values = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_SCENE_MODES);
+        super(cameraHolder);
+        int[] values = this.cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_SCENE_MODES);
         if (values.length > 1)
             this.isSupported = true;
     }

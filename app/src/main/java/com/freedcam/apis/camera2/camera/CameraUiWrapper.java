@@ -20,34 +20,34 @@ import com.freedcam.utils.RenderScriptHandler;
  * Created by troop on 07.12.2014.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class CameraUiWrapperApi2 extends AbstractCameraUiWrapper implements TextureView.SurfaceTextureListener
+public class CameraUiWrapper extends AbstractCameraUiWrapper implements TextureView.SurfaceTextureListener
 
 {
-    public CameraHolderApi2 cameraHolder;
+    public CameraHolder cameraHolder;
     private Context context;
     private AutoFitTextureView preview;
     protected I_error errorHandler;
 
-    private static String TAG = CameraUiWrapperApi2.class.getSimpleName();
+    private static String TAG = CameraUiWrapper.class.getSimpleName();
 
     @Override
     public String CameraApiName() {
         return AppSettingsManager.API_2;
     }
 
-    public CameraUiWrapperApi2(Context context, AutoFitTextureView preview, AppSettingsManager appSettingsManager, RenderScriptHandler renderScriptHandler)
+    public CameraUiWrapper(Context context, AutoFitTextureView preview, AppSettingsManager appSettingsManager, RenderScriptHandler renderScriptHandler)
     {
         super(appSettingsManager);
         this.preview = preview;
         this.preview.setSurfaceTextureListener(this);
         this.context = context;
         this.errorHandler = this;
-        this.cameraHolder = new CameraHolderApi2(context, this, uiHandler,appSettingsManager,renderScriptHandler);
+        this.cameraHolder = new CameraHolder(context, this, uiHandler,appSettingsManager,renderScriptHandler);
         super.cameraHolder = this.cameraHolder;
-        this.camParametersHandler = new ParameterHandlerApi2(this,context,appSettingsManager);
-        this.cameraHolder.SetParameterHandler(camParametersHandler);
+        this.parametersHandler = new ParameterHandlerApi2(this,context,appSettingsManager);
+        this.cameraHolder.SetParameterHandler(parametersHandler);
         this.moduleHandler = new ModuleHandlerApi2(cameraHolder,context,appSettingsManager,renderScriptHandler);
-        this.Focus = new FocusHandlerApi2(this);
+        this.Focus = new FocusHandler(this);
         this.cameraHolder.Focus = Focus;
         Logger.d(TAG, "Constructor done");
     }

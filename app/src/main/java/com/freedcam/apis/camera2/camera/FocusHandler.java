@@ -8,6 +8,7 @@ import android.hardware.camera2.params.MeteringRectangle;
 import android.os.Build;
 import android.view.MotionEvent;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.AbstractFocusHandler;
 import com.freedcam.apis.basecamera.camera.FocusRect;
@@ -19,28 +20,28 @@ import com.freedcam.utils.Logger;
  * Created by troop on 12.12.2014.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class FocusHandlerApi2 extends AbstractFocusHandler implements I_ParametersLoaded
+public class FocusHandler extends AbstractFocusHandler implements I_ParametersLoaded
 {
 
-    private final CameraHolderApi2 cameraHolder;
+    private final CameraHolder cameraHolder;
     private int mState;
     private FocusRect focusRect;
     private boolean focusenabled = false;
 
 
 
-    private final String TAG = FocusHandlerApi2.class.getSimpleName();
+    private final String TAG = FocusHandler.class.getSimpleName();
 
-    public FocusHandlerApi2(AbstractCameraUiWrapper cameraUiWrapper)
+    public FocusHandler(AbstractCameraUiWrapper cameraUiWrapper)
     {
-        this.cameraHolder = (CameraHolderApi2) cameraUiWrapper.cameraHolder;
+        this.cameraHolder = (CameraHolder) cameraUiWrapper.cameraHolder;
     }
 
     public AbstractModeParameter.I_ModeParameterEvent focusModeListner = new AbstractModeParameter.I_ModeParameterEvent() {
         @Override
         public void onValueChanged(String val)
         {
-            if (val.contains("continous")|| val.equals("off"))
+            if (val.contains("continous")|| val.equals(KEYS.OFF))
             {
                 focusenabled = false;
                 if (focusEvent != null)

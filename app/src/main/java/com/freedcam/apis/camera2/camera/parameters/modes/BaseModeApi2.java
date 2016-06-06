@@ -5,7 +5,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.apis.camera2.camera.CameraHolder;
 
 /**
  * Created by troop on 12.12.2014.
@@ -13,13 +13,13 @@ import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 public class BaseModeApi2 extends AbstractModeParameter
 {
     private final String TAG = BaseModeApi2.class.getSimpleName();
-    CameraHolderApi2 cameraHolder;
+    CameraHolder cameraHolder;
     boolean isSupported = false;
 
-    public BaseModeApi2(CameraHolderApi2 cameraHolderApi2)
+    public BaseModeApi2(CameraHolder cameraHolder)
     {
         super();
-        this.cameraHolder = cameraHolderApi2;
+        this.cameraHolder = cameraHolder;
     }
 
     @Override

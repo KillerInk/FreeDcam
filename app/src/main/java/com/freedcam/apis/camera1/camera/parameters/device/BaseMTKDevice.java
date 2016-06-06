@@ -16,7 +16,7 @@ public class BaseMTKDevice extends AbstractDevice
 {
     public BaseMTKDevice(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
-        new AE_Handler_MTK(parameters,cameraHolder,camParametersHandler,1600);
+        new AE_Handler_MTK(parameters,cameraHolder, parametersHandler,1600);
     }
 
     @Override
@@ -39,9 +39,9 @@ public class BaseMTKDevice extends AbstractDevice
     public AbstractManualParameter getManualFocusParameter()
     {
         if(parameters.get("afeng-max-focus-step")!=null)
-            return new FocusManualMTK(parameters,camParametersHandler);
+            return new FocusManualMTK(parameters, parametersHandler);
        /* else  if(parameters.get("focus-fs-fi-max") != null)
-            return new FocusManualMTK(parameters,"focus-fs-fi","focus-fs-fi-max","focus-fs-fi-min", camParametersHandler,10,0);*/
+            return new FocusManualMTK(parameters,"focus-fs-fi","focus-fs-fi-max","focus-fs-fi-min", parametersHandler,10,0);*/
         else
             return null;
     }

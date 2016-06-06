@@ -12,7 +12,6 @@ import android.os.StatFs;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
@@ -125,19 +124,19 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
 
     private void getFormat()
     {
-        if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
+        if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
         {
             format = "H264";
             size = appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
         }
         else
         {
-            if (cameraUiWrapper.camParametersHandler.PictureFormat != null)
-                format = cameraUiWrapper.camParametersHandler.PictureFormat.GetValue();
+            if (cameraUiWrapper.parametersHandler.PictureFormat != null)
+                format = cameraUiWrapper.parametersHandler.PictureFormat.GetValue();
             else
                 format = "";
-            if (cameraUiWrapper.camParametersHandler.PictureSize != null)
-                size = cameraUiWrapper.camParametersHandler.PictureSize.GetValue();
+            if (cameraUiWrapper.parametersHandler.PictureSize != null)
+                size = cameraUiWrapper.parametersHandler.PictureSize.GetValue();
             else
                 size = "";
         }
@@ -148,7 +147,7 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
         try
         {
             //defcomg was here 24/01/2015
-            if(!cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(AbstractModuleHandler.MODULE_VIDEO))
+            if(!cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
                 storageSpace = Avail4PIC();
             else
                 storageSpace =readableFileSize(SDspace());

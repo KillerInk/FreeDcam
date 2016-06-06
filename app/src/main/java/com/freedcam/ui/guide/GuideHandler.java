@@ -43,8 +43,8 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
     @Override
     public void onResume() {
         super.onResume();
-        if (cameraUiWrapper !=  null && cameraUiWrapper.camParametersHandler != null && cameraUiWrapper.camParametersHandler.PreviewSize != null)
-            previewSizeChanged.onValueChanged(cameraUiWrapper.camParametersHandler.PreviewSize.GetValue());
+        if (cameraUiWrapper !=  null && cameraUiWrapper.parametersHandler != null && cameraUiWrapper.parametersHandler.PreviewSize != null)
+            previewSizeChanged.onValueChanged(cameraUiWrapper.parametersHandler.PreviewSize.GetValue());
     }
     @Override
     public void onPause(){
@@ -55,8 +55,8 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
     public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        cameraUiWrapper.camParametersHandler.GuideList.addEventListner(this);
-        cameraUiWrapper.camParametersHandler.AddParametersLoadedListner(this);
+        cameraUiWrapper.parametersHandler.GuideList.addEventListner(this);
+        cameraUiWrapper.parametersHandler.AddParametersLoadedListner(this);
     }
 
     private void SetViewG(final String str)
@@ -243,8 +243,8 @@ public class GuideHandler extends Fragment implements AbstractModeParameter.I_Mo
     @Override
     public void ParametersLoaded()
     {
-        if (cameraUiWrapper.camParametersHandler.PreviewSize != null)
-            cameraUiWrapper.camParametersHandler.PreviewSize.addEventListner(previewSizeChanged);
+        if (cameraUiWrapper.parametersHandler.PreviewSize != null)
+            cameraUiWrapper.parametersHandler.PreviewSize.addEventListner(previewSizeChanged);
     }
 }
 

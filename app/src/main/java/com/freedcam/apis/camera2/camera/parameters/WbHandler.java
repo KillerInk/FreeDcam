@@ -7,7 +7,7 @@ import android.hardware.camera2.params.RggbChannelVector;
 import android.os.Build;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.apis.camera2.camera.CameraHolder;
 import com.freedcam.apis.camera2.camera.parameters.modes.BaseModeApi2;
 import com.freedcam.utils.Logger;
 
@@ -18,7 +18,7 @@ import java.util.HashMap;
  */
 public class WbHandler
 {
-    private CameraHolderApi2 cameraHolder;
+    private CameraHolder cameraHolder;
     private ParameterHandlerApi2 parameterHandler;
     private WhiteBalanceApi2 whiteBalanceApi2;
     private ColorCorrectionModeApi2 colorCorrectionMode;
@@ -26,9 +26,9 @@ public class WbHandler
 
     private WhiteBalanceValues activeWbMode = WhiteBalanceValues.AUTO;
 
-    public WbHandler(CameraHolderApi2 cameraHolderApi2, ParameterHandlerApi2 parameterHandlerApi2)
+    public WbHandler(CameraHolder cameraHolder, ParameterHandlerApi2 parameterHandlerApi2)
     {
-        this.cameraHolder=cameraHolderApi2;
+        this.cameraHolder= cameraHolder;
         this.parameterHandler =parameterHandlerApi2;
         colorCorrectionMode = new ColorCorrectionModeApi2();
         whiteBalanceApi2 = new WhiteBalanceApi2();

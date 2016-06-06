@@ -5,7 +5,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.apis.camera2.camera.CameraHolder;
 import com.freedcam.utils.Logger;
 
 /**
@@ -39,9 +39,9 @@ public class ColorModeApi2 extends BaseModeApi2
 
     }
 
-    public ColorModeApi2(CameraHolderApi2 cameraHolderApi2) {
-        super(cameraHolderApi2);
-        int[] values = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS);
+    public ColorModeApi2(CameraHolder cameraHolder) {
+        super(cameraHolder);
+        int[] values = this.cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS);
         if (values.length > 1)
             this.isSupported = true;
     }

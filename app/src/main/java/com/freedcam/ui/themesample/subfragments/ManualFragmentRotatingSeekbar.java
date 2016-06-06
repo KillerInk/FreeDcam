@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
-import com.freedcam.apis.sonyremote.camera.CameraUiWrapperSony;
+import com.freedcam.apis.sonyremote.camera.CameraUiWrapper;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.themesample.views.ManualButton;
@@ -138,23 +138,23 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements S
 
     @Override
     protected void setCameraUiWrapperToUi() {
-        contrast.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualContrast);
-        burst.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.Burst);
-        brightness.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualBrightness);
-        wb.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.CCT);
-        convergence.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualConvergence);
-        exposure.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualExposure);
-        fx.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.FX);
-        mf.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualFocus);
-        saturation.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualSaturation);
-        sharpness.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualSharpness);
-        shutter.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualShutter);
-        iso.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualIso);
-        zoom.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.Zoom);
-        aperture.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ManualFNumber);
-        skintone.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.Skintone);
-        programshift.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.ProgramShift);
-        previewZoom.SetAbstractManualParameter(cameraUiWrapper.camParametersHandler.PreviewZoom);
+        contrast.SetAbstractManualParameter(cameraUiWrapper.parametersHandler.ManualContrast);
+        burst.SetAbstractManualParameter(cameraUiWrapper.parametersHandler.Burst);
+        brightness.SetAbstractManualParameter(cameraUiWrapper.parametersHandler.ManualBrightness);
+        wb.SetAbstractManualParameter(cameraUiWrapper.parametersHandler.CCT);
+        convergence.SetAbstractManualParameter(cameraUiWrapper.parametersHandler.ManualConvergence);
+        exposure.SetAbstractManualParameter(cameraUiWrapper.parametersHandler.ManualExposure);
+        fx.SetAbstractManualParameter(cameraUiWrapper.parametersHandler.FX);
+        mf.SetAbstractManualParameter(cameraUiWrapper.parametersHandler.ManualFocus);
+        saturation.SetAbstractManualParameter(cameraUiWrapper.parametersHandler.ManualSaturation);
+        sharpness.SetAbstractManualParameter(cameraUiWrapper.parametersHandler.ManualSharpness);
+        shutter.SetAbstractManualParameter(cameraUiWrapper.parametersHandler.ManualShutter);
+        iso.SetAbstractManualParameter(cameraUiWrapper.parametersHandler.ManualIso);
+        zoom.SetAbstractManualParameter(cameraUiWrapper.parametersHandler.Zoom);
+        aperture.SetAbstractManualParameter(cameraUiWrapper.parametersHandler.ManualFNumber);
+        skintone.SetAbstractManualParameter(cameraUiWrapper.parametersHandler.Skintone);
+        programshift.SetAbstractManualParameter(cameraUiWrapper.parametersHandler.ProgramShift);
+        previewZoom.SetAbstractManualParameter(cameraUiWrapper.parametersHandler.PreviewZoom);
     }
 
     //######## ManualButton Stuff#####
@@ -207,7 +207,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements S
     {
         Logger.d(TAG, "onProgressChanged:" + progress);
         currentValuePos = progress;
-        if (!(cameraUiWrapper instanceof CameraUiWrapperSony)) {
+        if (!(cameraUiWrapper instanceof CameraUiWrapper)) {
             currentButton.setValueToParameters(progress);
             currentButton.onCurrentValueChanged(progress);
 
@@ -221,7 +221,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements S
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        if (cameraUiWrapper instanceof CameraUiWrapperSony) {
+        if (cameraUiWrapper instanceof CameraUiWrapper) {
             currentButton.setValueToParameters(currentValuePos);
             currentButton.onCurrentValueChanged(currentValuePos);
         }

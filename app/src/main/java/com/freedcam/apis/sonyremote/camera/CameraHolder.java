@@ -12,7 +12,6 @@ import com.freedcam.apis.sonyremote.camera.modules.I_CameraStatusChanged;
 import com.freedcam.apis.sonyremote.camera.modules.I_PictureCallback;
 import com.freedcam.apis.sonyremote.camera.modules.ModuleHandlerSony;
 import com.freedcam.apis.sonyremote.camera.modules.PictureModuleSony;
-import com.freedcam.apis.sonyremote.camera.parameters.ParameterHandlerSony;
 import com.freedcam.apis.sonyremote.camera.parameters.manual.ZoomManualSony;
 import com.freedcam.apis.sonyremote.camera.sonystuff.JsonUtils;
 import com.freedcam.apis.sonyremote.camera.sonystuff.ServerDevice;
@@ -38,16 +37,16 @@ import java.util.Set;
 /**
  * Created by troop on 11.12.2014.
  */
-public class CameraHolderSony extends AbstractCameraHolder
+public class CameraHolder extends AbstractCameraHolder
 {
-    private static String TAG =CameraHolderSony.class.getSimpleName();
+    private static String TAG =CameraHolder.class.getSimpleName();
 
     Context context;
 
     ServerDevice serverDevice;
     public I_CameraStatusChanged CameraStatusListner;
     I_Callbacks.AutoFocusCallback autoFocusCallback;
-    public FocusHandlerSony focusHandlerSony;
+    public FocusHandler focusHandler;
 
     private SimpleCameraEventObserver mEventObserver;
     public ModuleHandlerSony moduleHandlerSony;
@@ -81,7 +80,7 @@ public class CameraHolderSony extends AbstractCameraHolder
         {
             //if (cameraStatus.equals(status))
             //    return;
-            CameraHolderSony.this.cameraStatus = status;
+            CameraHolder.this.cameraStatus = status;
             Logger.d(TAG, "Camerastatus:" + cameraStatus);
             if (CameraStatusListner != null)
                 CameraStatusListner.onCameraStatusChanged(status);
@@ -166,7 +165,7 @@ public class CameraHolderSony extends AbstractCameraHolder
 
         @Override
         public void onFocusLocked(boolean locked) {
-            focusHandlerSony.onFocusLock(locked);
+            focusHandler.onFocusLock(locked);
         }
 
         @Override
@@ -334,11 +333,11 @@ public class CameraHolderSony extends AbstractCameraHolder
     private final Set<String> mSupportedApiSet = new HashSet<>();
     private SimpleStreamSurfaceView mLiveviewSurface;
 
-    public ParameterHandlerSony ParameterHandler;
+    public com.freedcam.apis.sonyremote.camera.parameters.ParameterHandler ParameterHandler;
 
 
 
-    public CameraHolderSony(Context context, SimpleStreamSurfaceView simpleStreamSurfaceView, I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager appSettingsManager)
+    public CameraHolder(Context context, SimpleStreamSurfaceView simpleStreamSurfaceView, I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager appSettingsManager)
     {
         super(cameraChangedListner, UIHandler,appSettingsManager);
         this.context = context;

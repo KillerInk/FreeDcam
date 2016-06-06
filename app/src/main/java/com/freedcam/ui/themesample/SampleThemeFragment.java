@@ -66,7 +66,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
         Logger.d(TAG, "SetCameraUiWrapper");
         this.cameraUiWrapper = wrapper;
         if (wrapper != null)
-            wrapper.camParametersHandler.AddParametersLoadedListner(this);
+            wrapper.parametersHandler.AddParametersLoadedListner(this);
         if (cameraUiFragment != null) {
             cameraUiFragment.SetCameraUIWrapper(wrapper);
         }

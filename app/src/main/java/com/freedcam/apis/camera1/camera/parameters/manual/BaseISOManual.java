@@ -3,7 +3,7 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 import android.hardware.Camera;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 
 import java.util.ArrayList;
 
@@ -15,8 +15,8 @@ public class BaseISOManual extends BaseManualParameter {
     private String cur_iso_mode = KEYS.AUTO;
 
     public BaseISOManual(Camera.Parameters parameters, String value, int min, int max
-            , CamParametersHandler camParametersHandler, float step) {
-        super(parameters, value, "", "", camParametersHandler, step);
+            , ParametersHandler parametersHandler, float step) {
+        super(parameters, value, "", "", parametersHandler, step);
         this.isSupported = true;
         this.isVisible = true;
         this.stringvalues = createStringArray(min,max,step);
@@ -37,16 +37,16 @@ public class BaseISOManual extends BaseManualParameter {
         {
             set_manual();
         }
-        camParametersHandler.SetParametersToCamera(parameters);
+        parametersHandler.SetParametersToCamera(parameters);
     }
 
 
     protected void set_manual()
     {
-        cur_iso_mode = camParametersHandler.IsoMode.GetValue();
+        cur_iso_mode = parametersHandler.IsoMode.GetValue();
 
-        if (!camParametersHandler.IsoMode.GetValue().equals(KEYS.KEY_MANUAL_FOCUS_POSITION))
-            camParametersHandler.FocusMode.SetValue(KEYS.KEY_MANUAL_FOCUS_POSITION, true);
+        if (!parametersHandler.IsoMode.GetValue().equals(KEYS.KEY_MANUAL_FOCUS_POSITION))
+            parametersHandler.FocusMode.SetValue(KEYS.KEY_MANUAL_FOCUS_POSITION, true);
         parameters.set(key_value, stringvalues[currentInt]);
 
 
@@ -54,7 +54,7 @@ public class BaseISOManual extends BaseManualParameter {
 
     protected void set_to_auto()
     {
-        camParametersHandler.FocusMode.SetValue(cur_iso_mode, true);
+        parametersHandler.FocusMode.SetValue(cur_iso_mode, true);
 
     }
 

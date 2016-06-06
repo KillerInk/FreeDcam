@@ -6,10 +6,11 @@ import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.os.Environment;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
@@ -29,12 +30,12 @@ public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCa
     boolean doBurst = false;
     String currentBurstFolder;
     int count;
-    CameraHolderApi1 cameraHolderApi1;
-    public BurstModule(CameraHolderApi1 cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager)
+    CameraHolder cameraHolder;
+    public BurstModule(CameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager)
     {
         super(cameraHandler, eventHandler,context,appSettingsManager);
-        this.name = ModuleHandler.MODULE_BURST;
-        this.cameraHolderApi1 = cameraHandler;
+        this.name = KEYS.MODULE_BURST;
+        this.cameraHolder = cameraHandler;
     }
 
     @Override
@@ -77,14 +78,14 @@ public class BurstModule extends AbstractModule implements I_Callbacks.PreviewCa
     {
         if (enable)
         {
-            cameraHolderApi1.SetPreviewCallback(this);
+            cameraHolder.SetPreviewCallback(this);
             currentBurstFolder = createNewFolder();
             count = 0;
 
         }
         else
         {
-            cameraHolderApi1.ResetPreviewCallback();
+            cameraHolder.ResetPreviewCallback();
 
         }
         doBurst = enable;

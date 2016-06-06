@@ -5,7 +5,7 @@ import android.content.Context;
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.jni.RawToDng;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.AppSettingsManager;
@@ -24,9 +24,9 @@ public class PictureModuleMTK extends PictureModule
 {
     private final String TAG = PictureModuleMTK.class.getSimpleName();
     private File holdFile = null;
-    public PictureModuleMTK(CameraHolderApi1 cameraHolderApi1, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager)
+    public PictureModuleMTK(CameraHolder cameraHolder, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager)
     {
-        super(cameraHolderApi1, eventHandler,context,appSettingsManager);
+        super(cameraHolder, eventHandler,context,appSettingsManager);
 
     }
 

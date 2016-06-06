@@ -22,17 +22,17 @@ public class ZTE_ADV_IMX234 extends ZTE_ADV {
 
     @Override
     public AbstractManualParameter getExposureTimeParameter() {
-        return new ShutterManualZTE(parameters, cameraHolder, camParametersHandler);
+        return new ShutterManualZTE(parameters, cameraHolder, parametersHandler);
     }
 
     @Override
     public AbstractManualParameter getManualFocusParameter() {
-        return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,79,KEYS.KEY_FOCUS_MODE_MANUAL,camParametersHandler,1,1);
+        return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,79,KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler,1,1);
     }
 
     @Override
     public AbstractManualParameter getCCTParameter() {
-        return new BaseCCTManual(parameters,KEYS.WB_MANUAL_CCT,8000,2000,camParametersHandler,100, KEYS.WB_MODE_MANUAL_CCT);
+        return new BaseCCTManual(parameters,KEYS.WB_MANUAL_CCT,8000,2000, parametersHandler,100, KEYS.WB_MODE_MANUAL_CCT);
     }
     public boolean IsDngSupported() {
         return true;

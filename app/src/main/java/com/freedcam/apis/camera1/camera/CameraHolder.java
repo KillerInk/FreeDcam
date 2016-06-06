@@ -15,7 +15,7 @@ import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.camera.interfaces.I_error;
 import com.freedcam.apis.basecamera.camera.modules.CameraFocusEvent;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * Created by troop on 15.08.2014.
  */
-public class CameraHolderApi1 extends AbstractCameraHolder
+public class CameraHolder extends AbstractCameraHolder
 {
     //frame count that get attached to the camera when using focuspeak
     final int BUFFERCOUNT = 3;
@@ -39,7 +39,7 @@ public class CameraHolderApi1 extends AbstractCameraHolder
     //lg camera object
     private LGCamera lgCamera;
 
-    final static String TAG = CameraHolderApi1.class.getSimpleName();
+    final static String TAG = CameraHolder.class.getSimpleName();
     public I_error errorHandler;
     private I_Callbacks.PictureCallback pictureCallback;
     private I_Callbacks.PictureCallback rawCallback;
@@ -60,7 +60,7 @@ public class CameraHolderApi1 extends AbstractCameraHolder
         MotoX
     }
 
-    public CameraHolderApi1(I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager appSettingsManager)
+    public CameraHolder(I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager appSettingsManager)
     {
         super(cameraChangedListner, UIHandler,appSettingsManager);
         //hasSamsungFramework();
@@ -280,7 +280,7 @@ public class CameraHolderApi1 extends AbstractCameraHolder
         try
         {
             if (DeviceFrameWork == Frameworks.MTK)
-                ((CamParametersHandler)GetParameterHandler()).initMTKSHit();
+                ((ParametersHandler)GetParameterHandler()).initMTKSHit();
             mCamera.startPreview();
             isPreviewRunning = true;
             Logger.d(TAG, "PreviewStarted");

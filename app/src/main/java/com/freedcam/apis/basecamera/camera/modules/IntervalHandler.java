@@ -65,7 +65,7 @@ class IntervalHandler
 
         String t = "Time:"+String.format("%.2f ",((double)((new Date().getTime() - IntervalHandler.this.startTime)) /1000) / 60);
         t+=("/"+intervalToEndDuration+ " NextIn:" + shuttercounter +"/" + intervalDuration/1000);
-        picmodule.baseCameraHolder.SendUIMessage(t);
+        picmodule.cameraHolder.SendUIMessage(t);
 
     }
 
@@ -116,7 +116,7 @@ class IntervalHandler
 
     private void msg()
     {
-        picmodule.baseCameraHolder.SendUIMessage(shutterWaitCounter+"");
+        picmodule.cameraHolder.SendUIMessage(shutterWaitCounter+"");
     }
 
     private int shutterWaitCounter =0;

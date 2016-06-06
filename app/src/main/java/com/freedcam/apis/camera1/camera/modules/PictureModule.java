@@ -10,8 +10,8 @@ import com.freedcam.apis.basecamera.camera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.CameraHolder;
+import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.jni.RawToDng;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.AppSettingsManager;
@@ -37,16 +37,16 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
 
     private static String TAG = PictureModule.class.getSimpleName();
     private int burstcount = 0;
-    protected CamParametersHandler ParameterHandler;
-    protected CameraHolderApi1 cameraHolder;
+    protected ParametersHandler ParameterHandler;
+    protected CameraHolder cameraHolder;
     protected boolean waitForPicture = false;
 
 
-    public PictureModule(CameraHolderApi1 cameraHolder, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager)
+    public PictureModule(CameraHolder cameraHolder, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager)
     {
         super(cameraHolder, eventHandler,context,appSettingsManager);
-        name = ModuleHandler.MODULE_PICTURE;
-        ParameterHandler = (CamParametersHandler)cameraHolder.GetParameterHandler();
+        name = KEYS.MODULE_PICTURE;
+        ParameterHandler = (ParametersHandler)cameraHolder.GetParameterHandler();
         this.cameraHolder = cameraHolder;
     }
 

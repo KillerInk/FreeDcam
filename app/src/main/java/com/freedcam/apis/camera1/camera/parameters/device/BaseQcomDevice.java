@@ -30,9 +30,9 @@ public class BaseQcomDevice extends AbstractDevice {
     {
         if (parameters.get(KEYS.MAX_EXPOSURE_TIME) != null && parameters.get(KEYS.EXPOSURE_TIME) != null && parameters.get(KEYS.MIN_EXPOSURE_TIME )!= null) {
             if (!parameters.get(KEYS.MAX_EXPOSURE_TIME).contains("."))
-                return new ShutterManual_ExposureTime_FloatToSixty(parameters, camParametersHandler, null);
+                return new ShutterManual_ExposureTime_FloatToSixty(parameters, parametersHandler, null);
             else
-                return new ShutterManual_ExposureTime_Micro(parameters, camParametersHandler, null, KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME);
+                return new ShutterManual_ExposureTime_Micro(parameters, parametersHandler, null, KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME);
         }
         return null;
     }
@@ -45,8 +45,8 @@ public class BaseQcomDevice extends AbstractDevice {
     @Override
     public AbstractManualParameter getManualFocusParameter()
     {
-        if (parameters.get(KEYS.KEY_MANUAL_FOCUS_POSITION) != null && arrayContainsString(camParametersHandler.FocusMode.GetValues(), KEYS.KEY_FOCUS_MODE_MANUAL))
-            return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,1000,KEYS.KEY_FOCUS_MODE_MANUAL,camParametersHandler,10,1);
+        if (parameters.get(KEYS.KEY_MANUAL_FOCUS_POSITION) != null && arrayContainsString(parametersHandler.FocusMode.GetValues(), KEYS.KEY_FOCUS_MODE_MANUAL))
+            return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,1000,KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler,10,1);
         return null;
     }
 
@@ -76,13 +76,13 @@ public class BaseQcomDevice extends AbstractDevice {
         } else if (parameters.get(KEYS.MIN_WB_CT)!= null)
             wbmin =KEYS.MIN_WB_CT;
 
-        if (arrayContainsString(camParametersHandler.WhiteBalanceMode.GetValues(), KEYS.WB_MODE_MANUAL))
+        if (arrayContainsString(parametersHandler.WhiteBalanceMode.GetValues(), KEYS.WB_MODE_MANUAL))
             wbModeval = KEYS.WB_MODE_MANUAL;
-        else if (arrayContainsString(camParametersHandler.WhiteBalanceMode.GetValues(), KEYS.WB_MODE_MANUAL_CCT))
+        else if (arrayContainsString(parametersHandler.WhiteBalanceMode.GetValues(), KEYS.WB_MODE_MANUAL_CCT))
             wbModeval = KEYS.WB_MODE_MANUAL_CCT;
 
         if (!wbcur.equals("") && !wbmax.equals("") && !wbmin.equals("") && wbModeval.equals(""))
-            return new BaseCCTManual(parameters,wbcur,wbmax,wbmin,camParametersHandler,100,wbModeval);
+            return new BaseCCTManual(parameters,wbcur,wbmax,wbmin, parametersHandler,100,wbModeval);
         else
             return null;
     }

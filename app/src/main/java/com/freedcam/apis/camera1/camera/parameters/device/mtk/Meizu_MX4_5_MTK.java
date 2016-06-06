@@ -20,7 +20,7 @@ public class Meizu_MX4_5_MTK extends BaseMTKDevice {
 
     @Override
     public AbstractManualParameter getExposureTimeParameter() {
-        return new ShutterManualMeizu(parameters, cameraHolder, camParametersHandler);
+        return new ShutterManualMeizu(parameters, cameraHolder, parametersHandler);
     }
 
     @Override

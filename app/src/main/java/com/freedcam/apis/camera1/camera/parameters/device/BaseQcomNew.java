@@ -20,7 +20,7 @@ public class BaseQcomNew extends AbstractDevice
 
     public BaseQcomNew(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
-        aeHandlerQcomM = new AE_Handler_QcomM(parameters, cameraHolder, camParametersHandler);
+        aeHandlerQcomM = new AE_Handler_QcomM(parameters, cameraHolder, parametersHandler);
     }
 
     @Override
@@ -42,12 +42,12 @@ public class BaseQcomNew extends AbstractDevice
 
     @Override
     public AbstractManualParameter getManualFocusParameter() {
-        return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0, 100,KEYS.KEY_FOCUS_MODE_MANUAL,camParametersHandler,1,2);
+        return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0, 100,KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler,1,2);
     }
 
     @Override
     public AbstractManualParameter getCCTParameter() {
-        return new BaseWB_CCT_QC(parameters, 8000,2000,camParametersHandler,100, KEYS.WB_MODE_MANUAL_CCT);
+        return new BaseWB_CCT_QC(parameters, 8000,2000, parametersHandler,100, KEYS.WB_MODE_MANUAL_CCT);
     }
 
     @Override

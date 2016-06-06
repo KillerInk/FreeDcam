@@ -8,9 +8,8 @@ import android.hardware.Camera;
 import android.os.Build;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 
@@ -21,8 +20,8 @@ public class BurstManualParam extends BaseManualParameter
 
     final String TAG = BurstManualParam.class.getSimpleName();
 
-    public BurstManualParam(Camera.Parameters parameters, CamParametersHandler camParametersHandler) {
-        super(parameters, "", "", "", camParametersHandler,1);
+    public BurstManualParam(Camera.Parameters parameters, ParametersHandler parametersHandler) {
+        super(parameters, "", "", "", parametersHandler,1);
 
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)
                 || DeviceUtils.IS(DeviceUtils.Devices.LG_G3)
@@ -106,7 +105,7 @@ public class BurstManualParam extends BaseManualParameter
             Logger.d(TAG, KEYS.BURST_NUM+ stringvalues[currentInt]);
         }
 
-        camParametersHandler.SetParametersToCamera(parameters);
+        parametersHandler.SetParametersToCamera(parameters);
 
     }
 
@@ -124,10 +123,10 @@ public class BurstManualParam extends BaseManualParameter
         @Override
         public void ModuleChanged(String module)
         {
-            if ((module.equals(AbstractModuleHandler.MODULE_VIDEO) || module.equals(AbstractModuleHandler.MODULE_HDR)) && isSupported)
+            if ((module.equals(KEYS.MODULE_VIDEO) || module.equals(KEYS.MODULE_HDR)) && isSupported)
                 BackgroundIsSupportedChanged(false);
-            else if ((module.equals(AbstractModuleHandler.MODULE_PICTURE)
-                    || module.equals(AbstractModuleHandler.MODULE_INTERVAL)
+            else if ((module.equals(KEYS.MODULE_PICTURE)
+                    || module.equals(KEYS.MODULE_INTERVAL)
                     )&& isSupported)
             {
                 BackgroundIsSupportedChanged(true);

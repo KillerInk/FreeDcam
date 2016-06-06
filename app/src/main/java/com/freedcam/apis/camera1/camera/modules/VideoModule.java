@@ -6,7 +6,7 @@ import android.os.Environment;
 
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile;
-import com.freedcam.apis.camera1.camera.CameraHolderApi1;
+import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.parameters.modes.VideoProfilesParameter;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
@@ -21,7 +21,7 @@ public class VideoModule extends AbstractVideoModule
     private static String TAG = VideoModule.class.getSimpleName();
     private VideoMediaProfile currentProfile;
 
-    public VideoModule(CameraHolderApi1 cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
+    public VideoModule(CameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
         super(cameraHandler, eventHandler,context, appSettingsManager);
     }
 
@@ -31,7 +31,7 @@ public class VideoModule extends AbstractVideoModule
     {
         recorder = new MediaRecorder();
         recorder.reset();
-        recorder.setCamera(cameraHolderApi1.GetCamera());
+        recorder.setCamera(cameraHolder.GetCamera());
 
         recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
 
@@ -151,8 +151,8 @@ public class VideoModule extends AbstractVideoModule
         ParameterHandler.PreviewSize.SetValue(size,true);
         ParameterHandler.VideoSize.SetValue(size, true);
         //ParameterHandler.SetParametersToCamera(ParameterHandler.getParameters());
-        cameraHolderApi1.StopPreview();
-        cameraHolderApi1.StartPreview();
+        cameraHolder.StopPreview();
+        cameraHolder.StartPreview();
 
     }
 

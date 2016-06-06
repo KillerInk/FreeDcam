@@ -25,7 +25,7 @@ import java.io.OutputStream;
  */
 public abstract class AbstractModule implements I_Module
 {
-    protected AbstractCameraHolder baseCameraHolder;
+    protected AbstractCameraHolder cameraHolder;
     protected AbstractParameterHandler ParameterHandler;
 
     protected boolean isWorking = false;
@@ -41,9 +41,9 @@ public abstract class AbstractModule implements I_Module
 
     public AbstractModule(AbstractCameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager)
     {
-        this.baseCameraHolder = cameraHandler;
+        this.cameraHolder = cameraHandler;
         this.eventHandler = eventHandler;
-        this.ParameterHandler = baseCameraHolder.GetParameterHandler();
+        this.ParameterHandler = cameraHolder.GetParameterHandler();
         this.context = context;
         this.appSettingsManager = appSettingsManager;
 

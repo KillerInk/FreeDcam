@@ -18,9 +18,7 @@ import android.widget.RelativeLayout;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.FocusRect;
-import com.freedcam.apis.camera1.camera.CameraUiWrapper;
-import com.freedcam.apis.camera2.camera.CameraUiWrapperApi2;
-import com.freedcam.apis.sonyremote.camera.CameraUiWrapperSony;
+import com.freedcam.apis.sonyremote.camera.CameraUiWrapper;
 import com.freedcam.ui.AbstractFocusImageHandler;
 import com.freedcam.ui.ImageViewTouchAreaHandler;
 import com.freedcam.ui.themesample.SampleThemeFragment;
@@ -111,7 +109,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     public void SetCamerUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.wrapper = cameraUiWrapper;
-        if(cameraUiWrapper instanceof CameraUiWrapper || cameraUiWrapper instanceof CameraUiWrapperApi2) {
+        if(cameraUiWrapper instanceof com.freedcam.apis.camera1.camera.CameraUiWrapper || cameraUiWrapper instanceof com.freedcam.apis.camera2.camera.CameraUiWrapper) {
             meteringRect = centerImageView(meteringArea);
             meteringArea.setOnTouchListener(new ImageViewTouchAreaHandler(meteringArea, wrapper, meteringTouch));
             if (wrapper.Focus.isAeMeteringSupported())
@@ -127,7 +125,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         {
             meteringArea.setVisibility(View.GONE);
         }
-        /*if(cameraUiWrapper instanceof CameraUiWrapperApi2)
+        /*if(cameraUiWrapper instanceof CameraUiWrapper)
         {
             awbRect = centerImageView(awbArea);
             if(cameraUiWrapper.Focus.isWbMeteringSupported())
@@ -145,7 +143,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     public void FocusStarted(FocusRect rect)
     {
 
-        if (!(wrapper instanceof CameraUiWrapperSony))
+        if (!(wrapper instanceof CameraUiWrapper))
         {
             disWidth = wrapper.getPreviewWidth();
             disHeight = wrapper.getPreviewHeight();
@@ -180,7 +178,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     @Override
     public void FocusFinished(final boolean success)
     {
-        if (!(wrapper instanceof CameraUiWrapperSony)) {
+        if (!(wrapper instanceof CameraUiWrapper)) {
             focusImageView.post(new Runnable() {
                 @Override
                 public void run() {
@@ -245,7 +243,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        if (wrapper instanceof CameraUiWrapperSony)
+        if (wrapper instanceof CameraUiWrapper)
             wrapper.Focus.SetMotionEvent(event);
         return false;
     }
@@ -276,9 +274,9 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         @Override
         public void OnAreaLongClick(int x, int y)
         {
-            if (wrapper.camParametersHandler.ExposureLock != null && wrapper.camParametersHandler.ExposureLock.IsSupported())
+            if (wrapper.parametersHandler.ExposureLock != null && wrapper.parametersHandler.ExposureLock.IsSupported())
             {
-                wrapper.camParametersHandler.ExposureLock.SetValue("true",true);
+                wrapper.parametersHandler.ExposureLock.SetValue("true",true);
                 Vibrator v = (Vibrator) focusImageView.getContext().getSystemService(Context.VIBRATOR_SERVICE);
                 if (v.hasVibrator())
                     v.vibrate(50);}
@@ -288,9 +286,9 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         @Override
         public void IsMoving(boolean moving)
         {
-            if (moving && wrapper.camParametersHandler.ExposureLock != null && wrapper.camParametersHandler.ExposureLock.IsSupported() && wrapper.camParametersHandler.ExposureLock.GetValue().equals("true"))
+            if (moving && wrapper.parametersHandler.ExposureLock != null && wrapper.parametersHandler.ExposureLock.IsSupported() && wrapper.parametersHandler.ExposureLock.GetValue().equals("true"))
             {
-                wrapper.camParametersHandler.ExposureLock.SetValue("false",true);
+                wrapper.parametersHandler.ExposureLock.SetValue("false",true);
             }
             SampleThemeFragment sampleThemeFragment = (SampleThemeFragment)FocusImageHandler.this.fragment.getParentFragment();
             if(sampleThemeFragment != null)

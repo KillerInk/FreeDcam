@@ -3,7 +3,7 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 import android.hardware.Camera;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 
@@ -18,8 +18,8 @@ public class ShutterManualParameterHTC extends BaseManualParameter
     private final String HTCShutterValues = "Auto,1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000,1/800,1/640,1/500,1/400,1/320,1/250,1/200,1/125,1/100,1/80,1/60,1/50,1/40,1/30,1/25,1/20,1/15,1/13,1/10,1/8,1/6,1/5,1/4,0.3,0.4,0.5,0.6,0.8,1,1.3,1.6,2,2.5,3.2,4";
     private DecimalFormat trimfloat = new DecimalFormat("#.######");
 
-    public ShutterManualParameterHTC(Camera.Parameters parameters, String maxValue, String MinValue, CamParametersHandler camParametersHandler) {
-        super(parameters, "", "", "", camParametersHandler,1);
+    public ShutterManualParameterHTC(Camera.Parameters parameters, String maxValue, String MinValue, ParametersHandler parametersHandler) {
+        super(parameters, "", "", "", parametersHandler,1);
 
         if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
         {
@@ -68,7 +68,7 @@ public class ShutterManualParameterHTC extends BaseManualParameter
 
     private void setShutterToAuto() {
         parameters.set("shutter", "-1");
-        camParametersHandler.SetParametersToCamera(parameters);
+        parametersHandler.SetParametersToCamera(parameters);
     }
 
     private String setExposureTimeToParameter(String shutterstring)
@@ -76,7 +76,7 @@ public class ShutterManualParameterHTC extends BaseManualParameter
 
         shutterstring = trimfloat.format(Float.parseFloat(shutterstring));
         parameters.set("shutter", shutterstring);
-        camParametersHandler.SetParametersToCamera(parameters);
+        parametersHandler.SetParametersToCamera(parameters);
         return shutterstring;
     }
 }

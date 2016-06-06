@@ -6,27 +6,27 @@ import com.freedcam.apis.basecamera.camera.AbstractFocusHandler;
 import com.freedcam.apis.basecamera.camera.FocusRect;
 import com.freedcam.apis.basecamera.camera.modules.CameraFocusEvent;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
-import com.freedcam.apis.sonyremote.camera.parameters.ParameterHandlerSony;
+import com.freedcam.apis.sonyremote.camera.parameters.ParameterHandler;
 import com.freedcam.utils.Logger;
 
 /**
  * Created by troop on 31.01.2015.
  */
-public class FocusHandlerSony extends AbstractFocusHandler implements I_Callbacks.AutoFocusCallback
+public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.AutoFocusCallback
 {
-    private CameraUiWrapperSony cameraUiWrapper;
-    private CameraHolderSony cameraHolder;
-    private ParameterHandlerSony parametersHandler;
-    private static String TAG = FocusHandlerSony.class.getSimpleName();
+    private CameraUiWrapper cameraUiWrapper;
+    private CameraHolder cameraHolder;
+    private ParameterHandler parametersHandler;
+    private static String TAG = FocusHandler.class.getSimpleName();
 
     private boolean isFocusing = false;
     private boolean isFocusLocked = false;
 
-    public FocusHandlerSony(CameraUiWrapperSony cameraUiWrapper)
+    public FocusHandler(CameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.cameraHolder = cameraUiWrapper.cameraHolder;
-        this.parametersHandler = (ParameterHandlerSony)cameraUiWrapper.camParametersHandler;
+        this.parametersHandler = (ParameterHandler)cameraUiWrapper.parametersHandler;
     }
 
     @Override

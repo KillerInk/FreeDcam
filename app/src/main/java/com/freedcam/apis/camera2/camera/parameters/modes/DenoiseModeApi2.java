@@ -5,7 +5,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 
-import com.freedcam.apis.camera2.camera.CameraHolderApi2;
+import com.freedcam.apis.camera2.camera.CameraHolder;
 
 /**
  * Created by troop on 05.05.2015.
@@ -21,8 +21,8 @@ public class DenoiseModeApi2 extends BaseModeApi2
 
     }
 
-    public DenoiseModeApi2(CameraHolderApi2 cameraHolderApi2) {
-        super(cameraHolderApi2);
+    public DenoiseModeApi2(CameraHolder cameraHolder) {
+        super(cameraHolder);
     }
 
     @Override

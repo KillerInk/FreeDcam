@@ -277,8 +277,8 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         if (orientation != currentorientation)
         {
             currentorientation = orientation;
-            if (cameraFragment.GetCameraUiWrapper() != null && cameraFragment.GetCameraUiWrapper().cameraHolder != null && cameraFragment.GetCameraUiWrapper().camParametersHandler != null)
-                cameraFragment.GetCameraUiWrapper().camParametersHandler.SetPictureOrientation(orientation);
+            if (cameraFragment.GetCameraUiWrapper() != null && cameraFragment.GetCameraUiWrapper().cameraHolder != null && cameraFragment.GetCameraUiWrapper().parametersHandler != null)
+                cameraFragment.GetCameraUiWrapper().parametersHandler.SetPictureOrientation(orientation);
         }
         return orientation;
     }

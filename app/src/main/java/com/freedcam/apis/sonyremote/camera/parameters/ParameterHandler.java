@@ -1,14 +1,11 @@
 package com.freedcam.apis.sonyremote.camera.parameters;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 
-import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.camera.parameters.modes.ModuleParameters;
-import com.freedcam.apis.sonyremote.camera.CameraHolderSony;
-import com.freedcam.apis.sonyremote.camera.CameraUiWrapperSony;
+import com.freedcam.apis.sonyremote.camera.CameraHolder;
+import com.freedcam.apis.sonyremote.camera.CameraUiWrapper;
 import com.freedcam.apis.sonyremote.camera.parameters.manual.BaseManualParameterSony;
 import com.freedcam.apis.sonyremote.camera.parameters.manual.ExposureCompManualParameterSony;
 import com.freedcam.apis.sonyremote.camera.parameters.manual.PreviewZoomManual;
@@ -37,18 +34,18 @@ import java.util.Set;
 /**
  * Created by troop on 13.12.2014.
  */
-public class ParameterHandlerSony extends AbstractParameterHandler
+public class ParameterHandler extends AbstractParameterHandler
 {
-    private static String TAG = ParameterHandlerSony.class.getSimpleName();
-    private CameraHolderSony cameraHolder;
+    private static String TAG = ParameterHandler.class.getSimpleName();
+    private CameraHolder cameraHolder;
     public SimpleRemoteApi mRemoteApi;
     public Set<String> mAvailableCameraApiSet;
     private Set<String> mSupportedApiSet;
     private List<I_SonyApi> parametersChangedList;
     private SimpleStreamSurfaceView surfaceView;
-    private CameraUiWrapperSony wrapper;
+    private CameraUiWrapper wrapper;
 
-    public ParameterHandlerSony(CameraUiWrapperSony wrapper, SimpleStreamSurfaceView surfaceView, Context context, AppSettingsManager appSettingsManager)
+    public ParameterHandler(CameraUiWrapper wrapper, SimpleStreamSurfaceView surfaceView, Context context, AppSettingsManager appSettingsManager)
     {
         super(wrapper.cameraHolder,context,appSettingsManager);
         this.cameraHolder = wrapper.cameraHolder;

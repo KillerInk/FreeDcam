@@ -2,20 +2,21 @@ package com.freedcam.apis.sonyremote.camera.modules;
 
 import android.content.Context;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
-import com.freedcam.apis.sonyremote.camera.CameraHolderSony;
+import com.freedcam.apis.sonyremote.camera.CameraHolder;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
 /**
  * Created by troop on 13.12.2014.
  */
-public class ModuleHandlerSony extends AbstractModuleHandler implements CameraHolderSony.I_CameraShotMode
+public class ModuleHandlerSony extends AbstractModuleHandler implements CameraHolder.I_CameraShotMode
 {
-    private CameraHolderSony cameraHolder;
+    private CameraHolder cameraHolder;
     private final String TAG = ModuleHandlerSony.class.getSimpleName();
 
-    public ModuleHandlerSony(CameraHolderSony cameraHolder, Context context, AppSettingsManager appSettingsManager)
+    public ModuleHandlerSony(CameraHolder cameraHolder, Context context, AppSettingsManager appSettingsManager)
     {
         super(cameraHolder,context,appSettingsManager);
         this.cameraHolder = cameraHolder;
@@ -37,9 +38,9 @@ public class ModuleHandlerSony extends AbstractModuleHandler implements CameraHo
     @Override
     public void SetModule(String name)
     {
-        if (name.equals(MODULE_VIDEO))
+        if (name.equals(KEYS.MODULE_VIDEO))
             cameraHolder.SetShootMode("movie");
-        else if (name.equals(MODULE_PICTURE))
+        else if (name.equals(KEYS.MODULE_PICTURE))
             cameraHolder.SetShootMode("still");
     }
 
@@ -52,7 +53,7 @@ public class ModuleHandlerSony extends AbstractModuleHandler implements CameraHo
         }
         if (mode.equals("still"))
         {
-            currentModule = moduleList.get(MODULE_PICTURE);
+            currentModule = moduleList.get(KEYS.MODULE_PICTURE);
 
             moduleEventHandler.ModuleHasChanged(currentModule.ModuleName());
             currentModule.SetWorkerListner(workerListner);
@@ -60,7 +61,7 @@ public class ModuleHandlerSony extends AbstractModuleHandler implements CameraHo
         }
         else if (mode.equals("movie"))
         {
-            currentModule = moduleList.get(MODULE_VIDEO);
+            currentModule = moduleList.get(KEYS.MODULE_VIDEO);
             moduleEventHandler.ModuleHasChanged(currentModule.ModuleName());
             currentModule.SetWorkerListner(workerListner);
             currentModule.InitModule();

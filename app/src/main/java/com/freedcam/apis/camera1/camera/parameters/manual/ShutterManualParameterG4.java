@@ -4,7 +4,7 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 import android.hardware.Camera;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 
 /**
  * Created by troop on 17.08.2014.
@@ -14,8 +14,8 @@ public class ShutterManualParameterG4 extends BaseManualParameter
     private static String TAG = "freedcam.ShutterManualParameterG4";
     private AE_Handler_LGG4.AeManualEvent manualevent;
 
-    public ShutterManualParameterG4(Camera.Parameters parameters, CamParametersHandler camParametersHandler, AE_Handler_LGG4.AeManualEvent manualevent) {
-        super(parameters, "", "", "", camParametersHandler,1);
+    public ShutterManualParameterG4(Camera.Parameters parameters, ParametersHandler parametersHandler, AE_Handler_LGG4.AeManualEvent manualevent) {
+        super(parameters, "", "", "", parametersHandler,1);
         this.isSupported = true;
         stringvalues = parameters.get("shutter-speed-values").replace(",0","").split(",");
         stringvalues[0] = KEYS.AUTO;
