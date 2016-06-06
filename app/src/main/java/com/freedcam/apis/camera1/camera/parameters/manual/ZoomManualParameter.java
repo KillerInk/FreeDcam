@@ -12,7 +12,7 @@ public class ZoomManualParameter extends  BaseManualParameter
 {
     public ZoomManualParameter(Camera.Parameters parameters, CamParametersHandler camParametersHandler) {
         super(parameters, "", "", "", camParametersHandler,1);
-        this.value = "zoom";
+        this.key_value = "zoom";
         isSupported = false;
         if (parameters.get("zoom-supported")!= null)
             if (parameters.get("zoom-supported").equals("true")) {
@@ -25,7 +25,7 @@ public class ZoomManualParameter extends  BaseManualParameter
 
     @Override
     public void SetValue(int valueToset) {
-        parameters.set(value, valueToset + "");
+        parameters.set(key_value, valueToset + "");
         camParametersHandler.SetParametersToCamera(parameters);
     }
 }

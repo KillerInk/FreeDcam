@@ -59,7 +59,7 @@ public class FocusManualParameterLG extends  BaseManualParameter
     public String GetStringValue()
     {
         if (camParametersHandler.FocusMode.GetValue().equals(KEYS.AUTO))
-            return "Auto";
+            return KEYS.AUTO;
         else
             return GetValue()+"";
     }

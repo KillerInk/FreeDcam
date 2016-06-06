@@ -2,6 +2,7 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 
@@ -23,7 +24,7 @@ public class ISOManualParameterMTK extends BaseManualParameter
         this.isSupported = true;
         this.isVisible = isSupported;
         ArrayList<String> s = new ArrayList<>();
-        s.add("Auto");
+        s.add(KEYS.AUTO);
         for (int i =100; i <= maxiso; i +=100)
         {
             s.add(i + "");
@@ -83,7 +84,7 @@ public class ISOManualParameterMTK extends BaseManualParameter
         try {
             return stringvalues[currentInt];
         } catch (NullPointerException ex) {
-            return "Auto";
+            return KEYS.AUTO;
         }
     }
 

@@ -35,8 +35,8 @@ public class FocusManualHuawei extends BaseFocusManual {
                 camParametersHandler.FocusMode.SetValue(manualFocusModeString, false);
             parameters.set(KEYS.HW_HWCAMERA_FLAG,KEYS.ON);
             parameters.set(KEYS.HW_MANUAL_FOCUS_MODE,KEYS.ON);
-            parameters.set(value, stringvalues[currentInt]);
-            Logger.d(TAG, "Set " + value + " to : " + stringvalues[currentInt]);
+            parameters.set(key_value, stringvalues[currentInt]);
+            Logger.d(TAG, "Set " + key_value + " to : " + stringvalues[currentInt]);
             camParametersHandler.SetParametersToCamera(parameters);
         }
     }

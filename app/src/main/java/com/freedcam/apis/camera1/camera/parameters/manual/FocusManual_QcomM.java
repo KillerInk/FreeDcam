@@ -35,7 +35,7 @@ public class FocusManual_QcomM extends BaseManualParameter
     @Override
     protected String[] createStringArray(int min, int max, float step) {
         ArrayList<String> ar = new ArrayList<>();
-        ar.add("Auto");
+        ar.add(KEYS.AUTO);
         if (step == 0)
             step = 1;
         for (int i = min; i < max; i+=step)
@@ -65,8 +65,8 @@ public class FocusManual_QcomM extends BaseManualParameter
                 camParametersHandler.SetParametersToCamera(parameters);
             }
 
-            parameters.set(value, stringvalues[currentInt]);
-            Logger.d(TAG, "Set "+ value +" to : " + stringvalues[currentInt]);
+            parameters.set(key_value, stringvalues[currentInt]);
+            Logger.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
             camParametersHandler.SetParametersToCamera(parameters);
         }
     }

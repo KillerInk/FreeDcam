@@ -3,6 +3,7 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 
 /**
@@ -17,7 +18,7 @@ public class ShutterManualParameterG4 extends BaseManualParameter
         super(parameters, "", "", "", camParametersHandler,1);
         this.isSupported = true;
         stringvalues = parameters.get("shutter-speed-values").replace(",0","").split(",");
-        stringvalues[0] = "Auto";
+        stringvalues[0] = KEYS.AUTO;
         this.manualevent =manualevent;
     }
 

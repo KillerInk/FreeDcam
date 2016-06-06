@@ -2,6 +2,7 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
@@ -43,7 +44,7 @@ public class ShutterManualParameterHTC extends BaseManualParameter
     {
         currentInt = valueToSet;
         String shutterstring = stringvalues[currentInt];
-        if(!shutterstring.equals("Auto"))
+        if(!shutterstring.equals(KEYS.AUTO))
         {
             if (shutterstring.contains("/")) {
                 String split[] = shutterstring.split("/");

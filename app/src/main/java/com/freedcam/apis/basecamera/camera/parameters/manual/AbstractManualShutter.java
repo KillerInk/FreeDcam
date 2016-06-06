@@ -1,5 +1,6 @@
 package com.freedcam.apis.basecamera.camera.parameters.manual;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 public class AbstractManualShutter extends AbstractManualParameter
 {
 
-    private String shutterValues = "Auto,1/90000,1/75000,1/50000,1/45000,1/30000,1/20000,1/12000,1/10000"+
+    private String shutterValues = "auto,1/90000,1/75000,1/50000,1/45000,1/30000,1/20000,1/12000,1/10000"+
             ",1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000"+
             ",1/800,1/700,1/600,1/500,1/400,1/300,1/200,1/125,1/100,1/80,1/70,1/60"+
             ",1/50,1/40,1/35,1/30,1/25,1/20,1/15,1/13,1/10,1/9,1/8,1/7,1/6,1/5,1/4,1/3,1/2,0.6,0.8"+
@@ -29,7 +30,7 @@ public class AbstractManualShutter extends AbstractManualParameter
         boolean foundmin = false, foundmax = false;
         ArrayList<String> tmp = new ArrayList<>();
         if (withautomode)
-            tmp.add("Auto");
+            tmp.add(KEYS.AUTO);
         for (int i = 1; i< allvalues.length; i++ )
         {
             String s = allvalues[i];
@@ -77,7 +78,7 @@ public class AbstractManualShutter extends AbstractManualParameter
     /**
      *
      * @param shutterString 693.863262
-     * @return 693863262
+     * @return 693863.262
      */
     public String getMicroSecFromMilliseconds(String shutterString)
     {

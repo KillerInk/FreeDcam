@@ -215,7 +215,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         {
             String wb = ParameterHandler.CCT.GetStringValue();
             Logger.d(TAG,"Set Manual WhiteBalance:"+ wb);
-            if (!wb.equals("Auto"))
+            if (!wb.equals(KEYS.AUTO))
             {
                 dngConverter.SetWBCT(wb);
             }

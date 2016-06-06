@@ -24,16 +24,16 @@ public class BaseManualParameter extends AbstractManualParameter
     /*
      * The name of the current key_value to get like brightness
      */
-    protected String value;
+    protected String key_value;
 
     /**
-     * The name of the current key_value to get like brightness-max
+     * The name of the current value to get like brightness-max
      */
-    protected String max_value;
+    protected String key_max_value;
     /**
-     * The name of the current key_value to get like brightness-min
+     * The name of the current value to get like brightness-min
      */
-    protected String  min_value;
+    protected String key_min_value;
 
     protected float step;
 
@@ -59,29 +59,29 @@ public class BaseManualParameter extends AbstractManualParameter
      *
      * @param @parameters
      * @param @key_value
-     * @param @max_value
-     * @param @min_value
+     * @param @key_max_value
+     * @param @key_min_value
      * @param @camParametersHandler
      */
-    public BaseManualParameter(Camera.Parameters  parameters, String value, String maxValue, String MinValue, CamParametersHandler camParametersHandler, float step) {
+    public BaseManualParameter(Camera.Parameters  parameters, String key_value, String maxValue, String MinValue, CamParametersHandler camParametersHandler, float step) {
         super(camParametersHandler);
         this.camParametersHandler = camParametersHandler;
         this.parameters = parameters;
-        this.value = value;
-        this.max_value = maxValue;
-        this.min_value = MinValue;
+        this.key_value = key_value;
+        this.key_max_value = maxValue;
+        this.key_min_value = MinValue;
         this.step = step;
-        if (!this.value.equals("") && !this.max_value.equals("") && !min_value.equals(""))
+        if (!this.key_value.equals("") && !this.key_max_value.equals("") && !key_min_value.equals(""))
         {
-            if (parameters.get(this.value) != null && parameters.get(max_value) != null && parameters.get(min_value) != null)
+            if (parameters.get(this.key_value) != null && parameters.get(key_max_value) != null && parameters.get(key_min_value) != null)
             {
-                Logger.d(TAG, "parameters contains all 3 parameters " + value +" " + min_value +" " + max_value );
-                if (!parameters.get(min_value).equals("") && !parameters.get(max_value).equals(""))
+                Logger.d(TAG, "parameters contains all 3 parameters " + key_value +" " + key_min_value +" " + key_max_value);
+                if (!parameters.get(key_min_value).equals("") && !parameters.get(key_max_value).equals(""))
                 {
                     Logger.d(TAG, "parameters get min/max success");
-                    stringvalues = createStringArray(Integer.parseInt(parameters.get(min_value)), Integer.parseInt(parameters.get(max_value)), step);
-                    currentString = parameters.get(this.value);
-                    if (parameters.get(min_value).contains("-"))
+                    stringvalues = createStringArray(Integer.parseInt(parameters.get(key_min_value)), Integer.parseInt(parameters.get(key_max_value)), step);
+                    currentString = parameters.get(this.key_value);
+                    if (parameters.get(key_min_value).contains("-"))
                     {
                         Logger.d(TAG, "processing negative values");
                         currentInt = stringvalues.length /2 + Integer.parseInt(currentString);
@@ -108,10 +108,10 @@ public class BaseManualParameter extends AbstractManualParameter
                     Logger.d(TAG, "min or max is empty in parameters");
             }
             else
-                Logger.d(TAG, "parameters does not contain value, max_value or min_value");
+                Logger.d(TAG, "parameters does not contain value, key_max_value or key_min_value");
         }
         else
-            Logger.d(TAG, "failed to lookup value, max_value or min_value are empty");
+            Logger.d(TAG, "failed to lookup value, key_max_value or key_min_value are empty");
     }
     @Override
     public boolean IsSupported()
@@ -139,10 +139,10 @@ public class BaseManualParameter extends AbstractManualParameter
     public void SetValue(int valueToset)
     {
         currentInt = valueToset;
-        Logger.d(TAG, "set " + value + " to " + valueToset);
+        Logger.d(TAG, "set " + key_value + " to " + valueToset);
         if(stringvalues == null || stringvalues.length == 0)
             return;
-        parameters.set(value, stringvalues[valueToset]);
+        parameters.set(key_value, stringvalues[valueToset]);
         ThrowCurrentValueChanged(valueToset);
         ThrowCurrentValueStringCHanged(stringvalues[valueToset]);
         try

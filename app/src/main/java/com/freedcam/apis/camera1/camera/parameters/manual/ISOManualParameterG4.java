@@ -24,7 +24,7 @@ public class ISOManualParameterG4 extends BaseManualParameter
         for (int i =0; i <= 2700; i +=50)
         {
             if (i == 0)
-                s.add("Auto");
+                s.add(KEYS.AUTO);
             else
                 s.add(i + "");
         }
@@ -82,7 +82,7 @@ public class ISOManualParameterG4 extends BaseManualParameter
         try {
             return stringvalues[currentInt];
         } catch (NullPointerException ex) {
-            return "Auto";
+            return KEYS.AUTO;
         }
     }
 

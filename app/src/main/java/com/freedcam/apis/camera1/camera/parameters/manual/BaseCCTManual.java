@@ -2,6 +2,7 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.Logger;
 
@@ -56,8 +57,8 @@ public class BaseCCTManual extends BaseManualParameter
     {
         if (!camParametersHandler.WhiteBalanceMode.GetValue().equals(manual_WbMode) && manual_WbMode != "")
             camParametersHandler.WhiteBalanceMode.SetValue(manual_WbMode, true);
-        parameters.set(value, stringvalues[currentInt]);
-        Logger.d(TAG, "Set "+value+" to : " + stringvalues[currentInt]);
+        parameters.set(key_value, stringvalues[currentInt]);
+        Logger.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
 
     }
 
@@ -71,7 +72,7 @@ public class BaseCCTManual extends BaseManualParameter
     protected String[] createStringArray(int min, int max, float step)
     {
         ArrayList<String> t = new ArrayList<>();
-        t.add("Auto");
+        t.add(KEYS.AUTO);
         for (int i = min; i<=max;i+=step)
         {
             t.add(i+"");

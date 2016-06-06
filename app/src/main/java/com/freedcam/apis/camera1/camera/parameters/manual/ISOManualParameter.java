@@ -4,7 +4,6 @@ import android.hardware.Camera;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
-import com.freedcam.utils.DeviceUtils;
 
 public class ISOManualParameter extends BaseManualParameter {
 
@@ -12,15 +11,15 @@ public class ISOManualParameter extends BaseManualParameter {
         super(parameters, "", "", "", camParametersHandler,1);
 
         this.isSupported = true;
-        this.max_value = KEYS.MIN_ISO;
-        this.value = KEYS.ISO;
-        this.min_value = KEYS.MAX_ISO;
-        if (parameters.get(max_value) != null && parameters.get(min_value) != null) {
+        this.key_max_value = KEYS.MIN_ISO;
+        this.key_value = KEYS.ISO;
+        this.key_min_value = KEYS.MAX_ISO;
+        if (parameters.get(key_max_value) != null && parameters.get(key_min_value) != null) {
 
-            if (min_value.equals(null)) {
+            if (key_min_value.equals(null)) {
                 this.isSupported = false;
             }
-            stringvalues = createStringArray(Integer.parseInt(parameters.get(min_value)), Integer.parseInt(parameters.get(max_value)), 100);
+            stringvalues = createStringArray(Integer.parseInt(parameters.get(key_min_value)), Integer.parseInt(parameters.get(key_max_value)), 100);
         }
         else
             isSupported = false;
@@ -36,11 +35,11 @@ public class ISOManualParameter extends BaseManualParameter {
 
     @Override
     public int GetValue() {
-        final String tmp = parameters.get(value);
+        final String tmp = parameters.get(key_value);
         if (tmp.equals(KEYS.AUTO))
             return 0;
         try {
-            return Integer.parseInt(parameters.get(value));
+            return Integer.parseInt(parameters.get(key_value));
         } catch (NullPointerException | NumberFormatException ex) {
             return 0;
         }

@@ -187,7 +187,7 @@ public class BracketModule extends PictureModule
 
     private void checkAEMODE()
     {
-        if (!ParameterHandler.ManualShutter.GetStringValue().equals("Auto"))
+        if (!ParameterHandler.ManualShutter.GetStringValue().equals(KEYS.AUTO))
             isManualExpo = true;
     }
 

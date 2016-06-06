@@ -19,6 +19,6 @@ public class CCTManualHtc extends BaseCCTManual {
 
     @Override
     protected void set_to_auto() {
-        parameters.set(value, "-1");
+        parameters.set(key_value, "-1");
     }
 }

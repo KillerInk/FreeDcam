@@ -5,6 +5,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.camera2.camera.CameraHolderApi2;
 import com.freedcam.apis.camera2.camera.parameters.ParameterHandlerApi2;
@@ -44,7 +45,7 @@ public class ManualFocus extends AbstractManualParameter
     public String GetStringValue()
     {
         if (currentInt == -1)
-            return "Auto";
+            return KEYS.AUTO;
         else {
             if (isSupported)
                 return StringUtils.TrimmFloatString4Places(cameraHolder.get(CaptureRequest.LENS_FOCUS_DISTANCE) + "");

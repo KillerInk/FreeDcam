@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class BaseISOManual extends BaseManualParameter {
 
-    private String cur_iso_mode = "auto";
+    private String cur_iso_mode = KEYS.AUTO;
 
     public BaseISOManual(Camera.Parameters parameters, String value, int min, int max
             , CamParametersHandler camParametersHandler, float step) {
@@ -24,7 +24,7 @@ public class BaseISOManual extends BaseManualParameter {
 
     @Override
     public int GetValue() {
-        return parameters.getInt(KEYS.CUR_ISO);
+        return currentInt;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class BaseISOManual extends BaseManualParameter {
 
         if (!camParametersHandler.IsoMode.GetValue().equals(KEYS.KEY_MANUAL_FOCUS_POSITION))
             camParametersHandler.FocusMode.SetValue(KEYS.KEY_MANUAL_FOCUS_POSITION, true);
-        parameters.set(value, stringvalues[currentInt]);
+        parameters.set(key_value, stringvalues[currentInt]);
 
 
     }
@@ -63,7 +63,7 @@ public class BaseISOManual extends BaseManualParameter {
     protected String[] createStringArray(int min, int max, float step)
     {
         ArrayList<String> t = new ArrayList<>();
-        t.add("Auto");
+        t.add(KEYS.AUTO);
         for (int i = min; i<=max;i+=step)
         {
             t.add(i+"");

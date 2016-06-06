@@ -2,6 +2,7 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.Logger;
 
@@ -24,7 +25,7 @@ public class ShutterManual_ExposureTime_FloatToSixty extends ShutterManual_Expos
     public void SetValue(int valueToset)
     {
         currentInt = valueToset;
-        if(!stringvalues[currentInt].equals("Auto"))
+        if(!stringvalues[currentInt].equals(KEYS.AUTO))
         {
             String shutterstring = FormatShutterStringToDouble(stringvalues[currentInt]);
             Logger.d(TAG, "StringUtils.FormatShutterStringToDouble:" + shutterstring);

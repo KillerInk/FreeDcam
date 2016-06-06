@@ -19,6 +19,6 @@ public class CCTManualG4 extends BaseCCTManual {
 
     @Override
     protected void set_to_auto() {
-        parameters.set(value, "0");
+        parameters.set(key_value, "0");
     }
 }
