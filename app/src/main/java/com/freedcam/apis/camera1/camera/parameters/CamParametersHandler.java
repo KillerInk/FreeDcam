@@ -149,7 +149,7 @@ public class CamParametersHandler extends AbstractParameterHandler
 
 
         //load device specific stuff
-        Device = new CamParametersHandlerEXT().getDevice(cameraUiWrapper,uiHandler,cameraParameters,cameraHolder);
+        Device = new DeviceSelector().getDevice(cameraUiWrapper,uiHandler,cameraParameters,cameraHolder);
 
         if (Device != null)
             setDeviceParameters(Device);

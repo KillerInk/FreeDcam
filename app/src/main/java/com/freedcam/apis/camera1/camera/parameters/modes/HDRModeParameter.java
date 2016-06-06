@@ -130,7 +130,6 @@ public class HDRModeParameter extends BaseModeParameter
         {
             Logger.exception(ex);
         }
-        firststart = false;
     }
 
     @Override

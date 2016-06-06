@@ -63,17 +63,17 @@ import com.freedcam.utils.Logger;
 /**
  * Created by GeorgeKiarie on 6/2/2016.
  */
-public class CamParametersHandlerEXT  {
+public class DeviceSelector {
 
 
-    public CamParametersHandlerEXT()
+    public DeviceSelector()
     {
     }
 
 
     public AbstractDevice getDevice(CameraUiWrapper cameraUiWrapper, Handler uiHandler, Camera.Parameters cameraParameters,CameraHolderApi1 cameraHolder)
     {
-        Logger.d(CamParametersHandlerEXT.class.getSimpleName(), "getDevice " + DeviceUtils.DEVICE());
+        Logger.d(DeviceSelector.class.getSimpleName(), "getDevice " + DeviceUtils.DEVICE());
         switch (DeviceUtils.DEVICE())
         {
             case Alcatel_985n:
@@ -247,11 +247,11 @@ public class CamParametersHandlerEXT  {
             default:
                 if (cameraHolder.DeviceFrameWork == Frameworks.MTK)
                 {
-                    Logger.d(CamParametersHandlerEXT.class.getSimpleName(), "USE DEFAULT MTK DEVICE");
+                    Logger.d(DeviceSelector.class.getSimpleName(), "USE DEFAULT MTK DEVICE");
                     return new BaseMTKDevice(uiHandler, cameraParameters, cameraUiWrapper);
                 }
                 else {
-                    Logger.d(CamParametersHandlerEXT.class.getSimpleName(), "USE DEFAULT QCOM DEVICE");
+                    Logger.d(DeviceSelector.class.getSimpleName(), "USE DEFAULT QCOM DEVICE");
                     return new BaseQcomDevice(uiHandler, cameraParameters, cameraUiWrapper);
                 }
         }

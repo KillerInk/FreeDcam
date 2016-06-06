@@ -66,7 +66,6 @@ public class NightModeParameter extends BaseModeParameter
         {
             Logger.exception(ex);
         }
-        firststart = false;
     }
 
     @Override

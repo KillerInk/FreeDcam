@@ -66,6 +66,5 @@ public class CDS_Mode_Parameter extends BaseModeParameter
         {
             Logger.exception(ex);
         }
-        firststart = false;
     }
 }

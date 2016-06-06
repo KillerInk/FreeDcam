@@ -28,8 +28,6 @@ public class PreviewFpsParameter extends  BaseModeParameter
             cameraHolder.StopPreview();
             cameraHolder.StartPreview();
         }
-        firststart = false;
-
     }
 
     @Override

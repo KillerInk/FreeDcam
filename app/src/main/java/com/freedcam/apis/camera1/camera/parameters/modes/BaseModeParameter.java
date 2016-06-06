@@ -25,12 +25,11 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
     /*
     The Key to get the supported values from the parameters
      */
-    protected String values;
+    protected String key_values;
     boolean isSupported = false;
     boolean isVisible = true;
     protected Camera.Parameters  parameters;
     protected CameraHolderApi1 cameraHolderApi1;
-    protected boolean firststart = true;
     private static String TAG = BaseModeParameter.class.getSimpleName();
 
     /*
@@ -55,21 +54,21 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
      * Hold the camera object
      * @param key_value
      * The String to get/set the key_value from the parameters
-     * @param values
+     * @param key_values
      * the string to get the values avail/supported for @param key_value
      */
-    public BaseModeParameter(Handler uihandler, Camera.Parameters  parameters, CameraHolderApi1 cameraHolder, String key_value, String values)
+    public BaseModeParameter(Handler uihandler, Camera.Parameters  parameters, CameraHolderApi1 cameraHolder, String key_value, String key_values)
     {
         this(uihandler,parameters,cameraHolder);
         this.key_value = key_value;
-        this.values = values;
-        if (parameters != null && !key_value.isEmpty() && parameters.get(key_value) != null && parameters.get(values) != null)
+        this.key_values = key_values;
+        if (parameters != null && !key_value.isEmpty() && parameters.get(key_value) != null && parameters.get(key_values) != null)
         {
             String tmp = parameters.get(key_value);
             if (!tmp.isEmpty())
             {
                 this.isSupported = true;
-                valuesArray = parameters.get(values).split(",");
+                valuesArray = parameters.get(key_values).split(",");
                 ArrayList<String> tmpl  = new ArrayList<>();
                 for (String s : valuesArray)
                 {
@@ -113,7 +112,6 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
                 Logger.exception(ex);
             }
         }
-        firststart = false;
     }
 
 

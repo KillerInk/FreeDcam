@@ -40,6 +40,6 @@ public class PreviewSizeParameter extends BaseModeParameter
 
     @Override
     public String[] GetValues() {
-        return parameters.get(values).split(",");
+        return parameters.get(key_values).split(",");
     }
 }

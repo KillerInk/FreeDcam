@@ -33,28 +33,23 @@ import java.util.List;
  */
 public class CameraHolderApi1 extends AbstractCameraHolder
 {
-
+    //frame count that get attached to the camera when using focuspeak
     final int BUFFERCOUNT = 3;
+    //camera object
     private Camera mCamera;
+    //lg camera object
     private LGCamera lgCamera;
-    private LGCamera.LGParameters lgParameters;
+
     final static String TAG = CameraHolderApi1.class.getSimpleName();
     public I_error errorHandler;
     private I_Callbacks.PictureCallback pictureCallback;
     private I_Callbacks.PictureCallback rawCallback;
     private I_Callbacks.ShutterCallback shutterCallback;
-    private Surface surfaceHolder;
-
-    public boolean isMotorolaExt = false;
-    public boolean isMotorolaExtMediaRecorder = false;
+    private Surface previewSurfaceHolder;
 
     public Frameworks DeviceFrameWork = Frameworks.Normal;
     public Location gpsLocation;
     public int Orientation;
-
-
-    private TextureView textureView;
-
 
     public int CurrentCamera;
 
@@ -63,25 +58,19 @@ public class CameraHolderApi1 extends AbstractCameraHolder
         Normal,
         LG,
         MTK,
-        LegacyHAL
+        MotoX
     }
 
     public CameraHolderApi1(I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager appSettingsManager)
     {
         super(cameraChangedListner, UIHandler,appSettingsManager);
         //hasSamsungFramework();
-        hasLGFramework();
-       // if (DeviceFrameWork == Frameworks.Normal)
-          //  isLegacyHAL();
+        DeviceFrameWork = hasLGFramework();
         if (DeviceFrameWork == Frameworks.Normal)
-            isMTKDevice();
-    }
+            DeviceFrameWork= isMTKDevice();
+        if (DeviceFrameWork == Frameworks.Normal)
+            DeviceFrameWork = isMotoExt();
 
-    public void SetParamsDirect(String a , String b)
-    {
-        Camera.Parameters p = mCamera.getParameters();
-        p.set(a, b);
-        mCamera.setParameters(p);
     }
 
     public String GetParamsDirect(String para)
@@ -90,134 +79,42 @@ public class CameraHolderApi1 extends AbstractCameraHolder
         return p.get(para);
     }
 
-    private void hasLGFramework()
+    private Frameworks hasLGFramework()
     {
         try {
             Class c = Class.forName("com.lge.hardware.LGCamera");
             Logger.d(TAG, "Has Lg Framework");
-            DeviceFrameWork = Frameworks.LG;
-
-        } catch (ExceptionInInitializerError | UnsatisfiedLinkError e) {
-
-            DeviceFrameWork = Frameworks.Normal;
-            Logger.d(TAG, "No LG Framework");
-        } catch (Exception e) {
-
-            DeviceFrameWork = Frameworks.Normal;
-            Logger.d(TAG, "No LG Framework");
-        }
-        try {
-            Class c = Class.forName("com.lge.media.CamcorderProfileEx");
+            c = Class.forName("com.lge.media.CamcorderProfileEx");
             Logger.d(TAG, "Has Lg Framework");
-            DeviceFrameWork = Frameworks.LG;
+            return Frameworks.LG;
 
-        } catch (ExceptionInInitializerError | UnsatisfiedLinkError e) {
+        } catch (ClassNotFoundException|NullPointerException|UnsatisfiedLinkError | ExceptionInInitializerError e) {
 
-            DeviceFrameWork = Frameworks.Normal;
             Logger.d(TAG, "No LG Framework");
-        } catch (Exception e) {
-
-            DeviceFrameWork = Frameworks.Normal;
-            Logger.d(TAG, "No LG Framework");
+            return Frameworks.Normal;
         }
-
     }
 
-    private void isMotoExt()
+    private Frameworks isMotoExt()
     {
         try {
             Class c = Class.forName("com.motorola.android.camera.CameraMotExt");
             Logger.d(TAG, "Has Moto Framework");
-            isMotorolaExt = true;
-
-        } catch (ExceptionInInitializerError e) {
-
-            isMotorolaExt = false;
-            Logger.d(TAG, "No Moto Framework");
-        }
-        catch (UnsatisfiedLinkError er)
-        {
-            isMotorolaExt = false;
-            Logger.d(TAG, "No Moto Framework");
-        }
-        catch (ClassNotFoundException e)
-        {
-            isMotorolaExt = false;
-            Logger.d(TAG, "No Moto Framework");
-        }
-        catch (Exception e) {
-
-            isMotorolaExt = false;
-            Logger.d(TAG, "No Moto Framework");
-        }
-        try {
-            Class c = Class.forName("com.motorola.android.media.MediaRecorderExt");
+            c = Class.forName("com.motorola.android.media.MediaRecorderExt");
             Logger.d(TAG, "Has Moto Framework");
-            isMotorolaExtMediaRecorder = true;
+            return Frameworks.MotoX;
 
-        } catch (ExceptionInInitializerError e) {
-
-            isMotorolaExtMediaRecorder = false;
+        } catch (ClassNotFoundException|NullPointerException|UnsatisfiedLinkError | ExceptionInInitializerError e) {
             Logger.d(TAG, "No Moto Framework");
-        }
-        catch (UnsatisfiedLinkError er)
-        {
-            isMotorolaExtMediaRecorder = false;
-            Logger.d(TAG, "No Moto Framework");
-        }
-        catch (ClassNotFoundException e)
-        {
-            isMotorolaExtMediaRecorder = false;
-            Logger.d(TAG, "No Moto Framework");
-        }
-        catch (Exception e) {
-
-            isMotorolaExtMediaRecorder = false;
-            Logger.d(TAG, "No Moto Framework");
+            return Frameworks.Normal;
         }
 
     }
 
-    private void isLegacyHAL()
+    private Frameworks isMTKDevice()
     {
-        try {
-            Class camera = Class.forName("android.hardware.Camera");
-            Method[] meths = camera.getMethods();
-            Method app = null;
-            for (Method m : meths)
-            {
-                if (m.getName().equals("openLegacy"))
-                    app = m;
-            }
-            if (app != null) {
-                DeviceFrameWork = Frameworks.LegacyHAL;
-                Logger.d(TAG,"LegacyHAL found");
-            }
-        } catch (ClassNotFoundException e) {
-            Logger.e(TAG,e.getMessage());
-            DeviceFrameWork = Frameworks.Normal;
-            Logger.d(TAG, "LegacyHAL not found");
-        }
-        catch (NullPointerException ex)
+        try
         {
-            Logger.e(TAG,ex.getMessage());
-            DeviceFrameWork = Frameworks.Normal;
-            Logger.d(TAG, "No LegacyHAL");
-        }
-        catch (UnsatisfiedLinkError er)
-        {
-            DeviceFrameWork = Frameworks.Normal;
-            Logger.d(TAG, "No LegacyHAL");
-        }
-        catch (ExceptionInInitializerError e) {
-
-            DeviceFrameWork = Frameworks.Normal;
-            Logger.d(TAG, "No LegacyHAL");
-        }
-    }
-    private void isMTKDevice()
-    {
-        try {
             Class camera = Class.forName("android.hardware.Camera");
             Method[] meths = camera.getMethods();
             Method app = null;
@@ -227,26 +124,18 @@ public class CameraHolderApi1 extends AbstractCameraHolder
                     app = m;
             }
             if (app != null) {
-                DeviceFrameWork = Frameworks.MTK;
                 Logger.d(TAG,"MTK Framework found");
+                return Frameworks.MTK;
             }
-        } catch (ClassNotFoundException e) {
-            Logger.e(TAG,e.getMessage());
-            DeviceFrameWork = Frameworks.Normal;
             Logger.d(TAG, "MTK Framework not found");
+            return Frameworks.Normal;
         }
-        catch (NullPointerException ex)
+        catch (ClassNotFoundException|NullPointerException|UnsatisfiedLinkError | ExceptionInInitializerError e)
         {
-            Logger.e(TAG,ex.getMessage());
-            DeviceFrameWork = Frameworks.Normal;
-            Logger.d(TAG, "No MTK");
+            Logger.exception(e);
+            Logger.d(TAG, "MTK Framework not found");
+            return Frameworks.Normal;
         }
-        catch (UnsatisfiedLinkError | ExceptionInInitializerError er)
-        {
-            DeviceFrameWork = Frameworks.Normal;
-            Logger.d(TAG, "No MTK");
-        }
-
     }
 
     /**
@@ -267,7 +156,6 @@ public class CameraHolderApi1 extends AbstractCameraHolder
                     else
                         lgCamera = new LGCamera(camera);
                     mCamera = lgCamera.getCamera();
-                    lgParameters = lgCamera.getLGParameters();
                 }
                 catch (RuntimeException ex)
                 {
@@ -279,16 +167,12 @@ public class CameraHolderApi1 extends AbstractCameraHolder
                 setMtkAppMode();
                 mCamera = Camera.open(camera);
             }
-            else if(DeviceFrameWork == Frameworks.LegacyHAL)
+            else if(DeviceFrameWork == Frameworks.MotoX)
             {
                 mCamera = openWrapper(camera);
-
-                isMotoExt();
-                if(isMotorolaExt) {
-                    Camera.Parameters paras = mCamera.getParameters();
-                    paras.set("mot-app", "true");
-                    mCamera.setParameters(paras);
-                }
+                Camera.Parameters paras = mCamera.getParameters();
+                paras.set("mot-app", "true");
+                mCamera.setParameters(paras);
 
             }
             else
@@ -298,12 +182,6 @@ public class CameraHolderApi1 extends AbstractCameraHolder
                 {
                     Camera.Parameters paras = mCamera.getParameters();
                     paras.set("zsl", "off");
-                    mCamera.setParameters(paras);
-                }
-                else if(DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8974) || DeviceUtils.IS(DeviceUtils.Devices.MotoG3))
-                {
-                    Camera.Parameters paras = mCamera.getParameters();
-                    paras.set("mot-app", "true");
                     mCamera.setParameters(paras);
                 }
             }
@@ -367,7 +245,7 @@ public class CameraHolderApi1 extends AbstractCameraHolder
     @Override
     public boolean SetSurface(SurfaceHolder surfaceHolder)
     {
-        this.surfaceHolder = surfaceHolder.getSurface();
+        this.previewSurfaceHolder = surfaceHolder.getSurface();
         try
         {
             if (isRdy && mCamera != null) {
@@ -389,7 +267,7 @@ public class CameraHolderApi1 extends AbstractCameraHolder
 
     public Surface getSurfaceHolder()
     {
-        return  surfaceHolder;
+        return previewSurfaceHolder;
     }
 
     @Override

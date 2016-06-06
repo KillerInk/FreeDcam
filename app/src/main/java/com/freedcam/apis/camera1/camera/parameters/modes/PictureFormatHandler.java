@@ -149,7 +149,6 @@ public class PictureFormatHandler extends BaseModeParameter
         Logger.d(TAG, "setString:" +val);
         parameters.set(KEYS.PICTURE_FORMAT, val);
         cameraHolderApi1.SetCameraParameters(parameters);
-        firststart = false;
     }
 
     @Override

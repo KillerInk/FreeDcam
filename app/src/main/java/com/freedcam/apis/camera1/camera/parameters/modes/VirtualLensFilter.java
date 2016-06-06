@@ -15,8 +15,8 @@ public class VirtualLensFilter extends  BaseModeParameter {
     private CameraHolderApi1 cameraHolder;
     private CameraUiWrapper cameraUiWrapper;
 
-    private static final int[] asT = new int[]{0, 1, 2, 3, 4, 5, 6};
-    private static final String[] asU = new String[]{"", "100 0 0 0 100 0 0 0 100 0 0 80", "100 0 0 0 100 0 0 0 100 12 50 100",
+    private final int[] asT = new int[]{0, 1, 2, 3, 4, 5, 6};
+    private final String[] asU = new String[]{"", "100 0 0 0 100 0 0 0 100 0 0 80", "100 0 0 0 100 0 0 0 100 12 50 100",
             "100 0 0 0 100 0 0 0 100 0 100 100", "100 0 0 0 100 0 0 0 100 0 85 0", "100 0 0 0 100 0 0 0 100 80 80 0"
             , "100 0 0 0 100 0 0 0 100 80 0 0", "100 0 0 0 100 0 0 0 50 115 20 70", "100 0 0 0 100 0 0 0 40 -60 -60 -60"
             , "100 0 0 0 100 0 0 0 40 -60 -60 -60", "100 0 0 0 100 0 0 0 40 -60 -60 -60", "100 0 0 0 100 0 0 0 40 -60 -60 -60"};
