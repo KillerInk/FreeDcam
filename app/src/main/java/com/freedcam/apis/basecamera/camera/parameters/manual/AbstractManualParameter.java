@@ -25,11 +25,11 @@ public abstract class AbstractManualParameter implements I_ManualParameter
      */
     protected String[] stringvalues;
     /**
-     * the value that is currently in use by the parameters
+     * the key_value that is currently in use by the parameters
      */
     protected String currentString;
     /**
-     * the true integer value that represents the the currentstring in the array stringvalues
+     * the true integer key_value that represents the the currentstring in the array stringvalues
      * so on negative values  -1 = stringarray[stringarray/2 + -1] must get used
      */
     protected int currentInt;
@@ -67,7 +67,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
         /**
          * Notify the listner that the parameter has changed in the background
          * com.freedcam.ui.themesample.views.ManualButton.java
-         * @param current int value representing the array state
+         * @param current int key_value representing the array state
          */
         void onCurrentValueChanged(int current);
         /**
@@ -77,9 +77,9 @@ public abstract class AbstractManualParameter implements I_ManualParameter
          */
         void onValuesChanged(String[] values);
         /**
-         * Notify the listner that the parameter has changed its value
+         * Notify the listner that the parameter has changed its key_value
          * com.freedcam.ui.themesample.views.ManualButton.java
-         * @param value the new string value
+         * @param value the new string key_value
          */
         void onCurrentStringValueChanged(String value);
     }
@@ -198,7 +198,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
 
     /**
      *
-     * @return returns the current value as int
+     * @return returns the current key_value as int
      */
     @Override
     public int GetValue() {
@@ -207,7 +207,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
 
     /**
      *
-     * @return returns the current value as string
+     * @return returns the current key_value as string
      */
     @Override
     public String GetStringValue()

@@ -19,7 +19,7 @@ public class VideoStabilizationParameter extends  BaseModeParameter {
         if (parameters.get(KEYS.VIDEO_STABILIZATION_SUPPORTED).equals(KEYS.TRUE))
         {
             this.isSupported = true;
-            this.value = KEYS.VIDEO_STABILIZATION;
+            this.key_value = KEYS.VIDEO_STABILIZATION;
         }
         else
             this.isSupported = false;

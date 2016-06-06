@@ -15,16 +15,16 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
 
     protected Camera.Parameters  parameters;
     /*
-     * The name of the current value to get like brightness
+     * The name of the current key_value to get like brightness
      */
     protected String value;
 
     /**
-     * The name of the current value to get like brightness-max
+     * The name of the current key_value to get like brightness-max
      */
     protected String max_value;
     /**
-     * The name of the current value to get like brightness-min
+     * The name of the current key_value to get like brightness-min
      */
     protected String  min_value;
 

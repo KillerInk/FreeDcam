@@ -12,9 +12,19 @@ import java.util.ArrayList;
 
 /**
  * Created by troop on 17.08.2014.
+ * That class handel basic parameter logic and
+ * expect a key_value String like "antibanding" and a values String "antibanding-values"
+ *
  */
-public class BaseModeParameter extends AbstractModeParameter implements I_ModuleEvent, AbstractModeParameter.I_ModeParameterEvent {
-    protected String value;
+public class BaseModeParameter extends AbstractModeParameter implements I_ModuleEvent, AbstractModeParameter.I_ModeParameterEvent
+{
+    /*
+    The Key to set/get a value from the parameters
+     */
+    protected String key_value;
+    /*
+    The Key to get the supported values from the parameters
+     */
     protected String values;
     boolean isSupported = false;
     boolean isVisible = true;
@@ -23,6 +33,9 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
     protected boolean firststart = true;
     private static String TAG = BaseModeParameter.class.getSimpleName();
 
+    /*
+    The stored StringValues from the parameter
+     */
     protected String[] valuesArray;
 
     public BaseModeParameter(Handler uihandler, Camera.Parameters  parameters, CameraHolderApi1 cameraHolder)
@@ -35,24 +48,24 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
     /***
      *
      * @param uihandler
-     * Holds the ui Thread to invoke the ui from antother thread
+     * Holds the ui Thread to invoke the ui from another thread
      * @param parameters
      * Hold the Camera Parameters
      * @param cameraHolder
      * Hold the camera object
-     * @param value
-     * The String to get/set the value from the parameters
+     * @param key_value
+     * The String to get/set the key_value from the parameters
      * @param values
-     * the string to get the values avail/supported for @param value
+     * the string to get the values avail/supported for @param key_value
      */
-    public BaseModeParameter(Handler uihandler, Camera.Parameters  parameters, CameraHolderApi1 cameraHolder, String value, String values)
+    public BaseModeParameter(Handler uihandler, Camera.Parameters  parameters, CameraHolderApi1 cameraHolder, String key_value, String values)
     {
         this(uihandler,parameters,cameraHolder);
-        this.value = value;
+        this.key_value = key_value;
         this.values = values;
-        if (parameters != null && !value.isEmpty() && parameters.get(value) != null && parameters.get(values) != null)
+        if (parameters != null && !key_value.isEmpty() && parameters.get(key_value) != null && parameters.get(values) != null)
         {
-            String tmp = parameters.get(value);
+            String tmp = parameters.get(key_value);
             if (!tmp.isEmpty())
             {
                 this.isSupported = true;
@@ -70,7 +83,7 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
         else
             this.isSupported =false;
         this.isVisible = isSupported;
-        Logger.d(TAG, value + ":" +isSupported);
+        Logger.d(TAG, key_value + ":" +isSupported);
     }
 
     @Override
@@ -89,8 +102,8 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
     {
         if (valueToSet == null)
             return;
-        parameters.set(value, valueToSet);
-        Logger.d(TAG, "set " + value + " to " + valueToSet);
+        parameters.set(key_value, valueToSet);
+        Logger.d(TAG, "set " + key_value + " to " + valueToSet);
         BackgroundValueHasChanged(valueToSet);
         if (setToCam) {
             try {
@@ -107,7 +120,7 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
     @Override
     public String GetValue()
     {
-        return parameters.get(value);
+        return parameters.get(key_value);
     }
     @Override
     public String[] GetValues()

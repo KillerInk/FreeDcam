@@ -22,16 +22,16 @@ public class BaseManualParameter extends AbstractManualParameter
      */
     protected Camera.Parameters  parameters;
     /*
-     * The name of the current value to get like brightness
+     * The name of the current key_value to get like brightness
      */
     protected String value;
 
     /**
-     * The name of the current value to get like brightness-max
+     * The name of the current key_value to get like brightness-max
      */
     protected String max_value;
     /**
-     * The name of the current value to get like brightness-min
+     * The name of the current key_value to get like brightness-min
      */
     protected String  min_value;
 
@@ -58,7 +58,7 @@ public class BaseManualParameter extends AbstractManualParameter
     /**
      *
      * @param @parameters
-     * @param @value
+     * @param @key_value
      * @param @max_value
      * @param @min_value
      * @param @camParametersHandler

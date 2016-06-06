@@ -18,7 +18,7 @@ public class BaseFocusManual extends BaseManualParameter
     private int manualFocusType = 0;
 
     /**
-     * checks if the value maxvalue and minvalues are contained in the cameraparameters
+     * checks if the key_value maxvalue and minvalues are contained in the cameraparameters
      * and creates depending on it the stringarray
      * NOTE:if super fails the parameter is unsupported
      * @param parameters

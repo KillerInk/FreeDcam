@@ -106,15 +106,15 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
     @Override
     public String GetValue()
     {
-        /*if (value == null || value.equals("")) {
+        /*if (key_value == null || key_value.equals("")) {
             jsonObject = null;
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         jsonObject = mRemoteApi.getParameterFromCamera(VALUE_TO_GET);
-                        value = processGetString();
-                        BackgroundValueHasChanged(value);
+                        key_value = processGetString();
+                        BackgroundValueHasChanged(key_value);
                     } catch (IOException e) {
                         Logger.exception(e);
                     }

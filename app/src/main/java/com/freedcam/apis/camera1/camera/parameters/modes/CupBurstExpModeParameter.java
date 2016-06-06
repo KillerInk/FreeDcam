@@ -85,10 +85,10 @@ public class CupBurstExpModeParameter extends BaseModeParameter
 
     @Override
     public String GetValue() {
-        String tmp = parameters.get(value);
+        String tmp = parameters.get(key_value);
         if (tmp == null || tmp == "")
             return "off";
         else
-            return (parameters.get(value));
+            return (parameters.get(key_value));
     }
 }

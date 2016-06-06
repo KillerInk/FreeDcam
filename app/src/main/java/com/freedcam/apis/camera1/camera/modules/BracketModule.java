@@ -151,12 +151,12 @@ public class BracketModule extends PictureModule
                 value = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AEB3));
 
             Logger.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
-           // ParameterHandler.ManualExposure.SetValue(value);
+           // ParameterHandler.ManualExposure.SetValue(key_value);
 
             /*checkAEMODE();
             if(isManualExpo)
             {
-                ParameterHandler.ManualShutter.SetValue(DoStopCalc(value));
+                ParameterHandler.ManualShutter.SetValue(DoStopCalc(key_value));
             }
            TODO */
             ParameterHandler.SetEVBracket(value + "");

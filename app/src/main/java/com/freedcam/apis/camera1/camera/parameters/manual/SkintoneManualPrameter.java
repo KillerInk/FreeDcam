@@ -23,7 +23,7 @@ public class SkintoneManualPrameter extends BaseManualParameter {
             /*final String skin = parameters.get("skinToneEnhancement");
             if (skin != null && !skin.equals("")) {
                 this.isSupported = true;
-                this.value = "skinToneEnhancement";
+                this.key_value = "skinToneEnhancement";
             }*/
             if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)
                     ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)

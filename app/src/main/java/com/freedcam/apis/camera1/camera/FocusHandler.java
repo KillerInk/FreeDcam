@@ -240,7 +240,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
                 rect.bottom * 2000 / height - 1000,
                 rect.x,rect.y);
         logFocusRect(targetFocusRect);
-        //check if stuff is to big or to small and set it to min max value
+        //check if stuff is to big or to small and set it to min max key_value
         if (targetFocusRect.left < -1000)
         {
             int dif = targetFocusRect.left + 1000;

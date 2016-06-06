@@ -45,7 +45,7 @@ public class BaseCCTManual extends BaseManualParameter
         //set to auto
         if (currentInt == 0) {
             set_to_auto();
-        } else //set manual wb mode and value
+        } else //set manual wb mode and key_value
         {
             set_manual();
         }

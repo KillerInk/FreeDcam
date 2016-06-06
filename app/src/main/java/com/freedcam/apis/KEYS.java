@@ -203,6 +203,7 @@ public final class KEYS {
     public static final String IMAGEPOSTPROCESSING_VALUES = "ipp-values";
 
     //sony
+    //visual stabilization
     public static final String SONY_VS = "sony-vs";
     public static final String SONY_VS_VALUES = "sony-vs-values";
 

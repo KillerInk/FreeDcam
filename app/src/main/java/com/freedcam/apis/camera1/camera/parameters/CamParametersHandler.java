@@ -923,11 +923,11 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
     }
 
-    /*public void setString(String param, String value)
+    /*public void setString(String param, String key_value)
     {
         try
         {
-            cameraParameters.put(param, value);
+            cameraParameters.put(param, key_value);
             cameraHolder.SetCameraParameters(cameraParameters);
         }
         catch (Exception e)
