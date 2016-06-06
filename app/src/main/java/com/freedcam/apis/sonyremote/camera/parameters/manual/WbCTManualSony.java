@@ -23,7 +23,7 @@ public class WbCTManualSony extends BaseManualParameterSony
     private int step = 0;
 
     private String[] values;
-    public WbCTManualSony(String VALUE_TO_GET, String VALUES_TO_GET, ParameterHandlerSony parameterHandlerSony) {
+    public WbCTManualSony(ParameterHandlerSony parameterHandlerSony) {
         super("", "", "", parameterHandlerSony);
     }
 

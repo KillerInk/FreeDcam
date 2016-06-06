@@ -23,7 +23,7 @@ public class ZoomManualSony extends BaseManualParameterSony
 
     private boolean fromUser = false;
 
-    public ZoomManualSony(String MIN_TO_GET, String CURRENT_TO_GET, ParameterHandlerSony parameterHandlerSony) {
+    public ZoomManualSony(ParameterHandlerSony parameterHandlerSony) {
         super("actZoom", "", "actZoom", parameterHandlerSony);
     }
 

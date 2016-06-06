@@ -16,7 +16,7 @@ import java.io.IOException;
 public class ExposureCompManualParameterSony extends BaseManualParameterSony
 {
     private static String TAG = ExposureCompManualParameterSony.class.getSimpleName();
-    public ExposureCompManualParameterSony(String VALUES_TO_GET, String VALUE_TO_SET, ParameterHandlerSony parameterHandlerSony) {
+    public ExposureCompManualParameterSony(ParameterHandlerSony parameterHandlerSony) {
         super("getExposureCompensation", "getAvailableExposureCompensation", "setExposureCompensation", parameterHandlerSony);
         currentInt = -200;
     }

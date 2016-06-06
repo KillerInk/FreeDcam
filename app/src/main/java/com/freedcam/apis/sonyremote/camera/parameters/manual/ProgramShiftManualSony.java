@@ -21,7 +21,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     private final String TAG = ProgramShiftManualSony.class.getSimpleName();
     private BaseManualParameterSony shutter;
     private BaseManualParameterSony fnumber;
-    public ProgramShiftManualSony(String VALUES_TO_GET, String VALUE_TO_SET, ParameterHandlerSony parameterHandlerSony) {
+    public ProgramShiftManualSony(ParameterHandlerSony parameterHandlerSony) {
         super("", "getSupportedProgramShift", "setProgramShift", parameterHandlerSony);
         this.shutter = (BaseManualParameterSony)parameterHandlerSony.ManualShutter;
         this.fnumber = (BaseManualParameterSony)parameterHandlerSony.ManualFNumber;

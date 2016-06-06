@@ -21,7 +21,7 @@ public class CameraUiWrapperSony  extends AbstractCameraUiWrapper implements Sur
     protected SimpleStreamSurfaceView surfaceView;
 
     public ServerDevice serverDevice;
-    CameraHolderSony cameraHolder;
+    public CameraHolderSony cameraHolder;
 
 
     @Override

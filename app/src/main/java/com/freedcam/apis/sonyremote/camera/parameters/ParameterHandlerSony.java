@@ -8,6 +8,7 @@ import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.camera.parameters.modes.ModuleParameters;
 import com.freedcam.apis.sonyremote.camera.CameraHolderSony;
+import com.freedcam.apis.sonyremote.camera.CameraUiWrapperSony;
 import com.freedcam.apis.sonyremote.camera.parameters.manual.BaseManualParameterSony;
 import com.freedcam.apis.sonyremote.camera.parameters.manual.ExposureCompManualParameterSony;
 import com.freedcam.apis.sonyremote.camera.parameters.manual.PreviewZoomManual;
@@ -45,15 +46,15 @@ public class ParameterHandlerSony extends AbstractParameterHandler
     private Set<String> mSupportedApiSet;
     private List<I_SonyApi> parametersChangedList;
     private SimpleStreamSurfaceView surfaceView;
-    private AbstractCameraUiWrapper wrapper;
+    private CameraUiWrapperSony wrapper;
 
-    public ParameterHandlerSony(AbstractCameraUiWrapper cameraHolder, SimpleStreamSurfaceView surfaceView, Context context, AppSettingsManager appSettingsManager)
+    public ParameterHandlerSony(CameraUiWrapperSony wrapper, SimpleStreamSurfaceView surfaceView, Context context, AppSettingsManager appSettingsManager)
     {
-        super(cameraHolder.cameraHolder,context,appSettingsManager);
-        this.cameraHolder = (CameraHolderSony)cameraHolder.cameraHolder;
+        super(wrapper.cameraHolder,context,appSettingsManager);
+        this.cameraHolder = wrapper.cameraHolder;
         parametersChangedList  = new ArrayList<>();
         this.surfaceView = surfaceView;
-        this.wrapper = cameraHolder;
+        this.wrapper = wrapper;
     }
 
     public void SetCameraApiSet(final Set<String> mAvailableCameraApiSet)
@@ -85,7 +86,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         PictureSize = new PictureSizeSony(mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)PictureSize);
 
-        PictureFormat = new PictureFormatSony("setStillQuality", "getAvailableStillQuality", mRemoteApi);
+        PictureFormat = new PictureFormatSony(mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)PictureFormat);
 
         FlashMode = new BaseModeParameterSony("getFlashMode", "setFlashMode", "getAvailableFlashMode", mRemoteApi);
@@ -110,7 +111,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         parametersChangedList.add((BaseModeParameterSony) ZoomSetting);
 
 
-        Zoom = new ZoomManualSony("","actZoom", this);
+        Zoom = new ZoomManualSony(this);
         parametersChangedList.add((ZoomManualSony)Zoom);
         ManualShutter = new BaseManualParameterSony("getShutterSpeed", "getAvailableShutterSpeed","setShutterSpeed", this);
         parametersChangedList.add((BaseManualParameterSony) ManualShutter);
@@ -119,13 +120,13 @@ public class ParameterHandlerSony extends AbstractParameterHandler
         ManualIso = new BaseManualParameterSony("getIsoSpeedRate", "getAvailableIsoSpeedRate","setIsoSpeedRate", this);
         parametersChangedList.add((BaseManualParameterSony) ManualIso);
 
-        ManualExposure = new ExposureCompManualParameterSony("getAvailableExposureCompensation", "setExposureCompensation", this);
+        ManualExposure = new ExposureCompManualParameterSony(this);
         parametersChangedList.add((BaseManualParameterSony) ManualExposure);
 
-        ProgramShift = new ProgramShiftManualSony("getSupportedProgramShift", "setProgramShift", this);
+        ProgramShift = new ProgramShiftManualSony(this);
         parametersChangedList.add((BaseManualParameterSony)ProgramShift);
 
-        CCT = new WbCTManualSony("","", this);
+        CCT = new WbCTManualSony(this);
         parametersChangedList.add((BaseManualParameterSony) CCT);
 
         WhiteBalanceMode = new WhiteBalanceModeSony(mRemoteApi, (WbCTManualSony)CCT);
@@ -145,7 +146,7 @@ public class ParameterHandlerSony extends AbstractParameterHandler
 
         PreviewZoom = new PreviewZoomManual(surfaceView,this);
 
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
+        uiHandler.post(new Runnable() {
             @Override
             public void run()
             {

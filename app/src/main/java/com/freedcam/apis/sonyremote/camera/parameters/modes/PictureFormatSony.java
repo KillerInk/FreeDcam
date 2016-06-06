@@ -16,7 +16,7 @@ import java.io.IOException;
 public class PictureFormatSony extends BaseModeParameterSony
 {
     final String TAG = PictureFormatSony.class.getSimpleName();
-    public PictureFormatSony(String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi) {
+    public PictureFormatSony(SimpleRemoteApi mRemoteApi) {
         super("getStillQuality", "setStillQuality", "getAvailableStillQuality", mRemoteApi);
     }
 
