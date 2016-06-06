@@ -195,8 +195,8 @@ public class CamParametersHandler extends AbstractParameterHandler
 
         try {
             Zoom = new ZoomManualParameter(cameraParameters,this);
-            PictureFormat.addEventListner(((BaseManualParameter)Zoom).GetPicFormatListner());
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Zoom).GetModuleListner());
+            /*PictureFormat.addEventListner(((BaseManualParameter)Zoom).GetPicFormatListner());
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Zoom).GetModuleListner());*/
         } catch (Exception e) {
             Logger.exception(e);
         }
