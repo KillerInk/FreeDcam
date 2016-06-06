@@ -24,7 +24,7 @@ public class BaseISOManual extends BaseManualParameter {
 
     @Override
     public int GetValue() {
-        return parameters.getInt("cur-iso");
+        return parameters.getInt(KEYS.CUR_ISO);
     }
 
     @Override

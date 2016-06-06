@@ -22,8 +22,8 @@ public class BaseWB_CCT_QC extends BaseCCTManual {
     protected void set_manual() {
         super.set_manual();
         try {
-            parameters.set("manual-wb-type", "color-temperature");
-            parameters.set("manual-wb-value", stringvalues[currentInt]);
+            parameters.set(KEYS.MANUAL_WB_TYPE, KEYS.MANUAL_WB_TYPE_COLOR_TEMPERATURE);
+            parameters.set(KEYS.MANUAL_WB_VALUE, stringvalues[currentInt]);
         } catch (Exception ex) {
             Logger.exception(ex);}
     }

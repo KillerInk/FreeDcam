@@ -2,6 +2,7 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 
@@ -66,12 +67,12 @@ public class ISOManualParameterG4 extends BaseManualParameter
 
         if (value == 0)
         {
-            parameters.set("lg-iso", "auto");
+            parameters.set(KEYS.LG_ISO, KEYS.AUTO);
         }
         else
         {
             currentInt = value;
-            parameters.set("lg-iso", stringvalues[value]);
+            parameters.set(KEYS.LG_ISO, stringvalues[value]);
         }
         ThrowCurrentValueStringCHanged(stringvalues[value]);
     }

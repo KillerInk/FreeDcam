@@ -2,25 +2,17 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 
 public class FXManualParameter extends BaseManualParameter {
-	
-	CameraHolderApi1 cameraHolderApi1;
-    public FXManualParameter(Camera.Parameters parameters, String maxValue, String MinValue, CamParametersHandler camParametersHandler) {
+
+    public FXManualParameter(Camera.Parameters parameters,CamParametersHandler camParametersHandler) {
         super(parameters, "", "", "", camParametersHandler,1);
-
-        //TODO add missing logic
     }
-  /*  public FXManualParameter(Camera.Parameters parameters, String value, String maxValue, String MinValue, CameraHolderApi1 cameraHolder, AbstractParameterHandler camParametersHandler) {
-        super(parameters, value, maxValue, MinValue, camParametersHandler);
-
-        this.cameraHolderApi1 = cameraHolder;
-        //TODO add missing logic
-    }*/
 
     @Override
     public boolean IsSupported()
@@ -61,7 +53,7 @@ public class FXManualParameter extends BaseManualParameter {
     @Override
     public void SetValue(int valueToSet)
     {   
-    	parameters.set("morpho_effect_type", String.valueOf(valueToSet));
+    	parameters.set(KEYS.MORPHO_EFFECT_TYPE, String.valueOf(valueToSet));
         camParametersHandler.SetParametersToCamera(parameters);
 
     }

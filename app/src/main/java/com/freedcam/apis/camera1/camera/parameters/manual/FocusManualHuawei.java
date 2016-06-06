@@ -11,7 +11,7 @@ import com.freedcam.utils.Logger;
  */
 public class FocusManualHuawei extends BaseFocusManual {
     public FocusManualHuawei(Camera.Parameters parameters, String maxValue, String MinValue, String manualFocusModeString, CamParametersHandler camParametersHandler, float step, int manualFocusType) {
-        super(parameters, "hw-manual-focus-step-value", "hw-vcm-end-value", "hw-vcm-start-value", KEYS.KEY_FOCUS_MODE_MANUAL, camParametersHandler, (float) 10, 0);
+        super(parameters, KEYS.HW_MANUAL_FOCUS_STEP_VALUE, KEYS.HW_VCM_END_VALUE, KEYS.HW_VCM_START_VALUE, KEYS.KEY_FOCUS_MODE_MANUAL, camParametersHandler, (float) 10, 0);
     }
 
     public FocusManualHuawei(Camera.Parameters parameters, String value, int min, int max, String manualFocusModeString, CamParametersHandler camParametersHandler, float step, int manualFocusType) {
@@ -25,16 +25,16 @@ public class FocusManualHuawei extends BaseFocusManual {
 
         if (valueToSet == 0)
         {
-            camParametersHandler.FocusMode.SetValue("auto", true);
-            parameters.set("hw-hwcamera-flag","on");
-            parameters.set("hw-manual-focus-mode","off");
+            camParametersHandler.FocusMode.SetValue(KEYS.AUTO, true);
+            parameters.set(KEYS.HW_HWCAMERA_FLAG,KEYS.ON);
+            parameters.set(KEYS.HW_MANUAL_FOCUS_MODE,KEYS.OFF);
         }
         else
         {
             if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !camParametersHandler.FocusMode.GetValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
                 camParametersHandler.FocusMode.SetValue(manualFocusModeString, false);
-            parameters.set("hw-hwcamera-flag","on");
-            parameters.set("hw-manual-focus-mode","on");
+            parameters.set(KEYS.HW_HWCAMERA_FLAG,KEYS.ON);
+            parameters.set(KEYS.HW_MANUAL_FOCUS_MODE,KEYS.ON);
             parameters.set(value, stringvalues[currentInt]);
             Logger.d(TAG, "Set " + value + " to : " + stringvalues[currentInt]);
             camParametersHandler.SetParametersToCamera(parameters);

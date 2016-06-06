@@ -2,6 +2,7 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.CameraHolderApi1;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.Logger;
@@ -62,9 +63,9 @@ public class AE_Handler_LGG4
                         shutterPrameter.setValue(0);
                         break;
                 }
-                parameters.set("lg-manual-mode-reset", "1");
+                parameters.set(KEYS.LG_MANUAL_MODE_RESET, "1");
                 camParametersHandler.SetParametersToCamera(parameters);
-                parameters.set("lg-manual-mode-reset", "0");
+                parameters.set(KEYS.LG_MANUAL_MODE_RESET, "0");
 
 
             }
@@ -96,15 +97,15 @@ public class AE_Handler_LGG4
                             break;
                     }
                 }
-                parameters.set("lg-manual-mode-reset", "0");
+                parameters.set(KEYS.LG_MANUAL_MODE_RESET, "0");
             }
             camParametersHandler.SetParametersToCamera(parameters);
             if (automode) {
                 String t = camParametersHandler.IsoMode.GetValue();
-                if (!t.equals("ISO100"))
-                    camParametersHandler.IsoMode.SetValue("ISO100", true);
+                if (!t.equals(KEYS.ISO100))
+                    camParametersHandler.IsoMode.SetValue(KEYS.ISO100, true);
                 else
-                    camParametersHandler.IsoMode.SetValue("auto", true);
+                    camParametersHandler.IsoMode.SetValue(KEYS.AUTO, true);
                 camParametersHandler.IsoMode.SetValue(t, true);
             }
         }

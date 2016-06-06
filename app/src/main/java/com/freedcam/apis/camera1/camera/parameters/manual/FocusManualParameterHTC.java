@@ -2,6 +2,7 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 
@@ -15,13 +16,13 @@ public class FocusManualParameterHTC extends  BaseManualParameter
     private I_CameraHolder baseCameraHolder;
     private final String TAG =FocusManualParameterHTC.class.getSimpleName();
 
-    public FocusManualParameterHTC(Camera.Parameters parameters, String maxValue, String MinValue, I_CameraHolder cameraHolder, CamParametersHandler camParametersHandler) {
+    public FocusManualParameterHTC(Camera.Parameters parameters,I_CameraHolder cameraHolder, CamParametersHandler camParametersHandler) {
         super(parameters, "", "", "", camParametersHandler,1);
         this.baseCameraHolder = cameraHolder;
-        this.isSupported = parameters.get("min-focus") != null && parameters.get("max-focus") != null;
-        this.max_value = "max-focus";
-        this.value = "focus";
-        this.min_value = "min-focus";
+        this.isSupported = parameters.get(KEYS.MIN_FOCUS) != null && parameters.get(KEYS.MAX_FOCUS) != null;
+        this.max_value = KEYS.MAX_FOCUS;
+        this.value = KEYS.FOCUS;
+        this.min_value = KEYS.MIN_FOCUS;
         parameters.set(value,"0");
         isVisible = isSupported;
         if (isSupported)
@@ -34,7 +35,7 @@ public class FocusManualParameterHTC extends  BaseManualParameter
     protected String[] createStringArray(int min, int max, float step)
     {
         ArrayList<String> ar = new ArrayList<>();
-        ar.add("auto");
+        ar.add(KEYS.AUTO);
         if (step == 0)
             step = 1;
         for (int i = min; i < max; i+=step)
@@ -56,7 +57,7 @@ public class FocusManualParameterHTC extends  BaseManualParameter
         else if (valueToSet == 0)
         {
             parameters.set(value, valueToSet+"");
-            camParametersHandler.FocusMode.SetValue("auto", true);
+            camParametersHandler.FocusMode.SetValue(KEYS.AUTO, true);
         }
     }
 

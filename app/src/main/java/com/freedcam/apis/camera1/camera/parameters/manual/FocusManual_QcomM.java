@@ -2,6 +2,7 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.Logger;
 
@@ -21,7 +22,6 @@ import java.util.ArrayList;
 public class FocusManual_QcomM extends BaseManualParameter
 {
     private final String TAG = FocusManual_QcomM.class.getSimpleName();
-    private final String manualFocusModeString = "manual";
     /**
      * @param parameters
      * @param camParametersHandler
@@ -29,7 +29,7 @@ public class FocusManual_QcomM extends BaseManualParameter
      */
     public FocusManual_QcomM(Camera.Parameters parameters, CamParametersHandler camParametersHandler, float step)
     {
-        super(parameters, "manual-focus-position", "max-focus-pos-ratio", "min-focus-pos-ratio", camParametersHandler, (float) 1);
+        super(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION, KEYS.MAX_FOCUS_POS_RATIO, KEYS.MIN_FOCUS_POS_RATIO, camParametersHandler, (float) 1);
     }
 
     @Override
@@ -52,16 +52,16 @@ public class FocusManual_QcomM extends BaseManualParameter
 
         if (valueToSet == 0)
         {
-            parameters.set("manual-focus", "off");
+            parameters.set(KEYS.MANUAL_FOCUS, KEYS.OFF);
             camParametersHandler.SetParametersToCamera(parameters);
-            camParametersHandler.FocusMode.SetValue("auto", true);
+            camParametersHandler.FocusMode.SetValue(KEYS.AUTO, true);
             Logger.d(TAG, "Set Focusmode to : auto");
         }
         else
         {
-            if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !camParametersHandler.FocusMode.GetValue().equals(manualFocusModeString)) {//do not set "manual" to "manual"
-                camParametersHandler.FocusMode.SetValue(manualFocusModeString, false);
-                parameters.set("manual-focus", "scale-mode");
+            if (!camParametersHandler.FocusMode.GetValue().equals(KEYS.KEY_FOCUS_MODE_MANUAL)) {//do not set "manual" to "manual"
+                camParametersHandler.FocusMode.SetValue(KEYS.KEY_FOCUS_MODE_MANUAL, false);
+                parameters.set(KEYS.MANUAL_FOCUS, KEYS.MANUAL_FOCUS_SCALE_MODE);
                 camParametersHandler.SetParametersToCamera(parameters);
             }
 

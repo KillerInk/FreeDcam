@@ -3,6 +3,7 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
 import com.freedcam.apis.camera1.camera.parameters.CamParametersHandler;
 import com.freedcam.utils.DeviceUtils;
@@ -13,7 +14,7 @@ import com.freedcam.utils.DeviceUtils;
 public class FocusManualParameterLG extends  BaseManualParameter
 {
     private I_CameraHolder baseCameraHolder;
-    private static String TAG ="freedcam.ManualFocusG4";
+    private static String TAG =FocusManualParameterLG.class.getSimpleName();
 
     public FocusManualParameterLG(Camera.Parameters parameters, I_CameraHolder cameraHolder, CamParametersHandler camParametersHandler) {
         super(parameters, "", "", "", camParametersHandler,1);
@@ -40,15 +41,15 @@ public class FocusManualParameterLG extends  BaseManualParameter
         currentInt = valueToSet;
         if(valueToSet != 0)
         {
-            if (!camParametersHandler.FocusMode.GetValue().equals("normal")) {
-                camParametersHandler.FocusMode.SetValue("normal", true);
+            if (!camParametersHandler.FocusMode.GetValue().equals(KEYS.FOCUS_MODE_NORMAL)) {
+                camParametersHandler.FocusMode.SetValue(KEYS.FOCUS_MODE_NORMAL, true);
             }
-            parameters.set("manualfocus_step", stringvalues[valueToSet]);
+            parameters.set(KEYS.MANUALFOCUS_STEP, stringvalues[valueToSet]);
             camParametersHandler.SetParametersToCamera(parameters);
         }
         else if (valueToSet == 0)
         {
-            camParametersHandler.FocusMode.SetValue("auto", true);
+            camParametersHandler.FocusMode.SetValue(KEYS.AUTO, true);
         }
 
 
@@ -57,7 +58,7 @@ public class FocusManualParameterLG extends  BaseManualParameter
     @Override
     public String GetStringValue()
     {
-        if (camParametersHandler.FocusMode.GetValue().equals("Auto"))
+        if (camParametersHandler.FocusMode.GetValue().equals(KEYS.AUTO))
             return "Auto";
         else
             return GetValue()+"";

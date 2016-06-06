@@ -14,7 +14,7 @@ public class CCTManualG4 extends BaseCCTManual {
     }
 
     public CCTManualG4(Camera.Parameters parameters,CamParametersHandler camParametersHandler) {
-        super(parameters, KEYS.LG_WB, KEYS.LG_Max, KEYS.LG_Min, camParametersHandler, (float) 100, "");
+        super(parameters, KEYS.LG_WB, KEYS.LG_WB_SUPPORTED_MAX, KEYS.LG_WB_SUPPORTED_MIN, camParametersHandler, (float) 100, "");
     }
 
     @Override

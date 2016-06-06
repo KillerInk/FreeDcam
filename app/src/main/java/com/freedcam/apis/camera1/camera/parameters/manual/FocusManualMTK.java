@@ -11,13 +11,14 @@ import com.freedcam.utils.Logger;
  */
 public class FocusManualMTK extends BaseFocusManual {
     public FocusManualMTK(Camera.Parameters parameters, String value, String maxValue, String MinValue, CamParametersHandler camParametersHandler, float step, int manualFocusType) {
-        super(parameters, "focus-fs-fi", "focus-fs-fi-max", "focus-fs-fi-min", KEYS.KEY_FOCUS_MODE_MANUAL, camParametersHandler, (float) 10, 0);
+        super(parameters, KEYS.FOCUS_FS_FI, KEYS.FOCUS_FS_FI_MAX, KEYS.FOCUS_FS_FI_MIN, KEYS.KEY_FOCUS_MODE_MANUAL, camParametersHandler, (float) 10, 0);
         isSupported = true;
         isVisible = isSupported;
     }
 
     public FocusManualMTK(Camera.Parameters parameters, CamParametersHandler camParametersHandler) {
-        super(parameters, "afeng-pos", 0, 1023, KEYS.KEY_FOCUS_MODE_MANUAL, camParametersHandler, (float) 10, 1);
+        //TODO check if AFENG_FI_MIN/MAX can get used
+        super(parameters, KEYS.AFENG_POS, 0, 1023, KEYS.KEY_FOCUS_MODE_MANUAL, camParametersHandler, (float) 10, 1);
         this.isSupported = true;
         this.isVisible = true;
         this.manualFocusModeString = KEYS.KEY_FOCUS_MODE_MANUAL;
@@ -31,7 +32,7 @@ public class FocusManualMTK extends BaseFocusManual {
 
         if (valueToSet == 0)
         {
-            camParametersHandler.FocusMode.SetValue("auto", true);
+            camParametersHandler.FocusMode.SetValue(KEYS.AUTO, true);
         }
         else
         {

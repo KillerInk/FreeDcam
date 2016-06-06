@@ -30,7 +30,7 @@ public class BaseFocusManual extends BaseManualParameter
      */
     public BaseFocusManual(Camera.Parameters parameters, String value, String maxValue, String MinValue, String manualFocusModeString, CamParametersHandler camParametersHandler, float step, int manualFocusType) {
         super(parameters, value, maxValue, MinValue, camParametersHandler, step);
-        this.manualFocusModeString = KEYS.KEY_FOCUS_MODE_MANUAL;
+        this.manualFocusModeString = manualFocusModeString;
         this.manualFocusType = manualFocusType;
     }
 
@@ -75,14 +75,14 @@ public class BaseFocusManual extends BaseManualParameter
 
         if (valueToSet == 0)
         {
-            camParametersHandler.FocusMode.SetValue("auto", true);
-            Logger.d(TAG, "Set CCT to : auto");
+            camParametersHandler.FocusMode.SetValue(KEYS.AUTO, true);
+            Logger.d(TAG, "Set Focus to : auto");
         }
         else
         {
             if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !camParametersHandler.FocusMode.GetValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
                 camParametersHandler.FocusMode.SetValue(manualFocusModeString, false);
-            parameters.set("manual-focus-pos-type", manualFocusType+"");
+            parameters.set(KEYS.KEY_MANUAL_FOCUS_TYPE, manualFocusType+"");
 
             parameters.set(value, stringvalues[currentInt]);
             Logger.d(TAG, "Set "+ value +" to : " + stringvalues[currentInt]);

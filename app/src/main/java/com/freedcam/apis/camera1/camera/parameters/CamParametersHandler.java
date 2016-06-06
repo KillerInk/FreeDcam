@@ -150,21 +150,18 @@ public class CamParametersHandler extends AbstractParameterHandler
         createManualSharpness();
 
 
-        try //loadDeviceSpecificStuff
+        //load device specific stuff
+        Device = new CamParametersHandlerEXT().getDevice(cameraUiWrapper,uiHandler,cameraParameters,cameraHolder);
+
+        if (Device != null)
+            setDeviceParameters(Device);
+        else //should never happen!
         {
-            Device = new CamParametersHandlerEXT().getDevice(cameraUiWrapper,uiHandler,cameraParameters,cameraHolder);
-
-            if (Device != null)
-                setDeviceParameters(Device);
-            else //should never happen!
-            {
-                Logger.d(TAG,"################# DEVICES IS NULL! FAIL!");
-                loadOldLookup();
-            }
-
-        } catch (Exception e) {
-            Logger.exception(e);
+            Logger.d(TAG,"################# DEVICES IS NULL! FAIL!");
+            throw new NullPointerException("DEVICE IS NULL");
         }
+
+
 
         try {
             WhiteBalanceMode = new BaseModeParameter(uiHandler,cameraParameters, cameraHolder, "whitebalance", "whitebalance-values");
@@ -181,7 +178,7 @@ public class CamParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            FX = new FXManualParameter(cameraParameters, "","", this);
+            FX = new FXManualParameter(cameraParameters,this);
             PictureFormat.addEventListner(((BaseManualParameter)FX).GetPicFormatListner());
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) FX).GetModuleListner());
         } catch (Exception e) {
@@ -1020,14 +1017,6 @@ public class CamParametersHandler extends AbstractParameterHandler
     }
 
 
-
-
-    private void loadOldLookup()
-    {
-        Logger.d(TAG, "Use ShutterClassHandler and ISOManualParameter");
-        ManualShutter = ShutterClassHandler.getShutterClass(cameraParameters, this, cameraHolder);
-        ManualIso = new ISOManualParameter(cameraParameters, this);
-    }
 
     private void setDeviceParameters(AbstractDevice device)
     {
