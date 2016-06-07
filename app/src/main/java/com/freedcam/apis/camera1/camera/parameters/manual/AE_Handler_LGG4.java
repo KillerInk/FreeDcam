@@ -24,6 +24,7 @@ import android.hardware.Camera;
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
+import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 
 /**
@@ -38,6 +39,7 @@ public class AE_Handler_LGG4
     private Camera.Parameters parameters;
     boolean auto = true;
     private ParametersHandler parametersHandler;
+    private boolean readMetaData = false;
 
     final String TAG = AE_Handler_LGG4.class.getSimpleName();
 
@@ -85,7 +87,7 @@ public class AE_Handler_LGG4
                 parameters.set(KEYS.LG_MANUAL_MODE_RESET, "1");
                 parametersHandler.SetParametersToCamera(parameters);
                 parameters.set(KEYS.LG_MANUAL_MODE_RESET, "0");
-
+                startReadingMeta();
 
             }
             else
@@ -103,9 +105,11 @@ public class AE_Handler_LGG4
                             shutterPrameter.setValue(currentShutter);
                             break;
                     }
+                    startReadingMeta();
                 }
                 else
                 {
+                    readMetaData = false;
                     Logger.d(TAG, "Automode Deactivated, set UserValues");
                     switch (fromManual) {
                         case shutter:
@@ -129,4 +133,24 @@ public class AE_Handler_LGG4
             }
         }
     };
+
+    private void startReadingMeta()
+    {
+        readMetaData = true;
+        FreeDPool.Execute(new Runnable() {
+            @Override
+            public void run() {
+                while (readMetaData && parametersHandler.cameraHolder.IsRdy())
+                {
+                    shutterPrameter.ThrowCurrentValueStringCHanged(parametersHandler.getQCShutterSpeed()+"");
+                    isoManualParameter.ThrowCurrentValueStringCHanged(parametersHandler.getQCISO()+"");
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
 }

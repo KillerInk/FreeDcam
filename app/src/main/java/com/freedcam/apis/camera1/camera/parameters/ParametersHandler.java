@@ -849,31 +849,28 @@ public class ParametersHandler extends AbstractParameterHandler
             return 0;
     }
 
-    public float getQCISO()
+    public int getQCISO()
     {
-
-        if(cameraParameters.get("cur-exposure-time")!= null)
+        if(cameraHolder.GetParamsDirect("cur-iso")!= null)
         {
-            float a= Float.parseFloat(cameraHolder.GetParamsDirect("cur-exposure-time")) * 1000;
-            return a / 1000000;
+            int a= Integer.parseInt(cameraHolder.GetParamsDirect("cur-iso"));
+            return a;
 
         }
-        else
-            return 0.0f;
+        return 0;
 
     }
 
-    public float getQCShutterSpeed()
+    public String getQCShutterSpeed()
     {
 
-        if(cameraParameters.get("cur-exposure-time")!= null)
+        if(cameraHolder.GetParamsDirect("cur-exposure-time")!= null)
         {
-            float a= Float.parseFloat(cameraHolder.GetParamsDirect("cur-exposure-time")) * 1000;
-            return a / 1000000;
+            int a= (int)(Float.parseFloat(cameraHolder.GetParamsDirect("cur-exposure-time")) * 1000);
+            return "1/"+a;
 
         }
-        else
-        return 0.0f;
+        return KEYS.AUTO;
 
     }
 
