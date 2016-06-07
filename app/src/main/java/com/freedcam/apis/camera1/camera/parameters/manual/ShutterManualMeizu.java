@@ -93,27 +93,13 @@ public class ShutterManualMeizu extends BaseManualParameter
 
     private String setExposureTimeToParameter(final String shutterstring)
     {
-        try {
+        parameters.set("shutter-value", shutterstring);
+        parametersHandler.SetParametersToCamera(parameters);
 
-            Handler handler = new Handler();
-            Runnable r = new Runnable() {
-                public void run() {
 
-                    parameters.set("shutter-value", shutterstring);
-                    parametersHandler.SetParametersToCamera(parameters);
+        baseCameraHolder.StopPreview();
+        baseCameraHolder.StartPreview();
 
-                    if(Double.parseDouble(shutterstring) <= 0.5 && Double.parseDouble(shutterstring) >= 0.0005 ){
-                        baseCameraHolder.StopPreview();
-                        baseCameraHolder.StartPreview();
-                    }
-                }
-            };
-            handler.post(r);
-        }
-        catch (Exception ex)
-        {
-            Logger.exception(ex);
-        }
         return shutterstring;
     }
 }
