@@ -153,6 +153,8 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
         }
         if (settingsMenuFragment != null)
             settingsMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
+        if (screenSlideFragment != null)
+            screenSlideFragment.LoadFiles();
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
@@ -180,6 +182,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
             {
                 if (screenSlideFragment == null) {
                     screenSlideFragment = new ScreenSlideFragment();
+                    screenSlideFragment.setWaitForCameraHasLoaded();
                     screenSlideFragment.SetAppSettingsManagerAndBitmapHelper(appSettingsManager, bitmapHelper);
                     screenSlideFragment.SetOnThumbClick(onThumbBackClick);
                 }

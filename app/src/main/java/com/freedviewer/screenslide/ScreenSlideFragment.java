@@ -115,6 +115,8 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     private FileHolder file;
     private BitmapHelper bitmapHelper;
 
+    private boolean waitForCameraHasLoaded = false;
+
     public void SetAppSettingsManagerAndBitmapHelper(AppSettingsManager appSettingsManager, BitmapHelper helper)
     {
         this.appSettingsManager = appSettingsManager;
@@ -212,6 +214,19 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),mPager,fragmentclickListner,filestoshow,appSettingsManager,bitmapHelper);
         mPager.setAdapter(mPagerAdapter);
         mPager.addOnPageChangeListener(this);
+        if (!waitForCameraHasLoaded)
+            LoadFiles();
+
+        return view;
+    }
+
+    public void setWaitForCameraHasLoaded()
+    {
+        waitForCameraHasLoaded = true;
+    }
+
+    public void LoadFiles()
+    {
         if (FilePathToLoad.equals("")) {
             mPagerAdapter.SetFiles(FileHolder.getDCIMFiles());
         }
@@ -226,12 +241,11 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             } else
                 mPager.setCurrentItem(defitem);
         }
-
-        return view;
     }
 
     public ScreenSlideFragment()
     {
+
     }
 
 
