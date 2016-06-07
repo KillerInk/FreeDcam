@@ -27,8 +27,9 @@ public class Elephone_P9000 extends BaseMTKDevice {
     {
         switch (filesize)
         {
+
             case 26257920:
-                return new DngProfile(64, 4206, 3120, DngProfile.Plain,DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(64, 4208, 3120, DngProfile.Plain,DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 25958400:
                 return new DngProfile(64, 4160, 3120, DngProfile.Plain,DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 26615808:
