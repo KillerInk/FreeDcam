@@ -118,13 +118,18 @@ public class VideoModule extends AbstractVideoModule
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         if (currentProfile.Mode == VideoMediaProfile.VideoMode.Highspeed)
         {
-            if(currentProfile.ProfileName.equals("1080pHFR") && (DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W)||DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)))
-                                ParameterHandler.VideoHighFramerateVideo.SetValue("60",true);
-            if(currentProfile.ProfileName.equals("720pHFR") && DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
+            if(currentProfile.ProfileName.equals("1080pHFR")
+                    && appSettingsManager.getDevice() ==DeviceUtils.Devices.XiaomiMI3W
+                    || appSettingsManager.getDevice() ==(DeviceUtils.Devices.ZTE_ADV))
+                ParameterHandler.VideoHighFramerateVideo.SetValue("60",true);
+            if(currentProfile.ProfileName.equals("720pHFR") && appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV)
                 ParameterHandler.VideoHighFramerateVideo.SetValue("120", true);
 
             if(currentProfile.ProfileName.equals("720pHFR")
-                    && (DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W)||DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)))
+                    && (appSettingsManager.getDevice() == DeviceUtils.Devices.XiaomiMI3W)
+                    || appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV
+                    || appSettingsManager.getDevice() ==DeviceUtils.Devices.ZTEADV234
+                    ||appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214)
             {
                 ParameterHandler.VideoHighFramerateVideo.SetValue("120",true);
                 ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);

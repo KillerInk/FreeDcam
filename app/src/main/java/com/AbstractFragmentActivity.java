@@ -58,8 +58,8 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
         appSettingsManager = new AppSettingsManager(getApplicationContext());
         Context ctx = getApplicationContext();
         bitmapHelper =new BitmapHelper(getApplicationContext());
-
-        DeviceUtils.CheckAndSetDevice(ctx);
+        if (appSettingsManager.getDevice() == null)
+            appSettingsManager.SetDevice(DeviceUtils.getDevice(ctx));
         HIDENAVBAR();
     }
 
@@ -86,7 +86,6 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
     @Override
     protected void onDestroy()
     {
-        DeviceUtils.DESTROY();
         super.onDestroy();
        /* if (FreeDPool.IsInit())
             FreeDPool.Destroy();*/

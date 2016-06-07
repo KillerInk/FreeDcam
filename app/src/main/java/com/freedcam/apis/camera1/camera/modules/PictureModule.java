@@ -120,8 +120,9 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         ParameterHandler.PreviewFormat.SetValue("yuv420sp",true);
         if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported() && !ParameterHandler.VideoHDR.GetValue().equals("off"))
             ParameterHandler.VideoHDR.SetValue("off", true);
-        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
+        if(appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV || appSettingsManager.getDevice() ==DeviceUtils.Devices.ZTEADV234 ||appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214) {
             ParameterHandler.SetZTESlowShutter();
+        }
     }
 
     @Override

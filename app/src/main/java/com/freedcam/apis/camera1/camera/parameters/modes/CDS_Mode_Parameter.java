@@ -48,7 +48,11 @@ public class CDS_Mode_Parameter extends BaseModeParameter
         }
         if (!this.isSupported)
         {
-            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)|| DeviceUtils.IS(DeviceUtils.Devices.Htc_M9) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
+            if (cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214
+                    || cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV
+                    || cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214
+                    || cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.Htc_M9
+                    || cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.LG_G4)
                 this.isSupported = true;
         }
     }

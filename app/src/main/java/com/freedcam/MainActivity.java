@@ -319,7 +319,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     @Override
     public void closeActivity()
     {
-        this.finish();
+        moveTaskToBack(true);
     }
 
 }

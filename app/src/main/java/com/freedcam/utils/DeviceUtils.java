@@ -30,38 +30,6 @@ import com.troop.freedcam.R;
  */
 public class DeviceUtils
 {
-    private static Devices currentdevice;
-
-    public static Devices DEVICE()
-    {
-        return currentdevice;
-    }
-
-    public static boolean IS(Devices device)
-    {
-        return currentdevice == device;
-    }
-
-    public static boolean IS_DEVICE_ONEOF(Devices[] device)
-    {
-        for (Devices d : device)
-        {
-            if (currentdevice == d)
-                return true;
-        }
-        return false;
-    }
-
-    public static void CheckAndSetDevice(Context context)
-    {
-        currentdevice = getDevice(context);
-    }
-
-    public static void DESTROY()
-    {
-        currentdevice = null;
-    }
-
     final public static Devices[] MI3_4 = {Devices.XiaomiMI4W, Devices.XiaomiMI3W };
     final public static Devices[] HTC_m8_9 = {Devices.Htc_M8, Devices.Htc_M9,Devices.HTC_OneA9};
     final public static Devices[] ZTE_DEVICES = {Devices.ZTE_ADV,Devices.ZTEADVIMX214,Devices.ZTEADV234};
@@ -147,11 +115,6 @@ public class DeviceUtils
         return false;
     }
 
-    public static boolean isCamera1NO_RAW_STREM()
-    {
-        return IS_DEVICE_ONEOF(camera1NO_RAW_STREAM);
-    }
-
     /**
      * all devices that are test to have non working raw stream
      */
@@ -165,7 +128,7 @@ public class DeviceUtils
     /**
      * identify the current device
      */
-    private static Devices getDevice(Context context)
+    public static Devices getDevice(Context context)
     {
         if (isAlcatel_Idol3(context))
             return Devices.Alcatel_Idol3;

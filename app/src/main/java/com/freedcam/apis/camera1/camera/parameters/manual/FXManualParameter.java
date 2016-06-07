@@ -35,7 +35,9 @@ public class FXManualParameter extends BaseManualParameter {
     @Override
     public boolean IsSupported()
     {
-        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES))
+        if(parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214
+                || parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV
+                || parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214)
         {
             this.isSupported = true;
             this.isVisible = true;
@@ -57,7 +59,9 @@ public class FXManualParameter extends BaseManualParameter {
     {
         int i = 0;
         try {
-            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES) );
+            if (parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214
+                    || parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV
+                    || parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214);
                 i = 0;
         }
         catch (Exception ex)

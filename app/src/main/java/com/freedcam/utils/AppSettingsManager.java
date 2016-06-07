@@ -42,6 +42,7 @@ public class AppSettingsManager
     final private String appsettingspath;
     private int currentcamera = 0;
     private String camApiString = API_1;
+    private DeviceUtils.Devices device = null;
 
 
     final public static String SETTING_CURRENTCAMERA = "currentcamera";
@@ -186,6 +187,22 @@ public class AppSettingsManager
         return camApiString;
     }
 
+    public void SetDevice(DeviceUtils.Devices device)
+    {
+        this.device = device;
+        String t = device.name();
+        appsettingsList.put("DEVICE", t);
+    }
+
+    public DeviceUtils.Devices getDevice()
+    {
+        String t = appsettingsList.get("DEVICE");
+        if (t == null || t.equals(""))
+            return null;
+        else
+            return DeviceUtils.Devices.valueOf(t);
+    }
+
     public void setshowHelpOverlay(boolean value)
     {
         appsettingsList.put("showhelpoverlay",value+"");
@@ -322,6 +339,9 @@ public class AppSettingsManager
                 }
             }
         }
+        String t = appsettingsList.get("DEVICE");
+        if (t != null && !t.equals(""))
+            device = DeviceUtils.Devices.valueOf(t);
     }
 
     public void SaveAppSettings()

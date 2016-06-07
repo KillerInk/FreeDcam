@@ -44,7 +44,7 @@ public class FocusManualParameterLG extends  BaseManualParameter
         {
             int max = 0;
             step = 1;
-            if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
+            if (parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.LG_G4)
                 max = 60;
             else
                 max = 79;

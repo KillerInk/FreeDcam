@@ -72,7 +72,7 @@ public abstract class AbstractCameraUiWrapper implements I_CameraUiWrapper, I_Ca
     /**
      * holds the appsettings for the current camera
      */
-    protected AppSettingsManager appSettingsManager;
+    public AppSettingsManager appSettingsManager;
 
 
     public abstract String CameraApiName();

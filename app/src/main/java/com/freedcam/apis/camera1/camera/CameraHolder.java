@@ -169,7 +169,7 @@ public class CameraHolder extends AbstractCameraHolder
             if (DeviceFrameWork == Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
             {
                 try {
-                    if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
+                    if (appSettingsManager.getDevice() == DeviceUtils.Devices.LG_G4)
                         lgCamera = new LGCamera(camera, 256);
                     else
                         lgCamera = new LGCamera(camera);
@@ -196,7 +196,7 @@ public class CameraHolder extends AbstractCameraHolder
             else
             {
                 mCamera = Camera.open(camera);
-                if(DeviceUtils.IS(DeviceUtils.Devices.Htc_M8))
+                if(appSettingsManager.getDevice()==DeviceUtils.Devices.Htc_M8)
                 {
                     Camera.Parameters paras = mCamera.getParameters();
                     paras.set("zsl", "off");

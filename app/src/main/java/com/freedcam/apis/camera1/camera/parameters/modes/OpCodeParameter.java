@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
@@ -54,9 +55,11 @@ public class OpCodeParameter extends AbstractModeParameter
     private boolean hasOp3 = false;
     private boolean OpcodeEnabled = true;
     private boolean isSupported = false;
-    public OpCodeParameter()
+    private AppSettingsManager appSettingsManager;
+    public OpCodeParameter(AppSettingsManager appSettingsManager)
     {
         super();
+        this.appSettingsManager = appSettingsManager;
         File op2 = new File(StringUtils.GetFreeDcamConfigFolder+"opc2.bin");
         if (op2.exists())
             hasOp2=true;
@@ -67,15 +70,15 @@ public class OpCodeParameter extends AbstractModeParameter
 
     }
 
-    //https://github.com/troop/FreeDcam/blob/PUBLIC/camera1_opcodes/HTC_OneA9/opc2.bin?raw=true
+    //https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/HTC_OneA9/opc2.bin?raw=true
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         if(valueToSet.equals("Download")) {
             if (hasOp2 || hasOp3)
                 return;
-            final String urlopc2 = "https://github.com/troop/FreeDcam/blob/PUBLIC/camera1_opcodes/" + DeviceUtils.DEVICE().toString() + "/opc2.bin?raw=true";
-            final String urlopc3 = "https://github.com/troop/FreeDcam/blob/PUBLIC/camera1_opcodes/" + DeviceUtils.DEVICE().toString() + "/opc3.bin?raw=true";
+            final String urlopc2 = "https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/" + appSettingsManager.getDevice().name() + "/opc2.bin?raw=true";
+            final String urlopc3 = "https://github.com/troop/FreeDcam/blob/master/camera1_opcodes/" + appSettingsManager.getDevice().name() + "/opc3.bin?raw=true";
             FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run() {
@@ -164,9 +167,10 @@ public class OpCodeParameter extends AbstractModeParameter
 
         // Read stream as String
         FileOutputStream responseBuf = null;
-
+        File file = new File(StringUtils.GetFreeDcamConfigFolder+fileending);
         try {
-            responseBuf = new FileOutputStream(new File(StringUtils.GetFreeDcamConfigFolder+fileending));
+
+            responseBuf = new FileOutputStream(file);
             byte[] buf = new byte[1024];
             int len;
             while((len=inputStream.read(buf))>0){
@@ -175,6 +179,7 @@ public class OpCodeParameter extends AbstractModeParameter
             responseBuf.flush();
         } catch (IOException e) {
             Logger.w(TAG, "httpGet: read error: " + e.getMessage());
+            file.delete();
             throw e;
         } finally {
             try {

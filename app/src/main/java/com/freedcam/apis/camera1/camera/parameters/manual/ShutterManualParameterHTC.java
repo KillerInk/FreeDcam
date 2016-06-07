@@ -39,12 +39,8 @@ public class ShutterManualParameterHTC extends BaseManualParameter
 
     public ShutterManualParameterHTC(Camera.Parameters parameters, String maxValue, String MinValue, ParametersHandler parametersHandler) {
         super(parameters, "", "", "", parametersHandler,1);
-
-        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9))
-        {
             this.isSupported = true;
             stringvalues = HTCShutterValues.split(",");
-        }
     }
 
     @Override

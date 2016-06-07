@@ -307,7 +307,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         // Try to find an size match aspect ratio and size
         for (Size size : sizes)
         {
-            if(DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)) {
+            if(appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV) {
                 if (size.width <= 1440 && size.height <= 1080 && size.width >= 640 && size.height >= 480) {
                     double ratio = (double) size.width / size.height;
                     if (ratio < targetRatio + ASPECT_TOLERANCE && ratio > targetRatio - ASPECT_TOLERANCE) {
@@ -335,7 +335,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
             minDiff = Double.MAX_VALUE;
             for (Size size : sizes)
             {
-                if(DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)) {
+                if(appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV) {
                     if (size.width <= 1440 && size.height <= 1080 && size.width >= 640 && size.height >= 480) {
                         if (Math.abs(size.height - h) < minDiff) {
                             optimalSize = size;

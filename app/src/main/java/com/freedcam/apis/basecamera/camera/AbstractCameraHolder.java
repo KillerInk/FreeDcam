@@ -49,7 +49,7 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     //handler wich runs in mainthread
     protected Handler UIHandler;
     //holds the appsettings
-    protected AppSettingsManager appSettingsManager;
+    public AppSettingsManager appSettingsManager;
 
     //the current camera state
     protected CameraStates currentState = CameraStates.closed;

@@ -92,8 +92,8 @@ public class DeviceSelector {
 
     public AbstractDevice getDevice(CameraUiWrapper cameraUiWrapper, Camera.Parameters cameraParameters,CameraHolder cameraHolder)
     {
-        Logger.d(DeviceSelector.class.getSimpleName(), "getDevice " + DeviceUtils.DEVICE());
-        switch (DeviceUtils.DEVICE())
+        Logger.d(DeviceSelector.class.getSimpleName(), "getDevice " + cameraUiWrapper.appSettingsManager.getDevice());
+        switch (cameraUiWrapper.appSettingsManager.getDevice())
         {
             case Alcatel_985n:
                 return new Alcatel_985n(cameraParameters,cameraUiWrapper);

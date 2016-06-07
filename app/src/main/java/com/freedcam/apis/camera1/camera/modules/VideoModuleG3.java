@@ -137,7 +137,7 @@ public class VideoModuleG3 extends AbstractVideoModule
 
             ((ParametersHandler)ParameterHandler).SetDualRecorder();
             //parametersHandler.PreviewFormat.SetValue("nv12-venus", true);
-            if(!DeviceUtils.IS(DeviceUtils.Devices.LG_G4))
+            if(appSettingsManager.getDevice() !=DeviceUtils.Devices.LG_G4)
                 ParameterHandler.PreviewFormat.SetValue("nv12-venus",true);
             ((ParametersHandler)ParameterHandler).SetLGCamera();
             if (currentProfile.Mode == VideoMediaProfile.VideoMode.Highspeed)

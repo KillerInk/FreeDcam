@@ -407,7 +407,7 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
+            if(appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV || appSettingsManager.getDevice() ==DeviceUtils.Devices.ZTEADV234 ||appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214)
                 LensFilter = new VirtualLensFilter(cameraParameters, cameraHolder, "", cameraUiWrapper);
         } catch (Exception e) {
             Logger.exception(e);
@@ -522,7 +522,7 @@ public class ParametersHandler extends AbstractParameterHandler
                 {
                     ManualBrightness = new BaseManualParameter(cameraParameters, "brightness", "brightness-max", "brightness-min", this, 1);
                 }
-                else if(DeviceUtils.IS(DeviceUtils.Devices.p8lite))
+                else if(appSettingsManager.getDevice() ==DeviceUtils.Devices.p8lite)
                     ManualBrightness = new BaseManualParameter(cameraParameters, "brightness", "max-brightness", "min-brightness", this, 50);
                 else if (cameraParameters.get("max-brightness")!= null)
                     ManualBrightness = new BaseManualParameter(cameraParameters, "brightness", "max-brightness", "min-brightness", this, 1);
@@ -562,7 +562,7 @@ public class ParametersHandler extends AbstractParameterHandler
                 }
                 if (cameraParameters.get("contrast-max")!= null)
                     ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "contrast-max", "contrast-min",this,1);
-                else if(DeviceUtils.IS(DeviceUtils.Devices.p8lite))
+                else if(appSettingsManager.getDevice()==DeviceUtils.Devices.p8lite)
                     ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "max-contrast", "min-contrast",this,25);
                 else if (cameraParameters.get("max-contrast")!= null)
                     ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "max-contrast", "min-contrast",this,1);
@@ -677,7 +677,7 @@ public class ParametersHandler extends AbstractParameterHandler
     @Override
     public void SetMeterAREA(FocusRect meteringAreas)
     {
-        if(DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
+        if(appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV || appSettingsManager.getDevice() ==DeviceUtils.Devices.ZTEADV234 ||appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214)
         {
             try
             {
@@ -706,7 +706,7 @@ public class ParametersHandler extends AbstractParameterHandler
     @Override
     public void SetFocusAREA(final FocusRect focusAreas, FocusRect meteringAreas)
     {
-        if(DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
+        if(appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV || appSettingsManager.getDevice() ==DeviceUtils.Devices.ZTEADV234 ||appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214)
         {
             try
             {

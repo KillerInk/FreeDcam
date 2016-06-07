@@ -50,7 +50,7 @@ public abstract class AbstractParameterHandler
     protected Handler uiHandler;
     private ArrayList<I_ParametersLoaded> parametersLoadedListner;
     protected Context context;
-    protected AppSettingsManager appSettingsManager;
+    public AppSettingsManager appSettingsManager;
 
     public AbstractManualParameter ManualBrightness;
     public AbstractManualParameter ManualEdge;

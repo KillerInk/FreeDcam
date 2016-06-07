@@ -60,7 +60,7 @@ public class ShutterManualZTE extends BaseManualParameter
     public ShutterManualZTE(Camera.Parameters parameters, I_CameraHolder baseCameraHolder, ParametersHandler parametersHandler) {
         super(parameters, "", "", "", parametersHandler,1);
         this.baseCameraHolder = baseCameraHolder;
-        if(DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
+        if(parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV)
             stringvalues = Z5SShutterValues.split(",");
         else
             stringvalues = Z7ShutterValues.split(",");
