@@ -30,25 +30,14 @@ import com.freedcam.utils.DeviceUtils;
 public class SkintoneManualPrameter extends BaseManualParameter {
     /**
      * @param parameters
-     * @param maxValue
-     * @param MinValue
      * @param parametersHandler
      */
-    public SkintoneManualPrameter(Camera.Parameters parameters, String maxValue, String MinValue, ParametersHandler parametersHandler)
+    public SkintoneManualPrameter(Camera.Parameters parameters, ParametersHandler parametersHandler)
     {
         super(parameters, "", "", "", parametersHandler,1);
         try
         {
-            /*final String skin = parameters.get("skinToneEnhancement");
-            if (skin != null && !skin.equals("")) {
-                this.isSupported = true;
-                this.key_value = "skinToneEnhancement";
-            }*/
-            if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.ZTE_DEVICES)
-                    ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.AlcatelIdol3_Moto_MSM8982_8994)
-                    ||DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4))
-                this.isSupported = true;
-
+            isSupported = true;
             if (isSupported)
             {
                 stringvalues = createStringArray(-100,100,1);

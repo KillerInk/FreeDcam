@@ -187,14 +187,6 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            Skintone = new SkintoneManualPrameter(cameraParameters, "","",this);
-            PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Skintone).GetModuleListner());
-        } catch (Exception e) {
-            Logger.exception(e);
-        }
-
-        try {
             FX = new FXManualParameter(cameraParameters,this);
             PictureFormat.addEventListner(((BaseManualParameter)FX).GetPicFormatListner());
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) FX).GetModuleListner());
@@ -1034,21 +1026,12 @@ public class ParametersHandler extends AbstractParameterHandler
     private void setDeviceParameters(AbstractDevice device)
     {
         Logger.d(TAG,"setDeviceParameters");
-        AbstractManualParameter shutter = device.getExposureTimeParameter();
-        if (shutter != null)
-            ManualShutter = shutter;
-        AbstractManualParameter mf = device.getManualFocusParameter();
-        if (mf != null)
-            ManualFocus = mf;
-        AbstractManualParameter iso = device.getIsoParameter();
-        if (iso != null)
-            ManualIso = iso;
-        AbstractManualParameter cct =  device.getCCTParameter();
-        if (cct !=  null)
-            CCT =cct;
-        AbstractModeParameter video = device.getVideoProfileMode();
-        if (video != null)
-            VideoProfiles = video;
+        ManualShutter = device.getExposureTimeParameter();
+        ManualFocus = device.getManualFocusParameter();
+        ManualIso = device.getIsoParameter();
+        CCT =  device.getCCTParameter();
+        VideoProfiles = device.getVideoProfileMode();
+        Skintone = device.getSkintoneParameter();
     }
 
 }

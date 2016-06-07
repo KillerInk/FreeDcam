@@ -36,6 +36,11 @@ public class Meizu_M2_Note_MTK extends BaseMTKDevice {
     }
 
     @Override
+    public boolean IsDngSupported() {
+        return true;
+    }
+
+    @Override
     public DngProfile getDngProfile(int filesize)
     {
         switch (filesize) {

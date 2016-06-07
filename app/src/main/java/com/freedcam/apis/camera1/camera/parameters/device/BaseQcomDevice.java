@@ -106,6 +106,11 @@ public class BaseQcomDevice extends AbstractDevice {
             return null;
     }
 
+    @Override
+    public AbstractManualParameter getSkintoneParameter() {
+        return null;
+    }
+
     private boolean arrayContainsString(String[] ar,String dif)
     {
         boolean ret = false;

@@ -29,7 +29,9 @@ import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.device.BaseQcomDevice;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseCCTManual;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseFocusManual;
+import com.freedcam.apis.camera1.camera.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.camera.parameters.manual.ShutterManualZTE;
+import com.freedcam.apis.camera1.camera.parameters.manual.SkintoneManualPrameter;
 import com.troop.androiddng.DngProfile;
 
 /**
@@ -53,6 +55,14 @@ public class ZTE_ADV extends BaseQcomDevice {
     @Override
     public AbstractManualParameter getCCTParameter() {
         return new BaseCCTManual(parameters,KEYS.WB_MANUAL_CCT,8000,2000, parametersHandler,100, KEYS.WB_MODE_MANUAL_CCT);
+    }
+
+    @Override
+    public AbstractManualParameter getSkintoneParameter() {
+        AbstractManualParameter Skintone = new SkintoneManualPrameter(parameters,parametersHandler);
+        parametersHandler.PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Skintone).GetModuleListner());
+        return Skintone;
     }
 
     @Override

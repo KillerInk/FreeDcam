@@ -61,6 +61,11 @@ public class Moto_MSM8974 extends AbstractDevice {
     }
 
     @Override
+    public AbstractManualParameter getSkintoneParameter() {
+        return null;
+    }
+
+    @Override
     public DngProfile getDngProfile(int filesize) {
         return null;
     }

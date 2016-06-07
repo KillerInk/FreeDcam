@@ -61,6 +61,7 @@ public abstract class AbstractDevice
     public abstract AbstractManualParameter getIsoParameter();
     public abstract AbstractManualParameter getManualFocusParameter();
     public abstract AbstractManualParameter getCCTParameter();
+    public abstract AbstractManualParameter getSkintoneParameter();
     public abstract DngProfile getDngProfile(int filesize);
     public AbstractModeParameter getVideoProfileMode()
     {

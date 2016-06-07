@@ -42,6 +42,7 @@ public class Huawei_Honor5x extends BaseQcomDevice {
     public AbstractManualParameter getManualFocusParameter() {
         return new FocusManualHuawei(parameters, "hw-vcm-end-value","hw-vcm-start-value", KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler,10,0);
     }
+    @Override
     public boolean IsDngSupported() {
         return true;
     }

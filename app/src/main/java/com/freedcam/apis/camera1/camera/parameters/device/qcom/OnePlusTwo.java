@@ -34,6 +34,7 @@ public class OnePlusTwo extends BaseQcomDevice {
     public OnePlusTwo(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(uihandler, parameters, cameraUiWrapper);
     }
+    @Override
     public boolean IsDngSupported() {
         return true;
     }

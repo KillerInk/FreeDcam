@@ -64,6 +64,10 @@ public class HTC_M8 extends AbstractDevice {
         return new CCTManualHtc(parameters, parametersHandler);
     }
 
+    @Override
+    public AbstractManualParameter getSkintoneParameter() {
+        return null;
+    }
 
 
     @Override

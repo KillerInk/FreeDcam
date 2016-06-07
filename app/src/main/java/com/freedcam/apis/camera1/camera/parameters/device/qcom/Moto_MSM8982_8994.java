@@ -22,8 +22,11 @@ package com.freedcam.apis.camera1.camera.parameters.device.qcom;
 import android.hardware.Camera;
 import android.os.Handler;
 
+import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
+import com.freedcam.apis.camera1.camera.parameters.manual.BaseManualParameter;
+import com.freedcam.apis.camera1.camera.parameters.manual.SkintoneManualPrameter;
 import com.troop.androiddng.DngProfile;
 
 /**
@@ -43,5 +46,13 @@ public class Moto_MSM8982_8994 extends Alcatel_Idol3 {
                 return new DngProfile(64, 5344, 4016, DngProfile.Plain, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX230));
         }
         return null;
+    }
+
+    @Override
+    public AbstractManualParameter getSkintoneParameter() {
+        AbstractManualParameter Skintone = new SkintoneManualPrameter(parameters,parametersHandler);
+        parametersHandler.PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Skintone).GetModuleListner());
+        return Skintone;
     }
 }

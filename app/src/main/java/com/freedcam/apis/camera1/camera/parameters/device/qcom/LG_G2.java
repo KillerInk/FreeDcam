@@ -69,6 +69,11 @@ public class LG_G2 extends AbstractDevice
     }
 
     @Override
+    public AbstractManualParameter getSkintoneParameter() {
+        return null;
+    }
+
+    @Override
     public DngProfile getDngProfile(int filesize) {
         switch (filesize)
         {

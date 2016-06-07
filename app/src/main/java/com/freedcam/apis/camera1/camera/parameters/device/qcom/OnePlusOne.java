@@ -35,6 +35,7 @@ public class OnePlusOne extends BaseQcomDevice {
         super(uihandler, parameters, cameraUiWrapper);
     }
 
+    @Override
     public boolean IsDngSupported() {
         return true;
     }

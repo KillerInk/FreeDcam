@@ -29,6 +29,8 @@ import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParamet
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.device.BaseQcomDevice;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseCCTManual;
+import com.freedcam.apis.camera1.camera.parameters.manual.BaseManualParameter;
+import com.freedcam.apis.camera1.camera.parameters.manual.SkintoneManualPrameter;
 import com.freedcam.utils.DeviceUtils;
 import com.troop.androiddng.DngProfile;
 
@@ -52,9 +54,19 @@ public class Xiaomi_Mi3W extends BaseQcomDevice {
             return super.getCCTParameter();
     }
 
+    @Override
+    public AbstractManualParameter getSkintoneParameter() {
+        AbstractManualParameter Skintone = new SkintoneManualPrameter(parameters,parametersHandler);
+        parametersHandler.PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Skintone).GetModuleListner());
+        return Skintone;
+    }
+
+    @Override
     public boolean IsDngSupported() {
         return true;
     }
+
     @Override
     public DngProfile getDngProfile(int filesize)
     {

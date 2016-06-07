@@ -27,7 +27,9 @@ import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParamet
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.device.BaseQcomNew;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseISOManual;
+import com.freedcam.apis.camera1.camera.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.camera.parameters.manual.ShutterManual_ExposureTime_Micro;
+import com.freedcam.apis.camera1.camera.parameters.manual.SkintoneManualPrameter;
 import com.troop.androiddng.DngProfile;
 
 /**
@@ -66,5 +68,13 @@ public class Alcatel_Idol3 extends BaseQcomNew
                 return new DngProfile(64, 4208, 3120, DngProfile.Qcom, DngProfile.RGGB, 0,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
         }
         return null;
+    }
+
+    @Override
+    public AbstractManualParameter getSkintoneParameter() {
+        AbstractManualParameter Skintone = new SkintoneManualPrameter(parameters,parametersHandler);
+        parametersHandler.PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
+        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Skintone).GetModuleListner());
+        return Skintone;
     }
 }

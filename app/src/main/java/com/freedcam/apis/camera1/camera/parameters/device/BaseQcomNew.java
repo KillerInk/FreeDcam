@@ -70,6 +70,11 @@ public class BaseQcomNew extends AbstractDevice
     }
 
     @Override
+    public AbstractManualParameter getSkintoneParameter() {
+        return null;
+    }
+
+    @Override
     public DngProfile getDngProfile(int filesize) {
         return null;
     }

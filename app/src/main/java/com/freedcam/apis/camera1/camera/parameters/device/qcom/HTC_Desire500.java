@@ -34,6 +34,7 @@ public class HTC_Desire500 extends BaseQcomDevice {
     public HTC_Desire500(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(uihandler, parameters, cameraUiWrapper);
     }
+    @Override
     public boolean IsDngSupported() {
         return true;
     }

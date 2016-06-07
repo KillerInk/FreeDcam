@@ -33,6 +33,7 @@ public class HTC_M9 extends HTC_M8 {
     public HTC_M9(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(uihandler, parameters, cameraUiWrapper);
     }
+    @Override
     public boolean IsDngSupported() {
         return true;
     }

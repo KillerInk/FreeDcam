@@ -35,9 +35,11 @@ public class Yu_Yureka extends BaseQcomDevice {
         super(uihandler, parameters, cameraUiWrapper);
     }
 
+    @Override
     public boolean IsDngSupported() {
         return true;
     }
+
     @Override
     public DngProfile getDngProfile(int filesize)
     {

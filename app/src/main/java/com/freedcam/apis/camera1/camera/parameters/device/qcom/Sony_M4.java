@@ -47,11 +47,11 @@ public class Sony_M4 extends BaseQcomDevice {
 
         return new BaseISOManual(parameters,"continuous-iso",parameters.getInt("min-iso"),parameters.getInt("max-iso"), parametersHandler,1);
     }
+
     @Override
     public boolean IsDngSupported() {
         return true;
     }
-
 
     @Override
     public DngProfile getDngProfile(int filesize)

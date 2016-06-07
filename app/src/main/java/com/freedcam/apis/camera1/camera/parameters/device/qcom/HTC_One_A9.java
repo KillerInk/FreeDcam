@@ -34,6 +34,7 @@ public class HTC_One_A9 extends BaseQcomDevice {
     public HTC_One_A9(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(uihandler, parameters, cameraUiWrapper);
     }
+    @Override
     public boolean IsDngSupported() {
         return true;
     }

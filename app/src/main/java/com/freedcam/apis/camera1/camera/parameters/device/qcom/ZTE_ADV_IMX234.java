@@ -53,10 +53,6 @@ public class ZTE_ADV_IMX234 extends ZTE_ADV {
     public AbstractManualParameter getCCTParameter() {
         return new BaseCCTManual(parameters,KEYS.WB_MANUAL_CCT,8000,2000, parametersHandler,100, KEYS.WB_MODE_MANUAL_CCT);
     }
-    public boolean IsDngSupported() {
-        return true;
-    }
-
     @Override
     public DngProfile getDngProfile(int filesize) {
         switch (filesize)
