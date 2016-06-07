@@ -80,15 +80,15 @@ public final class KEYS {
     public static final String KEY_MANUAL_FOCUS_MODE_VALUE = "manual-focus-modes";
     public static final String KEY_FOCUS_MODE_MANUAL = "manual";
 
-    public static final String KEY_FOCUS_TYPE_VCM_INDEX = "1";
+    public static final int KEY_FOCUS_TYPE_VCM_INDEX = 1;
     public static final String MIN_FOCUS_POS_INDEX = "min-focus-pos-index";
     public static final String MAX_FOCUS_POS_INDEX = "max-focus-pos-index";
     // Manual Focus Scale
-    public static final String KEY_FOCUS_TYPE_SCALE = "2";
+    public static final int KEY_FOCUS_TYPE_SCALE = 1;
     public static final String MIN_FOCUS_POS_RATIO = "min-focus-pos-ratio";
     public static final String MAX_FOCUS_POS_RATIO = "max-focus-pos-ratio";
     // Manual Focus Diopter Value type Double
-    public static final String KEY_FOCUS_TYPE_DIOPTER = "3";
+    public static final int KEY_FOCUS_TYPE_DIOPTER = 3;
     public static final String KEY_MIN_FOCUS_DIOPTER = "min-focus-pos-diopter";
     public static final String KEY_MAX_FOCUS_DIOPTER = "max-focus-pos-diopter";
     // Manual Focus Settable
@@ -218,10 +218,6 @@ public final class KEYS {
     public static final String MODULE_PICTURE = "module_picture";
     public static final String MODULE_HDR = "module_hdr";
     public static final String MODULE_BURST = "module_burst";
-    public static final String MODULE_LONGEXPO = "module_longexposure";
     public static final String MODULE_STACKING = "module_stacking";
-    public static final String MODULE_FILM_SNAPSHOT = "module_film_snapshot";
-    public static final String MODULE_FILM_VIDEO = "module_film_snapshot";
     public static final String MODULE_INTERVAL = "module_interval";
-    public static final String MODULE_ALL = "module_all";
 }

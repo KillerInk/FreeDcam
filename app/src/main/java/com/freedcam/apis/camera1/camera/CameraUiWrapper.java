@@ -252,7 +252,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
                 });
 
             }
-            else if (moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_LONGEXPO) || moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
+            else if (moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
             {
                 Size sizefromCam = new Size("1920x1080");
 

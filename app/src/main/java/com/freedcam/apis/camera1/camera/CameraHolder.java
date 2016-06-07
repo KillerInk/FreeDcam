@@ -293,7 +293,7 @@ public class CameraHolder extends AbstractCameraHolder
     {
         if (mCamera == null)
         {
-            cameraChangedListner.onCameraError("Failed to Start Preview, Camera is null");
+            SendUIMessage("Failed to Start Preview, Camera is null");
             return;
         }
         try
@@ -307,7 +307,7 @@ public class CameraHolder extends AbstractCameraHolder
 
         } catch (Exception ex) {
             Logger.exception(ex);
-            cameraChangedListner.onCameraError("Failed to Start Preview");
+            SendUIMessage("Failed to Start Preview");
         }
 
 

@@ -128,7 +128,6 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     public void StopPreview()
     {
         isPreviewRunning = false;
-
     }
 
     public boolean IsPreviewRunning() {

@@ -664,7 +664,6 @@ public class ParametersHandler extends AbstractParameterHandler
             Logger.exception(e);
         }
     }
-    
 
     private void createManualExposure() {
         try
