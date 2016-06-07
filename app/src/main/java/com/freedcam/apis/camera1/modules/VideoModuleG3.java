@@ -132,12 +132,8 @@ public class VideoModuleG3 extends AbstractVideoModule
             ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
             ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
             ParameterHandler.Denoise.SetValue("denoise-off", true);
-
-            ((ParametersHandler)ParameterHandler).SetDualRecorder();
-            //parametersHandler.PreviewFormat.SetValue("nv12-venus", true);
             if(appSettingsManager.getDevice() != Devices.LG_G4)
                 ParameterHandler.PreviewFormat.SetValue("nv12-venus",true);
-            ((ParametersHandler)ParameterHandler).SetLGCamera();
             if (currentProfile.Mode == VideoMode.Highspeed)
             {
                 if (ParameterHandler.VideoHighFramerateVideo != null && ParameterHandler.VideoHighFramerateVideo.IsSupported())
@@ -149,8 +145,6 @@ public class VideoModuleG3 extends AbstractVideoModule
         else
         {
             ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
-            ((ParametersHandler)ParameterHandler).SetLGCamera();
-            ((ParametersHandler)ParameterHandler).SetDualRecorder();
         }
         String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
         ParameterHandler.PreviewSize.SetValue(size,true);
