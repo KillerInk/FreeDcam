@@ -25,8 +25,10 @@ import android.os.Handler;
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_MTK;
+import com.freedcam.apis.camera1.camera.parameters.manual.BaseManualParamMTK;
 import com.freedcam.apis.camera1.camera.parameters.manual.FocusManualMTK;
 import com.freedcam.apis.camera1.camera.parameters.modes.BaseModeParameter;
 import com.troop.androiddng.DngProfile;
@@ -75,6 +77,13 @@ public class BaseMTKDevice extends AbstractDevice
 
     @Override
     public AbstractManualParameter getSkintoneParameter() {
+        return null;
+    }
+
+    @Override
+    public AbstractManualParameter getManualSaturation() {
+        if (parameters.get(KEYS.SATURATION)!= null && parameters.get(KEYS.SATURATION_VALUES)!= null)
+                return new BaseManualParamMTK(parameters,KEYS.SATURATION, KEYS.SATURATION_VALUES,parametersHandler);
         return null;
     }
 

@@ -162,7 +162,7 @@ public class ParametersHandler extends AbstractParameterHandler
         createManualExposure();
 
 
-        createManualSaturation();
+        //createManualSaturation();
 
         createManualSharpness();
 
@@ -439,6 +439,7 @@ public class ParametersHandler extends AbstractParameterHandler
         NonZslManualMode = Device.getNonZslManualMode();
         opcode = Device.getOpCodeParameter();
         Denoise = Device.getDenoiseParameter();
+        ManualSaturation = Device.getManualSaturation();
 
         Module = new ModuleParameters(cameraUiWrapper,appSettingsManager);
 
@@ -503,8 +504,6 @@ public class ParametersHandler extends AbstractParameterHandler
 
             if (cameraParameters.get("brightness")!= null && cameraParameters.get("brightness-values")!= null)
             {
-                cameraParameters.set("brightness-max", "3");
-                cameraParameters.set("brightness-min", "0");
                 if (cameraHolder.DeviceFrameWork == CameraHolder.Frameworks.MTK)
                     ManualBrightness =  new BaseManualParamMTK(cameraParameters,"brightness", "brightness-values",this);
                 else
@@ -665,42 +664,7 @@ public class ParametersHandler extends AbstractParameterHandler
             Logger.exception(e);
         }
     }
-
-    private void createManualSaturation() {
-        try
-        {
-            if (cameraParameters.get("saturation")!= null && cameraParameters.get("saturation-values")!= null)
-            {
-                cameraParameters.set("saturation-max", "3");
-                cameraParameters.set("saturation-min", "0");
-                if (cameraHolder.DeviceFrameWork == CameraHolder.Frameworks.MTK)
-                    ManualSaturation =  new BaseManualParamMTK(cameraParameters,"saturation", "saturation-values",this);
-                else
-                    ManualSaturation =  new BaseManualParameter(cameraParameters,"saturation", "saturation-max", "saturation-min",this,1);
-
-            }
-            else if (cameraParameters.get("saturation")!= null && cameraParameters.get("saturation-values")== null)
-            {
-                //p920 hack
-                if (cameraParameters.get("max-saturation")!= null && cameraParameters.get("saturation-max")!= null) {
-                    cameraParameters.set("max-saturation", "100");
-                    cameraParameters.set("min-saturation", "0");
-                }
-                //check first max after evo 3d has both but max infront is empty
-                if (cameraParameters.get("saturation-max")!= null)
-                    ManualSaturation = new BaseManualParameter(cameraParameters, "saturation", "saturation-max", "saturation-min", this,1);
-                else if (cameraParameters.get("max-saturation")!= null)
-                    ManualSaturation = new BaseManualParameter(cameraParameters, "saturation", "max-saturation", "min-saturation", this,1);
-
-            }
-            if (ManualSaturation != null ) {
-                PictureFormat.addEventListner(((BaseManualParameter) ManualSaturation).GetPicFormatListner());
-                cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualSaturation).GetModuleListner());
-            }
-        } catch (Exception e) {
-            Logger.exception(e);
-        }
-    }
+    
 
     private void createManualExposure() {
         try

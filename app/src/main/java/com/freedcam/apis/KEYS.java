@@ -68,6 +68,13 @@ public final class KEYS {
     public final static String SKINETONEENHANCEMENT = "skinToneEnhancement";
     public final static String SKINETONEENHANCEMENT_VALUES = "skinToneEnhancement-values";
 
+    public final static String MAX_SATURATION = "max-saturation";
+    public final static String MIN_SATURATION = "min-saturation";
+    public final static String SATURATION_MAX = "saturation-max";
+    public final static String SATURATION_MIN = "saturation-min";
+    public final static String SATURATION = "saturation";
+    public final static String SATURATION_VALUES = "saturation-values";
+
 
     // Manual Focus Keys
     public static final String KEY_MANUAL_FOCUS_MODE_VALUE = "manual-focus-modes";

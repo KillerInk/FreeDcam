@@ -22,12 +22,14 @@ package com.freedcam.apis.camera1.camera.parameters.device;
 import android.hardware.Camera;
 import android.os.Handler;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.camera.parameters.modes.VideoProfilesParameter;
 import com.troop.androiddng.DngProfile;
 
@@ -67,6 +69,26 @@ public abstract class AbstractDevice
 
     public AbstractManualParameter getSkintoneParameter() {
         return null;
+    }
+
+    public AbstractManualParameter getManualSaturation()
+    {
+        BaseManualParameter ManualSaturation = null;
+        //p920 hack
+        if (parameters.get(KEYS.MAX_SATURATION)!= null && parameters.get(KEYS.SATURATION_MAX)!= null) {
+            parameters.set(KEYS.MAX_SATURATION, 100);
+            parameters.set(KEYS.MIN_SATURATION, 0);
+        }
+        //check first max after evo 3d has both but max infront is empty
+        if (parameters.get(KEYS.SATURATION_MAX)!= null)
+            ManualSaturation = new BaseManualParameter(parameters, KEYS.SATURATION, KEYS.SATURATION_MAX, KEYS.SATURATION_MIN, parametersHandler,1);
+        else if (parameters.get(KEYS.MAX_SATURATION)!= null)
+            ManualSaturation = new BaseManualParameter(parameters, KEYS.SATURATION, KEYS.MAX_SATURATION, KEYS.MIN_SATURATION, parametersHandler,1);
+        if (ManualSaturation != null ) {
+            parametersHandler.PictureFormat.addEventListner(((BaseManualParameter) ManualSaturation).GetPicFormatListner());
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualSaturation).GetModuleListner());
+        }
+        return ManualSaturation;
     }
     public abstract DngProfile getDngProfile(int filesize);
 
