@@ -51,7 +51,7 @@ public class HDRModeParameter extends BaseModeParameter
         if ((DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)
                 ||DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI_Note_Pro)
                 ||DeviceUtils.IS(DeviceUtils.Devices.Xiaomi_RedmiNote)
-                || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3)
+                || DeviceUtils.IS(DeviceUtils.Devices.LG_G2) || DeviceUtils.IS(DeviceUtils.Devices.LG_G3)
                 || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)) || DeviceUtils.IS(DeviceUtils.Devices.Htc_M8))
         {
                 this.isSupported = true;
@@ -109,7 +109,7 @@ public class HDRModeParameter extends BaseModeParameter
                 parameters.set(KEYS.MORPHO_HDR, KEYS.FALSE);
             }
         }
-        else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3))
+        else if(DeviceUtils.IS(DeviceUtils.Devices.LG_G2) || DeviceUtils.IS(DeviceUtils.Devices.LG_G3))
         {
             switch (valueToSet)
             {
@@ -159,7 +159,7 @@ public class HDRModeParameter extends BaseModeParameter
             else
                 return KEYS.OFF;
         }
-        else if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
+        else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G2) || DeviceUtils.IS(DeviceUtils.Devices.LG_G3) || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV))
         {
             if (parameters.get(KEYS.HDR_MODE)== null)
                 parameters.set(KEYS.HDR_MODE, "0");
@@ -191,7 +191,7 @@ public class HDRModeParameter extends BaseModeParameter
             {
                 hdrVals.add(KEYS.ON);
             }
-            else if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)) {
+            else if(DeviceUtils.IS(DeviceUtils.Devices.LG_G2) || DeviceUtils.IS(DeviceUtils.Devices.LG_G3) || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV)) {
                 hdrVals.add(KEYS.ON);
                 hdrVals.add(KEYS.AUTO);
             }
@@ -207,7 +207,7 @@ public class HDRModeParameter extends BaseModeParameter
     @Override
     public void ModuleChanged(String module)
     {
-        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.LG_G2_3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4) || supportauto || supporton) {
+        if(DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) || DeviceUtils.IS(DeviceUtils.Devices.LG_G2) || DeviceUtils.IS(DeviceUtils.Devices.LG_G3) || DeviceUtils.IS(DeviceUtils.Devices.LG_G4) || supportauto || supporton) {
             curmodule = module;
             switch (module)
             {
