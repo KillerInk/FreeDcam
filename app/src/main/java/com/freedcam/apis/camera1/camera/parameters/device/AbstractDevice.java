@@ -85,4 +85,6 @@ public abstract class AbstractDevice
     {
         return null;
     }
+
+    public abstract AbstractModeParameter getDenoiseParameter();
 }

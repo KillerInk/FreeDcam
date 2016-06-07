@@ -22,9 +22,12 @@ package com.freedcam.apis.camera1.camera.parameters.device.qcom;
 import android.hardware.Camera;
 import android.os.Handler;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.device.AbstractDevice;
+import com.freedcam.apis.camera1.camera.parameters.modes.BaseModeParameter;
 import com.troop.androiddng.DngProfile;
 
 /**
@@ -68,5 +71,10 @@ public class Moto_MSM8974 extends AbstractDevice {
     @Override
     public DngProfile getDngProfile(int filesize) {
         return null;
+    }
+
+    @Override
+    public AbstractModeParameter getDenoiseParameter() {
+        return new BaseModeParameter(parameters, cameraHolder, KEYS.DENOISE, KEYS.DENOISE_VALUES);
     }
 }

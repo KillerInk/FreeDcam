@@ -22,10 +22,13 @@ package com.freedcam.apis.camera1.camera.parameters.device;
 import android.hardware.Camera;
 import android.os.Handler;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_MTK;
 import com.freedcam.apis.camera1.camera.parameters.manual.FocusManualMTK;
+import com.freedcam.apis.camera1.camera.parameters.modes.BaseModeParameter;
 import com.troop.androiddng.DngProfile;
 
 /**
@@ -77,6 +80,16 @@ public class BaseMTKDevice extends AbstractDevice
 
     @Override
     public DngProfile getDngProfile(int filesize) {
+        return null;
+    }
+
+    @Override
+    public AbstractModeParameter getDenoiseParameter() {
+        if(parameters.get(KEYS.MTK_NOISE_REDUCTION_MODE)!=null) {
+            if (parameters.get(KEYS.MTK_NOISE_REDUCTION_MODE_VALUES).equals("on,off")) {
+                return new BaseModeParameter(parameters, cameraHolder, KEYS.MTK_NOISE_REDUCTION_MODE, KEYS.MTK_NOISE_REDUCTION_MODE_VALUES);
+            }
+        }
         return null;
     }
 }

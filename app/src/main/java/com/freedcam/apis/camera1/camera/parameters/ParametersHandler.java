@@ -299,18 +299,6 @@ public class ParametersHandler extends AbstractParameterHandler
             Logger.exception(e);
         }
 
-        try {
-            if(cameraParameters.get(KEYS.MTK_NOISE_REDUCTION_MODE)!=null) {
-                if (cameraParameters.get(KEYS.MTK_NOISE_REDUCTION_MODE_VALUES).equals("on,off")) {
-                    Denoise = new BaseModeParameter(cameraParameters, cameraHolder, KEYS.MTK_NOISE_REDUCTION_MODE, KEYS.MTK_NOISE_REDUCTION_MODE_VALUES);
-                }
-            }
-            else {
-                Denoise = new BaseModeParameter(cameraParameters, cameraHolder, KEYS.DENOISE, KEYS.DENOISE_VALUES);
-            }
-        } catch (Exception e) {
-            Logger.exception(e);
-        }
 
         try {
             if(cameraParameters.get(KEYS.SONY_VS)!=null)
@@ -445,7 +433,7 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         imageStackMode = new StackModeParameter();
-        
+
 
         try {
             Module = new ModuleParameters(cameraUiWrapper,appSettingsManager);
@@ -784,11 +772,6 @@ public class ParametersHandler extends AbstractParameterHandler
         }
     }
 
-    public boolean isMTK()
-    {
-           return DeviceUtils.IS(DeviceUtils.Devices.Alcatel_985n) || cameraHolder.DeviceFrameWork == CameraHolder.Frameworks.MTK || DeviceUtils.IS(DeviceUtils.Devices.SonyC5_MTK);
-    }
-
     public float getMTKShutterSpeed()
     {
         if(cameraParameters.get("eng-capture-shutter-speed")!= null) {
@@ -1007,6 +990,7 @@ public class ParametersHandler extends AbstractParameterHandler
         Skintone = device.getSkintoneParameter();
         NonZslManualMode = device.getNonZslManualMode();
         opcode = device.getOpCodeParameter();
+        Denoise = device.getDenoiseParameter();
     }
 
 }
