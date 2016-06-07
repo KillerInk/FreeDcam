@@ -62,35 +62,9 @@ public class DeviceUtils
         currentdevice = null;
     }
 
-
-    final public static Devices[] AlcatelIdol3_Moto_MSM8982_8994 = {Devices.Moto_MSM8982_8994, Devices.Alcatel_Idol3 };
     final public static Devices[] MI3_4 = {Devices.XiaomiMI4W, Devices.XiaomiMI3W };
     final public static Devices[] HTC_m8_9 = {Devices.Htc_M8, Devices.Htc_M9,Devices.HTC_OneA9};
     final public static Devices[] ZTE_DEVICES = {Devices.ZTE_ADV,Devices.ZTEADVIMX214,Devices.ZTEADV234};
-
-    /*Devices for that the opcode is added to download*/
-    final public static Devices[] OpCodeRdyToDL =
-            {
-                    Devices.Aquaris_E5,
-                    Devices.Htc_M8,
-                    Devices.Htc_M9,
-                    Devices.HTC_OneA9,
-                    Devices.Huawei_GX8,
-                    Devices.Huawei_HONOR5x,
-                    Devices.Jiayu_S3,
-                    Devices.LG_G2,
-                    Devices.LG_G3,
-                    Devices.LG_G4,
-                    Devices.OnePlusOne,
-                    Devices.SonyC5_MTK,
-                    Devices.SonyM4_QC,
-                    Devices.SonyM5_MTK,
-                    Devices.XiaomiMI3W,
-                    Devices.XiaomiMI4W,
-                    Devices.Xiaomi_RedmiNote2_MTK,
-                    Devices.ZTE_ADV,
-                    Devices.ZTEADV234,
-            };
 
 
 

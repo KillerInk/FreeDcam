@@ -30,16 +30,13 @@ import com.freedcam.utils.DeviceUtils;
  */
 public class NonZslManualModeParameter extends BaseModeParameter
 {
-    private CameraHolder cameraHolder;
-
-    public NonZslManualModeParameter(Camera.Parameters parameters, CameraHolder parameterChanged, String values, I_CameraHolder baseCameraHolder) {
-        super(parameters, parameterChanged, "non-zsl-manual-mode", "");
-        this.cameraHolder = (CameraHolder) baseCameraHolder;
+    public NonZslManualModeParameter(Camera.Parameters parameters, CameraHolder cameraHolder) {
+        super(parameters, cameraHolder, "non-zsl-manual-mode", "");
     }
 
     @Override
     public boolean IsSupported() {
-        return DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.HTC_m8_9);
+        return true;
     }
 
     @Override

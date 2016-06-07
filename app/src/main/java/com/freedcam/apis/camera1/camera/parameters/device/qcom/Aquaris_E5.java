@@ -23,11 +23,13 @@ import android.hardware.Camera;
 import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.device.BaseQcomNew;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseISOManual;
 import com.freedcam.apis.camera1.camera.parameters.manual.ShutterManual_ExposureTime_Micro;
+import com.freedcam.apis.camera1.camera.parameters.modes.OpCodeParameter;
 import com.troop.androiddng.DngProfile;
 
 /**
@@ -56,5 +58,10 @@ public class Aquaris_E5 extends BaseQcomNew
     @Override
     public DngProfile getDngProfile(int filesize) {
         return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+    }
+
+    @Override
+    public AbstractModeParameter getOpCodeParameter() {
+        return new OpCodeParameter();
     }
 }

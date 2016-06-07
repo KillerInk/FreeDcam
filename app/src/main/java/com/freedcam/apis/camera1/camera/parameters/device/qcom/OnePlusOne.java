@@ -22,9 +22,11 @@ package com.freedcam.apis.camera1.camera.parameters.device.qcom;
 import android.hardware.Camera;
 import android.os.Handler;
 
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.device.BaseQcomDevice;
+import com.freedcam.apis.camera1.camera.parameters.modes.OpCodeParameter;
 import com.troop.androiddng.DngProfile;
 
 /**
@@ -50,5 +52,10 @@ public class OnePlusOne extends BaseQcomDevice {
                 return new DngProfile(64, 4212, 3082, DngProfile.Qcom, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
         }
         return null;
+    }
+
+    @Override
+    public AbstractModeParameter getOpCodeParameter() {
+        return new OpCodeParameter();
     }
 }

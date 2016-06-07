@@ -23,12 +23,15 @@ import android.hardware.Camera;
 import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.device.AbstractDevice;
 import com.freedcam.apis.camera1.camera.parameters.manual.CCTManualHtc;
 import com.freedcam.apis.camera1.camera.parameters.manual.FocusManualParameterHTC;
 import com.freedcam.apis.camera1.camera.parameters.manual.ShutterManualParameterHTC;
+import com.freedcam.apis.camera1.camera.parameters.modes.NonZslManualModeParameter;
+import com.freedcam.apis.camera1.camera.parameters.modes.OpCodeParameter;
 import com.troop.androiddng.DngProfile;
 
 /**
@@ -77,5 +80,15 @@ public class HTC_M8 extends AbstractDevice {
         else if (filesize <= 5382641 && filesize > 5000000)//M8 mipi
             return new DngProfile(0, 2688, 1520, DngProfile.Mipi16, DngProfile.GRBG, DngProfile.HTCM8_rowSize,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));
         return null;
+    }
+
+    @Override
+    public AbstractModeParameter getNonZslManualMode() {
+        return  new NonZslManualModeParameter(parameters, cameraHolder);
+    }
+
+    @Override
+    public AbstractModeParameter getOpCodeParameter() {
+        return new OpCodeParameter();
     }
 }

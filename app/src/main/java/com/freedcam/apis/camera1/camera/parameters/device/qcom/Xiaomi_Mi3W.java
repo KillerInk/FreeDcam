@@ -25,12 +25,14 @@ import android.os.Handler;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.device.BaseQcomDevice;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseCCTManual;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.camera.parameters.manual.SkintoneManualPrameter;
+import com.freedcam.apis.camera1.camera.parameters.modes.OpCodeParameter;
 import com.freedcam.utils.DeviceUtils;
 import com.troop.androiddng.DngProfile;
 
@@ -82,5 +84,10 @@ public class Xiaomi_Mi3W extends BaseQcomDevice {
                 return new DngProfile(0, 1976, 1200, DngProfile.Qcom, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
         }
         return null;
+    }
+
+    @Override
+    public AbstractModeParameter getOpCodeParameter() {
+        return new OpCodeParameter();
     }
 }

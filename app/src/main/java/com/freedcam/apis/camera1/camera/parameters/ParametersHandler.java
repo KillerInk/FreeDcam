@@ -339,17 +339,6 @@ public class ParametersHandler extends AbstractParameterHandler
             Logger.exception(e);
         }
 
-        try {
-            NonZslManualMode = new NonZslManualModeParameter(cameraParameters, cameraHolder, "", cameraHolder);
-        } catch (Exception e) {
-            Logger.exception(e);
-        }
-
-        /*try {
-            Histogram = new BaseModeParameter(uiHandler,cameraParameters,cameraHolder, "histogram", "histogram-values");
-        } catch (Exception e) {
-            Logger.exception(e);
-        }*/
 
         try {
             CameraMode = new BaseModeParameter(cameraParameters,cameraHolder, "camera-mode", "camera-mode-values");
@@ -456,8 +445,7 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         imageStackMode = new StackModeParameter();
-
-        opcode = new OpCodeParameter();
+        
 
         try {
             Module = new ModuleParameters(cameraUiWrapper,appSettingsManager);
@@ -799,8 +787,6 @@ public class ParametersHandler extends AbstractParameterHandler
     public boolean isMTK()
     {
            return DeviceUtils.IS(DeviceUtils.Devices.Alcatel_985n) || cameraHolder.DeviceFrameWork == CameraHolder.Frameworks.MTK || DeviceUtils.IS(DeviceUtils.Devices.SonyC5_MTK);
-
-
     }
 
     public float getMTKShutterSpeed()
@@ -931,19 +917,6 @@ public class ParametersHandler extends AbstractParameterHandler
         }
     }
 
-    /*public void setString(String param, String key_value)
-    {
-        try
-        {
-            cameraParameters.put(param, key_value);
-            cameraHolder.SetCameraParameters(cameraParameters);
-        }
-        catch (Exception e)
-        {
-            Logger.exception(e);
-        }
-    }*/
-
     public float GetFnumber()
     {
         if (cameraParameters.get("f-number")!= null) {
@@ -1032,6 +1005,8 @@ public class ParametersHandler extends AbstractParameterHandler
         CCT =  device.getCCTParameter();
         VideoProfiles = device.getVideoProfileMode();
         Skintone = device.getSkintoneParameter();
+        NonZslManualMode = device.getNonZslManualMode();
+        opcode = device.getOpCodeParameter();
     }
 
 }

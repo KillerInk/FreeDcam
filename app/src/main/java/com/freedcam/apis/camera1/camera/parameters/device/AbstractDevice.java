@@ -57,14 +57,32 @@ public abstract class AbstractDevice
     }
 
     public abstract boolean IsDngSupported();
+
     public abstract AbstractManualParameter getExposureTimeParameter();
+
     public abstract AbstractManualParameter getIsoParameter();
+
     public abstract AbstractManualParameter getManualFocusParameter();
+
     public abstract AbstractManualParameter getCCTParameter();
-    public abstract AbstractManualParameter getSkintoneParameter();
+
+    public AbstractManualParameter getSkintoneParameter() {
+        return null;
+    }
     public abstract DngProfile getDngProfile(int filesize);
+
     public AbstractModeParameter getVideoProfileMode()
     {
         return new VideoProfilesParameter(parameters,cameraHolder, "", cameraUiWrapper);
+    }
+
+    public AbstractModeParameter getNonZslManualMode()
+    {
+        return null;
+    }
+
+    public AbstractModeParameter getOpCodeParameter()
+    {
+        return null;
     }
 }

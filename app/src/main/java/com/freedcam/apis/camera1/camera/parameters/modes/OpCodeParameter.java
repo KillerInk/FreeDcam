@@ -63,10 +63,8 @@ public class OpCodeParameter extends AbstractModeParameter
         File op3 = new File(StringUtils.GetFreeDcamConfigFolder+"opc3.bin");
         if (op3.exists())
             hasOp3=true;
-        if (DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.OpCodeRdyToDL))
-        {
-            this.isSupported = true;
-        }
+        this.isSupported = true;
+
     }
 
     //https://github.com/troop/FreeDcam/blob/PUBLIC/camera1_opcodes/HTC_OneA9/opc2.bin?raw=true
