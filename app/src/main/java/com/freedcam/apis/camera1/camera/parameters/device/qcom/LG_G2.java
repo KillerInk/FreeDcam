@@ -40,7 +40,7 @@ import com.troop.androiddng.DngProfile;
  */
 public class LG_G2 extends AbstractDevice
 {
-    public LG_G2(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public LG_G2(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
         if (cameraHolder.DeviceFrameWork == CameraHolder.Frameworks.LG)
             parameters.set("lge-camera","1");

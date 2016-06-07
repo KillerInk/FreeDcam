@@ -31,8 +31,8 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 01.06.2016.
  */
 public class Meizu_M2_Note_MTK extends BaseMTKDevice {
-    public Meizu_M2_Note_MTK(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
-        super(uihandler, parameters, cameraUiWrapper);
+    public Meizu_M2_Note_MTK(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

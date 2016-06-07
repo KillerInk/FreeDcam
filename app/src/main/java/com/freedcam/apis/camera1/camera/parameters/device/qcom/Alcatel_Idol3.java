@@ -38,8 +38,8 @@ import com.troop.androiddng.DngProfile;
 public class Alcatel_Idol3 extends BaseQcomNew
 {
 
-    public Alcatel_Idol3(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
-        super(uihandler, parameters, cameraUiWrapper);
+    public Alcatel_Idol3(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

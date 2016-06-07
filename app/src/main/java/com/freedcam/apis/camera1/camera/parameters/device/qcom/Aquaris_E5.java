@@ -37,8 +37,8 @@ import com.troop.androiddng.DngProfile;
  */
 public class Aquaris_E5 extends BaseQcomNew
 {
-    public Aquaris_E5(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
-        super(uihandler, parameters, cameraUiWrapper);
+    public Aquaris_E5(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
     @Override
     public AbstractManualParameter getExposureTimeParameter() {

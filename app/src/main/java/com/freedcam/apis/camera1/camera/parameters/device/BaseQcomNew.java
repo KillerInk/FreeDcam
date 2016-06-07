@@ -39,7 +39,7 @@ public class BaseQcomNew extends AbstractDevice
 {
     protected AE_Handler_QcomM aeHandlerQcomM;
 
-    public BaseQcomNew(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public BaseQcomNew(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
         aeHandlerQcomM = new AE_Handler_QcomM(parameters, cameraHolder, parametersHandler);
     }

@@ -37,7 +37,7 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 02.06.2016.
  */
 public class BaseQcomDevice extends AbstractDevice {
-    public BaseQcomDevice(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public BaseQcomDevice(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 

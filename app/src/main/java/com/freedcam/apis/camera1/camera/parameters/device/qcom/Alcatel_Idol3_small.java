@@ -34,8 +34,8 @@ import com.troop.androiddng.DngProfile;
  */
 public class Alcatel_Idol3_small extends Alcatel_Idol3
 {
-    public Alcatel_Idol3_small(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
-        super(uihandler, parameters, cameraUiWrapper);
+    public Alcatel_Idol3_small(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
     @Override
     public AbstractManualParameter getExposureTimeParameter() {

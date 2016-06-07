@@ -40,8 +40,8 @@ import com.troop.androiddng.Matrixes;
 public class LG_G3 extends LG_G2
 {
 
-    public LG_G3(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
-        super(uihandler, parameters, cameraUiWrapper);
+    public LG_G3(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
         parameters.set("lge-camera","1");
     }
 

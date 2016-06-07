@@ -35,7 +35,7 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 01.06.2016.
  */
 public class P8Lite extends AbstractDevice {
-    public P8Lite(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public P8Lite(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 

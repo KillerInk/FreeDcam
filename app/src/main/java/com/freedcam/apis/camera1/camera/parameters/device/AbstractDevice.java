@@ -36,7 +36,6 @@ import com.troop.androiddng.DngProfile;
  */
 public abstract class AbstractDevice
 {
-    protected Handler uihandler;
     protected Camera.Parameters parameters;
     protected CameraHolder cameraHolder;
     protected CameraUiWrapper cameraUiWrapper;

@@ -167,19 +167,6 @@ public class ParametersHandler extends AbstractParameterHandler
         createManualSharpness();
 
 
-        //load device specific stuff
-        Device = new DeviceSelector().getDevice(cameraUiWrapper,uiHandler,cameraParameters,cameraHolder);
-
-        if (Device != null)
-            setDeviceParameters(Device);
-        else //should never happen!
-        {
-            Logger.d(TAG,"################# DEVICES IS NULL! FAIL!");
-            throw new NullPointerException("DEVICE IS NULL");
-        }
-
-
-
         try {
             WhiteBalanceMode = new BaseModeParameter(cameraParameters, cameraHolder, KEYS.WHITEBALANCE, KEYS.WHITEBALANCE_VALUES);
         } catch (Exception e) {
@@ -434,12 +421,27 @@ public class ParametersHandler extends AbstractParameterHandler
 
         imageStackMode = new StackModeParameter();
 
+        //load device specific stuff
+        Device = new DeviceSelector().getDevice(cameraUiWrapper,cameraParameters,cameraHolder);
 
-        try {
-            Module = new ModuleParameters(cameraUiWrapper,appSettingsManager);
-        } catch (Exception e) {
-            Logger.exception(e);
+        if (Device == null)
+        {
+            Logger.d(TAG,"################# DEVICES IS NULL! FAIL!");
+            throw new NullPointerException("DEVICE IS NULL");
         }
+
+        ManualShutter = Device.getExposureTimeParameter();
+        ManualFocus = Device.getManualFocusParameter();
+        ManualIso = Device.getIsoParameter();
+        CCT =  Device.getCCTParameter();
+        VideoProfiles = Device.getVideoProfileMode();
+        Skintone = Device.getSkintoneParameter();
+        NonZslManualMode = Device.getNonZslManualMode();
+        opcode = Device.getOpCodeParameter();
+        Denoise = Device.getDenoiseParameter();
+
+        Module = new ModuleParameters(cameraUiWrapper,appSettingsManager);
+
 
 
         try {
@@ -976,21 +978,4 @@ public class ParametersHandler extends AbstractParameterHandler
             cameraParameters.set("dual-recorder", "0");
         SetParametersToCamera(cameraParameters);
     }
-
-
-
-    private void setDeviceParameters(AbstractDevice device)
-    {
-        Logger.d(TAG,"setDeviceParameters");
-        ManualShutter = device.getExposureTimeParameter();
-        ManualFocus = device.getManualFocusParameter();
-        ManualIso = device.getIsoParameter();
-        CCT =  device.getCCTParameter();
-        VideoProfiles = device.getVideoProfileMode();
-        Skintone = device.getSkintoneParameter();
-        NonZslManualMode = device.getNonZslManualMode();
-        opcode = device.getOpCodeParameter();
-        Denoise = device.getDenoiseParameter();
-    }
-
 }

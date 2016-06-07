@@ -34,8 +34,8 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 01.06.2016.
  */
 public class LG_G4 extends LG_G2 {
-    public LG_G4(Handler uihandler, Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
-        super(uihandler, parameters, cameraUiWrapper);
+    public LG_G4(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
         new AE_Handler_LGG4(parameters,cameraHolder, parametersHandler);
         parameters.set("lge-camera","1");
     }
