@@ -32,8 +32,8 @@ import android.view.ViewGroup;
 
 import com.AbstractFragmentActivity;
 import com.freedcam.apis.ApiHandler;
-import com.freedcam.apis.basecamera.apis.AbstractCameraFragment;
-import com.freedcam.apis.basecamera.apis.AbstractCameraFragment.CamerUiWrapperRdy;
+import com.freedcam.apis.basecamera.AbstractCameraFragment;
+import com.freedcam.apis.basecamera.AbstractCameraFragment.CamerUiWrapperRdy;
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.ui.handler.HardwareKeyHandler;
 import com.freedcam.ui.handler.I_orientation;

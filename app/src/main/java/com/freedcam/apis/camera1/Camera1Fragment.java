@@ -17,14 +17,14 @@
  * /
  */
 
-package com.freedcam.apis.camera1.apis;
+package com.freedcam.apis.camera1;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.freedcam.apis.basecamera.apis.AbstractCameraFragment;
+import com.freedcam.apis.basecamera.AbstractCameraFragment;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.ExtendedSurfaceView;
 import com.freedcam.apis.camera1.camera.TextureViewRatio;

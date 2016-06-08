@@ -17,7 +17,7 @@
  * /
  */
 
-package com.freedcam.apis.basecamera.apis;
+package com.freedcam.apis.basecamera;
 
 import android.support.v4.app.Fragment;
 import android.view.View;

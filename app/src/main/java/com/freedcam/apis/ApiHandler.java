@@ -22,11 +22,11 @@ package com.freedcam.apis;
 import android.content.Context;
 import android.os.Build;
 
-import com.freedcam.apis.basecamera.apis.AbstractCameraFragment;
-import com.freedcam.apis.camera1.apis.Camera1Fragment;
-import com.freedcam.apis.camera2.apis.Camera2Fragment;
+import com.freedcam.apis.basecamera.AbstractCameraFragment;
+import com.freedcam.apis.camera1.Camera1Fragment;
+import com.freedcam.apis.camera2.Camera2Fragment;
 import com.freedcam.apis.camera2.camera.CameraHolder;
-import com.freedcam.apis.sonyremote.apis.SonyCameraFragment;
+import com.freedcam.apis.sonyremote.SonyCameraFragment;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.RenderScriptHandler;
