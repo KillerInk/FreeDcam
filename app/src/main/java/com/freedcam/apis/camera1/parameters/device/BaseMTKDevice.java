@@ -95,6 +95,21 @@ public class BaseMTKDevice extends AbstractDevice
     }
 
     @Override
+    public AbstractManualParameter getManualSharpness() {
+        return new BaseManualParamMTK(parameters,"edge","edge-values",parametersHandler);
+    }
+
+    @Override
+    public AbstractManualParameter getManualBrightness() {
+        return new BaseManualParamMTK(parameters,"brightness", "brightness-values",parametersHandler);
+    }
+
+    @Override
+    public AbstractManualParameter getManualContrast() {
+        return  new BaseManualParamMTK(parameters,"contrast","contrast-values",parametersHandler);
+    }
+
+    @Override
     public DngProfile getDngProfile(int filesize) {
         return null;
     }

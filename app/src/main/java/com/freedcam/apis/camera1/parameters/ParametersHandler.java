@@ -147,10 +147,6 @@ public class ParametersHandler extends AbstractParameterHandler
 
         locationParameter = new LocationParameter(cameraHolder,context,appSettingsManager);
 
-        createManualBrightness();
-
-        createManualContrast();
-
         try {
             ManualConvergence = new BaseManualParameter(cameraParameters, KEYS.MANUAL_CONVERGENCE, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MAX, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MIN, this,1);
         } catch (Exception e) {
@@ -162,7 +158,6 @@ public class ParametersHandler extends AbstractParameterHandler
 
         //createManualSaturation();
 
-        createManualSharpness();
 
 
         try {
@@ -405,13 +400,6 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            if(appSettingsManager.getDevice() == Devices.ZTE_ADV || appSettingsManager.getDevice() == Devices.ZTEADV234 ||appSettingsManager.getDevice() == Devices.ZTEADVIMX214)
-                LensFilter = new VirtualLensFilter(cameraParameters, cameraHolder, "", cameraUiWrapper);
-        } catch (Exception e) {
-            Logger.exception(e);
-        }
-
-        try {
             HDRMode = new HDRModeParameter(cameraParameters, cameraHolder, "", cameraUiWrapper);
         } catch (Exception e) {
             Logger.exception(e);
@@ -428,16 +416,22 @@ public class ParametersHandler extends AbstractParameterHandler
             throw new NullPointerException("DEVICE IS NULL");
         }
 
-        ManualShutter = Device.getExposureTimeParameter();
-        ManualFocus = Device.getManualFocusParameter();
-        ManualIso = Device.getIsoParameter();
-        CCT =  Device.getCCTParameter();
+
         VideoProfiles = Device.getVideoProfileMode();
         Skintone = Device.getSkintoneParameter();
         NonZslManualMode = Device.getNonZslManualMode();
         opcode = Device.getOpCodeParameter();
         Denoise = Device.getDenoiseParameter();
+        LensFilter = Device.getLensFilter();
+
+        ManualShutter = Device.getExposureTimeParameter();
+        ManualFocus = Device.getManualFocusParameter();
+        ManualIso = Device.getIsoParameter();
+        CCT =  Device.getCCTParameter();
         ManualSaturation = Device.getManualSaturation();
+        ManualSharpness = Device.getManualSharpness();
+        ManualBrightness = Device.getManualBrightness();
+        ManualContrast = Device.getManualContrast();
 
         Module = new ModuleParameters(cameraUiWrapper,appSettingsManager);
 
@@ -489,85 +483,6 @@ public class ParametersHandler extends AbstractParameterHandler
         }
     }
 
-    private void createManualBrightness() {
-        try {
-
-            if (cameraParameters.get("brightness")!= null && cameraParameters.get("brightness-values")!= null)
-            {
-                if (cameraHolder.DeviceFrameWork == Frameworks.MTK)
-                    ManualBrightness =  new BaseManualParamMTK(cameraParameters,"brightness", "brightness-values",this);
-                else
-                    ManualBrightness =  new BaseManualParameter(cameraParameters,"brightness", "brightness-max", "brightness-min",this,1);
-
-            }
-            else if (cameraParameters.get("brightness")!= null && cameraParameters.get("brightness-values")== null)
-            {
-                //p920hack
-                if (cameraParameters.get("max-brightness")!= null && cameraParameters.get("brightness-max")!= null)
-                {
-                    cameraParameters.set("max-brightness", "100");
-                    cameraParameters.set("min-brightness", "0");
-                }
-                if (cameraParameters.get("brightness-max")!= null)
-                {
-                    ManualBrightness = new BaseManualParameter(cameraParameters, "brightness", "brightness-max", "brightness-min", this, 1);
-                }
-                else if(appSettingsManager.getDevice() == Devices.p8lite)
-                    ManualBrightness = new BaseManualParameter(cameraParameters, "brightness", "max-brightness", "min-brightness", this, 50);
-                else if (cameraParameters.get("max-brightness")!= null)
-                    ManualBrightness = new BaseManualParameter(cameraParameters, "brightness", "max-brightness", "min-brightness", this, 1);
-
-            }
-            else if (cameraParameters.get("luma-adaptation")!= null)
-                ManualBrightness =  new BaseManualParameter(cameraParameters,"luma-adaptation","max-brightness","min-brightness",this,1);
-
-            if (ManualBrightness != null ) {
-                PictureFormat.addEventListner(((BaseManualParameter) ManualBrightness).GetPicFormatListner());
-                cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualBrightness).GetModuleListner());
-            }
-        } catch (Exception e) {
-            Logger.exception(e);
-        }
-    }
-
-    private void createManualContrast()
-    {
-        try {
-            if (cameraParameters.get("contrast")!= null && cameraParameters.get("contrast-values")!= null)
-            {
-                cameraParameters.set("contrast-max", "3");
-                cameraParameters.set("contrast-min", "0");
-                if (cameraHolder.DeviceFrameWork == Frameworks.MTK)
-                    ManualContrast =  new BaseManualParamMTK(cameraParameters,"contrast","contrast-values",this);
-                else
-                    ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "contrast-max", "contrast-min",this,1);
-
-            }
-            else if (cameraParameters.get("contrast")!= null && cameraParameters.get("contrast-values")== null)
-            {
-                //p920 hack
-                if (cameraParameters.get("max-contrast")!= null && cameraParameters.get("contrast-max")!= null) {
-                    cameraParameters.set("max-contrast", "100");
-                    cameraParameters.set("min-contrast", "0");
-                }
-                if (cameraParameters.get("contrast-max")!= null)
-                    ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "contrast-max", "contrast-min",this,1);
-                else if(appSettingsManager.getDevice()== Devices.p8lite)
-                    ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "max-contrast", "min-contrast",this,25);
-                else if (cameraParameters.get("max-contrast")!= null)
-                    ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "max-contrast", "min-contrast",this,1);
-
-
-
-            }
-            if (ManualContrast != null ) {
-                PictureFormat.addEventListner(((BaseManualParameter) ManualContrast).GetPicFormatListner());
-                cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualContrast).GetModuleListner());
-            }
-        } catch (Exception e) {
-            Logger.exception(e);
-        }
-    }
 
     private void createHighFrameRate() {
         try {
@@ -610,46 +525,6 @@ public class ParametersHandler extends AbstractParameterHandler
                 ZSL = new BaseModeParameter(cameraParameters,cameraHolder,"mode","mode-values");
             else if (cameraParameters.get("zsd-mode")!= null)
                 ZSL =new BaseModeParameter(cameraParameters,cameraHolder,"zsd-mode", "zsd-mode-values");
-        } catch (Exception e) {
-            Logger.exception(e);
-        }
-    }
-
-    private void createManualSharpness() {
-        try {
-
-            if (cameraParameters.get("edge")!= null && cameraParameters.get("edge-values")!= null)
-            {
-                cameraParameters.set("edge-max", "3");
-                cameraParameters.set("edge-min", "0");
-                if (cameraHolder.DeviceFrameWork == Frameworks.MTK)
-                    ManualSharpness =  new BaseManualParameter(cameraParameters,"edge", "edge-max", "edge-min",this,1);
-
-            }
-            else if (cameraParameters.get("sharpness")!= null && cameraParameters.get("sharpness-values")== null)
-            {
-                if (cameraParameters.get("max-sharpness")!= null && cameraParameters.get("sharpness-max")!= null) {
-                    cameraParameters.set("max-sharpness", "100");
-                    cameraParameters.set("min-sharpness", "0");
-                }
-                int step = 1;
-                if (cameraParameters.get("sharpness-step")!= null)
-                    step = Integer.parseInt(cameraParameters.get("sharpness-step"));
-
-                if (cameraParameters.get("sharpness-max")!= null)
-                {
-                    ManualSharpness = new BaseManualParameter(cameraParameters, "sharpness", "sharpness-max", "sharpness-min", this,step);
-                }
-                else if (cameraParameters.get("max-sharpness")!= null)
-                {
-                    ManualSharpness = new BaseManualParameter(cameraParameters, "sharpness", "max-sharpness", "min-sharpness", this,step);
-                }
-
-            }
-            if(ManualSharpness != null ) {
-                PictureFormat.addEventListner(((BaseManualParameter) ManualSharpness).GetPicFormatListner());
-                cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualSharpness).GetModuleListner());
-            }
         } catch (Exception e) {
             Logger.exception(e);
         }

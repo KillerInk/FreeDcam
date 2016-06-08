@@ -33,6 +33,7 @@ import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.parameters.manual.ShutterManualZTE;
 import com.freedcam.apis.camera1.parameters.manual.SkintoneManualPrameter;
 import com.freedcam.apis.camera1.parameters.modes.OpCodeParameter;
+import com.freedcam.apis.camera1.parameters.modes.VirtualLensFilter;
 import com.troop.androiddng.DngProfile;
 
 /**
@@ -89,5 +90,10 @@ public class ZTE_ADV extends BaseQcomDevice {
     @Override
     public AbstractModeParameter getOpCodeParameter() {
         return new OpCodeParameter(cameraUiWrapper.appSettingsManager);
+    }
+
+    @Override
+    public AbstractModeParameter getLensFilter() {
+        return new VirtualLensFilter(parameters, cameraHolder, "", cameraUiWrapper);
     }
 }

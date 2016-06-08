@@ -30,6 +30,7 @@ import com.freedcam.apis.camera1.CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.parameters.modes.VideoProfilesParameter;
+import com.freedcam.utils.DeviceUtils;
 import com.troop.androiddng.DngProfile;
 
 /**
@@ -89,6 +90,62 @@ public abstract class AbstractDevice
         }
         return ManualSaturation;
     }
+
+    public AbstractManualParameter getManualSharpness()
+    {
+
+        if (parameters.get("max-sharpness")!= null && parameters.get("sharpness-max")!= null) {
+            parameters.set("max-sharpness", "100");
+            parameters.set("min-sharpness", "0");
+        }
+        int step = 1;
+        if (parameters.get("sharpness-step")!= null)
+            step = Integer.parseInt(parameters.get("sharpness-step"));
+
+        if (parameters.get("sharpness-max")!= null)
+        {
+            return new BaseManualParameter(parameters, "sharpness", "sharpness-max", "sharpness-min", parametersHandler,step);
+        }
+        else if (parameters.get("max-sharpness")!= null)
+        {
+            return new BaseManualParameter(parameters, "sharpness", "max-sharpness", "min-sharpness", parametersHandler,step);
+        }
+        return null;
+    }
+
+    public AbstractManualParameter getManualBrightness()
+    {
+
+        //p920hack
+        if (parameters.get("max-brightness")!= null && parameters.get("brightness-max")!= null)
+        {
+            parameters.set("max-brightness", "100");
+            parameters.set("min-brightness", "0");
+        }
+        if (parameters.get("brightness-max")!= null)
+        {
+            return new BaseManualParameter(parameters, "brightness", "brightness-max", "brightness-min", parametersHandler, 1);
+        }
+        else if (parameters.get("max-brightness")!= null)
+            return new BaseManualParameter(parameters, "brightness", "max-brightness", "min-brightness", parametersHandler, 1);
+        else if (parameters.get("luma-adaptation")!= null)
+             return   new BaseManualParameter(parameters,"luma-adaptation","max-brightness","min-brightness",parametersHandler,1);
+        return null;
+    }
+
+    public AbstractManualParameter getManualContrast()
+    {
+        //p920 hack
+        if (parameters.get("max-contrast")!= null && parameters.get("contrast-max")!= null) {
+            parameters.set("max-contrast", "100");
+            parameters.set("min-contrast", "0");
+        }
+        if (parameters.get("contrast-max")!= null)
+             return  new BaseManualParameter(parameters,"contrast", "contrast-max", "contrast-min",parametersHandler,1);
+        else if (parameters.get("max-contrast")!= null)
+             return new BaseManualParameter(parameters,"contrast", "max-contrast", "min-contrast",parametersHandler,1);
+        return null;
+    }
     public abstract DngProfile getDngProfile(int filesize);
 
     public AbstractModeParameter getVideoProfileMode()
@@ -107,4 +164,9 @@ public abstract class AbstractDevice
     }
 
     public abstract AbstractModeParameter getDenoiseParameter();
+
+    public AbstractModeParameter getLensFilter()
+    {
+        return null;
+    }
 }

@@ -26,6 +26,7 @@ import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.camera1.CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.device.AbstractDevice;
+import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.parameters.manual.FocusManualHuawei;
 import com.freedcam.apis.camera1.parameters.manual.ShutterManualKrillin;
 import com.troop.androiddng.DngProfile;
@@ -76,5 +77,15 @@ public class P8Lite extends AbstractDevice {
     @Override
     public AbstractModeParameter getDenoiseParameter() {
         return null;
+    }
+
+    @Override
+    public AbstractManualParameter getManualBrightness() {
+        return  new BaseManualParameter(parameters, "brightness", "max-brightness", "min-brightness", parametersHandler, 50);
+    }
+
+    @Override
+    public AbstractManualParameter getManualContrast() {
+        return new BaseManualParameter(parameters,"contrast", "max-contrast", "min-contrast",parametersHandler,25);
     }
 }
