@@ -766,6 +766,7 @@ public class ParametersHandler extends AbstractParameterHandler
         cameraParameters.set("preview-fps-range",mMin+","+mMax);
         cameraParameters.set("preview-frame-rate", mMax);
         SetParametersToCamera(cameraParameters);
+
     }
 
     public void SetZTESlowShutter()
@@ -777,6 +778,21 @@ public class ParametersHandler extends AbstractParameterHandler
     public void Set_RAWFNAME(String filepath)
     {
         cameraParameters.set("rawfname", filepath);
+        SetParametersToCamera(cameraParameters);
+    }
+
+    public void SetLGCamera()
+    {
+        cameraParameters.set("lge-camera", "1");
+        SetParametersToCamera(cameraParameters);
+    }
+
+    public void SetDualRecorder()
+    {
+        if (false)
+            cameraParameters.set("dual-recorder", "1");
+        else
+            cameraParameters.set("dual-recorder", "0");
         SetParametersToCamera(cameraParameters);
     }
 }
