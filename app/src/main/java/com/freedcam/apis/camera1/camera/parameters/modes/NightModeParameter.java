@@ -20,11 +20,13 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
 
 /**
@@ -37,17 +39,17 @@ public class NightModeParameter extends BaseModeParameter
     private String state = "";
     private String format = "";
     private String curmodule = "";
-    public NightModeParameter(Camera.Parameters parameters, CameraHolder parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
+    public NightModeParameter(Parameters parameters, CameraHolder parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
         super(parameters, parameterChanged, "", "");
-        if (cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214
-                || cameraUiWrapper.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV
-                || cameraUiWrapper.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214
-                || cameraUiWrapper.appSettingsManager.getDevice() == DeviceUtils.Devices.XiaomiMI3W
-                || cameraUiWrapper.appSettingsManager.getDevice() == DeviceUtils.Devices.XiaomiMI4W
-                || cameraUiWrapper.appSettingsManager.getDevice() == (DeviceUtils.Devices.XiaomiMI_Note_Pro)
-                || cameraUiWrapper.appSettingsManager.getDevice() == (DeviceUtils.Devices.Xiaomi_RedmiNote))
+        if (cameraHolder.appSettingsManager.getDevice() == Devices.ZTEADVIMX214
+                || cameraUiWrapper.appSettingsManager.getDevice() == Devices.ZTE_ADV
+                || cameraUiWrapper.appSettingsManager.getDevice() == Devices.ZTEADVIMX214
+                || cameraUiWrapper.appSettingsManager.getDevice() == Devices.XiaomiMI3W
+                || cameraUiWrapper.appSettingsManager.getDevice() == Devices.XiaomiMI4W
+                || cameraUiWrapper.appSettingsManager.getDevice() == Devices.XiaomiMI_Note_Pro
+                || cameraUiWrapper.appSettingsManager.getDevice() == Devices.Xiaomi_RedmiNote)
         {
-            this.isSupported = true;
+            isSupported = true;
         }
         if (isSupported) {
             cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
@@ -65,10 +67,10 @@ public class NightModeParameter extends BaseModeParameter
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        if (cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.XiaomiMI3W
-                || cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.XiaomiMI4W
-                || cameraHolder.appSettingsManager.getDevice() == (DeviceUtils.Devices.XiaomiMI_Note_Pro)
-                || cameraHolder.appSettingsManager.getDevice() == (DeviceUtils.Devices.Xiaomi_RedmiNote))
+        if (cameraHolder.appSettingsManager.getDevice() == Devices.XiaomiMI3W
+                || cameraHolder.appSettingsManager.getDevice() == Devices.XiaomiMI4W
+                || cameraHolder.appSettingsManager.getDevice() == Devices.XiaomiMI_Note_Pro
+                || cameraHolder.appSettingsManager.getDevice() == Devices.Xiaomi_RedmiNote)
         {
             if (valueToSet.equals("on")) {
                 cameraHolder.GetParameterHandler().morphoHDR.SetValue("false", true);
@@ -84,7 +86,7 @@ public class NightModeParameter extends BaseModeParameter
             parameters.set("night_key", valueToSet);
         try {
             cameraHolder.SetCameraParameters(parameters);
-            super.BackgroundValueHasChanged(valueToSet);
+            BackgroundValueHasChanged(valueToSet);
         }
         catch (Exception ex)
         {
@@ -94,10 +96,10 @@ public class NightModeParameter extends BaseModeParameter
 
     @Override
     public String GetValue() {
-        if (cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.XiaomiMI3W
-                || cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.XiaomiMI4W
-                || cameraHolder.appSettingsManager.getDevice() == (DeviceUtils.Devices.XiaomiMI_Note_Pro)
-                || cameraHolder.appSettingsManager.getDevice() == (DeviceUtils.Devices.Xiaomi_RedmiNote))
+        if (cameraHolder.appSettingsManager.getDevice() == Devices.XiaomiMI3W
+                || cameraHolder.appSettingsManager.getDevice() == Devices.XiaomiMI4W
+                || cameraHolder.appSettingsManager.getDevice() == Devices.XiaomiMI_Note_Pro
+                || cameraHolder.appSettingsManager.getDevice() == Devices.Xiaomi_RedmiNote)
         {
             if (parameters.get("morpho-hht").equals("true") && parameters.get("ae-bracket-hdr").equals("AE-Bracket"))
                 return "on";
@@ -110,10 +112,10 @@ public class NightModeParameter extends BaseModeParameter
 
     @Override
     public String[] GetValues() {
-        if (cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.XiaomiMI3W
-                || cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.XiaomiMI4W
-                || cameraHolder.appSettingsManager.getDevice() == (DeviceUtils.Devices.XiaomiMI_Note_Pro)
-                || cameraHolder.appSettingsManager.getDevice() == (DeviceUtils.Devices.Xiaomi_RedmiNote))
+        if (cameraHolder.appSettingsManager.getDevice() == Devices.XiaomiMI3W
+                || cameraHolder.appSettingsManager.getDevice() == Devices.XiaomiMI4W
+                || cameraHolder.appSettingsManager.getDevice() == Devices.XiaomiMI_Note_Pro
+                || cameraHolder.appSettingsManager.getDevice() == Devices.Xiaomi_RedmiNote)
             return new String[] {"off","on"};
         else
             return new String[] {"off","on","tripod"};
@@ -122,8 +124,8 @@ public class NightModeParameter extends BaseModeParameter
     @Override
     public void ModuleChanged(String module)
     {
-        if(cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.XiaomiMI3W
-                || cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.XiaomiMI4W)
+        if(cameraHolder.appSettingsManager.getDevice() == Devices.XiaomiMI3W
+                || cameraHolder.appSettingsManager.getDevice() == Devices.XiaomiMI4W)
         {
             curmodule = module;
             switch (module)
@@ -149,9 +151,9 @@ public class NightModeParameter extends BaseModeParameter
             Show();
 
         else if (!val.contains(KEYS.JPEG)&&visible) {
-            if (cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214
-                    || cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV
-                    || cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214)
+            if (cameraHolder.appSettingsManager.getDevice() == Devices.ZTEADVIMX214
+                    || cameraHolder.appSettingsManager.getDevice() == Devices.ZTE_ADV
+                    || cameraHolder.appSettingsManager.getDevice() == Devices.ZTEADVIMX214)
                 Show();
             else
                 Hide();

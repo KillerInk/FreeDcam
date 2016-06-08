@@ -25,28 +25,33 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
+import com.freedcam.ui.themesample.subfragments.Interfaces.I_CloseNotice;
 import com.freedcam.ui.themesample.views.uichilds.SimpleValueChild;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
 
 /**
  * Created by troop on 16.06.2015.
  */
-public class HorizontalValuesFragment extends Fragment implements Interfaces.I_CloseNotice, AbstractModeParameter.I_ModeParameterEvent
+public class HorizontalValuesFragment extends Fragment implements I_CloseNotice, I_ModeParameterEvent
 {
     private View view;
     private LinearLayout valuesHolder;
     private String[] values;
-    private Interfaces.I_CloseNotice rdytoclose;
+    private I_CloseNotice rdytoclose;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,null);
-        this.view = inflater.inflate(R.layout.horizontal_values_fragment, container, false);
-        valuesHolder = (LinearLayout) view.findViewById(R.id.horizontal_values_holder);
+        view = inflater.inflate(layout.horizontal_values_fragment, container, false);
+        valuesHolder = (LinearLayout) view.findViewById(id.horizontal_values_holder);
         return view;
     }
 
@@ -76,10 +81,10 @@ public class HorizontalValuesFragment extends Fragment implements Interfaces.I_C
 
     private LinearLayout getNewLayout()
     {
-        final LinearLayout linearLayout = new LinearLayout(view.getContext());
+        LinearLayout linearLayout = new LinearLayout(view.getContext());
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
 
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         linearLayout.setLayoutParams(params);
         linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
         valuesHolder.addView(linearLayout);
@@ -87,7 +92,7 @@ public class HorizontalValuesFragment extends Fragment implements Interfaces.I_C
     }
 
 
-    public void SetStringValues(String[] values, Interfaces.I_CloseNotice rdytoclose)
+    public void SetStringValues(String[] values, I_CloseNotice rdytoclose)
     {
         this.values = values;
         this.rdytoclose = rdytoclose;

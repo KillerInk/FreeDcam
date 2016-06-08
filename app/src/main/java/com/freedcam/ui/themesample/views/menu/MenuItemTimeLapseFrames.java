@@ -30,6 +30,8 @@ import android.widget.LinearLayout;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
 
 /**
  * Created by troop on 29.08.2015.
@@ -65,12 +67,12 @@ public class MenuItemTimeLapseFrames extends LinearLayout
     {
         this.context = context;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.expandable_childs_number, this);
-        this.plus = (Button)findViewById(R.id.button_plus);
-        this.minus = (Button)findViewById(R.id.button_minus);
-        this.editText = (EditText)findViewById(R.id.editText_number);
-        this.plus.setClickable(true);
-        this.minus.setClickable(true);
+        inflater.inflate(layout.expandable_childs_number, this);
+        plus = (Button)findViewById(id.button_plus);
+        minus = (Button)findViewById(id.button_minus);
+        editText = (EditText)findViewById(id.editText_number);
+        plus.setClickable(true);
+        minus.setClickable(true);
 
         //this.setClickable(false);
 
@@ -78,7 +80,7 @@ public class MenuItemTimeLapseFrames extends LinearLayout
             @Override
             public void onClick(View v) {
 
-                if ((current - bigmover) >= 1)
+                if (current - bigmover >= 1)
                     current -= bigmover;
                 else if (current - mover > min)
                     current -= mover;
@@ -117,7 +119,7 @@ public class MenuItemTimeLapseFrames extends LinearLayout
 
 
     public void SetStuff(AppSettingsManager appSettingsManager) {
-        this.settingsname = AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME;
+        settingsname = AppSettingsManager.SETTING_VIDEOTIMELAPSEFRAME;
         this.appSettingsManager = appSettingsManager;
         String fps = appSettingsManager.getString(settingsname);
         if (fps == null || fps.equals(""))

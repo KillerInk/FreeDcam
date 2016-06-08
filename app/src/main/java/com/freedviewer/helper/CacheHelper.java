@@ -21,11 +21,14 @@ package com.freedviewer.helper;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.LruCache;
 
 import com.freedcam.utils.Logger;
+import com.freedviewer.helper.DiskLruCache.Editor;
+import com.freedviewer.helper.DiskLruCache.Snapshot;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -52,10 +55,10 @@ public class CacheHelper
         // Get max available VM memory, exceeding this amount will throw an
         // OutOfMemory exception. Stored in kilobytes as LruCache takes an
         // int in its constructor.
-        final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+        int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
 
         // Use 1/8th of the available memory for this memory cache.
-        final int cacheSize = maxMemory / 4;
+        int cacheSize = maxMemory / 4;
 
         mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
             @Override
@@ -106,13 +109,13 @@ public class CacheHelper
 
                 OutputStream out = null;
                 try {
-                    DiskLruCache.Snapshot snapshot = mDiskLruCache.get(data);
+                    Snapshot snapshot = mDiskLruCache.get(data);
                     if (snapshot == null) {
-                        final DiskLruCache.Editor editor = mDiskLruCache.edit(data);
+                        Editor editor = mDiskLruCache.edit(data);
                         if (editor != null) {
                             out = editor.newOutputStream(0);
                             value.compress(
-                                    Bitmap.CompressFormat.JPEG,70, out);
+                                    CompressFormat.JPEG,70, out);
                             editor.commit();
                             out.close();
                         }
@@ -149,7 +152,7 @@ public class CacheHelper
             if (mDiskLruCache != null) {
                 InputStream inputStream = null;
                 try {
-                    final DiskLruCache.Snapshot snapshot = mDiskLruCache.get(data);
+                    Snapshot snapshot = mDiskLruCache.get(data);
                     if (snapshot != null) {
 
                         inputStream = snapshot.getInputStream(0);
@@ -161,7 +164,7 @@ public class CacheHelper
                             bitmap = BitmapFactory.decodeFileDescriptor(fd, null, null);
                         }
                     }
-                } catch (final IOException e) {
+                } catch (IOException e) {
                     Logger.exception(e);
                 } finally {
                     try {
@@ -195,7 +198,7 @@ public class CacheHelper
     private File getDiskCacheDir(Context context) {
         // Check if media is mounted or storage is built-in, if so, try and use external cache dir
         // otherwise use internal cache dir
-        final String cachePath = context.getCacheDir().getPath();
+        String cachePath = context.getCacheDir().getPath();
 
         return new File(cachePath + File.separator + DISK_CACHE_SUBDIR);
     }

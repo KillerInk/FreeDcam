@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.camera.cameraholder;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.camera1.camera.CameraHolder;
@@ -44,7 +45,7 @@ public class CameraHolderMotoX extends CameraHolder
     {
         try {
             mCamera = openWrapper(camera);
-            Camera.Parameters paras = mCamera.getParameters();
+            Parameters paras = mCamera.getParameters();
             paras.set("mot-app", "true");
             mCamera.setParameters(paras);
             isRdy = true;
@@ -61,10 +62,10 @@ public class CameraHolderMotoX extends CameraHolder
     }
 
     private  Camera openWrapper(int n) {
-        Class[] arrclass = new Class[]{Integer.TYPE, Integer.TYPE};
+        Class[] arrclass = {Integer.TYPE, Integer.TYPE};
         try {
             Method method = Class.forName("android.hardware.Camera").getDeclaredMethod("openLegacy", arrclass);
-            Object[] arrobject = new Object[]{n, 256};
+            Object[] arrobject = {n, 256};
             return (Camera)method.invoke(null, arrobject);
         }
         catch (NoSuchMethodException e) {

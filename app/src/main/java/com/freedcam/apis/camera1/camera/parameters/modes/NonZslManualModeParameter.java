@@ -20,17 +20,16 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
-import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
 import com.freedcam.apis.camera1.camera.CameraHolder;
-import com.freedcam.utils.DeviceUtils;
 
 /**
  * Created by troop on 05.10.2014.
  */
 public class NonZslManualModeParameter extends BaseModeParameter
 {
-    public NonZslManualModeParameter(Camera.Parameters parameters, CameraHolder cameraHolder) {
+    public NonZslManualModeParameter(Parameters parameters, CameraHolder cameraHolder) {
         super(parameters, cameraHolder, "non-zsl-manual-mode", "");
     }
 

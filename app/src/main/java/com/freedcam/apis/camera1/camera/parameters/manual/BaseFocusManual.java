@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
  */
 public class BaseFocusManual extends BaseManualParameter
 {
-    final static String TAG = BaseFocusManual.class.getSimpleName();
+    static final String TAG = BaseFocusManual.class.getSimpleName();
     protected String manualFocusModeString;
     private int manualFocusType = 0;
 
@@ -47,7 +48,7 @@ public class BaseFocusManual extends BaseManualParameter
      * @param parametersHandler
      * @param step
      */
-    public BaseFocusManual(Camera.Parameters parameters, String value, String maxValue, String MinValue, String manualFocusModeString, ParametersHandler parametersHandler, float step, int manualFocusType) {
+    public BaseFocusManual(Parameters parameters, String value, String maxValue, String MinValue, String manualFocusModeString, ParametersHandler parametersHandler, float step, int manualFocusType) {
         super(parameters, value, maxValue, MinValue, parametersHandler, step);
         this.manualFocusModeString = manualFocusModeString;
         this.manualFocusType = manualFocusType;
@@ -64,12 +65,12 @@ public class BaseFocusManual extends BaseManualParameter
      * @param step
      * @param manualFocusType
      */
-    public BaseFocusManual(Camera.Parameters parameters, String value, int min, int max, String manualFocusModeString, ParametersHandler parametersHandler, float step, int manualFocusType) {
+    public BaseFocusManual(Parameters parameters, String value, int min, int max, String manualFocusModeString, ParametersHandler parametersHandler, float step, int manualFocusType) {
         super(parameters, value, "", "", parametersHandler, step);
-        this.isSupported = true;
-        this.isVisible = true;
+        isSupported = true;
+        isVisible = true;
         this.manualFocusModeString = manualFocusModeString;
-        this.stringvalues = createStringArray(min,max,step);
+        stringvalues = createStringArray(min,max,step);
         this.manualFocusType = manualFocusType;
     }
 
@@ -88,7 +89,7 @@ public class BaseFocusManual extends BaseManualParameter
     }
 
     @Override
-    public void SetValue(final int valueToSet)
+    public void SetValue(int valueToSet)
     {
         currentInt = valueToSet;
 

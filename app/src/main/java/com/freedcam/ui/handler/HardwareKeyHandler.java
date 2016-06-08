@@ -51,7 +51,7 @@ public class HardwareKeyHandler
         return set;
     }
 
-    public boolean OnKeyDown(int keyCode, KeyEvent event)
+    public void OnKeyDown(int keyCode, KeyEvent event)
     {
         int appSettingsKeyShutter = 0;
 
@@ -75,6 +75,5 @@ public class HardwareKeyHandler
         // shutterbutton half pressed
         if (keyCode == KeyEvent.KEYCODE_FOCUS)
             cameraUiWrapper.Focus.StartFocus();
-        return true;
     }
 }

@@ -25,6 +25,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -34,11 +35,14 @@ import com.freedcam.ui.SwipeMenuListner;
 import com.freedcam.ui.themesample.views.uichilds.UiSettingsChild;
 import com.freedcam.utils.AppSettingsManager;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
+import com.troop.freedcam.R.styleable;
 
 /**
  * Created by troop on 14.06.2015.
  */
-public class MenuItem extends UiSettingsChild implements View.OnClickListener, I_swipe
+public class MenuItem extends UiSettingsChild implements OnClickListener, I_swipe
 {
     private TextView description;
 
@@ -57,21 +61,21 @@ public class MenuItem extends UiSettingsChild implements View.OnClickListener, I
         //get custom attributs
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
-                R.styleable.MenuItem,
+                styleable.MenuItem,
                 0, 0
         );
         TypedArray b = context.getTheme().obtainStyledAttributes(
                 attrs,
-                R.styleable.UiSettingsChild,
+                styleable.UiSettingsChild,
                 0, 0
         );
         //try to set the attributs
         try
         {
 
-            headerText.setText(b.getText(R.styleable.UiSettingsChild_HeaderText));
+            headerText.setText(b.getText(styleable.UiSettingsChild_HeaderText));
 
-            description.setText(a.getText(R.styleable.MenuItem_Description));
+            description.setText(a.getText(styleable.MenuItem_Description));
         }
         finally {
             a.recycle();
@@ -83,10 +87,10 @@ public class MenuItem extends UiSettingsChild implements View.OnClickListener, I
     protected void init(Context context) {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflateTheme(inflater);
-        headerText = (TextView)findViewById(R.id.textview_menuitem_header);
-        valueText = (TextView)findViewById(R.id.textview_menuitem_header_value);
-        description = (TextView)findViewById(R.id.textview_menuitem_description);
-        toplayout = (LinearLayout)findViewById(R.id.menu_item_toplayout);
+        headerText = (TextView)findViewById(id.textview_menuitem_header);
+        valueText = (TextView)findViewById(id.textview_menuitem_header_value);
+        description = (TextView)findViewById(id.textview_menuitem_description);
+        toplayout = (LinearLayout)findViewById(id.menu_item_toplayout);
         //toplayout.setOnClickListener(this);
         controlswipeListner = new SwipeMenuListner(this);
         toplayout.setOnTouchListener(new OnTouchListener() {
@@ -99,7 +103,7 @@ public class MenuItem extends UiSettingsChild implements View.OnClickListener, I
 
     @Override
     protected void inflateTheme(LayoutInflater inflater) {
-        inflater.inflate(R.layout.menu_item, this);
+        inflater.inflate(layout.menu_item, this);
     }
 
     @Override
@@ -159,9 +163,9 @@ public class MenuItem extends UiSettingsChild implements View.OnClickListener, I
     {
         sendLog("isSupported:" + isSupported);
         if (isSupported) {
-            this.setVisibility(VISIBLE);
+            setVisibility(VISIBLE);
         }
         else
-            this.setVisibility(GONE);
+            setVisibility(GONE);
     }
 }

@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.layout;
 
 /**
  * Created by troop on 23.12.2015.
@@ -47,14 +48,13 @@ public class GridViewHttpFragment extends BaseGridViewFragment
 
     @Override
     protected void inflate(LayoutInflater inflater, ViewGroup container) {
-        view = inflater.inflate(R.layout.gridviewfragment, container, false);
+        view = inflater.inflate(layout.gridviewfragment, container, false);
     }
 
     private class HttpImageAdapter extends BaseAdapter
     {
         private final Context mContext;
         public HttpImageAdapter(Context context) {
-            super();
             mContext = context;
             pos0ret = false;
         }

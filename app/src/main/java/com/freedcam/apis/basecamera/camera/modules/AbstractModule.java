@@ -22,7 +22,10 @@ package com.freedcam.apis.basecamera.camera.modules;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.support.v4.provider.DocumentFile;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
@@ -52,7 +55,7 @@ public abstract class AbstractModule implements I_Module
 
     protected ModuleEventHandler eventHandler;
     protected I_worker workerListner;
-    final private String TAG = AbstractModule.class.getSimpleName();
+    private final String TAG = AbstractModule.class.getSimpleName();
     protected Context context;
     protected AppSettingsManager appSettingsManager;
     protected CaptureModes currentWorkState;
@@ -60,9 +63,9 @@ public abstract class AbstractModule implements I_Module
 
     public AbstractModule(AbstractCameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager)
     {
-        this.cameraHolder = cameraHandler;
+        cameraHolder = cameraHandler;
         this.eventHandler = eventHandler;
-        this.ParameterHandler = cameraHolder.GetParameterHandler();
+        ParameterHandler = cameraHolder.GetParameterHandler();
         this.context = context;
         this.appSettingsManager = appSettingsManager;
 
@@ -80,7 +83,7 @@ public abstract class AbstractModule implements I_Module
     {
         Logger.d(TAG, "work started");
         currentWorkState = captureModes;
-        if (this.workerListner != null)
+        if (workerListner != null)
             workerListner.onCaptureStateChanged(captureModes);
     }
 
@@ -123,7 +126,7 @@ public abstract class AbstractModule implements I_Module
         Logger.d(TAG, "Start Saving Bytes");
         OutputStream outStream = null;
         try {
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&& !appSettingsManager.GetWriteExternal()))
+            if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP&& !appSettingsManager.GetWriteExternal())
             {
                 checkFileExists(fileName);
                 outStream = new FileOutputStream(fileName);
@@ -131,9 +134,9 @@ public abstract class AbstractModule implements I_Module
             else
             {
                 DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,context);
-                Logger.d(TAG,"Filepath: " +df.getUri().toString());
+                Logger.d(TAG,"Filepath: " + df.getUri());
                 DocumentFile wr = df.createFile("image/*", fileName.getName());
-                Logger.d(TAG,"Filepath: " +wr.getUri().toString());
+                Logger.d(TAG,"Filepath: " + wr.getUri());
                 outStream = context.getContentResolver().openOutputStream(wr.getUri());
             }
             outStream.write(bytes);
@@ -152,11 +155,11 @@ public abstract class AbstractModule implements I_Module
         OutputStream outStream = null;
         boolean writetoExternalSD = appSettingsManager.GetWriteExternal();
         Logger.d(TAG, "Write External " + writetoExternalSD);
-        if ((Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) || (!writetoExternalSD && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP))
+        if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || !writetoExternalSD && VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP)
         {
             try {
                 outStream= new FileOutputStream(file);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+                bitmap.compress(CompressFormat.JPEG, 100, outStream);
                 outStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -165,12 +168,12 @@ public abstract class AbstractModule implements I_Module
         else
         {
             DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,context);
-            Logger.d(TAG,"Filepath: " +df.getUri().toString());
+            Logger.d(TAG,"Filepath: " + df.getUri());
             DocumentFile wr = df.createFile("image/*", file.getName());
-            Logger.d(TAG,"Filepath: " +wr.getUri().toString());
+            Logger.d(TAG,"Filepath: " + wr.getUri());
             try {
                 outStream = context.getContentResolver().openOutputStream(wr.getUri());
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+                bitmap.compress(CompressFormat.JPEG, 100, outStream);
                 outStream.close();
             } catch (IOException e) {
                 e.printStackTrace();

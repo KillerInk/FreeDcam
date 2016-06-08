@@ -25,6 +25,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.freedcam.utils.Logger;
+import com.freedviewer.gridview.BaseGridViewFragment.ViewStates;
+import com.freedviewer.gridview.GridViewFragment.FormatTypes;
 import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.holder.FileHolder;
 
@@ -41,8 +43,8 @@ class ImageAdapter extends BaseAdapter
 {
     private final Context mContext;
     private List<FileHolder> files;
-    private GridViewFragment.FormatTypes formatsToShow = GridViewFragment.FormatTypes.all;
-    private BaseGridViewFragment.ViewStates currentViewState = BaseGridViewFragment.ViewStates.normal;
+    private FormatTypes formatsToShow = FormatTypes.all;
+    private ViewStates currentViewState = ViewStates.normal;
     private int mImageThumbSize = 0;
     private ExecutorService executor;
     private BitmapHelper bitmapHelper;
@@ -50,7 +52,6 @@ class ImageAdapter extends BaseAdapter
     private final String TAG = ImageAdapter.class.getSimpleName();
 
     public ImageAdapter(Context context, int mImageThumbSize, BitmapHelper bitmapHelper) {
-        super();
         mContext = context;
         this.bitmapHelper =bitmapHelper;
         files = new ArrayList<>();
@@ -105,7 +106,7 @@ class ImageAdapter extends BaseAdapter
 
 
 
-    public void SetViewState(BaseGridViewFragment.ViewStates states)
+    public void SetViewState(ViewStates states)
     {
         currentViewState = states;
         for (int i = 0; i< files.size(); i++)
@@ -142,7 +143,7 @@ class ImageAdapter extends BaseAdapter
         return files.get(pos);
     }
 
-    public void SetFormatToShow(GridViewFragment.FormatTypes formatsToShow)
+    public void SetFormatToShow(FormatTypes formatsToShow)
     {
         this.formatsToShow = formatsToShow;
     }

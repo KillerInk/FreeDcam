@@ -48,7 +48,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
     protected void init(Context context) {
         super.init(context);
 
-        this.setOnClickListener(new OnClickListener() {
+        setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 switchCamera();
@@ -69,10 +69,10 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
         this.cameraUiWrapper = cameraUiWrapper;
         if (cameraUiWrapper instanceof CameraUiWrapper)
         {
-            this.setVisibility(GONE);
+            setVisibility(GONE);
         }
         else {
-            this.setVisibility(VISIBLE);
+            setVisibility(VISIBLE);
         }
     }
 

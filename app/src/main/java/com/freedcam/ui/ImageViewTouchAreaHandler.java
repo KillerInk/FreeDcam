@@ -26,6 +26,7 @@ package com.freedcam.ui;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
@@ -35,7 +36,7 @@ import com.freedcam.apis.basecamera.camera.FocusRect;
  * This class handles touch events that happens to the attached imageview and moves them
  * and return the values when its moving or a click happen
  */
-public class ImageViewTouchAreaHandler implements View.OnTouchListener
+public class ImageViewTouchAreaHandler implements OnTouchListener
 {
     private AbstractCameraUiWrapper cameraUiWrapper;
     private I_TouchListnerEvent touchListnerEvent;
@@ -62,9 +63,9 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
     {
         this.imageView = imageView;
         this.cameraUiWrapper = cameraUiWrapper;
-        this.recthalf = imageView.getWidth()/2;
+        recthalf = imageView.getWidth()/2;
         this.touchListnerEvent = touchListnerEvent;
-        this.allowDrag = true;
+        allowDrag = true;
         longClickHandler = new Handler();
     }
 
@@ -111,13 +112,12 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
     private boolean longClickHappen = false;
 
     @Override
-    public boolean onTouch(View v,final MotionEvent event)
+    public boolean onTouch(View v, MotionEvent event)
     {
         boolean ret = true;
         switch(event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
-            {
                 x = event.getX();
                 y = event.getY();
                 startX = (int)event.getX() - (int)imageView.getX();
@@ -125,10 +125,8 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
                 start = System.currentTimeMillis();
                 longClickHandler.postDelayed(longClickRunnable,MAX_DURATION);
                 longClickHappen = false;
-            }
-            break;
+                break;
             case MotionEvent.ACTION_MOVE:
-            {
 
                 difx = x - imageView.getX();
                 dify = y - imageView.getY();
@@ -149,10 +147,8 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
                     }
                 }
 
-            }
-            break;
+                break;
             case MotionEvent.ACTION_UP:
-            {
 
 
                 if (moving)
@@ -180,8 +176,7 @@ public class ImageViewTouchAreaHandler implements View.OnTouchListener
                 }
                 ret = false;
 
-            }
-            break;
+                break;
         }
         return ret;
     }

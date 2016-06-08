@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.CameraHolder;
@@ -36,7 +37,7 @@ public class AE_Handler_LGG4
     private ShutterManualParameterG4 shutterPrameter;
     private int currentIso = 0;
     private int currentShutter = 0;
-    private Camera.Parameters parameters;
+    private Parameters parameters;
     boolean auto = true;
     private ParametersHandler parametersHandler;
     private boolean readMetaData = false;
@@ -49,11 +50,11 @@ public class AE_Handler_LGG4
         iso,
     }
 
-    public AE_Handler_LGG4(Camera.Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler)
+    public AE_Handler_LGG4(Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler)
     {
         this.parametersHandler = parametersHandler;
-        this.isoManualParameter = new ISOManualParameterG4(parameters,cameraHolder, parametersHandler, aeevent);
-        this.shutterPrameter = new ShutterManualParameterG4(parameters, parametersHandler, aeevent);
+        isoManualParameter = new ISOManualParameterG4(parameters,cameraHolder, parametersHandler, aeevent);
+        shutterPrameter = new ShutterManualParameterG4(parameters, parametersHandler, aeevent);
         this.parameters = parameters;
         aeevent.onManualChanged(AeManual.shutter,true,0);
     }

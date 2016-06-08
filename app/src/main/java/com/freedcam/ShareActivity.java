@@ -39,7 +39,7 @@ public class ShareActivity extends MainActivity implements I_WorkEvent
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.callerIntent = getIntent();
+        callerIntent = getIntent();
         data = callerIntent.getData();
         Uri imageUri = callerIntent.getParcelableExtra(MediaStore.EXTRA_OUTPUT);
 
@@ -56,22 +56,12 @@ public class ShareActivity extends MainActivity implements I_WorkEvent
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
     }
 
-    private void sendBackToCallerIntent()
-    {
-
-    }
-
     @Override
-    public String WorkHasFinished(File filePath)
+    public void WorkHasFinished(File filePath)
     {
 
         //shareIntent.setData(Uri.fromFile(filePath));
@@ -81,7 +71,6 @@ public class ShareActivity extends MainActivity implements I_WorkEvent
         //callerIntent.setType("image/jpeg");
 
         setResult(RESULT_OK, callerIntent);
-        this.finish();
-        return null;
+        finish();
     }
 }

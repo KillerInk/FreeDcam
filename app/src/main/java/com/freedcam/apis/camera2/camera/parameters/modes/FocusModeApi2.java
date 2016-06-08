@@ -23,13 +23,14 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 
 import com.freedcam.apis.camera2.camera.CameraHolder;
 
 /**
  * Created by Ingo on 01.05.2015.
  */
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@TargetApi(VERSION_CODES.LOLLIPOP)
 public class FocusModeApi2 extends BaseModeApi2
 {
     public enum FocusModes

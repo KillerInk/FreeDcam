@@ -29,7 +29,6 @@ public class GuideList extends AbstractModeParameter
 
     private String value;
     public GuideList() {
-        super();
     }
 
 
@@ -42,7 +41,7 @@ public class GuideList extends AbstractModeParameter
     }
 
     @Override
-    public void SetValue(final String valueToSet, boolean setToCam)
+    public void SetValue(String valueToSet, boolean setToCam)
     {
         value = valueToSet;
         BackgroundValueHasChanged(valueToSet);

@@ -29,6 +29,7 @@ import com.freedcam.apis.basecamera.camera.parameters.modes.ParameterExternalShu
 import com.freedcam.apis.camera2.camera.CameraUiWrapper;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.ui.I_Activity;
+import com.freedcam.ui.themesample.subfragments.Interfaces.I_MenuItemClick;
 import com.freedcam.ui.themesample.views.menu.MenuItem;
 import com.freedcam.ui.themesample.views.menu.MenuItemAEB;
 import com.freedcam.ui.themesample.views.menu.MenuItemGPS;
@@ -45,11 +46,13 @@ import com.freedcam.ui.themesample.views.menu.MenuItem_VideoProfEditor;
 import com.freedcam.ui.themesample.views.uichilds.UiSettingsChild;
 import com.freedcam.utils.AppSettingsManager;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
 
 /**
  * Created by troop on 15.06.2015.
  */
-public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_MenuItemClick
+public class LeftMenuFragment extends AbstractFragment  implements I_MenuItemClick
 {
     private final String TAG = LeftMenuFragment.class.getSimpleName();
     private final boolean DEBUG = false;
@@ -93,7 +96,7 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
 
     private MenuItem imageStackMode;
 
-    private Interfaces.I_MenuItemClick onMenuItemClick;
+    private I_MenuItemClick onMenuItemClick;
 
     public static LeftMenuFragment GetInstance(I_Activity i_activity, AppSettingsManager appSettingsManager)
     {
@@ -107,58 +110,58 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,savedInstanceState);
-        View view = inflater.inflate(R.layout.leftmenufragment, container, false);
+        View view = inflater.inflate(layout.leftmenufragment, container, false);
 
-        videoProfileEditor = (MenuItem_VideoProfEditor)view.findViewById(R.id.MenuItem_VideoProfileEditor);
+        videoProfileEditor = (MenuItem_VideoProfEditor)view.findViewById(id.MenuItem_VideoProfileEditor);
 
-        pictureSize = (MenuItem)view.findViewById(R.id.MenuItemPicSize);
+        pictureSize = (MenuItem)view.findViewById(id.MenuItemPicSize);
 
-        sdSave = (MenuItemSDSave)view.findViewById(R.id.MenuItemSDSave);
+        sdSave = (MenuItemSDSave)view.findViewById(id.MenuItemSDSave);
 
-        menuItemInterval = (MenuItemInterval)view.findViewById(R.id.MenuIntervalmeter);
+        menuItemInterval = (MenuItemInterval)view.findViewById(id.MenuIntervalmeter);
 
-        menuItemIntervalDuration = (MenuItemIntervalDuration)view.findViewById(R.id.MenuIntervalmeterDuration);
+        menuItemIntervalDuration = (MenuItemIntervalDuration)view.findViewById(id.MenuIntervalmeterDuration);
 
-        menuItemTimer = (MenuItemTimer)view.findViewById(R.id.MenuTimer);
+        menuItemTimer = (MenuItemTimer)view.findViewById(id.MenuTimer);
 
-        menuItemGPS = (MenuItemGPS)view.findViewById(R.id.MenuItemGPS);
+        menuItemGPS = (MenuItemGPS)view.findViewById(id.MenuItemGPS);
 
-        guide = (MenuItem)view.findViewById(R.id.MenuItemGuide);
+        guide = (MenuItem)view.findViewById(id.MenuItemGuide);
 
-        api = (MenuItem)view.findViewById(R.id.MenuItemApi);
+        api = (MenuItem)view.findViewById(id.MenuItemApi);
 
-        externalShutter = (MenuItem)view.findViewById(R.id.MenuItemExternalShutter);
+        externalShutter = (MenuItem)view.findViewById(id.MenuItemExternalShutter);
 
-        orientationHack = (MenuItemOrientationHack)view.findViewById(R.id.MenuItemOrientationHack);
+        orientationHack = (MenuItemOrientationHack)view.findViewById(id.MenuItemOrientationHack);
 
-        jpegQuality = (MenuItem)view.findViewById(R.id.MenuItemJpegQuality);
+        jpegQuality = (MenuItem)view.findViewById(id.MenuItemJpegQuality);
 
-        videoProfile = (MenuItemVideoProfile)view.findViewById(R.id.MenuItemVideoProfile);
+        videoProfile = (MenuItemVideoProfile)view.findViewById(id.MenuItemVideoProfile);
 
-        videoHDR = (MenuItemVideoHDR)view.findViewById(R.id.MenuItemVideHDR);
+        videoHDR = (MenuItemVideoHDR)view.findViewById(id.MenuItemVideHDR);
 
-        VideoSize = (MenuItem) view.findViewById(R.id.MenuItemVideoSize);
+        VideoSize = (MenuItem) view.findViewById(id.MenuItemVideoSize);
 
-        videoStabilization =  (MenuItem)view.findViewById(R.id.MenuItemVideoStabilization);
+        videoStabilization =  (MenuItem)view.findViewById(id.MenuItemVideoStabilization);
 
-        timeLapseFrames = (MenuItemTimeLapseFrames) view.findViewById(R.id.MenuItemTimeLapseFrame);
+        timeLapseFrames = (MenuItemTimeLapseFrames) view.findViewById(id.MenuItemTimeLapseFrame);
 
-        saveCamParams = (MenuItemSaveCamParams)view.findViewById(R.id.MenuItemSaveParams);
-        PreviewFormat = (MenuItem)view.findViewById(R.id.MenuItemPreviewFormat);
-        PreviewSize = (MenuItem)view.findViewById(R.id.MenuItemPreviewSize);
-        horizont = (MenuItem)view.findViewById(R.id.MenuItemHorizont);
+        saveCamParams = (MenuItemSaveCamParams)view.findViewById(id.MenuItemSaveParams);
+        PreviewFormat = (MenuItem)view.findViewById(id.MenuItemPreviewFormat);
+        PreviewSize = (MenuItem)view.findViewById(id.MenuItemPreviewSize);
+        horizont = (MenuItem)view.findViewById(id.MenuItemHorizont);
 
-        AEB1 = (MenuItemAEB) view.findViewById(R.id.MenuItemAEB1);
-        AEB2 = (MenuItemAEB) view.findViewById(R.id.MenuItemAEB2);
-        AEB3 = (MenuItemAEB) view.findViewById(R.id.MenuItemAEB3);
+        AEB1 = (MenuItemAEB) view.findViewById(id.MenuItemAEB1);
+        AEB2 = (MenuItemAEB) view.findViewById(id.MenuItemAEB2);
+        AEB3 = (MenuItemAEB) view.findViewById(id.MenuItemAEB3);
 
-        bayerFormatItem = (MenuItem)view.findViewById(R.id.MenuItemBayerFormat);
+        bayerFormatItem = (MenuItem)view.findViewById(id.MenuItemBayerFormat);
 
-        opcode = (MenuItem)view.findViewById(R.id.MenuItemOpCode);
+        opcode = (MenuItem)view.findViewById(id.MenuItemOpCode);
 
-        matrixChooser = (MenuItem)view.findViewById(R.id.MenuItemMatrixChooser);
+        matrixChooser = (MenuItem)view.findViewById(id.MenuItemMatrixChooser);
 
-        imageStackMode = (MenuItem)view.findViewById(R.id.MenuItemImageStack);
+        imageStackMode = (MenuItem)view.findViewById(id.MenuItemImageStack);
         setCameraUiWrapperToUi();
         return view;
     }
@@ -311,9 +314,9 @@ public class LeftMenuFragment extends AbstractFragment  implements Interfaces.I_
         imageStackMode.SetMenuItemListner(this);
     }
 
-    public void SetMenuItemClickListner(Interfaces.I_MenuItemClick menuItemClick)
+    public void SetMenuItemClickListner(I_MenuItemClick menuItemClick)
     {
-        this.onMenuItemClick = menuItemClick;
+        onMenuItemClick = menuItemClick;
     }
 
     @Override

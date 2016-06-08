@@ -20,10 +20,12 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.DeviceUtils.Devices;
 
 /**
  * Created by GeorgeKiarie on 9/24/2015.
@@ -33,18 +35,18 @@ public class VirtualLensFilter extends  BaseModeParameter {
     private CameraHolder cameraHolder;
     private CameraUiWrapper cameraUiWrapper;
 
-    private final int[] asT = new int[]{0, 1, 2, 3, 4, 5, 6};
-    private final String[] asU = new String[]{"", "100 0 0 0 100 0 0 0 100 0 0 80", "100 0 0 0 100 0 0 0 100 12 50 100",
+    private final int[] asT = {0, 1, 2, 3, 4, 5, 6};
+    private final String[] asU = {"", "100 0 0 0 100 0 0 0 100 0 0 80", "100 0 0 0 100 0 0 0 100 12 50 100",
             "100 0 0 0 100 0 0 0 100 0 100 100", "100 0 0 0 100 0 0 0 100 0 85 0", "100 0 0 0 100 0 0 0 100 80 80 0"
             , "100 0 0 0 100 0 0 0 100 80 0 0", "100 0 0 0 100 0 0 0 50 115 20 70", "100 0 0 0 100 0 0 0 40 -60 -60 -60"
             , "100 0 0 0 100 0 0 0 40 -60 -60 -60", "100 0 0 0 100 0 0 0 40 -60 -60 -60", "100 0 0 0 100 0 0 0 40 -60 -60 -60"};
-    public VirtualLensFilter(Camera.Parameters parameters, CameraHolder parameterChanged, String values, CameraUiWrapper cameraUiWrapper)
+    public VirtualLensFilter(Parameters parameters, CameraHolder parameterChanged, String values, CameraUiWrapper cameraUiWrapper)
     {
         super(parameters, parameterChanged, "", "");
 
-        if (cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.ZTE_ADV))
-            this.isSupported = true;
-        this.cameraHolder = parameterChanged;
+        if (cameraHolder.appSettingsManager.getDevice() == Devices.ZTE_ADV)
+            isSupported = true;
+        cameraHolder = parameterChanged;
         this.cameraUiWrapper = cameraUiWrapper;
 
     }

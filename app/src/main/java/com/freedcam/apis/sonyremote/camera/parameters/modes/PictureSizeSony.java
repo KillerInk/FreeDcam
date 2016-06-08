@@ -67,7 +67,7 @@ public class PictureSizeSony extends BaseModeParameterSony
     protected void processValuesToSet(String valueToSet) {
         try
         {
-            String split[] = valueToSet.split("x");
+            String[] split = valueToSet.split("x");
             try {
                 JSONArray array = new JSONArray().put(0, split[0]).put(1, split[1]);
                 JSONObject jsonObject = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);

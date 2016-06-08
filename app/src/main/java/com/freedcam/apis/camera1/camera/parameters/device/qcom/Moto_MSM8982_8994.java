@@ -20,7 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.device.qcom;
 
 import android.hardware.Camera;
-import android.os.Handler;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
@@ -33,7 +33,7 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 01.06.2016.
  */
 public class Moto_MSM8982_8994 extends Alcatel_Idol3 {
-    public Moto_MSM8982_8994(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public Moto_MSM8982_8994(Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 

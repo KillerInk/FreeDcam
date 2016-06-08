@@ -20,7 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.device.mtk;
 
 import android.hardware.Camera;
-import android.os.Handler;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
@@ -33,7 +33,7 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 01.06.2016.
  */
 public class Jiayu_S3 extends BaseMTKDevice {
-    public Jiayu_S3(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public Jiayu_S3(Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 

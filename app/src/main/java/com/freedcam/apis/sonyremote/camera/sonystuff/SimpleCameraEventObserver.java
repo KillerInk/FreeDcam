@@ -102,12 +102,9 @@ public class SimpleCameraEventObserver {
         void onFlashChanged(String flash);
         void onFocusLocked(boolean locked);
         void onWhiteBalanceValueChanged(String wb);
-        void onWbColorTemperatureChanged(int colortemp);
-        void onPostViewImageRevieved(String url);
-        void onImageRecieved(String url);
+
         void onImagesRecieved(String[] url);
-        void onProgramShiftValueChanged(int shift);
-        void onProgramShiftValuesChanged(String[] shift);
+
         void onExposureModeChanged(String expomode);
         void onExposureModesChanged(String[] expomode);
         void onImageFormatChanged(String imagesize);
@@ -254,15 +251,15 @@ public class SimpleCameraEventObserver {
      * @return true if it successfully started, false if a monitoring is already
      *         started.
      */
-    public boolean start() {
+    public void start() {
         if (!mIsActive) {
             sendLog("start() observer is not active.");
-            return false;
+            return;
         }
 
         if (mWhileEventMonitoring) {
             sendLog("start() already starting.");
-            return false;
+            return;
         }
 
         mWhileEventMonitoring = true;
@@ -336,7 +333,6 @@ public class SimpleCameraEventObserver {
                 mWhileEventMonitoring = false;
             }
         });
-        return true;
     }
 
     public void processEvents(JSONObject replyJson) throws JSONException
@@ -999,8 +995,8 @@ public class SimpleCameraEventObserver {
      * @param zoomPosition
      * @param zoomPositionCurrentBox
      */
-    private void fireZoomInformationChangeListener(final int zoomNumberBox,
-                                                   final int zoomPosition, final int zoomPositionCurrentBox) {
+    private void fireZoomInformationChangeListener(int zoomNumberBox,
+                                                   final int zoomPosition, int zoomPositionCurrentBox) {
         mUiHandler.post(new Runnable() {
             @Override
             public void run() {

@@ -20,7 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
-import android.os.Handler;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
@@ -43,13 +43,13 @@ public class ShutterManualMeizu extends BaseManualParameter
      * @param parameters
      * @param parametersHandler
      */
-    public ShutterManualMeizu(Camera.Parameters parameters, I_CameraHolder baseCameraHolder, ParametersHandler parametersHandler) {
+    public ShutterManualMeizu(Parameters parameters, I_CameraHolder baseCameraHolder, ParametersHandler parametersHandler) {
         super(parameters, "", "", "", parametersHandler,1);
         this.baseCameraHolder = baseCameraHolder;
 
             stringvalues = MX4Shutter.split(",");
 
-        this.isSupported = true;
+        isSupported = true;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class ShutterManualMeizu extends BaseManualParameter
         currentInt = valueToSet;
         String shutterstring = stringvalues[currentInt];
         if (shutterstring.contains("/")) {
-            String split[] = shutterstring.split("/");
+            String[] split = shutterstring.split("/");
             Double a = Double.parseDouble(split[0]) / Double.parseDouble(split[1]);
             shutterstring = "" + a*1000000;
         }
@@ -91,7 +91,7 @@ public class ShutterManualMeizu extends BaseManualParameter
 
 
 
-    private String setExposureTimeToParameter(final String shutterstring)
+    private String setExposureTimeToParameter(String shutterstring)
     {
         parameters.set("shutter-value", shutterstring);
         parametersHandler.SetParametersToCamera(parameters);

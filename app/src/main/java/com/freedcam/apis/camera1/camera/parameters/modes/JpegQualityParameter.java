@@ -21,6 +21,7 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 //defcomg was here
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.camera1.camera.CameraHolder;
 
@@ -28,7 +29,7 @@ import com.freedcam.apis.camera1.camera.CameraHolder;
  * Created by troop on 24.08.2014.
  */
 public class JpegQualityParameter extends BaseModeParameter {
-    public JpegQualityParameter(Camera.Parameters parameters, CameraHolder parameterChanged, String values) {
+    public JpegQualityParameter(Parameters parameters, CameraHolder parameterChanged, String values) {
         super(parameters, parameterChanged, "jpeg-quality", "");
     }
 

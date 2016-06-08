@@ -20,8 +20,9 @@
 package com.freedcam.apis.camera1.camera.parameters.device.qcom;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 import android.os.Build;
-import android.os.Handler;
+import android.os.Build.VERSION;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
@@ -40,14 +41,14 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 01.06.2016.
  */
 public class Xiaomi_Mi3W extends BaseQcomDevice {
-    public Xiaomi_Mi3W(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public Xiaomi_Mi3W(Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 
     @Override
     public AbstractManualParameter getCCTParameter() {
         if(!DeviceUtils.isCyanogenMod()) {
-            if (Build.VERSION.SDK_INT < 23) {
+            if (VERSION.SDK_INT < 23) {
                 return new BaseCCTManual(parameters, KEYS.WB_MANUAL_CCT, 7500, 2000, parametersHandler, 100, KEYS.WB_MODE_MANUAL);
             } else
                 return new BaseCCTManual(parameters, KEYS.WB_MANUAL_CCT, 8000, 2000, parametersHandler, 100, KEYS.WB_MODE_MANUAL_CCT);

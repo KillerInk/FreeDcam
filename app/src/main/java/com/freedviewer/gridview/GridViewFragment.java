@@ -20,39 +20,52 @@
 package com.freedviewer.gridview;
 
 import android.Manifest;
+import android.Manifest.permission;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.support.v4.provider.DocumentFile;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
 import com.freedcam.ui.I_Activity;
+import com.freedcam.ui.I_Activity.I_OnActivityResultCallback;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
+import com.freedcam.utils.StringUtils.FileEnding;
 import com.freedviewer.dngconvert.DngConvertingActivity;
 import com.freedviewer.dngconvert.DngConvertingFragment;
 import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.holder.FileHolder;
 import com.freedviewer.screenslide.ScreenSlideActivity;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.dimen;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
+import com.troop.freedcam.R.menu;
+import com.troop.freedcam.R.string;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -60,7 +73,7 @@ import java.util.ArrayList;
 /**
  * Created by troop on 11.12.2015.
  */
-public class GridViewFragment extends BaseGridViewFragment implements I_Activity.I_OnActivityResultCallback
+public class GridViewFragment extends BaseGridViewFragment implements I_OnActivityResultCallback
 {
     private ImageAdapter mPagerAdapter;
 
@@ -83,7 +96,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
 
     public void SetBitmapHelperAndAppSettings(BitmapHelper helper, AppSettingsManager appSettingsManager)
     {
-        this.bitmapHelper =helper;
+        bitmapHelper =helper;
         this.appSettingsManager = appSettingsManager;
     }
 
@@ -109,28 +122,28 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container, savedInstanceState);
-        deleteButton = (Button)view.findViewById(R.id.button_deltePics);
+        deleteButton = (Button)view.findViewById(id.button_deltePics);
         deleteButton.setVisibility(View.GONE);
         deleteButton.setOnClickListener(onDeltedButtonClick);
 
-        ImageButton gobackButton = (ImageButton) view.findViewById(R.id.button_goback);
+        ImageButton gobackButton = (ImageButton) view.findViewById(id.button_goback);
         gobackButton.setOnClickListener(onGobBackClick);
 
-        filetypeButton = (Button)view.findViewById(R.id.button_filetype);
-        filetypeButton.setOnClickListener(new View.OnClickListener() {
+        filetypeButton = (Button)view.findViewById(id.button_filetype);
+        filetypeButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 showFileSelectionPopup(v);
             }
         });
 
-        filesSelected = (TextView)view.findViewById(R.id.textView_filesSelected);
+        filesSelected = (TextView)view.findViewById(id.textView_filesSelected);
 
-        rawToDngButton = (Button)view.findViewById(R.id.button_rawToDng);
+        rawToDngButton = (Button)view.findViewById(id.button_rawToDng);
         rawToDngButton.setVisibility(View.GONE);
         rawToDngButton.setOnClickListener(onRawToDngClick);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        if (VERSION.SDK_INT >= VERSION_CODES.M)
         {
             checkMarshmallowPermissions();
         }
@@ -142,7 +155,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
 
     @Override
     protected void inflate(LayoutInflater inflater, ViewGroup container) {
-        view = inflater.inflate(R.layout.gridviewfragment, container, false);
+        view = inflater.inflate(layout.gridviewfragment, container, false);
     }
 
     @Override
@@ -157,7 +170,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
     {
         if (mPagerAdapter == null)
         {
-            mPagerAdapter = new ImageAdapter(getContext(), getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size), bitmapHelper);
+            mPagerAdapter = new ImageAdapter(getContext(), getResources().getDimensionPixelSize(dimen.image_thumbnail_size), bitmapHelper);
             gridView.setAdapter(mPagerAdapter);
             setViewMode(ViewStates.normal);
         }
@@ -168,12 +181,12 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
 
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
+    @TargetApi(VERSION_CODES.M)
     private void checkMarshmallowPermissions() {
-        if (getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (getActivity().checkSelfPermission(permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{
-                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            permission.READ_EXTERNAL_STORAGE,
 
                     },
                     1);
@@ -203,7 +216,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
             case normal:
                 if (!mPagerAdapter.GetFileHolder(position).IsFolder())
                 {
-                    final Intent i = new Intent(getActivity(), ScreenSlideActivity.class);
+                    Intent i = new Intent(getActivity(), ScreenSlideActivity.class);
                     i.putExtra(ScreenSlideActivity.EXTRA_IMAGE, position);
                     if (mPagerAdapter.getFiles() != null &&mPagerAdapter.getFiles().size() >0)
                     {
@@ -225,7 +238,6 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                 }
                 break;
             case selection:
-            {
                 if (mPagerAdapter.GetFileHolder(position).IsSelected()) {
                     mPagerAdapter.GetFileHolder(position).SetSelected(false);
                     filesSelectedCount--;
@@ -236,47 +248,46 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                 updateFilesSelected();
                 ((GridImageView)view).SetViewState(currentViewState);
                 break;
-            }
         }
     }
 
     private void showFileSelectionPopup(View v) {
-        PopupMenu popup = new PopupMenu(this.getContext(), v);
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        PopupMenu popup = new PopupMenu(getContext(), v);
+        popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int i = item.getItemId();
-                if (i == R.id.all)
+                if (i == id.all)
                 {
-                    filetypeButton.setText(R.string.ALL);
+                    filetypeButton.setText(string.ALL);
                     formatsToShow = FormatTypes.all;
                 }
-                else if (i == R.id.raw)
+                else if (i == id.raw)
                 {
                     filetypeButton.setText("RAW");
                     formatsToShow = FormatTypes.raw;
                 }
-                else if (i == R.id.bayer)
+                else if (i == id.bayer)
                 {
                     filetypeButton.setText("BAYER");
                     formatsToShow = FormatTypes.raw;
                 }
-                else if (i == R.id.dng)
+                else if (i == id.dng)
                 {
                     filetypeButton.setText("DNG");
                     formatsToShow = FormatTypes.dng;
                 }
-                else if (i == R.id.jps)
+                else if (i == id.jps)
                 {
                     filetypeButton.setText("JPS");
                     formatsToShow = FormatTypes.jps;
                 }
-                else if (i == R.id.jpg)
+                else if (i == id.jpg)
                 {
                     filetypeButton.setText("JPG");
                     formatsToShow = FormatTypes.jpg;
                 }
-                else if (i == R.id.mp4)
+                else if (i == id.mp4)
                 {
                     filetypeButton.setText("MP4");
                     formatsToShow = FormatTypes.mp4;
@@ -290,13 +301,13 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
             }
         });
         MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.filetypepopupmenu, popup.getMenu());
+        inflater.inflate(menu.filetypepopupmenu, popup.getMenu());
         popup.show();
     }
 
     private void setViewMode(ViewStates viewState)
     {
-        this.currentViewState = viewState;
+        currentViewState = viewState;
         mPagerAdapter.SetViewState(currentViewState);
         mPagerAdapter.notifyDataSetChanged();
         if (isRootDir)
@@ -309,7 +320,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         else {
             switch (viewState)
             {
-                case normal: {
+                case normal:
                     if ((formatsToShow == FormatTypes.raw && lastFormat != FormatTypes.raw)) {
                         formatsToShow = lastFormat;
                         mPagerAdapter.SetFormatToShow(formatsToShow);
@@ -321,8 +332,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                     filetypeButton.setVisibility(View.VISIBLE);
                     filesSelected.setVisibility(View.GONE);
                     break;
-                }
-                case selection: {
+                case selection:
                     filesSelectedCount = 0;
                     filesSelected.setVisibility(View.VISIBLE);
                     updateFilesSelected();
@@ -353,14 +363,13 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                             break;
                     }
                     break;
-                }
             }
         }
     }
 
     private void updateFilesSelected()
     {
-        filesSelected.setText(getString(R.string.files_selected) + filesSelectedCount);
+        filesSelected.setText(getString(string.files_selected) + filesSelectedCount);
     }
 
     private void deleteFiles()
@@ -370,7 +379,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
             @Override
             public void run()
             {
-                final int fileselected = filesSelectedCount;
+                int fileselected = filesSelectedCount;
 
                 int filesdeletedCount = 0;
                 for (int i = 0; i < mPagerAdapter.getFiles().size(); i++)
@@ -389,7 +398,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                     }
                 }
 
-                GridViewFragment.this.getActivity().runOnUiThread(new Runnable() {
+                getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
 
@@ -402,7 +411,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         });
     }
 
-    private View.OnClickListener onGobBackClick = new View.OnClickListener() {
+    private OnClickListener onGobBackClick = new OnClickListener() {
         @Override
         public void onClick(View view)
         {
@@ -457,7 +466,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
 
     }
 
-    private View.OnClickListener onRawToDngClick = new View.OnClickListener() {
+    private OnClickListener onRawToDngClick = new OnClickListener() {
         @Override
         public void onClick(View v)
         {
@@ -471,7 +480,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                 ArrayList<String> ar = new ArrayList<>();
                 for (FileHolder f : mPagerAdapter.getFiles()) {
                     if (f.IsSelected() &&
-                            (f.getFile().getName().toLowerCase().endsWith(StringUtils.FileEnding.RAW) ||f.getFile().getName().toLowerCase().endsWith(StringUtils.FileEnding.BAYER))) {
+                            (f.getFile().getName().toLowerCase().endsWith(FileEnding.RAW) ||f.getFile().getName().toLowerCase().endsWith(FileEnding.BAYER))) {
                         ar.add(f.getFile().getAbsolutePath());
                     }
 
@@ -480,7 +489,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                     f.SetSelected(false);
                 }
                 setViewMode(ViewStates.normal);
-                final Intent i = new Intent(getActivity(), DngConvertingActivity.class);
+                Intent i = new Intent(getActivity(), DngConvertingActivity.class);
                 String[] t = new String[ar.size()];
                 ar.toArray(t);
                 i.putExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT, t);
@@ -513,7 +522,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
         }
     };
 
-    private View.OnClickListener onDeltedButtonClick = new View.OnClickListener() {
+    private OnClickListener onDeltedButtonClick = new OnClickListener() {
         @Override
         public void onClick(View v)
         {
@@ -536,11 +545,11 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                 if (!hasfilesSelected)
                     return;
                 //else show dialog
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || !mPagerAdapter.getFiles().get(0).isExternalSD())
+                if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || !mPagerAdapter.getFiles().get(0).isExternalSD())
                 {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setMessage(R.string.delete_files).setPositiveButton(R.string.yes, dialogDeleteClickListener)
-                            .setNegativeButton(R.string.no, dialogDeleteClickListener).show();
+                    Builder builder = new Builder(getContext());
+                    builder.setMessage(string.delete_files).setPositiveButton(string.yes, dialogDeleteClickListener)
+                            .setNegativeButton(string.no, dialogDeleteClickListener).show();
                     setViewMode(ViewStates.normal);
                 }
                 else
@@ -552,9 +561,9 @@ public class GridViewFragment extends BaseGridViewFragment implements I_Activity
                     }
                     else
                     {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setMessage(R.string.delete_files).setPositiveButton(R.string.yes, dialogDeleteClickListener)
-                                .setNegativeButton(R.string.no, dialogDeleteClickListener).show();
+                        Builder builder = new Builder(getContext());
+                        builder.setMessage(string.delete_files).setPositiveButton(string.yes, dialogDeleteClickListener)
+                                .setNegativeButton(string.no, dialogDeleteClickListener).show();
                     }
                 }
 

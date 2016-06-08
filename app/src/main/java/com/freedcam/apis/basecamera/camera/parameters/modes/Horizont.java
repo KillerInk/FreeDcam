@@ -28,7 +28,6 @@ public class Horizont extends AbstractModeParameter {
     private String value;
 
     public Horizont() {
-        super();
     }
 
 
@@ -39,7 +38,7 @@ public class Horizont extends AbstractModeParameter {
     }
 
     @Override
-    public void SetValue(final String valueToSet, boolean setToCam)
+    public void SetValue(String valueToSet, boolean setToCam)
     {
         value = valueToSet;
         BackgroundValueHasChanged(valueToSet);

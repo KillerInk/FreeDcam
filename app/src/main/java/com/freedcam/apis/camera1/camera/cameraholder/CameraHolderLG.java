@@ -19,12 +19,11 @@
 
 package com.freedcam.apis.camera1.camera.cameraholder;
 
-import android.os.Handler;
-
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.DeviceUtils.Devices;
 import com.lge.hardware.LGCamera;
 
 /**
@@ -42,7 +41,7 @@ public class CameraHolderLG extends CameraHolder
     {
 
         try {
-            if (appSettingsManager.getDevice() == DeviceUtils.Devices.LG_G4)
+            if (appSettingsManager.getDevice() == Devices.LG_G4)
                 lgCamera = new LGCamera(camera, 256);
             else
                 lgCamera = new LGCamera(camera);

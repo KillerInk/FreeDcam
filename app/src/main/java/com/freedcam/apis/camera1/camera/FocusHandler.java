@@ -20,22 +20,27 @@
 package com.freedcam.apis.camera1.camera;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Area;
 import android.view.MotionEvent;
 
 import com.freedcam.apis.basecamera.camera.AbstractFocusHandler;
 import com.freedcam.apis.basecamera.camera.FocusRect;
 import com.freedcam.apis.basecamera.camera.modules.CameraFocusEvent;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
+import com.freedcam.apis.basecamera.camera.modules.I_Callbacks.AutoFocusCallback;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
+import com.freedcam.apis.camera1.camera.CameraHolder.Frameworks;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.DeviceUtils.Devices;
 
 import java.util.List;
 
 /**
  * Created by troop on 02.09.2014.
  */
-public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.AutoFocusCallback
+public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallback
 {
     final String TAG = FocusHandler.class.getSimpleName();
     private final CameraHolder cameraHolder;
@@ -43,16 +48,16 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
     private final AbstractParameterHandler parametersHandler;
 
     int count;
-    List<Camera.Area> areas;
+    List<Area> areas;
     private boolean isFocusing = false;
 
     private boolean aeMeteringSupported =false;
 
-    public AbstractModeParameter.I_ModeParameterEvent focusModeListner = new AbstractModeParameter.I_ModeParameterEvent() {
+    public I_ModeParameterEvent focusModeListner = new I_ModeParameterEvent() {
         @Override
         public void onValueChanged(String val)
         {
-            if (cameraHolder.DeviceFrameWork != CameraHolder.Frameworks.MTK) {
+            if (cameraHolder.DeviceFrameWork != Frameworks.MTK) {
                 if (val.equals("auto") || val.equals("macro") || val.equals("touch")) {
                     if (focusEvent != null)
                         focusEvent.TouchToFocusSupported(true);
@@ -90,11 +95,11 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
 
         }
     };
-    public AbstractModeParameter.I_ModeParameterEvent aeModeListner = new AbstractModeParameter.I_ModeParameterEvent() {
+    public I_ModeParameterEvent aeModeListner = new I_ModeParameterEvent() {
         @Override
         public void onValueChanged(String val)
         {
-            if(cameraHolder.DeviceFrameWork != CameraHolder.Frameworks.MTK)
+            if(cameraHolder.DeviceFrameWork != Frameworks.MTK)
             {
                 if (val.contains("spot")) {
                     if (focusEvent != null) {
@@ -142,8 +147,8 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
     public FocusHandler(CameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        this.cameraHolder = cameraUiWrapper.cameraHolder;
-        this.parametersHandler = cameraUiWrapper.parametersHandler;
+        cameraHolder = cameraUiWrapper.cameraHolder;
+        parametersHandler = cameraUiWrapper.parametersHandler;
     }
 
     @Override
@@ -207,7 +212,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
             {
                 
             }*/
-            final FocusRect targetFocusRect = getFocusRect(rect, width, height);
+            FocusRect targetFocusRect = getFocusRect(rect, width, height);
 
 
             if (targetFocusRect.left >= -1000
@@ -230,13 +235,13 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
     @Override
     public void SetMeteringAreas(FocusRect meteringRect, int width, int height)
     {
-        if (cameraUiWrapper.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV)
+        if (cameraUiWrapper.appSettingsManager.getDevice() == Devices.ZTE_ADV)
         {
-            final FocusRect targetFocusRect = getFocusRect(meteringRect, width, height);
+            FocusRect targetFocusRect = getFocusRect(meteringRect, width, height);
             parametersHandler.SetMeterAREA(targetFocusRect);
         }
         else {
-            final FocusRect targetFocusRect = getFocusRect(meteringRect, width, height);
+            FocusRect targetFocusRect = getFocusRect(meteringRect, width, height);
             cameraHolder.SetMeteringAreas(targetFocusRect);
         }
 
@@ -252,7 +257,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
         logFocusRect(rect);
         if (width == 0 || height == 0)
             return null;
-        final FocusRect targetFocusRect = new FocusRect(
+        FocusRect targetFocusRect = new FocusRect(
                 rect.left * 2000 / width - 1000,
                 rect.right * 2000 / width - 1000,
                 rect.top * 2000 / height - 1000,

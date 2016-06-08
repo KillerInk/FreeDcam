@@ -49,8 +49,8 @@ public class WifiUtils
 
     public String[] getNetworkSSIDs()
     {
-        final List<ScanResult> results = wifiManager.getScanResults();
-        final String[] ret = new String[results.size()];
+        List<ScanResult> results = wifiManager.getScanResults();
+        String[] ret = new String[results.size()];
         int i = 0;
         for (ScanResult s : results)
         {
@@ -61,8 +61,8 @@ public class WifiUtils
 
     public String[] getConfiguredNetworkSSIDs()
     {
-        final List<WifiConfiguration> configs = wifiManager.getConfiguredNetworks();
-        final String[] ret = new String[configs.size()];
+        List<WifiConfiguration> configs = wifiManager.getConfiguredNetworks();
+        String[] ret = new String[configs.size()];
         int i = 0;
         for (WifiConfiguration config : configs) {
             ret[i++] = config.SSID;
@@ -73,7 +73,7 @@ public class WifiUtils
 
     public String getConnectedNetworkSSID()
     {
-        final WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
         return wifiInfo.getSSID();
     }
 

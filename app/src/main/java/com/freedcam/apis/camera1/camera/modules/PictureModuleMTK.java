@@ -31,6 +31,7 @@ import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
+import com.freedcam.utils.StringUtils.FileEnding;
 
 import java.io.File;
 import java.io.FileReader;
@@ -52,12 +53,12 @@ public class PictureModuleMTK extends PictureModule
     @Override
     public boolean DoWork()
     {
-        if (!this.isWorking)
+        if (!isWorking)
         {
 
             Logger.d(TAG, "Start Take Picture");
             waitForPicture = true;
-            if (ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.BAYER) || ParameterHandler.PictureFormat.GetValue().equals(StringUtils.FileEnding.DNG)) {
+            if (ParameterHandler.PictureFormat.GetValue().equals(FileEnding.BAYER) || ParameterHandler.PictureFormat.GetValue().equals(FileEnding.DNG)) {
                 String timestamp = String.valueOf(System.currentTimeMillis());
                 ParameterHandler.Set_RAWFNAME(StringUtils.GetInternalSDCARD()+"/DCIM/FreeDCam/" + "mtk" + timestamp + ".bayer");
             }
@@ -79,7 +80,7 @@ public class PictureModuleMTK extends PictureModule
             @Override
             public void run()
             {
-                final String picformat = ParameterHandler.PictureFormat.GetValue();
+                String picformat = ParameterHandler.PictureFormat.GetValue();
                 // must always be jpg ending. dng gets created based on that
                 holdFile = getFile(".jpg");
                 Logger.d(TAG, "HolderFilePath:" + holdFile.getAbsolutePath());
@@ -93,12 +94,12 @@ public class PictureModuleMTK extends PictureModule
                             Logger.exception(ex);
                         }
                         break;
-                    case StringUtils.FileEnding.DNG:
+                    case FileEnding.DNG:
                         //savejpeg
                         saveBytesToFile(data, holdFile);
                         CreateDNG_DeleteRaw();
                         break;
-                    case StringUtils.FileEnding.BAYER:
+                    case FileEnding.BAYER:
                         //savejpeg
                         saveBytesToFile(data, holdFile);
                         break;
@@ -136,7 +137,7 @@ public class PictureModuleMTK extends PictureModule
         } catch (InterruptedException | IOException e) {
             Logger.exception(e);
         }
-        File dng = new File(holdFile.getAbsolutePath().replace(StringUtils.FileEnding.JPG, StringUtils.FileEnding.DNG));
+        File dng = new File(holdFile.getAbsolutePath().replace(FileEnding.JPG, FileEnding.DNG));
         saveDng(data,dng);
         MediaScannerManager.ScanMedia(context,dng);
         data = null;

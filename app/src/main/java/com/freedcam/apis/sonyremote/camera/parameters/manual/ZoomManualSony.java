@@ -141,7 +141,7 @@ public class ZoomManualSony extends BaseManualParameterSony
         }
         else
             zoomToSet = currentInt;
-        super.ThrowCurrentValueChanged(zoom);
+        ThrowCurrentValueChanged(zoom);
     }
 
 

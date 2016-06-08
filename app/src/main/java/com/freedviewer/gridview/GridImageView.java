@@ -26,14 +26,19 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.AbsoluteLayout;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.freedcam.utils.Logger;
+import com.freedviewer.gridview.BaseGridViewFragment.ViewStates;
 import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.holder.BaseHolder;
 import com.freedviewer.holder.FileHolder;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.drawable;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
 
 import java.lang.ref.WeakReference;
 import java.util.concurrent.ExecutorService;
@@ -59,7 +64,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
     private ExecutorService executor;
     private BitmapHelper bitmapHelper;
 
-    private GridViewFragment.ViewStates viewstate = BaseGridViewFragment.ViewStates.normal;
+    private GridViewFragment.ViewStates viewstate = ViewStates.normal;
 
 
     public GridImageView(Context context) {
@@ -86,14 +91,14 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
     private void init(Context context)
     {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.gridimageview, this);
-        imageView = (ImageView) findViewById(R.id.gridimageviewholder);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        textView = (TextView)findViewById(R.id.filetypetextbox);
-        folderTextView = (TextView)findViewById(R.id.foldertextbox);
-        checkBox = (ImageView)findViewById(R.id.checkBox_gridviewimage);
-        sdcard = (ImageView)findViewById(R.id.imageView_sd);
-        progressBar = (ProgressBar)findViewById(R.id.progressBar_gridimageview);
+        inflater.inflate(layout.gridimageview, this);
+        imageView = (ImageView) findViewById(id.gridimageviewholder);
+        imageView.setScaleType(ScaleType.CENTER_CROP);
+        textView = (TextView)findViewById(id.filetypetextbox);
+        folderTextView = (TextView)findViewById(id.foldertextbox);
+        checkBox = (ImageView)findViewById(id.checkBox_gridviewimage);
+        sdcard = (ImageView)findViewById(id.imageView_sd);
+        progressBar = (ProgressBar)findViewById(id.progressBar_gridimageview);
         /*checkBox.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,7 +151,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
                 checkBox.setVisibility(GONE);
                 setChecked(false);
                 break;
-            case selection: {
+            case selection:
                 checkBox.setVisibility(VISIBLE);
                 if (fileHolder.IsSelected())
                 {
@@ -154,7 +159,6 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
                 }
                 else
                     setChecked(false);
-            }
         }
         invalidate();
     }
@@ -173,9 +177,9 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
 
     private void setChecked(boolean checked) {
         if (checked)
-            checkBox.setImageDrawable(getResources().getDrawable(R.drawable.cust_cb_sel));
+            checkBox.setImageDrawable(getResources().getDrawable(drawable.cust_cb_sel));
         else
-            checkBox.setImageDrawable(getResources().getDrawable(R.drawable.cust_cb_unsel));
+            checkBox.setImageDrawable(getResources().getDrawable(drawable.cust_cb_unsel));
     }
 
     public void loadFile(FileHolder fileHolder, int mImageThumbSize)
@@ -186,13 +190,13 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         imageView.setImageBitmap(null);
         if (!fileHolder.getFile().isDirectory())
         {
-            imageView.setImageResource(R.drawable.noimage);
+            imageView.setImageResource(drawable.noimage);
             progressBar.setVisibility(VISIBLE);
             executor.execute(new BitmapLoadRunnable(this,fileHolder));
         }
         else {
             progressBar.setVisibility(GONE);
-            imageView.setImageResource(R.drawable.folder);
+            imageView.setImageResource(drawable.folder);
         }
         String f = fileHolder.getFile().getName();
         if (!fileHolder.getFile().isDirectory()) {
@@ -213,21 +217,21 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
 
     class BitmapLoadRunnable implements Runnable
     {
-        final private String TAG = BitmapLoadRunnable.class.getSimpleName();
+        private final String TAG = BitmapLoadRunnable.class.getSimpleName();
         WeakReference<GridImageView>imageviewRef;
         FileHolder fileHolder;
 
         public BitmapLoadRunnable(GridImageView imageView, FileHolder fileHolder)
         {
-            this.imageviewRef = new WeakReference<>(imageView);
+            imageviewRef = new WeakReference<>(imageView);
             this.fileHolder = fileHolder;
         }
 
         @Override
         public void run()
         {
-            Logger.d(TAG, "load file:" + this.fileHolder.getFile().getName());
-            final Bitmap bitmap = GridImageView.this.bitmapHelper.getBitmap(this.fileHolder.getFile(), true, mImageThumbSize, mImageThumbSize);
+            Logger.d(TAG, "load file:" + fileHolder.getFile().getName());
+            final Bitmap bitmap = bitmapHelper.getBitmap(fileHolder.getFile(), true, mImageThumbSize, mImageThumbSize);
             if (imageviewRef != null && bitmap != null) {
                 final GridImageView imageView = imageviewRef.get();
                 if (imageView != null && imageView.getFileHolder() == fileHolder)

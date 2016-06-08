@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualShutter;
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
@@ -32,14 +33,14 @@ public class ShutterManualSony extends AbstractManualShutter
 {
     final String TAG = ShutterManualSony.class.getSimpleName();
     private ParametersHandler parametersHandler;
-    private Camera.Parameters parameters;
+    private Parameters parameters;
     /**
      * @param parameters
      * @param maxValue
      * @param MinValue
      * @param parametersHandler
      */
-    public ShutterManualSony(Camera.Parameters parameters, String maxValue, String MinValue, ParametersHandler parametersHandler) {
+    public ShutterManualSony(Parameters parameters, String maxValue, String MinValue, ParametersHandler parametersHandler) {
         super(parametersHandler);
         this.parametersHandler = parametersHandler;
         this.parameters = parameters;
@@ -50,7 +51,7 @@ public class ShutterManualSony extends AbstractManualShutter
                     int min = Integer.parseInt(parameters.get("sony-min-shutter-speed"));
                     int max = Integer.parseInt(parameters.get("sony-max-shutter-speed"));
                     stringvalues = getSupportedShutterValues(min, max,true);
-                    this.isSupported = true;
+                    isSupported = true;
                 } catch (NumberFormatException ex) {
                     Logger.exception(ex);
                     isSupported = false;

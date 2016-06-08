@@ -31,7 +31,7 @@ public class DataExtractor
 {
     public static int commonHeaderlength = 1 + 1 + 2 + 4;
     public static int payloadHeaderlength = 128;
-    private static String TAG = DataExtractor.class.getSimpleName();
+    private String TAG = DataExtractor.class.getSimpleName();
 
     public byte[] jpegData;
     public byte[] paddingData;

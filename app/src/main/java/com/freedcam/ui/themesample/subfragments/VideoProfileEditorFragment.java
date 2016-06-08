@@ -20,6 +20,7 @@
 package com.freedcam.ui.themesample.subfragments;
 
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,17 +28,22 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile;
+import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile.VideoMode;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
 
 import java.io.File;
 import java.io.IOException;
@@ -68,27 +74,27 @@ public class VideoProfileEditorFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        return inflater.inflate(R.layout.video_profile_editor_fragment,container,false);
+        return inflater.inflate(layout.video_profile_editor_fragment,container,false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.button_profile = (Button)view.findViewById(R.id.button_Profile);
+        button_profile = (Button)view.findViewById(id.button_Profile);
         button_profile.setOnClickListener(profileClickListner);
-        this.editText_profilename= (EditText)view.findViewById(R.id.editText_ProfileName);
-        this.editText_audiobitrate = (EditText)view.findViewById(R.id.editText_audioBitrate);
-        this.editText_audiosamplerate = (EditText)view.findViewById(R.id.editText_audioSampleRate);
-        this.editText_videobitrate = (EditText)view.findViewById(R.id.editText_videoBitrate);
-        this.editText_videoframerate = (EditText)view.findViewById(R.id.editText_videoframerate);
-        this.editText_maxrecordtime = (EditText)view.findViewById(R.id.editText_recordtime);
-        this.button_save = (Button)view.findViewById(R.id.button_Save_profile);
-        this.switch_Audio = (Switch)view.findViewById(R.id.switchAudio);
-        this.button_recordMode = (Button)view.findViewById(R.id.button_recordMode);
+        editText_profilename = (EditText)view.findViewById(id.editText_ProfileName);
+        editText_audiobitrate = (EditText)view.findViewById(id.editText_audioBitrate);
+        editText_audiosamplerate = (EditText)view.findViewById(id.editText_audioSampleRate);
+        editText_videobitrate = (EditText)view.findViewById(id.editText_videoBitrate);
+        editText_videoframerate = (EditText)view.findViewById(id.editText_videoframerate);
+        editText_maxrecordtime = (EditText)view.findViewById(id.editText_recordtime);
+        button_save = (Button)view.findViewById(id.button_Save_profile);
+        switch_Audio = (Switch)view.findViewById(id.switchAudio);
+        button_recordMode = (Button)view.findViewById(id.button_recordMode);
         button_recordMode.setOnClickListener(recordModeClickListner);
 
         button_save.setOnClickListener(onSavebuttonClick);
-        this.button_delete = (Button)view.findViewById(R.id.button_delete_profile);
+        button_delete = (Button)view.findViewById(id.button_delete_profile);
         button_delete.setOnClickListener(ondeleteButtonClick);
         videoMediaProfiles = new HashMap<>();
 
@@ -109,13 +115,7 @@ public class VideoProfileEditorFragment extends Fragment
         }
     }
 
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-    }
-
-    private View.OnClickListener profileClickListner = new View.OnClickListener() {
+    private OnClickListener profileClickListner = new OnClickListener() {
         @Override
         public void onClick(View v)
         {
@@ -127,7 +127,7 @@ public class VideoProfileEditorFragment extends Fragment
         }
     };
 
-    private PopupMenu.OnMenuItemClickListener profileMenuitemListner = new PopupMenu.OnMenuItemClickListener() {
+    private OnMenuItemClickListener profileMenuitemListner = new OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item)
         {
@@ -138,20 +138,20 @@ public class VideoProfileEditorFragment extends Fragment
     };
 
 
-    private View.OnClickListener recordModeClickListner = new View.OnClickListener() {
+    private OnClickListener recordModeClickListner = new OnClickListener() {
         @Override
         public void onClick(View v)
         {
             PopupMenu menu = new PopupMenu(getContext(), v);
             menu.setOnMenuItemClickListener(recordModeMenuitemListner);
-            menu.getMenu().add(VideoMediaProfile.VideoMode.Normal.toString());
-            menu.getMenu().add(VideoMediaProfile.VideoMode.Highspeed.toString());
-            menu.getMenu().add(VideoMediaProfile.VideoMode.Timelapse.toString());
+            menu.getMenu().add(VideoMode.Normal.toString());
+            menu.getMenu().add(VideoMode.Highspeed.toString());
+            menu.getMenu().add(VideoMode.Timelapse.toString());
             menu.show();
         }
     };
 
-    private PopupMenu.OnMenuItemClickListener recordModeMenuitemListner = new PopupMenu.OnMenuItemClickListener() {
+    private OnMenuItemClickListener recordModeMenuitemListner = new OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item)
         {
@@ -160,10 +160,10 @@ public class VideoProfileEditorFragment extends Fragment
         }
     };
 
-    private View.OnClickListener ondeleteButtonClick = new View.OnClickListener() {
+    private OnClickListener ondeleteButtonClick = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            Builder builder = new Builder(getContext());
             builder.setMessage("Delete Current Profile?").setPositiveButton("Yes", dialogClickListener)
                     .setNegativeButton("No", dialogClickListener).show();
         }
@@ -221,7 +221,7 @@ public class VideoProfileEditorFragment extends Fragment
         button_recordMode.setText(profile.Mode.toString());
     }
 
-    private View.OnClickListener onSavebuttonClick = new View.OnClickListener() {
+    private OnClickListener onSavebuttonClick = new OnClickListener() {
         @Override
         public void onClick(View v)
         {
@@ -236,7 +236,7 @@ public class VideoProfileEditorFragment extends Fragment
             currentProfile.videoFrameRate = Integer.parseInt(editText_videoframerate.getText().toString());
             currentProfile.duration = Integer.parseInt(editText_maxrecordtime.getText().toString());
             currentProfile.isAudioActive = switch_Audio.isChecked();
-            currentProfile.Mode = VideoMediaProfile.VideoMode.valueOf((String)button_recordMode.getText());
+            currentProfile.Mode = VideoMode.valueOf((String)button_recordMode.getText());
             //if currentprofile has no new name the the profile in videomediaprofiles gets updated
             if (videoMediaProfiles.containsKey(editText_profilename.getText().toString()))
             {

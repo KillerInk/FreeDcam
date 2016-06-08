@@ -28,6 +28,7 @@ import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.camera.interfaces.I_Module;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.id;
 
 
 /**
@@ -42,8 +43,8 @@ public class UserMessageHandler implements I_CameraChangedListner
 
     public UserMessageHandler(View view)
     {
-        this.messageHolder = (LinearLayout)view.findViewById(R.id.userMessageHolder);
-        this.messageTextView = (TextView)view.findViewById(R.id.textView_usermessage);
+        messageHolder = (LinearLayout)view.findViewById(id.userMessageHolder);
+        messageTextView = (TextView)view.findViewById(id.textView_usermessage);
 
         handler = new Handler();
 
@@ -51,7 +52,7 @@ public class UserMessageHandler implements I_CameraChangedListner
 
     public void SetCameraUiWrapper(AbstractCameraUiWrapper wrapper)
     {
-        this.cameraUiWrapper =wrapper;
+        cameraUiWrapper =wrapper;
         cameraUiWrapper.SetCameraChangedListner(this);
     }
 

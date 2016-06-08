@@ -20,7 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters;
 
 import android.hardware.Camera;
-import android.os.Handler;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.CameraHolder.Frameworks;
@@ -76,7 +76,6 @@ import com.freedcam.apis.camera1.camera.parameters.device.qcom.Yu_Yureka;
 import com.freedcam.apis.camera1.camera.parameters.device.qcom.ZTE_ADV;
 import com.freedcam.apis.camera1.camera.parameters.device.qcom.ZTE_ADV_IMX214;
 import com.freedcam.apis.camera1.camera.parameters.device.qcom.ZTE_ADV_IMX234;
-import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 
 /**
@@ -90,7 +89,7 @@ public class DeviceSelector {
     }
 
 
-    public AbstractDevice getDevice(CameraUiWrapper cameraUiWrapper, Camera.Parameters cameraParameters,CameraHolder cameraHolder)
+    public AbstractDevice getDevice(CameraUiWrapper cameraUiWrapper, Parameters cameraParameters,CameraHolder cameraHolder)
     {
         Logger.d(DeviceSelector.class.getSimpleName(), "getDevice " + cameraUiWrapper.appSettingsManager.getDevice());
         switch (cameraUiWrapper.appSettingsManager.getDevice())

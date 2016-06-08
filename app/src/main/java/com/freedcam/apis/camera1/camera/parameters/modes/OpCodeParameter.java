@@ -21,7 +21,6 @@ package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.utils.AppSettingsManager;
-import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
@@ -58,7 +57,6 @@ public class OpCodeParameter extends AbstractModeParameter
     private AppSettingsManager appSettingsManager;
     public OpCodeParameter(AppSettingsManager appSettingsManager)
     {
-        super();
         this.appSettingsManager = appSettingsManager;
         File op2 = new File(StringUtils.GetFreeDcamConfigFolder+"opc2.bin");
         if (op2.exists())
@@ -66,7 +64,7 @@ public class OpCodeParameter extends AbstractModeParameter
         File op3 = new File(StringUtils.GetFreeDcamConfigFolder+"opc3.bin");
         if (op3.exists())
             hasOp3=true;
-        this.isSupported = true;
+        isSupported = true;
 
     }
 
@@ -135,7 +133,7 @@ public class OpCodeParameter extends AbstractModeParameter
         // Open connection and input stream
         try {
             trustAllHosts();
-            final URL urlObj = new URL(url);
+            URL urlObj = new URL(url);
             httpConn = (HttpsURLConnection ) urlObj.openConnection();
             httpConn.setHostnameVerifier(DO_NOT_VERIFY);
             httpConn.setRequestMethod("GET");
@@ -151,13 +149,13 @@ public class OpCodeParameter extends AbstractModeParameter
                 Logger.w(TAG, "httpGet: Response Code Error: " + responseCode + ": " + url);
                 throw new IOException("Response Error:" + responseCode);
             }
-        } catch (final SocketTimeoutException e) {
+        } catch (SocketTimeoutException e) {
             Logger.w(TAG, "httpGet: Timeout: " + url);
             throw new IOException();
-        } catch (final MalformedURLException e) {
+        } catch (MalformedURLException e) {
             Logger.w(TAG, "httpGet: MalformedUrlException: " + url);
             throw new IOException();
-        } catch (final IOException e) {
+        } catch (IOException e) {
             Logger.w(TAG, "httpGet: " + e.getMessage());
             if (httpConn != null) {
                 httpConn.disconnect();
@@ -195,12 +193,12 @@ public class OpCodeParameter extends AbstractModeParameter
             } catch (IOException e) {
                 Logger.w(TAG, "IOException while closing InputStream");
             }
-            OpCodeParameter.this.BackgroundValueHasChanged("true");
+            BackgroundValueHasChanged("true");
         }
     }
 
     // always verify the host - dont check for certificate
-    private final static HostnameVerifier DO_NOT_VERIFY = new HostnameVerifier() {
+    private static final HostnameVerifier DO_NOT_VERIFY = new HostnameVerifier() {
         public boolean verify(String hostname, SSLSession session) {
             return true;
         }
@@ -211,9 +209,9 @@ public class OpCodeParameter extends AbstractModeParameter
      */
     private static void trustAllHosts() {
         // Create a trust manager that does not validate certificate chains
-        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                return new java.security.cert.X509Certificate[] {};
+        TrustManager[] trustAllCerts = { new X509TrustManager() {
+            public X509Certificate[] getAcceptedIssuers() {
+                return new X509Certificate[] {};
             }
 
             public void checkClientTrusted(X509Certificate[] chain,

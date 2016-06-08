@@ -26,7 +26,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -40,6 +43,8 @@ import com.freedcam.ui.guide.GuideHandler;
 import com.freedcam.ui.themesample.handler.FocusImageHandler;
 import com.freedcam.ui.themesample.handler.SampleInfoOverlayHandler;
 import com.freedcam.ui.themesample.handler.UserMessageHandler;
+import com.freedcam.ui.themesample.subfragments.Interfaces.I_CloseNotice;
+import com.freedcam.ui.themesample.subfragments.Interfaces.I_MenuItemClick;
 import com.freedcam.ui.themesample.views.ShutterButton;
 import com.freedcam.ui.themesample.views.ThumbView;
 import com.freedcam.ui.themesample.views.uichilds.UiSettingsChild;
@@ -52,14 +57,19 @@ import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.screenslide.ScreenSlideFragment;
+import com.freedviewer.screenslide.ScreenSlideFragment.I_ThumbClick;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.anim;
+import com.troop.freedcam.R.dimen;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
 
 import java.io.File;
 
 /**
  * Created by troop on 14.06.2015.
  */
-public class CameraUiFragment extends AbstractFragment implements Interfaces.I_MenuItemClick, Interfaces.I_CloseNotice, I_swipe, View.OnClickListener
+public class CameraUiFragment extends AbstractFragment implements I_MenuItemClick, I_CloseNotice, I_swipe, OnClickListener
 {
     final String TAG = CameraUiFragment.class.getSimpleName();
     private UiSettingsChild flash;
@@ -91,7 +101,7 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
     private GuideHandler guideHandler;
     private final String KEY_MANUALMENUOPEN = "key_manualmenuopen";
     private SharedPreferences sharedPref;
-    private ScreenSlideFragment.I_ThumbClick thumbClick;
+    private I_ThumbClick thumbClick;
     private File lastFile;
     private AppSettingsManager appSettingsManager;
 
@@ -99,7 +109,7 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
     private int LeftWidth = 0;
     private BitmapHelper bitmapHelper;
 
-    public static CameraUiFragment GetInstance(I_Activity i_activity, ScreenSlideFragment.I_ThumbClick thumbClick, AppSettingsManager appSettingsManager, AbstractCameraUiWrapper cameraUiWrapper, BitmapHelper bitmapHelper)
+    public static CameraUiFragment GetInstance(I_Activity i_activity, I_ThumbClick thumbClick, AppSettingsManager appSettingsManager, AbstractCameraUiWrapper cameraUiWrapper, BitmapHelper bitmapHelper)
     {
         CameraUiFragment cameraUiFragment = new CameraUiFragment();
         cameraUiFragment.i_activity = i_activity;
@@ -159,63 +169,63 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
         Logger.d(TAG, "####################ONCREATEDVIEW####################");
 
         touchHandler = new SwipeMenuListner(this);
-        view = inflater.inflate(R.layout.cameraui, container, false);
+        view = inflater.inflate(layout.cameraui, container, false);
 
         sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         manualsettingsIsOpen = sharedPref.getBoolean(KEY_MANUALMENUOPEN, false);
-        LinearLayout left_cameraUI_holder = (LinearLayout) view.findViewById(R.id.left_ui_holder);
+        LinearLayout left_cameraUI_holder = (LinearLayout) view.findViewById(id.left_ui_holder);
         LeftWidth = left_cameraUI_holder.getWidth();
-        RelativeLayout right_camerUI_holder = (RelativeLayout) view.findViewById(R.id.right_ui_holder);
-        this.manualModes_holder = (FrameLayout)view.findViewById(R.id.manualModesHolder);
-        LinearLayout LC = (LinearLayout) view.findViewById(R.id.LCover);
+        RelativeLayout right_camerUI_holder = (RelativeLayout) view.findViewById(id.right_ui_holder);
+        manualModes_holder = (FrameLayout)view.findViewById(id.manualModesHolder);
+        LinearLayout LC = (LinearLayout) view.findViewById(id.LCover);
 
-        this.flash = (UiSettingsChild)view.findViewById(R.id.Flash);
+        flash = (UiSettingsChild)view.findViewById(id.Flash);
         flash.SetStuff(i_activity, AppSettingsManager.SETTING_FLASHMODE,appSettingsManager);
         flash.SetMenuItemListner(this, true);
 
-        this.iso = (UiSettingsChild)view.findViewById(R.id.ui_settings_iso);
+        iso = (UiSettingsChild)view.findViewById(id.ui_settings_iso);
         iso.SetStuff(i_activity, AppSettingsManager.SETTING_ISOMODE,appSettingsManager);
         iso.SetMenuItemListner(this,true);
 
-        this.autoexposure =(UiSettingsChild)view.findViewById(R.id.Ae);
+        autoexposure =(UiSettingsChild)view.findViewById(id.Ae);
         autoexposure.SetStuff(i_activity,AppSettingsManager.SETTING_EXPOSUREMODE,appSettingsManager);
         autoexposure.SetMenuItemListner(this,true);
 
-        this.aepriority = (UiSettingsChild)view.findViewById(R.id.AePriority);
+        aepriority = (UiSettingsChild)view.findViewById(id.AePriority);
         aepriority.SetStuff(i_activity,AppSettingsManager.SETTTING_AE_PRIORITY,appSettingsManager);
         aepriority.SetMenuItemListner(this,true);
 
-        this.whitebalance = (UiSettingsChild)view.findViewById(R.id.wb);
+        whitebalance = (UiSettingsChild)view.findViewById(id.wb);
         whitebalance.SetStuff(i_activity, AppSettingsManager.SETTING_WHITEBALANCEMODE,appSettingsManager);
         whitebalance.SetMenuItemListner(this,true);
 
-        this.focus = (UiSettingsChild)view.findViewById(R.id.focus_uisetting);
+        focus = (UiSettingsChild)view.findViewById(id.focus_uisetting);
         focus.SetStuff(i_activity, AppSettingsManager.SETTING_FOCUSMODE,appSettingsManager);
         focus.SetMenuItemListner(this,true);
 
-        this.contShot = (UiSettingsChild)view.findViewById(R.id.continousShot);
+        contShot = (UiSettingsChild)view.findViewById(id.continousShot);
         contShot.SetStuff(i_activity, null,appSettingsManager);
         contShot.SetMenuItemListner(this,true);
 
-        this.night = (UiSettingsChild)view.findViewById(R.id.night);
+        night = (UiSettingsChild)view.findViewById(id.night);
         night.SetStuff(i_activity, AppSettingsManager.SETTING_NIGHTEMODE,appSettingsManager);
         night.SetMenuItemListner(this,true);
 
-        this.format = (UiSettingsChild)view.findViewById(R.id.format);
+        format = (UiSettingsChild)view.findViewById(id.format);
         format.SetStuff(i_activity, AppSettingsManager.SETTING_PICTUREFORMAT,appSettingsManager);
         format.SetMenuItemListner(this,true);
 
-        this.thumbView = (ThumbView)view.findViewById(R.id.thumbview);
-        this.thumbView.SetOnThumbClickListener(thumbClick);
+        thumbView = (ThumbView)view.findViewById(id.thumbview);
+        thumbView.SetOnThumbClickListener(thumbClick);
 
-        this.modeSwitch = (UiSettingsChildModuleSwitch)view.findViewById(R.id.mode_switch);
+        modeSwitch = (UiSettingsChildModuleSwitch)view.findViewById(id.mode_switch);
         modeSwitch.SetStuff(i_activity, AppSettingsManager.SETTING_CURRENTMODULE,appSettingsManager);
         modeSwitch.SetMenuItemListner(this,false);
 
-        UiSettingsChildExit exit = (UiSettingsChildExit) view.findViewById(R.id.exit);
+        UiSettingsChildExit exit = (UiSettingsChildExit) view.findViewById(id.exit);
         exit.SetStuff(i_activity, "",appSettingsManager);
 
-        cameraSwitch = (UiSettingsChildCameraSwitch)view.findViewById(R.id.camera_switch);
+        cameraSwitch = (UiSettingsChildCameraSwitch)view.findViewById(id.camera_switch);
         cameraSwitch.SetStuff(i_activity, AppSettingsManager.SETTING_CURRENTCAMERA,appSettingsManager);
 
         infoOverlayHandler = new SampleInfoOverlayHandler(view,appSettingsManager);
@@ -223,16 +233,16 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
 
         focusImageHandler = new FocusImageHandler(view, this);
 
-        shutterButton = (ShutterButton)view.findViewById(R.id.shutter_button);
+        shutterButton = (ShutterButton)view.findViewById(id.shutter_button);
         view.setOnTouchListener(onTouchListener);
 
-        focuspeak = (UiSettingsFocusPeak)view.findViewById(R.id.ui_focuspeak);
+        focuspeak = (UiSettingsFocusPeak)view.findViewById(id.ui_focuspeak);
 
         focuspeak.SetStuff(i_activity, AppSettingsManager.SETTING_FOCUSPEAK,appSettingsManager);
         focuspeak.SetMenuItemListner(this);
 
         //adding hdr switch log test v1.0 1-29-2016 6:13 - Defcomk
-        this.hdr_switch = (UiSettingsChild)view.findViewById(R.id.hdr_toggle);
+        hdr_switch = (UiSettingsChild)view.findViewById(id.hdr_toggle);
         hdr_switch.SetStuff(i_activity, AppSettingsManager.SETTING_HDRMODE,appSettingsManager);
         hdr_switch.SetMenuItemListner(this,true);
 
@@ -242,25 +252,25 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
 
         guideHandler =GuideHandler.GetInstance(appSettingsManager);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.replace(R.id.guideHolder, guideHandler, "Guide");
+        transaction.replace(id.guideHolder, guideHandler, "Guide");
         transaction.commitAllowingStateLoss();
 
         transaction = getChildFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.bottom_to_top_enter, R.anim.empty);
-        transaction.replace(R.id.manualModesHolder, manualModesFragment);
+        transaction.setCustomAnimations(anim.bottom_to_top_enter, anim.empty);
+        transaction.replace(id.manualModesHolder, manualModesFragment);
         transaction.commitAllowingStateLoss();
 
         transaction = getChildFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
-        transaction.replace(R.id.horHolder, horizontLineFragment);
+        transaction.setCustomAnimations(anim.empty, anim.empty);
+        transaction.replace(id.horHolder, horizontLineFragment);
         transaction.addToBackStack(null);
         transaction.commitAllowingStateLoss();
 
         boolean showhelp = appSettingsManager.getShowHelpOverlay();
         if (showhelp) {
             transaction = getChildFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
-            transaction.replace(R.id.helpfragment_container, HelpFragment.getFragment(helpfragmentCloser,appSettingsManager));
+            transaction.setCustomAnimations(anim.empty, anim.empty);
+            transaction.replace(id.helpfragment_container, HelpFragment.getFragment(helpfragmentCloser,appSettingsManager));
             transaction.addToBackStack(null);
             transaction.commitAllowingStateLoss();
         }
@@ -325,15 +335,15 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
         }
         if (horizontalValuesFragment != null)
             horizontalValuesFragment.Clear();
-        View l = view.findViewById(R.id.cameraui_values_fragment_holder);
+        View l = view.findViewById(id.cameraui_values_fragment_holder);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.leftMargin = getResources().getDimensionPixelSize(R.dimen.manualitemwidth);
-        params.rightMargin = getResources().getDimensionPixelSize(R.dimen.shuttericon_size);
+                LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        params.leftMargin = getResources().getDimensionPixelSize(dimen.manualitemwidth);
+        params.rightMargin = getResources().getDimensionPixelSize(dimen.shuttericon_size);
         //params.addRule(RelativeLayout.CENTER_VERTICAL);
 
         if (manualsettingsIsOpen)
-            params.bottomMargin = getResources().getDimensionPixelSize(R.dimen.manualSettingsHeight);
+            params.bottomMargin = getResources().getDimensionPixelSize(dimen.manualSettingsHeight);
 
         if (fromLeftFragment)
             params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
@@ -347,7 +357,7 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
             horizontalValuesFragment.SetStringValues(tmo, this);
         else
            horizontalValuesFragment.ListenToParameter(item.GetParameter());
-        infalteIntoHolder(R.id.cameraui_values_fragment_holder, horizontalValuesFragment);
+        infalteIntoHolder(id.cameraui_values_fragment_holder, horizontalValuesFragment);
 
     }
 
@@ -355,14 +365,14 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
     {
 
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.left_to_right_enter, 0);
+        transaction.setCustomAnimations(anim.left_to_right_enter, 0);
         transaction.replace(id, fragment);
         transaction.commitAllowingStateLoss();
     }
 
     private void removeHorizontalFragment()
     {
-        getChildFragmentManager().beginTransaction().remove(horizontalValuesFragment).setCustomAnimations(0, R.anim.right_to_left_exit).commit();
+        getChildFragmentManager().beginTransaction().remove(horizontalValuesFragment).setCustomAnimations(0, anim.right_to_left_exit).commit();
     }
 
 
@@ -407,7 +417,7 @@ public class CameraUiFragment extends AbstractFragment implements Interfaces.I_M
             focusImageHandler.onTouchEvent(event);
     }
 
-    View.OnTouchListener onTouchListener = new View.OnTouchListener()
+    OnTouchListener onTouchListener = new OnTouchListener()
     {
         public boolean onTouch(View v, MotionEvent event)
         {

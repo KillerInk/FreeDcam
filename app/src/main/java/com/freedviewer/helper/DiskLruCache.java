@@ -176,16 +176,16 @@ public final class DiskLruCache implements Closeable {
     /* From java.util.Arrays */
     @SuppressWarnings("unchecked")
     private static <T> T[] copyOfRange(T[] original, int end) {
-        final int originalLength = original.length; // For exception priority compatibility.
+        int originalLength = original.length; // For exception priority compatibility.
         if (2 > end) {
             throw new IllegalArgumentException();
         }
         if (2 > originalLength) {
             throw new ArrayIndexOutOfBoundsException();
         }
-        final int resultLength = end - 2;
-        final int copyLength = Math.min(resultLength, originalLength - 2);
-        final T[] result = (T[]) Array
+        int resultLength = end - 2;
+        int copyLength = Math.min(resultLength, originalLength - 2);
+        T[] result = (T[]) Array
                 .newInstance(original.getClass().getComponentType(), resultLength);
         System.arraycopy(original, 2, result, 0, copyLength);
         return result;
@@ -291,8 +291,8 @@ public final class DiskLruCache implements Closeable {
     private DiskLruCache(File directory, int appVersion, int valueCount, long maxSize) {
         this.directory = directory;
         this.appVersion = appVersion;
-        this.journalFile = new File(directory, JOURNAL_FILE);
-        this.journalFileTmp = new File(directory, JOURNAL_FILE_TMP);
+        journalFile = new File(directory, JOURNAL_FILE);
+        journalFileTmp = new File(directory, JOURNAL_FILE_TMP);
         this.valueCount = valueCount;
         this.maxSize = maxSize;
     }
@@ -619,7 +619,7 @@ public final class DiskLruCache implements Closeable {
      * and eliminate at least 2000 ops.
      */
     private boolean journalRebuildRequired() {
-        final int REDUNDANT_OP_COMPACT_THRESHOLD = 2000;
+        int REDUNDANT_OP_COMPACT_THRESHOLD = 2000;
         return redundantOpCount >= REDUNDANT_OP_COMPACT_THRESHOLD
                 && redundantOpCount >= lruEntries.size();
     }
@@ -630,12 +630,12 @@ public final class DiskLruCache implements Closeable {
      *
      * @return true if an entry was removed.
      */
-    public synchronized boolean remove(String key) throws IOException {
+    public synchronized void remove(String key) throws IOException {
         checkNotClosed();
         validateKey(key);
         Entry entry = lruEntries.get(key);
         if (entry == null || entry.currentEditor != null) {
-            return false;
+            return;
         }
 
         for (int i = 0; i < valueCount; i++) {
@@ -655,7 +655,6 @@ public final class DiskLruCache implements Closeable {
             executorService.submit(cleanupCallable);
         }
 
-        return true;
     }
 
     /**
@@ -700,7 +699,7 @@ public final class DiskLruCache implements Closeable {
     private void trimToSize() throws IOException {
         while (size > maxSize) {
 //            Map.Entry<String, Entry> toEvict = lruEntries.eldest();
-            final Map.Entry<String, Entry> toEvict = lruEntries.entrySet().iterator().next();
+            Map.Entry<String, Entry> toEvict = lruEntries.entrySet().iterator().next();
             remove(toEvict.getKey());
         }
     }
@@ -912,7 +911,7 @@ public final class DiskLruCache implements Closeable {
 
         private Entry(String key) {
             this.key = key;
-            this.lengths = new long[valueCount];
+            lengths = new long[valueCount];
         }
 
         public String getLengths() throws IOException {

@@ -21,16 +21,21 @@ package com.freedcam.apis.camera1.camera.modules;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.renderscript.Allocation;
+import android.renderscript.Allocation.MipmapControl;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
+import android.renderscript.RenderScript.Priority;
 import android.renderscript.Type;
+import android.renderscript.Type.Builder;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
+import com.freedcam.apis.basecamera.camera.modules.I_Callbacks.PictureCallback;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.parameters.modes.StackModeParameter;
@@ -50,7 +55,7 @@ import java.util.List;
 /**
  * Created by GeorgeKiarie on 13/04/2016.
  */
-public class StackingModule extends PictureModule implements I_Callbacks.PictureCallback
+public class StackingModule extends PictureModule implements PictureCallback
 {
     final String TAG = StackingModule.class.getSimpleName();
     private boolean KeepStacking = false;
@@ -87,8 +92,8 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
             capturedPics = new ArrayList<>();
             initRsStuff();
             ParameterHandler.ZSL.SetValue("off", true);
-            changeWorkState(AbstractModuleHandler.CaptureModes.continouse_capture_start);
-            final String picFormat = ParameterHandler.PictureFormat.GetValue();
+            changeWorkState(CaptureModes.continouse_capture_start);
+            String picFormat = ParameterHandler.PictureFormat.GetValue();
             if (!picFormat.equals(KEYS.JPEG))
                 ParameterHandler.PictureFormat.SetValue(KEYS.JPEG,true);
             isWorking =true;
@@ -152,15 +157,15 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
         if(mRS == null)
         {
             mRS = RenderScript.create(context);
-            mRS.setPriority(RenderScript.Priority.LOW);
+            mRS.setPriority(Priority.LOW);
         }
         int mWidth = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[0]);
         int mHeight = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[1]);
-        Type.Builder tbIn2 = new Type.Builder(mRS, Element.RGBA_8888(mRS));
+        Builder tbIn2 = new Builder(mRS, Element.RGBA_8888(mRS));
         tbIn2.setX(mWidth);
         tbIn2.setY(mHeight);
-        mAllocationInput = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
-        mAllocationOutput = Allocation.createTyped(mRS, tbIn2.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+        mAllocationInput = Allocation.createTyped(mRS, tbIn2.create(), MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+        mAllocationOutput = Allocation.createTyped(mRS, tbIn2.create(), MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
         imagestack = new ScriptC_imagestack(mRS);
         imagestack.set_Width(mWidth);
         imagestack.set_Height(mHeight);
@@ -213,10 +218,10 @@ public class StackingModule extends PictureModule implements I_Callbacks.Picture
                 cameraHolder.SendUIMessage("Stacked: " + FrameCount++ + "/"+ capturedPics.size());
                 stackImage(s);
             }
-            changeWorkState(AbstractModuleHandler.CaptureModes.continouse_capture_work_stop);
+            changeWorkState(CaptureModes.continouse_capture_work_stop);
             int mWidth = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[0]);
             int mHeight = Integer.parseInt(ParameterHandler.PictureSize.GetValue().split("x")[1]);
-            final Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
+            Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Config.ARGB_8888);
             mAllocationOutput.copyTo(outputBitmap);
             File stackedImg = new File(SessionFolder + StringUtils.getStringDatePAttern().format(new Date()) + "_Stack.jpg");
             SaveBitmapToFile(outputBitmap,stackedImg);

@@ -20,10 +20,13 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_MTK.AeManual;
+import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_MTK.AeManualEvent;
 
 import java.util.ArrayList;
 
@@ -33,15 +36,15 @@ import java.util.ArrayList;
 public class ISOManualParameterMTK extends BaseManualParameter
 {
     private CameraHolder cameraHolder;
-    private AE_Handler_MTK.AeManualEvent manualEvent;
+    private AeManualEvent manualEvent;
 
-    public ISOManualParameterMTK(Camera.Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler, AE_Handler_MTK.AeManualEvent manualevent, int maxiso) {
+    public ISOManualParameterMTK(Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler, AeManualEvent manualevent, int maxiso) {
         super(parameters, "", "", "", parametersHandler,1);
 
         this.cameraHolder = cameraHolder;
 
-        this.isSupported = true;
-        this.isVisible = isSupported;
+        isSupported = true;
+        isVisible = isSupported;
         ArrayList<String> s = new ArrayList<>();
         s.add(KEYS.AUTO);
         for (int i =100; i <= maxiso; i +=100)
@@ -50,7 +53,7 @@ public class ISOManualParameterMTK extends BaseManualParameter
         }
         stringvalues = new String[s.size()];
         s.toArray(stringvalues);
-        this.manualEvent = manualevent;
+        manualEvent = manualevent;
     }
 
     @Override
@@ -74,11 +77,11 @@ public class ISOManualParameterMTK extends BaseManualParameter
         currentInt = valueToSet;
         if (valueToSet == 0)
         {
-            manualEvent.onManualChanged(AE_Handler_MTK.AeManual.iso, true, valueToSet);
+            manualEvent.onManualChanged(AeManual.iso, true, valueToSet);
         }
         else
         {
-            manualEvent.onManualChanged(AE_Handler_MTK.AeManual.iso, false,valueToSet);
+            manualEvent.onManualChanged(AeManual.iso, false,valueToSet);
         }
     }
 
@@ -93,7 +96,7 @@ public class ISOManualParameterMTK extends BaseManualParameter
         {
             currentInt = value;
             //cap-isp-g= 1024 == iso100? cause cap-sr-g=7808 / 1024 *100 = 762,5 same with 256 = 3050
-            parameters.set("m-sr-g", String.valueOf((Integer.valueOf( stringvalues[value])/100)*1024));
+            parameters.set("m-sr-g", String.valueOf(Integer.valueOf( stringvalues[value])/100 *1024));
         }
         ThrowCurrentValueStringCHanged(stringvalues[value]);
     }

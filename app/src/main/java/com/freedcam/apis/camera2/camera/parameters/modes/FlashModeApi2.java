@@ -23,13 +23,14 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 
 import com.freedcam.apis.camera2.camera.CameraHolder;
 
 /**
  * Created by troop on 12.12.2014.
  */
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@TargetApi(VERSION_CODES.LOLLIPOP)
 public class FlashModeApi2 extends BaseModeApi2 {
     public FlashModeApi2(CameraHolder cameraHolder) {
         super(cameraHolder);
@@ -77,7 +78,7 @@ public class FlashModeApi2 extends BaseModeApi2 {
         for (int i = 0; i < 3; i++)
         {
             try {
-                final FlashModes sceneModes = FlashModes.values()[i];
+                FlashModes sceneModes = FlashModes.values()[i];
                 retvals[i] = sceneModes.toString();
             }
             catch (Exception ex)

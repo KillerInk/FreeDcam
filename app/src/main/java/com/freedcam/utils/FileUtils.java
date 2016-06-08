@@ -99,7 +99,7 @@ public class FileUtils
     private static Boolean deletFile(File file, AppSettingsManager appSettingsManager, Context context) {
         if (!file.delete())
         {
-            DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(appSettingsManager,context);
+            DocumentFile sdDir = getExternalSdDocumentFile(appSettingsManager,context);
             if (sdDir == null)
                 return false;
             String baseS = sdDir.getName();

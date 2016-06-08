@@ -20,6 +20,8 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 
 /**
  * Created by Ingo on 15.05.2016.
@@ -42,12 +44,12 @@ public class StackModeParameter extends BaseModeParameter
 
     @Override
     public boolean IsSupported() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+        return VERSION.SDK_INT >= VERSION_CODES.KITKAT;
     }
 
     @Override
     public boolean IsVisible() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+        return VERSION.SDK_INT >= VERSION_CODES.KITKAT;
     }
 
     @Override

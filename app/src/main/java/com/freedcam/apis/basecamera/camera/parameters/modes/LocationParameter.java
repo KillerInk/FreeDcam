@@ -48,7 +48,6 @@ public class LocationParameter extends AbstractModeParameter implements Location
 
 
     public LocationParameter(AbstractCameraHolder cameraHolder, Context context, AppSettingsManager appSettingsManager) {
-        super();
         this.context = context;
         this.cameraHolder = cameraHolder;
         this.appSettingsManager = appSettingsManager;
@@ -114,7 +113,7 @@ public class LocationParameter extends AbstractModeParameter implements Location
         Logger.d("Location", "stop location");
         if(locationManager != null)
         {
-            locationManager.removeUpdates(LocationParameter.this);
+            locationManager.removeUpdates(this);
         }
     }
 
@@ -134,7 +133,7 @@ public class LocationParameter extends AbstractModeParameter implements Location
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
                         updateTime,
                         updateDistance,
-                        LocationParameter.this);
+                        this);
                 locnet = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             }
             if(gps)
@@ -142,7 +141,7 @@ public class LocationParameter extends AbstractModeParameter implements Location
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                         updateTime,
                         updateDistance,
-                        LocationParameter.this);
+                        this);
                 locgps = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             }
             if (locgps != null && cameraHolder != null)

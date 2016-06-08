@@ -23,10 +23,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
+import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter.I_ManualParameterEvent;
 import com.freedcam.apis.sonyremote.camera.CameraUiWrapper;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.ui.I_Activity;
@@ -35,11 +38,13 @@ import com.freedcam.ui.views.RotatingSeekbar;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
 
 /**
  * Created by troop on 08.12.2015.
  */
-public class ManualFragmentRotatingSeekbar extends AbstractFragment implements SeekBar.OnSeekBarChangeListener, AbstractManualParameter.I_ManualParameterEvent
+public class ManualFragmentRotatingSeekbar extends AbstractFragment implements OnSeekBarChangeListener, I_ManualParameterEvent
 {
     private int currentValuePos = 0;
 
@@ -77,81 +82,81 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements S
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        return inflater.inflate(R.layout.manual_fragment_rotatingseekbar, container, false);
+        return inflater.inflate(layout.manual_fragment_rotatingseekbar, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        seekbar = (RotatingSeekbar)view.findViewById(R.id.seekbar);
+        seekbar = (RotatingSeekbar)view.findViewById(id.seekbar);
         seekbar.setOnSeekBarChangeListener(this);
         seekbar.setVisibility(View.GONE);
 
-        mf = (ManualButton)view.findViewById(R.id.manual_mf);
+        mf = (ManualButton)view.findViewById(id.manual_mf);
         mf.SetStuff(AppSettingsManager.MF,appSettingsManager);
         mf.setOnClickListener(manualButtonClickListner);
 
-        iso = (ManualButton)view.findViewById(R.id.manual_iso);
+        iso = (ManualButton)view.findViewById(id.manual_iso);
         iso.SetStuff( AppSettingsManager.MISO,appSettingsManager);
         iso.setOnClickListener(manualButtonClickListner);
 
-        shutter = (ManualButton)view.findViewById(R.id.manual_shutter);
+        shutter = (ManualButton)view.findViewById(id.manual_shutter);
         shutter.SetStuff(AppSettingsManager.MSHUTTERSPEED,appSettingsManager);
         shutter.setOnClickListener(manualButtonClickListner);
 
-        aperture = (ManualButton)view.findViewById(R.id.manual_aperture);
+        aperture = (ManualButton)view.findViewById(id.manual_aperture);
         aperture.SetStuff("",appSettingsManager);
         aperture.setOnClickListener(manualButtonClickListner);
 
-        exposure = (ManualButton)view.findViewById(R.id.manual_exposure);
+        exposure = (ManualButton)view.findViewById(id.manual_exposure);
         exposure.SetStuff(AppSettingsManager.MEXPOSURE,appSettingsManager);
         exposure.setOnClickListener(manualButtonClickListner);
 
-        brightness = (ManualButton)view.findViewById(R.id.manual_brightness);
+        brightness = (ManualButton)view.findViewById(id.manual_brightness);
         brightness.SetStuff(AppSettingsManager.MBRIGHTNESS,appSettingsManager);
         brightness.setOnClickListener(manualButtonClickListner);
 
-        burst = (ManualButton)view.findViewById(R.id.manual_burst);
+        burst = (ManualButton)view.findViewById(id.manual_burst);
         burst.SetStuff(AppSettingsManager.MBURST,appSettingsManager);
         burst.setOnClickListener(manualButtonClickListner);
 
-        wb = (ManualButton)view.findViewById(R.id.manual_wb);
+        wb = (ManualButton)view.findViewById(id.manual_wb);
         wb.SetStuff(AppSettingsManager.MCCT,appSettingsManager);
         wb.setOnClickListener(manualButtonClickListner);
 
-        contrast = (ManualButton)view.findViewById(R.id.manual_contrast);
+        contrast = (ManualButton)view.findViewById(id.manual_contrast);
         contrast.SetStuff(AppSettingsManager.MCONTRAST,appSettingsManager);
         contrast.setOnClickListener(manualButtonClickListner);
 
-        saturation = (ManualButton)view.findViewById(R.id.manual_saturation);
+        saturation = (ManualButton)view.findViewById(id.manual_saturation);
         saturation.SetStuff(AppSettingsManager.MSATURATION,appSettingsManager);
         saturation.setOnClickListener(manualButtonClickListner);
 
-        sharpness = (ManualButton)view.findViewById(R.id.manual_sharpness);
+        sharpness = (ManualButton)view.findViewById(id.manual_sharpness);
         sharpness.SetStuff(AppSettingsManager.MSHARPNESS,appSettingsManager);
         sharpness.setOnClickListener(manualButtonClickListner);
 
-        programshift = (ManualButton)view.findViewById(R.id.manual_program_shift);
+        programshift = (ManualButton)view.findViewById(id.manual_program_shift);
         programshift.SetStuff("",appSettingsManager);
         programshift.setOnClickListener(manualButtonClickListner);
 
-        zoom = (ManualButton)view.findViewById(R.id.manual_zoom);
+        zoom = (ManualButton)view.findViewById(id.manual_zoom);
         zoom.SetStuff("",appSettingsManager);
         zoom.setOnClickListener(manualButtonClickListner);
 
-        skintone = (ManualButton)view.findViewById(R.id.manual_skintone);
+        skintone = (ManualButton)view.findViewById(id.manual_skintone);
         skintone.SetStuff("",appSettingsManager);
         skintone.setOnClickListener(manualButtonClickListner);
 
-        fx  = (ManualButton)view.findViewById(R.id.manual_fx);
+        fx  = (ManualButton)view.findViewById(id.manual_fx);
         fx.SetStuff("",appSettingsManager);
         fx.setOnClickListener(manualButtonClickListner);
 
-        convergence = (ManualButton)view.findViewById(R.id.manual_convergence);
+        convergence = (ManualButton)view.findViewById(id.manual_convergence);
         convergence.SetStuff(AppSettingsManager.MCONVERGENCE,appSettingsManager);
         convergence.setOnClickListener(manualButtonClickListner);
 
-        previewZoom = (ManualButton)view.findViewById(R.id.manual_zoom_preview);
+        previewZoom = (ManualButton)view.findViewById(id.manual_zoom_preview);
         previewZoom.setOnClickListener(manualButtonClickListner);
     }
 
@@ -177,7 +182,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements S
     }
 
     //######## ManualButton Stuff#####
-    private View.OnClickListener manualButtonClickListner = new View.OnClickListener() {
+    private OnClickListener manualButtonClickListner = new OnClickListener() {
         @Override
         public void onClick(View v)
         {

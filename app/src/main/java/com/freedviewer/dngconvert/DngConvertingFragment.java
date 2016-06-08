@@ -19,10 +19,13 @@
 
 package com.freedviewer.dngconvert;
 
+import android.R.layout;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
@@ -30,8 +33,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.provider.DocumentFile;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,10 +50,14 @@ import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
+import com.freedcam.utils.StringUtils.FileEnding;
 import com.troop.androiddng.DngProfile;
 import com.troop.androiddng.DngSupportedDevices;
 import com.troop.androiddng.Matrixes;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.array;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.string;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -85,34 +94,34 @@ public class DngConvertingFragment extends Fragment
             appSettingsManager.SetDevice(DeviceUtils.getDevice(getContext()));
         handler = new Handler();
         view = inflater.inflate(R.layout.dngconvertingfragment, container, false);
-        this.editTextwidth = (EditText)view.findViewById(R.id.editText_width);
-        this.editTextheight = (EditText)view.findViewById(R.id.editText_height);
-        this.editTextblacklvl = (EditText)view.findViewById(R.id.editText_blacklevel);
-        this.spinnerMatrixProfile = (Spinner)view.findViewById(R.id.spinner_MatrixProfile);
+        editTextwidth = (EditText)view.findViewById(id.editText_width);
+        editTextheight = (EditText)view.findViewById(id.editText_height);
+        editTextblacklvl = (EditText)view.findViewById(id.editText_blacklevel);
+        spinnerMatrixProfile = (Spinner)view.findViewById(id.spinner_MatrixProfile);
         matrixChooserParameter = new MatrixChooserParameter();
         String[] items = matrixChooserParameter.GetValues();
-        ArrayAdapter<String> matrixadapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, items);
+        ArrayAdapter<String> matrixadapter = new ArrayAdapter<>(getContext(), layout.simple_spinner_item, items);
         //ArrayAdapter<CharSequence> matrixadapter = ArrayAdapter.createFromResource(getContext(),R.array.matrixes, android.R.layout.simple_spinner_item);
-        matrixadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        matrixadapter.setDropDownViewResource(layout.simple_spinner_dropdown_item);
         spinnerMatrixProfile.setAdapter(matrixadapter);
 
 
-        this.buttonconvertToDng = (Button)view.findViewById(R.id.button_convertDng);
+        buttonconvertToDng = (Button)view.findViewById(id.button_convertDng);
         buttonconvertToDng.setOnClickListener(convertToDngClick);
 
-        this.spinnerColorPattern =(Spinner)view.findViewById(R.id.spinner_ColorPattern);
+        spinnerColorPattern =(Spinner)view.findViewById(id.spinner_ColorPattern);
         ArrayAdapter<CharSequence> coloradapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.color_pattern, android.R.layout.simple_spinner_item);
-        coloradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                array.color_pattern, layout.simple_spinner_item);
+        coloradapter.setDropDownViewResource(layout.simple_spinner_dropdown_item);
         spinnerColorPattern.setAdapter(coloradapter);
 
-        this.spinnerrawFormat = (Spinner)view.findViewById(R.id.spinner_rawFormat);
+        spinnerrawFormat = (Spinner)view.findViewById(id.spinner_rawFormat);
         ArrayAdapter<CharSequence> rawadapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.raw_format, android.R.layout.simple_spinner_item);
-        rawadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                array.raw_format, layout.simple_spinner_item);
+        rawadapter.setDropDownViewResource(layout.simple_spinner_dropdown_item);
         spinnerrawFormat.setAdapter(rawadapter);
-        this.closeButton = (Button)view.findViewById(R.id.button_goback_from_conv);
-        closeButton.setOnClickListener(new View.OnClickListener() {
+        closeButton = (Button)view.findViewById(id.button_goback_from_conv);
+        closeButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().finish();
@@ -125,12 +134,12 @@ public class DngConvertingFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
-        this.filesToConvert = getActivity().getIntent().getStringArrayExtra(EXTRA_FILESTOCONVERT);
+        filesToConvert = getActivity().getIntent().getStringArrayExtra(EXTRA_FILESTOCONVERT);
         if (filesToConvert != null && filesToConvert.length > 0) {
             dngprofile = new DngSupportedDevices().getProfile(appSettingsManager.getDevice(), (int) new File(filesToConvert[0]).length(),new MatrixChooserParameter());
             if (dngprofile == null) {
                 dngprofile = new DngSupportedDevices().GetEmptyProfile();
-                Toast.makeText(getContext(), R.string.unknown_raw_add_manual_stuff, Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), string.unknown_raw_add_manual_stuff, Toast.LENGTH_LONG).show();
             }
             editTextwidth.setText(dngprofile.widht + "");
             editTextheight.setText(dngprofile.height + "");
@@ -153,7 +162,7 @@ public class DngConvertingFragment extends Fragment
                 spinnerMatrixProfile.setSelection(1);
             spinnerrawFormat.setSelection(dngprofile.rawType);
             if (dngprofile != null){
-                spinnerMatrixProfile.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                spinnerMatrixProfile.setOnItemSelectedListener(new OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         switch (position) {
@@ -172,7 +181,7 @@ public class DngConvertingFragment extends Fragment
                     }
                 });
 
-                spinnerColorPattern.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                spinnerColorPattern.setOnItemSelectedListener(new OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         switch (position) {
@@ -199,7 +208,7 @@ public class DngConvertingFragment extends Fragment
 
                     }
                 });
-                spinnerrawFormat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                spinnerrawFormat.setOnItemSelectedListener(new OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         dngprofile.rawType = position;
@@ -214,20 +223,20 @@ public class DngConvertingFragment extends Fragment
             }
         }
         else {
-            Toast.makeText(getContext(), R.string.no_sel_raw, Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), string.no_sel_raw, Toast.LENGTH_LONG).show();
         }
     }
 
-    private View.OnClickListener convertToDngClick = new View.OnClickListener() {
+    private OnClickListener convertToDngClick = new OnClickListener() {
         @Override
         public void onClick(View v) {
             if (filesToConvert == null || filesToConvert.length == 0) {
-                Toast.makeText(getContext(), R.string.no_sel_raw, Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), string.no_sel_raw, Toast.LENGTH_LONG).show();
             }
             else {
                 dngprofile.widht = Integer.parseInt(editTextwidth.getText().toString());
                 dngprofile.height = Integer.parseInt(editTextheight.getText().toString());
-                dngprofile.blacklevel = (Integer.parseInt(editTextblacklvl.getText().toString()));
+                dngprofile.blacklevel = Integer.parseInt(editTextblacklvl.getText().toString());
                 final ProgressDialog pr = ProgressDialog.show(getContext(), "Converting DNG", "");
 
                 pr.setMax(filesToConvert.length);
@@ -271,18 +280,18 @@ public class DngConvertingFragment extends Fragment
             Logger.exception(e);
         }
         String out =null;
-        if (file.getName().endsWith(StringUtils.FileEnding.RAW))
-            out = file.getAbsolutePath().replace(StringUtils.FileEnding.RAW, StringUtils.FileEnding.DNG);
-        if (file.getName().endsWith(StringUtils.FileEnding.BAYER))
-            out = file.getAbsolutePath().replace(StringUtils.FileEnding.BAYER, StringUtils.FileEnding.DNG);
+        if (file.getName().endsWith(FileEnding.RAW))
+            out = file.getAbsolutePath().replace(FileEnding.RAW, FileEnding.DNG);
+        if (file.getName().endsWith(FileEnding.BAYER))
+            out = file.getAbsolutePath().replace(FileEnding.BAYER, FileEnding.DNG);
         RawToDng dng = RawToDng.GetInstance();
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP
+        if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP
                 || file.canWrite())
             dng.SetBayerData(data, out);
         else
         {
             DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, getContext());
-            DocumentFile wr = df.createFile("image/dng", file.getName().replace(StringUtils.FileEnding.JPG, StringUtils.FileEnding.DNG));
+            DocumentFile wr = df.createFile("image/dng", file.getName().replace(FileEnding.JPG, FileEnding.DNG));
             ParcelFileDescriptor pfd = null;
             try {
 

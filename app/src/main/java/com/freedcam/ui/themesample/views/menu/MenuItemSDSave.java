@@ -22,6 +22,8 @@ package com.freedcam.ui.themesample.views.menu;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.support.v4.provider.DocumentFile;
 import android.util.AttributeSet;
 import android.widget.Toast;
@@ -29,6 +31,7 @@ import android.widget.Toast;
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.parameters.modes.SDModeParameter;
 import com.freedcam.ui.I_Activity;
+import com.freedcam.ui.I_Activity.I_OnActivityResultCallback;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 
@@ -37,7 +40,7 @@ import java.io.File;
 /**
  * Created by troop on 21.07.2015.
  */
-public class MenuItemSDSave extends MenuItem implements I_Activity.I_OnActivityResultCallback
+public class MenuItemSDSave extends MenuItem implements I_OnActivityResultCallback
 {
     final String internal = "Internal";
     final String external ="External";
@@ -55,13 +58,13 @@ public class MenuItemSDSave extends MenuItem implements I_Activity.I_OnActivityR
     public void SetCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        super.SetParameter(cameraUiWrapper.parametersHandler.SdSaveLocation);
+        SetParameter(cameraUiWrapper.parametersHandler.SdSaveLocation);
     }
 
     @Override
     public void SetValue(String value)
     {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
+        if (VERSION.SDK_INT < VERSION_CODES.KITKAT)
         {
             CheckLowerAPI_KitKat(value);
         }
@@ -82,8 +85,8 @@ public class MenuItemSDSave extends MenuItem implements I_Activity.I_OnActivityR
         if (value.equals(SDModeParameter.external))
         {
             boolean canWriteExternal = false;
-            final String path = StringUtils.GetExternalSDCARD() + StringUtils.freedcamFolder + "test.t";
-            final File f = new File(path);
+            String path = StringUtils.GetExternalSDCARD() + StringUtils.freedcamFolder + "test.t";
+            File f = new File(path);
             try {
                 f.mkdirs();
                 if (!f.getParentFile().exists()) {

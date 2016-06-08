@@ -19,6 +19,7 @@
 
 package com.freedviewer;
 
+import android.R.id;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
@@ -37,10 +38,10 @@ public class GridViewActivity extends AbstractFragmentActivity
         super.onCreate(savedInstanceState);
         if (getSupportFragmentManager().findFragmentByTag(TAG) == null)
         {
-            final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             GridViewFragment fragment = new GridViewFragment();
             fragment.SetBitmapHelperAndAppSettings(bitmapHelper,appSettingsManager);
-            ft.add(android.R.id.content, fragment, TAG);
+            ft.add(id.content, fragment, TAG);
             ft.commit();
         }
     }

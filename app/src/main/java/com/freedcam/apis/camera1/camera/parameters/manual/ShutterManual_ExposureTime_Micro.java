@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualShutter;
@@ -33,7 +34,7 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
 {
     private final String TAG = ShutterManual_ExposureTime_Micro.class.getSimpleName();
 
-    protected Camera.Parameters  parameters;
+    protected Parameters  parameters;
     /*
      * The name of the current key_value to get like brightness
      */
@@ -50,26 +51,26 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
 
     protected ParametersHandler parametersHandler;
 
-    public ShutterManual_ExposureTime_Micro(Camera.Parameters parameters, ParametersHandler parametersHandler, String[] shuttervalues, String key_value)
+    public ShutterManual_ExposureTime_Micro(Parameters parameters, ParametersHandler parametersHandler, String[] shuttervalues, String key_value)
     {
         super(parametersHandler);
         stringvalues = shuttervalues;
         this.key_value = key_value;
         parameters.set(key_value, "0");
-        this.isSupported = true;
+        isSupported = true;
     }
 
     /**
      * @param parameters
      * @param parametersHandler
      */
-    public ShutterManual_ExposureTime_Micro(Camera.Parameters parameters, ParametersHandler parametersHandler,String key_value, String maxval , String minval, boolean withauto) {
+    public ShutterManual_ExposureTime_Micro(Parameters parameters, ParametersHandler parametersHandler,String key_value, String maxval , String minval, boolean withauto) {
         super(parametersHandler);
         this.parametersHandler = parametersHandler;
         this.parameters = parameters;
         this.key_value = key_value;
-        this.key_max_value = maxval;
-        this.key_min_value = minval;
+        key_max_value = maxval;
+        key_min_value = minval;
         try {
 
             Logger.d(TAG, "minexpo = "+parameters.get(key_min_value) + " maxexpo = " + parameters.get(key_max_value));
@@ -94,7 +95,7 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
             stringvalues = getSupportedShutterValues(min, max, withauto);
 
             parameters.set(key_value, "0");
-            this.isSupported = true;
+            isSupported = true;
 
         } catch (NumberFormatException ex) {
             Logger.exception(ex);

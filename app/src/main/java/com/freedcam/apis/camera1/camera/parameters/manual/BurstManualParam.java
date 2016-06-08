@@ -24,12 +24,15 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
  */
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 import android.os.Build;
+import android.os.Build.VERSION;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
 
 import java.util.ArrayList;
@@ -39,37 +42,37 @@ public class BurstManualParam extends BaseManualParameter
 
     final String TAG = BurstManualParam.class.getSimpleName();
 
-    public BurstManualParam(Camera.Parameters parameters, ParametersHandler parametersHandler) {
+    public BurstManualParam(Parameters parameters, ParametersHandler parametersHandler) {
         super(parameters, "", "", "", parametersHandler,1);
 
-        if (parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214
-                || parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV
-                || parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214
-                || parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.LG_G3
-                ||  parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.LG_G2
-                || parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.XiaomiMI3W
-                || parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.XiaomiMI4W
-                ||  parametersHandler.appSettingsManager.getDevice()==DeviceUtils.Devices.LG_G4
+        if (parametersHandler.appSettingsManager.getDevice() == Devices.ZTEADVIMX214
+                || parametersHandler.appSettingsManager.getDevice() == Devices.ZTE_ADV
+                || parametersHandler.appSettingsManager.getDevice() == Devices.ZTEADVIMX214
+                || parametersHandler.appSettingsManager.getDevice() == Devices.LG_G3
+                ||  parametersHandler.appSettingsManager.getDevice() == Devices.LG_G2
+                || parametersHandler.appSettingsManager.getDevice() == Devices.XiaomiMI3W
+                || parametersHandler.appSettingsManager.getDevice() == Devices.XiaomiMI4W
+                ||  parametersHandler.appSettingsManager.getDevice()== Devices.LG_G4
                 || parameters.get(KEYS.NUM_SNAPS_PER_SHUTTER) != null
                 || parameters.get(KEYS.SNAPSHOT_BURST_NUM) != null
                 || parameters.get(KEYS.BURST_NUM)!= null)
         {
             isSupported = true;
             int max = 10;
-            if (parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214
-                    || parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV
-                    || parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214
-                    ||  parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.LG_G2)
+            if (parametersHandler.appSettingsManager.getDevice() == Devices.ZTEADVIMX214
+                    || parametersHandler.appSettingsManager.getDevice() == Devices.ZTE_ADV
+                    || parametersHandler.appSettingsManager.getDevice() == Devices.ZTEADVIMX214
+                    ||  parametersHandler.appSettingsManager.getDevice() == Devices.LG_G2)
                 max =  7;
-            else if (parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.LG_G3
-                    || parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.XiaomiMI4W)
+            else if (parametersHandler.appSettingsManager.getDevice() == Devices.LG_G3
+                    || parametersHandler.appSettingsManager.getDevice() == Devices.XiaomiMI4W)
                 max =  9;
-            else if (parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.XiaomiMI3W)
-                if (Build.VERSION.SDK_INT < 23)
+            else if (parametersHandler.appSettingsManager.getDevice() == Devices.XiaomiMI3W)
+                if (VERSION.SDK_INT < 23)
                     max =  6;
                 else
                     max =  10;
-            else if (parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.LG_G4)
+            else if (parametersHandler.appSettingsManager.getDevice() == Devices.LG_G4)
                 max =  6;
             stringvalues = createStringArray(2,max,1);
             currentInt = 0;
@@ -106,8 +109,8 @@ public class BurstManualParam extends BaseManualParameter
         currentInt = valueToSet;
 
         if (parameters.get(KEYS.NUM_SNAPS_PER_SHUTTER) != null
-                || parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.XiaomiMI3W
-                || parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.XiaomiMI4W)
+                || parametersHandler.appSettingsManager.getDevice() == Devices.XiaomiMI3W
+                || parametersHandler.appSettingsManager.getDevice() == Devices.XiaomiMI4W)
         {
             if (currentInt == 0)
                 parameters.set(KEYS.NUM_SNAPS_PER_SHUTTER, 1+"");

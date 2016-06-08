@@ -21,13 +21,17 @@ package com.freedcam.apis.camera1.camera.modules;
 
 import android.content.Context;
 import android.media.MediaRecorder;
+import android.media.MediaRecorder.OnErrorListener;
 import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.camera.modules.I_RecorderStateChanged;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.camera1.camera.CameraHolder;
@@ -49,7 +53,7 @@ public abstract class AbstractVideoModule extends AbstractModule
     protected MediaRecorder recorder;
     protected String mediaSavePath;
     protected CameraHolder cameraHolder;
-    private static String TAG = AbstractVideoModule.class.getSimpleName();
+    private String TAG = AbstractVideoModule.class.getSimpleName();
     private ParcelFileDescriptor fileDescriptor;
     private Context context;
 
@@ -57,7 +61,7 @@ public abstract class AbstractVideoModule extends AbstractModule
         super(cameraHandler, eventHandler,context,appSettingsManager);
         name  = KEYS.MODULE_VIDEO;
         this.context = context;
-        this.cameraHolder = cameraHandler;
+        cameraHolder = cameraHandler;
     }
 
     @Override
@@ -97,7 +101,7 @@ public abstract class AbstractVideoModule extends AbstractModule
     protected void startRecording()
     {
         prepareRecorder();
-        changeWorkState(AbstractModuleHandler.CaptureModes.video_recording_start);
+        changeWorkState(CaptureModes.video_recording_start);
 
     }
 
@@ -109,7 +113,7 @@ public abstract class AbstractVideoModule extends AbstractModule
             isWorking = true;
             cameraHolder.GetCamera().unlock();
             recorder =  initRecorder();
-            recorder.setOnErrorListener(new MediaRecorder.OnErrorListener() {
+            recorder.setOnErrorListener(new OnErrorListener() {
                 @Override
                 public void onError(MediaRecorder mr, int what, int extra) {
                     Logger.e("MediaRecorder", "ErrorCode: " + what + " Extra: " + extra);
@@ -150,7 +154,7 @@ public abstract class AbstractVideoModule extends AbstractModule
                 cameraHolder.GetCamera().lock();
                 recorder.release();
                 isWorking = false;
-                changeWorkState(AbstractModuleHandler.CaptureModes.video_recording_stop);
+                changeWorkState(CaptureModes.video_recording_stop);
             }
         }
         catch (NullPointerException ex)
@@ -163,7 +167,7 @@ public abstract class AbstractVideoModule extends AbstractModule
             cameraHolder.GetCamera().lock();
             recorder.release();
             isWorking = false;
-            changeWorkState(AbstractModuleHandler.CaptureModes.video_recording_stop);
+            changeWorkState(CaptureModes.video_recording_stop);
         }
     }
 
@@ -188,26 +192,26 @@ public abstract class AbstractVideoModule extends AbstractModule
             recorder.release();
             isWorking = false;
             try {
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT && fileDescriptor != null) {
+                if (VERSION.SDK_INT > VERSION_CODES.KITKAT && fileDescriptor != null) {
                     fileDescriptor.close();
                     fileDescriptor = null;
                 }
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-            final File file = new File(mediaSavePath);
+            File file = new File(mediaSavePath);
             MediaScannerManager.ScanMedia(context, file);
             eventHandler.WorkFinished(file);
             eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
             isWorking = false;
         }
-        changeWorkState(AbstractModuleHandler.CaptureModes.video_recording_stop);
+        changeWorkState(CaptureModes.video_recording_stop);
     }
 
     protected void setRecorderOutPutFile(String s)
     {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT
-                || (!appSettingsManager.GetWriteExternal() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT))
+        if (VERSION.SDK_INT < VERSION_CODES.KITKAT
+                || !appSettingsManager.GetWriteExternal() && VERSION.SDK_INT >= VERSION_CODES.KITKAT)
             recorder.setOutputFile(s);
         else
         {

@@ -22,7 +22,9 @@ package com.freedcam.apis.camera2.camera.parameters;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
@@ -59,7 +61,7 @@ import java.util.List;
 /**
  * Created by troop on 12.12.2014.
  */
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@TargetApi(VERSION_CODES.LOLLIPOP)
 public class ParameterHandler extends AbstractParameterHandler
 {
     private static String TAG = ParameterHandler.class.getSimpleName();
@@ -71,7 +73,7 @@ public class ParameterHandler extends AbstractParameterHandler
     public ParameterHandler(CameraUiWrapper cameraHolder, Context context, AppSettingsManager appSettingsManager)
     {
         super(cameraHolder.cameraHolder,context,appSettingsManager);
-        this.wrapper = cameraHolder;
+        wrapper = cameraHolder;
         this.cameraHolder = cameraHolder.cameraHolder;
 
     }
@@ -79,7 +81,7 @@ public class ParameterHandler extends AbstractParameterHandler
 
     public void Init()
     {
-        List<CaptureRequest.Key<?>> keys = cameraHolder.characteristics.getAvailableCaptureRequestKeys();
+        List<Key<?>> keys = cameraHolder.characteristics.getAvailableCaptureRequestKeys();
         for (int i = 0; i< keys.size(); i++)
         {
             Logger.d(TAG, keys.get(i).getName());
@@ -100,7 +102,7 @@ public class ParameterHandler extends AbstractParameterHandler
 
         //shuttertime END
         //MF
-        final ManualFocus mf = new ManualFocus(this,cameraHolder);
+        ManualFocus mf = new ManualFocus(this,cameraHolder);
         ManualFocus = mf;
         //MF END
 

@@ -20,11 +20,13 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.camera.parameters.modes.PictureFormatHandler;
 import com.freedcam.utils.Logger;
@@ -39,7 +41,7 @@ public class BaseManualParameter extends AbstractManualParameter
     /**
      * Holds the list of Supported parameters
      */
-    protected Camera.Parameters  parameters;
+    protected Parameters  parameters;
     /*
      * The name of the current key_value to get like brightness
      */
@@ -82,15 +84,15 @@ public class BaseManualParameter extends AbstractManualParameter
      * @param @key_min_value
      * @param @parametersHandler
      */
-    public BaseManualParameter(Camera.Parameters  parameters, String key_value, String maxValue, String MinValue, ParametersHandler parametersHandler, float step) {
+    public BaseManualParameter(Parameters  parameters, String key_value, String maxValue, String MinValue, ParametersHandler parametersHandler, float step) {
         super(parametersHandler);
         this.parametersHandler = parametersHandler;
         this.parameters = parameters;
         this.key_value = key_value;
-        this.key_max_value = maxValue;
-        this.key_min_value = MinValue;
+        key_max_value = maxValue;
+        key_min_value = MinValue;
         this.step = step;
-        if (!this.key_value.equals("") && !this.key_max_value.equals("") && !key_min_value.equals(""))
+        if (!this.key_value.equals("") && !key_max_value.equals("") && !key_min_value.equals(""))
         {
             if (parameters.get(this.key_value) != null && parameters.get(key_max_value) != null && parameters.get(key_min_value) != null)
             {
@@ -105,8 +107,8 @@ public class BaseManualParameter extends AbstractManualParameter
                         Logger.d(TAG, "processing negative values");
                         currentInt = stringvalues.length /2 + Integer.parseInt(currentString);
                         default_value = currentInt;
-                        this.isSupported = true;
-                        this.isVisible = isSupported;
+                        isSupported = true;
+                        isVisible = isSupported;
                     }
                     else
                     {
@@ -117,8 +119,8 @@ public class BaseManualParameter extends AbstractManualParameter
                                 default_value = i;
 
                             }
-                            this.isSupported = true;
-                            this.isVisible = isSupported;
+                            isSupported = true;
+                            isVisible = isSupported;
                         }
                     }
 
@@ -175,18 +177,18 @@ public class BaseManualParameter extends AbstractManualParameter
     }
 
 
-    public AbstractModeParameter.I_ModeParameterEvent GetPicFormatListner()
+    public I_ModeParameterEvent GetPicFormatListner()
     {
         return picformatListner;
     }
 
-    private AbstractModeParameter.I_ModeParameterEvent picformatListner = new AbstractModeParameter.I_ModeParameterEvent()
+    private I_ModeParameterEvent picformatListner = new I_ModeParameterEvent()
     {
 
         @Override
         public void onValueChanged(String val)
         {
-           if (val.equals(PictureFormatHandler.CaptureMode[PictureFormatHandler.JPEG]) && BaseManualParameter.this.isSupported)
+           if (val.equals(PictureFormatHandler.CaptureMode[PictureFormatHandler.JPEG]) && isSupported)
            {
                isVisible = true;
                ThrowBackgroundIsSupportedChanged(true);

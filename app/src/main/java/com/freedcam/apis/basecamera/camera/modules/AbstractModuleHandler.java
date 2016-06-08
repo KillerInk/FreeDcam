@@ -57,7 +57,7 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
 
     ArrayList<I_worker> workers;
 
-    private static String TAG = AbstractModuleHandler.class.getSimpleName();
+    private String TAG = AbstractModuleHandler.class.getSimpleName();
     public ModuleEventHandler moduleEventHandler;
     public AbstractMap<String, AbstractModule> moduleList;
     protected AbstractModule currentModule;

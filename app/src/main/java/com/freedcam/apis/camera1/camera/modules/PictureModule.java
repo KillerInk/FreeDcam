@@ -21,6 +21,8 @@ package com.freedcam.apis.camera1.camera.modules;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
 
@@ -28,6 +30,7 @@ import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
+import com.freedcam.apis.basecamera.camera.modules.I_Callbacks.PictureCallback;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
@@ -35,10 +38,12 @@ import com.freedcam.jni.RawToDng;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
+import com.freedcam.utils.StringUtils.FileEnding;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -51,7 +56,7 @@ import java.io.IOException;
 /**
  * Created by troop on 15.08.2014.
  */
-public class PictureModule extends AbstractModule implements I_Callbacks.PictureCallback
+public class PictureModule extends AbstractModule implements PictureCallback
 {
 
     private static String TAG = PictureModule.class.getSimpleName();
@@ -89,7 +94,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     public boolean DoWork()
     {
         Logger.d(TAG, "DoWork:isWorking:"+isWorking);
-        if (!this.isWorking)
+        if (!isWorking)
         {
             isWorking = true;
             String picformat = ParameterHandler.PictureFormat.GetValue();
@@ -120,7 +125,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         ParameterHandler.PreviewFormat.SetValue("yuv420sp",true);
         if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported() && !ParameterHandler.VideoHDR.GetValue().equals("off"))
             ParameterHandler.VideoHDR.SetValue("off", true);
-        if(appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV || appSettingsManager.getDevice() ==DeviceUtils.Devices.ZTEADV234 ||appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214) {
+        if(appSettingsManager.getDevice() == Devices.ZTE_ADV || appSettingsManager.getDevice() == Devices.ZTEADV234 ||appSettingsManager.getDevice() == Devices.ZTEADVIMX214) {
             ParameterHandler.SetZTESlowShutter();
         }
     }
@@ -147,7 +152,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             public void run()
             {
                 burstcount++;
-                final String picFormat = ParameterHandler.PictureFormat.GetValue();
+                String picFormat = ParameterHandler.PictureFormat.GetValue();
                 saveImage(data,picFormat);
             }
         });
@@ -179,7 +184,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
     {
         File toSave = getFile(getFileEnding(picFormat));
         Logger.d(TAG, "saveImage:"+toSave.getName() + " Filesize: "+data.length);
-        if (picFormat.equals(StringUtils.FileEnding.DNG))
+        if (picFormat.equals(FileEnding.DNG))
             saveDng(data,toSave);
         else
             saveBytesToFile(data,toSave);
@@ -193,9 +198,9 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             return ".jpg";
         else if (picFormat.equals("jps"))
             return  ".jps";
-        else if (!ParameterHandler.IsDngActive() && (picFormat.equals(StringUtils.FileEnding.BAYER) || picFormat.equals(StringUtils.FileEnding.RAW)))
+        else if (!ParameterHandler.IsDngActive() && (picFormat.equals(FileEnding.BAYER) || picFormat.equals(FileEnding.RAW)))
             return ".bayer";
-        else if (ParameterHandler.IsDngActive() && picFormat.contains(StringUtils.FileEnding.DNG))
+        else if (ParameterHandler.IsDngActive() && picFormat.contains(FileEnding.DNG))
             return ".dng";
         return "";
     }
@@ -241,7 +246,7 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
             }
         }
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !appSettingsManager.GetWriteExternal()))
+        if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP && !appSettingsManager.GetWriteExternal())
         {
             Logger.d(TAG, "Write To internal or kitkat<");
             checkFileExists(file);
@@ -252,9 +257,9 @@ public class PictureModule extends AbstractModule implements I_Callbacks.Picture
         else
         {
             DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,context);
-            Logger.d(TAG,"Filepath: " +df.getUri().toString());
+            Logger.d(TAG,"Filepath: " + df.getUri());
             DocumentFile wr = df.createFile("image/dng", file.getName().replace(".jpg", ".dng"));
-            Logger.d(TAG,"Filepath: " +wr.getUri().toString());
+            Logger.d(TAG,"Filepath: " + wr.getUri());
             ParcelFileDescriptor pfd = null;
             try {
                 pfd = context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");

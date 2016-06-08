@@ -21,6 +21,7 @@ package com.freedcam.apis;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Build.VERSION;
 
 import com.freedcam.apis.basecamera.AbstractCameraFragment;
 import com.freedcam.apis.camera1.Camera1Fragment;
@@ -56,7 +57,7 @@ public class ApiHandler
     {
         if (appSettingsManager.IsCamera2FullSupported().equals(""))
         {
-            if (Build.VERSION.SDK_INT >= 21)
+            if (VERSION.SDK_INT >= 21)
             {
                 FreeDPool.Execute(new Runnable() {
                     @Override

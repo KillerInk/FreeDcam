@@ -19,6 +19,7 @@
 
 package com.freedcam.ui.themesample.subfragments;
 
+import android.R.id;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.app.FragmentActivity;
@@ -40,8 +41,8 @@ public class VideoProfileEditorActivity extends FragmentActivity
     {
         super.onCreate(savedInstanceState);
         if (getSupportFragmentManager().findFragmentByTag(TAG) == null) {
-            final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(android.R.id.content, new VideoProfileEditorFragment(), TAG);
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(id.content, new VideoProfileEditorFragment(), TAG);
             ft.commit();
         }
     }

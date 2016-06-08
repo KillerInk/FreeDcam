@@ -22,6 +22,7 @@ package com.freedcam.apis.camera2.camera.parameters.modes;
 import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.util.Size;
 
 import com.freedcam.apis.camera2.camera.CameraHolder;
@@ -59,7 +60,7 @@ public class PictureSizeModeApi2 extends BaseModeApi2
         return size;
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(VERSION_CODES.LOLLIPOP)
     @Override
     public String[] GetValues()
     {

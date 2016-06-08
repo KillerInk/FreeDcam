@@ -20,10 +20,10 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
-import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 
 import java.text.DecimalFormat;
@@ -37,9 +37,9 @@ public class ShutterManualParameterHTC extends BaseManualParameter
     private final String HTCShutterValues = "Auto,1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000,1/800,1/640,1/500,1/400,1/320,1/250,1/200,1/125,1/100,1/80,1/60,1/50,1/40,1/30,1/25,1/20,1/15,1/13,1/10,1/8,1/6,1/5,1/4,0.3,0.4,0.5,0.6,0.8,1,1.3,1.6,2,2.5,3.2,4";
     private DecimalFormat trimfloat = new DecimalFormat("#.######");
 
-    public ShutterManualParameterHTC(Camera.Parameters parameters, String maxValue, String MinValue, ParametersHandler parametersHandler) {
+    public ShutterManualParameterHTC(Parameters parameters, String maxValue, String MinValue, ParametersHandler parametersHandler) {
         super(parameters, "", "", "", parametersHandler,1);
-            this.isSupported = true;
+        isSupported = true;
             stringvalues = HTCShutterValues.split(",");
     }
 
@@ -62,7 +62,7 @@ public class ShutterManualParameterHTC extends BaseManualParameter
         if(!shutterstring.equals(KEYS.AUTO))
         {
             if (shutterstring.contains("/")) {
-                String split[] = shutterstring.split("/");
+                String[] split = shutterstring.split("/");
                 Double a = Double.parseDouble(split[0]) / Double.parseDouble(split[1]);
                 shutterstring = "" + a;
             }

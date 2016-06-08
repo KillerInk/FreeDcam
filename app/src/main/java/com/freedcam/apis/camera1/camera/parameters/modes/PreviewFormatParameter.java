@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
 import com.freedcam.apis.camera1.camera.CameraHolder;
@@ -31,9 +32,9 @@ public class PreviewFormatParameter extends BaseModeParameter
 {
     private I_CameraHolder cameraHolder;
 
-    public PreviewFormatParameter(Camera.Parameters parameters, CameraHolder parameterChanged) {
+    public PreviewFormatParameter(Parameters parameters, CameraHolder parameterChanged) {
         super(parameters, parameterChanged, "preview-format", "preview-format-values");
-        this.cameraHolder = cameraHolder;
+        cameraHolder = cameraHolder;
     }
 
     @Override
@@ -47,11 +48,6 @@ public class PreviewFormatParameter extends BaseModeParameter
     @Override
     public String GetValue() {
         return super.GetValue();
-    }
-
-    @Override
-    public String[] GetValues() {
-        return super.GetValues();
     }
 
 }

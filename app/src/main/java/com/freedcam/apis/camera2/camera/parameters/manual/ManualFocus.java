@@ -23,6 +23,7 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
@@ -34,7 +35,7 @@ import com.freedcam.utils.StringUtils;
 /**
  * Created by troop on 28.04.2015.
  */
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@TargetApi(VERSION_CODES.LOLLIPOP)
 public class ManualFocus extends AbstractManualParameter
 {
     private final String TAG = ManualFocus.class.getSimpleName();
@@ -93,7 +94,7 @@ public class ManualFocus extends AbstractManualParameter
     @Override
     public boolean IsSupported()
     {
-        int af[] = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
+        int[] af = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
         isSupported = false;
         for (int i : af)
         {

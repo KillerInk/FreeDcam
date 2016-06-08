@@ -20,28 +20,35 @@
 package com.freedcam.apis.camera1.camera.parameters.device;
 
 import android.hardware.Camera;
-import android.os.Handler;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
-import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_MTK;
 import com.freedcam.apis.camera1.camera.parameters.manual.BaseManualParamMTK;
 import com.freedcam.apis.camera1.camera.parameters.manual.FocusManualMTK;
 import com.freedcam.apis.camera1.camera.parameters.modes.BaseModeParameter;
+import com.freedcam.utils.StringUtils;
+import com.freedcam.utils.StringUtils.FileEnding;
 import com.troop.androiddng.DngProfile;
 
 /**
  * Created by troop on 01.06.2016.
+ * this class represent a basic mtk device and int/loads the parameters for that
+ *
  */
 public class BaseMTKDevice extends AbstractDevice
 {
     protected AE_Handler_MTK ae_handler_mtk;
-    public BaseMTKDevice(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public BaseMTKDevice(Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
         ae_handler_mtk = new AE_Handler_MTK(parameters,cameraHolder, parametersHandler,1600);
+        parameters.set("afeng_raw_dump_flag", "1");
+        parameters.set("rawsave-mode", "2");
+        parameters.set("isp-mode", "1");
+        parameters.set("rawfname", StringUtils.GetInternalSDCARD()+"/DCIM/test."+ FileEnding.BAYER);
     }
 
     @Override

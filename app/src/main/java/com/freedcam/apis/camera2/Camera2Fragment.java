@@ -28,6 +28,8 @@ import com.freedcam.apis.basecamera.AbstractCameraFragment;
 import com.freedcam.apis.camera2.camera.AutoFitTextureView;
 import com.freedcam.apis.camera2.camera.CameraUiWrapper;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
 
 
 /**
@@ -40,9 +42,9 @@ public class Camera2Fragment extends AbstractCameraFragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.cameraholder2, container, false);
-        textureView = (AutoFitTextureView) view.findViewById(R.id.autofitview);
-        this.cameraUiWrapper = new CameraUiWrapper(view.getContext(),textureView,appSettingsManager, renderScriptHandler);
+        view = inflater.inflate(layout.cameraholder2, container, false);
+        textureView = (AutoFitTextureView) view.findViewById(id.autofitview);
+        cameraUiWrapper = new CameraUiWrapper(view.getContext(),textureView,appSettingsManager, renderScriptHandler);
         if (onrdy != null)
             onrdy.onCameraUiWrapperRdy(cameraUiWrapper);
         super.onCreateView(inflater,container,savedInstanceState);

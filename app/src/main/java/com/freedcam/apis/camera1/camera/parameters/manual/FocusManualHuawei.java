@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
@@ -29,16 +30,16 @@ import com.freedcam.utils.Logger;
  * Created by GeorgeKiarie on 02/04/2016.
  */
 public class FocusManualHuawei extends BaseFocusManual {
-    public FocusManualHuawei(Camera.Parameters parameters, String maxValue, String MinValue, String manualFocusModeString, ParametersHandler parametersHandler, float step, int manualFocusType) {
+    public FocusManualHuawei(Parameters parameters, String maxValue, String MinValue, String manualFocusModeString, ParametersHandler parametersHandler, float step, int manualFocusType) {
         super(parameters, KEYS.HW_MANUAL_FOCUS_STEP_VALUE, KEYS.HW_VCM_END_VALUE, KEYS.HW_VCM_START_VALUE, KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler, (float) 10, 0);
     }
 
-    public FocusManualHuawei(Camera.Parameters parameters, String value, int min, int max, String manualFocusModeString, ParametersHandler parametersHandler, float step, int manualFocusType) {
+    public FocusManualHuawei(Parameters parameters, String value, int min, int max, String manualFocusModeString, ParametersHandler parametersHandler, float step, int manualFocusType) {
         super(parameters, value, min, max, manualFocusModeString, parametersHandler, step, manualFocusType);
     }
 
     @Override
-    public void SetValue(final int valueToSet)
+    public void SetValue(int valueToSet)
     {
         currentInt = valueToSet;
 

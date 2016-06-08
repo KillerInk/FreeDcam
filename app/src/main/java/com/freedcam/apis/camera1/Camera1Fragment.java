@@ -29,6 +29,8 @@ import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.ExtendedSurfaceView;
 import com.freedcam.apis.camera1.camera.TextureViewRatio;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
 
 /**
  * Created by troop on 06.06.2015.
@@ -41,17 +43,17 @@ public class Camera1Fragment extends AbstractCameraFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        return inflater.inflate(R.layout.cameraholder1, container, false);
+        return inflater.inflate(layout.cameraholder1, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
 
-        extendedSurfaceView = (ExtendedSurfaceView) view.findViewById(R.id.exSurface);
-        preview = (TextureViewRatio) view.findViewById(R.id.textureView_preview);
+        extendedSurfaceView = (ExtendedSurfaceView) view.findViewById(id.exSurface);
+        preview = (TextureViewRatio) view.findViewById(id.textureView_preview);
 
-        this.cameraUiWrapper = new CameraUiWrapper(extendedSurfaceView, preview, getContext(),appSettingsManager,renderScriptHandler);
+        cameraUiWrapper = new CameraUiWrapper(extendedSurfaceView, preview, getContext(),appSettingsManager,renderScriptHandler);
         if (onrdy != null)
             onrdy.onCameraUiWrapperRdy(cameraUiWrapper);
 

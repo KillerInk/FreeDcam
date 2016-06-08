@@ -45,8 +45,9 @@ public class AbstractManualShutter extends AbstractManualParameter
 
     public String[] getSupportedShutterValues(int minMillisec, int maxMiliisec, boolean withautomode)
     {
-        final String[] allvalues = shutterValues.split(",");
-        boolean foundmin = false, foundmax = false;
+        String[] allvalues = shutterValues.split(",");
+        boolean foundmin = false;
+        boolean foundmax = false;
         ArrayList<String> tmp = new ArrayList<>();
         if (withautomode)
             tmp.add(KEYS.AUTO);
@@ -56,11 +57,11 @@ public class AbstractManualShutter extends AbstractManualParameter
 
             float a;
             if (s.contains("/")) {
-                String split[] = s.split("/");
-                a =(Float.parseFloat(split[0]) / Float.parseFloat(split[1])*1000000f);
+                String[] split = s.split("/");
+                a = Float.parseFloat(split[0]) / Float.parseFloat(split[1])*1000000f;
             }
             else
-                a = (Float.parseFloat(s)*1000000f);
+                a = Float.parseFloat(s)*1000000f;
 
             if (a>= minMillisec && a <= maxMiliisec)
                 tmp.add(s);
@@ -87,7 +88,7 @@ public class AbstractManualShutter extends AbstractManualParameter
     public String FormatShutterStringToDouble(String shutterstring)
     {
         if (shutterstring.contains("/")) {
-            String split[] = shutterstring.split("/");
+            String[] split = shutterstring.split("/");
             Double a = Double.parseDouble(split[0]) / Double.parseDouble(split[1]);
             shutterstring = "" + a;
         }
@@ -101,7 +102,7 @@ public class AbstractManualShutter extends AbstractManualParameter
      */
     public String getMicroSecFromMilliseconds(String shutterString)
     {
-        return (Double.parseDouble(shutterString) * 1000)+"";
+        return Double.parseDouble(shutterString) * 1000 +"";
     }
 
     public String FLOATtoSixty4(String a)
@@ -116,11 +117,11 @@ public class AbstractManualShutter extends AbstractManualParameter
     {
         float a;
         if (shuttervalue.contains("/")) {
-            String split[] = shuttervalue.split("/");
-            a =(Float.parseFloat(split[0]) / Float.parseFloat(split[1])*1000000f);
+            String[] split = shuttervalue.split("/");
+            a = Float.parseFloat(split[0]) / Float.parseFloat(split[1])*1000000f;
         }
         else
-            a = (Float.parseFloat(shuttervalue)*1000000f);
+            a = Float.parseFloat(shuttervalue)*1000000f;
         a = Math.round(a);
         return  (long)a;
     }

@@ -54,7 +54,7 @@ public final class ServerDevice {
          * @param name category name
          */
         public void setName(String name) {
-            this.mName = name;
+            mName = name;
         }
 
         /**
@@ -72,7 +72,7 @@ public final class ServerDevice {
          * @param actionListUrl action list URL of the category
          */
         public void setActionListUrl(String actionListUrl) {
-            this.mActionListUrl = actionListUrl;
+            mActionListUrl = actionListUrl;
         }
 
         /**

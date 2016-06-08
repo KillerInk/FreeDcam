@@ -20,16 +20,12 @@
 package com.freedcam.apis.camera1.camera.parameters.device.qcom;
 
 import android.hardware.Camera;
-import android.os.Handler;
+import android.hardware.Camera.Parameters;
 
-import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
-import com.freedcam.apis.camera1.camera.parameters.device.BaseQcomDevice;
 import com.freedcam.apis.camera1.camera.parameters.device.BaseQcomNew;
-import com.freedcam.apis.camera1.camera.parameters.manual.BaseISOManual;
-import com.freedcam.apis.camera1.camera.parameters.manual.ShutterManual_ExposureTime_Micro;
 import com.freedcam.apis.camera1.camera.parameters.modes.OpCodeParameter;
 import com.troop.androiddng.DngProfile;
 
@@ -37,7 +33,7 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 01.06.2016.
  */
 public class Sony_M4 extends BaseQcomNew {
-    public Sony_M4(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public Sony_M4(Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 

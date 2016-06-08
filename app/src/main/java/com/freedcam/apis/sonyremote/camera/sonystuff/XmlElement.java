@@ -149,7 +149,7 @@ public class XmlElement {
      */
     public XmlElement findChild(String name) {
 
-        for (final XmlElement child : mChildElements) {
+        for (XmlElement child : mChildElements) {
             if (child.getTagName().equals(name)) {
                 return child;
             }
@@ -165,8 +165,8 @@ public class XmlElement {
      * @return a list of child elements
      */
     public List<XmlElement> findChildren(String name) {
-        final List<XmlElement> tagItemList = new ArrayList<>();
-        for (final XmlElement child : mChildElements) {
+        List<XmlElement> tagItemList = new ArrayList<>();
+        for (XmlElement child : mChildElements) {
             if (child.getTagName().equals(name)) {
                 tagItemList.add(child);
             }
@@ -193,7 +193,7 @@ public class XmlElement {
      * @return true if empty, false otherwise.
      */
     public boolean isEmpty() {
-        return (mTagName == null);
+        return mTagName == null;
     }
 
     /**
@@ -212,7 +212,7 @@ public class XmlElement {
                     case XmlPullParser.START_DOCUMENT:
                         break;
                     case XmlPullParser.START_TAG:
-                        final XmlElement childItem = new XmlElement();
+                        XmlElement childItem = new XmlElement();
                         childItem.setTagName(xmlPullParser.getName());
                         if (parsingElement == XmlElement.NULL_ELEMENT) {
                             rootElement = childItem;
@@ -240,10 +240,10 @@ public class XmlElement {
                         break MAINLOOP;
                 }
             }
-        } catch (final XmlPullParserException e) {
+        } catch (XmlPullParserException e) {
             Logger.e(TAG, "parseXml: XmlPullParserException.");
             rootElement = XmlElement.NULL_ELEMENT;
-        } catch (final IOException e) {
+        } catch (IOException e) {
             Logger.e(TAG, "parseXml: IOException.");
             rootElement = XmlElement.NULL_ELEMENT;
         }
@@ -264,7 +264,7 @@ public class XmlElement {
             XmlPullParser xmlPullParser = Xml.newPullParser();
             xmlPullParser.setInput(new StringReader(xmlStr));
             return parse(xmlPullParser);
-        } catch (final XmlPullParserException e) {
+        } catch (XmlPullParserException e) {
             Logger.e(TAG, "parseXml: XmlPullParserException occured.");
             return XmlElement.NULL_ELEMENT;
         }

@@ -23,13 +23,14 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 
 import com.freedcam.apis.camera2.camera.CameraHolder;
 
 /**
  * Created by troop on 13.12.2014.
  */
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@TargetApi(VERSION_CODES.LOLLIPOP)
 public class SceneModeApi2 extends  BaseModeApi2
 {
 
@@ -56,19 +57,19 @@ public class SceneModeApi2 extends  BaseModeApi2
 
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(VERSION_CODES.LOLLIPOP)
     public SceneModeApi2(CameraHolder cameraHolder)
     {
         super(cameraHolder);
         int[] values = this.cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_SCENE_MODES);
         if (values.length > 1)
-            this.isSupported = true;
+            isSupported = true;
     }
 
     @Override
     public boolean IsSupported()
     {
-        return this.isSupported;
+        return isSupported;
     }
 
     @Override

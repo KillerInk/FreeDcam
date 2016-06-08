@@ -35,17 +35,12 @@ public class ParameterExternalShutter extends AbstractModeParameter
 
     public ParameterExternalShutter(AppSettingsManager appSettingsManager)
     {
-        super();
         this.appSettingsManager = appSettingsManager;
     }
 
     public boolean IsSupported()
     {
         return true;
-    }
-    public void setIsSupported(boolean s)
-    {
-
     }
 
     public void SetValue(String valueToSet, boolean setToCamera)

@@ -36,15 +36,18 @@ import android.widget.ImageView;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.AppSettingsManager;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
 
 /**
  * Created by Ar4eR on 15.01.16.
  */
-public class HorizontLineFragment extends AbstractFragment implements AbstractModeParameter.I_ModeParameterEvent{
+public class HorizontLineFragment extends AbstractFragment implements I_ModeParameterEvent{
 
     private View view;
 
@@ -78,10 +81,10 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,null);
-        this.view = inflater.inflate(R.layout.horizontline, container, false);
-        lineImage = (ImageView)view.findViewById(R.id.horizontlevelline);
-        upImage = (ImageView)view.findViewById(R.id.horizontlevelup);
-        downImage = (ImageView)view.findViewById(R.id.horizontleveldown);
+        view = inflater.inflate(layout.horizontline, container, false);
+        lineImage = (ImageView)view.findViewById(id.horizontlevelline);
+        upImage = (ImageView)view.findViewById(id.horizontlevelup);
+        downImage = (ImageView)view.findViewById(id.horizontleveldown);
         upImage.setVisibility(View.GONE);
         downImage.setVisibility(View.GONE);
         HandlerThread sensorThread = new HandlerThread("Sensor thread", Thread.MAX_PRIORITY);
@@ -170,7 +173,7 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
             if ( output == null ) return input;
 
             for ( int i=0; i<input.length; i++ ) {
-                output[i] = (input[i] * ALPHA) + (output[i] * (1.0f - ALPHA));
+                output[i] = input[i] * ALPHA + output[i] * (1.0f - ALPHA);
                 //output[i] = output[i] + ALPHA * (input[i] - output[i]);
             }
             return output;
@@ -185,11 +188,11 @@ public class HorizontLineFragment extends AbstractFragment implements AbstractMo
                 mGeomagnetic = event.values.clone();
             if (mGravity != null && mGeomagnetic != null) {
                 //hltheard.run();
-                float R[] = new float[9];
-                float I[] = new float[9];
+                float[] R = new float[9];
+                float[] I = new float[9];
                 boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic);
                 if (success) {
-                    float orientation[] = new float[3];
+                    float[] orientation = new float[3];
                     SensorManager.getOrientation(R, orientation);
                     roll = orientation[1];
                     pitch = orientation[2];

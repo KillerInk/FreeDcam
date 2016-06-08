@@ -21,7 +21,6 @@ package com.freedcam.ui.themesample.views.uichilds;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 
@@ -35,16 +34,6 @@ public class UiSettingsMenu extends UiSettingsChild {
 
     public UiSettingsMenu(Context context, AttributeSet attrs) {
         super(context, attrs);
-    }
-
-    @Override
-    protected void inflateTheme(LayoutInflater inflater) {
-        super.inflateTheme(inflater);
-    }
-
-    @Override
-    public void SetParameter(AbstractModeParameter parameter) {
-        super.SetParameter(parameter);
     }
 
     @Override
@@ -65,11 +54,6 @@ public class UiSettingsMenu extends UiSettingsChild {
 
     @Override
     public void onIsSetSupportedChanged(boolean isSupported) {
-
-    }
-
-    @Override
-    public void onValuesChanged(String[] values) {
 
     }
 

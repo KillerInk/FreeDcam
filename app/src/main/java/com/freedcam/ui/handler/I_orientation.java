@@ -5,5 +5,5 @@ package com.freedcam.ui.handler;
  */
 public interface I_orientation
 {
-    int OrientationChanged(int orientation);
+    void OrientationChanged(int orientation);
 }

@@ -22,8 +22,14 @@ package com.freedcam.apis.camera1.camera;
 import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.hardware.Camera;
+import android.hardware.Camera.Area;
+import android.hardware.Camera.AutoFocusCallback;
+import android.hardware.Camera.ErrorCallback;
+import android.hardware.Camera.Parameters;
+import android.hardware.Camera.PictureCallback;
+import android.hardware.Camera.PreviewCallback;
+import android.hardware.Camera.ShutterCallback;
 import android.location.Location;
-import android.os.Handler;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 
@@ -34,15 +40,10 @@ import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.camera.interfaces.I_error;
 import com.freedcam.apis.basecamera.camera.modules.CameraFocusEvent;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
-import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.utils.AppSettingsManager;
-import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
-import com.lge.hardware.LGCamera;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,13 +81,12 @@ public class CameraHolder extends AbstractCameraHolder
     public CameraHolder(I_CameraChangedListner cameraChangedListner, AppSettingsManager appSettingsManager, Frameworks frameworks)
     {
         super(cameraChangedListner,appSettingsManager);
-        //hasSamsungFramework();
         DeviceFrameWork = frameworks;
     }
 
     public String GetParamsDirect(String para)
     {
-        Camera.Parameters p = mCamera.getParameters();
+        Parameters p = mCamera.getParameters();
         return p.get(para);
     }
 
@@ -96,7 +96,7 @@ public class CameraHolder extends AbstractCameraHolder
      * @return false if camera open fails, return true when open
      */
     @Override
-    public boolean OpenCamera(final int camera)
+    public boolean OpenCamera(int camera)
     {
         try
         {
@@ -151,16 +151,15 @@ public class CameraHolder extends AbstractCameraHolder
         return isRdy;
     }
 
-    public boolean SetCameraParameters(Camera.Parameters parameters)
+    public void SetCameraParameters(Parameters parameters)
     {
         mCamera.setParameters(parameters);
-        return true;
     }
 
     @Override
     public boolean SetSurface(SurfaceHolder surfaceHolder)
     {
-        this.previewSurfaceHolder = surfaceHolder.getSurface();
+        previewSurfaceHolder = surfaceHolder.getSurface();
         try
         {
             if (isRdy && mCamera != null) {
@@ -195,8 +194,6 @@ public class CameraHolder extends AbstractCameraHolder
         }
         try
         {
-            if (DeviceFrameWork == Frameworks.MTK)
-                ((ParametersHandler)GetParameterHandler()).initMTKSHit();
             mCamera.startPreview();
             isPreviewRunning = true;
             Logger.d(TAG, "PreviewStarted");
@@ -232,35 +229,35 @@ public class CameraHolder extends AbstractCameraHolder
         }
     }
 
-    public Camera.Parameters GetCameraParameters()
+    public Parameters GetCameraParameters()
     {
         return mCamera.getParameters();
     }
 
-    public void TakePicture(final I_Callbacks.PictureCallback raw, final I_Callbacks.PictureCallback picture)
+    public void TakePicture(I_Callbacks.PictureCallback raw, I_Callbacks.PictureCallback picture)
     {
-        this.pictureCallback = picture;
-        this.shutterCallback = null;
-        this.rawCallback = raw;
+        pictureCallback = picture;
+        shutterCallback = null;
+        rawCallback = raw;
         takePicture();
     }
 
     private void takePicture()
     {
-        Camera.ShutterCallback sh = null;
+        ShutterCallback sh = null;
         if (shutterCallback != null)
         {
-            sh = new Camera.ShutterCallback() {
+            sh = new ShutterCallback() {
                 @Override
                 public void onShutter() {
                     shutterCallback.onShutter();
                 }
             };
         }
-        Camera.PictureCallback r = null;
+        PictureCallback r = null;
         if (rawCallback != null)
         {
-            r = new Camera.PictureCallback() {
+            r = new PictureCallback() {
                 @Override
                 public void onPictureTaken(byte[] bytes, Camera secCamera)
                 {
@@ -271,7 +268,7 @@ public class CameraHolder extends AbstractCameraHolder
         }
         if (pictureCallback == null)
             return;
-        Camera.PictureCallback pic = new Camera.PictureCallback() {
+        PictureCallback pic = new PictureCallback() {
             @Override
             public void onPictureTaken(byte[] bytes, Camera secCamera) {
                 pictureCallback.onPictureTaken(bytes);
@@ -279,7 +276,7 @@ public class CameraHolder extends AbstractCameraHolder
             }
         };
         try {
-            this.mCamera.takePicture(sh, r, pic);
+            mCamera.takePicture(sh, r, pic);
         }
         catch (RuntimeException ex)
         {
@@ -289,26 +286,7 @@ public class CameraHolder extends AbstractCameraHolder
 
     }
 
-    @Override
-    public void SetPreviewCallback(final I_Callbacks.PreviewCallback previewCallback)
-    {
-        if (!isPreviewRunning && !isRdy)
-            return;
-
-        if (previewCallback == null)
-            mCamera.setPreviewCallback(null);
-        else
-            mCamera.setPreviewCallback(new Camera.PreviewCallback() {
-                @Override
-                public void onPreviewFrame(byte[] data, Camera camera) {
-                    previewCallback.onPreviewFrame(data, I_Callbacks.YUV);
-                }
-            });
-
-    }
-
-    @Override
-    public void SetPreviewCallback(final Camera.PreviewCallback previewCallback)
+    public void SetPreviewCallback(PreviewCallback previewCallback)
     {
         try {
             if (!isPreviewRunning && !isRdy)
@@ -329,7 +307,6 @@ public class CameraHolder extends AbstractCameraHolder
 
     }
 
-    @Override
     public void ResetPreviewCallback()
     {
         try {
@@ -346,7 +323,7 @@ public class CameraHolder extends AbstractCameraHolder
     {
         if (mCamera == null)
             return;
-        mCamera.setErrorCallback(new Camera.ErrorCallback() {
+        mCamera.setErrorCallback(new ErrorCallback() {
             @Override
             public void onError(int error, Camera camera)
             {
@@ -362,7 +339,7 @@ public class CameraHolder extends AbstractCameraHolder
         if (!isRdy)
             return;
         try {
-            mCamera.autoFocus(new Camera.AutoFocusCallback() {
+            mCamera.autoFocus(new AutoFocusCallback() {
                 @Override
                 public void onAutoFocus(boolean success, Camera camera)
                 {
@@ -395,10 +372,10 @@ public class CameraHolder extends AbstractCameraHolder
     {
         try {
 
-            List<Camera.Area> meteringList = new ArrayList<>();
+            List<Area> meteringList = new ArrayList<>();
             if (meteringRect != null)
-                meteringList.add(new Camera.Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 100));
-            Camera.Parameters p = mCamera.getParameters();
+                meteringList.add(new Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 100));
+            Parameters p = mCamera.getParameters();
             if(p.getMaxNumMeteringAreas() > 0)
                 p.setMeteringAreas(meteringList);
 
@@ -419,12 +396,12 @@ public class CameraHolder extends AbstractCameraHolder
     @Override
     public void SetLocation(Location loc)
     {
-        this.gpsLocation = loc;
+        gpsLocation = loc;
         if(!isRdy)
             return;
 
         if (mCamera != null) {
-            Camera.Parameters paras = mCamera.getParameters();
+            Parameters paras = mCamera.getParameters();
             paras.setGpsAltitude(loc.getAltitude());
             paras.setGpsLatitude(loc.getLatitude());
             paras.setGpsLongitude(loc.getLongitude());
@@ -444,10 +421,10 @@ public class CameraHolder extends AbstractCameraHolder
     {
         if (!isRdy || or == Orientation)
             return;
-        this.Orientation = or;
+        Orientation = or;
 
         if (mCamera != null) {
-            Camera.Parameters paras = mCamera.getParameters();
+            Parameters paras = mCamera.getParameters();
             paras.setRotation(or);
             mCamera.setParameters(paras);
         }

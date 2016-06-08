@@ -50,7 +50,7 @@ public class MenuItemIntervalDuration extends MenuItem
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        super.SetParameter(cameraUiWrapper.parametersHandler.IntervalDuration);
+        SetParameter(cameraUiWrapper.parametersHandler.IntervalDuration);
     }
 
     @Override

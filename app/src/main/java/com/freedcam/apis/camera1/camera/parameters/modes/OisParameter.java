@@ -20,10 +20,12 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 import android.os.Handler;
 
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.DeviceUtils.Devices;
 
 /**
  * Created by troop on 26.05.2015.
@@ -35,25 +37,25 @@ public class OisParameter extends BaseModeParameter {
      * @param cameraHolder Hold the camera object
      * @param values
      */
-    public OisParameter(Handler uihandler, Camera.Parameters parameters, CameraHolder cameraHolder, String values) {
+    public OisParameter(Handler uihandler, Parameters parameters, CameraHolder cameraHolder, String values) {
         super(parameters, cameraHolder, "", "");
     }
 
     @Override
     public boolean IsSupported() {
-        return cameraHolder.appSettingsManager.getDevice() == (DeviceUtils.Devices.LG_G2) 
-                || cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.LG_G3) 
-                || cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.LG_G2pro) 
-                || cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.LG_G4) 
-                || cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.p8lite) 
-                || cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.XiaomiMI5);
+        return cameraHolder.appSettingsManager.getDevice() == Devices.LG_G2
+                || cameraHolder.appSettingsManager.getDevice() == Devices.LG_G3
+                || cameraHolder.appSettingsManager.getDevice() == Devices.LG_G2pro
+                || cameraHolder.appSettingsManager.getDevice() == Devices.LG_G4
+                || cameraHolder.appSettingsManager.getDevice() == Devices.p8lite
+                || cameraHolder.appSettingsManager.getDevice() == Devices.XiaomiMI5;
     }
 
     @Override
     public void SetValue(String valueToSet, boolean setToCam) {
-        if (cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.LG_G2) || cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.LG_G3)|| cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.LG_G4))
+        if (cameraHolder.appSettingsManager.getDevice() == Devices.LG_G2 || cameraHolder.appSettingsManager.getDevice() == Devices.LG_G3 || cameraHolder.appSettingsManager.getDevice() == Devices.LG_G4)
             parameters.set("ois-ctrl", valueToSet);
-        else if (cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.XiaomiMI5))
+        else if (cameraHolder.appSettingsManager.getDevice() == Devices.XiaomiMI5)
             parameters.set("ois", valueToSet);
         else
             parameters.set("hw_ois_enable", valueToSet);
@@ -67,11 +69,11 @@ public class OisParameter extends BaseModeParameter {
 
     @Override
     public String[] GetValues() {
-        if(cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.LG_G2) || cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.LG_G3) || cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.LG_G2pro)  || cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.LG_G4) )
+        if(cameraHolder.appSettingsManager.getDevice() == Devices.LG_G2 || cameraHolder.appSettingsManager.getDevice() == Devices.LG_G3 || cameraHolder.appSettingsManager.getDevice() == Devices.LG_G2pro || cameraHolder.appSettingsManager.getDevice() == Devices.LG_G4)
         return new String[] {
                 "preview-capture","capture","video","centering-only","centering-off"
         };
-        else if(cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.XiaomiMI5))
+        else if(cameraHolder.appSettingsManager.getDevice() == Devices.XiaomiMI5)
         {
             return new String[] {
                     "enable,disable"

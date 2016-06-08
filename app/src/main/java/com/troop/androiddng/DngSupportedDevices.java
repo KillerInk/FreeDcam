@@ -22,13 +22,14 @@ package com.troop.androiddng;
 
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.DeviceUtils.Devices;
 
 /**
  * Created by troop on 11.05.2015.
  */
 public class DngSupportedDevices
 {
-    public DngProfile getProfile(DeviceUtils.Devices device, int filesize, MatrixChooserParameter matrixChooser)
+    public DngProfile getProfile(Devices device, int filesize, MatrixChooserParameter matrixChooser)
     {
         switch (filesize) {
 
@@ -69,7 +70,7 @@ public class DngSupportedDevices
                         matrixChooser.GetCustomMatrix(MatrixChooserParameter.OmniVision));
             case 6299648:
                 return new DngProfile(16,2592,1944,DngProfile.Mipi,DngProfile.BGGR,0, matrixChooser.GetCustomMatrix(MatrixChooserParameter.OmniVision));
-            case 6721536: {
+            case 6721536:
                 switch (device) {
                     case XiaomiMI_Note_Pro:
                         return new DngProfile(64,2592,1296,DngProfile.Qcom,DngProfile.BGGR,0, matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
@@ -80,7 +81,6 @@ public class DngSupportedDevices
                     default:
                         return new DngProfile(64, 2592, 1296, DngProfile.Qcom, DngProfile.BGGR, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                 }
-            }
             case 6746112:// Htc One SV
                 return new DngProfile(64,2592,1944,DngProfile.Qcom,DngProfile.GRBG,0, matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 9631728: //I_Mobile_I_StyleQ6
@@ -92,17 +92,14 @@ public class DngSupportedDevices
             case 9990144://e7 front mipi
                 return new DngProfile(16, 3264, 2448, DngProfile.Mipi, DngProfile.BGGR, 4080,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 10653696://e7 front qcom
-            {
                 //TODO somethings wrong with it;
                 return new DngProfile(16, 3264, 2448, DngProfile.Qcom, DngProfile.BGGR, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-            }
             case 10782464: //mytouch 4g slide / desire 500 not sure about black level 64 has green cast
                 return new DngProfile(0, 3282, 2448, DngProfile.Qcom, DngProfile.GRBG, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 10788864: //xperia L
                 return new DngProfile(64, 3282, 2448, DngProfile.Qcom, DngProfile.BGGR, DngProfile.XperiaL_rowSize,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
 
             case 16224256://MIPI g2
-            {
                 switch (device) {
                     case LG_G2:
                         return new DngProfile(64, 4208, 3082, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
@@ -111,8 +108,7 @@ public class DngSupportedDevices
                     default:
                         return new DngProfile(64, 4208, 3082, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                 }
-            }
-            case 16424960: {
+            case 16424960:
                 switch (device) {
                     case Vivo_Xplay3s:
                         return new DngProfile(64, 4212, 3120, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
@@ -155,12 +151,11 @@ public class DngSupportedDevices
                     default:
                         return new DngProfile(64, 4212, 3082, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                 }
-            }
             case 16473600: //oneplus
                 return new DngProfile(16,4224,3120,DngProfile.Mipi,DngProfile.BGGR,5280, matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 16510976://mi 4c
                 return new DngProfile(64,4208,3120,DngProfile.Mipi16,DngProfile.BGGR,0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-            case 16560128: {
+            case 16560128:
                 switch (device) {
                     case XiaomiMI_Note_Pro:
                         return new DngProfile(64, 4208, 3120, DngProfile.Mipi16, DngProfile.RGGB, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
@@ -169,10 +164,9 @@ public class DngSupportedDevices
                     default:
                         return new DngProfile(64, 4212, 3120, DngProfile.Mipi, DngProfile.RGGB, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                 }
-            }
             case 17326080://qcom g3
                 return new DngProfile(64, 4164, 3120, DngProfile.Qcom, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-            case 17522688: {
+            case 17522688:
                 switch (device) {
                     case Vivo_Xplay3s:
                         return new DngProfile(64, 4208, 3120, DngProfile.Qcom, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
@@ -202,15 +196,13 @@ public class DngSupportedDevices
                     default:
                         return new DngProfile(64, 4208, 3120, DngProfile.Qcom, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                 }
-            }
-            case 17612800: {
+            case 17612800:
                 switch (device) {
                     case XiaomiMI_Note_Pro:
                         return new DngProfile(64, 4212, 3120, DngProfile.Qcom, DngProfile.RGGB, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                     default:
                         return new DngProfile(64, 4212, 3120, DngProfile.Qcom, DngProfile.RGGB, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                 }
-            }
             case 19906560://e7mipi
             return new DngProfile(16, 4608, 3456, DngProfile.Mipi, DngProfile.BGGR, 0,
                     matrixChooser.GetCustomMatrix(MatrixChooserParameter.OmniVision));
@@ -264,9 +256,9 @@ public class DngSupportedDevices
             case 42923008://Moto_MSM8982_8994
                 return new DngProfile(64, 5344, 4016, DngProfile.Plain, DngProfile.RGGB, 0, matrixChooser.GetCustomMatrix(MatrixChooserParameter.IMX230));
         }
-        if (device == DeviceUtils.Devices.LG_G4)
+        if (device == Devices.LG_G4)
             return new DngProfile(64, 5312,2988,DngProfile.Mipi, DngProfile.BGGR,0, matrixChooser.GetCustomMatrix(MatrixChooserParameter.G4));
-        if (device == DeviceUtils.Devices.Htc_M8)
+        if (device == Devices.Htc_M8)
         {
             if (filesize < 6000000 && filesize > 5382641)
                 return new DngProfile(0, 2688, 1520, DngProfile.Qcom, DngProfile.GRBG, 0, matrixChooser.GetCustomMatrix(MatrixChooserParameter.OmniVision));

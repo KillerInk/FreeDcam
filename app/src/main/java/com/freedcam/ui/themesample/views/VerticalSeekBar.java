@@ -48,7 +48,7 @@ public class VerticalSeekBar extends SeekBar
 
     @Override
     public void setOnSeekBarChangeListener(OnSeekBarChangeListener mListener){
-        this.listner =mListener;
+        listner =mListener;
     }
 
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {

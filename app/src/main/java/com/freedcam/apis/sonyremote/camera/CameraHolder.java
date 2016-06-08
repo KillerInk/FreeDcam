@@ -25,7 +25,8 @@ import android.location.Location;
 import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.camera.modules.CameraFocusEvent;
-import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
+import com.freedcam.apis.basecamera.camera.modules.I_Callbacks.AutoFocusCallback;
+import com.freedcam.apis.basecamera.camera.modules.I_Callbacks.PreviewCallback;
 import com.freedcam.apis.sonyremote.camera.modules.I_CameraStatusChanged;
 import com.freedcam.apis.sonyremote.camera.modules.I_PictureCallback;
 import com.freedcam.apis.sonyremote.camera.modules.ModuleHandlerSony;
@@ -34,8 +35,11 @@ import com.freedcam.apis.sonyremote.camera.parameters.manual.ZoomManualSony;
 import com.freedcam.apis.sonyremote.camera.sonystuff.JsonUtils;
 import com.freedcam.apis.sonyremote.camera.sonystuff.ServerDevice;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleCameraEventObserver;
+import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleCameraEventObserver.ChangeListener;
+import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleCameraEventObserver.ChangeListenerTmpl;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleRemoteApi;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleStreamSurfaceView;
+import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleStreamSurfaceView.StreamErrorListener;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SonyUtils;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
@@ -63,7 +67,7 @@ public class CameraHolder extends AbstractCameraHolder
 
     ServerDevice serverDevice;
     public I_CameraStatusChanged CameraStatusListner;
-    I_Callbacks.AutoFocusCallback autoFocusCallback;
+    AutoFocusCallback autoFocusCallback;
     public FocusHandler focusHandler;
 
     private SimpleCameraEventObserver mEventObserver;
@@ -84,7 +88,7 @@ public class CameraHolder extends AbstractCameraHolder
     { return cameraStatus;}
 
 
-    private SimpleCameraEventObserver.ChangeListener mEventListener = new SimpleCameraEventObserver.ChangeListenerTmpl()
+    private ChangeListener mEventListener = new ChangeListenerTmpl()
     {
 
         @Override
@@ -98,7 +102,7 @@ public class CameraHolder extends AbstractCameraHolder
         {
             //if (cameraStatus.equals(status))
             //    return;
-            CameraHolder.this.cameraStatus = status;
+            cameraStatus = status;
             Logger.d(TAG, "Camerastatus:" + cameraStatus);
             if (CameraStatusListner != null)
                 CameraStatusListner.onCameraStatusChanged(status);
@@ -197,31 +201,16 @@ public class CameraHolder extends AbstractCameraHolder
         }
 
         @Override
-        public void onWbColorTemperatureChanged(int colortemp) {
-
-        }
-
-        @Override
-        public void onPostViewImageRevieved(String url) {
-
-        }
-
-        @Override
-        public void onImageRecieved(String url) {
-
-        }
-
-        @Override
         public void onImagesRecieved(final String[] url)
         {
             FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run() {
-                    for (final String s : url)
+                    for (String s : url)
                     {
                         if (moduleHandlerSony.GetCurrentModule() instanceof PictureModuleSony)
                         {
-                            final PictureModuleSony pictureModuleSony = (PictureModuleSony)moduleHandlerSony.GetCurrentModule();
+                            PictureModuleSony pictureModuleSony = (PictureModuleSony)moduleHandlerSony.GetCurrentModule();
 
 
                             try {
@@ -235,16 +224,6 @@ public class CameraHolder extends AbstractCameraHolder
 
                     }
                 }});
-        }
-
-        @Override
-        public void onProgramShiftValueChanged(int shift) {
-
-        }
-
-        @Override
-        public void onProgramShiftValuesChanged(String[] shift) {
-
         }
 
         @Override
@@ -359,11 +338,11 @@ public class CameraHolder extends AbstractCameraHolder
     {
         super(cameraChangedListner,appSettingsManager);
         this.context = context;
-        this.mLiveviewSurface = simpleStreamSurfaceView;
+        mLiveviewSurface = simpleStreamSurfaceView;
     }
 
 
-    public boolean OpenCamera(ServerDevice serverDevice)
+    public void OpenCamera(ServerDevice serverDevice)
     {
         this.serverDevice = serverDevice;
         mRemoteApi = new SimpleRemoteApi(serverDevice);
@@ -373,7 +352,6 @@ public class CameraHolder extends AbstractCameraHolder
 
 
         StartPreview();
-        return false;
     }
 
     @Override
@@ -423,10 +401,10 @@ public class CameraHolder extends AbstractCameraHolder
                         JSONArray resultsObj = replyJson.getJSONArray("result");
                         if (1 <= resultsObj.length()) {
                             // Obtain liveview URL from the result.
-                            final String liveviewUrl = resultsObj.getString(0);
+                            String liveviewUrl = resultsObj.getString(0);
                             Logger.d(TAG,"startLiveview");
                             mLiveviewSurface.start(liveviewUrl, //
-                                    new SimpleStreamSurfaceView.StreamErrorListener() {
+                                    new StreamErrorListener() {
 
                                         @Override
                                         public void onError(StreamErrorReason reason)
@@ -658,12 +636,12 @@ public class CameraHolder extends AbstractCameraHolder
     }
 
 
-    public void TakePicture(final I_PictureCallback pictureCallback)
+    public void TakePicture(I_PictureCallback pictureCallback)
     {
         actTakePicture(pictureCallback);
     }
 
-    public void startContShoot(final I_PictureCallback pictureCallback)
+    public void startContShoot(I_PictureCallback pictureCallback)
     {
         FreeDPool.Execute(new Runnable() {
             @Override
@@ -683,7 +661,7 @@ public class CameraHolder extends AbstractCameraHolder
         });
     }
 
-    public void stopContShoot(final I_PictureCallback pictureCallback)
+    public void stopContShoot(I_PictureCallback pictureCallback)
     {
         FreeDPool.Execute(new Runnable() {
             @Override
@@ -899,8 +877,7 @@ public class CameraHolder extends AbstractCameraHolder
 
     }
 
-    @Override
-    public void SetPreviewCallback(I_Callbacks.PreviewCallback previewCallback)
+    public void SetPreviewCallback(PreviewCallback previewCallback)
     {
         if (mLiveviewSurface != null)
             mLiveviewSurface.SetOnPreviewFrame(previewCallback);
@@ -921,12 +898,12 @@ public class CameraHolder extends AbstractCameraHolder
     }
 
     @Override
-    public void StartFocus(I_Callbacks.AutoFocusCallback autoFocusCallback)
+    public void StartFocus(AutoFocusCallback autoFocusCallback)
     {
         this.autoFocusCallback = autoFocusCallback;
     }
 
-    public void SetTouchFocus(final double x, final double y)
+    public void SetTouchFocus(double x, double y)
     {
         if (mAvailableCameraApiSet.contains("setTouchAFPosition"))
             runSetTouch(x, y);

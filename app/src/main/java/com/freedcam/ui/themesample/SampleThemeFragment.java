@@ -39,7 +39,10 @@ import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.screenslide.ScreenSlideFragment;
+import com.freedviewer.screenslide.ScreenSlideFragment.I_ThumbClick;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
 
 import java.io.File;
 
@@ -83,7 +86,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper)
     {
         Logger.d(TAG, "SetCameraUiWrapper");
-        this.cameraUiWrapper = wrapper;
+        cameraUiWrapper = wrapper;
         if (wrapper != null)
             wrapper.parametersHandler.AddParametersLoadedListner(this);
         if (cameraUiFragment != null) {
@@ -99,9 +102,9 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container, savedInstanceState);
-        this.i_activity = (I_Activity)getActivity();
-        View view = inflater.inflate(R.layout.samplethemefragment, container, false);
-        this.mPager = (PagingView)view.findViewById(R.id.viewPager_fragmentHolder);
+        i_activity = (I_Activity)getActivity();
+        View view = inflater.inflate(layout.samplethemefragment, container, false);
+        mPager = (PagingView)view.findViewById(id.viewPager_fragmentHolder);
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
         mPager.setOffscreenPageLimit(2);
         mPager.setAdapter(mPagerAdapter);
@@ -110,7 +113,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
     }
 
 
-    private ScreenSlideFragment.I_ThumbClick onThumbClick = new ScreenSlideFragment.I_ThumbClick() {
+    private I_ThumbClick onThumbClick = new I_ThumbClick() {
         @Override
         public void onThumbClick() {
             mPager.setCurrentItem(2);
@@ -123,7 +126,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
         }
     };
 
-    private ScreenSlideFragment.I_ThumbClick onThumbBackClick = new ScreenSlideFragment.I_ThumbClick() {
+    private I_ThumbClick onThumbBackClick = new I_ThumbClick() {
         @Override
         public void onThumbClick()
         {

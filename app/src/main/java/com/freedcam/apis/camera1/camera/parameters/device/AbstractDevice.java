@@ -20,7 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.device;
 
 import android.hardware.Camera;
-import android.os.Handler;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
@@ -38,21 +38,21 @@ import com.troop.androiddng.DngProfile;
  */
 public abstract class AbstractDevice
 {
-    protected Camera.Parameters parameters;
+    protected Parameters parameters;
     protected CameraHolder cameraHolder;
     protected CameraUiWrapper cameraUiWrapper;
     protected ParametersHandler parametersHandler;
     protected MatrixChooserParameter matrixChooserParameter;
 
-    public AbstractDevice(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper)
+    public AbstractDevice(Parameters parameters, CameraUiWrapper cameraUiWrapper)
     {
         this.parameters = parameters;
         this.cameraUiWrapper = cameraUiWrapper;
-        this.cameraHolder = cameraUiWrapper.cameraHolder;
-        this.parametersHandler = (ParametersHandler) cameraUiWrapper.parametersHandler;
+        cameraHolder = cameraUiWrapper.cameraHolder;
+        parametersHandler = (ParametersHandler) cameraUiWrapper.parametersHandler;
         if (IsDngSupported())
         {
-            this.matrixChooserParameter = new MatrixChooserParameter();
+            matrixChooserParameter = new MatrixChooserParameter();
             parametersHandler.matrixChooser = matrixChooserParameter;
         }
     }
@@ -85,8 +85,8 @@ public abstract class AbstractDevice
         else if (parameters.get(KEYS.MAX_SATURATION)!= null)
             ManualSaturation = new BaseManualParameter(parameters, KEYS.SATURATION, KEYS.MAX_SATURATION, KEYS.MIN_SATURATION, parametersHandler,1);
         if (ManualSaturation != null ) {
-            parametersHandler.PictureFormat.addEventListner(((BaseManualParameter) ManualSaturation).GetPicFormatListner());
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) ManualSaturation).GetModuleListner());
+            parametersHandler.PictureFormat.addEventListner(ManualSaturation.GetPicFormatListner());
+            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(ManualSaturation.GetModuleListner());
         }
         return ManualSaturation;
     }

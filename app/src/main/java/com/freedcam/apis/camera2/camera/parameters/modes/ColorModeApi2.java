@@ -23,6 +23,7 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 
 import com.freedcam.apis.camera2.camera.CameraHolder;
 import com.freedcam.utils.Logger;
@@ -30,7 +31,7 @@ import com.freedcam.utils.Logger;
 /**
  * Created by troop on 16.12.2014.
  */
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@TargetApi(VERSION_CODES.LOLLIPOP)
 public class ColorModeApi2 extends BaseModeApi2
 {
     /*
@@ -62,13 +63,13 @@ public class ColorModeApi2 extends BaseModeApi2
         super(cameraHolder);
         int[] values = this.cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS);
         if (values.length > 1)
-            this.isSupported = true;
+            isSupported = true;
     }
 
     @Override
     public boolean IsSupported()
     {
-        return this.isSupported;
+        return isSupported;
     }
 
     @Override

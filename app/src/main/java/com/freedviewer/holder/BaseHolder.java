@@ -20,6 +20,7 @@
 package com.freedviewer.holder;
 
 import com.freedviewer.gridview.BaseGridViewFragment;
+import com.freedviewer.gridview.BaseGridViewFragment.ViewStates;
 import com.freedviewer.gridview.GridViewFragment;
 
 /**
@@ -27,7 +28,7 @@ import com.freedviewer.gridview.GridViewFragment;
  */
 public class BaseHolder
 {
-    protected BaseGridViewFragment.ViewStates currentstate = GridViewFragment.ViewStates.normal;
+    protected ViewStates currentstate = GridViewFragment.ViewStates.normal;
     protected EventHandler handler;
     protected boolean selected = false;
 
@@ -39,7 +40,7 @@ public class BaseHolder
 
     public void SetViewState(GridViewFragment.ViewStates state)
     {
-        this.currentstate = state;
+        currentstate = state;
         if (handler != null)
             handler.onViewStateChanged(state);
     }

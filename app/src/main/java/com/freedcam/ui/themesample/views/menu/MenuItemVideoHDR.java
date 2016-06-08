@@ -64,6 +64,6 @@ public class MenuItemVideoHDR extends MenuItem
 
     @Override
     public void ModuleChanged(String module) {
-        this.currentModule = module;
+        currentModule = module;
     }
 }

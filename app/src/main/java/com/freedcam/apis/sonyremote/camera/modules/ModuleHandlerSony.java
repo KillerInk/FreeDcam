@@ -24,13 +24,14 @@ import android.content.Context;
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.sonyremote.camera.CameraHolder;
+import com.freedcam.apis.sonyremote.camera.CameraHolder.I_CameraShotMode;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
 /**
  * Created by troop on 13.12.2014.
  */
-public class ModuleHandlerSony extends AbstractModuleHandler implements CameraHolder.I_CameraShotMode
+public class ModuleHandlerSony extends AbstractModuleHandler implements I_CameraShotMode
 {
     private CameraHolder cameraHolder;
     private final String TAG = ModuleHandlerSony.class.getSimpleName();

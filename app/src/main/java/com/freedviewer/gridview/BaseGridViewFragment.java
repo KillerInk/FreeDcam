@@ -26,14 +26,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.GridView;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
 
 /**
  * Created by troop on 23.12.2015.
  */
-public class BaseGridViewFragment extends Fragment  implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener
+public class BaseGridViewFragment extends Fragment  implements OnItemClickListener, OnItemLongClickListener
 {
     protected GridView gridView;
     protected View view;
@@ -52,8 +56,8 @@ public class BaseGridViewFragment extends Fragment  implements AdapterView.OnIte
     {
         super.onCreateView(inflater,container,savedInstanceState);
         inflate(inflater, container);
-        view = inflater.inflate(R.layout.gridviewfragment, container, false);
-        this.gridView = (GridView) view.findViewById(R.id.gridView);
+        view = inflater.inflate(layout.gridviewfragment, container, false);
+        gridView = (GridView) view.findViewById(id.gridView);
         gridView.setOnItemClickListener(this);
         gridView.setOnItemLongClickListener(this);
         return view;
@@ -61,7 +65,7 @@ public class BaseGridViewFragment extends Fragment  implements AdapterView.OnIte
 
     protected void inflate(LayoutInflater inflater, ViewGroup container)
     {
-        view = inflater.inflate(R.layout.basegridview, container, false);
+        view = inflater.inflate(layout.basegridview, container, false);
     }
 
     @Override

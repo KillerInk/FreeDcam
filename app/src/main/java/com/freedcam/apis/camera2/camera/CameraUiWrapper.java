@@ -23,8 +23,10 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.view.SurfaceView;
 import android.view.TextureView;
+import android.view.TextureView.SurfaceTextureListener;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.camera.interfaces.I_error;
@@ -38,8 +40,8 @@ import com.freedcam.utils.RenderScriptHandler;
 /**
  * Created by troop on 07.12.2014.
  */
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class CameraUiWrapper extends AbstractCameraUiWrapper implements TextureView.SurfaceTextureListener
+@TargetApi(VERSION_CODES.LOLLIPOP)
+public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceTextureListener
 
 {
     public CameraHolder cameraHolder;
@@ -60,14 +62,14 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements TextureV
         this.preview = preview;
         this.preview.setSurfaceTextureListener(this);
         this.context = context;
-        this.errorHandler = this;
-        this.cameraHolder = new CameraHolder(context, this,appSettingsManager,renderScriptHandler);
-        super.cameraHolder = this.cameraHolder;
-        this.parametersHandler = new ParameterHandler(this,context,appSettingsManager);
-        this.cameraHolder.SetParameterHandler(parametersHandler);
-        this.moduleHandler = new ModuleHandlerApi2(cameraHolder,context,appSettingsManager,renderScriptHandler);
-        this.Focus = new FocusHandler(this);
-        this.cameraHolder.Focus = Focus;
+        errorHandler = this;
+        cameraHolder = new CameraHolder(context, this,appSettingsManager,renderScriptHandler);
+        super.cameraHolder = cameraHolder;
+        parametersHandler = new ParameterHandler(this,context,appSettingsManager);
+        cameraHolder.SetParameterHandler(parametersHandler);
+        moduleHandler = new ModuleHandlerApi2(cameraHolder,context,appSettingsManager,renderScriptHandler);
+        Focus = new FocusHandler(this);
+        cameraHolder.Focus = Focus;
         Logger.d(TAG, "Constructor done");
     }
 
@@ -127,7 +129,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements TextureV
     {
         Logger.d(TAG, "SurfaceTextureAvailable");
         if (!PreviewSurfaceRdy) {
-            this.PreviewSurfaceRdy = true;
+            PreviewSurfaceRdy = true;
             StartCamera();
         }
     }
@@ -141,7 +143,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements TextureV
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surface)
     {
         Logger.d(TAG, "Surface destroyed");
-        this.PreviewSurfaceRdy = false;
+        PreviewSurfaceRdy = false;
         StopPreview();
         StopCamera();
         return false;
@@ -153,8 +155,8 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements TextureV
     }
 
     @Override
-    public void OnError(final String error) {
-        super.onCameraError(error);
+    public void OnError(String error) {
+        onCameraError(error);
     }
 
     @Override

@@ -20,7 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.device.qcom;
 
 import android.hardware.Camera;
-import android.os.Handler;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
@@ -34,7 +34,7 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 01.06.2016.
  */
 public class Vivo_Xplay3s extends BaseQcomDevice {
-    public Vivo_Xplay3s(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public Vivo_Xplay3s(Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 

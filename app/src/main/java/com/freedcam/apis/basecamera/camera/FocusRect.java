@@ -36,7 +36,7 @@ public class FocusRect
     public FocusRect(int left, int rigt, int top, int bottom,int x,int y)
     {
         this.left =left;
-        this.right = rigt;
+        right = rigt;
         this.top  = top;
         this.bottom = bottom;
         this.x = x;

@@ -33,7 +33,7 @@ import java.util.Set;
  */
 public class JsonUtils
 {
-    private final static String TAG = JsonUtils.class.getSimpleName();
+    private static final String TAG = JsonUtils.class.getSimpleName();
     /**
      * Retrieve a list of APIs that are supported by the target device.
      *

@@ -25,12 +25,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.view.View.OnSystemUiVisibilityChangeListener;
 import android.view.WindowManager;
+import android.view.WindowManager.LayoutParams;
 
 import com.freedcam.ui.I_Activity;
+import com.freedcam.ui.I_Activity.I_OnActivityResultCallback;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
@@ -93,20 +98,20 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
 
     private void HIDENAVBAR()
     {
-        if (Build.VERSION.SDK_INT < 16) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if (VERSION.SDK_INT < 16) {
+            getWindow().setFlags(LayoutParams.FLAG_FULLSCREEN,
+                    LayoutParams.FLAG_FULLSCREEN);
         }
         else
         {
             //HIDE nav and action bar
-            final View decorView = getWindow().getDecorView();
+            View decorView = getWindow().getDecorView();
             decorView.setSystemUiVisibility(flags);
-            decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            decorView.setOnSystemUiVisibilityChangeListener(new OnSystemUiVisibilityChangeListener() {
                 @Override
                 public void onSystemUiVisibilityChange(int visibility) {
                     if (visibility > 0) {
-                        if (Build.VERSION.SDK_INT >= 16)
+                        if (VERSION.SDK_INT >= 16)
                             getWindow().getDecorView().setSystemUiVisibility(flags);
                     }
                 }
@@ -119,7 +124,7 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
         return 4;
     }
 
-    private I_Activity.I_OnActivityResultCallback resultCallback;
+    private I_OnActivityResultCallback resultCallback;
 
     @Override
     public void SwitchCameraAPI(String Api) {
@@ -137,16 +142,16 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
     }
 
     @Override
-    public void ChooseSDCard(I_Activity.I_OnActivityResultCallback callback)
+    public void ChooseSDCard(I_OnActivityResultCallback callback)
     {
-        this.resultCallback = callback;
+        resultCallback = callback;
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
         startActivityForResult(intent, READ_REQUEST_CODE);
     }
 
-    private static final int READ_REQUEST_CODE = 42;
+    private final int READ_REQUEST_CODE = 42;
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
+    @TargetApi(VERSION_CODES.KITKAT)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -158,7 +163,7 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
             Uri uri = null;
             if (data != null) {
                 uri = data.getData();
-                final int takeFlags = data.getFlags()
+                int takeFlags = data.getFlags()
                         & (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 // Check for the freshest data.
 
@@ -168,7 +173,7 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
                 if (resultCallback != null)
                 {
                     resultCallback.onActivityResultCallback(uri);
-                    this.resultCallback = null;
+                    resultCallback = null;
                 }
             }
         }

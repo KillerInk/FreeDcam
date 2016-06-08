@@ -21,14 +21,19 @@ package com.freedcam.apis.camera1.camera.modules;
 
 import android.content.Context;
 import android.media.MediaRecorder;
+import android.media.MediaRecorder.AudioSource;
+import android.media.MediaRecorder.OutputFormat;
+import android.media.MediaRecorder.VideoSource;
 
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile;
+import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile.VideoMode;
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.camera.parameters.modes.VideoProfilesG3Parameter;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.DeviceUtils.Devices;
 import com.lge.media.MediaRecorderEx;
 
 
@@ -40,7 +45,7 @@ public class VideoModuleG3 extends AbstractVideoModule
     private MediaRecorderEx recorder;
     private VideoMediaProfile currentProfile;
 
-    final static String TAG = VideoModuleG3.class.getSimpleName();
+    static final String TAG = VideoModuleG3.class.getSimpleName();
 
     public VideoModuleG3(CameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
         super(cameraHandler, eventHandler,context,appSettingsManager);
@@ -53,20 +58,20 @@ public class VideoModuleG3 extends AbstractVideoModule
             recorder = new MediaRecorderEx();
             recorder.reset();
             recorder.setCamera(cameraHolder.GetCamera());
-            recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+            recorder.setVideoSource(VideoSource.CAMERA);
             switch (currentProfile.Mode)
             {
 
                 case Normal:
                 case Highspeed:
                     if (currentProfile.isAudioActive)
-                        recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+                        recorder.setAudioSource(AudioSource.CAMCORDER);
                     break;
                 case Timelapse:
                     break;
             }
 
-            recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+            recorder.setOutputFormat(OutputFormat.MPEG_4);
             recorder.setVideoFrameRate(currentProfile.videoFrameRate);
             recorder.setVideoSize(currentProfile.videoFrameWidth, currentProfile.videoFrameHeight);
             recorder.setVideoEncodingBitRate(currentProfile.videoBitRate);
@@ -109,12 +114,6 @@ public class VideoModuleG3 extends AbstractVideoModule
     }
 
     @Override
-    protected void setRecorderOutPutFile(String s)
-    {
-        super.setRecorderOutPutFile(s);
-    }
-
-    @Override
     public void InitModule()
     {
         loadProfileSpecificParameters();
@@ -129,7 +128,7 @@ public class VideoModuleG3 extends AbstractVideoModule
     {
         VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter)ParameterHandler.VideoProfiles;
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE));
-        if (currentProfile.Mode == VideoMediaProfile.VideoMode.Highspeed || currentProfile.ProfileName.contains("4kUHD"))
+        if (currentProfile.Mode == VideoMode.Highspeed || currentProfile.ProfileName.contains("4kUHD"))
         {
             ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
             ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
@@ -137,10 +136,10 @@ public class VideoModuleG3 extends AbstractVideoModule
 
             ((ParametersHandler)ParameterHandler).SetDualRecorder();
             //parametersHandler.PreviewFormat.SetValue("nv12-venus", true);
-            if(appSettingsManager.getDevice() !=DeviceUtils.Devices.LG_G4)
+            if(appSettingsManager.getDevice() != Devices.LG_G4)
                 ParameterHandler.PreviewFormat.SetValue("nv12-venus",true);
             ((ParametersHandler)ParameterHandler).SetLGCamera();
-            if (currentProfile.Mode == VideoMediaProfile.VideoMode.Highspeed)
+            if (currentProfile.Mode == VideoMode.Highspeed)
             {
                 if (ParameterHandler.VideoHighFramerateVideo != null && ParameterHandler.VideoHighFramerateVideo.IsSupported())
                 {

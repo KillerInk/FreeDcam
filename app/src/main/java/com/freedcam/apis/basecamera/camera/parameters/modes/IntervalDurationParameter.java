@@ -28,7 +28,6 @@ public class IntervalDurationParameter extends AbstractModeParameter
     private String current = "1 min";
 
     public IntervalDurationParameter() {
-        super();
     }
 
     @Override

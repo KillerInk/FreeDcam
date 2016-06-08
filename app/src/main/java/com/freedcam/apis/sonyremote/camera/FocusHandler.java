@@ -25,13 +25,14 @@ import com.freedcam.apis.basecamera.camera.AbstractFocusHandler;
 import com.freedcam.apis.basecamera.camera.FocusRect;
 import com.freedcam.apis.basecamera.camera.modules.CameraFocusEvent;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
+import com.freedcam.apis.basecamera.camera.modules.I_Callbacks.AutoFocusCallback;
 import com.freedcam.apis.sonyremote.camera.parameters.ParameterHandler;
 import com.freedcam.utils.Logger;
 
 /**
  * Created by troop on 31.01.2015.
  */
-public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.AutoFocusCallback
+public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallback
 {
     private CameraUiWrapper cameraUiWrapper;
     private CameraHolder cameraHolder;
@@ -44,8 +45,8 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
     public FocusHandler(CameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        this.cameraHolder = cameraUiWrapper.cameraHolder;
-        this.parametersHandler = (ParameterHandler)cameraUiWrapper.parametersHandler;
+        cameraHolder = cameraUiWrapper.cameraHolder;
+        parametersHandler = (ParameterHandler)cameraUiWrapper.parametersHandler;
     }
 
     @Override
@@ -71,8 +72,8 @@ public class FocusHandler extends AbstractFocusHandler implements I_Callbacks.Au
 
         double x = rect.left + (rect.right - rect.left)/2  ;
         double y = rect.top + (rect.bottom - rect.top )  /2;
-        double xproz = (x / (double)width) * 100;
-        double yproz = (y / (double)height) *100;
+        double xproz = x / (double)width * 100;
+        double yproz = y / (double)height *100;
         Logger.d(TAG, "set focus to: x: " + xproz + " y: " +yproz);
         cameraHolder.StartFocus(this);
         cameraHolder.SetTouchFocus(xproz, yproz);

@@ -21,6 +21,7 @@ package com.freedcam.apis.camera2.camera.parameters.modes;
 
 import android.annotation.TargetApi;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 
 import com.freedcam.apis.camera2.camera.CameraHolder;
 import com.freedcam.utils.StringUtils;
@@ -28,7 +29,7 @@ import com.freedcam.utils.StringUtils;
 /**
  * Created by troop on 10.09.2015.
  */
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@TargetApi(VERSION_CODES.LOLLIPOP)
 public class FocusPeakModeApi2 extends BaseModeApi2 {
     public FocusPeakModeApi2(CameraHolder cameraHolder)
     {
@@ -53,11 +54,11 @@ public class FocusPeakModeApi2 extends BaseModeApi2 {
         if (valueToSet.equals(StringUtils.ON))
         {
             cameraHolder.FocusPeakEnable(true);
-            this.BackgroundValueHasChanged("true");
+            BackgroundValueHasChanged("true");
         }
         else {
             cameraHolder.FocusPeakEnable(false);
-            this.BackgroundValueHasChanged("false");
+            BackgroundValueHasChanged("false");
         }
 
     }

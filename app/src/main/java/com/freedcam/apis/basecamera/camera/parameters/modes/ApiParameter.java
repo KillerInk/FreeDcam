@@ -20,10 +20,12 @@
 package com.freedcam.apis.basecamera.camera.parameters.modes;
 
 import android.os.Build;
+import android.os.Build.VERSION;
 
 import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.DeviceUtils.Devices;
 
 /**
  * Created by troop on 21.07.2015.
@@ -35,7 +37,6 @@ public class ApiParameter extends AbstractModeParameter
     private AppSettingsManager appSettingsManager;
 
     public ApiParameter(I_Activity i_activity,AppSettingsManager appSettingsManager) {
-        super();
         this.i_activity = i_activity;
         this.appSettingsManager = appSettingsManager;
     }
@@ -43,12 +44,12 @@ public class ApiParameter extends AbstractModeParameter
     @Override
     public String[] GetValues()
     {
-        if (appSettingsManager.getDevice() == DeviceUtils.Devices.LG_G4 || appSettingsManager.getDevice() == DeviceUtils.Devices.Htc_M10)
+        if (appSettingsManager.getDevice() == Devices.LG_G4 || appSettingsManager.getDevice() == Devices.Htc_M10)
         {
             return new String[]{AppSettingsManager.API_SONY, AppSettingsManager.API_2, AppSettingsManager.API_1};
         }
         else {
-            if (Build.VERSION.SDK_INT >= 21) {
+            if (VERSION.SDK_INT >= 21) {
                 if (appSettingsManager.IsCamera2FullSupported().equals("true"))
                     return new String[]{AppSettingsManager.API_SONY, AppSettingsManager.API_2};
                 else

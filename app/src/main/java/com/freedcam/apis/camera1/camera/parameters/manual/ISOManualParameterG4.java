@@ -20,25 +20,28 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_LGG4.AeManual;
+import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_LGG4.AeManualEvent;
 
 import java.util.ArrayList;
 
 public class ISOManualParameterG4 extends BaseManualParameter
 {
     private CameraHolder cameraHolder;
-    private AE_Handler_LGG4.AeManualEvent manualEvent;
+    private AeManualEvent manualEvent;
 
-    public ISOManualParameterG4(Camera.Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler, AE_Handler_LGG4.AeManualEvent manualevent) {
+    public ISOManualParameterG4(Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler, AeManualEvent manualevent) {
         super(parameters, "", "", "", parametersHandler,1);
 
         this.cameraHolder = cameraHolder;
 
-        this.isSupported = true;
-        this.isVisible = isSupported;
+        isSupported = true;
+        isVisible = isSupported;
         ArrayList<String> s = new ArrayList<>();
         for (int i =0; i <= 2700; i +=50)
         {
@@ -49,7 +52,7 @@ public class ISOManualParameterG4 extends BaseManualParameter
         }
         stringvalues = new String[s.size()];
         s.toArray(stringvalues);
-        this.manualEvent = manualevent;
+        manualEvent = manualevent;
     }
 
     @Override
@@ -73,11 +76,11 @@ public class ISOManualParameterG4 extends BaseManualParameter
         currentInt = valueToSet;
         if (valueToSet == 0)
         {
-            manualEvent.onManualChanged(AE_Handler_LGG4.AeManual.iso, true, valueToSet);
+            manualEvent.onManualChanged(AeManual.iso, true, valueToSet);
         }
         else
         {
-            manualEvent.onManualChanged(AE_Handler_LGG4.AeManual.iso, false,valueToSet);
+            manualEvent.onManualChanged(AeManual.iso, false,valueToSet);
         }
     }
 

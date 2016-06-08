@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.os.Build;
+import android.os.Build.VERSION;
 
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.renderscript.FocusPeakProcessorAp1;
@@ -40,7 +41,7 @@ public class FocusPeakModeParameter extends BaseModeParameter {
 
     @Override
     public boolean IsSupported() {
-        return Build.VERSION.SDK_INT >= 18;
+        return VERSION.SDK_INT >= 18;
     }
 
     @Override

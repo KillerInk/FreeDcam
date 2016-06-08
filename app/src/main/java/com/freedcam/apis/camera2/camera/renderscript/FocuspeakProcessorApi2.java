@@ -22,13 +22,17 @@ package com.freedcam.apis.camera2.camera.renderscript;
     import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
 import android.os.Build;
-import android.os.Handler;
+    import android.os.Build.VERSION_CODES;
+    import android.os.Handler;
 import android.os.HandlerThread;
 import android.renderscript.Allocation;
-import android.renderscript.Element;
+    import android.renderscript.Allocation.OnBufferAvailableListener;
+    import android.renderscript.Element;
 import android.renderscript.RenderScript;
-import android.renderscript.Type;
-import android.view.Surface;
+    import android.renderscript.RenderScript.RSErrorHandler;
+    import android.renderscript.Type;
+    import android.renderscript.Type.Builder;
+    import android.view.Surface;
 
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.RenderScriptHandler;
@@ -36,7 +40,7 @@ import com.freedcam.utils.RenderScriptHandler;
 /**
  * Renderscript-based Focus peaking viewfinder
  */
-@TargetApi(Build.VERSION_CODES.KITKAT)
+@TargetApi(VERSION_CODES.KITKAT)
 public class FocuspeakProcessorApi2
 {
     private final String TAG = FocuspeakProcessorApi2.class.getSimpleName();
@@ -49,7 +53,7 @@ public class FocuspeakProcessorApi2
     public boolean peak = false;
     private RenderScriptHandler renderScriptHandler;
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
     public FocuspeakProcessorApi2(RenderScriptHandler renderScriptHandler)
     {
         Logger.d(TAG, "Ctor");
@@ -60,7 +64,7 @@ public class FocuspeakProcessorApi2
 
     }
 
-    public void setRenderScriptErrorListner(RenderScript.RSErrorHandler errorListner)
+    public void setRenderScriptErrorListner(RSErrorHandler errorListner)
     {
         renderScriptHandler.GetRS().setErrorHandler(errorListner);
     }
@@ -68,12 +72,12 @@ public class FocuspeakProcessorApi2
     public void Reset(int width,int height)
     {
         Logger.d(TAG,"Reset:"+width +"x"+height);
-        Type.Builder yuvTypeBuilder = new Type.Builder(renderScriptHandler.GetRS(), Element.YUV(renderScriptHandler.GetRS()));
+        Builder yuvTypeBuilder = new Builder(renderScriptHandler.GetRS(), Element.YUV(renderScriptHandler.GetRS()));
         yuvTypeBuilder.setX(width);
         yuvTypeBuilder.setY(height);
         yuvTypeBuilder.setYuvFormat(ImageFormat.YUV_420_888);
 
-        Type.Builder rgbTypeBuilder = new Type.Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
+        Builder rgbTypeBuilder = new Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
         rgbTypeBuilder.setX(width);
         rgbTypeBuilder.setY(height);
         renderScriptHandler.SetAllocsTypeBuilder(yuvTypeBuilder,rgbTypeBuilder, Allocation.USAGE_IO_INPUT | Allocation.USAGE_SCRIPT,  Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
@@ -133,8 +137,8 @@ public class FocuspeakProcessorApi2
     /**
      * Class to process buffer from camera and output to buffer to screen
      */
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    class ProcessingTask implements Runnable, Allocation.OnBufferAvailableListener {
+    @TargetApi(VERSION_CODES.KITKAT)
+    class ProcessingTask implements Runnable, OnBufferAvailableListener {
         private int mPendingFrames = 0;
         private boolean working = false;
         public ProcessingTask() {

@@ -24,9 +24,11 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.TonemapCurve;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.apis.camera2.camera.CameraHolder;
 import com.freedcam.apis.camera2.camera.parameters.ParameterHandler;
 import com.freedcam.utils.Logger;
@@ -35,8 +37,8 @@ import com.freedcam.utils.Logger;
  * Created by troop on 05.05.2015.
  */
 //http://www.cambridgeincolour.com/tutorials/photoshop-curves.htm
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParameterEvent
+@TargetApi(VERSION_CODES.LOLLIPOP)
+public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
 {
     final String TAG = ManualToneMapCurveApi2.class.getSimpleName();
     //  linearcurve       x/y
@@ -54,8 +56,8 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
     public ManualToneMapCurveApi2(ParameterHandler camParametersHandler, CameraHolder cameraHolder)
     {
         this.cameraHolder = cameraHolder;
-        this.contrast = new Contrast(camParametersHandler);
-        this.brightness = new Brightness(camParametersHandler);
+        contrast = new Contrast(camParametersHandler);
+        brightness = new Brightness(camParametersHandler);
     }
 
     private boolean canSet = false;
@@ -106,15 +108,15 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
         boolean firststart = true;
         public Contrast(ParameterHandler camParametersHandler) {
             super(camParametersHandler);
-            this.stringvalues = createStringArray(0,100,1);
-            this.currentInt = 50;
+            stringvalues = createStringArray(0,100,1);
+            currentInt = 50;
         }
 
 
 
         @Override
         public int GetValue() {
-            return this.currentInt;
+            return currentInt;
         }
 
         @Override
@@ -123,7 +125,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
             Logger.d(TAG, "Contrast value to set:" + valueToSet);
             if (valueToSet == -1)
             {
-                Logger.d(TAG, "Current TonemapMode:" + this.parametersHandler.ToneMapMode.GetValue());
+                Logger.d(TAG, "Current TonemapMode:" + parametersHandler.ToneMapMode.GetValue());
                 if (parametersHandler.ToneMapMode.GetValue().equals("CONTRAST_CURVE"))
                 {
                     parametersHandler.ToneMapMode.SetValue("FAST", true);
@@ -138,7 +140,7 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
                     Logger.d(TAG, "Enabled Contrast Curve");
                 }
                 valueToSet = valueToSet * 3;
-                this.currentInt = valueToSet;
+                currentInt = valueToSet;
 
                 float toset = 0;
                 if (valueToSet > 150) {
@@ -197,36 +199,36 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
         public Brightness(ParameterHandler camParametersHandler) {
             super(camParametersHandler);
             stringvalues = createStringArray(0,100,1);
-            this.currentInt = 50;
+            currentInt = 50;
         }
 
         @Override
         public int GetValue() {
-            return this.currentInt/4;
+            return currentInt /4;
         }
 
         @Override
         public void SetValue(int valueToSet)
         {
             valueToSet = valueToSet *4;
-            this.currentInt = valueToSet;
+            currentInt = valueToSet;
 
             float toset = 0;
-            if (this.currentInt > 200)
+            if (currentInt > 200)
             {
-                toset = (this.currentInt - 200) * 0.001f;
+                toset = (currentInt - 200) * 0.001f;
                 midtones[0] = 0.5f - toset;
                 midtones[1] = 0.5f + toset;
 
             }
-            if (this.currentInt == 100)
+            if (currentInt == 100)
             {
                 midtones[0] = 0.5f;
                 midtones[1] = 0.5f;
             }
             else
             {
-                toset = (200 - this.currentInt) * 0.001f;
+                toset = (200 - currentInt) * 0.001f;
                 midtones[0] = 0.5f + toset;
                 midtones[1] = 0.5f - toset;
             }

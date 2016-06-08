@@ -20,7 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.device.qcom;
 
 import android.hardware.Camera;
-import android.os.Handler;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 
@@ -28,7 +28,7 @@ import com.freedcam.apis.camera1.camera.CameraUiWrapper;
  * Created by troop on 01.06.2016.
  */
 public class Xiaomi_Mi4W extends Xiaomi_Mi3W {
-    public Xiaomi_Mi4W(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public Xiaomi_Mi4W(Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 }

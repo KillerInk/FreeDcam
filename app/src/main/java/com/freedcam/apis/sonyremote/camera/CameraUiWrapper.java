@@ -21,6 +21,7 @@ package com.freedcam.apis.sonyremote.camera;
 
 import android.content.Context;
 import android.view.SurfaceHolder;
+import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
@@ -35,7 +36,7 @@ import com.freedcam.utils.FreeDPool;
 /**
  * Created by troop on 11.12.2014.
  */
-public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceHolder.Callback
+public class CameraUiWrapper extends AbstractCameraUiWrapper implements Callback
 {
     protected SimpleStreamSurfaceView surfaceView;
 
@@ -50,14 +51,14 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
 
     public CameraUiWrapper(SurfaceView preview, Context context, AppSettingsManager appSettingsManager) {
         super(appSettingsManager);
-        this.surfaceView = (SimpleStreamSurfaceView)preview;
-        this.surfaceView.getHolder().addCallback(this);
-        this.cameraHolder = new CameraHolder(preview.getContext(), surfaceView, this,appSettingsManager);
+        surfaceView = (SimpleStreamSurfaceView)preview;
+        surfaceView.getHolder().addCallback(this);
+        cameraHolder = new CameraHolder(preview.getContext(), surfaceView, this,appSettingsManager);
         parametersHandler = new ParameterHandler(this, surfaceView, context,appSettingsManager);
         cameraHolder.ParameterHandler = (ParameterHandler) parametersHandler;
 
         moduleHandler = new ModuleHandlerSony(cameraHolder,context,appSettingsManager);
-        this.Focus = new FocusHandler(this);
+        Focus = new FocusHandler(this);
         super.cameraHolder = cameraHolder;
         cameraHolder.focusHandler =(FocusHandler) Focus;
         cameraHolder.moduleHandlerSony = (ModuleHandlerSony)moduleHandler;

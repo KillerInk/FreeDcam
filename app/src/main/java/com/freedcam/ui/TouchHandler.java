@@ -140,7 +140,7 @@ public class TouchHandler
     private Runnable resetActionBlock = new Runnable() {
         @Override
         public void run() {
-            TouchHandler.this.newActionBlocked = false;
+            newActionBlocked = false;
         }
     };
 

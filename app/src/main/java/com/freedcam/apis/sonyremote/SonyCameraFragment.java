@@ -38,10 +38,13 @@ import com.freedcam.apis.basecamera.camera.interfaces.I_Module;
 import com.freedcam.apis.sonyremote.camera.CameraUiWrapper;
 import com.freedcam.apis.sonyremote.camera.sonystuff.ServerDevice;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleSsdpClient;
+import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleSsdpClient.SearchResultHandler;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleStreamSurfaceView;
 import com.freedcam.apis.sonyremote.camera.sonystuff.WifiUtils;
 import com.freedcam.utils.Logger;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
 
 /**
  * Created by troop on 06.06.2015.
@@ -71,10 +74,10 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container, savedInstanceState);
-        view = inflater.inflate(R.layout.cameraholdersony, container, false);
-        surfaceView = (SimpleStreamSurfaceView) view.findViewById(R.id.view);
+        view = inflater.inflate(layout.cameraholdersony, container, false);
+        surfaceView = (SimpleStreamSurfaceView) view.findViewById(id.view);
 
-        this.textView_wifi =(TextView)view.findViewById(R.id.textView_wificonnect);
+        textView_wifi =(TextView)view.findViewById(id.textView_wificonnect);
         setupWrapper();
         wifiReciever = new WifiScanReceiver();
         wifiConnectedReceiver = new WifiConnectedReceiver();
@@ -131,7 +134,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
                 Logger.exception(e);
             }
         }
-        mSsdpClient.search(new SimpleSsdpClient.SearchResultHandler()
+        mSsdpClient.search(new SearchResultHandler()
         {
             @Override
             public void onDeviceFound(ServerDevice device)
@@ -164,7 +167,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
 
     private void setupWrapper()
     {
-        this.cameraUiWrapper = new CameraUiWrapper(surfaceView,getContext(),appSettingsManager);
+        cameraUiWrapper = new CameraUiWrapper(surfaceView,getContext(),appSettingsManager);
         cameraUiWrapper.SetCameraChangedListner(this);
         if (onrdy != null)
             onrdy.onCameraUiWrapperRdy(cameraUiWrapper);

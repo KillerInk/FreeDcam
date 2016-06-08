@@ -20,27 +20,36 @@
 package com.freedcam.ui.themesample.views.uichilds;
 
 import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.camera.parameters.I_ParametersLoaded;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.themesample.subfragments.Interfaces;
+import com.freedcam.ui.themesample.subfragments.Interfaces.I_MenuItemClick;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.drawable;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
+import com.troop.freedcam.R.string;
+import com.troop.freedcam.R.styleable;
 
 /**
  * Created by troop on 11.06.2015.
  */
-public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, AbstractModeParameter.I_ModeParameterEvent ,I_ParametersLoaded ,View.OnClickListener
+public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, I_ModeParameterEvent ,I_ParametersLoaded ,OnClickListener
 {
     protected Context context;
     private String headerText;
@@ -50,7 +59,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     protected I_Activity i_activity;
     private String TAG;
     protected String settingsname;
-    protected Interfaces.I_MenuItemClick onItemClick;
+    protected I_MenuItemClick onItemClick;
     private final boolean logging =false;
     private boolean fromleft = false;
     protected   AppSettingsManager appSettingsManager;
@@ -64,7 +73,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     public void SetStuff(I_Activity i_activity, String settingvalue, AppSettingsManager appSettingsManager)
     {
         this.i_activity = i_activity;
-        this.settingsname = settingvalue;
+        settingsname = settingvalue;
         this.appSettingsManager = appSettingsManager;
     }
 
@@ -76,17 +85,17 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         //get custom attributs
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
-                R.styleable.UiSettingsChild,
+                styleable.UiSettingsChild,
                 0, 0
         );
         //try to set the attributs
         try
         {
-            TAG = (String)a.getText(R.styleable.UiSettingsChild_HeaderText);
+            TAG = (String)a.getText(styleable.UiSettingsChild_HeaderText);
 
-            headerText = String.valueOf(a.getText(R.styleable.UiSettingsChild_HeaderText));
+            headerText = String.valueOf(a.getText(styleable.UiSettingsChild_HeaderText));
 
-            valueText.setText(a.getText(R.styleable.UiSettingsChild_ValueText));
+            valueText.setText(a.getText(styleable.UiSettingsChild_ValueText));
         }
         finally {
             a.recycle();
@@ -102,8 +111,8 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
 
     public UiSettingsChild(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.setEnabled(true);
-        this.setClickable(true);
+        setEnabled(true);
+        setClickable(true);
         this.context = context;
         init(context);
     }
@@ -116,34 +125,34 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
         //headerText = (TextView)findViewById(R.id.textView);
         //headerText.setSelected(true);
 
-        laybg = (LinearLayout)findViewById(R.id.LAYbg);
+        laybg = (LinearLayout)findViewById(id.LAYbg);
        // laybg.setBackgroundDrawable(switchICOn(headerText));
 
-        if(context.getResources().getString(R.string.uisetting_wb_header) == headerText)
+        if(context.getResources().getString(string.uisetting_wb_header) == headerText)
         {
-            laybg.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.quck_set_wb));
+            laybg.setBackgroundDrawable(context.getResources().getDrawable(drawable.quck_set_wb));
         }
 
-        valueText = (TextView)findViewById(R.id.textView2);
+        valueText = (TextView)findViewById(id.textView2);
         valueText.setSelected(true);
-        this.setOnClickListener(this);
+        setOnClickListener(this);
 
     }
 
     protected void inflateTheme(LayoutInflater inflater)
     {
-        inflater.inflate(R.layout.ui_settingschild, this);
+        inflater.inflate(layout.ui_settingschild, this);
     }
 
-    public void SetMenuItemListner(Interfaces.I_MenuItemClick menuItemClick, boolean fromleft)
+    public void SetMenuItemListner(I_MenuItemClick menuItemClick, boolean fromleft)
     {
-        this.onItemClick = menuItemClick;
+        onItemClick = menuItemClick;
         this.fromleft = fromleft;
     }
 
-    public void SetMenuItemListner(Interfaces.I_MenuItemClick menuItemClick)
+    public void SetMenuItemListner(I_MenuItemClick menuItemClick)
     {
-        this.onItemClick = menuItemClick;
+        onItemClick = menuItemClick;
     }
 
     public void SetParameter(AbstractModeParameter parameter)
@@ -227,14 +236,14 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     {
         sendLog("isSupported:" + isSupported);
         if (isSupported) {
-            this.setVisibility(VISIBLE);
-            this.animate().setListener(null).scaleY(1f).setDuration(300);
+            setVisibility(VISIBLE);
+            animate().setListener(null).scaleY(1f).setDuration(300);
         }
         else
-            this.animate().setListener(hideListner).scaleY(0f).setDuration(300);
+            animate().setListener(hideListner).scaleY(0f).setDuration(300);
     }
 
-    private Animator.AnimatorListener hideListner = new Animator.AnimatorListener() {
+    private AnimatorListener hideListner = new AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animation) {
 
@@ -242,7 +251,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
 
         @Override
         public void onAnimationEnd(Animator animation) {
-            UiSettingsChild.this.setVisibility(GONE);
+            setVisibility(GONE);
         }
 
         @Override
@@ -260,7 +269,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, Abst
     public void onIsSetSupportedChanged(boolean isSupported)
     {
         sendLog("isSetSupported:" + isSupported);
-        this.setEnabled(isSupported);
+        setEnabled(isSupported);
     }
 
     @Override

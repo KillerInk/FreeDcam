@@ -19,7 +19,6 @@
 
 package com.freedcam.apis.basecamera.camera;
 
-import android.hardware.Camera;
 import android.location.Location;
 import android.os.Handler;
 import android.os.Looper;
@@ -28,6 +27,7 @@ import android.view.SurfaceHolder;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
+import com.freedcam.apis.basecamera.camera.modules.I_Callbacks.AutoFocusCallback;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.utils.AppSettingsManager;
 
@@ -74,7 +74,7 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     {
         this.cameraChangedListner = cameraChangedListner;
         this.appSettingsManager = appSettingsManager;
-        this.UIHandler = new Handler(Looper.getMainLooper());
+        UIHandler = new Handler(Looper.getMainLooper());
     }
 
     /**
@@ -134,20 +134,15 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
         return isPreviewRunning;
     }
 
-    public void StartFocus(I_Callbacks.AutoFocusCallback autoFocusCallback){}
+    public void StartFocus(AutoFocusCallback autoFocusCallback){}
     public void CancelFocus(){}
 
     public abstract void SetLocation(Location loc);
 
-    public abstract void SetPreviewCallback(final I_Callbacks.PreviewCallback previewCallback);
-
-    public void SetPreviewCallback(final Camera.PreviewCallback previewCallback){}
-
-    public void ResetPreviewCallback(){}
 
     public void SetParameterHandler(AbstractParameterHandler parametersHandler)
     {
-        this.ParameterHandler = parametersHandler;
+        ParameterHandler = parametersHandler;
     }
 
     public AbstractParameterHandler GetParameterHandler()

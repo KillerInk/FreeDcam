@@ -34,12 +34,12 @@ public class PagingView extends ViewPager
 
     public PagingView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.allowScroll = true;
+        allowScroll = true;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (this.allowScroll) {
+        if (allowScroll) {
             return super.onTouchEvent(event);
         }
 
@@ -48,7 +48,7 @@ public class PagingView extends ViewPager
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-        if (this.allowScroll) {
+        if (allowScroll) {
             return super.onInterceptTouchEvent(event);
         }
 
@@ -56,6 +56,6 @@ public class PagingView extends ViewPager
     }
 
     public void EnableScroll(boolean enabled) {
-        this.allowScroll = enabled;
+        allowScroll = enabled;
     }
 }

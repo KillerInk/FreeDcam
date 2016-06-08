@@ -21,14 +21,19 @@ package com.freedcam.apis.camera1.camera.modules;
 
 import android.content.Context;
 import android.media.MediaRecorder;
+import android.media.MediaRecorder.AudioSource;
+import android.media.MediaRecorder.OutputFormat;
+import android.media.MediaRecorder.VideoSource;
 import android.os.Environment;
 
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile;
+import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile.VideoMode;
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.parameters.modes.VideoProfilesParameter;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
 
 
@@ -52,19 +57,19 @@ public class VideoModule extends AbstractVideoModule
         recorder.reset();
         recorder.setCamera(cameraHolder.GetCamera());
 
-        recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+        recorder.setVideoSource(VideoSource.CAMERA);
 
         switch (currentProfile.Mode)
         {
             case Normal:
             case Highspeed:
                 if(currentProfile.isAudioActive)
-                    recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+                    recorder.setAudioSource(AudioSource.CAMCORDER);
                 break;
             case Timelapse:
                 break;
         }
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        recorder.setOutputFormat(OutputFormat.MPEG_4);
         recorder.setVideoFrameRate(currentProfile.videoFrameRate);
         recorder.setVideoSize(currentProfile.videoFrameWidth, currentProfile.videoFrameHeight);
         recorder.setVideoEncodingBitRate(currentProfile.videoBitRate);
@@ -116,20 +121,20 @@ public class VideoModule extends AbstractVideoModule
     {
         VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter)ParameterHandler.VideoProfiles;
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE));
-        if (currentProfile.Mode == VideoMediaProfile.VideoMode.Highspeed)
+        if (currentProfile.Mode == VideoMode.Highspeed)
         {
             if(currentProfile.ProfileName.equals("1080pHFR")
-                    && appSettingsManager.getDevice() ==DeviceUtils.Devices.XiaomiMI3W
-                    || appSettingsManager.getDevice() ==(DeviceUtils.Devices.ZTE_ADV))
+                    && appSettingsManager.getDevice() == Devices.XiaomiMI3W
+                    || appSettingsManager.getDevice() == Devices.ZTE_ADV)
                 ParameterHandler.VideoHighFramerateVideo.SetValue("60",true);
-            if(currentProfile.ProfileName.equals("720pHFR") && appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV)
+            if(currentProfile.ProfileName.equals("720pHFR") && appSettingsManager.getDevice() == Devices.ZTE_ADV)
                 ParameterHandler.VideoHighFramerateVideo.SetValue("120", true);
 
             if(currentProfile.ProfileName.equals("720pHFR")
-                    && (appSettingsManager.getDevice() == DeviceUtils.Devices.XiaomiMI3W)
-                    || appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV
-                    || appSettingsManager.getDevice() ==DeviceUtils.Devices.ZTEADV234
-                    ||appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214)
+                    && appSettingsManager.getDevice() == Devices.XiaomiMI3W
+                    || appSettingsManager.getDevice() == Devices.ZTE_ADV
+                    || appSettingsManager.getDevice() == Devices.ZTEADV234
+                    ||appSettingsManager.getDevice() == Devices.ZTEADVIMX214)
             {
                 ParameterHandler.VideoHighFramerateVideo.SetValue("120",true);
                 ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);

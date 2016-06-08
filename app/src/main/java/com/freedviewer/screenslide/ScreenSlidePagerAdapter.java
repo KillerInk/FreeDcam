@@ -29,8 +29,10 @@ import android.view.ViewGroup;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedviewer.gridview.GridViewFragment;
+import com.freedviewer.gridview.GridViewFragment.FormatTypes;
 import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.holder.FileHolder;
+import com.freedviewer.screenslide.ScreenSlideFragment.FragmentClickClistner;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -44,16 +46,16 @@ import java.util.List;
 class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
 {
     private List<FileHolder> files;
-    private ScreenSlideFragment.FragmentClickClistner fragmentclickListner;
+    private FragmentClickClistner fragmentclickListner;
     private ViewPager mPager;
     private final String TAG = ScreenSlidePagerAdapter.class.getSimpleName();
     private String FilePathToLoad = "";
-    private GridViewFragment.FormatTypes filestoshow = GridViewFragment.FormatTypes.all;
+    private FormatTypes filestoshow = FormatTypes.all;
     private AppSettingsManager appSettingsManager;
     private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
     private BitmapHelper bitmapHelper;
 
-    public ScreenSlidePagerAdapter(FragmentManager fm, ViewPager mPager, ScreenSlideFragment.FragmentClickClistner fragmentclickListner, GridViewFragment.FormatTypes filestoshow,AppSettingsManager appSettingsManager, BitmapHelper bitmapHelper)
+    public ScreenSlidePagerAdapter(FragmentManager fm, ViewPager mPager, FragmentClickClistner fragmentclickListner, FormatTypes filestoshow,AppSettingsManager appSettingsManager, BitmapHelper bitmapHelper)
     {
         super(fm);
         files = new ArrayList<>();
@@ -66,7 +68,7 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
 
     public void SetFileToLoadPath(String Filetoload)
     {
-        this.FilePathToLoad = Filetoload;
+        FilePathToLoad = Filetoload;
         readFiles();
     }
 
@@ -113,7 +115,7 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
             }
         });
         Logger.d(TAG, "currentCount:"+files.size());
-        this.notifyDataSetChanged();
+        notifyDataSetChanged();
         mPager.setAdapter(this);
         mPager.setCurrentItem(0);
     }
@@ -144,7 +146,7 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
         FileHolder.readFilesFromFolder(folder, images, filestoshow,appSettingsManager.GetWriteExternal());
         files = images;
         Logger.d(TAG, "readFiles sucess, FilesCount" + files.size());
-        this.notifyDataSetChanged();
+        notifyDataSetChanged();
         mPager.setCurrentItem(0);
     }
 

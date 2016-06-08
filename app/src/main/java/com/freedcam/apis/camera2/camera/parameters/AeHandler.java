@@ -23,12 +23,15 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualShutter;
 import com.freedcam.apis.camera2.camera.CameraHolder;
 import com.freedcam.apis.camera2.camera.parameters.modes.BaseModeApi2;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
 
 import java.util.ArrayList;
@@ -94,7 +97,7 @@ public class AeHandler
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(VERSION_CODES.LOLLIPOP)
     /**
      * set the new aemode to the camera
      */
@@ -106,7 +109,7 @@ public class AeHandler
         setManualItemsSetSupport(activeAeMode);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(VERSION_CODES.LOLLIPOP)
     public class AeModeApi2 extends BaseModeApi2
     {
         private boolean isSupported = false;
@@ -127,13 +130,13 @@ public class AeHandler
                 }
             }
             if (aemodeStringValues.length > 1)
-                this.isSupported = true;
+                isSupported = true;
         }
 
         @Override
         public boolean IsSupported()
         {
-            return this.isSupported;
+            return isSupported;
         }
 
         @Override
@@ -161,7 +164,7 @@ public class AeHandler
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(VERSION_CODES.LOLLIPOP)
     public class ManualExposureApi2 extends AbstractManualParameter
     {
         final String TAG = ManualExposureApi2.class.getSimpleName();
@@ -189,7 +192,7 @@ public class AeHandler
             return super.GetValue();
         }
 
-        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+        @TargetApi(VERSION_CODES.LOLLIPOP)
         @Override
         public void SetValue(int valueToSet) {
             if (cameraHolder == null || cameraHolder.CaptureSessionH.GetActiveCameraCaptureSession() == null)
@@ -197,7 +200,7 @@ public class AeHandler
             currentInt = valueToSet;
             if (stringvalues == null || stringvalues.length == 0)
                 return;
-            int t = valueToSet - (stringvalues.length / 2);
+            int t = valueToSet - stringvalues.length / 2;
             cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, t);
         }
 
@@ -221,7 +224,7 @@ public class AeHandler
     /**
      * Created by troop on 06.03.2015.
      */
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(VERSION_CODES.LOLLIPOP)
     public class ManualExposureTimeApi2 extends AbstractManualShutter
     {
         boolean isSupported = false;
@@ -229,13 +232,13 @@ public class AeHandler
         private int millimax = 0;
         public ManualExposureTimeApi2(ParameterHandler camParametersHandler) {
             super(camParametersHandler);
-            this.isSupported = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE) != null;
+            isSupported = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE) != null;
             try {
                 findMinMaxValue();
             }
             catch (NullPointerException ex)
             {
-                this.isSupported = false;
+                isSupported = false;
             }
         }
 
@@ -245,17 +248,17 @@ public class AeHandler
             Logger.d(TAG, "max exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper());
             Logger.d(TAG, "min exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower());
             //866 975 130 = 0,8sec
-            if (cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.LG_G4) && Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1)
+            if (cameraHolder.appSettingsManager.getDevice() == Devices.LG_G4 && VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP_MR1)
                 millimax = 60000000;
-            else if (cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.LG_G4) && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)
+            else if (cameraHolder.appSettingsManager.getDevice() == Devices.LG_G4 && VERSION.SDK_INT == VERSION_CODES.M)
                 millimax = 45000000;
-            else if (cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.Samsung_S6_edge_plus))
+            else if (cameraHolder.appSettingsManager.getDevice() == Devices.Samsung_S6_edge_plus)
                 millimax = 10000000;
-            else if (cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.Moto_MSM8982_8994))
+            else if (cameraHolder.appSettingsManager.getDevice() == Devices.Moto_MSM8982_8994)
                 millimax = 10000000;
             else
-                millimax = (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper()).intValue() / 1000;
-            int millimin = (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower()).intValue() / 1000;
+                millimax = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper().intValue() / 1000;
+            int millimin = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower().intValue() / 1000;
             stringvalues = getSupportedShutterValues(millimin, millimax,false);
         }
 
@@ -279,7 +282,7 @@ public class AeHandler
             return stringvalues;
         }
 
-        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+        @TargetApi(VERSION_CODES.LOLLIPOP)
         @Override
         public void SetValue(int valueToSet)
         {
@@ -323,7 +326,7 @@ public class AeHandler
     /**
      * Created by troop on 28.04.2015.
      */
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(VERSION_CODES.LOLLIPOP)
     public class ManualISoApi2 extends ManualExposureTimeApi2
     {
         final String TAG = ManualISoApi2.class.getSimpleName();
@@ -338,12 +341,12 @@ public class AeHandler
                     else
                         ar.add(i + "");
                 }
-                this.stringvalues = new String[ar.size()];
+                stringvalues = new String[ar.size()];
                 ar.toArray(stringvalues);
             }
             catch (NullPointerException ex)
             {
-                this.isSupported = false;
+                isSupported = false;
             }
         }
 

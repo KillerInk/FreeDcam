@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.utils.AppSettingsManager;
@@ -32,15 +33,15 @@ public class CupBurstExpModeParameter extends BaseModeParameter
 {
     final String TAG = CupBurstExpModeParameter.class.getSimpleName();
     private AppSettingsManager appSettingsManager;
-    public CupBurstExpModeParameter(Camera.Parameters parameters, CameraHolder cameraHolder, String values, AppSettingsManager appSettingsManager) {
+    public CupBurstExpModeParameter(Parameters parameters, CameraHolder cameraHolder, String values, AppSettingsManager appSettingsManager) {
         super(parameters, cameraHolder, "capture-burst-exposures", "");
         this.appSettingsManager = appSettingsManager;
 
-        this.isSupported = false;
+        isSupported = false;
         try {
             String cbe =  parameters.get("capture-burst-exposures");
             if (cbe != null || !cbe.equals(""))
-                this.isSupported = true;
+                isSupported = true;
         }
         catch (Exception ex)
         {
@@ -49,7 +50,7 @@ public class CupBurstExpModeParameter extends BaseModeParameter
         try {
             String aeb =  parameters.get("ae-bracket-hdr");
             if (aeb != null || !aeb.equals(""))
-                this.isSupported = true;
+                isSupported = true;
         }
         catch (Exception ex)
         {
@@ -59,7 +60,7 @@ public class CupBurstExpModeParameter extends BaseModeParameter
 
     @Override
     public boolean IsSupported() {
-        return this.isSupported;
+        return isSupported;
     }
 
     @Override
@@ -77,7 +78,7 @@ public class CupBurstExpModeParameter extends BaseModeParameter
         } catch (Exception ex) {
             Logger.exception(ex);
         }
-        String newvalue[] = "0,0,0".split(",");
+        String[] newvalue = "0,0,0".split(",");
         if (valueToSet.equals("on")) {
             //if (cameraHolder.ParameterHandler.aeb1.GetValue() != null) {
                 //newvalue[0] = cameraHolder.ParameterHandler.aeb1.GetValue();
@@ -107,6 +108,6 @@ public class CupBurstExpModeParameter extends BaseModeParameter
         if (tmp == null || tmp == "")
             return "off";
         else
-            return (parameters.get(key_value));
+            return parameters.get(key_value);
     }
 }

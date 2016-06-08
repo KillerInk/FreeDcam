@@ -25,6 +25,7 @@ import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
+import com.freedcam.apis.basecamera.camera.modules.I_Callbacks.PictureCallback;
 import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.utils.AppSettingsManager;
@@ -75,7 +76,7 @@ public class BracketModule extends PictureModule
                 if (ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
                     ParameterHandler.ZSL.SetValue("off", true);
             }
-            changeWorkState(AbstractModuleHandler.CaptureModes.image_capture_start);
+            changeWorkState(CaptureModes.image_capture_start);
             waitForPicture = true;
             loade_ae_bracket();
             if (aeBrackethdr && ParameterHandler.PictureFormat.GetValue().equals(KEYS.JPEG))
@@ -90,7 +91,7 @@ public class BracketModule extends PictureModule
                 } catch (InterruptedException e) {
                     Logger.exception(e);
                 }
-                cameraHolder.TakePicture(null,BracketModule.this);
+                cameraHolder.TakePicture(null, this);
             }
         }
         return true;
@@ -210,7 +211,7 @@ public class BracketModule extends PictureModule
             isManualExpo = true;
     }
 
-    private float getStop(float current,float TargetStop)
+    private void getStop(float current, float TargetStop)
     {
         float stop = current;
         int stopT = 0;
@@ -231,21 +232,20 @@ public class BracketModule extends PictureModule
                 stopT = i+1;
             }
         }
-        return stop;
     }
 
-    I_Callbacks.PictureCallback aeBracketCallback = new I_Callbacks.PictureCallback() {
+    PictureCallback aeBracketCallback = new PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data) {
             if (!waitForPicture)
                 return;
             hdrCount++;
-            final String picFormat = ParameterHandler.PictureFormat.GetValue();
+            String picFormat = ParameterHandler.PictureFormat.GetValue();
             saveImage(data,picFormat);
             if (hdrCount == 3)//handel normal capture
             {
                 waitForPicture = false;
-                changeWorkState(AbstractModuleHandler.CaptureModes.image_capture_stop);
+                changeWorkState(CaptureModes.image_capture_stop);
                 cameraHolder.StartPreview();
 
             }
@@ -283,7 +283,7 @@ public class BracketModule extends PictureModule
                     return;
                 }
                 hdrCount++;
-                final String picFormat = ParameterHandler.PictureFormat.GetValue();
+                String picFormat = ParameterHandler.PictureFormat.GetValue();
                 saveImage(data,picFormat);
                 cameraHolder.StartPreview();
                 if (hdrCount == 3)//handel normal capture

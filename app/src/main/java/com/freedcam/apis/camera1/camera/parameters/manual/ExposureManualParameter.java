@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.utils.Logger;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 public class ExposureManualParameter extends BaseManualParameter
 {
     private final String TAG = ExposureManualParameter.class.getSimpleName();
-    public ExposureManualParameter(Camera.Parameters parameters, ParametersHandler parametersHandler, float step) {
+    public ExposureManualParameter(Parameters parameters, ParametersHandler parametersHandler, float step) {
         super(parameters,"", "", "", parametersHandler,step);
         stringvalues = createStringArray(parameters.getMinExposureCompensation(),parameters.getMaxExposureCompensation(),parameters.getExposureCompensationStep());
         isSupported = true;
@@ -62,7 +63,7 @@ public class ExposureManualParameter extends BaseManualParameter
     {
         if(stringvalues == null || stringvalues.length == 0)
             return;
-        currentInt = valueToset-(stringvalues.length/2);
+        currentInt = valueToset- stringvalues.length/2;
         parameters.setExposureCompensation(currentInt);
         try
         {

@@ -19,6 +19,7 @@
 
 package com.freedviewer.dngconvert;
 
+import android.R.id;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -36,8 +37,8 @@ public class DngConvertingActivity extends FragmentActivity implements I_Activit
         super.onCreate(savedInstanceState);
         new AppSettingsManager(getApplicationContext());
         if (getSupportFragmentManager().findFragmentByTag(TAG) == null) {
-            final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(android.R.id.content, new DngConvertingFragment(), TAG);
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(id.content, new DngConvertingFragment(), TAG);
             ft.commit();
         }
 

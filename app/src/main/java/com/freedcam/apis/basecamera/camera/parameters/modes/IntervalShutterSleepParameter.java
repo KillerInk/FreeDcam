@@ -26,7 +26,6 @@ public class IntervalShutterSleepParameter extends AbstractModeParameter
 {
     private String current = "1 sec";
     public IntervalShutterSleepParameter() {
-        super();
     }
 
     @Override

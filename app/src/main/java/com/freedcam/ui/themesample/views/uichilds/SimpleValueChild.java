@@ -23,20 +23,24 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.freedcam.ui.themesample.subfragments.Interfaces;
+import com.freedcam.ui.themesample.subfragments.Interfaces.I_CloseNotice;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
 
 /**
  * Created by troop on 16.06.2015.
  */
-public class SimpleValueChild extends FrameLayout implements View.OnClickListener
+public class SimpleValueChild extends FrameLayout implements OnClickListener
 {
 
     private TextView textView;
-    private Interfaces.I_CloseNotice closeNotice;
+    private I_CloseNotice closeNotice;
     public SimpleValueChild(Context context)
     {
         super(context);
@@ -51,12 +55,12 @@ public class SimpleValueChild extends FrameLayout implements View.OnClickListene
     private void init(Context context)
     {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.simplevaluechild, this);
-        this.textView = (TextView)findViewById(R.id.simplevaluetext);
-        this.setOnClickListener(this);
+        inflater.inflate(layout.simplevaluechild, this);
+        textView = (TextView)findViewById(id.simplevaluetext);
+        setOnClickListener(this);
     }
 
-    public void SetString(String text, Interfaces.I_CloseNotice closeNotice)
+    public void SetString(String text, I_CloseNotice closeNotice)
     {
         textView.setText(text);
         this.closeNotice = closeNotice;

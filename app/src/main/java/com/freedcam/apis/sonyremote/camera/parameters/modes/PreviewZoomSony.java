@@ -20,6 +20,8 @@
 package com.freedcam.apis.sonyremote.camera.parameters.modes;
 
 import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleStreamSurfaceView;
@@ -32,13 +34,12 @@ public class PreviewZoomSony extends AbstractModeParameter
     private SimpleStreamSurfaceView surfaceView;
     private int zoomFactor = 8;
     public PreviewZoomSony( SimpleStreamSurfaceView surfaceView) {
-        super();
         this.surfaceView = surfaceView;
     }
 
     @Override
     public boolean IsSupported() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+        return VERSION.SDK_INT >= VERSION_CODES.KITKAT;
     }
 
     @Override
@@ -61,11 +62,6 @@ public class PreviewZoomSony extends AbstractModeParameter
     @Override
     public void addEventListner(I_ModeParameterEvent eventListner) {
         super.addEventListner(eventListner);
-    }
-
-    @Override
-    public void removeEventListner(I_ModeParameterEvent parameterEvent) {
-        super.removeEventListner(parameterEvent);
     }
 
     @Override

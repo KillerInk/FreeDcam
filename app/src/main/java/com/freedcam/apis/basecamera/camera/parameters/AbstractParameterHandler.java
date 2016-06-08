@@ -133,8 +133,9 @@ public abstract class AbstractParameterHandler
     //public AbstractModeParameter PreviewZoom;
     public boolean isExposureAndWBLocked = false;
     private boolean isDngActive = false;
-    public boolean IsDngActive(){ return this.isDngActive; }
-    public void SetDngActive(boolean active) {this.isDngActive = active;}
+    public boolean IsDngActive(){ return isDngActive; }
+    public void SetDngActive(boolean active) {
+        isDngActive = active;}
 
     public AbstractCameraHolder cameraHolder;
 
@@ -176,7 +177,7 @@ public abstract class AbstractParameterHandler
     public AbstractParameterHandler(AbstractCameraHolder cameraHolder, Context context, AppSettingsManager appSettingsManager)
     {
         this.cameraHolder = cameraHolder;
-        this.uiHandler = new Handler(Looper.getMainLooper());
+        uiHandler = new Handler(Looper.getMainLooper());
         this.context = context;
         this.appSettingsManager = appSettingsManager;
         parametersLoadedListner = new ArrayList<>();
@@ -283,13 +284,13 @@ public abstract class AbstractParameterHandler
             Logger.d(TAG, parameter.getClass().getSimpleName() + " load settings: " + settingsval);
             if (appSettingsManager.getString(settingsval).equals("") || appSettingsManager.getString(settingsval) == null)
             {
-                final String tmp = parameter.GetValue();
+                String tmp = parameter.GetValue();
                 Logger.d(TAG, settingsval + " is empty, set default from camera : " +tmp);
                 appSettingsManager.setString(settingsval, tmp);
             }
             else
             {
-                final String tmp = appSettingsManager.getString(settingsval);
+                String tmp = appSettingsManager.getString(settingsval);
                 Logger.d(TAG, "Found AppSetting: "+settingsval+" set to: " + tmp);
                 parameter.SetValue(tmp, false);
             }
@@ -303,14 +304,14 @@ public abstract class AbstractParameterHandler
             Logger.d(TAG, parameter.getClass().getSimpleName() + " load settings: " + settingsval);
             if (appSettingsManager.getString(settingsval).equals("") || appSettingsManager.getString(settingsval).equals(null))
             {
-                final String tmp = parameter.GetValue()+"";
+                String tmp = parameter.GetValue()+"";
                 Logger.d(TAG, settingsval + " is empty, set default from camera : " +tmp);
                 appSettingsManager.setString(settingsval, tmp);
             }
             else
             {
                 try {
-                    final int tmp = Integer.parseInt(appSettingsManager.getString(settingsval));
+                    int tmp = Integer.parseInt(appSettingsManager.getString(settingsval));
                     Logger.d(TAG, "Found AppSetting: "+settingsval+" set to: " + tmp);
                     parameter.SetValue(tmp);
                 }

@@ -38,7 +38,7 @@ import java.util.Date;
  */
 public class Logger
 {
-    private static Logger.FileLogger fileLogger;
+    private static FileLogger fileLogger;
     private static final String TAG = Logger.class.getSimpleName();
 
     public static void d(String TAG,String msg)
@@ -126,11 +126,11 @@ public class Logger
             File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/FreeDcam/" + "CRASH/" + Build.MODEL + "_" + DateFormat.format("yyyy-MM-dd_hh.mm.ss", new Date().getTime()) + ".txt");
             if (!f.getParentFile().exists())
                 f.getParentFile().mkdirs();
-            Logger.fileLogger = new Logger.FileLogger(f);
+            fileLogger = new FileLogger(f);
         }
-        Logger.fileLogger.WriteEx(throwable);
+        fileLogger.WriteEx(throwable);
         if (logwasnull)
-            Logger.fileLogger.Destroy();
+            fileLogger.Destroy();
     }
 
     private static class FileLogger
@@ -141,10 +141,10 @@ public class Logger
 
         public FileLogger()
         {
-            this.file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/FreeDcam/" + "DEBUG/"+ Build.MODEL + "_" + DateFormat.format("yyyy_MM_dd_hh_mm_ss", new Date().getTime()) + ".txt");
+            file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/DCIM/FreeDcam/" + "DEBUG/"+ Build.MODEL + "_" + DateFormat.format("yyyy_MM_dd_hh_mm_ss", new Date().getTime()) + ".txt");
             try {
-                this.outputStream = new FileWriter(this.file);
-                this.writer = new BufferedWriter(this.outputStream);
+                outputStream = new FileWriter(file);
+                writer = new BufferedWriter(outputStream);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -154,8 +154,8 @@ public class Logger
         {
             this.file = file;
             try {
-                this.outputStream = new FileWriter(file);
-                this.writer = new BufferedWriter(this.outputStream);
+                outputStream = new FileWriter(file);
+                writer = new BufferedWriter(outputStream);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -165,28 +165,28 @@ public class Logger
         public void Destroy()
         {
 
-            if (this.outputStream != null)
+            if (outputStream != null)
             {
                 try {
-                    this.writer.flush();
+                    writer.flush();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
                 try {
-                    this.outputStream.flush();
+                    outputStream.flush();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 try {
-                    this.writer.close();
-                    this.writer = null;
+                    writer.close();
+                    writer = null;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 try {
-                    this.outputStream.close();
-                    this.outputStream = null;
+                    outputStream.close();
+                    outputStream = null;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -201,8 +201,8 @@ public class Logger
                         ":(D) " +
                         TAG + ":" +
                         msg;
-                this.writer.write(b);
-                this.writer.newLine();
+                writer.write(b);
+                writer.newLine();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -215,8 +215,8 @@ public class Logger
                         ":(E) " +
                         TAG +
                         msg;
-                this.writer.write(b);
-                this.writer.newLine();
+                writer.write(b);
+                writer.newLine();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -227,12 +227,12 @@ public class Logger
             StringWriter errors = new StringWriter();
             ex.printStackTrace(new PrintWriter(errors));
             try {
-                this.writer.write(errors.toString());
+                writer.write(errors.toString());
             } catch (IOException e) {
-                if (this.file != null)
+                if (file != null)
                 {
                     try {
-                        FileWriter fr = new FileWriter(this.file);
+                        FileWriter fr = new FileWriter(file);
                         fr.write(errors.toString());
                         fr.close();
                     } catch (IOException e1) {

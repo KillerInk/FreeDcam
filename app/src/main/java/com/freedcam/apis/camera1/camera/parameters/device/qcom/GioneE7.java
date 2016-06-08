@@ -20,7 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.device.qcom;
 
 import android.hardware.Camera;
-import android.os.Handler;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
@@ -31,7 +31,7 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 01.06.2016.
  */
 public class GioneE7 extends BaseQcomDevice {
-    public GioneE7(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public GioneE7(Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 
@@ -48,10 +48,8 @@ public class GioneE7 extends BaseQcomDevice {
             case 9990144://e7 front mipi
                 return new DngProfile(16, 3264, 2448, DngProfile.Mipi, DngProfile.BGGR, 4080,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 10653696://e7 front qcom
-            {
                 //TODO somethings wrong with it;
                 return new DngProfile(16, 3264, 2448, DngProfile.Qcom, DngProfile.BGGR, 0,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-            }
             case 19906560://e7mipi
                 return new DngProfile(16, 4608, 3456, DngProfile.Mipi, DngProfile.BGGR, 0,
                         matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));

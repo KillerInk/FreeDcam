@@ -42,7 +42,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
     @Override
     public void SetValue(final int valueToSet)
     {
-        this.currentInt = valueToSet;
+        currentInt = valueToSet;
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
@@ -125,7 +125,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
 
     @Override
     public void onCurrentValueChanged(int current) {
-        this.currentInt = current;
+        currentInt = current;
     }
 
     public String[] getStringValues()

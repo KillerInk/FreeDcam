@@ -25,11 +25,11 @@ package com.troop.androiddng;
 public class DngProfile
 {
 
-    public final static int Mipi = 0;
-    public final static int Qcom = 1;
-    public final static int Plain = 2;
-    public final static int Mipi16 = 3;
-    public final static int Mipi12 = 4;
+    public static final int Mipi = 0;
+    public static final int Qcom = 1;
+    public static final int Plain = 2;
+    public static final int Mipi16 = 3;
+    public static final int Mipi12 = 4;
 
     public static String BGGR = "bggr";
     public static String RGGB = "rggb";
@@ -56,7 +56,7 @@ public class DngProfile
         this.widht = widht;
         this.height = height;
         this.rawType = rawType;
-        this.BayerPattern = bayerPattern;
+        BayerPattern = bayerPattern;
         this.rowsize = rowsize;
         this.matrixes = matrixes;
     }

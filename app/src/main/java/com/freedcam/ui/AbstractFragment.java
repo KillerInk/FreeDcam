@@ -41,7 +41,7 @@ public abstract class AbstractFragment extends Fragment implements I_Fragment
 
     public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper)
     {
-        this.cameraUiWrapper = wrapper;
+        cameraUiWrapper = wrapper;
         if (cameraUiWrapper != null)
             setCameraUiWrapperToUi();
     }

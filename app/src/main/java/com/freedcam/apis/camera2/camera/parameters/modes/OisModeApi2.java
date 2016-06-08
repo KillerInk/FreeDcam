@@ -23,13 +23,14 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 
 import com.freedcam.apis.camera2.camera.CameraHolder;
 
 /**
  * Created by troop on 23.04.2016.
  */
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@TargetApi(VERSION_CODES.LOLLIPOP)
 public class OisModeApi2 extends BaseModeApi2
 {
     public enum OISModes
@@ -42,7 +43,7 @@ public class OisModeApi2 extends BaseModeApi2
         super(cameraHolder);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(VERSION_CODES.LOLLIPOP)
     @Override
     public boolean IsSupported()
     {

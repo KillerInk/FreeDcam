@@ -22,7 +22,9 @@ package com.freedcam.apis.camera1.camera;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Build.VERSION;
 import android.view.SurfaceHolder;
+import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
 
@@ -32,9 +34,11 @@ import com.freedcam.apis.basecamera.camera.Size;
 import com.freedcam.apis.basecamera.camera.interfaces.I_Module;
 import com.freedcam.apis.basecamera.camera.interfaces.I_error;
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
+import com.freedcam.apis.basecamera.camera.modules.I_Callbacks.ErrorCallback;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.camera.parameters.I_ParametersLoaded;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.apis.camera1.camera.CameraHolder.Frameworks;
 import com.freedcam.apis.camera1.camera.cameraholder.CameraHolderLG;
 import com.freedcam.apis.camera1.camera.cameraholder.CameraHolderMTK;
@@ -44,6 +48,7 @@ import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.camera.renderscript.FocusPeakProcessorAp1;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.RenderScriptHandler;
 
@@ -55,7 +60,7 @@ import java.util.List;
 /**
  * Created by troop on 16.08.2014.
  */
-public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceHolder.Callback, I_ParametersLoaded, I_Callbacks.ErrorCallback, I_ModuleEvent
+public class CameraUiWrapper extends AbstractCameraUiWrapper implements Callback, I_ParametersLoaded, ErrorCallback, I_ModuleEvent
 {
     protected ExtendedSurfaceView preview;
     protected I_error errorHandler;
@@ -77,20 +82,20 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         //attache the callback to the Campreview
         preview.getHolder().addCallback(this);
 
-        this.errorHandler = this;
+        errorHandler = this;
         if (hasLGFramework())
-            this.cameraHolder = new CameraHolderLG(this,appSettingsManager,Frameworks.LG);
+            cameraHolder = new CameraHolderLG(this,appSettingsManager,Frameworks.LG);
         else if (isMotoExt())
-            this.cameraHolder = new CameraHolderMotoX(this,appSettingsManager,Frameworks.MotoX);
+            cameraHolder = new CameraHolderMotoX(this,appSettingsManager,Frameworks.MotoX);
         else if (isMTKDevice())
-            this.cameraHolder = new CameraHolderMTK(this,appSettingsManager,Frameworks.MTK);
+            cameraHolder = new CameraHolderMTK(this,appSettingsManager,Frameworks.MTK);
         else
-            this.cameraHolder = new CameraHolder(this,appSettingsManager,Frameworks.Normal);
+            cameraHolder = new CameraHolder(this,appSettingsManager,Frameworks.Normal);
         super.cameraHolder = cameraHolder;
-        this.cameraHolder.errorHandler = errorHandler;
+        cameraHolder.errorHandler = errorHandler;
 
-        this.parametersHandler = new ParametersHandler(this,context,appSettingsManager);
-        this.cameraHolder.SetParameterHandler(parametersHandler);
+        parametersHandler = new ParametersHandler(this,context,appSettingsManager);
+        cameraHolder.SetParameterHandler(parametersHandler);
         parametersHandler.AddParametersLoadedListner(this);
         this.preview.ParametersHandler = parametersHandler;
         //parametersHandler.ParametersEventHandler.AddParametersLoadedListner(this.preview);
@@ -98,8 +103,8 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         moduleHandler.moduleEventHandler.addListner(this);
 
         Focus = new FocusHandler(this);
-        this.cameraHolder.Focus = Focus;
-        if (Build.VERSION.SDK_INT >= 18) {
+        cameraHolder.Focus = Focus;
+        if (VERSION.SDK_INT >= 18) {
             focusPeakProcessorAp1 = new FocusPeakProcessorAp1(previewTexture, this, context,renderScriptHandler);
             SetCameraChangedListner(focusPeakProcessorAp1);
         }
@@ -241,7 +246,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         cameraRdy = true;
         super.onCameraOpen(message);
         ((ParametersHandler) parametersHandler).LoadParametersFromCamera();
-        cameraHolder.SetErrorCallback(CameraUiWrapper.this);
+        cameraHolder.SetErrorCallback(this);
         cameraHolder.SetSurface(preview.getHolder());
         cameraHolder.StartPreview();
         super.onCameraOpenFinish("");
@@ -292,7 +297,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         super.onCameraError(error);
     }
 
-    AbstractModeParameter.I_ModeParameterEvent onPreviewSizeShouldChange = new AbstractModeParameter.I_ModeParameterEvent() {
+    I_ModeParameterEvent onPreviewSizeShouldChange = new I_ModeParameterEvent() {
 
         @Override
         public void onValueChanged(String val)
@@ -370,7 +375,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     };
 
     private Size getOptimalPreviewSize(List<Size> sizes, int w, int h) {
-        final double ASPECT_TOLERANCE = 0.2;
+        double ASPECT_TOLERANCE = 0.2;
         double targetRatio = (double) w / h;
         if (sizes == null) return null;
         Size optimalSize = null;
@@ -378,7 +383,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         // Try to find an size match aspect ratio and size
         for (Size size : sizes)
         {
-            if(appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV) {
+            if(appSettingsManager.getDevice() == Devices.ZTE_ADV) {
                 if (size.width <= 1440 && size.height <= 1080 && size.width >= 640 && size.height >= 480) {
                     double ratio = (double) size.width / size.height;
                     if (ratio < targetRatio + ASPECT_TOLERANCE && ratio > targetRatio - ASPECT_TOLERANCE) {
@@ -406,7 +411,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
             minDiff = Double.MAX_VALUE;
             for (Size size : sizes)
             {
-                if(appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV) {
+                if(appSettingsManager.getDevice() == Devices.ZTE_ADV) {
                     if (size.width <= 1440 && size.height <= 1080 && size.width >= 640 && size.height >= 480) {
                         if (Math.abs(size.height - h) < minDiff) {
                             optimalSize = size;

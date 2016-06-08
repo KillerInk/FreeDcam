@@ -20,13 +20,16 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 import android.os.Build;
+import android.os.Build.VERSION;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.CameraHolder.Frameworks;
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
 
 import java.util.ArrayList;
@@ -45,14 +48,14 @@ public class PictureFormatHandler extends BaseModeParameter
 
     private String[] rawFormats;
 
-    final public static int JPEG= 0;
-    private final static int RAW = 1;
-    private final static int DNG = 2;
+    public static final int JPEG= 0;
+    private static final int RAW = 1;
+    private static final int DNG = 2;
 
     private BayerFormat BayerFormats;
     private ParametersHandler parametersHandler;
 
-    final static public String[] CaptureMode =
+    public static final String[] CaptureMode =
     {
             KEYS.JPEG,
         BAYER,
@@ -63,7 +66,7 @@ public class PictureFormatHandler extends BaseModeParameter
      * @param parameters   Hold the Camera Parameters
      * @param cameraHolder Hold the camera object
      */
-    public PictureFormatHandler(Camera.Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler)
+    public PictureFormatHandler(Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler)
     {
         super(parameters, cameraHolder, "", "");
         this.parametersHandler = parametersHandler;
@@ -77,19 +80,19 @@ public class PictureFormatHandler extends BaseModeParameter
         {
             Logger.d(TAG,"default");
             isSupported = true;
-            if (cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.LG_G2))
+            if (cameraHolder.appSettingsManager.getDevice() == Devices.LG_G2)
             {
                 isSupported = true;
                 rawSupported = true;
                 rawFormat = KEYS.BAYER_MIPI_10BGGR;
             }
-            else if (cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.HTC_OneA9))
+            else if (cameraHolder.appSettingsManager.getDevice() == Devices.HTC_OneA9)
             {
                 isSupported = true;
                 rawSupported = true;
                 rawFormat = KEYS.BAYER_MIPI_10RGGB;
             }
-            else if(cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.Htc_M8) && Build.VERSION.SDK_INT >= 21)
+            else if(cameraHolder.appSettingsManager.getDevice() == Devices.Htc_M8 && VERSION.SDK_INT >= 21)
             {
                 isSupported = true;
                 rawSupported = true;
@@ -97,13 +100,13 @@ public class PictureFormatHandler extends BaseModeParameter
             else
             {
                 String formats = parameters.get(KEYS.PICTURE_FORMAT_VALUES);
-                if (cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.MotoG3)||cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.Moto_MSM8974))
+                if (cameraHolder.appSettingsManager.getDevice() == Devices.MotoG3 ||cameraHolder.appSettingsManager.getDevice() == Devices.Moto_MSM8974)
                     formats = "bayer-mipi-10bggr,bayer-ideal-qcom-10bggr,bayer-qcom-10bggr,bayer-mipi-10rggb,bayer-ideal-qcom-10rggb,bayer-qcom-10rggb,bayer-mipi-10grbg,bayer-ideal-qcom-10grbg,bayer-qcom-10grbg,bayer-mipi-10gbrg,bayer-ideal-qcom-10gbrg,bayer-qcom-10gbrg";
 
                 if (formats.contains("bayer-mipi") || formats.contains("raw"))
                 {
                     rawSupported = true;
-                    String forms[] = formats.split(",");
+                    String[] forms = formats.split(",");
                     for (String s : forms) {
                         if (s.contains("bayer-mipi") || s.contains("raw"))
                         {
@@ -112,12 +115,12 @@ public class PictureFormatHandler extends BaseModeParameter
                         }
                     }
                 }
-                if (formats.contains(KEYS.BAYER))
+                if (formats.contains(BAYER))
                 {
                     ArrayList<String> tmp = new ArrayList<>();
-                    String forms[] = formats.split(",");
+                    String[] forms = formats.split(",");
                     for (String s : forms) {
-                        if (s.contains(KEYS.BAYER))
+                        if (s.contains(BAYER))
                         {
                             tmp.add(s);
                         }
@@ -219,7 +222,7 @@ public class PictureFormatHandler extends BaseModeParameter
          * @param cameraHolder Hold the camera object
          * @param values
          */
-        public BayerFormat(Camera.Parameters parameters, CameraHolder cameraHolder, String values) {
+        public BayerFormat(Parameters parameters, CameraHolder cameraHolder, String values) {
             super(parameters, cameraHolder, "", "");
         }
 
@@ -248,7 +251,7 @@ public class PictureFormatHandler extends BaseModeParameter
         public void SetValue(String valueToSet, boolean setToCam)
         {
             rawFormat = valueToSet;
-            if (captureMode.equals(KEYS.BAYER)|| captureMode.equals(KEYS.DNG)) {
+            if (captureMode.equals(BAYER)|| captureMode.equals(KEYS.DNG)) {
                 PictureFormatHandler.this.SetValue(captureMode, true);
             }
         }

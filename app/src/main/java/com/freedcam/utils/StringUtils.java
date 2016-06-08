@@ -31,8 +31,8 @@ import java.util.Date;
 public class StringUtils
 {
 
-    final public static String ON = "ON";
-    final public static String OFF = "OFF";
+    public static final String ON = "ON";
+    public static final String OFF = "OFF";
 
     public static String VoLP = "Vol+";
     public static String VoLM = "Vol-";
@@ -62,7 +62,7 @@ public class StringUtils
     public static String GetFreeDcamConfigFolder = GetInternalSDCARD()+freedcamFolder+"config/";
     public static String getFilePath(boolean externalSd, String fileEnding)
     {
-        final StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         if (externalSd)
             builder.append(GetExternalSDCARD());
         else
@@ -80,7 +80,7 @@ public class StringUtils
 
     public static String GetDCIMFolder(boolean external)
     {
-        final StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         if (external)
             builder.append(GetExternalSDCARD());
         else
@@ -91,7 +91,7 @@ public class StringUtils
 
     public static String getFilePathHDR(boolean externalSd, String fileEnding, int hdrcount)
     {
-        final StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         if (externalSd)
             builder.append(GetExternalSDCARD());
         else
@@ -109,7 +109,7 @@ public class StringUtils
 
     public static String getFilePathBurst(boolean externalSd, String fileEnding, int hdrcount)
     {
-        final StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         if (externalSd)
             builder.append(GetExternalSDCARD());
         else
@@ -134,16 +134,16 @@ public class StringUtils
 
     public class FileEnding
     {
-        final public static String RAW = "raw";
-        final public static String DNG = "dng";
-        final public static String JPG = "jpg";
-        final public static String JPS = "jps";
-        final public static String BAYER = "bayer";
-        final public static String MP4 = "mp4";
+        public static final String RAW = "raw";
+        public static final String DNG = "dng";
+        public static final String JPG = "jpg";
+        public static final String JPS = "jps";
+        public static final String BAYER = "bayer";
+        public static final String MP4 = "mp4";
 
         public String GetWithDot()
         {
-            return "."+ FileEnding.BAYER;
+            return "."+ BAYER;
         }
     }
 

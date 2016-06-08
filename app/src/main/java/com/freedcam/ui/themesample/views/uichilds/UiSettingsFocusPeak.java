@@ -25,13 +25,14 @@ import android.util.AttributeSet;
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.ui.themesample.subfragments.Interfaces;
+import com.freedcam.ui.themesample.subfragments.Interfaces.I_MenuItemClick;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 
 /**
  * Created by troop on 09.09.2015.
  */
-public class UiSettingsFocusPeak extends UiSettingsChild implements Interfaces.I_MenuItemClick {
+public class UiSettingsFocusPeak extends UiSettingsChild implements I_MenuItemClick {
     public UiSettingsFocusPeak(Context context) {
         super(context);
     }
@@ -44,8 +45,8 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements Interfaces.I
         super(context, attrs, defStyleAttr);
     }
 
-    public void SetMenuItemListner(Interfaces.I_MenuItemClick menuItemClick) {
-        super.SetMenuItemListner(this,false);
+    public void SetMenuItemListner(I_MenuItemClick menuItemClick) {
+        SetMenuItemListner(this,false);
     }
 
     public void SetCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
@@ -79,8 +80,8 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements Interfaces.I
     public void ModuleChanged(String module)
     {
         if ((module.equals(KEYS.MODULE_PICTURE) || module.equals(KEYS.MODULE_HDR)|| module.equals(KEYS.MODULE_INTERVAL)) && parameter != null && parameter.IsSupported())
-            this.setVisibility(VISIBLE);
+            setVisibility(VISIBLE);
         else
-            this.setVisibility(GONE);
+            setVisibility(GONE);
     }
 }

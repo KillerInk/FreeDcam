@@ -25,12 +25,13 @@ import android.os.Looper;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.apis.camera2.camera.CameraHolder;
 
 /**
  * Created by troop on 10.09.2015.
  */
-public class BurstApi2 extends AbstractManualParameter implements AbstractModeParameter.I_ModeParameterEvent
+public class BurstApi2 extends AbstractManualParameter implements I_ModeParameterEvent
 {
     int current = 1;
     CameraHolder cameraHolder;
@@ -82,7 +83,7 @@ public class BurstApi2 extends AbstractManualParameter implements AbstractModePa
 
     @Override
     public String GetStringValue() {
-        return (current)+"";
+        return current +"";
     }
 
     @Override

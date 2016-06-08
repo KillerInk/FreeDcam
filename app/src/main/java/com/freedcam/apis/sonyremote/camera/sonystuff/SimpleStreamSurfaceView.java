@@ -22,25 +22,37 @@ package com.freedcam.apis.sonyremote.camera.sonystuff;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.renderscript.Allocation;
+import android.renderscript.Allocation.MipmapControl;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.renderscript.Type;
+import android.renderscript.Type.Builder;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
+import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 
 import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
+import com.freedcam.apis.basecamera.camera.modules.I_Callbacks.PreviewCallback;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
+import com.freedcam.apis.sonyremote.camera.sonystuff.DataExtractor.FrameInfo;
+import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleStreamSurfaceView.StreamErrorListener.StreamErrorReason;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.imageconverter.ScriptC_brightness;
@@ -58,20 +70,20 @@ import java.util.concurrent.BlockingQueue;
 /**
  * A SurfaceView based class to draw liveview frames serially.
  */
-public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolder.Callback, AbstractModeParameter.I_ModeParameterEvent {
+public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_ModeParameterEvent {
 
     private static final String TAG = SimpleStreamSurfaceView.class.getSimpleName();
 
     private boolean mWhileFetching;
     private final BlockingQueue<DataExtractor> mJpegQueue = new ArrayBlockingQueue<>(2);
     private final BlockingQueue<DataExtractor> frameQueue = new ArrayBlockingQueue<>(2);
-    private final boolean mInMutableAvailable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
+    private final boolean mInMutableAvailable = VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB;
     private int mPreviousWidth = 0;
     private int mPreviousHeight = 0;
     private final Paint mFramePaint;
     private  Paint paint;
     private StreamErrorListener mErrorListener;
-    private I_Callbacks.PreviewCallback previewFrameCallback;
+    private PreviewCallback previewFrameCallback;
     public boolean focuspeak = false;
     public NightPreviewModes nightmode = NightPreviewModes.off;
     private int currentImageStackCount = 0;
@@ -104,22 +116,22 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
     private void initRenderScript()
     {
-        drawBitmap = Bitmap.createBitmap(mPreviousWidth, mPreviousHeight, Bitmap.Config.ARGB_8888);
-        stackBitmap = Bitmap.createBitmap(mPreviousWidth, mPreviousHeight, Bitmap.Config.ARGB_8888);
-        Type.Builder tbIn = new Type.Builder(mRS, Element.RGBA_8888(mRS));
+        drawBitmap = Bitmap.createBitmap(mPreviousWidth, mPreviousHeight, Config.ARGB_8888);
+        stackBitmap = Bitmap.createBitmap(mPreviousWidth, mPreviousHeight, Config.ARGB_8888);
+        Builder tbIn = new Builder(mRS, Element.RGBA_8888(mRS));
         tbIn.setX(mPreviousWidth);
         tbIn.setY(mPreviousHeight);
-        Type.Builder tbIn2 = new Type.Builder(mRS, Element.RGBA_8888(mRS));
+        Builder tbIn2 = new Builder(mRS, Element.RGBA_8888(mRS));
         tbIn2.setX(mPreviousWidth);
         tbIn2.setY(mPreviousHeight);
 
-        Type.Builder tbOut = new Type.Builder(mRS, Element.RGBA_8888(mRS));
+        Builder tbOut = new Builder(mRS, Element.RGBA_8888(mRS));
         tbOut.setX(mPreviousWidth);
         tbOut.setY(mPreviousHeight);
 
-        mInputAllocation = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
-        mInputAllocation2 = Allocation.createTyped(mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
-        mOutputAllocation = Allocation.createTyped(mRS, tbOut.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT);
+        mInputAllocation = Allocation.createTyped(mRS, tbIn.create(), MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+        mInputAllocation2 = Allocation.createTyped(mRS, tbIn.create(), MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+        mOutputAllocation = Allocation.createTyped(mRS, tbOut.create(), MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT);
 
         //mScriptFocusPeak = new ScriptC_focus_peak(mRS);
     }
@@ -167,9 +179,9 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         initBitmaps(context);
     }
 
-    public void SetOnPreviewFrame(I_Callbacks.PreviewCallback previewCallback)
+    public void SetOnPreviewFrame(PreviewCallback previewCallback)
     {
-        this.previewFrameCallback = previewCallback;
+        previewFrameCallback = previewCallback;
     }
 
     private void initBitmaps(Context context)
@@ -177,8 +189,8 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         paint = new Paint();
         paint.setColor(Color.WHITE);
         paint.setStrokeWidth(5);
-        paint.setStyle(Paint.Style.STROKE);
-        if (Build.VERSION.SDK_INT >= 18) {
+        paint.setStyle(Style.STROKE);
+        if (VERSION.SDK_INT >= 18) {
             mRS = RenderScript.create(context);
             focuspeak_argb = new ScriptC_focuspeak_argb(mRS);
             imagestack_argb = new ScriptC_imagestack(mRS);
@@ -211,18 +223,18 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
      * @return true if the starting is completed successfully, false otherwise.
 
      */
-    public boolean start(final String streamUrl, StreamErrorListener listener) {
+    public void start(final String streamUrl, StreamErrorListener listener) {
         mErrorListener = listener;
 
         if (streamUrl == null) {
             Logger.e(TAG, "start() streamUrl is null.");
             mWhileFetching = false;
-            mErrorListener.onError(StreamErrorListener.StreamErrorReason.OPEN_ERROR);
-            return false;
+            mErrorListener.onError(StreamErrorReason.OPEN_ERROR);
+            return;
         }
         if (mWhileFetching) {
             Logger.d(TAG, "start() already starting.");
-            return false;
+            return;
         }
 
         mWhileFetching = true;
@@ -245,7 +257,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                     }
                 } catch (IOException e) {
                     Logger.d(TAG, "IOException while fetching: " + e.getMessage());
-                    mErrorListener.onError(StreamErrorListener.StreamErrorReason.IO_EXCEPTION);
+                    mErrorListener.onError(StreamErrorReason.IO_EXCEPTION);
                 } finally {
                     if (slicer != null) {
                         slicer.close();
@@ -267,7 +279,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 Logger.d(TAG, "Starting drawing stream frame.");
                 Bitmap frameBitmap = null;
 
-                BitmapFactory.Options factoryOptions = new BitmapFactory.Options();
+                Options factoryOptions = new Options();
                 factoryOptions.inSampleSize = 1;
                 factoryOptions.inPreferQualityOverSpeed = true;
                 factoryOptions.inDither = false;
@@ -307,14 +319,13 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 mWhileFetching = false;
             }
         });
-        return true;
     }
 
-    private boolean fetchPayLoad(SimpleLiveviewSlicer slicer) throws IOException {
-        final DataExtractor payload = slicer.nextDataExtractor();
+    private void fetchPayLoad(SimpleLiveviewSlicer slicer) throws IOException {
+        DataExtractor payload = slicer.nextDataExtractor();
         if (payload.commonHeader == null) { // never occurs
             //Logger.e(TAG, "Liveview Payload is null.");
-            return true;
+            return;
         }
         if (payload.commonHeader.PayloadType == 1)
         {
@@ -333,13 +344,12 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             }
             frameQueue.add(payload);
         }
-        return false;
     }
 
 
     private int convert(int length, int val)
     {
-        double pro = ((double)val /(double)10000 * 100);
+        double pro = (double)val /(double)10000 * 100;
         double newret = (double)length /100 * pro;
         return (int)newret;
     }
@@ -361,22 +371,22 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         return mWhileFetching;
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void initInBitmap(BitmapFactory.Options options) {
+    @TargetApi(VERSION_CODES.HONEYCOMB)
+    private void initInBitmap(Options options) {
         options.inBitmap = null;
         options.inMutable = true;
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void clearInBitmap(BitmapFactory.Options options) {
+    @TargetApi(VERSION_CODES.HONEYCOMB)
+    private void clearInBitmap(Options options) {
         if (options.inBitmap != null) {
             options.inBitmap.recycle();
             options.inBitmap = null;
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void setInBitmap(BitmapFactory.Options options, Bitmap bitmap) {
+    @TargetApi(VERSION_CODES.HONEYCOMB)
+    private void setInBitmap(Options options, Bitmap bitmap) {
         options.inBitmap = bitmap;
     }
 
@@ -385,7 +395,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
      * 
      * @param frame
      */
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    @TargetApi(VERSION_CODES.JELLY_BEAN_MR2)
     private void drawFrame(Bitmap frame, DataExtractor dataExtractor, DataExtractor frameExtractor)
     {
         try {
@@ -404,10 +414,10 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 int h4 = h/PreviewZOOMFactor;
                 int wCenter = w/2;
                 int hCenter = h/2;
-                int frameleft = (wCenter -w4) + zoomPreviewMagineLeft;
-                int frameright = (wCenter +w4) + zoomPreviewMagineLeft;
-                int frametop = (hCenter -h4) + zoomPreviewMargineTop;
-                int framebottom = (hCenter +h4) + zoomPreviewMargineTop;
+                int frameleft = wCenter -w4 + zoomPreviewMagineLeft;
+                int frameright = wCenter +w4 + zoomPreviewMagineLeft;
+                int frametop = hCenter -h4 + zoomPreviewMargineTop;
+                int framebottom = hCenter +h4 + zoomPreviewMargineTop;
 
                 if (frameleft < 0)
                 {
@@ -508,7 +518,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         {Logger.exception(ex);}
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    @TargetApi(VERSION_CODES.JELLY_BEAN_MR2)
     private boolean drawNightPreview(Bitmap frame, DataExtractor frameExtractor, Rect src, Rect dst) {
         mInputAllocation.copyFrom(frame);
         blurRS.setInput(mInputAllocation);
@@ -552,7 +562,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             return;
         for (int i=0; i< dataExtractor.frameInfoList.size(); i++)
         {
-            DataExtractor.FrameInfo frameInfo =  dataExtractor.frameInfoList.get(i);
+            FrameInfo frameInfo =  dataExtractor.frameInfoList.get(i);
             int w = getWidth();
             int h = getHeight();
             int top = convert(h, frameInfo.Top);
@@ -601,11 +611,6 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     }
 
 
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
-
-    }
     /**
      * Draw black screen.
      */
@@ -617,7 +622,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
         Paint paint = new Paint();
         paint.setColor(Color.BLACK);
-        paint.setStyle(Paint.Style.FILL);
+        paint.setStyle(Style.FILL);
 
         canvas.drawRect(new Rect(0, 0, getWidth(), getHeight()), paint);
         getHolder().unlockCanvasAndPost(canvas);

@@ -23,6 +23,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -44,12 +45,12 @@ public abstract class AbstractModuleApi2 extends AbstractModule implements I_Pre
 
     protected Point displaySize;
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
     public AbstractModuleApi2(CameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager)
     {
         super(cameraHandler,eventHandler,context,appSettingsManager);
-        this.cameraHolder = cameraHandler;
-        this.ParameterHandler = (com.freedcam.apis.camera2.camera.parameters.ParameterHandler) cameraHolder.GetParameterHandler();
+        cameraHolder = cameraHandler;
+        ParameterHandler = (com.freedcam.apis.camera2.camera.parameters.ParameterHandler) cameraHolder.GetParameterHandler();
         Display display = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         displaySize = new Point();
         display.getRealSize(displaySize);

@@ -23,6 +23,7 @@ import android.hardware.Camera;
 
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.camera1.camera.CameraHolder;
+import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
@@ -56,6 +57,14 @@ public class CameraHolderMTK extends CameraHolder
         cameraChangedListner.onCameraOpen("");
         super.OpenCamera(0);
         return isRdy;
+    }
+
+    @Override
+    public void StartPreview()
+    {
+        //not sure if that is realy needed. same stuff gets applied when BaseMTKDevice.java gets created
+        ((ParametersHandler)GetParameterHandler()).initMTKSHit();
+        super.StartPreview();
     }
 
     private void setMtkAppMode()

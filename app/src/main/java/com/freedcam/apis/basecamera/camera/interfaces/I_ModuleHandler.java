@@ -21,6 +21,7 @@ package com.freedcam.apis.basecamera.camera.interfaces;
 
 import com.freedcam.apis.basecamera.camera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler.I_worker;
 
 /**
  * Created by troop on 09.12.2014.
@@ -55,5 +56,5 @@ public interface I_ModuleHandler
      * Add worklistner that listen to the current module
      * @param workerListner to add
      */
-    void SetWorkListner(AbstractModuleHandler.I_worker workerListner);
+    void SetWorkListner(I_worker workerListner);
 }

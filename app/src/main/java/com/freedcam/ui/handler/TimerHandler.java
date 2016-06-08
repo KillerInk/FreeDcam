@@ -8,6 +8,7 @@ import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.camera.modules.I_RecorderStateChanged;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.id;
 
 /**
  * Created by troop on 26.11.2014.
@@ -22,7 +23,7 @@ public class TimerHandler implements I_ModuleEvent, I_RecorderStateChanged
     public TimerHandler(MainActivity mainActivity)
     {
         this.mainActivity = mainActivity;
-        this.timerText = (TextView) mainActivity.findViewById(R.id.textView_RecCounter);
+        timerText = (TextView) mainActivity.findViewById(id.textView_RecCounter);
         timer = new MyTimer(timerText);
         timerText.setVisibility(View.GONE);
     }

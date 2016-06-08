@@ -20,9 +20,11 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.utils.Logger;
 
@@ -34,7 +36,7 @@ import java.util.ArrayList;
  * expect a key_value String like "antibanding" and a values String "antibanding-values"
  *
  */
-public class BaseModeParameter extends AbstractModeParameter implements I_ModuleEvent, AbstractModeParameter.I_ModeParameterEvent
+public class BaseModeParameter extends AbstractModeParameter implements I_ModuleEvent, I_ModeParameterEvent
 {
     /*
     The Key to set/get a value from the parameters
@@ -46,7 +48,7 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
     protected String key_values;
     boolean isSupported = false;
     boolean isVisible = true;
-    protected Camera.Parameters  parameters;
+    protected Parameters  parameters;
     protected CameraHolder cameraHolder;
     private static String TAG = BaseModeParameter.class.getSimpleName();
 
@@ -55,9 +57,8 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
      */
     protected String[] valuesArray;
 
-    public BaseModeParameter(Camera.Parameters  parameters, CameraHolder cameraHolder)
+    public BaseModeParameter(Parameters  parameters, CameraHolder cameraHolder)
     {
-        super();
         this.parameters = parameters;
         this.cameraHolder = cameraHolder;
     }
@@ -73,7 +74,7 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
      * @param key_values
      * the string to get the values avail/supported for @param key_value
      */
-    public BaseModeParameter(Camera.Parameters  parameters, CameraHolder cameraHolder, String key_value, String key_values)
+    public BaseModeParameter(Parameters  parameters, CameraHolder cameraHolder, String key_value, String key_values)
     {
         this(parameters,cameraHolder);
         this.key_value = key_value;
@@ -83,7 +84,7 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
             String tmp = parameters.get(key_value);
             if (!tmp.isEmpty())
             {
-                this.isSupported = true;
+                isSupported = true;
                 valuesArray = parameters.get(key_values).split(",");
                 ArrayList<String> tmpl  = new ArrayList<>();
                 for (String s : valuesArray)
@@ -96,8 +97,8 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
             }
         }
         else
-            this.isSupported =false;
-        this.isVisible = isSupported;
+            isSupported =false;
+        isVisible = isSupported;
         Logger.d(TAG, key_value + ":" +isSupported);
     }
 

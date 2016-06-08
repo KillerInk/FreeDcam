@@ -42,21 +42,21 @@ public class CustomMatrix
     public float[] NoiseReductionMatrix;
 
 
-    final public static String MEDIAPROFILESPATH = StringUtils.GetFreeDcamConfigFolder+"matrix/";
+    public static final String MEDIAPROFILESPATH = StringUtils.GetFreeDcamConfigFolder+"matrix/";
     private static final String TAG = CustomMatrix.class.getSimpleName();
 
     private CustomMatrix(){}
 
     public CustomMatrix(float[]matrix1, float[] matrix2, float[]neutral,float[]fmatrix1, float[] fmatrix2,float[]rmatrix1, float[] rmatrix2,float[]noise)
     {
-        this.ColorMatrix1 = matrix1;
-        this.ColorMatrix2 = matrix2;
-        this.NeutralMatrix = neutral;
-        this.ForwardMatrix1 = fmatrix1;
-        this.ForwardMatrix2 = fmatrix2;
-        this.ReductionMatrix1 = rmatrix1;
-        this.ReductionMatrix2 = rmatrix2;
-        this.NoiseReductionMatrix = noise;
+        ColorMatrix1 = matrix1;
+        ColorMatrix2 = matrix2;
+        NeutralMatrix = neutral;
+        ForwardMatrix1 = fmatrix1;
+        ForwardMatrix2 = fmatrix2;
+        ReductionMatrix1 = rmatrix1;
+        ReductionMatrix2 = rmatrix2;
+        NoiseReductionMatrix = noise;
     }
 
 

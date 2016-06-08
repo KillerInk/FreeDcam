@@ -1,7 +1,9 @@
 package com.freedcam.jni;
 
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
@@ -18,7 +20,7 @@ import java.util.HashMap;
 
 public class RawUtils {
 
-    final static String TAG = RawUtils.class.getSimpleName();
+    static final String TAG = RawUtils.class.getSimpleName();
     private static int DEFAULT_JPG_QUALITY = 85;
 
     public RawUtils() {
@@ -95,7 +97,7 @@ public class RawUtils {
         byte[] thumbnailBytes = unpackThumbnailBytes(fileName);
       
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
+        Options options = new Options();
         options.inJustDecodeBounds = true;
         thumbnail = BitmapFactory.decodeByteArray(thumbnailBytes, 0, thumbnailBytes.length, options);
         options.inJustDecodeBounds = false;
@@ -106,7 +108,7 @@ public class RawUtils {
         int scaleWidth = (int) Math.ceil(originWidth / (float) width);
         int scaleHeight = (int) Math.ceil(originHeight / (float) height);
 
-        options.inSampleSize = (scaleWidth < scaleHeight ? scaleWidth : scaleHeight);
+        options.inSampleSize = scaleWidth < scaleHeight ? scaleWidth : scaleHeight;
        // t.check("");
 
         thumbnail = BitmapFactory.decodeByteArray(thumbnailBytes, 0, thumbnailBytes.length, options);
@@ -124,7 +126,7 @@ public class RawUtils {
      * @return
      */
     public boolean saveThumbnailToFile(String rawFileName, String thumbFileName) {
-        return (unpackThumbnailToFile(rawFileName, thumbFileName) == 0);
+        return unpackThumbnailToFile(rawFileName, thumbFileName) == 0;
     }
 
     public boolean saveThumbnailToFitToFile(String rawFileName, String scaledFileName, int width, int height) {
@@ -155,7 +157,7 @@ public class RawUtils {
     public boolean scaleJPGAndSave(String originFileName, String scaledFileName, int width, int height) {
 
         Bitmap bitmap = null;
-        BitmapFactory.Options options = new BitmapFactory.Options();
+        Options options = new Options();
         options.inJustDecodeBounds = true;
         bitmap = BitmapFactory.decodeFile(originFileName, options);
         options.inJustDecodeBounds = false;
@@ -164,7 +166,7 @@ public class RawUtils {
 
         int scaleWidth = (int) Math.ceil(originWidth / (float) width);
         int scaleHeight = (int) Math.ceil(originHeight / (float) height);
-        int scale = (scaleWidth < scaleHeight ? scaleWidth : scaleHeight);
+        int scale = scaleWidth < scaleHeight ? scaleWidth : scaleHeight;
 
         if (scale == 0) {
             return false;
@@ -189,7 +191,7 @@ public class RawUtils {
         try {
             outputStream = new FileOutputStream(savedFileName);
 
-            result = bitmap.compress(Bitmap.CompressFormat.JPEG, DEFAULT_JPG_QUALITY, outputStream);
+            result = bitmap.compress(CompressFormat.JPEG, DEFAULT_JPG_QUALITY, outputStream);
             outputStream.flush();
 
         } catch (IOException e) {

@@ -24,6 +24,7 @@ import android.graphics.Rect;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.camera2.camera.CameraHolder;
@@ -32,7 +33,7 @@ import com.freedcam.apis.camera2.camera.parameters.ParameterHandler;
 /**
  * Created by troop on 06.03.2015.
  */
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@TargetApi(VERSION_CODES.LOLLIPOP)
 public class ZoomApi2 extends AbstractManualParameter
 {
     final String TAG = ZoomApi2.class.getSimpleName();
@@ -51,7 +52,7 @@ public class ZoomApi2 extends AbstractManualParameter
 
     @Override
     public boolean IsSupported() {
-        return (cameraHolder.characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM) > 0);
+        return cameraHolder.characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM) > 0;
     }
 
     @Override
@@ -69,7 +70,7 @@ public class ZoomApi2 extends AbstractManualParameter
         return zoom;
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(VERSION_CODES.LOLLIPOP)
     @Override
     public void SetValue(int valueToSet)
     {

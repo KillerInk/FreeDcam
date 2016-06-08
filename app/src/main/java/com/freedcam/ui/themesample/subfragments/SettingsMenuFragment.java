@@ -27,16 +27,21 @@ import android.view.ViewGroup;
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.ui.I_Activity;
+import com.freedcam.ui.themesample.subfragments.Interfaces.I_CloseNotice;
+import com.freedcam.ui.themesample.subfragments.Interfaces.I_MenuItemClick;
 import com.freedcam.ui.themesample.views.menu.MenuItemTheme;
 import com.freedcam.ui.themesample.views.uichilds.UiSettingsChild;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.anim;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
 
 /**
  * Created by troop on 14.06.2015.
  */
-public class SettingsMenuFragment extends AbstractFragment implements Interfaces.I_CloseNotice, Interfaces.I_MenuItemClick
+public class SettingsMenuFragment extends AbstractFragment implements I_CloseNotice, I_MenuItemClick
 {
     private final String TAG = SettingsMenuFragment.class.getSimpleName();
     private LeftMenuFragment leftMenuFragment;
@@ -70,7 +75,7 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,savedInstanceState);
-        view = inflater.inflate(R.layout.settingsmenufragment, container, false);
+        view = inflater.inflate(layout.settingsmenufragment, container, false);
         loadLeftFragment();
         loadRightFragment();
         return view;
@@ -102,8 +107,8 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         }
         try {
             android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
-            transaction.replace(R.id.left_holder, leftMenuFragment);
+            transaction.setCustomAnimations(anim.empty, anim.empty);
+            transaction.replace(id.left_holder, leftMenuFragment);
             transaction.commitAllowingStateLoss();
         }catch (NullPointerException | IllegalStateException ex)
         {
@@ -119,8 +124,8 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         }
         try {
             android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.empty, R.anim.empty);
-            transaction.replace(R.id.right_holder, rightMenuFragment);
+            transaction.setCustomAnimations(anim.empty, anim.empty);
+            transaction.replace(id.right_holder, rightMenuFragment);
             transaction.commitAllowingStateLoss();
         }
         catch (NullPointerException | IllegalStateException ex)
@@ -176,8 +181,8 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         {
             value_menu_status = VALUE_MENU_RIGHT_OPEN;
             android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
-            transaction.replace(R.id.right_holder, valuesMenuFragment);
+            transaction.setCustomAnimations(anim.left_to_right_enter, anim.left_to_right_exit);
+            transaction.replace(id.right_holder, valuesMenuFragment);
             transaction.addToBackStack(null);
             transaction.commitAllowingStateLoss();
         }
@@ -185,8 +190,8 @@ public class SettingsMenuFragment extends AbstractFragment implements Interfaces
         {
             value_menu_status = VALUE_MENU_LEFT_OPEN;
             android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
-            transaction.replace(R.id.left_holder, valuesMenuFragment);
+            transaction.setCustomAnimations(anim.right_to_left_enter, anim.right_to_left_exit);
+            transaction.replace(id.left_holder, valuesMenuFragment);
             transaction.addToBackStack(null);
             transaction.commitAllowingStateLoss();
         }

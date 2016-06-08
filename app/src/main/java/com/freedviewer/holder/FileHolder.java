@@ -20,10 +20,14 @@
 package com.freedviewer.holder;
 
 import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
+import com.freedcam.utils.StringUtils.FileEnding;
 import com.freedviewer.gridview.GridViewFragment;
+import com.freedviewer.gridview.GridViewFragment.FormatTypes;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -48,8 +52,8 @@ public class FileHolder extends BaseHolder
     {
         this.file = file;
         if (file.isDirectory())
-            this.isFolder=true;
-        this.isSDCard = external;
+            isFolder =true;
+        isSDCard = external;
     }
 
     public File getFile()
@@ -59,36 +63,36 @@ public class FileHolder extends BaseHolder
 
     public boolean IsFolder()
     {
-        return this.isFolder;
+        return isFolder;
     }
     public boolean isExternalSD() { return isSDCard; }
 
-    public static void readFilesFromFolder(File folder, List<FileHolder> list, GridViewFragment.FormatTypes formatsToShow, boolean external) {
+    public static void readFilesFromFolder(File folder, List<FileHolder> list, FormatTypes formatsToShow, boolean external) {
         File[] folderfiles = folder.listFiles();
         if (folderfiles == null)
             return;
         for (File f : folderfiles) {
             if (!f.isHidden()) {
-                if (formatsToShow == GridViewFragment.FormatTypes.all && (
-                        f.getName().toLowerCase().endsWith(StringUtils.FileEnding.JPG)
-                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.JPS)
-                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.RAW)
-                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.BAYER)
-                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.DNG)
-                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.MP4)
+                if (formatsToShow == FormatTypes.all && (
+                        f.getName().toLowerCase().endsWith(FileEnding.JPG)
+                                || f.getName().toLowerCase().endsWith(FileEnding.JPS)
+                                || f.getName().toLowerCase().endsWith(FileEnding.RAW)
+                                || f.getName().toLowerCase().endsWith(FileEnding.BAYER)
+                                || f.getName().toLowerCase().endsWith(FileEnding.DNG)
+                                || f.getName().toLowerCase().endsWith(FileEnding.MP4)
                 ))
                     list.add(new FileHolder(f,external));
-                else if (formatsToShow == GridViewFragment.FormatTypes.dng && f.getName().toLowerCase().endsWith(StringUtils.FileEnding.DNG))
+                else if (formatsToShow == FormatTypes.dng && f.getName().toLowerCase().endsWith(FileEnding.DNG))
                     list.add(new FileHolder(f,external));
-                else if (formatsToShow == GridViewFragment.FormatTypes.raw && f.getName().toLowerCase().endsWith(StringUtils.FileEnding.RAW))
+                else if (formatsToShow == FormatTypes.raw && f.getName().toLowerCase().endsWith(FileEnding.RAW))
                     list.add(new FileHolder(f,external));
-                else if (formatsToShow == GridViewFragment.FormatTypes.raw && f.getName().toLowerCase().endsWith(StringUtils.FileEnding.BAYER))
+                else if (formatsToShow == FormatTypes.raw && f.getName().toLowerCase().endsWith(FileEnding.BAYER))
                     list.add(new FileHolder(f,external));
-                else if (formatsToShow == GridViewFragment.FormatTypes.jps && f.getName().toLowerCase().endsWith(StringUtils.FileEnding.JPS))
+                else if (formatsToShow == FormatTypes.jps && f.getName().toLowerCase().endsWith(FileEnding.JPS))
                     list.add(new FileHolder(f,external));
-                else if (formatsToShow == GridViewFragment.FormatTypes.jpg && f.getName().toLowerCase().endsWith(StringUtils.FileEnding.JPG))
+                else if (formatsToShow == FormatTypes.jpg && f.getName().toLowerCase().endsWith(FileEnding.JPG))
                     list.add(new FileHolder(f,external));
-                else if (formatsToShow == GridViewFragment.FormatTypes.mp4 && f.getName().toLowerCase().endsWith(StringUtils.FileEnding.MP4))
+                else if (formatsToShow == FormatTypes.mp4 && f.getName().toLowerCase().endsWith(FileEnding.MP4))
                     list.add(new FileHolder(f,external));
             }
         }
@@ -98,11 +102,11 @@ public class FileHolder extends BaseHolder
     public static List<FileHolder> getDCIMFiles()
     {
         List<FileHolder> f = new ArrayList<>();
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+        if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP) {
             File internal = new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder);
             if (internal != null)
                 Logger.d(TAG, "InternalSDPath:" + internal.getAbsolutePath());
-            readFilesFromFolder(internal, f, GridViewFragment.FormatTypes.all, false);
+            readFilesFromFolder(internal, f, FormatTypes.all, false);
             try {
                 File fs = new File(StringUtils.GetExternalSDCARD());
                 if (fs != null && fs.exists()) {
@@ -111,7 +115,7 @@ public class FileHolder extends BaseHolder
                         Logger.d(TAG, "ExternalSDPath:" + external.getAbsolutePath());
                     else
                         Logger.d(TAG, "No ExternalSDFound");
-                    readFilesFromFolder(external, f, GridViewFragment.FormatTypes.all, true);
+                    readFilesFromFolder(external, f, FormatTypes.all, true);
                 }
             } catch (NullPointerException ex) {
                 Logger.e(TAG, "Looks like there is no External SD");
@@ -122,7 +126,7 @@ public class FileHolder extends BaseHolder
             List<FileHolder> dcims= getDCIMDirs();
             for (FileHolder fileHolder : dcims)
             {
-                readFilesFromFolder(fileHolder.getFile(),f, GridViewFragment.FormatTypes.all, fileHolder.isExternalSD());
+                readFilesFromFolder(fileHolder.getFile(),f, FormatTypes.all, fileHolder.isExternalSD());
             }
         }
 
@@ -133,7 +137,7 @@ public class FileHolder extends BaseHolder
     public static List<FileHolder> getDCIMDirs()
     {
         ArrayList<FileHolder> list = new ArrayList<>();
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP)
+        if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP)
         {
             File internalSDCIM = new File(StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder);
             File[] f = internalSDCIM.listFiles();

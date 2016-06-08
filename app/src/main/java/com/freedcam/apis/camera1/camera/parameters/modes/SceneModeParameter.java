@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.CameraHolder;
@@ -32,7 +33,7 @@ import java.util.List;
  * Created by troop on 27.04.2015.
  */
 public class SceneModeParameter extends BaseModeParameter {
-    public SceneModeParameter(Camera.Parameters parameters, CameraHolder cameraHolder, String value, String values) {
+    public SceneModeParameter(Parameters parameters, CameraHolder cameraHolder, String value, String values) {
         super(parameters, cameraHolder, value, values);
     }
 

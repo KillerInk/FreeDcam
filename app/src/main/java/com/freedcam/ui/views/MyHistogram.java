@@ -23,8 +23,10 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
 import android.view.View;
@@ -70,15 +72,15 @@ public class MyHistogram extends View {
         mPaint.setStrokeWidth ((int) Math . ceil ( wl ));
 
 // Draw grid
-        mPaint.setStyle(Paint.Style.STROKE );
+        mPaint.setStyle(Style.STROKE );
         canvas.drawRect( dx, 0 , dx + w , h , mPaint );
         canvas.drawLine( dx + w / 3 , 0 , dx + w / 3 , h , mPaint );
         canvas.drawLine( dx + 2 * w / 3 , 0 , dx + 2 * w / 3 , h , mPaint );
 
-        mPaint.setStyle(Paint.Style.FILL );
+        mPaint.setStyle(Style.FILL );
         mPaint.setColor( color );
         mPaint.setStrokeWidth( 6 );
-        mPaint.setXfermode( new PorterDuffXfermode(PorterDuff.Mode.SCREEN));
+        mPaint.setXfermode( new PorterDuffXfermode(Mode.SCREEN));
         mHistoPath.reset();
         mHistoPath.moveTo( dx , h );
         boolean firstPointEncountered = false;
@@ -103,7 +105,7 @@ public class MyHistogram extends View {
         mHistoPath.close();
         canvas.drawPath(mHistoPath, mPaint);
         mPaint.setStrokeWidth(2);
-        mPaint.setStyle ( Paint . Style . STROKE );
+        mPaint.setStyle ( Style . STROKE );
         mPaint.setARGB( 255 , 200 , 200 , 200 );
         canvas.drawPath ( mHistoPath , mPaint );
     }

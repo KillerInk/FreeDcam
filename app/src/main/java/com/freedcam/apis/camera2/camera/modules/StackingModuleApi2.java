@@ -22,14 +22,18 @@ package com.freedcam.apis.camera2.camera.modules;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.renderscript.Allocation;
+import android.renderscript.Allocation.OnBufferAvailableListener;
 import android.renderscript.Element;
 import android.renderscript.Type;
+import android.renderscript.Type.Builder;
 import android.view.Surface;
 
 import com.freedcam.apis.KEYS;
@@ -52,7 +56,7 @@ import java.io.File;
 /**
  * Created by troop on 16.05.2016.
  */
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@TargetApi(VERSION_CODES.LOLLIPOP)
 public class StackingModuleApi2 extends AbstractModuleApi2
 {
     private final String TAG = StackingModuleApi2.class.getSimpleName();
@@ -72,7 +76,7 @@ public class StackingModuleApi2 extends AbstractModuleApi2
 
     public StackingModuleApi2(CameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager, RenderScriptHandler renderScriptHandler) {
         super(cameraHandler, eventHandler, context, appSettingsManager);
-        this.name = KEYS.MODULE_STACKING;
+        name = KEYS.MODULE_STACKING;
         this.renderScriptHandler =renderScriptHandler;
     }
 
@@ -99,11 +103,11 @@ public class StackingModuleApi2 extends AbstractModuleApi2
             previewSize = new Size(ParameterHandler.PictureSize.GetValue());
             mHeight = previewSize.height;
             mWidth = previewSize.width;
-            Type.Builder yuvTypeBuilder = new Type.Builder(renderScriptHandler.GetRS(), Element.YUV(renderScriptHandler.GetRS()));
+            Builder yuvTypeBuilder = new Builder(renderScriptHandler.GetRS(), Element.YUV(renderScriptHandler.GetRS()));
             yuvTypeBuilder.setX(mWidth);
             yuvTypeBuilder.setY(mHeight);
             yuvTypeBuilder.setYuvFormat(ImageFormat.YUV_420_888);
-            Type.Builder rgbTypeBuilder = new Type.Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
+            Builder rgbTypeBuilder = new Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
             rgbTypeBuilder.setX(mWidth);
             rgbTypeBuilder.setY(mHeight);
             renderScriptHandler.SetAllocsTypeBuilder(yuvTypeBuilder,rgbTypeBuilder,Allocation.USAGE_IO_INPUT | Allocation.USAGE_SCRIPT,  Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
@@ -166,14 +170,14 @@ public class StackingModuleApi2 extends AbstractModuleApi2
     }
 
     private void saveImageToFile() {
-        final Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
+        final Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Config.ARGB_8888);
         renderScriptHandler.GetOut().copyTo(outputBitmap);
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 File stackedImg = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), "_stack.jpg"));
                 SaveBitmapToFile(outputBitmap,stackedImg);
-                changeWorkState(AbstractModuleHandler.CaptureModes.continouse_capture_stop);
+                changeWorkState(CaptureModes.continouse_capture_stop);
                 MediaScannerManager.ScanMedia(context, stackedImg);
                 eventHandler.WorkFinished(stackedImg);
                 isWorking = false;
@@ -224,8 +228,8 @@ public class StackingModuleApi2 extends AbstractModuleApi2
     /**
      * Class to process buffer from camera and output to buffer to screen
      */
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    class ProcessingTask implements Runnable, Allocation.OnBufferAvailableListener {
+    @TargetApi(VERSION_CODES.KITKAT)
+    class ProcessingTask implements Runnable, OnBufferAvailableListener {
         private int mPendingFrames = 0;
         private Allocation mInputAllocation;
         private boolean working = false;

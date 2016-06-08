@@ -32,7 +32,7 @@ import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParamete
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.ui.I_Activity;
-import com.freedcam.ui.themesample.subfragments.Interfaces;
+import com.freedcam.ui.themesample.subfragments.Interfaces.I_MenuItemClick;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
@@ -104,7 +104,7 @@ public class MenuItemSaveCamParams extends MenuItem
     }
 
     @Override
-    public void SetMenuItemListner(Interfaces.I_MenuItemClick menuItemClick) {
+    public void SetMenuItemListner(I_MenuItemClick menuItemClick) {
 
     }
 
@@ -135,11 +135,6 @@ public class MenuItemSaveCamParams extends MenuItem
 
     @Override
     public void onIsSetSupportedChanged(boolean isSupported) {
-
-    }
-
-    @Override
-    public void onValuesChanged(String[] values) {
 
     }
 

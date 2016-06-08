@@ -22,6 +22,7 @@ package com.freedcam.utils;
 import android.content.Context;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.utils.DeviceUtils.Devices;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -31,6 +32,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 
 /**
@@ -38,133 +40,133 @@ import java.util.Map;
  */
 public class AppSettingsManager
 {
-    final private String TAG = AppSettingsManager.class.getSimpleName();
-    final private String appsettingspath;
+    private final String TAG = AppSettingsManager.class.getSimpleName();
+    private final String appsettingspath;
     private int currentcamera = 0;
     private String camApiString = API_1;
-    private DeviceUtils.Devices device = null;
+    private Devices device = null;
 
 
-    final public static String SETTING_CURRENTCAMERA = "currentcamera";
-    final public static String SETTING_ANTIBANDINGMODE = "antibandingmode";
-    final public static String SETTING_COLORMODE = "colormode";
-    final public static String SETTING_ISOMODE = "isomode";
-    final public static String SETTING_EXPOSUREMODE = "exposuremode";
-    final public static String SETTING_WHITEBALANCEMODE = "whitebalancemode";
-    final public static String SETTING_IMAGEPOSTPROCESSINGMODE = "ippmode";
-    final public static String SETTING_PICTURESIZE = "picturesize";
-    final public static String SETTING_PICTUREFORMAT = "pictureformat";
-    final public static String SETTING_JPEGQUALITY = "jpegquality";
+    public static final String SETTING_CURRENTCAMERA = "currentcamera";
+    public static final String SETTING_ANTIBANDINGMODE = "antibandingmode";
+    public static final String SETTING_COLORMODE = "colormode";
+    public static final String SETTING_ISOMODE = "isomode";
+    public static final String SETTING_EXPOSUREMODE = "exposuremode";
+    public static final String SETTING_WHITEBALANCEMODE = "whitebalancemode";
+    public static final String SETTING_IMAGEPOSTPROCESSINGMODE = "ippmode";
+    public static final String SETTING_PICTURESIZE = "picturesize";
+    public static final String SETTING_PICTUREFORMAT = "pictureformat";
+    public static final String SETTING_JPEGQUALITY = "jpegquality";
     //defcomg was here
     //1-29-2016 6:15
-    final public static String SETTING_HDRMODE = "hdrmode";
+    public static final String SETTING_HDRMODE = "hdrmode";
     // 1-29-2016 11:49
-    final public static String SETTING_VideoBitrate = "videobitrate";
-    final public static String SETTING_HELP ="help";
+    public static final String SETTING_VideoBitrate = "videobitrate";
+    public static final String SETTING_HELP ="help";
     //
-    final public static String SETTING_GUIDE = "guide";
+    public static final String SETTING_GUIDE = "guide";
     //done
-    final public static String SETTING_CURRENTMODULE = "currentmodule";
-    final public static String SETTING_PREVIEWSIZE = "previewsize";
-    final public static String SETTING_PREVIEWFPS = "previewfps";
-    final public static String SETTING_PREVIEWFORMAT = "previewformat";
-    final public static String SETTING_FLASHMODE = "flashmode";
-    final public static String SETTING_SCENEMODE = "scenemode";
-    final public static String SETTING_FOCUSMODE = "focusmode";
-    final public static String SETTING_REDEYE_MODE = "redeyemode";
-    final public static String SETTING_LENSSHADE_MODE = "lenshademode";
-    final public static String SETTING_ZEROSHUTTERLAG_MODE = "zslmode";
-    final public static String SETTING_SCENEDETECT_MODE = "scenedetectmode";
-    final public static String SETTING_DENOISE_MODE = "denoisetmode";
-    final public static String SETTING_DIS_MODE = "digitalimagestabmode";
-    final public static String SETTING_MCE_MODE = "memorycolorenhancementmode";
-    final public static String SETTING_SKINTONE_MODE = "skintonemode";
-    final public static String SETTING_NIGHTEMODE = "nightmode";
-    final public static String SETTING_NONZSLMANUALMODE = "nonzslmanualmode";
-    final public static String SETTING_AEBRACKET = "aebrackethdr";
-    final public static String SETTING_EXPOSURELONGTIME = "expolongtime";
-    final public static String SETTING_HISTOGRAM = "histogram";
-    final public static String SETTING_VIDEOSIZE = "videosize";
-    final public static String SETTING_VIDEPROFILE = "videoprofile";
-    final public static String SETTING_VIDEOHDR = "videohdr";
-    final public static String SETTING_HighFramerateVideo = "highframeratevideo";
-    final public static String SETTING_HighSpeedVideo = "highspeedvideo";
-    final public static String SETTING_VIDEOSTABILIZATION = "videostabilization";
+    public static final String SETTING_CURRENTMODULE = "currentmodule";
+    public static final String SETTING_PREVIEWSIZE = "previewsize";
+    public static final String SETTING_PREVIEWFPS = "previewfps";
+    public static final String SETTING_PREVIEWFORMAT = "previewformat";
+    public static final String SETTING_FLASHMODE = "flashmode";
+    public static final String SETTING_SCENEMODE = "scenemode";
+    public static final String SETTING_FOCUSMODE = "focusmode";
+    public static final String SETTING_REDEYE_MODE = "redeyemode";
+    public static final String SETTING_LENSSHADE_MODE = "lenshademode";
+    public static final String SETTING_ZEROSHUTTERLAG_MODE = "zslmode";
+    public static final String SETTING_SCENEDETECT_MODE = "scenedetectmode";
+    public static final String SETTING_DENOISE_MODE = "denoisetmode";
+    public static final String SETTING_DIS_MODE = "digitalimagestabmode";
+    public static final String SETTING_MCE_MODE = "memorycolorenhancementmode";
+    public static final String SETTING_SKINTONE_MODE = "skintonemode";
+    public static final String SETTING_NIGHTEMODE = "nightmode";
+    public static final String SETTING_NONZSLMANUALMODE = "nonzslmanualmode";
+    public static final String SETTING_AEBRACKET = "aebrackethdr";
+    public static final String SETTING_EXPOSURELONGTIME = "expolongtime";
+    public static final String SETTING_HISTOGRAM = "histogram";
+    public static final String SETTING_VIDEOSIZE = "videosize";
+    public static final String SETTING_VIDEPROFILE = "videoprofile";
+    public static final String SETTING_VIDEOHDR = "videohdr";
+    public static final String SETTING_HighFramerateVideo = "highframeratevideo";
+    public static final String SETTING_HighSpeedVideo = "highspeedvideo";
+    public static final String SETTING_VIDEOSTABILIZATION = "videostabilization";
     ///                  Video Override
    // public static String SETTING_VIDEOHDR = "videohfr";
    // public static String SETTING_VIDEOHDR = "videohsr";
 
-    final public static String SETTTING_BAYERFORMAT ="bayerformat";
-    final public static String SETTTING_AE_PRIORITY ="aepriority";
-    final public static String SETTTING_CUSTOMMATRIX ="custommatrix";
+    public static final String SETTTING_BAYERFORMAT ="bayerformat";
+    public static final String SETTTING_AE_PRIORITY ="aepriority";
+    public static final String SETTTING_CUSTOMMATRIX ="custommatrix";
     ////////// overide end
-    final public static String SETTING_VIDEOTIMELAPSEFRAME = "timelapseframe";
-    final public static String SETTING_API = "sonyapi";
-    final public static String SETTING_DNG = "dng";
-    final public static String SETTING_AEBRACKETACTIVE = "aebracketactive";
-    final public static String SETTING_OBJECTTRACKING = "objecttracking";
-    final public static String SETTING_LOCATION = "location";
-    final public static String SETTING_EXTERNALSHUTTER = "externalShutter";
-    final public static String SETTING_OrientationHack = "orientationHack";
+    public static final String SETTING_VIDEOTIMELAPSEFRAME = "timelapseframe";
+    public static final String SETTING_API = "sonyapi";
+    public static final String SETTING_DNG = "dng";
+    public static final String SETTING_AEBRACKETACTIVE = "aebracketactive";
+    public static final String SETTING_OBJECTTRACKING = "objecttracking";
+    public static final String SETTING_LOCATION = "location";
+    public static final String SETTING_EXTERNALSHUTTER = "externalShutter";
+    public static final String SETTING_OrientationHack = "orientationHack";
 
-    final public static String SETTING_INTERVAL = "innterval";
-    final public static String SETTING_INTERVAL_DURATION = "interval_duration";
-    final public static String SETTING_TIMER = "timer";
+    public static final String SETTING_INTERVAL = "innterval";
+    public static final String SETTING_INTERVAL_DURATION = "interval_duration";
+    public static final String SETTING_TIMER = "timer";
 
-    final public static String SETTING_CAMERAMODE = "camMode";
-    final public static String SETTING_DUALMODE = "dualMode";
-    final public static String SETTING_Theme = "theme";
-    final public static String SETTING_CDS = "cds";
-    final public static String SETTING_SECUREMODE = "securemode";
-    final public static String SETTING_TNR = "tnr";
-    final public static String SETTING_RDI = "rdi";
-    final public static String SETTING_EDGE = "edge";
-    final public static String SETTING_COLORCORRECTION = "colorcorrection";
-    final public static String SETTING_HOTPIXEL = "hotpixel";
-    final public static String SETTING_TONEMAP = "tonemap";
-    final public static String SETTING_CONTROLMODE = "controlmode";
-    final public static String SETTING_FOCUSPEAK = "focuspeak";
+    public static final String SETTING_CAMERAMODE = "camMode";
+    public static final String SETTING_DUALMODE = "dualMode";
+    public static final String SETTING_Theme = "theme";
+    public static final String SETTING_CDS = "cds";
+    public static final String SETTING_SECUREMODE = "securemode";
+    public static final String SETTING_TNR = "tnr";
+    public static final String SETTING_RDI = "rdi";
+    public static final String SETTING_EDGE = "edge";
+    public static final String SETTING_COLORCORRECTION = "colorcorrection";
+    public static final String SETTING_HOTPIXEL = "hotpixel";
+    public static final String SETTING_TONEMAP = "tonemap";
+    public static final String SETTING_CONTROLMODE = "controlmode";
+    public static final String SETTING_FOCUSPEAK = "focuspeak";
 
-    final public static String SETTING_EXTERNALSD = "extSD";
+    public static final String SETTING_EXTERNALSD = "extSD";
 
-    final public static String SETTING_OIS = "ois";
-    final public static String SETTING_Filter = "filter";
+    public static final String SETTING_OIS = "ois";
+    public static final String SETTING_Filter = "filter";
 
-    final public static String API_SONY = "playmemories";
-    final public static String API_1 = "camera1";
-    final public static String API_2 = "camera2";
+    public static final String API_SONY = "playmemories";
+    public static final String API_1 = "camera1";
+    public static final String API_2 = "camera2";
 
 
-    final public static String MWB = "mbw";
-    final public static String MCONTRAST = "mcontrast";
-    final public static String MCONVERGENCE = "mconvergence";
-    final public static String MEXPOSURE = "mexposure";
-    final public static String MF = "mf";
-    final public static String MSHARPNESS = "msharpness";
-    final public static String MSHUTTERSPEED = "mshutterspeed";
-    final public static String MBRIGHTNESS = "mbrightness";
-    final public static String MISO = "miso";
-    final public static String MSATURATION = "msaturation";
-    final public static String MCCT = "mcct";
-    final public static String MBURST = "mburst";
+    public static final String MWB = "mbw";
+    public static final String MCONTRAST = "mcontrast";
+    public static final String MCONVERGENCE = "mconvergence";
+    public static final String MEXPOSURE = "mexposure";
+    public static final String MF = "mf";
+    public static final String MSHARPNESS = "msharpness";
+    public static final String MSHUTTERSPEED = "mshutterspeed";
+    public static final String MBRIGHTNESS = "mbrightness";
+    public static final String MISO = "miso";
+    public static final String MSATURATION = "msaturation";
+    public static final String MCCT = "mcct";
+    public static final String MBURST = "mburst";
 
-    final public static String APPVERSION = "appversion";
+    public static final String APPVERSION = "appversion";
 
-    final public static String CAMERA2FULLSUPPORTED = "camera2fullsupport";
+    public static final String CAMERA2FULLSUPPORTED = "camera2fullsupport";
 
-    final public static String SETTING_HORIZONT = "horizont";
+    public static final String SETTING_HORIZONT = "horizont";
 
-    final public static String SETTING_CAPTUREBURSTEXPOSURES = "captureburstexposures";
-    final public static String SETTING_MORPHOHDR = "morphohdr";
-    final public static String SETTING_MORPHOHHT = "morphohht";
-    final public static String SETTING_AEB1= "aeb1";
-    final public static String SETTING_AEB2= "aeb2";
-    final public static String SETTING_AEB3= "aeb3";
-    final public static String SETTING_STACKMODE = "stackmode";
+    public static final String SETTING_CAPTUREBURSTEXPOSURES = "captureburstexposures";
+    public static final String SETTING_MORPHOHDR = "morphohdr";
+    public static final String SETTING_MORPHOHHT = "morphohht";
+    public static final String SETTING_AEB1= "aeb1";
+    public static final String SETTING_AEB2= "aeb2";
+    public static final String SETTING_AEB3= "aeb3";
+    public static final String SETTING_STACKMODE = "stackmode";
 
-    final public static String SETTINGS_PREVIEWZOOM = "previewzoom";
+    public static final String SETTINGS_PREVIEWZOOM = "previewzoom";
 
-    final public static String SETTING_BASE_FOLDER = "base_folder";
+    public static final String SETTING_BASE_FOLDER = "base_folder";
 
     private HashMap<String,String> appsettingsList;
 
@@ -187,20 +189,20 @@ public class AppSettingsManager
         return camApiString;
     }
 
-    public void SetDevice(DeviceUtils.Devices device)
+    public void SetDevice(Devices device)
     {
         this.device = device;
         String t = device.name();
         appsettingsList.put("DEVICE", t);
     }
 
-    public DeviceUtils.Devices getDevice()
+    public Devices getDevice()
     {
         String t = appsettingsList.get("DEVICE");
         if (t == null || t.equals(""))
             return null;
         else
-            return DeviceUtils.Devices.valueOf(t);
+            return Devices.valueOf(t);
     }
 
     public void setshowHelpOverlay(boolean value)
@@ -244,7 +246,7 @@ public class AppSettingsManager
 
     public int GetCurrentCamera()
     {
-        final String cam = appsettingsList.get(SETTING_CURRENTCAMERA);
+        String cam = appsettingsList.get(SETTING_CURRENTCAMERA);
         if (cam == null || cam.equals(""))
             return 0;
         return Integer.parseInt(cam);
@@ -257,7 +259,7 @@ public class AppSettingsManager
 
     public String GetCurrentModule()
     {
-        final String mod = appsettingsList.get(getApiSettingString(SETTING_CURRENTMODULE));
+        String mod = appsettingsList.get(getApiSettingString(SETTING_CURRENTMODULE));
         if (mod != null && !mod.equals(""))
             return mod;
         return KEYS.MODULE_PICTURE;
@@ -275,7 +277,7 @@ public class AppSettingsManager
      */
     private String getApiSettingString(String settingsName)
     {
-        final StringBuilder newstring = new StringBuilder();
+        StringBuilder newstring = new StringBuilder();
         if (API_SONY.equals(camApiString))
             newstring.append(API_SONY).append(settingsName);
         else if(API_1.equals(camApiString))
@@ -341,7 +343,7 @@ public class AppSettingsManager
         }
         String t = appsettingsList.get("DEVICE");
         if (t != null && !t.equals(""))
-            device = DeviceUtils.Devices.valueOf(t);
+            device = Devices.valueOf(t);
     }
 
     public void SaveAppSettings()
@@ -361,7 +363,7 @@ public class AppSettingsManager
         {
             br = new BufferedWriter(new FileWriter(mprof));
 
-            for (Map.Entry<String,String> entry : appsettingsList.entrySet()) {
+            for (Entry<String,String> entry : appsettingsList.entrySet()) {
                 br.write(entry.getKey() + "=" + entry.getValue()+"\n");
             }
         } catch (IOException e)

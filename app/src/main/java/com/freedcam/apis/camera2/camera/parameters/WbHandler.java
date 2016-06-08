@@ -24,6 +24,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.RggbChannelVector;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.camera2.camera.CameraHolder;
@@ -111,7 +112,7 @@ public class WbHandler
      *
      * Handels the Whitebalance mode
      */
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(VERSION_CODES.LOLLIPOP)
     public class WhiteBalanceApi2 extends BaseModeApi2
     {
         private String lastcctmode = "FAST";
@@ -122,7 +123,7 @@ public class WbHandler
             super(cameraHolder);
             int[] values = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES);
             if (values.length > 1)
-                this.isSupported = true;
+                isSupported = true;
             lastcctmode = colorCorrectionMode.GetValue();
         }
 
@@ -131,7 +132,7 @@ public class WbHandler
         @Override
         public boolean IsSupported()
         {
-            return this.isSupported;
+            return isSupported;
         }
 
         @Override
@@ -202,7 +203,7 @@ public class WbHandler
     /**
      * Created by troop on 01.05.2015.
      */
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(VERSION_CODES.LOLLIPOP)
     public class ManualWbCtApi2  extends AbstractManualParameter
     {
         private RggbChannelVector wbChannelVector;
@@ -218,7 +219,7 @@ public class WbHandler
             currentInt = 0;
         }
 
-        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+        @TargetApi(VERSION_CODES.LOLLIPOP)
         @Override
         public int GetValue()
         {
@@ -279,7 +280,7 @@ public class WbHandler
         {
             double t = color;
             t = t * 3 *2;
-            t = t / (255);
+            t = t / 255;
             t = t / 3;
             t += 1;
 
@@ -304,7 +305,7 @@ public class WbHandler
 
         private int getCctFromRGB(int R, int G, int B)
         {
-            double n=((0.23881)*R+(0.25499)*G+(-0.58291)*B)/((0.11109)*R+(-0.85406)*G+(0.52289)*B);
+            double n=(0.23881 *R+ 0.25499 *G+ -0.58291 *B)/(0.11109 *R+ -0.85406 *G+ 0.52289 *B);
             return (int)(449*Math.pow(n,3)+3525*Math.pow(n,2)+Math.pow(n,6823.3)+5520.33);
         }
     }
@@ -312,7 +313,7 @@ public class WbHandler
     /**
      * Created by troop on 02.05.2015.
      */
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(VERSION_CODES.LOLLIPOP)
     public class ColorCorrectionModeApi2 extends BaseModeApi2 {
         public ColorCorrectionModeApi2() {
             super(cameraHolder);
@@ -362,7 +363,7 @@ public class WbHandler
             for (int i = 0; i < 3; i++)
             {
                 try {
-                    final ColorCorrectionModes sceneModes = ColorCorrectionModes.values()[i];
+                    ColorCorrectionModes sceneModes = ColorCorrectionModes.values()[i];
                     retvals[i] = sceneModes.toString();
                 }
                 catch (Exception ex)

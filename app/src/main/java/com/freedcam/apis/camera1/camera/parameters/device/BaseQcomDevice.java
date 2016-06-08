@@ -20,7 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.device;
 
 import android.hardware.Camera;
-import android.os.Handler;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
@@ -37,7 +37,7 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 02.06.2016.
  */
 public class BaseQcomDevice extends AbstractDevice {
-    public BaseQcomDevice(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public BaseQcomDevice(Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 

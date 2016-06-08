@@ -78,7 +78,7 @@ public class SimpleSsdpClient {
         }
         Logger.d(TAG, "search() Start.");
 
-        final String ssdpRequest =
+        String ssdpRequest =
                 "M-SEARCH * HTTP/1.1\r\n" + String.format("HOST: %s:%d\r\n", SSDP_ADDR, SSDP_PORT)
                         + String.format("MAN: \"ssdp:discover\"\r\n")
                         + String.format("MX: %d\r\n", SSDP_MX)

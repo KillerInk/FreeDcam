@@ -22,15 +22,20 @@ package com.freedviewer.helper;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
 import android.media.ThumbnailUtils;
 import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.provider.MediaStore;
+import android.provider.MediaStore.Video.Thumbnails;
 
 import com.freedcam.jni.RawUtils;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
+import com.freedcam.utils.StringUtils.FileEnding;
 import com.freedviewer.holder.FileHolder;
 
 import java.io.File;
@@ -66,7 +71,7 @@ public class BitmapHelper
 
     private BitmapHelper(){}
 
-    public Bitmap getBitmap(final File file,final boolean thumb,final int mImageThumbSizeW,final int  mImageThumbSizeH)
+    public Bitmap getBitmap(File file, boolean thumb, int mImageThumbSizeW, int  mImageThumbSizeH)
     {
         Bitmap response = null;
         try {
@@ -91,16 +96,16 @@ public class BitmapHelper
             }
             if (response == null && file.exists())
             {
-                if (file.getAbsolutePath().endsWith(StringUtils.FileEnding.JPG) || file.getAbsolutePath().endsWith(StringUtils.FileEnding.JPS))
+                if (file.getAbsolutePath().endsWith(FileEnding.JPG) || file.getAbsolutePath().endsWith(FileEnding.JPS))
                 {
-                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    Options options = new Options();
                     options.inSampleSize = 2;
                     response = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
                 }
-                else if (file.getAbsolutePath().endsWith(StringUtils.FileEnding.MP4))
-                    response = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
-                else if (file.getAbsolutePath().endsWith(StringUtils.FileEnding.DNG)
-                        || file.getAbsolutePath().endsWith(StringUtils.FileEnding.RAW) || file.getAbsolutePath().endsWith(StringUtils.FileEnding.BAYER))
+                else if (file.getAbsolutePath().endsWith(FileEnding.MP4))
+                    response = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), Thumbnails.FULL_SCREEN_KIND);
+                else if (file.getAbsolutePath().endsWith(FileEnding.DNG)
+                        || file.getAbsolutePath().endsWith(FileEnding.RAW) || file.getAbsolutePath().endsWith(FileEnding.BAYER))
                 {
                     try {
                         response = new RawUtils().UnPackRAW(file.getAbsolutePath());
@@ -162,11 +167,11 @@ public class BitmapHelper
     {
         boolean del = false;
         DeleteCache(file.getFile());
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || file.getFile().canWrite())
+        if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || file.getFile().canWrite())
         {
             del = file.getFile().delete();
         }
-        if (!del && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        if (!del && VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP)
             del =FileUtils.delteDocumentFile(file.getFile(),appSettingsManager,context);
         if (del)
         {
@@ -201,14 +206,14 @@ public class BitmapHelper
         throwOnFileAdded(file.getFile());
     }
 
-    public boolean AddFileListner(FileEvent event)
+    public void AddFileListner(FileEvent event)
     {
         if (fileListners == null)
-            return false;
+            return;
         else
         {
             fileListners.add(event);
-            return true;
+            return;
         }
     }
 

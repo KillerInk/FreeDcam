@@ -26,18 +26,21 @@ import android.view.ViewGroup;
 
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.ui.I_Activity;
+import com.freedcam.ui.themesample.subfragments.Interfaces.I_MenuItemClick;
 import com.freedcam.ui.themesample.views.menu.MenuItem;
 import com.freedcam.ui.themesample.views.uichilds.UiSettingsChild;
 import com.freedcam.utils.AppSettingsManager;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
 
 /**
  * Created by troop on 15.06.2015.
  */
-public class RightMenuFragment extends AbstractFragment implements Interfaces.I_MenuItemClick
+public class RightMenuFragment extends AbstractFragment implements I_MenuItemClick
 {
-    private final static String TAG = RightMenuFragment.class.getSimpleName();
-    private Interfaces.I_MenuItemClick onMenuItemClick;
+    private static final String TAG = RightMenuFragment.class.getSimpleName();
+    private I_MenuItemClick onMenuItemClick;
     private MenuItem scene;
     private MenuItem color;
     private MenuItem cctMode;
@@ -77,31 +80,31 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,savedInstanceState);
-        this.view = inflater.inflate(R.layout.rightmenufragment, container, false);
-        scene = (MenuItem)view.findViewById(R.id.MenuItemScene);
-        color = (MenuItem)view.findViewById(R.id.MenuItemColor);
-        cctMode = (MenuItem)view.findViewById(R.id.MenuItemCCTMode);
-        objectTrackingMode = (MenuItem)view.findViewById(R.id.MenuItemObjectTracking);
-        toneMapMode = (MenuItem)view.findViewById(R.id.MenuItemTonemap);
-        postViewSize = (MenuItem)view.findViewById(R.id.MenuItemPostViewSize);
-        controleMode = (MenuItem)view.findViewById(R.id.MenuItemControlMode);
-        redeyeflash = (MenuItem)view.findViewById(R.id.MenuItemRedEye);
-        antiBanding = (MenuItem)view.findViewById(R.id.MenuItemAntiBanding);
-        ipp = (MenuItem)view.findViewById(R.id.MenuItemIpp);
-        lensShade = (MenuItem)view.findViewById(R.id.MenuItemLensShade);
-        sceneDetectMode = (MenuItem)view.findViewById(R.id.MenuItemSceneDetection);
-        waveletdenoiseMode = (MenuItem)view.findViewById(R.id.MenuItemWaveletDenoise);
-        digitalImageStabilization = (MenuItem)view.findViewById(R.id.MenuItemDigitalImageStab);
-        memoryColorEnhancement = (MenuItem)view.findViewById(R.id.MenuItemMemoryColorEnhanc);
-        ZeroShutterLag = (MenuItem)view.findViewById(R.id.MenuItemZSL);
-        nonZSLmanualMode = (MenuItem)view.findViewById(R.id.MenuItemNonManualZSL);
-        correlatedDoubleSampling = (MenuItem)view.findViewById(R.id.MenuItemCorrelatedDoubleSampling);
-        temporalDenoise = (MenuItem)view.findViewById(R.id.MenuItemTemporalDenoise);
-        edgeMode = (MenuItem)view.findViewById(R.id.MenuItemEdgeMode);
-        hotPixelMode = (MenuItem)view.findViewById(R.id.MenuItemHotPixelMode);
-        opticalImageStabilization = (MenuItem)view.findViewById(R.id.MenuItemOIS);
-        LensFilter = (MenuItem)view.findViewById(R.id.LensFilter);
-        zoomSetting = (MenuItem)view.findViewById(R.id.MenuItemZoomSetting);
+        view = inflater.inflate(layout.rightmenufragment, container, false);
+        scene = (MenuItem)view.findViewById(id.MenuItemScene);
+        color = (MenuItem)view.findViewById(id.MenuItemColor);
+        cctMode = (MenuItem)view.findViewById(id.MenuItemCCTMode);
+        objectTrackingMode = (MenuItem)view.findViewById(id.MenuItemObjectTracking);
+        toneMapMode = (MenuItem)view.findViewById(id.MenuItemTonemap);
+        postViewSize = (MenuItem)view.findViewById(id.MenuItemPostViewSize);
+        controleMode = (MenuItem)view.findViewById(id.MenuItemControlMode);
+        redeyeflash = (MenuItem)view.findViewById(id.MenuItemRedEye);
+        antiBanding = (MenuItem)view.findViewById(id.MenuItemAntiBanding);
+        ipp = (MenuItem)view.findViewById(id.MenuItemIpp);
+        lensShade = (MenuItem)view.findViewById(id.MenuItemLensShade);
+        sceneDetectMode = (MenuItem)view.findViewById(id.MenuItemSceneDetection);
+        waveletdenoiseMode = (MenuItem)view.findViewById(id.MenuItemWaveletDenoise);
+        digitalImageStabilization = (MenuItem)view.findViewById(id.MenuItemDigitalImageStab);
+        memoryColorEnhancement = (MenuItem)view.findViewById(id.MenuItemMemoryColorEnhanc);
+        ZeroShutterLag = (MenuItem)view.findViewById(id.MenuItemZSL);
+        nonZSLmanualMode = (MenuItem)view.findViewById(id.MenuItemNonManualZSL);
+        correlatedDoubleSampling = (MenuItem)view.findViewById(id.MenuItemCorrelatedDoubleSampling);
+        temporalDenoise = (MenuItem)view.findViewById(id.MenuItemTemporalDenoise);
+        edgeMode = (MenuItem)view.findViewById(id.MenuItemEdgeMode);
+        hotPixelMode = (MenuItem)view.findViewById(id.MenuItemHotPixelMode);
+        opticalImageStabilization = (MenuItem)view.findViewById(id.MenuItemOIS);
+        LensFilter = (MenuItem)view.findViewById(id.LensFilter);
+        zoomSetting = (MenuItem)view.findViewById(id.MenuItemZoomSetting);
         setCameraUiWrapperToUi();
         return view;
     }
@@ -209,9 +212,9 @@ public class RightMenuFragment extends AbstractFragment implements Interfaces.I_
         zoomSetting.SetMenuItemListner(this);
     }
 
-    public void SetMenuItemClickListner(Interfaces.I_MenuItemClick menuItemClick)
+    public void SetMenuItemClickListner(I_MenuItemClick menuItemClick)
     {
-        this.onMenuItemClick = menuItemClick;
+        onMenuItemClick = menuItemClick;
     }
 
     @Override

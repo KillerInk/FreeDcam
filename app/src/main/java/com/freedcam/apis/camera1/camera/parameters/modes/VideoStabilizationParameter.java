@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
@@ -31,16 +32,16 @@ import com.freedcam.apis.camera1.camera.CameraHolder;
 public class VideoStabilizationParameter extends  BaseModeParameter {
     I_CameraHolder baseCameraHolder;
     private final String[] vs_values = {KEYS.TRUE, KEYS.FALSE};
-    public VideoStabilizationParameter(Camera.Parameters parameters, CameraHolder parameterChanged)
+    public VideoStabilizationParameter(Parameters parameters, CameraHolder parameterChanged)
     {
         super(parameters, parameterChanged, KEYS.VIDEO_STABILIZATION, "");
         if (parameters.get(KEYS.VIDEO_STABILIZATION_SUPPORTED).equals(KEYS.TRUE))
         {
-            this.isSupported = true;
-            this.key_value = KEYS.VIDEO_STABILIZATION;
+            isSupported = true;
+            key_value = KEYS.VIDEO_STABILIZATION;
         }
         else
-            this.isSupported = false;
+            isSupported = false;
 
     }
 
@@ -57,16 +58,11 @@ public class VideoStabilizationParameter extends  BaseModeParameter {
     @Override
     public String GetValue()
     {
-        final String vs = parameters.get(KEYS.VIDEO_STABILIZATION);
+        String vs = parameters.get(KEYS.VIDEO_STABILIZATION);
         if (vs != null && !vs.equals(""))
             return vs;
         else
             return "error";
     }
 
-    @Override
-    public void SetValue(String valueToSet, boolean setToCam)
-    {
-        super.SetValue(valueToSet, setToCam);
-    }
 }

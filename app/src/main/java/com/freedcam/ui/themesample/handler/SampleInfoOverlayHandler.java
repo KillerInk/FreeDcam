@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.freedcam.ui.AbstractInfoOverlayHandler;
 import com.freedcam.utils.AppSettingsManager;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.id;
 
 /**
  * Created by troop on 14.06.2015.
@@ -42,12 +43,12 @@ public class SampleInfoOverlayHandler extends AbstractInfoOverlayHandler
     public SampleInfoOverlayHandler(View view, AppSettingsManager appSettingsManager)
     {
         super(view.getContext(),appSettingsManager);
-        tbattery = (TextView)view.findViewById(R.id.textView_battery);
-        tsize = (TextView)view.findViewById(R.id.textView_size);
-        tformat = (TextView)view.findViewById(R.id.textView_format);
-        tTime = (TextView)view.findViewById(R.id.textView_time);
-        tStorage = (TextView)view.findViewById(R.id.textView_storage);
-        tdngsupported=(TextView)view.findViewById(R.id.textView_dngsupported);
+        tbattery = (TextView)view.findViewById(id.textView_battery);
+        tsize = (TextView)view.findViewById(id.textView_size);
+        tformat = (TextView)view.findViewById(id.textView_format);
+        tTime = (TextView)view.findViewById(id.textView_time);
+        tStorage = (TextView)view.findViewById(id.textView_storage);
+        tdngsupported=(TextView)view.findViewById(id.textView_dngsupported);
         tdngsupported.setVisibility(View.GONE);
         /* if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1))
         {
@@ -58,7 +59,7 @@ public class SampleInfoOverlayHandler extends AbstractInfoOverlayHandler
                 tdngsupported.setTextColor(Color.RED);
         }*/
         //else tdngsupported.setVisibility(View.GONE);
-        tbuidlmodel = (TextView)view.findViewById(R.id.textView_buildmodel);
+        tbuidlmodel = (TextView)view.findViewById(id.textView_buildmodel);
         tbuidlmodel.setVisibility(View.GONE);
         /*tbuidlmodel.setText(Build.MODEL);
         tappversion = (TextView)view.findViewById(R.id.textView_appversion);

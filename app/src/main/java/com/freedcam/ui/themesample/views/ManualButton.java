@@ -20,10 +20,12 @@
 package com.freedcam.ui.themesample.views;
 
 import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuff.Mode;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -32,10 +34,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
+import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter.I_ManualParameterEvent;
 import com.freedcam.apis.sonyremote.camera.parameters.manual.BaseManualParameterSony;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
+import com.troop.freedcam.R.styleable;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -43,7 +49,7 @@ import java.util.concurrent.BlockingQueue;
 /**
  * Created by troop on 08.12.2015.
  */
-public class ManualButton extends LinearLayout implements AbstractManualParameter.I_ManualParameterEvent
+public class ManualButton extends LinearLayout implements I_ManualParameterEvent
 {
 
     private final String TAG = ManualButton.class.getSimpleName();
@@ -74,17 +80,17 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
         init(context);
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
-                R.styleable.ManualButton,
+                styleable.ManualButton,
                 0, 0
         );
         //try to set the attributs
         try
         {
-            headerTextView.setText(a.getText(R.styleable.ManualButton_Header));
-            imageView.setImageDrawable(a.getDrawable(R.styleable.ManualButton_Image));
+            headerTextView.setText(a.getText(styleable.ManualButton_Header));
+            imageView.setImageDrawable(a.getDrawable(styleable.ManualButton_Image));
             if (imageView.getDrawable() != null) {
                 headerTextView.setVisibility(GONE);
-                this.imageusing = true;
+                imageusing = true;
             }
 
         }
@@ -102,20 +108,20 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     {
         handler = new Handler();
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.manualbutton, this);
-        this.headerTextView = (TextView)findViewById(R.id.manualbutton_headertext);
+        inflater.inflate(layout.manualbutton, this);
+        headerTextView = (TextView)findViewById(id.manualbutton_headertext);
         headerTextView.setSelected(true);
-        this.valueTextView = (TextView)findViewById(R.id.manualbutton_valuetext);
+        valueTextView = (TextView)findViewById(id.manualbutton_valuetext);
         valueTextView.setSelected(true);
-        imageView = (ImageView)findViewById(R.id.imageView_ManualButton);
+        imageView = (ImageView)findViewById(id.imageView_ManualButton);
     }
 
-    public void RemoveParameterListner( AbstractManualParameter.I_ManualParameterEvent t)
+    public void RemoveParameterListner( I_ManualParameterEvent t)
     {
         parameter.removeEventListner(t);
     }
 
-    public void SetParameterListner( AbstractManualParameter.I_ManualParameterEvent t)
+    public void SetParameterListner( I_ManualParameterEvent t)
     {
         parameter.addEventListner(t);
     }
@@ -153,29 +159,29 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     public void SetStuff(String settingsName, AppSettingsManager appSettingsManager)
     {
         this.appSettingsManager = appSettingsManager;
-        this.settingsname = settingsName;
+        settingsname = settingsName;
     }
 
     @Override
     public void onIsSupportedChanged(final boolean value) {
-        this.post(new Runnable() {
+        post(new Runnable() {
             @Override
             public void run() {
-                final String txt = headerTextView.getText().toString();
+                String txt = headerTextView.getText().toString();
                 Logger.d(txt, "isSupported:" + value);
                 if (value) {
-                    ManualButton.this.setVisibility(VISIBLE);
-                    ManualButton.this.animate().setListener(null).scaleX(1f).setDuration(300);
+                    setVisibility(VISIBLE);
+                    animate().setListener(null).scaleX(1f).setDuration(300);
                 }
                 else
                 {
-                    ManualButton.this.animate().setListener(hideListner).scaleX(0f).setDuration(300);
+                    animate().setListener(hideListner).scaleX(0f).setDuration(300);
                 }
             }
         });
     }
 
-    private Animator.AnimatorListener hideListner = new Animator.AnimatorListener() {
+    private AnimatorListener hideListner = new AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animation) {
 
@@ -183,7 +189,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
 
         @Override
         public void onAnimationEnd(Animator animation) {
-            ManualButton.this.setVisibility(GONE);
+            setVisibility(GONE);
         }
 
         @Override
@@ -203,11 +209,11 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
             @Override
             public void run() {
                 if (value) {
-                    ManualButton.this.setEnabled(true);
-                    imageView.getDrawable().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
+                    setEnabled(true);
+                    imageView.getDrawable().setColorFilter(Color.TRANSPARENT, Mode.SRC_ATOP);
                 } else {
-                    ManualButton.this.setEnabled(false);
-                    imageView.getDrawable().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+                    setEnabled(false);
+                    imageView.getDrawable().setColorFilter(Color.GRAY, Mode.SRC_ATOP);
                 }
             }
         });
@@ -218,7 +224,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     public void onCurrentValueChanged(int current)
     {
 
-        this.pos = current;
+        pos = current;
 
         Logger.d(TAG, "onCurrentValueChanged current:"+current +" pos:" +pos);
         setTextValue(current);
@@ -226,7 +232,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
 
     @Override
     public void onValuesChanged(String[] values) {
-        this.parameterValues = values;
+        parameterValues = values;
     }
 
     @Override
@@ -283,7 +289,7 @@ public class ManualButton extends LinearLayout implements AbstractManualParamete
     }
 
     private boolean currentlysettingsparameter = false;
-    public void setValueToParameters(final int value)
+    public void setValueToParameters(int value)
     {
         if (valueQueue.size() == 3)
             valueQueue.remove();

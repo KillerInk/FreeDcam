@@ -20,6 +20,8 @@
 package com.freedcam.apis.basecamera.camera.parameters.modes;
 
 import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.StringUtils;
@@ -31,12 +33,11 @@ import java.io.File;
  */
 public class SDModeParameter extends AbstractModeParameter
 {
-    final public static String internal = "Internal";
-    final public static String external ="External";
+    public static final String internal = "Internal";
+    public static final String external ="External";
     private AppSettingsManager appSettingsManager;
 
     public SDModeParameter(AppSettingsManager appSettingsManager) {
-        super();
         this.appSettingsManager = appSettingsManager;
     }
 
@@ -46,15 +47,10 @@ public class SDModeParameter extends AbstractModeParameter
     }
 
     @Override
-    public void removeEventListner(I_ModeParameterEvent parameterEvent) {
-        super.removeEventListner(parameterEvent);
-    }
-
-    @Override
     public boolean IsSupported()
     {
         try {
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+            if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP) {
                 File file = new File(StringUtils.GetExternalSDCARD());
                 return file.exists();
             }
@@ -91,21 +87,6 @@ public class SDModeParameter extends AbstractModeParameter
     @Override
     public void BackgroundValueHasChanged(String value) {
         super.BackgroundValueHasChanged(value);
-    }
-
-    @Override
-    public void BackgroundValuesHasChanged(String[] value) {
-        super.BackgroundValuesHasChanged(value);
-    }
-
-    @Override
-    public void BackgroundIsSupportedChanged(boolean value) {
-        super.BackgroundIsSupportedChanged(value);
-    }
-
-    @Override
-    public void BackgroundSetIsSupportedHasChanged(boolean value) {
-        super.BackgroundSetIsSupportedHasChanged(value);
     }
 
 }

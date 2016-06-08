@@ -48,9 +48,9 @@ public class MenuItemOrientationHack extends MenuItem
     {
         this.cameraUiWrapper = cameraUiWrapper;
         if (cameraUiWrapper instanceof com.freedcam.apis.camera1.camera.CameraUiWrapper || cameraUiWrapper instanceof CameraUiWrapper)
-            this.setVisibility(View.VISIBLE);
+            setVisibility(View.VISIBLE);
         else
-            this.setVisibility(View.GONE);
+            setVisibility(View.GONE);
         if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(""))
             appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack, StringUtils.OFF);
         if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
@@ -70,7 +70,7 @@ public class MenuItemOrientationHack extends MenuItem
         appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack, value);
         if (cameraUiWrapper instanceof com.freedcam.apis.camera1.camera.CameraUiWrapper) {
             ((ParametersHandler) cameraUiWrapper.parametersHandler).SetCameraRotation();
-            ((ParametersHandler) cameraUiWrapper.parametersHandler).SetPictureOrientation(0);
+            cameraUiWrapper.parametersHandler.SetPictureOrientation(0);
         }
         else if(cameraUiWrapper instanceof CameraUiWrapper)
         {
@@ -79,5 +79,10 @@ public class MenuItemOrientationHack extends MenuItem
 
         }
         onValueChanged(value);
+    }
+
+    @Override
+    public void onValuesChanged(String[] values) {
+
     }
 }

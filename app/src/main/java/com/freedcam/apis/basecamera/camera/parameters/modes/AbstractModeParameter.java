@@ -40,7 +40,7 @@ public class AbstractModeParameter implements I_ModeParameter
     public AbstractModeParameter()
     {
         events = new ArrayList<>();
-        this.uihandler = new Handler(Looper.getMainLooper());
+        uihandler = new Handler(Looper.getMainLooper());
     }
 
     /**

@@ -22,10 +22,12 @@ package com.freedcam.apis.camera1.camera;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Build.VERSION;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.FrameLayout.LayoutParams;
 
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
 import com.freedcam.utils.AppSettingsManager;
@@ -73,7 +75,7 @@ public class ExtendedSurfaceView extends SurfaceView
         this.context = context;
 
 
-        if (Build.VERSION.SDK_INT < 21)
+        if (VERSION.SDK_INT < 21)
         {
 
             try {
@@ -98,8 +100,8 @@ public class ExtendedSurfaceView extends SurfaceView
         {
             preferences = PreferenceManager.getDefaultSharedPreferences(context);
             mHolder = getHolder();
-            android.widget.FrameLayout.LayoutParams params = new android.widget.FrameLayout.LayoutParams(960, 720);
-            this.setLayoutParams(params);
+            LayoutParams params = new LayoutParams(960, 720);
+            setLayoutParams(params);
         }
     }
 
@@ -107,7 +109,7 @@ public class ExtendedSurfaceView extends SurfaceView
     {
         try {
             Class c = Class.forName("com.lge.real3d.Real3D");
-            final String LGE_3D_DISPLAY = "lge.hardware.real3d.barrier.landscape";
+            String LGE_3D_DISPLAY = "lge.hardware.real3d.barrier.landscape";
             if(context.getPackageManager().hasSystemFeature(LGE_3D_DISPLAY))
                 hasReal3d = true;
         } catch (ClassNotFoundException e) {

@@ -67,13 +67,13 @@ public class ParameterHandler extends AbstractParameterHandler
     public ParameterHandler(CameraUiWrapper wrapper, SimpleStreamSurfaceView surfaceView, Context context, AppSettingsManager appSettingsManager)
     {
         super(wrapper.cameraHolder,context,appSettingsManager);
-        this.cameraHolder = wrapper.cameraHolder;
+        cameraHolder = wrapper.cameraHolder;
         parametersChangedList  = new ArrayList<>();
         this.surfaceView = surfaceView;
         this.wrapper = wrapper;
     }
 
-    public void SetCameraApiSet(final Set<String> mAvailableCameraApiSet)
+    public void SetCameraApiSet(Set<String> mAvailableCameraApiSet)
     {
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
 
@@ -176,7 +176,7 @@ public class ParameterHandler extends AbstractParameterHandler
 
     public void SetRemoteApi(SimpleRemoteApi api)
     {
-        this.mRemoteApi = api;
+        mRemoteApi = api;
         createParameters();
     }
 

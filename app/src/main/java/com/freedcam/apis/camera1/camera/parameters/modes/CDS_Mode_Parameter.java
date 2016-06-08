@@ -20,9 +20,11 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
 
 /**
@@ -32,28 +34,28 @@ public class CDS_Mode_Parameter extends BaseModeParameter
 {
     final String TAG = CDS_Mode_Parameter.class.getSimpleName();
     final String[] cds_values = {"auto", "on", "off"};
-    public CDS_Mode_Parameter(Camera.Parameters parameters, CameraHolder cameraHolder, String value)
+    public CDS_Mode_Parameter(Parameters parameters, CameraHolder cameraHolder, String value)
     {
         super(parameters, cameraHolder, "", "");
         try {
-            final String cds = parameters.get("cds-mode");
+            String cds = parameters.get("cds-mode");
             if (cds != null && !cds.equals(""))
             {
-                this.isSupported = true;
+                isSupported = true;
             }
         }
         catch (Exception ex)
         {
             Logger.exception(ex);
         }
-        if (!this.isSupported)
+        if (!isSupported)
         {
-            if (cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214
-                    || cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV
-                    || cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214
-                    || cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.Htc_M9
-                    || cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.LG_G4)
-                this.isSupported = true;
+            if (cameraHolder.appSettingsManager.getDevice() == Devices.ZTEADVIMX214
+                    || cameraHolder.appSettingsManager.getDevice() == Devices.ZTE_ADV
+                    || cameraHolder.appSettingsManager.getDevice() == Devices.ZTEADVIMX214
+                    || cameraHolder.appSettingsManager.getDevice() == Devices.Htc_M9
+                    || cameraHolder.appSettingsManager.getDevice() == Devices.LG_G4)
+                isSupported = true;
         }
     }
 
@@ -70,7 +72,7 @@ public class CDS_Mode_Parameter extends BaseModeParameter
     @Override
     public String GetValue()
     {
-        final String cds = parameters.get("cds-mode");
+        String cds = parameters.get("cds-mode");
         if (cds != null && !cds.equals(""))
             return cds;
         else

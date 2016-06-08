@@ -54,7 +54,6 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
 
     public BaseModeParameterSony(String VALUE_TO_GET, String VALUE_TO_SET, String VALUES_TO_GET, SimpleRemoteApi mRemoteApi)
     {
-        super();
         this.VALUE_TO_GET = VALUE_TO_GET;
         this.VALUE_TO_SET = VALUE_TO_SET;
         this.VALUES_TO_GET = VALUES_TO_GET;
@@ -62,7 +61,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
     }
 
     @Override
-    public void SonyApiChanged(final Set<String> mAvailableCameraApiSet)
+    public void SonyApiChanged(Set<String> mAvailableCameraApiSet)
     {
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
         if (isSupported != JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet))
@@ -205,7 +204,7 @@ public class BaseModeParameterSony extends AbstractModeParameter implements I_So
     @Override
     public void BackgroundValuesHasChanged(String[] value)
     {
-        this.values = value;
+        values = value;
         super.BackgroundValuesHasChanged(value);
     }
 }

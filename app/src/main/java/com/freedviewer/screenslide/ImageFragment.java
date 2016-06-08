@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
@@ -33,8 +34,12 @@ import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.holder.FileHolder;
+import com.freedviewer.screenslide.ScreenSlideFragment.FragmentClickClistner;
 import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.dimen;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
 
 /**
  * Created by troop on 21.08.2015.
@@ -51,7 +56,7 @@ public class ImageFragment extends Fragment
     private TouchImageView imageView;
     private FileHolder file;
     private int mImageThumbSize = 0;
-    private ScreenSlideFragment.FragmentClickClistner onClickListener;
+    private FragmentClickClistner onClickListener;
     private ProgressBar progressBar;
     private int [] histogramData;
     private boolean isWorking = false;
@@ -70,7 +75,7 @@ public class ImageFragment extends Fragment
      */
     public void SetFilePath(FileHolder filepath)
     {
-        this.file = filepath;
+        file = filepath;
         if (imageView != null) {
             FreeDPool.Execute(new Runnable() {
                 @Override
@@ -90,7 +95,7 @@ public class ImageFragment extends Fragment
     public void SetWaitForWorkFinishLisnter(I_WaitForWorkFinish workFinish, int position)
     {
         this.position = position;
-        this.waitForWorkFinish = workFinish;
+        waitForWorkFinish = workFinish;
     }
 
     /**
@@ -107,7 +112,7 @@ public class ImageFragment extends Fragment
         return  histogramData;
     }
 
-    public void SetOnclickLisnter(ScreenSlideFragment.FragmentClickClistner onClickListener)
+    public void SetOnclickLisnter(FragmentClickClistner onClickListener)
     {
         this.onClickListener = onClickListener;
     }
@@ -118,11 +123,11 @@ public class ImageFragment extends Fragment
     {
         super.onCreateView(inflater,container,savedInstanceState);
 
-        mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
-        View view = inflater.inflate(R.layout.imageframent, container, false);
-        this.imageView = (TouchImageView) view.findViewById(R.id.imageView_PicView);
+        mImageThumbSize = getResources().getDimensionPixelSize(dimen.image_thumbnail_size);
+        View view = inflater.inflate(layout.imageframent, container, false);
+        imageView = (TouchImageView) view.findViewById(id.imageView_PicView);
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar_screenslideImageview);
+        progressBar = (ProgressBar) view.findViewById(id.progressBar_screenslideImageview);
         imageView.setOnClickListener(onImageClick);
         progressBar.setVisibility(View.VISIBLE);
         if (file != null) {
@@ -143,12 +148,12 @@ public class ImageFragment extends Fragment
         super.onResume();
     }
 
-    private View.OnClickListener onImageClick = new View.OnClickListener() {
+    private OnClickListener onImageClick = new OnClickListener() {
         @Override
         public void onClick(View v)
         {
-            if (ImageFragment.this.onClickListener != null)
-                ImageFragment.this.onClickListener.onClick(ImageFragment.this);
+            if (onClickListener != null)
+                onClickListener.onClick(ImageFragment.this);
         }
     };
 

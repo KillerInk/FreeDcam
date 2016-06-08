@@ -20,7 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.device.krillin;
 
 import android.hardware.Camera;
-import android.os.Handler;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
@@ -32,7 +32,7 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 01.06.2016.
  */
 public class P8 extends AbstractDevice {
-    public P8(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public P8(Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 

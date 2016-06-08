@@ -22,6 +22,8 @@ package com.freedcam.apis.camera1.camera.parameters;
 import android.content.Context;
 import android.graphics.Rect;
 import android.hardware.Camera;
+import android.hardware.Camera.Area;
+import android.hardware.Camera.Parameters;
 import android.os.Build;
 import android.os.Handler;
 
@@ -29,11 +31,10 @@ import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.FocusRect;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.camera.parameters.AbstractParameterHandler;
-import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
-import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.LocationParameter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.ModuleParameters;
 import com.freedcam.apis.camera1.camera.CameraHolder;
+import com.freedcam.apis.camera1.camera.CameraHolder.Frameworks;
 import com.freedcam.apis.camera1.camera.CameraUiWrapper;
 import com.freedcam.apis.camera1.camera.FocusHandler;
 import com.freedcam.apis.camera1.camera.parameters.device.AbstractDevice;
@@ -42,7 +43,6 @@ import com.freedcam.apis.camera1.camera.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.camera.parameters.manual.BurstManualParam;
 import com.freedcam.apis.camera1.camera.parameters.manual.ExposureManualParameter;
 import com.freedcam.apis.camera1.camera.parameters.manual.FXManualParameter;
-import com.freedcam.apis.camera1.camera.parameters.manual.SkintoneManualPrameter;
 import com.freedcam.apis.camera1.camera.parameters.manual.ZoomManualParameter;
 import com.freedcam.apis.camera1.camera.parameters.modes.BaseModeParameter;
 import com.freedcam.apis.camera1.camera.parameters.modes.CDS_Mode_Parameter;
@@ -52,9 +52,7 @@ import com.freedcam.apis.camera1.camera.parameters.modes.FocusPeakModeParameter;
 import com.freedcam.apis.camera1.camera.parameters.modes.HDRModeParameter;
 import com.freedcam.apis.camera1.camera.parameters.modes.JpegQualityParameter;
 import com.freedcam.apis.camera1.camera.parameters.modes.NightModeParameter;
-import com.freedcam.apis.camera1.camera.parameters.modes.NonZslManualModeParameter;
 import com.freedcam.apis.camera1.camera.parameters.modes.OisParameter;
-import com.freedcam.apis.camera1.camera.parameters.modes.OpCodeParameter;
 import com.freedcam.apis.camera1.camera.parameters.modes.PictureFormatHandler;
 import com.freedcam.apis.camera1.camera.parameters.modes.PictureSizeParameter;
 import com.freedcam.apis.camera1.camera.parameters.modes.PreviewFormatParameter;
@@ -65,8 +63,10 @@ import com.freedcam.apis.camera1.camera.parameters.modes.VideoStabilizationParam
 import com.freedcam.apis.camera1.camera.parameters.modes.VirtualLensFilter;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
+import com.freedcam.utils.StringUtils.FileEnding;
 
 import java.util.ArrayList;
 
@@ -78,8 +78,8 @@ public class ParametersHandler extends AbstractParameterHandler
 
     private final String TAG = ParametersHandler.class.getSimpleName();
 
-    private Camera.Parameters cameraParameters;
-    public Camera.Parameters getParameters(){return cameraParameters;}
+    private Parameters cameraParameters;
+    public Parameters getParameters(){return cameraParameters;}
     public CameraHolder cameraHolder;
     public BaseModeParameter DualMode;
     private CameraUiWrapper cameraUiWrapper;
@@ -92,7 +92,7 @@ public class ParametersHandler extends AbstractParameterHandler
         this.cameraUiWrapper = cameraUiWrapper;
     }
 
-    public void SetParametersToCamera(Camera.Parameters params)
+    public void SetParametersToCamera(Parameters params)
     {
         Logger.d(TAG, "SetParametersToCam");
         cameraHolder.SetCameraParameters(params);
@@ -104,7 +104,7 @@ public class ParametersHandler extends AbstractParameterHandler
         initParameters();
     }
 
-    private void logParameters(Camera.Parameters parameters)
+    private void logParameters(Parameters parameters)
     {
         Logger.d(TAG, "Manufactur:" + Build.MANUFACTURER);
         Logger.d(TAG, "Model:" + Build.MODEL);
@@ -407,7 +407,7 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            if(appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV || appSettingsManager.getDevice() ==DeviceUtils.Devices.ZTEADV234 ||appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214)
+            if(appSettingsManager.getDevice() == Devices.ZTE_ADV || appSettingsManager.getDevice() == Devices.ZTEADV234 ||appSettingsManager.getDevice() == Devices.ZTEADVIMX214)
                 LensFilter = new VirtualLensFilter(cameraParameters, cameraHolder, "", cameraUiWrapper);
         } catch (Exception e) {
             Logger.exception(e);
@@ -454,14 +454,6 @@ public class ParametersHandler extends AbstractParameterHandler
         cameraUiWrapper.moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
 
         ParametersHasLoaded();
-
-        try {
-            if (cameraHolder.DeviceFrameWork == CameraHolder.Frameworks.MTK)
-                Mediatek();
-        } catch (Exception e) {
-            Logger.exception(e);
-        }
-
     }
 
     private void createExposureMode() {
@@ -504,7 +496,7 @@ public class ParametersHandler extends AbstractParameterHandler
 
             if (cameraParameters.get("brightness")!= null && cameraParameters.get("brightness-values")!= null)
             {
-                if (cameraHolder.DeviceFrameWork == CameraHolder.Frameworks.MTK)
+                if (cameraHolder.DeviceFrameWork == Frameworks.MTK)
                     ManualBrightness =  new BaseManualParamMTK(cameraParameters,"brightness", "brightness-values",this);
                 else
                     ManualBrightness =  new BaseManualParameter(cameraParameters,"brightness", "brightness-max", "brightness-min",this,1);
@@ -522,7 +514,7 @@ public class ParametersHandler extends AbstractParameterHandler
                 {
                     ManualBrightness = new BaseManualParameter(cameraParameters, "brightness", "brightness-max", "brightness-min", this, 1);
                 }
-                else if(appSettingsManager.getDevice() ==DeviceUtils.Devices.p8lite)
+                else if(appSettingsManager.getDevice() == Devices.p8lite)
                     ManualBrightness = new BaseManualParameter(cameraParameters, "brightness", "max-brightness", "min-brightness", this, 50);
                 else if (cameraParameters.get("max-brightness")!= null)
                     ManualBrightness = new BaseManualParameter(cameraParameters, "brightness", "max-brightness", "min-brightness", this, 1);
@@ -547,7 +539,7 @@ public class ParametersHandler extends AbstractParameterHandler
             {
                 cameraParameters.set("contrast-max", "3");
                 cameraParameters.set("contrast-min", "0");
-                if (cameraHolder.DeviceFrameWork == CameraHolder.Frameworks.MTK)
+                if (cameraHolder.DeviceFrameWork == Frameworks.MTK)
                     ManualContrast =  new BaseManualParamMTK(cameraParameters,"contrast","contrast-values",this);
                 else
                     ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "contrast-max", "contrast-min",this,1);
@@ -562,7 +554,7 @@ public class ParametersHandler extends AbstractParameterHandler
                 }
                 if (cameraParameters.get("contrast-max")!= null)
                     ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "contrast-max", "contrast-min",this,1);
-                else if(appSettingsManager.getDevice()==DeviceUtils.Devices.p8lite)
+                else if(appSettingsManager.getDevice()== Devices.p8lite)
                     ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "max-contrast", "min-contrast",this,25);
                 else if (cameraParameters.get("max-contrast")!= null)
                     ManualContrast =  new BaseManualParameter(cameraParameters,"contrast", "max-contrast", "min-contrast",this,1);
@@ -591,7 +583,7 @@ public class ParametersHandler extends AbstractParameterHandler
                 }
             }
 
-            if (cameraHolder.DeviceFrameWork == CameraHolder.Frameworks.MTK)
+            if (cameraHolder.DeviceFrameWork == Frameworks.MTK)
                 VideoHighFramerateVideo = new BaseModeParameter(cameraParameters, cameraHolder, "hsvr-prv-fps", "hsvr-prv-fps-values");
             else
                 VideoHighFramerateVideo = new BaseModeParameter(cameraParameters, cameraHolder, "video-hfr", "video-hfr-values");
@@ -632,7 +624,7 @@ public class ParametersHandler extends AbstractParameterHandler
             {
                 cameraParameters.set("edge-max", "3");
                 cameraParameters.set("edge-min", "0");
-                if (cameraHolder.DeviceFrameWork == CameraHolder.Frameworks.MTK)
+                if (cameraHolder.DeviceFrameWork == Frameworks.MTK)
                     ManualSharpness =  new BaseManualParameter(cameraParameters,"edge", "edge-max", "edge-min",this,1);
 
             }
@@ -677,7 +669,7 @@ public class ParametersHandler extends AbstractParameterHandler
     @Override
     public void SetMeterAREA(FocusRect meteringAreas)
     {
-        if(appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV || appSettingsManager.getDevice() ==DeviceUtils.Devices.ZTEADV234 ||appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214)
+        if(appSettingsManager.getDevice() == Devices.ZTE_ADV || appSettingsManager.getDevice() == Devices.ZTEADV234 ||appSettingsManager.getDevice() == Devices.ZTEADVIMX214)
         {
             try
             {
@@ -706,7 +698,7 @@ public class ParametersHandler extends AbstractParameterHandler
     @Override
     public void SetFocusAREA(final FocusRect focusAreas, FocusRect meteringAreas)
     {
-        if(appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV || appSettingsManager.getDevice() ==DeviceUtils.Devices.ZTEADV234 ||appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214)
+        if(appSettingsManager.getDevice() == Devices.ZTE_ADV || appSettingsManager.getDevice() == Devices.ZTEADV234 ||appSettingsManager.getDevice() == Devices.ZTEADVIMX214)
         {
             try
             {
@@ -729,8 +721,8 @@ public class ParametersHandler extends AbstractParameterHandler
         }
         else
         {
-            final Camera.Area a = new Camera.Area(new Rect(focusAreas.left,focusAreas.top,focusAreas.right,focusAreas.bottom),1000);
-            ArrayList<Camera.Area> ar = new ArrayList<>();
+            Area a = new Area(new Rect(focusAreas.left,focusAreas.top,focusAreas.right,focusAreas.bottom),1000);
+            ArrayList<Area> ar = new ArrayList<>();
             ar.add(a);
             cameraParameters.setFocusAreas(ar);
             SetParametersToCamera(cameraParameters);
@@ -740,17 +732,17 @@ public class ParametersHandler extends AbstractParameterHandler
     public float getMTKShutterSpeed()
     {
         if(cameraParameters.get("eng-capture-shutter-speed")!= null) {
-            if (Float.parseFloat((cameraHolder.GetParamsDirect("eng-capture-shutter-speed"))) == 0) {
+            if (Float.parseFloat(cameraHolder.GetParamsDirect("eng-capture-shutter-speed")) == 0) {
                 return 0.0f;
             } else
-                return Float.parseFloat((cameraParameters.get("eng-capture-shutter-speed"))) / 1000000;
+                return Float.parseFloat(cameraParameters.get("eng-capture-shutter-speed")) / 1000;
         }
         else if(cameraParameters.get("cap-ss")!= null)
         {
-            if (Float.parseFloat((cameraParameters.get("cap-ss"))) == 0) {
+            if (Float.parseFloat(cameraParameters.get("cap-ss")) == 0) {
                 return 0.0f;
             } else
-                return Float.parseFloat((cameraParameters.get("cap-ss"))) / 1000000;
+                return Float.parseFloat(cameraParameters.get("cap-ss")) / 1000;
         }
         else
             return 0.0f;
@@ -856,7 +848,7 @@ public class ParametersHandler extends AbstractParameterHandler
         cameraParameters.set("afeng_raw_dump_flag", "1");
         cameraParameters.set("isp-mode", "1");
         cameraParameters.set("rawsave-mode", "2");
-        cameraParameters.set("rawfname", StringUtils.GetInternalSDCARD()+"/DCIM/FreeDCam/mtk_."+StringUtils.FileEnding.BAYER);
+        cameraParameters.set("rawfname", StringUtils.GetInternalSDCARD()+"/DCIM/FreeDCam/mtk_."+ FileEnding.BAYER);
         cameraParameters.set("zsd-mode", "on");
         try {
             Thread.sleep(200);
@@ -868,7 +860,7 @@ public class ParametersHandler extends AbstractParameterHandler
     public float GetFnumber()
     {
         if (cameraParameters.get("f-number")!= null) {
-            final String fnum = cameraParameters.get("f-number");
+            String fnum = cameraParameters.get("f-number");
             return Float.parseFloat(fnum);
         }
         else
@@ -878,7 +870,7 @@ public class ParametersHandler extends AbstractParameterHandler
     public float GetFocal()
     {
         if (cameraParameters.get("focal-length")!= null) {
-            final String focal = cameraParameters.get("focal-length");
+            String focal = cameraParameters.get("focal-length");
             return Float.parseFloat(focal);
         }
         else
@@ -903,17 +895,6 @@ public class ParametersHandler extends AbstractParameterHandler
         SetParametersToCamera(cameraParameters);
 
     }
-
-    private void Mediatek()
-    {
-        // cameraParameters.put("zsd-mode","on");
-        //cameraParameters.put("camera-mode","0");
-        cameraParameters.set("afeng_raw_dump_flag", "1");
-        cameraParameters.set("rawsave-mode", "2");
-        cameraParameters.set("isp-mode", "1");
-        cameraParameters.set("rawfname", StringUtils.GetInternalSDCARD()+"/DCIM/test."+StringUtils.FileEnding.BAYER);
-    }
-
 
     public void SetZTESlowShutter()
     {

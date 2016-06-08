@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 import android.os.Handler;
 
 import com.freedcam.apis.KEYS;
@@ -41,13 +42,13 @@ public class ShutterManualG2pro extends BaseManualParameter
      * @param parameters
      * @param parametersHandler
      */
-    public ShutterManualG2pro(Camera.Parameters parameters, I_CameraHolder baseCameraHolder, ParametersHandler parametersHandler) {
+    public ShutterManualG2pro(Parameters parameters, I_CameraHolder baseCameraHolder, ParametersHandler parametersHandler) {
         super(parameters, "", "", "", parametersHandler,1);
         this.baseCameraHolder = baseCameraHolder;
 
         stringvalues = G2Pro.split(",");
 
-        this.isSupported = true;
+        isSupported = true;
     }
 
     @Override
@@ -66,7 +67,7 @@ public class ShutterManualG2pro extends BaseManualParameter
         currentInt = valueToSet;
         String shutterstring = stringvalues[currentInt];
         if (shutterstring.contains("/")) {
-            String split[] = shutterstring.split("/");
+            String[] split = shutterstring.split("/");
             Double a = Double.parseDouble(split[0]) / Double.parseDouble(split[1]);
             shutterstring = "" + a*1000000;
         }

@@ -43,7 +43,7 @@ class IntervalHandler
     private boolean working = false;
     private AppSettingsManager appSettingsManager;
 
-    public boolean IsWorking() {return  this.working;}
+    public boolean IsWorking() {return working;}
 
     public IntervalHandler(AbstractModule picmodule, AppSettingsManager appSettingsManager)
     {
@@ -55,13 +55,13 @@ class IntervalHandler
     public void StartInterval()
     {
         Logger.d(TAG, "Start Interval");
-        this.working = true;
-        this.startTime = new Date().getTime();
+        working = true;
+        startTime = new Date().getTime();
         String interval = picmodule.ParameterHandler.IntervalShutterSleep.GetValue().replace(" sec", "");
-        this.intervalDuration = Integer.parseInt(interval)*1000;
+        intervalDuration = Integer.parseInt(interval)*1000;
 
         String endDuration = picmodule.ParameterHandler.IntervalDuration.GetValue().replace(" min","");
-        this.intervalToEndDuration = Integer.parseInt(endDuration);
+        intervalToEndDuration = Integer.parseInt(endDuration);
         startShutterDelay();
     }
 
@@ -76,14 +76,14 @@ class IntervalHandler
         intervalDelayCounter = 0;
         shuttercounter = 0;
         shutterWaitCounter = 0;
-        this.working = false;
+        working = false;
     }
 
     private void sendMsg()
     {
 
-        String t = "Time:"+String.format("%.2f ",((double)((new Date().getTime() - IntervalHandler.this.startTime)) /1000) / 60);
-        t+=("/"+intervalToEndDuration+ " NextIn:" + shuttercounter +"/" + intervalDuration/1000);
+        String t = "Time:"+String.format("%.2f ", (double) (new Date().getTime() - startTime) /1000 / 60);
+        t+= "/"+intervalToEndDuration+ " NextIn:" + shuttercounter +"/" + intervalDuration/1000;
         picmodule.cameraHolder.SendUIMessage(t);
 
     }
@@ -91,9 +91,9 @@ class IntervalHandler
     private int shuttercounter = 0;
     public void DoNextInterval()
     {
-        long dif = new Date().getTime() - IntervalHandler.this.startTime;
+        long dif = new Date().getTime() - startTime;
         double min = (double)(dif /1000) / 60;
-        if (min >= IntervalHandler.this.intervalToEndDuration)
+        if (min >= intervalToEndDuration)
         {
             Logger.d(TAG, "Finished Interval");
             picmodule.ParameterHandler.IntervalCaptureFocusSet = false;
@@ -101,7 +101,7 @@ class IntervalHandler
             working = false;
             return;
         }
-        Logger.d(TAG, "Start StartNext Interval in" + IntervalHandler.this.intervalDuration + " " + min + " " + IntervalHandler.this.intervalToEndDuration);
+        Logger.d(TAG, "Start StartNext Interval in" + intervalDuration + " " + min + " " + intervalToEndDuration);
         intervalDelayCounter = 0;
         handler.post(intervalDelayRunner);
     }
@@ -111,7 +111,7 @@ class IntervalHandler
         @Override
         public void run()
         {
-            if (intervalDelayCounter < IntervalHandler.this.intervalDuration /1000) {
+            if (intervalDelayCounter < intervalDuration /1000) {
                 handler.postDelayed(intervalDelayRunner, 1000);
                 sendMsg();
                 intervalDelayCounter++;
@@ -141,8 +141,8 @@ class IntervalHandler
     private int shutterWaitCounter =0;
     private void startShutterDelay()
     {
-        Logger.d(TAG, "Start ShutterDelay in " + IntervalHandler.this.shutterDelay);
-        if (shutterWaitCounter <  IntervalHandler.this.shutterDelay / 1000)
+        Logger.d(TAG, "Start ShutterDelay in " + shutterDelay);
+        if (shutterWaitCounter < shutterDelay / 1000)
         {
             handler.postDelayed(shutterDelayRunner, 1000);
             msg();

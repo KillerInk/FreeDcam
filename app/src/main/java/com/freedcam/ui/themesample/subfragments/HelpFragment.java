@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -31,8 +32,11 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.freedcam.ui.themesample.subfragments.CameraUiFragment.i_HelpFragment;
 import com.freedcam.utils.AppSettingsManager;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
 
 /**
  * Created by troop on 29.02.2016.
@@ -43,11 +47,11 @@ public class HelpFragment extends Fragment
     private TextView description;
     private Button nextButton;
     private int helpState;
-    private CameraUiFragment.i_HelpFragment closer;
+    private i_HelpFragment closer;
     private CheckBox dontshowagain;
     private AppSettingsManager appSettingsManager;
 
-    public static HelpFragment getFragment(CameraUiFragment.i_HelpFragment closer, AppSettingsManager appSettingsManager)
+    public static HelpFragment getFragment(i_HelpFragment closer, AppSettingsManager appSettingsManager)
     {
         HelpFragment h = new HelpFragment();
         h.closer = closer;
@@ -58,13 +62,13 @@ public class HelpFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,savedInstanceState);
-        View view = inflater.inflate(R.layout.help_fragment,container,false);
-        this.finger = (ImageView)view.findViewById(R.id.imageView_finger);
-        this.description = (TextView)view.findViewById(R.id.textView_description);
-        this.dontshowagain =(CheckBox)view.findViewById(R.id.checkBox_dontShowAgain);
+        View view = inflater.inflate(layout.help_fragment,container,false);
+        finger = (ImageView)view.findViewById(id.imageView_finger);
+        description = (TextView)view.findViewById(id.textView_description);
+        dontshowagain =(CheckBox)view.findViewById(id.checkBox_dontShowAgain);
         dontshowagain.setVisibility(View.GONE);
-        this.nextButton =(Button)view.findViewById(R.id.button_nextHelp);
-        nextButton.setOnClickListener(new View.OnClickListener() {
+        nextButton =(Button)view.findViewById(id.button_nextHelp);
+        nextButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v)
             {

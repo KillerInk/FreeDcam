@@ -20,6 +20,7 @@
 package com.freedcam.apis.sonyremote.camera.parameters.manual;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
+import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter.I_ManualParameterEvent;
 import com.freedcam.apis.sonyremote.camera.parameters.modes.I_SonyApi;
 import com.freedcam.apis.sonyremote.camera.sonystuff.JsonUtils;
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleRemoteApi;
@@ -37,7 +38,7 @@ import java.util.Set;
 /**
  * Created by troop on 15.12.2014.
  */
-public class BaseManualParameterSony extends AbstractManualParameter implements I_SonyApi, AbstractManualParameter.I_ManualParameterEvent
+public class BaseManualParameterSony extends AbstractManualParameter implements I_SonyApi, I_ManualParameterEvent
 {
     protected String VALUE_TO_GET;
     protected String VALUES_TO_GET;
@@ -58,8 +59,8 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
         this.VALUE_TO_GET = VALUE_TO_GET;
         this.VALUES_TO_GET = VALUES_TO_GET;
         this.VALUE_TO_SET = VALUE_TO_SET;
-        this.ParameterHandler = parameterHandler;
-        this.mRemoteApi = parameterHandler.mRemoteApi;
+        ParameterHandler = parameterHandler;
+        mRemoteApi = parameterHandler.mRemoteApi;
         addEventListner(this);
 
     }
@@ -134,7 +135,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     public void SetValue(final int valueToSet)
     {
         sendLog("Set Value to " + valueToSet);
-        this.currentInt = valueToSet;
+        currentInt = valueToSet;
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run()
@@ -159,8 +160,8 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     {
         sendLog("GetStringValue");
         if (value == null || value.equals("")) {
-            if (this.stringvalues == null) {
-                this.stringvalues = getStringValues();
+            if (stringvalues == null) {
+                stringvalues = getStringValues();
 
             }
             if (stringvalues != null && stringvalues.length > 0 && currentInt < stringvalues.length) {
@@ -192,14 +193,14 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     public void onCurrentValueChanged(int current)
     {
         sendLog("onCurrentValueChanged = "  +current);
-        this.currentInt = current;
+        currentInt = current;
     }
 
     @Override
     public void onValuesChanged(String[] values)
     {
         sendLog("onValueSChanged = "  + Arrays.toString(values));
-        this.stringvalues = values;
+        stringvalues = values;
     }
 
     @Override

@@ -21,6 +21,7 @@ package com.freedcam.ui;
 
 import android.graphics.Canvas;
 import android.view.TextureView;
+import android.view.TextureView.SurfaceTextureListener;
 
 /**
  * Created by troop on 16.11.2015.
@@ -28,7 +29,7 @@ import android.view.TextureView;
 public interface I_AspectRatio
 {
     void setAspectRatio(int width, int height);
-    void setSurfaceTextureListener(TextureView.SurfaceTextureListener listner);
+    void setSurfaceTextureListener(SurfaceTextureListener listner);
     void draw(Canvas canvas);
     void setAlpha(float alpha);
 }

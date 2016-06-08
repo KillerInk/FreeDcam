@@ -28,5 +28,5 @@ import java.io.File;
  */
 public interface I_WorkEvent
 {
-    String WorkHasFinished(File filePath);
+    void WorkHasFinished(File filePath);
 }

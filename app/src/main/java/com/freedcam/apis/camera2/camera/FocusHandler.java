@@ -25,6 +25,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.MeteringRectangle;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.view.MotionEvent;
 
 import com.freedcam.apis.KEYS;
@@ -33,12 +34,13 @@ import com.freedcam.apis.basecamera.camera.AbstractFocusHandler;
 import com.freedcam.apis.basecamera.camera.FocusRect;
 import com.freedcam.apis.basecamera.camera.parameters.I_ParametersLoaded;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.utils.Logger;
 
 /**
  * Created by troop on 12.12.2014.
  */
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@TargetApi(VERSION_CODES.LOLLIPOP)
 public class FocusHandler extends AbstractFocusHandler implements I_ParametersLoaded
 {
 
@@ -53,10 +55,10 @@ public class FocusHandler extends AbstractFocusHandler implements I_ParametersLo
 
     public FocusHandler(AbstractCameraUiWrapper cameraUiWrapper)
     {
-        this.cameraHolder = (CameraHolder) cameraUiWrapper.cameraHolder;
+        cameraHolder = (CameraHolder) cameraUiWrapper.cameraHolder;
     }
 
-    public AbstractModeParameter.I_ModeParameterEvent focusModeListner = new AbstractModeParameter.I_ModeParameterEvent() {
+    public I_ModeParameterEvent focusModeListner = new I_ModeParameterEvent() {
         @Override
         public void onValueChanged(String val)
         {
@@ -110,7 +112,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_ParametersLo
         focusRect = rect;
         Rect m = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         logRect(m);
-        final FocusRect targetFocusRect = new FocusRect(
+        FocusRect targetFocusRect = new FocusRect(
                 rect.left * m.right /width,
                 rect.right * m.right /width,
                 rect.top * m.bottom /height,
@@ -132,7 +134,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_ParametersLo
             focusEvent.FocusStarted(focusRect);
     }
 
-    public AbstractModeParameter.I_ModeParameterEvent aeModeListner = new AbstractModeParameter.I_ModeParameterEvent() {
+    public I_ModeParameterEvent aeModeListner = new I_ModeParameterEvent() {
         @Override
         public void onValueChanged(String val)
         {
@@ -187,7 +189,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_ParametersLo
         cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
     }
 
-    public AbstractModeParameter.I_ModeParameterEvent awbModeListner = new AbstractModeParameter.I_ModeParameterEvent() {
+    public I_ModeParameterEvent awbModeListner = new I_ModeParameterEvent() {
         @Override
         public void onValueChanged(String val) {
             if (val.equals("OFF"))

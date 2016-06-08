@@ -42,7 +42,7 @@ public class IntervalModule extends AbstractModule implements I_worker
         this.picModule = picModule;
 
         intervalHandler = new IntervalHandler(picModule,appSettingsManager);
-        this.name = KEYS.MODULE_INTERVAL;
+        name = KEYS.MODULE_INTERVAL;
     }
 
     @Override

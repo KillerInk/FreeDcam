@@ -55,7 +55,7 @@ public class WbCTManualSony extends BaseManualParameterSony
     @Override
     public int GetValue()
     {
-        if (this.currentInt == -200)
+        if (currentInt == -200)
             FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
@@ -85,13 +85,13 @@ public class WbCTManualSony extends BaseManualParameterSony
     }
 
     @Override
-    public void SetValue(final int valueToSet)
+    public void SetValue(int valueToSet)
     {
-        this.currentInt = valueToSet;
+        currentInt = valueToSet;
         if (valueToSet > values.length)
-            this.currentInt = values.length;
+            currentInt = values.length;
         if (valueToSet < 0)
-            this.currentInt = 0;
+            currentInt = 0;
         final int set= currentInt;
         final String[] t = values;
         FreeDPool.Execute(new Runnable() {
@@ -144,13 +144,13 @@ public class WbCTManualSony extends BaseManualParameterSony
         for (int i= 0; i< values.length; i++)
         {
             if (values[i].equals(val))
-                this.currentInt = i;
+                currentInt = i;
         }
-        if (this.currentInt == -200)
+        if (currentInt == -200)
             return;
         ThrowCurrentValueStringCHanged(val+"");
 
-        ThrowCurrentValueChanged(this.currentInt);
+        ThrowCurrentValueChanged(currentInt);
 
     }
 
@@ -200,6 +200,6 @@ public class WbCTManualSony extends BaseManualParameterSony
     {
         if (values == null)
             return "";
-        return values[this.currentInt];
+        return values[currentInt];
     }
 }

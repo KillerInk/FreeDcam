@@ -36,7 +36,7 @@ public class UiSettingsChildExit extends UiSettingsChild
     public UiSettingsChildExit(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        this.setOnClickListener(new OnClickListener() {
+        setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v)
             {
@@ -58,11 +58,6 @@ public class UiSettingsChildExit extends UiSettingsChild
 
     @Override
     public void onIsSetSupportedChanged(boolean isSupported) {
-
-    }
-
-    @Override
-    public void onValuesChanged(String[] values) {
 
     }
 

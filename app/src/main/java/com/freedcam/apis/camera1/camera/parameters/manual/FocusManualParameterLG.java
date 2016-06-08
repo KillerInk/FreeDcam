@@ -21,11 +21,13 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.DeviceUtils.Devices;
 
 /**
  * Created by troop on 17.08.2014.
@@ -35,16 +37,16 @@ public class FocusManualParameterLG extends  BaseManualParameter
     private I_CameraHolder baseCameraHolder;
     private static String TAG =FocusManualParameterLG.class.getSimpleName();
 
-    public FocusManualParameterLG(Camera.Parameters parameters, I_CameraHolder cameraHolder, ParametersHandler parametersHandler) {
+    public FocusManualParameterLG(Parameters parameters, I_CameraHolder cameraHolder, ParametersHandler parametersHandler) {
         super(parameters, "", "", "", parametersHandler,1);
-        this.baseCameraHolder = cameraHolder;
+        baseCameraHolder = cameraHolder;
         isSupported = true;
         isVisible = isSupported;
         if (isSupported)
         {
             int max = 0;
             step = 1;
-            if (parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.LG_G4)
+            if (parametersHandler.appSettingsManager.getDevice() == Devices.LG_G4)
                 max = 60;
             else
                 max = 79;

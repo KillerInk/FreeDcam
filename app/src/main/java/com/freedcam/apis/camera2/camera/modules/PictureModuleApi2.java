@@ -25,15 +25,19 @@ import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraCaptureSession.CaptureCallback;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.CaptureRequest.Builder;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.DngCreator;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.ColorSpaceTransform;
 import android.media.Image;
 import android.media.ImageReader;
+import android.media.ImageReader.OnImageAvailableListener;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.ParcelFileDescriptor;
@@ -50,10 +54,12 @@ import com.freedcam.apis.basecamera.camera.modules.ModuleEventHandler;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualShutter;
 import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera2.camera.CameraHolder;
+import com.freedcam.apis.camera2.camera.CameraHolder.CompareSizesByArea;
 import com.freedcam.jni.RawToDng;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
@@ -76,7 +82,7 @@ import java.util.List;
 /**
  * Created by troop on 12.12.2014.
  */
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@TargetApi(VERSION_CODES.LOLLIPOP)
 public class PictureModuleApi2 extends AbstractModuleApi2
 {
     private static String TAG = PictureModuleApi2.class.getSimpleName();
@@ -95,7 +101,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
     public PictureModuleApi2(CameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
         super(cameraHandler, eventHandler,context,appSettingsManager);
-        this.name = KEYS.MODULE_PICTURE;
+        name = KEYS.MODULE_PICTURE;
         handler = new Handler(Looper.getMainLooper());
 
     }
@@ -144,7 +150,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         try {
             Logger.d(TAG, "StartStillCapture");
             // This is the CaptureRequest.Builder that we use to take a picture.
-            final CaptureRequest.Builder captureBuilder = cameraHolder.createCaptureRequest();
+            Builder captureBuilder = cameraHolder.createCaptureRequest();
             captureBuilder.addTarget(mImageReader.getSurface());
             // Use the same AE and AF modes as the preview.
             try {
@@ -229,8 +235,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
 
 
-    private CameraCaptureSession.CaptureCallback CaptureCallback
-            = new CameraCaptureSession.CaptureCallback()
+    private CaptureCallback CaptureCallback
+            = new CaptureCallback()
     {
 
         @Override
@@ -278,7 +284,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             }
             catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                Logger.d(TAG, "Orientation" + mDngResult.get(CaptureResult.JPEG_ORIENTATION).toString());
+                Logger.d(TAG, "Orientation" + mDngResult.get(CaptureResult.JPEG_ORIENTATION));
             }
             catch (NullPointerException ex){Logger.exception(ex);}
 
@@ -298,7 +304,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         isWorking = false;
     }
 
-    private final ImageReader.OnImageAvailableListener mOnRawImageAvailableListener = new ImageReader.OnImageAvailableListener()
+    private final OnImageAvailableListener mOnRawImageAvailableListener = new OnImageAvailableListener()
     {
         @Override
         public void onImageAvailable(final ImageReader reader)
@@ -328,7 +334,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                             file = process_rawWithDngConverter(burstcount, reader,DngProfile.Mipi12);
                             break;
                         case ImageFormat.RAW_SENSOR:
-                            if(cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.Moto_MSM8974) || cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.OnePlusTwo))
+                            if(cameraHolder.appSettingsManager.getDevice() == Devices.Moto_MSM8974 || cameraHolder.appSettingsManager.getDevice() == Devices.OnePlusTwo)
                                 file = process_rawWithDngConverter(burstcount, reader,DngProfile.Mipi16);
                             else
                                 file = process_rawSensor(burstcount, reader);
@@ -416,7 +422,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         while (image == null) {
             image = reader.acquireNextImage();
         }
-        final RawToDng dngConverter = RawToDng.GetInstance();
+        RawToDng dngConverter = RawToDng.GetInstance();
         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
         byte[] bytes = new byte[buffer.remaining()];
         buffer.get(bytes);
@@ -615,13 +621,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void startPreview() {
 
-        if (this.cameraHolder == null)
+        if (cameraHolder == null)
             return;
         picSize = appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE);
         Logger.d(TAG, "Start Preview");
         largestImageSize = Collections.max(
-                Arrays.asList(this.cameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
-                new CameraHolder.CompareSizesByArea());
+                Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.JPEG)),
+                new CompareSizesByArea());
         picFormat = appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT);
         if (picFormat.equals("")) {
             picFormat = KEYS.JPEG;
@@ -650,14 +656,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         else if (picFormat.equals(CameraHolder.RAW_SENSOR))
         {
             Logger.d(TAG, "ImageReader RAW_SENOSR");
-            largestImageSize = Collections.max(Arrays.asList(this.cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CameraHolder.CompareSizesByArea());
+            largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
             mImageWidth = largestImageSize.getWidth();
             mImageHeight = largestImageSize.getHeight();
         }
         else if (picFormat.equals(CameraHolder.RAW10))
         {
             Logger.d(TAG, "ImageReader RAW_SENOSR");
-            largestImageSize = Collections.max(Arrays.asList(this.cameraHolder.map.getOutputSizes(ImageFormat.RAW10)), new CameraHolder.CompareSizesByArea());
+            largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW10)), new CompareSizesByArea());
             mImageWidth = largestImageSize.getWidth();
             mImageHeight = largestImageSize.getHeight();
         }
@@ -665,9 +671,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
         //OrientationHACK
         if(appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
-            this.cameraHolder.SetParameterRepeating(CaptureRequest.JPEG_ORIENTATION, 180);
+            cameraHolder.SetParameterRepeating(CaptureRequest.JPEG_ORIENTATION, 180);
         else
-            this.cameraHolder.SetParameterRepeating(CaptureRequest.JPEG_ORIENTATION, 0);
+            cameraHolder.SetParameterRepeating(CaptureRequest.JPEG_ORIENTATION, 0);
 
         // Here, we create a CameraCaptureSession for camera previewSize.
         if (ParameterHandler.Burst == null)
@@ -688,8 +694,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         try {
             Logger.d(TAG, "Set Burst to:" + burst);
-            previewSize = CameraHolder.getSizeForPreviewDependingOnImageSize(this.cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), cameraHolder.characteristics, mImageWidth, mImageHeight);
-            if (this.cameraHolder.mProcessor != null)
+            previewSize = CameraHolder.getSizeForPreviewDependingOnImageSize(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), cameraHolder.characteristics, mImageWidth, mImageHeight);
+            if (cameraHolder.mProcessor != null)
             {
                 cameraHolder.mProcessor.kill();
             }

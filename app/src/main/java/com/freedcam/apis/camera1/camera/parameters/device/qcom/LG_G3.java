@@ -20,9 +20,9 @@
 package com.freedcam.apis.camera1.camera.parameters.device.qcom;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
-import android.os.Handler;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
@@ -40,7 +40,7 @@ import com.troop.androiddng.Matrixes;
 public class LG_G3 extends LG_G2
 {
 
-    public LG_G3(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public LG_G3(Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
         parameters.set("lge-camera","1");
     }

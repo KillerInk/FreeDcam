@@ -37,7 +37,7 @@ class SimpleLiveviewSlicer {
             throw new IllegalStateException("Slicer is already open.");
         }
 
-        final URL urlObj = new URL(liveviewUrl);
+        URL urlObj = new URL(liveviewUrl);
         mHttpConn = (HttpURLConnection) urlObj.openConnection();
         mHttpConn.setRequestMethod("GET");
         mHttpConn.setConnectTimeout(CONNECTION_TIMEOUT);
@@ -92,7 +92,7 @@ class SimpleLiveviewSlicer {
     public static int bytesToInt(byte[] byteData, int startIndex, int count) {
         int ret = 0;
         for (int i = startIndex; i < startIndex + count; i++) {
-            ret = (ret << 8) | (byteData[i] & 0xff);
+            ret = ret << 8 | byteData[i] & 0xff;
         }
         return ret;
     }

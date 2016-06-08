@@ -23,12 +23,15 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Align;
+import android.graphics.Paint.Style;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.freedcam.utils.Logger;
 
@@ -48,7 +51,7 @@ public class RotatingSeekbar extends View
     private int realMin = 0;
     private int realMax = 0;
     private int currentPosToDraw = 0;
-    private SeekBar.OnSeekBarChangeListener mListener;
+    private OnSeekBarChangeListener mListener;
     private int textsize = 8;
     //holds the distance from the last swipe(how faster it was how bigger is the vale) and is used as base gravity for autoscroll how fast it moves
     private int distanceInPixelFromLastSwipe = 0;
@@ -84,8 +87,8 @@ public class RotatingSeekbar extends View
         paint = new Paint();
         paint.setAntiAlias(true);
         paint.setColor(textColor);
-        paint.setStyle(Paint.Style.FILL);
-        paint.setTextAlign(Paint.Align.RIGHT);
+        paint.setStyle(Style.FILL);
+        paint.setTextAlign(Align.RIGHT);
         textsize = (int)convertDpiToPixel(textsize);
         setProgress(currentValue, false);
     }
@@ -104,12 +107,12 @@ public class RotatingSeekbar extends View
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        this.viewWidth = w;
-        this.viewHeight = h;
+        viewWidth = w;
+        viewHeight = h;
         //calculates the item height depending on view height and itemscount that should be visible
-        this.itemHeight = viewHeight /VISIBLE_ITEMS_INVIEW;
+        itemHeight = viewHeight /VISIBLE_ITEMS_INVIEW;
         //calc how big the view is when all items would be drawn
-        this.allItemsHeight = itemHeight * Values.length + itemHeight;
+        allItemsHeight = itemHeight * Values.length + itemHeight;
         /*
          * calc the maximal minmal pos that could drawn,
          * we use as base the center of the view that why it can get < 0
@@ -130,7 +133,7 @@ public class RotatingSeekbar extends View
         paint.setTextSize(textsize);
         for(int i = 0; i< Values.length; i++)
         {
-            final String val = Values[i];
+            String val = Values[i];
 
             int dif = currentValue -i;
             if (dif < 0)
@@ -138,8 +141,8 @@ public class RotatingSeekbar extends View
             if (dif <= VISIBLE_ITEMS_INVIEW/2) {
                 paint.setAlpha(switchalpha(dif));
                 paint.setStrokeWidth(1);
-                int xpos = i * itemHeight + textsize + currentPosToDraw + (itemHeight / 2 - textsize / 2);
-                canvas.drawLine(this.viewWidth - convertDpiToPixel(30), xpos - textsize / 2, viewWidth - 20, xpos - textsize / 2, paint);
+                int xpos = i * itemHeight + textsize + currentPosToDraw + itemHeight / 2 - textsize / 2;
+                canvas.drawLine(viewWidth - convertDpiToPixel(30), xpos - textsize / 2, viewWidth - 20, xpos - textsize / 2, paint);
                 if (null != val)
                     canvas.drawText(val, viewWidth / 2, xpos, paint);
             }
@@ -219,7 +222,7 @@ public class RotatingSeekbar extends View
                     if (mListener != null)
                         mListener.onStopTrackingTouch(null);
                     throwevent = false;
-                    if ((distanceInPixelFromLastSwipe > 0 && distanceInPixelFromLastSwipe > 10) || (distanceInPixelFromLastSwipe < 0 && distanceInPixelFromLastSwipe <-10))
+                    if (distanceInPixelFromLastSwipe > 0 && distanceInPixelFromLastSwipe > 10 || distanceInPixelFromLastSwipe < 0 && distanceInPixelFromLastSwipe <-10)
                     {
                         autoscroll = true;
                         handleAutoScroll();
@@ -296,7 +299,7 @@ public class RotatingSeekbar extends View
     }
 
     private void checkifCurrentValueHasChanged() {
-        int item = ((currentPosToDraw + realMin) /itemHeight);
+        int item = (currentPosToDraw + realMin) /itemHeight;
         if (item < 0)
             item *= -1;
         if (item != currentValue)
@@ -329,7 +332,7 @@ public class RotatingSeekbar extends View
         //int item = ((currentPosToDraw + realMin) /itemHeight) *1;
         currentValue = progress;
         Logger.d("RotatingSeekbar", "setprogres" +progress);
-        currentPosToDraw = ((progress *itemHeight + itemHeight/2 ) + realMin) * -1;
+        currentPosToDraw = (progress *itemHeight + itemHeight/2 + realMin) * -1;
         redraw();
         if (mListener != null && throwevent)
             handler.post(new Runnable() {
@@ -347,14 +350,14 @@ public class RotatingSeekbar extends View
 
     public void SetStringValues(String[] ar)
     {
-        this.Values = ar;
-        this.itemHeight = viewHeight /16;
-        this.allItemsHeight = itemHeight * Values.length + itemHeight;
+        Values = ar;
+        itemHeight = viewHeight /16;
+        allItemsHeight = itemHeight * Values.length + itemHeight;
         realMin = -viewHeight/2 -itemHeight/2;
         realMax = allItemsHeight - viewHeight/2;
         redraw();
     }
-    public void setOnSeekBarChangeListener(SeekBar.OnSeekBarChangeListener mListener)
+    public void setOnSeekBarChangeListener(OnSeekBarChangeListener mListener)
     {
         this.mListener = mListener;
     }

@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
@@ -33,12 +34,12 @@ public class BaseISOManual extends BaseManualParameter {
 
     private String cur_iso_mode = KEYS.AUTO;
 
-    public BaseISOManual(Camera.Parameters parameters, String value, int min, int max
+    public BaseISOManual(Parameters parameters, String value, int min, int max
             , ParametersHandler parametersHandler, float step) {
         super(parameters, value, "", "", parametersHandler, step);
-        this.isSupported = true;
-        this.isVisible = true;
-        this.stringvalues = createStringArray(min,max,step);
+        isSupported = true;
+        isVisible = true;
+        stringvalues = createStringArray(min,max,step);
     }
 
     @Override

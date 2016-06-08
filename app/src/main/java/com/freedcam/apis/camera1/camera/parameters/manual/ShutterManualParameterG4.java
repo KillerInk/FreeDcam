@@ -21,9 +21,12 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_LGG4.AeManual;
+import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_LGG4.AeManualEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,12 +37,12 @@ import java.util.Arrays;
 public class ShutterManualParameterG4 extends BaseManualParameter
 {
     private static String TAG = "freedcam.ShutterManualParameterG4";
-    private AE_Handler_LGG4.AeManualEvent manualevent;
+    private AeManualEvent manualevent;
 
-    public ShutterManualParameterG4(Camera.Parameters parameters, ParametersHandler parametersHandler, AE_Handler_LGG4.AeManualEvent manualevent)
+    public ShutterManualParameterG4(Parameters parameters, ParametersHandler parametersHandler, AeManualEvent manualevent)
     {
         super(parameters, "", "", "", parametersHandler,1);
-        this.isSupported = true;
+        isSupported = true;
         stringvalues = parameters.get("shutter-speed-values").replace(",0","").split(",");
         stringvalues[0] = KEYS.AUTO;
         ArrayList<String> l = new ArrayList(Arrays.asList(stringvalues));
@@ -69,7 +72,7 @@ public class ShutterManualParameterG4 extends BaseManualParameter
     @Override
     public void SetValue(int valueToSet)
     {
-        manualevent.onManualChanged(AE_Handler_LGG4.AeManual.shutter, false, valueToSet);
+        manualevent.onManualChanged(AeManual.shutter, false, valueToSet);
     }
 
     public void setValue(int value)

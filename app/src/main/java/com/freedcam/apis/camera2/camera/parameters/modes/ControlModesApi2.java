@@ -23,6 +23,7 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 
 import com.freedcam.apis.camera2.camera.CameraHolder;
 import com.freedcam.utils.Logger;
@@ -30,7 +31,7 @@ import com.freedcam.utils.Logger;
 /**
  * Created by troop on 17.03.2015.
  */
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@TargetApi(VERSION_CODES.LOLLIPOP)
 public class ControlModesApi2 extends BaseModeApi2
 {
 

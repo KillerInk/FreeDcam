@@ -30,6 +30,8 @@ import android.widget.LinearLayout;
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.utils.AppSettingsManager;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
 
 /**
  * Created by Ar4eR on 05.02.16.
@@ -63,10 +65,10 @@ public class MenuItemAEB extends LinearLayout {
     {
         this.context = context;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.expandable_childs_number, this);
-        this.plus = (Button)findViewById(R.id.button_plus);
-        this.minus = (Button)findViewById(R.id.button_minus);
-        this.editText = (EditText)findViewById(R.id.editText_number);
+        inflater.inflate(layout.expandable_childs_number, this);
+        plus = (Button)findViewById(id.button_plus);
+        minus = (Button)findViewById(id.button_minus);
+        editText = (EditText)findViewById(id.editText_number);
         /*this.plus.setClickable(true);
         this.minus.setClickable(true);
         this.plus.setEnabled(true);
@@ -76,7 +78,7 @@ public class MenuItemAEB extends LinearLayout {
             @Override
             public void onClick(View v) {
 
-                if ((current - step) >= min)
+                if (current - step >= min)
                     current -= step;
                 setCurrent(current);
             }
@@ -115,7 +117,7 @@ public class MenuItemAEB extends LinearLayout {
         String tempcurrent = String.valueOf(current);
         appSettingsManager.setString(settingsname, tempcurrent);
         if (cameraUiWrapper != null && cameraUiWrapper.parametersHandler != null && cameraUiWrapper.parametersHandler.captureBurstExposures != null) {
-            if ((cameraUiWrapper.parametersHandler.captureBurstExposures.IsSupported())) {
+            if (cameraUiWrapper.parametersHandler.captureBurstExposures.IsSupported()) {
                 cameraUiWrapper.parametersHandler.captureBurstExposures.SetValue("on", true);
             }
             editText.setText(current +"");
@@ -124,7 +126,7 @@ public class MenuItemAEB extends LinearLayout {
 
     public void SetStuff(AppSettingsManager appSettingsManager, String settingvalue) {
 
-        this.settingsname = settingvalue;
+        settingsname = settingvalue;
         this.appSettingsManager = appSettingsManager;
         String exp="";
         if (appSettingsManager != null)

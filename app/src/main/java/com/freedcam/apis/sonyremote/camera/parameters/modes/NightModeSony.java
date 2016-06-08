@@ -20,6 +20,7 @@
 package com.freedcam.apis.sonyremote.camera.parameters.modes;
 
 import android.os.Build;
+import android.os.Build.VERSION;
 
 import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleStreamSurfaceView;
 import com.freedcam.utils.StringUtils;
@@ -85,7 +86,7 @@ public class NightModeSony extends BaseModeParameterSony
 
     @Override
     public boolean IsSupported() {
-        return Build.VERSION.SDK_INT >= 18;
+        return VERSION.SDK_INT >= 18;
     }
 
 

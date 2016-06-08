@@ -33,12 +33,12 @@ import java.util.HashMap;
  */
 public class MatrixChooserParameter extends AbstractModeParameter
 {
-    public final static String NEXUS6 = "Nexus6";
-    public final static String G4 = "G4";
-    public final static String IMX214 = "IMX214";
-    public final static String IMX230 = "IMX230";
-    public final static String OmniVision = "OmniVision";
-    public final static String Neutral = "Neutral";
+    public static final String NEXUS6 = "Nexus6";
+    public static final String G4 = "G4";
+    public static final String IMX214 = "IMX214";
+    public static final String IMX230 = "IMX230";
+    public static final String OmniVision = "OmniVision";
+    public static final String Neutral = "Neutral";
     private HashMap<String, CustomMatrix> custommatrixes;
     private String currentval = "off";
     private boolean isSupported =false;
@@ -46,7 +46,6 @@ public class MatrixChooserParameter extends AbstractModeParameter
     final String TAG = MatrixChooserParameter.class.getSimpleName();
     public MatrixChooserParameter()
     {
-        super();
 
         custommatrixes = new HashMap<>();
         custommatrixes.put("off",null);

@@ -38,8 +38,8 @@ public abstract class AbstractCameraFragment extends Fragment
     //the cameraWrapper to hold
     protected AbstractCameraUiWrapper cameraUiWrapper;
     protected View view;
-    //the even listner when the camerauiwrapper is rdy to get attached to ui
-    protected CamerUiWrapperRdy onrdy;
+    //the event listner when the camerauiwrapper is rdy to get attached to ui
+    protected AbstractCameraFragment.CamerUiWrapperRdy onrdy;
     //holds the appsettings
     protected AppSettingsManager appSettingsManager;
     protected RenderScriptHandler renderScriptHandler;
@@ -67,9 +67,9 @@ public abstract class AbstractCameraFragment extends Fragment
      * @param rdy the listner that gets thrown when the cameraUIwrapper
      *            has loaded all stuff and is rdy to get attached to ui.
      */
-    public void Init(CamerUiWrapperRdy rdy)
+    public void Init(AbstractCameraFragment.CamerUiWrapperRdy rdy)
     {
-        this.onrdy = rdy;
+        onrdy = rdy;
     }
 
 

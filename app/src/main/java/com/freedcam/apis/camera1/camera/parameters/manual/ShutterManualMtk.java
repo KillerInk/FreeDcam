@@ -21,8 +21,11 @@ package com.freedcam.apis.camera1.camera.parameters.manual;
 
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
+import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_MTK.AeManual;
+import com.freedcam.apis.camera1.camera.parameters.manual.AE_Handler_MTK.AeManualEvent;
 
 /**
  * Created by troop on 28.03.2016.
@@ -30,13 +33,13 @@ import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 public class ShutterManualMtk extends BaseManualParameter
 {
     private static String TAG = ShutterManualMtk.class.getSimpleName();
-    private AE_Handler_MTK.AeManualEvent manualevent;
+    private AeManualEvent manualevent;
 
     private String MTKShutter = "1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,1,2";
 
-    public ShutterManualMtk(Camera.Parameters parameters, ParametersHandler parametersHandler, AE_Handler_MTK.AeManualEvent manualevent) {
+    public ShutterManualMtk(Parameters parameters, ParametersHandler parametersHandler, AeManualEvent manualevent) {
         super(parameters, "", "", "", parametersHandler,1);
-        this.isSupported = true;
+        isSupported = true;
         stringvalues = MTKShutter.split(",");
         this.manualevent =manualevent;
     }
@@ -62,11 +65,11 @@ public class ShutterManualMtk extends BaseManualParameter
     {
         if (valueToSet == 0)
         {
-            manualevent.onManualChanged(AE_Handler_MTK.AeManual.shutter, true, valueToSet);
+            manualevent.onManualChanged(AeManual.shutter, true, valueToSet);
         }
         else
         {
-            manualevent.onManualChanged(AE_Handler_MTK.AeManual.shutter, false, valueToSet);
+            manualevent.onManualChanged(AeManual.shutter, false, valueToSet);
         }
 
     }
@@ -82,7 +85,7 @@ public class ShutterManualMtk extends BaseManualParameter
         {
             String shutterstring = stringvalues[value];
             if (shutterstring.contains("/")) {
-                String split[] = shutterstring.split("/");
+                String[] split = shutterstring.split("/");
                 Double a = Double.parseDouble(split[0]) / Double.parseDouble(split[1]);
                 shutterstring = "" + a;
             }

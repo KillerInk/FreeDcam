@@ -35,7 +35,6 @@ public class ModuleParameters extends AbstractModeParameter {
     private AbstractCameraUiWrapper cameraUiWrapper;
     private AppSettingsManager appSettingsManager;
     public ModuleParameters(AbstractCameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager) {
-        super();
         this.cameraUiWrapper = cameraUiWrapper;
         this.appSettingsManager = appSettingsManager;
     }

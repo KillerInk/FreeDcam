@@ -22,9 +22,12 @@ package com.freedcam.ui.views;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
 
 /**
  * Created by troop on 07.12.2015.
@@ -35,10 +38,10 @@ public class ViewTestActivity extends Activity
     private TextView textView;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.viewtest);
-        textView =(TextView)findViewById(R.id.textView);
-        seekbar = (RotatingSeekbar)findViewById(R.id.view);
-        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        setContentView(layout.viewtest);
+        textView =(TextView)findViewById(id.textView);
+        seekbar = (RotatingSeekbar)findViewById(id.view);
+        seekbar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 textView.setText(seekbar.GetCurrentString());

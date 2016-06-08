@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
  */
 public class BaseCCTManual extends BaseManualParameter
 {
-    final static String TAG = BaseCCTManual.class.getSimpleName();
+    static final String TAG = BaseCCTManual.class.getSimpleName();
 
     private String manual_WbMode;
     /**
@@ -43,20 +44,20 @@ public class BaseCCTManual extends BaseManualParameter
      * @param parametersHandler
      * @param step
      */
-    public BaseCCTManual(Camera.Parameters parameters, String value, String maxValue, String MinValue
+    public BaseCCTManual(Parameters parameters, String value, String maxValue, String MinValue
             , ParametersHandler parametersHandler, float step,
                          String wbmode) {
         super(parameters, value, maxValue, MinValue, parametersHandler, step);
-        this.manual_WbMode = wbmode;
+        manual_WbMode = wbmode;
     }
 
-    public BaseCCTManual(Camera.Parameters parameters, String value, int max, int min
+    public BaseCCTManual(Parameters parameters, String value, int max, int min
             , ParametersHandler parametersHandler, float step, String wbmode) {
         super(parameters, value, "", "", parametersHandler, step);
-        this.isSupported = true;
-        this.isVisible = true;
-        this.stringvalues = createStringArray(min,max,step);
-        this.manual_WbMode =wbmode;
+        isSupported = true;
+        isVisible = true;
+        stringvalues = createStringArray(min,max,step);
+        manual_WbMode =wbmode;
     }
 
     @Override

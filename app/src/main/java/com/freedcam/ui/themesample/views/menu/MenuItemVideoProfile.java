@@ -45,8 +45,4 @@ public class MenuItemVideoProfile extends MenuItem
     }
 
 
-    @Override
-    public String[] GetValues() {
-        return super.GetValues();
-    }
 }

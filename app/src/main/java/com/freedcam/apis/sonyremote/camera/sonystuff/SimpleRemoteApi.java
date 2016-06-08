@@ -4,6 +4,7 @@
 
 package com.freedcam.apis.sonyremote.camera.sonystuff;
 
+import com.freedcam.apis.sonyremote.camera.sonystuff.ServerDevice.ApiService;
 import com.freedcam.utils.Logger;
 
 import org.json.JSONArray;
@@ -54,8 +55,8 @@ public class SimpleRemoteApi {
      * @throws java.io.IOException
      */
     private String findActionListUrl(String service) throws IOException {
-        List<ServerDevice.ApiService> services = mTargetServer.getApiServices();
-        for (ServerDevice.ApiService apiService : services) {
+        List<ApiService> services = mTargetServer.getApiServices();
+        for (ApiService apiService : services) {
             if (apiService.getName().equals(service)) {
                 return apiService.getActionListUrl();
             }
@@ -88,7 +89,7 @@ public class SimpleRemoteApi {
                             .put("version", "1.0");
             String url = findActionListUrl(service) + "/" + service;
 
-            log("Request:  " + requestJson.toString());
+            log("Request:  " + requestJson);
             String responseJson = SimpleHttpClient.httpPost(url, requestJson.toString());
             log("Response: " + responseJson);
             return new JSONObject(responseJson);
@@ -112,7 +113,7 @@ public class SimpleRemoteApi {
                             .put("id", id()).put("version", "1.0");
             String url = findActionListUrl(service) + "/" + service;
 
-            log("Request:  " + requestJson.toString());
+            log("Request:  " + requestJson);
             String responseJson = SimpleHttpClient.httpPost(url, requestJson.toString());
             log("Response: " + responseJson);
             return new JSONObject(responseJson);
@@ -294,9 +295,9 @@ public class SimpleRemoteApi {
      * @throws java.io.IOException all errors and exception are wrapped by this
      *             Exception.
      */
-    public JSONObject stopLiveview() throws IOException {
+    public void stopLiveview() throws IOException {
         String service = CAMERA;
-        return executeGetMethod(service, "stopLiveview");
+        executeGetMethod(service, "stopLiveview");
     }
 
     /**
@@ -338,9 +339,9 @@ public class SimpleRemoteApi {
      * @throws java.io.IOException all errors and exception are wrapped by this
      *             Exception.
      */
-    public JSONObject stopRecMode() throws IOException {
+    public void stopRecMode() throws IOException {
         String service = CAMERA;
-        return executeGetMethod(service, "stopRecMode");
+        executeGetMethod(service, "stopRecMode");
     }
 
     /**
@@ -473,9 +474,9 @@ public class SimpleRemoteApi {
                             .put("params", new JSONArray().put(longPollingFlag)) //
                             .put("id", id()).put("version", eventVersion);
             String url = findActionListUrl(service) + "/" + service;
-            int longPollingTimeout = (longPollingFlag) ? 20000 : 8000; // msec
+            int longPollingTimeout = longPollingFlag ? 20000 : 8000; // msec
 
-            log("Request:  " + requestJson.toString());
+            log("Request:  " + requestJson);
             String responseJson = SimpleHttpClient.httpPost(url, requestJson.toString(),
                     longPollingTimeout);
             log("Response: " + responseJson);
@@ -648,7 +649,7 @@ public class SimpleRemoteApi {
 
             String url = findActionListUrl(service) + "/" + service;
 
-            log("Request:  " + requestJson.toString());
+            log("Request:  " + requestJson);
             String responseJson = SimpleHttpClient.httpPost(url, requestJson.toString());
             log("Response: " + responseJson);
             return new JSONObject(responseJson);
@@ -692,7 +693,7 @@ public class SimpleRemoteApi {
 
             String url = findActionListUrl(service) + "/" + service;
 
-            log("Request:  " + requestJson.toString());
+            log("Request:  " + requestJson);
             String responseJson = SimpleHttpClient.httpPost(url, requestJson.toString());
             log("Response: " + responseJson);
             return new JSONObject(responseJson);
@@ -727,7 +728,7 @@ public class SimpleRemoteApi {
                             .put("id", id()).put("version", "1.0").put("id", id());
             String url = findActionListUrl(service) + "/" + service;
 
-            log("Request:  " + requestJson.toString());
+            log("Request:  " + requestJson);
             String responseJson = SimpleHttpClient.httpPost(url, requestJson.toString());
             log("Response: " + responseJson);
             return new JSONObject(responseJson);
@@ -762,7 +763,7 @@ public class SimpleRemoteApi {
                             .put("id", id()).put("version", "1.0");
             String url = findActionListUrl(service) + "/" + service;
 
-            log("Request:  " + requestJson.toString());
+            log("Request:  " + requestJson);
             String responseJson = SimpleHttpClient.httpPost(url, requestJson.toString());
             log("Response: " + responseJson);
             return new JSONObject(responseJson);
@@ -780,7 +781,7 @@ public class SimpleRemoteApi {
      * @return return true if JSON has error. otherwise return false.
      */
     public static boolean isErrorReply(JSONObject replyJson) {
-        return (replyJson != null && replyJson.has("error"));
+        return replyJson != null && replyJson.has("error");
     }
 
 
@@ -793,7 +794,7 @@ public class SimpleRemoteApi {
                             .put("id", id()).put("version", "1.0");
             String url = findActionListUrl(service) + "/" + service;
 
-            log("Request:  " + requestJson.toString());
+            log("Request:  " + requestJson);
             String responseJson = SimpleHttpClient.httpPost(url, requestJson.toString());
             log("Response: " + responseJson);
             return new JSONObject(responseJson);
@@ -820,7 +821,7 @@ public class SimpleRemoteApi {
                             .put("version", "1.0");
             String url = findActionListUrl(service) + "/" + service;
 
-            log("Request:  " + requestJson.toString());
+            log("Request:  " + requestJson);
             String responseJson = SimpleHttpClient.httpPost(url, requestJson.toString());
             log("Response: " + responseJson);
             return new JSONObject(responseJson);
@@ -854,11 +855,11 @@ public class SimpleRemoteApi {
         }
     }
 
-    public JSONObject setLiveviewFrameInfo() throws IOException
+    public void setLiveviewFrameInfo() throws IOException
     {
         String service = "camera";
         try {
-            return executeSetMethod(service, "setLiveviewFrameInfo",  new JSONArray().put(new JSONObject().put("frameInfo", true)));
+            executeSetMethod(service, "setLiveviewFrameInfo",  new JSONArray().put(new JSONObject().put("frameInfo", true)));
         } catch (JSONException e) {
             throw new IOException(e);
         }

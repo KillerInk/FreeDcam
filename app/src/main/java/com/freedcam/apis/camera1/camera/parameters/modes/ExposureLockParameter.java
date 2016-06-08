@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.utils.Logger;
@@ -30,7 +31,7 @@ import com.freedcam.utils.Logger;
 public class ExposureLockParameter extends BaseModeParameter
 {
     final String TAG = ExposureLockParameter.class.getSimpleName();
-    public ExposureLockParameter(Camera.Parameters parameters, CameraHolder parameterChanged, String values) {
+    public ExposureLockParameter(Parameters parameters, CameraHolder parameterChanged, String values) {
         super(parameters, parameterChanged, "", "");
     }
 

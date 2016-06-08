@@ -39,7 +39,7 @@ public class MenuItem_VideoProfEditor extends MenuItem {
 
     @Override
     public void onClick(int x, int y) {
-        final Intent i = new Intent(context, VideoProfileEditorActivity.class);
+        Intent i = new Intent(context, VideoProfileEditorActivity.class);
         context.startActivity(i);
     }
 }

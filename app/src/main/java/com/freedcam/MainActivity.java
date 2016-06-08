@@ -20,9 +20,10 @@
 package com.freedcam;
 
 
-import android.Manifest;
+import android.Manifest.permission;
 import android.content.pm.PackageManager;
-import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -32,6 +33,7 @@ import android.view.ViewGroup;
 
 import com.AbstractFragmentActivity;
 import com.freedcam.apis.ApiHandler;
+import com.freedcam.apis.ApiHandler.ApiEvent;
 import com.freedcam.apis.basecamera.AbstractCameraFragment;
 import com.freedcam.apis.basecamera.AbstractCameraFragment.CamerUiWrapperRdy;
 import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
@@ -43,14 +45,17 @@ import com.freedcam.ui.themesample.SampleThemeFragment;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.RenderScriptHandler;
 import com.freedcam.utils.StringUtils;
-import com.troop.freedcam.R;
+import com.troop.freedcam.R.anim;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
 
 import java.io.File;
+import java.lang.Thread.UncaughtExceptionHandler;
 
 /**
  * Created by troop on 18.08.2014.
  */
-public class MainActivity extends AbstractFragmentActivity implements I_orientation, CamerUiWrapperRdy, ApiHandler.ApiEvent
+public class MainActivity extends AbstractFragmentActivity implements I_orientation, CamerUiWrapperRdy, ApiEvent
 {
     private final String TAG =MainActivity.class.getSimpleName();
     private final String TAGLIFE = "LifeCycle";
@@ -70,7 +75,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     private boolean savelogtofile = false;
     //holds the default UncaughtExecptionHandler from activity wich get replaced with own to have a change to save
     //fc to file and pass it back when done and let app crash as it should
-    private Thread.UncaughtExceptionHandler defaultEXhandler;
+    private UncaughtExceptionHandler defaultEXhandler;
     private SampleThemeFragment sampleThemeFragment;
     private RenderScriptHandler renderScriptHandler;
 
@@ -78,33 +83,33 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.freedcam_main_activity);
+        setContentView(layout.freedcam_main_activity);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        if (VERSION.SDK_INT >= VERSION_CODES.KITKAT)
             renderScriptHandler = new RenderScriptHandler(getApplicationContext());
 
         //load the cameraui
         sampleThemeFragment = new SampleThemeFragment();
         sampleThemeFragment.SetAppSettingsManagerAndBitmapHelper(appSettingsManager, bitmapHelper);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
-        transaction.add(R.id.themeFragmentholder, sampleThemeFragment, "CameraFragment");
+        transaction.setCustomAnimations(anim.left_to_right_enter, anim.left_to_right_exit);
+        transaction.add(id.themeFragmentholder, sampleThemeFragment, "CameraFragment");
         transaction.commitAllowingStateLoss();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        if (VERSION.SDK_INT >= VERSION_CODES.M)
         {
-            if (checkSelfPermission(Manifest.permission.CAMERA)
-                    != PackageManager.PERMISSION_GRANTED || checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+            if (checkSelfPermission(permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED || checkSelfPermission(permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
             {
                 requestPermissions(new String[]{
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.RECORD_AUDIO,
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_WIFI_STATE,
-                        Manifest.permission.CHANGE_WIFI_STATE,}, 1);
+                        permission.CAMERA,
+                        permission.READ_EXTERNAL_STORAGE,
+                        permission.WRITE_EXTERNAL_STORAGE,
+                        permission.RECORD_AUDIO,
+                        permission.ACCESS_COARSE_LOCATION,
+                        permission.ACCESS_FINE_LOCATION,
+                        permission.ACCESS_WIFI_STATE,
+                        permission.CHANGE_WIFI_STATE,}, 1);
             }
             else
                 createHandlers();
@@ -139,7 +144,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
             createHandlers();
         }
         else
-            this.finish();
+            finish();
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
@@ -163,7 +168,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         //Get default handler for uncaught exceptions. to let fc app as it should
         defaultEXhandler = Thread.getDefaultUncaughtExceptionHandler();
         //set up own ex handler to have a change to catch the fc bevor app dies
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread thread,final Throwable e)
             {
@@ -218,8 +223,8 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         cameraFragment = apiHandler.getCameraFragment();
         cameraFragment.Init(this);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
-        transaction.add(R.id.cameraFragmentHolder, cameraFragment, "CameraFragment");
+        transaction.setCustomAnimations(anim.left_to_right_enter, anim.left_to_right_exit);
+        transaction.add(id.cameraFragmentHolder, cameraFragment, "CameraFragment");
         transaction.commitAllowingStateLoss();
         Logger.d(TAG, "loaded cameraWrapper");
         orientationHandler.Start();
@@ -239,7 +244,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
             if (cameraFragment.GetCameraUiWrapper() != null)
                 cameraFragment.GetCameraUiWrapper().StopCamera();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
+            transaction.setCustomAnimations(anim.right_to_left_enter, anim.right_to_left_exit);
             transaction.remove(cameraFragment);
             transaction.commitAllowingStateLoss();
             cameraFragment = null;
@@ -291,7 +296,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     private int currentorientation = 0;
 
     @Override
-    public int OrientationChanged(int orientation)
+    public void OrientationChanged(int orientation)
     {
         if (orientation != currentorientation)
         {
@@ -299,7 +304,6 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
             if (cameraFragment.GetCameraUiWrapper() != null && cameraFragment.GetCameraUiWrapper().cameraHolder != null && cameraFragment.GetCameraUiWrapper().parametersHandler != null)
                 cameraFragment.GetCameraUiWrapper().parametersHandler.SetPictureOrientation(orientation);
         }
-        return orientation;
     }
 
     @Override

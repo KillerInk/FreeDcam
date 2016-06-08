@@ -20,9 +20,11 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.camera.parameters.modes.BaseModeParameter;
@@ -37,13 +39,13 @@ public class AE_Handler_QcomM
     private BaseISOManual isoManual;
     private BaseModeParameter AE_Mode;
 
-    public AE_Handler_QcomM(Camera.Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler)
+    public AE_Handler_QcomM(Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler)
     {
         AE_Mode = new BaseModeParameter(parameters, cameraHolder, KEYS.MANUAL_EXPOSURE, KEYS.MANUAL_EXPOSURE_MODES);
         AE_Mode.addEventListner(aemodeChangedListner);
         parametersHandler.AE_PriorityMode = AE_Mode;
-        this.exposureTime = new ShutterManual_ExposureTime_Micro(parameters, parametersHandler,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME,false);
-        this.isoManual = new BaseISOManual(parameters,"continuous-iso",parameters.getInt("min-iso"),parameters.getInt("max-iso"), parametersHandler,1);
+        exposureTime = new ShutterManual_ExposureTime_Micro(parameters, parametersHandler,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME,false);
+        isoManual = new BaseISOManual(parameters,"continuous-iso",parameters.getInt("min-iso"),parameters.getInt("max-iso"), parametersHandler,1);
     }
 
     public ShutterManual_ExposureTime_Micro getManualIso()
@@ -56,7 +58,7 @@ public class AE_Handler_QcomM
         return isoManual;
     }
 
-    AbstractModeParameter.I_ModeParameterEvent aemodeChangedListner = new AbstractModeParameter.I_ModeParameterEvent() {
+    I_ModeParameterEvent aemodeChangedListner = new I_ModeParameterEvent() {
         @Override
         public void onValueChanged(String val)
         {

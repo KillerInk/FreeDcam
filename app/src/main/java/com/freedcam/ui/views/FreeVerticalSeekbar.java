@@ -23,14 +23,17 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.drawable;
 
 /**
  * Created by troop on 06.09.2015.
@@ -57,7 +60,7 @@ public class FreeVerticalSeekbar extends View
     private Rect touchArea;
     private boolean sliderMoving = false;
 
-    private SeekBar.OnSeekBarChangeListener mListener;
+    private OnSeekBarChangeListener mListener;
 
     private int viewWidth =0;
     private int viewHeight = 0;
@@ -80,8 +83,8 @@ public class FreeVerticalSeekbar extends View
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        this.viewWidth = w;
-        this.viewHeight = h;
+        viewWidth = w;
+        viewHeight = h;
         pixelProValue = (viewHeight-viewWidth)  / max;
     }
 
@@ -92,7 +95,7 @@ public class FreeVerticalSeekbar extends View
         paint.setAntiAlias(true);
 
         paint.setColor(Color.WHITE);
-        paint.setStyle(Paint.Style.FILL);
+        paint.setStyle(Style.FILL);
     }
 
     @Override
@@ -102,15 +105,15 @@ public class FreeVerticalSeekbar extends View
 
         if (sliderImage == null)
         {
-            sliderImage = getResources().getDrawable(R.drawable.slider);// Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), picID), this.getHeight(), this.getHeight(), false);
+            sliderImage = getResources().getDrawable(drawable.slider);// Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), picID), this.getHeight(), this.getHeight(), false);
             getPosToDraw();
         }
         if (sliderImage != null && drawPosition != null)
         {
             paint.setColor(Color.WHITE);
-            canvas.drawLine((viewWidth / 2) - 1, 0, (viewWidth / 2) + 1, viewHeight, paint);
+            canvas.drawLine(viewWidth / 2 - 1, 0, viewWidth / 2 + 1, viewHeight, paint);
             paint.setColor(Color.BLACK);
-            canvas.drawLine((viewWidth/2), 0, (viewWidth/2)+2, viewHeight, paint);
+            canvas.drawLine(viewWidth/2, 0, viewWidth/2 +2, viewHeight, paint);
             sliderImage.setBounds(drawPosition.left, drawPosition.top, drawPosition.right, drawPosition.bottom);
             sliderImage.draw(canvas);
         }
@@ -121,17 +124,16 @@ public class FreeVerticalSeekbar extends View
         return getBottom() - getTop();
     }
 
-    private Rect getPosToDraw()
+    private void getPosToDraw()
     {
         if (max == 0)
-            return null;
+            return;
 
         currentValuePixelPos = currentValue * pixelProValue;
         int half = viewWidth / 2;
         Rect tmp = new Rect(half/2, (int)currentValuePixelPos, half/2+half, half + (int)currentValuePixelPos);
         drawPosition = tmp;
         touchArea = new Rect(0, (int)currentValuePixelPos - 10, viewWidth, viewWidth + (int)currentValuePixelPos +10);
-        return tmp;
     }
 
     private int getValueFromDrawingPos(int posi)
@@ -140,7 +142,7 @@ public class FreeVerticalSeekbar extends View
         int i = (viewHeight- viewWidth/2)/max;
         if (i == 0)
             i=1;
-        val = (posi)/i;
+        val = posi /i;
 
         return val;
     }
@@ -247,7 +249,7 @@ public class FreeVerticalSeekbar extends View
             currentValue = progress;
 
             getPosToDraw();
-            this.post(new Runnable() {
+            post(new Runnable() {
                 @Override
                 public void run() {
                     invalidate();
@@ -267,7 +269,7 @@ public class FreeVerticalSeekbar extends View
         invalidate();
     }
 
-    public void setOnSeekBarChangeListener(SeekBar.OnSeekBarChangeListener mListener)
+    public void setOnSeekBarChangeListener(OnSeekBarChangeListener mListener)
     {
         this.mListener = mListener;
     }

@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.Build;
+import android.os.Build.VERSION;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.StatFs;
@@ -73,7 +74,7 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
 
     public void setCameraUIWrapper(AbstractCameraUiWrapper cameraUIWrapper)
     {
-        this.cameraUiWrapper = cameraUIWrapper;
+        cameraUiWrapper = cameraUIWrapper;
         if (cameraUIWrapper != null && cameraUIWrapper.moduleHandler != null && cameraUIWrapper.moduleHandler.moduleEventHandler != null)
             cameraUIWrapper.moduleHandler.moduleEventHandler.addListner(this);
     }
@@ -181,7 +182,7 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
 
     private String readableFileSize(long size) {
         if(size <= 0) return "0";
-        final String[] units = new String[] { "B", "KB", "MB", "GB", "TB" };
+        String[] units = { "B", "KB", "MB", "GB", "TB" };
         int digitGroups = (int) (Math.log10(size)/Math.log10(1024));
         return new DecimalFormat("#,##0.#").format(size/Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
@@ -196,7 +197,7 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
     }
     private double Calc()
     {
-        String res [] = appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
+        String[] res = appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE).split("x");
 
         if(appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT).contains(KEYS.BAYER))
         {
@@ -218,7 +219,7 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
         else
         {
             StatFs stat = new StatFs(System.getenv("SECONDARY_STORAGE"));
-            if(Build.VERSION.SDK_INT > 17)
+            if(VERSION.SDK_INT > 17)
                 bytesAvailable = stat.getFreeBytes();
             else
             {

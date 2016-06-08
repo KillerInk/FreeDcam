@@ -41,8 +41,8 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     private BaseManualParameterSony fnumber;
     public ProgramShiftManualSony(com.freedcam.apis.sonyremote.camera.parameters.ParameterHandler parameterHandler) {
         super("", "getSupportedProgramShift", "setProgramShift", parameterHandler);
-        this.shutter = (BaseManualParameterSony) parameterHandler.ManualShutter;
-        this.fnumber = (BaseManualParameterSony) parameterHandler.ManualFNumber;
+        shutter = (BaseManualParameterSony) parameterHandler.ManualShutter;
+        fnumber = (BaseManualParameterSony) parameterHandler.ManualFNumber;
     }
 
     @Override
@@ -143,7 +143,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     @Override
     public void SetValue(final int valueToSet)
     {
-        this.currentInt = valueToSet;
+        currentInt = valueToSet;
        FreeDPool.Execute(new Runnable() {
             @Override
             public void run()
@@ -164,7 +164,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
 
     @Override
     public void onCurrentValueChanged(int current) {
-        this.currentInt = current;
+        currentInt = current;
     }
 
 }

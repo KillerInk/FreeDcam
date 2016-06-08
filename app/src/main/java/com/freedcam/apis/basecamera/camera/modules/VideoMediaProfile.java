@@ -73,20 +73,20 @@ public class VideoMediaProfile
 
     public VideoMediaProfile(CamcorderProfile ex,String ProfileName, VideoMode mode, boolean isAudioActive)
     {
-        this.audioBitRate = ex.audioBitRate;
-        this.audioChannels = ex.audioChannels;
-        this.audioCodec = ex.audioCodec;
-        this.audioSampleRate = ex.audioSampleRate;
-        this.duration = ex.duration;
-        this.fileFormat = ex.fileFormat;
-        this.quality = ex.quality;
-        this.videoBitRate = ex.videoBitRate;
-        this.videoCodec = ex.videoCodec;
-        this.videoFrameRate = ex.videoFrameRate;
-        this.videoFrameHeight = ex.videoFrameHeight;
-        this.videoFrameWidth = ex.videoFrameWidth;
+        audioBitRate = ex.audioBitRate;
+        audioChannels = ex.audioChannels;
+        audioCodec = ex.audioCodec;
+        audioSampleRate = ex.audioSampleRate;
+        duration = ex.duration;
+        fileFormat = ex.fileFormat;
+        quality = ex.quality;
+        videoBitRate = ex.videoBitRate;
+        videoCodec = ex.videoCodec;
+        videoFrameRate = ex.videoFrameRate;
+        videoFrameHeight = ex.videoFrameHeight;
+        videoFrameWidth = ex.videoFrameWidth;
         this.ProfileName = ProfileName;
-        this.Mode = mode;
+        Mode = mode;
         this.isAudioActive = isAudioActive;
         Logger.d(TAG, "ProfileName:"+ ProfileName+ "Duration:"+duration +"FileFormat:"+fileFormat+"Quality:"+quality);
         Logger.d(TAG, "ABR:"+audioBitRate +"AChannels:"+audioChannels+"Acodec:"+audioCodec +"AsampleRate"+audioSampleRate+"audio_active:" + isAudioActive);
@@ -95,20 +95,20 @@ public class VideoMediaProfile
 
     protected VideoMediaProfile(int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8, int v9, int v10, int v11, int v12, String ProfileName, VideoMode mode, boolean isAudioActive)
     {
-        this.audioBitRate = v1;
-        this.audioChannels = v2;
-        this.audioCodec = v3;
-        this.audioSampleRate = v4;
-        this.duration = v5;
-        this.fileFormat = v6;
-        this.quality = v7;
-        this.videoBitRate = v8;
-        this.videoCodec = v9;
-        this.videoFrameRate = v10;
-        this.videoFrameHeight = v11;
-        this.videoFrameWidth = v12;
+        audioBitRate = v1;
+        audioChannels = v2;
+        audioCodec = v3;
+        audioSampleRate = v4;
+        duration = v5;
+        fileFormat = v6;
+        quality = v7;
+        videoBitRate = v8;
+        videoCodec = v9;
+        videoFrameRate = v10;
+        videoFrameHeight = v11;
+        videoFrameWidth = v12;
         this.ProfileName = ProfileName;
-        this.Mode = mode;
+        Mode = mode;
         this.isAudioActive = isAudioActive;
         Logger.d(TAG, "ProfileName:"+ ProfileName+ "Duration:"+duration +"FileFormat:"+fileFormat+"Quality:"+quality);
         Logger.d(TAG, "ABR:"+audioBitRate +"AChannels:"+audioChannels+"Acodec:"+audioCodec +"AsampleRate"+audioSampleRate+"audio_active:" + isAudioActive);
@@ -117,21 +117,21 @@ public class VideoMediaProfile
 
     private VideoMediaProfile(String t) {
         String[] ar = t.split(" ");
-        this.audioBitRate = Integer.parseInt(ar[0]);
-        this.audioChannels = Integer.parseInt(ar[1]);
-        this.audioCodec = Integer.parseInt(ar[2]);
-        this.audioSampleRate = Integer.parseInt(ar[3]);
-        this.duration = Integer.parseInt(ar[4]);
-        this.fileFormat = Integer.parseInt(ar[5]);
-        this.quality = Integer.parseInt(ar[6]);
-        this.videoBitRate = Integer.parseInt(ar[7]);
-        this.videoCodec = Integer.parseInt(ar[8]);
-        this.videoFrameRate = Integer.parseInt(ar[9]);
-        this.videoFrameHeight = Integer.parseInt(ar[10]);
-        this.videoFrameWidth = Integer.parseInt(ar[11]);
-        this.ProfileName = ar[12];
-        this.Mode = VideoMode.valueOf(ar[13]);
-        this.isAudioActive = ar.length == 14 || Boolean.parseBoolean(ar[14]);
+        audioBitRate = Integer.parseInt(ar[0]);
+        audioChannels = Integer.parseInt(ar[1]);
+        audioCodec = Integer.parseInt(ar[2]);
+        audioSampleRate = Integer.parseInt(ar[3]);
+        duration = Integer.parseInt(ar[4]);
+        fileFormat = Integer.parseInt(ar[5]);
+        quality = Integer.parseInt(ar[6]);
+        videoBitRate = Integer.parseInt(ar[7]);
+        videoCodec = Integer.parseInt(ar[8]);
+        videoFrameRate = Integer.parseInt(ar[9]);
+        videoFrameHeight = Integer.parseInt(ar[10]);
+        videoFrameWidth = Integer.parseInt(ar[11]);
+        ProfileName = ar[12];
+        Mode = VideoMode.valueOf(ar[13]);
+        isAudioActive = ar.length == 14 || Boolean.parseBoolean(ar[14]);
 
         Logger.d(TAG, "ProfileName:" + ProfileName + "Duration:" + duration + "FileFormat:" + fileFormat + "Quality:" + quality);
         Logger.d(TAG, "ABR:" + audioBitRate + "AChannels:" + audioChannels + "Acodec:" + audioCodec + "AsampleRate" + audioSampleRate + "audio_active:" + isAudioActive);
@@ -140,7 +140,7 @@ public class VideoMediaProfile
 
     private String GetString()
     {
-        String b = (audioBitRate + " ") +
+        String b = audioBitRate + " " +
                 audioChannels + " " +
                 audioCodec + " " +
                 audioSampleRate + " " +
@@ -153,7 +153,7 @@ public class VideoMediaProfile
                 videoFrameHeight + " " +
                 videoFrameWidth + " " +
                 ProfileName + " " +
-                Mode.toString() + " " +
+                Mode + " " +
                 isAudioActive + " ";
         return b;
     }
@@ -164,7 +164,7 @@ public class VideoMediaProfile
     }
 
 
-    final public static String MEDIAPROFILESPATH = StringUtils.GetFreeDcamConfigFolder+"CustomMediaProfiles.txt";
+    public static final String MEDIAPROFILESPATH = StringUtils.GetFreeDcamConfigFolder+"CustomMediaProfiles.txt";
 
     public static void loadCustomProfiles(HashMap<String, VideoMediaProfile> list) throws IOException
     {

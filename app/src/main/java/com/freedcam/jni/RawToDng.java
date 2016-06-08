@@ -4,7 +4,6 @@ import android.location.Location;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
 
-import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 import com.troop.androiddng.DngProfile;
@@ -161,7 +160,7 @@ public class RawToDng
     {
         double t = color;
         t = t * 3 *2;
-        t = t / (255);
+        t = t / 255;
         t = t / 3;
         t += 1;
 
@@ -208,11 +207,11 @@ public class RawToDng
     private float[] parseGpsvalue(double val)
     {
 
-        final String[] sec = Location.convert(val, Location.FORMAT_SECONDS).split(":");
+        String[] sec = Location.convert(val, Location.FORMAT_SECONDS).split(":");
 
-        final double dd = Double.parseDouble(sec[0]);
-        final double dm = Double.parseDouble(sec[1]);
-        final double ds = Double.parseDouble(sec[2].replace(",","."));
+        double dd = Double.parseDouble(sec[0]);
+        double dm = Double.parseDouble(sec[1]);
+        double ds = Double.parseDouble(sec[2].replace(",","."));
 
         return new float[]{ (float)dd ,(float)dm,(float)ds};
     }
@@ -231,7 +230,7 @@ public class RawToDng
             SetModelAndMake(nativeHandler, Build.MODEL, Build.MANUFACTURER);
     }
 
-    public void SetBayerData(final byte[] fileBytes, String fileout) throws NullPointerException
+    public void SetBayerData(byte[] fileBytes, String fileout) throws NullPointerException
     {
         if (fileBytes == null) {
             throw new NullPointerException();
@@ -245,7 +244,7 @@ public class RawToDng
         }
     }
 
-    public void SetBayerDataFD(final byte[] fileBytes, ParcelFileDescriptor fileout, String filename) throws NullPointerException
+    public void SetBayerDataFD(byte[] fileBytes, ParcelFileDescriptor fileout, String filename) throws NullPointerException
     {
         if (fileBytes == null) {
             throw new NullPointerException();
@@ -259,7 +258,7 @@ public class RawToDng
         }
     }
 
-    public void SetLensData(final byte[] fileBytes, String hasLensData) throws NullPointerException
+    public void SetLensData(byte[] fileBytes, String hasLensData) throws NullPointerException
     {
         if (fileBytes == null) {
             throw new NullPointerException();

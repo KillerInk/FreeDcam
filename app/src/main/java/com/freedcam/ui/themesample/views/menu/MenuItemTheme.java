@@ -52,11 +52,11 @@ public class MenuItemTheme extends MenuItem {
     {
         if (parameter == null)
         {
-            this.setVisibility(GONE);
+            setVisibility(GONE);
             return;
         }
         else
-            this.setVisibility(VISIBLE);
+            setVisibility(VISIBLE);
         this.parameter = parameter;
         String s = appSettingsManager.GetTheme();
         if (s == null || s.equals("")) {

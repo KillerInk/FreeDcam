@@ -21,14 +21,19 @@ package com.freedviewer.screenslide;
 
 
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.provider.DocumentFile;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +48,7 @@ import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.freedcam.ui.I_Activity;
+import com.freedcam.ui.I_Activity.I_OnActivityResultCallback;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.ui.views.MyHistogram;
 import com.freedcam.utils.AppSettingsManager;
@@ -50,10 +56,16 @@ import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
+import com.freedcam.utils.StringUtils.FileEnding;
 import com.freedviewer.gridview.GridViewFragment;
+import com.freedviewer.gridview.GridViewFragment.FormatTypes;
 import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.holder.FileHolder;
+import com.freedviewer.screenslide.ImageFragment.I_WaitForWorkFinish;
 import com.troop.freedcam.R;
+import com.troop.freedcam.R.dimen;
+import com.troop.freedcam.R.id;
+import com.troop.freedcam.R.layout;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,10 +75,10 @@ import java.io.IOException;
 /**
  * Created by troop on 18.09.2015.
  */
-public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageChangeListener, I_Activity.I_OnActivityResultCallback, ImageFragment.I_WaitForWorkFinish
+public class ScreenSlideFragment extends Fragment implements OnPageChangeListener, I_OnActivityResultCallback, I_WaitForWorkFinish
 {
 
-    final public static String TAG = ScreenSlideFragment.class.getSimpleName();
+    public static final String TAG = ScreenSlideFragment.class.getSimpleName();
     public interface I_ThumbClick
     {
         void onThumbClick();
@@ -108,7 +120,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
 
     public int defitem = -1;
     public String FilePathToLoad = "";
-    public GridViewFragment.FormatTypes filestoshow = GridViewFragment.FormatTypes.all;
+    public FormatTypes filestoshow = FormatTypes.all;
     private I_ThumbClick thumbclick;
     private RelativeLayout topbar;
     //hold the showed file
@@ -120,7 +132,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     public void SetAppSettingsManagerAndBitmapHelper(AppSettingsManager appSettingsManager, BitmapHelper helper)
     {
         this.appSettingsManager = appSettingsManager;
-        this.bitmapHelper = helper;
+        bitmapHelper = helper;
     }
 
 
@@ -128,15 +140,15 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,savedInstanceState);
-        View view = inflater.inflate(R.layout.screenslide_fragment, container, false);
-        mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
+        View view = inflater.inflate(layout.screenslide_fragment, container, false);
+        mImageThumbSize = getResources().getDimensionPixelSize(dimen.image_thumbnail_size);
 
         // Instantiate a ViewPager and a PagerAdapter.
-        mPager = (ViewPager) view.findViewById(R.id.pager);
-        topbar =(RelativeLayout)view.findViewById(R.id.top_bar);
-        histogram = (MyHistogram)view.findViewById(R.id.screenslide_histogram);
+        mPager = (ViewPager) view.findViewById(id.pager);
+        topbar =(RelativeLayout)view.findViewById(id.top_bar);
+        histogram = (MyHistogram)view.findViewById(id.screenslide_histogram);
 
-        this.closeButton = (Button)view.findViewById(R.id.button_closeView);
+        closeButton = (Button)view.findViewById(id.button_closeView);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,32 +161,32 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         });
 
 
-        bottombar =(LinearLayout)view.findViewById(R.id.bottom_bar);
+        bottombar =(LinearLayout)view.findViewById(id.bottom_bar);
 
-        exifinfo = (LinearLayout)view.findViewById(R.id.exif_info);
+        exifinfo = (LinearLayout)view.findViewById(id.exif_info);
         exifinfo.setVisibility(View.GONE);
-        iso = (TextView)view.findViewById(R.id.textView_iso);
+        iso = (TextView)view.findViewById(id.textView_iso);
         iso.setText("");
-        shutter = (TextView)view.findViewById(R.id.textView_shutter);
+        shutter = (TextView)view.findViewById(id.textView_shutter);
         shutter.setText("");
-        focal = (TextView)view.findViewById(R.id.textView_focal);
+        focal = (TextView)view.findViewById(id.textView_focal);
         focal.setText("");
-        fnumber = (TextView)view.findViewById(R.id.textView_fnumber);
+        fnumber = (TextView)view.findViewById(id.textView_fnumber);
         fnumber.setText("");
-        filename = (TextView)view.findViewById(R.id.textView_filename);
+        filename = (TextView)view.findViewById(id.textView_filename);
 
-        this.play = (Button)view.findViewById(R.id.button_play);
+        play = (Button)view.findViewById(id.button_play);
         play.setVisibility(View.GONE);
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (file == null)
                     return;
-                if (!file.getFile().getName().endsWith(StringUtils.FileEnding.RAW) || !file.getFile().getName().endsWith(StringUtils.FileEnding.BAYER)) {
+                if (!file.getFile().getName().endsWith(FileEnding.RAW) || !file.getFile().getName().endsWith(FileEnding.BAYER)) {
                     Uri uri = Uri.fromFile(file.getFile());
 
                     Intent i = new Intent(Intent.ACTION_EDIT);
-                    if (file.getFile().getName().endsWith(StringUtils.FileEnding.MP4))
+                    if (file.getFile().getName().endsWith(FileEnding.MP4))
                         i.setDataAndType(uri, "video/*");
                     else
                         i.setDataAndType(uri, "image/*");
@@ -187,13 +199,13 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
                 }
             }
         });
-        this.deleteButton = (Button)view.findViewById(R.id.button_delete);
+        deleteButton = (Button)view.findViewById(id.button_delete);
         deleteButton.setVisibility(View.GONE);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !appSettingsManager.GetWriteExternal())) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP && !appSettingsManager.GetWriteExternal()) {
+                    Builder builder = new Builder(getContext());
                     builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
                             .setNegativeButton("No", dialogClickListener).show();
                 } else {
@@ -202,7 +214,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
                         I_Activity i_activity = (I_Activity) getActivity();
                         i_activity.ChooseSDCard(ScreenSlideFragment.this);
                     } else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        Builder builder = new Builder(getContext());
                         builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
                                 .setNegativeButton("No", dialogClickListener).show();
                     }
@@ -252,7 +264,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
 
     public void SetOnThumbClick(I_ThumbClick thumbClick)
     {
-        this.thumbclick = thumbClick;
+        thumbclick = thumbClick;
     }
 
     @Override
@@ -316,17 +328,15 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
     private FragmentClickClistner fragmentclickListner = new FragmentClickClistner() {
         @Override
         public void onClick(Fragment v) {
-            {
-                if (topbar.getVisibility() == View.GONE) {
-                    topbar.setVisibility(View.VISIBLE);
-                    bottombar.setVisibility(View.VISIBLE);
-                    histogram.setVisibility(View.VISIBLE);
-                }
-                else {
-                    topbar.setVisibility(View.GONE);
-                    bottombar.setVisibility(View.GONE);
-                    histogram.setVisibility(View.GONE);
-                }
+            if (topbar.getVisibility() == View.GONE) {
+                topbar.setVisibility(View.VISIBLE);
+                bottombar.setVisibility(View.VISIBLE);
+                histogram.setVisibility(View.VISIBLE);
+            }
+            else {
+                topbar.setVisibility(View.GONE);
+                bottombar.setVisibility(View.GONE);
+                histogram.setVisibility(View.GONE);
             }
         }
     };
@@ -352,7 +362,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         }
     }
 
-    private DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+    private OnClickListener dialogClickListener = new OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
@@ -376,20 +386,20 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
         {
             filename.setText(file.getFile().getName());
             deleteButton.setVisibility(View.VISIBLE);
-            if (file.getFile().getName().endsWith(StringUtils.FileEnding.JPG) || file.getFile().getName().endsWith(StringUtils.FileEnding.JPS)) {
+            if (file.getFile().getName().endsWith(FileEnding.JPG) || file.getFile().getName().endsWith(FileEnding.JPS)) {
                 processJpeg(file.getFile());
                 exifinfo.setVisibility(View.VISIBLE);
                 play.setVisibility(View.VISIBLE);
             }
-            if (file.getFile().getName().endsWith(StringUtils.FileEnding.MP4)) {
+            if (file.getFile().getName().endsWith(FileEnding.MP4)) {
                 exifinfo.setVisibility(View.GONE);
                 play.setVisibility(View.VISIBLE);
             }
-            if (file.getFile().getName().endsWith(StringUtils.FileEnding.DNG)) {
+            if (file.getFile().getName().endsWith(FileEnding.DNG)) {
                 exifinfo.setVisibility(View.GONE);
                 play.setVisibility(View.VISIBLE);
             }
-            if (file.getFile().getName().endsWith(StringUtils.FileEnding.RAW) || file.getFile().getName().endsWith(StringUtils.FileEnding.BAYER)) {
+            if (file.getFile().getName().endsWith(FileEnding.RAW) || file.getFile().getName().endsWith(FileEnding.BAYER)) {
                 exifinfo.setVisibility(View.GONE);
                 play.setVisibility(View.GONE);
             }
@@ -410,7 +420,7 @@ public class ScreenSlideFragment extends Fragment implements ViewPager.OnPageCha
             @Override
             public void run() {
                 try {
-                    final Metadata metadata = JpegMetadataReader.readMetadata(file);
+                    Metadata metadata = JpegMetadataReader.readMetadata(file);
                     final Directory exifsub = metadata.getDirectory(ExifSubIFDDirectory.class);
                     iso.post(new Runnable() {
                         @Override

@@ -24,13 +24,17 @@ import android.content.Context;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.hardware.Camera.PreviewCallback;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RSRuntimeException;
 import android.renderscript.Type;
+import android.renderscript.Type.Builder;
 import android.view.Surface;
 import android.view.TextureView;
+import android.view.TextureView.SurfaceTextureListener;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.Size;
@@ -50,8 +54,8 @@ import java.util.concurrent.BlockingQueue;
 /**
  * Created by troop on 24.08.2015.
  */
-@TargetApi(Build.VERSION_CODES.KITKAT)
-public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraChangedListner,I_ModuleEvent
+@TargetApi(VERSION_CODES.KITKAT)
+public class FocusPeakProcessorAp1 implements PreviewCallback, I_CameraChangedListner,I_ModuleEvent
 {
     private final String TAG = FocusPeakProcessorAp1.class.getSimpleName();
     private I_AspectRatio output;
@@ -95,7 +99,7 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
         Logger.d(TAG, "setEnable" + enabled);
         if (enabled)
         {
-            final Size size = new Size(cameraUiWrapper.parametersHandler.PreviewSize.GetValue());
+            Size size = new Size(cameraUiWrapper.parametersHandler.PreviewSize.GetValue());
             reset(size.width, size.height);
             startPeak();
             Logger.d(TAG, "Set PreviewCallback");
@@ -184,7 +188,7 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
                 Logger.exception(ex);
             }
 
-            Type.Builder tbIn = new Type.Builder(renderScriptHandler.GetRS(), Element.U8(renderScriptHandler.GetRS()));
+            Builder tbIn = new Builder(renderScriptHandler.GetRS(), Element.U8(renderScriptHandler.GetRS()));
             tbIn.setX(mWidth);
             tbIn.setY(mHeight);
             tbIn.setYuvFormat(ImageFormat.NV21);
@@ -192,7 +196,7 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
                 renderScriptHandler.GetOut().setSurface(null);
 
 
-            Type.Builder tbOut = new Type.Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
+            Builder tbOut = new Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
             tbOut.setX(mWidth);
             tbOut.setY(mHeight);
             renderScriptHandler.SetAllocsTypeBuilder(tbIn,tbOut,Allocation.USAGE_SCRIPT, Allocation.USAGE_SCRIPT | Allocation.USAGE_IO_OUTPUT);
@@ -222,7 +226,7 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
 
 
     @Override
-    public void onPreviewFrame(final byte[] data, Camera camera)
+    public void onPreviewFrame(byte[] data, Camera camera)
     {
         if (data == null)
             return;
@@ -316,9 +320,10 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
         }
     }
 
-    private void setDoWork(boolean work) {this.doWork = work;}
+    private void setDoWork(boolean work) {
+        doWork = work;}
 
-    private TextureView.SurfaceTextureListener previewSurfaceListner = new TextureView.SurfaceTextureListener() {
+    private SurfaceTextureListener previewSurfaceListner = new SurfaceTextureListener() {
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
         {

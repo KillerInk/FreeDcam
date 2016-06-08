@@ -48,7 +48,7 @@ final class SimpleHttpClient {
 
         // Open connection and input stream
         try {
-            final URL urlObj = new URL(url);
+            URL urlObj = new URL(url);
             httpConn = (HttpURLConnection) urlObj.openConnection();
             httpConn.setRequestMethod("GET");
             httpConn.setConnectTimeout(DEFAULT_CONNECTION_TIMEOUT);
@@ -63,13 +63,13 @@ final class SimpleHttpClient {
                 Logger.w(TAG, "httpGet: Response Code Error: " + responseCode + ": " + url);
                 throw new IOException("Response Error:" + responseCode);
             }
-        } catch (final SocketTimeoutException e) {
+        } catch (SocketTimeoutException e) {
             Logger.w(TAG, "httpGet: Timeout: " + url);
             throw new IOException();
-        } catch (final MalformedURLException e) {
+        } catch (MalformedURLException e) {
             Logger.w(TAG, "httpGet: MalformedUrlException: " + url);
             throw new IOException();
-        } catch (final IOException e) {
+        } catch (IOException e) {
             Logger.w(TAG, "httpGet: " + e.getMessage());
             if (httpConn != null) {
                 httpConn.disconnect();
@@ -141,7 +141,7 @@ final class SimpleHttpClient {
 
         // Open connection and input stream
         try {
-            final URL urlObj = new URL(url);
+            URL urlObj = new URL(url);
             httpConn = (HttpURLConnection) urlObj.openConnection();
             httpConn.setRequestMethod("POST");
             httpConn.setConnectTimeout(DEFAULT_CONNECTION_TIMEOUT);
@@ -167,13 +167,13 @@ final class SimpleHttpClient {
                 Logger.w(TAG, "httpPost: Response Code Error: " + responseCode + ": " + url);
                 throw new IOException("Response Error:" + responseCode);
             }
-        } catch (final SocketTimeoutException e) {
+        } catch (SocketTimeoutException e) {
             Logger.w(TAG, "httpPost: Timeout: " + url);
             throw new IOException();
-        } catch (final MalformedURLException e) {
+        } catch (MalformedURLException e) {
             Logger.w(TAG, "httpPost: MalformedUrlException: " + url);
             throw new IOException();
-        } catch (final IOException e) {
+        } catch (IOException e) {
             Logger.w(TAG, "httpPost: IOException: " + e.getMessage());
             if (httpConn != null) {
                 httpConn.disconnect();

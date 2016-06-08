@@ -33,7 +33,7 @@ public class ExposureRect {
     public ExposureRect(int left, int rigt, int top, int bottom)
     {
         this.left =left;
-        this.right = rigt;
+        right = rigt;
         this.top  = top;
         this.bottom = bottom;
     }

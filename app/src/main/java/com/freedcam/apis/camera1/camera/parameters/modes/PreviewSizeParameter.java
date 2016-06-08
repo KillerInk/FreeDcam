@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.camera.parameters.modes;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.utils.Logger;
@@ -32,10 +33,10 @@ public class PreviewSizeParameter extends BaseModeParameter
     private CameraHolder baseCameraHolder;
     final String TAG = PreviewSizeParameter.class.getSimpleName();
 
-    public PreviewSizeParameter(Camera.Parameters parameters, CameraHolder parameterChanged)
+    public PreviewSizeParameter(Parameters parameters, CameraHolder parameterChanged)
     {
         super(parameters, parameterChanged, "preview-size", "preview-size-values");
-        this.baseCameraHolder = parameterChanged;
+        baseCameraHolder = parameterChanged;
     }
 
     @Override

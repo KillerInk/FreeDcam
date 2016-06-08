@@ -28,14 +28,14 @@ public class Size
     public int height;
     public Size(int w, int h)
     {
-        this.height = h;
-        this.width = w;
+        height = h;
+        width = w;
     }
     public Size(String s)
     {
         String[] split = s.split("x");
-        this.height = Integer.parseInt(split[1]);
-        this.width = Integer.parseInt(split[0]);
+        height = Integer.parseInt(split[1]);
+        width = Integer.parseInt(split[0]);
     }
 
 }

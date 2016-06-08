@@ -20,27 +20,29 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
 
 public class FXManualParameter extends BaseManualParameter {
 
-    public FXManualParameter(Camera.Parameters parameters,ParametersHandler parametersHandler) {
+    public FXManualParameter(Parameters parameters,ParametersHandler parametersHandler) {
         super(parameters, "", "", "", parametersHandler,1);
     }
 
     @Override
     public boolean IsSupported()
     {
-        if(parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214
-                || parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV
-                || parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214)
+        if(parametersHandler.appSettingsManager.getDevice() == Devices.ZTEADVIMX214
+                || parametersHandler.appSettingsManager.getDevice() == Devices.ZTE_ADV
+                || parametersHandler.appSettingsManager.getDevice() == Devices.ZTEADVIMX214)
         {
-            this.isSupported = true;
-            this.isVisible = true;
+            isSupported = true;
+            isVisible = true;
             stringvalues = createStringArray(0,38,1);
             return true;
         }
@@ -59,9 +61,9 @@ public class FXManualParameter extends BaseManualParameter {
     {
         int i = 0;
         try {
-            if (parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214
-                    || parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV
-                    || parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTEADVIMX214);
+            if (parametersHandler.appSettingsManager.getDevice() == Devices.ZTEADVIMX214
+                    || parametersHandler.appSettingsManager.getDevice() == Devices.ZTE_ADV
+                    || parametersHandler.appSettingsManager.getDevice() == Devices.ZTEADVIMX214);
                 i = 0;
         }
         catch (Exception ex)

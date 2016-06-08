@@ -20,12 +20,14 @@
 package com.freedcam.apis.camera1.camera.parameters.manual;
 
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 import android.os.Handler;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraHolder;
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils;
+import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
 
 /**
@@ -57,15 +59,15 @@ public class ShutterManualZTE extends BaseManualParameter
      * @param parameters
      * @param parametersHandler
      */
-    public ShutterManualZTE(Camera.Parameters parameters, I_CameraHolder baseCameraHolder, ParametersHandler parametersHandler) {
+    public ShutterManualZTE(Parameters parameters, I_CameraHolder baseCameraHolder, ParametersHandler parametersHandler) {
         super(parameters, "", "", "", parametersHandler,1);
         this.baseCameraHolder = baseCameraHolder;
-        if(parametersHandler.appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV)
+        if(parametersHandler.appSettingsManager.getDevice() == Devices.ZTE_ADV)
             stringvalues = Z5SShutterValues.split(",");
         else
             stringvalues = Z7ShutterValues.split(",");
 
-        this.isSupported = true;
+        isSupported = true;
     }
 
     @Override
@@ -84,7 +86,7 @@ public class ShutterManualZTE extends BaseManualParameter
         currentInt = valueToSet;
         String shutterstring = stringvalues[currentInt];
         if (shutterstring.contains("/")) {
-            String split[] = shutterstring.split("/");
+            String[] split = shutterstring.split("/");
             Double a = Double.parseDouble(split[0]) / Double.parseDouble(split[1]);
             shutterstring = "" + a;
         }

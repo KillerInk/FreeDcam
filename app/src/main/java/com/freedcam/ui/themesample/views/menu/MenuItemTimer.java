@@ -47,9 +47,9 @@ public class MenuItemTimer extends MenuItem
     {
         this.cameraUiWrapper = cameraUiWrapper;
         if (cameraUiWrapper instanceof CameraUiWrapper)
-            this.setVisibility(View.VISIBLE);
+            setVisibility(View.VISIBLE);
         else
-            this.setVisibility(View.GONE);
+            setVisibility(View.GONE);
 
 
     }
