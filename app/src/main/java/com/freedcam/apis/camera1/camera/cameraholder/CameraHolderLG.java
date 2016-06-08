@@ -17,11 +17,12 @@
  * /
  */
 
-package com.freedcam.apis.camera1.camera;
+package com.freedcam.apis.camera1.camera.cameraholder;
 
 import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
+import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
 import com.lge.hardware.LGCamera;

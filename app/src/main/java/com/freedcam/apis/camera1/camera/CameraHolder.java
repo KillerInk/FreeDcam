@@ -56,7 +56,7 @@ public class CameraHolder extends AbstractCameraHolder
     //camera object
     protected Camera mCamera;
 
-    final static String TAG = CameraHolder.class.getSimpleName();
+    private final String TAG = CameraHolder.class.getSimpleName();
     public I_error errorHandler;
     private I_Callbacks.PictureCallback pictureCallback;
     private I_Callbacks.PictureCallback rawCallback;

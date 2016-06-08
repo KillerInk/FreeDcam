@@ -17,11 +17,12 @@
  * /
  */
 
-package com.freedcam.apis.camera1.camera;
+package com.freedcam.apis.camera1.camera.cameraholder;
 
 import android.hardware.Camera;
 
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
+import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
@@ -33,6 +34,7 @@ import java.lang.reflect.Method;
  */
 public class CameraHolderMotoX extends CameraHolder
 {
+    private final String TAG = CameraHolderMotoX.class.getSimpleName();
     public CameraHolderMotoX(I_CameraChangedListner cameraChangedListner, AppSettingsManager appSettingsManager, Frameworks frameworks) {
         super(cameraChangedListner, appSettingsManager, frameworks);
     }

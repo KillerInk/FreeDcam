@@ -17,11 +17,12 @@
  * /
  */
 
-package com.freedcam.apis.camera1.camera;
+package com.freedcam.apis.camera1.camera.cameraholder;
 
 import android.hardware.Camera;
 
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
+import com.freedcam.apis.camera1.camera.CameraHolder;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
@@ -31,7 +32,9 @@ import java.lang.reflect.Method;
 /**
  * Created by troop on 08.06.2016.
  */
-public class CameraHolderMTK extends CameraHolder {
+public class CameraHolderMTK extends CameraHolder
+{
+    private final String TAG = CameraHolderMTK.class.getSimpleName();
     public CameraHolderMTK(I_CameraChangedListner cameraChangedListner, AppSettingsManager appSettingsManager, Frameworks frameworks) {
         super(cameraChangedListner, appSettingsManager, frameworks);
     }
@@ -71,11 +74,11 @@ public class CameraHolderMTK extends CameraHolder {
             app.invoke(null, "client.appmode", "MtkEng");
         } catch (ClassNotFoundException e) {
             Logger.e(TAG,e.getMessage());
-        } catch (IllegalAccessException e) {
-            Logger.e(TAG,e.getMessage());
         } catch (InvocationTargetException e) {
             Logger.e(TAG,e.getMessage());
         } catch (NoSuchMethodException e) {
+            Logger.e(TAG,e.getMessage());
+        } catch (IllegalAccessException e) {
             Logger.e(TAG,e.getMessage());
         }
     }
