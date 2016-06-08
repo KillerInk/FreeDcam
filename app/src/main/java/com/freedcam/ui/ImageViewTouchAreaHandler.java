@@ -29,8 +29,8 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
-import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.basecamera.camera.FocusRect;
+import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.FocusRect;
 
 /**
  * This class handles touch events that happens to the attached imageview and moves them

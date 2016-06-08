@@ -1,11 +1,8 @@
 package com;
 
 import org.junit.Test;
-import android.test.suitebuilder.annotation.SmallTest;
 
-import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualShutter;
-
-import java.util.ArrayList;
+import com.freedcam.apis.basecamera.parameters.manual.AbstractManualShutter;
 
 /**
  * Created by troop on 31.05.2016.

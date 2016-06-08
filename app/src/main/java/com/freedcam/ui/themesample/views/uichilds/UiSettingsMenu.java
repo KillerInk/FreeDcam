@@ -22,7 +22,7 @@ package com.freedcam.ui.themesample.views.uichilds;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 
 /**
  * Created by troop on 14.06.2015.

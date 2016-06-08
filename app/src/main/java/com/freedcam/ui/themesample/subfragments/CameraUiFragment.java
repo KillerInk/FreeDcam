@@ -34,7 +34,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.I_swipe;
@@ -56,9 +56,7 @@ import com.freedcam.ui.themesample.views.uichilds.UiSettingsMenu;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedviewer.helper.BitmapHelper;
-import com.freedviewer.screenslide.ScreenSlideFragment;
 import com.freedviewer.screenslide.ScreenSlideFragment.I_ThumbClick;
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.id;

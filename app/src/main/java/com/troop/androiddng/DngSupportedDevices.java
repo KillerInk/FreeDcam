@@ -20,8 +20,7 @@
 package com.troop.androiddng;
 
 
-import com.freedcam.apis.basecamera.camera.parameters.modes.MatrixChooserParameter;
-import com.freedcam.utils.DeviceUtils;
+import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.utils.DeviceUtils.Devices;
 
 /**

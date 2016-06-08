@@ -23,9 +23,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.camera1.camera.ExtendedSurfaceView;
-import com.freedcam.apis.sonyremote.camera.CameraUiWrapper;
+import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.camera1.ExtendedSurfaceView;
+import com.freedcam.apis.sonyremote.CameraUiWrapper;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.AppSettingsManager;
 

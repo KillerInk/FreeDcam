@@ -28,8 +28,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.basecamera.camera.parameters.I_ParametersLoaded;
+import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.parameters.I_ParametersLoaded;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.themesample.subfragments.CameraUiFragment;
@@ -40,7 +40,6 @@ import com.freedcam.utils.Logger;
 import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.screenslide.ScreenSlideFragment;
 import com.freedviewer.screenslide.ScreenSlideFragment.I_ThumbClick;
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 

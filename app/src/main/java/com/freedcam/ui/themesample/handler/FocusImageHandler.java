@@ -23,7 +23,6 @@ package com.freedcam.ui.themesample.handler;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Point;
-import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
@@ -35,18 +34,16 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
-import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.basecamera.camera.FocusRect;
-import com.freedcam.apis.sonyremote.camera.CameraUiWrapper;
+import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.FocusRect;
+import com.freedcam.apis.sonyremote.CameraUiWrapper;
 import com.freedcam.ui.AbstractFocusImageHandler;
 import com.freedcam.ui.ImageViewTouchAreaHandler;
 import com.freedcam.ui.ImageViewTouchAreaHandler.I_TouchListnerEvent;
 import com.freedcam.ui.themesample.SampleThemeFragment;
 import com.troop.freedcam.R;
-import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.drawable;
 import com.troop.freedcam.R.id;
@@ -136,7 +133,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     public void SetCamerUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         wrapper = cameraUiWrapper;
-        if(cameraUiWrapper instanceof com.freedcam.apis.camera1.camera.CameraUiWrapper || cameraUiWrapper instanceof com.freedcam.apis.camera2.camera.CameraUiWrapper) {
+        if(cameraUiWrapper instanceof com.freedcam.apis.camera1.CameraUiWrapper || cameraUiWrapper instanceof com.freedcam.apis.camera2.CameraUiWrapper) {
             meteringRect = centerImageView(meteringArea);
             meteringArea.setOnTouchListener(new ImageViewTouchAreaHandler(meteringArea, wrapper, meteringTouch));
             if (wrapper.Focus.isAeMeteringSupported())

@@ -21,16 +21,14 @@ package com.freedcam.ui.themesample.views.menu;
 
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.support.v4.provider.DocumentFile;
 import android.util.AttributeSet;
 import android.widget.Toast;
 
-import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.basecamera.camera.parameters.modes.SDModeParameter;
-import com.freedcam.ui.I_Activity;
+import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.parameters.modes.SDModeParameter;
 import com.freedcam.ui.I_Activity.I_OnActivityResultCallback;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;

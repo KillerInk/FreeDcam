@@ -36,7 +36,7 @@ import com.freedcam.apis.ApiHandler;
 import com.freedcam.apis.ApiHandler.ApiEvent;
 import com.freedcam.apis.basecamera.AbstractCameraFragment;
 import com.freedcam.apis.basecamera.AbstractCameraFragment.CamerUiWrapperRdy;
-import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
 import com.freedcam.ui.handler.HardwareKeyHandler;
 import com.freedcam.ui.handler.I_orientation;
 import com.freedcam.ui.handler.OrientationHandler;

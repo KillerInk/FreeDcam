@@ -22,7 +22,6 @@ package com.freedcam.apis.basecamera;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.RenderScriptHandler;

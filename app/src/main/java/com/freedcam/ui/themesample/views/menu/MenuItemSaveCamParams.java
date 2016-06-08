@@ -27,10 +27,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
-import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
-import com.freedcam.apis.camera1.camera.CameraHolder;
-import com.freedcam.apis.camera1.camera.CameraUiWrapper;
+import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.camera1.CameraHolder;
+import com.freedcam.apis.camera1.CameraUiWrapper;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.themesample.subfragments.Interfaces.I_MenuItemClick;
 import com.freedcam.utils.AppSettingsManager;

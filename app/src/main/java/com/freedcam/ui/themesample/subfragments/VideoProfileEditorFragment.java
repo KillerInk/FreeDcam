@@ -19,7 +19,6 @@
 
 package com.freedcam.ui.themesample.subfragments;
 
-import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -37,11 +36,10 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile;
-import com.freedcam.apis.basecamera.camera.modules.VideoMediaProfile.VideoMode;
+import com.freedcam.apis.basecamera.modules.VideoMediaProfile;
+import com.freedcam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 

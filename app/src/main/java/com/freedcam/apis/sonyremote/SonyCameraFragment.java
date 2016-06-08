@@ -33,16 +33,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.freedcam.apis.basecamera.AbstractCameraFragment;
-import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
-import com.freedcam.apis.basecamera.camera.interfaces.I_Module;
-import com.freedcam.apis.sonyremote.camera.CameraUiWrapper;
-import com.freedcam.apis.sonyremote.camera.sonystuff.ServerDevice;
-import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleSsdpClient;
-import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleSsdpClient.SearchResultHandler;
-import com.freedcam.apis.sonyremote.camera.sonystuff.SimpleStreamSurfaceView;
-import com.freedcam.apis.sonyremote.camera.sonystuff.WifiUtils;
+import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
+import com.freedcam.apis.basecamera.interfaces.I_Module;
+import com.freedcam.apis.sonyremote.sonystuff.ServerDevice;
+import com.freedcam.apis.sonyremote.sonystuff.SimpleSsdpClient;
+import com.freedcam.apis.sonyremote.sonystuff.SimpleSsdpClient.SearchResultHandler;
+import com.freedcam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
+import com.freedcam.apis.sonyremote.sonystuff.WifiUtils;
 import com.freedcam.utils.Logger;
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 

@@ -25,9 +25,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.freedcam.apis.basecamera.AbstractCameraFragment;
-import com.freedcam.apis.camera2.camera.AutoFitTextureView;
-import com.freedcam.apis.camera2.camera.CameraUiWrapper;
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 

@@ -22,7 +22,7 @@ package com.freedcam.ui.themesample.views.menu;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.freedcam.apis.basecamera.camera.modules.AbstractModuleHandler;
+import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
 
 import java.util.ArrayList;
 

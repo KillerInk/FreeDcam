@@ -23,8 +23,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
-import com.freedcam.ui.themesample.subfragments.Interfaces;
+import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
 import com.freedcam.ui.themesample.subfragments.Interfaces.I_MenuItemClick;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;

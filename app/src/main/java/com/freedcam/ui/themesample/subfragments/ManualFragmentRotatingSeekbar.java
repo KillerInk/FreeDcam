@@ -28,16 +28,14 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
-import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter.I_ManualParameterEvent;
-import com.freedcam.apis.sonyremote.camera.CameraUiWrapper;
+import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter.I_ManualParameterEvent;
+import com.freedcam.apis.sonyremote.CameraUiWrapper;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.themesample.views.ManualButton;
 import com.freedcam.ui.views.RotatingSeekbar;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 

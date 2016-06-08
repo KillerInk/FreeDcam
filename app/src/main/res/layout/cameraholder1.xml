@@ -6,12 +6,12 @@
     <view
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        class="com.freedcam.apis.camera1.camera.ExtendedSurfaceView"
+        class="com.freedcam.apis.camera1.ExtendedSurfaceView"
         android:id="@+id/exSurface"
         android:layout_alignParentLeft="false"
         android:layout_alignParentTop="false"
         android:layout_centerHorizontal="true" />
-    <com.freedcam.apis.camera1.camera.TextureViewRatio
+    <com.freedcam.apis.camera1.TextureViewRatio
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textureView_preview"

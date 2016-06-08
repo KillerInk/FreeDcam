@@ -24,9 +24,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.freedcam.apis.basecamera.camera.parameters.modes.ApiParameter;
-import com.freedcam.apis.basecamera.camera.parameters.modes.ParameterExternalShutter;
-import com.freedcam.apis.camera2.camera.CameraUiWrapper;
+import com.freedcam.apis.basecamera.parameters.modes.ApiParameter;
+import com.freedcam.apis.basecamera.parameters.modes.ParameterExternalShutter;
+import com.freedcam.apis.camera2.CameraUiWrapper;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.themesample.subfragments.Interfaces.I_MenuItemClick;
@@ -45,7 +45,6 @@ import com.freedcam.ui.themesample.views.menu.MenuItemVideoProfile;
 import com.freedcam.ui.themesample.views.menu.MenuItem_VideoProfEditor;
 import com.freedcam.ui.themesample.views.uichilds.UiSettingsChild;
 import com.freedcam.utils.AppSettingsManager;
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
@@ -227,7 +226,7 @@ public class LeftMenuFragment extends AbstractFragment  implements I_MenuItemCli
         ///////////////////////////   Highspeed Recording //////////////////////////////////////////
 
         VideoSize.SetStuff(i_activity, AppSettingsManager.SETTING_VIDEOSIZE,appSettingsManager);
-        if (!(cameraUiWrapper instanceof com.freedcam.apis.camera1.camera.CameraUiWrapper) && cameraUiWrapper.parametersHandler.VideoSize != null && cameraUiWrapper.parametersHandler.VideoSize.IsSupported()) {
+        if (!(cameraUiWrapper instanceof com.freedcam.apis.camera1.CameraUiWrapper) && cameraUiWrapper.parametersHandler.VideoSize != null && cameraUiWrapper.parametersHandler.VideoSize.IsSupported()) {
             VideoSize.SetParameter(cameraUiWrapper.parametersHandler.VideoSize);
             VideoSize.SetMenuItemListner(this);
             VideoSize.setVisibility(View.VISIBLE);
@@ -241,7 +240,7 @@ public class LeftMenuFragment extends AbstractFragment  implements I_MenuItemCli
 
         ////////////////////////////////////////////////////////////////////////////////////////////
 
-        if (cameraUiWrapper instanceof com.freedcam.apis.camera1.camera.CameraUiWrapper) {
+        if (cameraUiWrapper instanceof com.freedcam.apis.camera1.CameraUiWrapper) {
 
             timeLapseFrames.setVisibility(View.VISIBLE);
             timeLapseFrames.SetStuff(appSettingsManager);
@@ -281,7 +280,7 @@ public class LeftMenuFragment extends AbstractFragment  implements I_MenuItemCli
         horizont.SetParameter(cameraUiWrapper.parametersHandler.Horizont);
         horizont.SetMenuItemListner(this);
 
-        if(cameraUiWrapper instanceof com.freedcam.apis.camera1.camera.CameraUiWrapper)
+        if(cameraUiWrapper instanceof com.freedcam.apis.camera1.CameraUiWrapper)
         {
             AEB1.SetStuff(appSettingsManager, AppSettingsManager.SETTING_AEB1);
             AEB1.SetCameraUIWrapper(cameraUiWrapper);

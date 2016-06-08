@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 #pragma version(1)
-#pragma rs java_package_name(com.freedcam.apis.camera2.camera.renderscript)
+#pragma rs java_package_name(com.freedcam.apis.camera2.renderscript)
 #pragma rs_fp_relaxed
 rs_allocation gCurrentFrame;
 

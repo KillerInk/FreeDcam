@@ -19,7 +19,7 @@
 
 package com.freedcam.ui;
 
-import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
 
 /**
  * Created by troop on 24.03.2015.

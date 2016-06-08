@@ -23,9 +23,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
-import com.freedcam.apis.camera2.camera.CameraUiWrapper;
+import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.camera1.parameters.ParametersHandler;
+import com.freedcam.apis.camera2.CameraUiWrapper;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.StringUtils;
 
@@ -47,7 +47,7 @@ public class MenuItemOrientationHack extends MenuItem
     public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (cameraUiWrapper instanceof com.freedcam.apis.camera1.camera.CameraUiWrapper || cameraUiWrapper instanceof CameraUiWrapper)
+        if (cameraUiWrapper instanceof com.freedcam.apis.camera1.CameraUiWrapper || cameraUiWrapper instanceof CameraUiWrapper)
             setVisibility(View.VISIBLE);
         else
             setVisibility(View.GONE);
@@ -68,7 +68,7 @@ public class MenuItemOrientationHack extends MenuItem
     public void SetValue(String value)
     {
         appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack, value);
-        if (cameraUiWrapper instanceof com.freedcam.apis.camera1.camera.CameraUiWrapper) {
+        if (cameraUiWrapper instanceof com.freedcam.apis.camera1.CameraUiWrapper) {
             ((ParametersHandler) cameraUiWrapper.parametersHandler).SetCameraRotation();
             cameraUiWrapper.parametersHandler.SetPictureOrientation(0);
         }

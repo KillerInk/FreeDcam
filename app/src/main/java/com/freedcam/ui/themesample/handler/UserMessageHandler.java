@@ -24,10 +24,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
-import com.freedcam.apis.basecamera.camera.interfaces.I_Module;
-import com.troop.freedcam.R;
+import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
+import com.freedcam.apis.basecamera.interfaces.I_Module;
 import com.troop.freedcam.R.id;
 
 

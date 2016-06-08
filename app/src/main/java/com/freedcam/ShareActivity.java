@@ -24,7 +24,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 
-import com.freedcam.apis.basecamera.camera.modules.I_WorkEvent;
+import com.freedcam.apis.basecamera.modules.I_WorkEvent;
 
 import java.io.File;
 

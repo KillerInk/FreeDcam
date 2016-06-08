@@ -31,8 +31,8 @@ import android.os.Handler;
 import android.os.StatFs;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
-import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
+import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 

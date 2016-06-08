@@ -24,7 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.freedcam.apis.basecamera.camera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.themesample.subfragments.Interfaces.I_CloseNotice;
@@ -33,7 +33,6 @@ import com.freedcam.ui.themesample.views.menu.MenuItemTheme;
 import com.freedcam.ui.themesample.views.uichilds.UiSettingsChild;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
