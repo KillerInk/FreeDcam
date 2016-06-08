@@ -130,6 +130,7 @@ public class RotatingSeekbar extends View
         paint.setTextSize(textsize);
         for(int i = 0; i< Values.length; i++)
         {
+            final String val = Values[i];
 
             int dif = currentValue -i;
             if (dif < 0)
@@ -138,8 +139,9 @@ public class RotatingSeekbar extends View
                 paint.setAlpha(switchalpha(dif));
                 paint.setStrokeWidth(1);
                 int xpos = i * itemHeight + textsize + currentPosToDraw + (itemHeight / 2 - textsize / 2);
-                canvas.drawLine(viewWidth - convertDpiToPixel(30), xpos - textsize / 2, viewWidth - 20, xpos - textsize / 2, paint);
-                canvas.drawText(Values[i], viewWidth / 2, xpos, paint);
+                canvas.drawLine(this.viewWidth - convertDpiToPixel(30), xpos - textsize / 2, viewWidth - 20, xpos - textsize / 2, paint);
+                if (null != val)
+                    canvas.drawText(val, viewWidth / 2, xpos, paint);
             }
         }
         paint.setAlpha(255);

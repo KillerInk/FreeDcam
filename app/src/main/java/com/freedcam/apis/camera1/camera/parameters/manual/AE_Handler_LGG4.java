@@ -55,6 +55,7 @@ public class AE_Handler_LGG4
         this.isoManualParameter = new ISOManualParameterG4(parameters,cameraHolder, parametersHandler, aeevent);
         this.shutterPrameter = new ShutterManualParameterG4(parameters, parametersHandler, aeevent);
         this.parameters = parameters;
+        aeevent.onManualChanged(AeManual.shutter,true,0);
     }
 
     public ISOManualParameterG4 getManualIso()
@@ -90,6 +91,7 @@ public class AE_Handler_LGG4
                     case iso:
                         currentShutter = shutterPrameter.GetValue();
                         shutterPrameter.setValue(0);
+                        shutterPrameter.ThrowBackgroundIsSetSupportedChanged(false);
                         break;
                 }
                 parameters.set(KEYS.LG_MANUAL_MODE_RESET, "1");
@@ -111,6 +113,7 @@ public class AE_Handler_LGG4
                         case iso:
                             if (currentShutter == 0) currentShutter =9;
                             shutterPrameter.setValue(currentShutter);
+                            shutterPrameter.ThrowBackgroundIsSetSupportedChanged(true);
                             break;
                     }
                     startReadingMeta();
@@ -122,9 +125,11 @@ public class AE_Handler_LGG4
                     switch (fromManual) {
                         case shutter:
                             shutterPrameter.setValue(value);
+
                             break;
                         case iso:
                             isoManualParameter.setValue(value);
+
                             break;
                     }
                 }
@@ -148,10 +153,17 @@ public class AE_Handler_LGG4
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-                while (readMetaData && parametersHandler.cameraHolder.IsRdy())
+                while (readMetaData && auto)
                 {
-                    shutterPrameter.ThrowCurrentValueStringCHanged(parametersHandler.getQCShutterSpeed()+"");
-                    isoManualParameter.ThrowCurrentValueStringCHanged(parametersHandler.getQCISO()+"");
+                    try {
+                        shutterPrameter.ThrowCurrentValueStringCHanged(parametersHandler.getQCShutterSpeed()+"");
+                        isoManualParameter.ThrowCurrentValueStringCHanged(parametersHandler.getQCISO()+"");
+                    }
+                    catch (RuntimeException ex)
+                    {
+                        readMetaData = false;
+                        return;
+                    }
                     try {
                         Thread.sleep(200);
                     } catch (InterruptedException e) {

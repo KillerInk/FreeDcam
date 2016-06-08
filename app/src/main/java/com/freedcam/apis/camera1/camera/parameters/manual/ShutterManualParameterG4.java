@@ -44,6 +44,7 @@ public class ShutterManualParameterG4 extends BaseManualParameter
         stringvalues[0] = KEYS.AUTO;
         ArrayList<String> l = new ArrayList(Arrays.asList(stringvalues));
         l.remove(0);
+        stringvalues = new String[l.size()];
         l.toArray(stringvalues);
 
         this.manualevent =manualevent;
