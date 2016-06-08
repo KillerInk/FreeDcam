@@ -22,8 +22,8 @@ public final class KEYS {
     public static final String PICTURE_FORMAT_VALUES = "picture-format-values";
     public static final String PICTURE_FORMAT = "picture-format";
 
-    public final static String ISO100 = "ISO100";
-    public final static String CUR_ISO  = "cur-iso";
+    public static final String ISO100 = "ISO100";
+    public static final String CUR_ISO  = "cur-iso";
 
     //Qualcomm
 
@@ -47,33 +47,33 @@ public final class KEYS {
     public static final String PREVIEW_FRAME_RATE_VALUES = "preview-frame-rate-values";
     public static final String PREVIEW_FRAME_RATE ="preview-frame-rate";
 
-    public final static String REDEYE_REDUCTION = "redeye-reduction";
-    public final static String REDEYE_REDUCTION_VALUES = "redeye-reduction-values";
+    public static final String REDEYE_REDUCTION = "redeye-reduction";
+    public static final String REDEYE_REDUCTION_VALUES = "redeye-reduction-values";
 
-    public final static String LENSSHADE = "lensshade";
-    public final static String LENSSHADE_VALUES = "lensshade-values";
+    public static final String LENSSHADE = "lensshade";
+    public static final String LENSSHADE_VALUES = "lensshade-values";
 
-    public final static String SCENE_DETECT = "scene-detect";
-    public final static String SCENE_DETECT_VALUES= "scene-detect-values";
+    public static final String SCENE_DETECT = "scene-detect";
+    public static final String SCENE_DETECT_VALUES= "scene-detect-values";
 
-    public final static String DENOISE = "denoise";
-    public final static String DENOISE_VALUES="denoise-values";
+    public static final String DENOISE = "denoise";
+    public static final String DENOISE_VALUES="denoise-values";
 
-    public final static String DIGITALIMAGESTABILIZATION = "dis";
-    public final static String DIGITALIMAGESTABILIZATION_VALUES = "dis-values";
+    public static final String DIGITALIMAGESTABILIZATION = "dis";
+    public static final String DIGITALIMAGESTABILIZATION_VALUES = "dis-values";
 
-    public final static String MEMORYCOLORENHANCEMENT_VALUES = "mce-values";
-    public final static String MEMORYCOLORENHANCEMENT = "mce";
+    public static final String MEMORYCOLORENHANCEMENT_VALUES = "mce-values";
+    public static final String MEMORYCOLORENHANCEMENT = "mce";
 
-    public final static String SKINETONEENHANCEMENT = "skinToneEnhancement";
-    public final static String SKINETONEENHANCEMENT_VALUES = "skinToneEnhancement-values";
+    public static final String SKINETONEENHANCEMENT = "skinToneEnhancement";
+    public static final String SKINETONEENHANCEMENT_VALUES = "skinToneEnhancement-values";
 
-    public final static String MAX_SATURATION = "max-saturation";
-    public final static String MIN_SATURATION = "min-saturation";
-    public final static String SATURATION_MAX = "saturation-max";
-    public final static String SATURATION_MIN = "saturation-min";
-    public final static String SATURATION = "saturation";
-    public final static String SATURATION_VALUES = "saturation-values";
+    public static final String MAX_SATURATION = "max-saturation";
+    public static final String MIN_SATURATION = "min-saturation";
+    public static final String SATURATION_MAX = "saturation-max";
+    public static final String SATURATION_MIN = "saturation-min";
+    public static final String SATURATION = "saturation";
+    public static final String SATURATION_VALUES = "saturation-values";
 
 
     // Manual Focus Keys
@@ -98,65 +98,65 @@ public final class KEYS {
     public static final String KEY_MANUAL_FOCUS_SCALE = "cur-focus-scale";
     public static final String KEY_MANUAL_FOCUS_DIOPTER = "cur-focus-diopter";
 
-    public final static String MANUAL_FOCUS = "manual-focus";
-    public final static String MANUAL_FOCUS_SCALE_MODE = "scale-mode";
+    public static final String MANUAL_FOCUS = "manual-focus";
+    public static final String MANUAL_FOCUS_SCALE_MODE = "scale-mode";
 
-    public final static String WB_CURRENT_CCT = "wb-current-cct";
-    public final static String WB_CCT = "wb-cct";
-    public final static String WB_CT = "wb-ct";
-    public final static String WB_MANUAL_CCT = "wb-manual-cct";
-    public final static String MANUAL_WB_VALUE = "manual-wb-value";
-    public final static String MAX_WB_CCT = "max-wb-cct";
-    public final static String MIN_WB_CCT = "min-wb-cct";
-    public final static String MAX_WB_CT = "max-wb-ct";
-    public final static String MIN_WB_CT = "min-wb-ct";
-    public final static String WB_MODE_MANUAL = "manual";
-    public final static String WB_MODE_MANUAL_CCT = "manual-cct";
-    public final static String MANUAL_WB_TYPE = "manual-wb-type";
-    public final static String MANUAL_WB_TYPE_COLOR_TEMPERATURE = "color-temperature";
+    public static final String WB_CURRENT_CCT = "wb-current-cct";
+    public static final String WB_CCT = "wb-cct";
+    public static final String WB_CT = "wb-ct";
+    public static final String WB_MANUAL_CCT = "wb-manual-cct";
+    public static final String MANUAL_WB_VALUE = "manual-wb-value";
+    public static final String MAX_WB_CCT = "max-wb-cct";
+    public static final String MIN_WB_CCT = "min-wb-cct";
+    public static final String MAX_WB_CT = "max-wb-ct";
+    public static final String MIN_WB_CT = "min-wb-ct";
+    public static final String WB_MODE_MANUAL = "manual";
+    public static final String WB_MODE_MANUAL_CCT = "manual-cct";
+    public static final String MANUAL_WB_TYPE = "manual-wb-type";
+    public static final String MANUAL_WB_TYPE_COLOR_TEMPERATURE = "color-temperature";
 
-    public final static String MAX_EXPOSURE_TIME = "max-exposure-time";
-    public final static String MIN_EXPOSURE_TIME = "min-exposure-time";
-    public final static String EXPOSURE_TIME = "exposure-time";
-    public final static String MANUAL_EXPOSURE = "manual-exposure";
-    public final static String MANUAL_EXPOSURE_MODES = "manual-exposure-modes";
-    public final static String MANUAL_EXPOSURE_MODES_OFF = OFF;
-    public final static String MANUAL_EXPOSURE_MODES_EXP_TIME_PRIORITY = "exp-time-priority";
-    public final static String MANUAL_EXPOSURE_MODES_ISO_PRIORITY = "iso-priority";
-    public final static String MANUAL_EXPOSURE_MODES_USER_SETTING = "user-setting";
+    public static final String MAX_EXPOSURE_TIME = "max-exposure-time";
+    public static final String MIN_EXPOSURE_TIME = "min-exposure-time";
+    public static final String EXPOSURE_TIME = "exposure-time";
+    public static final String MANUAL_EXPOSURE = "manual-exposure";
+    public static final String MANUAL_EXPOSURE_MODES = "manual-exposure-modes";
+    public static final String MANUAL_EXPOSURE_MODES_OFF = OFF;
+    public static final String MANUAL_EXPOSURE_MODES_EXP_TIME_PRIORITY = "exp-time-priority";
+    public static final String MANUAL_EXPOSURE_MODES_ISO_PRIORITY = "iso-priority";
+    public static final String MANUAL_EXPOSURE_MODES_USER_SETTING = "user-setting";
 
-    public final static String AUTO_HDR_SUPPORTED = "auto-hdr-supported";
-    public final static String AUTO_HDR_ENABLE = "auto-hdr-enable";
+    public static final String AUTO_HDR_SUPPORTED = "auto-hdr-supported";
+    public static final String AUTO_HDR_ENABLE = "auto-hdr-enable";
 
-    public final static String SCENE_MODE_VALUES ="scene-mode-values";
-    public final static String SCENE_MODE = "scene-mode";
-    public final static String SCENE_MODE_VALUES_HDR ="hdr";
-    public final static String SCENE_MODE_VALUES_ASD ="asd";
+    public static final String SCENE_MODE_VALUES ="scene-mode-values";
+    public static final String SCENE_MODE = "scene-mode";
+    public static final String SCENE_MODE_VALUES_HDR ="hdr";
+    public static final String SCENE_MODE_VALUES_ASD ="asd";
 
-    public final static String AE_BRACKET_HDR = "ae-bracket-hdr";
-    public final static String AE_BRACKET_HDR_VALUES = "ae-bracket-hdr-values";
-    public final static String AE_BRACKET_HDR_VALUES_AE_BRACKET = "AE-Bracket";
-    public final static String AE_BRACKET_OFF = "Off";
+    public static final String AE_BRACKET_HDR = "ae-bracket-hdr";
+    public static final String AE_BRACKET_HDR_VALUES = "ae-bracket-hdr-values";
+    public static final String AE_BRACKET_HDR_VALUES_AE_BRACKET = "AE-Bracket";
+    public static final String AE_BRACKET_OFF = "Off";
 
-    public final static String MORPHO_HDR = "morpho-hdr";
+    public static final String MORPHO_HDR = "morpho-hdr";
 
-    public final static String HDR_MODE = "hdr-mode";
+    public static final String HDR_MODE = "hdr-mode";
 
-    public final static String BAYER_MIPI_10BGGR = "bayer-mipi-10bggr";
-    public final static String BAYER_MIPI_10RGGB ="bayer-mipi-10rggb";
-    public final static String BAYER_QCOM_10GRBG = "bayer-qcom-10grbg";
+    public static final String BAYER_MIPI_10BGGR = "bayer-mipi-10bggr";
+    public static final String BAYER_MIPI_10RGGB ="bayer-mipi-10rggb";
+    public static final String BAYER_QCOM_10GRBG = "bayer-qcom-10grbg";
 
     //Burst
-    public final static String NUM_SNAPS_PER_SHUTTER = "num-snaps-per-shutter";
-    public final static String SNAPSHOT_BURST_NUM = "snapshot-burst-num";
-    public final static String BURST_NUM = "burst-num";
+    public static final String NUM_SNAPS_PER_SHUTTER = "num-snaps-per-shutter";
+    public static final String SNAPSHOT_BURST_NUM = "snapshot-burst-num";
+    public static final String BURST_NUM = "burst-num";
 
 
-    public final static String MORPHO_EFFECT_TYPE = "morpho_effect_type";
+    public static final String MORPHO_EFFECT_TYPE = "morpho_effect_type";
 
-    public final static String ISO = "iso";
-    public final static String MIN_ISO = "min-iso";
-    public final static String MAX_ISO = "max-iso";
+    public static final String ISO = "iso";
+    public static final String MIN_ISO = "min-iso";
+    public static final String MAX_ISO = "max-iso";
 
     //MediaTEk
     public static final String AFENG_MIN_FOCUS_STEP = "afeng-min-focus-step";
@@ -166,8 +166,8 @@ public final class KEYS {
     public static final String FOCUS_FS_FI_MAX = "focus-fs-fi-max";
     public static final String FOCUS_FS_FI_MIN = "focus-fs-fi-min";
 
-    public final static String MTK_NOISE_REDUCTION_MODE = "3dnr-mode";
-    public final static String MTK_NOISE_REDUCTION_MODE_VALUES = "3dnr-mode-values";
+    public static final String MTK_NOISE_REDUCTION_MODE = "3dnr-mode";
+    public static final String MTK_NOISE_REDUCTION_MODE_VALUES = "3dnr-mode-values";
 
 
 
@@ -176,25 +176,25 @@ public final class KEYS {
     public static final String HW_VCM_START_VALUE = "hw-vcm-start-value";
     public static final String HW_VCM_END_VALUE = "hw-vcm-end-value";
     //focus
-    public final static String HW_HWCAMERA_FLAG = "hw-hwcamera-flag";
-    public final static String HW_MANUAL_FOCUS_MODE = "hw-manual-focus-mode";
-    public final static String HW_MANUAL_FOCUS_STEP_VALUE = "hw-manual-focus-step-value";
+    public static final String HW_HWCAMERA_FLAG = "hw-hwcamera-flag";
+    public static final String HW_MANUAL_FOCUS_MODE = "hw-manual-focus-mode";
+    public static final String HW_MANUAL_FOCUS_STEP_VALUE = "hw-manual-focus-step-value";
 
     //LG
-    public final static String LG_MANUAL_MODE_RESET = "lg-manual-mode-reset";
-    public final static String LG_WB_SUPPORTED_MIN = "lg-wb-supported-min";
-    public final static String LG_WB_SUPPORTED_MAX = "lg-wb-supported-max";
-    public final static String LG_WB = "lg-wb";
-    public final static String LG_ISO = "lg-iso";
+    public static final String LG_MANUAL_MODE_RESET = "lg-manual-mode-reset";
+    public static final String LG_WB_SUPPORTED_MIN = "lg-wb-supported-min";
+    public static final String LG_WB_SUPPORTED_MAX = "lg-wb-supported-max";
+    public static final String LG_WB = "lg-wb";
+    public static final String LG_ISO = "lg-iso";
 
-    public final static String MANUALFOCUS_STEP = "manualfocus_step";
-    public final static String FOCUS_MODE_NORMAL = "normal";
+    public static final String MANUALFOCUS_STEP = "manualfocus_step";
+    public static final String FOCUS_MODE_NORMAL = "normal";
 
     //HTC
-    public final static String MAX_FOCUS = "max-focus";
-    public final static String MIN_FOCUS = "min-focus";
-    public final static String FOCUS = "focus";
-    public final static String ISO_ST =  "iso-st";
+    public static final String MAX_FOCUS = "max-focus";
+    public static final String MIN_FOCUS = "min-focus";
+    public static final String FOCUS = "focus";
+    public static final String ISO_ST =  "iso-st";
 
 
     //omap
