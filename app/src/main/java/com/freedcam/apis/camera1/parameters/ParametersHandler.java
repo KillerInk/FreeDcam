@@ -640,31 +640,6 @@ public class ParametersHandler extends AbstractParameterHandler
             return 0;
     }
 
-    public int getQCISO()
-    {
-        if(cameraHolder.GetParamsDirect("cur-iso")!= null)
-        {
-            int a= Integer.parseInt(cameraHolder.GetParamsDirect("cur-iso"));
-            return a;
-
-        }
-        return 0;
-
-    }
-
-    public String getQCShutterSpeed()
-    {
-
-        if(cameraHolder.GetParamsDirect("cur-exposure-time")!= null)
-        {
-            int a= (int)(Float.parseFloat(cameraHolder.GetParamsDirect("cur-exposure-time")) * 1000);
-            return "1/"+a;
-
-        }
-        return KEYS.AUTO;
-
-    }
-
     @Override
     public void SetEVBracket(String ev)
     {

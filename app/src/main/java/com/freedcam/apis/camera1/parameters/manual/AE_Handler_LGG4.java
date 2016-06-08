@@ -40,6 +40,7 @@ public class AE_Handler_LGG4
     boolean auto = true;
     private ParametersHandler parametersHandler;
     private boolean readMetaData = false;
+    private CameraHolder cameraHolder;
 
     final String TAG = AE_Handler_LGG4.class.getSimpleName();
 
@@ -55,6 +56,7 @@ public class AE_Handler_LGG4
         isoManualParameter = new ISOManualParameterG4(parameters,cameraHolder, parametersHandler, aeevent);
         shutterPrameter = new ShutterManualParameterG4(parameters, parametersHandler, aeevent);
         this.parameters = parameters;
+        this.cameraHolder = cameraHolder;
         aeevent.onManualChanged(AeManual.shutter,true,0);
     }
 
@@ -156,8 +158,8 @@ public class AE_Handler_LGG4
                 while (readMetaData && auto)
                 {
                     try {
-                        shutterPrameter.ThrowCurrentValueStringCHanged(parametersHandler.getQCShutterSpeed()+"");
-                        isoManualParameter.ThrowCurrentValueStringCHanged(parametersHandler.getQCISO()+"");
+                        shutterPrameter.ThrowCurrentValueStringCHanged("1/"+(int)(Float.parseFloat(cameraHolder.GetParamsDirect("cur-exposure-time"))));
+                        isoManualParameter.ThrowCurrentValueStringCHanged(cameraHolder.GetParamsDirect("cur-iso"));
                     }
                     catch (RuntimeException ex)
                     {
