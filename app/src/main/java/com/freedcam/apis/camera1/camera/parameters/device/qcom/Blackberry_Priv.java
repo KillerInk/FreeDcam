@@ -38,18 +38,7 @@ public class Blackberry_Priv extends BaseQcomNew
 
 
     public Blackberry_Priv(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
-    super(parameters, cameraUiWrapper);
-}
-
-    @Override
-    public AbstractManualParameter getExposureTimeParameter() {
-        return new ShutterManual_ExposureTime_Micro(parameters, parametersHandler,null,"exposure-time", "max-exposure-time", "min-exposure-time");
-    }
-
-    @Override
-    public AbstractManualParameter getIsoParameter() {
-
-        return new BaseISOManual(parameters,"continuous-iso",parameters.getInt("min-iso"),parameters.getInt("max-iso"), parametersHandler,1);
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

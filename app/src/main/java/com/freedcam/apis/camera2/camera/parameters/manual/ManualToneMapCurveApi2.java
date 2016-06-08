@@ -74,10 +74,10 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
             isSupported = false;
             visible = false;
         }
-        contrast.BackgroundIsSetSupportedChanged(canSet);
-        contrast.BackgroundIsSupportedChanged(isSupported);
-        brightness.BackgroundIsSupportedChanged(isSupported);
-        brightness.BackgroundIsSetSupportedChanged(canSet);
+        contrast.ThrowBackgroundIsSetSupportedChanged(canSet);
+        contrast.ThrowBackgroundIsSupportedChanged(isSupported);
+        brightness.ThrowBackgroundIsSupportedChanged(isSupported);
+        brightness.ThrowBackgroundIsSetSupportedChanged(canSet);
     }
 
     @Override
@@ -123,18 +123,18 @@ public class ManualToneMapCurveApi2 implements AbstractModeParameter.I_ModeParam
             Logger.d(TAG, "Contrast value to set:" + valueToSet);
             if (valueToSet == -1)
             {
-                Logger.d(TAG, "Current TonemapMode:" + this.camParametersHandler.ToneMapMode.GetValue());
-                if (camParametersHandler.ToneMapMode.GetValue().equals("CONTRAST_CURVE"))
+                Logger.d(TAG, "Current TonemapMode:" + this.parametersHandler.ToneMapMode.GetValue());
+                if (parametersHandler.ToneMapMode.GetValue().equals("CONTRAST_CURVE"))
                 {
-                    camParametersHandler.ToneMapMode.SetValue("FAST", true);
+                    parametersHandler.ToneMapMode.SetValue("FAST", true);
                     Logger.d(TAG, "Disabled Contrast Curve");
                 }
             }
             else {
-                Logger.d(TAG, "Current TonemapMode:" + camParametersHandler.ToneMapMode.GetValue());
-                if (!camParametersHandler.ToneMapMode.GetValue().equals("CONTRAST_CURVE") && !firststart)
+                Logger.d(TAG, "Current TonemapMode:" + parametersHandler.ToneMapMode.GetValue());
+                if (!parametersHandler.ToneMapMode.GetValue().equals("CONTRAST_CURVE") && !firststart)
                 {
-                    camParametersHandler.ToneMapMode.SetValue("CONTRAST_CURVE", true);
+                    parametersHandler.ToneMapMode.SetValue("CONTRAST_CURVE", true);
                     Logger.d(TAG, "Enabled Contrast Curve");
                 }
                 valueToSet = valueToSet * 3;

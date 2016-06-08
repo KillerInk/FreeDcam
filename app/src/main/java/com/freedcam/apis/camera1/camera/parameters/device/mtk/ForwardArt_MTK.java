@@ -39,7 +39,7 @@ public class ForwardArt_MTK extends BaseMTKDevice {
 
     @Override
     public AbstractManualParameter getExposureTimeParameter() {
-        return new ShutterManual_ExposureTime_FloatToSixty(parameters, parametersHandler,null);
+        return new ShutterManual_ExposureTime_FloatToSixty(parameters, parametersHandler,true);
     }
 
     @Override

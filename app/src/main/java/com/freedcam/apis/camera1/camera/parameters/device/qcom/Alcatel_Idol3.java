@@ -43,17 +43,6 @@ public class Alcatel_Idol3 extends BaseQcomNew
     }
 
     @Override
-    public AbstractManualParameter getExposureTimeParameter() {
-        return new ShutterManual_ExposureTime_Micro(parameters, parametersHandler,null,"exposure-time", "max-exposure-time", "min-exposure-time");
-    }
-
-    @Override
-    public AbstractManualParameter getIsoParameter() {
-
-        return new BaseISOManual(parameters,"continuous-iso",parameters.getInt("min-iso"),parameters.getInt("max-iso"), parametersHandler,1);
-    }
-
-    @Override
     public boolean IsDngSupported() {
         return true;
     }

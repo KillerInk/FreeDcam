@@ -91,7 +91,7 @@ public class ParameterHandler extends AbstractParameterHandler
 
         WbHandler wbHandler = new WbHandler(cameraHolder,this);
         //AE mode start
-        AeHandler aeHandler = new AeHandler(uiHandler,cameraHolder,this);
+        AeHandler aeHandler = new AeHandler(cameraHolder,this);
         //ae mode end
         AntiBandingMode = new AntibandingApi2(cameraHolder);
         PictureSize = new PictureSizeModeApi2(cameraHolder);

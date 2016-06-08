@@ -53,13 +53,13 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
         {
             isSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet);
         }
-        BackgroundIsSupportedChanged(isSupported);
-        BackgroundIsSetSupportedChanged(true);
+        ThrowBackgroundIsSupportedChanged(isSupported);
+        ThrowBackgroundIsSetSupportedChanged(true);
         if (isSetSupported != JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet))
         {
             isSetSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet);
         }
-        BackgroundIsSetSupportedChanged(isSetSupported);
+        ThrowBackgroundIsSetSupportedChanged(isSetSupported);
 
     }
 
@@ -120,7 +120,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                             }
                         }
                         r.toArray(stringvalues);
-                        BackgroundValuesChanged(stringvalues);
+                        ThrowBackgroundValuesChanged(stringvalues);
                         onCurrentValueChanged(currentInt);
 
 

@@ -94,14 +94,14 @@ public class WbHandler
             //if ON or any other preset set the colorcorrection to fast to let is use hal wb
             colorCorrectionMode.setValue(ColorCorrectionModes.FAST);
             //hide manual wbct manualitem in ui
-            manualWbCt.BackgroundIsSupportedChanged(false);
+            manualWbCt.ThrowBackgroundIsSupportedChanged(false);
         }
         else //if OFF
         {
             //set colorcorrection to TRANSFORMATRIX to have full control
             colorCorrectionMode.setValue(ColorCorrectionModes.TRANSFORM_MATRIX);
             //show wbct manual item in ui
-            manualWbCt.BackgroundIsSupportedChanged(true);
+            manualWbCt.ThrowBackgroundIsSupportedChanged(true);
         }
 
     }
@@ -298,7 +298,7 @@ public class WbHandler
 
         @Override
         public boolean IsSupported() {
-            isSupported = camParametersHandler.WhiteBalanceMode.GetValue().equals("OFF");
+            isSupported = parametersHandler.WhiteBalanceMode.GetValue().equals("OFF");
             return isSupported;
         }
 

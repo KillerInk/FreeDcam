@@ -25,6 +25,9 @@ import android.hardware.Camera;
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * Created by troop on 17.08.2014.
  */
@@ -33,11 +36,16 @@ public class ShutterManualParameterG4 extends BaseManualParameter
     private static String TAG = "freedcam.ShutterManualParameterG4";
     private AE_Handler_LGG4.AeManualEvent manualevent;
 
-    public ShutterManualParameterG4(Camera.Parameters parameters, ParametersHandler parametersHandler, AE_Handler_LGG4.AeManualEvent manualevent) {
+    public ShutterManualParameterG4(Camera.Parameters parameters, ParametersHandler parametersHandler, AE_Handler_LGG4.AeManualEvent manualevent)
+    {
         super(parameters, "", "", "", parametersHandler,1);
         this.isSupported = true;
         stringvalues = parameters.get("shutter-speed-values").replace(",0","").split(",");
         stringvalues[0] = KEYS.AUTO;
+        ArrayList<String> l = new ArrayList(Arrays.asList(stringvalues));
+        l.remove(0);
+        l.toArray(stringvalues);
+
         this.manualevent =manualevent;
     }
 
@@ -60,15 +68,7 @@ public class ShutterManualParameterG4 extends BaseManualParameter
     @Override
     public void SetValue(int valueToSet)
     {
-        if (valueToSet == 0)
-        {
-            manualevent.onManualChanged(AE_Handler_LGG4.AeManual.shutter, true, valueToSet);
-        }
-        else
-        {
-            manualevent.onManualChanged(AE_Handler_LGG4.AeManual.shutter, false, valueToSet);
-        }
-
+        manualevent.onManualChanged(AE_Handler_LGG4.AeManual.shutter, false, valueToSet);
     }
 
     public void setValue(int value)
@@ -85,23 +85,6 @@ public class ShutterManualParameterG4 extends BaseManualParameter
         }
         ThrowCurrentValueStringCHanged(stringvalues[value]);
     }
-
-
-    public Double getMicroSec(String shutterString)
-    {
-        Double a = Double.parseDouble(shutterString);
-
-        return a * 1000;
-
-    }
-
-    public String FLOATtoSixty4(String a)
-    {
-        Float b =  Float.parseFloat(a);
-        float c = b * 1000000;
-        return String.valueOf(c);
-    }
-
 
     @Override
     public String GetStringValue()

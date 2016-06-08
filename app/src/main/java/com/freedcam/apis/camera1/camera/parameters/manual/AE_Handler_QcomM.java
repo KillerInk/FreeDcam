@@ -34,15 +34,16 @@ import com.freedcam.apis.camera1.camera.parameters.modes.BaseModeParameter;
 public class AE_Handler_QcomM
 {
     private ShutterManual_ExposureTime_Micro exposureTime;
-    private ISOManualParameter isoManual;
+    private BaseISOManual isoManual;
+    private BaseModeParameter AE_Mode;
 
     public AE_Handler_QcomM(Camera.Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler)
     {
-        BaseModeParameter AE_Mode = new BaseModeParameter(parameters, cameraHolder, KEYS.MANUAL_EXPOSURE, KEYS.MANUAL_EXPOSURE_MODES);
+        AE_Mode = new BaseModeParameter(parameters, cameraHolder, KEYS.MANUAL_EXPOSURE, KEYS.MANUAL_EXPOSURE_MODES);
         AE_Mode.addEventListner(aemodeChangedListner);
         parametersHandler.AE_PriorityMode = AE_Mode;
-        this.exposureTime = new ShutterManual_ExposureTime_Micro(parameters, parametersHandler,null,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME);
-        this.isoManual = new ISOManualParameter(parameters, parametersHandler);
+        this.exposureTime = new ShutterManual_ExposureTime_Micro(parameters, parametersHandler,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME,false);
+        this.isoManual = new BaseISOManual(parameters,"continuous-iso",parameters.getInt("min-iso"),parameters.getInt("max-iso"), parametersHandler,1);
     }
 
     public ShutterManual_ExposureTime_Micro getManualIso()
@@ -50,7 +51,7 @@ public class AE_Handler_QcomM
         return exposureTime;
     }
 
-    public ISOManualParameter getShutterManual()
+    public BaseISOManual getShutterManual()
     {
         return isoManual;
     }

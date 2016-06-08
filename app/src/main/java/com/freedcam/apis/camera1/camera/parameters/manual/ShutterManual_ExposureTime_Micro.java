@@ -37,58 +37,63 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
     /*
      * The name of the current key_value to get like brightness
      */
-    protected String value;
+    protected String key_value;
 
     /**
      * The name of the current key_value to get like brightness-max
      */
-    protected String max_value;
+    protected String key_max_value;
     /**
      * The name of the current key_value to get like brightness-min
      */
-    protected String  min_value;
+    protected String key_min_value;
 
     protected ParametersHandler parametersHandler;
+
+    public ShutterManual_ExposureTime_Micro(Camera.Parameters parameters, ParametersHandler parametersHandler, String[] shuttervalues, String key_value)
+    {
+        super(parametersHandler);
+        stringvalues = shuttervalues;
+        this.key_value = key_value;
+        parameters.set(key_value, "0");
+        this.isSupported = true;
+    }
 
     /**
      * @param parameters
      * @param parametersHandler
      */
-    public ShutterManual_ExposureTime_Micro(Camera.Parameters parameters, ParametersHandler parametersHandler, String[] shuttervalues, String value, String maxval , String minval ) {
+    public ShutterManual_ExposureTime_Micro(Camera.Parameters parameters, ParametersHandler parametersHandler,String key_value, String maxval , String minval, boolean withauto) {
         super(parametersHandler);
         this.parametersHandler = parametersHandler;
         this.parameters = parameters;
-        this.value = value;
-        this.max_value = maxval;
-        this.min_value = minval;
+        this.key_value = key_value;
+        this.key_max_value = maxval;
+        this.key_min_value = minval;
         try {
-            if (shuttervalues == null)
+
+            Logger.d(TAG, "minexpo = "+parameters.get(key_min_value) + " maxexpo = " + parameters.get(key_max_value));
+            int min,max;
+            if (!parameters.get(key_min_value).contains("."))
             {
-                Logger.d(TAG, "minexpo = "+parameters.get(min_value) + " maxexpo = " + parameters.get(max_value));
-                int min,max;
-                if (!parameters.get(min_value).contains("."))
-                {
-                    Logger.d(TAG, "Micro does not contain . load int");
-                    min = Integer.parseInt(parameters.get(min_value));
-                    max = Integer.parseInt(parameters.get(max_value));
-                    Logger.d(TAG, "min converterd = "+min + " max converterd = " + max);
-                }
-                else
-                {
-                    Logger.d(TAG, "Micro contain .  *1000");
-                    double tmpMin = Double.parseDouble(parameters.get(min_value))*1000;
-                    double tmpMax = Double.parseDouble(parameters.get(max_value))*1000;
-                    min = (int)tmpMin;
-                    max = (int)tmpMax;
-                    Logger.d(TAG, "min converterd = "+min + " max converterd = " + max);
-
-                }
-                stringvalues = getSupportedShutterValues(min, max, true);
-
+                Logger.d(TAG, "Micro does not contain . load int");
+                min = Integer.parseInt(parameters.get(key_min_value));
+                max = Integer.parseInt(parameters.get(key_max_value));
+                Logger.d(TAG, "min converterd = "+min + " max converterd = " + max);
             }
             else
-                stringvalues = shuttervalues;
-            parameters.set(value, "0");
+            {
+                Logger.d(TAG, "Micro contain .  *1000");
+                double tmpMin = Double.parseDouble(parameters.get(key_min_value))*1000;
+                double tmpMax = Double.parseDouble(parameters.get(key_max_value))*1000;
+                min = (int)tmpMin;
+                max = (int)tmpMax;
+                Logger.d(TAG, "min converterd = "+min + " max converterd = " + max);
+
+            }
+            stringvalues = getSupportedShutterValues(min, max, withauto);
+
+            parameters.set(key_value, "0");
             this.isSupported = true;
 
         } catch (NumberFormatException ex) {
@@ -118,11 +123,11 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
             Logger.d(TAG, "StringUtils.FormatShutterStringToDouble:" + shutterstring);
             shutterstring = getMicroSecFromMilliseconds(shutterstring);
             Logger.d(TAG, " StringUtils.getMicroSecFromMilliseconds"+ shutterstring);
-            parameters.set(value, shutterstring);
+            parameters.set(key_value, shutterstring);
         }
         else
         {
-            parameters.set(value, "0");
+            parameters.set(key_value, "0");
             Logger.d(TAG, "set exposure time to auto");
         }
         parametersHandler.SetParametersToCamera(parameters);

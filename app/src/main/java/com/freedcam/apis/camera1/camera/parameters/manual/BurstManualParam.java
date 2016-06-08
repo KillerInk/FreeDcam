@@ -152,12 +152,12 @@ public class BurstManualParam extends BaseManualParameter
         public void ModuleChanged(String module)
         {
             if ((module.equals(KEYS.MODULE_VIDEO) || module.equals(KEYS.MODULE_HDR)) && isSupported)
-                BackgroundIsSupportedChanged(false);
+                ThrowBackgroundIsSupportedChanged(false);
             else if ((module.equals(KEYS.MODULE_PICTURE)
                     || module.equals(KEYS.MODULE_INTERVAL)
                     )&& isSupported)
             {
-                BackgroundIsSupportedChanged(true);
+                ThrowBackgroundIsSupportedChanged(true);
             }
         }
     };

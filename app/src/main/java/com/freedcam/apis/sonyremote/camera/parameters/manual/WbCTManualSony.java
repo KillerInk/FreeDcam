@@ -134,8 +134,8 @@ public class WbCTManualSony extends BaseManualParameterSony
                 r.add(t*step+"");
             values =new String[r.size()];
             r.toArray(values);
-            BackgroundValuesChanged(values);
-            BackgroundIsSetSupportedChanged(true);
+            ThrowBackgroundValuesChanged(values);
+            ThrowBackgroundIsSetSupportedChanged(true);
         }
     }
 

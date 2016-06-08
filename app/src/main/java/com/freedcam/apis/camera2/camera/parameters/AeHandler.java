@@ -23,7 +23,6 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build;
-import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.camera.parameters.manual.AbstractManualShutter;
@@ -49,7 +48,7 @@ public class AeHandler
 
     private AEModes activeAeMode = AEModes.on;
 
-    public AeHandler(Handler handler, CameraHolder cameraHolder, ParameterHandler parameterHandler)
+    public AeHandler(CameraHolder cameraHolder, ParameterHandler parameterHandler)
     {
         this.cameraHolder = cameraHolder;
         this.parameterHandler = parameterHandler;
@@ -80,18 +79,18 @@ public class AeHandler
         if (aeModes == AEModes.off)
         {
             //hide manualexposuretime ui item
-            manualExposureApi2.BackgroundIsSupportedChanged(false);
+            manualExposureApi2.ThrowBackgroundIsSupportedChanged(false);
             //enable manualiso item in ui
-            manualISoApi2.BackgroundIsSetSupportedChanged(true);
+            manualISoApi2.ThrowBackgroundIsSetSupportedChanged(true);
             //enable manual exposuretime in ui
-            manualExposureTimeApi2.BackgroundIsSetSupportedChanged(true);
+            manualExposureTimeApi2.ThrowBackgroundIsSetSupportedChanged(true);
         }
         else
         {
-            manualExposureApi2.BackgroundIsSupportedChanged(true);
-            manualExposureApi2.BackgroundIsSetSupportedChanged(true);
-            manualISoApi2.BackgroundIsSetSupportedChanged(true);
-            manualExposureTimeApi2.BackgroundIsSetSupportedChanged(false);
+            manualExposureApi2.ThrowBackgroundIsSupportedChanged(true);
+            manualExposureApi2.ThrowBackgroundIsSetSupportedChanged(true);
+            manualISoApi2.ThrowBackgroundIsSetSupportedChanged(true);
+            manualExposureTimeApi2.ThrowBackgroundIsSetSupportedChanged(false);
         }
     }
 
@@ -292,7 +291,7 @@ public class AeHandler
             if (valueToSet > 0) {
                 long val = (long) (getMilliSecondStringFromShutterString(stringvalues[valueToSet]) * 1000f);
                 Logger.d(TAG, "ExposureTimeToSet:" + val);
-                if (val > 800000000 &&!camParametersHandler.Module.GetValue().equals("Stack")) {
+                if (val > 800000000 &&!parametersHandler.Module.GetValue().equals("Stack")) {
                     Logger.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
                     val = 800000000;
                 }

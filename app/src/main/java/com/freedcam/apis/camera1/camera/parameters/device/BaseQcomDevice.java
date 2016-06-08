@@ -51,9 +51,9 @@ public class BaseQcomDevice extends AbstractDevice {
     {
         if (parameters.get(KEYS.MAX_EXPOSURE_TIME) != null && parameters.get(KEYS.EXPOSURE_TIME) != null && parameters.get(KEYS.MIN_EXPOSURE_TIME )!= null) {
             if (!parameters.get(KEYS.MAX_EXPOSURE_TIME).contains("."))
-                return new ShutterManual_ExposureTime_FloatToSixty(parameters, parametersHandler, null);
+                return new ShutterManual_ExposureTime_FloatToSixty(parameters, parametersHandler, true);
             else
-                return new ShutterManual_ExposureTime_Micro(parameters, parametersHandler, null, KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME);
+                return new ShutterManual_ExposureTime_Micro(parameters, parametersHandler,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME, true);
         }
         return null;
     }

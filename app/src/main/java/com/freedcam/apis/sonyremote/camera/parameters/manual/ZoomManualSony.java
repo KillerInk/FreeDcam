@@ -52,8 +52,8 @@ public class ZoomManualSony extends BaseManualParameterSony
         //if (isSupported != JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet))
         //{
             isSupported = JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet);
-            BackgroundIsSupportedChanged(isSupported);
-            BackgroundIsSetSupportedChanged(isSupported);
+            ThrowBackgroundIsSupportedChanged(isSupported);
+            ThrowBackgroundIsSetSupportedChanged(isSupported);
         stringvalues = createStringArray(0,100,1);
         //}
 

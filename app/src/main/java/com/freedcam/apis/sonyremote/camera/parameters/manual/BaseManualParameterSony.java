@@ -73,13 +73,13 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
         {
             isSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_GET, mAvailableCameraApiSet);
         }
-        BackgroundIsSupportedChanged(isSupported);
-        BackgroundIsSetSupportedChanged(false);
+        ThrowBackgroundIsSupportedChanged(isSupported);
+        ThrowBackgroundIsSetSupportedChanged(false);
         if (isSetSupported != JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet))
         {
             isSetSupported = JsonUtils.isCameraApiAvailable(VALUE_TO_SET, mAvailableCameraApiSet);
         }
-        BackgroundIsSetSupportedChanged(isSetSupported);
+        ThrowBackgroundIsSetSupportedChanged(isSetSupported);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                         JSONArray array = object.getJSONArray("result");
                         JSONArray subarray = array.getJSONArray(1);
                         stringvalues = JsonUtils.ConvertJSONArrayToStringArray(subarray);
-                        BackgroundValuesChanged(stringvalues);
+                        ThrowBackgroundValuesChanged(stringvalues);
 
                     } catch (IOException | JSONException e) {
                         Logger.exception(e);

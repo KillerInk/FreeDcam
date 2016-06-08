@@ -32,13 +32,13 @@ import java.util.List;
 public abstract class AbstractManualParameter implements I_ManualParameter
 {
     /**
-     *
+     * Listners that attached to that parameter
      */
     private List<I_ManualParameterEvent> listners;
     /**
      * the parameterhandler
      */
-    protected AbstractParameterHandler camParametersHandler;
+    protected AbstractParameterHandler parametersHandler;
     /**
      * contains the values that are supported by the parameters
      */
@@ -61,9 +61,9 @@ public abstract class AbstractManualParameter implements I_ManualParameter
      */
     protected boolean isVisible = false;
 
-    public AbstractManualParameter(AbstractParameterHandler camParametersHandler)
+    public AbstractManualParameter(AbstractParameterHandler parametersHandler)
     {
-        this.camParametersHandler = camParametersHandler;
+        this.parametersHandler = parametersHandler;
         listners = new ArrayList<>();
     }
 
@@ -153,7 +153,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
         }
     }
 
-    public void BackgroundIsSupportedChanged(boolean value)
+    public void ThrowBackgroundIsSupportedChanged(boolean value)
     {
         for (int i = 0; i< listners.size(); i ++)
         {
@@ -167,7 +167,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
                 listners.get(i).onIsSupportedChanged(value);
         }
     }
-    public void BackgroundIsSetSupportedChanged(boolean value)
+    public void ThrowBackgroundIsSetSupportedChanged(boolean value)
     {
         for (int i = 0; i< listners.size(); i ++)
         {
@@ -182,7 +182,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
         }
     }
 
-    public void BackgroundValuesChanged(String[] value)
+    public void ThrowBackgroundValuesChanged(String[] value)
     {
         for (int i = 0; i< listners.size(); i ++)
         {
@@ -208,8 +208,17 @@ public abstract class AbstractManualParameter implements I_ManualParameter
         return isSupported;
     }
 
+    /**
+     * if true the parameter can get set and is readable
+     * if false the parameter is read only
+     * @return  parameter can set
+     */
     public boolean IsSetSupported() {return false;}
 
+    /**
+     *
+     * @return the visiblity state for the ui item
+     */
     @Override
     public boolean IsVisible() {
         return isVisible;
@@ -253,6 +262,13 @@ public abstract class AbstractManualParameter implements I_ManualParameter
         //ThrowCurrentValueChanged(valueToSet);
     }
 
+    /**
+     * Creates a string array from the passed arguments
+     * @param min the minimum value to start
+     * @param max the maximum value to end
+     * @param step the step wich get applied from min to max
+     * @return the string array created
+     */
     protected String[] createStringArray(int min,int max, float step)
     {
         ArrayList<String> ar = new ArrayList<>();

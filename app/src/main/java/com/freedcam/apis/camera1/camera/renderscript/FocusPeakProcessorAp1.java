@@ -278,7 +278,7 @@ public class FocusPeakProcessorAp1 implements Camera.PreviewCallback, I_CameraCh
     {
         Logger.d(TAG, "onPreviewOpen enable:" + enable);
         clear_preview("onPreviewOpen");
-        setEnable(enable);
+        //setEnable(enable);
     }
 
     @Override

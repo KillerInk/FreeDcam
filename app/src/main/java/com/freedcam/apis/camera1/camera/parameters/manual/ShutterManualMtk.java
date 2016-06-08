@@ -32,7 +32,7 @@ public class ShutterManualMtk extends BaseManualParameter
     private static String TAG = ShutterManualMtk.class.getSimpleName();
     private AE_Handler_MTK.AeManualEvent manualevent;
 
-    private String MTKShutter = "Auto,1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,1,2";
+    private String MTKShutter = "1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,1,2";
 
     public ShutterManualMtk(Camera.Parameters parameters, ParametersHandler parametersHandler, AE_Handler_MTK.AeManualEvent manualevent) {
         super(parameters, "", "", "", parametersHandler,1);

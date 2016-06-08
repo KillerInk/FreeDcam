@@ -36,8 +36,8 @@ public class ShutterManual_ExposureTime_FloatToSixty extends ShutterManual_Expos
      * @param parameters
      * @param parametersHandler
      */
-    public ShutterManual_ExposureTime_FloatToSixty(Camera.Parameters parameters, ParametersHandler parametersHandler, String[] shuttervalues) {
-        super(parameters, parametersHandler, shuttervalues, "exposure-time", "max-exposure-time", "min-exposure-time");
+    public ShutterManual_ExposureTime_FloatToSixty(Camera.Parameters parameters, ParametersHandler parametersHandler,boolean withauto) {
+        super(parameters, parametersHandler, "exposure-time", "max-exposure-time", "min-exposure-time",withauto);
     }
 
     @Override

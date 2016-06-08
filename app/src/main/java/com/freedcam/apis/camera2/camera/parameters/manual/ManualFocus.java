@@ -79,12 +79,12 @@ public class ManualFocus extends AbstractManualParameter
         currentInt = valueToSet;
         if(valueToSet == 0)
         {
-            camParametersHandler.FocusMode.SetValue("auto", true);
+            parametersHandler.FocusMode.SetValue("auto", true);
         }
         else
         {
-            if (!camParametersHandler.FocusMode.GetValue().equals("off"))
-                camParametersHandler.FocusMode.SetValue("off",true);
+            if (!parametersHandler.FocusMode.GetValue().equals("off"))
+                parametersHandler.FocusMode.SetValue("off",true);
             cameraHolder.SetParameterRepeating(CaptureRequest.LENS_FOCUS_DISTANCE, (float) valueToSet / 10);
         }
     }

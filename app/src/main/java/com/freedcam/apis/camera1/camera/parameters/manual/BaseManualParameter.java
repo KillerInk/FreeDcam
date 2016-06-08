@@ -189,11 +189,11 @@ public class BaseManualParameter extends AbstractManualParameter
            if (val.equals(PictureFormatHandler.CaptureMode[PictureFormatHandler.JPEG]) && BaseManualParameter.this.isSupported)
            {
                isVisible = true;
-               BackgroundIsSupportedChanged(true);
+               ThrowBackgroundIsSupportedChanged(true);
            }
             else {
                isVisible = false;
-               BackgroundIsSupportedChanged(false);
+               ThrowBackgroundIsSupportedChanged(false);
                ResetToDefault();
            }
         }
@@ -229,12 +229,12 @@ public class BaseManualParameter extends AbstractManualParameter
         public void ModuleChanged(String module)
         {
             if (module.equals(KEYS.MODULE_VIDEO) && isSupported)
-                BackgroundIsSupportedChanged(true);
+                ThrowBackgroundIsSupportedChanged(true);
             else if (module.equals(KEYS.MODULE_PICTURE)
                     || module.equals(KEYS.MODULE_INTERVAL)
                     || module.equals(KEYS.MODULE_HDR))
             {
-                BackgroundIsSupportedChanged(isVisible);
+                ThrowBackgroundIsSupportedChanged(isVisible);
             }
         }
     };

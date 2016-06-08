@@ -21,7 +21,6 @@ package com.freedcam.apis.sonyremote.camera;
 
 import android.content.Context;
 import android.location.Location;
-import android.os.Handler;
 
 import com.freedcam.apis.basecamera.camera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
@@ -142,12 +141,12 @@ public class CameraHolder extends AbstractCameraHolder
 
         @Override
         public void onIsoValuesChanged(String[] isovals) {
-            ParameterHandler.ManualIso.BackgroundValuesChanged(isovals);
+            ParameterHandler.ManualIso.ThrowBackgroundValuesChanged(isovals);
         }
 
         @Override
         public void onFnumberValuesChanged(String[] fnumbervals) {
-            ParameterHandler.ManualFNumber.BackgroundValuesChanged(fnumbervals);
+            ParameterHandler.ManualFNumber.ThrowBackgroundValuesChanged(fnumbervals);
         }
 
         @Override
@@ -172,7 +171,7 @@ public class CameraHolder extends AbstractCameraHolder
 
         @Override
         public void onShutterSpeedValuesChanged(String[] shuttervals) {
-            ParameterHandler.ManualShutter.BackgroundValuesChanged(shuttervals);
+            ParameterHandler.ManualShutter.ThrowBackgroundValuesChanged(shuttervals);
         }
 
         @Override
@@ -192,9 +191,9 @@ public class CameraHolder extends AbstractCameraHolder
         {
             ParameterHandler.WhiteBalanceMode.BackgroundValueHasChanged(wb);
             if (ParameterHandler.WhiteBalanceMode.GetValue().equals("Color Temperature") && ParameterHandler.CCT != null)
-                ParameterHandler.CCT.BackgroundIsSupportedChanged(true);
+                ParameterHandler.CCT.ThrowBackgroundIsSupportedChanged(true);
             else
-                ParameterHandler.CCT.BackgroundIsSupportedChanged(false);
+                ParameterHandler.CCT.ThrowBackgroundIsSupportedChanged(false);
         }
 
         @Override
