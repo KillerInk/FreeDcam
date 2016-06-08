@@ -52,13 +52,13 @@ public class BaseQcomNew extends AbstractDevice
     //set by aehandler
     @Override
     public AbstractManualParameter getExposureTimeParameter() {
-        return null;
+        return aeHandlerQcomM.getShutterManual();
     }
 
     //set by aehandler
     @Override
     public AbstractManualParameter getIsoParameter() {
-        return null;
+        return aeHandlerQcomM.getManualIso();
     }
 
     @Override

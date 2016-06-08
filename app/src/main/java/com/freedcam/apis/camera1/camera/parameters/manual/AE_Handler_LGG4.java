@@ -53,10 +53,18 @@ public class AE_Handler_LGG4
     {
         this.parametersHandler = parametersHandler;
         this.isoManualParameter = new ISOManualParameterG4(parameters,cameraHolder, parametersHandler, aeevent);
-        parametersHandler.ManualIso = isoManualParameter;
         this.shutterPrameter = new ShutterManualParameterG4(parameters, parametersHandler, aeevent);
-        parametersHandler.ManualShutter = shutterPrameter;
         this.parameters = parameters;
+    }
+
+    public ISOManualParameterG4 getManualIso()
+    {
+        return isoManualParameter;
+    }
+
+    public ShutterManualParameterG4 getShutterManual()
+    {
+        return shutterPrameter;
     }
 
     public interface AeManualEvent

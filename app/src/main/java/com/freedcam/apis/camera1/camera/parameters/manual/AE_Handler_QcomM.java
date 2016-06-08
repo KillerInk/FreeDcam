@@ -42,9 +42,17 @@ public class AE_Handler_QcomM
         AE_Mode.addEventListner(aemodeChangedListner);
         parametersHandler.AE_PriorityMode = AE_Mode;
         this.exposureTime = new ShutterManual_ExposureTime_Micro(parameters, parametersHandler,null,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME);
-        parametersHandler.ManualShutter = exposureTime;
         this.isoManual = new ISOManualParameter(parameters, parametersHandler);
-        parametersHandler.ManualIso =isoManual;
+    }
+
+    public ShutterManual_ExposureTime_Micro getManualIso()
+    {
+        return exposureTime;
+    }
+
+    public ISOManualParameter getShutterManual()
+    {
+        return isoManual;
     }
 
     AbstractModeParameter.I_ModeParameterEvent aemodeChangedListner = new AbstractModeParameter.I_ModeParameterEvent() {
@@ -53,20 +61,20 @@ public class AE_Handler_QcomM
         {
             switch (val) {
                 case KEYS.MANUAL_EXPOSURE_MODES_OFF:
-                    exposureTime.BackgroundIsSetSupportedChanged(false);
-                    isoManual.BackgroundIsSetSupportedChanged(false);
+                    exposureTime.ThrowBackgroundIsSetSupportedChanged(false);
+                    isoManual.ThrowBackgroundIsSetSupportedChanged(false);
                     break;
                 case KEYS.MANUAL_EXPOSURE_MODES_EXP_TIME_PRIORITY:
-                    exposureTime.BackgroundIsSetSupportedChanged(true);
-                    isoManual.BackgroundIsSetSupportedChanged(false);
+                    exposureTime.ThrowBackgroundIsSetSupportedChanged(true);
+                    isoManual.ThrowBackgroundIsSetSupportedChanged(false);
                     break;
                 case KEYS.MANUAL_EXPOSURE_MODES_ISO_PRIORITY:
-                    exposureTime.BackgroundIsSetSupportedChanged(false);
-                    isoManual.BackgroundIsSetSupportedChanged(true);
+                    exposureTime.ThrowBackgroundIsSetSupportedChanged(false);
+                    isoManual.ThrowBackgroundIsSetSupportedChanged(true);
                     break;
                 case KEYS.MANUAL_EXPOSURE_MODES_USER_SETTING:
-                    exposureTime.BackgroundIsSetSupportedChanged(true);
-                    isoManual.BackgroundIsSetSupportedChanged(true);
+                    exposureTime.ThrowBackgroundIsSetSupportedChanged(true);
+                    isoManual.ThrowBackgroundIsSetSupportedChanged(true);
                     break;
             }
 

@@ -31,8 +31,8 @@ import com.freedcam.utils.Logger;
  */
 public class AE_Handler_MTK
     {
-        private ISOManualParameterMTK isoManualParameter;
-        private ShutterManualMtk shutterPrameter;
+        public ISOManualParameterMTK isoManualParameter;
+        public ShutterManualMtk shutterPrameter;
         private int currentIso = 0;
         private int currentShutter = 0;
         private Camera.Parameters parameters;
@@ -51,9 +51,7 @@ public class AE_Handler_MTK
         {
             this.parametersHandler = parametersHandler;
             this.isoManualParameter = new ISOManualParameterMTK(parameters,cameraHolder, parametersHandler, aeevent, maxiso);
-            parametersHandler.ManualIso = isoManualParameter;
             this.shutterPrameter = new ShutterManualMtk(parameters, parametersHandler, aeevent);
-            parametersHandler.ManualShutter = shutterPrameter;
             this.parameters = parameters;
         }
 

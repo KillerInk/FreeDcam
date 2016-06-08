@@ -38,9 +38,10 @@ import com.troop.androiddng.DngProfile;
  */
 public class BaseMTKDevice extends AbstractDevice
 {
+    protected AE_Handler_MTK ae_handler_mtk;
     public BaseMTKDevice(Camera.Parameters parameters, CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
-        new AE_Handler_MTK(parameters,cameraHolder, parametersHandler,1600);
+        ae_handler_mtk = new AE_Handler_MTK(parameters,cameraHolder, parametersHandler,1600);
     }
 
     @Override
@@ -51,12 +52,12 @@ public class BaseMTKDevice extends AbstractDevice
     //set by aehandler to camparametershandler direct
     @Override
     public AbstractManualParameter getExposureTimeParameter() {
-        return null;
+        return ae_handler_mtk.shutterPrameter;
     }
     //set by aehandler to camparametershandler direct
     @Override
     public AbstractManualParameter getIsoParameter() {
-        return null;
+        return ae_handler_mtk.isoManualParameter;
     }
 
     @Override
