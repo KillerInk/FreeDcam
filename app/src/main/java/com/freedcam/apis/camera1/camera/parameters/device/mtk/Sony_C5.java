@@ -56,6 +56,6 @@ public class Sony_C5 extends BaseMTKDevice {
 
     @Override
     public AbstractModeParameter getOpCodeParameter() {
-        return new OpCodeParameter();
+        return new OpCodeParameter(cameraUiWrapper.appSettingsManager);
     }
 }

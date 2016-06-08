@@ -88,6 +88,6 @@ public class Xiaomi_Mi3W extends BaseQcomDevice {
 
     @Override
     public AbstractModeParameter getOpCodeParameter() {
-        return new OpCodeParameter();
+        return new OpCodeParameter(cameraUiWrapper.appSettingsManager);
     }
 }

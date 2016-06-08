@@ -55,6 +55,6 @@ public class Jiayu_S3 extends BaseMTKDevice {
 
     @Override
     public AbstractModeParameter getOpCodeParameter() {
-        return new OpCodeParameter();
+        return new OpCodeParameter(cameraUiWrapper.appSettingsManager);
     }
 }

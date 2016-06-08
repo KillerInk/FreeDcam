@@ -101,7 +101,7 @@ public class LG_G2 extends AbstractDevice
 
     @Override
     public AbstractModeParameter getOpCodeParameter() {
-        return new OpCodeParameter();
+        return new OpCodeParameter(cameraUiWrapper.appSettingsManager);
     }
 
     @Override

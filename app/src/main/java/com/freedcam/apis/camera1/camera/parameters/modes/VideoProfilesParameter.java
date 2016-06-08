@@ -193,7 +193,7 @@ public class VideoProfilesParameter extends BaseModeParameter
 
         try {
             if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kDCI)
-                    || (DeviceUtils.IS(DeviceUtils.Devices.Htc_M9) || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI3W )|| DeviceUtils.IS(DeviceUtils.Devices.OnePlusOne) || DeviceUtils.IS(DeviceUtils.Devices.XiaomiMI4W))) //<--that will kill it when profile is not supported
+                    || (cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.Htc_M9) || cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.XiaomiMI3W )|| cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.OnePlusOne) || cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.XiaomiMI4W))) //<--that will kill it when profile is not supported
             {
 
                 CamcorderProfile fourk = CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kDCI);
@@ -270,7 +270,9 @@ public class VideoProfilesParameter extends BaseModeParameter
         }
 
         if (supportedProfiles.get(_4kUHD) == null && parameters.get("video-size-values") !=null&& parameters.get("video-size-values").contains("3840x2160")
-                || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4) || DeviceUtils.IS(DeviceUtils.Devices.LenovoK920))
+                || cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.XiaomiMI4W
+                || cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.XiaomiMI3W
+                || cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.LenovoK920))
         {
             if (supportedProfiles.containsKey("1080p"))
             {
@@ -288,7 +290,8 @@ public class VideoProfilesParameter extends BaseModeParameter
 
         if (parameters.get("video-size-values")!=null && parameters.get("video-size-values").contains("1920x1080")
                 && (parameters.get("video-hfr-values")!=null&& parameters.get("video-hfr-values").contains("60"))
-                || DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) || DeviceUtils.IS_DEVICE_ONEOF(DeviceUtils.MI3_4)) //<--- that line is not needed. when parameters contains empty hfr it gets filled!
+                || cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.ZTE_ADV) || cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.XiaomiMI4W
+                || cameraHolder.appSettingsManager.getDevice() == DeviceUtils.Devices.XiaomiMI3W) //<--- that line is not needed. when parameters contains empty hfr it gets filled!
         {
             if (supportedProfiles.containsKey("1080p")) {
                 VideoMediaProfile t = supportedProfiles.get("1080p").clone();
@@ -301,7 +304,8 @@ public class VideoProfilesParameter extends BaseModeParameter
 
         }
 
-        if (DeviceUtils.IS(DeviceUtils.Devices.ZTE_ADV) || DeviceUtils.IS(DeviceUtils.Devices.ZTEADVIMX214) || DeviceUtils.IS(DeviceUtils.Devices.ZTEADV234))
+        if (cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.ZTE_ADV)
+                || cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.ZTEADVIMX214) || cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.ZTEADV234))
         {
             if (supportedProfiles.containsKey("4kUHD"))
             {

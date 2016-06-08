@@ -91,7 +91,7 @@ public class HTC_M8 extends AbstractDevice {
 
     @Override
     public AbstractModeParameter getOpCodeParameter() {
-        return new OpCodeParameter();
+        return new OpCodeParameter(cameraUiWrapper.appSettingsManager);
     }
 
     @Override

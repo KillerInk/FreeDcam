@@ -80,8 +80,9 @@ public class DngConvertingFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
-        DeviceUtils.CheckAndSetDevice(getContext());
         appSettingsManager = new AppSettingsManager(getContext());
+        if (appSettingsManager.getDevice() == null)
+            appSettingsManager.SetDevice(DeviceUtils.getDevice(getContext()));
         handler = new Handler();
         view = inflater.inflate(R.layout.dngconvertingfragment, container, false);
         this.editTextwidth = (EditText)view.findViewById(R.id.editText_width);
@@ -126,8 +127,7 @@ public class DngConvertingFragment extends Fragment
         super.onResume();
         this.filesToConvert = getActivity().getIntent().getStringArrayExtra(EXTRA_FILESTOCONVERT);
         if (filesToConvert != null && filesToConvert.length > 0) {
-            DeviceUtils.Devices devices = DeviceUtils.DEVICE();
-            dngprofile = new DngSupportedDevices().getProfile(devices, (int) new File(filesToConvert[0]).length(),new MatrixChooserParameter());
+            dngprofile = new DngSupportedDevices().getProfile(appSettingsManager.getDevice(), (int) new File(filesToConvert[0]).length(),new MatrixChooserParameter());
             if (dngprofile == null) {
                 dngprofile = new DngSupportedDevices().GetEmptyProfile();
                 Toast.makeText(getContext(), R.string.unknown_raw_add_manual_stuff, Toast.LENGTH_LONG).show();

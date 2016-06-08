@@ -53,6 +53,6 @@ public class HTC_One_A9 extends BaseQcomDevice {
 
     @Override
     public AbstractModeParameter getOpCodeParameter() {
-        return new OpCodeParameter();
+        return new OpCodeParameter(cameraUiWrapper.appSettingsManager);
     }
 }

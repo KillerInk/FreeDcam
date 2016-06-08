@@ -61,7 +61,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements TextureV
         this.preview.setSurfaceTextureListener(this);
         this.context = context;
         this.errorHandler = this;
-        this.cameraHolder = new CameraHolder(context, this, uiHandler,appSettingsManager,renderScriptHandler);
+        this.cameraHolder = new CameraHolder(context, this,appSettingsManager,renderScriptHandler);
         super.cameraHolder = this.cameraHolder;
         this.parametersHandler = new ParameterHandler(this,context,appSettingsManager);
         this.cameraHolder.SetParameterHandler(parametersHandler);

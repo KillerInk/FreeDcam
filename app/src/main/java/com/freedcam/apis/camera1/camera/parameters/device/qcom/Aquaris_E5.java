@@ -62,6 +62,6 @@ public class Aquaris_E5 extends BaseQcomNew
 
     @Override
     public AbstractModeParameter getOpCodeParameter() {
-        return new OpCodeParameter();
+        return new OpCodeParameter(cameraUiWrapper.appSettingsManager);
     }
 }

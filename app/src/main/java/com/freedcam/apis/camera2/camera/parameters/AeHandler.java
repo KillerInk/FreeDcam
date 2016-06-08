@@ -246,13 +246,13 @@ public class AeHandler
             Logger.d(TAG, "max exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper());
             Logger.d(TAG, "min exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower());
             //866 975 130 = 0,8sec
-            if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4) && Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1)
+            if (cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.LG_G4) && Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1)
                 millimax = 60000000;
-            else if (DeviceUtils.IS(DeviceUtils.Devices.LG_G4) && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)
+            else if (cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.LG_G4) && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)
                 millimax = 45000000;
-            else if (DeviceUtils.IS(DeviceUtils.Devices.Samsung_S6_edge_plus))
+            else if (cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.Samsung_S6_edge_plus))
                 millimax = 10000000;
-            else if (DeviceUtils.IS(DeviceUtils.Devices.Moto_MSM8982_8994))
+            else if (cameraHolder.appSettingsManager.getDevice() ==(DeviceUtils.Devices.Moto_MSM8982_8994))
                 millimax = 10000000;
             else
                 millimax = (cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper()).intValue() / 1000;

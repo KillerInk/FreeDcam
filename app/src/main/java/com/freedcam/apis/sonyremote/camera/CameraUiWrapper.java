@@ -52,7 +52,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         super(appSettingsManager);
         this.surfaceView = (SimpleStreamSurfaceView)preview;
         this.surfaceView.getHolder().addCallback(this);
-        this.cameraHolder = new CameraHolder(preview.getContext(), surfaceView, this, uiHandler,appSettingsManager);
+        this.cameraHolder = new CameraHolder(preview.getContext(), surfaceView, this,appSettingsManager);
         parametersHandler = new ParameterHandler(this, surfaceView, context,appSettingsManager);
         cameraHolder.ParameterHandler = (ParameterHandler) parametersHandler;
 

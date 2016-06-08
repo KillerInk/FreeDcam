@@ -303,39 +303,6 @@ public class RawToDng
             SetRawHeight(nativeHandler, height);
     }
 
-    private void AddLens()
-    {
-        switch (DeviceUtils.DEVICE())
-        {
-            case ZTE_ADV:
-                //SetLensData();
-
-        }
-    }
-
-
-
-    /*public void WriteDNG(DeviceUtils.Devices device, MatrixChooserParameter matrixChooserParameter)
-    {
-        if (device != null)
-        {
-            DngProfile profile = new DngSupportedDevices().getProfile(device, (int)GetRawSize(), matrixChooserParameter);
-            //if (profile.rowsize == 0)
-                //profile.rowsize = Calculate_rowSize((int)GetRawSize(), profile.height);
-            if (profile == null)
-            {
-                RELEASE();
-                return;
-            }
-            SetModelAndMake(Build.MANUFACTURER);
-            SetBayerInfo(profile.matrixes.ColorMatrix1, profile.matrixes.ColorMatrix2, profile.matrixes.NeutralMatrix,
-                    profile.matrixes.ForwardMatrix1,profile.matrixes.ForwardMatrix2,
-                    profile.matrixes.ReductionMatrix1,profile.matrixes.ReductionMatrix2,profile.matrixes.NoiseReductionMatrix,
-                    profile.blacklevel, profile.BayerPattern, profile.rowsize, profile.rawType,profile.widht,profile.height);
-            WriteDNG(nativeHandler);
-            RELEASE();
-        }
-    }*/
 
     public void WriteDngWithProfile(DngProfile profile)
     {

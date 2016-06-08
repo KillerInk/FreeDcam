@@ -41,8 +41,6 @@ public class Camera1Fragment extends AbstractCameraFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-
-
         return inflater.inflate(R.layout.cameraholder1, container, false);
     }
 

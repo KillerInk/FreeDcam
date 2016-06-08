@@ -356,9 +356,9 @@ public class CameraHolder extends AbstractCameraHolder
 
 
 
-    public CameraHolder(Context context, SimpleStreamSurfaceView simpleStreamSurfaceView, I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager appSettingsManager)
+    public CameraHolder(Context context, SimpleStreamSurfaceView simpleStreamSurfaceView, I_CameraChangedListner cameraChangedListner, AppSettingsManager appSettingsManager)
     {
-        super(cameraChangedListner, UIHandler,appSettingsManager);
+        super(cameraChangedListner,appSettingsManager);
         this.context = context;
         this.mLiveviewSurface = simpleStreamSurfaceView;
     }

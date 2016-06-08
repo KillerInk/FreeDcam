@@ -22,6 +22,7 @@ package com.freedcam.apis.basecamera.camera;
 import android.hardware.Camera;
 import android.location.Location;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.SurfaceHolder;
 
 import com.freedcam.apis.basecamera.camera.interfaces.I_CameraChangedListner;
@@ -67,14 +68,13 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     /**
      *
      * @param cameraChangedListner to listen on camera state changes
-     * @param UIHandler handler to invoke mainthread
      * @param appSettingsManager
      */
-    protected AbstractCameraHolder(I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager appSettingsManager)
+    protected AbstractCameraHolder(I_CameraChangedListner cameraChangedListner, AppSettingsManager appSettingsManager)
     {
         this.cameraChangedListner = cameraChangedListner;
         this.appSettingsManager = appSettingsManager;
-        this.UIHandler = UIHandler;
+        this.UIHandler = new Handler(Looper.getMainLooper());
     }
 
     /**

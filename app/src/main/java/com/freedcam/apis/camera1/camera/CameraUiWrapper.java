@@ -35,6 +35,7 @@ import com.freedcam.apis.basecamera.camera.modules.I_Callbacks;
 import com.freedcam.apis.basecamera.camera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.camera.parameters.I_ParametersLoaded;
 import com.freedcam.apis.basecamera.camera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.camera1.camera.CameraHolder.Frameworks;
 import com.freedcam.apis.camera1.camera.modules.ModuleHandler;
 import com.freedcam.apis.camera1.camera.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.camera.renderscript.FocusPeakProcessorAp1;
@@ -43,6 +44,7 @@ import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.RenderScriptHandler;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +75,14 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         preview.getHolder().addCallback(this);
 
         this.errorHandler = this;
-        this.cameraHolder = new CameraHolder(this, uiHandler,appSettingsManager);
+        if (hasLGFramework())
+            cameraHolder = new CameraHolderLG(this,appSettingsManager,Frameworks.LG);
+        else if (isMotoExt())
+            cameraHolder = new CameraHolderMotoX(this,appSettingsManager,Frameworks.MotoX);
+        else if (isMTKDevice())
+            cameraHolder = new CameraHolderMTK(this,appSettingsManager,Frameworks.MTK);
+        else
+            cameraHolder = new CameraHolder(this,appSettingsManager,Frameworks.Normal);
         super.cameraHolder = cameraHolder;
         this.cameraHolder.errorHandler = errorHandler;
 
@@ -94,6 +103,65 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
         else
             previewTexture.setVisibility(View.GONE);
         Logger.d(TAG, "Ctor done");
+    }
+
+    private boolean hasLGFramework()
+    {
+        try {
+            Class c = Class.forName("com.lge.hardware.LGCamera");
+            Logger.d(TAG, "Has Lg Framework");
+            c = Class.forName("com.lge.media.CamcorderProfileEx");
+            Logger.d(TAG, "Has Lg Framework");
+            return true;
+
+        } catch (ClassNotFoundException|NullPointerException|UnsatisfiedLinkError | ExceptionInInitializerError e) {
+
+            Logger.d(TAG, "No LG Framework");
+            return false;
+        }
+    }
+
+    private boolean isMotoExt()
+    {
+        try {
+            Class c = Class.forName("com.motorola.android.camera.CameraMotExt");
+            Logger.d(TAG, "Has Moto Framework");
+            c = Class.forName("com.motorola.android.media.MediaRecorderExt");
+            Logger.d(TAG, "Has Moto Framework");
+            return true;
+
+        } catch (ClassNotFoundException|NullPointerException|UnsatisfiedLinkError | ExceptionInInitializerError e) {
+            Logger.d(TAG, "No Moto Framework");
+            return false;
+        }
+
+    }
+
+    private boolean isMTKDevice()
+    {
+        try
+        {
+            Class camera = Class.forName("android.hardware.Camera");
+            Method[] meths = camera.getMethods();
+            Method app = null;
+            for (Method m : meths)
+            {
+                if (m.getName().equals("setProperty"))
+                    app = m;
+            }
+            if (app != null) {
+                Logger.d(TAG,"MTK Framework found");
+                return true;
+            }
+            Logger.d(TAG, "MTK Framework not found");
+            return false;
+        }
+        catch (ClassNotFoundException|NullPointerException|UnsatisfiedLinkError | ExceptionInInitializerError e)
+        {
+            Logger.exception(e);
+            Logger.d(TAG, "MTK Framework not found");
+            return false;
+        }
     }
 
 

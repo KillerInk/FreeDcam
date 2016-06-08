@@ -54,9 +54,7 @@ public class CameraHolder extends AbstractCameraHolder
     //frame count that get attached to the camera when using focuspeak
     final int BUFFERCOUNT = 3;
     //camera object
-    private Camera mCamera;
-    //lg camera object
-    private LGCamera lgCamera;
+    protected Camera mCamera;
 
     final static String TAG = CameraHolder.class.getSimpleName();
     public I_error errorHandler;
@@ -71,7 +69,7 @@ public class CameraHolder extends AbstractCameraHolder
 
     public int CurrentCamera;
 
-    public  enum Frameworks
+    public enum Frameworks
     {
         Normal,
         LG,
@@ -79,81 +77,17 @@ public class CameraHolder extends AbstractCameraHolder
         MotoX
     }
 
-    public CameraHolder(I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager appSettingsManager)
+    public CameraHolder(I_CameraChangedListner cameraChangedListner, AppSettingsManager appSettingsManager, Frameworks frameworks)
     {
-        super(cameraChangedListner, UIHandler,appSettingsManager);
+        super(cameraChangedListner,appSettingsManager);
         //hasSamsungFramework();
-        DeviceFrameWork = hasLGFramework();
-        if (DeviceFrameWork == Frameworks.Normal)
-            DeviceFrameWork= isMTKDevice();
-        if (DeviceFrameWork == Frameworks.Normal)
-            DeviceFrameWork = isMotoExt();
-
+        DeviceFrameWork = frameworks;
     }
 
     public String GetParamsDirect(String para)
     {
         Camera.Parameters p = mCamera.getParameters();
         return p.get(para);
-    }
-
-    private Frameworks hasLGFramework()
-    {
-        try {
-            Class c = Class.forName("com.lge.hardware.LGCamera");
-            Logger.d(TAG, "Has Lg Framework");
-            c = Class.forName("com.lge.media.CamcorderProfileEx");
-            Logger.d(TAG, "Has Lg Framework");
-            return Frameworks.LG;
-
-        } catch (ClassNotFoundException|NullPointerException|UnsatisfiedLinkError | ExceptionInInitializerError e) {
-
-            Logger.d(TAG, "No LG Framework");
-            return Frameworks.Normal;
-        }
-    }
-
-    private Frameworks isMotoExt()
-    {
-        try {
-            Class c = Class.forName("com.motorola.android.camera.CameraMotExt");
-            Logger.d(TAG, "Has Moto Framework");
-            c = Class.forName("com.motorola.android.media.MediaRecorderExt");
-            Logger.d(TAG, "Has Moto Framework");
-            return Frameworks.MotoX;
-
-        } catch (ClassNotFoundException|NullPointerException|UnsatisfiedLinkError | ExceptionInInitializerError e) {
-            Logger.d(TAG, "No Moto Framework");
-            return Frameworks.Normal;
-        }
-
-    }
-
-    private Frameworks isMTKDevice()
-    {
-        try
-        {
-            Class camera = Class.forName("android.hardware.Camera");
-            Method[] meths = camera.getMethods();
-            Method app = null;
-            for (Method m : meths)
-            {
-                if (m.getName().equals("setProperty"))
-                    app = m;
-            }
-            if (app != null) {
-                Logger.d(TAG,"MTK Framework found");
-                return Frameworks.MTK;
-            }
-            Logger.d(TAG, "MTK Framework not found");
-            return Frameworks.Normal;
-        }
-        catch (ClassNotFoundException|NullPointerException|UnsatisfiedLinkError | ExceptionInInitializerError e)
-        {
-            Logger.exception(e);
-            Logger.d(TAG, "MTK Framework not found");
-            return Frameworks.Normal;
-        }
     }
 
     /**
@@ -166,44 +100,13 @@ public class CameraHolder extends AbstractCameraHolder
     {
         try
         {
-            if (DeviceFrameWork == Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
+            mCamera = Camera.open(camera);
+            if(appSettingsManager.getDevice()==DeviceUtils.Devices.Htc_M8)
             {
-                try {
-                    if (appSettingsManager.getDevice() == DeviceUtils.Devices.LG_G4)
-                        lgCamera = new LGCamera(camera, 256);
-                    else
-                        lgCamera = new LGCamera(camera);
-                    mCamera = lgCamera.getCamera();
-                }
-                catch (RuntimeException ex)
-                {
-                    cameraChangedListner.onCameraError("Fail to connect to camera service");
-                }
-            }
-            else if (DeviceFrameWork == Frameworks.MTK)
-            {
-                setMtkAppMode();
-                mCamera = Camera.open(camera);
-            }
-            else if(DeviceFrameWork == Frameworks.MotoX)
-            {
-                mCamera = openWrapper(camera);
                 Camera.Parameters paras = mCamera.getParameters();
-                paras.set("mot-app", "true");
+                paras.set("zsl", "off");
                 mCamera.setParameters(paras);
-
             }
-            else
-            {
-                mCamera = Camera.open(camera);
-                if(appSettingsManager.getDevice()==DeviceUtils.Devices.Htc_M8)
-                {
-                    Camera.Parameters paras = mCamera.getParameters();
-                    paras.set("zsl", "off");
-                    mCamera.setParameters(paras);
-                }
-            }
-
             isRdy = true;
             cameraChangedListner.onCameraOpen("");
 
@@ -309,8 +212,6 @@ public class CameraHolder extends AbstractCameraHolder
             Logger.exception(ex);
             SendUIMessage("Failed to Start Preview");
         }
-
-
     }
 
     @Override
@@ -321,10 +222,8 @@ public class CameraHolder extends AbstractCameraHolder
         if (mCamera == null)
             return;
         try {
-
-
-                mCamera.setPreviewCallback(null);
-                mCamera.stopPreview();
+            mCamera.setPreviewCallback(null);
+            mCamera.stopPreview();
 
             isPreviewRunning = false;
             Logger.d(TAG, "Preview Stopped");
@@ -396,68 +295,21 @@ public class CameraHolder extends AbstractCameraHolder
 
     }
 
-    private static Camera openWrapper(int n) {
-        Class[] arrclass = new Class[]{Integer.TYPE, Integer.TYPE};
-        try {
-            Method method = Class.forName("android.hardware.Camera").getDeclaredMethod("openLegacy", arrclass);
-            Object[] arrobject = new Object[]{n, 256};
-            return (Camera)method.invoke(null, arrobject);
-        }
-        catch (NoSuchMethodException e) {
-            Logger.e(TAG, e.getMessage());
-            return Camera.open(n);}
-        catch (ClassNotFoundException e) {
-            Logger.e(TAG, e.getMessage());
-            return Camera.open(n);}
-        catch (IllegalAccessException e) {
-            Logger.e(TAG, e.getMessage());
-            return Camera.open(n);}
-        catch (InvocationTargetException e) {
-            Logger.e(TAG, e.getMessage());
-            return Camera.open(n);}
-    }
-
-    private void setMtkAppMode()
-    {
-        try {
-            Class camera = Class.forName("android.hardware.Camera");
-            Method[] meths = camera.getMethods();
-            Method app = null;
-            for (Method m : meths)
-            {
-                if (m.getName().equals("setProperty"))
-                    app = m;
-            }
-            if (app == null)
-                throw new  NoSuchMethodException();
-            app.invoke(null, "client.appmode", "MtkEng");
-        } catch (ClassNotFoundException e) {
-            Logger.e(TAG,e.getMessage());
-        } catch (IllegalAccessException e) {
-            Logger.e(TAG,e.getMessage());
-        } catch (InvocationTargetException e) {
-            Logger.e(TAG,e.getMessage());
-        } catch (NoSuchMethodException e) {
-            Logger.e(TAG,e.getMessage());
-        }
-    }
-
-
     @Override
     public void SetPreviewCallback(final I_Callbacks.PreviewCallback previewCallback)
     {
         if (!isPreviewRunning && !isRdy)
             return;
 
-            if (previewCallback == null)
-                mCamera.setPreviewCallback(null);
-            else
-                mCamera.setPreviewCallback(new Camera.PreviewCallback() {
-                    @Override
-                    public void onPreviewFrame(byte[] data, Camera camera) {
-                        previewCallback.onPreviewFrame(data, I_Callbacks.YUV);
-                    }
-                });
+        if (previewCallback == null)
+            mCamera.setPreviewCallback(null);
+        else
+            mCamera.setPreviewCallback(new Camera.PreviewCallback() {
+                @Override
+                public void onPreviewFrame(byte[] data, Camera camera) {
+                    previewCallback.onPreviewFrame(data, I_Callbacks.YUV);
+                }
+            });
 
     }
 
@@ -498,16 +350,16 @@ public class CameraHolder extends AbstractCameraHolder
 
     public void SetErrorCallback(final I_Callbacks.ErrorCallback errorCallback)
     {
-            if (mCamera == null)
-                return;
-            mCamera.setErrorCallback(new Camera.ErrorCallback() {
-                @Override
-                public void onError(int error, Camera camera)
-                {
-                    isRdy = false;
-                    errorCallback.onError(error);
-                }
-            });
+        if (mCamera == null)
+            return;
+        mCamera.setErrorCallback(new Camera.ErrorCallback() {
+            @Override
+            public void onError(int error, Camera camera)
+            {
+                isRdy = false;
+                errorCallback.onError(error);
+            }
+        });
 
     }
 
@@ -516,25 +368,23 @@ public class CameraHolder extends AbstractCameraHolder
         if (!isRdy)
             return;
         try {
-                mCamera.autoFocus(new Camera.AutoFocusCallback() {
-                    @Override
-                    public void onAutoFocus(boolean success, Camera camera)
-                    {
-                        if (success)
-                            mCamera.cancelAutoFocus();
-                        CameraFocusEvent focusEvent = new CameraFocusEvent();
-                        focusEvent.camera = camera;
-                        focusEvent.success = success;
+            mCamera.autoFocus(new Camera.AutoFocusCallback() {
+                @Override
+                public void onAutoFocus(boolean success, Camera camera)
+                {
+                    if (success)
+                        mCamera.cancelAutoFocus();
+                    CameraFocusEvent focusEvent = new CameraFocusEvent();
+                    focusEvent.camera = camera;
+                    focusEvent.success = success;
 
-                        autoFocusCallback.onAutoFocus(focusEvent);
-                    }
-                });
-
+                    autoFocusCallback.onAutoFocus(focusEvent);
+                }
+            });
         } catch (Exception ex)
         {
             Logger.e(TAG,ex.getMessage());
             CameraFocusEvent focusEvent = new CameraFocusEvent();
-
             focusEvent.success = false;
             autoFocusCallback.onAutoFocus(focusEvent);
         }
@@ -544,30 +394,27 @@ public class CameraHolder extends AbstractCameraHolder
     {
         if (!isRdy)
             return;
-
-            mCamera.cancelAutoFocus();
-
+        mCamera.cancelAutoFocus();
     }
 
     public void SetMeteringAreas(FocusRect meteringRect)
     {
         try {
 
-                List<Camera.Area> meteringList = new ArrayList<>();
-                if (meteringRect != null)
-                    meteringList.add(new Camera.Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 100));
-                Camera.Parameters p = mCamera.getParameters();
-                if(p.getMaxNumMeteringAreas() > 0)
-                    p.setMeteringAreas(meteringList);
+            List<Camera.Area> meteringList = new ArrayList<>();
+            if (meteringRect != null)
+                meteringList.add(new Camera.Area(new Rect(meteringRect.left, meteringRect.top, meteringRect.right, meteringRect.bottom), 100));
+            Camera.Parameters p = mCamera.getParameters();
+            if(p.getMaxNumMeteringAreas() > 0)
+                p.setMeteringAreas(meteringList);
 
-                try {
-                    Logger.d(TAG, "try Set Metering");
-                    mCamera.setParameters(p);
-                    Logger.d(TAG, "Setted Metering");
-                } catch (Exception ex) {
-                    Logger.d(TAG, "Set Metering FAILED!");
-                }
-
+            try {
+                Logger.d(TAG, "try Set Metering");
+                mCamera.setParameters(p);
+                Logger.d(TAG, "Setted Metering");
+            } catch (Exception ex) {
+                Logger.d(TAG, "Set Metering FAILED!");
+            }
         }
         catch (Exception ex)
         {
@@ -582,23 +429,21 @@ public class CameraHolder extends AbstractCameraHolder
         if(!isRdy)
             return;
 
-            if (mCamera != null) {
-                Camera.Parameters paras = mCamera.getParameters();
-                paras.setGpsAltitude(loc.getAltitude());
-                paras.setGpsLatitude(loc.getLatitude());
-                paras.setGpsLongitude(loc.getLongitude());
-                paras.setGpsProcessingMethod(loc.getProvider());
-                paras.setGpsTimestamp(loc.getTime());
-                try {
-                    mCamera.setParameters(paras);
-                }
-                catch (RuntimeException ex)
-                {
-                    errorHandler.OnError("Set Location failed");
-                }
-
+        if (mCamera != null) {
+            Camera.Parameters paras = mCamera.getParameters();
+            paras.setGpsAltitude(loc.getAltitude());
+            paras.setGpsLatitude(loc.getLatitude());
+            paras.setGpsLongitude(loc.getLongitude());
+            paras.setGpsProcessingMethod(loc.getProvider());
+            paras.setGpsTimestamp(loc.getTime());
+            try {
+                mCamera.setParameters(paras);
             }
-
+            catch (RuntimeException ex)
+            {
+                errorHandler.OnError("Set Location failed");
+            }
+        }
     }
 
     public void SetOrientation(int or)
@@ -607,26 +452,11 @@ public class CameraHolder extends AbstractCameraHolder
             return;
         this.Orientation = or;
 
-            if (mCamera != null) {
-                Camera.Parameters paras = mCamera.getParameters();
-                paras.setRotation(or);
-                mCamera.setParameters(paras);
-            }
-
-    }
-
-    public void SetPreviewSize(String size)
-    {
-        String split[] = size.split("x");
-        int width = Integer.parseInt(split[0]);
-        int height = Integer.parseInt(split[1]);
-
-            if (mCamera != null) {
-                Camera.Parameters paras = mCamera.getParameters();
-                paras.setPreviewSize(width, height);
-                mCamera.setParameters(paras);
-            }
-
+        if (mCamera != null) {
+            Camera.Parameters paras = mCamera.getParameters();
+            paras.setRotation(or);
+            mCamera.setParameters(paras);
+        }
     }
 
     public void SetCameraRotation(int rotation)

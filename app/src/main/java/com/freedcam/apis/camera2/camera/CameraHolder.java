@@ -107,9 +107,9 @@ public class CameraHolder extends AbstractCameraHolder
     boolean errorRecieved = false;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public CameraHolder(Context context, I_CameraChangedListner cameraChangedListner, Handler UIHandler, AppSettingsManager appSettingsManager, RenderScriptHandler renderScriptHandler)
+    public CameraHolder(Context context, I_CameraChangedListner cameraChangedListner, AppSettingsManager appSettingsManager, RenderScriptHandler renderScriptHandler)
     {
-        super(cameraChangedListner, UIHandler,appSettingsManager);
+        super(cameraChangedListner,appSettingsManager);
         this.context = context;
         this.manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         CaptureSessionH = new CaptureSessionHandler();
