@@ -47,6 +47,7 @@ public class CameraHolderMotoX extends CameraHolder
             Camera.Parameters paras = mCamera.getParameters();
             paras.set("mot-app", "true");
             mCamera.setParameters(paras);
+            isRdy = true;
         }
         catch (RuntimeException ex)
         {
@@ -55,7 +56,7 @@ public class CameraHolderMotoX extends CameraHolder
         }
 
         cameraChangedListner.onCameraOpen("");
-        super.OpenCamera(0);
+        currentState = CameraStates.open;
         return isRdy;
     }
 

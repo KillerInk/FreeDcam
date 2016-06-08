@@ -32,6 +32,7 @@ import com.lge.hardware.LGCamera;
  */
 public class CameraHolderLG extends CameraHolder
 {
+    private LGCamera lgCamera;
     public CameraHolderLG(I_CameraChangedListner cameraChangedListner, AppSettingsManager appSettingsManager, Frameworks frameworks) {
         super(cameraChangedListner, appSettingsManager, frameworks);
     }
@@ -39,7 +40,7 @@ public class CameraHolderLG extends CameraHolder
     @Override
     public boolean OpenCamera(int camera)
     {
-        LGCamera lgCamera;
+
         try {
             if (appSettingsManager.getDevice() == DeviceUtils.Devices.LG_G4)
                 lgCamera = new LGCamera(camera, 256);
@@ -55,7 +56,7 @@ public class CameraHolderLG extends CameraHolder
         }
 
         cameraChangedListner.onCameraOpen("");
-        super.OpenCamera(0);
+        currentState = CameraStates.open;
         return isRdy;
     }
 }

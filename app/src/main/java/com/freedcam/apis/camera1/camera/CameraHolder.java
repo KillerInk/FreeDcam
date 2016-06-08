@@ -101,12 +101,6 @@ public class CameraHolder extends AbstractCameraHolder
         try
         {
             mCamera = Camera.open(camera);
-            if(appSettingsManager.getDevice()==DeviceUtils.Devices.Htc_M8)
-            {
-                Camera.Parameters paras = mCamera.getParameters();
-                paras.set("zsl", "off");
-                mCamera.setParameters(paras);
-            }
             isRdy = true;
             cameraChangedListner.onCameraOpen("");
 
@@ -114,7 +108,7 @@ public class CameraHolder extends AbstractCameraHolder
             isRdy = false;
             Logger.exception(ex);
         }
-        super.OpenCamera(0);
+        currentState = CameraStates.open;
         return isRdy;
     }
 

@@ -79,13 +79,13 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
 
         this.errorHandler = this;
         if (hasLGFramework())
-            cameraHolder = new CameraHolderLG(this,appSettingsManager,Frameworks.LG);
+            this.cameraHolder = new CameraHolderLG(this,appSettingsManager,Frameworks.LG);
         else if (isMotoExt())
-            cameraHolder = new CameraHolderMotoX(this,appSettingsManager,Frameworks.MotoX);
+            this.cameraHolder = new CameraHolderMotoX(this,appSettingsManager,Frameworks.MotoX);
         else if (isMTKDevice())
-            cameraHolder = new CameraHolderMTK(this,appSettingsManager,Frameworks.MTK);
+            this.cameraHolder = new CameraHolderMTK(this,appSettingsManager,Frameworks.MTK);
         else
-            cameraHolder = new CameraHolder(this,appSettingsManager,Frameworks.Normal);
+            this.cameraHolder = new CameraHolder(this,appSettingsManager,Frameworks.Normal);
         super.cameraHolder = cameraHolder;
         this.cameraHolder.errorHandler = errorHandler;
 
@@ -209,7 +209,7 @@ public class CameraUiWrapper extends AbstractCameraUiWrapper implements SurfaceH
     {
         PreviewSurfaceRdy =false;
 
-        StopPreview();
+        //StopPreview();
         StopCamera();
     }
 
