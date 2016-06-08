@@ -84,10 +84,6 @@ public abstract class AbstractDevice
             ManualSaturation = new BaseManualParameter(parameters, KEYS.SATURATION, KEYS.SATURATION_MAX, KEYS.SATURATION_MIN, parametersHandler,1);
         else if (parameters.get(KEYS.MAX_SATURATION)!= null)
             ManualSaturation = new BaseManualParameter(parameters, KEYS.SATURATION, KEYS.MAX_SATURATION, KEYS.MIN_SATURATION, parametersHandler,1);
-        if (ManualSaturation != null ) {
-            parametersHandler.PictureFormat.addEventListner(ManualSaturation.GetPicFormatListner());
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(ManualSaturation.GetModuleListner());
-        }
         return ManualSaturation;
     }
 
