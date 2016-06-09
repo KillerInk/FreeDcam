@@ -157,7 +157,8 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, I_CameraChangedLi
                         while (frameQueue.size()>0)
                             try {
                                 ((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCamera().addCallbackBuffer(frameQueue.take());
-                            } catch (InterruptedException e) {
+                            } catch (InterruptedException | NullPointerException e)
+                            {
                                 e.printStackTrace();
                             }
                         frameQueue.clear();
