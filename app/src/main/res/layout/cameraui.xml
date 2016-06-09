@@ -30,12 +30,6 @@
         android:background="@drawable/exposure_metering" />
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/imageView_awbarea"
-        android:background="@drawable/crosshair_metering" />
-
-    <ImageView
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:id="@+id/imageViewFocusClose"

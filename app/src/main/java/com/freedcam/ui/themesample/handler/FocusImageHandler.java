@@ -38,6 +38,8 @@ import android.widget.RelativeLayout.LayoutParams;
 
 import com.freedcam.apis.basecamera.FocusRect;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.camera1.Camera1Fragment;
+import com.freedcam.apis.camera2.Camera2Fragment;
 import com.freedcam.apis.sonyremote.SonyCameraFragment;
 import com.freedcam.ui.AbstractFocusImageHandler;
 import com.freedcam.ui.ImageViewTouchAreaHandler;
@@ -56,7 +58,6 @@ public class FocusImageHandler extends AbstractFocusImageHandler
 {
     private I_CameraUiWrapper wrapper;
     private ImageView focusImageView;
-    final int crosshairShowTime = 5000;
     private int disHeight;
     private int disWidth;
     private int marginLeft;
@@ -64,23 +65,15 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     private int recthalf;
     private ImageView cancelFocus;
     private ImageView meteringArea;
-    private ImageView awbArea;
     private FocusRect meteringRect;
-    FocusRect awbRect;
-    static final int MAX_DURATION = 3500;
-    private boolean focusWasVisible = false;
-    private boolean meteringWasVisible = false;
-    private boolean wbWasVisible = false;
-
-
 
     public FocusImageHandler(View view, Fragment fragment)
     {
         super(view, fragment);
-        init(view);
-
+        focusImageView = (ImageView)view.findViewById(id.imageView_Crosshair);
+        cancelFocus = (ImageView)view.findViewById(id.imageViewFocusClose);
+        meteringArea = (ImageView)view.findViewById(id.imageView_meteringarea);
         recthalf = fragment.getResources().getDimensionPixelSize(dimen.crosshairwidth)/2;
-        //focusImageView.setVisibility(View.GONE);
 
         cancelFocus.setVisibility(View.GONE);
         cancelFocus.setOnClickListener(new OnClickListener() {
@@ -95,45 +88,12 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         meteringArea.setVisibility(View.GONE);
         if (wrapper != null)
             meteringArea.setOnTouchListener(new ImageViewTouchAreaHandler(meteringArea, wrapper, meteringTouch));
-
-        awbArea.setOnTouchListener(new ImageViewTouchAreaHandler(awbArea, wrapper,awbTouch));
-        awbArea.setVisibility(View.GONE);
-
-    }
-
-    public void HideImages(boolean hide)
-    {
-        if (hide)
-        {
-            focusWasVisible = focusImageView.getVisibility() == View.VISIBLE;
-            meteringWasVisible = meteringArea.getVisibility() == View.VISIBLE;
-            wbWasVisible = awbArea.getVisibility() == View.VISIBLE;
-            focusImageView.setVisibility(View.GONE);
-            meteringArea.setVisibility(View.GONE);
-            awbArea.setVisibility(View.GONE);
-        }
-        else {
-            if (focusWasVisible)
-                focusImageView.setVisibility(View.VISIBLE);
-            if (wbWasVisible)
-                awbArea.setVisibility(View.VISIBLE);
-            if (meteringWasVisible)
-                meteringArea.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void init(View view)
-    {
-        focusImageView = (ImageView)view.findViewById(id.imageView_Crosshair);
-        cancelFocus = (ImageView)view.findViewById(id.imageViewFocusClose);
-        meteringArea = (ImageView)view.findViewById(id.imageView_meteringarea);
-        awbArea = (ImageView)view.findViewById(id.imageView_awbarea);
     }
 
     public void SetCamerUIWrapper(I_CameraUiWrapper cameraUiWrapper)
     {
         wrapper = cameraUiWrapper;
-        if(cameraUiWrapper instanceof com.freedcam.apis.camera1.Camera1Fragment || cameraUiWrapper instanceof com.freedcam.apis.camera2.Camera2Fragment) {
+        if(cameraUiWrapper instanceof Camera1Fragment || cameraUiWrapper instanceof Camera2Fragment) {
             meteringRect = centerImageView(meteringArea);
             meteringArea.setOnTouchListener(new ImageViewTouchAreaHandler(meteringArea, wrapper, meteringTouch));
             if (wrapper.isAeMeteringSupported())
@@ -149,16 +109,6 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         {
             meteringArea.setVisibility(View.GONE);
         }
-        /*if(cameraUiWrapper instanceof CameraUiWrapper)
-        {
-            awbRect = centerImageView(awbArea);
-            if(cameraUiWrapper.Focus.isWbMeteringSupported())
-                awbArea.setVisibility(View.VISIBLE);
-            else
-                awbArea.setVisibility(View.GONE);
-        }
-        else*/
-            awbArea.setVisibility(View.GONE);
         if (wrapper.getFocusHandler() != null)
             wrapper.getFocusHandler().focusEvent = this;
     }
@@ -170,8 +120,6 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         {
             disWidth = wrapper.getPreviewWidth();
             disHeight = wrapper.getPreviewHeight();
-            int margineleft = wrapper.getMargineLeft();
-            //handler.removeCallbacksAndMessages(null);
 
             if (rect == null)
             {
@@ -181,7 +129,6 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             }
             final LayoutParams mParams = (LayoutParams) focusImageView.getLayoutParams();
             mParams.leftMargin = rect.left;
-            //mParams.rightMargin = x +half;
             mParams.topMargin = rect.top;
 
             focusImageView.post(new Runnable() {
@@ -211,7 +158,6 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                         focusImageView.setBackgroundResource(drawable.crosshair_circle_failed);
 
                     focusImageView.setAnimation(null);
-                    //handler.postDelayed(hideCrosshair, crosshairShowTime);
                 }
             });
         }
@@ -256,31 +202,12 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     }
 
     @Override
-    public void AWBMeteringSupported(boolean isSupported) {
-        if (isSupported)
-            awbArea.setVisibility(View.VISIBLE);
-        else
-            awbArea.setVisibility(View.GONE);
-    }
-
-    @Override
     public boolean onTouchEvent(MotionEvent event)
     {
         if (wrapper instanceof SonyCameraFragment)
             wrapper.getFocusHandler().SetMotionEvent(event);
         return false;
     }
-
-
-    /*private Handler handler = new Handler();
-    Runnable hideCrosshair = new Runnable() {
-        @Override
-        public void run()
-        {
-            focusImageView.setBackgroundResource(R.drawable.crosshair_normal);
-            focusImageView.setVisibility(View.GONE);
-        }
-    };*/
 
     private I_TouchListnerEvent meteringTouch = new I_TouchListnerEvent() {
         @Override
@@ -306,39 +233,23 @@ public class FocusImageHandler extends AbstractFocusImageHandler
 
         }
 
+        /**
+         * Disable the viewpager touch while moving to avoid that settings or screenslide get open
+         * @param moving when true disable viewpager from CameraUI
+         *               else allow swiping
+         */
         @Override
         public void IsMoving(boolean moving)
         {
+            //disable exposure lock that metering can get applied
             if (moving && wrapper.GetParameterHandler().ExposureLock != null && wrapper.GetParameterHandler().ExposureLock.IsSupported() && wrapper.GetParameterHandler().ExposureLock.GetValue().equals("true"))
             {
                 wrapper.GetParameterHandler().ExposureLock.SetValue("false",true);
             }
+            //enable/disable viewpager touch
             SampleThemeFragment sampleThemeFragment = (SampleThemeFragment) fragment.getParentFragment();
             if(sampleThemeFragment != null)
                 sampleThemeFragment.DisablePagerTouch(moving);
-        }
-    };
-
-    private I_TouchListnerEvent awbTouch = new I_TouchListnerEvent() {
-        @Override
-        public void onAreaCHanged(FocusRect imageRect, int previewWidth, int previewHeight) {
-            if (wrapper != null)
-                wrapper.getFocusHandler().SetAwbAreas(imageRect, previewWidth, previewHeight);
-        }
-
-        @Override
-        public void OnAreaClick(int x, int y) {
-            OnClick(x,y);
-        }
-
-        @Override
-        public void OnAreaLongClick(int x, int y) {
-
-        }
-
-        @Override
-        public void IsMoving(boolean moving) {
-
         }
     };
 
@@ -369,9 +280,6 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         }
     }
 
-    /*
-    returns the display size depending on sdk
-     */
 
     /*
     Centers the attached Imageview

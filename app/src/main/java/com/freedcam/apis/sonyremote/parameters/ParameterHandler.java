@@ -93,7 +93,6 @@ public class ParameterHandler extends AbstractParameterHandler
             }
             else
                 parametersChangedList.get(i).SonyApiChanged(mAvailableCameraApiSet);
-
         }
     }
 
@@ -180,11 +179,5 @@ public class ParameterHandler extends AbstractParameterHandler
         mRemoteApi = api;
         createParameters();
     }
-
-    @Override
-    public void LockExposureAndWhiteBalance(boolean lock) {
-
-    }
-
 
 }

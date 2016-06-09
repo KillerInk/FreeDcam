@@ -680,14 +680,6 @@ public class ParametersHandler extends AbstractParameterHandler
         else
             cameraHolder.SetCameraRotation(180);
     }
-    @Override
-    public void LockExposureAndWhiteBalance(boolean value)
-    {
-        isExposureAndWBLocked = value;
-        if (ExposureLock != null && ExposureLock.IsSupported())
-            ExposureLock.SetValue(value + "", false);
-        SetParametersToCamera(cameraParameters);
-    }
 
     public void initMTKSHit()    {
 

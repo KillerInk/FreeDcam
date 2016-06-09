@@ -34,10 +34,8 @@ public abstract class AbstractFocusHandler
     public void StartFocus(){}
     public void StartTouchToFocus(FocusRect rect, FocusRect meteringarea, int width, int height){}
     public void SetMeteringAreas(FocusRect meteringRect, int width, int height){}
-    public abstract void SetAwbAreas(FocusRect awbRect, int width, int height);
     public I_Focus focusEvent;
     public abstract boolean isAeMeteringSupported();
-    public abstract boolean isWbMeteringSupported();
     public abstract void SetMotionEvent(MotionEvent event);
 
     protected void logFocusRect(FocusRect rect)

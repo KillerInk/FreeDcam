@@ -194,8 +194,6 @@ public abstract class AbstractParameterHandler
 
     }
 
-    public abstract void LockExposureAndWhiteBalance(boolean lock);
-
     public void SetFocusAREA(FocusRect focusAreas, FocusRect meteringAreas){}
     public void SetMeterAREA(FocusRect meteringAreas){}
 
@@ -229,7 +227,6 @@ public abstract class AbstractParameterHandler
         setMode(Denoise, AppSettingsManager.SETTING_DENOISE_MODE);
         setMode(DigitalImageStabilization, AppSettingsManager.SETTING_DIS_MODE);
         setMode(MemoryColorEnhancement, AppSettingsManager.SETTING_MCE_MODE);
-        //setMode(SkinToneEnhancment, AppSettingsManager.SETTING_SKINTONE_MODE);
         setMode(NightMode, AppSettingsManager.SETTING_NIGHTEMODE);
         setMode(NonZslManualMode, AppSettingsManager.SETTING_NONZSLMANUALMODE);
 

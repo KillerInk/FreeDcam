@@ -44,11 +44,6 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
     private final CameraHolder cameraHolder;
     private final I_CameraUiWrapper cameraUiWrapper;
     private final AbstractParameterHandler parametersHandler;
-
-    int count;
-    List<Area> areas;
-    private boolean isFocusing = false;
-
     private boolean aeMeteringSupported =false;
 
     public I_ModeParameterEvent focusModeListner = new I_ModeParameterEvent() {
@@ -146,18 +141,13 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
     {
         this.cameraUiWrapper = cameraUiWrapper;
         cameraHolder = (CameraHolder) cameraUiWrapper.GetCameraHolder();
-        parametersHandler = (ParametersHandler)cameraUiWrapper.GetParameterHandler();
+        parametersHandler = cameraUiWrapper.GetParameterHandler();
     }
 
     @Override
     public boolean isAeMeteringSupported()
     {
         return aeMeteringSupported;
-    }
-
-    @Override
-    public boolean isWbMeteringSupported() {
-        return false;
     }
 
     @Override
@@ -168,8 +158,6 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
     @Override
     public void onAutoFocus(CameraFocusEvent event)
     {
-        //camera.cancelAutoFocus();
-        isFocusing = false;
         if (focusEvent != null)
             focusEvent.FocusFinished(event.success);
     }
@@ -186,7 +174,6 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
             focusEvent.FocusStarted(null);
         }
         cameraHolder.StartFocus(this);
-        isFocusing = true;
     }
 
 
@@ -198,20 +185,7 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
         String focusmode = parametersHandler.FocusMode.GetValue();
         if (focusmode.equals("auto") || focusmode.equals("macro"))
         {
-           /* try {
-                if (parametersHandler.ExposureLock != null && parametersHandler.ExposureLock.IsSupported()) {
-                    if (parametersHandler.ExposureLock.GetValue().equals("true")) {
-                        parametersHandler.ExposureLock.SetValue("false", true);
-                        parametersHandler.ExposureLock.BackgroundValueHasChanged("false");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                
-            }*/
             FocusRect targetFocusRect = getFocusRect(rect, width, height);
-
 
             if (targetFocusRect.left >= -1000
                     && targetFocusRect.top >= -1000
@@ -221,9 +195,7 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
 
                 parametersHandler.SetFocusAREA(targetFocusRect, meteringarea);
                 if (cameraHolder != null)
-                    cameraHolder.StartFocus(this);
-                isFocusing = true;
-                if (focusEvent != null)
+                    cameraHolder.StartFocus(this);                if (focusEvent != null)
                     focusEvent.FocusStarted(rect);
             }
         }
@@ -242,11 +214,6 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
             FocusRect targetFocusRect = getFocusRect(meteringRect, width, height);
             cameraHolder.SetMeteringAreas(targetFocusRect);
         }
-
-    }
-
-    @Override
-    public void SetAwbAreas(FocusRect awbRect, int width, int height) {
 
     }
 

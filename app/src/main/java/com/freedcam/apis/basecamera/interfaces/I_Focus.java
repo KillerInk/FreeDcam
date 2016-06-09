@@ -33,6 +33,5 @@ public interface I_Focus
     void FocusLocked(boolean locked);
     void TouchToFocusSupported(boolean isSupported);
     void AEMeteringSupported(boolean isSupported);
-    void AWBMeteringSupported(boolean isSupported);
     boolean onTouchEvent(MotionEvent event);
 }

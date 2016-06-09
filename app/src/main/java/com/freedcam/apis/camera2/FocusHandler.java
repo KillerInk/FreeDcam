@@ -187,74 +187,8 @@ public class FocusHandler extends AbstractFocusHandler implements I_ParametersLo
         cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
     }
 
-    public I_ModeParameterEvent awbModeListner = new I_ModeParameterEvent() {
-        @Override
-        public void onValueChanged(String val) {
-            if (val.equals("OFF"))
-            {
-                if (focusEvent != null)
-                    focusEvent.AWBMeteringSupported(false);
-            }
-            else {
-                if (focusEvent != null)
-                    focusEvent.AWBMeteringSupported(true);
-            }
-        }
-
-        @Override
-        public void onIsSupportedChanged(boolean isSupported) {
-
-        }
-
-        @Override
-        public void onIsSetSupportedChanged(boolean isSupported) {
-
-        }
-
-        @Override
-        public void onValuesChanged(String[] values) {
-
-        }
-
-        @Override
-        public void onVisibilityChanged(boolean visible) {
-
-        }
-    };
-
-    @Override
-    public void SetAwbAreas(FocusRect rect, int width, int height)
-    {
-        /*cameraHolder.mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AWB_LOCK, false);
-        try {
-            cameraHolder.mCaptureSession.capture(cameraHolder.mPreviewRequestBuilder.build(), cameraHolder.cameraBackroundValuesChangedListner,
-                    null);
-        } catch (CameraAccessException e) {
-            Logger.exception(e);
-        }*/
-        Rect m = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
-        if (rect.left < m.left)
-            rect.left = m.left;
-        if (rect.right > m.right)
-            rect.right = m.right;
-        if (rect.top < m.top)
-            rect.top = m.top;
-        if (rect.bottom > m.bottom)
-            rect.bottom = m.bottom;
-        MeteringRectangle rectangle = new MeteringRectangle(rect.left,rect.top,rect.right,rect.bottom, 1000);
-        MeteringRectangle[] mre = { rectangle};
-        cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AWB_REGIONS, mre);
-        cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
-
-    }
-
     @Override
     public boolean isAeMeteringSupported() {
-        return false;
-    }
-
-    @Override
-    public boolean isWbMeteringSupported() {
         return false;
     }
 
@@ -270,10 +204,6 @@ public class FocusHandler extends AbstractFocusHandler implements I_ParametersLo
                 || cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AE) == null
                 || cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AWB) == null)
             return;
-        if (cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AWB)> 0)
-            focusEvent.AWBMeteringSupported(true);
-        else
-            focusEvent.AWBMeteringSupported(false);
         if (cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AE)>0)
             focusEvent.AEMeteringSupported(true);
         else

@@ -37,10 +37,8 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
     private I_CameraUiWrapper cameraUiWrapper;
     private CameraHolder cameraHolder;
     private ParameterHandler parametersHandler;
-    private static String TAG = FocusHandler.class.getSimpleName();
-
+    private final String TAG = FocusHandler.class.getSimpleName();
     private boolean isFocusing = false;
-    private boolean isFocusLocked = false;
 
     public FocusHandler(I_CameraUiWrapper cameraUiWrapper)
     {
@@ -80,21 +78,10 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
         isFocusing = true;
         if (focusEvent != null)
             focusEvent.FocusStarted(rect);
-        //super.StartTouchToFocus(rect, width, height);
-    }
-
-    @Override
-    public void SetAwbAreas(FocusRect awbRect, int width, int height) {
-
     }
 
     @Override
     public boolean isAeMeteringSupported() {
-        return false;
-    }
-
-    @Override
-    public boolean isWbMeteringSupported() {
         return false;
     }
 
@@ -107,7 +94,6 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
     @Override
     public void onAutoFocus(CameraFocusEvent event)
     {
-        //camera.cancelAutoFocus();
         isFocusing = false;
         if (focusEvent != null) {
             focusEvent.FocusFinished(event.success);
@@ -118,7 +104,6 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
 
     @Override
     public void onFocusLock(boolean locked) {
-        isFocusLocked = locked;
         if (focusEvent != null) {
             focusEvent.FocusLocked(locked);
         }

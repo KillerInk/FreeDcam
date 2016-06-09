@@ -119,7 +119,6 @@ public class ParameterHandler extends AbstractParameterHandler
         PictureFormat = new PictureFormatParameterApi2(cameraHolder);
 
         FocusMode.addEventListner(((FocusHandler)cameraHolder.Focus).focusModeListner);
-        WhiteBalanceMode.addEventListner(((FocusHandler) cameraHolder.Focus).awbModeListner);
         ExposureMode.addEventListner(((FocusHandler) cameraHolder.Focus).aeModeListner);
         ((FocusHandler) cameraHolder.Focus).ParametersLoaded();
 
@@ -150,11 +149,6 @@ public class ParameterHandler extends AbstractParameterHandler
 
     }
 
-
-    @Override
-    public void LockExposureAndWhiteBalance(boolean lock) {
-
-    }
 
     @Override
     public void SetPictureOrientation(int orientation)
