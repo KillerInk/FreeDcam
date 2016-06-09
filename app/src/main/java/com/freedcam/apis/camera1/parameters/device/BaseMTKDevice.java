@@ -118,7 +118,7 @@ public class BaseMTKDevice extends AbstractDevice
     public AbstractModeParameter getDenoiseParameter() {
         if(parameters.get(KEYS.MTK_NOISE_REDUCTION_MODE)!=null) {
             if (parameters.get(KEYS.MTK_NOISE_REDUCTION_MODE_VALUES).equals("on,off")) {
-                return new BaseModeParameter(parameters, cameraHolder, KEYS.MTK_NOISE_REDUCTION_MODE, KEYS.MTK_NOISE_REDUCTION_MODE_VALUES);
+                return new BaseModeParameter(parameters, cameraUiWrapper, KEYS.MTK_NOISE_REDUCTION_MODE, KEYS.MTK_NOISE_REDUCTION_MODE_VALUES);
             }
         }
         return null;

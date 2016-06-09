@@ -21,6 +21,7 @@ package com.freedcam.apis.sonyremote.parameters.modes;
 
 import android.os.Build.VERSION;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import com.freedcam.utils.StringUtils;
 
@@ -35,7 +36,7 @@ import static com.freedcam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.Nig
  */
 public class NightModeSony extends BaseModeParameterSony
 {
-    private String currentval = StringUtils.OFF;
+    private String currentval = KEYS.OFF;
     private SimpleStreamSurfaceView simpleStreamSurfaceView;
     private final String GRAYSCALE = "GrayScale";
     final String ZOOMPREVIEW = "ZoomPreview";
@@ -48,7 +49,7 @@ public class NightModeSony extends BaseModeParameterSony
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         switch (valueToSet) {
-            case StringUtils.ON:
+            case KEYS.ON:
                 simpleStreamSurfaceView.nightmode = on;
                 break;
             case GRAYSCALE:
@@ -66,21 +67,21 @@ public class NightModeSony extends BaseModeParameterSony
         switch (simpleStreamSurfaceView.nightmode)
         {
             case on:
-                return StringUtils.ON;
+                return KEYS.ON;
             case off:
-                return StringUtils.OFF;
+                return KEYS.OFF;
             case grayscale:
                 return GRAYSCALE;
            /* case zoompreview:
                 return ZOOMPREVIEW;*/
             default:
-                return StringUtils.OFF;
+                return KEYS.OFF;
         }
     }
 
     @Override
     public String[] GetValues() {
-        return new String[] {StringUtils.ON, StringUtils.OFF, GRAYSCALE/*, ZOOMPREVIEW*/};
+        return new String[] {KEYS.ON, KEYS.OFF, GRAYSCALE/*, ZOOMPREVIEW*/};
     }
 
     @Override

@@ -44,14 +44,13 @@ public class VideoProfilesParameter extends BaseModeParameter
     private final String TAG = VideoProfilesParameter.class.getSimpleName();
     private HashMap<String, VideoMediaProfile> supportedProfiles;
     private CameraHolder cameraHolder;
-    private I_CameraUiWrapper cameraUiWrapper;
     private String profile;
     private static final String _720phfr = "720HFR";
     public static final String _4kUHD = "4kUHD";
 
-    public VideoProfilesParameter(Parameters parameters, CameraHolder parameterChanged, String values, I_CameraUiWrapper cameraUiWrapper) {
-        super(parameters, parameterChanged, "", "");
-        cameraHolder = parameterChanged;
+    public VideoProfilesParameter(Parameters parameters,I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper, "", "");
+        cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
         this.cameraUiWrapper = cameraUiWrapper;
         isSupported =true;
         loadProfiles();

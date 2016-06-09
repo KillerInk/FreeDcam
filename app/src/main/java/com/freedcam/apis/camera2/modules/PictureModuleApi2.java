@@ -668,7 +668,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
 
         //OrientationHACK
-        if(appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+        if(appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
             cameraHolder.SetParameterRepeating(CaptureRequest.JPEG_ORIENTATION, 180);
         else
             cameraHolder.SetParameterRepeating(CaptureRequest.JPEG_ORIENTATION, 0);

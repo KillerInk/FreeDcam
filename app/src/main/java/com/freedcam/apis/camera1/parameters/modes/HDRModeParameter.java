@@ -24,6 +24,7 @@ import android.hardware.Camera.Parameters;
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.CameraHolder;
+import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
 
@@ -43,10 +44,9 @@ public class HDRModeParameter extends BaseModeParameter
     private String state = "";
     private String format = "";
     private String curmodule = "";
-    private I_CameraUiWrapper cameraUiWrapper;
 
-    public HDRModeParameter(Parameters parameters, CameraHolder parameterChanged, String values, I_CameraUiWrapper cameraUiWrapper) {
-        super(parameters, parameterChanged, "", "");
+    public HDRModeParameter(Parameters parameters,I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper, "", "");
         this.cameraUiWrapper = cameraUiWrapper;
         isSupported = false;
         if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W
@@ -105,12 +105,12 @@ public class HDRModeParameter extends BaseModeParameter
                 ||cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Xiaomi_RedmiNote)
         {
             if (valueToSet.equals(KEYS.ON)) {
-                cameraHolder.GetParameterHandler().morphoHHT.SetValue(KEYS.FALSE, true);
-                cameraHolder.GetParameterHandler().NightMode.BackgroundValueHasChanged(KEYS.OFF);
-                cameraHolder.GetParameterHandler().AE_Bracket.SetValue(KEYS.AE_BRACKET_HDR_VALUES_AE_BRACKET, true);
+                cameraUiWrapper.GetParameterHandler().morphoHHT.SetValue(KEYS.FALSE, true);
+                cameraUiWrapper.GetParameterHandler().NightMode.BackgroundValueHasChanged(KEYS.OFF);
+                cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue(KEYS.AE_BRACKET_HDR_VALUES_AE_BRACKET, true);
                 parameters.set(KEYS.MORPHO_HDR, KEYS.TRUE);
             } else {
-                cameraHolder.GetParameterHandler().AE_Bracket.SetValue(KEYS.AE_BRACKET_OFF, true);
+                cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue(KEYS.AE_BRACKET_OFF, true);
                 parameters.set(KEYS.MORPHO_HDR, KEYS.FALSE);
             }
         }
@@ -146,7 +146,7 @@ public class HDRModeParameter extends BaseModeParameter
             }
         }
         try {
-            cameraHolder.SetCameraParameters(parameters);
+            ((ParametersHandler)cameraUiWrapper).SetParametersToCamera(parameters);
             BackgroundValueHasChanged(valueToSet);
         }
         catch (Exception ex)

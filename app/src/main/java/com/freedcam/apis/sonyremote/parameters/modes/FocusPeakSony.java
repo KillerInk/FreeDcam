@@ -21,6 +21,7 @@ package com.freedcam.apis.sonyremote.parameters.modes;
 
 import android.os.Build.VERSION;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import com.freedcam.utils.StringUtils;
 
@@ -31,7 +32,7 @@ import java.util.Set;
  */
 public class FocusPeakSony extends BaseModeParameterSony {
 
-    private String currentval = StringUtils.OFF;
+    private String currentval = KEYS.OFF;
     private SimpleStreamSurfaceView simpleStreamSurfaceView;
 
 
@@ -42,21 +43,21 @@ public class FocusPeakSony extends BaseModeParameterSony {
 
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        simpleStreamSurfaceView.focuspeak = valueToSet.equals(StringUtils.ON);
+        simpleStreamSurfaceView.focuspeak = valueToSet.equals(KEYS.ON);
     }
 
     @Override
     public String GetValue()
     {
         if (simpleStreamSurfaceView.focuspeak)
-            return StringUtils.ON;
+            return KEYS.ON;
         else
-            return StringUtils.OFF;
+            return KEYS.OFF;
     }
 
     @Override
     public String[] GetValues() {
-        return new String[] {StringUtils.ON, StringUtils.OFF};
+        return new String[] {KEYS.ON, KEYS.OFF};
     }
 
     @Override

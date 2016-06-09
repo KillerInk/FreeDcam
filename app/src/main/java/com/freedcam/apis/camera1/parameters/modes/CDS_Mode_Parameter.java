@@ -21,7 +21,9 @@ package com.freedcam.apis.camera1.parameters.modes;
 
 import android.hardware.Camera.Parameters;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.CameraHolder;
+import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
 
@@ -32,9 +34,9 @@ public class CDS_Mode_Parameter extends BaseModeParameter
 {
     final String TAG = CDS_Mode_Parameter.class.getSimpleName();
     final String[] cds_values = {"auto", "on", "off"};
-    public CDS_Mode_Parameter(Parameters parameters, CameraHolder cameraHolder, String value)
+    public CDS_Mode_Parameter(Parameters parameters, I_CameraUiWrapper cameraUiWrapper, String value)
     {
-        super(parameters, cameraHolder, "", "");
+        super(parameters, cameraUiWrapper, "", "");
         try {
             String cds = parameters.get("cds-mode");
             if (cds != null && !cds.equals(""))
@@ -48,11 +50,11 @@ public class CDS_Mode_Parameter extends BaseModeParameter
         }
         if (!isSupported)
         {
-            if (cameraHolder.appSettingsManager.getDevice() == Devices.ZTEADVIMX214
-                    || cameraHolder.appSettingsManager.getDevice() == Devices.ZTE_ADV
-                    || cameraHolder.appSettingsManager.getDevice() == Devices.ZTEADVIMX214
-                    || cameraHolder.appSettingsManager.getDevice() == Devices.Htc_M9
-                    || cameraHolder.appSettingsManager.getDevice() == Devices.LG_G4)
+            if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214
+                    || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV
+                    || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214
+                    || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Htc_M9
+                    || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G4)
                 isSupported = true;
         }
     }
@@ -82,7 +84,7 @@ public class CDS_Mode_Parameter extends BaseModeParameter
     {
         parameters.set("cds-mode", valueToSet);
         try {
-            cameraHolder.SetCameraParameters(parameters);
+            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         }
         catch (Exception ex)
         {

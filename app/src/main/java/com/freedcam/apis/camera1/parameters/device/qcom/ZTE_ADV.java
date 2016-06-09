@@ -94,7 +94,7 @@ public class ZTE_ADV extends BaseQcomDevice {
 
     @Override
     public AbstractModeParameter getLensFilter() {
-        return new VirtualLensFilter(parameters, cameraHolder, cameraUiWrapper);
+        return new VirtualLensFilter(parameters, cameraUiWrapper);
     }
 
     @Override

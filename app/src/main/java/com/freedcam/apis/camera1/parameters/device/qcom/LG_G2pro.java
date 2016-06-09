@@ -93,13 +93,13 @@ public class LG_G2pro extends AbstractDevice
     public AbstractModeParameter getVideoProfileMode()
     {
         if (cameraHolder.DeviceFrameWork == Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
-            return new VideoProfilesG3Parameter(parameters,cameraHolder, "", cameraUiWrapper);
+            return new VideoProfilesG3Parameter(parameters,cameraUiWrapper);
         else
             return super.getVideoProfileMode();
     }
 
     @Override
     public AbstractModeParameter getDenoiseParameter() {
-        return new BaseModeParameter(parameters, cameraHolder, KEYS.DENOISE, KEYS.DENOISE_VALUES);
+        return new BaseModeParameter(parameters, cameraUiWrapper, KEYS.DENOISE, KEYS.DENOISE_VALUES);
     }
 }

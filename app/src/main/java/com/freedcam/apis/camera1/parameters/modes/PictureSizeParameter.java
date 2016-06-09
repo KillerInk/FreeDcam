@@ -21,7 +21,9 @@ package com.freedcam.apis.camera1.parameters.modes;
 
 import android.hardware.Camera.Parameters;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.CameraHolder;
+import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.Logger;
 
 /**
@@ -30,7 +32,7 @@ import com.freedcam.utils.Logger;
 public class PictureSizeParameter extends BaseModeParameter
 {
     final String TAG = PictureSizeParameter.class.getSimpleName();
-    public PictureSizeParameter(Parameters  parameters, CameraHolder parameterChanged) {
+    public PictureSizeParameter(Parameters  parameters, I_CameraUiWrapper parameterChanged) {
         super(parameters, parameterChanged, "picture-size", "picture-size-values");
     }
 
@@ -40,7 +42,7 @@ public class PictureSizeParameter extends BaseModeParameter
         parameters.set("picture-size" , valueToSet);
 
         try {
-            cameraHolder.SetCameraParameters(parameters);
+            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
             BackgroundValueHasChanged(valueToSet);
         }
         catch (Exception ex)

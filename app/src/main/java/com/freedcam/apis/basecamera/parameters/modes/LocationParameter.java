@@ -26,6 +26,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
@@ -52,7 +53,7 @@ public class LocationParameter extends AbstractModeParameter implements Location
         this.cameraHolder = cameraHolder;
         this.appSettingsManager = appSettingsManager;
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        if (GetValue().equals(StringUtils.ON))
+        if (GetValue().equals(KEYS.ON))
             startLocationListing();
     }
 
@@ -65,22 +66,22 @@ public class LocationParameter extends AbstractModeParameter implements Location
     public String GetValue()
     {
         if (appSettingsManager.getString(AppSettingsManager.SETTING_LOCATION).equals(""))
-            appSettingsManager.setString(AppSettingsManager.SETTING_LOCATION, StringUtils.OFF);
+            appSettingsManager.setString(AppSettingsManager.SETTING_LOCATION, KEYS.OFF);
         return appSettingsManager.getString(AppSettingsManager.SETTING_LOCATION);
     }
 
     @Override
     public String[] GetValues() {
-        return new String[] { StringUtils.OFF, StringUtils.ON };
+        return new String[] { KEYS.OFF, KEYS.ON };
     }
 
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         appSettingsManager.setString(AppSettingsManager.SETTING_LOCATION, valueToSet);
-        if (valueToSet.equals(StringUtils.OFF))
+        if (valueToSet.equals(KEYS.OFF))
             stopLocationListining();
-        if (valueToSet.equals(StringUtils.ON))
+        if (valueToSet.equals(KEYS.ON))
             startLocationListing();
     }
 

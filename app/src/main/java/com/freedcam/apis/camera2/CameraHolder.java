@@ -57,6 +57,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.WindowManager;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.camera2.modules.I_PreviewWrapper;
@@ -777,7 +778,7 @@ public class CameraHolder extends AbstractCameraHolder
             if (video)
             {
                 matrix.setRectToRect(bufferRect, viewRect, ScaleToFit.FILL);
-                if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+                if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
                     matrix.preRotate(orientationWithHack, centerX, centerY);
                 else
                     matrix.preRotate(orientation, centerX, centerY);
@@ -785,7 +786,7 @@ public class CameraHolder extends AbstractCameraHolder
             else
             {
                 matrix.setRectToRect(viewRect, viewRect, ScaleToFit.FILL);
-                if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
+                if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
                     matrix.postRotate(orientationWithHack, centerX, centerY);
                 else
                     matrix.postRotate(orientation, centerX, centerY);

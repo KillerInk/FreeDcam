@@ -62,9 +62,9 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements I_MenuItemCl
     {
         if (parameter == null)
             return;
-        if (parameter.GetValue().equals(StringUtils.ON)) {
+        if (parameter.GetValue().equals(KEYS.ON)) {
             try {
-                parameter.SetValue(StringUtils.OFF, false);
+                parameter.SetValue(KEYS.OFF, false);
             }
             catch (Exception ex)
             {
@@ -72,7 +72,7 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements I_MenuItemCl
             }
         }
         else
-            parameter.SetValue(StringUtils.ON,false);
+            parameter.SetValue(KEYS.ON,false);
     }
 
     @Override

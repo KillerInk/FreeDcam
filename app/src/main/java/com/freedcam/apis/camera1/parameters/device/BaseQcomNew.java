@@ -40,7 +40,7 @@ public class BaseQcomNew extends AbstractDevice
 
     public BaseQcomNew(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
-        aeHandlerQcomM = new AE_Handler_QcomM(parameters, cameraHolder, parametersHandler);
+        aeHandlerQcomM = new AE_Handler_QcomM(parameters, cameraUiWrapper, parametersHandler);
     }
 
     @Override
@@ -82,6 +82,6 @@ public class BaseQcomNew extends AbstractDevice
 
     @Override
     public AbstractModeParameter getDenoiseParameter() {
-        return new BaseModeParameter(parameters, cameraHolder, KEYS.DENOISE, KEYS.DENOISE_VALUES);
+        return new BaseModeParameter(parameters, cameraUiWrapper, KEYS.DENOISE, KEYS.DENOISE_VALUES);
     }
 }

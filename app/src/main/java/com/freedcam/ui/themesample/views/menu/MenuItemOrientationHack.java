@@ -22,6 +22,7 @@ package com.freedcam.ui.themesample.views.menu;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.Camera1Fragment;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
@@ -47,16 +48,16 @@ public class MenuItemOrientationHack extends MenuItem
     {
         this.cameraUiWrapper = cameraUiWrapper;
         if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(""))
-            appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack, StringUtils.OFF);
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
-            onValueChanged(StringUtils.ON);
+            appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack, KEYS.OFF);
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
+            onValueChanged(KEYS.ON);
         else
-            onValueChanged(StringUtils.OFF);
+            onValueChanged(KEYS.OFF);
     }
 
     @Override
     public String[] GetValues() {
-        return new String[] {StringUtils.ON, StringUtils.OFF};
+        return new String[] {KEYS.ON, KEYS.OFF};
     }
 
     @Override

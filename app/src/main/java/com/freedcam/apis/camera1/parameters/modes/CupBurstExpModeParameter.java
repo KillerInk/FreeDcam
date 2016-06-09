@@ -21,7 +21,9 @@ package com.freedcam.apis.camera1.parameters.modes;
 
 import android.hardware.Camera.Parameters;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.CameraHolder;
+import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
@@ -32,8 +34,8 @@ public class CupBurstExpModeParameter extends BaseModeParameter
 {
     final String TAG = CupBurstExpModeParameter.class.getSimpleName();
     private AppSettingsManager appSettingsManager;
-    public CupBurstExpModeParameter(Parameters parameters, CameraHolder cameraHolder, String values, AppSettingsManager appSettingsManager) {
-        super(parameters, cameraHolder, "capture-burst-exposures", "");
+    public CupBurstExpModeParameter(Parameters parameters, I_CameraUiWrapper cameraUiWrapper, String values, AppSettingsManager appSettingsManager) {
+        super(parameters, cameraUiWrapper, "capture-burst-exposures", "");
         this.appSettingsManager = appSettingsManager;
 
         isSupported = false;
@@ -73,7 +75,7 @@ public class CupBurstExpModeParameter extends BaseModeParameter
 
         parameters.set("ae-bracket-hdr","Off");
         try {
-            cameraHolder.SetCameraParameters(parameters);
+            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         } catch (Exception ex) {
             Logger.exception(ex);
         }
@@ -94,7 +96,7 @@ public class CupBurstExpModeParameter extends BaseModeParameter
 
         parameters.set("capture-burst-exposures",newvalue[0]+","+newvalue[1]+","+newvalue[2]);
         try {
-            cameraHolder.SetCameraParameters(parameters);
+            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
             //super.BackgroundValueHasChanged(newvalue[0]+","+newvalue[1]+","+newvalue[2]);
         } catch (Exception e) {
             Logger.exception(e);

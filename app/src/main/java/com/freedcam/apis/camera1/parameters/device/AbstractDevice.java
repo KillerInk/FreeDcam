@@ -145,7 +145,7 @@ public abstract class AbstractDevice
 
     public AbstractModeParameter getVideoProfileMode()
     {
-        return new VideoProfilesParameter(parameters,cameraHolder, "", cameraUiWrapper);
+        return new VideoProfilesParameter(parameters,cameraUiWrapper);
     }
 
     public AbstractModeParameter getNonZslManualMode()

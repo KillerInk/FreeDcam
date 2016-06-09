@@ -21,6 +21,8 @@ package com.freedcam.apis.camera1.parameters.modes;
 
 import android.os.Build.VERSION;
 
+import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.renderscript.FocusPeakProcessorAp1;
 import com.freedcam.utils.StringUtils;
@@ -32,9 +34,9 @@ import com.freedcam.utils.StringUtils;
 public class FocusPeakModeParameter extends BaseModeParameter {
 
     private FocusPeakProcessorAp1 focusPeakProcessorAp1;
-    public FocusPeakModeParameter(CameraHolder cameraHolder, FocusPeakProcessorAp1 focusPeakProcessorAp1)
+    public FocusPeakModeParameter(I_CameraUiWrapper cameraUiWrapper, FocusPeakProcessorAp1 focusPeakProcessorAp1)
     {
-        super(null, cameraHolder, "", "");
+        super(null, cameraUiWrapper, "", "");
         this.focusPeakProcessorAp1 = focusPeakProcessorAp1;
     }
 
@@ -45,9 +47,9 @@ public class FocusPeakModeParameter extends BaseModeParameter {
 
     @Override
     public void SetValue(String valueToSet, boolean setToCam) {
-        if (valueToSet.equals(StringUtils.ON))
+        if (valueToSet.equals(KEYS.ON))
         {
-            cameraHolder.GetParameterHandler().FocusMode.SetValue(cameraHolder.GetParameterHandler().FocusMode.GetValue(),true);
+            cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(cameraUiWrapper.GetParameterHandler().FocusMode.GetValue(),true);
             focusPeakProcessorAp1.Enable(true);
         }
         else
@@ -58,14 +60,14 @@ public class FocusPeakModeParameter extends BaseModeParameter {
     public String GetValue()
     {
         if (focusPeakProcessorAp1.isEnable())
-            return StringUtils.ON;
+            return KEYS.ON;
         else
-            return StringUtils.OFF;
+            return KEYS.OFF;
     }
 
     @Override
     public String[] GetValues() {
-        return new String[] {StringUtils.ON, StringUtils.OFF};
+        return new String[] {KEYS.ON, KEYS.OFF};
     }
 
     @Override
@@ -82,10 +84,10 @@ public class FocusPeakModeParameter extends BaseModeParameter {
     @Override
     public void BackgroundValueHasChanged(String value)
     {
-        if (value.equals("true"))
-            super.BackgroundValueHasChanged(StringUtils.ON);
-        else if (value.equals("false"))
-            super.BackgroundValueHasChanged(StringUtils.OFF);
+        if (value.equals(KEYS.TRUE))
+            super.BackgroundValueHasChanged(KEYS.ON);
+        else if (value.equals(KEYS.FALSE))
+            super.BackgroundValueHasChanged(KEYS.OFF);
     }
 
     @Override

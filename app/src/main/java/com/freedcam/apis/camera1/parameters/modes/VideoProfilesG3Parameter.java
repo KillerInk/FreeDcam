@@ -44,13 +44,12 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
 {
     final String TAG = VideoProfilesG3Parameter.class.getSimpleName();
     private HashMap<String, VideoMediaProfile> supportedProfiles;
-    private I_CameraUiWrapper cameraUiWrapper;
     private String profile;
+    private CameraHolder cameraHolder;
 
-    public VideoProfilesG3Parameter(Parameters parameters, CameraHolder cameraHolder, String values, I_CameraUiWrapper cameraUiWrapper) {
-        super(parameters, cameraHolder, "", "");
-        this.cameraHolder = cameraHolder;
-        this.cameraUiWrapper = cameraUiWrapper;
+    public VideoProfilesG3Parameter(Parameters parameters,I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper, "", "");
+        cameraHolder = (CameraHolder) cameraUiWrapper.GetCameraHolder();
         isSupported =true;
         loadProfiles();
     }

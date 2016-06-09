@@ -31,8 +31,6 @@ import java.util.Date;
 public class StringUtils
 {
 
-    public static final String ON = "ON";
-    public static final String OFF = "OFF";
 
     public static String VoLP = "Vol+";
     public static String VoLM = "Vol-";

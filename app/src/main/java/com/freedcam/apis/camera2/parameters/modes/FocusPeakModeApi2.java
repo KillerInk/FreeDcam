@@ -22,6 +22,7 @@ package com.freedcam.apis.camera2.parameters.modes;
 import android.annotation.TargetApi;
 import android.os.Build.VERSION_CODES;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera2.CameraHolder;
 import com.freedcam.utils.StringUtils;
 
@@ -50,7 +51,7 @@ public class FocusPeakModeApi2 extends BaseModeApi2 {
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        if (valueToSet.equals(StringUtils.ON))
+        if (valueToSet.equals(KEYS.ON))
         {
             cameraHolder.FocusPeakEnable(true);
             BackgroundValueHasChanged("true");
@@ -65,14 +66,14 @@ public class FocusPeakModeApi2 extends BaseModeApi2 {
     @Override
     public String GetValue() {
         if (cameraHolder.isFocuspeakEnable())
-            return StringUtils.ON;
+            return KEYS.ON;
         else
-            return StringUtils.OFF;
+            return KEYS.OFF;
     }
 
     @Override
     public String[] GetValues() {
-        return new String[] {StringUtils.ON, StringUtils.OFF};
+        return new String[] {KEYS.ON, KEYS.OFF};
     }
 
 
@@ -80,9 +81,9 @@ public class FocusPeakModeApi2 extends BaseModeApi2 {
     public void BackgroundValueHasChanged(String value)
     {
         if (value.equals("true"))
-            super.BackgroundValueHasChanged(StringUtils.ON);
+            super.BackgroundValueHasChanged(KEYS.ON);
         else if (value.equals("false"))
-            super.BackgroundValueHasChanged(StringUtils.OFF);
+            super.BackgroundValueHasChanged(KEYS.OFF);
     }
 
     @Override

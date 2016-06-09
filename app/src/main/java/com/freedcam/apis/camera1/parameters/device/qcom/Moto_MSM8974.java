@@ -74,6 +74,6 @@ public class Moto_MSM8974 extends AbstractDevice {
 
     @Override
     public AbstractModeParameter getDenoiseParameter() {
-        return new BaseModeParameter(parameters, cameraHolder, KEYS.DENOISE, KEYS.DENOISE_VALUES);
+        return new BaseModeParameter(parameters, cameraUiWrapper, KEYS.DENOISE, KEYS.DENOISE_VALUES);
     }
 }
