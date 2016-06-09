@@ -362,8 +362,8 @@ public class Camera1Fragment extends AbstractCameraFragment implements I_Paramet
                 uiHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        if (preview != null)
-                            preview.setAspectRatio(size.width, size.height);
+                        if (extendedSurfaceView != null)
+                            extendedSurfaceView.setAspectRatio(size.width, size.height);
                         if (focusPeakProcessorAp1 != null)
                             focusPeakProcessorAp1.SetAspectRatio(size.width,size.height);
                     }
@@ -385,8 +385,8 @@ public class Camera1Fragment extends AbstractCameraFragment implements I_Paramet
                 uiHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        if (preview != null)
-                            preview.setAspectRatio(size.width, size.height);
+                        if (extendedSurfaceView != null)
+                            extendedSurfaceView.setAspectRatio(size.width, size.height);
                         if (focusPeakProcessorAp1 != null)
                             focusPeakProcessorAp1.SetAspectRatio(size.width,size.height);
                     }
