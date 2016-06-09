@@ -87,7 +87,6 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
         surfaceView = (SimpleStreamSurfaceView) view.findViewById(id.view);
 
         textView_wifi =(TextView)view.findViewById(id.textView_wificonnect);
-        setupWrapper();
         wifiReciever = new WifiScanReceiver();
         wifiConnectedReceiver = new WifiConnectedReceiver();
         wifiUtils = new WifiUtils(view.getContext());
@@ -101,6 +100,9 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
         super.cameraHolder = cameraHolder;
         cameraHolder.focusHandler =(FocusHandler) Focus;
         cameraHolder.moduleHandlerSony = (ModuleHandlerSony)moduleHandler;
+
+        SetCameraChangedListner(this);
+        ((MainActivity) getActivity()).onCameraUiWrapperRdy(this);
 
         return view;
     }
@@ -181,12 +183,6 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
                 startScanning();
             }
         });
-    }
-
-    private void setupWrapper()
-    {
-        SetCameraChangedListner(this);
-        ((MainActivity) getActivity()).onCameraUiWrapperRdy(this);
     }
 
     private void startScanning()
@@ -311,7 +307,8 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
             {
                 Logger.d(TAG, "StartScanning For networks after onCameraError" );
                 try {
-                    setupWrapper();
+                    SetCameraChangedListner(SonyCameraFragment.this);
+                    ((MainActivity) getActivity()).onCameraUiWrapperRdy(SonyCameraFragment.this);
                     startScanning();
                 }
                 catch (NullPointerException ex)
@@ -425,17 +422,17 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
 
     @Override
     public I_CameraHolder GetCameraHolder() {
-        return null;
+        return cameraHolder;
     }
 
     @Override
     public AbstractParameterHandler GetParameterHandler() {
-        return null;
+        return parametersHandler;
     }
 
     @Override
     public AbstractModuleHandler GetModuleHandler() {
-        return null;
+        return moduleHandler;
     }
 
 
