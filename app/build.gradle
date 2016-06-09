@@ -1,20 +1,27 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'freedcamkey'
+            keyPassword 'freedcam'
+            storeFile file("$projectDir/key/freedcamkey.jks")
+            storePassword 'freedcam'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion '23.0.3'
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 84
-        versionName '3.3.133beta16'
+        versionCode 85
+        versionName '3.3.133beta17'
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 18
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
-    lintOptions{checkReleaseBuilds false}
-
+    lintOptions { checkReleaseBuilds false }
     sourceSets
             {
                 main {
@@ -50,7 +57,6 @@ android {
                 nativeLibsToJar.dependsOn 'ndkBuild'
 
             }
-
     buildTypes {
         release {
             minifyEnabled false
