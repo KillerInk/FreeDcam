@@ -28,6 +28,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.freedcam.MainActivity;
 import com.freedcam.apis.basecamera.AbstractCameraFragment;
 import com.freedcam.apis.basecamera.AbstractFocusHandler;
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
@@ -48,7 +49,6 @@ import com.troop.freedcam.R.layout;
 public class Camera2Fragment extends AbstractCameraFragment implements TextureView.SurfaceTextureListener
 {
     public CameraHolder cameraHolder;
-    private Context context;
     private AutoFitTextureView textureView;
     protected I_error errorHandler;
     private final String TAG = Camera2Fragment.class.getSimpleName();
@@ -59,23 +59,23 @@ public class Camera2Fragment extends AbstractCameraFragment implements TextureVi
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        super.onCreateView(inflater,container,savedInstanceState);
         view = inflater.inflate(layout.cameraholder2, container, false);
         textureView = (AutoFitTextureView) view.findViewById(id.autofitview);
         this.textureView.setSurfaceTextureListener(this);
-        this.context = context;
         errorHandler = this;
-        cameraHolder = new CameraHolder(context, this,appSettingsManager,renderScriptHandler);
+        cameraHolder = new CameraHolder(getContext(), this,appSettingsManager,renderScriptHandler);
         super.cameraHolder = cameraHolder;
-        parametersHandler = new ParameterHandler(this,context,appSettingsManager);
+        parametersHandler = new ParameterHandler(this,getContext(),appSettingsManager);
         cameraHolder.SetParameterHandler(parametersHandler);
-        moduleHandler = new ModuleHandlerApi2(cameraHolder,context,appSettingsManager,renderScriptHandler);
+        moduleHandler = new ModuleHandlerApi2(cameraHolder,getContext(),appSettingsManager,renderScriptHandler);
         Focus = new FocusHandler(this);
         cameraHolder.Focus = Focus;
         Logger.d(TAG, "Constructor done");
-        if (onrdy != null)
-            onrdy.onCameraUiWrapperRdy(this);
-        super.onCreateView(inflater,container,savedInstanceState);
+        ((MainActivity)getActivity()).onCameraUiWrapperRdy(this);
+
         return view;
     }
 
