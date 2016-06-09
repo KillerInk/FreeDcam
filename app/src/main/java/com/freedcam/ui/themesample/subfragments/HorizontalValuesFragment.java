@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
+import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.ui.themesample.subfragments.Interfaces.I_CloseNotice;
@@ -97,7 +98,7 @@ public class HorizontalValuesFragment extends Fragment implements I_CloseNotice,
         this.rdytoclose = rdytoclose;
     }
 
-    public void ListenToParameter(AbstractModeParameter parameter)
+    public void ListenToParameter(I_ModeParameter parameter)
     {
         parameter.addEventListner(this);
     }

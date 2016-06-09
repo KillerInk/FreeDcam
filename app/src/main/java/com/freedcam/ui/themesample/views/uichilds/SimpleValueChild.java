@@ -27,9 +27,7 @@ import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.freedcam.ui.themesample.subfragments.Interfaces;
 import com.freedcam.ui.themesample.subfragments.Interfaces.I_CloseNotice;
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 

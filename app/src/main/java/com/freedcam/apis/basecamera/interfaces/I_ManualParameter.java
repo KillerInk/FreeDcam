@@ -17,12 +17,14 @@
  * /
  */
 
-package com.freedcam.apis.basecamera.parameters.manual;
+package com.freedcam.apis.basecamera.interfaces;
+
+import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 
 /**
  * Created by troop on 01.09.2014.
  */
-interface I_ManualParameter
+public interface I_ManualParameter
 {
     boolean IsSupported();
     boolean IsSetSupported();
@@ -32,4 +34,12 @@ interface I_ManualParameter
     String GetStringValue();
     String[] getStringValues();
     void SetValue(int valueToSet);
+
+    void addEventListner(AbstractManualParameter.I_ManualParameterEvent eventListner);
+    void removeEventListner(AbstractManualParameter.I_ManualParameterEvent eventListner);
+    void ThrowCurrentValueChanged(int current);
+    void ThrowCurrentValueStringCHanged(String value);
+    void ThrowBackgroundIsSupportedChanged(boolean value);
+    void ThrowBackgroundIsSetSupportedChanged(boolean value);
+    void ThrowBackgroundValuesChanged(String[] value);
 }

@@ -26,12 +26,12 @@ import android.view.SurfaceView;
 import android.view.View;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
-import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.interfaces.I_Module;
 import com.freedcam.apis.basecamera.interfaces.I_error;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.basecamera.parameters.modes.LocationParameter;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.RenderScriptHandler;
@@ -230,7 +230,7 @@ public abstract class AbstractCameraFragment extends Fragment implements I_Camer
     @Override
     public void onCameraClose(final String message)
     {
-        parametersHandler.locationParameter.stopLocationListining();
+        ((LocationParameter)parametersHandler.locationParameter).stopLocationListining();
         for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
             uiHandler.post(new Runnable() {
                 @Override

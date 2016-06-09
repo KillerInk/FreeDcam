@@ -29,7 +29,6 @@ import com.freedcam.apis.basecamera.modules.ModuleEventHandler;
 import com.freedcam.apis.basecamera.modules.VideoMediaProfile;
 import com.freedcam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
 import com.freedcam.apis.camera1.CameraHolder;
-import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.modes.VideoProfilesG3Parameter;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils.Devices;

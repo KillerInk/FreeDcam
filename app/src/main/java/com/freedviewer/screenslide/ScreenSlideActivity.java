@@ -24,7 +24,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
 import com.AbstractFragmentActivity;
-import com.freedviewer.gridview.GridViewFragment;
 import com.freedviewer.gridview.GridViewFragment.FormatTypes;
 
 /**

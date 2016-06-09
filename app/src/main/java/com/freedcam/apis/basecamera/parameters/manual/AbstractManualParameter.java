@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.basecamera.parameters.manual;
 
+import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 
 import java.util.ArrayList;

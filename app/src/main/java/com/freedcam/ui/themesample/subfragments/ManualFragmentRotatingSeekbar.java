@@ -160,23 +160,23 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements O
 
     @Override
     protected void setCameraUiWrapperToUi() {
-        contrast.SetAbstractManualParameter(cameraUiWrapper.GetParameterHandler().ManualContrast);
-        burst.SetAbstractManualParameter(cameraUiWrapper.GetParameterHandler().Burst);
-        brightness.SetAbstractManualParameter(cameraUiWrapper.GetParameterHandler().ManualBrightness);
-        wb.SetAbstractManualParameter(cameraUiWrapper.GetParameterHandler().CCT);
-        convergence.SetAbstractManualParameter(cameraUiWrapper.GetParameterHandler().ManualConvergence);
-        exposure.SetAbstractManualParameter(cameraUiWrapper.GetParameterHandler().ManualExposure);
-        fx.SetAbstractManualParameter(cameraUiWrapper.GetParameterHandler().FX);
-        mf.SetAbstractManualParameter(cameraUiWrapper.GetParameterHandler().ManualFocus);
-        saturation.SetAbstractManualParameter(cameraUiWrapper.GetParameterHandler().ManualSaturation);
-        sharpness.SetAbstractManualParameter(cameraUiWrapper.GetParameterHandler().ManualSharpness);
-        shutter.SetAbstractManualParameter(cameraUiWrapper.GetParameterHandler().ManualShutter);
-        iso.SetAbstractManualParameter(cameraUiWrapper.GetParameterHandler().ManualIso);
-        zoom.SetAbstractManualParameter(cameraUiWrapper.GetParameterHandler().Zoom);
-        aperture.SetAbstractManualParameter(cameraUiWrapper.GetParameterHandler().ManualFNumber);
-        skintone.SetAbstractManualParameter(cameraUiWrapper.GetParameterHandler().Skintone);
-        programshift.SetAbstractManualParameter(cameraUiWrapper.GetParameterHandler().ProgramShift);
-        previewZoom.SetAbstractManualParameter(cameraUiWrapper.GetParameterHandler().PreviewZoom);
+        contrast.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualContrast);
+        burst.SetManualParameter(cameraUiWrapper.GetParameterHandler().Burst);
+        brightness.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualBrightness);
+        wb.SetManualParameter(cameraUiWrapper.GetParameterHandler().CCT);
+        convergence.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualConvergence);
+        exposure.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualExposure);
+        fx.SetManualParameter(cameraUiWrapper.GetParameterHandler().FX);
+        mf.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualFocus);
+        saturation.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualSaturation);
+        sharpness.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualSharpness);
+        shutter.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualShutter);
+        iso.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualIso);
+        zoom.SetManualParameter(cameraUiWrapper.GetParameterHandler().Zoom);
+        aperture.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualFNumber);
+        skintone.SetManualParameter(cameraUiWrapper.GetParameterHandler().Skintone);
+        programshift.SetManualParameter(cameraUiWrapper.GetParameterHandler().ProgramShift);
+        previewZoom.SetManualParameter(cameraUiWrapper.GetParameterHandler().PreviewZoom);
     }
 
     //######## ManualButton Stuff#####

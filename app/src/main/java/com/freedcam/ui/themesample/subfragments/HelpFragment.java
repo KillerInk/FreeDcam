@@ -34,7 +34,6 @@ import android.widget.TextView;
 
 import com.freedcam.ui.themesample.subfragments.CameraUiFragment.i_HelpFragment;
 import com.freedcam.utils.AppSettingsManager;
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 

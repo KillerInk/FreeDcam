@@ -56,7 +56,6 @@ import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 
 import java.util.List;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Created by troop on 12.12.2014.

@@ -22,6 +22,7 @@ package com.freedcam.ui.themesample.views.uichilds;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 
 /**
@@ -37,7 +38,7 @@ public class UiSettingsMenu extends UiSettingsChild {
     }
 
     @Override
-    public void setTextToTextBox(AbstractModeParameter parameter) {
+    public void setTextToTextBox(I_ModeParameter parameter) {
 
     }
 

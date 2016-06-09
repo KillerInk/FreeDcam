@@ -29,7 +29,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.freedcam.ui.themesample.subfragments.Interfaces.I_CloseNotice;
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 

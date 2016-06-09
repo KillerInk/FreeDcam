@@ -19,7 +19,6 @@
 
 package com.freedviewer.holder;
 
-import com.freedviewer.gridview.BaseGridViewFragment;
 import com.freedviewer.gridview.BaseGridViewFragment.ViewStates;
 import com.freedviewer.gridview.GridViewFragment;
 

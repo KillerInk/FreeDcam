@@ -17,12 +17,14 @@
  * /
  */
 
-package com.freedcam.apis.basecamera.parameters.modes;
+package com.freedcam.apis.basecamera.interfaces;
+
+import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 
 /**
  * Created by troop on 17.08.2014.
  */
-interface I_ModeParameter
+public interface I_ModeParameter
 {
     boolean IsSupported();
 
@@ -33,5 +35,14 @@ interface I_ModeParameter
     String[] GetValues();
 
     boolean IsVisible();
+
+    void addEventListner(AbstractModeParameter.I_ModeParameterEvent eventListner);
+    void removeEventListner(AbstractModeParameter.I_ModeParameterEvent parameterEvent);
+
+    void BackgroundValueHasChanged(final String value);
+    void BackgroundValuesHasChanged(final String[] value);
+    void BackgroundIsSupportedChanged(final boolean value);
+    void BackgroundSetIsSupportedHasChanged(final boolean value);
+    void BackgroundVisibilityChanged(final boolean value);
 
 }

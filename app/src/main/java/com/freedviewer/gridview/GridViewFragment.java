@@ -19,16 +19,13 @@
 
 package com.freedviewer.gridview;
 
-import android.Manifest;
 import android.Manifest.permission;
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
@@ -53,14 +50,12 @@ import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
-import com.freedcam.utils.StringUtils;
 import com.freedcam.utils.StringUtils.FileEnding;
 import com.freedviewer.dngconvert.DngConvertingActivity;
 import com.freedviewer.dngconvert.DngConvertingFragment;
 import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.holder.FileHolder;
 import com.freedviewer.screenslide.ScreenSlideActivity;
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;

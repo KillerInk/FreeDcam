@@ -23,11 +23,10 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.freedcam.apis.basecamera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.FocusRect;
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
-import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
-import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
+import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.GuideList;
 import com.freedcam.apis.basecamera.parameters.modes.Horizont;
 import com.freedcam.apis.basecamera.parameters.modes.IntervalDurationParameter;
@@ -55,84 +54,84 @@ public abstract class AbstractParameterHandler
 
     public AppSettingsManager appSettingsManager;
 
-    public AbstractManualParameter ManualBrightness;
-    public AbstractManualParameter ManualEdge;
-    public AbstractManualParameter ManualHue;
-    public AbstractManualParameter ManualSharpness;
-    public AbstractManualParameter ManualContrast;
-    public AbstractManualParameter ManualSaturation;
-    public AbstractManualParameter ManualExposure;
-    public AbstractManualParameter ManualConvergence;
-    public AbstractManualParameter ManualFocus;
-    public AbstractManualParameter ManualShutter;
-    public AbstractManualParameter ManualFNumber;
-    public AbstractManualParameter Burst;
-    public AbstractManualParameter CCT;
-    public AbstractManualParameter FX;
-    public AbstractManualParameter ManualIso;
-    public AbstractManualParameter Zoom;
-    public AbstractManualParameter Skintone;
-    public AbstractManualParameter ProgramShift;
-    public AbstractManualParameter PreviewZoom;
+    public I_ManualParameter ManualBrightness;
+    public I_ManualParameter ManualEdge;
+    public I_ManualParameter ManualHue;
+    public I_ManualParameter ManualSharpness;
+    public I_ManualParameter ManualContrast;
+    public I_ManualParameter ManualSaturation;
+    public I_ManualParameter ManualExposure;
+    public I_ManualParameter ManualConvergence;
+    public I_ManualParameter ManualFocus;
+    public I_ManualParameter ManualShutter;
+    public I_ManualParameter ManualFNumber;
+    public I_ManualParameter Burst;
+    public I_ManualParameter CCT;
+    public I_ManualParameter FX;
+    public I_ManualParameter ManualIso;
+    public I_ManualParameter Zoom;
+    public I_ManualParameter Skintone;
+    public I_ManualParameter ProgramShift;
+    public I_ManualParameter PreviewZoom;
 
 
-    public AbstractModeParameter ColorMode;
-    public AbstractModeParameter ExposureMode;
-    public AbstractModeParameter AE_PriorityMode;
-    public AbstractModeParameter FlashMode;
-    public AbstractModeParameter IsoMode;
-    public AbstractModeParameter AntiBandingMode;
-    public AbstractModeParameter WhiteBalanceMode;
-    public AbstractModeParameter PictureSize;
-    public AbstractModeParameter PictureFormat;
-    public AbstractModeParameter HDRMode;
-    public AbstractModeParameter JpegQuality;
+    public I_ModeParameter ColorMode;
+    public I_ModeParameter ExposureMode;
+    public I_ModeParameter AE_PriorityMode;
+    public I_ModeParameter FlashMode;
+    public I_ModeParameter IsoMode;
+    public I_ModeParameter AntiBandingMode;
+    public I_ModeParameter WhiteBalanceMode;
+    public I_ModeParameter PictureSize;
+    public I_ModeParameter PictureFormat;
+    public I_ModeParameter HDRMode;
+    public I_ModeParameter JpegQuality;
     //defcomg was here
-    public AbstractModeParameter GuideList;
+    public I_ModeParameter GuideList;
     //done
-    public AbstractModeParameter ImagePostProcessing;
-    public AbstractModeParameter PreviewSize;
-    public AbstractModeParameter PreviewFPS;
-    public AbstractModeParameter PreviewFormat;
-    public AbstractModeParameter SceneMode;
-    public AbstractModeParameter FocusMode;
-    public AbstractModeParameter RedEye;
-    public AbstractModeParameter LensShade;
-    public AbstractModeParameter ZSL;
-    public AbstractModeParameter SceneDetect;
-    public AbstractModeParameter Denoise;
-    public AbstractModeParameter DigitalImageStabilization;
-    public AbstractModeParameter VideoStabilization;
-    public AbstractModeParameter MemoryColorEnhancement;
-    public AbstractModeParameter SkinToneEnhancment;
-    public AbstractModeParameter NightMode;
-    public AbstractModeParameter NonZslManualMode;
-    public AbstractModeParameter AE_Bracket;
-    public AbstractModeParameter Histogram;
-    public AbstractModeParameter ExposureLock;
-    public AbstractModeParameter CDS_Mode;
+    public I_ModeParameter ImagePostProcessing;
+    public I_ModeParameter PreviewSize;
+    public I_ModeParameter PreviewFPS;
+    public I_ModeParameter PreviewFormat;
+    public I_ModeParameter SceneMode;
+    public I_ModeParameter FocusMode;
+    public I_ModeParameter RedEye;
+    public I_ModeParameter LensShade;
+    public I_ModeParameter ZSL;
+    public I_ModeParameter SceneDetect;
+    public I_ModeParameter Denoise;
+    public I_ModeParameter DigitalImageStabilization;
+    public I_ModeParameter VideoStabilization;
+    public I_ModeParameter MemoryColorEnhancement;
+    public I_ModeParameter SkinToneEnhancment;
+    public I_ModeParameter NightMode;
+    public I_ModeParameter NonZslManualMode;
+    public I_ModeParameter AE_Bracket;
+    public I_ModeParameter Histogram;
+    public I_ModeParameter ExposureLock;
+    public I_ModeParameter CDS_Mode;
 
-    public AbstractModeParameter VideoProfiles;
-    public AbstractModeParameter VideoSize;
-    public AbstractModeParameter VideoHDR;
-    public AbstractModeParameter VideoHighFramerateVideo;
-    public AbstractModeParameter LensFilter;
-    public AbstractModeParameter CameraMode;
-    public AbstractModeParameter Horizont;
+    public I_ModeParameter VideoProfiles;
+    public I_ModeParameter VideoSize;
+    public I_ModeParameter VideoHDR;
+    public I_ModeParameter VideoHighFramerateVideo;
+    public I_ModeParameter LensFilter;
+    public I_ModeParameter CameraMode;
+    public I_ModeParameter Horizont;
 
     //yet only seen on m9
-    public AbstractModeParameter RdiMode;
-    public AbstractModeParameter TnrMode;
-    public AbstractModeParameter SecureMode;
+    public I_ModeParameter RdiMode;
+    public I_ModeParameter TnrMode;
+    public I_ModeParameter SecureMode;
 
     //SonyApi
-    public AbstractModeParameter ContShootMode;
-    public AbstractModeParameter ContShootModeSpeed;
-    public AbstractModeParameter ObjectTracking;
-    public AbstractModeParameter PostViewSize;
-    public AbstractModeParameter Focuspeak;
-    public AbstractModeParameter Module;
-    public AbstractModeParameter ZoomSetting;
+    public I_ModeParameter ContShootMode;
+    public I_ModeParameter ContShootModeSpeed;
+    public I_ModeParameter ObjectTracking;
+    public I_ModeParameter PostViewSize;
+    public I_ModeParameter Focuspeak;
+    public I_ModeParameter Module;
+    public I_ModeParameter ZoomSetting;
     //public AbstractModeParameter PreviewZoom;
     public boolean isExposureAndWBLocked = false;
     private boolean isDngActive = false;
@@ -143,42 +142,42 @@ public abstract class AbstractParameterHandler
 
 
     //camera2 modes
-    public AbstractModeParameter EdgeMode;
-    public AbstractModeParameter ColorCorrectionMode;
-    public AbstractModeParameter HotPixelMode;
-    public AbstractModeParameter ToneMapMode;
-    public AbstractModeParameter ControlMode;
+    public I_ModeParameter EdgeMode;
+    public I_ModeParameter ColorCorrectionMode;
+    public I_ModeParameter HotPixelMode;
+    public I_ModeParameter ToneMapMode;
+    public I_ModeParameter ControlMode;
 
-    public AbstractModeParameter oismode;
+    public I_ModeParameter oismode;
 
-    public AbstractModeParameter SdSaveLocation;
+    public I_ModeParameter SdSaveLocation;
 
-    public LocationParameter locationParameter;
+    public I_ModeParameter locationParameter;
 
     public boolean IntervalCapture = false;
     public boolean IntervalCaptureFocusSet = false;
 
-    public AbstractModeParameter IntervalDuration;
-    public AbstractModeParameter IntervalShutterSleep;
+    public I_ModeParameter IntervalDuration;
+    public I_ModeParameter IntervalShutterSleep;
 
-    public AbstractModeParameter captureBurstExposures;
+    public I_ModeParameter captureBurstExposures;
 
-    public AbstractModeParameter morphoHDR;
-    public AbstractModeParameter morphoHHT;
+    public I_ModeParameter morphoHDR;
+    public I_ModeParameter morphoHHT;
 
-    public AbstractModeParameter aeb1;
-    public AbstractModeParameter aeb2;
-    public AbstractModeParameter aeb3;
+    public I_ModeParameter aeb1;
+    public I_ModeParameter aeb2;
+    public I_ModeParameter aeb3;
 
-    public AbstractModeParameter opcode;
-    public AbstractModeParameter bayerformat;
-    public AbstractModeParameter matrixChooser;
-    public AbstractModeParameter imageStackMode;
+    public I_ModeParameter opcode;
+    public I_ModeParameter bayerformat;
+    public I_ModeParameter matrixChooser;
+    public I_ModeParameter imageStackMode;
 
 
 
-    public AbstractParameterHandler(I_CameraHolder cameraHolder, Context context, AppSettingsManager appSettingsManager)
-    {
+    public AbstractParameterHandler(I_CameraHolder cameraHolder, Context context, AppSettingsManager appSettingsManager) {
+        super();
         this.cameraHolder = cameraHolder;
         uiHandler = new Handler(Looper.getMainLooper());
         this.context = context;
@@ -187,7 +186,7 @@ public abstract class AbstractParameterHandler
         parametersLoadedListner.clear();
 
         GuideList = new GuideList();
-        locationParameter = new LocationParameter(cameraHolder,context,appSettingsManager);
+        locationParameter = new LocationParameter(cameraHolder, context, appSettingsManager);
         IntervalDuration = new IntervalDurationParameter();
         IntervalShutterSleep = new IntervalShutterSleepParameter();
         Horizont = new Horizont();
@@ -280,7 +279,7 @@ public abstract class AbstractParameterHandler
 
     }
 
-    protected void setMode(AbstractModeParameter parameter, String settingsval)
+    protected void setMode(I_ModeParameter parameter, String settingsval)
     {
         if (parameter != null && parameter.IsSupported() && settingsval != null && !settingsval.equals(""))
         {
@@ -300,7 +299,7 @@ public abstract class AbstractParameterHandler
         }
     }
 
-    protected void setManualMode(AbstractManualParameter parameter, String settingsval)
+    protected void setManualMode(I_ManualParameter parameter, String settingsval)
     {
         if (parameter != null && parameter.IsSupported() && settingsval != null && !settingsval.equals(""))
         {

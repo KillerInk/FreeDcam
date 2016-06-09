@@ -24,18 +24,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnSystemUiVisibilityChangeListener;
-import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 
 import com.freedcam.ui.I_Activity;
-import com.freedcam.ui.I_Activity.I_OnActivityResultCallback;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;

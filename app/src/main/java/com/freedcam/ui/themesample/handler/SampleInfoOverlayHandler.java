@@ -24,7 +24,6 @@ import android.widget.TextView;
 
 import com.freedcam.ui.AbstractInfoOverlayHandler;
 import com.freedcam.utils.AppSettingsManager;
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 
 /**

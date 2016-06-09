@@ -30,7 +30,6 @@ import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.parameters.modes.VideoProfilesParameter;
-import com.freedcam.utils.DeviceUtils;
 import com.troop.androiddng.DngProfile;
 
 /**

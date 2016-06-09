@@ -22,7 +22,6 @@ package com.freedcam.utils;
 import android.content.Context;
 import android.os.Build;
 
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.array;
 
 

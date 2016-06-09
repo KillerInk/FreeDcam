@@ -20,7 +20,6 @@
 package com.freedcam.ui;
 
 import android.graphics.Canvas;
-import android.view.TextureView;
 import android.view.TextureView.SurfaceTextureListener;
 
 /**

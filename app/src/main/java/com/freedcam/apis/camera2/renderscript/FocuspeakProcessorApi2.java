@@ -19,17 +19,17 @@
 
 package com.freedcam.apis.camera2.renderscript;
 
-    import android.annotation.TargetApi;
+import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
-    import android.os.Build.VERSION_CODES;
-    import android.os.Handler;
+import android.os.Build.VERSION_CODES;
+import android.os.Handler;
 import android.os.HandlerThread;
 import android.renderscript.Allocation;
-    import android.renderscript.Allocation.OnBufferAvailableListener;
-    import android.renderscript.Element;
-    import android.renderscript.RenderScript.RSErrorHandler;
-    import android.renderscript.Type.Builder;
-    import android.view.Surface;
+import android.renderscript.Allocation.OnBufferAvailableListener;
+import android.renderscript.Element;
+import android.renderscript.RenderScript.RSErrorHandler;
+import android.renderscript.Type.Builder;
+import android.view.Surface;
 
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.RenderScriptHandler;

@@ -19,14 +19,12 @@
 
 package com.freedviewer.holder;
 
-import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 import com.freedcam.utils.StringUtils.FileEnding;
-import com.freedviewer.gridview.GridViewFragment;
 import com.freedviewer.gridview.GridViewFragment.FormatTypes;
 
 import java.io.File;

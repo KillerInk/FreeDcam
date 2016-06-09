@@ -34,7 +34,6 @@ import com.freedcam.ui.I_swipe;
 import com.freedcam.ui.SwipeMenuListner;
 import com.freedcam.ui.themesample.views.uichilds.UiSettingsChild;
 import com.freedcam.utils.AppSettingsManager;
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.styleable;

@@ -29,7 +29,6 @@ import android.widget.LinearLayout;
 
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 

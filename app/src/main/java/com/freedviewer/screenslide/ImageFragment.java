@@ -36,7 +36,6 @@ import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.holder.FileHolder;
 import com.freedviewer.screenslide.ScreenSlideFragment.FragmentClickClistner;
 import com.ortiz.touch.TouchImageView;
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;

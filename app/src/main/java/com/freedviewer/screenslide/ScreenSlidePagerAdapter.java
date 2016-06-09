@@ -28,7 +28,6 @@ import android.view.ViewGroup;
 
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
-import com.freedviewer.gridview.GridViewFragment;
 import com.freedviewer.gridview.GridViewFragment.FormatTypes;
 import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.holder.FileHolder;

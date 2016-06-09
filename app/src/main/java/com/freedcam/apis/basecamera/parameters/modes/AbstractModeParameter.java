@@ -22,6 +22,8 @@ package com.freedcam.apis.basecamera.parameters.modes;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -19,7 +19,6 @@
 
 package com.freedcam.apis.camera2;
 
-import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.os.Bundle;
 import android.view.LayoutInflater;

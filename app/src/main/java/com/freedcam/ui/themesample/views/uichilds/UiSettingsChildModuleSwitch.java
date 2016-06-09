@@ -21,6 +21,7 @@ package com.freedcam.ui.themesample.views.uichilds;
 
 import android.content.Context;
 import android.util.AttributeSet;
+
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 
 /**

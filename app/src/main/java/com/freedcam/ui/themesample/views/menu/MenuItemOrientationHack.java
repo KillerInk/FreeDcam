@@ -21,11 +21,10 @@ package com.freedcam.ui.themesample.views.menu;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
+
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.Camera1Fragment;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
-import com.freedcam.apis.camera2.Camera2Fragment;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.StringUtils;
 

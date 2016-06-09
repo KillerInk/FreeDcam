@@ -35,6 +35,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout.LayoutParams;
+
 import com.freedcam.apis.basecamera.FocusRect;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.sonyremote.SonyCameraFragment;

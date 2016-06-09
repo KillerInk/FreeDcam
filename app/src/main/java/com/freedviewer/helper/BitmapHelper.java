@@ -24,17 +24,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.media.ThumbnailUtils;
-import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
-import android.provider.MediaStore;
 import android.provider.MediaStore.Video.Thumbnails;
 
 import com.freedcam.jni.RawUtils;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
-import com.freedcam.utils.StringUtils;
 import com.freedcam.utils.StringUtils.FileEnding;
 import com.freedviewer.holder.FileHolder;
 

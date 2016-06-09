@@ -21,7 +21,6 @@ package com.freedcam.apis.sonyremote.parameters;
 
 import android.content.Context;
 
-import com.freedcam.MainActivity;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.parameters.modes.ModuleParameters;

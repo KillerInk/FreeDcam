@@ -26,7 +26,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.freedcam.apis.basecamera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;

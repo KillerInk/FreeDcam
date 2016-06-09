@@ -29,10 +29,8 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.drawable;
 
 /**

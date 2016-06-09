@@ -28,6 +28,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.camera1.Camera1Fragment;
 import com.freedcam.apis.camera1.CameraHolder;
@@ -109,12 +110,12 @@ public class MenuItemSaveCamParams extends MenuItem
     }
 
     @Override
-    public void SetParameter(AbstractModeParameter parameter) {
+    public void SetParameter(I_ModeParameter parameter) {
 
     }
 
     @Override
-    public void setTextToTextBox(AbstractModeParameter parameter) {
+    public void setTextToTextBox(I_ModeParameter parameter) {
 
     }
 

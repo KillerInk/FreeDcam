@@ -35,7 +35,6 @@ import com.freedviewer.gridview.BaseGridViewFragment.ViewStates;
 import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.holder.BaseHolder;
 import com.freedviewer.holder.FileHolder;
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.drawable;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
