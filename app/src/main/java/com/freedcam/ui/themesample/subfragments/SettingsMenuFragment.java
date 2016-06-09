@@ -29,7 +29,6 @@ import com.freedcam.ui.AbstractFragment;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.themesample.subfragments.Interfaces.I_CloseNotice;
 import com.freedcam.ui.themesample.subfragments.Interfaces.I_MenuItemClick;
-import com.freedcam.ui.themesample.views.menu.MenuItemTheme;
 import com.freedcam.ui.themesample.views.uichilds.UiSettingsChild;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
@@ -138,8 +137,6 @@ public class SettingsMenuFragment extends AbstractFragment implements I_CloseNot
     public void onClose(String value)
     {
         currentOpendItem.SetValue(value);
-        if (currentOpendItem instanceof MenuItemTheme)
-            return;
         closeValueMenu();
     }
 
