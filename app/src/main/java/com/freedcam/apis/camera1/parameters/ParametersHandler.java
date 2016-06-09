@@ -442,9 +442,11 @@ public class ParametersHandler extends AbstractParameterHandler
         } catch (Exception e) {
             Logger.exception(e);
         }
-        cameraUiWrapper.GetModuleHandler().SetModule(appSettingsManager.GetCurrentModule());
+
 
         ParametersHasLoaded();
+
+        cameraUiWrapper.GetModuleHandler().SetModule(appSettingsManager.GetCurrentModule());
     }
 
     private void createExposureMode() {
