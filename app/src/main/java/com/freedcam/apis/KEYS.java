@@ -186,6 +186,9 @@ public final class KEYS {
     public static final String LG_WB_SUPPORTED_MAX = "lg-wb-supported-max";
     public static final String LG_WB = "lg-wb";
     public static final String LG_ISO = "lg-iso";
+    public static final String LG_COLOR_ADJUST = "lg-color-adjust";
+    public static final String LG_COLOR_ADJUST_MAX = "lg-color-adjust-max";
+    public static final String LG_COLOR_ADJUST_MIN = "lg-color-adjust-min";
 
     public static final String MANUALFOCUS_STEP = "manualfocus_step";
     public static final String FOCUS_MODE_NORMAL = "normal";

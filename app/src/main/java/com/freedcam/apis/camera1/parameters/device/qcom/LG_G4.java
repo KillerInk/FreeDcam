@@ -21,10 +21,12 @@ package com.freedcam.apis.camera1.parameters.device.qcom;
 
 import android.hardware.Camera.Parameters;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.manual.AE_Handler_LGG4;
+import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.parameters.manual.CCTManualG4;
 import com.freedcam.apis.camera1.parameters.manual.FocusManualParameterLG;
 import com.troop.androiddng.DngProfile;
@@ -72,5 +74,10 @@ public class LG_G4 extends LG_G2
                         matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.G4));
         }
         return null;
+    }
+
+    @Override
+    public AbstractManualParameter getManualSaturation() {
+        return new BaseManualParameter(parameters, KEYS.LG_COLOR_ADJUST,KEYS.LG_COLOR_ADJUST_MAX,KEYS.LG_COLOR_ADJUST_MIN,parametersHandler,1);
     }
 }
