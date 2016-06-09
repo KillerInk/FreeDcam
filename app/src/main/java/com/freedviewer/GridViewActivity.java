@@ -52,8 +52,4 @@ public class GridViewActivity extends AbstractFragmentActivity
         super.onResume();
     }
 
-    @Override
-    public int getMuliplier() {
-        return 2;
-    }
 }

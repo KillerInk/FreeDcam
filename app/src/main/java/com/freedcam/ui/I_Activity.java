@@ -27,7 +27,6 @@ import android.net.Uri;
 public interface I_Activity
 {
     void SwitchCameraAPI(String Api);
-    void SetTheme(String Theme);
     void closeActivity();
     void ChooseSDCard(I_OnActivityResultCallback callback);
     interface I_OnActivityResultCallback

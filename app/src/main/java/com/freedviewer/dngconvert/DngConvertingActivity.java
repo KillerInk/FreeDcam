@@ -49,11 +49,6 @@ public class DngConvertingActivity extends FragmentActivity implements I_Activit
 
     }
 
-    @Override
-    public void SetTheme(String Theme) {
-
-    }
-
 
     @Override
     public void closeActivity() {

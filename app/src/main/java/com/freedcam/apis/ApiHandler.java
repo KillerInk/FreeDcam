@@ -34,10 +34,20 @@ import com.freedcam.utils.RenderScriptHandler;
 
 /**
  * Created by troop on 11.12.2014.
+ * this class is used to check the supported api level of the device and to
+ * load the different cameraFragments.
+ * The api detection runs only once at first start when appsettings are empty
+ * to grant a faster start next time
  */
-
 public class ApiHandler
 {
+    //The interface to implement to work with the ApiHandler
+    public interface ApiEvent
+    {
+        //get thrown when api detection has finished
+        void apiDetectionDone();
+    }
+
     private final  String TAG = ApiHandler.class.getSimpleName();
     private Context context;
     private AppSettingsManager appSettingsManager;
@@ -52,10 +62,15 @@ public class ApiHandler
         this.renderScriptHandler = renderScriptHandler;
     }
 
+    /**
+     * Check the device supported api
+     */
     public void CheckApi()
     {
+        //if its the first start of the app settings are empty
         if (appSettingsManager.IsCamera2FullSupported().equals(""))
         {
+            //camera2 is avail since L
             if (VERSION.SDK_INT >= 21)
             {
                 FreeDPool.Execute(new Runnable() {
@@ -73,32 +88,38 @@ public class ApiHandler
                     }
                 });
 
-            }
+            }//older android version dont support it
             else {
                 appSettingsManager.SetCamera2FullSupported("false");
                 appSettingsManager.setCamApi(AppSettingsManager.API_1);
                 event.apiDetectionDone();
             }
         }
-        else
+        else //appsetting was not empty
             event.apiDetectionDone();
     }
 
 
+    /**
+     * create and returns the Api specific CameraFragment
+     * @return
+     */
     public AbstractCameraFragment getCameraFragment()
     {
         AbstractCameraFragment ret;
+        //create SonyCameraFragment
         if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_SONY))
         {
             ret = new SonyCameraFragment();
 
         }
+        //create Camera2Fragment
         else if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_2))
         {
             ret = new Camera2Fragment();
             ret.SetRenderScriptHandler(renderScriptHandler);
         }
-        else
+        else //default is Camera1Fragment is supported by all devices
         {
             ret = new Camera1Fragment();
             ret.SetRenderScriptHandler(renderScriptHandler);
@@ -106,11 +127,5 @@ public class ApiHandler
         ret.SetAppSettingsManager(appSettingsManager);
         return ret;
     }
-
-    public interface ApiEvent
-    {
-        void apiDetectionDone();
-    }
-
 
 }

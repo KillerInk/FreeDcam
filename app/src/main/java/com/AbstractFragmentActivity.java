@@ -89,8 +89,6 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
     protected void onDestroy()
     {
         super.onDestroy();
-       /* if (FreeDPool.IsInit())
-            FreeDPool.Destroy();*/
     }
 
     private void HIDENAVBAR()
@@ -116,20 +114,11 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
         }
     }
 
-    protected int getMuliplier()
-    {
-        return 4;
-    }
 
     private I_OnActivityResultCallback resultCallback;
 
     @Override
     public void SwitchCameraAPI(String Api) {
-
-    }
-
-    @Override
-    public void SetTheme(String Theme) {
 
     }
 

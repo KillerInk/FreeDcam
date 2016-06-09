@@ -66,8 +66,4 @@ public class ScreenSlideActivity extends AbstractFragmentActivity
         finish();
     }
 
-    @Override
-    public int getMuliplier() {
-        return 2;
-    }
 }

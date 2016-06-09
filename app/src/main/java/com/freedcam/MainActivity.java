@@ -58,18 +58,14 @@ import java.lang.Thread.UncaughtExceptionHandler;
 public class MainActivity extends AbstractFragmentActivity implements I_orientation, CamerUiWrapperRdy, ApiEvent
 {
     private final String TAG =MainActivity.class.getSimpleName();
-    private final String TAGLIFE = "LifeCycle";
-
-    private ViewGroup appViewGroup;
     //listen to orientation changes
     private OrientationHandler orientationHandler;
     //listen to hardwarekeys
     private HardwareKeyHandler hardwareKeyHandler;
-    //handels the api fragments
+    //handels/load the api camerafragments
     private ApiHandler apiHandler;
     private TimerHandler timerHandler;
-    //handel the themes and create the ui fragment
-    //holds the current api fragment
+    //holds the current api camerafragment
     private AbstractCameraFragment cameraFragment;
     //hold the state if logging to file is true when folder /sdcard/DCIM/DEBUG/ is created
     private boolean savelogtofile = false;
@@ -88,7 +84,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         if (VERSION.SDK_INT >= VERSION_CODES.KITKAT)
             renderScriptHandler = new RenderScriptHandler(getApplicationContext());
 
-        //load the cameraui
+        //load the camera ui
         sampleThemeFragment = new SampleThemeFragment();
         sampleThemeFragment.SetAppSettingsManagerAndBitmapHelper(appSettingsManager, bitmapHelper);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -96,11 +92,13 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         transaction.add(id.themeFragmentholder, sampleThemeFragment, "CameraFragment");
         transaction.commitAllowingStateLoss();
 
+        //check for permission on M>
         if (VERSION.SDK_INT >= VERSION_CODES.M)
         {
             if (checkSelfPermission(permission.CAMERA)
                     != PackageManager.PERMISSION_GRANTED || checkSelfPermission(permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
             {
+                //ask for permissions and wait for onRequestPermissionsResult()
                 requestPermissions(new String[]{
                         permission.CAMERA,
                         permission.READ_EXTERNAL_STORAGE,
@@ -127,11 +125,11 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         }
     }
 
+    //gets called when permission was request
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults)
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
     {
+        //we have permissions?
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED
                 && grantResults[1] == PackageManager.PERMISSION_GRANTED
                 && grantResults[2] == PackageManager.PERMISSION_GRANTED
@@ -141,27 +139,15 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
                 && grantResults[6] == PackageManager.PERMISSION_GRANTED
                 && grantResults[7] == PackageManager.PERMISSION_GRANTED)
         {
+            //yes we have it
             createHandlers();
         }
-        else
+        else //woot using camera and deny perms close app
             finish();
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    @Override
-    public int getMuliplier() {
-        return super.getMuliplier();
-    }
-
-    private void checkSaveLogToFile()
-    {
-        File debugfile = new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder +"DEBUG");
-        if (debugfile.exists()) {
-            savelogtofile = true;
-            Logger.StartLogging();
-        }
-    }
-
+    //that finaly create all stuff needed
     private void createHandlers()
     {
         Logger.d(TAG, "createHandlers()");
@@ -189,19 +175,36 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
             }
         });
 
+        //check if DEBUG folder exist for log to file
         checkSaveLogToFile();
+        //listen to phone orientation changes
         orientationHandler = new OrientationHandler(this, this);
+        //used for videorecording timer
+        //TODO move that into camerauifragment
         timerHandler = new TimerHandler(this);
         //setup apihandler and register listner for apiDetectionDone
+        //api handler itself checks first if its a camera2 full device
+        //and if yes loads camera2fragment else load camera1fragment
         apiHandler = new ApiHandler(getApplicationContext(),this,appSettingsManager,renderScriptHandler);
         //check if camera is camera2 full device
         apiHandler.CheckApi();
+        //listen to phone hw keys events
         hardwareKeyHandler = new HardwareKeyHandler(this,appSettingsManager);
+    }
+
+    //if a DEBUG folder is inside /DCIM/FreeDcam/ logging to file gets started
+    private void checkSaveLogToFile()
+    {
+        File debugfile = new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder +"DEBUG");
+        if (debugfile.exists()) {
+            savelogtofile = true;
+            Logger.StartLogging();
+        }
     }
 
     /**
      * gets called from ApiHandler when apidetection has finished
-     * thats loads the CameraFragment on appstart
+     * thats loads the CameraFragment
      */
     @Override
     public void apiDetectionDone()
@@ -216,12 +219,20 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
 
     }
 
+    /*
+    load the camerafragment to ui
+     */
     private void loadCameraFragment()
     {
         Logger.d(TAG, "loading cameraWrapper");
+        //if a camera fragment exists stop and destroy it
         unloadCameraFragment();
+        //get new cameraFragment
         cameraFragment = apiHandler.getCameraFragment();
         cameraFragment.Init(this);
+        //load the cameraFragment to ui
+        //that starts the camera represent by that fragment when the surface/textureviews
+        //are created and calls then onCameraUiWrapperRdy(I_CameraUiWrapper cameraUiWrapper)
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(anim.left_to_right_enter, anim.left_to_right_exit);
         transaction.add(id.cameraFragmentHolder, cameraFragment, "CameraFragment");
@@ -230,6 +241,31 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         orientationHandler.Start();
     }
 
+    /**
+     * gets thrown when the cameraFragment is created sucessfull and all items are up like modulehandler
+     * and rdy to register listners
+     * @param cameraUiWrapper the cameraWrapper to register the listners
+     */
+    @Override
+    public void onCameraUiWrapperRdy(I_CameraUiWrapper cameraUiWrapper)
+    {
+        //set orientatiohandler to module handler that it knows when a work is in progress
+        //to avoid that orientation gets set while working
+        cameraUiWrapper.GetModuleHandler().SetWorkListner(orientationHandler);
+        //note the ui that cameraFragment is loaded
+        sampleThemeFragment.SetCameraUIWrapper(cameraUiWrapper);
+        //set the wrapper to hwkeyhandler that it can use its methods
+        hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper);
+        Logger.d(TAG, "add events");
+        //register timer to to moduleevent handler that it get shown/hidden when its video or not
+        //and start/stop working when recording starts/stops
+        cameraUiWrapper.GetModuleHandler().moduleEventHandler.AddRecoderChangedListner(timerHandler);
+        cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(timerHandler);
+    }
+
+    /**
+     * Unload the current active camerafragment
+     */
     private void unloadCameraFragment()
     {
         Logger.d(TAG, "destroying cameraWrapper");
@@ -238,9 +274,9 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
 
         if (cameraFragment != null)
         {
-            //kill the cam bevor the fragment gets removed to make sure when
-            // new camerafragment gets created and its texture view is created the cam get started
-            //when its done in textureviews destory method its already to late and we get a security ex lack of privilege
+            //kill the cam befor the fragment gets removed to make sure when
+            //new cameraFragment gets created and its texture view is created the cam get started
+            //when its done in textureview/surfaceview destroy method its already to late and we get a security ex lack of privilege
             if (cameraFragment.GetCameraUiWrapper() != null)
                 cameraFragment.GetCameraUiWrapper().StopCamera();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -252,22 +288,9 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         Logger.d(TAG, "destroyed cameraWrapper");
     }
 
-    /**
-     * gets thrown when the cameraui cameraUiWrapper is created sucessfull and all items are up like modulehandler
-     * and rdy to register listners
-     * @param cameraUiWrapper the cameraWrapper to register the listners
-     */
-    @Override
-    public void onCameraUiWrapperRdy(I_CameraUiWrapper cameraUiWrapper)
-    {
-        cameraUiWrapper.GetModuleHandler().SetWorkListner(orientationHandler);
-        sampleThemeFragment.SetCameraUIWrapper(cameraUiWrapper);
-        hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper);
-        Logger.d(TAG, "add events");
-        cameraUiWrapper.GetModuleHandler().moduleEventHandler.AddRecoderChangedListner(timerHandler);
-        cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(timerHandler);
-    }
 
+
+    //pass events to hardwarekey handler
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event)
     {
@@ -295,6 +318,11 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
 
     private int currentorientation = 0;
 
+
+    /**
+     * Set the orientaion to the current camerafragment
+     * @param orientation the new phone orientation
+     */
     @Override
     public void OrientationChanged(int orientation)
     {
@@ -306,19 +334,12 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         }
     }
 
+
     @Override
     public void SwitchCameraAPI(String value)
     {
         loadCameraFragment();
     }
-
-    @Override
-    public void SetTheme(String Theme)
-    {
-
-    }
-
-
 
     @Override
     public void closeActivity()
