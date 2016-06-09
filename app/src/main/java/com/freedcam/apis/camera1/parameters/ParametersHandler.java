@@ -28,13 +28,14 @@ import android.os.Handler;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.FocusRect;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.parameters.modes.LocationParameter;
 import com.freedcam.apis.basecamera.parameters.modes.ModuleParameters;
+import com.freedcam.apis.camera1.Camera1Fragment;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.CameraHolder.Frameworks;
-import com.freedcam.apis.camera1.CameraUiWrapper;
 import com.freedcam.apis.camera1.FocusHandler;
 import com.freedcam.apis.camera1.parameters.device.AbstractDevice;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParamMTK;
@@ -80,13 +81,13 @@ public class ParametersHandler extends AbstractParameterHandler
     public Parameters getParameters(){return cameraParameters;}
     public CameraHolder cameraHolder;
     public BaseModeParameter DualMode;
-    private CameraUiWrapper cameraUiWrapper;
+    private I_CameraUiWrapper cameraUiWrapper;
     public AbstractDevice Device;
 
-    public ParametersHandler(CameraUiWrapper cameraUiWrapper, Context context, AppSettingsManager appSettingsManager)
+    public ParametersHandler(I_CameraUiWrapper cameraUiWrapper, Context context, AppSettingsManager appSettingsManager)
     {
-        super(cameraUiWrapper.cameraHolder,context,appSettingsManager);
-        cameraHolder = cameraUiWrapper.cameraHolder;
+        super(cameraUiWrapper.GetCameraHolder(),context,appSettingsManager);
+        cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
         this.cameraUiWrapper = cameraUiWrapper;
     }
 
@@ -127,7 +128,7 @@ public class ParametersHandler extends AbstractParameterHandler
         // register their listners there if its postprocessing parameter
         try {
             PictureFormat = new PictureFormatHandler(cameraParameters, cameraHolder, this);
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner((I_ModuleEvent) PictureFormat);
+            cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner((I_ModuleEvent) PictureFormat);
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -169,14 +170,14 @@ public class ParametersHandler extends AbstractParameterHandler
         try {
             FX = new FXManualParameter(cameraParameters,this);
             PictureFormat.addEventListner(((BaseManualParameter)FX).GetPicFormatListner());
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) FX).GetModuleListner());
+            cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(((BaseManualParameter) FX).GetModuleListner());
         } catch (Exception e) {
             Logger.exception(e);
         }
 
         try {
             Burst = new BurstManualParam(cameraParameters, this);
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Burst).GetModuleListner());
+            cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(((BaseManualParameter) Burst).GetModuleListner());
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -369,7 +370,7 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            Focuspeak = new FocusPeakModeParameter(cameraHolder,cameraUiWrapper.focusPeakProcessorAp1);
+            Focuspeak = new FocusPeakModeParameter(cameraHolder,((Camera1Fragment)cameraUiWrapper).focusPeakProcessorAp1);
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -443,7 +444,7 @@ public class ParametersHandler extends AbstractParameterHandler
         } catch (Exception e) {
             Logger.exception(e);
         }
-        cameraUiWrapper.moduleHandler.SetModule(appSettingsManager.GetCurrentModule());
+        cameraUiWrapper.GetModuleHandler().SetModule(appSettingsManager.GetCurrentModule());
 
         ParametersHasLoaded();
     }

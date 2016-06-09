@@ -116,99 +116,99 @@ public class RightMenuFragment extends AbstractFragment implements I_MenuItemCli
         if (cameraUiWrapper == null)
             return;
         scene.SetStuff(i_activity, AppSettingsManager.SETTING_SCENEMODE,appSettingsManager);
-        scene.SetParameter(cameraUiWrapper.parametersHandler.SceneMode);
+        scene.SetParameter(cameraUiWrapper.GetParameterHandler().SceneMode);
         scene.SetMenuItemListner(this);
 
         color.SetStuff(i_activity, AppSettingsManager.SETTING_COLORMODE,appSettingsManager);
-        color.SetParameter(cameraUiWrapper.parametersHandler.ColorMode);
+        color.SetParameter(cameraUiWrapper.GetParameterHandler().ColorMode);
         color.SetMenuItemListner(this);
 
         cctMode.SetStuff(i_activity, AppSettingsManager.SETTING_COLORCORRECTION,appSettingsManager);
-        cctMode.SetParameter(cameraUiWrapper.parametersHandler.ColorCorrectionMode);
+        cctMode.SetParameter(cameraUiWrapper.GetParameterHandler().ColorCorrectionMode);
         cctMode.SetMenuItemListner(this);
 
         objectTrackingMode.SetStuff(i_activity, AppSettingsManager.SETTING_OBJECTTRACKING,appSettingsManager);
-        objectTrackingMode.SetParameter(cameraUiWrapper.parametersHandler.ObjectTracking);
+        objectTrackingMode.SetParameter(cameraUiWrapper.GetParameterHandler().ObjectTracking);
         objectTrackingMode.SetMenuItemListner(this);
 
         toneMapMode.SetStuff(i_activity, AppSettingsManager.SETTING_TONEMAP,appSettingsManager);
-        toneMapMode.SetParameter(cameraUiWrapper.parametersHandler.ToneMapMode);
+        toneMapMode.SetParameter(cameraUiWrapper.GetParameterHandler().ToneMapMode);
         toneMapMode.SetMenuItemListner(this);
 
         postViewSize.SetStuff(i_activity, "",appSettingsManager);
-        postViewSize.SetParameter(cameraUiWrapper.parametersHandler.PostViewSize);
+        postViewSize.SetParameter(cameraUiWrapper.GetParameterHandler().PostViewSize);
         postViewSize.SetMenuItemListner(this);
 
         controleMode.SetStuff(i_activity, AppSettingsManager.SETTING_CONTROLMODE,appSettingsManager);
-        controleMode.SetParameter(cameraUiWrapper.parametersHandler.ControlMode);
+        controleMode.SetParameter(cameraUiWrapper.GetParameterHandler().ControlMode);
         controleMode.SetMenuItemListner(this);
 
         redeyeflash.SetStuff(i_activity, AppSettingsManager.SETTING_REDEYE_MODE,appSettingsManager);
-        redeyeflash.SetParameter(cameraUiWrapper.parametersHandler.RedEye);
+        redeyeflash.SetParameter(cameraUiWrapper.GetParameterHandler().RedEye);
         redeyeflash.SetMenuItemListner(this);
 
         antiBanding.SetStuff(i_activity, AppSettingsManager.SETTING_ANTIBANDINGMODE,appSettingsManager);
-        antiBanding.SetParameter(cameraUiWrapper.parametersHandler.AntiBandingMode);
+        antiBanding.SetParameter(cameraUiWrapper.GetParameterHandler().AntiBandingMode);
         antiBanding.SetMenuItemListner(this);
 
         ipp.SetStuff(i_activity, AppSettingsManager.SETTING_IMAGEPOSTPROCESSINGMODE,appSettingsManager);
-        ipp.SetParameter(cameraUiWrapper.parametersHandler.ImagePostProcessing);
+        ipp.SetParameter(cameraUiWrapper.GetParameterHandler().ImagePostProcessing);
         ipp.SetMenuItemListner(this);
 
         lensShade.SetStuff(i_activity, AppSettingsManager.SETTING_LENSSHADE_MODE,appSettingsManager);
-        lensShade.SetParameter(cameraUiWrapper.parametersHandler.LensShade);
+        lensShade.SetParameter(cameraUiWrapper.GetParameterHandler().LensShade);
         lensShade.SetMenuItemListner(this);
 
         sceneDetectMode.SetStuff(i_activity, AppSettingsManager.SETTING_SCENEDETECT_MODE,appSettingsManager);
-        sceneDetectMode.SetParameter(cameraUiWrapper.parametersHandler.SceneDetect);
+        sceneDetectMode.SetParameter(cameraUiWrapper.GetParameterHandler().SceneDetect);
         sceneDetectMode.SetMenuItemListner(this);
 
         waveletdenoiseMode.SetStuff(i_activity, AppSettingsManager.SETTING_DENOISE_MODE,appSettingsManager);
-        waveletdenoiseMode.SetParameter(cameraUiWrapper.parametersHandler.Denoise);
+        waveletdenoiseMode.SetParameter(cameraUiWrapper.GetParameterHandler().Denoise);
         waveletdenoiseMode.SetMenuItemListner(this);
 
         LensFilter.SetStuff(i_activity, AppSettingsManager.SETTING_Filter,appSettingsManager);
-        LensFilter.SetParameter(cameraUiWrapper.parametersHandler.LensFilter);
+        LensFilter.SetParameter(cameraUiWrapper.GetParameterHandler().LensFilter);
         LensFilter.SetMenuItemListner(this);
 
         digitalImageStabilization.SetStuff(i_activity, AppSettingsManager.SETTING_DIS_MODE,appSettingsManager);
-        digitalImageStabilization.SetParameter(cameraUiWrapper.parametersHandler.DigitalImageStabilization);
+        digitalImageStabilization.SetParameter(cameraUiWrapper.GetParameterHandler().DigitalImageStabilization);
         digitalImageStabilization.SetMenuItemListner(this);
 
         memoryColorEnhancement.SetStuff(i_activity, AppSettingsManager.SETTING_MCE_MODE,appSettingsManager);
-        memoryColorEnhancement.SetParameter(cameraUiWrapper.parametersHandler.MemoryColorEnhancement);
+        memoryColorEnhancement.SetParameter(cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement);
         memoryColorEnhancement.SetMenuItemListner(this);
 
         ZeroShutterLag.SetStuff(i_activity, AppSettingsManager.SETTING_ZEROSHUTTERLAG_MODE,appSettingsManager);
-        ZeroShutterLag.SetParameter(cameraUiWrapper.parametersHandler.ZSL);
+        ZeroShutterLag.SetParameter(cameraUiWrapper.GetParameterHandler().ZSL);
         ZeroShutterLag.SetMenuItemListner(this);
 
         nonZSLmanualMode.SetStuff(i_activity, AppSettingsManager.SETTING_NONZSLMANUALMODE,appSettingsManager);
-        nonZSLmanualMode.SetParameter(cameraUiWrapper.parametersHandler.NonZslManualMode);
+        nonZSLmanualMode.SetParameter(cameraUiWrapper.GetParameterHandler().NonZslManualMode);
         nonZSLmanualMode.SetMenuItemListner(this);
 
         correlatedDoubleSampling.SetStuff(i_activity, AppSettingsManager.SETTING_CDS,appSettingsManager);
-        correlatedDoubleSampling.SetParameter(cameraUiWrapper.parametersHandler.CDS_Mode);
+        correlatedDoubleSampling.SetParameter(cameraUiWrapper.GetParameterHandler().CDS_Mode);
         correlatedDoubleSampling.SetMenuItemListner(this);
 
         temporalDenoise.SetStuff(i_activity, AppSettingsManager.SETTING_TNR,appSettingsManager);
-        temporalDenoise.SetParameter(cameraUiWrapper.parametersHandler.TnrMode);
+        temporalDenoise.SetParameter(cameraUiWrapper.GetParameterHandler().TnrMode);
         temporalDenoise.SetMenuItemListner(this);
 
         edgeMode.SetStuff(i_activity, AppSettingsManager.SETTING_EDGE,appSettingsManager);
-        edgeMode.SetParameter(cameraUiWrapper.parametersHandler.EdgeMode);
+        edgeMode.SetParameter(cameraUiWrapper.GetParameterHandler().EdgeMode);
         edgeMode.SetMenuItemListner(this);
 
         hotPixelMode.SetStuff(i_activity, AppSettingsManager.SETTING_HOTPIXEL,appSettingsManager);
-        hotPixelMode.SetParameter(cameraUiWrapper.parametersHandler.HotPixelMode);
+        hotPixelMode.SetParameter(cameraUiWrapper.GetParameterHandler().HotPixelMode);
         hotPixelMode.SetMenuItemListner(this);
 
         opticalImageStabilization.SetStuff(i_activity, AppSettingsManager.SETTING_OIS,appSettingsManager);
-        opticalImageStabilization.SetParameter(cameraUiWrapper.parametersHandler.oismode);
+        opticalImageStabilization.SetParameter(cameraUiWrapper.GetParameterHandler().oismode);
         opticalImageStabilization.SetMenuItemListner(this);
 
         zoomSetting.SetStuff(i_activity, null,appSettingsManager);
-        zoomSetting.SetParameter(cameraUiWrapper.parametersHandler.ZoomSetting);
+        zoomSetting.SetParameter(cameraUiWrapper.GetParameterHandler().ZoomSetting);
         zoomSetting.SetMenuItemListner(this);
     }
 

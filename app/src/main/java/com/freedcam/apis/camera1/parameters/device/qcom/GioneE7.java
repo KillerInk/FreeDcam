@@ -21,8 +21,8 @@ package com.freedcam.apis.camera1.parameters.device.qcom;
 
 import android.hardware.Camera.Parameters;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
-import com.freedcam.apis.camera1.CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.device.BaseQcomDevice;
 import com.troop.androiddng.DngProfile;
 
@@ -30,7 +30,7 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 01.06.2016.
  */
 public class GioneE7 extends BaseQcomDevice {
-    public GioneE7(Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public GioneE7(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 

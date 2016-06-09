@@ -28,18 +28,29 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.freedcam.MainActivity;
 import com.freedcam.apis.basecamera.AbstractCameraFragment;
+import com.freedcam.apis.basecamera.AbstractFocusHandler;
 import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
+import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
 import com.freedcam.apis.basecamera.interfaces.I_Module;
+import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
+import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.sonyremote.modules.ModuleHandlerSony;
+import com.freedcam.apis.sonyremote.parameters.ParameterHandler;
 import com.freedcam.apis.sonyremote.sonystuff.ServerDevice;
 import com.freedcam.apis.sonyremote.sonystuff.SimpleSsdpClient;
 import com.freedcam.apis.sonyremote.sonystuff.SimpleSsdpClient.SearchResultHandler;
 import com.freedcam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import com.freedcam.apis.sonyremote.sonystuff.WifiUtils;
+import com.freedcam.utils.AppSettingsManager;
+import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
@@ -47,7 +58,7 @@ import com.troop.freedcam.R.layout;
 /**
  * Created by troop on 06.06.2015.
  */
-public class SonyCameraFragment extends AbstractCameraFragment implements I_CameraChangedListner
+public class SonyCameraFragment extends AbstractCameraFragment implements I_CameraChangedListner ,SurfaceHolder.Callback
 {
     private final String TAG = SonyCameraFragment.class.getSimpleName();
     private SimpleStreamSurfaceView surfaceView;
@@ -56,7 +67,6 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
     private WifiConnectedReceiver wifiConnectedReceiver;
     private SimpleSsdpClient mSsdpClient;
     private ServerDevice serverDevice;
-    private CameraUiWrapper cameraUiWrapper;
 
     private TextView textView_wifi;
     private final int IDEL = 0;
@@ -67,6 +77,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
     private String[] configuredNetworks = null;
     private String deviceNetworkToConnect;
     private boolean connected = false;
+    private CameraHolder cameraHolder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -81,6 +92,15 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
         wifiConnectedReceiver = new WifiConnectedReceiver();
         wifiUtils = new WifiUtils(view.getContext());
         mSsdpClient = new SimpleSsdpClient();
+        cameraHolder = new CameraHolder(surfaceView.getContext(), surfaceView, this,appSettingsManager);
+        parametersHandler = new ParameterHandler(this, surfaceView, getContext(),appSettingsManager);
+        cameraHolder.ParameterHandler = (ParameterHandler) parametersHandler;
+
+        moduleHandler = new ModuleHandlerSony(cameraHolder,getContext(),appSettingsManager);
+        Focus = new FocusHandler(this);
+        super.cameraHolder = cameraHolder;
+        cameraHolder.focusHandler =(FocusHandler) Focus;
+        cameraHolder.moduleHandlerSony = (ModuleHandlerSony)moduleHandler;
 
         return view;
     }
@@ -141,14 +161,14 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
                     return;
                 setTextFromWifi("Found SSDP Client... Connecting");
                 connected = true;
-                cameraUiWrapper.serverDevice = device;
-                cameraUiWrapper.StartCamera();
+                serverDevice = device;
+                StartCamera();
                 hideTextViewWifi(true);
             }
             @Override
             public void onFinished()
             {
-                if (cameraUiWrapper.serverDevice == null)
+                if (serverDevice == null)
                    setTextFromWifi("Cant find a sony remote Device");
 
             }
@@ -156,7 +176,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
             @Override
             public void onErrorFinished()
             {
-                if (cameraUiWrapper.serverDevice == null)
+                if (serverDevice == null)
                     setTextFromWifi("Error happend while searching for sony remote device \n pls restart remote");
                 startScanning();
             }
@@ -165,10 +185,8 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
 
     private void setupWrapper()
     {
-        cameraUiWrapper = new CameraUiWrapper(surfaceView,getContext(),appSettingsManager);
-        cameraUiWrapper.SetCameraChangedListner(this);
-        if (onrdy != null)
-            onrdy.onCameraUiWrapperRdy(cameraUiWrapper);
+        SetCameraChangedListner(this);
+        ((MainActivity) getActivity()).onCameraUiWrapperRdy(this);
     }
 
     private void startScanning()
@@ -375,5 +393,112 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
         }
     }
 
+
+    @Override
+    public String CameraApiName() {
+
+        return AppSettingsManager.API_SONY;
+    }
+
+    @Override
+    public void StartCamera()
+    {
+        FreeDPool.Execute(new Runnable() {
+            @Override
+            public void run() {
+                cameraHolder.OpenCamera(serverDevice);
+                onCameraOpen("");
+            }
+        });
+    }
+
+    @Override
+    public void StopCamera() {
+        cameraHolder.CloseCamera();
+    }
+
+
+    @Override
+    public void DoWork() {
+        moduleHandler.DoWork();
+    }
+
+    @Override
+    public I_CameraHolder GetCameraHolder() {
+        return null;
+    }
+
+    @Override
+    public AbstractParameterHandler GetParameterHandler() {
+        return null;
+    }
+
+    @Override
+    public AbstractModuleHandler GetModuleHandler() {
+        return null;
+    }
+
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder)
+    {
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+
+        StopPreview();
+        StopCamera();
+    }
+
+    @Override
+    public void OnError(String error) {
+        super.onCameraError(error);
+    }
+
+    @Override
+    public int getMargineLeft() {
+        return surfaceView.getLeft();
+    }
+
+    @Override
+    public int getMargineRight() {
+        return surfaceView.getRight();
+    }
+
+    @Override
+    public int getMargineTop() {
+        return surfaceView.getTop();
+    }
+
+    @Override
+    public int getPreviewWidth() {
+        return surfaceView.getWidth();
+    }
+
+    @Override
+    public int getPreviewHeight() {
+        return surfaceView.getHeight();
+    }
+
+    @Override
+    public boolean isAeMeteringSupported() {
+        return Focus.isAeMeteringSupported();
+    }
+
+    @Override
+    public SurfaceView getSurfaceView() {
+        return surfaceView;
+    }
+
+    @Override
+    public AbstractFocusHandler getFocusHandler() {
+        return Focus;
+    }
 
 }

@@ -27,7 +27,7 @@ import android.support.v4.provider.DocumentFile;
 import android.util.AttributeSet;
 import android.widget.Toast;
 
-import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.modes.SDModeParameter;
 import com.freedcam.ui.I_Activity.I_OnActivityResultCallback;
 import com.freedcam.utils.Logger;
@@ -42,7 +42,7 @@ public class MenuItemSDSave extends MenuItem implements I_OnActivityResultCallba
 {
     final String internal = "Internal";
     final String external ="External";
-    private AbstractCameraUiWrapper cameraUiWrapper;
+    private I_CameraUiWrapper cameraUiWrapper;
     private String lastval;
 
     public MenuItemSDSave(Context context) {
@@ -53,10 +53,10 @@ public class MenuItemSDSave extends MenuItem implements I_OnActivityResultCallba
         super(context, attrs);
     }
 
-    public void SetCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    public void SetCameraUiWrapper(I_CameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        SetParameter(cameraUiWrapper.parametersHandler.SdSaveLocation);
+        SetParameter(cameraUiWrapper.GetParameterHandler().SdSaveLocation);
     }
 
     @Override

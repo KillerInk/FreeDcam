@@ -21,14 +21,13 @@ package com.freedcam.ui.themesample.views.uichilds;
 
 import android.content.Context;
 import android.util.AttributeSet;
-
-import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 
 /**
  * Created by troop on 13.06.2015.
  */
 public class UiSettingsChildModuleSwitch extends UiSettingsChild {
-    private AbstractCameraUiWrapper cameraUiWrapper;
+    private I_CameraUiWrapper cameraUiWrapper;
 
     public UiSettingsChildModuleSwitch(Context context) {
         super(context);
@@ -38,26 +37,26 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
         super(context, attrs);
     }
 
-    public void SetCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    public void SetCameraUiWrapper(I_CameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if(cameraUiWrapper.moduleHandler.moduleEventHandler != null)
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
-            cameraUiWrapper.parametersHandler.AddParametersLoadedListner(this);
-        SetParameter(cameraUiWrapper.parametersHandler.Module);
-        if (cameraUiWrapper.moduleHandler == null)
+        if(cameraUiWrapper.GetModuleHandler().moduleEventHandler != null)
+            cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(this);
+            cameraUiWrapper.GetParameterHandler().AddParametersLoadedListner(this);
+        SetParameter(cameraUiWrapper.GetParameterHandler().Module);
+        if (cameraUiWrapper.GetModuleHandler() == null)
             return;
-        if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null)
-            onValueChanged(cameraUiWrapper.moduleHandler.GetCurrentModule().ShortName());
+        if (cameraUiWrapper.GetModuleHandler().GetCurrentModule() != null)
+            onValueChanged(cameraUiWrapper.GetModuleHandler().GetCurrentModule().ShortName());
     }
 
     @Override
     public void ParametersLoaded() {
-        if (cameraUiWrapper.moduleHandler == null)
+        if (cameraUiWrapper.GetModuleHandler() == null)
             return;
 
-        if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null)
-            onValueChanged(cameraUiWrapper.moduleHandler.GetCurrentModule().ShortName());
+        if (cameraUiWrapper.GetModuleHandler().GetCurrentModule() != null)
+            onValueChanged(cameraUiWrapper.GetModuleHandler().GetCurrentModule().ShortName());
     }
 
     @Override
@@ -66,8 +65,8 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
         valueText.post(new Runnable() {
             @Override
             public void run() {
-                if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null)
-                    valueText.setText(cameraUiWrapper.moduleHandler.GetCurrentModule().ShortName());
+                if (cameraUiWrapper.GetModuleHandler().GetCurrentModule() != null)
+                    valueText.setText(cameraUiWrapper.GetModuleHandler().GetCurrentModule().ShortName());
             }
         });
     }

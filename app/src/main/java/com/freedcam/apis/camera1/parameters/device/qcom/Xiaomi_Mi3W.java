@@ -23,10 +23,10 @@ import android.hardware.Camera.Parameters;
 import android.os.Build.VERSION;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
-import com.freedcam.apis.camera1.CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.device.BaseQcomDevice;
 import com.freedcam.apis.camera1.parameters.manual.BaseCCTManual;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
@@ -39,7 +39,7 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 01.06.2016.
  */
 public class Xiaomi_Mi3W extends BaseQcomDevice {
-    public Xiaomi_Mi3W(Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public Xiaomi_Mi3W(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 
@@ -59,7 +59,7 @@ public class Xiaomi_Mi3W extends BaseQcomDevice {
     public AbstractManualParameter getSkintoneParameter() {
         AbstractManualParameter Skintone = new SkintoneManualPrameter(parameters,parametersHandler);
         parametersHandler.PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Skintone).GetModuleListner());
+        cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(((BaseManualParameter) Skintone).GetModuleListner());
         return Skintone;
     }
 
@@ -87,6 +87,6 @@ public class Xiaomi_Mi3W extends BaseQcomDevice {
 
     @Override
     public AbstractModeParameter getOpCodeParameter() {
-        return new OpCodeParameter(cameraUiWrapper.appSettingsManager);
+        return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
     }
 }

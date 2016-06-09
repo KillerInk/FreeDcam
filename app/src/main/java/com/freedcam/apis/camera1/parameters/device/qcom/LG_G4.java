@@ -22,9 +22,9 @@ package com.freedcam.apis.camera1.parameters.device.qcom;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
-import com.freedcam.apis.camera1.CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.manual.AE_Handler_LGG4;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.parameters.manual.CCTManualG4;
@@ -37,7 +37,7 @@ import com.troop.androiddng.DngProfile;
 public class LG_G4 extends LG_G2
 {
     private AE_Handler_LGG4 ae_handler_lgg4;
-    public LG_G4(Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public LG_G4(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
         ae_handler_lgg4 = new AE_Handler_LGG4(parameters,cameraHolder, parametersHandler);
         parameters.set("lge-camera","1");

@@ -22,10 +22,10 @@ package com.freedcam.apis.camera2.parameters.modes;
 import android.media.CamcorderProfile;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.VideoMediaProfile;
 import com.freedcam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
 import com.freedcam.apis.camera2.CameraHolder;
-import com.freedcam.apis.camera2.CameraUiWrapper;
 import com.freedcam.utils.Logger;
 
 import java.io.File;
@@ -43,9 +43,9 @@ public class VideoProfilesApi2 extends BaseModeApi2
     final String TAG = VideoProfilesApi2.class.getSimpleName();
     private HashMap<String, VideoMediaProfile> supportedProfiles;
     private String profile;
-    private CameraUiWrapper cameraUiWrapper;
+    private I_CameraUiWrapper cameraUiWrapper;
 
-    public VideoProfilesApi2(CameraHolder cameraHolder, CameraUiWrapper cameraUiWrapper)
+    public VideoProfilesApi2(CameraHolder cameraHolder, I_CameraUiWrapper cameraUiWrapper)
     {
         super(cameraHolder);
         loadProfiles();
@@ -273,10 +273,10 @@ public class VideoProfilesApi2 extends BaseModeApi2
     public void SetValue(String valueToSet, boolean setToCam)
     {
         profile = valueToSet;
-        if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null && cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
+        if (cameraUiWrapper.GetModuleHandler().GetCurrentModule() != null && cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
         {
-            cameraUiWrapper.moduleHandler.GetCurrentModule().DestroyModule();
-            cameraUiWrapper.moduleHandler.GetCurrentModule().InitModule();
+            cameraUiWrapper.GetModuleHandler().GetCurrentModule().DestroyModule();
+            cameraUiWrapper.GetModuleHandler().GetCurrentModule().InitModule();
         }
 
     }

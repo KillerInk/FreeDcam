@@ -6,8 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
-import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.I_ParametersLoaded;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.utils.AppSettingsManager;
@@ -21,7 +20,7 @@ import com.troop.freedcam.R.layout;
 public class GuideHandler extends Fragment implements I_ModeParameterEvent , I_ParametersLoaded {
     private View view;
     private ImageView img;
-    private AbstractCameraUiWrapper cameraUiWrapper;
+    private I_CameraUiWrapper cameraUiWrapper;
     private float quckRationMath;
     private AppSettingsManager appSettingsManager;
 
@@ -45,8 +44,8 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent , I_P
     @Override
     public void onResume() {
         super.onResume();
-        if (cameraUiWrapper !=  null && cameraUiWrapper.parametersHandler != null && cameraUiWrapper.parametersHandler.PreviewSize != null)
-            previewSizeChanged.onValueChanged(cameraUiWrapper.parametersHandler.PreviewSize.GetValue());
+        if (cameraUiWrapper !=  null && cameraUiWrapper.GetParameterHandler() != null && cameraUiWrapper.GetParameterHandler().PreviewSize != null)
+            previewSizeChanged.onValueChanged(cameraUiWrapper.GetParameterHandler().PreviewSize.GetValue());
     }
     @Override
     public void onPause(){
@@ -54,11 +53,11 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent , I_P
 
     }
 
-    public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    public void setCameraUiWrapper(I_CameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        cameraUiWrapper.parametersHandler.GuideList.addEventListner(this);
-        cameraUiWrapper.parametersHandler.AddParametersLoadedListner(this);
+        cameraUiWrapper.GetParameterHandler().GuideList.addEventListner(this);
+        cameraUiWrapper.GetParameterHandler().AddParametersLoadedListner(this);
     }
 
     private void SetViewG(final String str)
@@ -245,8 +244,8 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent , I_P
     @Override
     public void ParametersLoaded()
     {
-        if (cameraUiWrapper.parametersHandler.PreviewSize != null)
-            cameraUiWrapper.parametersHandler.PreviewSize.addEventListner(previewSizeChanged);
+        if (cameraUiWrapper.GetParameterHandler().PreviewSize != null)
+            cameraUiWrapper.GetParameterHandler().PreviewSize.addEventListner(previewSizeChanged);
     }
 }
 

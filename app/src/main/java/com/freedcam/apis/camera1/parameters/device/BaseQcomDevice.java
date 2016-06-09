@@ -22,9 +22,9 @@ package com.freedcam.apis.camera1.parameters.device;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
-import com.freedcam.apis.camera1.CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.manual.BaseCCTManual;
 import com.freedcam.apis.camera1.parameters.manual.BaseFocusManual;
 import com.freedcam.apis.camera1.parameters.manual.ShutterManual_ExposureTime_FloatToSixty;
@@ -36,7 +36,7 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 02.06.2016.
  */
 public class BaseQcomDevice extends AbstractDevice {
-    public BaseQcomDevice(Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public BaseQcomDevice(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 

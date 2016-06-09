@@ -21,9 +21,9 @@ package com.freedcam.apis.camera1.parameters.device.qcom;
 
 import android.hardware.Camera.Parameters;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
-import com.freedcam.apis.camera1.CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.device.BaseQcomDevice;
 import com.freedcam.apis.camera1.parameters.modes.OpCodeParameter;
 import com.troop.androiddng.DngProfile;
@@ -32,7 +32,7 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 01.06.2016.
  */
 public class HTC_One_A9 extends BaseQcomDevice {
-    public HTC_One_A9(Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public HTC_One_A9(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
     @Override
@@ -52,6 +52,6 @@ public class HTC_One_A9 extends BaseQcomDevice {
 
     @Override
     public AbstractModeParameter getOpCodeParameter() {
-        return new OpCodeParameter(cameraUiWrapper.appSettingsManager);
+        return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
     }
 }

@@ -23,6 +23,7 @@ import android.view.MotionEvent;
 
 import com.freedcam.apis.basecamera.AbstractFocusHandler;
 import com.freedcam.apis.basecamera.FocusRect;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.CameraFocusEvent;
 import com.freedcam.apis.basecamera.modules.I_Callbacks.AutoFocusCallback;
 import com.freedcam.apis.sonyremote.parameters.ParameterHandler;
@@ -33,7 +34,7 @@ import com.freedcam.utils.Logger;
  */
 public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallback
 {
-    private CameraUiWrapper cameraUiWrapper;
+    private I_CameraUiWrapper cameraUiWrapper;
     private CameraHolder cameraHolder;
     private ParameterHandler parametersHandler;
     private static String TAG = FocusHandler.class.getSimpleName();
@@ -41,11 +42,11 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
     private boolean isFocusing = false;
     private boolean isFocusLocked = false;
 
-    public FocusHandler(CameraUiWrapper cameraUiWrapper)
+    public FocusHandler(I_CameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        cameraHolder = cameraUiWrapper.cameraHolder;
-        parametersHandler = (ParameterHandler)cameraUiWrapper.parametersHandler;
+        cameraHolder = (CameraHolder) cameraUiWrapper.GetCameraHolder();
+        parametersHandler = (ParameterHandler)cameraUiWrapper.GetParameterHandler();
     }
 
     @Override
@@ -99,7 +100,7 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
 
     @Override
     public void SetMotionEvent(MotionEvent event) {
-        cameraUiWrapper.surfaceView.onTouchEvent(event);
+        ((SonyCameraFragment)cameraUiWrapper).getSurfaceView().onTouchEvent(event);
     }
 
 

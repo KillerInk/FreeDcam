@@ -21,8 +21,7 @@ package com.freedcam.ui.themesample.views.menu;
 
 import android.content.Context;
 import android.util.AttributeSet;
-
-import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 
 /**
  * Created by troop on 21.07.2015.
@@ -37,9 +36,9 @@ public class MenuItemGPS extends MenuItem
         super(context, attrs);
     }
 
-    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    public void SetCameraUIWrapper(I_CameraUiWrapper cameraUiWrapper)
     {
-        SetParameter(cameraUiWrapper.parametersHandler.locationParameter);
+        SetParameter(cameraUiWrapper.GetParameterHandler().locationParameter);
 
     }
 }

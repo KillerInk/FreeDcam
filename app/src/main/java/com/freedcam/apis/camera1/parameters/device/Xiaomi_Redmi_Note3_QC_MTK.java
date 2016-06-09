@@ -22,10 +22,10 @@ package com.freedcam.apis.camera1.parameters.device;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.camera1.CameraHolder.Frameworks;
-import com.freedcam.apis.camera1.CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.manual.AE_Handler_MTK;
 import com.freedcam.apis.camera1.parameters.manual.AE_Handler_QcomM;
 import com.freedcam.apis.camera1.parameters.manual.FocusManualMTK;
@@ -43,7 +43,7 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
     private Frameworks frameworks;
     private AE_Handler_MTK ae_handler_mtk;
     private AE_Handler_QcomM ae_handler_qcomM;
-    public Xiaomi_Redmi_Note3_QC_MTK(Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public Xiaomi_Redmi_Note3_QC_MTK(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
         frameworks = cameraHolder.DeviceFrameWork;
         if (frameworks == Frameworks.MTK)

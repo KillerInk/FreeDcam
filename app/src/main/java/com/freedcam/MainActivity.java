@@ -36,7 +36,7 @@ import com.freedcam.apis.ApiHandler;
 import com.freedcam.apis.ApiHandler.ApiEvent;
 import com.freedcam.apis.basecamera.AbstractCameraFragment;
 import com.freedcam.apis.basecamera.AbstractCameraFragment.CamerUiWrapperRdy;
-import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.ui.handler.HardwareKeyHandler;
 import com.freedcam.ui.handler.I_orientation;
 import com.freedcam.ui.handler.OrientationHandler;
@@ -258,14 +258,14 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
      * @param cameraUiWrapper the cameraWrapper to register the listners
      */
     @Override
-    public void onCameraUiWrapperRdy(AbstractCameraUiWrapper cameraUiWrapper)
+    public void onCameraUiWrapperRdy(I_CameraUiWrapper cameraUiWrapper)
     {
-        cameraUiWrapper.moduleHandler.SetWorkListner(orientationHandler);
+        cameraUiWrapper.GetModuleHandler().SetWorkListner(orientationHandler);
         sampleThemeFragment.SetCameraUIWrapper(cameraUiWrapper);
         hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper);
         Logger.d(TAG, "add events");
-        cameraUiWrapper.moduleHandler.moduleEventHandler.AddRecoderChangedListner(timerHandler);
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(timerHandler);
+        cameraUiWrapper.GetModuleHandler().moduleEventHandler.AddRecoderChangedListner(timerHandler);
+        cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(timerHandler);
     }
 
     @Override
@@ -301,8 +301,8 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         if (orientation != currentorientation)
         {
             currentorientation = orientation;
-            if (cameraFragment.GetCameraUiWrapper() != null && cameraFragment.GetCameraUiWrapper().cameraHolder != null && cameraFragment.GetCameraUiWrapper().parametersHandler != null)
-                cameraFragment.GetCameraUiWrapper().parametersHandler.SetPictureOrientation(orientation);
+            if (cameraFragment.GetCameraUiWrapper() != null && cameraFragment.GetCameraUiWrapper().GetCameraHolder() != null && cameraFragment.GetCameraUiWrapper().GetParameterHandler() != null)
+                cameraFragment.GetCameraUiWrapper().GetParameterHandler().SetPictureOrientation(orientation);
         }
     }
 

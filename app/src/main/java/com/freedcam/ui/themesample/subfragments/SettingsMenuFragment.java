@@ -24,7 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.themesample.subfragments.Interfaces.I_CloseNotice;
@@ -64,7 +64,7 @@ public class SettingsMenuFragment extends AbstractFragment implements I_CloseNot
     }
 
     @Override
-    public void SetCameraUIWrapper(AbstractCameraUiWrapper wrapper)
+    public void SetCameraUIWrapper(I_CameraUiWrapper wrapper)
     {
         super.SetCameraUIWrapper(wrapper);
         Logger.d(TAG, "SetCameraUiWrapper");

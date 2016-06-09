@@ -19,6 +19,13 @@
 
 package com.freedcam.apis.basecamera.interfaces;
 
+import android.view.SurfaceView;
+
+import com.freedcam.apis.basecamera.AbstractFocusHandler;
+import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
+import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
+import com.freedcam.utils.AppSettingsManager;
+
 /**
  * Created by troop on 09.12.2014.
  */
@@ -33,4 +40,20 @@ public interface I_CameraUiWrapper
      * the module must handle the workstate on its own if it gets hit twice while work is already in progress
      */
     void DoWork();
+    I_CameraHolder GetCameraHolder();
+    AbstractParameterHandler GetParameterHandler();
+    AppSettingsManager GetAppSettingsManager();
+    AbstractModuleHandler GetModuleHandler();
+    SurfaceView getSurfaceView();
+    AbstractFocusHandler getFocusHandler();
+    void SetCameraChangedListner(I_CameraChangedListner cameraChangedListner);
+
+    int getMargineLeft();
+    int getMargineRight();
+    int getMargineTop();
+    int getPreviewWidth();
+    int getPreviewHeight();
+
+    boolean isAeMeteringSupported();
+
 }

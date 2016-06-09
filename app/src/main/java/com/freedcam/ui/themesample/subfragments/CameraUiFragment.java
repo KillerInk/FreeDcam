@@ -33,8 +33,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-
-import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.I_swipe;
@@ -107,7 +106,7 @@ public class CameraUiFragment extends AbstractFragment implements I_MenuItemClic
     private int LeftWidth = 0;
     private BitmapHelper bitmapHelper;
 
-    public static CameraUiFragment GetInstance(I_Activity i_activity, I_ThumbClick thumbClick, AppSettingsManager appSettingsManager, AbstractCameraUiWrapper cameraUiWrapper, BitmapHelper bitmapHelper)
+    public static CameraUiFragment GetInstance(I_Activity i_activity, I_ThumbClick thumbClick, AppSettingsManager appSettingsManager, I_CameraUiWrapper cameraUiWrapper, BitmapHelper bitmapHelper)
     {
         CameraUiFragment cameraUiFragment = new CameraUiFragment();
         cameraUiFragment.i_activity = i_activity;
@@ -125,18 +124,18 @@ public class CameraUiFragment extends AbstractFragment implements I_MenuItemClic
 
     @Override
     protected void setCameraUiWrapperToUi() {
-        if (cameraUiWrapper == null || cameraUiWrapper.parametersHandler == null)
+        if (cameraUiWrapper == null || cameraUiWrapper.GetParameterHandler() == null)
         {
             Logger.d(TAG, "failed to set cameraUiWrapper");
             return;
         }
-        flash.SetParameter(cameraUiWrapper.parametersHandler.FlashMode);
-        iso.SetParameter(cameraUiWrapper.parametersHandler.IsoMode);
-        autoexposure.SetParameter(cameraUiWrapper.parametersHandler.ExposureMode);
-        whitebalance.SetParameter(cameraUiWrapper.parametersHandler.WhiteBalanceMode);
-        focus.SetParameter(cameraUiWrapper.parametersHandler.FocusMode);
-        night.SetParameter(cameraUiWrapper.parametersHandler.NightMode);
-        aepriority.SetParameter(cameraUiWrapper.parametersHandler.AE_PriorityMode);
+        flash.SetParameter(cameraUiWrapper.GetParameterHandler().FlashMode);
+        iso.SetParameter(cameraUiWrapper.GetParameterHandler().IsoMode);
+        autoexposure.SetParameter(cameraUiWrapper.GetParameterHandler().ExposureMode);
+        whitebalance.SetParameter(cameraUiWrapper.GetParameterHandler().WhiteBalanceMode);
+        focus.SetParameter(cameraUiWrapper.GetParameterHandler().FocusMode);
+        night.SetParameter(cameraUiWrapper.GetParameterHandler().NightMode);
+        aepriority.SetParameter(cameraUiWrapper.GetParameterHandler().AE_PriorityMode);
         thumbView.INIT(cameraUiWrapper,bitmapHelper);
 
         cameraSwitch.SetCameraUiWrapper(cameraUiWrapper);
@@ -144,18 +143,18 @@ public class CameraUiFragment extends AbstractFragment implements I_MenuItemClic
         UserMessageHandler messageHandler = new UserMessageHandler(view);
         messageHandler.SetCameraUiWrapper(cameraUiWrapper);
         shutterButton.SetCameraUIWrapper(cameraUiWrapper, messageHandler);
-        format.SetParameter(cameraUiWrapper.parametersHandler.PictureFormat);
-        contShot.SetParameter(cameraUiWrapper.parametersHandler.ContShootMode);
+        format.SetParameter(cameraUiWrapper.GetParameterHandler().PictureFormat);
+        contShot.SetParameter(cameraUiWrapper.GetParameterHandler().ContShootMode);
         if (manualModesFragment != null)
             manualModesFragment.SetCameraUIWrapper(cameraUiWrapper);
-        if (cameraUiWrapper.parametersHandler.Focuspeak != null) {
-            focuspeak.SetParameter(cameraUiWrapper.parametersHandler.Focuspeak);
-            cameraUiWrapper.parametersHandler.AddParametersLoadedListner(focuspeak);
+        if (cameraUiWrapper.GetParameterHandler().Focuspeak != null) {
+            focuspeak.SetParameter(cameraUiWrapper.GetParameterHandler().Focuspeak);
+            cameraUiWrapper.GetParameterHandler().AddParametersLoadedListner(focuspeak);
         }
         guideHandler.setCameraUiWrapper(cameraUiWrapper);
         focuspeak.SetCameraUiWrapper(cameraUiWrapper);
         modeSwitch.SetCameraUiWrapper(cameraUiWrapper);
-        hdr_switch.SetParameter(cameraUiWrapper.parametersHandler.HDRMode);
+        hdr_switch.SetParameter(cameraUiWrapper.GetParameterHandler().HDRMode);
         horizontLineFragment.setCameraUiWrapper(cameraUiWrapper);
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
     }

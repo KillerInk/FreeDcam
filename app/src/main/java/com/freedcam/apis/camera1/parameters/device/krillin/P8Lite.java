@@ -22,9 +22,9 @@ package com.freedcam.apis.camera1.parameters.device.krillin;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
-import com.freedcam.apis.camera1.CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.device.AbstractDevice;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.parameters.manual.FocusManualHuawei;
@@ -35,7 +35,7 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 01.06.2016.
  */
 public class P8Lite extends AbstractDevice {
-    public P8Lite(Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public P8Lite(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 

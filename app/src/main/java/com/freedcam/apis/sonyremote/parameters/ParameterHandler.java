@@ -21,10 +21,11 @@ package com.freedcam.apis.sonyremote.parameters;
 
 import android.content.Context;
 
+import com.freedcam.MainActivity;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.parameters.modes.ModuleParameters;
 import com.freedcam.apis.sonyremote.CameraHolder;
-import com.freedcam.apis.sonyremote.CameraUiWrapper;
 import com.freedcam.apis.sonyremote.parameters.manual.BaseManualParameterSony;
 import com.freedcam.apis.sonyremote.parameters.manual.ExposureCompManualParameterSony;
 import com.freedcam.apis.sonyremote.parameters.manual.PreviewZoomManual;
@@ -62,15 +63,16 @@ public class ParameterHandler extends AbstractParameterHandler
     private Set<String> mSupportedApiSet;
     private List<I_SonyApi> parametersChangedList;
     private SimpleStreamSurfaceView surfaceView;
-    private CameraUiWrapper wrapper;
+    private I_CameraUiWrapper wrapper;
 
-    public ParameterHandler(CameraUiWrapper wrapper, SimpleStreamSurfaceView surfaceView, Context context, AppSettingsManager appSettingsManager)
+
+    public ParameterHandler(I_CameraUiWrapper wrapper, SimpleStreamSurfaceView surfaceView, Context context, AppSettingsManager appSettingsManager)
     {
-        super(wrapper.cameraHolder,context,appSettingsManager);
-        cameraHolder = wrapper.cameraHolder;
+        super(wrapper.GetCameraHolder(),context,appSettingsManager);
+        cameraHolder = (CameraHolder) wrapper.GetCameraHolder();
         parametersChangedList  = new ArrayList<>();
         this.surfaceView = surfaceView;
-        this.wrapper = wrapper;
+        this.wrapper =wrapper;
     }
 
     public void SetCameraApiSet(Set<String> mAvailableCameraApiSet)

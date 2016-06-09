@@ -27,10 +27,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
-import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.camera1.Camera1Fragment;
 import com.freedcam.apis.camera1.CameraHolder;
-import com.freedcam.apis.camera1.CameraUiWrapper;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.themesample.subfragments.Interfaces.I_MenuItemClick;
 import com.freedcam.utils.AppSettingsManager;
@@ -47,7 +47,7 @@ import java.util.Arrays;
  */
 public class MenuItemSaveCamParams extends MenuItem
 {
-    private AbstractCameraUiWrapper cameraUiWrapper;
+    private I_CameraUiWrapper cameraUiWrapper;
     public MenuItemSaveCamParams(Context context) {
         super(context);
     }
@@ -148,10 +148,10 @@ public class MenuItemSaveCamParams extends MenuItem
     }
 
 
-    public void setCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    public void setCameraUiWrapper(I_CameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (cameraUiWrapper instanceof CameraUiWrapper)
+        if (cameraUiWrapper instanceof Camera1Fragment)
             setVisibility(View.VISIBLE);
         else
             setVisibility(View.GONE);
@@ -160,7 +160,7 @@ public class MenuItemSaveCamParams extends MenuItem
     private void saveCamParameters()
     {
         String[] paras = null;
-        CameraHolder holder = (CameraHolder)cameraUiWrapper.cameraHolder;
+        CameraHolder holder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
 
         paras = holder.GetCamera().getParameters().flatten().split(";");
 

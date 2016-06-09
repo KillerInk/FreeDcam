@@ -22,11 +22,11 @@ package com.freedcam.apis.camera1.parameters.device.qcom;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.CameraHolder.Frameworks;
-import com.freedcam.apis.camera1.CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.device.AbstractDevice;
 import com.freedcam.apis.camera1.parameters.manual.FocusManualParameterLG;
 import com.freedcam.apis.camera1.parameters.modes.BaseModeParameter;
@@ -39,7 +39,7 @@ import com.troop.androiddng.DngProfile;
  */
 public class LG_G2 extends AbstractDevice
 {
-    public LG_G2(Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public LG_G2(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
         if (cameraHolder.DeviceFrameWork == Frameworks.LG)
             parameters.set("lge-camera","1");
@@ -100,7 +100,7 @@ public class LG_G2 extends AbstractDevice
 
     @Override
     public AbstractModeParameter getOpCodeParameter() {
-        return new OpCodeParameter(cameraUiWrapper.appSettingsManager);
+        return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
     }
 
     @Override

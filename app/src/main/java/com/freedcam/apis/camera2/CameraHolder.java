@@ -310,6 +310,11 @@ public class CameraHolder extends AbstractCameraHolder
 
     }
 
+    @Override
+    public void StartFocus() {
+        Focus.StartFocus();
+    }
+
     public Parameters GetCameraParameters() {
         return null;
     }

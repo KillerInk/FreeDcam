@@ -28,9 +28,9 @@ import android.os.Build.VERSION_CODES;
 import android.view.MotionEvent;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.AbstractFocusHandler;
 import com.freedcam.apis.basecamera.FocusRect;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.I_ParametersLoaded;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.utils.Logger;
@@ -51,9 +51,9 @@ public class FocusHandler extends AbstractFocusHandler implements I_ParametersLo
 
     private final String TAG = FocusHandler.class.getSimpleName();
 
-    public FocusHandler(AbstractCameraUiWrapper cameraUiWrapper)
+    public FocusHandler(I_CameraUiWrapper cameraUiWrapper)
     {
-        cameraHolder = (CameraHolder) cameraUiWrapper.cameraHolder;
+        cameraHolder = (CameraHolder) cameraUiWrapper.GetCameraHolder();
     }
 
     public I_ModeParameterEvent focusModeListner = new I_ModeParameterEvent() {

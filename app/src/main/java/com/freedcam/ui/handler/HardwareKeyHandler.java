@@ -3,7 +3,7 @@ package com.freedcam.ui.handler;
 import android.view.KeyEvent;
 
 import com.freedcam.MainActivity;
-import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
@@ -15,7 +15,7 @@ import com.freedcam.utils.StringUtils;
 public class HardwareKeyHandler
 {
     private final MainActivity activity;
-    private AbstractCameraUiWrapper cameraUiWrapper;
+    private I_CameraUiWrapper cameraUiWrapper;
     private final String TAG = HardwareKeyHandler.class.getSimpleName();
     private AppSettingsManager appSettingsManager;
 
@@ -26,7 +26,7 @@ public class HardwareKeyHandler
         this.appSettingsManager = appSettingsManager;
     }
 
-    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    public void SetCameraUIWrapper(I_CameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
     }
@@ -65,15 +65,15 @@ public class HardwareKeyHandler
         if(keyCode == KeyEvent.KEYCODE_3D_MODE ||keyCode == KeyEvent.KEYCODE_POWER || keyCode == appSettingsKeyShutter || keyCode == KeyEvent.KEYCODE_UNKNOWN)
         {
             Logger.d(TAG, "KeyUp");
-            cameraUiWrapper.moduleHandler.DoWork();
+            cameraUiWrapper.GetModuleHandler().DoWork();
         }
         //shutterbutton full pressed
         if (keyCode == KeyEvent.KEYCODE_CAMERA)
         {
-            cameraUiWrapper.moduleHandler.DoWork();
+            cameraUiWrapper.GetModuleHandler().DoWork();
         }
         // shutterbutton half pressed
-        if (keyCode == KeyEvent.KEYCODE_FOCUS)
-            cameraUiWrapper.Focus.StartFocus();
+       /* if (keyCode == KeyEvent.KEYCODE_FOCUS)
+            cameraUiWrapper.StartFocus();*/
     }
 }

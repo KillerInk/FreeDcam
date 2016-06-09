@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.freedcam.apis.basecamera.AbstractCameraHolder;
+import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
@@ -38,7 +39,7 @@ import com.freedcam.utils.StringUtils;
  */
 public class LocationParameter extends AbstractModeParameter implements LocationListener
 {
-    private final AbstractCameraHolder cameraHolder;
+    private I_CameraHolder cameraHolder;
     private LocationManager locationManager;
     private Context context;
     private AppSettingsManager appSettingsManager;
@@ -47,7 +48,7 @@ public class LocationParameter extends AbstractModeParameter implements Location
     private final int updateDistance = 15;
 
 
-    public LocationParameter(AbstractCameraHolder cameraHolder, Context context, AppSettingsManager appSettingsManager) {
+    public LocationParameter(I_CameraHolder cameraHolder, Context context, AppSettingsManager appSettingsManager) {
         this.context = context;
         this.cameraHolder = cameraHolder;
         this.appSettingsManager = appSettingsManager;

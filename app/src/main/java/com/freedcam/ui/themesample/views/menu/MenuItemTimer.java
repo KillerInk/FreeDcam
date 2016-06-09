@@ -21,10 +21,7 @@ package com.freedcam.ui.themesample.views.menu;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
-
-import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
-import com.freedcam.apis.camera1.CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.AppSettingsManager;
 
@@ -33,7 +30,7 @@ import com.freedcam.utils.AppSettingsManager;
  */
 public class MenuItemTimer extends MenuItem
 {
-    private AbstractCameraUiWrapper cameraUiWrapper;
+    private I_CameraUiWrapper cameraUiWrapper;
 
     public MenuItemTimer(Context context) {
         super(context);
@@ -43,15 +40,9 @@ public class MenuItemTimer extends MenuItem
         super(context, attrs);
     }
 
-    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    public void SetCameraUIWrapper(I_CameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (cameraUiWrapper instanceof CameraUiWrapper)
-            setVisibility(View.VISIBLE);
-        else
-            setVisibility(View.GONE);
-
-
     }
 
     @Override

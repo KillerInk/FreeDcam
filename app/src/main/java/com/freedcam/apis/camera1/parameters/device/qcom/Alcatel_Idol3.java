@@ -21,9 +21,9 @@ package com.freedcam.apis.camera1.parameters.device.qcom;
 
 import android.hardware.Camera.Parameters;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
-import com.freedcam.apis.camera1.CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.device.BaseQcomNew;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.parameters.manual.SkintoneManualPrameter;
@@ -35,7 +35,7 @@ import com.troop.androiddng.DngProfile;
 public class Alcatel_Idol3 extends BaseQcomNew
 {
 
-    public Alcatel_Idol3(Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public Alcatel_Idol3(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 
@@ -60,7 +60,7 @@ public class Alcatel_Idol3 extends BaseQcomNew
     public AbstractManualParameter getSkintoneParameter() {
         AbstractManualParameter Skintone = new SkintoneManualPrameter(parameters,parametersHandler);
         parametersHandler.PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(((BaseManualParameter) Skintone).GetModuleListner());
+        cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(((BaseManualParameter) Skintone).GetModuleListner());
         return Skintone;
     }
 }

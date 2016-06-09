@@ -417,6 +417,11 @@ public class CameraHolder extends AbstractCameraHolder
         }
     }
 
+    @Override
+    public void StartFocus() {
+        Focus.StartFocus();
+    }
+
     public void SetOrientation(int or)
     {
         if (!isRdy || or == Orientation)

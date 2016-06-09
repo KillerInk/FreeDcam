@@ -31,8 +31,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-
-import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.I_WorkEvent;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
@@ -51,7 +50,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, OnClickListener
 {
     private final  String TAG = ThumbView.class.getSimpleName();
     private boolean hasWork = false;
-    private AbstractCameraUiWrapper cameraUiWrapper;
+    private I_CameraUiWrapper cameraUiWrapper;
     private Bitmap bitmap;
     private File lastFile;
     private Bitmap mask;
@@ -76,12 +75,12 @@ public class ThumbView extends ImageView implements I_WorkEvent, OnClickListener
     }
 
 
-    public void INIT(AbstractCameraUiWrapper cameraUiWrapper,  BitmapHelper bitmapHelper)
+    public void INIT(I_CameraUiWrapper cameraUiWrapper, BitmapHelper bitmapHelper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.bitmapHelper = bitmapHelper;
-        if(cameraUiWrapper != null && cameraUiWrapper.moduleHandler != null && cameraUiWrapper.moduleHandler.moduleEventHandler != null)
-            cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(this);
+        if(cameraUiWrapper != null && cameraUiWrapper.GetModuleHandler() != null && cameraUiWrapper.GetModuleHandler().moduleEventHandler != null)
+            cameraUiWrapper.GetModuleHandler().moduleEventHandler.AddWorkFinishedListner(this);
         try {
             mask = BitmapFactory.decodeResource(getContext().getResources(), drawable.maskthumb);
             mImageThumbSize = context.getResources().getDimensionPixelSize(dimen.image_thumbnails_size);

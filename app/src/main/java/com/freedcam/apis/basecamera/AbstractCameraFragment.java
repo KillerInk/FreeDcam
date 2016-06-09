@@ -19,29 +19,80 @@
 
 package com.freedcam.apis.basecamera;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
+import android.view.SurfaceView;
 import android.view.View;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
+import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_Module;
+import com.freedcam.apis.basecamera.interfaces.I_error;
+import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
+import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.RenderScriptHandler;
+
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by troop on 06.06.2015.
  * That Fragment is used as base for all camera apis added.
  */
-public abstract class AbstractCameraFragment extends Fragment
+public abstract class AbstractCameraFragment extends Fragment implements I_CameraUiWrapper, I_CameraChangedListner, I_error
 {
     private final String TAG = AbstractCameraFragment.class.getSimpleName();
 
-    //the cameraWrapper to hold
-    protected AbstractCameraUiWrapper cameraUiWrapper;
     protected View view;
     //the event listner when the camerauiwrapper is rdy to get attached to ui
     protected AbstractCameraFragment.CamerUiWrapperRdy onrdy;
     //holds the appsettings
-    protected AppSettingsManager appSettingsManager;
     protected RenderScriptHandler renderScriptHandler;
+
+    public AbstractModuleHandler moduleHandler;
+    /**
+     * parameters for avail for the cameraHolder
+     */
+    public AbstractParameterHandler parametersHandler;
+    /**
+     * holds the current camera
+     */
+    public AbstractCameraHolder cameraHolder;
+    /**
+     * handels focus releated stuff for the current camera
+     */
+    public AbstractFocusHandler Focus;
+
+    protected boolean PreviewSurfaceRdy = false;
+
+    /**
+     * holds the listners that get informed when the camera state change
+     */
+    private List<I_CameraChangedListner> cameraChangedListners;
+
+    /**
+     * holds handler to invoke stuff in ui thread
+     */
+    protected Handler uiHandler;
+    /**
+     * holds the appsettings for the current camera
+     */
+    public AppSettingsManager appSettingsManager;
+
+
+    public abstract String CameraApiName();
+
+
+    public AbstractCameraFragment()
+    {
+        cameraChangedListners = new CopyOnWriteArrayList<>();
+        uiHandler = new Handler(Looper.getMainLooper());
+    }
+
     public void SetRenderScriptHandler(RenderScriptHandler renderScriptHandler)
     {
         this.renderScriptHandler = renderScriptHandler;
@@ -56,9 +107,9 @@ public abstract class AbstractCameraFragment extends Fragment
      *
      * @return the current instance of the cameruiwrapper
      */
-    public AbstractCameraUiWrapper GetCameraUiWrapper()
+    public I_CameraUiWrapper GetCameraUiWrapper()
     {
-        return cameraUiWrapper;
+        return this;
     }
 
     /**
@@ -77,17 +128,14 @@ public abstract class AbstractCameraFragment extends Fragment
      */
     public void DestroyCameraUiWrapper()
     {
-        if (cameraUiWrapper != null)
-        {
             Logger.d(TAG, "Destroying Wrapper");
-            cameraUiWrapper.parametersHandler.CLEAR();
-            cameraUiWrapper.moduleHandler.moduleEventHandler.CLEAR();
-            cameraUiWrapper.moduleHandler.CLEARWORKERLISTNER();
-            cameraUiWrapper.StopPreview();
-            cameraUiWrapper.StopCamera();
-            cameraUiWrapper = null;
+            parametersHandler.CLEAR();
+            moduleHandler.moduleEventHandler.CLEAR();
+            moduleHandler.CLEARWORKERLISTNER();
+            StopPreview();
+            StopCamera();
             Logger.d(TAG, "destroyed cameraWrapper");
-        }
+
     }
 
     /**
@@ -95,7 +143,165 @@ public abstract class AbstractCameraFragment extends Fragment
      */
     public interface CamerUiWrapperRdy
     {
-        void onCameraUiWrapperRdy(AbstractCameraUiWrapper cameraUiWrapper);
+        void onCameraUiWrapperRdy(I_CameraUiWrapper cameraUiWrapper);
+    }
+
+
+    /**
+     * adds a new listner for camera state changes
+     * @param cameraChangedListner to add
+     */
+    public void SetCameraChangedListner(I_CameraChangedListner cameraChangedListner)
+    {
+        cameraChangedListners.add(cameraChangedListner);
+    }
+
+    @Override
+    public void StartCamera()
+    {
+    }
+
+    @Override
+    public void StopCamera()
+    {
+    }
+
+    @Override
+    public void StopPreview()
+    {
+    }
+
+
+    @Override
+    public void StartPreview()
+    {
+    }
+
+    /**
+     * Starts a new work with the current active module
+     * the module must handle the workstate on its own if it gets hit twice while work is already in progress
+     */
+    @Override
+    public void DoWork()
+    {
+        moduleHandler.DoWork();
+    }
+
+
+    @Override
+    public void onCameraOpen(final String message)
+    {
+        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onCameraOpen(message);
+                }
+            });
+
+
+    }
+
+    @Override
+    public void onCameraError(final String error) {
+        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onCameraError(error);
+                }
+            });
+    }
+
+    @Override
+    public void onCameraStatusChanged(final String status)
+    {
+        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onCameraStatusChanged(status);
+                }
+            });
+
+
+    }
+
+    @Override
+    public void onCameraClose(final String message)
+    {
+        parametersHandler.locationParameter.stopLocationListining();
+        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onCameraClose(message);
+                }
+            });
+
+
+    }
+
+    @Override
+    public void onPreviewOpen(final String message)
+    {
+        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onPreviewOpen(message);
+                }
+            });
+    }
+
+    @Override
+    public void onPreviewClose(final String message) {
+        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onPreviewClose(message);
+                }
+            });
+    }
+
+    @Override
+    public void onModuleChanged(final I_Module module) {
+        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onModuleChanged(module);
+                }
+            });
+
+    }
+
+    @Override
+    public void onCameraOpenFinish(final String message)
+    {
+        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
+            uiHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    cameraChangedListner.onCameraOpenFinish(message);
+                }
+            });
+
+    }
+
+    public abstract int getMargineLeft();
+    public abstract int getMargineRight();
+    public abstract int getMargineTop();
+    public abstract int getPreviewWidth();
+    public abstract int getPreviewHeight();
+    public abstract SurfaceView getSurfaceView();
+
+
+
+    @Override
+    public AppSettingsManager GetAppSettingsManager() {
+        return appSettingsManager;
     }
 
 }

@@ -21,8 +21,7 @@ package com.freedcam.ui.themesample.views.menu;
 
 import android.content.Context;
 import android.util.AttributeSet;
-
-import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.AppSettingsManager;
 
@@ -31,7 +30,7 @@ import com.freedcam.utils.AppSettingsManager;
  */
 public class MenuItemIntervalDuration extends MenuItem
 {
-    private AbstractCameraUiWrapper cameraUiWrapper;
+    private I_CameraUiWrapper cameraUiWrapper;
 
     public MenuItemIntervalDuration(Context context) {
         super(context);
@@ -47,10 +46,10 @@ public class MenuItemIntervalDuration extends MenuItem
         //onValueChanged(appSettingsManager.getString(AppSettingsManager.SETTING_INTERVAL_DURATION));
     }
 
-    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    public void SetCameraUIWrapper(I_CameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        SetParameter(cameraUiWrapper.parametersHandler.IntervalDuration);
+        SetParameter(cameraUiWrapper.GetParameterHandler().IntervalDuration);
     }
 
     @Override

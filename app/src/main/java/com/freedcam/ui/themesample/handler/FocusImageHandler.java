@@ -35,10 +35,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout.LayoutParams;
-
-import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
 import com.freedcam.apis.basecamera.FocusRect;
-import com.freedcam.apis.sonyremote.CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.sonyremote.SonyCameraFragment;
 import com.freedcam.ui.AbstractFocusImageHandler;
 import com.freedcam.ui.ImageViewTouchAreaHandler;
 import com.freedcam.ui.ImageViewTouchAreaHandler.I_TouchListnerEvent;
@@ -54,7 +53,7 @@ import com.troop.freedcam.R.id;
  */
 public class FocusImageHandler extends AbstractFocusImageHandler
 {
-    private AbstractCameraUiWrapper wrapper;
+    private I_CameraUiWrapper wrapper;
     private ImageView focusImageView;
     final int crosshairShowTime = 5000;
     private int disHeight;
@@ -86,7 +85,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         cancelFocus.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                wrapper.cameraHolder.CancelFocus();
+                wrapper.GetCameraHolder().CancelFocus();
                 cancelFocus.setVisibility(View.GONE);
             }
         });
@@ -130,13 +129,13 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         awbArea = (ImageView)view.findViewById(id.imageView_awbarea);
     }
 
-    public void SetCamerUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    public void SetCamerUIWrapper(I_CameraUiWrapper cameraUiWrapper)
     {
         wrapper = cameraUiWrapper;
-        if(cameraUiWrapper instanceof com.freedcam.apis.camera1.CameraUiWrapper || cameraUiWrapper instanceof com.freedcam.apis.camera2.CameraUiWrapper) {
+        if(cameraUiWrapper instanceof com.freedcam.apis.camera1.Camera1Fragment || cameraUiWrapper instanceof com.freedcam.apis.camera2.Camera2Fragment) {
             meteringRect = centerImageView(meteringArea);
             meteringArea.setOnTouchListener(new ImageViewTouchAreaHandler(meteringArea, wrapper, meteringTouch));
-            if (wrapper.Focus.isAeMeteringSupported())
+            if (wrapper.isAeMeteringSupported())
             {
                 meteringArea.setVisibility(View.VISIBLE);
             }
@@ -159,14 +158,14 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         }
         else*/
             awbArea.setVisibility(View.GONE);
-        if (wrapper.Focus != null)
-            wrapper.Focus.focusEvent = this;
+        if (wrapper.getFocusHandler() != null)
+            wrapper.getFocusHandler().focusEvent = this;
     }
 
     @Override
     public void FocusStarted(FocusRect rect)
     {
-        if (!(wrapper instanceof CameraUiWrapper))
+        if (!(wrapper instanceof SonyCameraFragment))
         {
             disWidth = wrapper.getPreviewWidth();
             disHeight = wrapper.getPreviewHeight();
@@ -201,7 +200,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     @Override
     public void FocusFinished(final boolean success)
     {
-        if (!(wrapper instanceof CameraUiWrapper)) {
+        if (!(wrapper instanceof SonyCameraFragment)) {
             focusImageView.post(new Runnable() {
                 @Override
                 public void run() {
@@ -266,8 +265,8 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        if (wrapper instanceof CameraUiWrapper)
-            wrapper.Focus.SetMotionEvent(event);
+        if (wrapper instanceof SonyCameraFragment)
+            wrapper.getFocusHandler().SetMotionEvent(event);
         return false;
     }
 
@@ -286,7 +285,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         @Override
         public void onAreaCHanged(FocusRect imageRect, int previewWidth, int previewHeight) {
             if (wrapper != null)
-                wrapper.Focus.SetMeteringAreas(imageRect,previewWidth, previewHeight);
+                wrapper.getFocusHandler().SetMeteringAreas(imageRect,previewWidth, previewHeight);
         }
 
         @Override
@@ -297,9 +296,9 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         @Override
         public void OnAreaLongClick(int x, int y)
         {
-            if (wrapper.parametersHandler.ExposureLock != null && wrapper.parametersHandler.ExposureLock.IsSupported())
+            if (wrapper.GetParameterHandler().ExposureLock != null && wrapper.GetParameterHandler().ExposureLock.IsSupported())
             {
-                wrapper.parametersHandler.ExposureLock.SetValue("true",true);
+                wrapper.GetParameterHandler().ExposureLock.SetValue("true",true);
                 Vibrator v = (Vibrator) focusImageView.getContext().getSystemService(Context.VIBRATOR_SERVICE);
                 if (v.hasVibrator())
                     v.vibrate(50);}
@@ -309,9 +308,9 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         @Override
         public void IsMoving(boolean moving)
         {
-            if (moving && wrapper.parametersHandler.ExposureLock != null && wrapper.parametersHandler.ExposureLock.IsSupported() && wrapper.parametersHandler.ExposureLock.GetValue().equals("true"))
+            if (moving && wrapper.GetParameterHandler().ExposureLock != null && wrapper.GetParameterHandler().ExposureLock.IsSupported() && wrapper.GetParameterHandler().ExposureLock.GetValue().equals("true"))
             {
-                wrapper.parametersHandler.ExposureLock.SetValue("false",true);
+                wrapper.GetParameterHandler().ExposureLock.SetValue("false",true);
             }
             SampleThemeFragment sampleThemeFragment = (SampleThemeFragment) fragment.getParentFragment();
             if(sampleThemeFragment != null)
@@ -323,7 +322,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         @Override
         public void onAreaCHanged(FocusRect imageRect, int previewWidth, int previewHeight) {
             if (wrapper != null)
-                wrapper.Focus.SetAwbAreas(imageRect, previewWidth, previewHeight);
+                wrapper.getFocusHandler().SetAwbAreas(imageRect, previewWidth, previewHeight);
         }
 
         @Override
@@ -348,7 +347,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
      */
     public void OnClick(int x, int y)
     {
-        if (wrapper == null || wrapper.Focus == null)
+        if (wrapper == null || wrapper.getFocusHandler() == null)
             return;
         disWidth = wrapper.getPreviewWidth();
         disHeight = wrapper.getPreviewHeight();
@@ -364,8 +363,8 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             if (y > disHeight - recthalf)
                 y = disHeight - recthalf;
             FocusRect rect = new FocusRect(x - recthalf, x + recthalf, y - recthalf, y + recthalf,x,y);
-            if (wrapper.Focus != null)
-                wrapper.Focus.StartTouchToFocus(rect, meteringRect, disWidth, disHeight);
+            if (wrapper.getFocusHandler() != null)
+                wrapper.getFocusHandler().StartTouchToFocus(rect, meteringRect, disWidth, disHeight);
         }
     }
 

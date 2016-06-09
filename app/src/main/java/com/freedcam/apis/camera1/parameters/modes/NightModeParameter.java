@@ -22,8 +22,8 @@ package com.freedcam.apis.camera1.parameters.modes;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.CameraHolder;
-import com.freedcam.apis.camera1.CameraUiWrapper;
 import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
 
@@ -37,21 +37,21 @@ public class NightModeParameter extends BaseModeParameter
     private String state = "";
     private String format = "";
     private String curmodule = "";
-    public NightModeParameter(Parameters parameters, CameraHolder parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
+    public NightModeParameter(Parameters parameters, CameraHolder parameterChanged, String values, I_CameraUiWrapper cameraUiWrapper) {
         super(parameters, parameterChanged, "", "");
         if (cameraHolder.appSettingsManager.getDevice() == Devices.ZTEADVIMX214
-                || cameraUiWrapper.appSettingsManager.getDevice() == Devices.ZTE_ADV
-                || cameraUiWrapper.appSettingsManager.getDevice() == Devices.ZTEADVIMX214
-                || cameraUiWrapper.appSettingsManager.getDevice() == Devices.XiaomiMI3W
-                || cameraUiWrapper.appSettingsManager.getDevice() == Devices.XiaomiMI4W
-                || cameraUiWrapper.appSettingsManager.getDevice() == Devices.XiaomiMI_Note_Pro
-                || cameraUiWrapper.appSettingsManager.getDevice() == Devices.Xiaomi_RedmiNote)
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI_Note_Pro
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Xiaomi_RedmiNote)
         {
             isSupported = true;
         }
         if (isSupported) {
-            cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
-            cameraUiWrapper.parametersHandler.PictureFormat.addEventListner(this);
+            cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(this);
+            cameraUiWrapper.GetParameterHandler().PictureFormat.addEventListner(this);
         }
 
     }

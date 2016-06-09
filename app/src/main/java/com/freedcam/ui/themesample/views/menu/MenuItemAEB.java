@@ -26,8 +26,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-
-import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.utils.AppSettingsManager;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
@@ -45,7 +44,7 @@ public class MenuItemAEB extends LinearLayout {
     private int max = 10;
     private final int step = 1;
     private int current;
-    private AbstractCameraUiWrapper cameraUiWrapper;
+    private I_CameraUiWrapper cameraUiWrapper;
     private String settingsname;
     private AppSettingsManager appSettingsManager;
 
@@ -94,14 +93,14 @@ public class MenuItemAEB extends LinearLayout {
 
     }
 
-    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    public void SetCameraUIWrapper(I_CameraUiWrapper cameraUiWrapper)
     {
         if (cameraUiWrapper == this.cameraUiWrapper)
             return;
         this.cameraUiWrapper = cameraUiWrapper;
-        if (cameraUiWrapper !=  null && cameraUiWrapper.parametersHandler != null && cameraUiWrapper.parametersHandler.ManualExposure != null)
+        if (cameraUiWrapper !=  null && cameraUiWrapper.GetParameterHandler() != null && cameraUiWrapper.GetParameterHandler().ManualExposure != null)
         {
-            String[] v = cameraUiWrapper.parametersHandler.ManualExposure.getStringValues();
+            String[] v = cameraUiWrapper.GetParameterHandler().ManualExposure.getStringValues();
             int le = v.length;
             min = -(le/2);
             max = le/2;
@@ -115,9 +114,9 @@ public class MenuItemAEB extends LinearLayout {
     private void setCurrent(int current) {
         String tempcurrent = String.valueOf(current);
         appSettingsManager.setString(settingsname, tempcurrent);
-        if (cameraUiWrapper != null && cameraUiWrapper.parametersHandler != null && cameraUiWrapper.parametersHandler.captureBurstExposures != null) {
-            if (cameraUiWrapper.parametersHandler.captureBurstExposures.IsSupported()) {
-                cameraUiWrapper.parametersHandler.captureBurstExposures.SetValue("on", true);
+        if (cameraUiWrapper != null && cameraUiWrapper.GetParameterHandler() != null && cameraUiWrapper.GetParameterHandler().captureBurstExposures != null) {
+            if (cameraUiWrapper.GetParameterHandler().captureBurstExposures.IsSupported()) {
+                cameraUiWrapper.GetParameterHandler().captureBurstExposures.SetValue("on", true);
             }
             editText.setText(current +"");
         }

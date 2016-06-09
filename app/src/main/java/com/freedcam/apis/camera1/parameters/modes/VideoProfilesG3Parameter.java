@@ -22,10 +22,10 @@ package com.freedcam.apis.camera1.parameters.modes;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.VideoMediaProfile;
 import com.freedcam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
 import com.freedcam.apis.camera1.CameraHolder;
-import com.freedcam.apis.camera1.CameraUiWrapper;
 import com.freedcam.apis.camera1.modules.VideoMediaProfileLG;
 import com.freedcam.utils.Logger;
 import com.lge.media.CamcorderProfileEx;
@@ -44,10 +44,10 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
 {
     final String TAG = VideoProfilesG3Parameter.class.getSimpleName();
     private HashMap<String, VideoMediaProfile> supportedProfiles;
-    private CameraUiWrapper cameraUiWrapper;
+    private I_CameraUiWrapper cameraUiWrapper;
     private String profile;
 
-    public VideoProfilesG3Parameter(Parameters parameters, CameraHolder cameraHolder, String values, CameraUiWrapper cameraUiWrapper) {
+    public VideoProfilesG3Parameter(Parameters parameters, CameraHolder cameraHolder, String values, I_CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraHolder, "", "");
         this.cameraHolder = cameraHolder;
         this.cameraUiWrapper = cameraUiWrapper;
@@ -60,8 +60,8 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
     {
         profile = valueToSet;
         BackgroundValueHasChanged(valueToSet);
-        if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null && cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
-            cameraUiWrapper.moduleHandler.GetCurrentModule().InitModule();
+        if (cameraUiWrapper.GetModuleHandler().GetCurrentModule() != null && cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
+            cameraUiWrapper.GetModuleHandler().GetCurrentModule().InitModule();
 
     }
 

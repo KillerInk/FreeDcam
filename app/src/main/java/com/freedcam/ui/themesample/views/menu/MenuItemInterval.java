@@ -21,8 +21,7 @@ package com.freedcam.ui.themesample.views.menu;
 
 import android.content.Context;
 import android.util.AttributeSet;
-
-import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.AppSettingsManager;
 
@@ -39,9 +38,9 @@ public class MenuItemInterval extends MenuItem
         super(context, attrs);
     }
 
-    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    public void SetCameraUIWrapper(I_CameraUiWrapper cameraUiWrapper)
     {
-        SetParameter(cameraUiWrapper.parametersHandler.IntervalShutterSleep);
+        SetParameter(cameraUiWrapper.GetParameterHandler().IntervalShutterSleep);
     }
 
     @Override

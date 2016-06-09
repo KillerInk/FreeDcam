@@ -23,9 +23,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.camera1.Camera1Fragment;
 import com.freedcam.apis.camera1.ExtendedSurfaceView;
-import com.freedcam.apis.sonyremote.CameraUiWrapper;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.AppSettingsManager;
 
@@ -34,7 +34,7 @@ import com.freedcam.utils.AppSettingsManager;
  */
 public class UiSettingsChildCameraSwitch extends UiSettingsChild
 {
-    private AbstractCameraUiWrapper cameraUiWrapper;
+    private I_CameraUiWrapper cameraUiWrapper;
     private int currentCamera = 0;
     public UiSettingsChildCameraSwitch(Context context) {
         super(context);
@@ -64,10 +64,10 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
         valueText.setText(getCamera(currentCamera));
     }
 
-    public void SetCameraUiWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    public void SetCameraUiWrapper(I_CameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (cameraUiWrapper instanceof CameraUiWrapper)
+        if (cameraUiWrapper instanceof Camera1Fragment)
         {
             setVisibility(GONE);
         }
@@ -78,13 +78,13 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
 
     private void switchCamera()
     {
-        int maxcams = cameraUiWrapper.cameraHolder.CameraCout();
+        int maxcams = cameraUiWrapper.GetCameraHolder().CameraCout();
         if (currentCamera++ >= maxcams - 1)
             currentCamera = 0;
 
         appSettingsManager.SetCurrentCamera(currentCamera);
         sendLog("Stop Preview and Camera");
-        if (cameraUiWrapper.getSurfaceView() != null &&  cameraUiWrapper.getSurfaceView() instanceof ExtendedSurfaceView)
+        if (cameraUiWrapper.GetCameraHolder() != null &&  cameraUiWrapper.getSurfaceView() instanceof ExtendedSurfaceView)
         {
             ((ExtendedSurfaceView)cameraUiWrapper.getSurfaceView()).SwitchViewMode();
         }

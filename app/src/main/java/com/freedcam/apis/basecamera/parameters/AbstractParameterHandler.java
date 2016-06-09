@@ -25,6 +25,7 @@ import android.os.Looper;
 
 import com.freedcam.apis.basecamera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.FocusRect;
+import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.GuideList;
@@ -50,6 +51,8 @@ public abstract class AbstractParameterHandler
     protected Handler uiHandler;
     private ArrayList<I_ParametersLoaded> parametersLoadedListner;
     protected Context context;
+    public I_CameraHolder cameraHolder;
+
     public AppSettingsManager appSettingsManager;
 
     public AbstractManualParameter ManualBrightness;
@@ -137,7 +140,7 @@ public abstract class AbstractParameterHandler
     public void SetDngActive(boolean active) {
         isDngActive = active;}
 
-    public AbstractCameraHolder cameraHolder;
+
 
     //camera2 modes
     public AbstractModeParameter EdgeMode;
@@ -174,7 +177,7 @@ public abstract class AbstractParameterHandler
 
 
 
-    public AbstractParameterHandler(AbstractCameraHolder cameraHolder, Context context, AppSettingsManager appSettingsManager)
+    public AbstractParameterHandler(I_CameraHolder cameraHolder, Context context, AppSettingsManager appSettingsManager)
     {
         this.cameraHolder = cameraHolder;
         uiHandler = new Handler(Looper.getMainLooper());

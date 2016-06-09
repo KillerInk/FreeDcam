@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.basecamera.interfaces;
 
+import android.location.Location;
 import android.view.SurfaceHolder;
 
 /**
@@ -48,5 +49,8 @@ public interface I_CameraHolder
     boolean SetSurface(SurfaceHolder texture);
     void StartPreview();
     void StopPreview();
+    void SetLocation(Location location);
+    void StartFocus();
+    void CancelFocus();
 
 }

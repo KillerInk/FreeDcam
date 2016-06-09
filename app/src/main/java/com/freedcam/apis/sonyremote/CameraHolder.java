@@ -877,6 +877,11 @@ public class CameraHolder extends AbstractCameraHolder
 
     }
 
+    @Override
+    public void StartFocus() {
+        Focus.StartFocus();
+    }
+
     public void SetPreviewCallback(PreviewCallback previewCallback)
     {
         if (mLiveviewSurface != null)

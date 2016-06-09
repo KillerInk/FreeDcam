@@ -25,12 +25,12 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build.VERSION_CODES;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.basecamera.parameters.modes.ModuleParameters;
 import com.freedcam.apis.camera1.parameters.modes.StackModeParameter;
 import com.freedcam.apis.camera2.CameraHolder;
-import com.freedcam.apis.camera2.CameraUiWrapper;
 import com.freedcam.apis.camera2.FocusHandler;
 import com.freedcam.apis.camera2.parameters.manual.BurstApi2;
 import com.freedcam.apis.camera2.parameters.manual.ManualFocus;
@@ -56,6 +56,7 @@ import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 
 import java.util.List;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Created by troop on 12.12.2014.
@@ -65,15 +66,15 @@ public class ParameterHandler extends AbstractParameterHandler
 {
     private static String TAG = ParameterHandler.class.getSimpleName();
     private ManualToneMapCurveApi2 manualToneMapCurveApi2;
-    private CameraUiWrapper wrapper;
 
     private CameraHolder cameraHolder;
+    I_CameraUiWrapper wrapper;
 
-    public ParameterHandler(CameraUiWrapper cameraHolder, Context context, AppSettingsManager appSettingsManager)
+    public ParameterHandler(I_CameraUiWrapper wrapper, Context context, AppSettingsManager appSettingsManager)
     {
-        super(cameraHolder.cameraHolder,context,appSettingsManager);
-        wrapper = cameraHolder;
-        this.cameraHolder = cameraHolder.cameraHolder;
+        super(wrapper.GetCameraHolder(),context,appSettingsManager);
+        this.wrapper = wrapper;
+        this.cameraHolder = (CameraHolder) wrapper.GetCameraHolder();
 
     }
 

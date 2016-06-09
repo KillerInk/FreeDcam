@@ -23,10 +23,10 @@ import android.hardware.Camera.Parameters;
 import android.media.CamcorderProfile;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.VideoMediaProfile;
 import com.freedcam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
 import com.freedcam.apis.camera1.CameraHolder;
-import com.freedcam.apis.camera1.CameraUiWrapper;
 import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
 
@@ -44,12 +44,12 @@ public class VideoProfilesParameter extends BaseModeParameter
     private final String TAG = VideoProfilesParameter.class.getSimpleName();
     private HashMap<String, VideoMediaProfile> supportedProfiles;
     private CameraHolder cameraHolder;
-    private CameraUiWrapper cameraUiWrapper;
+    private I_CameraUiWrapper cameraUiWrapper;
     private String profile;
     private static final String _720phfr = "720HFR";
     public static final String _4kUHD = "4kUHD";
 
-    public VideoProfilesParameter(Parameters parameters, CameraHolder parameterChanged, String values, CameraUiWrapper cameraUiWrapper) {
+    public VideoProfilesParameter(Parameters parameters, CameraHolder parameterChanged, String values, I_CameraUiWrapper cameraUiWrapper) {
         super(parameters, parameterChanged, "", "");
         cameraHolder = parameterChanged;
         this.cameraUiWrapper = cameraUiWrapper;
@@ -61,8 +61,8 @@ public class VideoProfilesParameter extends BaseModeParameter
     public void SetValue(String valueToSet, boolean setToCam)
     {
         profile = valueToSet;
-        if (cameraUiWrapper.moduleHandler.GetCurrentModule() != null && cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
-            cameraUiWrapper.moduleHandler.GetCurrentModule().InitModule();
+        if (cameraUiWrapper.GetModuleHandler().GetCurrentModule() != null && cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
+            cameraUiWrapper.GetModuleHandler().GetCurrentModule().InitModule();
 
     }
 

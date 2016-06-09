@@ -22,11 +22,11 @@ package com.freedcam.apis.camera1.parameters.device;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.CameraHolder;
-import com.freedcam.apis.camera1.CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.parameters.modes.VideoProfilesParameter;
@@ -40,16 +40,16 @@ public abstract class AbstractDevice
 {
     protected Parameters parameters;
     protected CameraHolder cameraHolder;
-    protected CameraUiWrapper cameraUiWrapper;
+    protected I_CameraUiWrapper cameraUiWrapper;
     protected ParametersHandler parametersHandler;
     protected MatrixChooserParameter matrixChooserParameter;
 
-    public AbstractDevice(Parameters parameters, CameraUiWrapper cameraUiWrapper)
+    public AbstractDevice(Parameters parameters, I_CameraUiWrapper cameraUiWrapper)
     {
         this.parameters = parameters;
         this.cameraUiWrapper = cameraUiWrapper;
-        cameraHolder = cameraUiWrapper.cameraHolder;
-        parametersHandler = (ParametersHandler) cameraUiWrapper.parametersHandler;
+        cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
+        parametersHandler = (ParametersHandler) cameraUiWrapper.GetParameterHandler();
         if (IsDngSupported())
         {
             matrixChooserParameter = new MatrixChooserParameter();

@@ -22,9 +22,10 @@ package com.freedcam.apis.camera1.parameters.device.qcom;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
-import com.freedcam.apis.camera1.CameraUiWrapper;
+
 import com.freedcam.apis.camera1.parameters.device.AbstractDevice;
 import com.freedcam.apis.camera1.parameters.modes.BaseModeParameter;
 import com.troop.androiddng.DngProfile;
@@ -33,7 +34,7 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 01.06.2016.
  */
 public class Moto_MSM8974 extends AbstractDevice {
-    public Moto_MSM8974(Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public Moto_MSM8974(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 

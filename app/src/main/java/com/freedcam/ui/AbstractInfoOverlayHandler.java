@@ -31,7 +31,7 @@ import android.os.Handler;
 import android.os.StatFs;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
@@ -46,7 +46,7 @@ import java.util.Date;
 public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
 {
     private Handler handler;
-    protected AbstractCameraUiWrapper cameraUiWrapper;
+    protected I_CameraUiWrapper cameraUiWrapper;
     boolean started = false;
     private Context context;
 
@@ -72,11 +72,11 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
         batteryBroadCastListner = new BatteryBroadCastListner();
     }
 
-    public void setCameraUIWrapper(AbstractCameraUiWrapper cameraUIWrapper)
+    public void setCameraUIWrapper(I_CameraUiWrapper cameraUIWrapper)
     {
         cameraUiWrapper = cameraUIWrapper;
-        if (cameraUIWrapper != null && cameraUIWrapper.moduleHandler != null && cameraUIWrapper.moduleHandler.moduleEventHandler != null)
-            cameraUIWrapper.moduleHandler.moduleEventHandler.addListner(this);
+        if (cameraUIWrapper != null && cameraUIWrapper.GetModuleHandler() != null && cameraUIWrapper.GetModuleHandler().moduleEventHandler != null)
+            cameraUIWrapper.GetModuleHandler().moduleEventHandler.addListner(this);
     }
 
     @Override
@@ -144,19 +144,19 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
 
     private void getFormat()
     {
-        if (cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
+        if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
         {
             format = "H264";
             size = appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
         }
         else
         {
-            if (cameraUiWrapper.parametersHandler.PictureFormat != null)
-                format = cameraUiWrapper.parametersHandler.PictureFormat.GetValue();
+            if (cameraUiWrapper.GetParameterHandler().PictureFormat != null)
+                format = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
             else
                 format = "";
-            if (cameraUiWrapper.parametersHandler.PictureSize != null)
-                size = cameraUiWrapper.parametersHandler.PictureSize.GetValue();
+            if (cameraUiWrapper.GetParameterHandler().PictureSize != null)
+                size = cameraUiWrapper.GetParameterHandler().PictureSize.GetValue();
             else
                 size = "";
         }
@@ -167,7 +167,7 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
         try
         {
             //defcomg was here 24/01/2015
-            if(!cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
+            if(!cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
                 storageSpace = Avail4PIC();
             else
                 storageSpace =readableFileSize(SDspace());

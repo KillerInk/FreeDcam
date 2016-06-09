@@ -22,10 +22,10 @@ package com.freedcam.ui.themesample.views.menu;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-
-import com.freedcam.apis.basecamera.AbstractCameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.camera1.Camera1Fragment;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
-import com.freedcam.apis.camera2.CameraUiWrapper;
+import com.freedcam.apis.camera2.Camera2Fragment;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.StringUtils;
 
@@ -34,7 +34,7 @@ import com.freedcam.utils.StringUtils;
  */
 public class MenuItemOrientationHack extends MenuItem
 {
-    private AbstractCameraUiWrapper cameraUiWrapper;
+    private I_CameraUiWrapper cameraUiWrapper;
 
     public MenuItemOrientationHack(Context context) {
         super(context);
@@ -44,13 +44,9 @@ public class MenuItemOrientationHack extends MenuItem
         super(context, attrs);
     }
 
-    public void SetCameraUIWrapper(AbstractCameraUiWrapper cameraUiWrapper)
+    public void SetCameraUIWrapper(I_CameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (cameraUiWrapper instanceof com.freedcam.apis.camera1.CameraUiWrapper || cameraUiWrapper instanceof CameraUiWrapper)
-            setVisibility(View.VISIBLE);
-        else
-            setVisibility(View.GONE);
         if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(""))
             appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack, StringUtils.OFF);
         if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(StringUtils.ON))
@@ -68,14 +64,14 @@ public class MenuItemOrientationHack extends MenuItem
     public void SetValue(String value)
     {
         appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack, value);
-        if (cameraUiWrapper instanceof com.freedcam.apis.camera1.CameraUiWrapper) {
-            ((ParametersHandler) cameraUiWrapper.parametersHandler).SetCameraRotation();
-            cameraUiWrapper.parametersHandler.SetPictureOrientation(0);
+        if (cameraUiWrapper instanceof Camera1Fragment) {
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetCameraRotation();
+            cameraUiWrapper.GetParameterHandler().SetPictureOrientation(0);
         }
-        else if(cameraUiWrapper instanceof CameraUiWrapper)
+        else if(cameraUiWrapper instanceof Camera1Fragment)
         {
-            ((CameraUiWrapper) cameraUiWrapper).cameraHolder.StopPreview();
-            ((CameraUiWrapper) cameraUiWrapper).cameraHolder.StartPreview();
+            ((Camera1Fragment) cameraUiWrapper).cameraHolder.StopPreview();
+            ((Camera1Fragment) cameraUiWrapper).cameraHolder.StartPreview();
 
         }
         onValueChanged(value);

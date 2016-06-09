@@ -36,9 +36,10 @@ import android.view.TextureView.SurfaceTextureListener;
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.Size;
 import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.interfaces.I_Module;
 import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
-import com.freedcam.apis.camera1.CameraUiWrapper;
+import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.ui.I_AspectRatio;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
@@ -56,7 +57,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, I_CameraChangedLi
 {
     private final String TAG = FocusPeakProcessorAp1.class.getSimpleName();
     private I_AspectRatio output;
-    private CameraUiWrapper cameraUiWrapper;
+    private I_CameraUiWrapper cameraUiWrapper;
 
     private int mHeight;
     private int mWidth;
@@ -70,14 +71,14 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, I_CameraChangedLi
     private int expectedByteSize;
     private final BlockingQueue<byte[]> frameQueue = new ArrayBlockingQueue<>(2);
 
-    public FocusPeakProcessorAp1(I_AspectRatio output, CameraUiWrapper cameraUiWrapper, Context context, RenderScriptHandler renderScriptHandler)
+    public FocusPeakProcessorAp1(I_AspectRatio output, I_CameraUiWrapper cameraUiWrapper, Context context, RenderScriptHandler renderScriptHandler)
     {
         Logger.d(TAG, "Ctor");
         this.output = output;
         this.cameraUiWrapper = cameraUiWrapper;
         this.context = context;
         this.renderScriptHandler = renderScriptHandler;
-        cameraUiWrapper.moduleHandler.moduleEventHandler.addListner(this);
+        this.cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(this);
         output.setSurfaceTextureListener(previewSurfaceListner);
 
 
@@ -96,7 +97,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, I_CameraChangedLi
         Logger.d(TAG, "setEnable" + enabled);
         if (enabled)
         {
-            Size size = new Size(cameraUiWrapper.parametersHandler.PreviewSize.GetValue());
+            Size size = new Size(cameraUiWrapper.GetParameterHandler().PreviewSize.GetValue());
             reset(size.width, size.height);
             startPeak();
             Logger.d(TAG, "Set PreviewCallback");
@@ -106,12 +107,12 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, I_CameraChangedLi
         else
         {
             Logger.d(TAG, "stop focuspeak");
-            cameraUiWrapper.cameraHolder.ResetPreviewCallback();
+            ((CameraHolder)cameraUiWrapper.GetCameraHolder()).ResetPreviewCallback();
             clear_preview("setEnable");
 
         }
-        if(cameraUiWrapper.parametersHandler.Focuspeak != null && cameraUiWrapper.parametersHandler.Focuspeak.IsSupported())
-            cameraUiWrapper.parametersHandler.Focuspeak.BackgroundValueHasChanged(enabled +"");
+        if(cameraUiWrapper.GetParameterHandler().Focuspeak != null && cameraUiWrapper.GetParameterHandler().Focuspeak.IsSupported())
+            cameraUiWrapper.GetParameterHandler().Focuspeak.BackgroundValueHasChanged(enabled +"");
     }
 
     private void clear_preview(String from)
@@ -146,7 +147,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, I_CameraChangedLi
                         renderScriptHandler.ScriptFocusPeakApi1.forEach_peak(renderScriptHandler.GetOut());
                         renderScriptHandler.GetOut().ioSend();
                         //pass frame back to camera that it get reused
-                        cameraUiWrapper.cameraHolder.GetCamera().addCallbackBuffer(tmp);
+                        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCamera().addCallbackBuffer(tmp);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -155,7 +156,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, I_CameraChangedLi
                         //clear frames and pass them back the camera
                         while (frameQueue.size()>0)
                             try {
-                                cameraUiWrapper.cameraHolder.GetCamera().addCallbackBuffer(frameQueue.take());
+                                ((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCamera().addCallbackBuffer(frameQueue.take());
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -179,7 +180,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, I_CameraChangedLi
 
             Logger.d(TAG, "reset allocs to :" + width + "x" + height);
             try {
-                cameraUiWrapper.cameraHolder.ResetPreviewCallback();
+                ((CameraHolder)cameraUiWrapper.GetCameraHolder()).ResetPreviewCallback();
             } catch (NullPointerException ex)
             {
                 Logger.exception(ex);
@@ -204,7 +205,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, I_CameraChangedLi
                 Logger.d(TAG, "surfaceNull");
             renderScriptHandler.ScriptFocusPeakApi1.set_gCurrentFrame(renderScriptHandler.GetIn());
             Logger.d(TAG, "script done enabled: " + enable);
-            cameraUiWrapper.cameraHolder.SetPreviewCallback(this);
+            ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetPreviewCallback(this);
         }
         catch (RSRuntimeException ex)
         {
@@ -231,7 +232,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, I_CameraChangedLi
         {
             Logger.d(TAG, "onPreviewFrame enabled:" +enable);
             camera.addCallbackBuffer(data);
-            cameraUiWrapper.cameraHolder.ResetPreviewCallback();
+            ((CameraHolder)cameraUiWrapper.GetCameraHolder()).ResetPreviewCallback();
             return;
         }
         else if (!doWork) {

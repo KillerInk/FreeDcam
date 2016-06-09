@@ -21,9 +21,9 @@ package com.freedcam.apis.camera1.parameters;
 
 import android.hardware.Camera.Parameters;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.CameraHolder.Frameworks;
-import com.freedcam.apis.camera1.CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.device.AbstractDevice;
 import com.freedcam.apis.camera1.parameters.device.BaseMTKDevice;
 import com.freedcam.apis.camera1.parameters.device.BaseQcomDevice;
@@ -88,10 +88,10 @@ public class DeviceSelector {
     }
 
 
-    public AbstractDevice getDevice(CameraUiWrapper cameraUiWrapper, Parameters cameraParameters,CameraHolder cameraHolder)
+    public AbstractDevice getDevice(I_CameraUiWrapper cameraUiWrapper, Parameters cameraParameters, CameraHolder cameraHolder)
     {
-        Logger.d(DeviceSelector.class.getSimpleName(), "getDevice " + cameraUiWrapper.appSettingsManager.getDevice());
-        switch (cameraUiWrapper.appSettingsManager.getDevice())
+        Logger.d(DeviceSelector.class.getSimpleName(), "getDevice " + cameraUiWrapper.GetAppSettingsManager().getDevice());
+        switch (cameraUiWrapper.GetAppSettingsManager().getDevice())
         {
             case Alcatel_985n:
                 return new Alcatel_985n(cameraParameters,cameraUiWrapper);
@@ -103,8 +103,7 @@ public class DeviceSelector {
 //                    
             case Aquaris_E5:
                 return new Aquaris_E5(cameraParameters,cameraUiWrapper);
-            
-            
+
             case Alcatel_Idol3:
                return new Alcatel_Idol3(cameraParameters,cameraUiWrapper);
                 

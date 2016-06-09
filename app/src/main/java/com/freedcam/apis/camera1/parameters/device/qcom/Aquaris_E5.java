@@ -21,9 +21,9 @@ package com.freedcam.apis.camera1.parameters.device.qcom;
 
 import android.hardware.Camera.Parameters;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
-import com.freedcam.apis.camera1.CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.device.BaseQcomNew;
 import com.freedcam.apis.camera1.parameters.modes.OpCodeParameter;
 import com.troop.androiddng.DngProfile;
@@ -33,7 +33,7 @@ import com.troop.androiddng.DngProfile;
  */
 public class Aquaris_E5 extends BaseQcomNew
 {
-    public Aquaris_E5(Parameters parameters, CameraUiWrapper cameraUiWrapper) {
+    public Aquaris_E5(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 
@@ -48,6 +48,6 @@ public class Aquaris_E5 extends BaseQcomNew
 
     @Override
     public AbstractModeParameter getOpCodeParameter() {
-        return new OpCodeParameter(cameraUiWrapper.appSettingsManager);
+        return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
     }
 }
