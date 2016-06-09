@@ -705,25 +705,6 @@ public class ParametersHandler extends AbstractParameterHandler
         }
     }
 
-    public float GetFnumber()
-    {
-        if (cameraParameters.get("f-number")!= null) {
-            String fnum = cameraParameters.get("f-number");
-            return Float.parseFloat(fnum);
-        }
-        else
-            return 0;
-    }
-
-    public float GetFocal()
-    {
-        if (cameraParameters.get("focal-length")!= null) {
-            String focal = cameraParameters.get("focal-length");
-            return Float.parseFloat(focal);
-        }
-        else
-            return 0;
-    }
 
     public String ExposureTime()
     {

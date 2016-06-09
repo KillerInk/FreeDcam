@@ -165,4 +165,24 @@ public abstract class AbstractDevice
     {
         return null;
     }
+
+    public float GetFnumber()
+    {
+        if (parameters.get("f-number")!= null) {
+            String fnum = parameters.get("f-number");
+            return Float.parseFloat(fnum);
+        }
+        else
+            return 0;
+    }
+
+    public float GetFocal()
+    {
+        if (parameters.get("focal-length")!= null) {
+            String focal = parameters.get("focal-length");
+            return Float.parseFloat(focal);
+        }
+        else
+            return 0;
+    }
 }

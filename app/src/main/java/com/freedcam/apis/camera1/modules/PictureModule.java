@@ -229,8 +229,8 @@ public class PictureModule extends AbstractModule implements PictureCallback
             gpsTime = cameraHolder.gpsLocation.getTime();
             dngConverter.SetGPSData(Altitude, Latitude, Longitude, Provider, gpsTime);
         }
-        float fnum = ParameterHandler.GetFnumber();
-        float focal = ParameterHandler.GetFocal();
+        float fnum = ParameterHandler.Device.GetFnumber();
+        float focal = ParameterHandler.Device.GetFocal();
         dngConverter.setExifData(0, 0, 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
 
         if (ParameterHandler.CCT != null && ParameterHandler.CCT.IsSupported())
