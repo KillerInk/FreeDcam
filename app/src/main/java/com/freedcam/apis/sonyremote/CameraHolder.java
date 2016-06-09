@@ -26,7 +26,6 @@ import com.freedcam.apis.basecamera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.modules.CameraFocusEvent;
 import com.freedcam.apis.basecamera.modules.I_Callbacks.AutoFocusCallback;
-import com.freedcam.apis.basecamera.modules.I_Callbacks.PreviewCallback;
 import com.freedcam.apis.sonyremote.modules.I_CameraStatusChanged;
 import com.freedcam.apis.sonyremote.modules.I_PictureCallback;
 import com.freedcam.apis.sonyremote.modules.ModuleHandlerSony;
@@ -880,12 +879,6 @@ public class CameraHolder extends AbstractCameraHolder
     @Override
     public void StartFocus() {
         Focus.StartFocus();
-    }
-
-    public void SetPreviewCallback(PreviewCallback previewCallback)
-    {
-        if (mLiveviewSurface != null)
-            mLiveviewSurface.SetOnPreviewFrame(previewCallback);
     }
 
     public boolean canCancelFocus()

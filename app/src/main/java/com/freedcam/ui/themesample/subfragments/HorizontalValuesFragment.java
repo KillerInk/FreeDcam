@@ -29,7 +29,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
 import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
-import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.ui.themesample.subfragments.Interfaces.I_CloseNotice;
 import com.freedcam.ui.themesample.views.uichilds.SimpleValueChild;

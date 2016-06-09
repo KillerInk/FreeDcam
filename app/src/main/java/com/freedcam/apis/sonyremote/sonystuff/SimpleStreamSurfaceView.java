@@ -45,8 +45,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 
-import com.freedcam.apis.basecamera.modules.I_Callbacks;
-import com.freedcam.apis.basecamera.modules.I_Callbacks.PreviewCallback;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.apis.sonyremote.sonystuff.DataExtractor.FrameInfo;
 import com.freedcam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.StreamErrorListener.StreamErrorReason;
@@ -80,7 +78,6 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
     private final Paint mFramePaint;
     private  Paint paint;
     private StreamErrorListener mErrorListener;
-    private PreviewCallback previewFrameCallback;
     public boolean focuspeak = false;
     public NightPreviewModes nightmode = NightPreviewModes.off;
     private int currentImageStackCount = 0;
@@ -129,8 +126,6 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
         mInputAllocation = Allocation.createTyped(mRS, tbIn.create(), MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
         mInputAllocation2 = Allocation.createTyped(mRS, tbIn.create(), MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
         mOutputAllocation = Allocation.createTyped(mRS, tbOut.create(), MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT);
-
-        //mScriptFocusPeak = new ScriptC_focus_peak(mRS);
     }
 
 
@@ -174,11 +169,6 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
         mFramePaint = new Paint();
         mFramePaint.setDither(true);
         initBitmaps(context);
-    }
-
-    public void SetOnPreviewFrame(PreviewCallback previewCallback)
-    {
-        previewFrameCallback = previewCallback;
     }
 
     private void initBitmaps(Context context)
@@ -236,6 +226,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
 
         mWhileFetching = true;
 
+        // A thread for retrieving liveview data from server.
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
@@ -267,7 +258,6 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
                 }
             }
         });
-        // A thread for retrieving liveview data from server.
 
         // A thread for drawing liveview frame fetched by above thread.
         FreeDPool.Execute(new Runnable() {
@@ -321,7 +311,6 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
     private void fetchPayLoad(SimpleLiveviewSlicer slicer) throws IOException {
         DataExtractor payload = slicer.nextDataExtractor();
         if (payload.commonHeader == null) { // never occurs
-            //Logger.e(TAG, "Liveview Payload is null.");
             return;
         }
         if (payload.commonHeader.PayloadType == 1)
@@ -330,10 +319,6 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
                 mJpegQueue.remove();
             }
             mJpegQueue.add(payload);
-            if (previewFrameCallback != null)
-            {
-                previewFrameCallback.onPreviewFrame(payload.jpegData.clone(), I_Callbacks.JPEG);
-            }
         }
         if (payload.commonHeader.PayloadType == 2) {
             if (frameQueue.size() == 2) {

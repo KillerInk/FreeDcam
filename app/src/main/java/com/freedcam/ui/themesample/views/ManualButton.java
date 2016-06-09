@@ -33,8 +33,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
-import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
-import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter.I_ManualParameterEvent;
 import com.freedcam.apis.sonyremote.parameters.manual.BaseManualParameterSony;
 import com.freedcam.utils.AppSettingsManager;

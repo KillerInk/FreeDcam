@@ -23,7 +23,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
-import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 
 /**
  * Created by troop on 14.06.2015.
