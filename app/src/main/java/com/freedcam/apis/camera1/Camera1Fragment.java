@@ -125,6 +125,7 @@ public class Camera1Fragment extends AbstractCameraFragment implements I_Paramet
             preview.setVisibility(View.GONE);
         Logger.d(TAG, "Ctor done");
 
+        extendedSurfaceView.getHolder().addCallback(this);
         ((MainActivity)getActivity()).onCameraUiWrapperRdy(this);
         super.onViewCreated(view, savedInstanceState);
     }
