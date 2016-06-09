@@ -54,7 +54,6 @@ public class CameraHolderLG extends CameraHolder
         }
 
         cameraChangedListner.onCameraOpen("");
-        currentState = CameraStates.open;
         return isRdy;
     }
 }

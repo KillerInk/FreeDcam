@@ -108,15 +108,12 @@ public class CameraHolder extends AbstractCameraHolder
             isRdy = false;
             Logger.exception(ex);
         }
-        currentState = CameraStates.open;
         return isRdy;
     }
 
     @Override
     public void CloseCamera()
     {
-        if (currentState == CameraStates.closed)
-            return;
         Logger.d(TAG, "Try to close Camera");
         if (mCamera != null)
         {
@@ -195,7 +192,6 @@ public class CameraHolder extends AbstractCameraHolder
         try
         {
             mCamera.startPreview();
-            isPreviewRunning = true;
             Logger.d(TAG, "PreviewStarted");
             cameraChangedListner.onPreviewOpen("");
 
@@ -208,22 +204,17 @@ public class CameraHolder extends AbstractCameraHolder
     @Override
     public void StopPreview()
     {
-        if (currentState == CameraStates.closed)
-            return;
         if (mCamera == null)
             return;
         try {
             mCamera.setPreviewCallback(null);
             mCamera.stopPreview();
-
-            isPreviewRunning = false;
             Logger.d(TAG, "Preview Stopped");
             cameraChangedListner.onPreviewClose("");
 
         } catch (Exception ex)
         {
             cameraChangedListner.onPreviewClose("");
-            isPreviewRunning = false;
             Logger.d(TAG, "Camera was released");
             Logger.exception(ex);
         }
@@ -289,7 +280,7 @@ public class CameraHolder extends AbstractCameraHolder
     public void SetPreviewCallback(PreviewCallback previewCallback)
     {
         try {
-            if (!isPreviewRunning && !isRdy)
+            if (!isRdy)
                 return;
             Size s = new Size(GetParameterHandler().PreviewSize.GetValue());
             //Add 5 pre allocated buffers. that avoids that the camera create with each frame a new one

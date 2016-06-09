@@ -160,7 +160,7 @@ public class ParameterHandler extends AbstractParameterHandler
                 or = or - 360;
             orientation = or;
         }
-        if (cameraHolder == null || cameraHolder.isWorking || !cameraHolder.isPreviewRunning)
+        if (cameraHolder == null || cameraHolder.isWorking)
             return;
         try
         {

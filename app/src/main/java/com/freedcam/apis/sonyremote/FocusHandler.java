@@ -55,7 +55,7 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
     @Override
     public void StartTouchToFocus(FocusRect rect, FocusRect meteringarea, int width, int height)
     {
-        if (parametersHandler == null && !cameraHolder.isPreviewRunning)
+        if (parametersHandler == null)
             return;
         if (isFocusing)
         {

@@ -412,7 +412,6 @@ public class CameraHolder extends AbstractCameraHolder
                                             stopLiveview();
                                         }
                                     });
-                            isPreviewRunning = true;
                         }
                     }
                 } catch (IOException e) {
@@ -430,7 +429,6 @@ public class CameraHolder extends AbstractCameraHolder
             @Override
             public void run() {
                 try {
-                    isPreviewRunning = false;
                     mRemoteApi.stopLiveview();
 
                 } catch (IOException e) {

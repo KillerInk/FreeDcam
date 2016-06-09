@@ -37,32 +37,16 @@ import com.freedcam.utils.AppSettingsManager;
 public abstract class AbstractCameraHolder implements I_CameraHolder
 {
     protected boolean isRdy = false;
-
-    public boolean isPreviewRunning = false;
     //holds the parameters for the camera
     private AbstractParameterHandler ParameterHandler;
     //handel focus realted stuff
     public AbstractFocusHandler Focus;
-    public SurfaceHolder surfaceHolder;
     //the listner to for camera state changes
     protected I_CameraChangedListner cameraChangedListner;
     //handler wich runs in mainthread
     protected Handler UIHandler;
     //holds the appsettings
     public AppSettingsManager appSettingsManager;
-
-    //the current camera state
-    protected CameraStates currentState = CameraStates.closed;
-
-    public enum CameraStates
-    {
-        opening,
-        open,
-        closing,
-        closed,
-        working,
-    }
-
 
     /**
      *
@@ -89,13 +73,12 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     @Override
     public boolean OpenCamera(int camera)
     {
-        currentState = CameraStates.open;
         return false;
     }
 
     @Override
     public void CloseCamera() {
-        currentState = CameraStates.closed;
+
     }
 
     /**
@@ -120,18 +103,14 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     @Override
     public void StartPreview()
     {
-        isPreviewRunning =true;
+
     }
 
     @Override
     public void StopPreview()
     {
-        isPreviewRunning = false;
     }
 
-    public boolean IsPreviewRunning() {
-        return isPreviewRunning;
-    }
 
     public void StartFocus(AutoFocusCallback autoFocusCallback){}
     public void CancelFocus(){}
