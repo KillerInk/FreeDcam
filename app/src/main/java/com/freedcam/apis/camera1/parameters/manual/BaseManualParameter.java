@@ -74,6 +74,14 @@ public class BaseManualParameter extends AbstractManualParameter
         }
     }
 
+    public BaseManualParameter(Parameters  parameters,ParametersHandler parametersHandler, float step)
+    {
+        super(parametersHandler);
+        this.parametersHandler = parametersHandler;
+        this.parameters = parameters;
+        this.step =step;
+    }
+
     /**
      *
      * @param @parameters
@@ -83,13 +91,10 @@ public class BaseManualParameter extends AbstractManualParameter
      * @param @parametersHandler
      */
     public BaseManualParameter(Parameters  parameters, String key_value, String maxValue, String MinValue, ParametersHandler parametersHandler, float step) {
-        super(parametersHandler);
-        this.parametersHandler = parametersHandler;
-        this.parameters = parameters;
+        this(parameters,parametersHandler,step);
         this.key_value = key_value;
         key_max_value = maxValue;
         key_min_value = MinValue;
-        this.step = step;
         if (!this.key_value.equals("") && !key_max_value.equals("") && !key_min_value.equals(""))
         {
             if (parameters.get(this.key_value) != null && parameters.get(key_max_value) != null && parameters.get(key_min_value) != null)

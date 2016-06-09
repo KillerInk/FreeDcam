@@ -17,6 +17,10 @@ public final class KEYS {
     public static final String BAYER = "bayer";
     public static final String DNG = "dng";
 
+    public static final String ZOOM = "zoom";
+    public static final String ZOOM_SUPPORTED = "zoom-supported";
+    public static final String MAX_ZOOM = "max-zoom";
+
     public static final String VIDEO_STABILIZATION = "video-stabilization";
     public static final String VIDEO_STABILIZATION_SUPPORTED = "video-stabilization-supported";
     public static final String PICTURE_FORMAT_VALUES = "picture-format-values";

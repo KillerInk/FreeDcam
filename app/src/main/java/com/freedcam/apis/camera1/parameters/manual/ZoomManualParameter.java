@@ -22,6 +22,7 @@ package com.freedcam.apis.camera1.parameters.manual;
 
 import android.hardware.Camera.Parameters;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 
 /**
@@ -29,22 +30,25 @@ import com.freedcam.apis.camera1.parameters.ParametersHandler;
  */
 public class ZoomManualParameter extends  BaseManualParameter
 {
-    public ZoomManualParameter(Parameters parameters, ParametersHandler parametersHandler) {
-        super(parameters, "", "", "", parametersHandler,1);
-        key_value = "zoom";
+    public ZoomManualParameter(Parameters parameters, ParametersHandler parametersHandler)
+    {
+        super(parameters,parametersHandler,1);
+        key_value = KEYS.ZOOM;
         isSupported = false;
-        if (parameters.get("zoom-supported")!= null)
-            if (parameters.get("zoom-supported").equals("true")) {
+        if (parameters.get(KEYS.ZOOM_SUPPORTED)!= null)
+            if (parameters.get(KEYS.ZOOM_SUPPORTED).equals(KEYS.TRUE)) {
                 isSupported = true;
+                isVisible = true;
                 Set_Default_Value(GetValue());
-                stringvalues = createStringArray(0,Integer.parseInt(parameters.get("max-zoom")),1);
-                currentInt = Integer.parseInt(parameters.get("zoom"));
+                stringvalues = createStringArray(0,Integer.parseInt(parameters.get(KEYS.MAX_ZOOM)),1);
+                currentInt = Integer.parseInt(parameters.get(key_value));
             }
     }
 
     @Override
     public void SetValue(int valueToset) {
-        parameters.set(key_value, valueToset + "");
+        currentInt = valueToset;
+        parameters.set(key_value, valueToset);
         parametersHandler.SetParametersToCamera(parameters);
     }
 }
