@@ -88,12 +88,6 @@ public class Camera1Fragment extends AbstractCameraFragment implements I_Paramet
 
         extendedSurfaceView = (ExtendedSurfaceView) view.findViewById(id.exSurface);
         preview = (TextureViewRatio) view.findViewById(id.textureView_preview);
-
-        //cameraUiWrapper = new CameraUiWrapper(extendedSurfaceView, preview, getContext(),appSettingsManager,renderScriptHandler);
-
-
-
-        //call super at end because its throws on camerardy event
         errorHandler = this;
         if (hasLGFramework())
             cameraHolder = new CameraHolderLG(this,appSettingsManager, CameraHolder.Frameworks.LG);
@@ -110,7 +104,6 @@ public class Camera1Fragment extends AbstractCameraFragment implements I_Paramet
         cameraHolder.SetParameterHandler(parametersHandler);
         parametersHandler.AddParametersLoadedListner(this);
         this.extendedSurfaceView.ParametersHandler = parametersHandler;
-        //parametersHandler.ParametersEventHandler.AddParametersLoadedListner(this.preview);
         moduleHandler = new ModuleHandler(cameraHolder,getContext(),appSettingsManager);
         moduleHandler.moduleEventHandler.addListner(this);
 
@@ -127,18 +120,6 @@ public class Camera1Fragment extends AbstractCameraFragment implements I_Paramet
         extendedSurfaceView.getHolder().addCallback(this);
         ((MainActivity)getActivity()).onCameraUiWrapperRdy(this);
         super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
     }
 
     private boolean hasLGFramework()
@@ -313,31 +294,6 @@ public class Camera1Fragment extends AbstractCameraFragment implements I_Paramet
         cameraHolder.ResetPreviewCallback();
     }
 
-    @Override
-    public void onCameraError(String error) {
-        super.onCameraError(error);
-    }
-
-    @Override
-    public void onCameraStatusChanged(String status)
-    {
-        super.onCameraStatusChanged(status);
-    }
-
-    @Override
-    public void onModuleChanged(I_Module module) {
-        super.onModuleChanged(module);
-    }
-
-    @Override
-    public void onCameraOpenFinish(String message) {
-        super.onCameraOpenFinish(message);
-    }
-
-    @Override
-    public void OnError(String error) {
-        super.onCameraError(error);
-    }
 
     AbstractModeParameter.I_ModeParameterEvent onPreviewSizeShouldChange = new AbstractModeParameter.I_ModeParameterEvent() {
 
@@ -519,5 +475,11 @@ public class Camera1Fragment extends AbstractCameraFragment implements I_Paramet
     @Override
     public AbstractFocusHandler getFocusHandler() {
         return Focus;
+    }
+
+    @Override
+    public void OnError(String error)
+    {
+        super.onCameraError(error);
     }
 }
