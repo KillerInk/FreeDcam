@@ -123,4 +123,42 @@ public class BaseMTKDevice extends AbstractDevice
         }
         return null;
     }
+
+    @Override
+    public float getCurrentExposuretime() {
+        if(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK)!= null) {
+            if (Float.parseFloat(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK)) == 0) {
+                return 0.0f;
+            } else
+                return Float.parseFloat(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK)) / 1000000;
+        }
+        else if(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK1)!= null)
+        {
+            if (Float.parseFloat(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK1)) == 0) {
+                return 0.0f;
+            } else
+                return Float.parseFloat(parameters.get(KEYS.CUR_EXPOSURE_TIME_MTK1)) / 1000000;
+        }
+        else
+            return 0.0f;
+    }
+
+    @Override
+    public int getCurrentIso() {
+        if(parameters.get(KEYS.CUR_ISO_MTK)!= null) {
+            if (Integer.parseInt(parameters.get(KEYS.CUR_ISO_MTK)) == 0) {
+                return 0;
+            }
+            return Integer.parseInt(parameters.get(KEYS.CUR_ISO_MTK2)) / 256 * 100;
+        }
+        else if(parameters.get(KEYS.CUR_ISO_MTK2)!= null)
+        {
+            if (Integer.parseInt(parameters.get(KEYS.CUR_ISO_MTK2)) == 0) {
+                return 0;
+            }
+            return Integer.parseInt(parameters.get(KEYS.CUR_ISO_MTK2)) / 256 * 100;
+        }
+        else
+            return 0;
+    }
 }

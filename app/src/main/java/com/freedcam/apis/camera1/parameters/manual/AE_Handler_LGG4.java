@@ -158,8 +158,8 @@ public class AE_Handler_LGG4
                 while (readMetaData && auto)
                 {
                     try {
-                        shutterPrameter.ThrowCurrentValueStringCHanged("1/"+(int)(Float.parseFloat(cameraHolder.GetParamsDirect("cur-exposure-time"))));
-                        isoManualParameter.ThrowCurrentValueStringCHanged(cameraHolder.GetParamsDirect("cur-iso"));
+                        shutterPrameter.ThrowCurrentValueStringCHanged("1/"+(int)parametersHandler.Device.getCurrentExposuretime());
+                        isoManualParameter.ThrowCurrentValueStringCHanged(parametersHandler.Device.getCurrentIso()+"");
                     }
                     catch (RuntimeException ex)
                     {

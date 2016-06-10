@@ -192,6 +192,11 @@ public final class KEYS {
     public static final String MTK_NOISE_REDUCTION_MODE = "3dnr-mode";
     public static final String MTK_NOISE_REDUCTION_MODE_VALUES = "3dnr-mode-values";
 
+    public final static String CUR_ISO_MTK  = "eng-capture-sensor-gain";
+    public final static String CUR_ISO_MTK2  = "cap-isp-g";
+    public final static String CUR_EXPOSURE_TIME_MTK  = "eng-capture-shutter-speed";
+    public final static String CUR_EXPOSURE_TIME_MTK1  = "cap-ss";
+
 
 
     //Krillin

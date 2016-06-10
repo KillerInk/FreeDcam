@@ -184,4 +184,14 @@ public abstract class AbstractDevice
         else
             return 0;
     }
+
+    public float getCurrentExposuretime()
+    {
+        return 0;
+    }
+
+    public int getCurrentIso()
+    {
+        return 0;
+    }
 }

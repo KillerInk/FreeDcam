@@ -84,4 +84,15 @@ public class BaseQcomNew extends AbstractDevice
     public AbstractModeParameter getDenoiseParameter() {
         return new BaseModeParameter(parameters, cameraUiWrapper, KEYS.DENOISE, KEYS.DENOISE_VALUES);
     }
+
+    @Override
+    public float getCurrentExposuretime()
+    {
+        return Float.parseFloat(cameraHolder.GetParamsDirect("cur-exposure-time"));
+    }
+
+    @Override
+    public int getCurrentIso() {
+        return Integer.parseInt(cameraHolder.GetParamsDirect("cur-iso"));
+    }
 }

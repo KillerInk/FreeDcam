@@ -80,4 +80,14 @@ public class LG_G4 extends LG_G2
     public AbstractManualParameter getManualSaturation() {
         return new BaseManualParameter(parameters, KEYS.LG_COLOR_ADJUST,KEYS.LG_COLOR_ADJUST_MAX,KEYS.LG_COLOR_ADJUST_MIN,parametersHandler,1);
     }
+
+    @Override
+    public float getCurrentExposuretime() {
+        return Float.parseFloat(cameraHolder.GetParamsDirect("cur-exposure-time"));
+    }
+
+    @Override
+    public int getCurrentIso() {
+        return Integer.parseInt(cameraHolder.GetParamsDirect("cur-iso"));
+    }
 }
