@@ -193,5 +193,43 @@
         <item>Plain16bit</item>
         <item>Mipi16bit</item>
     </string-array>
+    <string-array name="interval_shutter_sleep">
+        <item>1 sec</item>
+        <item>2 sec</item>
+        <item>3 sec</item>
+        <item>4 sec</item>
+        <item>5 sec</item>
+        <item>6 sec</item>
+        <item>7 sec</item>
+        <item>8 sec</item>
+        <item>9 sec</item>
+        <item>10 sec</item>
+        <item>11 sec</item>
+        <item>12 sec</item>
+        <item>13 sec</item>
+        <item>14 sec</item>
+        <item>15 sec</item>
+        <item>16 sec</item>
+        <item>17 sec</item>
+        <item>18 sec</item>
+        <item>19 sec</item>
+        <item>20 sec</item>
+        <item>21 sec</item>
+        <item>22 sec</item>
+        <item>23 sec</item>
+        <item>24 sec</item>
+        <item>25 sec</item>
+        <item>26 sec</item>
+        <item>27 sec</item>
+        <item>28 sec</item>
+        <item>29 sec</item>
+        <item>30 sec</item>
+        <item>60 sec</item>
+        <item>120 sec</item>
+        <item>240 sec</item>
+
+
+
+    </string-array>
     <!-- DO NOT TRANSLATE END -->
 </resources>

@@ -188,7 +188,7 @@ public abstract class AbstractParameterHandler
         GuideList = new GuideList();
         locationParameter = new LocationParameter(cameraHolder, context, appSettingsManager);
         IntervalDuration = new IntervalDurationParameter();
-        IntervalShutterSleep = new IntervalShutterSleepParameter();
+        IntervalShutterSleep = new IntervalShutterSleepParameter(context);
         Horizont = new Horizont();
         SdSaveLocation = new SDModeParameter(appSettingsManager);
 
@@ -276,42 +276,42 @@ public abstract class AbstractParameterHandler
 
     }
 
-    protected void setMode(I_ModeParameter parameter, String settingsval)
+    protected void setMode(I_ModeParameter parameter, String settings_key)
     {
-        if (parameter != null && parameter.IsSupported() && settingsval != null && !settingsval.equals(""))
+        if (parameter != null && parameter.IsSupported() && settings_key != null && !settings_key.equals(""))
         {
-            Logger.d(TAG, parameter.getClass().getSimpleName() + " load settings: " + settingsval);
-            if (appSettingsManager.getString(settingsval).equals("") || appSettingsManager.getString(settingsval) == null)
+            Logger.d(TAG, parameter.getClass().getSimpleName() + " load settings: " + settings_key);
+            if (appSettingsManager.getString(settings_key).equals("") || appSettingsManager.getString(settings_key) == null)
             {
                 String tmp = parameter.GetValue();
-                Logger.d(TAG, settingsval + " is empty, set default from camera : " +tmp);
-                appSettingsManager.setString(settingsval, tmp);
+                Logger.d(TAG, settings_key + " is empty, set default from camera : " +tmp);
+                appSettingsManager.setString(settings_key, tmp);
             }
             else
             {
-                String tmp = appSettingsManager.getString(settingsval);
-                Logger.d(TAG, "Found AppSetting: "+settingsval+" set to: " + tmp);
+                String tmp = appSettingsManager.getString(settings_key);
+                Logger.d(TAG, "Found AppSetting: "+settings_key+" set to: " + tmp);
                 parameter.SetValue(tmp, false);
             }
         }
     }
 
-    protected void setManualMode(I_ManualParameter parameter, String settingsval)
+    protected void setManualMode(I_ManualParameter parameter, String settings_key)
     {
-        if (parameter != null && parameter.IsSupported() && settingsval != null && !settingsval.equals(""))
+        if (parameter != null && parameter.IsSupported() && settings_key != null && !settings_key.equals(""))
         {
-            Logger.d(TAG, parameter.getClass().getSimpleName() + " load settings: " + settingsval);
-            if (appSettingsManager.getString(settingsval).equals("") || appSettingsManager.getString(settingsval).equals(null))
+            Logger.d(TAG, parameter.getClass().getSimpleName() + " load settings: " + settings_key);
+            if (appSettingsManager.getString(settings_key).equals("") || appSettingsManager.getString(settings_key).equals(null))
             {
                 String tmp = parameter.GetValue()+"";
-                Logger.d(TAG, settingsval + " is empty, set default from camera : " +tmp);
-                appSettingsManager.setString(settingsval, tmp);
+                Logger.d(TAG, settings_key + " is empty, set default from camera : " +tmp);
+                appSettingsManager.setString(settings_key, tmp);
             }
             else
             {
                 try {
-                    int tmp = Integer.parseInt(appSettingsManager.getString(settingsval));
-                    Logger.d(TAG, "Found AppSetting: "+settingsval+" set to: " + tmp);
+                    int tmp = Integer.parseInt(appSettingsManager.getString(settings_key));
+                    Logger.d(TAG, "Found AppSetting: "+settings_key+" set to: " + tmp);
                     parameter.SetValue(tmp);
                 }
                 catch (NumberFormatException ex)
