@@ -89,7 +89,7 @@ public class DngConvertingFragment extends Fragment
         super.onCreateView(inflater,container,savedInstanceState);
         appSettingsManager = new AppSettingsManager(getContext());
         if (appSettingsManager.getDevice() == null)
-            appSettingsManager.SetDevice(DeviceUtils.getDevice(getContext()));
+            appSettingsManager.SetDevice(new DeviceUtils().getDevice(getContext()));
         handler = new Handler();
         view = inflater.inflate(R.layout.dngconvertingfragment, container, false);
         editTextwidth = (EditText)view.findViewById(id.editText_width);

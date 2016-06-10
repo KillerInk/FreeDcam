@@ -61,7 +61,7 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
         Context ctx = getApplicationContext();
         bitmapHelper =new BitmapHelper(getApplicationContext());
         if (appSettingsManager.getDevice() == null)
-            appSettingsManager.SetDevice(DeviceUtils.getDevice(ctx));
+            appSettingsManager.SetDevice(new DeviceUtils().getDevice(ctx));
         HIDENAVBAR();
     }
 
