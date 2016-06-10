@@ -17,7 +17,7 @@
  * /
  */
 
-package com.freedcam.apis.camera1.parameters.manual;
+package com.freedcam.apis.camera1.parameters.manual.lg;
 
 import android.content.Context;
 import android.hardware.Camera.Parameters;
@@ -25,13 +25,14 @@ import android.hardware.Camera.Parameters;
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
+import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 
 import java.util.ArrayList;
 
 /**
  * Created by troop on 17.08.2014.
  */
-public class FocusManualParameterHTC extends  BaseManualParameter
+public class FocusManualParameterHTC extends BaseManualParameter
 {
     private I_CameraHolder baseCameraHolder;
     private final String TAG =FocusManualParameterHTC.class.getSimpleName();

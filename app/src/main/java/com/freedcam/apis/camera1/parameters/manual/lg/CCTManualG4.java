@@ -17,25 +17,26 @@
  * /
  */
 
-package com.freedcam.apis.camera1.parameters.manual;
+package com.freedcam.apis.camera1.parameters.manual.lg;
 
 import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
+import com.freedcam.apis.camera1.parameters.manual.BaseCCTManual;
 
 /**
  * Created by Ingo on 06.03.2016.
  */
-public class CCTManualHtc extends BaseCCTManual {
+public class CCTManualG4 extends BaseCCTManual {
 
-    public CCTManualHtc(Context context, Parameters parameters, ParametersHandler parametersHandler) {
-        super(context, parameters, KEYS.WB_CT, KEYS.MAX_WB_CT, KEYS.MIN_WB_CT, parametersHandler, (float) 100, "");
+    public CCTManualG4(Context context, Parameters parameters, ParametersHandler parametersHandler) {
+        super(context, parameters, KEYS.LG_WB, KEYS.LG_WB_SUPPORTED_MAX, KEYS.LG_WB_SUPPORTED_MIN, parametersHandler, (float) 100, "");
     }
 
     @Override
     protected void set_to_auto() {
-        parameters.set(key_value, "-1");
+        parameters.set(key_value, "0");
     }
 }

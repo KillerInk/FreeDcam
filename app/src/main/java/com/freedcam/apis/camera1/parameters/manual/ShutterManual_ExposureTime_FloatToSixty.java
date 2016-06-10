@@ -24,6 +24,7 @@ import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
+import com.freedcam.apis.camera1.parameters.manual.qcom_new.ShutterManual_ExposureTime_Micro;
 import com.freedcam.utils.Logger;
 
 /**

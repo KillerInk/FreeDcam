@@ -1,6 +1,6 @@
 /*
  *
- *     Copyright (C) 2015 George Kiarie
+ *     Copyright (C) 2015 Ingo Fuchs
  *     This program is free software; you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
  *     the Free Software Foundation; either version 2 of the License, or
@@ -17,15 +17,16 @@
  * /
  */
 
-package com.freedcam.apis.camera1.parameters.manual;
+package com.freedcam.apis.camera1.parameters.manual.mtk;
 
 
 import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
-import com.freedcam.apis.camera1.parameters.manual.AE_Handler_MTK.AeManual;
-import com.freedcam.apis.camera1.parameters.manual.AE_Handler_MTK.AeManualEvent;
+import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
+import com.freedcam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK.AeManual;
+import com.freedcam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK.AeManualEvent;
 
 /**
  * Created by troop on 28.03.2016.

@@ -26,10 +26,10 @@ import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
-import com.freedcam.apis.camera1.parameters.manual.AE_Handler_LGG4;
+import com.freedcam.apis.camera1.parameters.manual.lg.AE_Handler_LGG4;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
-import com.freedcam.apis.camera1.parameters.manual.CCTManualG4;
-import com.freedcam.apis.camera1.parameters.manual.FocusManualParameterLG;
+import com.freedcam.apis.camera1.parameters.manual.lg.CCTManualG4;
+import com.freedcam.apis.camera1.parameters.manual.lg.FocusManualParameterLG;
 import com.troop.androiddng.DngProfile;
 
 /**

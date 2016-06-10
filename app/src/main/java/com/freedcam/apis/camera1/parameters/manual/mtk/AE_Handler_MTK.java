@@ -1,6 +1,6 @@
 /*
  *
- *     Copyright (C) 2015 George Kiarie
+ *     Copyright (C) 2015 Ingo Fuchs
  *     This program is free software; you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
  *     the Free Software Foundation; either version 2 of the License, or
@@ -17,7 +17,7 @@
  * /
  */
 
-package com.freedcam.apis.camera1.parameters.manual;
+package com.freedcam.apis.camera1.parameters.manual.mtk;
 
 import android.content.Context;
 import android.hardware.Camera.Parameters;

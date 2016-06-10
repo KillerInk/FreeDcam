@@ -25,13 +25,12 @@ import android.hardware.Camera.Parameters;
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
-import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.camera1.CameraHolder.Frameworks;
-import com.freedcam.apis.camera1.parameters.manual.AE_Handler_MTK;
-import com.freedcam.apis.camera1.parameters.manual.AE_Handler_QcomM;
-import com.freedcam.apis.camera1.parameters.manual.FocusManualMTK;
-import com.freedcam.apis.camera1.parameters.manual.FocusManual_QcomM;
+import com.freedcam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK;
+import com.freedcam.apis.camera1.parameters.manual.qcom_new.AE_Handler_QcomM;
+import com.freedcam.apis.camera1.parameters.manual.mtk.FocusManualMTK;
+import com.freedcam.apis.camera1.parameters.manual.qcom_new.FocusManual_QcomM;
 import com.freedcam.apis.camera1.parameters.modes.BaseModeParameter;
 import com.troop.androiddng.DngProfile;
 

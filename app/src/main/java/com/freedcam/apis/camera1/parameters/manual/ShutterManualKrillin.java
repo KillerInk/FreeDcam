@@ -25,36 +25,21 @@ import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
+import com.troop.freedcam.R;
 
 /**
  * Created by GeorgeKiarie on 02/04/2016.
  */
 public class ShutterManualKrillin extends BaseManualParameter {
 
-    private static String TAG = "freedcam.ShutterManualKrillin";
-    private I_CameraHolder baseCameraHolder;
-    //AE_Handler_LGG4.AeManualEvent manualevent;
-    private String KrillinShutterValues = "Auto,1/30000,1/15000,1/10000,1/8000,1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,2,4,8,15,30,32";
+    private static String TAG = ShutterManualKrillin.class.getSimpleName();
 
     public ShutterManualKrillin(Context context, Parameters parameters, I_CameraHolder baseCameraHolder, ParametersHandler parametersHandler) {
         super(context, parameters, "", "", "", parametersHandler, 1);
-
-        this.baseCameraHolder = baseCameraHolder;
         isSupported = true;
-        stringvalues = KrillinShutterValues.split(",");
-        // this.manualevent =manualevent;
+        isVisible = isSupported;
+        stringvalues = context.getResources().getStringArray(R.array.shutter_values_krillin);
     }
-
-    @Override
-    public boolean IsSupported() {
-        return super.IsSupported();
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return super.IsSupported();
-    }
-
 
     @Override
     public int GetValue() {
@@ -62,21 +47,19 @@ public class ShutterManualKrillin extends BaseManualParameter {
     }
 
     @Override
-    public void SetValue(int valueToSet) {
+    public void SetValue(int valueToSet)
+    {
+        currentInt = valueToSet;
         if (valueToSet == 0) {
             parameters.set("hw-hwcamera-flag", "on");
             parameters.set("hw-manual-exposure-value", "auto");
         } else {
-            currentInt = valueToSet;
+
             parameters.set("hw-hwcamera-flag", "on");
             parameters.set("hw-manual-exposure-value", stringvalues[currentInt]);
         }
         ThrowCurrentValueStringCHanged(stringvalues[valueToSet]);
-
-
     }
-
-
 
     @Override
     public String GetStringValue() {

@@ -17,7 +17,7 @@
  * /
  */
 
-package com.freedcam.apis.camera1.parameters.manual;
+package com.freedcam.apis.camera1.parameters.manual.qcom_new;
 
 import android.content.Context;
 import android.hardware.Camera.Parameters;
@@ -27,6 +27,7 @@ import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
+import com.freedcam.apis.camera1.parameters.manual.BaseISOManual;
 import com.freedcam.apis.camera1.parameters.modes.BaseModeParameter;
 
 

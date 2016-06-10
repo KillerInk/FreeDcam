@@ -17,7 +17,7 @@
  * /
  */
 
-package com.freedcam.apis.camera1.parameters.manual;
+package com.freedcam.apis.camera1.parameters.manual.lg;
 
 
 import android.content.Context;
@@ -25,8 +25,9 @@ import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
-import com.freedcam.apis.camera1.parameters.manual.AE_Handler_LGG4.AeManual;
-import com.freedcam.apis.camera1.parameters.manual.AE_Handler_LGG4.AeManualEvent;
+import com.freedcam.apis.camera1.parameters.manual.lg.AE_Handler_LGG4.AeManual;
+import com.freedcam.apis.camera1.parameters.manual.lg.AE_Handler_LGG4.AeManualEvent;
+import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,14 +37,14 @@ import java.util.Arrays;
  */
 public class ShutterManualParameterG4 extends BaseManualParameter
 {
-    private static String TAG = "freedcam.ShutterManualParameterG4";
+    private static String TAG = ShutterManualParameterG4.class.getSimpleName();
     private AeManualEvent manualevent;
 
     public ShutterManualParameterG4(Context context,Parameters parameters, ParametersHandler parametersHandler, AeManualEvent manualevent)
     {
-        super(context, parameters, "", "", "", parametersHandler,1);
+        super(context, parameters, parametersHandler,1);
         isSupported = true;
-        stringvalues = parameters.get("shutter-speed-values").replace(",0","").split(",");
+        stringvalues = parameters.get(KEYS.LG_SHUTTER_SPEED_VALUES).replace(",0","").split(",");
         stringvalues[0] = KEYS.AUTO;
         ArrayList<String> l = new ArrayList(Arrays.asList(stringvalues));
         l.remove(0);
@@ -80,12 +81,12 @@ public class ShutterManualParameterG4 extends BaseManualParameter
 
         if (value == 0)
         {
-            parameters.set("shutter-speed", "0");
+            parameters.set(KEYS.LG_SHUTTER_SPEED, "0");
         }
         else
         {
             currentInt = value;
-            parameters.set("shutter-speed", stringvalues[value]);
+            parameters.set(KEYS.LG_SHUTTER_SPEED, stringvalues[value]);
         }
         ThrowCurrentValueStringCHanged(stringvalues[value]);
     }

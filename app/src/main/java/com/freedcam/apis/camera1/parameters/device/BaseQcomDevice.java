@@ -29,7 +29,7 @@ import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
 import com.freedcam.apis.camera1.parameters.manual.BaseCCTManual;
 import com.freedcam.apis.camera1.parameters.manual.BaseFocusManual;
 import com.freedcam.apis.camera1.parameters.manual.ShutterManual_ExposureTime_FloatToSixty;
-import com.freedcam.apis.camera1.parameters.manual.ShutterManual_ExposureTime_Micro;
+import com.freedcam.apis.camera1.parameters.manual.qcom_new.ShutterManual_ExposureTime_Micro;
 import com.freedcam.apis.camera1.parameters.modes.BaseModeParameter;
 import com.troop.androiddng.DngProfile;
 

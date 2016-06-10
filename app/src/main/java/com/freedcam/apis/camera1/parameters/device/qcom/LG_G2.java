@@ -30,7 +30,7 @@ import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.CameraHolder.Frameworks;
 import com.freedcam.apis.camera1.parameters.device.AbstractDevice;
-import com.freedcam.apis.camera1.parameters.manual.FocusManualParameterLG;
+import com.freedcam.apis.camera1.parameters.manual.lg.FocusManualParameterLG;
 import com.freedcam.apis.camera1.parameters.modes.BaseModeParameter;
 import com.freedcam.apis.camera1.parameters.modes.OpCodeParameter;
 import com.freedcam.apis.camera1.parameters.modes.VideoProfilesG3Parameter;

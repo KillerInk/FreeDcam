@@ -242,6 +242,8 @@ public final class KEYS {
     public static final String LG_OIS_VIDEO = "video";
     public static final String LG_OIS_CENTERING_ONLY = "centering-only";
     public static final String LG_OIS_CENTERING_OFF = "centering-off";
+    public static final String LG_SHUTTER_SPEED_VALUES = "shutter-speed-values";
+    public static final String LG_SHUTTER_SPEED = "shutter-speed";
 
     //ZTE
     public final static String NIGHT_KEY = "night_key";

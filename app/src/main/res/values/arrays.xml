@@ -20,24 +20,24 @@
 
 <resources>
     <!-- DO NOT TRANSLATE START -->
-    <string-array name="color_pattern">
+    <string-array name="color_pattern"  translatable="false">
         <item>BGGR</item>
         <item>RGGB</item>
         <item>GRBG</item>
         <item>GBRG</item>
         <item>RGBW</item>
     </string-array>
-    <string-array name="matrixes">
+    <string-array name="matrixes"  translatable="false">
         <item>Nexus6</item>
         <item>G4</item>
     </string-array>
-    <string-array name="raw_format">
+    <string-array name="raw_format"  translatable="false">
         <item>Mipi10bit</item>
         <item>QCom16bit</item>
         <item>Plain16bit</item>
         <item>Mipi16bit</item>
     </string-array>
-    <string-array name="interval_shutter_sleep">
+    <string-array name="interval_shutter_sleep" translatable="false">
         <item>1 sec</item>
         <item>2 sec</item>
         <item>3 sec</item>
@@ -73,9 +73,9 @@
         <item>240 sec</item>
     </string-array>
 
-    <string name="Off">Off</string>
+    <string name="Off" translatable="false">Off</string >
 
-    <string-array name="virtual_lensfilter_colors">
+    <string-array name="virtual_lensfilter_colors"  translatable="false">
         <item>Off</item>
         <item>Red</item>
         <item>Orange</item>
@@ -90,7 +90,7 @@
         <item>Grad Bottom</item>
     </string-array>
 
-    <string-array name="virtual_lensfilter_asu">
+    <string-array name="virtual_lensfilter_asu"  translatable="false">
         <item></item>
         <item>100 0 0 0 100 0 0 0 100 0 0 80</item>
         <item>100 0 0 0 100 0 0 0 100 12 50 100</item>
@@ -105,72 +105,132 @@
         <item>100 0 0 0 100 0 0 0 40 -60 -60 -60</item>
     </string-array>
 
-    <string-array name="shutter_values_autocreate">
-        <item>auto</item>
-        <item>1/90000</item>
-        <item>1/75000</item>
-        <item>1/50000</item>
-        <item>1/45000</item>
-        <item>1/30000</item>
+    <string name="shutter_auto" translatable="false">auto</string>
+    <string name="shutter_1_90000" translatable="false">1/90000</string>
+    <string name="shutter_1_75000" translatable="false">1/75000</string>
+    <string name="shutter_1_50000" translatable="false">1/50000</string>
+    <string name="shutter_1_45000" translatable="false">1/45000</string>
+    <string name="shutter_1_30000" translatable="false">1/30000</string>
+
+    <string name="shutter_1_15000" translatable="false">1/15000</string>
+
+    <string name="shutter_1_10000" translatable="false">1/10000</string>
+    <string name="shutter_1_8000" translatable="false">1/8000</string>
+    <string name="shutter_1_6400" translatable="false">1/6400</string>
+    <string name="shutter_1_6000" translatable="false">1/6000</string>
+    <string name="shutter_1_5000" translatable="false">1/5000</string>
+    <string name="shutter_1_4000" translatable="false">1/4000</string>
+    <string name="shutter_1_3200" translatable="false">1/3200</string>
+    <string name="shutter_1_2500" translatable="false">1/2500</string>
+    <string name="shutter_1_2000" translatable="false">1/2000</string>
+    <string name="shutter_1_1600" translatable="false">1/1600</string>
+    <string name="shutter_1_1250" translatable="false">1/1250</string>
+    <string name="shutter_1_1000" translatable="false">1/1000</string>
+    <string name="shutter_1_800" translatable="false">1/800</string>
+    <string name="shutter_1_700" translatable="false">1/700</string>
+    <string name="shutter_1_600" translatable="false">1/600</string>
+    <string name="shutter_1_500" translatable="false">1/500</string>
+    <string name="shutter_1_400" translatable="false">1/400</string>
+    <string name="shutter_1_300" translatable="false">1/300</string>
+    <string name="shutter_1_250" translatable="false">1/250</string>
+    <string name="shutter_1_200" translatable="false">1/200</string>
+    <string name="shutter_1_125" translatable="false">1/125</string>
+    <string name="shutter_1_100" translatable="false">1/100</string>
+    <string name="shutter_1_85" translatable="false">1/85</string>
+    <string name="shutter_1_75" translatable="false">1/75</string>
+    <string name="shutter_1_65" translatable="false">1/65</string>
+    <string name="shutter_1_60" translatable="false">1/60</string>
+    <string name="shutter_1_55" translatable="false">1/55</string>
+    <string name="shutter_1_45" translatable="false">1/45</string>
+    <string name="shutter_1_35" translatable="false">1/35</string>
+    <string name="shutter_1_30" translatable="false">1/30</string>
+    <string name="shutter_1_25" translatable="false">1/25</string>
+    <string name="shutter_1_20" translatable="false">1/20</string>
+    <string name="shutter_1_15" translatable="false">1/15</string>
+    <string name="shutter_1_13" translatable="false">1/13</string>
+    <string name="shutter_1_10" translatable="false">1/10</string>
+    <string name="shutter_1_9" translatable="false">1/9</string>
+    <string name="shutter_1_8" translatable="false">1/8</string>
+    <string name="shutter_1_7" translatable="false">1/7</string>
+    <string name="shutter_1_6" translatable="false">1/6</string>
+    <string name="shutter_1_5" translatable="false">1/5</string>
+    <string name="shutter_1_4" translatable="false">1/4</string>
+    <string name="shutter_1_2" translatable="false">1/2</string>
+    <string name="shutter_2" translatable="false">2</string>
+    <string name="shutter_4" translatable="false">4</string>
+    <string name="shutter_8" translatable="false">8</string>
+    <string name="shutter_15" translatable="false">15</string>
+    <string name="shutter_30" translatable="false">30</string>
+    <string name="shutter_32" translatable="false">32</string>
+
+    <string-array name="shutter_values_autocreate" translatable="false">
+        <item>@string/shutter_auto</item>
+        <item>@string/shutter_1_90000</item>
+        <item>@string/shutter_1_75000</item>
+        <item>@string/shutter_1_50000</item>
+        <item>@string/shutter_1_45000</item>
+        <item>@string/shutter_1_30000</item>
         <item>1/20000</item>
+        <item>@string/shutter_1_15000</item>
         <item>1/12000</item>
         <item>1/10000</item>
-        <item>1/8000</item>
-        <item>1/6400</item>
-        <item>1/5000</item>
-        <item>1/4000</item>
-        <item>1/3200</item>
-        <item>1/2500</item>
-        <item>1/2000</item>
-        <item>1/1600</item>
-        <item>1/1250</item>
-        <item>1/1000</item>
-        <item>1/800</item>
-        <item>1/700</item>
-        <item>1/600</item>
-        <item>1/500</item>
-        <item>1/400</item>
-        <item>1/300</item>
-        <item>1/200</item>
-        <item>1/125</item>
-        <item>1/100</item>
-        <item>1/80</item>
-        <item>1/70</item>
-        <item>1/60</item>
-        <item>1/50</item>
-        <item>1/40</item>
-        <item>1/35</item>
-        <item>1/30</item>
-        <item>1/25</item>
-        <item>1/20</item>
-        <item>1/15</item>
-        <item>,1/13</item>
-        <item>1/10</item>
-        <item>1/9</item>
-        <item>1/8</item>
-        <item>1/7</item>
-        <item>1/6</item>
-        <item>1/5</item>
-        <item>1/4</item>
+        <item>@string/shutter_1_8000</item>
+        <item>@string/shutter_1_6000</item>
+        <item>@string/shutter_1_6400</item>
+        <item>@string/shutter_1_5000</item>
+        <item>@string/shutter_1_4000</item>
+        <item>@string/shutter_1_3200</item>
+        <item>@string/shutter_1_2500</item>
+        <item>@string/shutter_1_2000</item>
+        <item>@string/shutter_1_1600</item>
+        <item>@string/shutter_1_1250</item>
+        <item>@string/shutter_1_1000</item>
+        <item>@string/shutter_1_800</item>
+        <item>@string/shutter_1_700</item>
+        <item>@string/shutter_1_600</item>
+        <item>@string/shutter_1_500</item>
+        <item>@string/shutter_1_400</item>
+        <item>@string/shutter_1_250</item>
+        <item>@string/shutter_1_200</item>
+        <item>@string/shutter_1_125</item>
+        <item>@string/shutter_1_100</item>
+        <item>@string/shutter_1_85</item>
+        <item>@string/shutter_1_75</item>
+        <item>@string/shutter_1_60</item>
+        <item>@string/shutter_1_55</item>
+        <item>@string/shutter_1_45</item>
+        <item>@string/shutter_1_35</item>
+        <item>@string/shutter_1_30</item>
+        <item>@string/shutter_1_25</item>
+        <item>@string/shutter_1_20</item>
+        <item>@string/shutter_1_15</item>
+        <item>@string/shutter_1_13</item>
+        <item>@string/shutter_1_10</item>
+        <item>@string/shutter_1_9</item>
+        <item>@string/shutter_1_8</item>
+        <item>@string/shutter_1_7</item>
+        <item>@string/shutter_1_6</item>
+        <item>@string/shutter_1_5</item>
+        <item>@string/shutter_1_4</item>
         <item>1/3</item>
-        <item>1/2</item>
+        <item>@string/shutter_1_2</item>
         <item>0.6</item>
         <item>0.8</item>
         <item>1</item>
-        <item>2</item>
+        <item>@string/shutter_2</item>
         <item>3</item>
-        <item>4</item>
+        <item>@string/shutter_4</item>
         <item>5</item>
         <item>6</item>
         <item>7</item>
-        <item>8</item>
+        <item>@string/shutter_8</item>
         <item>9</item>
         <item>10</item>
         <item>11</item>
         <item>12</item>
         <item>13</item>
         <item>14</item>
-        <item>15</item>
+        <item>@string/shutter_15</item>
         <item>16</item>
         <item>17</item>
         <item>18</item>
@@ -185,9 +245,9 @@
         <item>27</item>
         <item>28</item>
         <item>29</item>
-        <item>30</item>
+        <item>@string/shutter_30</item>
         <item>31</item>
-        <item>32</item>
+        <item>@string/shutter_32</item>
         <item>33</item>
         <item>34</item>
         <item>35</item>
@@ -218,6 +278,70 @@
         <item>60</item>
         <item>120</item>
         <item>240</item>
+    </string-array>
+
+    <string-array name="shutter_values_krillin" translatable="false">
+        <item>@string/shutter_auto</item>
+        <item>@string/shutter_1_30000</item>
+        <item>@string/shutter_1_15000</item>
+        <item>@string/shutter_1_8000</item>
+        <item>@string/shutter_1_6000</item>
+        <item>@string/shutter_1_4000</item>
+        <item>@string/shutter_1_2000</item>
+        <item>@string/shutter_1_500</item>
+        <item>@string/shutter_1_250</item>
+        <item>@string/shutter_1_125</item>
+        <item>@string/shutter_1_60</item>
+        <item>@string/shutter_1_30</item>
+        <item>@string/shutter_1_15</item>
+        <item>@string/shutter_1_8</item>
+        <item>@string/shutter_1_4</item>
+        <item>@string/shutter_1_2</item>
+        <item>@string/shutter_2</item>
+        <item>@string/shutter_4</item>
+        <item>@string/shutter_8</item>
+        <item>@string/shutter_15</item>
+        <item>@string/shutter_30</item>
+        <item>@string/shutter_32</item>
+
+    </string-array>
+
+    <string-array name="shutter_values_meizu" translatable="false">
+        <item>@string/shutter_auto</item>
+        <item>@string/shutter_1_8000</item>
+        <item>@string/shutter_1_6400</item>
+        <item>@string/shutter_1_5000</item>
+        <item>@string/shutter_1_4000</item>
+        <item>@string/shutter_1_3200</item>
+        <item>@string/shutter_1_2500</item>
+        <item>@string/shutter_1_2000</item>
+        <item>@string/shutter_1_1600</item>
+        <item>@string/shutter_1_1250</item>
+        <item>@string/shutter_1_1000</item>
+        <item>@string/shutter_1_800</item>
+        <item>@string/shutter_1_700</item>
+        <item>@string/shutter_1_600</item>
+        <item>@string/shutter_1_400</item>
+        <item>@string/shutter_1_300</item>
+        <item>@string/shutter_1_200</item>
+        <item>@string/shutter_1_125</item>
+        <item>@string/shutter_1_100</item>
+        <item>@string/shutter_1_85</item>
+        <item>@string/shutter_1_75</item>
+        <item>@string/shutter_1_65</item>
+        <item>@string/shutter_1_55</item>
+        <item>@string/shutter_1_45</item>
+        <item>@string/shutter_1_35</item>
+        <item>@string/shutter_1_25</item>
+        <item>@string/shutter_1_20</item>
+        <item>@string/shutter_1_15</item>
+        <item>@string/shutter_1_13</item>
+        <item>@string/shutter_1_10</item>
+        <item>@string/shutter_1_9</item>
+        <item>@string/shutter_1_8</item>
+        <item>@string/shutter_1_7</item>
+        <item>@string/shutter_1_6</item>
+        <item>@string/shutter_1_5</item>
     </string-array>
     <!-- DO NOT TRANSLATE END -->
 </resources>

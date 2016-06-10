@@ -29,7 +29,7 @@ import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.parameters.manual.BaseFocusManual;
-import com.freedcam.apis.camera1.parameters.manual.FocusManualParameterLG;
+import com.freedcam.apis.camera1.parameters.manual.lg.FocusManualParameterLG;
 import com.troop.androiddng.CustomMatrix;
 import com.troop.androiddng.DngProfile;
 import com.troop.androiddng.Matrixes;
