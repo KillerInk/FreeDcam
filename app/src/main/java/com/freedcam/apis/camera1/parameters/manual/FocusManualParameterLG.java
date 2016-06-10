@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.parameters.manual;
 
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
@@ -35,8 +36,8 @@ public class FocusManualParameterLG extends  BaseManualParameter
     private I_CameraHolder baseCameraHolder;
     private static String TAG =FocusManualParameterLG.class.getSimpleName();
 
-    public FocusManualParameterLG(Parameters parameters, I_CameraHolder cameraHolder, ParametersHandler parametersHandler) {
-        super(parameters, "", "", "", parametersHandler,1);
+    public FocusManualParameterLG(Context context, Parameters parameters, I_CameraHolder cameraHolder, ParametersHandler parametersHandler) {
+        super(context, parameters, "", "", "", parametersHandler,1);
         baseCameraHolder = cameraHolder;
         isSupported = true;
         isVisible = isSupported;

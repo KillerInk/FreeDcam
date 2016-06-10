@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera2.parameters.manual;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
@@ -39,9 +40,9 @@ public class ManualFocus extends AbstractManualParameter
 {
     private final String TAG = ManualFocus.class.getSimpleName();
     private CameraHolder cameraHolder;
-    public ManualFocus(ParameterHandler camParametersHandler, CameraHolder cameraHolder)
+    public ManualFocus(Context context,ParameterHandler camParametersHandler, CameraHolder cameraHolder)
     {
-        super(camParametersHandler);
+        super(context, camParametersHandler);
         this.cameraHolder =cameraHolder;
         try {
             int max = (int)(cameraHolder.characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE)*10);

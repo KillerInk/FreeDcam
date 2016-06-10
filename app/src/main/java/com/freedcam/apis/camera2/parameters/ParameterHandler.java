@@ -90,9 +90,9 @@ public class ParameterHandler extends AbstractParameterHandler
         SceneMode = new SceneModeApi2(cameraHolder);
         ColorMode = new ColorModeApi2(cameraHolder);
 
-        WbHandler wbHandler = new WbHandler(cameraHolder,this);
+        WbHandler wbHandler = new WbHandler(context,cameraHolder,this);
         //AE mode start
-        AeHandler aeHandler = new AeHandler(cameraHolder,this);
+        AeHandler aeHandler = new AeHandler(context,cameraHolder,this);
         //ae mode end
         AntiBandingMode = new AntibandingApi2(cameraHolder);
         PictureSize = new PictureSizeModeApi2(cameraHolder);
@@ -101,7 +101,7 @@ public class ParameterHandler extends AbstractParameterHandler
 
         //shuttertime END
         //MF
-        ManualFocus mf = new ManualFocus(this,cameraHolder);
+        ManualFocus mf = new ManualFocus(context,this,cameraHolder);
         ManualFocus = mf;
         //MF END
 
@@ -109,7 +109,7 @@ public class ParameterHandler extends AbstractParameterHandler
         DigitalImageStabilization = new ImageStabApi2(cameraHolder);
         HotPixelMode = new HotPixelModeApi2(cameraHolder);
         Denoise = new DenoiseModeApi2(cameraHolder);
-        manualToneMapCurveApi2 = new ManualToneMapCurveApi2(this,cameraHolder);
+        manualToneMapCurveApi2 = new ManualToneMapCurveApi2(context,this,cameraHolder);
         ManualContrast = manualToneMapCurveApi2.contrast;
         ManualBrightness = manualToneMapCurveApi2.brightness;
 
@@ -124,7 +124,7 @@ public class ParameterHandler extends AbstractParameterHandler
 
         ControlMode = new ControlModesApi2(cameraHolder);
 
-        Burst = new BurstApi2(this,cameraHolder);
+        Burst = new BurstApi2(context,this,cameraHolder);
         Focuspeak = new FocusPeakModeApi2(cameraHolder);
         //VideoSize = new VideoSizeModeApi2(uiHandler,cameraHolder);
         VideoProfiles = new VideoProfilesApi2(cameraHolder,wrapper);

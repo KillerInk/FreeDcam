@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
@@ -37,8 +38,8 @@ public class ISOManualParameterMTK extends BaseManualParameter
     private CameraHolder cameraHolder;
     private AeManualEvent manualEvent;
 
-    public ISOManualParameterMTK(Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler, AeManualEvent manualevent, int maxiso) {
-        super(parameters, "", "", "", parametersHandler,1);
+    public ISOManualParameterMTK(Context context,Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler, AeManualEvent manualevent, int maxiso) {
+        super(context, parameters, "", "", "", parametersHandler,1);
 
         this.cameraHolder = cameraHolder;
 

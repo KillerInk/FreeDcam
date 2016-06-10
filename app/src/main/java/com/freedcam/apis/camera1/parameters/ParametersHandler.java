@@ -145,7 +145,7 @@ public class ParametersHandler extends AbstractParameterHandler
         locationParameter = new LocationParameter(cameraHolder,context,appSettingsManager);
 
         try {
-            ManualConvergence = new BaseManualParameter(cameraParameters, KEYS.MANUAL_CONVERGENCE, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MAX, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MIN, this,1);
+            ManualConvergence = new BaseManualParameter(context, cameraParameters, KEYS.MANUAL_CONVERGENCE, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MAX, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MIN, this,1);
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -164,7 +164,7 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            FX = new FXManualParameter(cameraParameters,this);
+            FX = new FXManualParameter(context,cameraParameters,this);
             PictureFormat.addEventListner(((BaseManualParameter)FX).GetPicFormatListner());
             cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(((BaseManualParameter) FX).GetModuleListner());
         } catch (Exception e) {
@@ -172,7 +172,7 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            Burst = new BurstManualParam(cameraParameters, this);
+            Burst = new BurstManualParam(context,cameraParameters, this);
             cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(((BaseManualParameter) Burst).GetModuleListner());
         } catch (Exception e) {
             Logger.exception(e);
@@ -180,7 +180,7 @@ public class ParametersHandler extends AbstractParameterHandler
 
 
         try {
-            Zoom = new ZoomManualParameter(cameraParameters,this);
+            Zoom = new ZoomManualParameter(context,cameraParameters,this);
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -509,7 +509,7 @@ public class ParametersHandler extends AbstractParameterHandler
     private void createManualExposure() {
         try
         {
-            ManualExposure = new ExposureManualParameter(cameraParameters, this,1);
+            ManualExposure = new ExposureManualParameter(context,cameraParameters, this,1);
         } catch (Exception e) {
             Logger.exception(e);
         }

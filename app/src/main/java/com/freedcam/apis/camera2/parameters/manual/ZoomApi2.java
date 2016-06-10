@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera2.parameters.manual;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.graphics.Rect;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
@@ -38,8 +39,8 @@ public class ZoomApi2 extends AbstractManualParameter
     final String TAG = ZoomApi2.class.getSimpleName();
     private ParameterHandler camParametersHandler;
     private CameraHolder cameraHolder;
-    public ZoomApi2(ParameterHandler camParametersHandler, CameraHolder cameraHolder)  {
-        super(camParametersHandler);
+    public ZoomApi2(Context context,ParameterHandler camParametersHandler, CameraHolder cameraHolder)  {
+        super(context, camParametersHandler);
         this.cameraHolder = cameraHolder;
         this.camParametersHandler = camParametersHandler;
         int max = (int)(cameraHolder.characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM) *10);

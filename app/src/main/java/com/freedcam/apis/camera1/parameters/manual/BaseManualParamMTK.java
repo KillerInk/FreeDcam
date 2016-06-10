@@ -20,6 +20,7 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
@@ -34,8 +35,8 @@ public class BaseManualParamMTK extends BaseManualParameter
 
     private int default_value = 0;
 
-    public BaseManualParamMTK(Parameters  parameters, String value, String values, ParametersHandler parametersHandler) {
-        super(parameters,value,"","", parametersHandler,1);
+    public BaseManualParamMTK(Context context, Parameters  parameters, String value, String values, ParametersHandler parametersHandler) {
+        super(context, parameters,value,"","", parametersHandler,1);
         this.parametersHandler = parametersHandler;
         this.parameters = parameters;
         key_value = value;

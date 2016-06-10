@@ -19,6 +19,8 @@
 
 package com.freedcam.apis.sonyremote.parameters.manual;
 
+import android.content.Context;
+
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter.I_ManualParameterEvent;
 import com.freedcam.apis.sonyremote.parameters.modes.I_SonyApi;
@@ -53,9 +55,9 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
 
     private static String TAG = BaseManualParameterSony.class.getSimpleName();
 
-    public BaseManualParameterSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, com.freedcam.apis.sonyremote.parameters.ParameterHandler parameterHandler)
+    public BaseManualParameterSony(Context context,String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, com.freedcam.apis.sonyremote.parameters.ParameterHandler parameterHandler)
     {
-        super(parameterHandler);
+        super(context, parameterHandler);
         this.VALUE_TO_GET = VALUE_TO_GET;
         this.VALUES_TO_GET = VALUES_TO_GET;
         this.VALUE_TO_SET = VALUE_TO_SET;

@@ -19,6 +19,8 @@
 
 package com.freedcam.apis.sonyremote.parameters.manual;
 
+import android.content.Context;
+
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 
@@ -41,8 +43,8 @@ public class WbCTManualSony extends BaseManualParameterSony
     private int step = 0;
 
     private String[] values;
-    public WbCTManualSony(com.freedcam.apis.sonyremote.parameters.ParameterHandler parameterHandler) {
-        super("", "", "", parameterHandler);
+    public WbCTManualSony(Context context, com.freedcam.apis.sonyremote.parameters.ParameterHandler parameterHandler) {
+        super(context,"", "", "", parameterHandler);
     }
 
     @Override

@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
@@ -29,12 +30,8 @@ import com.freedcam.utils.Logger;
  * Created by GeorgeKiarie on 02/04/2016.
  */
 public class FocusManualHuawei extends BaseFocusManual {
-    public FocusManualHuawei(Parameters parameters, String maxValue, String MinValue, String manualFocusModeString, ParametersHandler parametersHandler, float step, int manualFocusType) {
-        super(parameters, KEYS.HW_MANUAL_FOCUS_STEP_VALUE, KEYS.HW_VCM_END_VALUE, KEYS.HW_VCM_START_VALUE, KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler, (float) 10, 0);
-    }
-
-    public FocusManualHuawei(Parameters parameters, String value, int min, int max, String manualFocusModeString, ParametersHandler parametersHandler, float step, int manualFocusType) {
-        super(parameters, value, min, max, manualFocusModeString, parametersHandler, step, manualFocusType);
+    public FocusManualHuawei(Context context, Parameters parameters, ParametersHandler parametersHandler) {
+        super(context, parameters, KEYS.HW_MANUAL_FOCUS_STEP_VALUE, KEYS.HW_VCM_END_VALUE, KEYS.HW_VCM_START_VALUE, KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler, (float) 10, 0);
     }
 
     @Override

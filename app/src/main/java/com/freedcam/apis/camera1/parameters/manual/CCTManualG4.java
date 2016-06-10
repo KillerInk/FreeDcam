@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
@@ -28,12 +29,9 @@ import com.freedcam.apis.camera1.parameters.ParametersHandler;
  * Created by Ingo on 06.03.2016.
  */
 public class CCTManualG4 extends BaseCCTManual {
-    public CCTManualG4(Parameters parameters, String value, int max, int min, ParametersHandler parametersHandler, float step, String wbmode) {
-        super(parameters, value, max, min, parametersHandler, step, wbmode);
-    }
 
-    public CCTManualG4(Parameters parameters,ParametersHandler parametersHandler) {
-        super(parameters, KEYS.LG_WB, KEYS.LG_WB_SUPPORTED_MAX, KEYS.LG_WB_SUPPORTED_MIN, parametersHandler, (float) 100, "");
+    public CCTManualG4(Context context, Parameters parameters, ParametersHandler parametersHandler) {
+        super(context, parameters, KEYS.LG_WB, KEYS.LG_WB_SUPPORTED_MAX, KEYS.LG_WB_SUPPORTED_MIN, parametersHandler, (float) 100, "");
     }
 
     @Override

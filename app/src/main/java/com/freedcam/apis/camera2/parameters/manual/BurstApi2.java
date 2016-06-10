@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera2.parameters.manual;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -35,8 +36,8 @@ public class BurstApi2 extends AbstractManualParameter implements I_ModeParamete
     int current = 1;
     CameraHolder cameraHolder;
 
-    public BurstApi2(AbstractParameterHandler camParametersHandler, CameraHolder cameraHolder) {
-        super(camParametersHandler);
+    public BurstApi2(Context context, AbstractParameterHandler camParametersHandler, CameraHolder cameraHolder) {
+        super(context, camParametersHandler);
         this.cameraHolder = cameraHolder;
     }
 

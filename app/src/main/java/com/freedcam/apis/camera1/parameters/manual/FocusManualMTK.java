@@ -20,6 +20,7 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
@@ -30,15 +31,10 @@ import com.freedcam.utils.Logger;
  * Created by troop on 28.03.2016.
  */
 public class FocusManualMTK extends BaseFocusManual {
-    public FocusManualMTK(Parameters parameters, String value, String maxValue, String MinValue, ParametersHandler parametersHandler, float step, int manualFocusType) {
-        super(parameters, KEYS.FOCUS_FS_FI, KEYS.FOCUS_FS_FI_MAX, KEYS.FOCUS_FS_FI_MIN, KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler, (float) 10, 0);
-        isSupported = true;
-        isVisible = isSupported;
-    }
 
-    public FocusManualMTK(Parameters parameters, ParametersHandler parametersHandler) {
+    public FocusManualMTK(Context context,Parameters parameters, ParametersHandler parametersHandler) {
         //TODO check if AFENG_FI_MIN/MAX can get used
-        super(parameters, KEYS.AFENG_POS, 0, 1023, KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler, (float) 10, 1);
+        super(context, parameters, KEYS.AFENG_POS, 0, 1023, KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler, (float) 10, 1);
         isSupported = true;
         isVisible = true;
         manualFocusModeString = KEYS.KEY_FOCUS_MODE_MANUAL;

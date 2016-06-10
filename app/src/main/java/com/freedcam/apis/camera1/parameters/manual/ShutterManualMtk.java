@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.parameters.manual;
 
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
@@ -36,8 +37,8 @@ public class ShutterManualMtk extends BaseManualParameter
 
     private String MTKShutter = "1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,1,2";
 
-    public ShutterManualMtk(Parameters parameters, ParametersHandler parametersHandler, AeManualEvent manualevent) {
-        super(parameters, "", "", "", parametersHandler,1);
+    public ShutterManualMtk(Context context,Parameters parameters, ParametersHandler parametersHandler, AeManualEvent manualevent) {
+        super(context, parameters, "", "", "", parametersHandler,1);
         isSupported = true;
         stringvalues = MTKShutter.split(",");
         this.manualevent =manualevent;

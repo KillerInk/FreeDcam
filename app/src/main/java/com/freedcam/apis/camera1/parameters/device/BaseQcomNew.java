@@ -24,6 +24,7 @@ import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.camera1.parameters.manual.AE_Handler_QcomM;
@@ -41,7 +42,7 @@ public class BaseQcomNew extends AbstractDevice
 
     public BaseQcomNew(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
         super(context, parameters, cameraUiWrapper);
-        aeHandlerQcomM = new AE_Handler_QcomM(parameters, cameraUiWrapper, parametersHandler);
+        aeHandlerQcomM = new AE_Handler_QcomM(context, parameters, cameraUiWrapper, parametersHandler);
     }
 
     @Override
@@ -51,28 +52,28 @@ public class BaseQcomNew extends AbstractDevice
 
     //set by aehandler
     @Override
-    public AbstractManualParameter getExposureTimeParameter() {
+    public I_ManualParameter getExposureTimeParameter() {
         return aeHandlerQcomM.getShutterManual();
     }
 
     //set by aehandler
     @Override
-    public AbstractManualParameter getIsoParameter() {
+    public I_ManualParameter getIsoParameter() {
         return aeHandlerQcomM.getManualIso();
     }
 
     @Override
-    public AbstractManualParameter getManualFocusParameter() {
-        return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0, 100,KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler,1,2);
+    public I_ManualParameter getManualFocusParameter() {
+        return new BaseFocusManual(context,parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0, 100,KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler,1,2);
     }
 
     @Override
-    public AbstractManualParameter getCCTParameter() {
-        return new BaseWB_CCT_QC(parameters, 8000,2000, parametersHandler,100, KEYS.WB_MODE_MANUAL_CCT);
+    public I_ManualParameter getCCTParameter() {
+        return new BaseWB_CCT_QC(context,parameters, 8000,2000, parametersHandler,100, KEYS.WB_MODE_MANUAL_CCT);
     }
 
     @Override
-    public AbstractManualParameter getSkintoneParameter() {
+    public I_ManualParameter getSkintoneParameter() {
         return null;
     }
 

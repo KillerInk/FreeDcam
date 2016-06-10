@@ -16,7 +16,7 @@ public class ShutterTest
         float tmpMax = Float.parseFloat("602.360952")*1000;
         int min = (int)tmpMin;
         int max = (int)tmpMax;
-        AbstractManualShutter shutter = new AbstractManualShutter(null);
+        AbstractManualShutter shutter = new AbstractManualShutter(null, null);
         String ar[] = shutter.getSupportedShutterValues(min,max,false);
         for (String s : ar) {
             System.out.println("value " + s);

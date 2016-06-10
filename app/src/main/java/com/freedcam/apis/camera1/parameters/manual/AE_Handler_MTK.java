@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
@@ -47,11 +48,11 @@ public class AE_Handler_MTK
             iso,
         }
 
-        public AE_Handler_MTK(Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler, int maxiso)
+        public AE_Handler_MTK(Context context, Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler, int maxiso)
         {
             this.parametersHandler = parametersHandler;
-            isoManualParameter = new ISOManualParameterMTK(parameters,cameraHolder, parametersHandler, aeevent, maxiso);
-            shutterPrameter = new ShutterManualMtk(parameters, parametersHandler, aeevent);
+            isoManualParameter = new ISOManualParameterMTK(context,parameters,cameraHolder, parametersHandler, aeevent, maxiso);
+            shutterPrameter = new ShutterManualMtk(context,parameters, parametersHandler, aeevent);
             this.parameters = parameters;
         }
 

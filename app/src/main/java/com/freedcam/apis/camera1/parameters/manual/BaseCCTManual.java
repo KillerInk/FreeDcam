@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
@@ -43,16 +44,16 @@ public class BaseCCTManual extends BaseManualParameter
      * @param parametersHandler
      * @param step
      */
-    public BaseCCTManual(Parameters parameters, String value, String maxValue, String MinValue
+    public BaseCCTManual(Context context,Parameters parameters, String value, String maxValue, String MinValue
             , ParametersHandler parametersHandler, float step,
                          String wbmode) {
-        super(parameters, value, maxValue, MinValue, parametersHandler, step);
+        super(context, parameters, value, maxValue, MinValue, parametersHandler, step);
         manual_WbMode = wbmode;
     }
 
-    public BaseCCTManual(Parameters parameters, String value, int max, int min
+    public BaseCCTManual(Context context,Parameters parameters, String value, int max, int min
             , ParametersHandler parametersHandler, float step, String wbmode) {
-        super(parameters, value, "", "", parametersHandler, step);
+        super(context, parameters, value, "", "", parametersHandler, step);
         isSupported = true;
         isVisible = true;
         stringvalues = createStringArray(min,max,step);

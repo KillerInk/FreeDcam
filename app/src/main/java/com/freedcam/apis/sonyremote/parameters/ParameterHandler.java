@@ -127,22 +127,22 @@ public class ParameterHandler extends AbstractParameterHandler
         parametersChangedList.add((BaseModeParameterSony) ZoomSetting);
 
 
-        Zoom = new ZoomManualSony(this);
+        Zoom = new ZoomManualSony(context, this);
         parametersChangedList.add((ZoomManualSony)Zoom);
-        ManualShutter = new BaseManualParameterSony("getShutterSpeed", "getAvailableShutterSpeed","setShutterSpeed", this);
+        ManualShutter = new BaseManualParameterSony(context,"getShutterSpeed", "getAvailableShutterSpeed","setShutterSpeed", this);
         parametersChangedList.add((BaseManualParameterSony) ManualShutter);
-        ManualFNumber = new BaseManualParameterSony("getFNumber","getAvailableFNumber","setFNumber",this);
+        ManualFNumber = new BaseManualParameterSony(context,"getFNumber","getAvailableFNumber","setFNumber",this);
         parametersChangedList.add((BaseManualParameterSony) ManualFNumber);
-        ManualIso = new BaseManualParameterSony("getIsoSpeedRate", "getAvailableIsoSpeedRate","setIsoSpeedRate", this);
+        ManualIso = new BaseManualParameterSony(context,"getIsoSpeedRate", "getAvailableIsoSpeedRate","setIsoSpeedRate", this);
         parametersChangedList.add((BaseManualParameterSony) ManualIso);
 
-        ManualExposure = new ExposureCompManualParameterSony(this);
+        ManualExposure = new ExposureCompManualParameterSony(context,this);
         parametersChangedList.add((BaseManualParameterSony) ManualExposure);
 
-        ProgramShift = new ProgramShiftManualSony(this);
+        ProgramShift = new ProgramShiftManualSony(context,this);
         parametersChangedList.add((BaseManualParameterSony)ProgramShift);
 
-        CCT = new WbCTManualSony(this);
+        CCT = new WbCTManualSony(context,this);
         parametersChangedList.add((BaseManualParameterSony) CCT);
 
         WhiteBalanceMode = new WhiteBalanceModeSony(mRemoteApi, (WbCTManualSony)CCT);
@@ -160,7 +160,7 @@ public class ParameterHandler extends AbstractParameterHandler
         NightMode = new NightModeSony(surfaceView);
         parametersChangedList.add((BaseModeParameterSony) NightMode);
 
-        PreviewZoom = new PreviewZoomManual(surfaceView,this);
+        PreviewZoom = new PreviewZoomManual(context,surfaceView,this);
 
         uiHandler.post(new Runnable() {
             @Override

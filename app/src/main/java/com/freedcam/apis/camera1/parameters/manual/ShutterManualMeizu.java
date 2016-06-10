@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
@@ -42,8 +43,8 @@ public class ShutterManualMeizu extends BaseManualParameter
      * @param parameters
      * @param parametersHandler
      */
-    public ShutterManualMeizu(Parameters parameters, I_CameraHolder baseCameraHolder, ParametersHandler parametersHandler) {
-        super(parameters, "", "", "", parametersHandler,1);
+    public ShutterManualMeizu(Context context, Parameters parameters, I_CameraHolder baseCameraHolder, ParametersHandler parametersHandler) {
+        super(context, parameters, "", "", "", parametersHandler,1);
         this.baseCameraHolder = baseCameraHolder;
 
             stringvalues = MX4Shutter.split(",");

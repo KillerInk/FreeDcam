@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
@@ -36,8 +37,8 @@ public class ShutterManualParameterHTC extends BaseManualParameter
     private final String HTCShutterValues = "Auto,1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000,1/800,1/640,1/500,1/400,1/320,1/250,1/200,1/125,1/100,1/80,1/60,1/50,1/40,1/30,1/25,1/20,1/15,1/13,1/10,1/8,1/6,1/5,1/4,0.3,0.4,0.5,0.6,0.8,1,1.3,1.6,2,2.5,3.2,4";
     private DecimalFormat trimfloat = new DecimalFormat("#.######");
 
-    public ShutterManualParameterHTC(Parameters parameters, String maxValue, String MinValue, ParametersHandler parametersHandler) {
-        super(parameters, "", "", "", parametersHandler,1);
+    public ShutterManualParameterHTC(Context context, Parameters parameters, String maxValue, String MinValue, ParametersHandler parametersHandler) {
+        super(context, parameters, "", "", "", parametersHandler,1);
         isSupported = true;
             stringvalues = HTCShutterValues.split(",");
     }

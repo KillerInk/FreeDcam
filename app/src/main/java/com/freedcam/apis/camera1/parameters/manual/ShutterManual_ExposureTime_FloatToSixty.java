@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
@@ -36,8 +37,8 @@ public class ShutterManual_ExposureTime_FloatToSixty extends ShutterManual_Expos
      * @param parameters
      * @param parametersHandler
      */
-    public ShutterManual_ExposureTime_FloatToSixty(Parameters parameters, ParametersHandler parametersHandler,boolean withauto) {
-        super(parameters, parametersHandler, "exposure-time", "max-exposure-time", "min-exposure-time",withauto);
+    public ShutterManual_ExposureTime_FloatToSixty(Context context, Parameters parameters, ParametersHandler parametersHandler, boolean withauto) {
+        super(context, parameters, parametersHandler, "exposure-time", "max-exposure-time", "min-exposure-time",withauto);
     }
 
     @Override

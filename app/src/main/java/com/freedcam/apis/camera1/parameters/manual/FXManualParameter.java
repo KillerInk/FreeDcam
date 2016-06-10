@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
@@ -28,8 +29,8 @@ import com.freedcam.utils.Logger;
 
 public class FXManualParameter extends BaseManualParameter {
 
-    public FXManualParameter(Parameters parameters,ParametersHandler parametersHandler) {
-        super(parameters, "", "", "", parametersHandler,1);
+    public FXManualParameter(Context context, Parameters parameters, ParametersHandler parametersHandler) {
+        super(context, parameters, "", "", "", parametersHandler,1);
     }
 
     @Override

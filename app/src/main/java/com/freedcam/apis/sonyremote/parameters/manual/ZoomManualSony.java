@@ -19,6 +19,8 @@
 
 package com.freedcam.apis.sonyremote.parameters.manual;
 
+import android.content.Context;
+
 import com.freedcam.apis.sonyremote.sonystuff.JsonUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
@@ -41,8 +43,8 @@ public class ZoomManualSony extends BaseManualParameterSony
 
     private boolean fromUser = false;
 
-    public ZoomManualSony(com.freedcam.apis.sonyremote.parameters.ParameterHandler parameterHandler) {
-        super("actZoom", "", "actZoom", parameterHandler);
+    public ZoomManualSony(Context context, com.freedcam.apis.sonyremote.parameters.ParameterHandler parameterHandler) {
+        super(context, "actZoom", "", "actZoom", parameterHandler);
     }
 
     @Override

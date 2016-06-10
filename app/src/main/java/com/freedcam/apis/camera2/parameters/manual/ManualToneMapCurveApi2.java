@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera2.parameters.manual;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.TonemapCurve;
@@ -51,11 +52,11 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
     private CameraHolder cameraHolder;
 
 
-    public ManualToneMapCurveApi2(ParameterHandler camParametersHandler, CameraHolder cameraHolder)
+    public ManualToneMapCurveApi2(Context context, ParameterHandler camParametersHandler, CameraHolder cameraHolder)
     {
         this.cameraHolder = cameraHolder;
-        contrast = new Contrast(camParametersHandler);
-        brightness = new Brightness(camParametersHandler);
+        contrast = new Contrast(context, camParametersHandler);
+        brightness = new Brightness(context, camParametersHandler);
     }
 
     private boolean canSet = false;
@@ -104,8 +105,8 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
     public class Contrast extends AbstractManualParameter
     {
         boolean firststart = true;
-        public Contrast(ParameterHandler camParametersHandler) {
-            super(camParametersHandler);
+        public Contrast(Context context, ParameterHandler camParametersHandler) {
+            super(context, camParametersHandler);
             stringvalues = createStringArray(0,100,1);
             currentInt = 50;
         }
@@ -194,8 +195,8 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
     public class Brightness extends AbstractManualParameter
     {
 
-        public Brightness(ParameterHandler camParametersHandler) {
-            super(camParametersHandler);
+        public Brightness(Context context, ParameterHandler camParametersHandler) {
+            super(context, camParametersHandler);
             stringvalues = createStringArray(0,100,1);
             currentInt = 50;
         }

@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
@@ -29,12 +30,12 @@ import com.freedcam.utils.Logger;
  * Created by Ingo on 06.03.2016.
  */
 public class BaseWB_CCT_QC extends BaseCCTManual {
-    public BaseWB_CCT_QC(Parameters parameters, int max, int min, ParametersHandler parametersHandler, float step, String wbmode) {
-        super(parameters, KEYS.WB_MANUAL_CCT, 8000, 2000, parametersHandler, (float) 100, KEYS.WB_MODE_MANUAL_CCT);
+    public BaseWB_CCT_QC(Context context,Parameters parameters, int max, int min, ParametersHandler parametersHandler, float step, String wbmode) {
+        super(context,parameters, KEYS.WB_MANUAL_CCT, 8000, 2000, parametersHandler, (float) 100, KEYS.WB_MODE_MANUAL_CCT);
     }
 
-    public BaseWB_CCT_QC(Parameters parameters, String value, String maxValue, String MinValue, ParametersHandler parametersHandler, float step, String wbmode) {
-        super(parameters, value, maxValue, MinValue, parametersHandler, step, wbmode);
+    public BaseWB_CCT_QC(Context context, Parameters parameters, String value, String maxValue, String MinValue, ParametersHandler parametersHandler, float step, String wbmode) {
+        super(context,parameters, value, maxValue, MinValue, parametersHandler, step, wbmode);
     }
 
     @Override

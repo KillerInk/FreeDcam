@@ -52,9 +52,9 @@ public class Xiaomi_Mi3W extends BaseQcomDevice {
     public I_ManualParameter getCCTParameter() {
         if(!DeviceUtils.isCyanogenMod()) {
             if (VERSION.SDK_INT < 23) {
-                return new BaseCCTManual(parameters, KEYS.WB_MANUAL_CCT, 7500, 2000, parametersHandler, 100, KEYS.WB_MODE_MANUAL);
+                return new BaseCCTManual(context,parameters, KEYS.WB_MANUAL_CCT, 7500, 2000, parametersHandler, 100, KEYS.WB_MODE_MANUAL);
             } else
-                return new BaseCCTManual(parameters, KEYS.WB_MANUAL_CCT, 8000, 2000, parametersHandler, 100, KEYS.WB_MODE_MANUAL_CCT);
+                return new BaseCCTManual(context,parameters, KEYS.WB_MANUAL_CCT, 8000, 2000, parametersHandler, 100, KEYS.WB_MODE_MANUAL_CCT);
         }
         else
             return super.getCCTParameter();
@@ -62,7 +62,7 @@ public class Xiaomi_Mi3W extends BaseQcomDevice {
 
     @Override
     public I_ManualParameter getSkintoneParameter() {
-        AbstractManualParameter Skintone = new SkintoneManualPrameter(parameters,parametersHandler);
+        AbstractManualParameter Skintone = new SkintoneManualPrameter(context,parameters,parametersHandler);
         parametersHandler.PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
         cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(((BaseManualParameter) Skintone).GetModuleListner());
         return Skintone;

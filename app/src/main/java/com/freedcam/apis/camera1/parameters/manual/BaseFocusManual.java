@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
@@ -47,8 +48,8 @@ public class BaseFocusManual extends BaseManualParameter
      * @param parametersHandler
      * @param step
      */
-    public BaseFocusManual(Parameters parameters, String value, String maxValue, String MinValue, String manualFocusModeString, ParametersHandler parametersHandler, float step, int manualFocusType) {
-        super(parameters, value, maxValue, MinValue, parametersHandler, step);
+    public BaseFocusManual(Context context, Parameters parameters, String value, String maxValue, String MinValue, String manualFocusModeString, ParametersHandler parametersHandler, float step, int manualFocusType) {
+        super(context, parameters, value, maxValue, MinValue, parametersHandler, step);
         this.manualFocusModeString = manualFocusModeString;
         this.manualFocusType = manualFocusType;
     }
@@ -64,8 +65,8 @@ public class BaseFocusManual extends BaseManualParameter
      * @param step
      * @param manualFocusType
      */
-    public BaseFocusManual(Parameters parameters, String value, int min, int max, String manualFocusModeString, ParametersHandler parametersHandler, float step, int manualFocusType) {
-        super(parameters, value, "", "", parametersHandler, step);
+    public BaseFocusManual(Context context,Parameters parameters, String value, int min, int max, String manualFocusModeString, ParametersHandler parametersHandler, float step, int manualFocusType) {
+        super(context, parameters, value, "", "", parametersHandler, step);
         isSupported = true;
         isVisible = true;
         this.manualFocusModeString = manualFocusModeString;

@@ -59,7 +59,7 @@ public class Alcatel_Idol3 extends BaseQcomNew
 
     @Override
     public AbstractManualParameter getSkintoneParameter() {
-        AbstractManualParameter Skintone = new SkintoneManualPrameter(parameters,parametersHandler);
+        AbstractManualParameter Skintone = new SkintoneManualPrameter(context,parameters,parametersHandler);
         parametersHandler.PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
         cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(((BaseManualParameter) Skintone).GetModuleListner());
         return Skintone;

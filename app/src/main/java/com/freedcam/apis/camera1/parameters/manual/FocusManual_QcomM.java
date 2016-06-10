@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
@@ -46,9 +47,9 @@ public class FocusManual_QcomM extends BaseManualParameter
      * @param parametersHandler
      * @param step
      */
-    public FocusManual_QcomM(Parameters parameters, ParametersHandler parametersHandler, float step)
+    public FocusManual_QcomM(Context context, Parameters parameters, ParametersHandler parametersHandler, float step)
     {
-        super(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION, KEYS.MAX_FOCUS_POS_RATIO, KEYS.MIN_FOCUS_POS_RATIO, parametersHandler, (float) 1);
+        super(context, parameters, KEYS.KEY_MANUAL_FOCUS_POSITION, KEYS.MAX_FOCUS_POS_RATIO, KEYS.MIN_FOCUS_POS_RATIO, parametersHandler, (float) 1);
     }
 
     @Override

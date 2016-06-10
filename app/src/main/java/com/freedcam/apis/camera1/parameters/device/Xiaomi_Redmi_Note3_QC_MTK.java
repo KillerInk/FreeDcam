@@ -24,6 +24,7 @@ import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.camera1.CameraHolder.Frameworks;
@@ -48,9 +49,9 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
         super(context, parameters, cameraUiWrapper);
         frameworks = cameraHolder.DeviceFrameWork;
         if (frameworks == Frameworks.MTK)
-            ae_handler_mtk = new AE_Handler_MTK(parameters,cameraHolder, parametersHandler,2700);
+            ae_handler_mtk = new AE_Handler_MTK(context,parameters,cameraHolder, parametersHandler,2700);
         else
-            ae_handler_qcomM = new AE_Handler_QcomM(parameters,cameraUiWrapper, parametersHandler);
+            ae_handler_qcomM = new AE_Handler_QcomM(context,parameters,cameraUiWrapper, parametersHandler);
     }
 
     @Override
@@ -60,27 +61,34 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
 
     //gets set due ae handler
     @Override
-    public AbstractManualParameter getExposureTimeParameter()
+    public I_ManualParameter getExposureTimeParameter()
     {
-       return null;
+        if (frameworks == Frameworks.MTK)
+            return ae_handler_mtk.shutterPrameter;
+        else
+            return ae_handler_qcomM.getShutterManual();
     }
     //gets set due ae handler
     @Override
-    public AbstractManualParameter getIsoParameter() {
-        return null;
+    public I_ManualParameter getIsoParameter() {
+        if (frameworks == Frameworks.MTK)
+            return ae_handler_mtk.isoManualParameter;
+        else
+            return ae_handler_qcomM.getManualIso();
     }
 
     @Override
-    public AbstractManualParameter getManualFocusParameter()
+    public I_ManualParameter getManualFocusParameter()
     {
         if (frameworks == Frameworks.MTK)
-            return new FocusManualMTK(parameters, parametersHandler);
+            return new FocusManualMTK(context,parameters, parametersHandler);
         else
-            return new FocusManual_QcomM(parameters, parametersHandler,1);
+            return new FocusManual_QcomM(context,parameters, parametersHandler,1);
     }
 
     @Override
-    public AbstractManualParameter getCCTParameter() {
+    public I_ManualParameter getCCTParameter()
+    {
         return null;
     }
 

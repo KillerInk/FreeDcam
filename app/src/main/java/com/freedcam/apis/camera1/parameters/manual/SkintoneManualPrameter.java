@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
@@ -31,9 +32,9 @@ public class SkintoneManualPrameter extends BaseManualParameter {
      * @param parameters
      * @param parametersHandler
      */
-    public SkintoneManualPrameter(Parameters parameters, ParametersHandler parametersHandler)
+    public SkintoneManualPrameter(Context context, Parameters parameters, ParametersHandler parametersHandler)
     {
-        super(parameters, "", "", "", parametersHandler,1);
+        super(context, parameters, "", "", "", parametersHandler,1);
         try
         {
             isSupported = true;

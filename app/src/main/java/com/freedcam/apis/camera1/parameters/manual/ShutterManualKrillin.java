@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.parameters.manual;
 
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
@@ -35,8 +36,8 @@ public class ShutterManualKrillin extends BaseManualParameter {
     //AE_Handler_LGG4.AeManualEvent manualevent;
     private String KrillinShutterValues = "Auto,1/30000,1/15000,1/10000,1/8000,1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,2,4,8,15,30,32";
 
-    public ShutterManualKrillin(Parameters parameters, I_CameraHolder baseCameraHolder, ParametersHandler parametersHandler) {
-        super(parameters, "", "", "", parametersHandler, 1);
+    public ShutterManualKrillin(Context context, Parameters parameters, I_CameraHolder baseCameraHolder, ParametersHandler parametersHandler) {
+        super(context, parameters, "", "", "", parametersHandler, 1);
 
         this.baseCameraHolder = baseCameraHolder;
         isSupported = true;

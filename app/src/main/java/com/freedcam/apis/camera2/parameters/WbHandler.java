@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera2.parameters;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.RggbChannelVector;
@@ -45,13 +46,13 @@ public class WbHandler
 
     private WhiteBalanceValues activeWbMode = WhiteBalanceValues.AUTO;
 
-    public WbHandler(CameraHolder cameraHolder, ParameterHandler parameterHandler)
+    public WbHandler(Context context, CameraHolder cameraHolder, ParameterHandler parameterHandler)
     {
         this.cameraHolder= cameraHolder;
         this.parameterHandler = parameterHandler;
         colorCorrectionMode = new ColorCorrectionModeApi2();
         whiteBalanceApi2 = new WhiteBalanceApi2();
-        manualWbCt = new ManualWbCtApi2(this.parameterHandler);
+        manualWbCt = new ManualWbCtApi2(context, this.parameterHandler);
         this.parameterHandler.CCT = manualWbCt;
         this.parameterHandler.WhiteBalanceMode = whiteBalanceApi2;
         //dont make that avail for the ui
@@ -211,8 +212,8 @@ public class WbHandler
 
         private final String TAG = ManualWbCtApi2.class.getSimpleName();
 
-        public ManualWbCtApi2(ParameterHandler camParametersHandler) {
-            super(camParametersHandler);
+        public ManualWbCtApi2(Context context,ParameterHandler camParametersHandler) {
+            super(context, camParametersHandler);
             stringvalues = createStringArray(1500,10000,100);
             cctLookup = getCctlooup();
             currentInt = 0;

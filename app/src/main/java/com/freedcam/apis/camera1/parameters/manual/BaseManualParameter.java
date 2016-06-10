@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
@@ -74,24 +75,24 @@ public class BaseManualParameter extends AbstractManualParameter
         }
     }
 
-    public BaseManualParameter(Parameters  parameters,ParametersHandler parametersHandler, float step)
+    public BaseManualParameter(Context context, Parameters parameters, ParametersHandler parametersHandler, float step)
     {
-        super(parametersHandler);
+        super(context, parametersHandler);
         this.parametersHandler = parametersHandler;
         this.parameters = parameters;
         this.step =step;
     }
 
     /**
-     *
-     * @param @parameters
+     *  @param @parameters
      * @param @key_value
      * @param @key_max_value
      * @param @key_min_value
      * @param @parametersHandler
+     * @param context
      */
-    public BaseManualParameter(Parameters  parameters, String key_value, String maxValue, String MinValue, ParametersHandler parametersHandler, float step) {
-        this(parameters,parametersHandler,step);
+    public BaseManualParameter(Context context, Parameters parameters, String key_value, String maxValue, String MinValue, ParametersHandler parametersHandler, float step) {
+        this(context, parameters,parametersHandler,step);
         this.key_value = key_value;
         key_max_value = maxValue;
         key_min_value = MinValue;

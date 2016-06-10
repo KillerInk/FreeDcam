@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 import android.os.Handler;
 
@@ -57,8 +58,8 @@ public class ShutterManualZTE extends BaseManualParameter
      * @param parameters
      * @param parametersHandler
      */
-    public ShutterManualZTE(Parameters parameters, I_CameraHolder baseCameraHolder, ParametersHandler parametersHandler) {
-        super(parameters, "", "", "", parametersHandler,1);
+    public ShutterManualZTE(Context context, Parameters parameters, I_CameraHolder baseCameraHolder, ParametersHandler parametersHandler) {
+        super(context, parameters, "", "", "", parametersHandler,1);
         this.baseCameraHolder = baseCameraHolder;
         if(parametersHandler.appSettingsManager.getDevice() == Devices.ZTE_ADV)
             stringvalues = Z5SShutterValues.split(",");

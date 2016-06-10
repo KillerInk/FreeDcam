@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera2.parameters;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION;
@@ -49,14 +50,14 @@ public class AeHandler
 
     private AEModes activeAeMode = AEModes.on;
 
-    public AeHandler(CameraHolder cameraHolder, ParameterHandler parameterHandler)
+    public AeHandler(Context context, CameraHolder cameraHolder, ParameterHandler parameterHandler)
     {
         this.cameraHolder = cameraHolder;
         this.parameterHandler = parameterHandler;
         aeModeApi2 = new AeModeApi2(this.cameraHolder);
-        manualExposureApi2 = new ManualExposureApi2(parameterHandler);
-        manualExposureTimeApi2 = new ManualExposureTimeApi2(parameterHandler);
-        manualISoApi2 = new ManualISoApi2(parameterHandler);
+        manualExposureApi2 = new ManualExposureApi2(context,parameterHandler);
+        manualExposureTimeApi2 = new ManualExposureTimeApi2(parameterHandler, context);
+        manualISoApi2 = new ManualISoApi2(context, parameterHandler);
         //pass stuff to the parameterhandler that it get used by the ui
         parameterHandler.ExposureMode = aeModeApi2;
         parameterHandler.ManualShutter = manualExposureTimeApi2;
@@ -167,8 +168,8 @@ public class AeHandler
     {
         final String TAG = ManualExposureApi2.class.getSimpleName();
 
-        public ManualExposureApi2(ParameterHandler parameterHandler) {
-            super(parameterHandler);
+        public ManualExposureApi2(Context context, ParameterHandler parameterHandler) {
+            super(context, parameterHandler);
             int max = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getUpper();
             int min = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getLower();
             float step = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP).floatValue();
@@ -228,8 +229,8 @@ public class AeHandler
         boolean isSupported = false;
         final String TAG = ManualExposureTimeApi2.class.getSimpleName();
         private int millimax = 0;
-        public ManualExposureTimeApi2(ParameterHandler camParametersHandler) {
-            super(camParametersHandler);
+        public ManualExposureTimeApi2(ParameterHandler camParametersHandler, Context context) {
+            super(camParametersHandler, context);
             isSupported = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE) != null;
             try {
                 findMinMaxValue();
@@ -328,8 +329,8 @@ public class AeHandler
     public class ManualISoApi2 extends ManualExposureTimeApi2
     {
         final String TAG = ManualISoApi2.class.getSimpleName();
-        public ManualISoApi2(ParameterHandler camParametersHandler) {
-            super(camParametersHandler);
+        public ManualISoApi2(Context context, ParameterHandler camParametersHandler) {
+            super(camParametersHandler, context);
             currentInt = 0;
             ArrayList<String> ar = new ArrayList<>();
             try {

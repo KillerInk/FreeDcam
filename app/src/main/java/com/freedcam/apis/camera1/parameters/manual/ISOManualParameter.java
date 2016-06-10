@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
@@ -26,8 +27,8 @@ import com.freedcam.apis.camera1.parameters.ParametersHandler;
 
 public class ISOManualParameter extends BaseManualParameter {
 
-    public ISOManualParameter(Parameters parameters, ParametersHandler parametersHandler) {
-        super(parameters, "", "", "", parametersHandler,1);
+    public ISOManualParameter(Context context, Parameters parameters, ParametersHandler parametersHandler) {
+        super(context, parameters, "", "", "", parametersHandler,1);
 
         isSupported = true;
         key_max_value = KEYS.MIN_ISO;

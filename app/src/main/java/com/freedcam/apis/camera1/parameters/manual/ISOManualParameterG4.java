@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
@@ -34,8 +35,8 @@ public class ISOManualParameterG4 extends BaseManualParameter
     private CameraHolder cameraHolder;
     private AeManualEvent manualEvent;
 
-    public ISOManualParameterG4(Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler, AeManualEvent manualevent) {
-        super(parameters, "", "", "", parametersHandler,1);
+    public ISOManualParameterG4(Context context,Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler, AeManualEvent manualevent) {
+        super(context, parameters, "", "", "", parametersHandler,1);
 
         this.cameraHolder = cameraHolder;
 

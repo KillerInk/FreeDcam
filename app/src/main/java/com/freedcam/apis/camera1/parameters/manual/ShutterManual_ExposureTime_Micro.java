@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
@@ -50,9 +51,9 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
 
     protected ParametersHandler parametersHandler;
 
-    public ShutterManual_ExposureTime_Micro(Parameters parameters, ParametersHandler parametersHandler, String[] shuttervalues, String key_value)
+    public ShutterManual_ExposureTime_Micro(Context context,Parameters parameters, ParametersHandler parametersHandler, String[] shuttervalues, String key_value)
     {
-        super(parametersHandler);
+        super(parametersHandler, context);
         stringvalues = shuttervalues;
         this.key_value = key_value;
         parameters.set(key_value, "0");
@@ -63,8 +64,8 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
      * @param parameters
      * @param parametersHandler
      */
-    public ShutterManual_ExposureTime_Micro(Parameters parameters, ParametersHandler parametersHandler,String key_value, String maxval , String minval, boolean withauto) {
-        super(parametersHandler);
+    public ShutterManual_ExposureTime_Micro(Context context,Parameters parameters, ParametersHandler parametersHandler,String key_value, String maxval , String minval, boolean withauto) {
+        super(parametersHandler, context);
         this.parametersHandler = parametersHandler;
         this.parameters = parameters;
         this.key_value = key_value;

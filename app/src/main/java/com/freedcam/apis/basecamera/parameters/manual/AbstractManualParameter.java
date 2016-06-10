@@ -19,6 +19,8 @@
 
 package com.freedcam.apis.basecamera.parameters.manual;
 
+import android.content.Context;
+
 import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 
@@ -62,7 +64,9 @@ public abstract class AbstractManualParameter implements I_ManualParameter
      */
     protected boolean isVisible = false;
 
-    public AbstractManualParameter(AbstractParameterHandler parametersHandler)
+    protected Context context;
+
+    public AbstractManualParameter(Context context, AbstractParameterHandler parametersHandler)
     {
         this.parametersHandler = parametersHandler;
         listners = new ArrayList<>();
