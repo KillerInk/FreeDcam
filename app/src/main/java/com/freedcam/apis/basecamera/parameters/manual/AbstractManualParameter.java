@@ -68,6 +68,7 @@ public abstract class AbstractManualParameter implements I_ManualParameter
 
     public AbstractManualParameter(Context context, AbstractParameterHandler parametersHandler)
     {
+        this.context = context;
         this.parametersHandler = parametersHandler;
         listners = new ArrayList<>();
     }

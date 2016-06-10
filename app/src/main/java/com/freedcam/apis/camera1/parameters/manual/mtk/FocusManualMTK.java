@@ -33,6 +33,7 @@ import com.freedcam.utils.Logger;
  */
 public class FocusManualMTK extends BaseFocusManual {
 
+    private final String TAG = FocusManualMTK.class.getSimpleName();
     public FocusManualMTK(Context context,Parameters parameters, ParametersHandler parametersHandler) {
         //TODO check if AFENG_FI_MIN/MAX can get used
         super(context, parameters, KEYS.AFENG_POS, 0, 1023, KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler, (float) 10, 1);

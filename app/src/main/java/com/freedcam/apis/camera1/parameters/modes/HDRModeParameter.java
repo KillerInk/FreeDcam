@@ -145,7 +145,7 @@ public class HDRModeParameter extends BaseModeParameter
             }
         }
         try {
-            ((ParametersHandler)cameraUiWrapper).SetParametersToCamera(parameters);
+            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
             BackgroundValueHasChanged(valueToSet);
         }
         catch (Exception ex)

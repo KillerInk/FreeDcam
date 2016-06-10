@@ -223,20 +223,6 @@ public class AppSettingsManager
         return appsettingsList.get(SETTING_BASE_FOLDER);
     }
 
-    public void SetTheme(String theme)
-    {
-        appsettingsList.put(SETTING_Theme,theme);
-    }
-
-    public String GetTheme()
-    {
-        String t = appsettingsList.get(SETTING_Theme);
-        if (t == null)
-            t = "Sample";
-        return t;
-    }
-
-
     public void SetCurrentCamera(int currentcamera)
     {
         this.currentcamera = currentcamera;

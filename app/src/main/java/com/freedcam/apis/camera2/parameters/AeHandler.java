@@ -226,7 +226,6 @@ public class AeHandler
     @TargetApi(VERSION_CODES.LOLLIPOP)
     public class ManualExposureTimeApi2 extends AbstractManualShutter
     {
-        boolean isSupported = false;
         final String TAG = ManualExposureTimeApi2.class.getSimpleName();
         private int millimax = 0;
         public ManualExposureTimeApi2(ParameterHandler camParametersHandler, Context context) {
@@ -237,6 +236,7 @@ public class AeHandler
             }
             catch (NullPointerException ex)
             {
+                ex.printStackTrace();
                 isSupported = false;
             }
         }
