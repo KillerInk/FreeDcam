@@ -29,7 +29,6 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
-import android.view.ViewGroup;
 
 import com.AbstractFragmentActivity;
 import com.freedcam.apis.ApiHandler;

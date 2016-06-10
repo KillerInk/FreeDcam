@@ -22,8 +22,10 @@ package com.freedcam.apis.camera1.parameters.device.qcom;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.parameters.device.BaseQcomDevice;
+import com.freedcam.apis.camera1.parameters.modes.NightModeXiaomi;
 import com.troop.androiddng.DngProfile;
 
 /**
@@ -52,5 +54,10 @@ public class Xiaomi_Mi_Note_Pro extends BaseQcomDevice {
                 return new DngProfile(64, 4208, 3120, DngProfile.Mipi16, DngProfile.RGGB, 0,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
         }
         return null;
+    }
+
+    @Override
+    public I_ModeParameter getNightMode() {
+        return new NightModeXiaomi(parameters,cameraUiWrapper);
     }
 }

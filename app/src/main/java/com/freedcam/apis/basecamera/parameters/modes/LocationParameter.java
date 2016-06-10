@@ -30,7 +30,6 @@ import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
-import com.freedcam.utils.StringUtils;
 
 /**
  * Created by troop on 21.07.2015.

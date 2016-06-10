@@ -23,7 +23,6 @@ import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
@@ -110,7 +109,7 @@ public class HDRModeParameter extends BaseModeParameter
                 cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue(KEYS.AE_BRACKET_HDR_VALUES_AE_BRACKET, true);
                 parameters.set(KEYS.MORPHO_HDR, KEYS.TRUE);
             } else {
-                cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue(KEYS.AE_BRACKET_OFF, true);
+                cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue(KEYS.AE_BRACKET_HDR_VALUES_OFF, true);
                 parameters.set(KEYS.MORPHO_HDR, KEYS.FALSE);
             }
         }

@@ -23,8 +23,8 @@ import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
-import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
+import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.CameraHolder.Frameworks;
 import com.freedcam.apis.camera1.parameters.device.AbstractDevice;
@@ -51,27 +51,27 @@ public class LG_G2pro extends AbstractDevice
     }
 
     @Override
-    public AbstractManualParameter getExposureTimeParameter() {
+    public I_ManualParameter getExposureTimeParameter() {
         return new ShutterManualG2pro(parameters, cameraHolder, parametersHandler);
     }
 
     @Override
-    public AbstractManualParameter getIsoParameter() {
+    public I_ManualParameter getIsoParameter() {
         return null;
     }
 
     @Override
-    public AbstractManualParameter getManualFocusParameter() {
+    public I_ManualParameter getManualFocusParameter() {
         return new FocusManualParameterLG(parameters,cameraHolder, parametersHandler);
     }
 
     @Override
-    public AbstractManualParameter getCCTParameter() {
+    public I_ManualParameter getCCTParameter() {
         return null;
     }
 
     @Override
-    public AbstractManualParameter getSkintoneParameter() {
+    public I_ManualParameter getSkintoneParameter() {
         return null;
     }
 
@@ -90,7 +90,7 @@ public class LG_G2pro extends AbstractDevice
 
 
     @Override
-    public AbstractModeParameter getVideoProfileMode()
+    public I_ModeParameter getVideoProfileMode()
     {
         if (cameraHolder.DeviceFrameWork == Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
             return new VideoProfilesG3Parameter(parameters,cameraUiWrapper);
@@ -99,7 +99,7 @@ public class LG_G2pro extends AbstractDevice
     }
 
     @Override
-    public AbstractModeParameter getDenoiseParameter() {
+    public I_ModeParameter getDenoiseParameter() {
         return new BaseModeParameter(parameters, cameraUiWrapper, KEYS.DENOISE, KEYS.DENOISE_VALUES);
     }
 }

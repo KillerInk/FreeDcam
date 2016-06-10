@@ -23,9 +23,7 @@ import android.os.Build.VERSION;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.renderscript.FocusPeakProcessorAp1;
-import com.freedcam.utils.StringUtils;
 
 
 /**

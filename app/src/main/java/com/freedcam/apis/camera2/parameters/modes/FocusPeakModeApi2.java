@@ -24,7 +24,6 @@ import android.os.Build.VERSION_CODES;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera2.CameraHolder;
-import com.freedcam.utils.StringUtils;
 
 /**
  * Created by troop on 10.09.2015.

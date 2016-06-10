@@ -54,7 +54,6 @@ import com.freedcam.apis.camera2.parameters.modes.ToneMapModeApi2;
 import com.freedcam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
-import com.freedcam.utils.StringUtils;
 
 import java.util.List;
 

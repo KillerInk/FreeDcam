@@ -23,7 +23,6 @@ import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.camera1.CameraHolder;
 
 /**
  * Created by troop on 24.08.2014.

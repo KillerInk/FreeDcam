@@ -45,8 +45,11 @@ public final class KEYS {
     public static final String PICTURE_FORMAT_VALUES = "picture-format-values";
     public static final String PICTURE_FORMAT = "picture-format";
 
+    public static final String JPEG_QUALITY = "jpeg-quality";
+
     public static final String ISO100 = "ISO100";
     public static final String CUR_ISO  = "cur-iso";
+    public static final String CUR_EXPOSURE_TIME = "cur-exposure-time";
 
     //Qualcomm
 
@@ -90,6 +93,17 @@ public final class KEYS {
 
     public static final String SKINETONEENHANCEMENT = "skinToneEnhancement";
     public static final String SKINETONEENHANCEMENT_VALUES = "skinToneEnhancement-values";
+
+    public static final int MAGIC_NUM0 = 0;
+    public static final int MAGIC_NUM100 = 100;
+
+    public static final String MAX_SHARPNESS = "max-sharpness";
+    public static final String MIN_SHARPNESS = "min-sharpness";
+    public static final String SHARPNESS_MAX = "sharpness-max";
+    public static final String SHARPNESS_MIN = "sharpness-min";
+    public static final String SHARPNESS = "sharpness";
+    public static final String SHARPNESS_VALUES = "sharpness-values";
+    public static final String SHARPNESS_STEP = "sharpness-step";
 
     public static final String MAX_SATURATION = "max-saturation";
     public static final String MIN_SATURATION = "min-saturation";
@@ -159,9 +173,10 @@ public final class KEYS {
     public static final String AE_BRACKET_HDR = "ae-bracket-hdr";
     public static final String AE_BRACKET_HDR_VALUES = "ae-bracket-hdr-values";
     public static final String AE_BRACKET_HDR_VALUES_AE_BRACKET = "AE-Bracket";
-    public static final String AE_BRACKET_OFF = "Off";
+    public static final String AE_BRACKET_HDR_VALUES_OFF = "Off";
 
     public static final String MORPHO_HDR = "morpho-hdr";
+    public static final String MORPHO_HHT = "morpho-hht";
 
     public static final String HDR_MODE = "hdr-mode";
 
@@ -228,6 +243,10 @@ public final class KEYS {
     public static final String LG_OIS_CENTERING_ONLY = "centering-only";
     public static final String LG_OIS_CENTERING_OFF = "centering-off";
 
+    //ZTE
+    public final static String NIGHT_KEY = "night_key";
+    public final static String NIGHT_MODE_TRIPOD = "tripod";
+
     //HTC
     public static final String MAX_FOCUS = "max-focus";
     public static final String MIN_FOCUS = "min-focus";
@@ -248,8 +267,6 @@ public final class KEYS {
     //visual stabilization
     public static final String SONY_VS = "sony-vs";
     public static final String SONY_VS_VALUES = "sony-vs-values";
-
-
 
     //freedcam Module
     public static final String MODULE_VIDEO = "module_video";

@@ -23,8 +23,9 @@ import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
+import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
-import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.parameters.device.BaseQcomDevice;
 import com.freedcam.apis.camera1.parameters.manual.BaseCCTManual;
@@ -32,6 +33,7 @@ import com.freedcam.apis.camera1.parameters.manual.BaseFocusManual;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.parameters.manual.ShutterManualZTE;
 import com.freedcam.apis.camera1.parameters.manual.SkintoneManualPrameter;
+import com.freedcam.apis.camera1.parameters.modes.NightModeZTE;
 import com.freedcam.apis.camera1.parameters.modes.OpCodeParameter;
 import com.freedcam.apis.camera1.parameters.modes.VirtualLensFilter;
 import com.troop.androiddng.DngProfile;
@@ -45,26 +47,31 @@ public class ZTE_ADV extends BaseQcomDevice {
     }
 
     @Override
-    public AbstractManualParameter getExposureTimeParameter() {
+    public I_ManualParameter getExposureTimeParameter() {
         return new ShutterManualZTE(parameters, cameraHolder, parametersHandler);
     }
 
     @Override
-    public AbstractManualParameter getManualFocusParameter() {
+    public I_ManualParameter getManualFocusParameter() {
         return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,79,KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler,1,1);
     }
 
     @Override
-    public AbstractManualParameter getCCTParameter() {
+    public I_ManualParameter getCCTParameter() {
         return new BaseCCTManual(parameters,KEYS.WB_MANUAL_CCT,8000,2000, parametersHandler,100, KEYS.WB_MODE_MANUAL_CCT);
     }
 
     @Override
-    public AbstractManualParameter getSkintoneParameter() {
+    public I_ManualParameter getSkintoneParameter() {
         AbstractManualParameter Skintone = new SkintoneManualPrameter(parameters,parametersHandler);
         parametersHandler.PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
         cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(((BaseManualParameter) Skintone).GetModuleListner());
         return Skintone;
+    }
+
+    @Override
+    public I_ModeParameter getNightMode() {
+        return new NightModeZTE(parameters,cameraUiWrapper);
     }
 
     @Override
@@ -88,12 +95,12 @@ public class ZTE_ADV extends BaseQcomDevice {
     }
 
     @Override
-    public AbstractModeParameter getOpCodeParameter() {
+    public I_ModeParameter getOpCodeParameter() {
         return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
     }
 
     @Override
-    public AbstractModeParameter getLensFilter() {
+    public I_ModeParameter getLensFilter() {
         return new VirtualLensFilter(parameters, cameraUiWrapper);
     }
 

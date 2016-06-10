@@ -21,25 +21,39 @@ package com.freedcam.apis.camera1.parameters.modes;
 
 import android.hardware.Camera.Parameters;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.Logger;
 
 /**
- * Created by troop on 18.08.2014.
+ * Created by troop on 26.09.2014.
  */
-public class PictureSizeParameter extends BaseModeParameter
+public class NightModeZTE extends BaseModeParameter
 {
-    final String TAG = PictureSizeParameter.class.getSimpleName();
-    public PictureSizeParameter(Parameters  parameters, I_CameraUiWrapper parameterChanged) {
-        super(parameters, parameterChanged, "picture-size", "picture-size-values");
+    final String TAG = NightModeZTE.class.getSimpleName();
+    private boolean visible = true;
+    private String state = "";
+    private String format = "";
+    private String curmodule = "";
+    public NightModeZTE(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper, "", "");
+        isSupported = true;
+        isVisible =true;
+        cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(this);
+        cameraUiWrapper.GetParameterHandler().PictureFormat.addEventListner(this);
+    }
+
+    @Override
+    public boolean IsSupported()
+    {
+        return  isSupported;
     }
 
     @Override
     public void SetValue(String valueToSet, boolean setToCam)
     {
-        parameters.set("picture-size" , valueToSet);
-
+        parameters.set(KEYS.NIGHT_KEY, valueToSet);
         try {
             ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
             BackgroundValueHasChanged(valueToSet);
@@ -48,5 +62,21 @@ public class PictureSizeParameter extends BaseModeParameter
         {
             Logger.exception(ex);
         }
+    }
+
+    @Override
+    public String GetValue() {
+            return parameters.get(KEYS.NIGHT_KEY);
+    }
+
+    @Override
+    public String[] GetValues() {
+        return new String[] {KEYS.OFF,KEYS.ON,KEYS.NIGHT_MODE_TRIPOD};
+    }
+
+    @Override
+    public void onValueChanged(String val)
+    {
+        format = val;
     }
 }

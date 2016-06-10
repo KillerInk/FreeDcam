@@ -26,7 +26,6 @@ import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.ui.themesample.subfragments.Interfaces.I_MenuItemClick;
 import com.freedcam.utils.Logger;
-import com.freedcam.utils.StringUtils;
 
 /**
  * Created by troop on 09.09.2015.

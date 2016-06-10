@@ -37,7 +37,7 @@ import com.freedcam.apis.camera1.Camera1Fragment;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.CameraHolder.Frameworks;
 import com.freedcam.apis.camera1.FocusHandler;
-import com.freedcam.apis.camera1.parameters.device.AbstractDevice;
+import com.freedcam.apis.camera1.parameters.device.I_Device;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.parameters.manual.BurstManualParam;
 import com.freedcam.apis.camera1.parameters.manual.ExposureManualParameter;
@@ -50,7 +50,6 @@ import com.freedcam.apis.camera1.parameters.modes.ExposureLockParameter;
 import com.freedcam.apis.camera1.parameters.modes.FocusPeakModeParameter;
 import com.freedcam.apis.camera1.parameters.modes.HDRModeParameter;
 import com.freedcam.apis.camera1.parameters.modes.JpegQualityParameter;
-import com.freedcam.apis.camera1.parameters.modes.NightModeParameter;
 import com.freedcam.apis.camera1.parameters.modes.OisParameter;
 import com.freedcam.apis.camera1.parameters.modes.PictureFormatHandler;
 import com.freedcam.apis.camera1.parameters.modes.PictureSizeParameter;
@@ -78,9 +77,8 @@ public class ParametersHandler extends AbstractParameterHandler
     private Parameters cameraParameters;
     public Parameters getParameters(){return cameraParameters;}
     public CameraHolder cameraHolder;
-    public BaseModeParameter DualMode;
     private I_CameraUiWrapper cameraUiWrapper;
-    public AbstractDevice Device;
+    public I_Device Device;
 
     public ParametersHandler(I_CameraUiWrapper cameraUiWrapper, Context context, AppSettingsManager appSettingsManager)
     {
@@ -210,7 +208,7 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            JpegQuality = new JpegQualityParameter(cameraParameters, cameraUiWrapper, "");
+            JpegQuality = new JpegQualityParameter(cameraParameters, cameraUiWrapper);
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -301,20 +299,7 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            NightMode = new NightModeParameter(cameraParameters, cameraUiWrapper, "", cameraUiWrapper);
-        } catch (Exception e) {
-            Logger.exception(e);
-        }
-
-
-        try {
             CameraMode = new BaseModeParameter(cameraParameters,cameraUiWrapper, "camera-mode", "camera-mode-values");
-        } catch (Exception e) {
-            Logger.exception(e);
-        }
-
-        try {
-            DualMode = new BaseModeParameter(cameraParameters,cameraUiWrapper, "dual_mode", "");
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -326,7 +311,7 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            VideoSize = new BaseModeParameter(cameraParameters,cameraUiWrapper,"video-size","video-size");
+            VideoSize = new BaseModeParameter(cameraParameters,cameraUiWrapper,"video-size","video-size-values");
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -340,7 +325,6 @@ public class ParametersHandler extends AbstractParameterHandler
             Logger.exception(e);
         }
 
-        //####No idea what they do, m9 specific, only thing they do is to freez the app####
         //Video Denoise
         try {
             RdiMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, "rdi-mode", "rdi-mode-values");
@@ -415,13 +399,13 @@ public class ParametersHandler extends AbstractParameterHandler
             throw new NullPointerException("DEVICE IS NULL");
         }
 
-
         VideoProfiles = Device.getVideoProfileMode();
         Skintone = Device.getSkintoneParameter();
         NonZslManualMode = Device.getNonZslManualMode();
         opcode = Device.getOpCodeParameter();
         Denoise = Device.getDenoiseParameter();
         LensFilter = Device.getLensFilter();
+        NightMode = Device.getNightMode();
 
         ManualShutter = Device.getExposureTimeParameter();
         ManualFocus = Device.getManualFocusParameter();
@@ -431,9 +415,9 @@ public class ParametersHandler extends AbstractParameterHandler
         ManualSharpness = Device.getManualSharpness();
         ManualBrightness = Device.getManualBrightness();
         ManualContrast = Device.getManualContrast();
+        NightMode = Device.getNightMode();
 
         Module = new ModuleParameters(cameraUiWrapper,appSettingsManager);
-
 
 
         try {

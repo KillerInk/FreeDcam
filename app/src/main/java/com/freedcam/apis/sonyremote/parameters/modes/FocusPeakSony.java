@@ -23,7 +23,6 @@ import android.os.Build.VERSION;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
-import com.freedcam.utils.StringUtils;
 
 import java.util.Set;
 

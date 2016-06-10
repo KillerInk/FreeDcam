@@ -19,7 +19,6 @@
 
 package com.freedcam.apis.camera1;
 
-import android.hardware.Camera.Area;
 import android.view.MotionEvent;
 
 import com.freedcam.apis.basecamera.AbstractFocusHandler;
@@ -30,10 +29,7 @@ import com.freedcam.apis.basecamera.modules.I_Callbacks.AutoFocusCallback;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.apis.camera1.CameraHolder.Frameworks;
-import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils.Devices;
-
-import java.util.List;
 
 /**
  * Created by troop on 02.09.2014.

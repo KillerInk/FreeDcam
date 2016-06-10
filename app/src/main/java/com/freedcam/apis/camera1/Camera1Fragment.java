@@ -33,7 +33,6 @@ import com.freedcam.apis.basecamera.AbstractCameraFragment;
 import com.freedcam.apis.basecamera.AbstractFocusHandler;
 import com.freedcam.apis.basecamera.Size;
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
-import com.freedcam.apis.basecamera.interfaces.I_Module;
 import com.freedcam.apis.basecamera.interfaces.I_error;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.modules.I_Callbacks;

@@ -23,8 +23,8 @@ import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
-import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
+import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
 import com.freedcam.apis.camera1.parameters.manual.AE_Handler_MTK;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParamMTK;
 import com.freedcam.apis.camera1.parameters.manual.FocusManualMTK;
@@ -57,17 +57,17 @@ public class BaseMTKDevice extends AbstractDevice
 
     //set by aehandler to camparametershandler direct
     @Override
-    public AbstractManualParameter getExposureTimeParameter() {
+    public I_ManualParameter getExposureTimeParameter() {
         return ae_handler_mtk.shutterPrameter;
     }
     //set by aehandler to camparametershandler direct
     @Override
-    public AbstractManualParameter getIsoParameter() {
+    public I_ManualParameter getIsoParameter() {
         return ae_handler_mtk.isoManualParameter;
     }
 
     @Override
-    public AbstractManualParameter getManualFocusParameter()
+    public I_ManualParameter getManualFocusParameter()
     {
         if(parameters.get("afeng-max-focus-step")!=null)
             return new FocusManualMTK(parameters, parametersHandler);
@@ -78,34 +78,34 @@ public class BaseMTKDevice extends AbstractDevice
     }
 
     @Override
-    public AbstractManualParameter getCCTParameter() {
+    public I_ManualParameter getCCTParameter() {
         return null;
     }
 
     @Override
-    public AbstractManualParameter getSkintoneParameter() {
+    public I_ManualParameter getSkintoneParameter() {
         return null;
     }
 
     @Override
-    public AbstractManualParameter getManualSaturation() {
+    public I_ManualParameter getManualSaturation() {
         if (parameters.get(KEYS.SATURATION)!= null && parameters.get(KEYS.SATURATION_VALUES)!= null)
                 return new BaseManualParamMTK(parameters,KEYS.SATURATION, KEYS.SATURATION_VALUES,parametersHandler);
         return null;
     }
 
     @Override
-    public AbstractManualParameter getManualSharpness() {
+    public I_ManualParameter getManualSharpness() {
         return new BaseManualParamMTK(parameters,"edge","edge-values",parametersHandler);
     }
 
     @Override
-    public AbstractManualParameter getManualBrightness() {
+    public I_ManualParameter getManualBrightness() {
         return new BaseManualParamMTK(parameters,"brightness", "brightness-values",parametersHandler);
     }
 
     @Override
-    public AbstractManualParameter getManualContrast() {
+    public I_ManualParameter getManualContrast() {
         return  new BaseManualParamMTK(parameters,"contrast","contrast-values",parametersHandler);
     }
 
@@ -115,7 +115,7 @@ public class BaseMTKDevice extends AbstractDevice
     }
 
     @Override
-    public AbstractModeParameter getDenoiseParameter() {
+    public I_ModeParameter getDenoiseParameter() {
         if(parameters.get(KEYS.MTK_NOISE_REDUCTION_MODE)!=null) {
             if (parameters.get(KEYS.MTK_NOISE_REDUCTION_MODE_VALUES).equals("on,off")) {
                 return new BaseModeParameter(parameters, cameraUiWrapper, KEYS.MTK_NOISE_REDUCTION_MODE, KEYS.MTK_NOISE_REDUCTION_MODE_VALUES);

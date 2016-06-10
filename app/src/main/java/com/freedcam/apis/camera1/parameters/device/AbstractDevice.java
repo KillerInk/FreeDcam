@@ -23,8 +23,8 @@ import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
-import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
+import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
@@ -35,8 +35,7 @@ import com.troop.androiddng.DngProfile;
 /**
  * Created by troop on 31.05.2016.
  */
-public abstract class AbstractDevice
-{
+public abstract class AbstractDevice implements I_Device {
     protected Parameters parameters;
     protected CameraHolder cameraHolder;
     protected I_CameraUiWrapper cameraUiWrapper;
@@ -56,21 +55,28 @@ public abstract class AbstractDevice
         }
     }
 
+    @Override
     public abstract boolean IsDngSupported();
 
-    public abstract AbstractManualParameter getExposureTimeParameter();
+    @Override
+    public abstract I_ManualParameter getExposureTimeParameter();
 
-    public abstract AbstractManualParameter getIsoParameter();
+    @Override
+    public abstract I_ManualParameter getIsoParameter();
 
-    public abstract AbstractManualParameter getManualFocusParameter();
+    @Override
+    public abstract I_ManualParameter getManualFocusParameter();
 
-    public abstract AbstractManualParameter getCCTParameter();
+    @Override
+    public abstract I_ManualParameter getCCTParameter();
 
-    public AbstractManualParameter getSkintoneParameter() {
+    @Override
+    public I_ManualParameter getSkintoneParameter() {
         return null;
     }
 
-    public AbstractManualParameter getManualSaturation()
+    @Override
+    public I_ManualParameter getManualSaturation()
     {
         BaseManualParameter ManualSaturation = null;
         //p920 hack
@@ -86,31 +92,31 @@ public abstract class AbstractDevice
         return ManualSaturation;
     }
 
-    public AbstractManualParameter getManualSharpness()
+    @Override
+    public I_ManualParameter getManualSharpness()
     {
-
-        if (parameters.get("max-sharpness")!= null && parameters.get("sharpness-max")!= null) {
-            parameters.set("max-sharpness", "100");
-            parameters.set("min-sharpness", "0");
+        if (parameters.get(KEYS.MAX_SHARPNESS)!= null && parameters.get(KEYS.SHARPNESS_MAX)!= null) {
+            parameters.set(KEYS.MAX_SHARPNESS, KEYS.MAGIC_NUM100);
+            parameters.set(KEYS.MIN_SHARPNESS, KEYS.MAGIC_NUM0);
         }
         int step = 1;
-        if (parameters.get("sharpness-step")!= null)
-            step = Integer.parseInt(parameters.get("sharpness-step"));
+        if (parameters.get(KEYS.SHARPNESS_STEP)!= null)
+            step = Integer.parseInt(parameters.get(KEYS.SHARPNESS_STEP));
 
-        if (parameters.get("sharpness-max")!= null)
+        if (parameters.get(KEYS.SHARPNESS_MAX)!= null)
         {
-            return new BaseManualParameter(parameters, "sharpness", "sharpness-max", "sharpness-min", parametersHandler,step);
+            return new BaseManualParameter(parameters, KEYS.SHARPNESS, KEYS.SHARPNESS_MAX, KEYS.SHARPNESS_MIN, parametersHandler,step);
         }
-        else if (parameters.get("max-sharpness")!= null)
+        else if (parameters.get(KEYS.MAX_SHARPNESS)!= null)
         {
-            return new BaseManualParameter(parameters, "sharpness", "max-sharpness", "min-sharpness", parametersHandler,step);
+            return new BaseManualParameter(parameters, KEYS.SHARPNESS, KEYS.MAX_SHARPNESS, KEYS.MIN_SHARPNESS, parametersHandler,step);
         }
         return null;
     }
 
-    public AbstractManualParameter getManualBrightness()
+    @Override
+    public I_ManualParameter getManualBrightness()
     {
-
         //p920hack
         if (parameters.get("max-brightness")!= null && parameters.get("brightness-max")!= null)
         {
@@ -128,7 +134,8 @@ public abstract class AbstractDevice
         return null;
     }
 
-    public AbstractManualParameter getManualContrast()
+    @Override
+    public I_ManualParameter getManualContrast()
     {
         //p920 hack
         if (parameters.get("max-contrast")!= null && parameters.get("contrast-max")!= null) {
@@ -141,30 +148,43 @@ public abstract class AbstractDevice
              return new BaseManualParameter(parameters,"contrast", "max-contrast", "min-contrast",parametersHandler,1);
         return null;
     }
+
+    @Override
     public abstract DngProfile getDngProfile(int filesize);
 
-    public AbstractModeParameter getVideoProfileMode()
+    @Override
+    public I_ModeParameter getVideoProfileMode()
     {
         return new VideoProfilesParameter(parameters,cameraUiWrapper);
     }
-
-    public AbstractModeParameter getNonZslManualMode()
+    @Override
+    public I_ModeParameter getNonZslManualMode()
     {
         return null;
     }
 
-    public AbstractModeParameter getOpCodeParameter()
+    @Override
+    public I_ModeParameter getOpCodeParameter()
     {
         return null;
     }
 
-    public abstract AbstractModeParameter getDenoiseParameter();
+    @Override
+    public abstract I_ModeParameter getDenoiseParameter();
 
-    public AbstractModeParameter getLensFilter()
+    @Override
+    public I_ModeParameter getLensFilter()
     {
         return null;
     }
 
+    @Override
+    public I_ModeParameter getNightMode()
+    {
+        return null;
+    }
+
+    @Override
     public float GetFnumber()
     {
         if (parameters.get("f-number")!= null) {
@@ -174,7 +194,7 @@ public abstract class AbstractDevice
         else
             return 0;
     }
-
+    @Override
     public float GetFocal()
     {
         if (parameters.get("focal-length")!= null) {
@@ -184,12 +204,12 @@ public abstract class AbstractDevice
         else
             return 0;
     }
-
+    @Override
     public float getCurrentExposuretime()
     {
         return 0;
     }
-
+    @Override
     public int getCurrentIso()
     {
         return 0;

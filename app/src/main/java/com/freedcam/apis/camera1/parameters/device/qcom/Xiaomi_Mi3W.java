@@ -24,13 +24,15 @@ import android.os.Build.VERSION;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
+import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
-import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.parameters.device.BaseQcomDevice;
 import com.freedcam.apis.camera1.parameters.manual.BaseCCTManual;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.parameters.manual.SkintoneManualPrameter;
+import com.freedcam.apis.camera1.parameters.modes.NightModeXiaomi;
 import com.freedcam.apis.camera1.parameters.modes.OpCodeParameter;
 import com.freedcam.utils.DeviceUtils;
 import com.troop.androiddng.DngProfile;
@@ -44,7 +46,7 @@ public class Xiaomi_Mi3W extends BaseQcomDevice {
     }
 
     @Override
-    public AbstractManualParameter getCCTParameter() {
+    public I_ManualParameter getCCTParameter() {
         if(!DeviceUtils.isCyanogenMod()) {
             if (VERSION.SDK_INT < 23) {
                 return new BaseCCTManual(parameters, KEYS.WB_MANUAL_CCT, 7500, 2000, parametersHandler, 100, KEYS.WB_MODE_MANUAL);
@@ -56,7 +58,7 @@ public class Xiaomi_Mi3W extends BaseQcomDevice {
     }
 
     @Override
-    public AbstractManualParameter getSkintoneParameter() {
+    public I_ManualParameter getSkintoneParameter() {
         AbstractManualParameter Skintone = new SkintoneManualPrameter(parameters,parametersHandler);
         parametersHandler.PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
         cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(((BaseManualParameter) Skintone).GetModuleListner());
@@ -86,7 +88,12 @@ public class Xiaomi_Mi3W extends BaseQcomDevice {
     }
 
     @Override
-    public AbstractModeParameter getOpCodeParameter() {
+    public I_ModeParameter getOpCodeParameter() {
         return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
+    }
+
+    @Override
+    public I_ModeParameter getNightMode() {
+        return new NightModeXiaomi(parameters,cameraUiWrapper);
     }
 }

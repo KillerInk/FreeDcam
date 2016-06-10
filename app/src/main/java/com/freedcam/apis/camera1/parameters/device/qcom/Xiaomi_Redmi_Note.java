@@ -23,10 +23,12 @@ import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
+import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
+import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.parameters.device.BaseQcomDevice;
 import com.freedcam.apis.camera1.parameters.manual.BaseFocusManual;
+import com.freedcam.apis.camera1.parameters.modes.NightModeXiaomi;
 import com.troop.androiddng.DngProfile;
 
 /**
@@ -38,7 +40,7 @@ public class Xiaomi_Redmi_Note extends BaseQcomDevice {
     }
 
     @Override
-    public AbstractManualParameter getManualFocusParameter()
+    public I_ManualParameter getManualFocusParameter()
     {
         return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,79,KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler,1,1);
     }
@@ -57,5 +59,10 @@ public class Xiaomi_Redmi_Note extends BaseQcomDevice {
                 return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
         }
         return null;
+    }
+
+    @Override
+    public I_ModeParameter getNightMode() {
+        return new NightModeXiaomi(parameters,cameraUiWrapper);
     }
 }
