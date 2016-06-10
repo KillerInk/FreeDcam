@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.device.qcom;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
@@ -33,8 +34,9 @@ import com.troop.androiddng.DngProfile;
  */
 public class Aquaris_E5 extends BaseQcomNew
 {
-    public Aquaris_E5(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(parameters, cameraUiWrapper);
+
+    public Aquaris_E5(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(context, parameters, cameraUiWrapper);
     }
 
     @Override

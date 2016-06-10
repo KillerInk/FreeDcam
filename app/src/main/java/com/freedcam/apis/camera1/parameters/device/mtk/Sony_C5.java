@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.device.mtk;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
@@ -32,8 +33,10 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 01.06.2016.
  */
 public class Sony_C5 extends BaseMTKDevice {
-    public Sony_C5(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(parameters, cameraUiWrapper);
+
+
+    public Sony_C5(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(context, parameters, cameraUiWrapper);
     }
 
     @Override

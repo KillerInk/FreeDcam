@@ -66,7 +66,7 @@ public class PictureFormatHandler extends BaseModeParameter
      */
     public PictureFormatHandler(Parameters parameters, I_CameraUiWrapper cameraUiWrapper, ParametersHandler parametersHandler)
     {
-        super(parameters, cameraUiWrapper, "", "");
+        super(parameters, cameraUiWrapper);
         this.parametersHandler = parametersHandler;
         if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.MTK)
         {
@@ -221,7 +221,7 @@ public class PictureFormatHandler extends BaseModeParameter
          * @param values
          */
         public BayerFormat(Parameters parameters, I_CameraUiWrapper cameraHolder, String values) {
-            super(parameters, cameraHolder, "", "");
+            super(parameters, cameraHolder);
         }
 
         @Override

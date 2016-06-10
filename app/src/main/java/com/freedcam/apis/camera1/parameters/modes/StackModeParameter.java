@@ -22,10 +22,12 @@ package com.freedcam.apis.camera1.parameters.modes;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 
+import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
+
 /**
  * Created by Ingo on 15.05.2016.
  */
-public class StackModeParameter extends BaseModeParameter
+public class StackModeParameter extends AbstractModeParameter
 {
     public static String AVARAGE = "avarage";
     public static String AVARAGE1x2 = "avarage1x2";
@@ -38,7 +40,7 @@ public class StackModeParameter extends BaseModeParameter
     private String current = AVARAGE;
 
     public StackModeParameter() {
-        super(null, null, "", null);
+        super();
     }
 
     @Override

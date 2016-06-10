@@ -48,7 +48,7 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
     private CameraHolder cameraHolder;
 
     public VideoProfilesG3Parameter(Parameters parameters,I_CameraUiWrapper cameraUiWrapper) {
-        super(parameters, cameraUiWrapper, "", "");
+        super(parameters, cameraUiWrapper);
         cameraHolder = (CameraHolder) cameraUiWrapper.GetCameraHolder();
         isSupported =true;
         loadProfiles();

@@ -49,7 +49,7 @@ public class VideoProfilesParameter extends BaseModeParameter
     public static final String _4kUHD = "4kUHD";
 
     public VideoProfilesParameter(Parameters parameters,I_CameraUiWrapper cameraUiWrapper) {
-        super(parameters, cameraUiWrapper, "", "");
+        super(parameters, cameraUiWrapper);
         cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
         this.cameraUiWrapper = cameraUiWrapper;
         isSupported =true;

@@ -45,7 +45,7 @@ public class HDRModeParameter extends BaseModeParameter
     private String curmodule = "";
 
     public HDRModeParameter(Parameters parameters,I_CameraUiWrapper cameraUiWrapper) {
-        super(parameters, cameraUiWrapper, "", "");
+        super(parameters, cameraUiWrapper);
         this.cameraUiWrapper = cameraUiWrapper;
         isSupported = false;
         if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W

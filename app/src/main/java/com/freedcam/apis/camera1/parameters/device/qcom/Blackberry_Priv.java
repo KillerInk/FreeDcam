@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.device.qcom;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
@@ -33,8 +34,8 @@ public class Blackberry_Priv extends BaseQcomNew
 {
 
 
-    public Blackberry_Priv(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(parameters, cameraUiWrapper);
+    public Blackberry_Priv(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(context, parameters, cameraUiWrapper);
     }
 
     @Override

@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.device;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
@@ -41,8 +42,9 @@ import com.troop.androiddng.DngProfile;
 public class BaseMTKDevice extends AbstractDevice
 {
     protected AE_Handler_MTK ae_handler_mtk;
-    public BaseMTKDevice(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(parameters, cameraUiWrapper);
+
+    public BaseMTKDevice(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(context, parameters, cameraUiWrapper);
         ae_handler_mtk = new AE_Handler_MTK(parameters,cameraHolder, parametersHandler,1600);
         parameters.set("afeng_raw_dump_flag", "1");
         parameters.set("rawsave-mode", "2");

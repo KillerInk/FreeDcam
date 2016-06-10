@@ -29,11 +29,10 @@ import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
  * Created by Ar4eR on 10.12.15.
  */
 public class VideoStabilizationParameter extends  BaseModeParameter {
-    I_CameraHolder baseCameraHolder;
     private final String[] vs_values = {KEYS.TRUE, KEYS.FALSE};
     public VideoStabilizationParameter(Parameters parameters, I_CameraUiWrapper parameterChanged)
     {
-        super(parameters, parameterChanged, KEYS.VIDEO_STABILIZATION, "");
+        super(parameters, parameterChanged);
         if (parameters.get(KEYS.VIDEO_STABILIZATION_SUPPORTED).equals(KEYS.TRUE))
         {
             isSupported = true;

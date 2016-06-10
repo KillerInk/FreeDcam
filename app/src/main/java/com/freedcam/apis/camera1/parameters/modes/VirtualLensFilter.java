@@ -19,41 +19,31 @@
 
 package com.freedcam.apis.camera1.parameters.modes;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils.Devices;
+import com.troop.freedcam.R;
 
 /**
  * Created by GeorgeKiarie on 9/24/2015.
  */
 public class VirtualLensFilter extends  BaseModeParameter {
 
+    private Context context;
     private final int[] asT = {0, 1, 2, 3, 4, 5, 6};
-    private final String[] asU = {"", "100 0 0 0 100 0 0 0 100 0 0 80", "100 0 0 0 100 0 0 0 100 12 50 100",
-            "100 0 0 0 100 0 0 0 100 0 100 100", "100 0 0 0 100 0 0 0 100 0 85 0", "100 0 0 0 100 0 0 0 100 80 80 0"
-            , "100 0 0 0 100 0 0 0 100 80 0 0", "100 0 0 0 100 0 0 0 50 115 20 70", "100 0 0 0 100 0 0 0 40 -60 -60 -60"
-            , "100 0 0 0 100 0 0 0 40 -60 -60 -60", "100 0 0 0 100 0 0 0 40 -60 -60 -60", "100 0 0 0 100 0 0 0 40 -60 -60 -60"};
-    public VirtualLensFilter(Parameters parameters, I_CameraUiWrapper cameraUiWrapper)
+    private final String[] asU;
+    public VirtualLensFilter(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper)
     {
         super(parameters, cameraUiWrapper, "", "");
 
         if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV)
             isSupported = true;
         this.cameraUiWrapper = cameraUiWrapper;
-
-    }
-
-    @Override
-    public boolean IsSupported() {
-        return isSupported;
-    }
-
-    @Override
-    public String[] GetValues()
-    {
-        return new String[]{"Off","Red","Orange","Yellow","Green","Cyan","Blue","Purple","Grad Left","Grad Right","Grad Top","Grad Bottom"};
+        valuesArray = context.getResources().getStringArray(R.array.virtual_lensfilter_colors);
+        asU = context.getResources().getStringArray(R.array.virtual_lensfilter_asu);
     }
 
     @Override

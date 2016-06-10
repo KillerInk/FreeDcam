@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.device.qcom;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
@@ -35,8 +36,8 @@ import com.troop.androiddng.DngProfile;
 public class Alcatel_Idol3 extends BaseQcomNew
 {
 
-    public Alcatel_Idol3(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(parameters, cameraUiWrapper);
+    public Alcatel_Idol3(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(context, parameters, cameraUiWrapper);
     }
 
     @Override

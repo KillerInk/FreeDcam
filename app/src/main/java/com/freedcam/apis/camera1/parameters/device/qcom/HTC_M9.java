@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.device.qcom;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
@@ -29,9 +30,11 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 01.06.2016.
  */
 public class HTC_M9 extends HTC_M8 {
-    public HTC_M9(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(parameters, cameraUiWrapper);
+
+    public HTC_M9(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(context, parameters, cameraUiWrapper);
     }
+
     @Override
     public boolean IsDngSupported() {
         return true;

@@ -36,7 +36,7 @@ public class OisParameter extends BaseModeParameter {
      * @param values
      */
     public OisParameter(Parameters parameters, I_CameraUiWrapper cameraHolder, String values) {
-        super(parameters, cameraHolder, "", "");
+        super(parameters, cameraHolder);
     }
 
     @Override

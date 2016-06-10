@@ -21,6 +21,7 @@ package com.freedcam.apis.camera1.parameters.modes;
 
 import android.hardware.Camera.Parameters;
 
+import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.AppSettingsManager;
@@ -33,29 +34,14 @@ public class CupBurstExpModeParameter extends BaseModeParameter
 {
     final String TAG = CupBurstExpModeParameter.class.getSimpleName();
     private AppSettingsManager appSettingsManager;
-    public CupBurstExpModeParameter(Parameters parameters, I_CameraUiWrapper cameraUiWrapper, String values, AppSettingsManager appSettingsManager) {
-        super(parameters, cameraUiWrapper, "capture-burst-exposures", "");
+    public CupBurstExpModeParameter(Parameters parameters, I_CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager) {
+        super(parameters, cameraUiWrapper);
         this.appSettingsManager = appSettingsManager;
-
-        isSupported = false;
-        try {
-            String cbe =  parameters.get("capture-burst-exposures");
-            if (cbe != null || !cbe.equals(""))
-                isSupported = true;
-        }
-        catch (Exception ex)
-        {
-            Logger.exception(ex);
-        }
-        try {
-            String aeb =  parameters.get("ae-bracket-hdr");
-            if (aeb != null || !aeb.equals(""))
-                isSupported = true;
-        }
-        catch (Exception ex)
-        {
-            Logger.exception(ex);
-        }
+        if (null !=parameters.get("capture-burst-exposures") && null != parameters.get(KEYS.AE_BRACKET_HDR))
+            isSupported = true;
+        else
+            isSupported = false;
+        isVisible = isSupported;
     }
 
     @Override

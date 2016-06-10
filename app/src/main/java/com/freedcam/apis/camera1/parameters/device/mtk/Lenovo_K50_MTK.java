@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.device.mtk;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
@@ -30,10 +31,11 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 01.06.2016.
  */
 public class Lenovo_K50_MTK extends BaseMTKDevice {
-    public Lenovo_K50_MTK(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(parameters, cameraUiWrapper);
-    }
 
+
+    public Lenovo_K50_MTK(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(context, parameters, cameraUiWrapper);
+    }
 
     @Override
     public boolean IsDngSupported() {

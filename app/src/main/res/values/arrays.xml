@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ /*
+  ~     Copyright (C) 2015 Ingo Fuchs
+  ~     This program is free software; you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation; either version 2 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License along
+  ~     with this program; if not, write to the Free Software Foundation, Inc.,
+  ~     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+  ~ */
+  -->
+
+<resources>
+    <!-- DO NOT TRANSLATE START -->
+    <string-array name="color_pattern">
+        <item>BGGR</item>
+        <item>RGGB</item>
+        <item>GRBG</item>
+        <item>GBRG</item>
+        <item>RGBW</item>
+    </string-array>
+    <string-array name="matrixes">
+        <item>Nexus6</item>
+        <item>G4</item>
+    </string-array>
+    <string-array name="raw_format">
+        <item>Mipi10bit</item>
+        <item>QCom16bit</item>
+        <item>Plain16bit</item>
+        <item>Mipi16bit</item>
+    </string-array>
+    <string-array name="interval_shutter_sleep">
+        <item>1 sec</item>
+        <item>2 sec</item>
+        <item>3 sec</item>
+        <item>4 sec</item>
+        <item>5 sec</item>
+        <item>6 sec</item>
+        <item>7 sec</item>
+        <item>8 sec</item>
+        <item>9 sec</item>
+        <item>10 sec</item>
+        <item>11 sec</item>
+        <item>12 sec</item>
+        <item>13 sec</item>
+        <item>14 sec</item>
+        <item>15 sec</item>
+        <item>16 sec</item>
+        <item>17 sec</item>
+        <item>18 sec</item>
+        <item>19 sec</item>
+        <item>20 sec</item>
+        <item>21 sec</item>
+        <item>22 sec</item>
+        <item>23 sec</item>
+        <item>24 sec</item>
+        <item>25 sec</item>
+        <item>26 sec</item>
+        <item>27 sec</item>
+        <item>28 sec</item>
+        <item>29 sec</item>
+        <item>30 sec</item>
+        <item>60 sec</item>
+        <item>120 sec</item>
+        <item>240 sec</item>
+    </string-array>
+
+    <string-array name="virtual_lensfilter_colors">
+        <item>Off</item>
+        <item>Red</item>
+        <item>Orange</item>
+        <item>Yellow</item>
+        <item>Green</item>
+        <item>Cyan</item>
+        <item>Blue</item>
+        <item>Purple</item>
+        <item>Grad Left</item>
+        <item>Grad Right</item>
+        <item>Grad Top</item>
+        <item>Grad Bottom</item>
+    </string-array>
+
+    <string-array name="virtual_lensfilter_asu">
+        <item></item>
+        <item>100 0 0 0 100 0 0 0 100 0 0 80</item>
+        <item>100 0 0 0 100 0 0 0 100 12 50 100</item>
+        <item>100 0 0 0 100 0 0 0 100 0 100 100</item>
+        <item>100 0 0 0 100 0 0 0 100 0 85 0</item>
+        <item>100 0 0 0 100 0 0 0 100 80 80 0</item>
+        <item>100 0 0 0 100 0 0 0 100 80 0 0</item>
+        <item>100 0 0 0 100 0 0 0 50 115 20 70</item>
+        <item>100 0 0 0 100 0 0 0 40 -60 -60 -60</item>
+        <item>100 0 0 0 100 0 0 0 40 -60 -60 -60</item>
+        <item>100 0 0 0 100 0 0 0 40 -60 -60 -60</item>
+        <item>100 0 0 0 100 0 0 0 40 -60 -60 -60</item>
+    </string-array>
+    <!-- DO NOT TRANSLATE END -->
+</resources>

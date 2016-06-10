@@ -37,7 +37,7 @@ public class NightModeXiaomi extends BaseModeParameter
     private String curmodule = "";
 
     public NightModeXiaomi(Camera.Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(parameters, cameraUiWrapper, "", "");
+        super(parameters, cameraUiWrapper);
         isSupported = true;
         isVisible = true;
         cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(this);

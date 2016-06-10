@@ -305,7 +305,7 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            ExposureLock = new ExposureLockParameter(cameraParameters, cameraUiWrapper, "");
+            ExposureLock = new ExposureLockParameter(cameraParameters, cameraUiWrapper);
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -320,7 +320,7 @@ public class ParametersHandler extends AbstractParameterHandler
 
 
         try {
-            CDS_Mode = new CDS_Mode_Parameter(cameraParameters,cameraUiWrapper,"");
+            CDS_Mode = new CDS_Mode_Parameter(cameraParameters,cameraUiWrapper);
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -367,7 +367,7 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            captureBurstExposures = new CupBurstExpModeParameter(cameraParameters, cameraUiWrapper, "",appSettingsManager);
+            captureBurstExposures = new CupBurstExpModeParameter(cameraParameters, cameraUiWrapper,appSettingsManager);
         }
         catch (Exception e)
         {
@@ -383,7 +383,7 @@ public class ParametersHandler extends AbstractParameterHandler
         imageStackMode = new StackModeParameter();
 
         //load device specific stuff
-        Device = new DeviceSelector().getDevice(cameraUiWrapper,cameraParameters,cameraHolder);
+        Device = new DeviceSelector().getDevice(context,cameraUiWrapper,cameraParameters,cameraHolder);
 
         if (Device == null)
         {

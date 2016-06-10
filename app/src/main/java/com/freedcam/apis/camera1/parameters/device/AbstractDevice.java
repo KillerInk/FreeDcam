@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.device;
 
+import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
@@ -41,9 +42,11 @@ public abstract class AbstractDevice implements I_Device {
     protected I_CameraUiWrapper cameraUiWrapper;
     protected ParametersHandler parametersHandler;
     protected MatrixChooserParameter matrixChooserParameter;
+    protected Context context;
 
-    public AbstractDevice(Parameters parameters, I_CameraUiWrapper cameraUiWrapper)
+    public AbstractDevice(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper)
     {
+        this.context = context;
         this.parameters = parameters;
         this.cameraUiWrapper = cameraUiWrapper;
         cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();

@@ -34,7 +34,7 @@ public class FocusPeakModeParameter extends BaseModeParameter {
     private FocusPeakProcessorAp1 focusPeakProcessorAp1;
     public FocusPeakModeParameter(I_CameraUiWrapper cameraUiWrapper, FocusPeakProcessorAp1 focusPeakProcessorAp1)
     {
-        super(null, cameraUiWrapper, "", "");
+        super(null, cameraUiWrapper);
         this.focusPeakProcessorAp1 = focusPeakProcessorAp1;
     }
 
