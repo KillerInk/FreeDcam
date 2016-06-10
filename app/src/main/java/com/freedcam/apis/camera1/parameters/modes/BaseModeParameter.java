@@ -34,7 +34,8 @@ import java.util.ArrayList;
  * Created by troop on 17.08.2014.
  * That class handel basic parameter logic and
  * expect a key_value String like "antibanding" and a values String "antibanding-values"
- *
+ * if one of the key is empty the parameters is set as unsupported
+ * when extending that class make sure you set isSupported and isVisible
  */
 public class BaseModeParameter extends AbstractModeParameter implements I_ModuleEvent, I_ModeParameterEvent
 {
@@ -46,8 +47,11 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
     The Key to get the supported values from the parameters
      */
     protected String key_values;
+    //if the parameter is supported
     boolean isSupported = false;
+    //if the parameter is visibile to ui
     boolean isVisible = true;
+    //the parameters from the android.Camera
     protected Parameters  parameters;
     protected I_CameraUiWrapper cameraUiWrapper;
     private static String TAG = BaseModeParameter.class.getSimpleName();
@@ -70,15 +74,16 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
      * @param cameraUiWrapper
      * Hold the camera object
      * @param key_value
-     * The String to get/set the key_value from the parameters
+     * The String to get/set the key_value from the parameters, if empty the parameter is unsupported
      * @param key_values
-     * the string to get the values avail/supported for @param key_value
+     * the string to get the values avail/supported for @param key_value, if empty the parameter is unsupported
      */
     public BaseModeParameter(Parameters  parameters, I_CameraUiWrapper cameraUiWrapper, String key_value, String key_values)
     {
         this(parameters,cameraUiWrapper);
         this.key_value = key_value;
         this.key_values = key_values;
+        //check if nothing is null or empty
         if (parameters != null && !key_value.isEmpty() && parameters.get(key_value) != null && parameters.get(key_values) != null)
         {
             String tmp = parameters.get(key_value);

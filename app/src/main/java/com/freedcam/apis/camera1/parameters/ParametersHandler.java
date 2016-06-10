@@ -375,14 +375,6 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            morphoHDR = new BaseModeParameter(cameraParameters, cameraUiWrapper, "morpho-hdr", "");
-
-            morphoHHT = new BaseModeParameter(cameraParameters, cameraUiWrapper, "morpho-hht", "");
-        } catch (Exception e) {
-            Logger.exception(e);
-        }
-
-        try {
             HDRMode = new HDRModeParameter(cameraParameters, cameraUiWrapper);
         } catch (Exception e) {
             Logger.exception(e);
@@ -415,7 +407,6 @@ public class ParametersHandler extends AbstractParameterHandler
         ManualSharpness = Device.getManualSharpness();
         ManualBrightness = Device.getManualBrightness();
         ManualContrast = Device.getManualContrast();
-        NightMode = Device.getNightMode();
 
         Module = new ModuleParameters(cameraUiWrapper,appSettingsManager);
 
