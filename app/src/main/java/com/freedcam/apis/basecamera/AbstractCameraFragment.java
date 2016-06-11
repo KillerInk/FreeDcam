@@ -230,7 +230,14 @@ public abstract class AbstractCameraFragment extends Fragment implements I_Camer
     @Override
     public void onCameraClose(final String message)
     {
-        ((LocationParameter)parametersHandler.locationParameter).stopLocationListining();
+        try {
+            ((LocationParameter)parametersHandler.locationParameter).stopLocationListining();
+        }
+        catch (NullPointerException ex)
+        {
+            ex.printStackTrace();
+        }
+
         for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
             uiHandler.post(new Runnable() {
                 @Override

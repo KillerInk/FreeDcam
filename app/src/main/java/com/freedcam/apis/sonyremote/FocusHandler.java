@@ -34,17 +34,12 @@ import com.freedcam.utils.Logger;
  */
 public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallback
 {
-    private I_CameraUiWrapper cameraUiWrapper;
-    private CameraHolder cameraHolder;
-    private ParameterHandler parametersHandler;
     private final String TAG = FocusHandler.class.getSimpleName();
     private boolean isFocusing = false;
 
     public FocusHandler(I_CameraUiWrapper cameraUiWrapper)
     {
-        this.cameraUiWrapper = cameraUiWrapper;
-        cameraHolder = (CameraHolder) cameraUiWrapper.GetCameraHolder();
-        parametersHandler = (ParameterHandler)cameraUiWrapper.GetParameterHandler();
+        super(cameraUiWrapper);
     }
 
     @Override
@@ -55,11 +50,11 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
     @Override
     public void StartTouchToFocus(FocusRect rect, FocusRect meteringarea, int width, int height)
     {
-        if (parametersHandler == null)
+        if (cameraUiWrapper.GetParameterHandler() == null)
             return;
         if (isFocusing)
         {
-            cameraHolder.CancelFocus();
+            cameraUiWrapper.GetCameraHolder().CancelFocus();
             Logger.d(TAG, "Canceld Focus");
             try {
                 Thread.sleep(100);
@@ -73,8 +68,8 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
         double xproz = x / (double)width * 100;
         double yproz = y / (double)height *100;
         Logger.d(TAG, "set focus to: x: " + xproz + " y: " +yproz);
-        cameraHolder.StartFocus(this);
-        cameraHolder.SetTouchFocus(xproz, yproz);
+        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).StartFocus(this);
+        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetTouchFocus(xproz, yproz);
         isFocusing = true;
         if (focusEvent != null)
             focusEvent.FocusStarted(rect);
@@ -97,7 +92,7 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
         isFocusing = false;
         if (focusEvent != null) {
             focusEvent.FocusFinished(event.success);
-            focusEvent.FocusLocked(cameraHolder.canCancelFocus());
+            focusEvent.FocusLocked(((CameraHolder)cameraUiWrapper.GetCameraHolder()).canCancelFocus());
         }
 
     }

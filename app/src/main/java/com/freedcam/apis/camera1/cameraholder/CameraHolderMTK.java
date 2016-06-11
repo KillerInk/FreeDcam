@@ -22,6 +22,7 @@ package com.freedcam.apis.camera1.cameraholder;
 import android.hardware.Camera;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.AppSettingsManager;
@@ -36,8 +37,8 @@ import java.lang.reflect.Method;
 public class CameraHolderMTK extends CameraHolder
 {
     private final String TAG = CameraHolderMTK.class.getSimpleName();
-    public CameraHolderMTK(I_CameraChangedListner cameraChangedListner, AppSettingsManager appSettingsManager, Frameworks frameworks) {
-        super(cameraChangedListner, appSettingsManager, frameworks);
+    public CameraHolderMTK(I_CameraUiWrapper cameraUiWrapper, Frameworks frameworks) {
+        super(cameraUiWrapper,frameworks);
     }
 
     @Override
@@ -50,11 +51,11 @@ public class CameraHolderMTK extends CameraHolder
         }
         catch (RuntimeException ex)
         {
-            cameraChangedListner.onCameraError("Fail to connect to camera service");
+            cameraUiWrapper.onCameraError("Fail to connect to camera service");
             isRdy = false;
         }
 
-        cameraChangedListner.onCameraOpen("");
+        cameraUiWrapper.onCameraOpen("");
         super.OpenCamera(0);
         return isRdy;
     }
@@ -63,7 +64,7 @@ public class CameraHolderMTK extends CameraHolder
     public void StartPreview()
     {
         //not sure if that is realy needed. same stuff gets applied when BaseMTKDevice.java gets created
-        ((ParametersHandler)GetParameterHandler()).initMTKSHit();
+        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).initMTKSHit();
         super.StartPreview();
     }
 

@@ -41,19 +41,15 @@ import com.freedcam.utils.Logger;
 @TargetApi(VERSION_CODES.LOLLIPOP)
 public class FocusHandler extends AbstractFocusHandler implements I_ParametersLoaded
 {
-
-    private final CameraHolder cameraHolder;
     private int mState;
     private FocusRect focusRect;
     private boolean focusenabled = false;
-
-
 
     private final String TAG = FocusHandler.class.getSimpleName();
 
     public FocusHandler(I_CameraUiWrapper cameraUiWrapper)
     {
-        cameraHolder = (CameraHolder) cameraUiWrapper.GetCameraHolder();
+        super(cameraUiWrapper);
     }
 
     public I_ModeParameterEvent focusModeListner = new I_ModeParameterEvent() {
@@ -108,7 +104,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_ParametersLo
         if (!focusenabled)
             return;
         focusRect = rect;
-        Rect m = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        Rect m =  ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         logRect(m);
         FocusRect targetFocusRect = new FocusRect(
                 rect.left * m.right /width,
@@ -127,7 +123,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_ParametersLo
         logFocusRect(targetFocusRect);
         MeteringRectangle rectangle = new MeteringRectangle(targetFocusRect.left,targetFocusRect.top,targetFocusRect.right,targetFocusRect.bottom, 1000);
         MeteringRectangle[] mre = { rectangle};
-        cameraHolder.SetFocusArea(CaptureRequest.CONTROL_AF_REGIONS, mre);
+        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetFocusArea(CaptureRequest.CONTROL_AF_REGIONS, mre);
         if (focusEvent != null)
             focusEvent.FocusStarted(focusRect);
     }
@@ -172,7 +168,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_ParametersLo
     @Override
     public void SetMeteringAreas(FocusRect rect, int width, int height)
     {
-        Rect m = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        Rect m = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         if (rect.left < m.left)
             rect.left = m.left;
         if (rect.right > m.right)
@@ -183,8 +179,8 @@ public class FocusHandler extends AbstractFocusHandler implements I_ParametersLo
             rect.bottom = m.bottom;
         MeteringRectangle rectangle = new MeteringRectangle(rect.left,rect.top,rect.right,rect.bottom, 1000);
         MeteringRectangle[] mre = { rectangle};
-        cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_REGIONS, mre);
-        cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
+        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AE_REGIONS, mre);
+        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
     }
 
     @Override
@@ -201,10 +197,10 @@ public class FocusHandler extends AbstractFocusHandler implements I_ParametersLo
     public void ParametersLoaded()
     {
         if (focusEvent == null
-                || cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AE) == null
-                || cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AWB) == null)
+                || ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AE) == null
+                || ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AWB) == null)
             return;
-        if (cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AE)>0)
+        if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AE)>0)
             focusEvent.AEMeteringSupported(true);
         else
             focusEvent.AEMeteringSupported(false);

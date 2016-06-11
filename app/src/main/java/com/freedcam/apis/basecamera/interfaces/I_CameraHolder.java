@@ -52,5 +52,7 @@ public interface I_CameraHolder
     void SetLocation(Location location);
     void StartFocus();
     void CancelFocus();
+    void ResetPreviewCallback();
+    void SendUIMessage(String msg);
 
 }

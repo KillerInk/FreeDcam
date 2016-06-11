@@ -68,19 +68,16 @@ public class ParameterHandler extends AbstractParameterHandler
     private ManualToneMapCurveApi2 manualToneMapCurveApi2;
 
     private CameraHolder cameraHolder;
-    //I_CameraUiWrapper wrapper;
 
     public ParameterHandler(I_CameraUiWrapper wrapper, Context context)
     {
         super(context,wrapper);
-        //this.wrapper = wrapper;
-        this.cameraHolder = (CameraHolder) wrapper.GetCameraHolder();
-
     }
 
 
     public void Init()
     {
+        this.cameraHolder = (CameraHolder) cameraUiWrapper.GetCameraHolder();
         List<Key<?>> keys = cameraHolder.characteristics.getAvailableCaptureRequestKeys();
         for (int i = 0; i< keys.size(); i++)
         {
@@ -119,9 +116,9 @@ public class ParameterHandler extends AbstractParameterHandler
 
         PictureFormat = new PictureFormatParameterApi2(cameraHolder);
 
-        FocusMode.addEventListner(((FocusHandler)cameraHolder.Focus).focusModeListner);
-        ExposureMode.addEventListner(((FocusHandler) cameraHolder.Focus).aeModeListner);
-        ((FocusHandler) cameraHolder.Focus).ParametersLoaded();
+        FocusMode.addEventListner(((FocusHandler)cameraUiWrapper.getFocusHandler()).focusModeListner);
+        ExposureMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).aeModeListner);
+        ((FocusHandler) cameraUiWrapper.getFocusHandler()).ParametersLoaded();
 
         ControlMode = new ControlModesApi2(cameraHolder);
 

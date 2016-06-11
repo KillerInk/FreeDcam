@@ -22,6 +22,7 @@ package com.freedcam.apis.basecamera;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.interfaces.I_Focus;
 import com.freedcam.utils.Logger;
 
@@ -31,12 +32,20 @@ import com.freedcam.utils.Logger;
 public abstract class AbstractFocusHandler
 {
     private final String TAG = AbstractFocusHandler.class.getSimpleName();
+    protected I_CameraUiWrapper cameraUiWrapper;
+
+    public AbstractFocusHandler(I_CameraUiWrapper cameraUiWrapper)
+    {
+        this.cameraUiWrapper = cameraUiWrapper;
+    }
+
     public void StartFocus(){}
     public void StartTouchToFocus(FocusRect rect, FocusRect meteringarea, int width, int height){}
     public void SetMeteringAreas(FocusRect meteringRect, int width, int height){}
     public I_Focus focusEvent;
     public abstract boolean isAeMeteringSupported();
     public abstract void SetMotionEvent(MotionEvent event);
+
 
     protected void logFocusRect(FocusRect rect)
     {

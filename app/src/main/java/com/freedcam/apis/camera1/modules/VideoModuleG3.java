@@ -46,8 +46,8 @@ public class VideoModuleG3 extends AbstractVideoModule
 
     static final String TAG = VideoModuleG3.class.getSimpleName();
 
-    public VideoModuleG3(Context context, I_CameraUiWrapper cameraUiWrapper) {
-        super(context,cameraUiWrapper);
+    public VideoModuleG3(Context context, I_CameraUiWrapper cameraUiWrapper,ModuleEventHandler eventHandler) {
+        super(context,cameraUiWrapper,eventHandler);
     }
 
     protected MediaRecorder initRecorder()
@@ -56,7 +56,7 @@ public class VideoModuleG3 extends AbstractVideoModule
         try {
             recorder = new MediaRecorderEx();
             recorder.reset();
-            recorder.setCamera(cameraHolder.GetCamera());
+            recorder.setCamera(((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCamera());
             recorder.setVideoSource(VideoSource.CAMERA);
             switch (currentProfile.Mode)
             {
@@ -125,31 +125,31 @@ public class VideoModuleG3 extends AbstractVideoModule
 
     private void loadProfileSpecificParameters()
     {
-        VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter)ParameterHandler.VideoProfiles;
+        VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter)cameraUiWrapper.GetParameterHandler().VideoProfiles;
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         if (currentProfile.Mode == VideoMode.Highspeed || currentProfile.ProfileName.contains("4kUHD"))
         {
-            ParameterHandler.MemoryColorEnhancement.SetValue("disable",true);
-            ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
-            ParameterHandler.Denoise.SetValue("denoise-off", true);
+            cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.SetValue("disable",true);
+            cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue("disable", true);
+            cameraUiWrapper.GetParameterHandler().Denoise.SetValue("denoise-off", true);
             if(appSettingsManager.getDevice() != Devices.LG_G4)
-                ParameterHandler.PreviewFormat.SetValue("nv12-venus",true);
+                cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus",true);
             if (currentProfile.Mode == VideoMode.Highspeed)
             {
-                if (ParameterHandler.VideoHighFramerateVideo != null && ParameterHandler.VideoHighFramerateVideo.IsSupported())
+                if (cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.IsSupported())
                 {
-                    ParameterHandler.VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate+"", true);
+                    cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate+"", true);
                 }
             }
         }
         else
         {
-            ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
+            cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("yuv420sp", true);
         }
         String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
-        ParameterHandler.PreviewSize.SetValue(size,true);
-        ParameterHandler.VideoSize.SetValue(size,true);
-        cameraHolder.StopPreview();
-        cameraHolder.StartPreview();
+        cameraUiWrapper.GetParameterHandler().PreviewSize.SetValue(size,true);
+        cameraUiWrapper.GetParameterHandler().VideoSize.SetValue(size,true);
+        cameraUiWrapper.StopPreview();
+        cameraUiWrapper.StartPreview();
     }
 }

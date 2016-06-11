@@ -40,16 +40,15 @@ public class ModuleHandlerSony extends AbstractModuleHandler implements I_Camera
     public ModuleHandlerSony(Context context, I_CameraUiWrapper cameraUiWrapper)
     {
         super(context,cameraUiWrapper);
-        this.cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
-        cameraHolder.cameraShotMode = this;
-        initModules();
     }
 
-    protected void initModules()
+    public void initModules()
     {
-        PictureModuleSony pic = new PictureModuleSony(context,cameraUiWrapper);
+        this.cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
+        cameraHolder.cameraShotMode = this;
+        PictureModuleSony pic = new PictureModuleSony(context,cameraUiWrapper,moduleEventHandler);
         moduleList.put(pic.ModuleName(), pic);
-        VideoModuleSony mov = new VideoModuleSony(context,cameraUiWrapper);
+        VideoModuleSony mov = new VideoModuleSony(context,cameraUiWrapper,moduleEventHandler);
         moduleList.put(mov.ModuleName(), mov);
         //init the Modules DeviceDepending
         //splitting modules make the code foreach device cleaner

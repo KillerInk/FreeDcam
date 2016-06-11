@@ -37,6 +37,7 @@ import com.freedcam.apis.basecamera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.FocusRect;
 import com.freedcam.apis.basecamera.Size;
 import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.interfaces.I_error;
 import com.freedcam.apis.basecamera.modules.CameraFocusEvent;
 import com.freedcam.apis.basecamera.modules.I_Callbacks;
@@ -78,9 +79,9 @@ public class CameraHolder extends AbstractCameraHolder
         MotoX
     }
 
-    public CameraHolder(I_CameraChangedListner cameraChangedListner, AppSettingsManager appSettingsManager, Frameworks frameworks)
+    public CameraHolder(I_CameraUiWrapper cameraUiWrapper,Frameworks frameworks)
     {
-        super(cameraChangedListner,appSettingsManager);
+        super(cameraUiWrapper);
         DeviceFrameWork = frameworks;
     }
 
@@ -102,7 +103,7 @@ public class CameraHolder extends AbstractCameraHolder
         {
             mCamera = Camera.open(camera);
             isRdy = true;
-            cameraChangedListner.onCameraOpen("");
+            cameraUiWrapper.onCameraOpen("");
 
         } catch (Exception ex) {
             isRdy = false;
@@ -132,7 +133,7 @@ public class CameraHolder extends AbstractCameraHolder
             }
         }
         isRdy = false;
-        cameraChangedListner.onCameraClose("");
+        cameraUiWrapper.onCameraClose("");
         super.CloseCamera();
     }
 
@@ -193,7 +194,7 @@ public class CameraHolder extends AbstractCameraHolder
         {
             mCamera.startPreview();
             Logger.d(TAG, "PreviewStarted");
-            cameraChangedListner.onPreviewOpen("");
+            cameraUiWrapper.onPreviewOpen("");
 
         } catch (Exception ex) {
             Logger.exception(ex);
@@ -210,11 +211,11 @@ public class CameraHolder extends AbstractCameraHolder
             mCamera.setPreviewCallback(null);
             mCamera.stopPreview();
             Logger.d(TAG, "Preview Stopped");
-            cameraChangedListner.onPreviewClose("");
+            cameraUiWrapper.onPreviewClose("");
 
         } catch (Exception ex)
         {
-            cameraChangedListner.onPreviewClose("");
+            cameraUiWrapper.onPreviewClose("");
             Logger.d(TAG, "Camera was released");
             Logger.exception(ex);
         }
@@ -282,7 +283,7 @@ public class CameraHolder extends AbstractCameraHolder
         try {
             if (!isRdy)
                 return;
-            Size s = new Size(GetParameterHandler().PreviewSize.GetValue());
+            Size s = new Size(cameraUiWrapper.GetParameterHandler().PreviewSize.GetValue());
             //Add 5 pre allocated buffers. that avoids that the camera create with each frame a new one
             for (int i = 0; i<BUFFERCOUNT;i++)
             {
@@ -412,7 +413,7 @@ public class CameraHolder extends AbstractCameraHolder
 
     @Override
     public void StartFocus() {
-        Focus.StartFocus();
+        cameraUiWrapper.getFocusHandler().StartFocus();
     }
 
     public void SetOrientation(int or)

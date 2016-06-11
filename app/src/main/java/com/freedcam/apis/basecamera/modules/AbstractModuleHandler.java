@@ -63,7 +63,6 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
     public ModuleEventHandler moduleEventHandler;
     public AbstractMap<String, AbstractModule> moduleList;
     protected AbstractModule currentModule;
-    protected I_CameraHolder cameraHolder;
     protected I_CameraUiWrapper cameraUiWrapper;
 
     protected I_worker workerListner;
@@ -76,7 +75,6 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
     public AbstractModuleHandler(Context context, I_CameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        this.cameraHolder = cameraUiWrapper.GetCameraHolder();
         moduleList  = new HashMap<>();
         this.context = context;
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
@@ -158,8 +156,4 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
             workers.clear();
     }
 
-    protected void initModules()
-    {
-
-    }
 }

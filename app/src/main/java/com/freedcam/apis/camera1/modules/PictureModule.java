@@ -59,14 +59,13 @@ public class PictureModule extends AbstractModule implements PictureCallback
 
     private static String TAG = PictureModule.class.getSimpleName();
     private int burstcount = 0;
-    //protected ParametersHandler ParameterHandler;
     protected CameraHolder cameraHolder;
     protected boolean waitForPicture = false;
 
 
-    public PictureModule(Context context, I_CameraUiWrapper cameraUiWrapper)
+    public PictureModule(Context context, I_CameraUiWrapper cameraUiWrapper,ModuleEventHandler eventHandler)
     {
-        super(context, cameraUiWrapper);
+        super(context, cameraUiWrapper,eventHandler);
         name = KEYS.MODULE_PICTURE;
         //ParameterHandler = (ParametersHandler)cameraUiWrapper.GetParameterHandler();
         this.cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
@@ -95,15 +94,15 @@ public class PictureModule extends AbstractModule implements PictureCallback
         if (!isWorking)
         {
             isWorking = true;
-            String picformat = ParameterHandler.PictureFormat.GetValue();
+            String picformat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
             Logger.d(TAG,"DoWork:picformat:" + picformat);
             if (picformat.equals(KEYS.DNG) ||picformat.equals(KEYS.BAYER))
             {
-                if (ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
+                if (cameraUiWrapper.GetParameterHandler().ZSL != null && cameraUiWrapper.GetParameterHandler().ZSL.IsSupported() && cameraUiWrapper.GetParameterHandler().ZSL.GetValue().equals("on"))
                 {
                     Logger.d(TAG,"ZSL is on turning it off");
-                    ParameterHandler.ZSL.SetValue("off", true);
-                    Logger.d(TAG,"ZSL state after turning it off:" + ParameterHandler.ZSL.GetValue());
+                    cameraUiWrapper.GetParameterHandler().ZSL.SetValue("off", true);
+                    Logger.d(TAG,"ZSL state after turning it off:" + cameraUiWrapper.GetParameterHandler().ZSL.GetValue());
                 }
             }
             changeWorkState(CaptureModes.image_capture_start);
@@ -120,11 +119,11 @@ public class PictureModule extends AbstractModule implements PictureCallback
     public void InitModule()
     {
         Logger.d(TAG,"InitModule");
-        ParameterHandler.PreviewFormat.SetValue("yuv420sp",true);
-        if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported() && !ParameterHandler.VideoHDR.GetValue().equals("off"))
-            ParameterHandler.VideoHDR.SetValue("off", true);
+        cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("yuv420sp",true);
+        if (cameraUiWrapper.GetParameterHandler().VideoHDR != null && cameraUiWrapper.GetParameterHandler().VideoHDR.IsSupported() && !cameraUiWrapper.GetParameterHandler().VideoHDR.GetValue().equals("off"))
+            cameraUiWrapper.GetParameterHandler().VideoHDR.SetValue("off", true);
         if(appSettingsManager.getDevice() == Devices.ZTE_ADV || appSettingsManager.getDevice() == Devices.ZTEADV234 ||appSettingsManager.getDevice() == Devices.ZTEADVIMX214) {
-            ((ParametersHandler)ParameterHandler).SetZTESlowShutter();
+            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetZTESlowShutter();
         }
     }
 
@@ -150,15 +149,15 @@ public class PictureModule extends AbstractModule implements PictureCallback
             public void run()
             {
                 burstcount++;
-                String picFormat = ParameterHandler.PictureFormat.GetValue();
+                String picFormat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
                 saveImage(data,picFormat);
             }
         });
         //Handel Burst capture
-        if (ParameterHandler.Burst != null && ParameterHandler.Burst.IsSupported() && ParameterHandler.Burst.GetValue() > 1)
+        if (cameraUiWrapper.GetParameterHandler().Burst != null && cameraUiWrapper.GetParameterHandler().Burst.IsSupported() && cameraUiWrapper.GetParameterHandler().Burst.GetValue() > 1)
         {
-            Logger.d(TAG, "BurstCapture Count:" + burstcount + "/"+ParameterHandler.Burst.GetValue());
-            if (burstcount == ParameterHandler.Burst.GetValue())
+            Logger.d(TAG, "BurstCapture Count:" + burstcount + "/"+cameraUiWrapper.GetParameterHandler().Burst.GetValue());
+            if (burstcount == cameraUiWrapper.GetParameterHandler().Burst.GetValue())
             {
                 Logger.d(TAG, "BurstCapture done");
                 waitForPicture = false;
@@ -196,16 +195,16 @@ public class PictureModule extends AbstractModule implements PictureCallback
             return ".jpg";
         else if (picFormat.equals("jps"))
             return  ".jps";
-        else if (!ParameterHandler.IsDngActive() && (picFormat.equals(FileEnding.BAYER) || picFormat.equals(FileEnding.RAW)))
+        else if (!cameraUiWrapper.GetParameterHandler().IsDngActive() && (picFormat.equals(FileEnding.BAYER) || picFormat.equals(FileEnding.RAW)))
             return ".bayer";
-        else if (ParameterHandler.IsDngActive() && picFormat.contains(FileEnding.DNG))
+        else if (cameraUiWrapper.GetParameterHandler().IsDngActive() && picFormat.contains(FileEnding.DNG))
             return ".dng";
         return "";
     }
 
     protected File getFile(String fileending)
     {
-        if (ParameterHandler.Burst != null && ParameterHandler.Burst.IsSupported() && ParameterHandler.Burst.GetValue() > 1)
+        if (cameraUiWrapper.GetParameterHandler().Burst != null && cameraUiWrapper.GetParameterHandler().Burst.IsSupported() && cameraUiWrapper.GetParameterHandler().Burst.GetValue() > 1)
             return new File(StringUtils.getFilePathBurst(appSettingsManager.GetWriteExternal(), fileending, burstcount));
         else
             return new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), fileending));
@@ -230,13 +229,13 @@ public class PictureModule extends AbstractModule implements PictureCallback
             gpsTime = cameraHolder.gpsLocation.getTime();
             dngConverter.SetGPSData(Altitude, Latitude, Longitude, Provider, gpsTime);
         }
-        float fnum = ParameterHandler.getDevice().GetFnumber();
-        float focal = ParameterHandler.getDevice().GetFocal();
+        float fnum = cameraUiWrapper.GetParameterHandler().getDevice().GetFnumber();
+        float focal = cameraUiWrapper.GetParameterHandler().getDevice().GetFocal();
         dngConverter.setExifData(0, 0, 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
 
-        if (ParameterHandler.CCT != null && ParameterHandler.CCT.IsSupported())
+        if (cameraUiWrapper.GetParameterHandler().CCT != null && cameraUiWrapper.GetParameterHandler().CCT.IsSupported())
         {
-            String wb = ParameterHandler.CCT.GetStringValue();
+            String wb = cameraUiWrapper.GetParameterHandler().CCT.GetStringValue();
             Logger.d(TAG,"Set Manual WhiteBalance:"+ wb);
             if (!wb.equals(KEYS.AUTO))
             {
@@ -249,7 +248,7 @@ public class PictureModule extends AbstractModule implements PictureCallback
             Logger.d(TAG, "Write To internal or kitkat<");
             checkFileExists(file);
             dngConverter.SetBayerData(data, file.getAbsolutePath());
-            dngConverter.WriteDngWithProfile(ParameterHandler.getDevice().getDngProfile(data.length));
+            dngConverter.WriteDngWithProfile(cameraUiWrapper.GetParameterHandler().getDevice().getDngProfile(data.length));
             dngConverter.RELEASE();
         }
         else
@@ -267,7 +266,7 @@ public class PictureModule extends AbstractModule implements PictureCallback
             if (pfd != null)
             {
                 dngConverter.SetBayerDataFD(data, pfd, file.getName());
-                dngConverter.WriteDngWithProfile(ParameterHandler.getDevice().getDngProfile(data.length));
+                dngConverter.WriteDngWithProfile(cameraUiWrapper.GetParameterHandler().getDevice().getDngProfile(data.length));
                 dngConverter.RELEASE();
                 try {
                     pfd.close();

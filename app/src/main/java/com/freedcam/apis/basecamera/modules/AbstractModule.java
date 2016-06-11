@@ -47,8 +47,6 @@ import java.io.OutputStream;
  */
 public abstract class AbstractModule implements I_Module
 {
-    protected AbstractCameraHolder cameraHolder;
-    protected AbstractParameterHandler ParameterHandler;
 
     protected boolean isWorking = false;
     public String name;
@@ -62,10 +60,10 @@ public abstract class AbstractModule implements I_Module
     protected I_CameraUiWrapper cameraUiWrapper;
 
 
-    public AbstractModule(Context context, I_CameraUiWrapper cameraUiWrapper)
+    public AbstractModule(Context context, I_CameraUiWrapper cameraUiWrapper, ModuleEventHandler eventHandler)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        ParameterHandler = cameraUiWrapper.GetParameterHandler();
+        this.eventHandler = eventHandler;
         this.context = context;
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
 

@@ -38,58 +38,55 @@ import com.freedcam.utils.Logger;
  */
 public class ModuleHandler extends AbstractModuleHandler
 {
-    private CameraHolder cameraHolder;
     private static String TAG = "freedcam.ModuleHandler";
 
 
     public  ModuleHandler (Context context, I_CameraUiWrapper cameraUiWrapper)
     {
         super(context,cameraUiWrapper);
-        this.cameraHolder = (CameraHolder) cameraUiWrapper.GetCameraHolder();
-        initModules();
-
     }
 
-    protected void initModules()
+    @Override
+    public void initModules()
     {
         //init the Modules DeviceDepending
         //splitting modules make the code foreach device cleaner
-        if (cameraHolder.DeviceFrameWork == Frameworks.MTK)
+        if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.MTK)
         {
             Logger.d(TAG, "load mtk picmodule");
-            PictureModuleMTK thl5000 = new PictureModuleMTK(context,cameraUiWrapper);
+            PictureModuleMTK thl5000 = new PictureModuleMTK(context,cameraUiWrapper,moduleEventHandler);
             moduleList.put(thl5000.ModuleName(), thl5000);
-            IntervalModule intervalModule = new IntervalModule(thl5000,context,cameraUiWrapper);
+            IntervalModule intervalModule = new IntervalModule(thl5000,context,cameraUiWrapper,moduleEventHandler);
             moduleList.put(intervalModule.ModuleName(), intervalModule);
         }
         else//else //use default pictureModule
         {
             Logger.d(TAG, "load default picmodule");
-            PictureModule pictureModule = new PictureModule(context,cameraUiWrapper);
+            PictureModule pictureModule = new PictureModule(context,cameraUiWrapper,moduleEventHandler);
             moduleList.put(pictureModule.ModuleName(), pictureModule);
-            IntervalModule intervalModule = new IntervalModule(pictureModule,context,cameraUiWrapper);
+            IntervalModule intervalModule = new IntervalModule(pictureModule,context,cameraUiWrapper,moduleEventHandler);
             moduleList.put(intervalModule.ModuleName(), intervalModule);
         }
 
-        if (cameraHolder.DeviceFrameWork == Frameworks.LG)
+        if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.LG)
         {
             Logger.d(TAG, "load lg videomodule");
-            VideoModuleG3 videoModuleG3 = new VideoModuleG3(context,cameraUiWrapper);
+            VideoModuleG3 videoModuleG3 = new VideoModuleG3(context,cameraUiWrapper,moduleEventHandler);
             moduleList.put(videoModuleG3.ModuleName(), videoModuleG3);
         }
         else
         {
             Logger.d(TAG, "load default videomodule");
-            VideoModule videoModule = new VideoModule(context,cameraUiWrapper);
+            VideoModule videoModule = new VideoModule(context,cameraUiWrapper,moduleEventHandler);
             moduleList.put(videoModule.ModuleName(), videoModule);
         }
 
         Logger.d(TAG, "load hdr module");
-        BracketModule bracketModule = new BracketModule(context,cameraUiWrapper);
+        BracketModule bracketModule = new BracketModule(context,cameraUiWrapper,moduleEventHandler);
         moduleList.put(bracketModule.ModuleName(), bracketModule);
 
         if (VERSION.SDK_INT >= VERSION_CODES.KITKAT) {
-            StackingModule sTax = new StackingModule(context, cameraUiWrapper);
+            StackingModule sTax = new StackingModule(context, cameraUiWrapper,moduleEventHandler);
             moduleList.put(sTax.ModuleName(), sTax);
         }
 

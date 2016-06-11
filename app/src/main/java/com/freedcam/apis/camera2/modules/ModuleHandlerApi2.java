@@ -34,7 +34,6 @@ import com.freedcam.utils.RenderScriptHandler;
  */
 public class ModuleHandlerApi2 extends AbstractModuleHandler
 {
-    private CameraHolder cameraHolder;
     private static String TAG = "freedcam.ModuleHandler";
     private RenderScriptHandler renderScriptHandler;
 
@@ -42,20 +41,19 @@ public class ModuleHandlerApi2 extends AbstractModuleHandler
     public  ModuleHandlerApi2 (Context context, I_CameraUiWrapper cameraUiWrapper, RenderScriptHandler renderScriptHandler)
     {
         super(context,cameraUiWrapper);
-        this.cameraHolder = (CameraHolder) cameraUiWrapper.GetCameraHolder();
         this.renderScriptHandler = renderScriptHandler;
         initModules();
     }
 
-    protected void initModules()
+    public void initModules()
     {
-        PictureModuleApi2 pictureModuleApi2 = new PictureModuleApi2(context,cameraUiWrapper);
+        PictureModuleApi2 pictureModuleApi2 = new PictureModuleApi2(context,cameraUiWrapper,moduleEventHandler);
         moduleList.put(pictureModuleApi2.ModuleName(), pictureModuleApi2);
-        IntervalModule intervalModule = new IntervalApi2(pictureModuleApi2,context,cameraUiWrapper);
+        IntervalModule intervalModule = new IntervalApi2(pictureModuleApi2,context,cameraUiWrapper,moduleEventHandler);
         moduleList.put(intervalModule.ModuleName(), intervalModule);
-        VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(context,cameraUiWrapper);
+        VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(context,cameraUiWrapper,moduleEventHandler);
         moduleList.put(videoModuleApi2.ModuleName(), videoModuleApi2);
-        StackingModuleApi2 stackingModuleApi2 = new StackingModuleApi2(context,cameraUiWrapper, renderScriptHandler);
+        StackingModuleApi2 stackingModuleApi2 = new StackingModuleApi2(context,cameraUiWrapper, renderScriptHandler,moduleEventHandler);
         moduleList.put(stackingModuleApi2.ModuleName(), stackingModuleApi2);
         //init the Modules DeviceDepending
         //splitting modules make the code foreach device cleaner

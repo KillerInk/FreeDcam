@@ -23,13 +23,14 @@ import android.content.Context;
 import android.location.Location;
 
 import com.freedcam.apis.basecamera.AbstractCameraHolder;
-import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.CameraFocusEvent;
 import com.freedcam.apis.basecamera.modules.I_Callbacks.AutoFocusCallback;
 import com.freedcam.apis.sonyremote.modules.I_CameraStatusChanged;
 import com.freedcam.apis.sonyremote.modules.I_PictureCallback;
 import com.freedcam.apis.sonyremote.modules.ModuleHandlerSony;
 import com.freedcam.apis.sonyremote.modules.PictureModuleSony;
+import com.freedcam.apis.sonyremote.parameters.ParameterHandler;
 import com.freedcam.apis.sonyremote.parameters.manual.ZoomManualSony;
 import com.freedcam.apis.sonyremote.sonystuff.JsonUtils;
 import com.freedcam.apis.sonyremote.sonystuff.ServerDevice;
@@ -67,7 +68,6 @@ public class CameraHolder extends AbstractCameraHolder
     ServerDevice serverDevice;
     public I_CameraStatusChanged CameraStatusListner;
     AutoFocusCallback autoFocusCallback;
-    public FocusHandler focusHandler;
 
     private SimpleCameraEventObserver mEventObserver;
     public ModuleHandlerSony moduleHandlerSony;
@@ -109,7 +109,7 @@ public class CameraHolder extends AbstractCameraHolder
 
         @Override
         public void onTimout() {
-            cameraChangedListner.onCameraError("Camera connection timed out");
+            cameraUiWrapper.onCameraError("Camera connection timed out");
         }
 
         @Override
@@ -120,7 +120,7 @@ public class CameraHolder extends AbstractCameraHolder
                 for (String api : apis) {
                     mAvailableCameraApiSet.add(api);
                 }
-                ParameterHandler.SetCameraApiSet(mAvailableCameraApiSet);
+                ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).SetCameraApiSet(mAvailableCameraApiSet);
                 if (!mEventObserver.getLiveviewStatus() //
                         && JsonUtils.isCameraApiAvailable("startLiveview", mAvailableCameraApiSet)) {
                     if (mLiveviewSurface != null && !mLiveviewSurface.isStarted()) {
@@ -133,23 +133,23 @@ public class CameraHolder extends AbstractCameraHolder
         @Override
         public void onZoomPositionChanged(int zoomPosition)
         {
-            ((ZoomManualSony)ParameterHandler.Zoom).setZoomsHasChanged(zoomPosition);
+            ((ZoomManualSony)cameraUiWrapper.GetParameterHandler().Zoom).setZoomsHasChanged(zoomPosition);
         }
 
         @Override
         public void onIsoChanged(String iso)
         {
-            ParameterHandler.ManualIso.ThrowCurrentValueStringCHanged(iso);
+            cameraUiWrapper.GetParameterHandler().ManualIso.ThrowCurrentValueStringCHanged(iso);
         }
 
         @Override
         public void onIsoValuesChanged(String[] isovals) {
-            ParameterHandler.ManualIso.ThrowBackgroundValuesChanged(isovals);
+            cameraUiWrapper.GetParameterHandler().ManualIso.ThrowBackgroundValuesChanged(isovals);
         }
 
         @Override
         public void onFnumberValuesChanged(String[] fnumbervals) {
-            ParameterHandler.ManualFNumber.ThrowBackgroundValuesChanged(fnumbervals);
+            cameraUiWrapper.GetParameterHandler().ManualFNumber.ThrowBackgroundValuesChanged(fnumbervals);
         }
 
         @Override
@@ -164,39 +164,39 @@ public class CameraHolder extends AbstractCameraHolder
 
         @Override
         public void onExposureCompensationChanged(int epxosurecomp) {
-            ParameterHandler.ManualExposure.ThrowCurrentValueChanged(epxosurecomp);
+            cameraUiWrapper.GetParameterHandler().ManualExposure.ThrowCurrentValueChanged(epxosurecomp);
         }
 
         @Override
         public void onShutterSpeedChanged(String shutter) {
-            ParameterHandler.ManualShutter.ThrowCurrentValueStringCHanged(shutter);
+            cameraUiWrapper.GetParameterHandler().ManualShutter.ThrowCurrentValueStringCHanged(shutter);
         }
 
         @Override
         public void onShutterSpeedValuesChanged(String[] shuttervals) {
-            ParameterHandler.ManualShutter.ThrowBackgroundValuesChanged(shuttervals);
+            cameraUiWrapper.GetParameterHandler().ManualShutter.ThrowBackgroundValuesChanged(shuttervals);
         }
 
         @Override
         public void onFlashChanged(String flash)
         {
             Logger.d(TAG, "Fire ONFLashCHanged");
-            ParameterHandler.FlashMode.BackgroundValueHasChanged(flash);
+            cameraUiWrapper.GetParameterHandler().FlashMode.BackgroundValueHasChanged(flash);
         }
 
         @Override
         public void onFocusLocked(boolean locked) {
-            focusHandler.onFocusLock(locked);
+            ((FocusHandler)cameraUiWrapper.getFocusHandler()).onFocusLock(locked);
         }
 
         @Override
         public void onWhiteBalanceValueChanged(String wb)
         {
-            ParameterHandler.WhiteBalanceMode.BackgroundValueHasChanged(wb);
-            if (ParameterHandler.WhiteBalanceMode.GetValue().equals("Color Temperature") && ParameterHandler.CCT != null)
-                ParameterHandler.CCT.ThrowBackgroundIsSupportedChanged(true);
+            cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.BackgroundValueHasChanged(wb);
+            if (cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.GetValue().equals("Color Temperature") && cameraUiWrapper.GetParameterHandler().CCT != null)
+                cameraUiWrapper.GetParameterHandler().CCT.ThrowBackgroundIsSupportedChanged(true);
             else
-                ParameterHandler.CCT.ThrowBackgroundIsSupportedChanged(false);
+                cameraUiWrapper.GetParameterHandler().CCT.ThrowBackgroundIsSupportedChanged(false);
         }
 
         @Override
@@ -227,7 +227,7 @@ public class CameraHolder extends AbstractCameraHolder
 
         @Override
         public void onFnumberChanged(String fnumber) {
-            ParameterHandler.ManualFNumber.ThrowCurrentValueStringCHanged(fnumber);
+            cameraUiWrapper.GetParameterHandler().ManualFNumber.ThrowCurrentValueStringCHanged(fnumber);
         }
 
         @Override
@@ -243,82 +243,82 @@ public class CameraHolder extends AbstractCameraHolder
         @Override
         public void onExposureModesChanged(String[] expomode)
         {
-            ParameterHandler.ExposureMode.BackgroundValuesHasChanged(expomode);
+            cameraUiWrapper.GetParameterHandler().ExposureMode.BackgroundValuesHasChanged(expomode);
         }
 
         @Override
         public void onImageFormatChanged(String imagesize) {
-            ParameterHandler.PictureFormat.BackgroundValueHasChanged(imagesize);
+            cameraUiWrapper.GetParameterHandler().PictureFormat.BackgroundValueHasChanged(imagesize);
         }
 
         @Override
         public void onImageFormatsChanged(String[] imagesize) {
-            ParameterHandler.PictureFormat.BackgroundValuesHasChanged(imagesize);
+            cameraUiWrapper.GetParameterHandler().PictureFormat.BackgroundValuesHasChanged(imagesize);
         }
 
         @Override
         public void onImageSizeChanged(String imagesize) {
-            ParameterHandler.PictureSize.BackgroundValueHasChanged(imagesize);
+            cameraUiWrapper.GetParameterHandler().PictureSize.BackgroundValueHasChanged(imagesize);
         }
 
         @Override
         public void onContshotModeChanged(String imagesize) {
-            ParameterHandler.ContShootMode.BackgroundValueHasChanged(imagesize);
+            cameraUiWrapper.GetParameterHandler().ContShootMode.BackgroundValueHasChanged(imagesize);
         }
 
         @Override
         public void onContshotModesChanged(String[] imagesize) {
-            ParameterHandler.ContShootMode.BackgroundValuesHasChanged(imagesize);
+            cameraUiWrapper.GetParameterHandler().ContShootMode.BackgroundValuesHasChanged(imagesize);
         }
 
         @Override
         public void onFocusModeChanged(String imagesize) {
-            ParameterHandler.FocusMode.BackgroundValueHasChanged(imagesize);
+            cameraUiWrapper.GetParameterHandler().FocusMode.BackgroundValueHasChanged(imagesize);
         }
 
         @Override
         public void onFocusModesChanged(String[] imagesize) {
-            ParameterHandler.FocusMode.BackgroundValuesHasChanged(imagesize);
+            cameraUiWrapper.GetParameterHandler().FocusMode.BackgroundValuesHasChanged(imagesize);
         }
 
         @Override
         public void onPostviewModeChanged(String imagesize) {
-            ParameterHandler.PostViewSize.BackgroundValueHasChanged(imagesize);
+            cameraUiWrapper.GetParameterHandler().PostViewSize.BackgroundValueHasChanged(imagesize);
         }
 
         @Override
         public void onPostviewModesChanged(String[] imagesize) {
-            ParameterHandler.PostViewSize.BackgroundValuesHasChanged(imagesize);
+            cameraUiWrapper.GetParameterHandler().PostViewSize.BackgroundValuesHasChanged(imagesize);
         }
 
         @Override
         public void onTrackingFocusModeChanged(String imagesize) {
-            ParameterHandler.ObjectTracking.BackgroundValueHasChanged(imagesize);
+            cameraUiWrapper.GetParameterHandler().ObjectTracking.BackgroundValueHasChanged(imagesize);
         }
 
         @Override
         public void onTrackingFocusModesChanged(String[] imagesize) {
-            ParameterHandler.ObjectTracking.BackgroundValuesHasChanged(imagesize);
+            cameraUiWrapper.GetParameterHandler().ObjectTracking.BackgroundValuesHasChanged(imagesize);
         }
 
         @Override
         public void onZoomSettingValueCHanged(String value) {
-            ParameterHandler.ZoomSetting.BackgroundValueHasChanged(value);
+            cameraUiWrapper.GetParameterHandler().ZoomSetting.BackgroundValueHasChanged(value);
         }
 
         @Override
         public void onZoomSettingsValuesCHanged(String[] values) {
-            ParameterHandler.ZoomSetting.BackgroundValuesHasChanged(values);
+            cameraUiWrapper.GetParameterHandler().ZoomSetting.BackgroundValuesHasChanged(values);
         }
 
         @Override
         public void onExposureModeChanged(String expomode) {
-            if (!ParameterHandler.ExposureMode.GetValue().equals(expomode))
-                ParameterHandler.ExposureMode.BackgroundValueHasChanged(expomode);
+            if (!cameraUiWrapper.GetParameterHandler().ExposureMode.GetValue().equals(expomode))
+                cameraUiWrapper.GetParameterHandler().ExposureMode.BackgroundValueHasChanged(expomode);
             if (expomode.equals("Intelligent Auto")|| expomode.equals("Superior Auto"))
-                ParameterHandler.WhiteBalanceMode.BackgroundIsSupportedChanged(false);
+                cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.BackgroundIsSupportedChanged(false);
             else
-                ParameterHandler.WhiteBalanceMode.BackgroundIsSupportedChanged(true);
+                cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.BackgroundIsSupportedChanged(true);
         }
     };
 
@@ -329,13 +329,9 @@ public class CameraHolder extends AbstractCameraHolder
     private final Set<String> mSupportedApiSet = new HashSet<>();
     private SimpleStreamSurfaceView mLiveviewSurface;
 
-    public com.freedcam.apis.sonyremote.parameters.ParameterHandler ParameterHandler;
-
-
-
-    public CameraHolder(Context context, SimpleStreamSurfaceView simpleStreamSurfaceView, I_CameraChangedListner cameraChangedListner, AppSettingsManager appSettingsManager)
+    public CameraHolder(Context context, SimpleStreamSurfaceView simpleStreamSurfaceView, I_CameraUiWrapper cameraUiWrapper)
     {
-        super(cameraChangedListner,appSettingsManager);
+        super(cameraUiWrapper);
         this.context = context;
         mLiveviewSurface = simpleStreamSurfaceView;
     }
@@ -345,7 +341,7 @@ public class CameraHolder extends AbstractCameraHolder
     {
         this.serverDevice = serverDevice;
         mRemoteApi = new SimpleRemoteApi(serverDevice);
-        ParameterHandler.SetRemoteApi(mRemoteApi);
+        ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).SetRemoteApi(mRemoteApi);
         mEventObserver = new SimpleCameraEventObserver(context, mRemoteApi);
         mEventObserver.activate();
 
@@ -453,7 +449,7 @@ public class CameraHolder extends AbstractCameraHolder
                     JSONObject replyJson = mRemoteApi.getEvent(false, "1.0");
                     JSONArray resultsObj = replyJson.getJSONArray("result");
                     JsonUtils.loadSupportedApiListFromEvent(resultsObj.getJSONObject(0), mAvailableCameraApiSet);
-                    ParameterHandler.SetCameraApiSet(mAvailableCameraApiSet);
+                    ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).SetCameraApiSet(mAvailableCameraApiSet);
 
                     if (!JsonUtils.isApiSupported("setCameraFunction", mAvailableCameraApiSet)) {
 
@@ -482,9 +478,9 @@ public class CameraHolder extends AbstractCameraHolder
                         String type = cameraStatusObj.getString("type");
                         if ("cameraStatus".equals(type)) {
                             cameraStatus = cameraStatusObj.getString("cameraStatus");
-                            if (cameraChangedListner != null) {
+                            if (cameraUiWrapper != null) {
                                 Logger.d(TAG,"prepareOpenConnection camerastatusChanged" + cameraStatus );
-                                cameraChangedListner.onCameraStatusChanged(cameraStatus);
+                                cameraUiWrapper.onCameraStatusChanged(cameraStatus);
                             }
                         } else {
                             throw new IOException();
@@ -870,13 +866,18 @@ public class CameraHolder extends AbstractCameraHolder
     }
 
     @Override
+    public void ResetPreviewCallback() {
+
+    }
+
+    @Override
     public void SetLocation(Location loc) {
 
     }
 
     @Override
     public void StartFocus() {
-        Focus.StartFocus();
+        cameraUiWrapper.getFocusHandler().StartFocus();
     }
 
     public boolean canCancelFocus()

@@ -29,7 +29,7 @@ import com.freedcam.utils.AppSettingsManager;
 /**
  * Created by troop on 09.12.2014.
  */
-public interface I_CameraUiWrapper
+public interface I_CameraUiWrapper extends I_CameraChangedListner
 {
     void StartCamera();
     void StopCamera();

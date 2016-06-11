@@ -30,8 +30,8 @@ import com.freedcam.apis.basecamera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.modules.ModuleEventHandler;
 import com.freedcam.apis.sonyremote.CameraHolder;
+import com.freedcam.apis.sonyremote.parameters.ParameterHandler;
 import com.freedcam.ui.handler.MediaScannerManager;
-import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
@@ -52,8 +52,8 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     private static String TAG = PictureModuleSony.class.getSimpleName();
     private CameraHolder cameraHolder;
 
-    public PictureModuleSony(Context context, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, cameraUiWrapper);
+    public PictureModuleSony(Context context, I_CameraUiWrapper cameraUiWrapper, ModuleEventHandler eventHandler) {
+        super(context, cameraUiWrapper,eventHandler);
         name = KEYS.MODULE_PICTURE;
         cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
 
@@ -68,8 +68,8 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     @Override
     public boolean DoWork()
     {
-        if (cameraHolder.ParameterHandler.ContShootMode != null && cameraHolder.ParameterHandler.ContShootMode.IsSupported()) {
-            String shootmode = cameraHolder.ParameterHandler.ContShootMode.GetValue();
+        if (cameraUiWrapper.GetParameterHandler().ContShootMode != null && cameraUiWrapper.GetParameterHandler().ContShootMode.IsSupported()) {
+            String shootmode = ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).ContShootMode.GetValue();
             if (!isWorking && shootmode.equals("Single"))
             {
                 changeWorkState(CaptureModes.image_capture_start);

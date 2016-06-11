@@ -23,6 +23,7 @@ import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
@@ -36,8 +37,8 @@ import java.lang.reflect.Method;
 public class CameraHolderMotoX extends CameraHolder
 {
     private final String TAG = CameraHolderMotoX.class.getSimpleName();
-    public CameraHolderMotoX(I_CameraChangedListner cameraChangedListner, AppSettingsManager appSettingsManager, Frameworks frameworks) {
-        super(cameraChangedListner, appSettingsManager, frameworks);
+    public CameraHolderMotoX(I_CameraUiWrapper cameraUiWrapper, Frameworks frameworks) {
+        super(cameraUiWrapper,frameworks);
     }
 
     @Override
@@ -52,11 +53,11 @@ public class CameraHolderMotoX extends CameraHolder
         }
         catch (RuntimeException ex)
         {
-            cameraChangedListner.onCameraError("Fail to connect to camera service");
+            cameraUiWrapper.onCameraError("Fail to connect to camera service");
             isRdy = false;
         }
 
-        cameraChangedListner.onCameraOpen("");
+        cameraUiWrapper.onCameraOpen("");
         return isRdy;
     }
 

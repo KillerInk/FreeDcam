@@ -60,7 +60,9 @@ import android.view.WindowManager;
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera2.modules.I_PreviewWrapper;
+import com.freedcam.apis.camera2.parameters.ParameterHandler;
 import com.freedcam.apis.camera2.renderscript.FocuspeakProcessorApi2;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
@@ -112,9 +114,9 @@ public class CameraHolder extends AbstractCameraHolder
     boolean errorRecieved = false;
 
     @TargetApi(VERSION_CODES.LOLLIPOP)
-    public CameraHolder(Context context, I_CameraChangedListner cameraChangedListner, AppSettingsManager appSettingsManager, RenderScriptHandler renderScriptHandler)
+    public CameraHolder(Context context, I_CameraUiWrapper cameraUiWrapper, RenderScriptHandler renderScriptHandler)
     {
-        super(cameraChangedListner,appSettingsManager);
+        super(cameraUiWrapper);
         this.context = context;
         manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         CaptureSessionH = new CaptureSessionHandler();
@@ -134,7 +136,7 @@ public class CameraHolder extends AbstractCameraHolder
         String cam = camera +"";
         if (VERSION.SDK_INT >= 23) {
             if (context.checkSelfPermission(permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                cameraChangedListner.onCameraError("Error: Permission for Camera are not granted!");
+                cameraUiWrapper.onCameraError("Error: Permission for Camera are not granted!");
                 return false;
             }
         }
@@ -223,7 +225,7 @@ public class CameraHolder extends AbstractCameraHolder
                     @Override
                     public void run()
                     {
-                        cameraChangedListner.onCameraClose("");
+                        cameraUiWrapper.onCameraClose("");
                     }
                 });
             Logger.d(TAG, "camera closed");
@@ -313,7 +315,12 @@ public class CameraHolder extends AbstractCameraHolder
 
     @Override
     public void StartFocus() {
-        Focus.StartFocus();
+        cameraUiWrapper.getFocusHandler().StartFocus();
+    }
+
+    @Override
+    public void ResetPreviewCallback() {
+
     }
 
     public Parameters GetCameraParameters() {
@@ -361,7 +368,7 @@ public class CameraHolder extends AbstractCameraHolder
 
     CameraDevice.StateCallback mStateCallback = new CameraDevice.StateCallback() {
         @Override
-        public void onOpened(@NonNull CameraDevice cameraDevice) {
+        public void onOpened(@NonNull final CameraDevice cameraDevice) {
             // This method is called when the camera is opened.  We start camera previewSize here.
             mCameraOpenCloseLock.release();
             mCameraDevice = cameraDevice;
@@ -371,7 +378,7 @@ public class CameraHolder extends AbstractCameraHolder
                 UIHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    cameraChangedListner.onCameraOpen("");
+                    cameraUiWrapper.onCameraOpen("");
                 }
             });
 
@@ -396,7 +403,7 @@ public class CameraHolder extends AbstractCameraHolder
             UIHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    cameraChangedListner.onCameraError("Error:" + error);
+                    cameraUiWrapper.onCameraError("Error:" + error);
                 }
             });
 
@@ -415,21 +422,21 @@ public class CameraHolder extends AbstractCameraHolder
         {
             //Logger.d(TAG,result.get(TotalCaptureResult.SENSOR_SENSITIVITY).toString() + " / " + request.get(CaptureRequest.SENSOR_SENSITIVITY).toString());
             //Logger.d(TAG,result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME).toString() + " / " + request.get(CaptureRequest.SENSOR_EXPOSURE_TIME));
-            if (GetParameterHandler().ManualShutter != null && GetParameterHandler().ManualShutter.IsSupported())
+            if (cameraUiWrapper.GetParameterHandler().ManualShutter != null && cameraUiWrapper.GetParameterHandler().ManualShutter.IsSupported())
             {
                 if (result != null && result.getPartialResults().size() > 0)
                 {
                     try
                     {
-                        if (!GetParameterHandler().ExposureMode.GetValue().equals("off") && !GetParameterHandler().ControlMode.equals("off"))
+                        if (!cameraUiWrapper.GetParameterHandler().ExposureMode.GetValue().equals("off") && !cameraUiWrapper.GetParameterHandler().ControlMode.equals("off"))
                         {
                             try {
                                 long expores = result.get(TotalCaptureResult.SENSOR_EXPOSURE_TIME);
                                 if(expores != 0) {
-                                    GetParameterHandler().ManualShutter.ThrowCurrentValueStringCHanged(getShutterString(expores));
+                                    cameraUiWrapper.GetParameterHandler().ManualShutter.ThrowCurrentValueStringCHanged(getShutterString(expores));
                                 }
                                 else
-                                    GetParameterHandler().ManualShutter.ThrowCurrentValueStringCHanged("1/60");
+                                    cameraUiWrapper.GetParameterHandler().ManualShutter.ThrowCurrentValueStringCHanged("1/60");
                             }
                             catch (Exception e)
                             {
@@ -437,14 +444,14 @@ public class CameraHolder extends AbstractCameraHolder
                             }
                             try {
                                 int  iso = result.get(TotalCaptureResult.SENSOR_SENSITIVITY);
-                                GetParameterHandler().ManualIso.ThrowCurrentValueStringCHanged("" + iso);
+                                cameraUiWrapper.GetParameterHandler().ManualIso.ThrowCurrentValueStringCHanged("" + iso);
                             }
                             catch (NullPointerException ex) {
                                 Logger.exception(ex);
                             }
                             try {
                                 float  mf = result.get(TotalCaptureResult.LENS_FOCUS_DISTANCE);
-                                GetParameterHandler().ManualFocus.ThrowCurrentValueStringCHanged(StringUtils.TrimmFloatString4Places(mf + ""));
+                                cameraUiWrapper.GetParameterHandler().ManualFocus.ThrowCurrentValueStringCHanged(StringUtils.TrimmFloatString4Places(mf + ""));
                             }
                             catch (NullPointerException ex) {Logger.exception(ex);}
                         }
@@ -478,14 +485,14 @@ public class CameraHolder extends AbstractCameraHolder
                         break;
                     case 4:
                         state = "FOCUSED_LOCKED";
-                        if (Focus.focusEvent != null)
-                            Focus.focusEvent.FocusFinished(true);
+                        if (cameraUiWrapper.getFocusHandler().focusEvent != null)
+                            cameraUiWrapper.getFocusHandler().focusEvent.FocusFinished(true);
 
                         break;
                     case 5:
                         state = "NOT_FOCUSED_LOCKED";
-                        if (Focus.focusEvent != null)
-                            Focus.focusEvent.FocusFinished(false);
+                        if (cameraUiWrapper.getFocusHandler().focusEvent != null)
+                            cameraUiWrapper.getFocusHandler().focusEvent.FocusFinished(false);
                         break;
                     case 6:
                         state ="PASSIVE_UNFOCUSED";
@@ -629,7 +636,7 @@ public class CameraHolder extends AbstractCameraHolder
         {
             try {
                 mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-                ((com.freedcam.apis.camera2.parameters.ParameterHandler)GetParameterHandler()).Init();
+                ((com.freedcam.apis.camera2.parameters.ParameterHandler)cameraUiWrapper.GetParameterHandler()).Init();
             } catch (CameraAccessException e) {
                 Logger.exception(e);
             }

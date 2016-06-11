@@ -63,9 +63,7 @@ public class Camera1Fragment extends AbstractCameraFragment implements I_Paramet
 {
     protected ExtendedSurfaceView extendedSurfaceView;
     protected TextureViewRatio preview;
-    protected I_error errorHandler;
     private static String TAG = Camera1Fragment.class.getSimpleName();
-    public CameraHolder cameraHolder;
     public FocusPeakProcessorAp1 focusPeakProcessorAp1;
     boolean cameraRdy = false;
 
@@ -87,27 +85,26 @@ public class Camera1Fragment extends AbstractCameraFragment implements I_Paramet
 
         extendedSurfaceView = (ExtendedSurfaceView) view.findViewById(id.exSurface);
         preview = (TextureViewRatio) view.findViewById(id.textureView_preview);
-        errorHandler = this;
-        if (hasLGFramework())
-            cameraHolder = new CameraHolderLG(this,appSettingsManager, CameraHolder.Frameworks.LG);
-        else if (isMotoExt())
-            cameraHolder = new CameraHolderMotoX(this,appSettingsManager, CameraHolder.Frameworks.MotoX);
-        else if (isMTKDevice())
-            cameraHolder = new CameraHolderMTK(this,appSettingsManager, CameraHolder.Frameworks.MTK);
-        else
-            cameraHolder = new CameraHolder(this,appSettingsManager, CameraHolder.Frameworks.Normal);
-        super.cameraHolder = cameraHolder;
-        cameraHolder.errorHandler = errorHandler;
 
-        parametersHandler = new ParametersHandler(this,getContext(),appSettingsManager);
-        cameraHolder.SetParameterHandler(parametersHandler);
+
+        parametersHandler = new ParametersHandler(this,getContext());
         parametersHandler.AddParametersLoadedListner(this);
         this.extendedSurfaceView.ParametersHandler = parametersHandler;
         moduleHandler = new ModuleHandler(getContext(),this);
         moduleHandler.moduleEventHandler.addListner(this);
 
         Focus = new FocusHandler(this);
-        cameraHolder.Focus = Focus;
+
+        if (hasLGFramework())
+            cameraHolder = new CameraHolderLG(this, CameraHolder.Frameworks.LG);
+        else if (isMotoExt())
+            cameraHolder = new CameraHolderMotoX(this, CameraHolder.Frameworks.MotoX);
+        else if (isMTKDevice())
+            cameraHolder = new CameraHolderMTK(this, CameraHolder.Frameworks.MTK);
+        else
+            cameraHolder = new CameraHolder(this,CameraHolder.Frameworks.Normal);
+        moduleHandler.initModules();
+
         if (Build.VERSION.SDK_INT >= 18) {
             focusPeakProcessorAp1 = new FocusPeakProcessorAp1(preview,this, getContext(),renderScriptHandler);
             SetCameraChangedListner(focusPeakProcessorAp1);
@@ -250,7 +247,7 @@ public class Camera1Fragment extends AbstractCameraFragment implements I_Paramet
     @Override
     public void onError(int i)
     {
-        errorHandler.OnError("Got Error from camera: " + i);
+        onCameraError("Got Error from Camera:"+i);
         try
         {
             cameraHolder.CloseCamera();
@@ -268,7 +265,6 @@ public class Camera1Fragment extends AbstractCameraFragment implements I_Paramet
         cameraRdy = true;
         super.onCameraOpen(message);
         ((ParametersHandler) parametersHandler).LoadParametersFromCamera();
-        cameraHolder.SetErrorCallback(this);
         cameraHolder.SetSurface(extendedSurfaceView.getHolder());
         cameraHolder.StartPreview();
         super.onCameraOpenFinish("");

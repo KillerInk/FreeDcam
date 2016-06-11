@@ -26,6 +26,8 @@ import android.view.SurfaceHolder;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.modules.I_Callbacks.AutoFocusCallback;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.utils.AppSettingsManager;
@@ -37,26 +39,24 @@ import com.freedcam.utils.AppSettingsManager;
 public abstract class AbstractCameraHolder implements I_CameraHolder
 {
     protected boolean isRdy = false;
-    //holds the parameters for the camera
-    private AbstractParameterHandler ParameterHandler;
-    //handel focus realted stuff
-    public AbstractFocusHandler Focus;
-    //the listner to for camera state changes
-    protected I_CameraChangedListner cameraChangedListner;
     //handler wich runs in mainthread
     protected Handler UIHandler;
     //holds the appsettings
     protected AppSettingsManager appSettingsManager;
 
+    protected I_CameraUiWrapper cameraUiWrapper;
+
+    protected AbstractModuleHandler moduleHandler;
+
     /**
      *
-     * @param cameraChangedListner to listen on camera state changes
-     * @param appSettingsManager
+     * @param cameraUiWrapper to listen on camera state changes
      */
-    protected AbstractCameraHolder(I_CameraChangedListner cameraChangedListner, AppSettingsManager appSettingsManager)
+    protected AbstractCameraHolder(I_CameraUiWrapper cameraUiWrapper)
     {
-        this.cameraChangedListner = cameraChangedListner;
-        this.appSettingsManager = appSettingsManager;
+        this.cameraUiWrapper = cameraUiWrapper;
+        this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
+        this.moduleHandler = cameraUiWrapper.GetModuleHandler();
         UIHandler = new Handler(Looper.getMainLooper());
     }
 
@@ -66,8 +66,8 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
      */
     public void SendUIMessage(String msg)
     {
-        if (cameraChangedListner != null)
-            cameraChangedListner.onCameraError(msg);
+        if (cameraUiWrapper != null)
+            cameraUiWrapper.onCameraError(msg);
     }
 
     @Override
@@ -117,14 +117,4 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
 
     public abstract void SetLocation(Location loc);
 
-
-    public void SetParameterHandler(AbstractParameterHandler parametersHandler)
-    {
-        ParameterHandler = parametersHandler;
-    }
-
-    public AbstractParameterHandler GetParameterHandler()
-    {
-        return ParameterHandler;
-    }
 }

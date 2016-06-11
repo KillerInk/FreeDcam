@@ -67,8 +67,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
     private MediaRecorder mediaRecorder;
 
-    public VideoModuleApi2(Context context, I_CameraUiWrapper cameraUiWrapper) {
-        super(context,cameraUiWrapper);
+    public VideoModuleApi2(Context context, I_CameraUiWrapper cameraUiWrapper, ModuleEventHandler eventHandler) {
+        super(context,cameraUiWrapper,eventHandler);
         name = KEYS.MODULE_VIDEO;
     }
 

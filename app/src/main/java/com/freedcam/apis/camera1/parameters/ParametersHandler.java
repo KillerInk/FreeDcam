@@ -76,26 +76,24 @@ public class ParametersHandler extends AbstractParameterHandler
 
     private Parameters cameraParameters;
     public Parameters getParameters(){return cameraParameters;}
-    public CameraHolder cameraHolder;
     private I_CameraUiWrapper cameraUiWrapper;
     private I_Device Device;
 
-    public ParametersHandler(I_CameraUiWrapper cameraUiWrapper, Context context, AppSettingsManager appSettingsManager)
+    public ParametersHandler(I_CameraUiWrapper cameraUiWrapper, Context context)
     {
         super(context,cameraUiWrapper);
-        cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
         this.cameraUiWrapper = cameraUiWrapper;
     }
 
     public void SetParametersToCamera(Parameters params)
     {
         Logger.d(TAG, "SetParametersToCam");
-        cameraHolder.SetCameraParameters(params);
+        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetCameraParameters(params);
     }
 
     public void LoadParametersFromCamera()
     {
-        cameraParameters = cameraHolder.GetCameraParameters();
+        cameraParameters = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCameraParameters();
         initParameters();
     }
 
@@ -137,12 +135,12 @@ public class ParametersHandler extends AbstractParameterHandler
 
         try {
             FocusMode = new BaseModeParameter(cameraParameters, cameraUiWrapper,KEYS.FOCUS_MODE,KEYS.FOCUS_MODE_VALUES);
-            FocusMode.addEventListner(((FocusHandler) cameraHolder.Focus).focusModeListner);
+            FocusMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).focusModeListner);
         } catch (Exception e) {
             Logger.exception(e);
         }
 
-        locationParameter = new LocationParameter(cameraHolder,context,appSettingsManager);
+        locationParameter = new LocationParameter(cameraUiWrapper.GetCameraHolder(),context,appSettingsManager);
 
         try {
             ManualConvergence = new BaseManualParameter(context, cameraParameters, KEYS.MANUAL_CONVERGENCE, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MAX, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MIN, this,1);
@@ -383,7 +381,7 @@ public class ParametersHandler extends AbstractParameterHandler
         imageStackMode = new StackModeParameter();
 
         //load device specific stuff
-        Device = new DeviceSelector().getDevice(context,cameraUiWrapper,cameraParameters,cameraHolder);
+        Device = new DeviceSelector().getDevice(context,cameraUiWrapper,cameraParameters,(CameraHolder) cameraUiWrapper.GetCameraHolder());
 
         if (Device == null)
         {
@@ -436,7 +434,7 @@ public class ParametersHandler extends AbstractParameterHandler
             else if(cameraParameters.get("exposure-meter-values")!= null)
                 ExposureMode = new BaseModeParameter(cameraParameters,cameraUiWrapper,"exposure-meter","exposure-meter-values");
             if (ExposureMode != null)
-                ExposureMode.addEventListner(((FocusHandler) cameraHolder.Focus).aeModeListner);
+                ExposureMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).aeModeListner);
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -472,7 +470,7 @@ public class ParametersHandler extends AbstractParameterHandler
                 }
             }
 
-            if (cameraHolder.DeviceFrameWork == Frameworks.MTK)
+            if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.MTK)
                 VideoHighFramerateVideo = new BaseModeParameter(cameraParameters, cameraUiWrapper, "hsvr-prv-fps", "hsvr-prv-fps-values");
             else
                 VideoHighFramerateVideo = new BaseModeParameter(cameraParameters, cameraUiWrapper, "video-hfr", "video-hfr-values");
@@ -531,7 +529,7 @@ public class ParametersHandler extends AbstractParameterHandler
                         cameraParameters.set("selectable-zone-af","spot-metering");
                         cameraParameters.set("raw-size","4208x3120");
                         cameraParameters.set("touch-index-aec", lF.x + "," + lF.y);
-                        cameraHolder.SetCameraParameters(cameraParameters);
+                        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetCameraParameters(cameraParameters);
                     }
                 };
                handler.post(r);
@@ -564,7 +562,7 @@ public class ParametersHandler extends AbstractParameterHandler
                         cameraParameters.set("touch-aec","on");
                         cameraParameters.set("raw-size","4208x3120");
                         cameraParameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);
-                        cameraHolder.SetCameraParameters(cameraParameters);
+                        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetCameraParameters(cameraParameters);
                     }
                 };
                 handler.post(r);
@@ -606,7 +604,7 @@ public class ParametersHandler extends AbstractParameterHandler
         }
         try
         {
-            cameraHolder.SetOrientation(orientation);
+            ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetOrientation(orientation);
         }
         catch (Exception e)
         {
@@ -621,9 +619,9 @@ public class ParametersHandler extends AbstractParameterHandler
             appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack , KEYS.OFF);
         }
         if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.OFF))
-            cameraHolder.SetCameraRotation(0);
+            ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetCameraRotation(0);
         else
-            cameraHolder.SetCameraRotation(180);
+            ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetCameraRotation(180);
     }
 
     public void initMTKSHit()    {

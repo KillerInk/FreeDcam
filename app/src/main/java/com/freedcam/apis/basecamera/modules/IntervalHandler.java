@@ -57,10 +57,10 @@ class IntervalHandler
         Logger.d(TAG, "Start Interval");
         working = true;
         startTime = new Date().getTime();
-        String interval = picmodule.ParameterHandler.IntervalShutterSleep.GetValue().replace(" sec", "");
+        String interval =  picmodule.cameraUiWrapper.GetParameterHandler().IntervalShutterSleep.GetValue().replace(" sec", "");
         intervalDuration = Integer.parseInt(interval)*1000;
 
-        String endDuration = picmodule.ParameterHandler.IntervalDuration.GetValue().replace(" min","");
+        String endDuration = picmodule.cameraUiWrapper.GetParameterHandler().IntervalDuration.GetValue().replace(" min","");
         intervalToEndDuration = Integer.parseInt(endDuration);
         startShutterDelay();
     }
@@ -84,7 +84,7 @@ class IntervalHandler
 
         String t = "Time:"+String.format("%.2f ", (double) (new Date().getTime() - startTime) /1000 / 60);
         t+= "/"+intervalToEndDuration+ " NextIn:" + shuttercounter +"/" + intervalDuration/1000;
-        picmodule.cameraHolder.SendUIMessage(t);
+        picmodule.cameraUiWrapper.GetCameraHolder().SendUIMessage(t);
 
     }
 
@@ -96,8 +96,8 @@ class IntervalHandler
         if (min >= intervalToEndDuration)
         {
             Logger.d(TAG, "Finished Interval");
-            picmodule.ParameterHandler.IntervalCaptureFocusSet = false;
-            picmodule.ParameterHandler.IntervalCapture = false;
+            picmodule.cameraUiWrapper.GetParameterHandler().IntervalCaptureFocusSet = false;
+            picmodule.cameraUiWrapper.GetParameterHandler().IntervalCapture = false;
             working = false;
             return;
         }
@@ -135,7 +135,7 @@ class IntervalHandler
 
     private void msg()
     {
-        picmodule.cameraHolder.SendUIMessage(shutterWaitCounter+"");
+        picmodule.cameraUiWrapper.GetCameraHolder().SendUIMessage(shutterWaitCounter+"");
     }
 
     private int shutterWaitCounter =0;

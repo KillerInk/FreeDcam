@@ -38,8 +38,8 @@ public class IntervalModule extends AbstractModule implements I_worker
     private IntervalHandler intervalHandler;
     private  final String TAG  = IntervalModule.class.getSimpleName();
 
-    public IntervalModule(AbstractModule picModule, Context context, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, cameraUiWrapper);
+    public IntervalModule(AbstractModule picModule, Context context, I_CameraUiWrapper cameraUiWrapper, ModuleEventHandler eventHandler) {
+        super(context, cameraUiWrapper,eventHandler);
         this.picModule = picModule;
 
         intervalHandler = new IntervalHandler(picModule,appSettingsManager);

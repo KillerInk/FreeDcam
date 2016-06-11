@@ -50,8 +50,8 @@ public class BracketModule extends PictureModule
     int ogExpoValue = 0;
     private Context context;
 
-    public BracketModule(Context context, I_CameraUiWrapper cameraUiWrapper) {
-        super(context,cameraUiWrapper);
+    public BracketModule(Context context, I_CameraUiWrapper cameraUiWrapper,ModuleEventHandler moduleEventHandler) {
+        super(context,cameraUiWrapper,moduleEventHandler);
         name = KEYS.MODULE_HDR;
         this.context = context;
     }
@@ -69,16 +69,16 @@ public class BracketModule extends PictureModule
         {
             files = new File[3];
             hdrCount = 0;
-            String picformat = ParameterHandler.PictureFormat.GetValue();
+            String picformat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
             if (picformat.equals(KEYS.DNG) ||picformat.equals(KEYS.BAYER))
             {
-                if (ParameterHandler.ZSL != null && ParameterHandler.ZSL.IsSupported() && ParameterHandler.ZSL.GetValue().equals("on"))
-                    ParameterHandler.ZSL.SetValue("off", true);
+                if (cameraUiWrapper.GetParameterHandler().ZSL != null && cameraUiWrapper.GetParameterHandler().ZSL.IsSupported() && cameraUiWrapper.GetParameterHandler().ZSL.GetValue().equals("on"))
+                    cameraUiWrapper.GetParameterHandler().ZSL.SetValue("off", true);
             }
             changeWorkState(CaptureModes.image_capture_start);
             waitForPicture = true;
             loade_ae_bracket();
-            if (aeBrackethdr && ParameterHandler.PictureFormat.GetValue().equals(KEYS.JPEG))
+            if (aeBrackethdr && cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue().equals(KEYS.JPEG))
             {
                 cameraHolder.TakePicture(null, aeBracketCallback);
             }
@@ -121,42 +121,42 @@ public class BracketModule extends PictureModule
     public void DestroyModule()
     {
         if (aeBrackethdr)
-            ParameterHandler.AE_Bracket.SetValue("Off", true);
+            cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue("Off", true);
     }
 
     //I_Module END
 
     private void setExposureToCamera()
     {
-        ogExpoValue =  ParameterHandler.ManualExposure.GetValue();
+        ogExpoValue =  cameraUiWrapper.GetParameterHandler().ManualExposure.GetValue();
 
         if(isManualExpo)
         {
-            if(ParameterHandler.ManualShutter.GetStringValue().contains("/")) {
+            if(cameraUiWrapper.GetParameterHandler().ManualShutter.GetStringValue().contains("/")) {
                 int value = 0;
 
                 if (hdrCount == 0)
                 {
                     System.out.println("Do Nothing");
-                    //getStop(1 / Integer.parseInt(ParameterHandler.ManualShutter.GetStringValue().split("/")[1]), -12);
+                    //getStop(1 / Integer.parseInt(cameraUiWrapper.GetParameterHandler().ManualShutter.GetStringValue().split("/")[1]), -12);
                 }
                 else if (hdrCount == 1)
-                    getStop(1 / Integer.parseInt(ParameterHandler.ManualShutter.GetStringValue().split("/")[1]), -12.0f);
+                    getStop(1 / Integer.parseInt(cameraUiWrapper.GetParameterHandler().ManualShutter.GetStringValue().split("/")[1]), -12.0f);
                 else if (hdrCount == 2)
-                    getStop(1 / Integer.parseInt(ParameterHandler.ManualShutter.GetStringValue().split("/")[1]), 12.0f);
-                //ParameterHandler.ManualShutter.SetValue();
+                    getStop(1 / Integer.parseInt(cameraUiWrapper.GetParameterHandler().ManualShutter.GetStringValue().split("/")[1]), 12.0f);
+                //cameraUiWrapper.GetParameterHandler().ManualShutter.SetValue();
             }
             else
             {
                 if (hdrCount == 0)
                 {
-                    //getStop(Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue()), -12);
+                    //getStop(Float.parseFloat(cameraUiWrapper.GetParameterHandler().ManualShutter.GetStringValue()), -12);
                     System.out.println("Do Nothing");
                 }
                 else if (hdrCount == 1)
-                    getStop(Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue()), -12.0f);
+                    getStop(Float.parseFloat(cameraUiWrapper.GetParameterHandler().ManualShutter.GetStringValue()), -12.0f);
                 else if (hdrCount == 2)
-                    getStop(Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue()), 12.0f);
+                    getStop(Float.parseFloat(cameraUiWrapper.GetParameterHandler().ManualShutter.GetStringValue()), 12.0f);
             }
         }
         else {
@@ -170,15 +170,15 @@ public class BracketModule extends PictureModule
                 value = Integer.parseInt(appSettingsManager.getString(AppSettingsManager.SETTING_AEB3));
 
             Logger.d(TAG, "Set HDR Exposure to :" + value + "for image count " + hdrCount);
-           // ParameterHandler.ManualExposure.SetValue(key_value);
+           // cameraUiWrapper.GetParameterHandler().ManualExposure.SetValue(key_value);
 
             /*checkAEMODE();
             if(isManualExpo)
             {
-                ParameterHandler.ManualShutter.SetValue(DoStopCalc(key_value));
+                cameraUiWrapper.GetParameterHandler().ManualShutter.SetValue(DoStopCalc(key_value));
             }
            TODO */
-            ParameterHandler.SetEVBracket(value + "");
+            cameraUiWrapper.GetParameterHandler().SetEVBracket(value + "");
             Logger.d(TAG, "HDR Exposure SET");
         }
     }
@@ -187,12 +187,12 @@ public class BracketModule extends PictureModule
     {
         float shutterString = 0.0f;
 
-        if(ParameterHandler.ManualShutter.GetStringValue().contains("/"))
+        if(cameraUiWrapper.GetParameterHandler().ManualShutter.GetStringValue().contains("/"))
         {
-            shutterString = Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue().split("/")[1]);
+            shutterString = Float.parseFloat(cameraUiWrapper.GetParameterHandler().ManualShutter.GetStringValue().split("/")[1]);
         }
         else
-            shutterString = Float.parseFloat(ParameterHandler.ManualShutter.GetStringValue());
+            shutterString = Float.parseFloat(cameraUiWrapper.GetParameterHandler().ManualShutter.GetStringValue());
 
 
         float StoppedShift;
@@ -206,7 +206,7 @@ public class BracketModule extends PictureModule
 
     private void checkAEMODE()
     {
-        if (!ParameterHandler.ManualShutter.GetStringValue().equals(KEYS.AUTO))
+        if (!cameraUiWrapper.GetParameterHandler().ManualShutter.GetStringValue().equals(KEYS.AUTO))
             isManualExpo = true;
     }
 
@@ -239,7 +239,7 @@ public class BracketModule extends PictureModule
             if (!waitForPicture)
                 return;
             hdrCount++;
-            String picFormat = ParameterHandler.PictureFormat.GetValue();
+            String picFormat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
             saveImage(data,picFormat);
             if (hdrCount == 3)//handel normal capture
             {
@@ -254,15 +254,15 @@ public class BracketModule extends PictureModule
 
     private void loade_ae_bracket()
     {
-        if (ParameterHandler.AE_Bracket != null && ParameterHandler.AE_Bracket.IsSupported())
+        if (cameraUiWrapper.GetParameterHandler().AE_Bracket != null && cameraUiWrapper.GetParameterHandler().AE_Bracket.IsSupported())
         {
-            if (ParameterHandler.PictureFormat.GetValue().equals(KEYS.JPEG)) {
+            if (cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue().equals(KEYS.JPEG)) {
                 aeBrackethdr = true;
-                ParameterHandler.AE_Bracket.SetValue("AE-Bracket", true);
+                cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue("AE-Bracket", true);
             }
             else {
                 aeBrackethdr = false;
-                ParameterHandler.AE_Bracket.SetValue("Off", true);
+                cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue("Off", true);
             }
 
         }
@@ -282,7 +282,7 @@ public class BracketModule extends PictureModule
                     return;
                 }
                 hdrCount++;
-                String picFormat = ParameterHandler.PictureFormat.GetValue();
+                String picFormat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
                 saveImage(data,picFormat);
                 cameraHolder.StartPreview();
                 if (hdrCount == 3)//handel normal capture

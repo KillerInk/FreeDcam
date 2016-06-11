@@ -56,4 +56,6 @@ public interface I_ModuleHandler
      * @param workerListner to add
      */
     void SetWorkListner(I_worker workerListner);
+
+    void initModules();
 }

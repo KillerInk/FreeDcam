@@ -45,9 +45,9 @@ public class PictureModuleMTK extends PictureModule
 {
     private final String TAG = PictureModuleMTK.class.getSimpleName();
     private File holdFile = null;
-    public PictureModuleMTK(Context context, I_CameraUiWrapper cameraUiWrapper)
+    public PictureModuleMTK(Context context, I_CameraUiWrapper cameraUiWrapper, ModuleEventHandler eventHandler)
     {
-        super(context,cameraUiWrapper);
+        super(context,cameraUiWrapper,eventHandler);
     }
 
     @Override
@@ -58,9 +58,9 @@ public class PictureModuleMTK extends PictureModule
 
             Logger.d(TAG, "Start Take Picture");
             waitForPicture = true;
-            if (ParameterHandler.PictureFormat.GetValue().equals(FileEnding.BAYER) || ParameterHandler.PictureFormat.GetValue().equals(FileEnding.DNG)) {
+            if (cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue().equals(FileEnding.BAYER) || cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue().equals(FileEnding.DNG)) {
                 String timestamp = String.valueOf(System.currentTimeMillis());
-                ParameterHandler.getDevice().Set_RAWFNAME(StringUtils.GetInternalSDCARD()+"/DCIM/FreeDCam/" + "mtk" + timestamp + ".bayer");
+                cameraUiWrapper.GetParameterHandler().getDevice().Set_RAWFNAME(StringUtils.GetInternalSDCARD()+"/DCIM/FreeDCam/" + "mtk" + timestamp + ".bayer");
             }
             isWorking = true;
             changeWorkState(CaptureModes.image_capture_start);
@@ -80,7 +80,7 @@ public class PictureModuleMTK extends PictureModule
             @Override
             public void run()
             {
-                String picformat = ParameterHandler.PictureFormat.GetValue();
+                String picformat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
                 // must always be jpg ending. dng gets created based on that
                 holdFile = getFile(".jpg");
                 Logger.d(TAG, "HolderFilePath:" + holdFile.getAbsolutePath());

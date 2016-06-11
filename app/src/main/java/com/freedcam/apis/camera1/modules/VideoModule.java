@@ -45,8 +45,8 @@ public class VideoModule extends AbstractVideoModule
     private static String TAG = VideoModule.class.getSimpleName();
     private VideoMediaProfile currentProfile;
 
-    public VideoModule(Context context, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, cameraUiWrapper);
+    public VideoModule(Context context, I_CameraUiWrapper cameraUiWrapper,ModuleEventHandler eventHandler) {
+        super(context, cameraUiWrapper,eventHandler);
     }
 
 
@@ -55,7 +55,7 @@ public class VideoModule extends AbstractVideoModule
     {
         recorder = new MediaRecorder();
         recorder.reset();
-        recorder.setCamera(cameraHolder.GetCamera());
+        recorder.setCamera(((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCamera());
 
         recorder.setVideoSource(VideoSource.CAMERA);
 
@@ -105,30 +105,30 @@ public class VideoModule extends AbstractVideoModule
     public void InitModule()
     {
 
-        if (ParameterHandler.VideoHDR != null)
-            if(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEOHDR).equals("on") && ParameterHandler.VideoHDR.IsSupported())
-                ParameterHandler.VideoHDR.SetValue("on", true);
+        if (cameraUiWrapper.GetParameterHandler().VideoHDR != null)
+            if(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEOHDR).equals("on") && cameraUiWrapper.GetParameterHandler().VideoHDR.IsSupported())
+                cameraUiWrapper.GetParameterHandler().VideoHDR.SetValue("on", true);
         loadProfileSpecificParameters();
     }
 
     @Override
     public void DestroyModule() {
-        if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported())
-            ParameterHandler.VideoHDR.SetValue("off", true);
+        if (cameraUiWrapper.GetParameterHandler().VideoHDR != null && cameraUiWrapper.GetParameterHandler().VideoHDR.IsSupported())
+            cameraUiWrapper.GetParameterHandler().VideoHDR.SetValue("off", true);
     }
 
     private void loadProfileSpecificParameters()
     {
-        VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter)ParameterHandler.VideoProfiles;
+        VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter)cameraUiWrapper.GetParameterHandler().VideoProfiles;
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         if (currentProfile.Mode == VideoMode.Highspeed)
         {
             if(currentProfile.ProfileName.equals("1080pHFR")
                     && appSettingsManager.getDevice() == Devices.XiaomiMI3W
                     || appSettingsManager.getDevice() == Devices.ZTE_ADV)
-                ParameterHandler.VideoHighFramerateVideo.SetValue("60",true);
+                cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("60",true);
             if(currentProfile.ProfileName.equals("720pHFR") && appSettingsManager.getDevice() == Devices.ZTE_ADV)
-                ParameterHandler.VideoHighFramerateVideo.SetValue("120", true);
+                cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("120", true);
 
             if(currentProfile.ProfileName.equals("720pHFR")
                     && appSettingsManager.getDevice() == Devices.XiaomiMI3W
@@ -136,52 +136,52 @@ public class VideoModule extends AbstractVideoModule
                     || appSettingsManager.getDevice() == Devices.ZTEADV234
                     ||appSettingsManager.getDevice() == Devices.ZTEADVIMX214)
             {
-                ParameterHandler.VideoHighFramerateVideo.SetValue("120",true);
-                ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
+                cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("120",true);
+                cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus", true);
             }
 
-            if (ParameterHandler.MemoryColorEnhancement != null && ParameterHandler.MemoryColorEnhancement.IsSupported())
-                ParameterHandler.MemoryColorEnhancement.SetValue("disable", true);
-            if (ParameterHandler.DigitalImageStabilization != null && ParameterHandler.DigitalImageStabilization.IsSupported())
-                ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
-            if (ParameterHandler.VideoStabilization != null && ParameterHandler.VideoStabilization.IsSupported())
-                ParameterHandler.VideoStabilization.SetValue("false", true);
-            if (ParameterHandler.Denoise != null && ParameterHandler.Denoise.IsSupported())
-                ParameterHandler.Denoise.SetValue("denoise-off", true);
-            ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
-            if (ParameterHandler.VideoHighFramerateVideo != null && ParameterHandler.VideoHighFramerateVideo.IsSupported())
+            if (cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement != null && cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.IsSupported())
+                cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.SetValue("disable", true);
+            if (cameraUiWrapper.GetParameterHandler().DigitalImageStabilization != null && cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.IsSupported())
+                cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue("disable", true);
+            if (cameraUiWrapper.GetParameterHandler().VideoStabilization != null && cameraUiWrapper.GetParameterHandler().VideoStabilization.IsSupported())
+                cameraUiWrapper.GetParameterHandler().VideoStabilization.SetValue("false", true);
+            if (cameraUiWrapper.GetParameterHandler().Denoise != null && cameraUiWrapper.GetParameterHandler().Denoise.IsSupported())
+                cameraUiWrapper.GetParameterHandler().Denoise.SetValue("denoise-off", true);
+            cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("yuv420sp", true);
+            if (cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.IsSupported())
             {
-                ParameterHandler.VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate+"", true);
+                cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate+"", true);
             }
         }
         else
         {
             if (currentProfile.ProfileName.contains(VideoProfilesParameter._4kUHD))
             {
-                if (ParameterHandler.MemoryColorEnhancement != null && ParameterHandler.MemoryColorEnhancement.IsSupported())
-                    ParameterHandler.MemoryColorEnhancement.SetValue("disable", true);
-                if (ParameterHandler.DigitalImageStabilization != null && ParameterHandler.DigitalImageStabilization.IsSupported())
-                    ParameterHandler.DigitalImageStabilization.SetValue("disable", true);
-                if (ParameterHandler.VideoStabilization != null && ParameterHandler.VideoStabilization.IsSupported())
-                    ParameterHandler.VideoStabilization.SetValue("false", true);
-                if (ParameterHandler.Denoise != null && ParameterHandler.Denoise.IsSupported())
-                    ParameterHandler.Denoise.SetValue("denoise-off", true);
-                ParameterHandler.PreviewFormat.SetValue("nv12-venus",true);
+                if (cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement != null && cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.IsSupported())
+                    cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.SetValue("disable", true);
+                if (cameraUiWrapper.GetParameterHandler().DigitalImageStabilization != null && cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.IsSupported())
+                    cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue("disable", true);
+                if (cameraUiWrapper.GetParameterHandler().VideoStabilization != null && cameraUiWrapper.GetParameterHandler().VideoStabilization.IsSupported())
+                    cameraUiWrapper.GetParameterHandler().VideoStabilization.SetValue("false", true);
+                if (cameraUiWrapper.GetParameterHandler().Denoise != null && cameraUiWrapper.GetParameterHandler().Denoise.IsSupported())
+                    cameraUiWrapper.GetParameterHandler().Denoise.SetValue("denoise-off", true);
+                cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus",true);
             }
             else
-                ParameterHandler.PreviewFormat.SetValue("yuv420sp", true);
-            if (ParameterHandler.VideoHighFramerateVideo != null && ParameterHandler.VideoHighFramerateVideo.IsSupported())
+                cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("yuv420sp", true);
+            if (cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.IsSupported())
             {
-                ParameterHandler.VideoHighFramerateVideo.SetValue("off", true);
+                cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("off", true);
             }
         }
 
         String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
-        ParameterHandler.PreviewSize.SetValue(size,true);
-        ParameterHandler.VideoSize.SetValue(size, true);
-        //ParameterHandler.SetParametersToCamera(ParameterHandler.getParameters());
-        cameraHolder.StopPreview();
-        cameraHolder.StartPreview();
+        cameraUiWrapper.GetParameterHandler().PreviewSize.SetValue(size,true);
+        cameraUiWrapper.GetParameterHandler().VideoSize.SetValue(size, true);
+        //cameraUiWrapper.GetParameterHandler().SetParametersToCamera(cameraUiWrapper.GetParameterHandler().getParameters());
+        cameraUiWrapper.StopPreview();
+        cameraUiWrapper.StartPreview();
 
     }
 

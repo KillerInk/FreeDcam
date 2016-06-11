@@ -47,11 +47,10 @@ public abstract class AbstractModuleApi2 extends AbstractModule implements I_Pre
     protected Point displaySize;
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
-    public AbstractModuleApi2(Context context, I_CameraUiWrapper cameraUiWrapper)
+    public AbstractModuleApi2(Context context, I_CameraUiWrapper cameraUiWrapper, ModuleEventHandler eventHandler)
     {
-        super(context, cameraUiWrapper);
-        cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
-        ParameterHandler = (com.freedcam.apis.camera2.parameters.ParameterHandler) cameraHolder.GetParameterHandler();
+        super(context, cameraUiWrapper,eventHandler);
+        ParameterHandler = (com.freedcam.apis.camera2.parameters.ParameterHandler) cameraUiWrapper.GetParameterHandler();
         Display display = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         displaySize = new Point();
         display.getRealSize(displaySize);
@@ -75,6 +74,8 @@ public abstract class AbstractModuleApi2 extends AbstractModule implements I_Pre
     @Override
     public void InitModule()
     {
+        if (cameraHolder == null)
+            cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
         cameraHolder.ModulePreview = this;
     }
 

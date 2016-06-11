@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.cameraholder;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils.Devices;
@@ -31,8 +32,8 @@ import com.lge.hardware.LGCamera;
 public class CameraHolderLG extends CameraHolder
 {
     private LGCamera lgCamera;
-    public CameraHolderLG(I_CameraChangedListner cameraChangedListner, AppSettingsManager appSettingsManager, Frameworks frameworks) {
-        super(cameraChangedListner, appSettingsManager, frameworks);
+    public CameraHolderLG(I_CameraUiWrapper cameraUiWrapper, Frameworks frameworks) {
+        super(cameraUiWrapper,frameworks);
     }
 
     @Override
@@ -49,11 +50,11 @@ public class CameraHolderLG extends CameraHolder
         }
         catch (RuntimeException ex)
         {
-            cameraChangedListner.onCameraError("Fail to connect to camera service");
+            cameraUiWrapper.onCameraError("Fail to connect to camera service");
             isRdy = false;
         }
 
-        cameraChangedListner.onCameraOpen("");
+        cameraUiWrapper.onCameraOpen("");
         return isRdy;
     }
 }

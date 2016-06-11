@@ -77,7 +77,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
     private String[] configuredNetworks = null;
     private String deviceNetworkToConnect;
     private boolean connected = false;
-    private CameraHolder cameraHolder;
+    //private CameraHolder cameraHolder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -91,15 +91,13 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
         wifiConnectedReceiver = new WifiConnectedReceiver();
         wifiUtils = new WifiUtils(view.getContext());
         mSsdpClient = new SimpleSsdpClient();
-        cameraHolder = new CameraHolder(surfaceView.getContext(), surfaceView, this,appSettingsManager);
+
         parametersHandler = new ParameterHandler(this, surfaceView, getContext());
-        cameraHolder.ParameterHandler = (ParameterHandler) parametersHandler;
 
         moduleHandler = new ModuleHandlerSony(getContext(),this);
         Focus = new FocusHandler(this);
-        super.cameraHolder = cameraHolder;
-        cameraHolder.focusHandler =(FocusHandler) Focus;
-        cameraHolder.moduleHandlerSony = (ModuleHandlerSony)moduleHandler;
+        cameraHolder = new CameraHolder(getContext(), surfaceView, this);
+        moduleHandler.initModules();
 
         SetCameraChangedListner(this);
         ((MainActivity) getActivity()).onCameraUiWrapperRdy(this);
@@ -403,7 +401,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-                cameraHolder.OpenCamera(serverDevice);
+                ((CameraHolder)cameraHolder).OpenCamera(serverDevice);
                 onCameraOpen("");
             }
         });
