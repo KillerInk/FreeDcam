@@ -334,6 +334,8 @@ public class CameraHolder extends AbstractCameraHolder
                 @Override
                 public void onAutoFocus(boolean success, Camera camera)
                 {
+                    if (mCamera == null)
+                        return;
                     if (success)
                         mCamera.cancelAutoFocus();
                     CameraFocusEvent focusEvent = new CameraFocusEvent();
