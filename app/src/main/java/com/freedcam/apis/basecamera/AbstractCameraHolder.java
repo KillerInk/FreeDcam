@@ -92,7 +92,7 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
 
     @Override
     public boolean IsRdy() {
-        return false;
+        return isRdy;
     }
 
     @Override
@@ -101,19 +101,16 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     }
 
     @Override
-    public void StartPreview()
-    {
+    public abstract void StartPreview();
 
-    }
 
     @Override
-    public void StopPreview()
-    {
-    }
+    public abstract void StopPreview();
 
 
-    public void StartFocus(AutoFocusCallback autoFocusCallback){}
-    public void CancelFocus(){}
+
+    public abstract void StartFocus(AutoFocusCallback autoFocusCallback);
+    public abstract void CancelFocus();
 
     public abstract void SetLocation(Location loc);
 

@@ -59,7 +59,6 @@ public class CameraHolder extends AbstractCameraHolder
     protected Camera mCamera;
 
     private final String TAG = CameraHolder.class.getSimpleName();
-    public I_error errorHandler;
     private I_Callbacks.PictureCallback pictureCallback;
     private I_Callbacks.PictureCallback rawCallback;
     private I_Callbacks.ShutterCallback shutterCallback;
@@ -272,7 +271,7 @@ public class CameraHolder extends AbstractCameraHolder
         }
         catch (RuntimeException ex)
         {
-            errorHandler.OnError("Picture Taking failed, What a Terrible Failure!!");
+            SendUIMessage("Picture Taking failed, What a Terrible Failure!!");
             Logger.exception(ex);
         }
 
@@ -406,7 +405,7 @@ public class CameraHolder extends AbstractCameraHolder
             }
             catch (RuntimeException ex)
             {
-                errorHandler.OnError("Set Location failed");
+                SendUIMessage("Set Location failed");
             }
         }
     }
