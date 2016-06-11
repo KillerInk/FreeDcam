@@ -28,7 +28,7 @@ import android.widget.Button;
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
-import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureModes;
+import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
 import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.ui.themesample.handler.UserMessageHandler;
@@ -38,12 +38,12 @@ import com.troop.freedcam.R;
 /**
  * Created by troop on 20.06.2015.
  */
-public class ShutterButton extends Button implements I_ModuleEvent, AbstractModuleHandler.I_worker
+public class ShutterButton extends Button implements I_ModuleEvent, AbstractModuleHandler.CaptureStateChanged
 {
     private I_CameraUiWrapper cameraUiWrapper;
     private AnimationDrawable shutterOpenAnimation;
     private final String TAG = ShutterButton.class.getSimpleName();
-    private AbstractModuleHandler.CaptureModes currentShow = AbstractModuleHandler.CaptureModes.image_capture_stop;
+    private CaptureStates currentShow = CaptureStates.image_capture_stop;
     private boolean contshot;
 
     public ShutterButton(Context context, AttributeSet attrs) {
@@ -85,7 +85,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         Logger.d(this.TAG, "Set cameraUiWrapper to ShutterButton");
     }
 
-    private void switchBackground(final AbstractModuleHandler.CaptureModes showstate,final boolean animate)
+    private void switchBackground(final CaptureStates showstate, final boolean animate)
     {
         this.post(new Runnable() {
             @Override
@@ -154,23 +154,23 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
             public void run() {
                 if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
                 {
-                    switchBackground(CaptureModes.video_recording_stop, true);
+                    switchBackground(CaptureStates.video_recording_stop, true);
                 }
                 else  if((cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_PICTURE)
                         || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_HDR))
                         && !contshot) {
-                    switchBackground(CaptureModes.image_capture_stop,true);
+                    switchBackground(CaptureStates.image_capture_stop,true);
                 }
                 else if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_INTERVAL)
                         || contshot || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_STACKING))
-                    switchBackground(CaptureModes.continouse_capture_start,false);
+                    switchBackground(CaptureStates.continouse_capture_start,false);
 
             }
         });
     }
 
     @Override
-    public void onCaptureStateChanged(AbstractModuleHandler.CaptureModes mode)
+    public void onCaptureStateChanged(CaptureStates mode)
     {
         Logger.d(this.TAG, "onCaptureStateChanged CurrentShow:" + this.currentShow);
         this.switchBackground(mode,true);
@@ -184,11 +184,11 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
             //Single","Continuous","Spd Priority Cont.
             Logger.d(ShutterButton.this.TAG, "contshot:" + val);
             if (ShutterButton.this.cameraUiWrapper.GetParameterHandler().ContShootMode.GetValue().contains("Single")) {
-                ShutterButton.this.switchBackground(AbstractModuleHandler.CaptureModes.image_capture_start, false);
+                ShutterButton.this.switchBackground(CaptureStates.image_capture_start, false);
                 ShutterButton.this.contshot = false;
             }
             else {
-                ShutterButton.this.switchBackground(AbstractModuleHandler.CaptureModes.continouse_capture_start, false);
+                ShutterButton.this.switchBackground(CaptureStates.continouse_capture_start, false);
                 ShutterButton.this.contshot = true;
             }
         }

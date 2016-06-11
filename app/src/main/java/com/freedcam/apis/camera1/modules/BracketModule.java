@@ -23,10 +23,9 @@ import android.content.Context;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureModes;
+import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
 import com.freedcam.apis.basecamera.modules.I_Callbacks.PictureCallback;
 import com.freedcam.apis.basecamera.modules.ModuleEventHandler;
-import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
@@ -75,7 +74,7 @@ public class BracketModule extends PictureModule
                 if (cameraUiWrapper.GetParameterHandler().ZSL != null && cameraUiWrapper.GetParameterHandler().ZSL.IsSupported() && cameraUiWrapper.GetParameterHandler().ZSL.GetValue().equals("on"))
                     cameraUiWrapper.GetParameterHandler().ZSL.SetValue("off", true);
             }
-            changeWorkState(CaptureModes.image_capture_start);
+            changeCaptureState(CaptureStates.image_capture_start);
             waitForPicture = true;
             loade_ae_bracket();
             if (aeBrackethdr && cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue().equals(KEYS.JPEG))
@@ -244,7 +243,7 @@ public class BracketModule extends PictureModule
             if (hdrCount == 3)//handel normal capture
             {
                 waitForPicture = false;
-                changeWorkState(CaptureModes.image_capture_stop);
+                changeCaptureState(CaptureStates.image_capture_stop);
                 cameraHolder.StartPreview();
 
             }
@@ -289,7 +288,7 @@ public class BracketModule extends PictureModule
                 {
                     waitForPicture = false;
                     isWorking = false;
-                    changeWorkState(CaptureModes.image_capture_stop);
+                    changeCaptureState(CaptureStates.image_capture_stop);
                 }
                 else
                 {

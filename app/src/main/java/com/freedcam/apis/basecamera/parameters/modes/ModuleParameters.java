@@ -20,6 +20,7 @@
 package com.freedcam.apis.basecamera.parameters.modes;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_Module;
 import com.freedcam.apis.basecamera.modules.AbstractModule;
 import com.freedcam.utils.AppSettingsManager;
 
@@ -42,7 +43,7 @@ public class ModuleParameters extends AbstractModeParameter {
     @Override
     public String[] GetValues() {
         List<String> mods = new ArrayList<>();
-        for (HashMap.Entry<String, AbstractModule> module : cameraUiWrapper.GetModuleHandler().moduleList.entrySet()) {
+        for (HashMap.Entry<String, I_Module> module : cameraUiWrapper.GetModuleHandler().moduleList.entrySet()) {
             mods.add(module.getValue().LongName());
         }
         return mods.toArray(new String[mods.size()]);
@@ -57,7 +58,7 @@ public class ModuleParameters extends AbstractModeParameter {
 
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
-        for (HashMap.Entry<String, AbstractModule> module : cameraUiWrapper.GetModuleHandler().moduleList.entrySet()) {
+        for (HashMap.Entry<String, I_Module> module : cameraUiWrapper.GetModuleHandler().moduleList.entrySet()) {
             if (valueToSet.equals(module.getValue().LongName())) {
                 appSettingsManager.SetCurrentModule(module.getValue().ModuleName());
                 cameraUiWrapper.GetModuleHandler().SetModule(module.getValue().ModuleName());

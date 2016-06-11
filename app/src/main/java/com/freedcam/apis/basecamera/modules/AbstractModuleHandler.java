@@ -22,9 +22,8 @@ package com.freedcam.apis.basecamera.modules;
 import android.content.Context;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.AbstractCameraHolder;
-import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_Module;
 import com.freedcam.apis.basecamera.interfaces.I_ModuleHandler;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
@@ -38,7 +37,7 @@ import java.util.HashMap;
  */
 public abstract class AbstractModuleHandler implements I_ModuleHandler
 {
-    public enum CaptureModes
+    public enum CaptureStates
     {
         video_recording_stop,
         video_recording_start,
@@ -52,20 +51,20 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
         cont_capture_stop_while_notworking,
     }
 
-    public interface I_worker
+    public interface CaptureStateChanged
     {
-        void onCaptureStateChanged(CaptureModes captureModes);
+        void onCaptureStateChanged(CaptureStates captureStates);
     }
 
-    ArrayList<I_worker> workers;
+    private ArrayList<CaptureStateChanged> onCaptureStateChangedListners;
 
     private String TAG = AbstractModuleHandler.class.getSimpleName();
     public ModuleEventHandler moduleEventHandler;
-    public AbstractMap<String, AbstractModule> moduleList;
-    protected AbstractModule currentModule;
+    public AbstractMap<String, I_Module> moduleList;
+    protected I_Module currentModule;
     protected I_CameraUiWrapper cameraUiWrapper;
 
-    protected I_worker workerListner;
+    protected CaptureStateChanged workerListner;
 
 
 
@@ -80,20 +79,20 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
 
         moduleEventHandler = new ModuleEventHandler();
-        workers = new ArrayList<>();
+        onCaptureStateChangedListners = new ArrayList<>();
 
-        workerListner = new I_worker() {
+        workerListner = new CaptureStateChanged() {
             @Override
-            public void onCaptureStateChanged(CaptureModes captureModes) {
-                for (int i =0; i < workers.size(); i++)
+            public void onCaptureStateChanged(CaptureStates captureStates) {
+                for (int i = 0; i < onCaptureStateChangedListners.size(); i++)
                 {
-                    if (workers.get(i) == null) {
-                        workers.remove(i);
+                    if (onCaptureStateChangedListners.get(i) == null) {
+                        onCaptureStateChangedListners.remove(i);
                         i--;
                     }
                     else
                     {
-                        workers.get(i).onCaptureStateChanged(captureModes);
+                        onCaptureStateChangedListners.get(i).onCaptureStateChanged(captureStates);
                     }
                 }
             }
@@ -108,13 +107,13 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
     public void SetModule(String name) {
         if (currentModule !=null) {
             currentModule.DestroyModule();
-            currentModule.SetWorkerListner(null);
+            currentModule.SetCaptureStateChangedListner(null);
 
         }
         currentModule = moduleList.get(name);
         currentModule.InitModule();
         moduleEventHandler.ModuleHasChanged(currentModule.ModuleName());
-        currentModule.SetWorkerListner(workerListner);
+        currentModule.SetCaptureStateChangedListner(workerListner);
         Logger.d(TAG, "Set Module to " + name);
     }
 
@@ -126,7 +125,7 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
     }
 
     @Override
-    public AbstractModule GetCurrentModule() {
+    public I_Module GetCurrentModule() {
         if (currentModule != null)
             return currentModule;
         return null;
@@ -143,17 +142,17 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
     }
 
     @Override
-    public void SetWorkListner(I_worker workerListner)
+    public void SetWorkListner(CaptureStateChanged workerListner)
     {
-        if (!workers.contains(workerListner))
-            workers.add(workerListner);
+        if (!onCaptureStateChangedListners.contains(workerListner))
+            onCaptureStateChangedListners.add(workerListner);
     }
 
 
     public void CLEARWORKERLISTNER()
     {
-        if (workers != null)
-            workers.clear();
+        if (onCaptureStateChangedListners != null)
+            onCaptureStateChangedListners.clear();
     }
 
 }

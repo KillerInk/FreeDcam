@@ -27,7 +27,7 @@ import android.support.v4.provider.DocumentFile;
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModule;
-import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureModes;
+import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
 import com.freedcam.apis.basecamera.modules.ModuleEventHandler;
 import com.freedcam.apis.sonyremote.CameraHolder;
 import com.freedcam.apis.sonyremote.parameters.ParameterHandler;
@@ -72,17 +72,17 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
             String shootmode = ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).ContShootMode.GetValue();
             if (!isWorking && shootmode.equals("Single"))
             {
-                changeWorkState(CaptureModes.image_capture_start);
+                changeCaptureState(CaptureStates.image_capture_start);
                 takePicture();
             }
             else if (!isWorking)
             {
-                changeWorkState(CaptureModes.continouse_capture_start);
+                changeCaptureState(CaptureStates.continouse_capture_start);
                 cameraHolder.startContShoot(this);
                 return true;
             } else
             {
-                changeWorkState(CaptureModes.cont_capture_stop_while_working);
+                changeCaptureState(CaptureStates.cont_capture_stop_while_working);
                 cameraHolder.stopContShoot(this);
                 return false;
             }
@@ -90,7 +90,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
         else
             if (!isWorking)
             {
-                changeWorkState(CaptureModes.image_capture_start);
+                changeCaptureState(CaptureStates.image_capture_start);
                 takePicture();
             }
         return true;
@@ -186,17 +186,17 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
         if (status.equals("IDLE") && isWorking)
         {
             isWorking = false;
-            if (currentWorkState == CaptureModes.image_capture_start)
-                changeWorkState(CaptureModes.image_capture_stop);
-            else if (currentWorkState == CaptureModes.continouse_capture_work_start || currentWorkState == CaptureModes.continouse_capture_start)
-                changeWorkState(CaptureModes.continouse_capture_work_stop);
+            if (currentWorkState == CaptureStates.image_capture_start)
+                changeCaptureState(CaptureStates.image_capture_stop);
+            else if (currentWorkState == CaptureStates.continouse_capture_work_start || currentWorkState == CaptureStates.continouse_capture_start)
+                changeCaptureState(CaptureStates.continouse_capture_work_stop);
         }
         else if ((status.equals("StillCapturing") || status.equals("StillSaving")) && !isWorking) {
             isWorking = true;
-            if (currentWorkState == CaptureModes.image_capture_stop)
-                changeWorkState(CaptureModes.image_capture_start);
-            else if (currentWorkState == CaptureModes.continouse_capture_work_stop || currentWorkState == CaptureModes.continouse_capture_stop)
-                changeWorkState(CaptureModes.continouse_capture_work_start);
+            if (currentWorkState == CaptureStates.image_capture_stop)
+                changeCaptureState(CaptureStates.image_capture_start);
+            else if (currentWorkState == CaptureStates.continouse_capture_work_stop || currentWorkState == CaptureStates.continouse_capture_stop)
+                changeCaptureState(CaptureStates.continouse_capture_work_start);
         }
 
     }

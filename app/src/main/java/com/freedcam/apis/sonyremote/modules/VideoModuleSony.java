@@ -24,10 +24,9 @@ import android.content.Context;
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModule;
-import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureModes;
+import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
 import com.freedcam.apis.basecamera.modules.ModuleEventHandler;
 import com.freedcam.apis.sonyremote.CameraHolder;
-import com.freedcam.utils.AppSettingsManager;
 
 /**
  * Created by troop on 08.06.2015.
@@ -82,11 +81,11 @@ public class VideoModuleSony extends AbstractModule implements I_CameraStatusCha
         if (status.equals("IDLE") && isWorking)
         {
             isWorking = false;
-            changeWorkState(CaptureModes.video_recording_stop);
+            changeCaptureState(CaptureStates.video_recording_stop);
         }
         else if (status.equals("MovieWaitRecStart") && !isWorking) {
             isWorking = true;
-            changeWorkState(CaptureModes.video_recording_start);
+            changeCaptureState(CaptureStates.video_recording_start);
         }
 
     }

@@ -69,21 +69,21 @@ public class ModuleHandlerSony extends AbstractModuleHandler implements I_Camera
     {
         Logger.d(TAG, "ShotmodeChanged:" + mode);
         if (currentModule !=null) {
-            currentModule.SetWorkerListner(null);
+            currentModule.SetCaptureStateChangedListner(null);
         }
         if (mode.equals("still"))
         {
             currentModule = moduleList.get(KEYS.MODULE_PICTURE);
 
             moduleEventHandler.ModuleHasChanged(currentModule.ModuleName());
-            currentModule.SetWorkerListner(workerListner);
+            currentModule.SetCaptureStateChangedListner(workerListner);
             currentModule.InitModule();
         }
         else if (mode.equals("movie"))
         {
             currentModule = moduleList.get(KEYS.MODULE_VIDEO);
             moduleEventHandler.ModuleHasChanged(currentModule.ModuleName());
-            currentModule.SetWorkerListner(workerListner);
+            currentModule.SetCaptureStateChangedListner(workerListner);
             currentModule.InitModule();
         }
     }

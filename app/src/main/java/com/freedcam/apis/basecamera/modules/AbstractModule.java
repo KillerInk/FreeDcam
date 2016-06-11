@@ -27,12 +27,10 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.support.v4.provider.DocumentFile;
 
-import com.freedcam.apis.basecamera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.interfaces.I_Module;
-import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureModes;
-import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.I_worker;
-import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
+import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStateChanged;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
@@ -52,11 +50,11 @@ public abstract class AbstractModule implements I_Module
     public String name;
 
     protected ModuleEventHandler eventHandler;
-    protected I_worker workerListner;
+    protected CaptureStateChanged captureStateChangedListner;
     private final String TAG = AbstractModule.class.getSimpleName();
     protected Context context;
     protected AppSettingsManager appSettingsManager;
-    protected CaptureModes currentWorkState;
+    protected CaptureStates currentWorkState;
     protected I_CameraUiWrapper cameraUiWrapper;
 
 
@@ -69,20 +67,20 @@ public abstract class AbstractModule implements I_Module
 
     }
 
-    public void SetWorkerListner(I_worker workerListner)
+    public void SetCaptureStateChangedListner(CaptureStateChanged captureStateChangedListner)
     {
-        this.workerListner = workerListner;
+        this.captureStateChangedListner = captureStateChangedListner;
     }
 
     /**
      * throw this when camera starts working to notify ui
      */
-    protected void changeWorkState(CaptureModes captureModes)
+    protected void changeCaptureState(CaptureStates captureStates)
     {
         Logger.d(TAG, "work started");
-        currentWorkState = captureModes;
-        if (workerListner != null)
-            workerListner.onCaptureStateChanged(captureModes);
+        currentWorkState = captureStates;
+        if (captureStateChangedListner != null)
+            captureStateChangedListner.onCaptureStateChanged(captureStates);
     }
 
     @Override

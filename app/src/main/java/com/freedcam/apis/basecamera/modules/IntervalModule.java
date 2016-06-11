@@ -22,17 +22,15 @@ package com.freedcam.apis.basecamera.modules;
 import android.content.Context;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureModes;
-import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.I_worker;
-import com.freedcam.utils.AppSettingsManager;
+import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
+import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStateChanged;
 import com.freedcam.utils.Logger;
 
 /**
  * Created by troop on 08.01.2016.
  */
-public class IntervalModule extends AbstractModule implements I_worker
+public class IntervalModule extends AbstractModule implements CaptureStateChanged
 {
     private AbstractModule picModule;
     private IntervalHandler intervalHandler;
@@ -64,7 +62,7 @@ public class IntervalModule extends AbstractModule implements I_worker
             Logger.d(TAG, "StartInterval");
             isWorking = true;
             intervalHandler.StartInterval();
-            changeWorkState(CaptureModes.continouse_capture_start);
+            changeCaptureState(CaptureStates.continouse_capture_start);
             return true;
         } else {
             Logger.d(TAG, "Stop Interval");
@@ -73,11 +71,11 @@ public class IntervalModule extends AbstractModule implements I_worker
             if (picModule.isWorking)
             {
                 Logger.d(TAG, "changeWorkstate to cont_capture_stop_while_working");
-                changeWorkState(CaptureModes.cont_capture_stop_while_working);
+                changeCaptureState(CaptureStates.cont_capture_stop_while_working);
             }
             else {
                 Logger.d(TAG, "changeWorkstate to cont_capture_stop_while_notworking");
-                changeWorkState(CaptureModes.cont_capture_stop_while_notworking);
+                changeCaptureState(CaptureStates.cont_capture_stop_while_notworking);
             }
             return false;
         }
@@ -85,7 +83,7 @@ public class IntervalModule extends AbstractModule implements I_worker
 
     @Override
     public void InitModule() {
-        picModule.SetWorkerListner(this);
+        picModule.SetCaptureStateChangedListner(this);
     }
 
     @Override
@@ -94,25 +92,25 @@ public class IntervalModule extends AbstractModule implements I_worker
     }
 
     @Override
-    public void onCaptureStateChanged(CaptureModes captureModes)
+    public void onCaptureStateChanged(CaptureStates captureStates)
     {
-        Logger.d(TAG, "onCaptureStateChanged from picModule " +captureModes);
-        switch (captureModes)
+        Logger.d(TAG, "onCaptureStateChanged from picModule " + captureStates);
+        switch (captureStates)
         {
             case image_capture_stop:
                 Logger.d(TAG, "Work Finished");
                 if (isWorking)
                 {
                     intervalHandler.DoNextInterval();
-                    changeWorkState(CaptureModes.continouse_capture_work_stop);
+                    changeCaptureState(CaptureStates.continouse_capture_work_stop);
                 }
                 else
                 {
-                    Logger.d(TAG, "changework to "+ CaptureModes.continouse_capture_stop);
+                    Logger.d(TAG, "changework to "+ CaptureStates.continouse_capture_stop);
                     if (picModule.isWorking)
-                        changeWorkState(CaptureModes.continouse_capture_stop);
+                        changeCaptureState(CaptureStates.continouse_capture_stop);
                     else
-                        changeWorkState(CaptureModes.cont_capture_stop_while_notworking);
+                        changeCaptureState(CaptureStates.cont_capture_stop_while_notworking);
                 }
                 break;
 

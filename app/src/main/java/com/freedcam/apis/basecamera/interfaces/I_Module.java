@@ -19,11 +19,14 @@
 
 package com.freedcam.apis.basecamera.interfaces;
 
+import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
+
 /**
  * Created by troop on 15.08.2014.
  */
 public interface I_Module
 {
+    void SetCaptureStateChangedListner(AbstractModuleHandler.CaptureStateChanged captureStateChangedListner);
     /**
      * holds the modulename
      * @return the name of the module

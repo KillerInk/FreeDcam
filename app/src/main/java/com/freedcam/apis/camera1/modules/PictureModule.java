@@ -28,14 +28,13 @@ import android.support.v4.provider.DocumentFile;
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModule;
-import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureModes;
+import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
 import com.freedcam.apis.basecamera.modules.I_Callbacks.PictureCallback;
 import com.freedcam.apis.basecamera.modules.ModuleEventHandler;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.jni.RawToDng;
 import com.freedcam.ui.handler.MediaScannerManager;
-import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.FreeDPool;
@@ -105,7 +104,7 @@ public class PictureModule extends AbstractModule implements PictureCallback
                     Logger.d(TAG,"ZSL state after turning it off:" + cameraUiWrapper.GetParameterHandler().ZSL.GetValue());
                 }
             }
-            changeWorkState(CaptureModes.image_capture_start);
+            changeCaptureState(CaptureStates.image_capture_start);
             waitForPicture = true;
             burstcount = 0;
             cameraHolder.TakePicture(null, this);
@@ -140,7 +139,7 @@ public class PictureModule extends AbstractModule implements PictureCallback
         {
             Logger.d(TAG, "Got pic data but did not wait for pic");
             waitForPicture = false;
-            changeWorkState(CaptureModes.image_capture_stop);
+            changeCaptureState(CaptureStates.image_capture_stop);
             cameraHolder.StartPreview();
             return;
         }
@@ -163,7 +162,7 @@ public class PictureModule extends AbstractModule implements PictureCallback
                 waitForPicture = false;
                 isWorking = false;
                 cameraHolder.StartPreview();
-                changeWorkState(CaptureModes.image_capture_stop);
+                changeCaptureState(CaptureStates.image_capture_stop);
             }
         }
         else //handel normal capture
@@ -171,7 +170,7 @@ public class PictureModule extends AbstractModule implements PictureCallback
             isWorking = false;
             waitForPicture = false;
             cameraHolder.StartPreview();
-            changeWorkState(CaptureModes.image_capture_stop);
+            changeCaptureState(CaptureStates.image_capture_stop);
         }
 
 

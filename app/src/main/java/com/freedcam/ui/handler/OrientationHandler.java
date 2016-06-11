@@ -4,14 +4,14 @@ import android.hardware.SensorManager;
 import android.support.v4.app.FragmentActivity;
 import android.view.OrientationEventListener;
 
-import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureModes;
-import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.I_worker;
+import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
+import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStateChanged;
 import com.freedcam.utils.Logger;
 
 /**
  * Created by troop on 17.09.2014.
  */
-public class OrientationHandler implements I_worker
+public class OrientationHandler implements CaptureStateChanged
 {
     private int currentOrientation = 0;
     private OrientationEventListener orientationEventListener;
@@ -65,7 +65,7 @@ public class OrientationHandler implements I_worker
     }
 
     @Override
-    public void onCaptureStateChanged(CaptureModes modes)
+    public void onCaptureStateChanged(CaptureStates modes)
     {
         switch (modes)
         {

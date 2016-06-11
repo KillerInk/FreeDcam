@@ -30,7 +30,7 @@ import android.support.v4.provider.DocumentFile;
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModule;
-import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureModes;
+import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
 import com.freedcam.apis.basecamera.modules.I_RecorderStateChanged;
 import com.freedcam.apis.basecamera.modules.ModuleEventHandler;
 import com.freedcam.apis.camera1.CameraHolder;
@@ -98,7 +98,7 @@ public abstract class AbstractVideoModule extends AbstractModule
     protected void startRecording()
     {
         prepareRecorder();
-        changeWorkState(CaptureModes.video_recording_start);
+        changeCaptureState(CaptureStates.video_recording_start);
 
     }
 
@@ -151,7 +151,7 @@ public abstract class AbstractVideoModule extends AbstractModule
                 ((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCamera().lock();
                 recorder.release();
                 isWorking = false;
-                changeWorkState(CaptureModes.video_recording_stop);
+                changeCaptureState(CaptureStates.video_recording_stop);
             }
         }
         catch (NullPointerException ex)
@@ -164,7 +164,7 @@ public abstract class AbstractVideoModule extends AbstractModule
             ((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCamera().lock();
             recorder.release();
             isWorking = false;
-            changeWorkState(CaptureModes.video_recording_stop);
+            changeCaptureState(CaptureStates.video_recording_stop);
         }
     }
 
@@ -202,7 +202,7 @@ public abstract class AbstractVideoModule extends AbstractModule
             eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
             isWorking = false;
         }
-        changeWorkState(CaptureModes.video_recording_stop);
+        changeCaptureState(CaptureStates.video_recording_stop);
     }
 
     protected void setRecorderOutPutFile(String s)

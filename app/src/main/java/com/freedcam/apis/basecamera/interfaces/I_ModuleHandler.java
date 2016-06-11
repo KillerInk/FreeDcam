@@ -20,7 +20,7 @@
 package com.freedcam.apis.basecamera.interfaces;
 
 import com.freedcam.apis.basecamera.modules.AbstractModule;
-import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.I_worker;
+import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStateChanged;
 
 /**
  * Created by troop on 09.12.2014.
@@ -43,7 +43,7 @@ public interface I_ModuleHandler
      * get the current module instace
      * @return current active module
      */
-    AbstractModule GetCurrentModule();
+    I_Module GetCurrentModule();
 
     /**
      * Start work on the current modulé
@@ -55,7 +55,7 @@ public interface I_ModuleHandler
      * Add worklistner that listen to the current module
      * @param workerListner to add
      */
-    void SetWorkListner(I_worker workerListner);
+    void SetWorkListner(CaptureStateChanged workerListner);
 
     void initModules();
 }
