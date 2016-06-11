@@ -23,6 +23,8 @@ import android.content.Context;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.AbstractCameraHolder;
+import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.interfaces.I_ModuleHandler;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
@@ -61,7 +63,8 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
     public ModuleEventHandler moduleEventHandler;
     public AbstractMap<String, AbstractModule> moduleList;
     protected AbstractModule currentModule;
-    protected AbstractCameraHolder cameraHolder;
+    protected I_CameraHolder cameraHolder;
+    protected I_CameraUiWrapper cameraUiWrapper;
 
     protected I_worker workerListner;
 
@@ -70,12 +73,13 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
     protected Context context;
     protected AppSettingsManager appSettingsManager;
 
-    public AbstractModuleHandler(AbstractCameraHolder cameraHolder, Context context,AppSettingsManager appSettingsManager)
+    public AbstractModuleHandler(Context context, I_CameraUiWrapper cameraUiWrapper)
     {
-        this.cameraHolder = cameraHolder;
+        this.cameraUiWrapper = cameraUiWrapper;
+        this.cameraHolder = cameraUiWrapper.GetCameraHolder();
         moduleList  = new HashMap<>();
         this.context = context;
-        this.appSettingsManager = appSettingsManager;
+        this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
 
         moduleEventHandler = new ModuleEventHandler();
         workers = new ArrayList<>();

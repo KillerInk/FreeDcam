@@ -25,6 +25,7 @@ import android.os.Build.VERSION_CODES;
 import android.support.v4.provider.DocumentFile;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.modules.ModuleEventHandler;
@@ -51,10 +52,10 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     private static String TAG = PictureModuleSony.class.getSimpleName();
     private CameraHolder cameraHolder;
 
-    public PictureModuleSony(CameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
-        super(cameraHandler, eventHandler,context,appSettingsManager);
+    public PictureModuleSony(Context context, I_CameraUiWrapper cameraUiWrapper) {
+        super(context, cameraUiWrapper);
         name = KEYS.MODULE_PICTURE;
-        cameraHolder = cameraHandler;
+        cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
 
 
     }

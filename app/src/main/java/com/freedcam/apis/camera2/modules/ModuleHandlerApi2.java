@@ -22,6 +22,7 @@ package com.freedcam.apis.camera2.modules;
 import android.content.Context;
 
 import com.freedcam.apis.basecamera.AbstractCameraHolder;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.modules.IntervalModule;
 import com.freedcam.apis.camera2.CameraHolder;
@@ -33,32 +34,28 @@ import com.freedcam.utils.RenderScriptHandler;
  */
 public class ModuleHandlerApi2 extends AbstractModuleHandler
 {
-
     private CameraHolder cameraHolder;
-
     private static String TAG = "freedcam.ModuleHandler";
-    private AppSettingsManager appSettingsManager;
     private RenderScriptHandler renderScriptHandler;
 
 
-    public  ModuleHandlerApi2 (AbstractCameraHolder cameraHolder, Context context, AppSettingsManager appSettingsManager, RenderScriptHandler renderScriptHandler)
+    public  ModuleHandlerApi2 (Context context, I_CameraUiWrapper cameraUiWrapper, RenderScriptHandler renderScriptHandler)
     {
-        super(cameraHolder,context,appSettingsManager);
-        this.cameraHolder = (CameraHolder) cameraHolder;
-        this.appSettingsManager = appSettingsManager;
+        super(context,cameraUiWrapper);
+        this.cameraHolder = (CameraHolder) cameraUiWrapper.GetCameraHolder();
         this.renderScriptHandler = renderScriptHandler;
         initModules();
     }
 
     protected void initModules()
     {
-        PictureModuleApi2 pictureModuleApi2 = new PictureModuleApi2(cameraHolder, moduleEventHandler,context,appSettingsManager);
+        PictureModuleApi2 pictureModuleApi2 = new PictureModuleApi2(context,cameraUiWrapper);
         moduleList.put(pictureModuleApi2.ModuleName(), pictureModuleApi2);
-        IntervalModule intervalModule = new IntervalApi2(cameraHolder,moduleEventHandler,pictureModuleApi2,context,appSettingsManager);
+        IntervalModule intervalModule = new IntervalApi2(pictureModuleApi2,context,cameraUiWrapper);
         moduleList.put(intervalModule.ModuleName(), intervalModule);
-        VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(cameraHolder,moduleEventHandler,context,appSettingsManager);
+        VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(context,cameraUiWrapper);
         moduleList.put(videoModuleApi2.ModuleName(), videoModuleApi2);
-        StackingModuleApi2 stackingModuleApi2 = new StackingModuleApi2(cameraHolder,moduleEventHandler,context,appSettingsManager, renderScriptHandler);
+        StackingModuleApi2 stackingModuleApi2 = new StackingModuleApi2(context,cameraUiWrapper, renderScriptHandler);
         moduleList.put(stackingModuleApi2.ModuleName(), stackingModuleApi2);
         //init the Modules DeviceDepending
         //splitting modules make the code foreach device cleaner

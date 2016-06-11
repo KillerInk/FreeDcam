@@ -30,6 +30,7 @@ import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.basecamera.parameters.modes.ModuleParameters;
+import com.freedcam.apis.camera1.parameters.device.I_Device;
 import com.freedcam.apis.camera1.parameters.modes.StackModeParameter;
 import com.freedcam.apis.camera2.CameraHolder;
 import com.freedcam.apis.camera2.FocusHandler;
@@ -67,12 +68,12 @@ public class ParameterHandler extends AbstractParameterHandler
     private ManualToneMapCurveApi2 manualToneMapCurveApi2;
 
     private CameraHolder cameraHolder;
-    I_CameraUiWrapper wrapper;
+    //I_CameraUiWrapper wrapper;
 
-    public ParameterHandler(I_CameraUiWrapper wrapper, Context context, AppSettingsManager appSettingsManager)
+    public ParameterHandler(I_CameraUiWrapper wrapper, Context context)
     {
-        super(wrapper.GetCameraHolder(),context,appSettingsManager);
-        this.wrapper = wrapper;
+        super(context,wrapper);
+        //this.wrapper = wrapper;
         this.cameraHolder = (CameraHolder) wrapper.GetCameraHolder();
 
     }
@@ -85,14 +86,14 @@ public class ParameterHandler extends AbstractParameterHandler
         {
             Logger.d(TAG, keys.get(i).getName());
         }
-        Module = new ModuleParameters(wrapper,appSettingsManager);
+        Module = new ModuleParameters(cameraUiWrapper,appSettingsManager);
         FlashMode = new FlashModeApi2(cameraHolder);
         SceneMode = new SceneModeApi2(cameraHolder);
         ColorMode = new ColorModeApi2(cameraHolder);
 
         WbHandler wbHandler = new WbHandler(context,cameraHolder,this);
         //AE mode start
-        AeHandler aeHandler = new AeHandler(context,cameraHolder,this);
+        AeHandler aeHandler = new AeHandler(context,cameraUiWrapper);
         //ae mode end
         AntiBandingMode = new AntibandingApi2(cameraHolder);
         PictureSize = new PictureSizeModeApi2(cameraHolder);
@@ -127,7 +128,7 @@ public class ParameterHandler extends AbstractParameterHandler
         Burst = new BurstApi2(context,this,cameraHolder);
         Focuspeak = new FocusPeakModeApi2(cameraHolder);
         //VideoSize = new VideoSizeModeApi2(uiHandler,cameraHolder);
-        VideoProfiles = new VideoProfilesApi2(cameraHolder,wrapper);
+        VideoProfiles = new VideoProfilesApi2(cameraHolder,cameraUiWrapper);
         oismode = new OisModeApi2(cameraHolder);
         matrixChooser = new MatrixChooserParameter();
         imageStackMode = new StackModeParameter();
@@ -149,6 +150,11 @@ public class ParameterHandler extends AbstractParameterHandler
 
     }
 
+
+    @Override
+    public I_Device getDevice() {
+        return null;
+    }
 
     @Override
     public void SetPictureOrientation(int orientation)

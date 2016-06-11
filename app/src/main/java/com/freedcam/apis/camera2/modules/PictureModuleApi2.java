@@ -48,6 +48,7 @@ import android.util.Size;
 import android.view.Surface;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.modules.ModuleEventHandler;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualShutter;
@@ -97,8 +98,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private Handler handler;
     private int imagecount = 0;
 
-    public PictureModuleApi2(CameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
-        super(cameraHandler, eventHandler,context,appSettingsManager);
+    public PictureModuleApi2(Context context, I_CameraUiWrapper cameraUiWrapper) {
+        super(context,cameraUiWrapper);
         name = KEYS.MODULE_PICTURE;
         handler = new Handler(Looper.getMainLooper());
 
@@ -332,7 +333,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                             file = process_rawWithDngConverter(burstcount, reader,DngProfile.Mipi12);
                             break;
                         case ImageFormat.RAW_SENSOR:
-                            if(cameraHolder.appSettingsManager.getDevice() == Devices.Moto_MSM8974 || cameraHolder.appSettingsManager.getDevice() == Devices.OnePlusTwo)
+                            if(appSettingsManager.getDevice() == Devices.Moto_MSM8974 || appSettingsManager.getDevice() == Devices.OnePlusTwo)
                                 file = process_rawWithDngConverter(burstcount, reader,DngProfile.Mipi16);
                             else
                                 file = process_rawSensor(burstcount, reader);

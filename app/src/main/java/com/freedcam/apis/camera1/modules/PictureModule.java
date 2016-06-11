@@ -26,6 +26,7 @@ import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.modules.I_Callbacks.PictureCallback;
@@ -58,17 +59,17 @@ public class PictureModule extends AbstractModule implements PictureCallback
 
     private static String TAG = PictureModule.class.getSimpleName();
     private int burstcount = 0;
-    protected ParametersHandler ParameterHandler;
+    //protected ParametersHandler ParameterHandler;
     protected CameraHolder cameraHolder;
     protected boolean waitForPicture = false;
 
 
-    public PictureModule(CameraHolder cameraHolder, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager)
+    public PictureModule(Context context, I_CameraUiWrapper cameraUiWrapper)
     {
-        super(cameraHolder, eventHandler,context,appSettingsManager);
+        super(context, cameraUiWrapper);
         name = KEYS.MODULE_PICTURE;
-        ParameterHandler = (ParametersHandler)cameraHolder.GetParameterHandler();
-        this.cameraHolder = cameraHolder;
+        //ParameterHandler = (ParametersHandler)cameraUiWrapper.GetParameterHandler();
+        this.cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
     }
 
     @Override
@@ -123,7 +124,7 @@ public class PictureModule extends AbstractModule implements PictureCallback
         if (ParameterHandler.VideoHDR != null && ParameterHandler.VideoHDR.IsSupported() && !ParameterHandler.VideoHDR.GetValue().equals("off"))
             ParameterHandler.VideoHDR.SetValue("off", true);
         if(appSettingsManager.getDevice() == Devices.ZTE_ADV || appSettingsManager.getDevice() == Devices.ZTEADV234 ||appSettingsManager.getDevice() == Devices.ZTEADVIMX214) {
-            ParameterHandler.SetZTESlowShutter();
+            ((ParametersHandler)ParameterHandler).SetZTESlowShutter();
         }
     }
 
@@ -229,8 +230,8 @@ public class PictureModule extends AbstractModule implements PictureCallback
             gpsTime = cameraHolder.gpsLocation.getTime();
             dngConverter.SetGPSData(Altitude, Latitude, Longitude, Provider, gpsTime);
         }
-        float fnum = ParameterHandler.Device.GetFnumber();
-        float focal = ParameterHandler.Device.GetFocal();
+        float fnum = ParameterHandler.getDevice().GetFnumber();
+        float focal = ParameterHandler.getDevice().GetFocal();
         dngConverter.setExifData(0, 0, 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
 
         if (ParameterHandler.CCT != null && ParameterHandler.CCT.IsSupported())
@@ -248,7 +249,7 @@ public class PictureModule extends AbstractModule implements PictureCallback
             Logger.d(TAG, "Write To internal or kitkat<");
             checkFileExists(file);
             dngConverter.SetBayerData(data, file.getAbsolutePath());
-            dngConverter.WriteDngWithProfile(ParameterHandler.Device.getDngProfile(data.length));
+            dngConverter.WriteDngWithProfile(ParameterHandler.getDevice().getDngProfile(data.length));
             dngConverter.RELEASE();
         }
         else
@@ -266,7 +267,7 @@ public class PictureModule extends AbstractModule implements PictureCallback
             if (pfd != null)
             {
                 dngConverter.SetBayerDataFD(data, pfd, file.getName());
-                dngConverter.WriteDngWithProfile(ParameterHandler.Device.getDngProfile(data.length));
+                dngConverter.WriteDngWithProfile(ParameterHandler.getDevice().getDngProfile(data.length));
                 dngConverter.RELEASE();
                 try {
                     pfd.close();

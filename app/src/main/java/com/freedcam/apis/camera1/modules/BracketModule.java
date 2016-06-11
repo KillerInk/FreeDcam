@@ -22,6 +22,7 @@ package com.freedcam.apis.camera1.modules;
 import android.content.Context;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.modules.I_Callbacks.PictureCallback;
 import com.freedcam.apis.basecamera.modules.ModuleEventHandler;
@@ -49,8 +50,8 @@ public class BracketModule extends PictureModule
     int ogExpoValue = 0;
     private Context context;
 
-    public BracketModule(CameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
-        super(cameraHandler, eventHandler, context,appSettingsManager);
+    public BracketModule(Context context, I_CameraUiWrapper cameraUiWrapper) {
+        super(context,cameraUiWrapper);
         name = KEYS.MODULE_HDR;
         this.context = context;
     }

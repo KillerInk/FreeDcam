@@ -24,6 +24,7 @@ import android.content.Context;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.parameters.modes.ModuleParameters;
+import com.freedcam.apis.camera1.parameters.device.I_Device;
 import com.freedcam.apis.sonyremote.CameraHolder;
 import com.freedcam.apis.sonyremote.parameters.manual.BaseManualParameterSony;
 import com.freedcam.apis.sonyremote.parameters.manual.ExposureCompManualParameterSony;
@@ -56,22 +57,19 @@ import java.util.Set;
 public class ParameterHandler extends AbstractParameterHandler
 {
     private static String TAG = ParameterHandler.class.getSimpleName();
-    private CameraHolder cameraHolder;
     public SimpleRemoteApi mRemoteApi;
     public Set<String> mAvailableCameraApiSet;
-    private Set<String> mSupportedApiSet;
     private List<I_SonyApi> parametersChangedList;
     private SimpleStreamSurfaceView surfaceView;
-    private I_CameraUiWrapper wrapper;
+    private I_CameraUiWrapper cameraUiWrapper;
 
 
-    public ParameterHandler(I_CameraUiWrapper wrapper, SimpleStreamSurfaceView surfaceView, Context context, AppSettingsManager appSettingsManager)
+    public ParameterHandler(I_CameraUiWrapper cameraUiWrapper, SimpleStreamSurfaceView surfaceView, Context context)
     {
-        super(wrapper.GetCameraHolder(),context,appSettingsManager);
-        cameraHolder = (CameraHolder) wrapper.GetCameraHolder();
+        super(context,cameraUiWrapper);
         parametersChangedList  = new ArrayList<>();
         this.surfaceView = surfaceView;
-        this.wrapper =wrapper;
+        this.cameraUiWrapper =cameraUiWrapper;
     }
 
     public void SetCameraApiSet(Set<String> mAvailableCameraApiSet)
@@ -98,7 +96,7 @@ public class ParameterHandler extends AbstractParameterHandler
 
     private void createParameters()
     {
-        Module = new ModuleParameters(wrapper,appSettingsManager);
+        Module = new ModuleParameters(cameraUiWrapper,appSettingsManager);
         PictureSize = new PictureSizeSony(mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony)PictureSize);
 
@@ -180,4 +178,8 @@ public class ParameterHandler extends AbstractParameterHandler
         createParameters();
     }
 
+    @Override
+    public I_Device getDevice() {
+        return null;
+    }
 }

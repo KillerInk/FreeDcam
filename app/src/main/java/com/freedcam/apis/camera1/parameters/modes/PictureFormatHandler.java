@@ -183,9 +183,9 @@ public class PictureFormatHandler extends BaseModeParameter
     @Override
     public String[] GetValues()
     {
-        if (rawSupported && parametersHandler != null && parametersHandler.Device != null && !parametersHandler.Device.IsDngSupported())
+        if (rawSupported && parametersHandler != null && parametersHandler.getDevice() != null && !parametersHandler.getDevice().IsDngSupported())
             return new String[]{CaptureMode[JPEG],CaptureMode[RAW]};
-        else if(rawSupported && parametersHandler != null && parametersHandler.Device != null && parametersHandler.Device.IsDngSupported())
+        else if(rawSupported && parametersHandler != null && parametersHandler.getDevice() != null && parametersHandler.getDevice().IsDngSupported())
             return new String[]{CaptureMode[JPEG],CaptureMode[DNG],CaptureMode[RAW]};
         else
             return new String[]{CaptureMode[JPEG]};

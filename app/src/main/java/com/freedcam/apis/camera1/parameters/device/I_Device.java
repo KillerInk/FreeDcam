@@ -52,4 +52,5 @@ public interface I_Device
     float GetFocal();
     float getCurrentExposuretime();
     int getCurrentIso();
+    void Set_RAWFNAME(String filename);
 }

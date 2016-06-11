@@ -25,6 +25,7 @@ import android.os.Looper;
 
 import com.freedcam.apis.basecamera.FocusRect;
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
 import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.GuideList;
@@ -33,6 +34,7 @@ import com.freedcam.apis.basecamera.parameters.modes.IntervalDurationParameter;
 import com.freedcam.apis.basecamera.parameters.modes.IntervalShutterSleepParameter;
 import com.freedcam.apis.basecamera.parameters.modes.LocationParameter;
 import com.freedcam.apis.basecamera.parameters.modes.SDModeParameter;
+import com.freedcam.apis.camera1.parameters.device.I_Device;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
@@ -50,9 +52,10 @@ public abstract class AbstractParameterHandler
     protected Handler uiHandler;
     private ArrayList<I_ParametersLoaded> parametersLoadedListner;
     protected Context context;
-    public I_CameraHolder cameraHolder;
 
     public AppSettingsManager appSettingsManager;
+
+    protected I_CameraUiWrapper cameraUiWrapper;
 
     public I_ManualParameter ManualBrightness;
     public I_ManualParameter ManualEdge;
@@ -176,23 +179,25 @@ public abstract class AbstractParameterHandler
 
 
 
-    public AbstractParameterHandler(I_CameraHolder cameraHolder, Context context, AppSettingsManager appSettingsManager) {
+    public AbstractParameterHandler(Context context, I_CameraUiWrapper cameraUiWrapper) {
         super();
-        this.cameraHolder = cameraHolder;
+        this.cameraUiWrapper = cameraUiWrapper;
         uiHandler = new Handler(Looper.getMainLooper());
         this.context = context;
-        this.appSettingsManager = appSettingsManager;
+        this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
         parametersLoadedListner = new ArrayList<>();
         parametersLoadedListner.clear();
 
         GuideList = new GuideList();
-        locationParameter = new LocationParameter(cameraHolder, context, appSettingsManager);
+        locationParameter = new LocationParameter(cameraUiWrapper.GetCameraHolder(), context, appSettingsManager);
         IntervalDuration = new IntervalDurationParameter();
         IntervalShutterSleep = new IntervalShutterSleepParameter(context);
         Horizont = new Horizont();
         SdSaveLocation = new SDModeParameter(appSettingsManager);
 
     }
+
+    public abstract I_Device getDevice();
 
     public void SetFocusAREA(FocusRect focusAreas, FocusRect meteringAreas){}
     public void SetMeterAREA(FocusRect meteringAreas){}

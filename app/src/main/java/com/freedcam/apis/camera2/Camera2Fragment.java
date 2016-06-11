@@ -67,9 +67,9 @@ public class Camera2Fragment extends AbstractCameraFragment implements TextureVi
         errorHandler = this;
         cameraHolder = new CameraHolder(getContext(), this,appSettingsManager,renderScriptHandler);
         super.cameraHolder = cameraHolder;
-        parametersHandler = new ParameterHandler(this,getContext(),appSettingsManager);
+        parametersHandler = new ParameterHandler(this,getContext());
         cameraHolder.SetParameterHandler(parametersHandler);
-        moduleHandler = new ModuleHandlerApi2(cameraHolder,getContext(),appSettingsManager,renderScriptHandler);
+        moduleHandler = new ModuleHandlerApi2(getContext(),this,renderScriptHandler);
         Focus = new FocusHandler(this);
         cameraHolder.Focus = Focus;
         Logger.d(TAG, "Constructor done");

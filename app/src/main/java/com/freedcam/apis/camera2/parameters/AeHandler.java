@@ -26,8 +26,10 @@ import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualShutter;
+import com.freedcam.apis.camera2.parameters.ParameterHandler;
 import com.freedcam.apis.camera2.CameraHolder;
 import com.freedcam.apis.camera2.parameters.modes.BaseModeApi2;
 import com.freedcam.utils.DeviceUtils.Devices;
@@ -42,6 +44,7 @@ import java.util.ArrayList;
 public class AeHandler
 {
     private CameraHolder cameraHolder;
+    private I_CameraUiWrapper cameraUiWrapper;
     private ParameterHandler parameterHandler;
     private AeModeApi2 aeModeApi2;
     private ManualExposureApi2 manualExposureApi2;
@@ -50,10 +53,11 @@ public class AeHandler
 
     private AEModes activeAeMode = AEModes.on;
 
-    public AeHandler(Context context, CameraHolder cameraHolder, ParameterHandler parameterHandler)
+    public AeHandler(Context context, I_CameraUiWrapper cameraUiWrapper)
     {
-        this.cameraHolder = cameraHolder;
-        this.parameterHandler = parameterHandler;
+        this.cameraUiWrapper = cameraUiWrapper;
+        this.cameraHolder = (CameraHolder) cameraUiWrapper.GetCameraHolder();
+        this.parameterHandler = (ParameterHandler) cameraUiWrapper.GetParameterHandler();
         aeModeApi2 = new AeModeApi2(this.cameraHolder);
         manualExposureApi2 = new ManualExposureApi2(context,parameterHandler);
         manualExposureTimeApi2 = new ManualExposureTimeApi2(parameterHandler, context);
@@ -247,13 +251,13 @@ public class AeHandler
             Logger.d(TAG, "max exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper());
             Logger.d(TAG, "min exposuretime:" + cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower());
             //866 975 130 = 0,8sec
-            if (cameraHolder.appSettingsManager.getDevice() == Devices.LG_G4 && VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP_MR1)
+            if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G4 && VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP_MR1)
                 millimax = 60000000;
-            else if (cameraHolder.appSettingsManager.getDevice() == Devices.LG_G4 && VERSION.SDK_INT == VERSION_CODES.M)
+            else if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G4 && VERSION.SDK_INT == VERSION_CODES.M)
                 millimax = 45000000;
-            else if (cameraHolder.appSettingsManager.getDevice() == Devices.Samsung_S6_edge_plus)
+            else if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Samsung_S6_edge_plus)
                 millimax = 10000000;
-            else if (cameraHolder.appSettingsManager.getDevice() == Devices.Moto_MSM8982_8994)
+            else if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Moto_MSM8982_8994)
                 millimax = 10000000;
             else
                 millimax = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper().intValue() / 1000;

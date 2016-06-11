@@ -159,8 +159,8 @@ public class AE_Handler_LGG4
                 while (readMetaData && auto)
                 {
                     try {
-                        shutterPrameter.ThrowCurrentValueStringCHanged("1/"+(int)parametersHandler.Device.getCurrentExposuretime());
-                        isoManualParameter.ThrowCurrentValueStringCHanged(parametersHandler.Device.getCurrentIso()+"");
+                        shutterPrameter.ThrowCurrentValueStringCHanged("1/"+(int)parametersHandler.getDevice().getCurrentExposuretime());
+                        isoManualParameter.ThrowCurrentValueStringCHanged(parametersHandler.getDevice().getCurrentIso()+"");
                     }
                     catch (RuntimeException ex)
                     {

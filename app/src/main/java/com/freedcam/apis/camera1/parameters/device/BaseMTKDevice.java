@@ -163,4 +163,10 @@ public class BaseMTKDevice extends AbstractDevice
         else
             return 0;
     }
+
+    @Override
+    public void Set_RAWFNAME(String filename) {
+        parameters.set("rawfname", filename);
+        cameraHolder.SetCameraParameters(parameters);
+    }
 }

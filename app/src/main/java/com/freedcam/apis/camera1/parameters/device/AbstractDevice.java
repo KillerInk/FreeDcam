@@ -217,4 +217,9 @@ public abstract class AbstractDevice implements I_Device {
     {
         return 0;
     }
+
+    @Override
+    public void Set_RAWFNAME(String filename) {
+
+    }
 }

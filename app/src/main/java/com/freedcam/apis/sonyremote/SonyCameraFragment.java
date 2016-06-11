@@ -92,10 +92,10 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
         wifiUtils = new WifiUtils(view.getContext());
         mSsdpClient = new SimpleSsdpClient();
         cameraHolder = new CameraHolder(surfaceView.getContext(), surfaceView, this,appSettingsManager);
-        parametersHandler = new ParameterHandler(this, surfaceView, getContext(),appSettingsManager);
+        parametersHandler = new ParameterHandler(this, surfaceView, getContext());
         cameraHolder.ParameterHandler = (ParameterHandler) parametersHandler;
 
-        moduleHandler = new ModuleHandlerSony(cameraHolder,getContext(),appSettingsManager);
+        moduleHandler = new ModuleHandlerSony(getContext(),this);
         Focus = new FocusHandler(this);
         super.cameraHolder = cameraHolder;
         cameraHolder.focusHandler =(FocusHandler) Focus;

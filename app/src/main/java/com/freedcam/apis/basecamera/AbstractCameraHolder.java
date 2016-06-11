@@ -46,7 +46,7 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     //handler wich runs in mainthread
     protected Handler UIHandler;
     //holds the appsettings
-    public AppSettingsManager appSettingsManager;
+    protected AppSettingsManager appSettingsManager;
 
     /**
      *

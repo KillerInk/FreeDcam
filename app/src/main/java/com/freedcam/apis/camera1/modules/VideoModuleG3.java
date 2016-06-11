@@ -25,6 +25,7 @@ import android.media.MediaRecorder.AudioSource;
 import android.media.MediaRecorder.OutputFormat;
 import android.media.MediaRecorder.VideoSource;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.ModuleEventHandler;
 import com.freedcam.apis.basecamera.modules.VideoMediaProfile;
 import com.freedcam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
@@ -45,8 +46,8 @@ public class VideoModuleG3 extends AbstractVideoModule
 
     static final String TAG = VideoModuleG3.class.getSimpleName();
 
-    public VideoModuleG3(CameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
-        super(cameraHandler, eventHandler,context,appSettingsManager);
+    public VideoModuleG3(Context context, I_CameraUiWrapper cameraUiWrapper) {
+        super(context,cameraUiWrapper);
     }
 
     protected MediaRecorder initRecorder()

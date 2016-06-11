@@ -22,6 +22,7 @@ package com.freedcam.apis.camera1.modules;
 import android.content.Context;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.modules.ModuleEventHandler;
 import com.freedcam.apis.camera1.CameraHolder;
@@ -44,10 +45,9 @@ public class PictureModuleMTK extends PictureModule
 {
     private final String TAG = PictureModuleMTK.class.getSimpleName();
     private File holdFile = null;
-    public PictureModuleMTK(CameraHolder cameraHolder, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager)
+    public PictureModuleMTK(Context context, I_CameraUiWrapper cameraUiWrapper)
     {
-        super(cameraHolder, eventHandler,context,appSettingsManager);
-
+        super(context,cameraUiWrapper);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class PictureModuleMTK extends PictureModule
             waitForPicture = true;
             if (ParameterHandler.PictureFormat.GetValue().equals(FileEnding.BAYER) || ParameterHandler.PictureFormat.GetValue().equals(FileEnding.DNG)) {
                 String timestamp = String.valueOf(System.currentTimeMillis());
-                ParameterHandler.Set_RAWFNAME(StringUtils.GetInternalSDCARD()+"/DCIM/FreeDCam/" + "mtk" + timestamp + ".bayer");
+                ParameterHandler.getDevice().Set_RAWFNAME(StringUtils.GetInternalSDCARD()+"/DCIM/FreeDCam/" + "mtk" + timestamp + ".bayer");
             }
             isWorking = true;
             changeWorkState(CaptureModes.image_capture_start);

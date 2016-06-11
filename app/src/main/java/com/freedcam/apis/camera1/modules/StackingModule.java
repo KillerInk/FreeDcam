@@ -31,6 +31,7 @@ import android.renderscript.RenderScript.Priority;
 import android.renderscript.Type.Builder;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.modules.I_Callbacks.PictureCallback;
 import com.freedcam.apis.basecamera.modules.ModuleEventHandler;
@@ -66,8 +67,8 @@ public class StackingModule extends PictureModule implements PictureCallback
     private RenderScript mRS;
     private List<File> capturedPics;
 
-    public StackingModule(CameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager) {
-        super(cameraHandler, eventHandler,context,appSettingsManager);
+    public StackingModule(Context context, I_CameraUiWrapper cameraUiWrapper) {
+        super(context,cameraUiWrapper);
         name = KEYS.MODULE_STACKING;
 
     }

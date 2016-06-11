@@ -28,6 +28,7 @@ import android.os.Build.VERSION_CODES;
 import android.support.v4.provider.DocumentFile;
 
 import com.freedcam.apis.basecamera.AbstractCameraHolder;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.interfaces.I_Module;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureModes;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.I_worker;
@@ -58,15 +59,15 @@ public abstract class AbstractModule implements I_Module
     protected Context context;
     protected AppSettingsManager appSettingsManager;
     protected CaptureModes currentWorkState;
+    protected I_CameraUiWrapper cameraUiWrapper;
 
 
-    public AbstractModule(AbstractCameraHolder cameraHandler, ModuleEventHandler eventHandler, Context context, AppSettingsManager appSettingsManager)
+    public AbstractModule(Context context, I_CameraUiWrapper cameraUiWrapper)
     {
-        cameraHolder = cameraHandler;
-        this.eventHandler = eventHandler;
-        ParameterHandler = cameraHolder.GetParameterHandler();
+        this.cameraUiWrapper = cameraUiWrapper;
+        ParameterHandler = cameraUiWrapper.GetParameterHandler();
         this.context = context;
-        this.appSettingsManager = appSettingsManager;
+        this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
 
     }
 

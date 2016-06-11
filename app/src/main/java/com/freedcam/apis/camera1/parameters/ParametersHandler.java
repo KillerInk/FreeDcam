@@ -78,11 +78,11 @@ public class ParametersHandler extends AbstractParameterHandler
     public Parameters getParameters(){return cameraParameters;}
     public CameraHolder cameraHolder;
     private I_CameraUiWrapper cameraUiWrapper;
-    public I_Device Device;
+    private I_Device Device;
 
     public ParametersHandler(I_CameraUiWrapper cameraUiWrapper, Context context, AppSettingsManager appSettingsManager)
     {
-        super(cameraUiWrapper.GetCameraHolder(),context,appSettingsManager);
+        super(context,cameraUiWrapper);
         cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
         this.cameraUiWrapper = cameraUiWrapper;
     }
@@ -544,6 +544,12 @@ public class ParametersHandler extends AbstractParameterHandler
             }
         }
     }
+
+    @Override
+    public I_Device getDevice() {
+        return Device;
+    }
+
     @Override
     public void SetFocusAREA(final FocusRect focusAreas, FocusRect meteringAreas)
     {
@@ -576,44 +582,6 @@ public class ParametersHandler extends AbstractParameterHandler
             cameraParameters.setFocusAreas(ar);
             SetParametersToCamera(cameraParameters);
         }
-    }
-
-    public float getMTKShutterSpeed()
-    {
-        if(cameraParameters.get("eng-capture-shutter-speed")!= null) {
-            if (Float.parseFloat(cameraHolder.GetParamsDirect("eng-capture-shutter-speed")) == 0) {
-                return 0.0f;
-            } else
-                return Float.parseFloat(cameraParameters.get("eng-capture-shutter-speed")) / 1000;
-        }
-        else if(cameraParameters.get("cap-ss")!= null)
-        {
-            if (Float.parseFloat(cameraParameters.get("cap-ss")) == 0) {
-                return 0.0f;
-            } else
-                return Float.parseFloat(cameraParameters.get("cap-ss")) / 1000;
-        }
-        else
-            return 0.0f;
-    }
-
-    public int getMTKISO()
-    {
-        if(cameraParameters.get("eng-capture-sensor-gain")!= null) {
-            if (Integer.parseInt(cameraHolder.GetParamsDirect("eng-capture-sensor-gain")) == 0) {
-                return 0;
-            }
-            return Integer.parseInt(cameraHolder.GetParamsDirect("eng-capture-sensor-gain")) / 256 * 100;
-        }
-        else if(cameraParameters.get("cap-sr-g")!= null)
-        {
-            if (Integer.parseInt(cameraHolder.GetParamsDirect("cap-sr-g")) == 0) {
-                return 0;
-            }
-            return Integer.parseInt(cameraHolder.GetParamsDirect("cap-sr-g")) / 256 * 100;
-        }
-        else
-            return 0;
     }
 
     @Override
