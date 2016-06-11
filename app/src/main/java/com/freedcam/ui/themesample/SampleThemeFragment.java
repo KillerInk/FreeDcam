@@ -20,6 +20,8 @@
 package com.freedcam.ui.themesample;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -29,6 +31,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.modules.I_WorkEvent;
 import com.freedcam.apis.basecamera.parameters.I_ParametersLoaded;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.ui.I_Activity;
@@ -36,10 +39,13 @@ import com.freedcam.ui.themesample.subfragments.CameraUiFragment;
 import com.freedcam.ui.themesample.subfragments.SettingsMenuFragment;
 import com.freedcam.ui.views.PagingView;
 import com.freedcam.utils.AppSettingsManager;
+import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedviewer.helper.BitmapHelper;
+import com.freedviewer.holder.FileHolder;
 import com.freedviewer.screenslide.ScreenSlideFragment;
 import com.freedviewer.screenslide.ScreenSlideFragment.I_ThumbClick;
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
@@ -88,6 +94,8 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
         cameraUiWrapper = wrapper;
         if (wrapper != null)
             wrapper.GetParameterHandler().AddParametersLoadedListner(this);
+        if (wrapper.GetModuleHandler() != null)
+            wrapper.GetModuleHandler().moduleEventHandler.AddWorkFinishedListner(newImageRecieved);
         if (cameraUiFragment != null) {
             cameraUiFragment.SetCameraUIWrapper(wrapper);
         }
@@ -157,6 +165,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
             settingsMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
         if (screenSlideFragment != null)
             screenSlideFragment.LoadFiles();
+        bitmapHelper.LoadFiles();
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
@@ -204,7 +213,32 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
             return 3;
         }
 
-
     }
+
+
+    private I_WorkEvent newImageRecieved = new I_WorkEvent() {
+        @Override
+        public void WorkHasFinished(final File filePath) {
+            FreeDPool.Execute(new Runnable() {
+                @Override
+                public void run()
+                {   int mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size);
+                    bitmapHelper.getBitmap(filePath, true, mImageThumbSize, mImageThumbSize);
+                    if (screenSlideFragment != null)
+                    {
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                screenSlideFragment.addFile(filePath);
+                            }
+                        });
+
+                    }
+                    bitmapHelper.AddFile(new FileHolder(filePath,appSettingsManager.GetWriteExternal()));
+                }
+            });
+
+        }
+    };
 
 }

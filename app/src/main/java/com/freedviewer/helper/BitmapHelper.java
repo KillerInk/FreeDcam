@@ -52,7 +52,13 @@ public class BitmapHelper
     {
         CACHE = new CacheHelper(context);
         fileListners =  new ArrayList<>();
+
+    }
+
+    public void LoadFiles()
+    {
         files = FileHolder.getDCIMFiles();
+        throwOnFileAdded(files.get(0).getFile());
     }
 
     public  void DESTROY()
@@ -209,7 +215,8 @@ public class BitmapHelper
             return;
         else
         {
-            fileListners.add(event);
+            if (!fileListners.contains(event))
+                fileListners.add(event);
             return;
         }
     }

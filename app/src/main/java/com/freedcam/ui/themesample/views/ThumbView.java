@@ -50,10 +50,6 @@ import java.io.File;
 public class ThumbView extends ImageView implements I_WorkEvent, OnClickListener, FileEvent
 {
     private final  String TAG = ThumbView.class.getSimpleName();
-    private boolean hasWork = false;
-    private I_CameraUiWrapper cameraUiWrapper;
-    private Bitmap bitmap;
-    private File lastFile;
     private Bitmap mask;
     private I_ThumbClick click;
     private int mImageThumbSize = 0;
@@ -78,16 +74,14 @@ public class ThumbView extends ImageView implements I_WorkEvent, OnClickListener
 
     public void INIT(I_CameraUiWrapper cameraUiWrapper, BitmapHelper bitmapHelper)
     {
-        this.cameraUiWrapper = cameraUiWrapper;
         this.bitmapHelper = bitmapHelper;
-        if(cameraUiWrapper != null && cameraUiWrapper.GetModuleHandler() != null && cameraUiWrapper.GetModuleHandler().moduleEventHandler != null)
-            cameraUiWrapper.GetModuleHandler().moduleEventHandler.AddWorkFinishedListner(this);
+        bitmapHelper.AddFileListner(this);
         try {
             mask = BitmapFactory.decodeResource(getContext().getResources(), drawable.maskthumb);
             mImageThumbSize = context.getResources().getDimensionPixelSize(dimen.image_thumbnails_size);
-            bitmapHelper.AddFileListner(this);
 
-            WorkHasFinished(bitmapHelper.getFiles().get(0).getFile());
+
+            //WorkHasFinished(bitmapHelper.getFiles().get(0).getFile());
         }
         catch (NullPointerException | IndexOutOfBoundsException ex)
         {Logger.exception(ex);}
@@ -101,29 +95,19 @@ public class ThumbView extends ImageView implements I_WorkEvent, OnClickListener
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-                if (!hasWork) {
-                    hasWork = true;
-                    Logger.d(TAG, "Load Thumb " + filePath.getName());
-                    try {
-                        showThumb(filePath);
-                    } catch (NullPointerException ex) {
-                        Logger.exception(ex);
-                    }
-
-                    hasWork = false;
+                Logger.d(TAG, "Load Thumb " + filePath.getName());
+                try {
+                    showThumb(filePath);
+                } catch (NullPointerException ex) {
+                    Logger.exception(ex);
                 }
             }
         });
     }
 
-    private boolean firststart = true;
     private void showThumb(final File filePath)
     {
-        if (bitmap != null) {
-            bitmap.recycle();
-            bitmap = null;
-        }
-        bitmap = bitmapHelper.getBitmap(filePath, true, mImageThumbSize, mImageThumbSize);
+        final Bitmap bitmap = bitmapHelper.getBitmap(filePath, true, mImageThumbSize, mImageThumbSize);
         final Bitmap drawMap = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Config.ARGB_8888);
         Canvas drawc = new Canvas(drawMap);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -131,17 +115,11 @@ public class ThumbView extends ImageView implements I_WorkEvent, OnClickListener
         if (bitmap != null && !bitmap.isRecycled())
             drawc.drawBitmap(bitmap, 0, 0, null);
         drawc.drawBitmap(mask, 0, 0, paint);
-        //drawc.drawBitmap(BitmapFactory.decodeResource(getContext().getResources(), R.drawable.thumbnail),0,0,null);
         paint.setXfermode(null);
-
-
         post(new Runnable() {
             @Override
             public void run() {
                 setImageBitmap(drawMap);
-                if (!firststart)
-                    click.newImageRecieved(filePath);
-                firststart = false;
             }
         });
     }
@@ -167,6 +145,6 @@ public class ThumbView extends ImageView implements I_WorkEvent, OnClickListener
 
     @Override
     public void onFileAdded(File file) {
-
+        showThumb(file);
     }
 }

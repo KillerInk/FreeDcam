@@ -283,7 +283,7 @@ public class CameraUiFragment extends AbstractFragment implements I_MenuItemClic
     @Override
     public void onResume() {
         super.onResume();
-        setCameraUiWrapperToUi();
+        //setCameraUiWrapperToUi();
         infoOverlayHandler.StartUpdating();
     }
 
