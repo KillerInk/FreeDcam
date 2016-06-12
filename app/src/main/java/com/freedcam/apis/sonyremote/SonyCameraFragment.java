@@ -452,11 +452,6 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
     }
 
     @Override
-    public void OnError(String error) {
-        super.onCameraError(error);
-    }
-
-    @Override
     public int getMargineLeft() {
         return surfaceView.getLeft();
     }

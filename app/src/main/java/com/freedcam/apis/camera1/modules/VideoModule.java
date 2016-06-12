@@ -27,7 +27,6 @@ import android.media.MediaRecorder.VideoSource;
 import android.os.Environment;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.modules.ModuleEventHandler;
 import com.freedcam.apis.basecamera.modules.VideoMediaProfile;
 import com.freedcam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
 import com.freedcam.apis.camera1.CameraHolder;

@@ -24,12 +24,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.SurfaceHolder;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.modules.I_Callbacks.AutoFocusCallback;
-import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.utils.AppSettingsManager;
 
 /**

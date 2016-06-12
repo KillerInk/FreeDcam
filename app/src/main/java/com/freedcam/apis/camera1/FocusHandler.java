@@ -26,7 +26,6 @@ import com.freedcam.apis.basecamera.FocusRect;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.CameraFocusEvent;
 import com.freedcam.apis.basecamera.modules.I_Callbacks.AutoFocusCallback;
-import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.apis.camera1.CameraHolder.Frameworks;
 import com.freedcam.utils.DeviceUtils.Devices;

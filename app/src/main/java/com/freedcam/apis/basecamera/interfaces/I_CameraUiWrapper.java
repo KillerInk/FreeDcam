@@ -31,7 +31,14 @@ import com.freedcam.utils.AppSettingsManager;
  */
 public interface I_CameraUiWrapper extends I_CameraChangedListner
 {
+    /**
+     * Start the Camera
+     */
     void StartCamera();
+
+    /**
+     * Stop the Camera
+     */
     void StopCamera();
     void StartPreview();
     void StopPreview();
@@ -40,18 +47,57 @@ public interface I_CameraUiWrapper extends I_CameraChangedListner
      * the module must handle the workstate on its own if it gets hit twice while work is already in progress
      */
     void DoWork();
+
+    /**
+     * Get the current active CameraHolder
+     * @return
+     */
     I_CameraHolder GetCameraHolder();
+
+    /**
+     * get the active parameterhandler
+     * @return
+     */
     AbstractParameterHandler GetParameterHandler();
+    /**
+     * get the appsettings
+     */
     AppSettingsManager GetAppSettingsManager();
     AbstractModuleHandler GetModuleHandler();
     SurfaceView getSurfaceView();
     AbstractFocusHandler getFocusHandler();
+
+    /**
+     * set the listner that get notifyed when camera state has changed
+     * @param cameraChangedListner to notify
+     */
     void SetCameraChangedListner(I_CameraChangedListner cameraChangedListner);
 
+
+    /**
+     * get the left margine between display and preview
+     * @return
+     */
     int getMargineLeft();
+    /**
+     * get the right margine between display and preview
+     * @return
+     */
     int getMargineRight();
+    /**
+     * get the top margine between display and preview
+     * @return
+     */
     int getMargineTop();
+    /**
+     * get the preview width
+     * @return
+     */
     int getPreviewWidth();
+    /**
+     * get the preview height
+     * @return
+     */
     int getPreviewHeight();
 
     boolean isAeMeteringSupported();

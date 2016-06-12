@@ -26,7 +26,6 @@ import com.freedcam.apis.basecamera.FocusRect;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.CameraFocusEvent;
 import com.freedcam.apis.basecamera.modules.I_Callbacks.AutoFocusCallback;
-import com.freedcam.apis.sonyremote.parameters.ParameterHandler;
 import com.freedcam.utils.Logger;
 
 /**

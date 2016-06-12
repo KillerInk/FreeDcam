@@ -22,10 +22,8 @@ package com.freedcam.apis.camera1.cameraholder;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.CameraHolder;
-import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
 import java.lang.reflect.InvocationTargetException;

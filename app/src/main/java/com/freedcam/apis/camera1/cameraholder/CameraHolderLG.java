@@ -19,10 +19,8 @@
 
 package com.freedcam.apis.camera1.cameraholder;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.CameraHolder;
-import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils.Devices;
 import com.lge.hardware.LGCamera;
 

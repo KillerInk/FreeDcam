@@ -25,7 +25,6 @@ import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.parameters.modes.ModuleParameters;
 import com.freedcam.apis.camera1.parameters.device.I_Device;
-import com.freedcam.apis.sonyremote.CameraHolder;
 import com.freedcam.apis.sonyremote.parameters.manual.BaseManualParameterSony;
 import com.freedcam.apis.sonyremote.parameters.manual.ExposureCompManualParameterSony;
 import com.freedcam.apis.sonyremote.parameters.manual.PreviewZoomManual;
@@ -44,7 +43,6 @@ import com.freedcam.apis.sonyremote.parameters.modes.WhiteBalanceModeSony;
 import com.freedcam.apis.sonyremote.parameters.modes.ZoomSettingSony;
 import com.freedcam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import com.freedcam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
-import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
 import java.util.ArrayList;

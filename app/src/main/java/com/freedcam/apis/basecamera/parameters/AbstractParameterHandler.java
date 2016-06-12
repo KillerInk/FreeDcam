@@ -24,7 +24,6 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.freedcam.apis.basecamera.FocusRect;
-import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
 import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;

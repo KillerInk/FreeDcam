@@ -59,11 +59,9 @@ import android.view.WindowManager;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.AbstractCameraHolder;
-import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.I_Callbacks;
 import com.freedcam.apis.camera2.modules.I_PreviewWrapper;
-import com.freedcam.apis.camera2.parameters.ParameterHandler;
 import com.freedcam.apis.camera2.renderscript.FocuspeakProcessorApi2;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;

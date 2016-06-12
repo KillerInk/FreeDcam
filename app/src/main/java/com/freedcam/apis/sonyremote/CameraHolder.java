@@ -41,7 +41,6 @@ import com.freedcam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import com.freedcam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import com.freedcam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.StreamErrorListener;
 import com.freedcam.apis.sonyremote.sonystuff.SonyUtils;
-import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 

@@ -25,7 +25,6 @@ import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
-import com.freedcam.apis.basecamera.modules.ModuleEventHandler;
 import com.freedcam.apis.sonyremote.CameraHolder;
 
 /**

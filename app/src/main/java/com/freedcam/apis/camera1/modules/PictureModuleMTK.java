@@ -25,7 +25,6 @@ import android.hardware.Camera;
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
-import com.freedcam.apis.basecamera.modules.ModuleEventHandler;
 import com.freedcam.jni.RawToDng;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.FreeDPool;

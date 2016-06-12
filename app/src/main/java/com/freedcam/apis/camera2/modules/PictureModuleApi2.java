@@ -50,7 +50,6 @@ import android.view.Surface;
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
-import com.freedcam.apis.basecamera.modules.ModuleEventHandler;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera2.CameraHolder;

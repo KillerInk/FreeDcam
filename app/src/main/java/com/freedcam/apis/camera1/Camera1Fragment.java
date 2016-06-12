@@ -33,9 +33,7 @@ import com.freedcam.apis.basecamera.AbstractCameraFragment;
 import com.freedcam.apis.basecamera.AbstractFocusHandler;
 import com.freedcam.apis.basecamera.Size;
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
-import com.freedcam.apis.basecamera.interfaces.I_error;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
-import com.freedcam.apis.basecamera.modules.I_Callbacks;
 import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.parameters.I_ParametersLoaded;
@@ -456,9 +454,4 @@ public class Camera1Fragment extends AbstractCameraFragment implements I_Paramet
         return Focus;
     }
 
-    @Override
-    public void OnError(String error)
-    {
-        super.onCameraError(error);
-    }
 }

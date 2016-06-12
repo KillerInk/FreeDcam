@@ -19,7 +19,6 @@
 
 package com.freedcam.apis.basecamera.interfaces;
 
-import com.freedcam.apis.basecamera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStateChanged;
 
 /**

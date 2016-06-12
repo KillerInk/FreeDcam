@@ -31,7 +31,6 @@ import com.freedcam.MainActivity;
 import com.freedcam.apis.basecamera.AbstractCameraFragment;
 import com.freedcam.apis.basecamera.AbstractFocusHandler;
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
-import com.freedcam.apis.basecamera.interfaces.I_error;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.camera2.modules.ModuleHandlerApi2;
@@ -49,7 +48,6 @@ public class Camera2Fragment extends AbstractCameraFragment implements TextureVi
 {
     public CameraHolder cameraHolder;
     private AutoFitTextureView textureView;
-    protected I_error errorHandler;
     private final String TAG = Camera2Fragment.class.getSimpleName();
 
     public String CameraApiName() {
@@ -64,8 +62,6 @@ public class Camera2Fragment extends AbstractCameraFragment implements TextureVi
         view = inflater.inflate(layout.cameraholder2, container, false);
         textureView = (AutoFitTextureView) view.findViewById(id.autofitview);
         this.textureView.setSurfaceTextureListener(this);
-        errorHandler = this;
-
         super.cameraHolder = cameraHolder;
         parametersHandler = new ParameterHandler(this,getContext());
         moduleHandler = new ModuleHandlerApi2(getContext(),this,renderScriptHandler);
@@ -187,11 +183,6 @@ public class Camera2Fragment extends AbstractCameraFragment implements TextureVi
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
 
-    }
-
-    @Override
-    public void OnError(String error) {
-        onCameraError(error);
     }
 
     @Override

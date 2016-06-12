@@ -25,9 +25,9 @@ import android.hardware.Camera.Parameters;
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
+import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK.AeManual;
 import com.freedcam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK.AeManualEvent;
-import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 
 import java.util.ArrayList;
 

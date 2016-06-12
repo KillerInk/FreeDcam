@@ -21,7 +21,6 @@ package com.freedcam.apis.basecamera.parameters.modes;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.interfaces.I_Module;
-import com.freedcam.apis.basecamera.modules.AbstractModule;
 import com.freedcam.utils.AppSettingsManager;
 
 import java.util.ArrayList;

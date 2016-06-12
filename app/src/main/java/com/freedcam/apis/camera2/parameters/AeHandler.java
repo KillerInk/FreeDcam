@@ -29,7 +29,6 @@ import android.os.Build.VERSION_CODES;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualShutter;
-import com.freedcam.apis.camera2.parameters.ParameterHandler;
 import com.freedcam.apis.camera2.CameraHolder;
 import com.freedcam.apis.camera2.parameters.modes.BaseModeApi2;
 import com.freedcam.utils.DeviceUtils.Devices;

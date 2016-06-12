@@ -21,12 +21,9 @@ package com.freedcam.apis.camera2.modules;
 
 import android.content.Context;
 
-import com.freedcam.apis.basecamera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.modules.IntervalModule;
-import com.freedcam.apis.camera2.CameraHolder;
-import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.RenderScriptHandler;
 
 /**

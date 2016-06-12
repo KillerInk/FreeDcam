@@ -22,7 +22,6 @@ package com.freedcam.apis.camera1.parameters.device.krillin;
 import android.content.Context;
 import android.hardware.Camera.Parameters;
 
-import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;

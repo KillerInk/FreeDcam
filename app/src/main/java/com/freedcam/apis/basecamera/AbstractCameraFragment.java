@@ -28,12 +28,10 @@ import android.view.View;
 import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.interfaces.I_Module;
-import com.freedcam.apis.basecamera.interfaces.I_error;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.parameters.modes.LocationParameter;
 import com.freedcam.utils.AppSettingsManager;
-import com.freedcam.utils.Logger;
 import com.freedcam.utils.RenderScriptHandler;
 
 import java.util.List;
@@ -43,7 +41,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Created by troop on 06.06.2015.
  * That Fragment is used as base for all camera apis added.
  */
-public abstract class AbstractCameraFragment extends Fragment implements I_CameraUiWrapper, I_CameraChangedListner, I_error
+public abstract class AbstractCameraFragment extends Fragment implements I_CameraUiWrapper, I_CameraChangedListner
 {
     private final String TAG = AbstractCameraFragment.class.getSimpleName();
 
@@ -122,21 +120,6 @@ public abstract class AbstractCameraFragment extends Fragment implements I_Camer
         onrdy = rdy;
     }
 
-
-    /**
-     * shutdown the current camera instance
-     */
-    public void DestroyCameraUiWrapper()
-    {
-            Logger.d(TAG, "Destroying Wrapper");
-            parametersHandler.CLEAR();
-            moduleHandler.moduleEventHandler.CLEAR();
-            moduleHandler.CLEARWORKERLISTNER();
-            StopPreview();
-            StopCamera();
-            Logger.d(TAG, "destroyed cameraWrapper");
-
-    }
 
     /**
      * inteface for event listning when the camerauiwrapper is rdy
