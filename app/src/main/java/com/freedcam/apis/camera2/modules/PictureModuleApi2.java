@@ -98,8 +98,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private Handler handler;
     private int imagecount = 0;
 
-    public PictureModuleApi2(Context context, I_CameraUiWrapper cameraUiWrapper, ModuleEventHandler eventHandler) {
-        super(context,cameraUiWrapper,eventHandler);
+    public PictureModuleApi2(Context context, I_CameraUiWrapper cameraUiWrapper) {
+        super(context,cameraUiWrapper);
         name = KEYS.MODULE_PICTURE;
         handler = new Handler(Looper.getMainLooper());
 
@@ -342,7 +342,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
                     isWorking = false;
                     MediaScannerManager.ScanMedia(context, file);
-                    eventHandler.WorkFinished(file);
+                    cameraUiWrapper.GetModuleHandler().WorkFinished(file);
                     changeCaptureState(CaptureStates.image_capture_stop);
                     if (burstcount == imagecount) {
                         handler.post(new Runnable() {

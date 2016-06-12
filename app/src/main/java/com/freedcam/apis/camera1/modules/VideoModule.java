@@ -45,8 +45,8 @@ public class VideoModule extends AbstractVideoModule
     private static String TAG = VideoModule.class.getSimpleName();
     private VideoMediaProfile currentProfile;
 
-    public VideoModule(Context context, I_CameraUiWrapper cameraUiWrapper,ModuleEventHandler eventHandler) {
-        super(context, cameraUiWrapper,eventHandler);
+    public VideoModule(Context context, I_CameraUiWrapper cameraUiWrapper) {
+        super(context, cameraUiWrapper);
     }
 
 

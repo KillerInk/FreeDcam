@@ -65,8 +65,8 @@ public class StackingModule extends PictureModule implements PictureCallback
     private RenderScript mRS;
     private List<File> capturedPics;
 
-    public StackingModule(Context context, I_CameraUiWrapper cameraUiWrapper,ModuleEventHandler eventHandler) {
-        super(context,cameraUiWrapper,eventHandler);
+    public StackingModule(Context context, I_CameraUiWrapper cameraUiWrapper) {
+        super(context,cameraUiWrapper);
         name = KEYS.MODULE_STACKING;
 
     }
@@ -224,7 +224,7 @@ public class StackingModule extends PictureModule implements PictureCallback
             isWorking = false;
             changeCaptureState(CaptureStates.continouse_capture_stop);
             MediaScannerManager.ScanMedia(context, stackedImg);
-            eventHandler.WorkFinished(file);
+            cameraUiWrapper.GetModuleHandler().WorkFinished(file);
         }
     }
 

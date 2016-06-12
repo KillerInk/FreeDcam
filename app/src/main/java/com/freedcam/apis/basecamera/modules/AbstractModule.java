@@ -49,7 +49,6 @@ public abstract class AbstractModule implements I_Module
     protected boolean isWorking = false;
     public String name;
 
-    protected ModuleEventHandler eventHandler;
     protected CaptureStateChanged captureStateChangedListner;
     private final String TAG = AbstractModule.class.getSimpleName();
     protected Context context;
@@ -58,10 +57,9 @@ public abstract class AbstractModule implements I_Module
     protected I_CameraUiWrapper cameraUiWrapper;
 
 
-    public AbstractModule(Context context, I_CameraUiWrapper cameraUiWrapper, ModuleEventHandler eventHandler)
+    public AbstractModule(Context context, I_CameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        this.eventHandler = eventHandler;
         this.context = context;
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
 

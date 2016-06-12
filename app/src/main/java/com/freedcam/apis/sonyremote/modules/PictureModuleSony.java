@@ -28,7 +28,6 @@ import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
-import com.freedcam.apis.basecamera.modules.ModuleEventHandler;
 import com.freedcam.apis.sonyremote.CameraHolder;
 import com.freedcam.apis.sonyremote.parameters.ParameterHandler;
 import com.freedcam.ui.handler.MediaScannerManager;
@@ -52,8 +51,8 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     private static String TAG = PictureModuleSony.class.getSimpleName();
     private CameraHolder cameraHolder;
 
-    public PictureModuleSony(Context context, I_CameraUiWrapper cameraUiWrapper, ModuleEventHandler eventHandler) {
-        super(context, cameraUiWrapper,eventHandler);
+    public PictureModuleSony(Context context, I_CameraUiWrapper cameraUiWrapper) {
+        super(context, cameraUiWrapper);
         name = KEYS.MODULE_PICTURE;
         cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
 
@@ -175,7 +174,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
         }
 
         MediaScannerManager.ScanMedia(context.getApplicationContext(), file);
-        eventHandler.WorkFinished(file);
+        cameraUiWrapper.GetModuleHandler().WorkFinished(file);
     }
 
 

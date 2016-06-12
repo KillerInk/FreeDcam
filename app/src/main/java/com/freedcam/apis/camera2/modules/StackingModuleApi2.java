@@ -70,8 +70,8 @@ public class StackingModuleApi2 extends AbstractModuleApi2
     private RenderScriptHandler renderScriptHandler;
 
 
-    public StackingModuleApi2(Context context, I_CameraUiWrapper cameraUiWrapper, RenderScriptHandler renderScriptHandler,ModuleEventHandler eventHandler) {
-        super(context, cameraUiWrapper,eventHandler);
+    public StackingModuleApi2(Context context, I_CameraUiWrapper cameraUiWrapper, RenderScriptHandler renderScriptHandler) {
+        super(context, cameraUiWrapper);
         name = KEYS.MODULE_STACKING;
         this.renderScriptHandler =renderScriptHandler;
     }
@@ -175,7 +175,7 @@ public class StackingModuleApi2 extends AbstractModuleApi2
                 SaveBitmapToFile(outputBitmap,stackedImg);
                 changeCaptureState(CaptureStates.continouse_capture_stop);
                 MediaScannerManager.ScanMedia(context, stackedImg);
-                eventHandler.WorkFinished(stackedImg);
+                cameraUiWrapper.GetModuleHandler().WorkFinished(stackedImg);
                 isWorking = false;
             }
         });

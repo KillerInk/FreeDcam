@@ -32,7 +32,6 @@ import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
 import com.freedcam.apis.basecamera.modules.I_RecorderStateChanged;
-import com.freedcam.apis.basecamera.modules.ModuleEventHandler;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.AppSettingsManager;
@@ -55,8 +54,8 @@ public abstract class AbstractVideoModule extends AbstractModule
     private ParcelFileDescriptor fileDescriptor;
     private Context context;
 
-    public AbstractVideoModule(Context context, I_CameraUiWrapper cameraUiWrapper,ModuleEventHandler eventHandler) {
-        super(context, cameraUiWrapper,eventHandler);
+    public AbstractVideoModule(Context context, I_CameraUiWrapper cameraUiWrapper) {
+        super(context, cameraUiWrapper);
         name  = KEYS.MODULE_VIDEO;
         this.context = context;
     }
@@ -138,7 +137,7 @@ public abstract class AbstractVideoModule extends AbstractModule
                 Logger.d(TAG, "Recorder Prepared, Starting Recording");
                 recorder.start();
                 Logger.d(TAG, "Recording started");
-                eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_START);
+                cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_START);
 
             } catch (Exception e)
             {
@@ -146,7 +145,7 @@ public abstract class AbstractVideoModule extends AbstractModule
                 cameraUiWrapper.GetCameraHolder().SendUIMessage("Start Recording failed");
                 Logger.exception(e);
                 recorder.reset();
-                eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
+                cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
                 isWorking = false;
                 ((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCamera().lock();
                 recorder.release();
@@ -159,7 +158,7 @@ public abstract class AbstractVideoModule extends AbstractModule
             Logger.exception(ex);
             cameraUiWrapper.GetCameraHolder().SendUIMessage("Start Recording failed");
             recorder.reset();
-            eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
+            cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
             isWorking = false;
             ((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCamera().lock();
             recorder.release();
@@ -198,8 +197,8 @@ public abstract class AbstractVideoModule extends AbstractModule
             }
             File file = new File(mediaSavePath);
             MediaScannerManager.ScanMedia(context, file);
-            eventHandler.WorkFinished(file);
-            eventHandler.onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
+            cameraUiWrapper.GetModuleHandler().WorkFinished(file);
+            cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
             isWorking = false;
         }
         changeCaptureState(CaptureStates.video_recording_stop);

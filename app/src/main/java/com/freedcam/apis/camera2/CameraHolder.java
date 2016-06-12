@@ -61,6 +61,7 @@ import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.AbstractCameraHolder;
 import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.modules.I_Callbacks;
 import com.freedcam.apis.camera2.modules.I_PreviewWrapper;
 import com.freedcam.apis.camera2.parameters.ParameterHandler;
 import com.freedcam.apis.camera2.renderscript.FocuspeakProcessorApi2;
@@ -271,6 +272,16 @@ public class CameraHolder extends AbstractCameraHolder
     {
         if (ModulePreview != null)
             ModulePreview.stopPreview();
+    }
+
+    @Override
+    public void StartFocus(I_Callbacks.AutoFocusCallback autoFocusCallback) {
+
+    }
+
+    @Override
+    public void CancelFocus() {
+
     }
 
     public <T> void SetParameterRepeating(@NonNull Key<T> key, T value)

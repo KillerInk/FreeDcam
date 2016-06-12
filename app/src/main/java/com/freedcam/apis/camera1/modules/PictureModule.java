@@ -62,9 +62,9 @@ public class PictureModule extends AbstractModule implements PictureCallback
     protected boolean waitForPicture = false;
 
 
-    public PictureModule(Context context, I_CameraUiWrapper cameraUiWrapper,ModuleEventHandler eventHandler)
+    public PictureModule(Context context, I_CameraUiWrapper cameraUiWrapper)
     {
-        super(context, cameraUiWrapper,eventHandler);
+        super(context, cameraUiWrapper);
         name = KEYS.MODULE_PICTURE;
         //ParameterHandler = (ParametersHandler)cameraUiWrapper.GetParameterHandler();
         this.cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
@@ -185,7 +185,7 @@ public class PictureModule extends AbstractModule implements PictureCallback
         else
             saveBytesToFile(data,toSave);
         MediaScannerManager.ScanMedia(context,toSave);
-        eventHandler.WorkFinished(toSave);
+        cameraUiWrapper.GetModuleHandler().WorkFinished(toSave);
     }
 
     private String getFileEnding(String picFormat)

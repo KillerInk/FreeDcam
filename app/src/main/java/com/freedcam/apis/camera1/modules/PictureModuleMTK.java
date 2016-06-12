@@ -43,9 +43,9 @@ public class PictureModuleMTK extends PictureModule
 {
     private final String TAG = PictureModuleMTK.class.getSimpleName();
     private File holdFile = null;
-    public PictureModuleMTK(Context context, I_CameraUiWrapper cameraUiWrapper, ModuleEventHandler eventHandler)
+    public PictureModuleMTK(Context context, I_CameraUiWrapper cameraUiWrapper)
     {
-        super(context,cameraUiWrapper,eventHandler);
+        super(context,cameraUiWrapper);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class PictureModuleMTK extends PictureModule
                 waitForPicture = false;
                 cameraHolder.StartPreview();
                 MediaScannerManager.ScanMedia(context,holdFile);
-                eventHandler.WorkFinished(holdFile);
+                cameraUiWrapper.GetModuleHandler().WorkFinished(holdFile);
                 isWorking = false;
                 changeCaptureState(CaptureStates.image_capture_stop);
             }

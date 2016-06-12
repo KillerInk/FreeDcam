@@ -36,8 +36,8 @@ public class IntervalModule extends AbstractModule implements CaptureStateChange
     private IntervalHandler intervalHandler;
     private  final String TAG  = IntervalModule.class.getSimpleName();
 
-    public IntervalModule(AbstractModule picModule, Context context, I_CameraUiWrapper cameraUiWrapper, ModuleEventHandler eventHandler) {
-        super(context, cameraUiWrapper,eventHandler);
+    public IntervalModule(AbstractModule picModule, Context context, I_CameraUiWrapper cameraUiWrapper) {
+        super(context, cameraUiWrapper);
         this.picModule = picModule;
 
         intervalHandler = new IntervalHandler(picModule,appSettingsManager);
