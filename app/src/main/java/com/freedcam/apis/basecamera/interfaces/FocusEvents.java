@@ -17,31 +17,15 @@
  * /
  */
 
-package com.freedcam.apis.basecamera.modules;
+package com.freedcam.apis.basecamera.interfaces;
 
 /**
  * Created by troop on 06.01.2015.
  */
-
-/**
- * this interface is used to wrap around the different manfactur specific libs like the
- * -lg framework
- * -samsung framework
- *
- * both use different callbacks wich are not extended from the basic camera
- * this way its possible to use one module for all different libs
- */
-public class I_Callbacks
+public interface FocusEvents
 {
-    public static int YUV = 1;
-    public static int JPEG = 2;
-
-    public interface AutoFocusCallback
-    {
-        void onAutoFocus(CameraFocusEvent cameraFocusEvent);
-        void onFocusLock(boolean locked);
-    }
-
+    void onFocusEvent(boolean success);
+    void onFocusLock(boolean locked);
 }
 
 

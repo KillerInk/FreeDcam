@@ -19,13 +19,12 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 import android.os.Handler;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraHolderInterface;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
@@ -36,14 +35,14 @@ import com.troop.freedcam.R;
  */
 public class ShutterManualZTE extends BaseManualParameter
 {
-    private I_CameraHolder baseCameraHolder;
+    private CameraHolderInterface baseCameraHolder;
     private final String TAG = ShutterManualZTE.class.getSimpleName();
 
     /**
      * @param parameters
      * @param cameraUiWrapper
      */
-    public ShutterManualZTE(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+    public ShutterManualZTE(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, "", "", "", cameraUiWrapper,1);
         this.baseCameraHolder = baseCameraHolder;
         if(cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV)

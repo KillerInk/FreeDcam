@@ -19,15 +19,12 @@
 
 package com.freedcam.apis.camera2.parameters.manual;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
-import com.freedcam.apis.camera2.CameraHolder;
 
 /**
  * Created by troop on 10.09.2015.
@@ -36,7 +33,7 @@ public class BurstApi2 extends AbstractManualParameter implements I_ModeParamete
 {
     int current = 1;
 
-    public BurstApi2(I_CameraUiWrapper cameraUiWrapper) {
+    public BurstApi2(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
     }
 

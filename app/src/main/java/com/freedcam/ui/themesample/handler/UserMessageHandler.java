@@ -24,20 +24,20 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.interfaces.I_Module;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperEventInterface;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.interfaces.ModuleInterface;
 import com.troop.freedcam.R.id;
 
 
 /**
  * Created by troop on 04.10.2015.
  */
-public class UserMessageHandler implements I_CameraChangedListner
+public class UserMessageHandler implements CameraWrapperEventInterface
 {
     private LinearLayout messageHolder;
     private TextView messageTextView;
-    private I_CameraUiWrapper cameraUiWrapper;
+    private CameraWrapperInterface cameraUiWrapper;
     private Handler handler;
 
     public UserMessageHandler(View view)
@@ -49,7 +49,7 @@ public class UserMessageHandler implements I_CameraChangedListner
 
     }
 
-    public void SetCameraUiWrapper(I_CameraUiWrapper wrapper)
+    public void SetCameraUiWrapper(CameraWrapperInterface wrapper)
     {
         cameraUiWrapper =wrapper;
         cameraUiWrapper.SetCameraChangedListner(this);
@@ -114,7 +114,7 @@ public class UserMessageHandler implements I_CameraChangedListner
     }
 
     @Override
-    public void onModuleChanged(I_Module module) {
+    public void onModuleChanged(ModuleInterface module) {
 
     }
 }

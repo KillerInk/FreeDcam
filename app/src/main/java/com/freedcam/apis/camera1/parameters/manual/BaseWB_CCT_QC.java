@@ -19,23 +19,21 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.camera1.parameters.ParametersHandler;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.utils.Logger;
 
 /**
  * Created by Ingo on 06.03.2016.
  */
 public class BaseWB_CCT_QC extends BaseCCTManual {
-    public BaseWB_CCT_QC(Parameters parameters, int max, int min, I_CameraUiWrapper cameraUiWrapper, float step, String wbmode) {
+    public BaseWB_CCT_QC(Parameters parameters, int max, int min, CameraWrapperInterface cameraUiWrapper, float step, String wbmode) {
         super(parameters, KEYS.WB_MANUAL_CCT, 8000, 2000, cameraUiWrapper, (float) 100, KEYS.WB_MODE_MANUAL_CCT);
     }
 
-    public BaseWB_CCT_QC(Parameters parameters, String value, String maxValue, String MinValue, I_CameraUiWrapper cameraUiWrapper, float step, String wbmode) {
+    public BaseWB_CCT_QC(Parameters parameters, String value, String maxValue, String MinValue, CameraWrapperInterface cameraUiWrapper, float step, String wbmode) {
         super(parameters, value, maxValue, MinValue, cameraUiWrapper, step, wbmode);
     }
 

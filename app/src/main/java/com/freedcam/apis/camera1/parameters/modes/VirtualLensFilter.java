@@ -19,10 +19,9 @@
 
 package com.freedcam.apis.camera1.parameters.modes;
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils.Devices;
 import com.troop.freedcam.R;
@@ -34,7 +33,7 @@ public class VirtualLensFilter extends  BaseModeParameter {
 
     private final int[] asT = {0, 1, 2, 3, 4, 5, 6};
     private final String[] asU;
-    public VirtualLensFilter(Parameters parameters, I_CameraUiWrapper cameraUiWrapper)
+    public VirtualLensFilter(Parameters parameters, CameraWrapperInterface cameraUiWrapper)
     {
         super(parameters, cameraUiWrapper, "", "");
 

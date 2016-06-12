@@ -19,13 +19,11 @@
 
 package com.freedcam.apis.camera1.parameters.manual.mtk;
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.CameraHolder;
-import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK.AeManual;
 import com.freedcam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK.AeManualEvent;
@@ -40,7 +38,7 @@ public class ISOManualParameterMTK extends BaseManualParameter
     private CameraHolder cameraHolder;
     private AeManualEvent manualEvent;
 
-    public ISOManualParameterMTK(Parameters parameters, I_CameraUiWrapper cameraUiWrapper, AeManualEvent manualevent, int maxiso) {
+    public ISOManualParameterMTK(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AeManualEvent manualevent, int maxiso) {
         super(parameters, "", "", "", cameraUiWrapper,1);
 
         this.cameraHolder = cameraHolder;

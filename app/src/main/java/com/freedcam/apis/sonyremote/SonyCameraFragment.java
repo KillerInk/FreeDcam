@@ -35,12 +35,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.freedcam.MainActivity;
-import com.freedcam.apis.basecamera.AbstractCameraFragment;
 import com.freedcam.apis.basecamera.AbstractFocusHandler;
+import com.freedcam.apis.basecamera.CameraFragmentAbstract;
+import com.freedcam.apis.basecamera.interfaces.CameraHolderInterface;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperEventInterface;
 import com.freedcam.apis.basecamera.interfaces.FocuspeakProcessor;
-import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
-import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
-import com.freedcam.apis.basecamera.interfaces.I_Module;
+import com.freedcam.apis.basecamera.interfaces.ModuleInterface;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.sonyremote.modules.ModuleHandlerSony;
@@ -60,7 +60,7 @@ import com.troop.freedcam.R.layout;
 /**
  * Created by troop on 06.06.2015.
  */
-public class SonyCameraFragment extends AbstractCameraFragment implements I_CameraChangedListner ,SurfaceHolder.Callback
+public class SonyCameraFragment extends CameraFragmentAbstract implements CameraWrapperEventInterface,SurfaceHolder.Callback
 {
     private final String TAG = SonyCameraFragment.class.getSimpleName();
     private SimpleStreamSurfaceView surfaceView;
@@ -79,7 +79,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
     private String[] configuredNetworks = null;
     private String deviceNetworkToConnect;
     private boolean connected = false;
-    //private CameraHolder cameraHolder;
+    //private CameraHolderSony cameraHolder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -98,7 +98,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
 
         moduleHandler = new ModuleHandlerSony(this);
         Focus = new FocusHandler(this);
-        cameraHolder = new CameraHolder(getContext(), surfaceView, this);
+        cameraHolder = new CameraHolderSony(getContext(), surfaceView, this);
         moduleHandler.initModules();
 
         SetCameraChangedListner(this);
@@ -327,7 +327,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
     }
 
     @Override
-    public void onModuleChanged(I_Module module) {
+    public void onModuleChanged(ModuleInterface module) {
 
     }
 
@@ -403,7 +403,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-                ((CameraHolder)cameraHolder).OpenCamera(serverDevice);
+                ((CameraHolderSony)cameraHolder).OpenCamera(serverDevice);
                 onCameraOpen("");
             }
         });
@@ -421,7 +421,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
     }
 
     @Override
-    public I_CameraHolder GetCameraHolder() {
+    public CameraHolderInterface GetCameraHolder() {
         return cameraHolder;
     }
 

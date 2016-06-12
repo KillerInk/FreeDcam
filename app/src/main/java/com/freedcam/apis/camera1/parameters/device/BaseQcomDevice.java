@@ -19,16 +19,15 @@
 
 package com.freedcam.apis.camera1.parameters.device;
 
-import android.content.Context;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.FocusRect;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
-import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.interfaces.ManualParameterInterface;
+import com.freedcam.apis.basecamera.interfaces.ModeParameterInterface;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.manual.BaseCCTManual;
 import com.freedcam.apis.camera1.parameters.manual.BaseFocusManual;
@@ -43,7 +42,7 @@ import java.util.ArrayList;
  * Created by troop on 02.06.2016.
  */
 public class BaseQcomDevice extends AbstractDevice {
-    public BaseQcomDevice(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+    public BaseQcomDevice(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 
@@ -53,7 +52,7 @@ public class BaseQcomDevice extends AbstractDevice {
     }
 
     @Override
-    public I_ManualParameter getExposureTimeParameter()
+    public ManualParameterInterface getExposureTimeParameter()
     {
         if (parameters.get(KEYS.MAX_EXPOSURE_TIME) != null && parameters.get(KEYS.EXPOSURE_TIME) != null && parameters.get(KEYS.MIN_EXPOSURE_TIME )!= null) {
             if (!parameters.get(KEYS.MAX_EXPOSURE_TIME).contains("."))
@@ -65,12 +64,12 @@ public class BaseQcomDevice extends AbstractDevice {
     }
 
     @Override
-    public I_ManualParameter getIsoParameter() {
+    public ManualParameterInterface getIsoParameter() {
         return null;
     }
 
     @Override
-    public I_ManualParameter getManualFocusParameter()
+    public ManualParameterInterface getManualFocusParameter()
     {
         if (parameters.get(KEYS.KEY_MANUAL_FOCUS_POSITION) != null && arrayContainsString(parametersHandler.FocusMode.GetValues(), KEYS.KEY_FOCUS_MODE_MANUAL))
             return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,1000,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,10,1);
@@ -78,7 +77,7 @@ public class BaseQcomDevice extends AbstractDevice {
     }
 
     @Override
-    public I_ManualParameter getCCTParameter()
+    public ManualParameterInterface getCCTParameter()
     {
         String wbModeval ="", wbcur ="", wbmax = "",wbmin = "";
         if (parameters.get(KEYS.WB_CURRENT_CCT)!=null)
@@ -115,7 +114,7 @@ public class BaseQcomDevice extends AbstractDevice {
     }
 
     @Override
-    public I_ManualParameter getSkintoneParameter() {
+    public ManualParameterInterface getSkintoneParameter() {
         return null;
     }
 
@@ -134,7 +133,7 @@ public class BaseQcomDevice extends AbstractDevice {
     }
 
     @Override
-    public I_ModeParameter getDenoiseParameter() {
+    public ModeParameterInterface getDenoiseParameter() {
         return new BaseModeParameter(parameters, cameraUiWrapper, KEYS.DENOISE, KEYS.DENOISE_VALUES);
     }
 

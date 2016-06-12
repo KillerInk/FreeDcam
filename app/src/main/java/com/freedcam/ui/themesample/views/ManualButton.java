@@ -32,7 +32,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
+import com.freedcam.apis.basecamera.interfaces.ManualParameterInterface;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter.I_ManualParameterEvent;
 import com.freedcam.apis.sonyremote.parameters.manual.BaseManualParameterSony;
 import com.freedcam.utils.AppSettingsManager;
@@ -52,7 +52,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
 
     private final String TAG = ManualButton.class.getSimpleName();
     private String[] parameterValues;
-    private I_ManualParameter parameter;
+    private ManualParameterInterface parameter;
     private String settingsname;
     private TextView headerTextView;
     private TextView valueTextView;
@@ -124,7 +124,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
         parameter.addEventListner(t);
     }
 
-    public void SetManualParameter(I_ManualParameter parameter)
+    public void SetManualParameter(ManualParameterInterface parameter)
     {
         this.parameter = parameter;
         if (parameter != null) {
@@ -150,7 +150,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
 
     }
 
-    private void createStringParametersStrings(I_ManualParameter parameter) {
+    private void createStringParametersStrings(ManualParameterInterface parameter) {
         parameterValues = parameter.getStringValues();
     }
 

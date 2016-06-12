@@ -58,14 +58,11 @@ import android.view.TextureView;
 import android.view.WindowManager;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.AbstractCameraHolder;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.modules.I_Callbacks;
-import com.freedcam.apis.camera2.modules.I_PreviewWrapper;
-import com.freedcam.apis.camera2.renderscript.FocuspeakProcessorApi2;
+import com.freedcam.apis.basecamera.CameraHolderAbstract;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.interfaces.FocusEvents;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
-import com.freedcam.utils.RenderScriptHandler;
 import com.freedcam.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -79,9 +76,9 @@ import java.util.concurrent.TimeUnit;
  * Created by troop on 07.12.2014.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class CameraHolder extends AbstractCameraHolder
+public class CameraHolderApi2 extends CameraHolderAbstract
 {
-    private static String TAG = CameraHolder.class.getSimpleName();
+    private static String TAG = CameraHolderApi2.class.getSimpleName();
     public static String RAW_SENSOR = "raw_sensor";
     public static String RAW10 = "raw10";
     public static String RAW12 = "raw12";
@@ -110,7 +107,7 @@ public class CameraHolder extends AbstractCameraHolder
     boolean errorRecieved = false;
 
     @TargetApi(VERSION_CODES.LOLLIPOP)
-    public CameraHolder(I_CameraUiWrapper cameraUiWrapper)
+    public CameraHolderApi2(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
         manager = (CameraManager) cameraUiWrapper.getContext().getSystemService(Context.CAMERA_SERVICE);
@@ -265,7 +262,7 @@ public class CameraHolder extends AbstractCameraHolder
     }
 
     @Override
-    public void StartFocus(I_Callbacks.AutoFocusCallback autoFocusCallback) {
+    public void StartFocus(FocusEvents autoFocusCallback) {
 
     }
 

@@ -35,10 +35,10 @@ import android.view.TextureView.SurfaceTextureListener;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.Size;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperEventInterface;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.interfaces.FocuspeakProcessor;
-import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.interfaces.I_Module;
+import com.freedcam.apis.basecamera.interfaces.ModuleInterface;
 import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.ui.I_AspectRatio;
@@ -54,11 +54,11 @@ import java.util.concurrent.BlockingQueue;
  * Created by troop on 24.08.2015.
  */
 @TargetApi(VERSION_CODES.KITKAT)
-public class FocusPeakProcessorAp1 implements PreviewCallback, I_CameraChangedListner,I_ModuleEvent, FocuspeakProcessor
+public class FocusPeakProcessorAp1 implements PreviewCallback, CameraWrapperEventInterface,I_ModuleEvent, FocuspeakProcessor
 {
     private final String TAG = FocusPeakProcessorAp1.class.getSimpleName();
     private I_AspectRatio output;
-    private I_CameraUiWrapper cameraUiWrapper;
+    private CameraWrapperInterface cameraUiWrapper;
 
     private int mHeight;
     private int mWidth;
@@ -72,7 +72,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, I_CameraChangedLi
     private int expectedByteSize;
     private final BlockingQueue<byte[]> frameQueue = new ArrayBlockingQueue<>(2);
 
-    public FocusPeakProcessorAp1(I_AspectRatio output, I_CameraUiWrapper cameraUiWrapper, Context context, RenderScriptHandler renderScriptHandler)
+    public FocusPeakProcessorAp1(I_AspectRatio output, CameraWrapperInterface cameraUiWrapper, Context context, RenderScriptHandler renderScriptHandler)
     {
         Logger.d(TAG, "Ctor");
         this.output = output;
@@ -325,7 +325,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, I_CameraChangedLi
     }
 
     @Override
-    public void onModuleChanged(I_Module module) {
+    public void onModuleChanged(ModuleInterface module) {
     }
 
     @Override

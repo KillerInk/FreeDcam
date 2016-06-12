@@ -19,11 +19,9 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.camera1.parameters.ParametersHandler;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 
 /**
  * Created by troop on 12.04.2015.
@@ -33,7 +31,7 @@ public class SkintoneManualPrameter extends BaseManualParameter {
      * @param parameters
      * @param cameraUiWrapper
      */
-    public SkintoneManualPrameter(Parameters parameters, I_CameraUiWrapper cameraUiWrapper)
+    public SkintoneManualPrameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper)
     {
         super(parameters, "", "", "", cameraUiWrapper,1);
         try

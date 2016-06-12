@@ -34,7 +34,7 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.ui.I_Activity;
@@ -130,7 +130,7 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
 
     }
 
-    public void setCameraUiWrapper(I_CameraUiWrapper cameraUiWrapper)
+    public void setCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.GetParameterHandler().Horizont.addEventListner(this);

@@ -31,12 +31,11 @@ import android.location.Location;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 
-import com.freedcam.apis.basecamera.AbstractCameraHolder;
+import com.freedcam.apis.basecamera.CameraHolderAbstract;
 import com.freedcam.apis.basecamera.FocusRect;
 import com.freedcam.apis.basecamera.Size;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.modules.CameraFocusEvent;
-import com.freedcam.apis.basecamera.modules.I_Callbacks;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.interfaces.FocusEvents;
 import com.freedcam.utils.Logger;
 
 import java.io.IOException;
@@ -46,7 +45,7 @@ import java.util.List;
 /**
  * Created by troop on 15.08.2014.
  */
-public class CameraHolder extends AbstractCameraHolder
+public class CameraHolder extends CameraHolderAbstract
 {
     //frame count that get attached to the camera when using focuspeak
     final int BUFFERCOUNT = 3;
@@ -70,7 +69,7 @@ public class CameraHolder extends AbstractCameraHolder
         MotoX
     }
 
-    public CameraHolder(I_CameraUiWrapper cameraUiWrapper,Frameworks frameworks)
+    public CameraHolder(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks)
     {
         super(cameraUiWrapper);
         DeviceFrameWork = frameworks;
@@ -262,7 +261,7 @@ public class CameraHolder extends AbstractCameraHolder
 
     }
 
-    public void StartFocus(final I_Callbacks.AutoFocusCallback autoFocusCallback)
+    public void StartFocus(final FocusEvents autoFocusCallback)
     {
         if (!isRdy)
             return;
@@ -275,19 +274,13 @@ public class CameraHolder extends AbstractCameraHolder
                         return;
                     if (success)
                         mCamera.cancelAutoFocus();
-                    CameraFocusEvent focusEvent = new CameraFocusEvent();
-                    focusEvent.camera = camera;
-                    focusEvent.success = success;
-
-                    autoFocusCallback.onAutoFocus(focusEvent);
+                    autoFocusCallback.onFocusEvent(success);
                 }
             });
         } catch (Exception ex)
         {
             Logger.e(TAG,ex.getMessage());
-            CameraFocusEvent focusEvent = new CameraFocusEvent();
-            focusEvent.success = false;
-            autoFocusCallback.onAutoFocus(focusEvent);
+            autoFocusCallback.onFocusEvent(false);
         }
     }
 

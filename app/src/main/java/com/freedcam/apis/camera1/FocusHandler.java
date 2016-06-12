@@ -23,9 +23,8 @@ import android.view.MotionEvent;
 
 import com.freedcam.apis.basecamera.AbstractFocusHandler;
 import com.freedcam.apis.basecamera.FocusRect;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.modules.CameraFocusEvent;
-import com.freedcam.apis.basecamera.modules.I_Callbacks.AutoFocusCallback;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.interfaces.FocusEvents;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.apis.camera1.CameraHolder.Frameworks;
 import com.freedcam.utils.DeviceUtils.Devices;
@@ -33,12 +32,12 @@ import com.freedcam.utils.DeviceUtils.Devices;
 /**
  * Created by troop on 02.09.2014.
  */
-public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallback
+public class FocusHandler extends AbstractFocusHandler implements FocusEvents
 {
     final String TAG = FocusHandler.class.getSimpleName();
     private boolean aeMeteringSupported =false;
 
-    public FocusHandler(I_CameraUiWrapper cameraUiWrapper)
+    public FocusHandler(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
     }
@@ -148,10 +147,10 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
     }
 
     @Override
-    public void onAutoFocus(CameraFocusEvent event)
+    public void onFocusEvent(boolean event)
     {
         if (focusEvent != null)
-            focusEvent.FocusFinished(event.success);
+            focusEvent.FocusFinished(event);
     }
 
     @Override

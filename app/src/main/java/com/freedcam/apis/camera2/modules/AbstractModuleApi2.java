@@ -26,9 +26,9 @@ import android.os.Build.VERSION_CODES;
 import android.view.Display;
 import android.view.WindowManager;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.AbstractModule;
-import com.freedcam.apis.camera2.CameraHolder;
+import com.freedcam.apis.camera2.CameraHolderApi2;
 
 
 /**
@@ -39,11 +39,11 @@ public abstract class AbstractModuleApi2 extends AbstractModule implements I_Pre
     protected com.freedcam.apis.camera2.parameters.ParameterHandler ParameterHandler;
 
     protected boolean isWorking = false;
-    protected CameraHolder cameraHolder;
+    protected CameraHolderApi2 cameraHolder;
     protected Point displaySize;
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
-    public AbstractModuleApi2(I_CameraUiWrapper cameraUiWrapper)
+    public AbstractModuleApi2(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
         ParameterHandler = (com.freedcam.apis.camera2.parameters.ParameterHandler) cameraUiWrapper.GetParameterHandler();
@@ -71,7 +71,7 @@ public abstract class AbstractModuleApi2 extends AbstractModule implements I_Pre
     @Override
     public void InitModule()
     {
-        this.cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
+        this.cameraHolder = (CameraHolderApi2)cameraUiWrapper.GetCameraHolder();
     }
 
     @Override

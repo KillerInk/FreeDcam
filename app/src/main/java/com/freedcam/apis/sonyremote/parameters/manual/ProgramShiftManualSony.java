@@ -19,9 +19,7 @@
 
 package com.freedcam.apis.sonyremote.parameters.manual;
 
-import android.content.Context;
-
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.sonyremote.parameters.ParameterHandler;
 import com.freedcam.apis.sonyremote.sonystuff.JsonUtils;
 import com.freedcam.utils.FreeDPool;
@@ -43,7 +41,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     private final String TAG = ProgramShiftManualSony.class.getSimpleName();
     private BaseManualParameterSony shutter;
     private BaseManualParameterSony fnumber;
-    public ProgramShiftManualSony(I_CameraUiWrapper cameraUiWrapper) {
+    public ProgramShiftManualSony(CameraWrapperInterface cameraUiWrapper) {
         super("", "getSupportedProgramShift", "setProgramShift", cameraUiWrapper);
         shutter = (BaseManualParameterSony) cameraUiWrapper.GetParameterHandler().ManualShutter;
         fnumber = (BaseManualParameterSony) cameraUiWrapper.GetParameterHandler().ManualFNumber;

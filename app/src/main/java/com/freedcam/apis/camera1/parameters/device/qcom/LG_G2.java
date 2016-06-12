@@ -19,14 +19,13 @@
 
 package com.freedcam.apis.camera1.parameters.device.qcom;
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.FocusRect;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
-import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.interfaces.ManualParameterInterface;
+import com.freedcam.apis.basecamera.interfaces.ModeParameterInterface;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.CameraHolder.Frameworks;
@@ -45,7 +44,7 @@ public class LG_G2 extends AbstractDevice
 {
 
 
-    public LG_G2(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+    public LG_G2(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
         if (cameraHolder.DeviceFrameWork == Frameworks.LG)
             parameters.set("lge-camera","1");
@@ -57,27 +56,27 @@ public class LG_G2 extends AbstractDevice
     }
 
     @Override
-    public I_ManualParameter getExposureTimeParameter() {
+    public ManualParameterInterface getExposureTimeParameter() {
         return null;
     }
 
     @Override
-    public I_ManualParameter getIsoParameter() {
+    public ManualParameterInterface getIsoParameter() {
         return null;
     }
 
     @Override
-    public I_ManualParameter getManualFocusParameter() {
+    public ManualParameterInterface getManualFocusParameter() {
         return new FocusManualParameterLG(parameters,cameraUiWrapper);
     }
 
     @Override
-    public I_ManualParameter getCCTParameter() {
+    public ManualParameterInterface getCCTParameter() {
         return null;
     }
 
     @Override
-    public I_ManualParameter getSkintoneParameter() {
+    public ManualParameterInterface getSkintoneParameter() {
         return null;
     }
 
@@ -96,7 +95,7 @@ public class LG_G2 extends AbstractDevice
 
 
     @Override
-    public I_ModeParameter getVideoProfileMode()
+    public ModeParameterInterface getVideoProfileMode()
     {
         if (cameraHolder.DeviceFrameWork == Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
             return new VideoProfilesG3Parameter(parameters,cameraUiWrapper);

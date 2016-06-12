@@ -23,7 +23,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.Camera1Fragment;
 import com.freedcam.apis.camera1.ExtendedSurfaceView;
 import com.freedcam.ui.I_Activity;
@@ -34,7 +34,7 @@ import com.freedcam.utils.AppSettingsManager;
  */
 public class UiSettingsChildCameraSwitch extends UiSettingsChild
 {
-    private I_CameraUiWrapper cameraUiWrapper;
+    private CameraWrapperInterface cameraUiWrapper;
     private int currentCamera = 0;
     public UiSettingsChildCameraSwitch(Context context) {
         super(context);
@@ -64,7 +64,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
         valueText.setText(getCamera(currentCamera));
     }
 
-    public void SetCameraUiWrapper(I_CameraUiWrapper cameraUiWrapper)
+    public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         if (cameraUiWrapper instanceof Camera1Fragment)

@@ -24,8 +24,8 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.camera2.CameraHolder;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.camera2.CameraHolderApi2;
 
 /**
  * Created by troop on 13.12.2014.
@@ -58,10 +58,10 @@ public class SceneModeApi2 extends  BaseModeApi2
     }
 
     @TargetApi(VERSION_CODES.LOLLIPOP)
-    public SceneModeApi2(I_CameraUiWrapper cameraUiWrapper)
+    public SceneModeApi2(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
-        int[] values = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_SCENE_MODES);
+        int[] values = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_SCENE_MODES);
         if (values.length > 1)
             isSupported = true;
     }
@@ -78,7 +78,7 @@ public class SceneModeApi2 extends  BaseModeApi2
         if (valueToSet.contains("unknown Scene"))
             return;
         SceneModes sceneModes = Enum.valueOf(SceneModes.class, valueToSet);
-        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_SCENE_MODE, sceneModes.ordinal());
+        ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_SCENE_MODE, sceneModes.ordinal());
         //cameraHolder.mPreviewRequestBuilder.build();
     }
 
@@ -86,7 +86,7 @@ public class SceneModeApi2 extends  BaseModeApi2
     public String GetValue()
     {
 
-            int i = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.CONTROL_SCENE_MODE);
+            int i = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.CONTROL_SCENE_MODE);
             SceneModes sceneModes = SceneModes.values()[i];
             return sceneModes.toString();
 
@@ -96,7 +96,7 @@ public class SceneModeApi2 extends  BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        int[] values = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_SCENE_MODES);
+        int[] values = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_SCENE_MODES);
         String[] retvals = new String[values.length];
         for (int i = 0; i < values.length; i++)
         {

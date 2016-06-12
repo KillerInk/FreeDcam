@@ -19,15 +19,14 @@
 
 package com.freedcam.apis.camera1.parameters.device;
 
-import android.content.Context;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.FocusRect;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.interfaces.ManualParameterInterface;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.camera1.CameraHolder.Frameworks;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
@@ -50,7 +49,7 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
 {
     private Frameworks frameworks;
     private AE_Handler_MTK ae_handler_mtk;
-    public Xiaomi_Redmi_Note3_QC_MTK(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+    public Xiaomi_Redmi_Note3_QC_MTK(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
         frameworks = cameraHolder.DeviceFrameWork;
         if (frameworks == Frameworks.MTK)
@@ -64,7 +63,7 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
 
     //gets set due ae handler
     @Override
-    public I_ManualParameter getExposureTimeParameter()
+    public ManualParameterInterface getExposureTimeParameter()
     {
         if (frameworks == Frameworks.MTK)
             return ae_handler_mtk.shutterPrameter;
@@ -73,7 +72,7 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
     }
     //gets set due ae handler
     @Override
-    public I_ManualParameter getIsoParameter() {
+    public ManualParameterInterface getIsoParameter() {
         if (frameworks == Frameworks.MTK)
             return ae_handler_mtk.isoManualParameter;
         else
@@ -81,7 +80,7 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
     }
 
     @Override
-    public I_ManualParameter getManualFocusParameter()
+    public ManualParameterInterface getManualFocusParameter()
     {
         if (frameworks == Frameworks.MTK)
             return new FocusManualMTK(parameters, cameraUiWrapper);
@@ -90,7 +89,7 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
     }
 
     @Override
-    public I_ManualParameter getCCTParameter()
+    public ManualParameterInterface getCCTParameter()
     {
         return null;
     }

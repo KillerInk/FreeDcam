@@ -22,7 +22,7 @@ package com.freedcam.apis.camera1.parameters.modes;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.VideoMediaProfile;
 import com.freedcam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
 import com.freedcam.apis.camera1.CameraHolder;
@@ -47,7 +47,7 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
     private String profile;
     private CameraHolder cameraHolder;
 
-    public VideoProfilesG3Parameter(Parameters parameters,I_CameraUiWrapper cameraUiWrapper) {
+    public VideoProfilesG3Parameter(Parameters parameters,CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
         cameraHolder = (CameraHolder) cameraUiWrapper.GetCameraHolder();
         isSupported =true;

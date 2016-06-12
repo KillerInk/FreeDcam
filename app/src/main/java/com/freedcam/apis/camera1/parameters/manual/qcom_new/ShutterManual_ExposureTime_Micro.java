@@ -19,11 +19,10 @@
 
 package com.freedcam.apis.camera1.parameters.manual.qcom_new;
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.Logger;
@@ -50,7 +49,7 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
      */
     protected String key_min_value;
 
-    public ShutterManual_ExposureTime_Micro(Parameters parameters, I_CameraUiWrapper cameraUiWrapper, String[] shuttervalues, String key_value)
+    public ShutterManual_ExposureTime_Micro(Parameters parameters, CameraWrapperInterface cameraUiWrapper, String[] shuttervalues, String key_value)
     {
         super(cameraUiWrapper);
         stringvalues = shuttervalues;
@@ -63,7 +62,7 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
      * @param parameters
      * @param cameraUiWrapper
      */
-    public ShutterManual_ExposureTime_Micro(Parameters parameters, I_CameraUiWrapper cameraUiWrapper,String key_value, String maxval , String minval, boolean withauto) {
+    public ShutterManual_ExposureTime_Micro(Parameters parameters, CameraWrapperInterface cameraUiWrapper, String key_value, String maxval , String minval, boolean withauto) {
         super(cameraUiWrapper);
         this.parameters = parameters;
         this.key_value = key_value;

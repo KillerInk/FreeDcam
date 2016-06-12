@@ -3,7 +3,7 @@ package com.freedcam.ui.handler;
 import android.view.KeyEvent;
 
 import com.freedcam.MainActivity;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
@@ -15,7 +15,7 @@ import com.freedcam.utils.StringUtils;
 public class HardwareKeyHandler
 {
     private final MainActivity activity;
-    private I_CameraUiWrapper cameraUiWrapper;
+    private CameraWrapperInterface cameraUiWrapper;
     private final String TAG = HardwareKeyHandler.class.getSimpleName();
     private AppSettingsManager appSettingsManager;
 
@@ -26,7 +26,7 @@ public class HardwareKeyHandler
         this.appSettingsManager = appSettingsManager;
     }
 
-    public void SetCameraUIWrapper(I_CameraUiWrapper cameraUiWrapper)
+    public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
     }

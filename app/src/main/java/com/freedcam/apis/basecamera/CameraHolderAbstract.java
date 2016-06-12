@@ -24,17 +24,18 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.SurfaceHolder;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraHolderInterface;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.interfaces.FocusEvents;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
-import com.freedcam.apis.basecamera.modules.I_Callbacks.AutoFocusCallback;
+
 import com.freedcam.utils.AppSettingsManager;
 
 /**
  * Created by troop on 12.12.2014.
  * holds the instance for the camera to work with
  */
-public abstract class AbstractCameraHolder implements I_CameraHolder
+public abstract class CameraHolderAbstract implements CameraHolderInterface
 {
     protected boolean isRdy = false;
     //handler wich runs in mainthread
@@ -42,7 +43,7 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
     //holds the appsettings
     protected AppSettingsManager appSettingsManager;
 
-    protected I_CameraUiWrapper cameraUiWrapper;
+    protected CameraWrapperInterface cameraUiWrapper;
 
     protected AbstractModuleHandler moduleHandler;
 
@@ -50,7 +51,7 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
      *
      * @param cameraUiWrapper to listen on camera state changes
      */
-    protected AbstractCameraHolder(I_CameraUiWrapper cameraUiWrapper)
+    protected CameraHolderAbstract(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
@@ -107,7 +108,7 @@ public abstract class AbstractCameraHolder implements I_CameraHolder
 
 
 
-    public abstract void StartFocus(AutoFocusCallback autoFocusCallback);
+    public abstract void StartFocus(FocusEvents autoFocusCallback);
     public abstract void CancelFocus();
 
     public abstract void SetLocation(Location loc);

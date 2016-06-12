@@ -24,14 +24,14 @@ import android.media.MediaRecorder;
 import android.os.Build.VERSION_CODES;
 import android.util.Size;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.camera2.CameraHolder;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.camera2.CameraHolderApi2;
 
 /**
  * Created by troop on 26.11.2015.
  */
 public class VideoSizeModeApi2 extends BaseModeApi2 {
-    public VideoSizeModeApi2(I_CameraUiWrapper cameraUiWrapper) {
+    public VideoSizeModeApi2(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
     }
 
@@ -43,7 +43,7 @@ public class VideoSizeModeApi2 extends BaseModeApi2 {
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         BackgroundValueHasChanged(valueToSet);
-        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).VideoSize = valueToSet;
+        ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).VideoSize = valueToSet;
         if (setToCamera)
         {
             cameraUiWrapper.StopPreview();
@@ -55,14 +55,14 @@ public class VideoSizeModeApi2 extends BaseModeApi2 {
     public String GetValue()
     {
 
-        return ((CameraHolder)cameraUiWrapper.GetCameraHolder()).VideoSize;
+        return ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).VideoSize;
     }
 
     @TargetApi(VERSION_CODES.LOLLIPOP)
     @Override
     public String[] GetValues()
     {
-        Size[] sizes = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).map.getOutputSizes(MediaRecorder.class);
+        Size[] sizes = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).map.getOutputSizes(MediaRecorder.class);
         String[] ret = new String[sizes.length];
         for(int i = 0; i < sizes.length; i++)
         {

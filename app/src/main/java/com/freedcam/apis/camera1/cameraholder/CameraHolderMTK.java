@@ -21,7 +21,7 @@ package com.freedcam.apis.camera1.cameraholder;
 
 import android.hardware.Camera;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.Logger;
@@ -35,7 +35,7 @@ import java.lang.reflect.Method;
 public class CameraHolderMTK extends CameraHolder
 {
     private final String TAG = CameraHolderMTK.class.getSimpleName();
-    public CameraHolderMTK(I_CameraUiWrapper cameraUiWrapper, Frameworks frameworks) {
+    public CameraHolderMTK(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks) {
         super(cameraUiWrapper,frameworks);
     }
 

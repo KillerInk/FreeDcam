@@ -19,6 +19,8 @@
 
 package com.freedcam.apis.basecamera;
 
+import android.graphics.Rect;
+
 /**
  * Created by troop on 07.01.2015.
  */
@@ -41,6 +43,11 @@ public class FocusRect
         this.bottom = bottom;
         this.x = x;
         this.y = y;
+    }
+
+    public Rect getRect()
+    {
+        return new Rect(left,right,top,bottom);
     }
 
 }

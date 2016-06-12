@@ -20,17 +20,15 @@
 package com.freedcam.apis.camera2.parameters.manual;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.TonemapCurve;
 import android.os.Build.VERSION_CODES;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
-import com.freedcam.apis.camera2.CameraHolder;
-import com.freedcam.apis.camera2.parameters.ParameterHandler;
+import com.freedcam.apis.camera2.CameraHolderApi2;
 import com.freedcam.utils.Logger;
 
 /**
@@ -52,7 +50,7 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
     private boolean visible = false;
 
 
-    public ManualToneMapCurveApi2(I_CameraUiWrapper cameraUiWrapper)
+    public ManualToneMapCurveApi2(CameraWrapperInterface cameraUiWrapper)
     {
         contrast = new Contrast(cameraUiWrapper);
         brightness = new Brightness(cameraUiWrapper);
@@ -104,7 +102,7 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
     public class Contrast extends AbstractManualParameter
     {
         boolean firststart = true;
-        public Contrast(I_CameraUiWrapper cameraUiWrapper) {
+        public Contrast(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper);
             stringvalues = createStringArray(0,100,1);
             currentInt = 50;
@@ -165,14 +163,14 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
 
                 float[] tonemap = {blackpoint[0], blackpoint[1], shadows[0], shadows[1], midtones[0], midtones[1], highlights[0], highlights[1], whitepoint[0], whitepoint[1]};
                 TonemapCurve tonemapCurve = new TonemapCurve(tonemap, tonemap, tonemap);
-                ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
+                ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
             }
             firststart = false;
         }
 
         @Override
         public boolean IsSupported() {
-            return !(cameraUiWrapper.GetCameraHolder() == null || ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics == null) && ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null && ((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
+            return !(cameraUiWrapper.GetCameraHolder() == null || ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics == null) && ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null && ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
         }
 
         @Override
@@ -194,7 +192,7 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
     public class Brightness extends AbstractManualParameter
     {
 
-        public Brightness(I_CameraUiWrapper cameraUiWrapper) {
+        public Brightness(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper);
             stringvalues = createStringArray(0,100,1);
             currentInt = 50;
@@ -235,16 +233,16 @@ public class ManualToneMapCurveApi2 implements I_ModeParameterEvent
 
             float[]tonemap = {blackpoint[0], blackpoint[1], shadows[0],shadows[1], midtones[0], midtones[1], highlights[0], highlights[1],whitepoint[0], whitepoint[1]};
             TonemapCurve tonemapCurve = new TonemapCurve(tonemap,tonemap,tonemap);
-            ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
+            ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.TONEMAP_CURVE, tonemapCurve);
 
         }
 
         @Override
         public boolean IsSupported()
         {
-            if (((CameraHolder)cameraUiWrapper.GetCameraHolder()) == null || ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics == null || ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) == null )
+            if (((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()) == null || ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics == null || ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) == null )
                 return false;
-            return  ((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.TONEMAP_MODE) == null || ((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
+            return  ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.TONEMAP_MODE) == null || ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.TONEMAP_MODE) == CaptureRequest.TONEMAP_MODE_CONTRAST_CURVE;
         }
 
         @Override

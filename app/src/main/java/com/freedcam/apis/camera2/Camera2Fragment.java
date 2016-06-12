@@ -28,10 +28,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.freedcam.MainActivity;
-import com.freedcam.apis.basecamera.AbstractCameraFragment;
 import com.freedcam.apis.basecamera.AbstractFocusHandler;
+import com.freedcam.apis.basecamera.CameraFragmentAbstract;
+import com.freedcam.apis.basecamera.interfaces.CameraHolderInterface;
 import com.freedcam.apis.basecamera.interfaces.FocuspeakProcessor;
-import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.camera2.modules.I_PreviewWrapper;
@@ -48,9 +48,9 @@ import com.troop.freedcam.R.layout;
 /**
  * Created by troop on 06.06.2015.
  */
-public class Camera2Fragment extends AbstractCameraFragment implements TextureView.SurfaceTextureListener
+public class Camera2Fragment extends CameraFragmentAbstract implements TextureView.SurfaceTextureListener
 {
-    public CameraHolder cameraHolder;
+    public CameraHolderApi2 cameraHolder;
     private AutoFitTextureView textureView;
     private final String TAG = Camera2Fragment.class.getSimpleName();
     private FocuspeakProcessorApi2 mProcessor;
@@ -71,7 +71,7 @@ public class Camera2Fragment extends AbstractCameraFragment implements TextureVi
         parametersHandler = new ParameterHandler(this);
         moduleHandler = new ModuleHandlerApi2(this,renderScriptHandler);
         Focus = new FocusHandler(this);
-        cameraHolder = new CameraHolder(this);
+        cameraHolder = new CameraHolderApi2(this);
         mProcessor = new FocuspeakProcessorApi2(renderScriptHandler);
         Logger.d(TAG, "Constructor done");
         ((MainActivity)getActivity()).onCameraUiWrapperRdy(this);
@@ -106,7 +106,7 @@ public class Camera2Fragment extends AbstractCameraFragment implements TextureVi
     }
 
     @Override
-    public I_CameraHolder GetCameraHolder() {
+    public CameraHolderInterface GetCameraHolder() {
         return cameraHolder;
     }
 

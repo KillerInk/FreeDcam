@@ -31,7 +31,7 @@ import android.os.Handler;
 import android.os.StatFs;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
@@ -46,7 +46,7 @@ import java.util.Date;
 public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
 {
     private Handler handler;
-    protected I_CameraUiWrapper cameraUiWrapper;
+    protected CameraWrapperInterface cameraUiWrapper;
     boolean started = false;
     private Context context;
 
@@ -72,7 +72,7 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
         batteryBroadCastListner = new BatteryBroadCastListner();
     }
 
-    public void setCameraUIWrapper(I_CameraUiWrapper cameraUIWrapper)
+    public void setCameraUIWrapper(CameraWrapperInterface cameraUIWrapper)
     {
         cameraUiWrapper = cameraUIWrapper;
         if (cameraUIWrapper != null && cameraUIWrapper.GetModuleHandler() != null && cameraUIWrapper.GetModuleHandler().moduleEventHandler != null)

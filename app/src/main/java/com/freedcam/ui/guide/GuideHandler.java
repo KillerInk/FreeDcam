@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.parameters.I_ParametersLoaded;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.utils.AppSettingsManager;
@@ -21,7 +21,7 @@ import com.troop.freedcam.R.layout;
 public class GuideHandler extends Fragment implements I_ModeParameterEvent , I_ParametersLoaded {
     private View view;
     private ImageView img;
-    private I_CameraUiWrapper cameraUiWrapper;
+    private CameraWrapperInterface cameraUiWrapper;
     private float quckRationMath;
     private AppSettingsManager appSettingsManager;
 
@@ -54,7 +54,7 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent , I_P
 
     }
 
-    public void setCameraUiWrapper(I_CameraUiWrapper cameraUiWrapper)
+    public void setCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.GetParameterHandler().GuideList.addEventListner(this);

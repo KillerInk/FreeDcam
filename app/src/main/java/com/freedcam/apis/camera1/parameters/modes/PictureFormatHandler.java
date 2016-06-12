@@ -23,7 +23,7 @@ import android.hardware.Camera.Parameters;
 import android.os.Build.VERSION;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.CameraHolder.Frameworks;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
@@ -64,7 +64,7 @@ public class PictureFormatHandler extends BaseModeParameter
      * @param parameters   Hold the Camera Parameters
      * @param cameraUiWrapper Hold the camera object
      */
-    public PictureFormatHandler(Parameters parameters, I_CameraUiWrapper cameraUiWrapper, ParametersHandler parametersHandler)
+    public PictureFormatHandler(Parameters parameters, CameraWrapperInterface cameraUiWrapper, ParametersHandler parametersHandler)
     {
         super(parameters, cameraUiWrapper);
         this.parametersHandler = parametersHandler;
@@ -220,7 +220,7 @@ public class PictureFormatHandler extends BaseModeParameter
          * @param cameraHolder Hold the camera object
          * @param values
          */
-        public BayerFormat(Parameters parameters, I_CameraUiWrapper cameraHolder, String values) {
+        public BayerFormat(Parameters parameters, CameraWrapperInterface cameraHolder, String values) {
             super(parameters, cameraHolder);
         }
 

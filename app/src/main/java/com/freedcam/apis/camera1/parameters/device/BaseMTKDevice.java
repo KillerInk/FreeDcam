@@ -19,16 +19,15 @@
 
 package com.freedcam.apis.camera1.parameters.device;
 
-import android.content.Context;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.FocusRect;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
-import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.interfaces.ManualParameterInterface;
+import com.freedcam.apis.basecamera.interfaces.ModeParameterInterface;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK;
 import com.freedcam.apis.camera1.parameters.manual.mtk.BaseManualParamMTK;
@@ -49,7 +48,7 @@ public class BaseMTKDevice extends AbstractDevice
 {
     protected AE_Handler_MTK ae_handler_mtk;
 
-    public BaseMTKDevice(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+    public BaseMTKDevice(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
         ae_handler_mtk = new AE_Handler_MTK(parameters, cameraUiWrapper,1600);
         parameters.set("afeng_raw_dump_flag", "1");
@@ -65,17 +64,17 @@ public class BaseMTKDevice extends AbstractDevice
 
     //set by aehandler to camparametershandler direct
     @Override
-    public I_ManualParameter getExposureTimeParameter() {
+    public ManualParameterInterface getExposureTimeParameter() {
         return ae_handler_mtk.shutterPrameter;
     }
     //set by aehandler to camparametershandler direct
     @Override
-    public I_ManualParameter getIsoParameter() {
+    public ManualParameterInterface getIsoParameter() {
         return ae_handler_mtk.isoManualParameter;
     }
 
     @Override
-    public I_ManualParameter getManualFocusParameter()
+    public ManualParameterInterface getManualFocusParameter()
     {
         if(parameters.get("afeng-max-focus-step")!=null)
             return new FocusManualMTK(parameters, cameraUiWrapper);
@@ -86,34 +85,34 @@ public class BaseMTKDevice extends AbstractDevice
     }
 
     @Override
-    public I_ManualParameter getCCTParameter() {
+    public ManualParameterInterface getCCTParameter() {
         return null;
     }
 
     @Override
-    public I_ManualParameter getSkintoneParameter() {
+    public ManualParameterInterface getSkintoneParameter() {
         return null;
     }
 
     @Override
-    public I_ManualParameter getManualSaturation() {
+    public ManualParameterInterface getManualSaturation() {
         if (parameters.get(KEYS.SATURATION)!= null && parameters.get(KEYS.SATURATION_VALUES)!= null)
                 return new BaseManualParamMTK(parameters,KEYS.SATURATION, KEYS.SATURATION_VALUES,cameraUiWrapper);
         return null;
     }
 
     @Override
-    public I_ManualParameter getManualSharpness() {
+    public ManualParameterInterface getManualSharpness() {
         return new BaseManualParamMTK(parameters,"edge","edge-values",cameraUiWrapper);
     }
 
     @Override
-    public I_ManualParameter getManualBrightness() {
+    public ManualParameterInterface getManualBrightness() {
         return new BaseManualParamMTK(parameters,"brightness", "brightness-values",cameraUiWrapper);
     }
 
     @Override
-    public I_ManualParameter getManualContrast() {
+    public ManualParameterInterface getManualContrast() {
         return  new BaseManualParamMTK(parameters,"contrast","contrast-values",cameraUiWrapper);
     }
 
@@ -123,7 +122,7 @@ public class BaseMTKDevice extends AbstractDevice
     }
 
     @Override
-    public I_ModeParameter getDenoiseParameter() {
+    public ModeParameterInterface getDenoiseParameter() {
         if(parameters.get(KEYS.MTK_NOISE_REDUCTION_MODE)!=null) {
             if (parameters.get(KEYS.MTK_NOISE_REDUCTION_MODE_VALUES).equals("on,off")) {
                 return new BaseModeParameter(parameters, cameraUiWrapper, KEYS.MTK_NOISE_REDUCTION_MODE, KEYS.MTK_NOISE_REDUCTION_MODE_VALUES);

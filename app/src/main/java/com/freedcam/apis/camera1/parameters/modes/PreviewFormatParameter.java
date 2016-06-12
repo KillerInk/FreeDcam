@@ -21,17 +21,17 @@ package com.freedcam.apis.camera1.parameters.modes;
 
 import android.hardware.Camera.Parameters;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraHolderInterface;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 
 /**
  * Created by troop on 24.08.2014.
  */
 public class PreviewFormatParameter extends BaseModeParameter
 {
-    private I_CameraHolder cameraHolder;
+    private CameraHolderInterface cameraHolder;
 
-    public PreviewFormatParameter(Parameters parameters, I_CameraUiWrapper parameterChanged) {
+    public PreviewFormatParameter(Parameters parameters, CameraWrapperInterface parameterChanged) {
         super(parameters, parameterChanged, "preview-format", "preview-format-values");
         cameraHolder = cameraHolder;
     }

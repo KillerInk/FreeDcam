@@ -23,7 +23,7 @@ import android.hardware.Camera.Parameters;
 import android.media.CamcorderProfile;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.VideoMediaProfile;
 import com.freedcam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
 import com.freedcam.apis.camera1.CameraHolder;
@@ -48,7 +48,7 @@ public class VideoProfilesParameter extends BaseModeParameter
     private static final String _720phfr = "720HFR";
     public static final String _4kUHD = "4kUHD";
 
-    public VideoProfilesParameter(Parameters parameters,I_CameraUiWrapper cameraUiWrapper) {
+    public VideoProfilesParameter(Parameters parameters,CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
         cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
         this.cameraUiWrapper = cameraUiWrapper;

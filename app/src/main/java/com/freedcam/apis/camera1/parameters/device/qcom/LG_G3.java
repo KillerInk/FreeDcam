@@ -19,13 +19,12 @@
 
 package com.freedcam.apis.camera1.parameters.device.qcom;
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.parameters.manual.BaseFocusManual;
@@ -40,7 +39,7 @@ import com.troop.androiddng.Matrixes;
 public class LG_G3 extends LG_G2
 {
 
-    public LG_G3(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+    public LG_G3(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
         parameters.set("lge-camera","1");
     }

@@ -19,14 +19,13 @@
 
 package com.freedcam.apis.camera1.modules;
 
-import android.content.Context;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.AudioSource;
 import android.media.MediaRecorder.OutputFormat;
 import android.media.MediaRecorder.VideoSource;
 import android.os.Environment;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.VideoMediaProfile;
 import com.freedcam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
 import com.freedcam.apis.camera1.CameraHolder;
@@ -44,7 +43,7 @@ public class VideoModule extends AbstractVideoModule
     private static String TAG = VideoModule.class.getSimpleName();
     private VideoMediaProfile currentProfile;
 
-    public VideoModule(I_CameraUiWrapper cameraUiWrapper) {
+    public VideoModule(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
     }
 

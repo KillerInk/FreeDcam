@@ -19,8 +19,8 @@
 
 package com.freedcam.apis.basecamera.parameters.modes;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.interfaces.I_Module;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.interfaces.ModuleInterface;
 import com.freedcam.utils.AppSettingsManager;
 
 import java.util.ArrayList;
@@ -32,9 +32,9 @@ import java.util.List;
  */
 public class ModuleParameters extends AbstractModeParameter {
 
-    private I_CameraUiWrapper cameraUiWrapper;
+    private CameraWrapperInterface cameraUiWrapper;
     private AppSettingsManager appSettingsManager;
-    public ModuleParameters(I_CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager) {
+    public ModuleParameters(CameraWrapperInterface cameraUiWrapper, AppSettingsManager appSettingsManager) {
         this.cameraUiWrapper = cameraUiWrapper;
         this.appSettingsManager = appSettingsManager;
     }
@@ -42,7 +42,7 @@ public class ModuleParameters extends AbstractModeParameter {
     @Override
     public String[] GetValues() {
         List<String> mods = new ArrayList<>();
-        for (HashMap.Entry<String, I_Module> module : cameraUiWrapper.GetModuleHandler().moduleList.entrySet()) {
+        for (HashMap.Entry<String, ModuleInterface> module : cameraUiWrapper.GetModuleHandler().moduleList.entrySet()) {
             mods.add(module.getValue().LongName());
         }
         return mods.toArray(new String[mods.size()]);
@@ -57,7 +57,7 @@ public class ModuleParameters extends AbstractModeParameter {
 
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
-        for (HashMap.Entry<String, I_Module> module : cameraUiWrapper.GetModuleHandler().moduleList.entrySet()) {
+        for (HashMap.Entry<String, ModuleInterface> module : cameraUiWrapper.GetModuleHandler().moduleList.entrySet()) {
             if (valueToSet.equals(module.getValue().LongName())) {
                 appSettingsManager.SetCurrentModule(module.getValue().ModuleName());
                 cameraUiWrapper.GetModuleHandler().SetModule(module.getValue().ModuleName());

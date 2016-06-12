@@ -22,7 +22,7 @@ package com.freedcam.apis.camera1.cameraholder;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.utils.Logger;
 
@@ -35,7 +35,7 @@ import java.lang.reflect.Method;
 public class CameraHolderMotoX extends CameraHolder
 {
     private final String TAG = CameraHolderMotoX.class.getSimpleName();
-    public CameraHolderMotoX(I_CameraUiWrapper cameraUiWrapper, Frameworks frameworks) {
+    public CameraHolderMotoX(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks) {
         super(cameraUiWrapper,frameworks);
     }
 

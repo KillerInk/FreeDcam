@@ -19,14 +19,13 @@
 
 package com.freedcam.apis.camera1.parameters;
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 import android.os.Build;
 import android.os.Handler;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.FocusRect;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.parameters.modes.LocationParameter;
@@ -74,7 +73,7 @@ public class ParametersHandler extends AbstractParameterHandler
     public Parameters getParameters(){return cameraParameters;}
     private I_Device Device;
 
-    public ParametersHandler(I_CameraUiWrapper cameraUiWrapper)
+    public ParametersHandler(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
     }

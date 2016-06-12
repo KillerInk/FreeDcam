@@ -23,7 +23,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.ui.themesample.subfragments.Interfaces.I_MenuItemClick;
 import com.freedcam.utils.Logger;
 
@@ -47,7 +47,7 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements I_MenuItemCl
         SetMenuItemListner(this,false);
     }
 
-    public void SetCameraUiWrapper(I_CameraUiWrapper cameraUiWrapper)
+    public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
 
         cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(this);

@@ -19,40 +19,27 @@
 
 package com.freedcam.apis.basecamera.interfaces;
 
-import android.location.Location;
-import android.view.SurfaceHolder;
+import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 
 /**
- * Created by troop on 15.08.2014.
+ * Created by troop on 01.09.2014.
  */
-public interface I_CameraHolder
+public interface ManualParameterInterface
 {
-    /**
-     * open the camera
-     * @param camera to open
-     * @return true when open sucessfull, false when something went wrong
-     */
-    boolean OpenCamera(int camera);
-    void CloseCamera();
-    /**
-     *
-     * @return the count of avail cameras
-     */
-    int CameraCout();
-    boolean IsRdy();
+    boolean IsSupported();
+    boolean IsSetSupported();
+    boolean IsVisible();
 
-    /**
-     * The the surface to camera
-     * @param texture to set
-     * @return
-     */
-    boolean SetSurface(SurfaceHolder texture);
-    void StartPreview();
-    void StopPreview();
-    void SetLocation(Location location);
-    void StartFocus();
-    void CancelFocus();
-    void ResetPreviewCallback();
-    void SendUIMessage(String msg);
+    int GetValue();
+    String GetStringValue();
+    String[] getStringValues();
+    void SetValue(int valueToSet);
 
+    void addEventListner(AbstractManualParameter.I_ManualParameterEvent eventListner);
+    void removeEventListner(AbstractManualParameter.I_ManualParameterEvent eventListner);
+    void ThrowCurrentValueChanged(int current);
+    void ThrowCurrentValueStringCHanged(String value);
+    void ThrowBackgroundIsSupportedChanged(boolean value);
+    void ThrowBackgroundIsSetSupportedChanged(boolean value);
+    void ThrowBackgroundValuesChanged(String[] value);
 }

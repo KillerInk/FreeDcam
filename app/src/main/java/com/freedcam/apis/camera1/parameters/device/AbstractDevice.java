@@ -19,13 +19,12 @@
 
 package com.freedcam.apis.camera1.parameters.device;
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
-import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.interfaces.ManualParameterInterface;
+import com.freedcam.apis.basecamera.interfaces.ModeParameterInterface;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
@@ -39,11 +38,11 @@ import com.troop.androiddng.DngProfile;
 public abstract class AbstractDevice implements I_Device {
     protected Parameters parameters;
     protected CameraHolder cameraHolder;
-    protected I_CameraUiWrapper cameraUiWrapper;
+    protected CameraWrapperInterface cameraUiWrapper;
     protected ParametersHandler parametersHandler;
     protected MatrixChooserParameter matrixChooserParameter;
 
-    public AbstractDevice(Parameters parameters, I_CameraUiWrapper cameraUiWrapper)
+    public AbstractDevice(Parameters parameters, CameraWrapperInterface cameraUiWrapper)
     {
         this.parameters = parameters;
         this.cameraUiWrapper = cameraUiWrapper;
@@ -60,24 +59,24 @@ public abstract class AbstractDevice implements I_Device {
     public abstract boolean IsDngSupported();
 
     @Override
-    public abstract I_ManualParameter getExposureTimeParameter();
+    public abstract ManualParameterInterface getExposureTimeParameter();
 
     @Override
-    public abstract I_ManualParameter getIsoParameter();
+    public abstract ManualParameterInterface getIsoParameter();
 
     @Override
-    public abstract I_ManualParameter getManualFocusParameter();
+    public abstract ManualParameterInterface getManualFocusParameter();
 
     @Override
-    public abstract I_ManualParameter getCCTParameter();
+    public abstract ManualParameterInterface getCCTParameter();
 
     @Override
-    public I_ManualParameter getSkintoneParameter() {
+    public ManualParameterInterface getSkintoneParameter() {
         return null;
     }
 
     @Override
-    public I_ManualParameter getManualSaturation()
+    public ManualParameterInterface getManualSaturation()
     {
         BaseManualParameter ManualSaturation = null;
         //p920 hack
@@ -94,7 +93,7 @@ public abstract class AbstractDevice implements I_Device {
     }
 
     @Override
-    public I_ManualParameter getManualSharpness()
+    public ManualParameterInterface getManualSharpness()
     {
         if (parameters.get(KEYS.MAX_SHARPNESS)!= null && parameters.get(KEYS.SHARPNESS_MAX)!= null) {
             parameters.set(KEYS.MAX_SHARPNESS, KEYS.MAGIC_NUM100);
@@ -116,7 +115,7 @@ public abstract class AbstractDevice implements I_Device {
     }
 
     @Override
-    public I_ManualParameter getManualBrightness()
+    public ManualParameterInterface getManualBrightness()
     {
         //p920hack
         if (parameters.get("max-brightness")!= null && parameters.get("brightness-max")!= null)
@@ -136,7 +135,7 @@ public abstract class AbstractDevice implements I_Device {
     }
 
     @Override
-    public I_ManualParameter getManualContrast()
+    public ManualParameterInterface getManualContrast()
     {
         //p920 hack
         if (parameters.get("max-contrast")!= null && parameters.get("contrast-max")!= null) {
@@ -154,33 +153,33 @@ public abstract class AbstractDevice implements I_Device {
     public abstract DngProfile getDngProfile(int filesize);
 
     @Override
-    public I_ModeParameter getVideoProfileMode()
+    public ModeParameterInterface getVideoProfileMode()
     {
         return new VideoProfilesParameter(parameters,cameraUiWrapper);
     }
     @Override
-    public I_ModeParameter getNonZslManualMode()
+    public ModeParameterInterface getNonZslManualMode()
     {
         return null;
     }
 
     @Override
-    public I_ModeParameter getOpCodeParameter()
+    public ModeParameterInterface getOpCodeParameter()
     {
         return null;
     }
 
     @Override
-    public abstract I_ModeParameter getDenoiseParameter();
+    public abstract ModeParameterInterface getDenoiseParameter();
 
     @Override
-    public I_ModeParameter getLensFilter()
+    public ModeParameterInterface getLensFilter()
     {
         return null;
     }
 
     @Override
-    public I_ModeParameter getNightMode()
+    public ModeParameterInterface getNightMode()
     {
         return null;
     }

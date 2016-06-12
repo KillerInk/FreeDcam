@@ -21,7 +21,7 @@ package com.freedcam.apis.camera1.parameters.modes;
 
 import android.hardware.Camera.Parameters;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
@@ -53,7 +53,7 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
     boolean isVisible = true;
     //the parameters from the android.Camera
     protected Parameters  parameters;
-    protected I_CameraUiWrapper cameraUiWrapper;
+    protected CameraWrapperInterface cameraUiWrapper;
     private static String TAG = BaseModeParameter.class.getSimpleName();
 
     /*
@@ -61,7 +61,7 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
      */
     protected String[] valuesArray;
 
-    public BaseModeParameter(Parameters  parameters, I_CameraUiWrapper cameraUiWrapper)
+    public BaseModeParameter(Parameters  parameters, CameraWrapperInterface cameraUiWrapper)
     {
         this.parameters = parameters;
         this.cameraUiWrapper = cameraUiWrapper;
@@ -78,7 +78,7 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
      * @param key_values
      * the string to get the values avail/supported for @param key_value, if empty the parameter is unsupported
      */
-    public BaseModeParameter(Parameters  parameters, I_CameraUiWrapper cameraUiWrapper, String key_value, String key_values)
+    public BaseModeParameter(Parameters  parameters, CameraWrapperInterface cameraUiWrapper, String key_value, String key_values)
     {
         this(parameters,cameraUiWrapper);
         this.key_value = key_value;

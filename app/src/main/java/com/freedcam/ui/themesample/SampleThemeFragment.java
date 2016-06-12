@@ -30,7 +30,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.I_WorkEvent;
 import com.freedcam.apis.basecamera.parameters.I_ParametersLoaded;
 import com.freedcam.ui.AbstractFragment;
@@ -73,7 +73,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
     {
     }
 
-    public static SampleThemeFragment GetInstance(AppSettingsManager appSettingsManager, I_CameraUiWrapper cameraUiWrapper, BitmapHelper bitmapHelper)
+    public static SampleThemeFragment GetInstance(AppSettingsManager appSettingsManager, CameraWrapperInterface cameraUiWrapper, BitmapHelper bitmapHelper)
     {
         SampleThemeFragment sampleThemeFragment = new SampleThemeFragment();
         sampleThemeFragment.SetAppSettingsManagerAndBitmapHelper(appSettingsManager, bitmapHelper);
@@ -88,7 +88,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
     }
 
     @Override
-    public void SetCameraUIWrapper(I_CameraUiWrapper wrapper)
+    public void SetCameraUIWrapper(CameraWrapperInterface wrapper)
     {
         Logger.d(TAG, "SetCameraUiWrapper");
         cameraUiWrapper = wrapper;

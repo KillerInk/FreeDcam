@@ -20,11 +20,10 @@
 package com.freedcam.apis.camera1.modules;
 
 
-import android.content.Context;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.modules.IntervalModule;
 import com.freedcam.apis.camera1.CameraHolder;
@@ -39,7 +38,7 @@ public class ModuleHandler extends AbstractModuleHandler
     private static String TAG = "freedcam.ModuleHandler";
 
 
-    public  ModuleHandler (I_CameraUiWrapper cameraUiWrapper)
+    public  ModuleHandler (CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
     }

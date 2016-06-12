@@ -20,7 +20,6 @@
 package com.freedcam.apis.camera2.modules;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
@@ -48,13 +47,12 @@ import android.util.Size;
 import android.view.Surface;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
-import com.freedcam.apis.camera2.Camera2Fragment;
-import com.freedcam.apis.camera2.CameraHolder;
-import com.freedcam.apis.camera2.CameraHolder.CompareSizesByArea;
+import com.freedcam.apis.camera2.CameraHolderApi2;
+import com.freedcam.apis.camera2.CameraHolderApi2.CompareSizesByArea;
 import com.freedcam.jni.RawToDng;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.AppSettingsManager;
@@ -98,7 +96,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private Handler handler;
     private int imagecount = 0;
 
-    public PictureModuleApi2(I_CameraUiWrapper cameraUiWrapper) {
+    public PictureModuleApi2(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
         name = KEYS.MODULE_PICTURE;
         handler = new Handler(Looper.getMainLooper());
@@ -650,14 +648,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             //create new ImageReader with the size and format for the image
             Logger.d(TAG, "ImageReader JPEG");
         }
-        else if (picFormat.equals(CameraHolder.RAW_SENSOR))
+        else if (picFormat.equals(CameraHolderApi2.RAW_SENSOR))
         {
             Logger.d(TAG, "ImageReader RAW_SENOSR");
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
             mImageWidth = largestImageSize.getWidth();
             mImageHeight = largestImageSize.getHeight();
         }
-        else if (picFormat.equals(CameraHolder.RAW10))
+        else if (picFormat.equals(CameraHolderApi2.RAW10))
         {
             Logger.d(TAG, "ImageReader RAW_SENOSR");
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW10)), new CompareSizesByArea());
@@ -691,7 +689,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         try {
             Logger.d(TAG, "Set Burst to:" + burst);
-            previewSize = CameraHolder.getSizeForPreviewDependingOnImageSize(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), cameraHolder.characteristics, mImageWidth, mImageHeight);
+            previewSize = CameraHolderApi2.getSizeForPreviewDependingOnImageSize(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), cameraHolder.characteristics, mImageWidth, mImageHeight);
             if (cameraUiWrapper.getFocusPeakProcessor() != null)
             {
                 cameraUiWrapper.getFocusPeakProcessor().kill();
@@ -710,11 +708,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
             if (picFormat.equals(KEYS.JPEG))
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, burst);
-            else if (picFormat.equals(CameraHolder.RAW10))
+            else if (picFormat.equals(CameraHolderApi2.RAW10))
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW10, burst);
-            else if (picFormat.equals(CameraHolder.RAW_SENSOR))
+            else if (picFormat.equals(CameraHolderApi2.RAW_SENSOR))
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW_SENSOR, burst);
-            else if (picFormat.equals(CameraHolder.RAW12))
+            else if (picFormat.equals(CameraHolderApi2.RAW12))
                 mImageReader = ImageReader.newInstance(mImageWidth,mImageHeight, ImageFormat.RAW12,burst);
             cameraHolder.CaptureSessionH.AddSurface(mImageReader.getSurface(),false);
             cameraHolder.CaptureSessionH.CreateCaptureSession();

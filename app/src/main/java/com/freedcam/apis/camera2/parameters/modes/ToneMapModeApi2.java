@@ -24,15 +24,15 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.camera2.CameraHolder;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.camera2.CameraHolderApi2;
 
 /**
  * Created by troop on 05.05.2015.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
 public class ToneMapModeApi2 extends BaseModeApi2 {
-    public ToneMapModeApi2(I_CameraUiWrapper cameraUiWrapper) {
+    public ToneMapModeApi2(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
     }
 
@@ -46,7 +46,7 @@ public class ToneMapModeApi2 extends BaseModeApi2 {
 
     @Override
     public boolean IsSupported() {
-        return ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null;
+        return ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES) != null;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class ToneMapModeApi2 extends BaseModeApi2 {
         if (valueToSet.contains("unknown Scene"))
             return;
         ToneMapModes sceneModes = Enum.valueOf(ToneMapModes.class, valueToSet);
-        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.TONEMAP_MODE, sceneModes.ordinal());
+        ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.TONEMAP_MODE, sceneModes.ordinal());
         BackgroundValueHasChanged(valueToSet);
     }
 
@@ -63,7 +63,7 @@ public class ToneMapModeApi2 extends BaseModeApi2 {
     @Override
     public String GetValue()
     {
-        int i = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.TONEMAP_MODE);
+        int i = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.TONEMAP_MODE);
         ToneMapModes sceneModes = ToneMapModes.values()[i];
         return sceneModes.toString();
 
@@ -72,7 +72,7 @@ public class ToneMapModeApi2 extends BaseModeApi2 {
     @Override
     public String[] GetValues()
     {
-        int[] values = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES);
+        int[] values = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.TONEMAP_AVAILABLE_TONE_MAP_MODES);
         String[] retvals = new String[values.length];
         for (int i = 0; i < values.length; i++)
         {

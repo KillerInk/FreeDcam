@@ -22,7 +22,7 @@ package com.freedcam.apis.sonyremote.parameters;
 import android.content.Context;
 
 import com.freedcam.apis.basecamera.FocusRect;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.parameters.modes.ModuleParameters;
 import com.freedcam.apis.camera1.parameters.device.I_Device;
@@ -60,10 +60,10 @@ public class ParameterHandler extends AbstractParameterHandler
     public Set<String> mAvailableCameraApiSet;
     private List<I_SonyApi> parametersChangedList;
     private SimpleStreamSurfaceView surfaceView;
-    private I_CameraUiWrapper cameraUiWrapper;
+    private CameraWrapperInterface cameraUiWrapper;
 
 
-    public ParameterHandler(I_CameraUiWrapper cameraUiWrapper, SimpleStreamSurfaceView surfaceView, Context context)
+    public ParameterHandler(CameraWrapperInterface cameraUiWrapper, SimpleStreamSurfaceView surfaceView, Context context)
     {
         super(cameraUiWrapper);
         parametersChangedList  = new ArrayList<>();

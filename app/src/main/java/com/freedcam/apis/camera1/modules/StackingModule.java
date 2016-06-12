@@ -19,20 +19,16 @@
 
 package com.freedcam.apis.camera1.modules;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.renderscript.Allocation;
-import android.renderscript.Allocation.MipmapControl;
 import android.renderscript.Element;
-import android.renderscript.RenderScript;
-import android.renderscript.RenderScript.Priority;
 import android.renderscript.Type.Builder;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
 import com.freedcam.apis.camera1.parameters.modes.StackModeParameter;
 import com.freedcam.ui.handler.MediaScannerManager;
@@ -40,7 +36,6 @@ import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.RenderScriptHandler;
 import com.freedcam.utils.StringUtils;
-import com.imageconverter.ScriptC_imagestack;
 import com.imageconverter.ScriptField_MinMaxPixel;
 
 import java.io.File;
@@ -59,7 +54,7 @@ public class StackingModule extends PictureModule implements Camera.PictureCallb
     private String SessionFolder="";
     private List<File> capturedPics;
 
-    public StackingModule(I_CameraUiWrapper cameraUiWrapper) {
+    public StackingModule(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
         name = KEYS.MODULE_STACKING;
     }

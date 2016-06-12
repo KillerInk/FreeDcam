@@ -19,13 +19,12 @@
 
 package com.freedcam.apis.camera1.parameters.device.qcom;
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
-import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.interfaces.ManualParameterInterface;
+import com.freedcam.apis.basecamera.interfaces.ModeParameterInterface;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.parameters.device.BaseQcomDevice;
 import com.freedcam.apis.camera1.parameters.manual.BaseFocusManual;
@@ -36,12 +35,12 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 01.06.2016.
  */
 public class Xiaomi_Redmi_Note extends BaseQcomDevice {
-    public Xiaomi_Redmi_Note(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+    public Xiaomi_Redmi_Note(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 
     @Override
-    public I_ManualParameter getManualFocusParameter()
+    public ManualParameterInterface getManualFocusParameter()
     {
         return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,79,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,1,1);
     }
@@ -63,7 +62,7 @@ public class Xiaomi_Redmi_Note extends BaseQcomDevice {
     }
 
     @Override
-    public I_ModeParameter getNightMode() {
+    public ModeParameterInterface getNightMode() {
         return new NightModeXiaomi(parameters,cameraUiWrapper);
     }
 }

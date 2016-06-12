@@ -19,42 +19,51 @@
 
 package com.freedcam.apis.basecamera.interfaces;
 
-import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStateChanged;
+import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
 
 /**
- * Created by troop on 09.12.2014.
+ * Created by troop on 15.08.2014.
  */
-public interface I_ModuleHandler
+public interface ModuleInterface
 {
+    void SetCaptureStateChangedListner(AbstractModuleHandler.CaptureStateChanged captureStateChangedListner);
     /**
-     * Load the new module
-     * @param name of the module to load
+     * holds the modulename
+     * @return the name of the module
      */
-    void SetModule(String name);
+    String ModuleName();
 
     /**
-     * Get the name of the current module
-     * @return name of moduke
-     */
-    String GetCurrentModuleName();
-
-    /**
-     * get the current module instace
-     * @return current active module
-     */
-    I_Module GetCurrentModule();
-
-    /**
-     * Start work on the current modulé
-     * @return
+     * Let the Module start its work
      */
     boolean DoWork();
 
     /**
-     * Add worklistner that listen to the current module
-     * @param workerListner to add
+     * The workstate of the module
+     * @return true if it has work to process
      */
-    void SetWorkListner(CaptureStateChanged workerListner);
+    boolean IsWorking();
 
-    void initModules();
+    /**
+     * Short name of the module
+     * @return
+     */
+    String LongName();
+    /**
+     * Full name of the module
+     * @return
+     */
+    String ShortName();
+
+
+    /**
+     * geht thrown when the module gets loaded
+     */
+    void InitModule();
+
+    /**
+     * get thrown when the module get unloaded and a new gets loaded
+     */
+    void DestroyModule();
+
 }

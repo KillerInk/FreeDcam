@@ -30,7 +30,7 @@ import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
 import com.freedcam.apis.basecamera.FocusRect;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 
 /**
  * This class handles touch events that happens to the attached imageview and moves them
@@ -38,7 +38,7 @@ import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
  */
 public class ImageViewTouchAreaHandler implements OnTouchListener
 {
-    private I_CameraUiWrapper cameraUiWrapper;
+    private CameraWrapperInterface cameraUiWrapper;
     private I_TouchListnerEvent touchListnerEvent;
     private ImageView imageView;
     private float x;
@@ -59,7 +59,7 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
      *
      * @param imageView the view that should get moved
      */
-    public ImageViewTouchAreaHandler(ImageView imageView, I_CameraUiWrapper cameraUiWrapper, I_TouchListnerEvent touchListnerEvent)
+    public ImageViewTouchAreaHandler(ImageView imageView, CameraWrapperInterface cameraUiWrapper, I_TouchListnerEvent touchListnerEvent)
     {
         this.imageView = imageView;
         this.cameraUiWrapper = cameraUiWrapper;

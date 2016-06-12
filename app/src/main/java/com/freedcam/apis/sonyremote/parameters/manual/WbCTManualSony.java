@@ -19,9 +19,7 @@
 
 package com.freedcam.apis.sonyremote.parameters.manual;
 
-import android.content.Context;
-
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 
@@ -44,7 +42,7 @@ public class WbCTManualSony extends BaseManualParameterSony
     private int step = 0;
 
     private String[] values;
-    public WbCTManualSony(I_CameraUiWrapper cameraUiWrapper) {
+    public WbCTManualSony(CameraWrapperInterface cameraUiWrapper) {
         super("", "", "", cameraUiWrapper);
     }
 

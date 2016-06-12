@@ -19,10 +19,9 @@
 
 package com.freedcam.apis.camera1.parameters.device.qcom;
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.parameters.device.BaseQcomDevice;
 import com.troop.androiddng.DngProfile;
@@ -33,7 +32,7 @@ import com.troop.androiddng.DngProfile;
 public class Lenovo_K910 extends BaseQcomDevice {
 
 
-    public Lenovo_K910(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+    public Lenovo_K910(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 

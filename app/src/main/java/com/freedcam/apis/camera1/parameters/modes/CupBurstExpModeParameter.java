@@ -22,7 +22,7 @@ package com.freedcam.apis.camera1.parameters.modes;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
@@ -34,7 +34,7 @@ public class CupBurstExpModeParameter extends BaseModeParameter
 {
     final String TAG = CupBurstExpModeParameter.class.getSimpleName();
     private AppSettingsManager appSettingsManager;
-    public CupBurstExpModeParameter(Parameters parameters, I_CameraUiWrapper cameraUiWrapper, AppSettingsManager appSettingsManager) {
+    public CupBurstExpModeParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AppSettingsManager appSettingsManager) {
         super(parameters, cameraUiWrapper);
         this.appSettingsManager = appSettingsManager;
         if (null !=parameters.get("capture-burst-exposures") && null != parameters.get(KEYS.AE_BRACKET_HDR))

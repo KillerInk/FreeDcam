@@ -19,13 +19,11 @@
 
 package com.freedcam.apis.sonyremote.modules;
 
-import android.content.Context;
-
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
-import com.freedcam.apis.sonyremote.CameraHolder;
-import com.freedcam.apis.sonyremote.CameraHolder.I_CameraShotMode;
+import com.freedcam.apis.sonyremote.CameraHolderSony;
+import com.freedcam.apis.sonyremote.CameraHolderSony.I_CameraShotMode;
 import com.freedcam.utils.Logger;
 
 /**
@@ -33,17 +31,17 @@ import com.freedcam.utils.Logger;
  */
 public class ModuleHandlerSony extends AbstractModuleHandler implements I_CameraShotMode
 {
-    private CameraHolder cameraHolder;
+    private CameraHolderSony cameraHolder;
     private final String TAG = ModuleHandlerSony.class.getSimpleName();
 
-    public ModuleHandlerSony(I_CameraUiWrapper cameraUiWrapper)
+    public ModuleHandlerSony(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
     }
 
     public void initModules()
     {
-        this.cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
+        this.cameraHolder = (CameraHolderSony)cameraUiWrapper.GetCameraHolder();
         cameraHolder.cameraShotMode = this;
         PictureModuleSony pic = new PictureModuleSony(cameraUiWrapper);
         moduleList.put(pic.ModuleName(), pic);

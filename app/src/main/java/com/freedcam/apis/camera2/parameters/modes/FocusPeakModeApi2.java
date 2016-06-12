@@ -23,15 +23,14 @@ import android.annotation.TargetApi;
 import android.os.Build.VERSION_CODES;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.camera2.CameraHolder;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 
 /**
  * Created by troop on 10.09.2015.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
 public class FocusPeakModeApi2 extends BaseModeApi2 {
-    public FocusPeakModeApi2(I_CameraUiWrapper cameraUiWrapper)
+    public FocusPeakModeApi2(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
     }

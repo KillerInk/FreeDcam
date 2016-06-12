@@ -19,7 +19,6 @@
 
 package com.freedcam.apis.camera1.modules;
 
-import android.content.Context;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.OnErrorListener;
 import android.os.Build.VERSION;
@@ -28,7 +27,7 @@ import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
 import com.freedcam.apis.basecamera.modules.I_RecorderStateChanged;
@@ -53,7 +52,7 @@ public abstract class AbstractVideoModule extends AbstractModule
     private String TAG = AbstractVideoModule.class.getSimpleName();
     private ParcelFileDescriptor fileDescriptor;
 
-    public AbstractVideoModule(I_CameraUiWrapper cameraUiWrapper) {
+    public AbstractVideoModule(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
         name  = KEYS.MODULE_VIDEO;
     }
@@ -68,7 +67,7 @@ public abstract class AbstractVideoModule extends AbstractModule
         return "Movie";
     }
 
-    //I_Module START
+    //ModuleInterface START
     @Override
     public String ModuleName() {
         return name;
@@ -89,7 +88,7 @@ public abstract class AbstractVideoModule extends AbstractModule
     public boolean IsWorking() {
         return isWorking;
     }
-//I_Module END
+//ModuleInterface END
 
 
     protected void startRecording()

@@ -20,7 +20,6 @@
 package com.freedcam.apis.camera2.modules;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCaptureSession.StateCallback;
@@ -37,7 +36,7 @@ import android.util.Size;
 import android.view.Surface;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.I_RecorderStateChanged;
 import com.freedcam.apis.basecamera.modules.VideoMediaProfile;
 import com.freedcam.apis.camera2.parameters.modes.VideoProfilesApi2;
@@ -65,7 +64,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
     private MediaRecorder mediaRecorder;
 
-    public VideoModuleApi2( I_CameraUiWrapper cameraUiWrapper) {
+    public VideoModuleApi2( CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
         name = KEYS.MODULE_VIDEO;
     }

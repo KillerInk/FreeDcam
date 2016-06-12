@@ -19,13 +19,12 @@
 
 package com.freedcam.apis.camera1.parameters.manual.lg;
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 import android.os.Handler;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraHolderInterface;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.freedcam.utils.Logger;
@@ -35,7 +34,7 @@ import com.freedcam.utils.Logger;
  */
 public class ShutterManualG2pro extends BaseManualParameter
 {
-    private I_CameraHolder baseCameraHolder;
+    private CameraHolderInterface baseCameraHolder;
     private final String TAG = ShutterManualG2pro.class.getSimpleName();
 
     private final String G2Pro ="1/2,1,2,4,8,16,32,64";
@@ -44,7 +43,7 @@ public class ShutterManualG2pro extends BaseManualParameter
      * @param parameters
      * @param cameraUiWrapper
      */
-    public ShutterManualG2pro(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+    public ShutterManualG2pro(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, "", "", "", cameraUiWrapper,1);
         this.baseCameraHolder = baseCameraHolder;
 

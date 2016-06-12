@@ -20,16 +20,14 @@
 package com.freedcam.apis.camera2.parameters.manual;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.graphics.Rect;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
-import com.freedcam.apis.camera2.CameraHolder;
-import com.freedcam.apis.camera2.parameters.ParameterHandler;
+import com.freedcam.apis.camera2.CameraHolderApi2;
 
 /**
  * Created by troop on 06.03.2015.
@@ -38,10 +36,10 @@ import com.freedcam.apis.camera2.parameters.ParameterHandler;
 public class ZoomApi2 extends AbstractManualParameter
 {
     final String TAG = ZoomApi2.class.getSimpleName();
-    public ZoomApi2(I_CameraUiWrapper cameraUiWrapper)  {
+    public ZoomApi2(CameraWrapperInterface cameraUiWrapper)  {
         super(cameraUiWrapper);
 
-        int max = (int)(((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM) *10);
+        int max = (int)(((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM) *10);
         stringvalues = createStringArray(0,max,1);
     }
 
@@ -50,7 +48,7 @@ public class ZoomApi2 extends AbstractManualParameter
 
     @Override
     public boolean IsSupported() {
-        return ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM) > 0;
+        return ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM) > 0;
     }
 
     @Override
@@ -73,8 +71,8 @@ public class ZoomApi2 extends AbstractManualParameter
     public void SetValue(int valueToSet)
     {
         zoom = valueToSet;
-        float maxzoom = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM);
-        Rect m = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        float maxzoom = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM);
+        Rect m = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         int minW = (int) (m.width() / maxzoom);
         int minH = (int) (m.height() / maxzoom);
         int difW = m.width() - minW;
@@ -84,7 +82,7 @@ public class ZoomApi2 extends AbstractManualParameter
         cropW -= cropW & 3;
         cropH -= cropH & 3;
         Rect zoom = new Rect(cropW, cropH,m.width()-cropW, m.height() - cropH);
-        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.SCALER_CROP_REGION, zoom);
+        ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.SCALER_CROP_REGION, zoom);
     }
 
     public Rect getZoomRect(float zoom, int imgWidth, int imgHeight)

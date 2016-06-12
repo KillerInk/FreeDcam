@@ -32,7 +32,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.I_WorkEvent;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
@@ -72,7 +72,7 @@ public class ThumbView extends ImageView implements I_WorkEvent, OnClickListener
     }
 
 
-    public void INIT(I_CameraUiWrapper cameraUiWrapper, BitmapHelper bitmapHelper)
+    public void INIT(CameraWrapperInterface cameraUiWrapper, BitmapHelper bitmapHelper)
     {
         this.bitmapHelper = bitmapHelper;
         bitmapHelper.AddFileListner(this);

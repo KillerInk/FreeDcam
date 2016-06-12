@@ -18,13 +18,13 @@
  */
 
 package com.freedcam.ui;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 
 /**
  * Created by troop on 24.03.2015.
  */
 interface I_Fragment
 {
-    void SetCameraUIWrapper(I_CameraUiWrapper wrapper);
+    void SetCameraUIWrapper(CameraWrapperInterface wrapper);
 
 }

@@ -19,11 +19,10 @@
 
 package com.freedcam.apis.camera1.modules;
 
-import android.content.Context;
 import android.hardware.Camera;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
 import com.freedcam.jni.RawToDng;
 import com.freedcam.ui.handler.MediaScannerManager;
@@ -43,7 +42,7 @@ public class PictureModuleMTK extends PictureModule
 {
     private final String TAG = PictureModuleMTK.class.getSimpleName();
     private File holdFile = null;
-    public PictureModuleMTK(I_CameraUiWrapper cameraUiWrapper)
+    public PictureModuleMTK(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
     }

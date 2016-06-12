@@ -31,7 +31,7 @@ import com.freedcam.utils.RenderScriptHandler;
 /**
  * Created by troop on 09.12.2014.
  */
-public interface I_CameraUiWrapper extends I_CameraChangedListner
+public interface CameraWrapperInterface extends CameraWrapperEventInterface
 {
     /**
      * Start the Camera
@@ -51,10 +51,10 @@ public interface I_CameraUiWrapper extends I_CameraChangedListner
     void DoWork();
 
     /**
-     * Get the current active CameraHolder
+     * Get the current active CameraHolderSony
      * @return
      */
-    I_CameraHolder GetCameraHolder();
+    CameraHolderInterface GetCameraHolder();
 
     /**
      * get the active parameterhandler
@@ -73,7 +73,7 @@ public interface I_CameraUiWrapper extends I_CameraChangedListner
      * set the listner that get notifyed when camera state has changed
      * @param cameraChangedListner to notify
      */
-    void SetCameraChangedListner(I_CameraChangedListner cameraChangedListner);
+    void SetCameraChangedListner(CameraWrapperEventInterface cameraChangedListner);
 
 
     /**

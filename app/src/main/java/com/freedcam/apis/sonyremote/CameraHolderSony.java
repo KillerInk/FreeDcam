@@ -22,10 +22,10 @@ package com.freedcam.apis.sonyremote;
 import android.content.Context;
 import android.location.Location;
 
-import com.freedcam.apis.basecamera.AbstractCameraHolder;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.modules.CameraFocusEvent;
-import com.freedcam.apis.basecamera.modules.I_Callbacks.AutoFocusCallback;
+import com.freedcam.apis.basecamera.CameraHolderAbstract;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+
+import com.freedcam.apis.basecamera.interfaces.FocusEvents;
 import com.freedcam.apis.sonyremote.modules.I_CameraStatusChanged;
 import com.freedcam.apis.sonyremote.modules.I_PictureCallback;
 import com.freedcam.apis.sonyremote.modules.ModuleHandlerSony;
@@ -58,15 +58,15 @@ import java.util.Set;
 /**
  * Created by troop on 11.12.2014.
  */
-public class CameraHolder extends AbstractCameraHolder
+public class CameraHolderSony extends CameraHolderAbstract
 {
-    private static String TAG =CameraHolder.class.getSimpleName();
+    private static String TAG =CameraHolderSony.class.getSimpleName();
 
     Context context;
 
     ServerDevice serverDevice;
     public I_CameraStatusChanged CameraStatusListner;
-    AutoFocusCallback autoFocusCallback;
+    FocusEvents autoFocusCallback;
 
     private SimpleCameraEventObserver mEventObserver;
     public ModuleHandlerSony moduleHandlerSony;
@@ -328,7 +328,7 @@ public class CameraHolder extends AbstractCameraHolder
     private final Set<String> mSupportedApiSet = new HashSet<>();
     private SimpleStreamSurfaceView mLiveviewSurface;
 
-    public CameraHolder(Context context, SimpleStreamSurfaceView simpleStreamSurfaceView, I_CameraUiWrapper cameraUiWrapper)
+    public CameraHolderSony(Context context, SimpleStreamSurfaceView simpleStreamSurfaceView, CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
         this.context = context;
@@ -894,7 +894,7 @@ public class CameraHolder extends AbstractCameraHolder
     }
 
     @Override
-    public void StartFocus(AutoFocusCallback autoFocusCallback)
+    public void StartFocus(FocusEvents autoFocusCallback)
     {
         this.autoFocusCallback = autoFocusCallback;
     }
@@ -944,9 +944,7 @@ public class CameraHolder extends AbstractCameraHolder
                             suc = true;
                         if (autoFocusCallback != null)
                         {
-                            CameraFocusEvent focusEvent = new CameraFocusEvent();
-                            focusEvent.success = suc;
-                            autoFocusCallback.onAutoFocus(focusEvent);
+                            autoFocusCallback.onFocusEvent(suc);
                         }
 
                     }

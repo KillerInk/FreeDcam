@@ -23,12 +23,11 @@ package com.freedcam.apis.camera1.parameters.manual;
  * Created by George on 1/21/2015.
  */
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 import android.os.Build.VERSION;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils.Devices;
@@ -41,7 +40,7 @@ public class BurstManualParam extends BaseManualParameter
 
     final String TAG = BurstManualParam.class.getSimpleName();
 
-    public BurstManualParam(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+    public BurstManualParam(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, "", "", "", cameraUiWrapper,1);
 
         if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214

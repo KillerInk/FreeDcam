@@ -30,7 +30,7 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
+import com.freedcam.apis.basecamera.interfaces.ModeParameterInterface;
 import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.parameters.I_ParametersLoaded;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
@@ -53,7 +53,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, I_Mo
     private String headerText;
     private LinearLayout laybg;
     protected TextView valueText;
-    protected I_ModeParameter parameter;
+    protected ModeParameterInterface parameter;
     protected I_Activity i_activity;
     private String TAG;
     protected String settingsname;
@@ -153,7 +153,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, I_Mo
         onItemClick = menuItemClick;
     }
 
-    public void SetParameter(I_ModeParameter parameter)
+    public void SetParameter(ModeParameterInterface parameter)
     {
         if (parameter == null || !parameter.IsSupported())
         {
@@ -178,12 +178,12 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, I_Mo
         setTextToTextBox(parameter);
     }
 
-    public I_ModeParameter GetParameter()
+    public ModeParameterInterface GetParameter()
     {
         return parameter;
     }
 
-    protected void setTextToTextBox(I_ModeParameter parameter)
+    protected void setTextToTextBox(ModeParameterInterface parameter)
     {
         if (parameter != null && parameter.IsSupported())
         {

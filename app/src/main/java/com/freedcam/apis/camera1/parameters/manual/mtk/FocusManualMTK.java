@@ -20,11 +20,10 @@
 
 package com.freedcam.apis.camera1.parameters.manual.mtk;
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.manual.BaseFocusManual;
 import com.freedcam.utils.Logger;
@@ -35,7 +34,7 @@ import com.freedcam.utils.Logger;
 public class FocusManualMTK extends BaseFocusManual {
 
     private final String TAG = FocusManualMTK.class.getSimpleName();
-    public FocusManualMTK(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+    public FocusManualMTK(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         //TODO check if AFENG_FI_MIN/MAX can get used
         super(parameters, KEYS.AFENG_POS, 0, 1023, KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper, (float) 10, 1);
         isSupported = true;

@@ -19,7 +19,7 @@
 
 package com.freedcam.apis.camera1.cameraholder;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.utils.DeviceUtils.Devices;
 import com.lge.hardware.LGCamera;
@@ -30,7 +30,7 @@ import com.lge.hardware.LGCamera;
 public class CameraHolderLG extends CameraHolder
 {
     private LGCamera lgCamera;
-    public CameraHolderLG(I_CameraUiWrapper cameraUiWrapper, Frameworks frameworks) {
+    public CameraHolderLG(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks) {
         super(cameraUiWrapper,frameworks);
     }
 

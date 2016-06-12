@@ -20,12 +20,10 @@
 package com.freedcam.apis.camera1.parameters.manual.lg;
 
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.freedcam.utils.DeviceUtils.Devices;
@@ -37,7 +35,7 @@ public class FocusManualParameterLG extends BaseManualParameter
 {
     private static String TAG =FocusManualParameterLG.class.getSimpleName();
 
-    public FocusManualParameterLG(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+    public FocusManualParameterLG(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, "", "", "", cameraUiWrapper,1);
         isSupported = true;
         isVisible = isSupported;

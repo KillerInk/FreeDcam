@@ -26,7 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.utils.AppSettingsManager;
 
 /**
@@ -34,12 +34,12 @@ import com.freedcam.utils.AppSettingsManager;
  */
 public abstract class AbstractFragment extends Fragment implements I_Fragment
 {
-    protected I_CameraUiWrapper cameraUiWrapper;
+    protected CameraWrapperInterface cameraUiWrapper;
     protected I_Activity i_activity;
     protected View view;
     protected AppSettingsManager appSettingsManager;
 
-    public void SetCameraUIWrapper(I_CameraUiWrapper wrapper)
+    public void SetCameraUIWrapper(CameraWrapperInterface wrapper)
     {
         cameraUiWrapper = wrapper;
         if (cameraUiWrapper != null)

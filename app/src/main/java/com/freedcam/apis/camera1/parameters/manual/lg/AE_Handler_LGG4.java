@@ -19,13 +19,12 @@
 
 package com.freedcam.apis.camera1.parameters.manual.lg;
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.interfaces.I_Module;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperEventInterface;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.interfaces.ModuleInterface;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.FreeDPool;
@@ -34,7 +33,7 @@ import com.freedcam.utils.Logger;
 /**
  * Created by troop on 27.01.2016.
  */
-public class AE_Handler_LGG4 implements I_CameraChangedListner
+public class AE_Handler_LGG4 implements CameraWrapperEventInterface
 {
     private ISOManualParameterG4 isoManualParameter;
     private ShutterManualParameterG4 shutterPrameter;
@@ -85,7 +84,7 @@ public class AE_Handler_LGG4 implements I_CameraChangedListner
     }
 
     @Override
-    public void onModuleChanged(I_Module module) {
+    public void onModuleChanged(ModuleInterface module) {
 
     }
 
@@ -95,7 +94,7 @@ public class AE_Handler_LGG4 implements I_CameraChangedListner
         iso,
     }
 
-    public AE_Handler_LGG4(Parameters parameters, I_CameraUiWrapper cameraUiWrapper)
+    public AE_Handler_LGG4(Parameters parameters, CameraWrapperInterface cameraUiWrapper)
     {
         isoManualParameter = new ISOManualParameterG4(parameters,cameraUiWrapper, aeevent);
         shutterPrameter = new ShutterManualParameterG4(parameters, cameraUiWrapper, aeevent);

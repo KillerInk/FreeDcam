@@ -19,13 +19,12 @@
 
 package com.freedcam.apis.basecamera.modules;
 
-import android.content.Context;
 import android.os.Handler;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.interfaces.I_Module;
-import com.freedcam.apis.basecamera.interfaces.I_ModuleHandler;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.interfaces.ModuleHandlerInterface;
+import com.freedcam.apis.basecamera.interfaces.ModuleInterface;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
@@ -37,7 +36,7 @@ import java.util.HashMap;
 /**
  * Created by troop on 09.12.2014.
  */
-public abstract class AbstractModuleHandler implements I_ModuleHandler
+public abstract class AbstractModuleHandler implements ModuleHandlerInterface
 {
     public enum CaptureStates
     {
@@ -62,9 +61,9 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
 
     private String TAG = AbstractModuleHandler.class.getSimpleName();
     public ModuleEventHandler moduleEventHandler;
-    public AbstractMap<String, I_Module> moduleList;
-    protected I_Module currentModule;
-    protected I_CameraUiWrapper cameraUiWrapper;
+    public AbstractMap<String, ModuleInterface> moduleList;
+    protected ModuleInterface currentModule;
+    protected CameraWrapperInterface cameraUiWrapper;
 
     protected CaptureStateChanged workerListner;
 
@@ -80,7 +79,7 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
 
     protected AppSettingsManager appSettingsManager;
 
-    public AbstractModuleHandler(I_CameraUiWrapper cameraUiWrapper)
+    public AbstractModuleHandler(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         moduleList  = new HashMap<>();
@@ -136,7 +135,7 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
     }
 
     @Override
-    public I_Module GetCurrentModule() {
+    public ModuleInterface GetCurrentModule() {
         if (currentModule != null)
             return currentModule;
         return null;

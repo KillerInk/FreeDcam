@@ -23,20 +23,19 @@ import android.view.MotionEvent;
 
 import com.freedcam.apis.basecamera.AbstractFocusHandler;
 import com.freedcam.apis.basecamera.FocusRect;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.modules.CameraFocusEvent;
-import com.freedcam.apis.basecamera.modules.I_Callbacks.AutoFocusCallback;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.interfaces.FocusEvents;
 import com.freedcam.utils.Logger;
 
 /**
  * Created by troop on 31.01.2015.
  */
-public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallback
+public class FocusHandler extends AbstractFocusHandler implements FocusEvents
 {
     private final String TAG = FocusHandler.class.getSimpleName();
     private boolean isFocusing = false;
 
-    public FocusHandler(I_CameraUiWrapper cameraUiWrapper)
+    public FocusHandler(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
     }
@@ -67,8 +66,8 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
         double xproz = x / (double)width * 100;
         double yproz = y / (double)height *100;
         Logger.d(TAG, "set focus to: x: " + xproz + " y: " +yproz);
-        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).StartFocus(this);
-        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetTouchFocus(xproz, yproz);
+        ((CameraHolderSony)cameraUiWrapper.GetCameraHolder()).StartFocus(this);
+        ((CameraHolderSony)cameraUiWrapper.GetCameraHolder()).SetTouchFocus(xproz, yproz);
         isFocusing = true;
         if (focusEvent != null)
             focusEvent.FocusStarted(rect);
@@ -86,12 +85,12 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
 
 
     @Override
-    public void onAutoFocus(CameraFocusEvent event)
+    public void onFocusEvent(boolean success)
     {
         isFocusing = false;
         if (focusEvent != null) {
-            focusEvent.FocusFinished(event.success);
-            focusEvent.FocusLocked(((CameraHolder)cameraUiWrapper.GetCameraHolder()).canCancelFocus());
+            focusEvent.FocusFinished(success);
+            focusEvent.FocusLocked(((CameraHolderSony)cameraUiWrapper.GetCameraHolder()).canCancelFocus());
         }
 
     }
@@ -102,7 +101,6 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
             focusEvent.FocusLocked(locked);
         }
     }
-
 
 }
 

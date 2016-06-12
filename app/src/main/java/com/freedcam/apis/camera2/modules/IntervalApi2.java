@@ -19,9 +19,7 @@
 
 package com.freedcam.apis.camera2.modules;
 
-import android.content.Context;
-
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.modules.IntervalModule;
 
@@ -31,7 +29,7 @@ import com.freedcam.apis.basecamera.modules.IntervalModule;
 public class IntervalApi2 extends IntervalModule implements I_PreviewWrapper
 {
     private PictureModuleApi2 picModule;
-    public IntervalApi2(AbstractModule picModule,I_CameraUiWrapper cameraUiWrapper) {
+    public IntervalApi2(AbstractModule picModule,CameraWrapperInterface cameraUiWrapper) {
         super(picModule,cameraUiWrapper);
         this.picModule = (PictureModuleApi2)picModule;
     }

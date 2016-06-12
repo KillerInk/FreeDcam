@@ -24,15 +24,15 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.camera2.CameraHolder;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.camera2.CameraHolderApi2;
 
 /**
  * Created by Ingo on 01.05.2015.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
 public class EdgeModeApi2 extends BaseModeApi2 {
-    public EdgeModeApi2(I_CameraUiWrapper cameraUiWrapper) {
+    public EdgeModeApi2(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
     }
 
@@ -47,7 +47,7 @@ public class EdgeModeApi2 extends BaseModeApi2 {
     @Override
     public boolean IsSupported()
     {
-        return ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES) != null;
+        return ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES) != null;
     }
 
 
@@ -57,7 +57,7 @@ public class EdgeModeApi2 extends BaseModeApi2 {
         if (valueToSet.contains("unknown Focus"))
             return;
         EdgeModes sceneModes = Enum.valueOf(EdgeModes.class, valueToSet);
-        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.EDGE_MODE, sceneModes.ordinal());
+        ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.EDGE_MODE, sceneModes.ordinal());
         BackgroundValueHasChanged(valueToSet);
         //cameraHolder.mPreviewRequestBuilder.build();
     }
@@ -65,7 +65,7 @@ public class EdgeModeApi2 extends BaseModeApi2 {
     @Override
     public String GetValue()
     {
-        int i = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.EDGE_MODE);
+        int i = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.EDGE_MODE);
         EdgeModes sceneModes = EdgeModes.values()[i];
         return sceneModes.toString();
     }
@@ -74,7 +74,7 @@ public class EdgeModeApi2 extends BaseModeApi2 {
     @Override
     public String[] GetValues()
     {
-        int[] values = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES);
+        int[] values = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES);
         String[] retvals = new String[values.length];
         for (int i = 0; i < values.length; i++)
         {

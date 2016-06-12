@@ -22,13 +22,13 @@ package com.freedcam.ui.themesample.views.uichilds;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 
 /**
  * Created by troop on 13.06.2015.
  */
 public class UiSettingsChildModuleSwitch extends UiSettingsChild {
-    private I_CameraUiWrapper cameraUiWrapper;
+    private CameraWrapperInterface cameraUiWrapper;
 
     public UiSettingsChildModuleSwitch(Context context) {
         super(context);
@@ -38,7 +38,7 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
         super(context, attrs);
     }
 
-    public void SetCameraUiWrapper(I_CameraUiWrapper cameraUiWrapper)
+    public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         if(cameraUiWrapper.GetModuleHandler().moduleEventHandler != null)

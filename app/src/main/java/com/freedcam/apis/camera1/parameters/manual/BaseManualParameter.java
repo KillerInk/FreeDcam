@@ -19,11 +19,10 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
@@ -72,7 +71,7 @@ public class BaseManualParameter extends AbstractManualParameter
         }
     }
 
-    public BaseManualParameter(Parameters parameters, I_CameraUiWrapper cameraUiWrapper, float step)
+    public BaseManualParameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper, float step)
     {
         super(cameraUiWrapper);
         this.parameters = parameters;
@@ -86,7 +85,7 @@ public class BaseManualParameter extends AbstractManualParameter
      * @param @key_min_value
      * @param @parametersHandler
      */
-    public BaseManualParameter(Parameters parameters, String key_value, String maxValue, String MinValue, I_CameraUiWrapper cameraUiWrapper, float step) {
+    public BaseManualParameter(Parameters parameters, String key_value, String maxValue, String MinValue, CameraWrapperInterface cameraUiWrapper, float step) {
         this(parameters,cameraUiWrapper,step);
         this.key_value = key_value;
         key_max_value = maxValue;

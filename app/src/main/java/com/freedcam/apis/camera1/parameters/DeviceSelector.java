@@ -19,10 +19,9 @@
 
 package com.freedcam.apis.camera1.parameters;
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.CameraHolder.Frameworks;
 import com.freedcam.apis.camera1.parameters.device.AbstractDevice;
@@ -90,7 +89,7 @@ public class DeviceSelector {
     }
 
 
-    public AbstractDevice getDevice(I_CameraUiWrapper cameraUiWrapper, Parameters cameraParameters)
+    public AbstractDevice getDevice(CameraWrapperInterface cameraUiWrapper, Parameters cameraParameters)
     {
         Logger.d(DeviceSelector.class.getSimpleName(), "getDevice " + cameraUiWrapper.GetAppSettingsManager().getDevice());
         switch (cameraUiWrapper.GetAppSettingsManager().getDevice())

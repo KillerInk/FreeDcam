@@ -19,14 +19,13 @@
 
 package com.freedcam.apis.camera1.parameters.device.qcom;
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 import android.os.Build.VERSION;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
-import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.interfaces.ManualParameterInterface;
+import com.freedcam.apis.basecamera.interfaces.ModeParameterInterface;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.parameters.device.BaseQcomDevice;
@@ -44,12 +43,12 @@ import com.troop.androiddng.DngProfile;
 public class Xiaomi_Mi3W extends BaseQcomDevice {
 
 
-    public Xiaomi_Mi3W(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+    public Xiaomi_Mi3W(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 
     @Override
-    public I_ManualParameter getCCTParameter() {
+    public ManualParameterInterface getCCTParameter() {
         if(!DeviceUtils.isCyanogenMod()) {
             if (VERSION.SDK_INT < 23) {
                 return new BaseCCTManual(parameters, KEYS.WB_MANUAL_CCT, 7500, 2000, cameraUiWrapper, 100, KEYS.WB_MODE_MANUAL);
@@ -61,7 +60,7 @@ public class Xiaomi_Mi3W extends BaseQcomDevice {
     }
 
     @Override
-    public I_ManualParameter getSkintoneParameter() {
+    public ManualParameterInterface getSkintoneParameter() {
         AbstractManualParameter Skintone = new SkintoneManualPrameter(parameters,cameraUiWrapper);
         parametersHandler.PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
         cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(((BaseManualParameter) Skintone).GetModuleListner());
@@ -91,12 +90,12 @@ public class Xiaomi_Mi3W extends BaseQcomDevice {
     }
 
     @Override
-    public I_ModeParameter getOpCodeParameter() {
+    public ModeParameterInterface getOpCodeParameter() {
         return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
     }
 
     @Override
-    public I_ModeParameter getNightMode() {
+    public ModeParameterInterface getNightMode() {
         return new NightModeXiaomi(parameters,cameraUiWrapper);
     }
 }

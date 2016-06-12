@@ -19,11 +19,10 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.Logger;
 
@@ -46,14 +45,14 @@ public class BaseCCTManual extends BaseManualParameter
      * @param step
      */
     public BaseCCTManual(Parameters parameters, String value, String maxValue, String MinValue
-            , I_CameraUiWrapper cameraUiWrapper, float step,
+            , CameraWrapperInterface cameraUiWrapper, float step,
                          String wbmode) {
         super(parameters, value, maxValue, MinValue, cameraUiWrapper, step);
         manual_WbMode = wbmode;
     }
 
     public BaseCCTManual(Parameters parameters, String value, int max, int min
-            , I_CameraUiWrapper cameraUiWrapper, float step, String wbmode) {
+            , CameraWrapperInterface cameraUiWrapper, float step, String wbmode) {
         super(parameters, value, "", "", cameraUiWrapper, step);
         isSupported = true;
         isVisible = true;

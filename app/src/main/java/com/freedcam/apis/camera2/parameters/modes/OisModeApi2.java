@@ -24,8 +24,8 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.camera2.CameraHolder;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.camera2.CameraHolderApi2;
 
 /**
  * Created by troop on 23.04.2016.
@@ -39,7 +39,7 @@ public class OisModeApi2 extends BaseModeApi2
         on,
     }
 
-    public OisModeApi2(I_CameraUiWrapper cameraUiWrapper) {
+    public OisModeApi2(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
     }
 
@@ -47,7 +47,7 @@ public class OisModeApi2 extends BaseModeApi2
     @Override
     public boolean IsSupported()
     {
-        return ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION ) != null;
+        return ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION ) != null;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class OisModeApi2 extends BaseModeApi2
         if (valueToSet.contains("unknown Focus"))
             return;
         OISModes sceneModes = Enum.valueOf(OISModes.class, valueToSet);
-        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, sceneModes.ordinal());
+        ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, sceneModes.ordinal());
         BackgroundValueHasChanged(valueToSet);
         //cameraHolder.mPreviewRequestBuilder.build();
     }
@@ -65,7 +65,7 @@ public class OisModeApi2 extends BaseModeApi2
     public String GetValue()
     {
 
-        int i = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE);
+        int i = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE);
         OISModes sceneModes = OISModes.values()[i];
         return sceneModes.toString();
 
@@ -75,7 +75,7 @@ public class OisModeApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        int[] values = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION );
+        int[] values = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION );
         String[] retvals = new String[values.length];
         for (int i = 0; i < values.length; i++)
         {

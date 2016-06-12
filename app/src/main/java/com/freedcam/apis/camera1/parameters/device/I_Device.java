@@ -20,8 +20,8 @@
 package com.freedcam.apis.camera1.parameters.device;
 
 import com.freedcam.apis.basecamera.FocusRect;
-import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
-import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
+import com.freedcam.apis.basecamera.interfaces.ManualParameterInterface;
+import com.freedcam.apis.basecamera.interfaces.ModeParameterInterface;
 import com.troop.androiddng.DngProfile;
 
 /**
@@ -32,22 +32,22 @@ public interface I_Device
     boolean IsDngSupported();
     DngProfile getDngProfile(int filesize);
 
-    I_ManualParameter getExposureTimeParameter();
-    I_ManualParameter getIsoParameter();
-    I_ManualParameter getManualFocusParameter();
-    I_ManualParameter getCCTParameter();
-    I_ManualParameter getSkintoneParameter();
-    I_ManualParameter getManualSaturation();
-    I_ManualParameter getManualSharpness();
-    I_ManualParameter getManualBrightness();
-    I_ManualParameter getManualContrast();
+    ManualParameterInterface getExposureTimeParameter();
+    ManualParameterInterface getIsoParameter();
+    ManualParameterInterface getManualFocusParameter();
+    ManualParameterInterface getCCTParameter();
+    ManualParameterInterface getSkintoneParameter();
+    ManualParameterInterface getManualSaturation();
+    ManualParameterInterface getManualSharpness();
+    ManualParameterInterface getManualBrightness();
+    ManualParameterInterface getManualContrast();
 
-    I_ModeParameter getVideoProfileMode();
-    I_ModeParameter getNonZslManualMode();
-    I_ModeParameter getOpCodeParameter();
-    I_ModeParameter getDenoiseParameter();
-    I_ModeParameter getLensFilter();
-    I_ModeParameter getNightMode();
+    ModeParameterInterface getVideoProfileMode();
+    ModeParameterInterface getNonZslManualMode();
+    ModeParameterInterface getOpCodeParameter();
+    ModeParameterInterface getDenoiseParameter();
+    ModeParameterInterface getLensFilter();
+    ModeParameterInterface getNightMode();
 
     float GetFnumber();
     float GetFocal();

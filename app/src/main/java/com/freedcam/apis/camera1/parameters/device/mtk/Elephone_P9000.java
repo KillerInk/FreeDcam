@@ -1,9 +1,8 @@
 package com.freedcam.apis.camera1.parameters.device.mtk;
 
-import android.content.Context;
 import android.hardware.Camera;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.parameters.device.BaseMTKDevice;
 import com.troop.androiddng.DngProfile;
@@ -12,7 +11,7 @@ import com.troop.androiddng.DngProfile;
  * Created by GeorgeKiarie on 6/7/2016.
  */
 public class Elephone_P9000 extends BaseMTKDevice {
-    public Elephone_P9000(Camera.Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+    public Elephone_P9000(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 

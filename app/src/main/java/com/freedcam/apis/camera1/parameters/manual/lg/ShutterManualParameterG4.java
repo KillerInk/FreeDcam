@@ -20,12 +20,10 @@
 package com.freedcam.apis.camera1.parameters.manual.lg;
 
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.camera1.parameters.ParametersHandler;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.parameters.manual.lg.AE_Handler_LGG4.AeManual;
 import com.freedcam.apis.camera1.parameters.manual.lg.AE_Handler_LGG4.AeManualEvent;
@@ -41,7 +39,7 @@ public class ShutterManualParameterG4 extends BaseManualParameter
     private static String TAG = ShutterManualParameterG4.class.getSimpleName();
     private AeManualEvent manualevent;
 
-    public ShutterManualParameterG4(Parameters parameters, I_CameraUiWrapper cameraUiWrapper, AeManualEvent manualevent)
+    public ShutterManualParameterG4(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AeManualEvent manualevent)
     {
         super(parameters, cameraUiWrapper,1);
         isSupported = true;

@@ -22,7 +22,7 @@ package com.freedcam.apis.camera1.parameters.modes;
 import android.hardware.Camera;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 
 /**
@@ -36,7 +36,7 @@ public class NightModeXiaomi extends BaseModeParameter
     private String format = "";
     private String curmodule = "";
 
-    public NightModeXiaomi(Camera.Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+    public NightModeXiaomi(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
         isSupported = true;
         isVisible = true;

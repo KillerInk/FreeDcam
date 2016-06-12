@@ -34,7 +34,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.ui.AbstractFragment;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.I_swipe;
@@ -107,7 +107,7 @@ public class CameraUiFragment extends AbstractFragment implements I_MenuItemClic
     private int LeftWidth = 0;
     private BitmapHelper bitmapHelper;
 
-    public static CameraUiFragment GetInstance(I_Activity i_activity, I_ThumbClick thumbClick, AppSettingsManager appSettingsManager, I_CameraUiWrapper cameraUiWrapper, BitmapHelper bitmapHelper)
+    public static CameraUiFragment GetInstance(I_Activity i_activity, I_ThumbClick thumbClick, AppSettingsManager appSettingsManager, CameraWrapperInterface cameraUiWrapper, BitmapHelper bitmapHelper)
     {
         CameraUiFragment cameraUiFragment = new CameraUiFragment();
         cameraUiFragment.i_activity = i_activity;

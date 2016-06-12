@@ -19,7 +19,6 @@
 
 package com.freedcam.apis.camera1.modules;
 
-import android.content.Context;
 import android.hardware.Camera;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
@@ -27,7 +26,7 @@ import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
 import com.freedcam.apis.camera1.CameraHolder;
@@ -60,7 +59,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     protected boolean waitForPicture = false;
 
 
-    public PictureModule(I_CameraUiWrapper cameraUiWrapper)
+    public PictureModule(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
         name = KEYS.MODULE_PICTURE;
@@ -77,7 +76,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         return "Picture";
     }
 
-//I_Module START
+//ModuleInterface START
     @Override
     public String ModuleName() {
         return name;

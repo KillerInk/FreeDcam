@@ -313,7 +313,9 @@ public class AppSettingsManager
                     String[]split = line.split("=");
                     appsettingsList.put(split[0],split[1]);
                 }
-            } catch (IOException e) {
+            } catch (IOException  | ArrayIndexOutOfBoundsException e)
+            {
+                appsettingsList = new HashMap<>();
                 e.printStackTrace();
             }
             finally {

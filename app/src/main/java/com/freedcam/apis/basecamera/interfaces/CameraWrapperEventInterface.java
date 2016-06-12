@@ -22,7 +22,7 @@ package com.freedcam.apis.basecamera.interfaces;
 /**
  * Created by troop on 17.12.2014.
  */
-public interface I_CameraChangedListner
+public interface CameraWrapperEventInterface
 {
     /**
      * gets thrown when camera starts open
@@ -63,5 +63,5 @@ public interface I_CameraChangedListner
      * gets thrown when current module has changed
      * @param module
      */
-    void onModuleChanged(I_Module module);
+    void onModuleChanged(ModuleInterface module);
 }

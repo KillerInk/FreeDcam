@@ -20,16 +20,15 @@
 package com.freedcam.apis.camera2.parameters;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualShutter;
-import com.freedcam.apis.camera2.CameraHolder;
+import com.freedcam.apis.camera2.CameraHolderApi2;
 import com.freedcam.apis.camera2.parameters.modes.BaseModeApi2;
 import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
@@ -42,8 +41,8 @@ import java.util.ArrayList;
  */
 public class AeHandler
 {
-    private CameraHolder cameraHolder;
-    private I_CameraUiWrapper cameraUiWrapper;
+    private CameraHolderApi2 cameraHolder;
+    private CameraWrapperInterface cameraUiWrapper;
     private ParameterHandler parameterHandler;
     private AeModeApi2 aeModeApi2;
     private ManualExposureApi2 manualExposureApi2;
@@ -52,10 +51,10 @@ public class AeHandler
 
     private AEModes activeAeMode = AEModes.on;
 
-    public AeHandler(I_CameraUiWrapper cameraUiWrapper)
+    public AeHandler(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        this.cameraHolder = (CameraHolder) cameraUiWrapper.GetCameraHolder();
+        this.cameraHolder = (CameraHolderApi2) cameraUiWrapper.GetCameraHolder();
         this.parameterHandler = (ParameterHandler) cameraUiWrapper.GetParameterHandler();
         aeModeApi2 = new AeModeApi2(cameraUiWrapper);
         manualExposureApi2 = new ManualExposureApi2(cameraUiWrapper);
@@ -116,7 +115,7 @@ public class AeHandler
     {
         private boolean isSupported = false;
         private String[] aemodeStringValues;
-        public AeModeApi2(I_CameraUiWrapper cameraUiWrapper) {
+        public AeModeApi2(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper);
             int[] values = AeHandler.this.cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES);
             aemodeStringValues= new String[values.length];
@@ -171,7 +170,7 @@ public class AeHandler
     {
         final String TAG = ManualExposureApi2.class.getSimpleName();
 
-        public ManualExposureApi2(I_CameraUiWrapper cameraUiWrapper) {
+        public ManualExposureApi2(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper);
             int max = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getUpper();
             int min = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getLower();
@@ -231,7 +230,7 @@ public class AeHandler
     {
         final String TAG = ManualExposureTimeApi2.class.getSimpleName();
         private int millimax = 0;
-        public ManualExposureTimeApi2(I_CameraUiWrapper cameraUiWrapper) {
+        public ManualExposureTimeApi2(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper);
             isSupported = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE) != null;
             try {
@@ -332,7 +331,7 @@ public class AeHandler
     public class ManualISoApi2 extends ManualExposureTimeApi2
     {
         final String TAG = ManualISoApi2.class.getSimpleName();
-        public ManualISoApi2(I_CameraUiWrapper cameraUiWrapper) {
+        public ManualISoApi2(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper);
             currentInt = 0;
             ArrayList<String> ar = new ArrayList<>();

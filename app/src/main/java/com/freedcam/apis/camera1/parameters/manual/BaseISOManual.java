@@ -19,11 +19,10 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ public class BaseISOManual extends BaseManualParameter {
     private String cur_iso_mode = KEYS.AUTO;
 
     public BaseISOManual(Parameters parameters, String value, int min, int max
-            , I_CameraUiWrapper cameraUiWrapper, float step) {
+            , CameraWrapperInterface cameraUiWrapper, float step) {
         super(parameters, value, "", "", cameraUiWrapper, step);
         isSupported = true;
         isVisible = true;

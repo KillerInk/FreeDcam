@@ -19,9 +19,7 @@
 
 package com.freedcam.apis.camera2.modules;
 
-import android.content.Context;
-
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.modules.IntervalModule;
 import com.freedcam.utils.RenderScriptHandler;
@@ -35,7 +33,7 @@ public class ModuleHandlerApi2 extends AbstractModuleHandler
     private RenderScriptHandler renderScriptHandler;
 
 
-    public  ModuleHandlerApi2 (I_CameraUiWrapper cameraUiWrapper, RenderScriptHandler renderScriptHandler)
+    public  ModuleHandlerApi2 (CameraWrapperInterface cameraUiWrapper, RenderScriptHandler renderScriptHandler)
     {
         super(cameraUiWrapper);
         this.renderScriptHandler = renderScriptHandler;

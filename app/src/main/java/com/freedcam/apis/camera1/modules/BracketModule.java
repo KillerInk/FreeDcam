@@ -19,11 +19,10 @@
 
 package com.freedcam.apis.camera1.modules;
 
-import android.content.Context;
 import android.hardware.Camera;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
@@ -47,12 +46,12 @@ public class BracketModule extends PictureModule
     boolean isManualExpo = false;
     int ogExpoValue = 0;
 
-    public BracketModule(I_CameraUiWrapper cameraUiWrapper) {
+    public BracketModule(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
         name = KEYS.MODULE_HDR;
     }
 
-    //I_Module START
+    //ModuleInterface START
     @Override
     public String ModuleName() {
         return name;
@@ -120,7 +119,7 @@ public class BracketModule extends PictureModule
             cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue("Off", true);
     }
 
-    //I_Module END
+    //ModuleInterface END
 
     private void setExposureToCamera()
     {

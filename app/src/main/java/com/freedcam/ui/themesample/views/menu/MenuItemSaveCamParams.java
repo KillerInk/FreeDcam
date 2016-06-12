@@ -27,8 +27,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.interfaces.ModeParameterInterface;
 import com.freedcam.apis.camera1.Camera1Fragment;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.ui.I_Activity;
@@ -47,7 +47,7 @@ import java.util.Arrays;
  */
 public class MenuItemSaveCamParams extends MenuItem
 {
-    private I_CameraUiWrapper cameraUiWrapper;
+    private CameraWrapperInterface cameraUiWrapper;
     public MenuItemSaveCamParams(Context context) {
         super(context);
     }
@@ -109,12 +109,12 @@ public class MenuItemSaveCamParams extends MenuItem
     }
 
     @Override
-    public void SetParameter(I_ModeParameter parameter) {
+    public void SetParameter(ModeParameterInterface parameter) {
 
     }
 
     @Override
-    public void setTextToTextBox(I_ModeParameter parameter) {
+    public void setTextToTextBox(ModeParameterInterface parameter) {
 
     }
 
@@ -148,7 +148,7 @@ public class MenuItemSaveCamParams extends MenuItem
     }
 
 
-    public void setCameraUiWrapper(I_CameraUiWrapper cameraUiWrapper)
+    public void setCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         if (cameraUiWrapper instanceof Camera1Fragment)

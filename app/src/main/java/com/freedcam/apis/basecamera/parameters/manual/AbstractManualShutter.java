@@ -19,10 +19,8 @@
 
 package com.freedcam.apis.basecamera.parameters.manual;
 
-import android.content.Context;
-
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.troop.freedcam.R;
 
 import java.util.ArrayList;
@@ -32,7 +30,7 @@ import java.util.ArrayList;
  */
 public class AbstractManualShutter extends AbstractManualParameter
 {
-    public AbstractManualShutter(I_CameraUiWrapper cameraUiWrapper) {
+    public AbstractManualShutter(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
     }
 

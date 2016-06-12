@@ -19,11 +19,10 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.Logger;
 
@@ -48,7 +47,7 @@ public class BaseFocusManual extends BaseManualParameter
      * @param MinValue
      * @param step
      */
-    public BaseFocusManual(Parameters parameters, String value, String maxValue, String MinValue, String manualFocusModeString, I_CameraUiWrapper cameraUiWrapper, float step, int manualFocusType) {
+    public BaseFocusManual(Parameters parameters, String value, String maxValue, String MinValue, String manualFocusModeString, CameraWrapperInterface cameraUiWrapper, float step, int manualFocusType) {
         super(parameters, value, maxValue, MinValue, cameraUiWrapper, step);
         this.manualFocusModeString = manualFocusModeString;
         this.manualFocusType = manualFocusType;
@@ -65,7 +64,7 @@ public class BaseFocusManual extends BaseManualParameter
      * @param step
      * @param manualFocusType
      */
-    public BaseFocusManual(Parameters parameters, String value, int min, int max, String manualFocusModeString, I_CameraUiWrapper cameraUiWrapper, float step, int manualFocusType) {
+    public BaseFocusManual(Parameters parameters, String value, int min, int max, String manualFocusModeString, CameraWrapperInterface cameraUiWrapper, float step, int manualFocusType) {
         super(parameters, value, "", "", cameraUiWrapper, step);
         isSupported = true;
         isVisible = true;

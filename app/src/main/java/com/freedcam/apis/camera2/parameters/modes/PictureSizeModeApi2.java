@@ -24,8 +24,8 @@ import android.graphics.ImageFormat;
 import android.os.Build.VERSION_CODES;
 import android.util.Size;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.camera2.CameraHolder;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.camera2.CameraHolderApi2;
 
 /**
  * Created by troop on 13.12.2014.
@@ -33,7 +33,7 @@ import com.freedcam.apis.camera2.CameraHolder;
 public class PictureSizeModeApi2 extends BaseModeApi2
 {
     private String size = "1920x1080";
-    public PictureSizeModeApi2(I_CameraUiWrapper cameraUiWrapper) {
+    public PictureSizeModeApi2(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
     }
     boolean firststart = true;
@@ -64,7 +64,7 @@ public class PictureSizeModeApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        Size[] sizes = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).map.getOutputSizes(ImageFormat.JPEG);
+        Size[] sizes = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).map.getOutputSizes(ImageFormat.JPEG);
         String[] ret = new String[sizes.length];
         for(int i = 0; i < sizes.length; i++)
         {

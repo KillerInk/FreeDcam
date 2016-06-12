@@ -26,7 +26,7 @@ import com.freedcam.apis.basecamera.FocusRect;
 /**
  * Created by troop on 02.09.2014.
  */
-public interface I_Focus
+public interface FocusHandlerInterface
 {
     void FocusStarted(FocusRect rect);
     void FocusFinished(boolean success);

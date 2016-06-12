@@ -27,8 +27,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
@@ -40,14 +39,14 @@ import com.freedcam.utils.Logger;
 public class LocationParameter extends AbstractModeParameter implements LocationListener
 {
     private LocationManager locationManager;
-    private I_CameraUiWrapper cameraUiWrapper;
+    private CameraWrapperInterface cameraUiWrapper;
 
 
     private final int updateTime = 60*1000;
     private final int updateDistance = 15;
 
 
-    public LocationParameter(I_CameraUiWrapper cameraUiWrapper)
+    public LocationParameter(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         locationManager = (LocationManager) cameraUiWrapper.getContext().getSystemService(Context.LOCATION_SERVICE);

@@ -20,20 +20,19 @@
 package com.freedcam.apis.camera2.parameters;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build.VERSION_CODES;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.FocusRect;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.basecamera.parameters.modes.ModuleParameters;
 import com.freedcam.apis.camera1.parameters.device.I_Device;
 import com.freedcam.apis.camera1.parameters.modes.StackModeParameter;
-import com.freedcam.apis.camera2.CameraHolder;
+import com.freedcam.apis.camera2.CameraHolderApi2;
 import com.freedcam.apis.camera2.FocusHandler;
 import com.freedcam.apis.camera2.parameters.manual.BurstApi2;
 import com.freedcam.apis.camera2.parameters.manual.ManualFocus;
@@ -68,9 +67,9 @@ public class ParameterHandler extends AbstractParameterHandler
     private static String TAG = ParameterHandler.class.getSimpleName();
     private ManualToneMapCurveApi2 manualToneMapCurveApi2;
 
-    private CameraHolder cameraHolder;
+    private CameraHolderApi2 cameraHolder;
 
-    public ParameterHandler(I_CameraUiWrapper wrapper)
+    public ParameterHandler(CameraWrapperInterface wrapper)
     {
         super(wrapper);
     }
@@ -78,7 +77,7 @@ public class ParameterHandler extends AbstractParameterHandler
 
     public void Init()
     {
-        this.cameraHolder = (CameraHolder) cameraUiWrapper.GetCameraHolder();
+        this.cameraHolder = (CameraHolderApi2) cameraUiWrapper.GetCameraHolder();
         List<Key<?>> keys = cameraHolder.characteristics.getAvailableCaptureRequestKeys();
         for (int i = 0; i< keys.size(); i++)
         {

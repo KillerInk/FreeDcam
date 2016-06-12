@@ -22,7 +22,7 @@ package com.freedcam.apis.camera1.parameters.modes;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils.Devices;
 
@@ -35,7 +35,7 @@ public class OisParameter extends BaseModeParameter {
      * @param cameraHolder Hold the camera object
      * @param values
      */
-    public OisParameter(Parameters parameters, I_CameraUiWrapper cameraHolder, String values) {
+    public OisParameter(Parameters parameters, CameraWrapperInterface cameraHolder, String values) {
         super(parameters, cameraHolder);
     }
 

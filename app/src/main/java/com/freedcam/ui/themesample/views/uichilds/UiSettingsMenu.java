@@ -22,7 +22,7 @@ package com.freedcam.ui.themesample.views.uichilds;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
+import com.freedcam.apis.basecamera.interfaces.ModeParameterInterface;
 
 /**
  * Created by troop on 14.06.2015.
@@ -37,7 +37,7 @@ public class UiSettingsMenu extends UiSettingsChild {
     }
 
     @Override
-    public void setTextToTextBox(I_ModeParameter parameter) {
+    public void setTextToTextBox(ModeParameterInterface parameter) {
 
     }
 

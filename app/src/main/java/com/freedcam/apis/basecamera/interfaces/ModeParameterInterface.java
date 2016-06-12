@@ -19,27 +19,30 @@
 
 package com.freedcam.apis.basecamera.interfaces;
 
-import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
+import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 
 /**
- * Created by troop on 01.09.2014.
+ * Created by troop on 17.08.2014.
  */
-public interface I_ManualParameter
+public interface ModeParameterInterface
 {
     boolean IsSupported();
-    boolean IsSetSupported();
+
+    void SetValue(String valueToSet, boolean setToCamera);
+
+    String GetValue();
+
+    String[] GetValues();
+
     boolean IsVisible();
 
-    int GetValue();
-    String GetStringValue();
-    String[] getStringValues();
-    void SetValue(int valueToSet);
+    void addEventListner(AbstractModeParameter.I_ModeParameterEvent eventListner);
+    void removeEventListner(AbstractModeParameter.I_ModeParameterEvent parameterEvent);
 
-    void addEventListner(AbstractManualParameter.I_ManualParameterEvent eventListner);
-    void removeEventListner(AbstractManualParameter.I_ManualParameterEvent eventListner);
-    void ThrowCurrentValueChanged(int current);
-    void ThrowCurrentValueStringCHanged(String value);
-    void ThrowBackgroundIsSupportedChanged(boolean value);
-    void ThrowBackgroundIsSetSupportedChanged(boolean value);
-    void ThrowBackgroundValuesChanged(String[] value);
+    void BackgroundValueHasChanged(final String value);
+    void BackgroundValuesHasChanged(final String[] value);
+    void BackgroundIsSupportedChanged(final boolean value);
+    void BackgroundSetIsSupportedHasChanged(final boolean value);
+    void BackgroundVisibilityChanged(final boolean value);
+
 }

@@ -23,9 +23,9 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build.VERSION_CODES;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
-import com.freedcam.apis.camera2.CameraHolder;
+import com.freedcam.apis.camera2.CameraHolderApi2;
 
 /**
  * Created by troop on 12.12.2014.
@@ -33,10 +33,10 @@ import com.freedcam.apis.camera2.CameraHolder;
 public class BaseModeApi2 extends AbstractModeParameter
 {
     private final String TAG = BaseModeApi2.class.getSimpleName();
-    protected I_CameraUiWrapper cameraUiWrapper;
+    protected CameraWrapperInterface cameraUiWrapper;
     boolean isSupported = false;
 
-    public BaseModeApi2(I_CameraUiWrapper cameraUiWrapper)
+    public BaseModeApi2(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
     }
@@ -67,7 +67,7 @@ public class BaseModeApi2 extends AbstractModeParameter
     @TargetApi(VERSION_CODES.LOLLIPOP)
     private void setIntKey(Key<Integer> key, int value)
     {
-        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(key, value);
+        ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(key, value);
     }
 
 

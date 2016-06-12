@@ -24,8 +24,8 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.camera2.CameraHolder;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.camera2.CameraHolderApi2;
 
 /**
  * Created by troop on 05.05.2015.
@@ -38,14 +38,14 @@ public class ImageStabApi2 extends BaseModeApi2
         off,
         on,
     }
-    public ImageStabApi2(I_CameraUiWrapper cameraUiWrapper) {
+    public ImageStabApi2(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
     }
 
 
     @Override
     public boolean IsSupported() {
-        return cameraUiWrapper.GetCameraHolder() != null && ((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE) != null;
+        return cameraUiWrapper.GetCameraHolder() != null && ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE) != null;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ImageStabApi2 extends BaseModeApi2
         if (valueToSet.contains("unknown Scene"))
             return;
         ImageStabsValues sceneModes = Enum.valueOf(ImageStabsValues.class, valueToSet);
-        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, sceneModes.ordinal());
+        ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, sceneModes.ordinal());
         BackgroundValueHasChanged(valueToSet);
     }
 
@@ -62,7 +62,7 @@ public class ImageStabApi2 extends BaseModeApi2
     @Override
     public String GetValue()
     {
-        int i = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE);
+        int i = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE);
         ImageStabsValues sceneModes = ImageStabsValues.values()[i];
         return sceneModes.toString();
 
@@ -71,7 +71,7 @@ public class ImageStabApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        int[] values = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION);
+        int[] values = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION);
         String[] retvals = new String[values.length];
         for (int i = 0; i < values.length; i++)
         {

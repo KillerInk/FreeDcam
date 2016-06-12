@@ -29,11 +29,11 @@ import android.view.ViewGroup;
 
 import com.freedcam.MainActivity;
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.AbstractCameraFragment;
 import com.freedcam.apis.basecamera.AbstractFocusHandler;
+import com.freedcam.apis.basecamera.CameraFragmentAbstract;
 import com.freedcam.apis.basecamera.Size;
+import com.freedcam.apis.basecamera.interfaces.CameraHolderInterface;
 import com.freedcam.apis.basecamera.interfaces.FocuspeakProcessor;
-import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
@@ -59,7 +59,7 @@ import java.util.List;
 /**
  * Created by troop on 06.06.2015.
  */
-public class Camera1Fragment extends AbstractCameraFragment implements I_ParametersLoaded, I_ModuleEvent, SurfaceHolder.Callback
+public class Camera1Fragment extends CameraFragmentAbstract implements I_ParametersLoaded, I_ModuleEvent, SurfaceHolder.Callback
 {
     protected ExtendedSurfaceView extendedSurfaceView;
     protected TextureViewRatio preview;
@@ -201,7 +201,7 @@ public class Camera1Fragment extends AbstractCameraFragment implements I_Paramet
     }
 
     @Override
-    public I_CameraHolder GetCameraHolder() {
+    public CameraHolderInterface GetCameraHolder() {
         return cameraHolder;
     }
 

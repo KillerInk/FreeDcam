@@ -23,13 +23,13 @@ package com.freedcam.apis.camera1.parameters.modes;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 
 /**
  * Created by troop on 24.08.2014.
  */
 public class JpegQualityParameter extends BaseModeParameter {
-    public JpegQualityParameter(Parameters parameters, I_CameraUiWrapper parameterChanged) {
+    public JpegQualityParameter(Parameters parameters, CameraWrapperInterface parameterChanged) {
         super(parameters, parameterChanged, KEYS.JPEG_QUALITY, "");
     }
 

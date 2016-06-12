@@ -22,14 +22,14 @@ package com.freedcam.apis.camera1.parameters.modes;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 
 /**
  * Created by Ar4eR on 10.12.15.
  */
 public class VideoStabilizationParameter extends  BaseModeParameter {
     private final String[] vs_values = {KEYS.TRUE, KEYS.FALSE};
-    public VideoStabilizationParameter(Parameters parameters, I_CameraUiWrapper parameterChanged)
+    public VideoStabilizationParameter(Parameters parameters, CameraWrapperInterface parameterChanged)
     {
         super(parameters, parameterChanged);
         if (parameters.get(KEYS.VIDEO_STABILIZATION_SUPPORTED).equals(KEYS.TRUE))

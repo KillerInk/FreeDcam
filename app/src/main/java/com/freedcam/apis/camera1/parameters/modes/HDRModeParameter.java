@@ -22,7 +22,7 @@ package com.freedcam.apis.camera1.parameters.modes;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
@@ -44,7 +44,7 @@ public class HDRModeParameter extends BaseModeParameter
     private String format = "";
     private String curmodule = "";
 
-    public HDRModeParameter(Parameters parameters,I_CameraUiWrapper cameraUiWrapper) {
+    public HDRModeParameter(Parameters parameters,CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
         this.cameraUiWrapper = cameraUiWrapper;
         isSupported = false;

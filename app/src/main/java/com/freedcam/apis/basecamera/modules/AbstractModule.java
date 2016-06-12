@@ -20,15 +20,14 @@
 package com.freedcam.apis.basecamera.modules;
 
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.support.v4.provider.DocumentFile;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.interfaces.I_Module;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.interfaces.ModuleInterface;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStateChanged;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
 import com.freedcam.utils.AppSettingsManager;
@@ -43,7 +42,7 @@ import java.io.OutputStream;
 /**
  * Created by troop on 15.08.2014.
  */
-public abstract class AbstractModule implements I_Module
+public abstract class AbstractModule implements ModuleInterface
 {
 
     protected boolean isWorking = false;
@@ -53,10 +52,10 @@ public abstract class AbstractModule implements I_Module
     private final String TAG = AbstractModule.class.getSimpleName();
     protected AppSettingsManager appSettingsManager;
     protected CaptureStates currentWorkState;
-    protected I_CameraUiWrapper cameraUiWrapper;
+    protected CameraWrapperInterface cameraUiWrapper;
 
 
-    public AbstractModule(I_CameraUiWrapper cameraUiWrapper)
+    public AbstractModule(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();

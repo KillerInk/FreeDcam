@@ -20,7 +20,6 @@
 package com.freedcam.apis.camera2.modules;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.ImageFormat;
@@ -36,7 +35,7 @@ import android.view.Surface;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.Size;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
 import com.freedcam.apis.camera1.parameters.modes.StackModeParameter;
 import com.freedcam.ui.handler.MediaScannerManager;
@@ -68,7 +67,7 @@ public class StackingModuleApi2 extends AbstractModuleApi2
     private RenderScriptHandler renderScriptHandler;
 
 
-    public StackingModuleApi2(I_CameraUiWrapper cameraUiWrapper, RenderScriptHandler renderScriptHandler) {
+    public StackingModuleApi2(CameraWrapperInterface cameraUiWrapper, RenderScriptHandler renderScriptHandler) {
         super(cameraUiWrapper);
         name = KEYS.MODULE_STACKING;
         this.renderScriptHandler =renderScriptHandler;

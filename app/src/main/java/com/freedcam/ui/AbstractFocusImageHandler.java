@@ -23,12 +23,12 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.freedcam.apis.basecamera.interfaces.I_Focus;
+import com.freedcam.apis.basecamera.interfaces.FocusHandlerInterface;
 
 /**
  * Created by troop on 09.06.2015.
  */
-public abstract class AbstractFocusImageHandler implements I_Focus
+public abstract class AbstractFocusImageHandler implements FocusHandlerInterface
 {
     protected ImageView focusImageView;
     /**

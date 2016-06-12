@@ -19,10 +19,9 @@
 
 package com.freedcam.apis.camera1.parameters.manual;
 
-import android.content.Context;
 import android.hardware.Camera.Parameters;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.Logger;
@@ -40,7 +39,7 @@ public class ShutterManualSony extends AbstractManualShutter
      * @param MinValue
      * @param cameraUiWrapper
      */
-    public ShutterManualSony(Parameters parameters, String maxValue, String MinValue, I_CameraUiWrapper cameraUiWrapper) {
+    public ShutterManualSony(Parameters parameters, String maxValue, String MinValue, CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
         this.parameters = parameters;
         try {

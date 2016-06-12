@@ -23,7 +23,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.Camera1Fragment;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.AppSettingsManager;
@@ -33,7 +33,7 @@ import com.freedcam.utils.AppSettingsManager;
  */
 public class MenuItemOrientationHack extends MenuItem
 {
-    private I_CameraUiWrapper cameraUiWrapper;
+    private CameraWrapperInterface cameraUiWrapper;
 
     public MenuItemOrientationHack(Context context) {
         super(context);
@@ -43,7 +43,7 @@ public class MenuItemOrientationHack extends MenuItem
         super(context, attrs);
     }
 
-    public void SetCameraUIWrapper(I_CameraUiWrapper cameraUiWrapper)
+    public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(""))

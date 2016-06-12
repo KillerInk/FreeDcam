@@ -27,7 +27,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.utils.AppSettingsManager;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
@@ -45,7 +45,7 @@ public class MenuItemAEB extends LinearLayout {
     private int max = 10;
     private final int step = 1;
     private int current;
-    private I_CameraUiWrapper cameraUiWrapper;
+    private CameraWrapperInterface cameraUiWrapper;
     private String settingsname;
     private AppSettingsManager appSettingsManager;
 
@@ -94,7 +94,7 @@ public class MenuItemAEB extends LinearLayout {
 
     }
 
-    public void SetCameraUIWrapper(I_CameraUiWrapper cameraUiWrapper)
+    public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         if (cameraUiWrapper == this.cameraUiWrapper)
             return;

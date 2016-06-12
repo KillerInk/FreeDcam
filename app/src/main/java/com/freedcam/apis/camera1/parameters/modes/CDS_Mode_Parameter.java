@@ -22,7 +22,7 @@ package com.freedcam.apis.camera1.parameters.modes;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
@@ -34,7 +34,7 @@ public class CDS_Mode_Parameter extends BaseModeParameter
 {
     final String TAG = CDS_Mode_Parameter.class.getSimpleName();
     final String[] cds_values = {KEYS.AUTO, KEYS.ON, KEYS.OFF};
-    public CDS_Mode_Parameter(Parameters parameters, I_CameraUiWrapper cameraUiWrapper)
+    public CDS_Mode_Parameter(Parameters parameters, CameraWrapperInterface cameraUiWrapper)
     {
         super(parameters, cameraUiWrapper);
         try {

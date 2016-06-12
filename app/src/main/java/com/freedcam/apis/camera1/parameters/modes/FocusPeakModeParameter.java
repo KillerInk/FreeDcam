@@ -22,7 +22,7 @@ package com.freedcam.apis.camera1.parameters.modes;
 import android.os.Build.VERSION;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.renderscript.FocusPeakProcessorAp1;
 
 
@@ -32,7 +32,7 @@ import com.freedcam.apis.camera1.renderscript.FocusPeakProcessorAp1;
 public class FocusPeakModeParameter extends BaseModeParameter {
 
     private FocusPeakProcessorAp1 focusPeakProcessorAp1;
-    public FocusPeakModeParameter(I_CameraUiWrapper cameraUiWrapper, FocusPeakProcessorAp1 focusPeakProcessorAp1)
+    public FocusPeakModeParameter(CameraWrapperInterface cameraUiWrapper, FocusPeakProcessorAp1 focusPeakProcessorAp1)
     {
         super(null, cameraUiWrapper);
         this.focusPeakProcessorAp1 = focusPeakProcessorAp1;

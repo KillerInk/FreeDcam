@@ -37,7 +37,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout.LayoutParams;
 
 import com.freedcam.apis.basecamera.FocusRect;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.Camera1Fragment;
 import com.freedcam.apis.camera2.Camera2Fragment;
 import com.freedcam.apis.sonyremote.SonyCameraFragment;
@@ -56,7 +56,7 @@ import com.troop.freedcam.R.id;
  */
 public class FocusImageHandler extends AbstractFocusImageHandler
 {
-    private I_CameraUiWrapper wrapper;
+    private CameraWrapperInterface wrapper;
     private ImageView focusImageView;
     private int disHeight;
     private int disWidth;
@@ -90,7 +90,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             meteringArea.setOnTouchListener(new ImageViewTouchAreaHandler(meteringArea, wrapper, meteringTouch));
     }
 
-    public void SetCamerUIWrapper(I_CameraUiWrapper cameraUiWrapper)
+    public void SetCamerUIWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         wrapper = cameraUiWrapper;
         if(cameraUiWrapper instanceof Camera1Fragment || cameraUiWrapper instanceof Camera2Fragment) {

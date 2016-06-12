@@ -24,8 +24,8 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.camera2.CameraHolder;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.camera2.CameraHolderApi2;
 
 /**
  * Created by Ingo on 01.05.2015.
@@ -41,14 +41,14 @@ public class AntibandingApi2 extends BaseModeApi2
         AUTO,
 
     }
-    public AntibandingApi2(I_CameraUiWrapper cameraUiWrapper) {
+    public AntibandingApi2(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
     }
 
     @Override
     public boolean IsSupported()
     {
-        return ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES) != null;
+        return ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES) != null;
     }
 
 
@@ -58,7 +58,7 @@ public class AntibandingApi2 extends BaseModeApi2
         if (valueToSet.contains("unknown Focus"))
             return;
         AntibandingModes sceneModes = Enum.valueOf(AntibandingModes.class, valueToSet);
-        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AE_ANTIBANDING_MODE, sceneModes.ordinal());
+        ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AE_ANTIBANDING_MODE, sceneModes.ordinal());
         BackgroundValueHasChanged(valueToSet);
         //cameraHolder.mPreviewRequestBuilder.build();
     }
@@ -67,7 +67,7 @@ public class AntibandingApi2 extends BaseModeApi2
     public String GetValue()
     {
 
-        int i = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.CONTROL_AE_ANTIBANDING_MODE);
+        int i = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.CONTROL_AE_ANTIBANDING_MODE);
         AntibandingModes sceneModes = AntibandingModes.values()[i];
         return sceneModes.toString();
 
@@ -78,7 +78,7 @@ public class AntibandingApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        int[] values = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES);
+        int[] values = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES);
         String[] retvals = new String[values.length];
         for (int i = 0; i < values.length; i++)
         {

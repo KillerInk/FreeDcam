@@ -26,7 +26,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
 import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
@@ -40,7 +40,7 @@ import com.troop.freedcam.R;
  */
 public class ShutterButton extends Button implements I_ModuleEvent, AbstractModuleHandler.CaptureStateChanged
 {
-    private I_CameraUiWrapper cameraUiWrapper;
+    private CameraWrapperInterface cameraUiWrapper;
     private AnimationDrawable shutterOpenAnimation;
     private final String TAG = ShutterButton.class.getSimpleName();
     private CaptureStates currentShow = CaptureStates.image_capture_stop;
@@ -71,7 +71,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
 
 
 
-    public void SetCameraUIWrapper(I_CameraUiWrapper cameraUiWrapper, UserMessageHandler messageHandler)
+    public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper, UserMessageHandler messageHandler)
     {
         if (this.cameraUiWrapper == cameraUiWrapper || cameraUiWrapper.GetModuleHandler() == null || cameraUiWrapper.GetModuleHandler().moduleEventHandler == null)
             return;

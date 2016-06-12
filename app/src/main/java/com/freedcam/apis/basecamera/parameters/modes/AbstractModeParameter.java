@@ -22,7 +22,7 @@ package com.freedcam.apis.basecamera.parameters.modes;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
+import com.freedcam.apis.basecamera.interfaces.ModeParameterInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ import java.util.List;
  * This lowlevel class is implemented for all apis as cameraUiWrapper for their parameters
  * only this class should used by the ui
  */
-public class AbstractModeParameter implements I_ModeParameter
+public class AbstractModeParameter implements ModeParameterInterface
 {
     //Holds the ui thread to invoke ui items
     Handler uihandler;

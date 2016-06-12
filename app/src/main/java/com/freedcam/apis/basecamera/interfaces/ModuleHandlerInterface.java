@@ -19,30 +19,42 @@
 
 package com.freedcam.apis.basecamera.interfaces;
 
-import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStateChanged;
 
 /**
- * Created by troop on 17.08.2014.
+ * Created by troop on 09.12.2014.
  */
-public interface I_ModeParameter
+public interface ModuleHandlerInterface
 {
-    boolean IsSupported();
+    /**
+     * Load the new module
+     * @param name of the module to load
+     */
+    void SetModule(String name);
 
-    void SetValue(String valueToSet, boolean setToCamera);
+    /**
+     * Get the name of the current module
+     * @return name of moduke
+     */
+    String GetCurrentModuleName();
 
-    String GetValue();
+    /**
+     * get the current module instace
+     * @return current active module
+     */
+    ModuleInterface GetCurrentModule();
 
-    String[] GetValues();
+    /**
+     * Start work on the current modulé
+     * @return
+     */
+    boolean DoWork();
 
-    boolean IsVisible();
+    /**
+     * Add worklistner that listen to the current module
+     * @param workerListner to add
+     */
+    void SetWorkListner(CaptureStateChanged workerListner);
 
-    void addEventListner(AbstractModeParameter.I_ModeParameterEvent eventListner);
-    void removeEventListner(AbstractModeParameter.I_ModeParameterEvent parameterEvent);
-
-    void BackgroundValueHasChanged(final String value);
-    void BackgroundValuesHasChanged(final String[] value);
-    void BackgroundIsSupportedChanged(final boolean value);
-    void BackgroundSetIsSupportedHasChanged(final boolean value);
-    void BackgroundVisibilityChanged(final boolean value);
-
+    void initModules();
 }

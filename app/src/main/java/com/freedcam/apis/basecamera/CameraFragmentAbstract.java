@@ -25,9 +25,9 @@ import android.support.v4.app.Fragment;
 import android.view.SurfaceView;
 import android.view.View;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.basecamera.interfaces.I_Module;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperEventInterface;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.interfaces.ModuleInterface;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.parameters.modes.LocationParameter;
@@ -41,13 +41,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Created by troop on 06.06.2015.
  * That Fragment is used as base for all camera apis added.
  */
-public abstract class AbstractCameraFragment extends Fragment implements I_CameraUiWrapper, I_CameraChangedListner
+public abstract class CameraFragmentAbstract extends Fragment implements CameraWrapperInterface, CameraWrapperEventInterface
 {
-    private final String TAG = AbstractCameraFragment.class.getSimpleName();
+    private final String TAG = CameraFragmentAbstract.class.getSimpleName();
 
     protected View view;
     //the event listner when the camerauiwrapper is rdy to get attached to ui
-    protected AbstractCameraFragment.CamerUiWrapperRdy onrdy;
+    protected CameraFragmentAbstract.CamerUiWrapperRdy onrdy;
     //holds the appsettings
     protected RenderScriptHandler renderScriptHandler;
 
@@ -59,7 +59,7 @@ public abstract class AbstractCameraFragment extends Fragment implements I_Camer
     /**
      * holds the current camera
      */
-    public AbstractCameraHolder cameraHolder;
+    public CameraHolderAbstract cameraHolder;
     /**
      * handels focus releated stuff for the current camera
      */
@@ -70,7 +70,7 @@ public abstract class AbstractCameraFragment extends Fragment implements I_Camer
     /**
      * holds the listners that get informed when the camera state change
      */
-    private List<I_CameraChangedListner> cameraChangedListners;
+    private List<CameraWrapperEventInterface> cameraChangedListners;
 
     /**
      * holds handler to invoke stuff in ui thread
@@ -85,7 +85,7 @@ public abstract class AbstractCameraFragment extends Fragment implements I_Camer
     public abstract String CameraApiName();
 
 
-    public AbstractCameraFragment()
+    public CameraFragmentAbstract()
     {
         cameraChangedListners = new CopyOnWriteArrayList<>();
         uiHandler = new Handler(Looper.getMainLooper());
@@ -105,7 +105,7 @@ public abstract class AbstractCameraFragment extends Fragment implements I_Camer
      *
      * @return the current instance of the cameruiwrapper
      */
-    public I_CameraUiWrapper GetCameraUiWrapper()
+    public CameraWrapperInterface GetCameraUiWrapper()
     {
         return this;
     }
@@ -115,7 +115,7 @@ public abstract class AbstractCameraFragment extends Fragment implements I_Camer
      * @param rdy the listner that gets thrown when the cameraUIwrapper
      *            has loaded all stuff and is rdy to get attached to ui.
      */
-    public void Init(AbstractCameraFragment.CamerUiWrapperRdy rdy)
+    public void Init(CameraFragmentAbstract.CamerUiWrapperRdy rdy)
     {
         onrdy = rdy;
     }
@@ -126,7 +126,7 @@ public abstract class AbstractCameraFragment extends Fragment implements I_Camer
      */
     public interface CamerUiWrapperRdy
     {
-        void onCameraUiWrapperRdy(I_CameraUiWrapper cameraUiWrapper);
+        void onCameraUiWrapperRdy(CameraWrapperInterface cameraUiWrapper);
     }
 
 
@@ -134,7 +134,7 @@ public abstract class AbstractCameraFragment extends Fragment implements I_Camer
      * adds a new listner for camera state changes
      * @param cameraChangedListner to add
      */
-    public void SetCameraChangedListner(I_CameraChangedListner cameraChangedListner)
+    public void SetCameraChangedListner(CameraWrapperEventInterface cameraChangedListner)
     {
         cameraChangedListners.add(cameraChangedListner);
     }
@@ -174,7 +174,7 @@ public abstract class AbstractCameraFragment extends Fragment implements I_Camer
     @Override
     public void onCameraOpen(final String message)
     {
-        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
+        for (final CameraWrapperEventInterface cameraChangedListner : cameraChangedListners )
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -187,7 +187,7 @@ public abstract class AbstractCameraFragment extends Fragment implements I_Camer
 
     @Override
     public void onCameraError(final String error) {
-        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
+        for (final CameraWrapperEventInterface cameraChangedListner : cameraChangedListners )
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -199,7 +199,7 @@ public abstract class AbstractCameraFragment extends Fragment implements I_Camer
     @Override
     public void onCameraStatusChanged(final String status)
     {
-        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
+        for (final CameraWrapperEventInterface cameraChangedListner : cameraChangedListners )
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -221,7 +221,7 @@ public abstract class AbstractCameraFragment extends Fragment implements I_Camer
             ex.printStackTrace();
         }
 
-        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
+        for (final CameraWrapperEventInterface cameraChangedListner : cameraChangedListners )
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -235,7 +235,7 @@ public abstract class AbstractCameraFragment extends Fragment implements I_Camer
     @Override
     public void onPreviewOpen(final String message)
     {
-        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
+        for (final CameraWrapperEventInterface cameraChangedListner : cameraChangedListners )
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -246,7 +246,7 @@ public abstract class AbstractCameraFragment extends Fragment implements I_Camer
 
     @Override
     public void onPreviewClose(final String message) {
-        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
+        for (final CameraWrapperEventInterface cameraChangedListner : cameraChangedListners )
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -256,8 +256,8 @@ public abstract class AbstractCameraFragment extends Fragment implements I_Camer
     }
 
     @Override
-    public void onModuleChanged(final I_Module module) {
-        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
+    public void onModuleChanged(final ModuleInterface module) {
+        for (final CameraWrapperEventInterface cameraChangedListner : cameraChangedListners )
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -270,7 +270,7 @@ public abstract class AbstractCameraFragment extends Fragment implements I_Camer
     @Override
     public void onCameraOpenFinish(final String message)
     {
-        for (final I_CameraChangedListner cameraChangedListner : cameraChangedListners )
+        for (final CameraWrapperEventInterface cameraChangedListner : cameraChangedListners )
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {

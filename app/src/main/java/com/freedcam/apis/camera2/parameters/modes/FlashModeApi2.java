@@ -24,15 +24,15 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
-import com.freedcam.apis.camera2.CameraHolder;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.camera2.CameraHolderApi2;
 
 /**
  * Created by troop on 12.12.2014.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
 public class FlashModeApi2 extends BaseModeApi2 {
-    public FlashModeApi2(I_CameraUiWrapper cameraUiWrapper) {
+    public FlashModeApi2(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
     }
 
@@ -45,7 +45,7 @@ public class FlashModeApi2 extends BaseModeApi2 {
 
     @Override
     public boolean IsSupported() {
-        return ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
+        return ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class FlashModeApi2 extends BaseModeApi2 {
         if (valueToSet.contains("unknown Scene"))
             return;
         FlashModes sceneModes = Enum.valueOf(FlashModes.class, valueToSet);
-        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.FLASH_MODE, sceneModes.ordinal());
+        ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.FLASH_MODE, sceneModes.ordinal());
     }
 
 
@@ -63,9 +63,9 @@ public class FlashModeApi2 extends BaseModeApi2 {
     {
         if (cameraUiWrapper.GetCameraHolder() == null)
             return null;
-        if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.FLASH_MODE) == null)
+        if (((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.FLASH_MODE) == null)
             return "error";
-        int i = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.FLASH_MODE);
+        int i = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.FLASH_MODE);
         FlashModes sceneModes = FlashModes.values()[i];
         return sceneModes.toString();
 

@@ -33,9 +33,9 @@ import android.view.KeyEvent;
 import com.AbstractFragmentActivity;
 import com.freedcam.apis.ApiHandler;
 import com.freedcam.apis.ApiHandler.ApiEvent;
-import com.freedcam.apis.basecamera.AbstractCameraFragment;
-import com.freedcam.apis.basecamera.AbstractCameraFragment.CamerUiWrapperRdy;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.CameraFragmentAbstract;
+import com.freedcam.apis.basecamera.CameraFragmentAbstract.CamerUiWrapperRdy;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.ui.handler.HardwareKeyHandler;
 import com.freedcam.ui.handler.I_orientation;
 import com.freedcam.ui.handler.OrientationHandler;
@@ -65,7 +65,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     private ApiHandler apiHandler;
     private TimerHandler timerHandler;
     //holds the current api camerafragment
-    private AbstractCameraFragment cameraFragment;
+    private CameraFragmentAbstract cameraFragment;
     //hold the state if logging to file is true when folder /sdcard/DCIM/DEBUG/ is created
     private boolean savelogtofile = false;
     //holds the default UncaughtExecptionHandler from activity wich get replaced with own to have a change to save
@@ -246,7 +246,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
      * @param cameraUiWrapper the cameraWrapper to register the listners
      */
     @Override
-    public void onCameraUiWrapperRdy(I_CameraUiWrapper cameraUiWrapper)
+    public void onCameraUiWrapperRdy(CameraWrapperInterface cameraUiWrapper)
     {
         //set orientatiohandler to module handler that it knows when a work is in progress
         //to avoid that orientation gets set while working

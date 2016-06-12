@@ -22,7 +22,7 @@ package com.freedcam.ui.themesample.views.menu;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.AppSettingsManager;
 
@@ -31,7 +31,7 @@ import com.freedcam.utils.AppSettingsManager;
  */
 public class MenuItemTimer extends MenuItem
 {
-    private I_CameraUiWrapper cameraUiWrapper;
+    private CameraWrapperInterface cameraUiWrapper;
 
     public MenuItemTimer(Context context) {
         super(context);
@@ -41,7 +41,7 @@ public class MenuItemTimer extends MenuItem
         super(context, attrs);
     }
 
-    public void SetCameraUIWrapper(I_CameraUiWrapper cameraUiWrapper)
+    public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
     }

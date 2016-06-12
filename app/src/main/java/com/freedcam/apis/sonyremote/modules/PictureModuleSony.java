@@ -19,16 +19,15 @@
 
 package com.freedcam.apis.sonyremote.modules;
 
-import android.content.Context;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.support.v4.provider.DocumentFile;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
-import com.freedcam.apis.sonyremote.CameraHolder;
+import com.freedcam.apis.sonyremote.CameraHolderSony;
 import com.freedcam.apis.sonyremote.parameters.ParameterHandler;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.FileUtils;
@@ -49,12 +48,12 @@ import java.net.URL;
 public class PictureModuleSony extends AbstractModule implements I_PictureCallback, I_CameraStatusChanged
 {
     private static String TAG = PictureModuleSony.class.getSimpleName();
-    private CameraHolder cameraHolder;
+    private CameraHolderSony cameraHolder;
 
-    public PictureModuleSony(I_CameraUiWrapper cameraUiWrapper) {
+    public PictureModuleSony(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
         name = KEYS.MODULE_PICTURE;
-        cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
+        cameraHolder = (CameraHolderSony)cameraUiWrapper.GetCameraHolder();
 
 
     }
