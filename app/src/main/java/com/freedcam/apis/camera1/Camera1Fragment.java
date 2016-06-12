@@ -59,7 +59,7 @@ import java.util.List;
 /**
  * Created by troop on 06.06.2015.
  */
-public class Camera1Fragment extends AbstractCameraFragment implements I_ParametersLoaded, I_Callbacks.ErrorCallback, I_ModuleEvent, SurfaceHolder.Callback
+public class Camera1Fragment extends AbstractCameraFragment implements I_ParametersLoaded, I_ModuleEvent, SurfaceHolder.Callback
 {
     protected ExtendedSurfaceView extendedSurfaceView;
     protected TextureViewRatio preview;
@@ -232,8 +232,6 @@ public class Camera1Fragment extends AbstractCameraFragment implements I_Paramet
     public void surfaceDestroyed(SurfaceHolder holder)
     {
         PreviewSurfaceRdy =false;
-
-        //StopPreview();
         StopCamera();
     }
 
@@ -242,20 +240,6 @@ public class Camera1Fragment extends AbstractCameraFragment implements I_Paramet
     {
         parametersHandler.PictureSize.addEventListner(onPreviewSizeShouldChange);
         //parametersHandler.VideoSize.addEventListner(onPreviewSizeShouldChange);
-    }
-
-    @Override
-    public void onError(int i)
-    {
-        onCameraError("Got Error from Camera:"+i);
-        try
-        {
-            cameraHolder.CloseCamera();
-        }
-        catch (Exception ex)
-        {
-            Logger.e(TAG,ex.getMessage());
-        }
     }
 
     //this gets called when the cameraholder has open the camera

@@ -267,21 +267,6 @@ public class CameraHolder extends AbstractCameraHolder
 
     }
 
-    public void SetErrorCallback(final I_Callbacks.ErrorCallback errorCallback)
-    {
-        if (mCamera == null)
-            return;
-        mCamera.setErrorCallback(new ErrorCallback() {
-            @Override
-            public void onError(int error, Camera camera)
-            {
-                isRdy = false;
-                errorCallback.onError(error);
-            }
-        });
-
-    }
-
     public void StartFocus(final I_Callbacks.AutoFocusCallback autoFocusCallback)
     {
         if (!isRdy)

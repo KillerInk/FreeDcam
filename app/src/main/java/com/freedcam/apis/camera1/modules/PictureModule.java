@@ -64,7 +64,6 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     {
         super(context, cameraUiWrapper);
         name = KEYS.MODULE_PICTURE;
-        //ParameterHandler = (ParametersHandler)cameraUiWrapper.GetParameterHandler();
         this.cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
     }
 

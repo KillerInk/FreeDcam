@@ -35,11 +35,6 @@ public class I_Callbacks
 {
     public static int YUV = 1;
     public static int JPEG = 2;
-    public interface PreviewCallback
-    {
-
-        void onPreviewFrame(byte[] data, int imageFormat);
-    }
 
     public interface AutoFocusCallback
     {
@@ -47,11 +42,6 @@ public class I_Callbacks
         void onFocusLock(boolean locked);
     }
 
-
-    public interface ErrorCallback
-    {
-        void onError(int error);
-    }
 }
 
 
