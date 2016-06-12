@@ -60,9 +60,9 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     protected boolean waitForPicture = false;
 
 
-    public PictureModule(Context context, I_CameraUiWrapper cameraUiWrapper)
+    public PictureModule(I_CameraUiWrapper cameraUiWrapper)
     {
-        super(context, cameraUiWrapper);
+        super(cameraUiWrapper);
         name = KEYS.MODULE_PICTURE;
         this.cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
     }
@@ -181,7 +181,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
             saveDng(data,toSave);
         else
             saveBytesToFile(data,toSave);
-        MediaScannerManager.ScanMedia(context,toSave);
+        MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(),toSave);
         cameraUiWrapper.GetModuleHandler().WorkFinished(toSave);
     }
 
@@ -249,13 +249,13 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         }
         else
         {
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,context);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,cameraUiWrapper.getContext());
             Logger.d(TAG,"Filepath: " + df.getUri());
             DocumentFile wr = df.createFile("image/dng", file.getName().replace(".jpg", ".dng"));
             Logger.d(TAG,"Filepath: " + wr.getUri());
             ParcelFileDescriptor pfd = null;
             try {
-                pfd = context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+                pfd = cameraUiWrapper.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
             } catch (FileNotFoundException | IllegalArgumentException e) {
                 Logger.exception(e);
             }

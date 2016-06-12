@@ -43,9 +43,9 @@ public class PictureModuleMTK extends PictureModule
 {
     private final String TAG = PictureModuleMTK.class.getSimpleName();
     private File holdFile = null;
-    public PictureModuleMTK(Context context, I_CameraUiWrapper cameraUiWrapper)
+    public PictureModuleMTK(I_CameraUiWrapper cameraUiWrapper)
     {
-        super(context,cameraUiWrapper);
+        super(cameraUiWrapper);
     }
 
     @Override
@@ -104,7 +104,7 @@ public class PictureModuleMTK extends PictureModule
                 }
                 waitForPicture = false;
                 cameraHolder.StartPreview();
-                MediaScannerManager.ScanMedia(context,holdFile);
+                MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(),holdFile);
                 cameraUiWrapper.GetModuleHandler().WorkFinished(holdFile);
                 isWorking = false;
                 changeCaptureState(CaptureStates.image_capture_stop);
@@ -137,7 +137,7 @@ public class PictureModuleMTK extends PictureModule
         }
         File dng = new File(holdFile.getAbsolutePath().replace(FileEnding.JPG, FileEnding.DNG));
         saveDng(data,dng);
-        MediaScannerManager.ScanMedia(context,dng);
+        MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(),dng);
         data = null;
         rawfile.delete();
     }

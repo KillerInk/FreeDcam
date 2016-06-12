@@ -87,7 +87,6 @@ public class CameraHolder extends AbstractCameraHolder
     public static String RAW12 = "raw12";
 
     public boolean isWorking = false;
-    private Context context;
 
     public CameraManager manager;
     public CameraDevice mCameraDevice;
@@ -102,10 +101,8 @@ public class CameraHolder extends AbstractCameraHolder
     public int CurrentCamera;
     public CameraCharacteristics characteristics;
     public String VideoSize;
-    public I_PreviewWrapper ModulePreview;
-    public FocuspeakProcessorApi2 mProcessor;
+
     public CaptureSessionHandler CaptureSessionH;
-    private RenderScriptHandler renderScriptHandler;
 
     int afState;
     int aeState;
@@ -113,13 +110,11 @@ public class CameraHolder extends AbstractCameraHolder
     boolean errorRecieved = false;
 
     @TargetApi(VERSION_CODES.LOLLIPOP)
-    public CameraHolder(Context context, I_CameraUiWrapper cameraUiWrapper, RenderScriptHandler renderScriptHandler)
+    public CameraHolder(I_CameraUiWrapper cameraUiWrapper)
     {
         super(cameraUiWrapper);
-        this.context = context;
-        manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
+        manager = (CameraManager) cameraUiWrapper.getContext().getSystemService(Context.CAMERA_SERVICE);
         CaptureSessionH = new CaptureSessionHandler();
-        this.renderScriptHandler = renderScriptHandler;
 
     }
 
@@ -134,7 +129,7 @@ public class CameraHolder extends AbstractCameraHolder
         CurrentCamera = camera;
         String cam = camera +"";
         if (VERSION.SDK_INT >= 23) {
-            if (context.checkSelfPermission(permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            if (cameraUiWrapper.getContext().checkSelfPermission(permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 cameraUiWrapper.onCameraError("Error: Permission for Camera are not granted!");
                 return false;
             }
@@ -148,7 +143,7 @@ public class CameraHolder extends AbstractCameraHolder
             characteristics = manager.getCameraCharacteristics(CurrentCamera + "");
             if (!isLegacyDevice())
             {
-                mProcessor = new FocuspeakProcessorApi2(renderScriptHandler);
+
                 //printCharacteristics();
             }
             map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
@@ -192,7 +187,7 @@ public class CameraHolder extends AbstractCameraHolder
             {
                 if (null != mCaptureSession)
                 {
-                    mProcessor.kill();
+
                     mCaptureSession.stopRepeating();
                     mCaptureSession.abortCaptures();
                     mCaptureSession.close();
@@ -261,15 +256,12 @@ public class CameraHolder extends AbstractCameraHolder
     @Override
     public void StartPreview()
     {
-        if (textureView == null || ModulePreview == null)
-            return;
-        ModulePreview.startPreview();
+        //unused modules must handel preview start
     }
     @Override
     public void StopPreview()
     {
-        if (ModulePreview != null)
-            ModulePreview.stopPreview();
+        //unused modules must handel preview stop
     }
 
     @Override
@@ -360,16 +352,6 @@ public class CameraHolder extends AbstractCameraHolder
         return device.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
     }
 
-    public void FocusPeakEnable(boolean enable)
-    {
-        mProcessor.peak = enable;
-    }
-
-    public boolean isFocuspeakEnable()
-    {
-        return mProcessor.peak;
-    }
-
 
     //###########################  CALLBACKS
     //###########################
@@ -401,6 +383,13 @@ public class CameraHolder extends AbstractCameraHolder
             mCameraOpenCloseLock.release();
             cameraDevice.close();
             mCameraDevice = null;
+            if (UIHandler != null)
+                UIHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        cameraUiWrapper.onCameraClose("");
+                    }
+                });
         }
 
         @Override
@@ -413,6 +402,7 @@ public class CameraHolder extends AbstractCameraHolder
                 @Override
                 public void run() {
                     cameraUiWrapper.onCameraError("Error:" + error);
+                    cameraUiWrapper.onCameraClose("");
                 }
             });
 
@@ -631,7 +621,7 @@ public class CameraHolder extends AbstractCameraHolder
         public CaptureSessionHandler()
         {
             surfaces = new ArrayList<>();
-            Display display = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+            Display display = ((WindowManager)cameraUiWrapper.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
             displaySize = new Point();
             display.getRealSize(displaySize);
         }

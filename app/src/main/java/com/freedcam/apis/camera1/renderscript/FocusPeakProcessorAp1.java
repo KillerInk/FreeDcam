@@ -35,6 +35,7 @@ import android.view.TextureView.SurfaceTextureListener;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.Size;
+import com.freedcam.apis.basecamera.interfaces.FocuspeakProcessor;
 import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.interfaces.I_Module;
@@ -53,7 +54,7 @@ import java.util.concurrent.BlockingQueue;
  * Created by troop on 24.08.2015.
  */
 @TargetApi(VERSION_CODES.KITKAT)
-public class FocusPeakProcessorAp1 implements PreviewCallback, I_CameraChangedListner,I_ModuleEvent
+public class FocusPeakProcessorAp1 implements PreviewCallback, I_CameraChangedListner,I_ModuleEvent, FocuspeakProcessor
 {
     private final String TAG = FocusPeakProcessorAp1.class.getSimpleName();
     private I_AspectRatio output;
@@ -85,6 +86,12 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, I_CameraChangedLi
         clear_preview("Ctor");
     }
 
+    @Override
+    public boolean isEnabled() {
+        return enable;
+    }
+
+    @Override
     public void Enable(boolean enable)
     {
         Logger.d(TAG, "Enable:" + enable);
@@ -214,13 +221,33 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, I_CameraChangedLi
             clear_preview("reset()");
         }
     }
-
+    @Override
     public void SetAspectRatio(int w, int h)
     {
         Logger.d(TAG, "SetAspectRatio enable: " +enable);
         output.setAspectRatio(w, h);
         if (enable)
             reset(w,h);
+    }
+
+    @Override
+    public void Reset(int width, int height) {
+
+    }
+
+    @Override
+    public Surface getInputSurface() {
+        return null;
+    }
+
+    @Override
+    public void setOutputSurface(Surface output) {
+
+    }
+
+    @Override
+    public void kill() {
+
     }
 
 

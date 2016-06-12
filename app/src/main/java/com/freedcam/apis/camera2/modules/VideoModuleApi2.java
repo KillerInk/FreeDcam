@@ -65,8 +65,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
     private MediaRecorder mediaRecorder;
 
-    public VideoModuleApi2(Context context, I_CameraUiWrapper cameraUiWrapper) {
-        super(context,cameraUiWrapper);
+    public VideoModuleApi2( I_CameraUiWrapper cameraUiWrapper) {
+        super(cameraUiWrapper);
         name = KEYS.MODULE_VIDEO;
     }
 
@@ -187,11 +187,11 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         else
         {
             Uri uri = Uri.parse(appSettingsManager.GetBaseFolder());
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,context);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,cameraUiWrapper.getContext());
             DocumentFile wr = df.createFile("*/*", new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), ".mp4")).getName());
             ParcelFileDescriptor fileDescriptor = null;
             try {
-                fileDescriptor = context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+                fileDescriptor = cameraUiWrapper.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
                 mediaRecorder.setOutputFile(fileDescriptor.getFileDescriptor());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

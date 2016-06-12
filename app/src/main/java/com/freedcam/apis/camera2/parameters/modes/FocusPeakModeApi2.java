@@ -53,11 +53,11 @@ public class FocusPeakModeApi2 extends BaseModeApi2 {
     {
         if (valueToSet.equals(KEYS.ON))
         {
-            ((CameraHolder)cameraUiWrapper.GetCameraHolder()).FocusPeakEnable(true);
+            cameraUiWrapper.getFocusPeakProcessor().Enable(true);
             BackgroundValueHasChanged("true");
         }
         else {
-            ((CameraHolder)cameraUiWrapper.GetCameraHolder()).FocusPeakEnable(false);
+            cameraUiWrapper.getFocusPeakProcessor().Enable(false);
             BackgroundValueHasChanged("false");
         }
 
@@ -65,7 +65,7 @@ public class FocusPeakModeApi2 extends BaseModeApi2 {
 
     @Override
     public String GetValue() {
-        if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).isFocuspeakEnable())
+        if (cameraUiWrapper.getFocusPeakProcessor().isEnabled())
             return KEYS.ON;
         else
             return KEYS.OFF;

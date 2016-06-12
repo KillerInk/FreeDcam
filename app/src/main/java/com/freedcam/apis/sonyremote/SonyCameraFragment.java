@@ -37,6 +37,7 @@ import android.widget.TextView;
 import com.freedcam.MainActivity;
 import com.freedcam.apis.basecamera.AbstractCameraFragment;
 import com.freedcam.apis.basecamera.AbstractFocusHandler;
+import com.freedcam.apis.basecamera.interfaces.FocuspeakProcessor;
 import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
 import com.freedcam.apis.basecamera.interfaces.I_Module;
@@ -52,6 +53,7 @@ import com.freedcam.apis.sonyremote.sonystuff.WifiUtils;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
+import com.freedcam.utils.RenderScriptHandler;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
@@ -94,7 +96,7 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
 
         parametersHandler = new ParameterHandler(this, surfaceView, getContext());
 
-        moduleHandler = new ModuleHandlerSony(getContext(),this);
+        moduleHandler = new ModuleHandlerSony(this);
         Focus = new FocusHandler(this);
         cameraHolder = new CameraHolder(getContext(), surfaceView, this);
         moduleHandler.initModules();
@@ -479,6 +481,16 @@ public class SonyCameraFragment extends AbstractCameraFragment implements I_Came
     @Override
     public boolean isAeMeteringSupported() {
         return Focus.isAeMeteringSupported();
+    }
+
+    @Override
+    public FocuspeakProcessor getFocusPeakProcessor() {
+        return null;
+    }
+
+    @Override
+    public RenderScriptHandler getRenderScriptHandler() {
+        return  renderScriptHandler;
     }
 
     @Override

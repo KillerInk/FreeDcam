@@ -60,7 +60,6 @@ public class StackingModuleApi2 extends AbstractModuleApi2
     private Surface camerasurface;
     private int mHeight;
     private int mWidth;
-    private ScriptField_MinMaxPixel medianMinMax;
     private ProcessingTask mProcessingTask;
     private HandlerThread mProcessingThread;
     private Handler mProcessingHandler;
@@ -69,8 +68,8 @@ public class StackingModuleApi2 extends AbstractModuleApi2
     private RenderScriptHandler renderScriptHandler;
 
 
-    public StackingModuleApi2(Context context, I_CameraUiWrapper cameraUiWrapper, RenderScriptHandler renderScriptHandler) {
-        super(context, cameraUiWrapper);
+    public StackingModuleApi2(I_CameraUiWrapper cameraUiWrapper, RenderScriptHandler renderScriptHandler) {
+        super(cameraUiWrapper);
         name = KEYS.MODULE_STACKING;
         this.renderScriptHandler =renderScriptHandler;
     }
@@ -106,7 +105,7 @@ public class StackingModuleApi2 extends AbstractModuleApi2
             rgbTypeBuilder.setX(mWidth);
             rgbTypeBuilder.setY(mHeight);
             renderScriptHandler.SetAllocsTypeBuilder(yuvTypeBuilder,rgbTypeBuilder,Allocation.USAGE_IO_INPUT | Allocation.USAGE_SCRIPT,  Allocation.USAGE_IO_OUTPUT | Allocation.USAGE_SCRIPT);
-            medianMinMax = new ScriptField_MinMaxPixel(renderScriptHandler.GetRS(), mWidth * mHeight);
+            ScriptField_MinMaxPixel medianMinMax = new ScriptField_MinMaxPixel(renderScriptHandler.GetRS(), mWidth * mHeight);
 
             cameraHolder.CaptureSessionH.SetTextureViewSize(mWidth, mHeight, 0, 180, false);
             SurfaceTexture texture = cameraHolder.CaptureSessionH.getSurfaceTexture();
@@ -173,7 +172,7 @@ public class StackingModuleApi2 extends AbstractModuleApi2
                 File stackedImg = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), "_stack.jpg"));
                 SaveBitmapToFile(outputBitmap,stackedImg);
                 changeCaptureState(CaptureStates.continouse_capture_stop);
-                MediaScannerManager.ScanMedia(context, stackedImg);
+                MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(), stackedImg);
                 cameraUiWrapper.GetModuleHandler().WorkFinished(stackedImg);
                 isWorking = false;
             }

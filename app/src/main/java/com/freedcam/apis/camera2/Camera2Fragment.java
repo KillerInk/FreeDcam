@@ -30,13 +30,17 @@ import android.view.ViewGroup;
 import com.freedcam.MainActivity;
 import com.freedcam.apis.basecamera.AbstractCameraFragment;
 import com.freedcam.apis.basecamera.AbstractFocusHandler;
+import com.freedcam.apis.basecamera.interfaces.FocuspeakProcessor;
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.camera2.modules.I_PreviewWrapper;
 import com.freedcam.apis.camera2.modules.ModuleHandlerApi2;
 import com.freedcam.apis.camera2.parameters.ParameterHandler;
+import com.freedcam.apis.camera2.renderscript.FocuspeakProcessorApi2;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
+import com.freedcam.utils.RenderScriptHandler;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
@@ -49,6 +53,7 @@ public class Camera2Fragment extends AbstractCameraFragment implements TextureVi
     public CameraHolder cameraHolder;
     private AutoFitTextureView textureView;
     private final String TAG = Camera2Fragment.class.getSimpleName();
+    private FocuspeakProcessorApi2 mProcessor;
 
     public String CameraApiName() {
         return AppSettingsManager.API_2;
@@ -64,9 +69,10 @@ public class Camera2Fragment extends AbstractCameraFragment implements TextureVi
         this.textureView.setSurfaceTextureListener(this);
         super.cameraHolder = cameraHolder;
         parametersHandler = new ParameterHandler(this);
-        moduleHandler = new ModuleHandlerApi2(getContext(),this,renderScriptHandler);
+        moduleHandler = new ModuleHandlerApi2(this,renderScriptHandler);
         Focus = new FocusHandler(this);
-        cameraHolder = new CameraHolder(getContext(), this,renderScriptHandler);
+        cameraHolder = new CameraHolder(this);
+        mProcessor = new FocuspeakProcessorApi2(renderScriptHandler);
         Logger.d(TAG, "Constructor done");
         ((MainActivity)getActivity()).onCameraUiWrapperRdy(this);
 
@@ -82,20 +88,21 @@ public class Camera2Fragment extends AbstractCameraFragment implements TextureVi
     @Override
     public void StopCamera() {
         Logger.d(TAG, "Stop Camera");
+
         cameraHolder.CloseCamera();
     }
 
     @Override
     public void StartPreview() {
         Logger.d(TAG, "Stop Preview");
-        cameraHolder.StartPreview();
+        ((I_PreviewWrapper)moduleHandler.GetCurrentModule()).startPreview();
     }
 
     @Override
     public void StopPreview()
     {
         Logger.d(TAG, "Stop Preview");
-        cameraHolder.StopPreview();
+        ((I_PreviewWrapper)moduleHandler.GetCurrentModule()).stopPreview();
     }
 
     @Override
@@ -126,6 +133,7 @@ public class Camera2Fragment extends AbstractCameraFragment implements TextureVi
     @Override
     public void onCameraClose(String message)
     {
+        mProcessor.kill();
         super.onCameraClose(message);
     }
 
@@ -197,6 +205,16 @@ public class Camera2Fragment extends AbstractCameraFragment implements TextureVi
     @Override
     public boolean isAeMeteringSupported() {
         return Focus.isAeMeteringSupported();
+    }
+
+    @Override
+    public FocuspeakProcessor getFocusPeakProcessor() {
+        return mProcessor;
+    }
+
+    @Override
+    public RenderScriptHandler getRenderScriptHandler() {
+        return renderScriptHandler;
     }
 
     @Override

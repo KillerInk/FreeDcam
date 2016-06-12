@@ -52,12 +52,10 @@ public abstract class AbstractVideoModule extends AbstractModule
     protected String mediaSavePath;
     private String TAG = AbstractVideoModule.class.getSimpleName();
     private ParcelFileDescriptor fileDescriptor;
-    private Context context;
 
-    public AbstractVideoModule(Context context, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, cameraUiWrapper);
+    public AbstractVideoModule(I_CameraUiWrapper cameraUiWrapper) {
+        super(cameraUiWrapper);
         name  = KEYS.MODULE_VIDEO;
-        this.context = context;
     }
 
     @Override
@@ -178,7 +176,7 @@ public abstract class AbstractVideoModule extends AbstractModule
         catch (Exception ex)
         {
             Logger.e(TAG, "Stop Recording failed, was called bevor start");
-            ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SendUIMessage("Stop Recording failed, was called bevor start");
+            cameraUiWrapper.GetCameraHolder().SendUIMessage("Stop Recording failed, was called bevor start");
             Logger.e(TAG,ex.getMessage());
         }
         finally
@@ -196,7 +194,7 @@ public abstract class AbstractVideoModule extends AbstractModule
                 e1.printStackTrace();
             }
             File file = new File(mediaSavePath);
-            MediaScannerManager.ScanMedia(context, file);
+            MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(), file);
             cameraUiWrapper.GetModuleHandler().WorkFinished(file);
             cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
             isWorking = false;
@@ -212,10 +210,10 @@ public abstract class AbstractVideoModule extends AbstractModule
         else
         {
             File f = new File(s);
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, context);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, cameraUiWrapper.getContext());
             DocumentFile wr = df.createFile("*/*", f.getName());
             try {
-                fileDescriptor = context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+                fileDescriptor = cameraUiWrapper.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
                 recorder.setOutputFile(fileDescriptor.getFileDescriptor());
             } catch (FileNotFoundException e) {
                 Logger.exception(e);

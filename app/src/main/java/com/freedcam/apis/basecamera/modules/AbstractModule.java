@@ -51,16 +51,14 @@ public abstract class AbstractModule implements I_Module
 
     protected CaptureStateChanged captureStateChangedListner;
     private final String TAG = AbstractModule.class.getSimpleName();
-    protected Context context;
     protected AppSettingsManager appSettingsManager;
     protected CaptureStates currentWorkState;
     protected I_CameraUiWrapper cameraUiWrapper;
 
 
-    public AbstractModule(Context context, I_CameraUiWrapper cameraUiWrapper)
+    public AbstractModule(I_CameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        this.context = context;
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
 
     }
@@ -127,11 +125,11 @@ public abstract class AbstractModule implements I_Module
             }
             else
             {
-                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,context);
+                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,cameraUiWrapper.getContext());
                 Logger.d(TAG,"Filepath: " + df.getUri());
                 DocumentFile wr = df.createFile("image/*", fileName.getName());
                 Logger.d(TAG,"Filepath: " + wr.getUri());
-                outStream = context.getContentResolver().openOutputStream(wr.getUri());
+                outStream = cameraUiWrapper.getContext().getContentResolver().openOutputStream(wr.getUri());
             }
             outStream.write(bytes);
             outStream.flush();
@@ -161,12 +159,12 @@ public abstract class AbstractModule implements I_Module
         }
         else
         {
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,context);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,cameraUiWrapper.getContext());
             Logger.d(TAG,"Filepath: " + df.getUri());
             DocumentFile wr = df.createFile("image/*", file.getName());
             Logger.d(TAG,"Filepath: " + wr.getUri());
             try {
-                outStream = context.getContentResolver().openOutputStream(wr.getUri());
+                outStream = cameraUiWrapper.getContext().getContentResolver().openOutputStream(wr.getUri());
                 bitmap.compress(CompressFormat.JPEG, 100, outStream);
                 outStream.close();
             } catch (IOException e) {

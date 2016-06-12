@@ -32,6 +32,7 @@ import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.AbstractCameraFragment;
 import com.freedcam.apis.basecamera.AbstractFocusHandler;
 import com.freedcam.apis.basecamera.Size;
+import com.freedcam.apis.basecamera.interfaces.FocuspeakProcessor;
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
@@ -47,6 +48,7 @@ import com.freedcam.apis.camera1.renderscript.FocusPeakProcessorAp1;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
+import com.freedcam.utils.RenderScriptHandler;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
@@ -88,7 +90,7 @@ public class Camera1Fragment extends AbstractCameraFragment implements I_Paramet
         parametersHandler = new ParametersHandler(this);
         parametersHandler.AddParametersLoadedListner(this);
         this.extendedSurfaceView.ParametersHandler = parametersHandler;
-        moduleHandler = new ModuleHandler(getContext(),this);
+        moduleHandler = new ModuleHandler(this);
         moduleHandler.moduleEventHandler.addListner(this);
 
         Focus = new FocusHandler(this);
@@ -442,6 +444,16 @@ public class Camera1Fragment extends AbstractCameraFragment implements I_Paramet
     @Override
     public boolean isAeMeteringSupported() {
         return Focus.isAeMeteringSupported();
+    }
+
+    @Override
+    public FocuspeakProcessor getFocusPeakProcessor() {
+        return focusPeakProcessorAp1;
+    }
+
+    @Override
+    public RenderScriptHandler getRenderScriptHandler() {
+        return renderScriptHandler;
     }
 
     @Override

@@ -78,17 +78,15 @@ public abstract class AbstractModuleHandler implements I_ModuleHandler
 
 
 
-    protected Context context;
     protected AppSettingsManager appSettingsManager;
 
-    public AbstractModuleHandler(Context context, I_CameraUiWrapper cameraUiWrapper)
+    public AbstractModuleHandler(I_CameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         moduleList  = new HashMap<>();
         moduleChangedListner = new ArrayList<>();
         WorkFinishedListners = new ArrayList<>();
         RecorderStateListners = new ArrayList<>();
-        this.context = context;
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
 
         moduleEventHandler = new ModuleEventHandler();

@@ -31,6 +31,7 @@ import android.renderscript.RenderScript.RSErrorHandler;
 import android.renderscript.Type.Builder;
 import android.view.Surface;
 
+import com.freedcam.apis.basecamera.interfaces.FocuspeakProcessor;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.RenderScriptHandler;
 
@@ -38,7 +39,7 @@ import com.freedcam.utils.RenderScriptHandler;
  * Renderscript-based Focus peaking viewfinder
  */
 @TargetApi(VERSION_CODES.KITKAT)
-public class FocuspeakProcessorApi2
+public class FocuspeakProcessorApi2 implements FocuspeakProcessor
 {
     private final String TAG = FocuspeakProcessorApi2.class.getSimpleName();
     private int mCount;
@@ -47,7 +48,7 @@ public class FocuspeakProcessorApi2
     private HandlerThread mProcessingThread;
     private Handler mProcessingHandler;
     private ProcessingTask mProcessingTask;
-    public boolean peak = false;
+    private boolean peak = false;
     private RenderScriptHandler renderScriptHandler;
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
@@ -66,7 +67,23 @@ public class FocuspeakProcessorApi2
         renderScriptHandler.GetRS().setErrorHandler(errorListner);
     }
 
-    public void Reset(int width,int height)
+    @Override
+    public boolean isEnabled() {
+        return peak;
+    }
+
+    @Override
+    public void Enable(boolean enable) {
+        peak = enable;
+    }
+
+    @Override
+    public void SetAspectRatio(int w, int h) {
+
+    }
+
+    @Override
+    public void Reset(int width, int height)
     {
         Logger.d(TAG,"Reset:"+width +"x"+height);
         Builder yuvTypeBuilder = new Builder(renderScriptHandler.GetRS(), Element.YUV(renderScriptHandler.GetRS()));
@@ -104,6 +121,7 @@ public class FocuspeakProcessorApi2
         Logger.d(TAG,"setOutputSurface");
     }
 
+    @Override
     public void kill()
     {
         if (mProcessingTask != null) {

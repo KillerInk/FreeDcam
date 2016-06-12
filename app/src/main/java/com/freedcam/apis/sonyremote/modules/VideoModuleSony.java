@@ -35,8 +35,8 @@ public class VideoModuleSony extends AbstractModule implements I_CameraStatusCha
     private static String TAG = VideoModuleSony.class.getSimpleName();
     private CameraHolder cameraHolder;
 
-    public VideoModuleSony(Context context, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, cameraUiWrapper);
+    public VideoModuleSony(I_CameraUiWrapper cameraUiWrapper) {
+        super(cameraUiWrapper);
         name = KEYS.MODULE_VIDEO;
         cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
 

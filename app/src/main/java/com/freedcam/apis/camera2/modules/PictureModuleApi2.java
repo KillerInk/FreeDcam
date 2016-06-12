@@ -52,6 +52,7 @@ import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
+import com.freedcam.apis.camera2.Camera2Fragment;
 import com.freedcam.apis.camera2.CameraHolder;
 import com.freedcam.apis.camera2.CameraHolder.CompareSizesByArea;
 import com.freedcam.jni.RawToDng;
@@ -97,8 +98,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private Handler handler;
     private int imagecount = 0;
 
-    public PictureModuleApi2(Context context, I_CameraUiWrapper cameraUiWrapper) {
-        super(context,cameraUiWrapper);
+    public PictureModuleApi2(I_CameraUiWrapper cameraUiWrapper) {
+        super(cameraUiWrapper);
         name = KEYS.MODULE_PICTURE;
         handler = new Handler(Looper.getMainLooper());
 
@@ -117,7 +118,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public boolean DoWork()
     {
-        if (!cameraHolder.isWorking && !isWorking)
+        if (!isWorking)
         {
             TakePicture();
         }
@@ -340,7 +341,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     }
 
                     isWorking = false;
-                    MediaScannerManager.ScanMedia(context, file);
+                    MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(), file);
                     cameraUiWrapper.GetModuleHandler().WorkFinished(file);
                     changeCaptureState(CaptureStates.image_capture_stop);
                     if (burstcount == imagecount) {
@@ -395,9 +396,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 dngCreator.writeImage(new FileOutputStream(file), image);
             else
             {
-                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,context);
+                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,cameraUiWrapper.getContext());
                 DocumentFile wr = df.createFile("image/*", file.getName());
-                dngCreator.writeImage(context.getContentResolver().openOutputStream(wr.getUri()), image);
+                dngCreator.writeImage(cameraUiWrapper.getContext().getContentResolver().openOutputStream(wr.getUri()), image);
             }
         } catch (IOException e) {
             Logger.exception(e);
@@ -429,11 +430,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             dngConverter.SetBayerData(bytes, file.getAbsolutePath());
         else
         {
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,context);
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,cameraUiWrapper.getContext());
             DocumentFile wr = df.createFile("image/*", file.getName());
             try {
 
-                pfd = context.getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+                pfd = cameraUiWrapper.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
                 if (pfd != null)
                     dngConverter.SetBayerDataFD(bytes, pfd, file.getName());
             } catch (FileNotFoundException | IllegalArgumentException e) {
@@ -619,8 +620,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     @Override
     public void startPreview() {
 
-        if (cameraHolder == null)
-            return;
         picSize = appSettingsManager.getString(AppSettingsManager.SETTING_PICTURESIZE);
         Logger.d(TAG, "Start Preview");
         largestImageSize = Collections.max(
@@ -693,9 +692,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         try {
             Logger.d(TAG, "Set Burst to:" + burst);
             previewSize = CameraHolder.getSizeForPreviewDependingOnImageSize(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), cameraHolder.characteristics, mImageWidth, mImageHeight);
-            if (cameraHolder.mProcessor != null)
+            if (cameraUiWrapper.getFocusPeakProcessor() != null)
             {
-                cameraHolder.mProcessor.kill();
+                cameraUiWrapper.getFocusPeakProcessor().kill();
             }
 
             cameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(),previewSize.getHeight(),0,180,false);
@@ -703,10 +702,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
             previewsurface = new Surface(texture);
 
-            cameraHolder.mProcessor.Reset(previewSize.getWidth(), previewSize.getHeight());
+            cameraUiWrapper.getFocusPeakProcessor().Reset(previewSize.getWidth(), previewSize.getHeight());
             Logger.d(TAG, "Previewsurface vailid:" + previewsurface.isValid());
-            cameraHolder.mProcessor.setOutputSurface(previewsurface);
-            camerasurface = cameraHolder.mProcessor.getInputSurface();
+            cameraUiWrapper.getFocusPeakProcessor().setOutputSurface(previewsurface);
+            camerasurface = cameraUiWrapper.getFocusPeakProcessor().getInputSurface();
             cameraHolder.CaptureSessionH.AddSurface(camerasurface,true);
 
             if (picFormat.equals(KEYS.JPEG))
@@ -760,9 +759,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 else
                 {
 
-                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,context);
+                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,cameraUiWrapper.getContext());
                     DocumentFile wr = df.createFile("*/*", mFile.getName());
-                    output = context.getContentResolver().openOutputStream(wr.getUri(),"rw");
+                    output = cameraUiWrapper.getContext().getContentResolver().openOutputStream(wr.getUri(),"rw");
                 }
                 output.write(bytes);
             } catch (IOException e) {
@@ -793,7 +792,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         Logger.d(TAG, "DestroyModule");
         cameraHolder.CaptureSessionH.CloseCaptureSession();
-        cameraHolder.mProcessor.kill();
+        cameraUiWrapper.getFocusPeakProcessor().kill();
     }
 
 

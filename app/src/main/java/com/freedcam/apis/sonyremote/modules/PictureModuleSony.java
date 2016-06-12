@@ -51,8 +51,8 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
     private static String TAG = PictureModuleSony.class.getSimpleName();
     private CameraHolder cameraHolder;
 
-    public PictureModuleSony(Context context, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, cameraUiWrapper);
+    public PictureModuleSony(I_CameraUiWrapper cameraUiWrapper) {
+        super(cameraUiWrapper);
         name = KEYS.MODULE_PICTURE;
         cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
 
@@ -142,9 +142,9 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
                 output = new FileOutputStream(file);
             else
             {
-                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,context);
+                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,cameraUiWrapper.getContext());
                 DocumentFile wr = df.createFile("image/jpeg", file.getName());
-                output = context.getContentResolver().openOutputStream(wr.getUri());
+                output = cameraUiWrapper.getContext().getContentResolver().openOutputStream(wr.getUri());
             }
             int bufferSize = 1024;
             byte[] buffer = new byte[bufferSize];
@@ -173,7 +173,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
             }
         }
 
-        MediaScannerManager.ScanMedia(context.getApplicationContext(), file);
+        MediaScannerManager.ScanMedia(cameraUiWrapper.getContext().getApplicationContext(), file);
         cameraUiWrapper.GetModuleHandler().WorkFinished(file);
     }
 

@@ -26,6 +26,7 @@ import com.freedcam.apis.basecamera.AbstractFocusHandler;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.utils.AppSettingsManager;
+import com.freedcam.utils.RenderScriptHandler;
 
 /**
  * Created by troop on 09.12.2014.
@@ -104,5 +105,9 @@ public interface I_CameraUiWrapper extends I_CameraChangedListner
     boolean isAeMeteringSupported();
 
     Context getContext();
+
+    FocuspeakProcessor getFocusPeakProcessor();
+
+    RenderScriptHandler getRenderScriptHandler();
 
 }

@@ -145,6 +145,7 @@ public class ParameterHandler extends AbstractParameterHandler
             }
         });
         SetAppSettingsToParameters();
+        setMode(Module, AppSettingsManager.SETTING_CURRENTMODULE);
 
     }
 
@@ -207,16 +208,10 @@ public class ParameterHandler extends AbstractParameterHandler
         setMode(FocusMode, AppSettingsManager.SETTING_FOCUSMODE);
         setMode(RedEye,AppSettingsManager.SETTING_REDEYE_MODE);
         setMode(LensShade,AppSettingsManager.SETTING_LENSSHADE_MODE);
-        setMode(ZSL, AppSettingsManager.SETTING_ZEROSHUTTERLAG_MODE);
-        setMode(SceneDetect, AppSettingsManager.SETTING_SCENEDETECT_MODE);
         setMode(Denoise, AppSettingsManager.SETTING_DENOISE_MODE);
         setMode(DigitalImageStabilization, AppSettingsManager.SETTING_DIS_MODE);
-        setMode(MemoryColorEnhancement, AppSettingsManager.SETTING_MCE_MODE);
         //setMode(SkinToneEnhancment, AppSettingsManager.SETTING_SKINTONE_MODE);
         setMode(NightMode, AppSettingsManager.SETTING_NIGHTEMODE);
-        setMode(NonZslManualMode, AppSettingsManager.SETTING_NONZSLMANUALMODE);
-        setMode(AE_Bracket, AppSettingsManager.SETTING_AEBRACKET);
-        setMode(Histogram, AppSettingsManager.SETTING_HISTOGRAM);
         setMode(VideoProfiles, AppSettingsManager.SETTING_VIDEPROFILE);
         setMode(VideoHDR, AppSettingsManager.SETTING_VIDEOHDR);
         setMode(VideoSize, AppSettingsManager.SETTING_VIDEOSIZE);

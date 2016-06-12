@@ -45,8 +45,8 @@ public class VideoModuleG3 extends AbstractVideoModule
 
     static final String TAG = VideoModuleG3.class.getSimpleName();
 
-    public VideoModuleG3(Context context, I_CameraUiWrapper cameraUiWrapper) {
-        super(context,cameraUiWrapper);
+    public VideoModuleG3(I_CameraUiWrapper cameraUiWrapper) {
+        super(cameraUiWrapper);
     }
 
     protected MediaRecorder initRecorder()

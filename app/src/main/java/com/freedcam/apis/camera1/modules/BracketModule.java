@@ -46,12 +46,10 @@ public class BracketModule extends PictureModule
     File[] files;
     boolean isManualExpo = false;
     int ogExpoValue = 0;
-    private Context context;
 
-    public BracketModule(Context context, I_CameraUiWrapper cameraUiWrapper) {
-        super(context,cameraUiWrapper);
+    public BracketModule(I_CameraUiWrapper cameraUiWrapper) {
+        super(cameraUiWrapper);
         name = KEYS.MODULE_HDR;
-        this.context = context;
     }
 
     //I_Module START
