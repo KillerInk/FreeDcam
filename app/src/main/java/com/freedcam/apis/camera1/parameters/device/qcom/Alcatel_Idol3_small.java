@@ -33,8 +33,8 @@ public class Alcatel_Idol3_small extends Alcatel_Idol3
 {
 
 
-    public Alcatel_Idol3_small(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public Alcatel_Idol3_small(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

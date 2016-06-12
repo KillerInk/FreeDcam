@@ -35,8 +35,8 @@ import com.troop.androiddng.DngProfile;
 public class ForwardArt_MTK extends BaseMTKDevice {
 
 
-    public ForwardArt_MTK(Context context,Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context,parameters, cameraUiWrapper);
+    public ForwardArt_MTK(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

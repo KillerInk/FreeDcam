@@ -44,8 +44,8 @@ import com.troop.androiddng.DngProfile;
 public class Xiaomi_Mi3W extends BaseQcomDevice {
 
 
-    public Xiaomi_Mi3W(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public Xiaomi_Mi3W(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

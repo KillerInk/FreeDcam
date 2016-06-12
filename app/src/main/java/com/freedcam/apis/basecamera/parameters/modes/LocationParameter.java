@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
@@ -38,20 +39,16 @@ import com.freedcam.utils.Logger;
  */
 public class LocationParameter extends AbstractModeParameter implements LocationListener
 {
-    private I_CameraHolder cameraHolder;
     private LocationManager locationManager;
-    private Context context;
-    private AppSettingsManager appSettingsManager;
+    private I_CameraUiWrapper cameraUiWrapper;
+
 
     private final int updateTime = 60*1000;
     private final int updateDistance = 15;
 
 
-    public LocationParameter(I_CameraHolder cameraHolder, Context context, AppSettingsManager appSettingsManager) {
-        this.context = context;
-        this.cameraHolder = cameraHolder;
-        this.appSettingsManager = appSettingsManager;
-        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+    public LocationParameter(I_CameraUiWrapper cameraUiWrapper) {
+        locationManager = (LocationManager) cameraUiWrapper.getContext().getSystemService(Context.LOCATION_SERVICE);
         if (GetValue().equals(KEYS.ON))
             startLocationListing();
     }
@@ -64,9 +61,9 @@ public class LocationParameter extends AbstractModeParameter implements Location
     @Override
     public String GetValue()
     {
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_LOCATION).equals(""))
-            appSettingsManager.setString(AppSettingsManager.SETTING_LOCATION, KEYS.OFF);
-        return appSettingsManager.getString(AppSettingsManager.SETTING_LOCATION);
+        if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(""))
+            cameraUiWrapper.GetAppSettingsManager().setString(AppSettingsManager.SETTING_LOCATION, KEYS.OFF);
+        return cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION);
     }
 
     @Override
@@ -77,7 +74,7 @@ public class LocationParameter extends AbstractModeParameter implements Location
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        appSettingsManager.setString(AppSettingsManager.SETTING_LOCATION, valueToSet);
+        cameraUiWrapper.GetAppSettingsManager().setString(AppSettingsManager.SETTING_LOCATION, valueToSet);
         if (valueToSet.equals(KEYS.OFF))
             stopLocationListining();
         if (valueToSet.equals(KEYS.ON))
@@ -88,8 +85,8 @@ public class LocationParameter extends AbstractModeParameter implements Location
     public void onLocationChanged(Location location)
     {
         Logger.d("Location", "updated location");
-        if (cameraHolder != null)
-            cameraHolder.SetLocation(location);
+        if (cameraUiWrapper.GetCameraHolder() != null)
+            cameraUiWrapper.GetCameraHolder().SetLocation(location);
     }
 
     @Override
@@ -144,14 +141,14 @@ public class LocationParameter extends AbstractModeParameter implements Location
                         this);
                 locgps = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             }
-            if (locgps != null && cameraHolder != null)
-                cameraHolder.SetLocation(locgps);
-            else if(locnet != null && cameraHolder != null)
-                cameraHolder.SetLocation(locnet);
+            if (locgps != null && cameraUiWrapper.GetCameraHolder() != null)
+                cameraUiWrapper.GetCameraHolder().SetLocation(locgps);
+            else if(locnet != null && cameraUiWrapper.GetCameraHolder() != null)
+                cameraUiWrapper.GetCameraHolder().SetLocation(locnet);
         }
         else
         {
-            Toast.makeText(context, "Gps and Network are deactivated", Toast.LENGTH_LONG).show();
+            Toast.makeText(cameraUiWrapper.getContext(), "Gps and Network are deactivated", Toast.LENGTH_LONG).show();
             Logger.d("Location", "Gps and Network are deactivated");
         }
     }

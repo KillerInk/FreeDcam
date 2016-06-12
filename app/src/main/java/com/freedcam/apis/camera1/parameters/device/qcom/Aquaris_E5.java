@@ -35,8 +35,8 @@ import com.troop.androiddng.DngProfile;
 public class Aquaris_E5 extends BaseQcomNew
 {
 
-    public Aquaris_E5(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public Aquaris_E5(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

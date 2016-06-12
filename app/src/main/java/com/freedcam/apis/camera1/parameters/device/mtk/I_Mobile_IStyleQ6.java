@@ -33,8 +33,8 @@ import com.troop.androiddng.DngProfile;
 public class I_Mobile_IStyleQ6 extends BaseMTKDevice {
 
 
-    public I_Mobile_IStyleQ6(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context,parameters, cameraUiWrapper);
+    public I_Mobile_IStyleQ6(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

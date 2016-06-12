@@ -33,8 +33,8 @@ import com.troop.androiddng.DngProfile;
 public class Lenovo_K4Note_MTK extends BaseMTKDevice {
 
 
-    public Lenovo_K4Note_MTK(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public Lenovo_K4Note_MTK(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

@@ -65,7 +65,7 @@ public class ParameterHandler extends AbstractParameterHandler
 
     public ParameterHandler(I_CameraUiWrapper cameraUiWrapper, SimpleStreamSurfaceView surfaceView, Context context)
     {
-        super(context,cameraUiWrapper);
+        super(cameraUiWrapper);
         parametersChangedList  = new ArrayList<>();
         this.surfaceView = surfaceView;
         this.cameraUiWrapper =cameraUiWrapper;

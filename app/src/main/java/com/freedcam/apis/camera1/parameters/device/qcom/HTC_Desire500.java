@@ -32,8 +32,8 @@ import com.troop.androiddng.DngProfile;
  */
 public class HTC_Desire500 extends BaseQcomDevice {
 
-    public HTC_Desire500(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public HTC_Desire500(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

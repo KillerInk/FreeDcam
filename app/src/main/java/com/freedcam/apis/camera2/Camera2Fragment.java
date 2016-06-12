@@ -63,7 +63,7 @@ public class Camera2Fragment extends AbstractCameraFragment implements TextureVi
         textureView = (AutoFitTextureView) view.findViewById(id.autofitview);
         this.textureView.setSurfaceTextureListener(this);
         super.cameraHolder = cameraHolder;
-        parametersHandler = new ParameterHandler(this,getContext());
+        parametersHandler = new ParameterHandler(this);
         moduleHandler = new ModuleHandlerApi2(getContext(),this,renderScriptHandler);
         Focus = new FocusHandler(this);
         cameraHolder = new CameraHolder(getContext(), this,renderScriptHandler);

@@ -42,8 +42,8 @@ import java.util.ArrayList;
 public class Moto_MSM8974 extends AbstractDevice {
 
 
-    public Moto_MSM8974(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public Moto_MSM8974(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

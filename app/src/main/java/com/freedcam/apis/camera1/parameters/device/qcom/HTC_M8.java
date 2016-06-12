@@ -48,8 +48,8 @@ import java.util.ArrayList;
 public class HTC_M8 extends AbstractDevice {
 
 
-    public HTC_M8(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public HTC_M8(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

@@ -35,8 +35,8 @@ import com.troop.androiddng.DngProfile;
 public class Moto_MSM8982_8994 extends Alcatel_Idol3 {
 
 
-    public Moto_MSM8982_8994(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public Moto_MSM8982_8994(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

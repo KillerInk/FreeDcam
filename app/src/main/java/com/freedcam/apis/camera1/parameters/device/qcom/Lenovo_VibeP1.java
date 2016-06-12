@@ -33,8 +33,8 @@ import com.troop.androiddng.DngProfile;
 public class Lenovo_VibeP1 extends BaseQcomNew {
 
 
-    public Lenovo_VibeP1(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public Lenovo_VibeP1(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     public boolean IsDngSupported() {

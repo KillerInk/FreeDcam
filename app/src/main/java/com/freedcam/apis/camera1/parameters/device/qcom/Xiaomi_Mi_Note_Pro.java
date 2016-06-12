@@ -35,8 +35,8 @@ import com.troop.androiddng.DngProfile;
 public class Xiaomi_Mi_Note_Pro extends BaseQcomDevice {
 
 
-    public Xiaomi_Mi_Note_Pro(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public Xiaomi_Mi_Note_Pro(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

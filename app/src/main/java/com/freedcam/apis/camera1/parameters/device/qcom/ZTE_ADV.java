@@ -45,8 +45,8 @@ import com.troop.androiddng.DngProfile;
  * Created by troop on 01.06.2016.
  */
 public class ZTE_ADV extends BaseQcomDevice {
-    public ZTE_ADV(Context context,Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public ZTE_ADV(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override
@@ -104,7 +104,7 @@ public class ZTE_ADV extends BaseQcomDevice {
 
     @Override
     public I_ModeParameter getLensFilter() {
-        return new VirtualLensFilter(context,parameters, cameraUiWrapper);
+        return new VirtualLensFilter(parameters, cameraUiWrapper);
     }
 
     @Override

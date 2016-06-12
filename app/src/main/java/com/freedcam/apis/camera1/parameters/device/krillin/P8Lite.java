@@ -43,8 +43,8 @@ import java.util.ArrayList;
 public class P8Lite extends AbstractDevice {
 
 
-    public P8Lite(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public P8Lite(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

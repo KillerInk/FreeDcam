@@ -37,8 +37,8 @@ import com.troop.androiddng.DngProfile;
 public class Huawei_Honor5x extends BaseQcomDevice {
 
 
-    public Huawei_Honor5x(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public Huawei_Honor5x(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

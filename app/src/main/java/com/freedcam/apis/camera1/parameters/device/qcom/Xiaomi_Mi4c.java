@@ -32,8 +32,8 @@ import com.troop.androiddng.DngProfile;
 public class Xiaomi_Mi4c extends Xiaomi_Mi3W {
 
 
-    public Xiaomi_Mi4c(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public Xiaomi_Mi4c(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

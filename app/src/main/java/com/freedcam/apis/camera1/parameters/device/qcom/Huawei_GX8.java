@@ -37,8 +37,8 @@ import com.troop.androiddng.DngProfile;
 public class Huawei_GX8 extends BaseQcomDevice {
 
 
-    public Huawei_GX8(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public Huawei_GX8(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

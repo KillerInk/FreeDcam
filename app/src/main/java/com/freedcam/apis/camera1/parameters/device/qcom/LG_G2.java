@@ -45,8 +45,8 @@ public class LG_G2 extends AbstractDevice
 {
 
 
-    public LG_G2(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public LG_G2(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
         if (cameraHolder.DeviceFrameWork == Frameworks.LG)
             parameters.set("lge-camera","1");
     }

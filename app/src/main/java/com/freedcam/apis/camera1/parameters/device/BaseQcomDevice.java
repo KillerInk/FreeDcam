@@ -43,8 +43,8 @@ import java.util.ArrayList;
  * Created by troop on 02.06.2016.
  */
 public class BaseQcomDevice extends AbstractDevice {
-    public BaseQcomDevice(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public BaseQcomDevice(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

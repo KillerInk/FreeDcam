@@ -35,8 +35,8 @@ import com.troop.androiddng.DngProfile;
 public class Jiayu_S3 extends BaseMTKDevice {
 
 
-    public Jiayu_S3( Context context,Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context,parameters, cameraUiWrapper);
+    public Jiayu_S3(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

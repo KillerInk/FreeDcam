@@ -32,8 +32,8 @@ import com.troop.androiddng.DngProfile;
  */
 public class Sony_XperiaL extends BaseQcomDevice {
 
-    public Sony_XperiaL(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public Sony_XperiaL(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

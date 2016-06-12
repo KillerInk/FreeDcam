@@ -33,8 +33,8 @@ import com.troop.androiddng.DngProfile;
 public class GioneE7 extends BaseQcomDevice {
 
 
-    public GioneE7(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public GioneE7(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

@@ -33,8 +33,8 @@ import com.troop.androiddng.DngProfile;
 public class THL5000_MTK extends BaseMTKDevice {
 
 
-    public THL5000_MTK(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public THL5000_MTK(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

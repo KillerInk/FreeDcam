@@ -33,8 +33,8 @@ import com.troop.androiddng.DngProfile;
 public class Alcatel_985n extends BaseMTKDevice {
 
 
-    public Alcatel_985n(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context,parameters, cameraUiWrapper);
+    public Alcatel_985n(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

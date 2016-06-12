@@ -32,18 +32,17 @@ import com.troop.freedcam.R;
  */
 public class VirtualLensFilter extends  BaseModeParameter {
 
-    private Context context;
     private final int[] asT = {0, 1, 2, 3, 4, 5, 6};
     private final String[] asU;
-    public VirtualLensFilter(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper)
+    public VirtualLensFilter(Parameters parameters, I_CameraUiWrapper cameraUiWrapper)
     {
         super(parameters, cameraUiWrapper, "", "");
 
         if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV)
             isSupported = true;
         this.cameraUiWrapper = cameraUiWrapper;
-        valuesArray = context.getResources().getStringArray(R.array.virtual_lensfilter_colors);
-        asU = context.getResources().getStringArray(R.array.virtual_lensfilter_asu);
+        valuesArray = cameraUiWrapper.getContext().getResources().getStringArray(R.array.virtual_lensfilter_colors);
+        asU = cameraUiWrapper.getContext().getResources().getStringArray(R.array.virtual_lensfilter_asu);
     }
 
     @Override

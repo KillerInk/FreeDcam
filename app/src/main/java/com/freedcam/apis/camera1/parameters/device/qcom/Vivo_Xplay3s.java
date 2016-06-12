@@ -36,8 +36,8 @@ import com.troop.androiddng.DngProfile;
 public class Vivo_Xplay3s extends BaseQcomDevice {
 
 
-    public Vivo_Xplay3s(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public Vivo_Xplay3s(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

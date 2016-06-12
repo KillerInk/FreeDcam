@@ -36,8 +36,8 @@ import com.troop.androiddng.DngProfile;
 public class Lenovo_K920 extends BaseQcomDevice {
 
 
-    public Lenovo_K920(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public Lenovo_K920(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

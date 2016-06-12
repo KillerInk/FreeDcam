@@ -40,8 +40,8 @@ import java.util.ArrayList;
 public class P8 extends AbstractDevice {
 
 
-    public P8(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public P8(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

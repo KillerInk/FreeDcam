@@ -35,8 +35,8 @@ import com.troop.androiddng.DngProfile;
 public class Sony_M5_MTK extends BaseMTKDevice {
 
 
-    public Sony_M5_MTK(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public Sony_M5_MTK(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

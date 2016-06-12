@@ -32,8 +32,8 @@ import com.troop.androiddng.DngProfile;
  */
 public class HTC_One_XL extends BaseQcomDevice {
 
-    public HTC_One_XL(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public HTC_One_XL(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

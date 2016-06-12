@@ -50,7 +50,6 @@ public abstract class AbstractParameterHandler
      */
     protected Handler uiHandler;
     private ArrayList<I_ParametersLoaded> parametersLoadedListner;
-    protected Context context;
 
     public AppSettingsManager appSettingsManager;
 
@@ -176,19 +175,18 @@ public abstract class AbstractParameterHandler
     public I_ModeParameter matrixChooser;
     public I_ModeParameter imageStackMode;
 
-    public AbstractParameterHandler(Context context, I_CameraUiWrapper cameraUiWrapper) {
+    public AbstractParameterHandler(I_CameraUiWrapper cameraUiWrapper) {
         super();
         this.cameraUiWrapper = cameraUiWrapper;
         uiHandler = new Handler(Looper.getMainLooper());
-        this.context = context;
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
         parametersLoadedListner = new ArrayList<>();
         parametersLoadedListner.clear();
 
         GuideList = new GuideList();
-        locationParameter = new LocationParameter(cameraUiWrapper.GetCameraHolder(), context, appSettingsManager);
+        locationParameter = new LocationParameter(cameraUiWrapper);
         IntervalDuration = new IntervalDurationParameter();
-        IntervalShutterSleep = new IntervalShutterSleepParameter(context);
+        IntervalShutterSleep = new IntervalShutterSleepParameter(cameraUiWrapper);
         Horizont = new Horizont();
         SdSaveLocation = new SDModeParameter(appSettingsManager);
 

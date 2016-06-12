@@ -42,11 +42,9 @@ public abstract class AbstractDevice implements I_Device {
     protected I_CameraUiWrapper cameraUiWrapper;
     protected ParametersHandler parametersHandler;
     protected MatrixChooserParameter matrixChooserParameter;
-    protected Context context;
 
-    public AbstractDevice(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper)
+    public AbstractDevice(Parameters parameters, I_CameraUiWrapper cameraUiWrapper)
     {
-        this.context = context;
         this.parameters = parameters;
         this.cameraUiWrapper = cameraUiWrapper;
         cameraHolder = (CameraHolder)cameraUiWrapper.GetCameraHolder();

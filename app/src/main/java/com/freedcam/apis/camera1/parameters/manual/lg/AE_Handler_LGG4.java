@@ -95,7 +95,7 @@ public class AE_Handler_LGG4 implements I_CameraChangedListner
         iso,
     }
 
-    public AE_Handler_LGG4(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper)
+    public AE_Handler_LGG4(Parameters parameters, I_CameraUiWrapper cameraUiWrapper)
     {
         isoManualParameter = new ISOManualParameterG4(parameters,cameraUiWrapper, aeevent);
         shutterPrameter = new ShutterManualParameterG4(parameters, cameraUiWrapper, aeevent);

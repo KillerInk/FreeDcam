@@ -35,8 +35,8 @@ import com.troop.androiddng.DngProfile;
 public class Meizu_MX4_5_MTK extends BaseMTKDevice {
 
 
-    public Meizu_MX4_5_MTK(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public Meizu_MX4_5_MTK(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

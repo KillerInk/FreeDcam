@@ -52,7 +52,7 @@ public class AeHandler
 
     private AEModes activeAeMode = AEModes.on;
 
-    public AeHandler(Context context, I_CameraUiWrapper cameraUiWrapper)
+    public AeHandler(I_CameraUiWrapper cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.cameraHolder = (CameraHolder) cameraUiWrapper.GetCameraHolder();

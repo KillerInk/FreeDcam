@@ -29,7 +29,7 @@ import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
  */
 public class Xiaomi_Mi4W extends Xiaomi_Mi3W {
 
-    public Xiaomi_Mi4W(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public Xiaomi_Mi4W(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 }

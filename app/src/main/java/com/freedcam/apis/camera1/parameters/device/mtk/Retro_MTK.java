@@ -33,8 +33,8 @@ import com.troop.androiddng.DngProfile;
 public class Retro_MTK extends BaseMTKDevice {
 
 
-    public Retro_MTK(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public Retro_MTK(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

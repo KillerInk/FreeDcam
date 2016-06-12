@@ -40,8 +40,8 @@ import com.troop.androiddng.DngProfile;
  */
 public class BaseQcomNew extends AbstractDevice
 {
-    public BaseQcomNew(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public BaseQcomNew(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

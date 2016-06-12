@@ -72,13 +72,11 @@ public class ParametersHandler extends AbstractParameterHandler
 
     private Parameters cameraParameters;
     public Parameters getParameters(){return cameraParameters;}
-    private I_CameraUiWrapper cameraUiWrapper;
     private I_Device Device;
 
-    public ParametersHandler(I_CameraUiWrapper cameraUiWrapper, Context context)
+    public ParametersHandler(I_CameraUiWrapper cameraUiWrapper)
     {
-        super(context,cameraUiWrapper);
-        this.cameraUiWrapper = cameraUiWrapper;
+        super(cameraUiWrapper);
     }
 
     public void SetParametersToCamera(Parameters params)
@@ -136,7 +134,7 @@ public class ParametersHandler extends AbstractParameterHandler
             Logger.exception(e);
         }
 
-        locationParameter = new LocationParameter(cameraUiWrapper.GetCameraHolder(),context,appSettingsManager);
+        locationParameter = new LocationParameter(cameraUiWrapper);
 
         try {
             ManualConvergence = new BaseManualParameter(cameraParameters, KEYS.MANUAL_CONVERGENCE, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MAX, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MIN, cameraUiWrapper,1);
@@ -377,7 +375,7 @@ public class ParametersHandler extends AbstractParameterHandler
         imageStackMode = new StackModeParameter();
 
         //load device specific stuff
-        Device = new DeviceSelector().getDevice(context,cameraUiWrapper,cameraParameters,(CameraHolder) cameraUiWrapper.GetCameraHolder());
+        Device = new DeviceSelector().getDevice(cameraUiWrapper,cameraParameters);
 
         if (Device == null)
         {

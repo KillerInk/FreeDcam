@@ -34,8 +34,8 @@ public class Blackberry_Priv extends BaseQcomNew
 {
 
 
-    public Blackberry_Priv(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public Blackberry_Priv(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

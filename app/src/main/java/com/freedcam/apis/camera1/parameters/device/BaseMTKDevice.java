@@ -49,8 +49,8 @@ public class BaseMTKDevice extends AbstractDevice
 {
     protected AE_Handler_MTK ae_handler_mtk;
 
-    public BaseMTKDevice(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public BaseMTKDevice(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
         ae_handler_mtk = new AE_Handler_MTK(parameters, cameraUiWrapper,1600);
         parameters.set("afeng_raw_dump_flag", "1");
         parameters.set("rawsave-mode", "2");

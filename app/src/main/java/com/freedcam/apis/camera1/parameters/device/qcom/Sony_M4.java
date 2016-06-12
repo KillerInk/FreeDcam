@@ -35,8 +35,8 @@ import com.troop.androiddng.DngProfile;
 public class Sony_M4 extends BaseQcomNew {
 
 
-    public Sony_M4(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public Sony_M4(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

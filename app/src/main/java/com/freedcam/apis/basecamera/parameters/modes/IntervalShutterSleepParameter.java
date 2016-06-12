@@ -21,6 +21,7 @@ package com.freedcam.apis.basecamera.parameters.modes;
 
 import android.content.Context;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.troop.freedcam.R;
 
 /**
@@ -29,8 +30,8 @@ import com.troop.freedcam.R;
 public class IntervalShutterSleepParameter extends AbstractModeParameter
 {
     private String current = "1 sec";
-    Context context;
-    public IntervalShutterSleepParameter(Context context) {
+    private I_CameraUiWrapper cameraUiWrapper;
+    public IntervalShutterSleepParameter(I_CameraUiWrapper cameraUiWrapper) {
     }
 
     @Override
@@ -50,6 +51,6 @@ public class IntervalShutterSleepParameter extends AbstractModeParameter
 
     @Override
     public String[] GetValues() {
-        return context.getResources().getStringArray(R.array.interval_shutter_sleep);
+        return cameraUiWrapper.getContext().getResources().getStringArray(R.array.interval_shutter_sleep);
     }
 }

@@ -35,8 +35,8 @@ import com.troop.androiddng.DngProfile;
 public class Xiaomi_Redmi_Note2_MTK extends BaseMTKDevice {
 
 
-    public Xiaomi_Redmi_Note2_MTK(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public Xiaomi_Redmi_Note2_MTK(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

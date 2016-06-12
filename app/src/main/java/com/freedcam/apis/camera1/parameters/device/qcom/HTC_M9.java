@@ -31,8 +31,8 @@ import com.troop.androiddng.DngProfile;
  */
 public class HTC_M9 extends HTC_M8 {
 
-    public HTC_M9(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public HTC_M9(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

@@ -32,8 +32,8 @@ import com.troop.androiddng.DngProfile;
  */
 public class OnePlusTwo extends BaseQcomDevice {
 
-    public OnePlusTwo(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context, parameters, cameraUiWrapper);
+    public OnePlusTwo(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

@@ -12,8 +12,8 @@ import com.troop.androiddng.DngProfile;
  * Created by GeorgeKiarie on 6/7/2016.
  */
 public class Elephone_P9000 extends BaseMTKDevice {
-    public Elephone_P9000(Context context, Camera.Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
-        super(context,parameters, cameraUiWrapper);
+    public Elephone_P9000(Camera.Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
     }
 
     @Override

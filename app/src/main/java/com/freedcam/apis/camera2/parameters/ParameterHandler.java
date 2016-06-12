@@ -70,9 +70,9 @@ public class ParameterHandler extends AbstractParameterHandler
 
     private CameraHolder cameraHolder;
 
-    public ParameterHandler(I_CameraUiWrapper wrapper, Context context)
+    public ParameterHandler(I_CameraUiWrapper wrapper)
     {
-        super(context,wrapper);
+        super(wrapper);
     }
 
 
@@ -91,7 +91,7 @@ public class ParameterHandler extends AbstractParameterHandler
 
         WbHandler wbHandler = new WbHandler(cameraUiWrapper);
         //AE mode start
-        AeHandler aeHandler = new AeHandler(context,cameraUiWrapper);
+        AeHandler aeHandler = new AeHandler(cameraUiWrapper);
         //ae mode end
         AntiBandingMode = new AntibandingApi2(cameraUiWrapper);
         PictureSize = new PictureSizeModeApi2(cameraUiWrapper);
