@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.camera1.parameters.device;
 
+import com.freedcam.apis.basecamera.FocusRect;
 import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
 import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
 import com.troop.androiddng.DngProfile;
@@ -53,4 +54,5 @@ public interface I_Device
     float getCurrentExposuretime();
     int getCurrentIso();
     void Set_RAWFNAME(String filename);
+    void SetFocusArea(final FocusRect focusAreas);
 }

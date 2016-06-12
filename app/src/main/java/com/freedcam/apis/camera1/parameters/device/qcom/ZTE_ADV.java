@@ -23,11 +23,14 @@ import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.FocusRect;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
 import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
+import com.freedcam.apis.camera1.CameraHolder;
+import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.device.BaseQcomDevice;
 import com.freedcam.apis.camera1.parameters.manual.BaseCCTManual;
 import com.freedcam.apis.camera1.parameters.manual.BaseFocusManual;
@@ -113,5 +116,13 @@ public class ZTE_ADV extends BaseQcomDevice {
     @Override
     public float GetFocal() {
         return 28.0f;
+    }
+
+    @Override
+    public void SetFocusArea(FocusRect focusAreas) {
+        parameters.set("touch-aec","on");
+        parameters.set("raw-size","4208x3120");
+        parameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);
+        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 }

@@ -47,7 +47,7 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
     }
 
     @Override
-    public void StartTouchToFocus(FocusRect rect, FocusRect meteringarea, int width, int height)
+    public void StartTouchToFocus(FocusRect rect, int width, int height)
     {
         if (cameraUiWrapper.GetParameterHandler() == null)
             return;

@@ -21,6 +21,7 @@ package com.freedcam.apis.sonyremote.parameters;
 
 import android.content.Context;
 
+import com.freedcam.apis.basecamera.FocusRect;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.parameters.modes.ModuleParameters;
@@ -179,5 +180,20 @@ public class ParameterHandler extends AbstractParameterHandler
     @Override
     public I_Device getDevice() {
         return null;
+    }
+
+    @Override
+    public void SetFocusAREA(FocusRect focusAreas) {
+
+    }
+
+    @Override
+    public void SetMeterAREA(FocusRect meteringAreas) {
+
+    }
+
+    @Override
+    public void SetPictureOrientation(int or) {
+
     }
 }

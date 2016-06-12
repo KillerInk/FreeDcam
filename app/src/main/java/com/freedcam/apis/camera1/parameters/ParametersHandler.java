@@ -549,37 +549,9 @@ public class ParametersHandler extends AbstractParameterHandler
     }
 
     @Override
-    public void SetFocusAREA(final FocusRect focusAreas, FocusRect meteringAreas)
+    public void SetFocusAREA(final FocusRect focusAreas)
     {
-        if(appSettingsManager.getDevice() == Devices.ZTE_ADV || appSettingsManager.getDevice() == Devices.ZTEADV234 ||appSettingsManager.getDevice() == Devices.ZTEADVIMX214)
-        {
-            try
-            {
-                Handler handler = new Handler();
-
-                Runnable r = new Runnable() {
-                    public void run() {
-                        cameraParameters.set("touch-aec","on");
-                        cameraParameters.set("raw-size","4208x3120");
-                        cameraParameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);
-                        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetCameraParameters(cameraParameters);
-                    }
-                };
-                handler.post(r);
-            }
-            catch (Exception e)
-            {
-                Logger.exception(e);
-            }
-        }
-        else
-        {
-            Area a = new Area(new Rect(focusAreas.left,focusAreas.top,focusAreas.right,focusAreas.bottom),1000);
-            ArrayList<Area> ar = new ArrayList<>();
-            ar.add(a);
-            cameraParameters.setFocusAreas(ar);
-            SetParametersToCamera(cameraParameters);
-        }
+        getDevice().SetFocusArea(focusAreas);
     }
 
     @Override
@@ -640,33 +612,10 @@ public class ParametersHandler extends AbstractParameterHandler
     }
 
 
-    public String ExposureTime()
-    {
-        if (cameraParameters.get("exposure-time")!= null) {
-            return cameraParameters.get("exposure-time");
-        }
-        else
-            return "non";
-
-    }
-
-    public void FPSRangeLock (int min,int max){
-        String mMin =String.valueOf(min*1000);
-        String mMax =String.valueOf(max*1000);
-        cameraParameters.set("preview-fps-range",mMin+","+mMax);
-        cameraParameters.set("preview-frame-rate", mMax);
-        SetParametersToCamera(cameraParameters);
-    }
 
     public void SetZTESlowShutter()
     {
         cameraParameters.set("slow_shutter", "-1");
-        SetParametersToCamera(cameraParameters);
-    }
-
-    public void Set_RAWFNAME(String filepath)
-    {
-        cameraParameters.set("rawfname", filepath);
         SetParametersToCamera(cameraParameters);
     }
 }

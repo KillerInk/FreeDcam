@@ -26,6 +26,7 @@ import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build.VERSION_CODES;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.FocusRect;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
@@ -151,6 +152,16 @@ public class ParameterHandler extends AbstractParameterHandler
     @Override
     public I_Device getDevice() {
         return null;
+    }
+
+    @Override
+    public void SetFocusAREA(FocusRect focusAreas) {
+
+    }
+
+    @Override
+    public void SetMeterAREA(FocusRect meteringAreas) {
+
     }
 
     @Override

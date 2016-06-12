@@ -40,7 +40,7 @@ public abstract class AbstractFocusHandler
     }
 
     public void StartFocus(){}
-    public void StartTouchToFocus(FocusRect rect, FocusRect meteringarea, int width, int height){}
+    public void StartTouchToFocus(FocusRect rect,int width, int height){}
     public void SetMeteringAreas(FocusRect meteringRect, int width, int height){}
     public I_Focus focusEvent;
     public abstract boolean isAeMeteringSupported();

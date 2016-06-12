@@ -20,12 +20,16 @@
 package com.freedcam.apis.camera1.parameters.device;
 
 import android.content.Context;
+import android.graphics.Rect;
+import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.FocusRect;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
 import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
+import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK;
 import com.freedcam.apis.camera1.parameters.manual.mtk.BaseManualParamMTK;
 import com.freedcam.apis.camera1.parameters.manual.mtk.FocusManualMTK;
@@ -33,6 +37,8 @@ import com.freedcam.apis.camera1.parameters.modes.BaseModeParameter;
 import com.freedcam.utils.StringUtils;
 import com.freedcam.utils.StringUtils.FileEnding;
 import com.troop.androiddng.DngProfile;
+
+import java.util.ArrayList;
 
 /**
  * Created by troop on 01.06.2016.
@@ -168,5 +174,14 @@ public class BaseMTKDevice extends AbstractDevice
     public void Set_RAWFNAME(String filename) {
         parameters.set("rawfname", filename);
         cameraHolder.SetCameraParameters(parameters);
+    }
+
+    @Override
+    public void SetFocusArea(FocusRect focusAreas) {
+        Camera.Area a = new Camera.Area(new Rect(focusAreas.left,focusAreas.top,focusAreas.right,focusAreas.bottom),1000);
+        ArrayList<Camera.Area> ar = new ArrayList<>();
+        ar.add(a);
+        parameters.setFocusAreas(ar);
+        ((ParametersHandler)parametersHandler).SetParametersToCamera(parameters);
     }
 }

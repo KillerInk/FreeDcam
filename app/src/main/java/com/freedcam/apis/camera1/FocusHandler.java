@@ -158,7 +158,7 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
     public void onFocusLock(boolean locked) {
 
     }
-
+    @Override
     public void StartFocus()
     {
         if (focusEvent != null)
@@ -168,8 +168,8 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
         ((CameraHolder)cameraUiWrapper.GetCameraHolder()).StartFocus(this);
     }
 
-
-    public void StartTouchToFocus(FocusRect rect, FocusRect meteringarea, int width, int height)
+    @Override
+    public void StartTouchToFocus(FocusRect rect,int width, int height)
     {
         if (cameraUiWrapper == null|| cameraUiWrapper.GetParameterHandler() == null || cameraUiWrapper.GetParameterHandler().FocusMode == null)
             return;
@@ -185,7 +185,7 @@ public class FocusHandler extends AbstractFocusHandler implements AutoFocusCallb
                     && targetFocusRect.right <= 1000)
             {
 
-                cameraUiWrapper.GetParameterHandler().SetFocusAREA(targetFocusRect, meteringarea);
+                cameraUiWrapper.GetParameterHandler().SetFocusAREA(targetFocusRect);
                 if (cameraUiWrapper.GetCameraHolder() != null)
                     ((CameraHolder)cameraUiWrapper.GetCameraHolder()).StartFocus(this);
                 if (focusEvent != null)

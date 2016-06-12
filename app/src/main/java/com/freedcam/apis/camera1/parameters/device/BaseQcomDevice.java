@@ -20,18 +20,24 @@
 package com.freedcam.apis.camera1.parameters.device;
 
 import android.content.Context;
+import android.graphics.Rect;
+import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.FocusRect;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
 import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
+import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.manual.BaseCCTManual;
 import com.freedcam.apis.camera1.parameters.manual.BaseFocusManual;
 import com.freedcam.apis.camera1.parameters.manual.ShutterManual_ExposureTime_FloatToSixty;
 import com.freedcam.apis.camera1.parameters.manual.qcom_new.ShutterManual_ExposureTime_Micro;
 import com.freedcam.apis.camera1.parameters.modes.BaseModeParameter;
 import com.troop.androiddng.DngProfile;
+
+import java.util.ArrayList;
 
 /**
  * Created by troop on 02.06.2016.
@@ -130,5 +136,23 @@ public class BaseQcomDevice extends AbstractDevice {
     @Override
     public I_ModeParameter getDenoiseParameter() {
         return new BaseModeParameter(parameters, cameraUiWrapper, KEYS.DENOISE, KEYS.DENOISE_VALUES);
+    }
+
+    @Override
+    public void SetFocusArea(FocusRect focusAreas)
+    {
+        if (parameters.get("touch-aec")!= null) {
+            parameters.set("touch-aec", "on");
+            parameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        }
+        else
+        {
+            Camera.Area a = new Camera.Area(new Rect(focusAreas.left,focusAreas.top,focusAreas.right,focusAreas.bottom),1000);
+            ArrayList<Camera.Area> ar = new ArrayList<>();
+            ar.add(a);
+            parameters.setFocusAreas(ar);
+            ((ParametersHandler)parametersHandler).SetParametersToCamera(parameters);
+        }
     }
 }

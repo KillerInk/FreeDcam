@@ -97,7 +97,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_ParametersLo
     }
 
     @Override
-    public void StartTouchToFocus(FocusRect rect, FocusRect meteringarea, int width, int height)
+    public void StartTouchToFocus(FocusRect rect, int width, int height)
     {
         logFocusRect(rect);
         Logger.d(TAG, "Width:" + width + "Height" + height);

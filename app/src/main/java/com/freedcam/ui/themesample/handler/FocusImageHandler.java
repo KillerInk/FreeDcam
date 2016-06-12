@@ -276,7 +276,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                 y = disHeight - recthalf;
             FocusRect rect = new FocusRect(x - recthalf, x + recthalf, y - recthalf, y + recthalf,x,y);
             if (wrapper.getFocusHandler() != null)
-                wrapper.getFocusHandler().StartTouchToFocus(rect, meteringRect, disWidth, disHeight);
+                wrapper.getFocusHandler().StartTouchToFocus(rect, disWidth, disHeight);
         }
     }
 
