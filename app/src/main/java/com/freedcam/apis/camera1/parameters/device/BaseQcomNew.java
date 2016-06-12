@@ -29,8 +29,9 @@ import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.manual.BaseFocusManual;
+import com.freedcam.apis.camera1.parameters.manual.BaseISOManual;
 import com.freedcam.apis.camera1.parameters.manual.BaseWB_CCT_QC;
-import com.freedcam.apis.camera1.parameters.manual.qcom_new.AE_Handler_QcomM;
+import com.freedcam.apis.camera1.parameters.manual.qcom_new.ShutterManual_ExposureTime_Micro;
 import com.freedcam.apis.camera1.parameters.modes.BaseModeParameter;
 import com.troop.androiddng.DngProfile;
 
@@ -39,11 +40,8 @@ import com.troop.androiddng.DngProfile;
  */
 public class BaseQcomNew extends AbstractDevice
 {
-    protected AE_Handler_QcomM aeHandlerQcomM;
-
     public BaseQcomNew(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
         super(context, parameters, cameraUiWrapper);
-        aeHandlerQcomM = new AE_Handler_QcomM(context, parameters, cameraUiWrapper, parametersHandler);
     }
 
     @Override
@@ -54,13 +52,13 @@ public class BaseQcomNew extends AbstractDevice
     //set by aehandler
     @Override
     public I_ManualParameter getExposureTimeParameter() {
-        return aeHandlerQcomM.getShutterManual();
+        return new ShutterManual_ExposureTime_Micro(context,parameters, parametersHandler,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME,false);
     }
 
     //set by aehandler
     @Override
     public I_ManualParameter getIsoParameter() {
-        return aeHandlerQcomM.getManualIso();
+        return new BaseISOManual(context,parameters,"continuous-iso",parameters.getInt("min-iso"),parameters.getInt("max-iso"), parametersHandler,1);
     }
 
     @Override

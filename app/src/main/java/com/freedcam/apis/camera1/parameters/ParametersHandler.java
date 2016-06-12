@@ -20,8 +20,6 @@
 package com.freedcam.apis.camera1.parameters;
 
 import android.content.Context;
-import android.graphics.Rect;
-import android.hardware.Camera.Area;
 import android.hardware.Camera.Parameters;
 import android.os.Build;
 import android.os.Handler;
@@ -63,8 +61,6 @@ import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 import com.freedcam.utils.StringUtils.FileEnding;
-
-import java.util.ArrayList;
 
 /**
  * Created by troop on 17.08.2014.

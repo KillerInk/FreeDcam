@@ -29,7 +29,6 @@ import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
 import com.freedcam.apis.basecamera.interfaces.I_ModeParameter;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
-import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.device.BaseQcomDevice;
 import com.freedcam.apis.camera1.parameters.manual.BaseCCTManual;

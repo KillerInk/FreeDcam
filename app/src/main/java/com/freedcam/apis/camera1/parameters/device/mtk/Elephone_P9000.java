@@ -2,7 +2,6 @@ package com.freedcam.apis.camera1.parameters.device.mtk;
 
 import android.content.Context;
 import android.hardware.Camera;
-import android.os.Handler;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;

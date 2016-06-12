@@ -31,10 +31,11 @@ import com.freedcam.apis.basecamera.interfaces.I_ManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.camera1.CameraHolder.Frameworks;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
+import com.freedcam.apis.camera1.parameters.manual.BaseISOManual;
 import com.freedcam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK;
 import com.freedcam.apis.camera1.parameters.manual.mtk.FocusManualMTK;
-import com.freedcam.apis.camera1.parameters.manual.qcom_new.AE_Handler_QcomM;
 import com.freedcam.apis.camera1.parameters.manual.qcom_new.FocusManual_QcomM;
+import com.freedcam.apis.camera1.parameters.manual.qcom_new.ShutterManual_ExposureTime_Micro;
 import com.freedcam.apis.camera1.parameters.modes.BaseModeParameter;
 import com.troop.androiddng.DngProfile;
 
@@ -49,14 +50,11 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
 {
     private Frameworks frameworks;
     private AE_Handler_MTK ae_handler_mtk;
-    private AE_Handler_QcomM ae_handler_qcomM;
     public Xiaomi_Redmi_Note3_QC_MTK(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
         super(context, parameters, cameraUiWrapper);
         frameworks = cameraHolder.DeviceFrameWork;
         if (frameworks == Frameworks.MTK)
             ae_handler_mtk = new AE_Handler_MTK(context,parameters,cameraHolder, parametersHandler,2700);
-        else
-            ae_handler_qcomM = new AE_Handler_QcomM(context,parameters,cameraUiWrapper, parametersHandler);
     }
 
     @Override
@@ -71,7 +69,7 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
         if (frameworks == Frameworks.MTK)
             return ae_handler_mtk.shutterPrameter;
         else
-            return ae_handler_qcomM.getShutterManual();
+            return new ShutterManual_ExposureTime_Micro(context,parameters, parametersHandler,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME,false);
     }
     //gets set due ae handler
     @Override
@@ -79,7 +77,7 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
         if (frameworks == Frameworks.MTK)
             return ae_handler_mtk.isoManualParameter;
         else
-            return ae_handler_qcomM.getManualIso();
+            return new BaseISOManual(context,parameters,"continuous-iso",parameters.getInt("min-iso"),parameters.getInt("max-iso"), parametersHandler,1);
     }
 
     @Override
