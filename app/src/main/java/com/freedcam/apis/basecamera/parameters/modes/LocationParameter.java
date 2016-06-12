@@ -47,7 +47,9 @@ public class LocationParameter extends AbstractModeParameter implements Location
     private final int updateDistance = 15;
 
 
-    public LocationParameter(I_CameraUiWrapper cameraUiWrapper) {
+    public LocationParameter(I_CameraUiWrapper cameraUiWrapper)
+    {
+        this.cameraUiWrapper = cameraUiWrapper;
         locationManager = (LocationManager) cameraUiWrapper.getContext().getSystemService(Context.LOCATION_SERVICE);
         if (GetValue().equals(KEYS.ON))
             startLocationListing();

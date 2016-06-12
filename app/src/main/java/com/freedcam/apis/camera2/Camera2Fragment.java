@@ -74,22 +74,6 @@ public class Camera2Fragment extends AbstractCameraFragment implements TextureVi
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
-    }
-
-    @Override
     public void StartCamera() {
         cameraHolder.OpenCamera(appSettingsManager.GetCurrentCamera());
         Logger.d(TAG, "opencamera");
