@@ -23,6 +23,7 @@ import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.Logger;
@@ -38,7 +39,7 @@ public class AE_Handler_MTK
         private int currentShutter = 0;
         private Parameters parameters;
         boolean auto = true;
-        private ParametersHandler parametersHandler;
+        private I_CameraUiWrapper cameraUiWrapper;
 
         final String TAG = AE_Handler_MTK.class.getSimpleName();
 
@@ -48,11 +49,11 @@ public class AE_Handler_MTK
             iso,
         }
 
-        public AE_Handler_MTK(Context context, Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler, int maxiso)
+        public AE_Handler_MTK(Parameters parameters, I_CameraUiWrapper cameraUiWrapper, int maxiso)
         {
-            this.parametersHandler = parametersHandler;
-            isoManualParameter = new ISOManualParameterMTK(context,parameters,cameraHolder, parametersHandler, aeevent, maxiso);
-            shutterPrameter = new ShutterManualMtk(context,parameters, parametersHandler, aeevent);
+            this.cameraUiWrapper = cameraUiWrapper;
+            isoManualParameter = new ISOManualParameterMTK(parameters,cameraUiWrapper, aeevent, maxiso);
+            shutterPrameter = new ShutterManualMtk(parameters, cameraUiWrapper, aeevent);
             this.parameters = parameters;
         }
 
@@ -112,14 +113,14 @@ public class AE_Handler_MTK
                     }
                    // parameters.put("lg-manual-mode-reset", "0");
                 }
-                parametersHandler.SetParametersToCamera(parameters);
+                ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
                 if (automode) {
-                    String t = parametersHandler.IsoMode.GetValue();
+                    String t = cameraUiWrapper.GetParameterHandler().IsoMode.GetValue();
                     if (!t.equals(KEYS.ISO100))
-                        parametersHandler.IsoMode.SetValue(KEYS.ISO100, true);
+                        cameraUiWrapper.GetParameterHandler().IsoMode.SetValue(KEYS.ISO100, true);
                     else
-                        parametersHandler.IsoMode.SetValue(KEYS.AUTO, true);
-                    parametersHandler.IsoMode.SetValue(t, true);
+                        cameraUiWrapper.GetParameterHandler().IsoMode.SetValue(KEYS.AUTO, true);
+                    cameraUiWrapper.GetParameterHandler().IsoMode.SetValue(t, true);
                 }
             }
         };

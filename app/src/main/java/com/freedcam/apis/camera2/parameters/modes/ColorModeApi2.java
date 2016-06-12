@@ -24,6 +24,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera2.CameraHolder;
 import com.freedcam.utils.Logger;
 
@@ -58,9 +59,9 @@ public class ColorModeApi2 extends BaseModeApi2
 
     }
 
-    public ColorModeApi2(CameraHolder cameraHolder) {
-        super(cameraHolder);
-        int[] values = this.cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS);
+    public ColorModeApi2(I_CameraUiWrapper cameraUiWrapper) {
+        super(cameraUiWrapper);
+        int[] values = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS);
         if (values.length > 1)
             isSupported = true;
     }
@@ -77,7 +78,7 @@ public class ColorModeApi2 extends BaseModeApi2
         if (valueToSet.contains("unknown Scene"))
             return;
         ColorModes sceneModes = Enum.valueOf(ColorModes.class, valueToSet);
-        cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_EFFECT_MODE, sceneModes.ordinal());
+        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_EFFECT_MODE, sceneModes.ordinal());
         //cameraHolder.mPreviewRequestBuilder.build();
     }
 
@@ -86,7 +87,7 @@ public class ColorModeApi2 extends BaseModeApi2
     {
         int i = 0;
         try {
-            i = cameraHolder.get(CaptureRequest.CONTROL_EFFECT_MODE);
+            i = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.CONTROL_EFFECT_MODE);
         }
         catch (Exception ex)
         {
@@ -100,7 +101,7 @@ public class ColorModeApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        int[] values = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS);
+        int[] values = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS);
         String[] retvals = new String[values.length];
         for (int i = 0; i < values.length; i++)
         {

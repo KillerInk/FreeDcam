@@ -23,6 +23,7 @@ import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 
 import java.util.ArrayList;
@@ -34,9 +35,9 @@ public class BaseISOManual extends BaseManualParameter {
 
     private String cur_iso_mode = KEYS.AUTO;
 
-    public BaseISOManual(Context context,Parameters parameters, String value, int min, int max
-            , ParametersHandler parametersHandler, float step) {
-        super(context, parameters, value, "", "", parametersHandler, step);
+    public BaseISOManual(Parameters parameters, String value, int min, int max
+            , I_CameraUiWrapper cameraUiWrapper, float step) {
+        super(parameters, value, "", "", cameraUiWrapper, step);
         isSupported = true;
         isVisible = true;
         stringvalues = createStringArray(min,max,step);
@@ -57,16 +58,16 @@ public class BaseISOManual extends BaseManualParameter {
         {
             set_manual();
         }
-        parametersHandler.SetParametersToCamera(parameters);
+        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 
 
     protected void set_manual()
     {
-        cur_iso_mode = parametersHandler.IsoMode.GetValue();
+        cur_iso_mode = cameraUiWrapper.GetParameterHandler().IsoMode.GetValue();
 
-        if (!parametersHandler.IsoMode.GetValue().equals(KEYS.KEY_MANUAL_FOCUS_POSITION))
-            parametersHandler.FocusMode.SetValue(KEYS.KEY_MANUAL_FOCUS_POSITION, true);
+        if (!cameraUiWrapper.GetParameterHandler().IsoMode.GetValue().equals(KEYS.KEY_MANUAL_FOCUS_POSITION))
+            cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(KEYS.KEY_MANUAL_FOCUS_POSITION, true);
         parameters.set(key_value, stringvalues[currentInt]);
 
 
@@ -74,7 +75,7 @@ public class BaseISOManual extends BaseManualParameter {
 
     protected void set_to_auto()
     {
-        parametersHandler.FocusMode.SetValue(cur_iso_mode, true);
+        cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(cur_iso_mode, true);
 
     }
 

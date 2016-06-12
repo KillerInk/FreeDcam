@@ -21,6 +21,8 @@ package com.freedcam.apis.sonyremote.parameters.manual;
 
 import android.content.Context;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.sonyremote.parameters.ParameterHandler;
 import com.freedcam.apis.sonyremote.sonystuff.JsonUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
@@ -43,8 +45,8 @@ public class ZoomManualSony extends BaseManualParameterSony
 
     private boolean fromUser = false;
 
-    public ZoomManualSony(Context context, com.freedcam.apis.sonyremote.parameters.ParameterHandler parameterHandler) {
-        super(context, "actZoom", "", "actZoom", parameterHandler);
+    public ZoomManualSony(I_CameraUiWrapper cameraUiWrapper) {
+        super("actZoom", "", "actZoom", cameraUiWrapper);
     }
 
     @Override
@@ -64,7 +66,7 @@ public class ZoomManualSony extends BaseManualParameterSony
 
     @Override
     public boolean IsSupported() {
-        return ParameterHandler.mAvailableCameraApiSet != null && JsonUtils.isCameraApiAvailable("actZoom", ParameterHandler.mAvailableCameraApiSet);
+        return ((ParameterHandler)cameraUiWrapper.GetParameterHandler()).mAvailableCameraApiSet != null && JsonUtils.isCameraApiAvailable("actZoom", ((ParameterHandler)cameraUiWrapper.GetParameterHandler()).mAvailableCameraApiSet);
     }
 
     @Override
@@ -76,7 +78,7 @@ public class ZoomManualSony extends BaseManualParameterSony
                 @Override
                 public void run() {
                     try {
-                        JSONObject object = ParameterHandler.mRemoteApi.getEvent(false, "1.0");
+                        JSONObject object = mRemoteApi.getEvent(false, "1.0");
                         JSONArray array = object.getJSONArray("result");
                         JSONObject zoom = array.getJSONObject(2);
                         String zoompos = zoom.getString("zoomPosition");
@@ -117,7 +119,7 @@ public class ZoomManualSony extends BaseManualParameterSony
                 @Override
                 public void run() {
                     try {
-                        JSONObject object = ParameterHandler.mRemoteApi.actZoom(finaldirection, movement);
+                        JSONObject object = mRemoteApi.actZoom(finaldirection, movement);
                         isZooming = false;
                     } catch (IOException e) {
                         Logger.exception(e);

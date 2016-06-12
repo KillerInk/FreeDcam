@@ -51,22 +51,22 @@ public class ZTE_ADV extends BaseQcomDevice {
 
     @Override
     public I_ManualParameter getExposureTimeParameter() {
-        return new ShutterManualZTE(context,parameters, cameraHolder, parametersHandler);
+        return new ShutterManualZTE(parameters, cameraUiWrapper);
     }
 
     @Override
     public I_ManualParameter getManualFocusParameter() {
-        return new BaseFocusManual(context,parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,79,KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler,1,1);
+        return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,79,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,1,1);
     }
 
     @Override
     public I_ManualParameter getCCTParameter() {
-        return new BaseCCTManual(context,parameters,KEYS.WB_MANUAL_CCT,8000,2000, parametersHandler,100, KEYS.WB_MODE_MANUAL_CCT);
+        return new BaseCCTManual(parameters,KEYS.WB_MANUAL_CCT,8000,2000, cameraUiWrapper,100, KEYS.WB_MODE_MANUAL_CCT);
     }
 
     @Override
     public I_ManualParameter getSkintoneParameter() {
-        AbstractManualParameter Skintone = new SkintoneManualPrameter(context,parameters,parametersHandler);
+        AbstractManualParameter Skintone = new SkintoneManualPrameter(parameters,cameraUiWrapper);
         parametersHandler.PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
         cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(((BaseManualParameter) Skintone).GetModuleListner());
         return Skintone;

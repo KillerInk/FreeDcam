@@ -24,6 +24,7 @@ import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.parameters.manual.lg.AE_Handler_LGG4.AeManual;
@@ -40,9 +41,9 @@ public class ShutterManualParameterG4 extends BaseManualParameter
     private static String TAG = ShutterManualParameterG4.class.getSimpleName();
     private AeManualEvent manualevent;
 
-    public ShutterManualParameterG4(Context context,Parameters parameters, ParametersHandler parametersHandler, AeManualEvent manualevent)
+    public ShutterManualParameterG4(Parameters parameters, I_CameraUiWrapper cameraUiWrapper, AeManualEvent manualevent)
     {
-        super(context, parameters, parametersHandler,1);
+        super(parameters, cameraUiWrapper,1);
         isSupported = true;
         stringvalues = parameters.get(KEYS.LG_SHUTTER_SPEED_VALUES).replace(",0","").split(",");
         stringvalues[0] = KEYS.AUTO;

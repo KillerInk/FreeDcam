@@ -28,6 +28,7 @@ import android.hardware.Camera.Parameters;
 import android.os.Build.VERSION;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils.Devices;
@@ -40,37 +41,37 @@ public class BurstManualParam extends BaseManualParameter
 
     final String TAG = BurstManualParam.class.getSimpleName();
 
-    public BurstManualParam(Context context, Parameters parameters, ParametersHandler parametersHandler) {
-        super(context, parameters, "", "", "", parametersHandler,1);
+    public BurstManualParam(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, "", "", "", cameraUiWrapper,1);
 
-        if (parametersHandler.appSettingsManager.getDevice() == Devices.ZTEADVIMX214
-                || parametersHandler.appSettingsManager.getDevice() == Devices.ZTE_ADV
-                || parametersHandler.appSettingsManager.getDevice() == Devices.ZTEADVIMX214
-                || parametersHandler.appSettingsManager.getDevice() == Devices.LG_G3
-                ||  parametersHandler.appSettingsManager.getDevice() == Devices.LG_G2
-                || parametersHandler.appSettingsManager.getDevice() == Devices.XiaomiMI3W
-                || parametersHandler.appSettingsManager.getDevice() == Devices.XiaomiMI4W
-                ||  parametersHandler.appSettingsManager.getDevice()== Devices.LG_G4
+        if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G3
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G2
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W
+                || cameraUiWrapper.GetAppSettingsManager().getDevice()== Devices.LG_G4
                 || parameters.get(KEYS.NUM_SNAPS_PER_SHUTTER) != null
                 || parameters.get(KEYS.SNAPSHOT_BURST_NUM) != null
                 || parameters.get(KEYS.BURST_NUM)!= null)
         {
             isSupported = true;
             int max = 10;
-            if (parametersHandler.appSettingsManager.getDevice() == Devices.ZTEADVIMX214
-                    || parametersHandler.appSettingsManager.getDevice() == Devices.ZTE_ADV
-                    || parametersHandler.appSettingsManager.getDevice() == Devices.ZTEADVIMX214
-                    ||  parametersHandler.appSettingsManager.getDevice() == Devices.LG_G2)
+            if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214
+                    || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV
+                    || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214
+                    ||  cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G2)
                 max =  7;
-            else if (parametersHandler.appSettingsManager.getDevice() == Devices.LG_G3
-                    || parametersHandler.appSettingsManager.getDevice() == Devices.XiaomiMI4W)
+            else if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G3
+                    || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W)
                 max =  9;
-            else if (parametersHandler.appSettingsManager.getDevice() == Devices.XiaomiMI3W)
+            else if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W)
                 if (VERSION.SDK_INT < 23)
                     max =  6;
                 else
                     max =  10;
-            else if (parametersHandler.appSettingsManager.getDevice() == Devices.LG_G4)
+            else if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G4)
                 max =  6;
             stringvalues = createStringArray(2,max,1);
             currentInt = 0;
@@ -107,8 +108,8 @@ public class BurstManualParam extends BaseManualParameter
         currentInt = valueToSet;
 
         if (parameters.get(KEYS.NUM_SNAPS_PER_SHUTTER) != null
-                || parametersHandler.appSettingsManager.getDevice() == Devices.XiaomiMI3W
-                || parametersHandler.appSettingsManager.getDevice() == Devices.XiaomiMI4W)
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W)
         {
             if (currentInt == 0)
                 parameters.set(KEYS.NUM_SNAPS_PER_SHUTTER, 1+"");
@@ -134,7 +135,7 @@ public class BurstManualParam extends BaseManualParameter
             Logger.d(TAG, KEYS.BURST_NUM+ stringvalues[currentInt]);
         }
 
-        parametersHandler.SetParametersToCamera(parameters);
+        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
 
     }
 

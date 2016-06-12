@@ -23,6 +23,7 @@ import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.Logger;
 
@@ -30,8 +31,8 @@ import com.freedcam.utils.Logger;
  * Created by GeorgeKiarie on 02/04/2016.
  */
 public class FocusManualHuawei extends BaseFocusManual {
-    public FocusManualHuawei(Context context, Parameters parameters, ParametersHandler parametersHandler) {
-        super(context, parameters, KEYS.HW_MANUAL_FOCUS_STEP_VALUE, KEYS.HW_VCM_END_VALUE, KEYS.HW_VCM_START_VALUE, KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler, (float) 10, 0);
+    public FocusManualHuawei(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, KEYS.HW_MANUAL_FOCUS_STEP_VALUE, KEYS.HW_VCM_END_VALUE, KEYS.HW_VCM_START_VALUE, KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper, (float) 10, 0);
     }
 
     @Override
@@ -41,19 +42,19 @@ public class FocusManualHuawei extends BaseFocusManual {
 
         if (valueToSet == 0)
         {
-            parametersHandler.FocusMode.SetValue(KEYS.AUTO, true);
+            cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(KEYS.AUTO, true);
             parameters.set(KEYS.HW_HWCAMERA_FLAG,KEYS.ON);
             parameters.set(KEYS.HW_MANUAL_FOCUS_MODE,KEYS.OFF);
         }
         else
         {
-            if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !parametersHandler.FocusMode.GetValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
-                parametersHandler.FocusMode.SetValue(manualFocusModeString, false);
+            if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !cameraUiWrapper.GetParameterHandler().FocusMode.GetValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
+                cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(manualFocusModeString, false);
             parameters.set(KEYS.HW_HWCAMERA_FLAG,KEYS.ON);
             parameters.set(KEYS.HW_MANUAL_FOCUS_MODE,KEYS.ON);
             parameters.set(key_value, stringvalues[currentInt]);
             Logger.d(TAG, "Set " + key_value + " to : " + stringvalues[currentInt]);
-            parametersHandler.SetParametersToCamera(parameters);
+            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         }
     }
 }

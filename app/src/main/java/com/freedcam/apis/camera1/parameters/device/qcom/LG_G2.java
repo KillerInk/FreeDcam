@@ -68,7 +68,7 @@ public class LG_G2 extends AbstractDevice
 
     @Override
     public I_ManualParameter getManualFocusParameter() {
-        return new FocusManualParameterLG(context,parameters,cameraHolder, parametersHandler);
+        return new FocusManualParameterLG(parameters,cameraUiWrapper);
     }
 
     @Override

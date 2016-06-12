@@ -54,7 +54,7 @@ public class P8Lite extends AbstractDevice {
 
     @Override
     public AbstractManualParameter getExposureTimeParameter() {
-        return new ShutterManualKrillin(context, parameters,cameraHolder, parametersHandler);
+        return new ShutterManualKrillin(parameters, cameraUiWrapper);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class P8Lite extends AbstractDevice {
 
     @Override
     public AbstractManualParameter getManualFocusParameter() {
-        return new FocusManualHuawei(context,parameters, parametersHandler);
+        return new FocusManualHuawei(parameters, cameraUiWrapper);
     }
 
     @Override
@@ -98,11 +98,11 @@ public class P8Lite extends AbstractDevice {
 
     @Override
     public AbstractManualParameter getManualBrightness() {
-        return  new BaseManualParameter(context, parameters, "brightness", "max-brightness", "min-brightness", parametersHandler, 50);
+        return  new BaseManualParameter(parameters, "brightness", "max-brightness", "min-brightness", cameraUiWrapper, 50);
     }
 
     @Override
     public AbstractManualParameter getManualContrast() {
-        return new BaseManualParameter(context, parameters,"contrast", "max-contrast", "min-contrast",parametersHandler,25);
+        return new BaseManualParameter(parameters,"contrast", "max-contrast", "min-contrast",cameraUiWrapper,25);
     }
 }

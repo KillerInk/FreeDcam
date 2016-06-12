@@ -57,9 +57,9 @@ public class BaseQcomDevice extends AbstractDevice {
     {
         if (parameters.get(KEYS.MAX_EXPOSURE_TIME) != null && parameters.get(KEYS.EXPOSURE_TIME) != null && parameters.get(KEYS.MIN_EXPOSURE_TIME )!= null) {
             if (!parameters.get(KEYS.MAX_EXPOSURE_TIME).contains("."))
-                return new ShutterManual_ExposureTime_FloatToSixty(context,parameters, parametersHandler, true);
+                return new ShutterManual_ExposureTime_FloatToSixty(parameters, cameraUiWrapper, true);
             else
-                return new ShutterManual_ExposureTime_Micro(context, parameters, parametersHandler,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME, true);
+                return new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME, true);
         }
         return null;
     }
@@ -73,7 +73,7 @@ public class BaseQcomDevice extends AbstractDevice {
     public I_ManualParameter getManualFocusParameter()
     {
         if (parameters.get(KEYS.KEY_MANUAL_FOCUS_POSITION) != null && arrayContainsString(parametersHandler.FocusMode.GetValues(), KEYS.KEY_FOCUS_MODE_MANUAL))
-            return new BaseFocusManual(context,parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,1000,KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler,10,1);
+            return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,1000,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,10,1);
         return null;
     }
 
@@ -109,7 +109,7 @@ public class BaseQcomDevice extends AbstractDevice {
             wbModeval = KEYS.WB_MODE_MANUAL_CCT;
 
         if (!wbcur.equals("") && !wbmax.equals("") && !wbmin.equals("") && wbModeval.equals(""))
-            return new BaseCCTManual(context,parameters,wbcur,wbmax,wbmin, parametersHandler,100,wbModeval);
+            return new BaseCCTManual(parameters,wbcur,wbmax,wbmin, cameraUiWrapper,100,wbModeval);
         else
             return null;
     }

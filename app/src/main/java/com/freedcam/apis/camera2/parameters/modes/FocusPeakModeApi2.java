@@ -23,6 +23,7 @@ import android.annotation.TargetApi;
 import android.os.Build.VERSION_CODES;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera2.CameraHolder;
 
 /**
@@ -30,9 +31,9 @@ import com.freedcam.apis.camera2.CameraHolder;
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
 public class FocusPeakModeApi2 extends BaseModeApi2 {
-    public FocusPeakModeApi2(CameraHolder cameraHolder)
+    public FocusPeakModeApi2(I_CameraUiWrapper cameraUiWrapper)
     {
-        super(cameraHolder);
+        super(cameraUiWrapper);
     }
 
 
@@ -52,11 +53,11 @@ public class FocusPeakModeApi2 extends BaseModeApi2 {
     {
         if (valueToSet.equals(KEYS.ON))
         {
-            cameraHolder.FocusPeakEnable(true);
+            ((CameraHolder)cameraUiWrapper.GetCameraHolder()).FocusPeakEnable(true);
             BackgroundValueHasChanged("true");
         }
         else {
-            cameraHolder.FocusPeakEnable(false);
+            ((CameraHolder)cameraUiWrapper.GetCameraHolder()).FocusPeakEnable(false);
             BackgroundValueHasChanged("false");
         }
 
@@ -64,7 +65,7 @@ public class FocusPeakModeApi2 extends BaseModeApi2 {
 
     @Override
     public String GetValue() {
-        if (cameraHolder.isFocuspeakEnable())
+        if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).isFocuspeakEnable())
             return KEYS.ON;
         else
             return KEYS.OFF;

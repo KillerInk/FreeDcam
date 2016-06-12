@@ -23,6 +23,7 @@ import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.freedcam.utils.Logger;
@@ -34,12 +35,12 @@ import java.text.DecimalFormat;
  */
 public class ShutterManualParameterHTC extends BaseManualParameter
 {
-    private static String TAG = "freedcam.ShutterManualParameterHTC";
+    private static String TAG = ShutterManualParameterHTC.class.getSimpleName();
     private final String HTCShutterValues = "Auto,1/8000,1/6400,1/5000,1/4000,1/3200,1/2500,1/2000,1/1600,1/1250,1/1000,1/800,1/640,1/500,1/400,1/320,1/250,1/200,1/125,1/100,1/80,1/60,1/50,1/40,1/30,1/25,1/20,1/15,1/13,1/10,1/8,1/6,1/5,1/4,0.3,0.4,0.5,0.6,0.8,1,1.3,1.6,2,2.5,3.2,4";
     private DecimalFormat trimfloat = new DecimalFormat("#.######");
 
-    public ShutterManualParameterHTC(Context context, Parameters parameters, String maxValue, String MinValue, ParametersHandler parametersHandler) {
-        super(context, parameters, "", "", "", parametersHandler,1);
+    public ShutterManualParameterHTC(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, "", "", "", cameraUiWrapper,1);
         isSupported = true;
             stringvalues = HTCShutterValues.split(",");
     }
@@ -84,7 +85,7 @@ public class ShutterManualParameterHTC extends BaseManualParameter
 
     private void setShutterToAuto() {
         parameters.set("shutter", "-1");
-        parametersHandler.SetParametersToCamera(parameters);
+        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 
     private String setExposureTimeToParameter(String shutterstring)
@@ -92,7 +93,7 @@ public class ShutterManualParameterHTC extends BaseManualParameter
 
         shutterstring = trimfloat.format(Float.parseFloat(shutterstring));
         parameters.set("shutter", shutterstring);
-        parametersHandler.SetParametersToCamera(parameters);
+        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         return shutterstring;
     }
 }

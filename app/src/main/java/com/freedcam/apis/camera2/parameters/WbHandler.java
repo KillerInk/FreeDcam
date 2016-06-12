@@ -26,6 +26,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.RggbChannelVector;
 import android.os.Build.VERSION_CODES;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.camera2.CameraHolder;
 import com.freedcam.apis.camera2.parameters.modes.BaseModeApi2;
@@ -38,23 +39,21 @@ import java.util.HashMap;
  */
 public class WbHandler
 {
-    private CameraHolder cameraHolder;
-    private ParameterHandler parameterHandler;
+    private I_CameraUiWrapper cameraUiWrapper;
     private WhiteBalanceApi2 whiteBalanceApi2;
     private ColorCorrectionModeApi2 colorCorrectionMode;
     private ManualWbCtApi2 manualWbCt;
 
     private WhiteBalanceValues activeWbMode = WhiteBalanceValues.AUTO;
 
-    public WbHandler(Context context, CameraHolder cameraHolder, ParameterHandler parameterHandler)
+    public WbHandler(I_CameraUiWrapper cameraUiWrapper)
     {
-        this.cameraHolder= cameraHolder;
-        this.parameterHandler = parameterHandler;
+        this.cameraUiWrapper= cameraUiWrapper;
         colorCorrectionMode = new ColorCorrectionModeApi2();
         whiteBalanceApi2 = new WhiteBalanceApi2();
-        manualWbCt = new ManualWbCtApi2(context, this.parameterHandler);
-        this.parameterHandler.CCT = manualWbCt;
-        this.parameterHandler.WhiteBalanceMode = whiteBalanceApi2;
+        manualWbCt = new ManualWbCtApi2(cameraUiWrapper);
+        cameraUiWrapper.GetParameterHandler().CCT = manualWbCt;
+        cameraUiWrapper.GetParameterHandler().WhiteBalanceMode = whiteBalanceApi2;
         //dont make that avail for the ui
         //parameterHandler.ColorCorrectionMode = colorCorrectionMode;
 
@@ -120,8 +119,8 @@ public class WbHandler
 
         public WhiteBalanceApi2()
         {
-            super(cameraHolder);
-            int[] values = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES);
+            super(WbHandler.this.cameraUiWrapper);
+            int[] values = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES);
             if (values.length > 1)
                 isSupported = true;
             lastcctmode = colorCorrectionMode.GetValue();
@@ -144,13 +143,13 @@ public class WbHandler
             {
                 String t = valueToSet.substring(valueToSet.length() -2);
                 int i = Integer.parseInt(t);
-                cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AWB_MODE, i);
+                ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AWB_MODE, i);
             }
             else
             {
                 WhiteBalanceValues sceneModes = Enum.valueOf(WhiteBalanceValues.class, valueToSet);
                 setWbMode(sceneModes);
-                cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AWB_MODE, sceneModes.ordinal());
+                ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AWB_MODE, sceneModes.ordinal());
             }
             BackgroundValueHasChanged(valueToSet);
         }
@@ -158,10 +157,10 @@ public class WbHandler
         @Override
         public String GetValue()
         {
-            if (cameraHolder != null || !cameraHolder.get(CaptureRequest.CONTROL_AWB_MODE).equals("null"))
+            if (cameraUiWrapper.GetCameraHolder() != null || !((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.CONTROL_AWB_MODE).equals("null"))
             {
                 try {
-                    int i = cameraHolder.get(CaptureRequest.CONTROL_AWB_MODE);
+                    int i = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.CONTROL_AWB_MODE);
                     WhiteBalanceValues sceneModes = WhiteBalanceValues.values()[i];
                     return sceneModes.toString();
                 }
@@ -179,7 +178,7 @@ public class WbHandler
         @Override
         public String[] GetValues()
         {
-            int[] values = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES);
+            int[] values = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES);
             String[] retvals = new String[values.length];
             for (int i = 0; i < values.length; i++)
             {
@@ -212,8 +211,8 @@ public class WbHandler
 
         private final String TAG = ManualWbCtApi2.class.getSimpleName();
 
-        public ManualWbCtApi2(Context context,ParameterHandler camParametersHandler) {
-            super(context, camParametersHandler);
+        public ManualWbCtApi2(I_CameraUiWrapper cameraUiWrapper) {
+            super(cameraUiWrapper);
             stringvalues = createStringArray(1500,10000,100);
             cctLookup = getCctlooup();
             currentInt = 0;
@@ -263,7 +262,7 @@ public class WbHandler
             Logger.d(TAG, "r:" +rgb[0] +" g:"+rgb[1] +" b:"+rgb[2]);
             Logger.d(TAG, "ColorTemp=" + valueToSet + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
             wbChannelVector =  new RggbChannelVector(rf,gf,gf,bf);
-            cameraHolder.SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_GAINS, wbChannelVector);
+            ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_GAINS, wbChannelVector);
 
         }
 
@@ -299,7 +298,7 @@ public class WbHandler
 
         @Override
         public boolean IsSupported() {
-            isSupported = parametersHandler.WhiteBalanceMode.GetValue().equals("OFF");
+            isSupported = cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.GetValue().equals("OFF");
             return isSupported;
         }
 
@@ -316,12 +315,12 @@ public class WbHandler
     @TargetApi(VERSION_CODES.LOLLIPOP)
     public class ColorCorrectionModeApi2 extends BaseModeApi2 {
         public ColorCorrectionModeApi2() {
-            super(cameraHolder);
+            super(WbHandler.this.cameraUiWrapper);
         }
 
         @Override
         public boolean IsSupported() {
-            return cameraHolder != null && cameraHolder.get(CaptureRequest.COLOR_CORRECTION_MODE) != null;
+            return cameraUiWrapper.GetCameraHolder() != null && ((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.COLOR_CORRECTION_MODE) != null;
         }
 
         @Override
@@ -335,7 +334,7 @@ public class WbHandler
 
         private void setValue(ColorCorrectionModes modes)
         {
-            cameraHolder.SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_MODE, modes.ordinal());
+            ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_MODE, modes.ordinal());
         }
 
 
@@ -343,7 +342,7 @@ public class WbHandler
         public String GetValue()
         {
             try {
-                int i = cameraHolder.get(CaptureRequest.COLOR_CORRECTION_MODE);
+                int i = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.COLOR_CORRECTION_MODE);
                 ColorCorrectionModes sceneModes = ColorCorrectionModes.values()[i];
                 return sceneModes.toString();
             }

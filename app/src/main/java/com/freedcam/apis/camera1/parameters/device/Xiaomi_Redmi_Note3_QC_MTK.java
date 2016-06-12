@@ -54,7 +54,7 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
         super(context, parameters, cameraUiWrapper);
         frameworks = cameraHolder.DeviceFrameWork;
         if (frameworks == Frameworks.MTK)
-            ae_handler_mtk = new AE_Handler_MTK(context,parameters,cameraHolder, parametersHandler,2700);
+            ae_handler_mtk = new AE_Handler_MTK(parameters, cameraUiWrapper,2700);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
         if (frameworks == Frameworks.MTK)
             return ae_handler_mtk.shutterPrameter;
         else
-            return new ShutterManual_ExposureTime_Micro(context,parameters, parametersHandler,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME,false);
+            return new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME,false);
     }
     //gets set due ae handler
     @Override
@@ -77,16 +77,16 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
         if (frameworks == Frameworks.MTK)
             return ae_handler_mtk.isoManualParameter;
         else
-            return new BaseISOManual(context,parameters,"continuous-iso",parameters.getInt("min-iso"),parameters.getInt("max-iso"), parametersHandler,1);
+            return new BaseISOManual(parameters,"continuous-iso",parameters.getInt("min-iso"),parameters.getInt("max-iso"), cameraUiWrapper,1);
     }
 
     @Override
     public I_ManualParameter getManualFocusParameter()
     {
         if (frameworks == Frameworks.MTK)
-            return new FocusManualMTK(context,parameters, parametersHandler);
+            return new FocusManualMTK(parameters, cameraUiWrapper);
         else
-            return new FocusManual_QcomM(context,parameters, parametersHandler,1);
+            return new FocusManual_QcomM(parameters, cameraUiWrapper,1);
     }
 
     @Override

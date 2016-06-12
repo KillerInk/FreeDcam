@@ -24,6 +24,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera2.CameraHolder;
 
 /**
@@ -31,8 +32,8 @@ import com.freedcam.apis.camera2.CameraHolder;
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
 public class EdgeModeApi2 extends BaseModeApi2 {
-    public EdgeModeApi2(CameraHolder cameraHolder) {
-        super(cameraHolder);
+    public EdgeModeApi2(I_CameraUiWrapper cameraUiWrapper) {
+        super(cameraUiWrapper);
     }
 
     public enum EdgeModes
@@ -46,7 +47,7 @@ public class EdgeModeApi2 extends BaseModeApi2 {
     @Override
     public boolean IsSupported()
     {
-        return cameraHolder.characteristics.get(CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES) != null;
+        return ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES) != null;
     }
 
 
@@ -56,7 +57,7 @@ public class EdgeModeApi2 extends BaseModeApi2 {
         if (valueToSet.contains("unknown Focus"))
             return;
         EdgeModes sceneModes = Enum.valueOf(EdgeModes.class, valueToSet);
-        cameraHolder.SetParameterRepeating(CaptureRequest.EDGE_MODE, sceneModes.ordinal());
+        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.EDGE_MODE, sceneModes.ordinal());
         BackgroundValueHasChanged(valueToSet);
         //cameraHolder.mPreviewRequestBuilder.build();
     }
@@ -64,19 +65,16 @@ public class EdgeModeApi2 extends BaseModeApi2 {
     @Override
     public String GetValue()
     {
-
-        int i = cameraHolder.get(CaptureRequest.EDGE_MODE);
+        int i = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.EDGE_MODE);
         EdgeModes sceneModes = EdgeModes.values()[i];
         return sceneModes.toString();
-
-
     }
 
 
     @Override
     public String[] GetValues()
     {
-        int[] values = cameraHolder.characteristics.get(CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES);
+        int[] values = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.EDGE_AVAILABLE_EDGE_MODES);
         String[] retvals = new String[values.length];
         for (int i = 0; i < values.length; i++)
         {

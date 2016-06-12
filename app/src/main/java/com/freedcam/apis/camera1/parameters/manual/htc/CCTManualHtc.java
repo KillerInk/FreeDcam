@@ -23,6 +23,7 @@ import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.manual.BaseCCTManual;
 
@@ -31,8 +32,8 @@ import com.freedcam.apis.camera1.parameters.manual.BaseCCTManual;
  */
 public class CCTManualHtc extends BaseCCTManual {
 
-    public CCTManualHtc(Context context, Parameters parameters, ParametersHandler parametersHandler) {
-        super(context, parameters, KEYS.WB_CT, KEYS.MAX_WB_CT, KEYS.MIN_WB_CT, parametersHandler, (float) 100, "");
+    public CCTManualHtc(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, KEYS.WB_CT, KEYS.MAX_WB_CT, KEYS.MIN_WB_CT, cameraUiWrapper, (float) 100, "");
     }
 
     @Override

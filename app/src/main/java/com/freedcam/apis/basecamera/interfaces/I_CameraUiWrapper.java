@@ -19,6 +19,7 @@
 
 package com.freedcam.apis.basecamera.interfaces;
 
+import android.content.Context;
 import android.view.SurfaceView;
 
 import com.freedcam.apis.basecamera.AbstractFocusHandler;
@@ -101,5 +102,7 @@ public interface I_CameraUiWrapper extends I_CameraChangedListner
     int getPreviewHeight();
 
     boolean isAeMeteringSupported();
+
+    Context getContext();
 
 }

@@ -23,6 +23,9 @@ import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraChangedListner;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.basecamera.interfaces.I_Module;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.FreeDPool;
@@ -31,7 +34,7 @@ import com.freedcam.utils.Logger;
 /**
  * Created by troop on 27.01.2016.
  */
-public class AE_Handler_LGG4
+public class AE_Handler_LGG4 implements I_CameraChangedListner
 {
     private ISOManualParameterG4 isoManualParameter;
     private ShutterManualParameterG4 shutterPrameter;
@@ -45,20 +48,58 @@ public class AE_Handler_LGG4
 
     final String TAG = AE_Handler_LGG4.class.getSimpleName();
 
+    @Override
+    public void onCameraOpen(String message) {
+
+    }
+
+    @Override
+    public void onCameraOpenFinish(String message) {
+        aeevent.onManualChanged(AeManual.shutter,true,0);
+    }
+
+    @Override
+    public void onCameraClose(String message) {
+
+    }
+
+    @Override
+    public void onPreviewOpen(String message) {
+
+    }
+
+    @Override
+    public void onPreviewClose(String message)
+    {
+        readMetaData = false;
+    }
+
+    @Override
+    public void onCameraError(String error) {
+
+    }
+
+    @Override
+    public void onCameraStatusChanged(String status) {
+
+    }
+
+    @Override
+    public void onModuleChanged(I_Module module) {
+
+    }
+
     enum AeManual
     {
         shutter,
         iso,
     }
 
-    public AE_Handler_LGG4(Context context, Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler)
+    public AE_Handler_LGG4(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper)
     {
-        this.parametersHandler = parametersHandler;
-        isoManualParameter = new ISOManualParameterG4(context,parameters,cameraHolder, parametersHandler, aeevent);
-        shutterPrameter = new ShutterManualParameterG4(context, parameters, parametersHandler, aeevent);
+        isoManualParameter = new ISOManualParameterG4(parameters,cameraUiWrapper, aeevent);
+        shutterPrameter = new ShutterManualParameterG4(parameters, cameraUiWrapper, aeevent);
         this.parameters = parameters;
-        this.cameraHolder = cameraHolder;
-        aeevent.onManualChanged(AeManual.shutter,true,0);
     }
 
     public ISOManualParameterG4 getManualIso()

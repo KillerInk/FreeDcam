@@ -24,6 +24,7 @@ import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.manual.BaseFocusManual;
 import com.freedcam.utils.Logger;
@@ -34,9 +35,9 @@ import com.freedcam.utils.Logger;
 public class FocusManualMTK extends BaseFocusManual {
 
     private final String TAG = FocusManualMTK.class.getSimpleName();
-    public FocusManualMTK(Context context,Parameters parameters, ParametersHandler parametersHandler) {
+    public FocusManualMTK(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
         //TODO check if AFENG_FI_MIN/MAX can get used
-        super(context, parameters, KEYS.AFENG_POS, 0, 1023, KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler, (float) 10, 1);
+        super(parameters, KEYS.AFENG_POS, 0, 1023, KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper, (float) 10, 1);
         isSupported = true;
         isVisible = true;
         manualFocusModeString = KEYS.KEY_FOCUS_MODE_MANUAL;
@@ -50,16 +51,16 @@ public class FocusManualMTK extends BaseFocusManual {
 
         if (valueToSet == 0)
         {
-            parametersHandler.FocusMode.SetValue(KEYS.AUTO, true);
+            cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(KEYS.AUTO, true);
         }
         else
         {
-            if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !parametersHandler.FocusMode.GetValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
-                parametersHandler.FocusMode.SetValue(manualFocusModeString, false);
+            if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !cameraUiWrapper.GetParameterHandler().FocusMode.GetValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
+                cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(manualFocusModeString, false);
 
             parameters.set(key_value, stringvalues[currentInt]);
             Logger.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
-            parametersHandler.SetParametersToCamera(parameters);
+            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         }
     }
 }

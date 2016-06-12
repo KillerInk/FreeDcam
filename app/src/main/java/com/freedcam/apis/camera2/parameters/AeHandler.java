@@ -57,10 +57,10 @@ public class AeHandler
         this.cameraUiWrapper = cameraUiWrapper;
         this.cameraHolder = (CameraHolder) cameraUiWrapper.GetCameraHolder();
         this.parameterHandler = (ParameterHandler) cameraUiWrapper.GetParameterHandler();
-        aeModeApi2 = new AeModeApi2(this.cameraHolder);
-        manualExposureApi2 = new ManualExposureApi2(context,parameterHandler);
-        manualExposureTimeApi2 = new ManualExposureTimeApi2(parameterHandler, context);
-        manualISoApi2 = new ManualISoApi2(context, parameterHandler);
+        aeModeApi2 = new AeModeApi2(cameraUiWrapper);
+        manualExposureApi2 = new ManualExposureApi2(cameraUiWrapper);
+        manualExposureTimeApi2 = new ManualExposureTimeApi2(cameraUiWrapper);
+        manualISoApi2 = new ManualISoApi2(cameraUiWrapper);
         //pass stuff to the parameterhandler that it get used by the ui
         parameterHandler.ExposureMode = aeModeApi2;
         parameterHandler.ManualShutter = manualExposureTimeApi2;
@@ -116,8 +116,8 @@ public class AeHandler
     {
         private boolean isSupported = false;
         private String[] aemodeStringValues;
-        public AeModeApi2(CameraHolder cameraHolder) {
-            super(cameraHolder);
+        public AeModeApi2(I_CameraUiWrapper cameraUiWrapper) {
+            super(cameraUiWrapper);
             int[] values = AeHandler.this.cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES);
             aemodeStringValues= new String[values.length];
             for (int i = 0; i < values.length; i++)
@@ -171,8 +171,8 @@ public class AeHandler
     {
         final String TAG = ManualExposureApi2.class.getSimpleName();
 
-        public ManualExposureApi2(Context context, ParameterHandler parameterHandler) {
-            super(context, parameterHandler);
+        public ManualExposureApi2(I_CameraUiWrapper cameraUiWrapper) {
+            super(cameraUiWrapper);
             int max = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getUpper();
             int min = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_RANGE).getLower();
             float step = cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_COMPENSATION_STEP).floatValue();
@@ -231,8 +231,8 @@ public class AeHandler
     {
         final String TAG = ManualExposureTimeApi2.class.getSimpleName();
         private int millimax = 0;
-        public ManualExposureTimeApi2(ParameterHandler camParametersHandler, Context context) {
-            super(camParametersHandler, context);
+        public ManualExposureTimeApi2(I_CameraUiWrapper cameraUiWrapper) {
+            super(cameraUiWrapper);
             isSupported = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE) != null;
             try {
                 findMinMaxValue();
@@ -296,7 +296,7 @@ public class AeHandler
             if (valueToSet > 0) {
                 long val = (long) (getMilliSecondStringFromShutterString(stringvalues[valueToSet]) * 1000f);
                 Logger.d(TAG, "ExposureTimeToSet:" + val);
-                if (val > 800000000 &&!parametersHandler.Module.GetValue().equals("Stack")) {
+                if (val > 800000000 &&!cameraUiWrapper.GetParameterHandler().Module.GetValue().equals("Stack")) {
                     Logger.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
                     val = 800000000;
                 }
@@ -332,8 +332,8 @@ public class AeHandler
     public class ManualISoApi2 extends ManualExposureTimeApi2
     {
         final String TAG = ManualISoApi2.class.getSimpleName();
-        public ManualISoApi2(Context context, ParameterHandler camParametersHandler) {
-            super(camParametersHandler, context);
+        public ManualISoApi2(I_CameraUiWrapper cameraUiWrapper) {
+            super(cameraUiWrapper);
             currentInt = 0;
             ArrayList<String> ar = new ArrayList<>();
             try {

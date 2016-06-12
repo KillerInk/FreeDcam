@@ -24,6 +24,7 @@ import android.graphics.ImageFormat;
 import android.os.Build.VERSION_CODES;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera2.CameraHolder;
 
 import java.util.ArrayList;
@@ -33,13 +34,11 @@ import java.util.ArrayList;
  */
 public class PictureFormatParameterApi2 extends BaseModeApi2
 {
-    private CameraHolder cameraHolder;
     boolean firststart = true;
     private String format = KEYS.JPEG;
-    public PictureFormatParameterApi2(CameraHolder cameraHolder)
+    public PictureFormatParameterApi2(I_CameraUiWrapper cameraUiWrapper)
     {
-        super(cameraHolder);
-        this.cameraHolder = cameraHolder;
+        super(cameraUiWrapper);
     }
 
     @Override
@@ -54,8 +53,8 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
         format = valueToSet;
         if (setToCamera)
         {
-            cameraHolder.StopPreview();
-            cameraHolder.StartPreview();
+            cameraUiWrapper.GetCameraHolder().StopPreview();
+            cameraUiWrapper.GetCameraHolder().StartPreview();
         }
 
 
@@ -71,13 +70,13 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
     public String[] GetValues()
     {
         ArrayList<String> ret = new ArrayList<>();
-        if (cameraHolder.map.isOutputSupportedFor(ImageFormat.RAW10))
+        if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).map.isOutputSupportedFor(ImageFormat.RAW10))
             ret.add(CameraHolder.RAW10);
-        if (cameraHolder.map.isOutputSupportedFor(ImageFormat.RAW_SENSOR))
+        if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).map.isOutputSupportedFor(ImageFormat.RAW_SENSOR))
             ret.add(CameraHolder.RAW_SENSOR);
-        if(cameraHolder.map.isOutputSupportedFor(ImageFormat.JPEG))
+        if(((CameraHolder)cameraUiWrapper.GetCameraHolder()).map.isOutputSupportedFor(ImageFormat.JPEG))
             ret.add(KEYS.JPEG);
-        if (cameraHolder.map.isOutputSupportedFor(ImageFormat.RAW12))
+        if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).map.isOutputSupportedFor(ImageFormat.RAW12))
             ret.add(CameraHolder.RAW12);
         return ret.toArray(new String[ret.size()]);
     }

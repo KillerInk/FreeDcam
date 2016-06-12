@@ -24,6 +24,7 @@ import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 
 /**
@@ -31,9 +32,9 @@ import com.freedcam.apis.camera1.parameters.ParametersHandler;
  */
 public class ZoomManualParameter extends  BaseManualParameter
 {
-    public ZoomManualParameter(Context context, Parameters parameters, ParametersHandler parametersHandler)
+    public ZoomManualParameter(Parameters parameters, I_CameraUiWrapper cameraUiWrapper)
     {
-        super(context, parameters,parametersHandler,1);
+        super(parameters,cameraUiWrapper,1);
         key_value = KEYS.ZOOM;
         isSupported = false;
         if (parameters.get(KEYS.ZOOM_SUPPORTED)!= null)
@@ -50,6 +51,6 @@ public class ZoomManualParameter extends  BaseManualParameter
     public void SetValue(int valueToset) {
         currentInt = valueToset;
         parameters.set(key_value, valueToset);
-        parametersHandler.SetParametersToCamera(parameters);
+        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 }

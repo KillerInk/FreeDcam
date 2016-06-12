@@ -51,7 +51,7 @@ public class BaseMTKDevice extends AbstractDevice
 
     public BaseMTKDevice(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
         super(context, parameters, cameraUiWrapper);
-        ae_handler_mtk = new AE_Handler_MTK(context,parameters,cameraHolder, parametersHandler,1600);
+        ae_handler_mtk = new AE_Handler_MTK(parameters, cameraUiWrapper,1600);
         parameters.set("afeng_raw_dump_flag", "1");
         parameters.set("rawsave-mode", "2");
         parameters.set("isp-mode", "1");
@@ -78,7 +78,7 @@ public class BaseMTKDevice extends AbstractDevice
     public I_ManualParameter getManualFocusParameter()
     {
         if(parameters.get("afeng-max-focus-step")!=null)
-            return new FocusManualMTK(context,parameters, parametersHandler);
+            return new FocusManualMTK(parameters, cameraUiWrapper);
        /* else  if(parameters.get("focus-fs-fi-max") != null)
             return new FocusManualMTK(parameters,"focus-fs-fi","focus-fs-fi-max","focus-fs-fi-min", parametersHandler,10,0);*/
         else
@@ -98,23 +98,23 @@ public class BaseMTKDevice extends AbstractDevice
     @Override
     public I_ManualParameter getManualSaturation() {
         if (parameters.get(KEYS.SATURATION)!= null && parameters.get(KEYS.SATURATION_VALUES)!= null)
-                return new BaseManualParamMTK(context,parameters,KEYS.SATURATION, KEYS.SATURATION_VALUES,parametersHandler);
+                return new BaseManualParamMTK(parameters,KEYS.SATURATION, KEYS.SATURATION_VALUES,cameraUiWrapper);
         return null;
     }
 
     @Override
     public I_ManualParameter getManualSharpness() {
-        return new BaseManualParamMTK(context,parameters,"edge","edge-values",parametersHandler);
+        return new BaseManualParamMTK(parameters,"edge","edge-values",cameraUiWrapper);
     }
 
     @Override
     public I_ManualParameter getManualBrightness() {
-        return new BaseManualParamMTK(context,parameters,"brightness", "brightness-values",parametersHandler);
+        return new BaseManualParamMTK(parameters,"brightness", "brightness-values",cameraUiWrapper);
     }
 
     @Override
     public I_ManualParameter getManualContrast() {
-        return  new BaseManualParamMTK(context,parameters,"contrast","contrast-values",parametersHandler);
+        return  new BaseManualParamMTK(parameters,"contrast","contrast-values",cameraUiWrapper);
     }
 
     @Override

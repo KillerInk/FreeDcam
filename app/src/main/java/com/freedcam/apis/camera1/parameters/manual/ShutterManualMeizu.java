@@ -24,6 +24,7 @@ import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.Logger;
 import com.troop.freedcam.R;
@@ -38,13 +39,13 @@ public class ShutterManualMeizu extends BaseManualParameter
 
     /**
      * @param parameters
-     * @param parametersHandler
+     * @param cameraUiWrapper
      */
-    public ShutterManualMeizu(Context context, Parameters parameters, I_CameraHolder baseCameraHolder, ParametersHandler parametersHandler) {
-        super(context, parameters, "", "", "", parametersHandler,1);
+    public ShutterManualMeizu(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, "", "", "", cameraUiWrapper,1);
         this.baseCameraHolder = baseCameraHolder;
 
-            stringvalues = context.getResources().getStringArray(R.array.shutter_values_meizu);
+            stringvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.shutter_values_meizu);
 
         isSupported = true;
     }
@@ -91,7 +92,7 @@ public class ShutterManualMeizu extends BaseManualParameter
     private String setExposureTimeToParameter(String shutterstring)
     {
         parameters.set("shutter-value", shutterstring);
-        parametersHandler.SetParametersToCamera(parameters);
+        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
 
 
         baseCameraHolder.StopPreview();

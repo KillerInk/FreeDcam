@@ -43,7 +43,7 @@ public class Huawei_GX8 extends BaseQcomDevice {
 
     @Override
     public AbstractManualParameter getManualFocusParameter() {
-        return new FocusManualHuawei(context, parameters,parametersHandler);
+        return new FocusManualHuawei(parameters,cameraUiWrapper);
     }
 
     @Override

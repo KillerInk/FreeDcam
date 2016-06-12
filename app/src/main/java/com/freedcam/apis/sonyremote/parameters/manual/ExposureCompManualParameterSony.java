@@ -21,6 +21,8 @@ package com.freedcam.apis.sonyremote.parameters.manual;
 
 import android.content.Context;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.sonyremote.parameters.ParameterHandler;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 
@@ -36,8 +38,8 @@ import java.io.IOException;
 public class ExposureCompManualParameterSony extends BaseManualParameterSony
 {
     private static String TAG = ExposureCompManualParameterSony.class.getSimpleName();
-    public ExposureCompManualParameterSony(Context context, com.freedcam.apis.sonyremote.parameters.ParameterHandler parameterHandler) {
-        super(context, "getExposureCompensation", "getAvailableExposureCompensation", "setExposureCompensation", parameterHandler);
+    public ExposureCompManualParameterSony(I_CameraUiWrapper cameraUiWrapper) {
+        super("getExposureCompensation", "getAvailableExposureCompensation", "setExposureCompensation", cameraUiWrapper);
         currentInt = -200;
     }
 
@@ -63,7 +65,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                     else
                         toset = valueToSet;
                     array = new JSONArray().put(0, Integer.parseInt(stringvalues[toset]));
-                    JSONObject object =  ParameterHandler.mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
+                    JSONObject object =  ((ParameterHandler)cameraUiWrapper.GetParameterHandler()).mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
 
                         //ThrowCurrentValueChanged(valueToSet);
                 } catch (JSONException e) {
@@ -89,7 +91,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                 {
                     try {
                         Logger.d(TAG, "try get min max values ");
-                        JSONObject object =  ParameterHandler.mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
+                        JSONObject object =  ((ParameterHandler)cameraUiWrapper.GetParameterHandler()).mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                         JSONArray array = object.getJSONArray("result");
                         int min = array.getInt(2);
                         int max = array.getInt(1);

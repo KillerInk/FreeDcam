@@ -23,6 +23,7 @@ import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.Logger;
@@ -49,11 +50,9 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
      */
     protected String key_min_value;
 
-    protected ParametersHandler parametersHandler;
-
-    public ShutterManual_ExposureTime_Micro(Context context,Parameters parameters, ParametersHandler parametersHandler, String[] shuttervalues, String key_value)
+    public ShutterManual_ExposureTime_Micro(Parameters parameters, I_CameraUiWrapper cameraUiWrapper, String[] shuttervalues, String key_value)
     {
-        super(parametersHandler, context);
+        super(cameraUiWrapper);
         stringvalues = shuttervalues;
         this.key_value = key_value;
         parameters.set(key_value, "0");
@@ -62,11 +61,10 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
 
     /**
      * @param parameters
-     * @param parametersHandler
+     * @param cameraUiWrapper
      */
-    public ShutterManual_ExposureTime_Micro(Context context,Parameters parameters, ParametersHandler parametersHandler,String key_value, String maxval , String minval, boolean withauto) {
-        super(parametersHandler, context);
-        this.parametersHandler = parametersHandler;
+    public ShutterManual_ExposureTime_Micro(Parameters parameters, I_CameraUiWrapper cameraUiWrapper,String key_value, String maxval , String minval, boolean withauto) {
+        super(cameraUiWrapper);
         this.parameters = parameters;
         this.key_value = key_value;
         key_max_value = maxval;
@@ -131,6 +129,6 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
             parameters.set(key_value, "0");
             Logger.d(TAG, "set exposure time to auto");
         }
-        parametersHandler.SetParametersToCamera(parameters);
+        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 }

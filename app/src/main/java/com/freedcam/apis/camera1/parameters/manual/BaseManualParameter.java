@@ -23,6 +23,7 @@ import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
@@ -57,10 +58,6 @@ public class BaseManualParameter extends AbstractManualParameter
 
     protected float step;
 
-    protected ParametersHandler parametersHandler;
-
-
-
     private int default_value = 0;
     public void Set_Default_Value(int val){default_value = val; Logger.d(TAG, "set default to:" + val);}
     public int Get_Default_Value(){return default_value;}
@@ -75,10 +72,9 @@ public class BaseManualParameter extends AbstractManualParameter
         }
     }
 
-    public BaseManualParameter(Context context, Parameters parameters, ParametersHandler parametersHandler, float step)
+    public BaseManualParameter(Parameters parameters, I_CameraUiWrapper cameraUiWrapper, float step)
     {
-        super(context, parametersHandler);
-        this.parametersHandler = parametersHandler;
+        super(cameraUiWrapper);
         this.parameters = parameters;
         this.step =step;
     }
@@ -89,10 +85,9 @@ public class BaseManualParameter extends AbstractManualParameter
      * @param @key_max_value
      * @param @key_min_value
      * @param @parametersHandler
-     * @param context
      */
-    public BaseManualParameter(Context context, Parameters parameters, String key_value, String maxValue, String MinValue, ParametersHandler parametersHandler, float step) {
-        this(context, parameters,parametersHandler,step);
+    public BaseManualParameter(Parameters parameters, String key_value, String maxValue, String MinValue, I_CameraUiWrapper cameraUiWrapper, float step) {
+        this(parameters,cameraUiWrapper,step);
         this.key_value = key_value;
         key_max_value = maxValue;
         key_min_value = MinValue;
@@ -172,7 +167,7 @@ public class BaseManualParameter extends AbstractManualParameter
         ThrowCurrentValueStringCHanged(stringvalues[valueToset]);
         try
         {
-            parametersHandler.SetParametersToCamera(parameters);
+            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         }
         catch (Exception ex)
         {

@@ -40,7 +40,7 @@ public class LG_G4 extends LG_G2
     private AE_Handler_LGG4 ae_handler_lgg4;
     public LG_G4(Context context, Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
         super(context,parameters,cameraUiWrapper);
-        ae_handler_lgg4 = new AE_Handler_LGG4(context, parameters,cameraHolder, parametersHandler);
+        ae_handler_lgg4 = new AE_Handler_LGG4(context, parameters, cameraUiWrapper);
         parameters.set("lge-camera","1");
     }
 
@@ -56,12 +56,12 @@ public class LG_G4 extends LG_G2
 
     @Override
     public AbstractManualParameter getManualFocusParameter() {
-        return new FocusManualParameterLG(context,parameters,cameraHolder, parametersHandler);
+        return new FocusManualParameterLG(parameters,cameraUiWrapper);
     }
 
     @Override
     public AbstractManualParameter getCCTParameter() {
-        return new CCTManualG4(context,parameters, parametersHandler);
+        return new CCTManualG4(parameters, cameraUiWrapper);
     }
     public boolean IsDngSupported() {
         return true;
@@ -79,7 +79,7 @@ public class LG_G4 extends LG_G2
 
     @Override
     public AbstractManualParameter getManualSaturation() {
-        return new BaseManualParameter(context, parameters, KEYS.LG_COLOR_ADJUST,KEYS.LG_COLOR_ADJUST_MAX,KEYS.LG_COLOR_ADJUST_MIN,parametersHandler,1);
+        return new BaseManualParameter(parameters, KEYS.LG_COLOR_ADJUST,KEYS.LG_COLOR_ADJUST_MAX,KEYS.LG_COLOR_ADJUST_MIN,cameraUiWrapper,1);
     }
 
     @Override

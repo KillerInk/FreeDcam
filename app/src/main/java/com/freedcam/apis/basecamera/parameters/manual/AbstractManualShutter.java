@@ -22,7 +22,7 @@ package com.freedcam.apis.basecamera.parameters.manual;
 import android.content.Context;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.troop.freedcam.R;
 
 import java.util.ArrayList;
@@ -32,13 +32,13 @@ import java.util.ArrayList;
  */
 public class AbstractManualShutter extends AbstractManualParameter
 {
-    public AbstractManualShutter(AbstractParameterHandler camParametersHandler, Context context) {
-        super(context, camParametersHandler);
+    public AbstractManualShutter(I_CameraUiWrapper cameraUiWrapper) {
+        super(cameraUiWrapper);
     }
 
     public String[] getSupportedShutterValues(int minMillisec, int maxMiliisec, boolean withautomode)
     {
-        String[] allvalues = context.getResources().getStringArray(R.array.shutter_values_autocreate);
+        String[] allvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.shutter_values_autocreate);
         boolean foundmin = false;
         boolean foundmax = false;
         ArrayList<String> tmp = new ArrayList<>();

@@ -24,6 +24,7 @@ import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.troop.freedcam.R;
 
@@ -34,11 +35,11 @@ public class ShutterManualKrillin extends BaseManualParameter {
 
     private static String TAG = ShutterManualKrillin.class.getSimpleName();
 
-    public ShutterManualKrillin(Context context, Parameters parameters, I_CameraHolder baseCameraHolder, ParametersHandler parametersHandler) {
-        super(context, parameters, "", "", "", parametersHandler, 1);
+    public ShutterManualKrillin(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, "", "", "", cameraUiWrapper, 1);
         isSupported = true;
         isVisible = isSupported;
-        stringvalues = context.getResources().getStringArray(R.array.shutter_values_krillin);
+        stringvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.shutter_values_krillin);
     }
 
     @Override

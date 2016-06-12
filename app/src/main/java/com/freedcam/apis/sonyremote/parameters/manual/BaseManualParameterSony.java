@@ -21,8 +21,10 @@ package com.freedcam.apis.sonyremote.parameters.manual;
 
 import android.content.Context;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter.I_ManualParameterEvent;
+import com.freedcam.apis.sonyremote.parameters.ParameterHandler;
 import com.freedcam.apis.sonyremote.parameters.modes.I_SonyApi;
 import com.freedcam.apis.sonyremote.sonystuff.JsonUtils;
 import com.freedcam.apis.sonyremote.sonystuff.SimpleRemoteApi;
@@ -45,7 +47,6 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     protected String VALUE_TO_GET;
     protected String VALUES_TO_GET;
     protected String VALUE_TO_SET;
-    protected com.freedcam.apis.sonyremote.parameters.ParameterHandler ParameterHandler;
     protected SimpleRemoteApi mRemoteApi;
     protected Set<String> mAvailableCameraApiSet;
     boolean isSupported = false;
@@ -55,14 +56,13 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
 
     private static String TAG = BaseManualParameterSony.class.getSimpleName();
 
-    public BaseManualParameterSony(Context context,String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, com.freedcam.apis.sonyremote.parameters.ParameterHandler parameterHandler)
+    public BaseManualParameterSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, I_CameraUiWrapper cameraUiWrapper)
     {
-        super(context, parameterHandler);
+        super(cameraUiWrapper);
         this.VALUE_TO_GET = VALUE_TO_GET;
         this.VALUES_TO_GET = VALUES_TO_GET;
         this.VALUE_TO_SET = VALUE_TO_SET;
-        ParameterHandler = parameterHandler;
-        mRemoteApi = parameterHandler.mRemoteApi;
+        mRemoteApi = ((ParameterHandler)cameraUiWrapper.GetParameterHandler()).mRemoteApi;
         addEventListner(this);
 
     }
@@ -113,7 +113,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                     try
                     {
                         sendLog("Trying to get String Values from: " +VALUES_TO_GET);
-                        JSONObject object =  ParameterHandler.mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
+                        JSONObject object =  mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                         JSONArray array = object.getJSONArray("result");
                         JSONArray subarray = array.getJSONArray(1);
                         stringvalues = JsonUtils.ConvertJSONArrayToStringArray(subarray);
@@ -149,7 +149,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                 JSONArray array = null;
                 try {
                     array = new JSONArray().put(0, val);
-                    JSONObject object =  ParameterHandler.mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
+                    JSONObject object =  mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
                     ThrowCurrentValueChanged(valueToSet);
                 } catch (JSONException | IOException e) {
                     Logger.exception(e);

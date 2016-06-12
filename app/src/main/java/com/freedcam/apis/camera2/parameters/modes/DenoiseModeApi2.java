@@ -24,6 +24,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera2.CameraHolder;
 
 /**
@@ -40,13 +41,13 @@ public class DenoiseModeApi2 extends BaseModeApi2
 
     }
 
-    public DenoiseModeApi2(CameraHolder cameraHolder) {
-        super(cameraHolder);
+    public DenoiseModeApi2(I_CameraUiWrapper cameraUiWrapper) {
+        super(cameraUiWrapper);
     }
 
     @Override
     public boolean IsSupported() {
-        return cameraHolder != null && cameraHolder.get(CaptureRequest.NOISE_REDUCTION_MODE) != null;
+        return cameraUiWrapper.GetCameraHolder() != null && ((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.NOISE_REDUCTION_MODE) != null;
     }
 
     @Override
@@ -55,7 +56,7 @@ public class DenoiseModeApi2 extends BaseModeApi2
         if (valueToSet.contains("unknown Scene"))
             return;
         DeNoiseModes sceneModes = Enum.valueOf(DeNoiseModes.class, valueToSet);
-        cameraHolder.SetParameterRepeating(CaptureRequest.NOISE_REDUCTION_MODE, sceneModes.ordinal());
+        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.NOISE_REDUCTION_MODE, sceneModes.ordinal());
         BackgroundValueHasChanged(valueToSet);
     }
 
@@ -63,7 +64,7 @@ public class DenoiseModeApi2 extends BaseModeApi2
     @Override
     public String GetValue()
     {
-        int i = cameraHolder.get(CaptureRequest.NOISE_REDUCTION_MODE);
+        int i = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.NOISE_REDUCTION_MODE);
         DeNoiseModes sceneModes = DeNoiseModes.values()[i];
         return sceneModes.toString();
 
@@ -73,7 +74,7 @@ public class DenoiseModeApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        int[] values = cameraHolder.characteristics.get(CameraCharacteristics.NOISE_REDUCTION_AVAILABLE_NOISE_REDUCTION_MODES);
+        int[] values = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.NOISE_REDUCTION_AVAILABLE_NOISE_REDUCTION_MODES);
         String[] retvals = new String[values.length];
         for (int i = 0; i < values.length; i++)
         {

@@ -23,6 +23,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
@@ -34,11 +35,9 @@ import com.freedcam.apis.camera2.CameraHolder;
 public class BurstApi2 extends AbstractManualParameter implements I_ModeParameterEvent
 {
     int current = 1;
-    CameraHolder cameraHolder;
 
-    public BurstApi2(Context context, AbstractParameterHandler camParametersHandler, CameraHolder cameraHolder) {
-        super(context, camParametersHandler);
-        this.cameraHolder = cameraHolder;
+    public BurstApi2(I_CameraUiWrapper cameraUiWrapper) {
+        super(cameraUiWrapper);
     }
 
     @Override
@@ -99,7 +98,7 @@ public class BurstApi2 extends AbstractManualParameter implements I_ModeParamete
         h.post(new Runnable() {
             @Override
             public void run() {
-                cameraHolder.StopPreview();
+                cameraUiWrapper.StopPreview();
                 //TODO FIX BURST
                 //cameraHolder.SetBurst(current+1);
             }

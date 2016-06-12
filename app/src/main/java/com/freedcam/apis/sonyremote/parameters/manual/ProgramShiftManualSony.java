@@ -21,6 +21,8 @@ package com.freedcam.apis.sonyremote.parameters.manual;
 
 import android.content.Context;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
+import com.freedcam.apis.sonyremote.parameters.ParameterHandler;
 import com.freedcam.apis.sonyremote.sonystuff.JsonUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
@@ -41,10 +43,10 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
     private final String TAG = ProgramShiftManualSony.class.getSimpleName();
     private BaseManualParameterSony shutter;
     private BaseManualParameterSony fnumber;
-    public ProgramShiftManualSony(Context context, com.freedcam.apis.sonyremote.parameters.ParameterHandler parameterHandler) {
-        super(context, "", "getSupportedProgramShift", "setProgramShift", parameterHandler);
-        shutter = (BaseManualParameterSony) parameterHandler.ManualShutter;
-        fnumber = (BaseManualParameterSony) parameterHandler.ManualFNumber;
+    public ProgramShiftManualSony(I_CameraUiWrapper cameraUiWrapper) {
+        super("", "getSupportedProgramShift", "setProgramShift", cameraUiWrapper);
+        shutter = (BaseManualParameterSony) cameraUiWrapper.GetParameterHandler().ManualShutter;
+        fnumber = (BaseManualParameterSony) cameraUiWrapper.GetParameterHandler().ManualFNumber;
     }
 
     @Override
@@ -93,7 +95,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                     try
                     {
                         Logger.d(TAG, "Trying to get String Values from: " + VALUES_TO_GET);
-                        JSONObject object =  ParameterHandler.mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
+                        JSONObject object =  ((ParameterHandler)cameraUiWrapper.GetParameterHandler()).mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                         JSONArray array = object.getJSONArray("result");
                         JSONArray subarray = array.getJSONArray(0);
                         stringvalues = JsonUtils.ConvertJSONArrayToStringArray(subarray);
@@ -153,7 +155,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                 JSONArray array = null;
                 try {
                     array = new JSONArray().put(0, Integer.parseInt(stringvalues[currentInt]));
-                    JSONObject object =  ParameterHandler.mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
+                    JSONObject object =  mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
                     ThrowCurrentValueChanged(valueToSet);
                 } catch (JSONException | IOException e) {
                     Logger.exception(e);

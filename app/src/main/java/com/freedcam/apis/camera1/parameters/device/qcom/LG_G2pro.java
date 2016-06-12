@@ -57,7 +57,7 @@ public class LG_G2pro extends AbstractDevice
 
     @Override
     public I_ManualParameter getExposureTimeParameter() {
-        return new ShutterManualG2pro(context,parameters, cameraHolder, parametersHandler);
+        return new ShutterManualG2pro(parameters, cameraUiWrapper);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class LG_G2pro extends AbstractDevice
 
     @Override
     public I_ManualParameter getManualFocusParameter() {
-        return new FocusManualParameterLG(context,parameters,cameraHolder, parametersHandler);
+        return new FocusManualParameterLG(parameters,cameraUiWrapper);
     }
 
     @Override

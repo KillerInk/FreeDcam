@@ -85,49 +85,49 @@ public class ParameterHandler extends AbstractParameterHandler
             Logger.d(TAG, keys.get(i).getName());
         }
         Module = new ModuleParameters(cameraUiWrapper,appSettingsManager);
-        FlashMode = new FlashModeApi2(cameraHolder);
-        SceneMode = new SceneModeApi2(cameraHolder);
-        ColorMode = new ColorModeApi2(cameraHolder);
+        FlashMode = new FlashModeApi2(cameraUiWrapper);
+        SceneMode = new SceneModeApi2(cameraUiWrapper);
+        ColorMode = new ColorModeApi2(cameraUiWrapper);
 
-        WbHandler wbHandler = new WbHandler(context,cameraHolder,this);
+        WbHandler wbHandler = new WbHandler(cameraUiWrapper);
         //AE mode start
         AeHandler aeHandler = new AeHandler(context,cameraUiWrapper);
         //ae mode end
-        AntiBandingMode = new AntibandingApi2(cameraHolder);
-        PictureSize = new PictureSizeModeApi2(cameraHolder);
+        AntiBandingMode = new AntibandingApi2(cameraUiWrapper);
+        PictureSize = new PictureSizeModeApi2(cameraUiWrapper);
 
-        FocusMode = new FocusModeApi2(cameraHolder);
+        FocusMode = new FocusModeApi2(cameraUiWrapper);
 
         //shuttertime END
         //MF
-        ManualFocus mf = new ManualFocus(context,this,cameraHolder);
+        ManualFocus mf = new ManualFocus(cameraUiWrapper);
         ManualFocus = mf;
         //MF END
 
-        EdgeMode = new EdgeModeApi2(cameraHolder);
-        DigitalImageStabilization = new ImageStabApi2(cameraHolder);
-        HotPixelMode = new HotPixelModeApi2(cameraHolder);
-        Denoise = new DenoiseModeApi2(cameraHolder);
-        manualToneMapCurveApi2 = new ManualToneMapCurveApi2(context,this,cameraHolder);
+        EdgeMode = new EdgeModeApi2(cameraUiWrapper);
+        DigitalImageStabilization = new ImageStabApi2(cameraUiWrapper);
+        HotPixelMode = new HotPixelModeApi2(cameraUiWrapper);
+        Denoise = new DenoiseModeApi2(cameraUiWrapper);
+        manualToneMapCurveApi2 = new ManualToneMapCurveApi2(cameraUiWrapper);
         ManualContrast = manualToneMapCurveApi2.contrast;
         ManualBrightness = manualToneMapCurveApi2.brightness;
 
-        ToneMapMode = new ToneMapModeApi2(cameraHolder);
+        ToneMapMode = new ToneMapModeApi2(cameraUiWrapper);
         ToneMapMode.addEventListner(manualToneMapCurveApi2);
 
-        PictureFormat = new PictureFormatParameterApi2(cameraHolder);
+        PictureFormat = new PictureFormatParameterApi2(cameraUiWrapper);
 
         FocusMode.addEventListner(((FocusHandler)cameraUiWrapper.getFocusHandler()).focusModeListner);
         ExposureMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).aeModeListner);
         ((FocusHandler) cameraUiWrapper.getFocusHandler()).ParametersLoaded();
 
-        ControlMode = new ControlModesApi2(cameraHolder);
+        ControlMode = new ControlModesApi2(cameraUiWrapper);
 
-        Burst = new BurstApi2(context,this,cameraHolder);
-        Focuspeak = new FocusPeakModeApi2(cameraHolder);
+        Burst = new BurstApi2(cameraUiWrapper);
+        Focuspeak = new FocusPeakModeApi2(cameraUiWrapper);
         //VideoSize = new VideoSizeModeApi2(uiHandler,cameraHolder);
-        VideoProfiles = new VideoProfilesApi2(cameraHolder,cameraUiWrapper);
-        oismode = new OisModeApi2(cameraHolder);
+        VideoProfiles = new VideoProfilesApi2(cameraUiWrapper);
+        oismode = new OisModeApi2(cameraUiWrapper);
         matrixChooser = new MatrixChooserParameter();
         imageStackMode = new StackModeParameter();
 

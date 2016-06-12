@@ -23,6 +23,7 @@ import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.Logger;
 
@@ -45,11 +46,10 @@ public class BaseFocusManual extends BaseManualParameter
      * @param value
      * @param maxValue
      * @param MinValue
-     * @param parametersHandler
      * @param step
      */
-    public BaseFocusManual(Context context, Parameters parameters, String value, String maxValue, String MinValue, String manualFocusModeString, ParametersHandler parametersHandler, float step, int manualFocusType) {
-        super(context, parameters, value, maxValue, MinValue, parametersHandler, step);
+    public BaseFocusManual(Parameters parameters, String value, String maxValue, String MinValue, String manualFocusModeString, I_CameraUiWrapper cameraUiWrapper, float step, int manualFocusType) {
+        super(parameters, value, maxValue, MinValue, cameraUiWrapper, step);
         this.manualFocusModeString = manualFocusModeString;
         this.manualFocusType = manualFocusType;
     }
@@ -61,12 +61,12 @@ public class BaseFocusManual extends BaseManualParameter
      * @param min
      * @param max
      * @param manualFocusModeString
-     * @param parametersHandler
+     * @param cameraUiWrapper
      * @param step
      * @param manualFocusType
      */
-    public BaseFocusManual(Context context,Parameters parameters, String value, int min, int max, String manualFocusModeString, ParametersHandler parametersHandler, float step, int manualFocusType) {
-        super(context, parameters, value, "", "", parametersHandler, step);
+    public BaseFocusManual(Parameters parameters, String value, int min, int max, String manualFocusModeString, I_CameraUiWrapper cameraUiWrapper, float step, int manualFocusType) {
+        super(parameters, value, "", "", cameraUiWrapper, step);
         isSupported = true;
         isVisible = true;
         this.manualFocusModeString = manualFocusModeString;
@@ -95,18 +95,18 @@ public class BaseFocusManual extends BaseManualParameter
 
         if (valueToSet == 0)
         {
-            parametersHandler.FocusMode.SetValue(KEYS.AUTO, true);
+            cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(KEYS.AUTO, true);
             Logger.d(TAG, "Set Focus to : auto");
         }
         else
         {
-            if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !parametersHandler.FocusMode.GetValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
-                parametersHandler.FocusMode.SetValue(manualFocusModeString, false);
+            if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !cameraUiWrapper.GetParameterHandler().FocusMode.GetValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
+                cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(manualFocusModeString, false);
             parameters.set(KEYS.KEY_MANUAL_FOCUS_TYPE, manualFocusType+"");
 
             parameters.set(key_value, stringvalues[currentInt]);
             Logger.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
-            parametersHandler.SetParametersToCamera(parameters);
+            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         }
     }
 

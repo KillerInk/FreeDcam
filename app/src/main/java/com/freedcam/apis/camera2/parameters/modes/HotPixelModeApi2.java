@@ -24,6 +24,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera2.CameraHolder;
 
 /**
@@ -40,14 +41,14 @@ public class HotPixelModeApi2 extends BaseModeApi2
         HIGH_QUALITY,
     }
 
-    public HotPixelModeApi2(CameraHolder cameraHolder) {
-        super(cameraHolder);
+    public HotPixelModeApi2(I_CameraUiWrapper cameraUiWrapper) {
+        super(cameraUiWrapper);
     }
 
 
     @Override
     public boolean IsSupported() {
-        return cameraHolder != null && cameraHolder.get(CaptureRequest.HOT_PIXEL_MODE) != null;
+        return cameraUiWrapper.GetCameraHolder() != null && ((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.HOT_PIXEL_MODE) != null;
     }
 
     @Override
@@ -56,14 +57,14 @@ public class HotPixelModeApi2 extends BaseModeApi2
         if (valueToSet.contains("unknown Scene"))
             return;
         HotPixelModes sceneModes = Enum.valueOf(HotPixelModes.class, valueToSet);
-        cameraHolder.SetParameterRepeating(CaptureRequest.HOT_PIXEL_MODE, sceneModes.ordinal());
+        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.HOT_PIXEL_MODE, sceneModes.ordinal());
     }
 
 
     @Override
     public String GetValue()
     {
-        int i = cameraHolder.get(CaptureRequest.HOT_PIXEL_MODE);
+        int i = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.HOT_PIXEL_MODE);
         HotPixelModes sceneModes = HotPixelModes.values()[i];
         return sceneModes.toString();
 
@@ -72,7 +73,7 @@ public class HotPixelModeApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        int[] values = cameraHolder.characteristics.get(CameraCharacteristics.HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES);
+        int[] values = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES);
         String[] retvals = new String[values.length];
         for (int i = 0; i < values.length; i++)
         {

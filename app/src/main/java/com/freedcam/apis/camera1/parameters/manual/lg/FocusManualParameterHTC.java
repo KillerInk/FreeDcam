@@ -24,6 +24,7 @@ import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 
@@ -34,12 +35,10 @@ import java.util.ArrayList;
  */
 public class FocusManualParameterHTC extends BaseManualParameter
 {
-    private I_CameraHolder baseCameraHolder;
     private final String TAG =FocusManualParameterHTC.class.getSimpleName();
 
-    public FocusManualParameterHTC(Context context, Parameters parameters, I_CameraHolder cameraHolder, ParametersHandler parametersHandler) {
-        super(context, parameters, "", "", "", parametersHandler,1);
-        baseCameraHolder = cameraHolder;
+    public FocusManualParameterHTC(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, "", "", "", cameraUiWrapper,1);
         isSupported = parameters.get(KEYS.MIN_FOCUS) != null && parameters.get(KEYS.MAX_FOCUS) != null;
         key_max_value = KEYS.MAX_FOCUS;
         key_value = KEYS.FOCUS;
@@ -73,12 +72,12 @@ public class FocusManualParameterHTC extends BaseManualParameter
         if(valueToSet != 0)
         {
             parameters.set(key_value, stringvalues[valueToSet]);
-            parametersHandler.SetParametersToCamera(parameters);
+            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         }
         else if (valueToSet == 0)
         {
             parameters.set(key_value, valueToSet+"");
-            parametersHandler.FocusMode.SetValue(KEYS.AUTO, true);
+            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         }
     }
 

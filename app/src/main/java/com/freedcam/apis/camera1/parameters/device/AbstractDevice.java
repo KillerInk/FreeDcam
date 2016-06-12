@@ -89,9 +89,9 @@ public abstract class AbstractDevice implements I_Device {
         }
         //check first max after evo 3d has both but max infront is empty
         if (parameters.get(KEYS.SATURATION_MAX)!= null)
-            ManualSaturation = new BaseManualParameter(context, parameters, KEYS.SATURATION, KEYS.SATURATION_MAX, KEYS.SATURATION_MIN, parametersHandler,1);
+            ManualSaturation = new BaseManualParameter(parameters, KEYS.SATURATION, KEYS.SATURATION_MAX, KEYS.SATURATION_MIN, cameraUiWrapper,1);
         else if (parameters.get(KEYS.MAX_SATURATION)!= null)
-            ManualSaturation = new BaseManualParameter(context, parameters, KEYS.SATURATION, KEYS.MAX_SATURATION, KEYS.MIN_SATURATION, parametersHandler,1);
+            ManualSaturation = new BaseManualParameter(parameters, KEYS.SATURATION, KEYS.MAX_SATURATION, KEYS.MIN_SATURATION, cameraUiWrapper,1);
         return ManualSaturation;
     }
 
@@ -108,11 +108,11 @@ public abstract class AbstractDevice implements I_Device {
 
         if (parameters.get(KEYS.SHARPNESS_MAX)!= null)
         {
-            return new BaseManualParameter(context, parameters, KEYS.SHARPNESS, KEYS.SHARPNESS_MAX, KEYS.SHARPNESS_MIN, parametersHandler,step);
+            return new BaseManualParameter(parameters, KEYS.SHARPNESS, KEYS.SHARPNESS_MAX, KEYS.SHARPNESS_MIN, cameraUiWrapper,step);
         }
         else if (parameters.get(KEYS.MAX_SHARPNESS)!= null)
         {
-            return new BaseManualParameter(context, parameters, KEYS.SHARPNESS, KEYS.MAX_SHARPNESS, KEYS.MIN_SHARPNESS, parametersHandler,step);
+            return new BaseManualParameter(parameters, KEYS.SHARPNESS, KEYS.MAX_SHARPNESS, KEYS.MIN_SHARPNESS, cameraUiWrapper,step);
         }
         return null;
     }
@@ -128,12 +128,12 @@ public abstract class AbstractDevice implements I_Device {
         }
         if (parameters.get("brightness-max")!= null)
         {
-            return new BaseManualParameter(context, parameters, "brightness", "brightness-max", "brightness-min", parametersHandler, 1);
+            return new BaseManualParameter(parameters, "brightness", "brightness-max", "brightness-min", cameraUiWrapper, 1);
         }
         else if (parameters.get("max-brightness")!= null)
-            return new BaseManualParameter(context, parameters, "brightness", "max-brightness", "min-brightness", parametersHandler, 1);
+            return new BaseManualParameter(parameters, "brightness", "max-brightness", "min-brightness", cameraUiWrapper, 1);
         else if (parameters.get("luma-adaptation")!= null)
-             return   new BaseManualParameter(context, parameters,"luma-adaptation","max-brightness","min-brightness",parametersHandler,1);
+             return   new BaseManualParameter(parameters,"luma-adaptation","max-brightness","min-brightness",cameraUiWrapper,1);
         return null;
     }
 
@@ -146,9 +146,9 @@ public abstract class AbstractDevice implements I_Device {
             parameters.set("min-contrast", "0");
         }
         if (parameters.get("contrast-max")!= null)
-             return  new BaseManualParameter(context, parameters,"contrast", "contrast-max", "contrast-min",parametersHandler,1);
+             return  new BaseManualParameter(parameters,"contrast", "contrast-max", "contrast-min",cameraUiWrapper,1);
         else if (parameters.get("max-contrast")!= null)
-             return new BaseManualParameter(context, parameters,"contrast", "max-contrast", "min-contrast",parametersHandler,1);
+             return new BaseManualParameter(parameters,"contrast", "max-contrast", "min-contrast",cameraUiWrapper,1);
         return null;
     }
 

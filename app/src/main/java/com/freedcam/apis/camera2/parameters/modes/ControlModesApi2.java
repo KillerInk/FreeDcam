@@ -24,6 +24,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera2.CameraHolder;
 import com.freedcam.utils.Logger;
 
@@ -42,8 +43,8 @@ public class ControlModesApi2 extends BaseModeApi2
         OFF_KEEP_STATE
     }
 
-    public ControlModesApi2(CameraHolder cameraHolder) {
-        super(cameraHolder);
+    public ControlModesApi2(I_CameraUiWrapper cameraUiWrapper) {
+        super(cameraUiWrapper);
 
     }
 
@@ -55,14 +56,14 @@ public class ControlModesApi2 extends BaseModeApi2
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
         ControlModes modes = Enum.valueOf(ControlModes.class, valueToSet);
-        cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_MODE, modes.ordinal());
+        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_MODE, modes.ordinal());
     }
 
     @Override
     public String GetValue() {
         int i = 0;
         try {
-            i = cameraHolder.get(CaptureRequest.CONTROL_MODE);
+            i = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.CONTROL_MODE);
         }
         catch (Exception ex)
         {
@@ -77,7 +78,7 @@ public class ControlModesApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        int device = cameraHolder.characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
+        int device = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
         if (device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL) {
             return new String[]{"off",
                     "auto",

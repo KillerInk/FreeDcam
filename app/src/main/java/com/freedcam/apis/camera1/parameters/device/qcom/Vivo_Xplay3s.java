@@ -42,7 +42,7 @@ public class Vivo_Xplay3s extends BaseQcomDevice {
 
     @Override
     public AbstractManualParameter getManualFocusParameter() {
-        return new BaseFocusManual(context,parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,KEYS.MAX_FOCUS_POS_INDEX, KEYS.MIN_FOCUS_POS_INDEX,KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler,1,1);
+        return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,KEYS.MAX_FOCUS_POS_INDEX, KEYS.MIN_FOCUS_POS_INDEX,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,1,1);
     }
 
     @Override

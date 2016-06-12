@@ -23,6 +23,7 @@ import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
@@ -33,13 +34,10 @@ import java.util.ArrayList;
 
 public class ISOManualParameterG4 extends BaseManualParameter
 {
-    private CameraHolder cameraHolder;
     private AeManualEvent manualEvent;
 
-    public ISOManualParameterG4(Context context,Parameters parameters, CameraHolder cameraHolder, ParametersHandler parametersHandler, AeManualEvent manualevent) {
-        super(context, parameters, "", "", "", parametersHandler,1);
-
-        this.cameraHolder = cameraHolder;
+    public ISOManualParameterG4(Parameters parameters, I_CameraUiWrapper cameraUiWrapper, AeManualEvent manualevent) {
+        super(parameters, cameraUiWrapper,1);
 
         isSupported = true;
         isVisible = isSupported;

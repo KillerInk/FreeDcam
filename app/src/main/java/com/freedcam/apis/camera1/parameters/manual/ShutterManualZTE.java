@@ -25,6 +25,7 @@ import android.os.Handler;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraHolder;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
@@ -40,15 +41,15 @@ public class ShutterManualZTE extends BaseManualParameter
 
     /**
      * @param parameters
-     * @param parametersHandler
+     * @param cameraUiWrapper
      */
-    public ShutterManualZTE(Context context, Parameters parameters, I_CameraHolder baseCameraHolder, ParametersHandler parametersHandler) {
-        super(context, parameters, "", "", "", parametersHandler,1);
+    public ShutterManualZTE(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, "", "", "", cameraUiWrapper,1);
         this.baseCameraHolder = baseCameraHolder;
-        if(parametersHandler.appSettingsManager.getDevice() == Devices.ZTE_ADV)
-            stringvalues = context.getResources().getStringArray(R.array.shutter_values_zte_z5s);
+        if(cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV)
+            stringvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.shutter_values_zte_z5s);
         else
-            stringvalues = context.getResources().getStringArray(R.array.shutter_values_zte_z7);
+            stringvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.shutter_values_zte_z7);
 
         isSupported = true;
     }
@@ -97,7 +98,7 @@ public class ShutterManualZTE extends BaseManualParameter
             Handler handler = new Handler();
             Runnable r = new Runnable() {
                 public void run() {
-                    parametersHandler.SetZTESlowShutter();
+                    ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetZTESlowShutter();
                     baseCameraHolder.StopPreview();
                     baseCameraHolder.StartPreview();
                 }
@@ -121,7 +122,7 @@ public class ShutterManualZTE extends BaseManualParameter
 
                     parameters.set("slow_shutter", shutterstring);
                     parameters.set("slow_shutter_addition", "1");
-                    parametersHandler.SetParametersToCamera(parameters);
+                    ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
 
                     if(Double.parseDouble(shutterstring) <= 0.5 && Double.parseDouble(shutterstring) >= 0.0005 ){
                         baseCameraHolder.StopPreview();

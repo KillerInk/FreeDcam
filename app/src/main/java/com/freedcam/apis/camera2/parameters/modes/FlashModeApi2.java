@@ -24,6 +24,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CaptureRequest;
 import android.os.Build.VERSION_CODES;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera2.CameraHolder;
 
 /**
@@ -31,8 +32,8 @@ import com.freedcam.apis.camera2.CameraHolder;
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
 public class FlashModeApi2 extends BaseModeApi2 {
-    public FlashModeApi2(CameraHolder cameraHolder) {
-        super(cameraHolder);
+    public FlashModeApi2(I_CameraUiWrapper cameraUiWrapper) {
+        super(cameraUiWrapper);
     }
 
     public enum FlashModes
@@ -44,7 +45,7 @@ public class FlashModeApi2 extends BaseModeApi2 {
 
     @Override
     public boolean IsSupported() {
-        return cameraHolder.characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
+        return ((CameraHolder)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
     }
 
     @Override
@@ -53,18 +54,18 @@ public class FlashModeApi2 extends BaseModeApi2 {
         if (valueToSet.contains("unknown Scene"))
             return;
         FlashModes sceneModes = Enum.valueOf(FlashModes.class, valueToSet);
-        cameraHolder.SetParameterRepeating(CaptureRequest.FLASH_MODE, sceneModes.ordinal());
+        ((CameraHolder)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.FLASH_MODE, sceneModes.ordinal());
     }
 
 
     @Override
     public String GetValue()
     {
-        if (cameraHolder == null)
+        if (cameraUiWrapper.GetCameraHolder() == null)
             return null;
-        if (cameraHolder.get(CaptureRequest.FLASH_MODE) == null)
+        if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.FLASH_MODE) == null)
             return "error";
-        int i = cameraHolder.get(CaptureRequest.FLASH_MODE);
+        int i = ((CameraHolder)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.FLASH_MODE);
         FlashModes sceneModes = FlashModes.values()[i];
         return sceneModes.toString();
 

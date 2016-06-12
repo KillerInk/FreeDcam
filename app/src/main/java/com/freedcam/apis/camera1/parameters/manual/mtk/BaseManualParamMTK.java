@@ -23,6 +23,7 @@ package com.freedcam.apis.camera1.parameters.manual.mtk;
 import android.content.Context;
 import android.hardware.Camera.Parameters;
 
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.freedcam.utils.Logger;
@@ -36,9 +37,8 @@ public class BaseManualParamMTK extends BaseManualParameter
 
     private int default_value = 0;
 
-    public BaseManualParamMTK(Context context, Parameters  parameters, String value, String values, ParametersHandler parametersHandler) {
-        super(context, parameters,value,"","", parametersHandler,1);
-        this.parametersHandler = parametersHandler;
+    public BaseManualParamMTK(Parameters  parameters, String value, String values, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters,value,"","", cameraUiWrapper,1);
         this.parameters = parameters;
         key_value = value;
         //mtk stores that stuff like that brightness-values=low,middle,high
@@ -70,7 +70,7 @@ public class BaseManualParamMTK extends BaseManualParameter
         ThrowCurrentValueStringCHanged(stringvalues[valueToset]);
         try
         {
-            parametersHandler.SetParametersToCamera(parameters);
+            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         }
         catch (Exception ex)
         {

@@ -52,23 +52,23 @@ public class BaseQcomNew extends AbstractDevice
     //set by aehandler
     @Override
     public I_ManualParameter getExposureTimeParameter() {
-        return new ShutterManual_ExposureTime_Micro(context,parameters, parametersHandler,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME,false);
+        return new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME,false);
     }
 
     //set by aehandler
     @Override
     public I_ManualParameter getIsoParameter() {
-        return new BaseISOManual(context,parameters,"continuous-iso",parameters.getInt("min-iso"),parameters.getInt("max-iso"), parametersHandler,1);
+        return new BaseISOManual(parameters,"continuous-iso",parameters.getInt("min-iso"),parameters.getInt("max-iso"), cameraUiWrapper,1);
     }
 
     @Override
     public I_ManualParameter getManualFocusParameter() {
-        return new BaseFocusManual(context,parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0, 100,KEYS.KEY_FOCUS_MODE_MANUAL, parametersHandler,1,2);
+        return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0, 100,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,1,2);
     }
 
     @Override
     public I_ManualParameter getCCTParameter() {
-        return new BaseWB_CCT_QC(context,parameters, 8000,2000, parametersHandler,100, KEYS.WB_MODE_MANUAL_CCT);
+        return new BaseWB_CCT_QC(parameters, 8000,2000, cameraUiWrapper,100, KEYS.WB_MODE_MANUAL_CCT);
     }
 
     @Override

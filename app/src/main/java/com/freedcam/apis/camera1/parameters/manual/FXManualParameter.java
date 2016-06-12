@@ -23,22 +23,23 @@ import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
 
 public class FXManualParameter extends BaseManualParameter {
 
-    public FXManualParameter(Context context, Parameters parameters, ParametersHandler parametersHandler) {
-        super(context, parameters, "", "", "", parametersHandler,1);
+    public FXManualParameter(Parameters parameters, I_CameraUiWrapper cameraUiWrapper) {
+        super(parameters, "", "", "", cameraUiWrapper,1);
     }
 
     @Override
     public boolean IsSupported()
     {
-        if(parametersHandler.appSettingsManager.getDevice() == Devices.ZTEADVIMX214
-                || parametersHandler.appSettingsManager.getDevice() == Devices.ZTE_ADV
-                || parametersHandler.appSettingsManager.getDevice() == Devices.ZTEADVIMX214)
+        if(cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214
+                ||cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214)
         {
             isSupported = true;
             isVisible = true;
@@ -60,9 +61,9 @@ public class FXManualParameter extends BaseManualParameter {
     {
         int i = 0;
         try {
-            if (parametersHandler.appSettingsManager.getDevice() == Devices.ZTEADVIMX214
-                    || parametersHandler.appSettingsManager.getDevice() == Devices.ZTE_ADV
-                    || parametersHandler.appSettingsManager.getDevice() == Devices.ZTEADVIMX214);
+            if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214
+                    || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV
+                    || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214);
                 i = 0;
         }
         catch (Exception ex)
@@ -77,7 +78,7 @@ public class FXManualParameter extends BaseManualParameter {
     public void SetValue(int valueToSet)
     {   
     	parameters.set(KEYS.MORPHO_EFFECT_TYPE, String.valueOf(valueToSet));
-        parametersHandler.SetParametersToCamera(parameters);
+        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
 
     }
 

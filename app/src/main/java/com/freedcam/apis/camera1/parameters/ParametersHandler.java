@@ -139,7 +139,7 @@ public class ParametersHandler extends AbstractParameterHandler
         locationParameter = new LocationParameter(cameraUiWrapper.GetCameraHolder(),context,appSettingsManager);
 
         try {
-            ManualConvergence = new BaseManualParameter(context, cameraParameters, KEYS.MANUAL_CONVERGENCE, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MAX, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MIN, this,1);
+            ManualConvergence = new BaseManualParameter(cameraParameters, KEYS.MANUAL_CONVERGENCE, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MAX, KEYS.SUPPORTED_MANUAL_CONVERGENCE_MIN, cameraUiWrapper,1);
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -158,7 +158,7 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            FX = new FXManualParameter(context,cameraParameters,this);
+            FX = new FXManualParameter(cameraParameters,cameraUiWrapper);
             PictureFormat.addEventListner(((BaseManualParameter)FX).GetPicFormatListner());
             cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(((BaseManualParameter) FX).GetModuleListner());
         } catch (Exception e) {
@@ -166,7 +166,7 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
         try {
-            Burst = new BurstManualParam(context,cameraParameters, this);
+            Burst = new BurstManualParam(cameraParameters, cameraUiWrapper);
             cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(((BaseManualParameter) Burst).GetModuleListner());
         } catch (Exception e) {
             Logger.exception(e);
@@ -174,7 +174,7 @@ public class ParametersHandler extends AbstractParameterHandler
 
 
         try {
-            Zoom = new ZoomManualParameter(context,cameraParameters,this);
+            Zoom = new ZoomManualParameter(cameraParameters,cameraUiWrapper);
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -503,7 +503,7 @@ public class ParametersHandler extends AbstractParameterHandler
     private void createManualExposure() {
         try
         {
-            ManualExposure = new ExposureManualParameter(context,cameraParameters, this,1);
+            ManualExposure = new ExposureManualParameter(cameraParameters, cameraUiWrapper,1);
         } catch (Exception e) {
             Logger.exception(e);
         }

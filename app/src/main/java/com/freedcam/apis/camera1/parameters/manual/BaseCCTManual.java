@@ -23,6 +23,7 @@ import android.content.Context;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
+import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.Logger;
 
@@ -41,19 +42,19 @@ public class BaseCCTManual extends BaseManualParameter
      * @param value
      * @param maxValue
      * @param MinValue
-     * @param parametersHandler
+     * @param cameraUiWrapper
      * @param step
      */
-    public BaseCCTManual(Context context,Parameters parameters, String value, String maxValue, String MinValue
-            , ParametersHandler parametersHandler, float step,
+    public BaseCCTManual(Parameters parameters, String value, String maxValue, String MinValue
+            , I_CameraUiWrapper cameraUiWrapper, float step,
                          String wbmode) {
-        super(context, parameters, value, maxValue, MinValue, parametersHandler, step);
+        super(parameters, value, maxValue, MinValue, cameraUiWrapper, step);
         manual_WbMode = wbmode;
     }
 
-    public BaseCCTManual(Context context,Parameters parameters, String value, int max, int min
-            , ParametersHandler parametersHandler, float step, String wbmode) {
-        super(context, parameters, value, "", "", parametersHandler, step);
+    public BaseCCTManual(Parameters parameters, String value, int max, int min
+            , I_CameraUiWrapper cameraUiWrapper, float step, String wbmode) {
+        super(parameters, value, "", "", cameraUiWrapper, step);
         isSupported = true;
         isVisible = true;
         stringvalues = createStringArray(min,max,step);
@@ -70,13 +71,13 @@ public class BaseCCTManual extends BaseManualParameter
         {
             set_manual();
         }
-        parametersHandler.SetParametersToCamera(parameters);
+        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 
     protected void set_manual()
     {
-        if (!parametersHandler.WhiteBalanceMode.GetValue().equals(manual_WbMode) && manual_WbMode != "")
-            parametersHandler.WhiteBalanceMode.SetValue(manual_WbMode, true);
+        if (!cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.GetValue().equals(manual_WbMode) && manual_WbMode != "")
+            cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.SetValue(manual_WbMode, true);
         parameters.set(key_value, stringvalues[currentInt]);
         Logger.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
 
@@ -84,7 +85,7 @@ public class BaseCCTManual extends BaseManualParameter
 
     protected void set_to_auto()
     {
-        parametersHandler.WhiteBalanceMode.SetValue("auto", true);
+        cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.SetValue("auto", true);
         Logger.d(TAG, "Set  to : auto");
     }
 
