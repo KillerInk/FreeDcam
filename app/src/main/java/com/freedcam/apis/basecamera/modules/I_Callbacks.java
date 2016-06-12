@@ -33,17 +33,6 @@ package com.freedcam.apis.basecamera.modules;
  */
 public class I_Callbacks
 {
-    public interface ShutterCallback
-    {
-        void onShutter();
-    }
-
-    public interface PictureCallback {
-
-        void onPictureTaken(byte[] data);
-    }
-
-
     public static int YUV = 1;
     public static int JPEG = 2;
     public interface PreviewCallback

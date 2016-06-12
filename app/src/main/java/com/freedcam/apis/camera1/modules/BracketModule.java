@@ -20,12 +20,11 @@
 package com.freedcam.apis.camera1.modules;
 
 import android.content.Context;
+import android.hardware.Camera;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
-import com.freedcam.apis.basecamera.modules.I_Callbacks.PictureCallback;
-import com.freedcam.apis.basecamera.modules.ModuleEventHandler;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
@@ -79,7 +78,7 @@ public class BracketModule extends PictureModule
             loade_ae_bracket();
             if (aeBrackethdr && cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue().equals(KEYS.JPEG))
             {
-                cameraHolder.TakePicture(null, aeBracketCallback);
+                cameraHolder.TakePicture(aeBracketCallback);
             }
             else
             {
@@ -89,7 +88,7 @@ public class BracketModule extends PictureModule
                 } catch (InterruptedException e) {
                     Logger.exception(e);
                 }
-                cameraHolder.TakePicture(null, this);
+                cameraHolder.TakePicture(this);
             }
         }
         return true;
@@ -232,9 +231,9 @@ public class BracketModule extends PictureModule
         }
     }
 
-    PictureCallback aeBracketCallback = new PictureCallback() {
+    Camera.PictureCallback aeBracketCallback = new Camera.PictureCallback() {
         @Override
-        public void onPictureTaken(byte[] data) {
+        public void onPictureTaken(byte[] data, Camera camera) {
             if (!waitForPicture)
                 return;
             hdrCount++;
@@ -247,7 +246,6 @@ public class BracketModule extends PictureModule
                 cameraHolder.StartPreview();
 
             }
-
         }
     };
 
@@ -269,7 +267,7 @@ public class BracketModule extends PictureModule
     }
 
     @Override
-    public void onPictureTaken(final byte[] data)
+    public void onPictureTaken(final byte[] data, Camera camera)
     {
         FreeDPool.Execute(new Runnable() {
             @Override
@@ -298,7 +296,7 @@ public class BracketModule extends PictureModule
                     } catch (InterruptedException e) {
                         Logger.exception(e);
                     }
-                    cameraHolder.TakePicture(null,BracketModule.this);
+                    cameraHolder.TakePicture(BracketModule.this);
                 }
             }
         });

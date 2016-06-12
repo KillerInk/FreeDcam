@@ -23,6 +23,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
+import android.hardware.Camera;
 import android.renderscript.Allocation;
 import android.renderscript.Allocation.MipmapControl;
 import android.renderscript.Element;
@@ -33,8 +34,6 @@ import android.renderscript.Type.Builder;
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
-import com.freedcam.apis.basecamera.modules.I_Callbacks.PictureCallback;
-import com.freedcam.apis.basecamera.modules.ModuleEventHandler;
 import com.freedcam.apis.camera1.parameters.modes.StackModeParameter;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.FreeDPool;
@@ -51,7 +50,7 @@ import java.util.List;
 /**
  * Created by GeorgeKiarie on 13/04/2016.
  */
-public class StackingModule extends PictureModule implements PictureCallback
+public class StackingModule extends PictureModule implements Camera.PictureCallback
 {
     final String TAG = StackingModule.class.getSimpleName();
     private boolean KeepStacking = false;
@@ -93,7 +92,7 @@ public class StackingModule extends PictureModule implements PictureCallback
             if (!picFormat.equals(KEYS.JPEG))
                 cameraUiWrapper.GetParameterHandler().PictureFormat.SetValue(KEYS.JPEG,true);
             isWorking =true;
-            cameraHolder.TakePicture(null, this);
+            cameraHolder.TakePicture(this);
             return true;
         }
         else if (KeepStacking)
@@ -111,7 +110,7 @@ public class StackingModule extends PictureModule implements PictureCallback
     }
 
     @Override
-    public void onPictureTaken(final byte[] data) {
+    public void onPictureTaken(final byte[] data, Camera camera) {
         Logger.d(TAG, "Take Picture Callback");
         FreeDPool.Execute(new Runnable() {
             @Override
@@ -200,7 +199,7 @@ public class StackingModule extends PictureModule implements PictureCallback
             changeCaptureState(CaptureStates.continouse_capture_work_start);
             Logger.d(TAG, "keepstacking take next pic");
             isWorking = true;
-            cameraHolder.TakePicture(null, this);
+            cameraHolder.TakePicture(this);
         }
         else //keepstacking is false, lets start mergin all pics
         {

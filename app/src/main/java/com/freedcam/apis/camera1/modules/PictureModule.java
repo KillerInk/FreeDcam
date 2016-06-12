@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.modules;
 
 import android.content.Context;
+import android.hardware.Camera;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.ParcelFileDescriptor;
@@ -29,8 +30,6 @@ import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
 import com.freedcam.apis.basecamera.modules.AbstractModule;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
-import com.freedcam.apis.basecamera.modules.I_Callbacks.PictureCallback;
-import com.freedcam.apis.basecamera.modules.ModuleEventHandler;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.jni.RawToDng;
@@ -46,14 +45,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-//import com.drew.metadata.exif.ExifDirectory;
 
 
 
 /**
  * Created by troop on 15.08.2014.
  */
-public class PictureModule extends AbstractModule implements PictureCallback
+public class PictureModule extends AbstractModule implements Camera.PictureCallback
 {
 
     private static String TAG = PictureModule.class.getSimpleName();
@@ -107,7 +105,7 @@ public class PictureModule extends AbstractModule implements PictureCallback
             changeCaptureState(CaptureStates.image_capture_start);
             waitForPicture = true;
             burstcount = 0;
-            cameraHolder.TakePicture(null, this);
+            cameraHolder.TakePicture(this);
             Logger.d(TAG,"TakePicture");
         }
         return true;
@@ -132,7 +130,7 @@ public class PictureModule extends AbstractModule implements PictureCallback
     }
 
     @Override
-    public void onPictureTaken(final byte[] data)
+    public void onPictureTaken(final byte[] data, Camera camera)
     {
         Logger.d(TAG, "onPictureTaken():"+data.length);
         if (!waitForPicture)

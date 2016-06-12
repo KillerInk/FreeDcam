@@ -20,6 +20,7 @@
 package com.freedcam.apis.camera1.modules;
 
 import android.content.Context;
+import android.hardware.Camera;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.I_CameraUiWrapper;
@@ -62,13 +63,13 @@ public class PictureModuleMTK extends PictureModule
             }
             isWorking = true;
             changeCaptureState(CaptureStates.image_capture_start);
-            cameraHolder.TakePicture(null, this);
+            cameraHolder.TakePicture(this);
         }
         return true;
     }
 
     @Override
-    public void onPictureTaken(final byte[] data)
+    public void onPictureTaken(final byte[] data, Camera camera)
     {
         if (!waitForPicture)
             return;

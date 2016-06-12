@@ -59,9 +59,6 @@ public class CameraHolder extends AbstractCameraHolder
     protected Camera mCamera;
 
     private final String TAG = CameraHolder.class.getSimpleName();
-    private I_Callbacks.PictureCallback pictureCallback;
-    private I_Callbacks.PictureCallback rawCallback;
-    private I_Callbacks.ShutterCallback shutterCallback;
     private Surface previewSurfaceHolder;
 
     public Frameworks DeviceFrameWork = Frameworks.Normal;
@@ -225,56 +222,16 @@ public class CameraHolder extends AbstractCameraHolder
         return mCamera.getParameters();
     }
 
-    public void TakePicture(I_Callbacks.PictureCallback raw, I_Callbacks.PictureCallback picture)
+    public void TakePicture(PictureCallback picture)
     {
-        pictureCallback = picture;
-        shutterCallback = null;
-        rawCallback = raw;
-        takePicture();
-    }
-
-    private void takePicture()
-    {
-        ShutterCallback sh = null;
-        if (shutterCallback != null)
-        {
-            sh = new ShutterCallback() {
-                @Override
-                public void onShutter() {
-                    shutterCallback.onShutter();
-                }
-            };
-        }
-        PictureCallback r = null;
-        if (rawCallback != null)
-        {
-            r = new PictureCallback() {
-                @Override
-                public void onPictureTaken(byte[] bytes, Camera secCamera)
-                {
-                    if (rawCallback != null)
-                        rawCallback.onPictureTaken(bytes);
-                }
-            };
-        }
-        if (pictureCallback == null)
-            return;
-        PictureCallback pic = new PictureCallback() {
-            @Override
-            public void onPictureTaken(byte[] bytes, Camera secCamera) {
-                pictureCallback.onPictureTaken(bytes);
-
-            }
-        };
         try {
-            mCamera.takePicture(sh, r, pic);
+            mCamera.takePicture(null, null, picture);
         }
         catch (RuntimeException ex)
         {
             SendUIMessage("Picture Taking failed, What a Terrible Failure!!");
             Logger.exception(ex);
         }
-
     }
 
     public void SetPreviewCallback(PreviewCallback previewCallback)
