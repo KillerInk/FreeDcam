@@ -41,6 +41,7 @@ public class DeviceUtils
         Alcatel_Idol3,
         Alcatel_Idol3_small,
         Asus_Zenfon2,
+        Elephone_P9000,
         GioneE7,
         ForwardArt_MTK,
         Htc_Evo3d,
@@ -131,6 +132,8 @@ public class DeviceUtils
             return Devices.Alcatel_Idol3_small;
         else if (isAsus_Zenfon2(context))
             return Devices.Asus_Zenfon2;
+        else if(isElephone900(context))
+            return Devices.Elephone_P9000;
         else if (isGioneE7(context))
             return Devices.GioneE7;
         else if (isEvo3d(context))
@@ -563,5 +566,10 @@ public class DeviceUtils
     private boolean isAsus_Zenfon2(Context contex)
     {
         return isDevice(contex.getResources().getStringArray(array.Asus_Zenfon2));
+    }
+
+    private boolean isElephone900(Context contex)
+    {
+        return isDevice(contex.getResources().getStringArray(array.EL9000));
     }
 }

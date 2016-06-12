@@ -30,6 +30,7 @@ import com.freedcam.apis.camera1.parameters.device.BaseMTKDevice;
 import com.freedcam.apis.camera1.parameters.device.BaseQcomDevice;
 import com.freedcam.apis.camera1.parameters.device.Xiaomi_Redmi_Note3_QC_MTK;
 import com.freedcam.apis.camera1.parameters.device.mtk.Alcatel_985n;
+import com.freedcam.apis.camera1.parameters.device.mtk.Elephone_P9000;
 import com.freedcam.apis.camera1.parameters.device.mtk.ForwardArt_MTK;
 import com.freedcam.apis.camera1.parameters.device.mtk.I_Mobile_IStyleQ6;
 import com.freedcam.apis.camera1.parameters.device.mtk.Jiayu_S3;
@@ -110,6 +111,9 @@ public class DeviceSelector {
                 
             case Alcatel_Idol3_small:
                return new Alcatel_Idol3_small(context,cameraParameters,cameraUiWrapper);
+
+            case Elephone_P9000:
+                return new Elephone_P9000(context,cameraParameters,cameraUiWrapper);
                 
             case GioneE7:
                return new GioneE7(context,cameraParameters,cameraUiWrapper);
