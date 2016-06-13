@@ -17,7 +17,7 @@
  * /
  */
 
-package com.freedcam.apis.camera1.parameters.manual.lg;
+package com.freedcam.apis.camera1.parameters.manual.htc;
 
 import android.hardware.Camera.Parameters;
 
