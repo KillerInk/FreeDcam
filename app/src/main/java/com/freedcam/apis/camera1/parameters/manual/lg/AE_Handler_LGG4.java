@@ -25,6 +25,8 @@ import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperEventInterface;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.interfaces.ModuleInterface;
+import com.freedcam.apis.basecamera.parameters.I_ParametersLoaded;
+import com.freedcam.apis.camera1.Camera1Fragment;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.FreeDPool;
@@ -33,59 +35,22 @@ import com.freedcam.utils.Logger;
 /**
  * Created by troop on 27.01.2016.
  */
-public class AE_Handler_LGG4 implements CameraWrapperEventInterface
+public class AE_Handler_LGG4 implements I_ParametersLoaded
 {
     private final ISOManualParameterG4 isoManualParameter;
     private final ShutterManualParameterG4 shutterPrameter;
+    private final CameraWrapperInterface cameraWrapper;
     private int currentIso;
     private int currentShutter;
     private final Parameters parameters;
     boolean auto = true;
-    private ParametersHandler parametersHandler;
     private boolean readMetaData;
-    private CameraHolder cameraHolder;
 
     final String TAG = AE_Handler_LGG4.class.getSimpleName();
 
     @Override
-    public void onCameraOpen(String message) {
-
-    }
-
-    @Override
-    public void onCameraOpenFinish(String message) {
+    public void ParametersLoaded() {
         aeevent.onManualChanged(AeManual.shutter,true,0);
-    }
-
-    @Override
-    public void onCameraClose(String message) {
-
-    }
-
-    @Override
-    public void onPreviewOpen(String message) {
-
-    }
-
-    @Override
-    public void onPreviewClose(String message)
-    {
-        readMetaData = false;
-    }
-
-    @Override
-    public void onCameraError(String error) {
-
-    }
-
-    @Override
-    public void onCameraStatusChanged(String status) {
-
-    }
-
-    @Override
-    public void onModuleChanged(ModuleInterface module) {
-
     }
 
     enum AeManual
@@ -99,6 +64,8 @@ public class AE_Handler_LGG4 implements CameraWrapperEventInterface
         isoManualParameter = new ISOManualParameterG4(parameters,cameraUiWrapper, aeevent);
         shutterPrameter = new ShutterManualParameterG4(parameters, cameraUiWrapper, aeevent);
         this.parameters = parameters;
+        this.cameraWrapper = cameraUiWrapper;
+        cameraWrapper.GetParameterHandler().AddParametersLoadedListner(this);
     }
 
     public ISOManualParameterG4 getManualIso()
@@ -138,7 +105,6 @@ public class AE_Handler_LGG4 implements CameraWrapperEventInterface
                         break;
                 }
                 parameters.set(KEYS.LG_MANUAL_MODE_RESET, "1");
-                parametersHandler.SetParametersToCamera(parameters);
                 parameters.set(KEYS.LG_MANUAL_MODE_RESET, "0");
                 startReadingMeta();
 
@@ -178,14 +144,14 @@ public class AE_Handler_LGG4 implements CameraWrapperEventInterface
                 }
                 parameters.set(KEYS.LG_MANUAL_MODE_RESET, "0");
             }
-            parametersHandler.SetParametersToCamera(parameters);
+            ((ParametersHandler)cameraWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
             if (automode) {
-                String t = parametersHandler.IsoMode.GetValue();
+                String t = cameraWrapper.GetParameterHandler().IsoMode.GetValue();
                 if (!t.equals(KEYS.ISO100))
-                    parametersHandler.IsoMode.SetValue(KEYS.ISO100, true);
+                    cameraWrapper.GetParameterHandler().IsoMode.SetValue(KEYS.ISO100, true);
                 else
-                    parametersHandler.IsoMode.SetValue(KEYS.AUTO, true);
-                parametersHandler.IsoMode.SetValue(t, true);
+                    cameraWrapper.GetParameterHandler().IsoMode.SetValue(KEYS.AUTO, true);
+                cameraWrapper.GetParameterHandler().IsoMode.SetValue(t, true);
             }
         }
     };
@@ -199,8 +165,8 @@ public class AE_Handler_LGG4 implements CameraWrapperEventInterface
                 while (readMetaData && auto)
                 {
                     try {
-                        shutterPrameter.ThrowCurrentValueStringCHanged("1/"+(int) parametersHandler.getDevice().getCurrentExposuretime());
-                        isoManualParameter.ThrowCurrentValueStringCHanged(parametersHandler.getDevice().getCurrentIso()+"");
+                        shutterPrameter.ThrowCurrentValueStringCHanged("1/"+(int) ((ParametersHandler)cameraWrapper.GetParameterHandler()).getDevice().getCurrentExposuretime());
+                        isoManualParameter.ThrowCurrentValueStringCHanged(((ParametersHandler)cameraWrapper.GetParameterHandler()).getDevice().getCurrentIso()+"");
                     }
                     catch (RuntimeException ex)
                     {
