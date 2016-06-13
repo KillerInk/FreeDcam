@@ -84,7 +84,7 @@ public class HDRModeParameter extends BaseModeParameter
                 isSupported = false;
         }
         if (isSupported) {
-            cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(this);
+            cameraUiWrapper.GetModuleHandler().addListner(this);
             cameraUiWrapper.GetParameterHandler().PictureFormat.addEventListner(this);
         }
 

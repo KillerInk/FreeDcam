@@ -72,14 +72,14 @@ public class ModuleHandlerSony extends AbstractModuleHandler implements I_Camera
         {
             currentModule = moduleList.get(KEYS.MODULE_PICTURE);
 
-            moduleEventHandler.ModuleHasChanged(currentModule.ModuleName());
+            ModuleHasChanged(currentModule.ModuleName());
             currentModule.SetCaptureStateChangedListner(workerListner);
             currentModule.InitModule();
         }
         else if (mode.equals("movie"))
         {
             currentModule = moduleList.get(KEYS.MODULE_VIDEO);
-            moduleEventHandler.ModuleHasChanged(currentModule.ModuleName());
+            ModuleHasChanged(currentModule.ModuleName());
             currentModule.SetCaptureStateChangedListner(workerListner);
             currentModule.InitModule();
         }

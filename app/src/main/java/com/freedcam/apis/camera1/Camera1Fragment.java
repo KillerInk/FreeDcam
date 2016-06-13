@@ -91,7 +91,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
         parametersHandler.AddParametersLoadedListner(this);
         this.extendedSurfaceView.ParametersHandler = parametersHandler;
         moduleHandler = new ModuleHandler(this);
-        moduleHandler.moduleEventHandler.addListner(this);
+        moduleHandler.addListner(this);
 
         Focus = new FocusHandler(this);
 

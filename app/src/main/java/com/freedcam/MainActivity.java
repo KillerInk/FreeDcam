@@ -258,8 +258,8 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         Logger.d(TAG, "add events");
         //register timer to to moduleevent handler that it get shown/hidden when its video or not
         //and start/stop working when recording starts/stops
-        cameraUiWrapper.GetModuleHandler().moduleEventHandler.AddRecoderChangedListner(timerHandler);
-        cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(timerHandler);
+        cameraUiWrapper.GetModuleHandler().AddRecoderChangedListner(timerHandler);
+        cameraUiWrapper.GetModuleHandler().addListner(timerHandler);
     }
 
     /**

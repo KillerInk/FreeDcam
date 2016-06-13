@@ -115,7 +115,7 @@ public class ParametersHandler extends AbstractParameterHandler
         // register their listners there if its postprocessing parameter
         try {
             PictureFormat = new PictureFormatHandler(cameraParameters, cameraUiWrapper, this);
-            cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner((I_ModuleEvent) PictureFormat);
+            cameraUiWrapper.GetModuleHandler().addListner((I_ModuleEvent) PictureFormat);
         } catch (Exception e) {
             Logger.exception(e);
         }
@@ -157,14 +157,14 @@ public class ParametersHandler extends AbstractParameterHandler
         try {
             FX = new FXManualParameter(cameraParameters, cameraUiWrapper);
             PictureFormat.addEventListner(((BaseManualParameter) FX).GetPicFormatListner());
-            cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(((BaseManualParameter) FX).GetModuleListner());
+            cameraUiWrapper.GetModuleHandler().addListner(((BaseManualParameter) FX).GetModuleListner());
         } catch (Exception e) {
             Logger.exception(e);
         }
 
         try {
             Burst = new BurstManualParam(cameraParameters, cameraUiWrapper);
-            cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(((BaseManualParameter) Burst).GetModuleListner());
+            cameraUiWrapper.GetModuleHandler().addListner(((BaseManualParameter) Burst).GetModuleListner());
         } catch (Exception e) {
             Logger.exception(e);
         }

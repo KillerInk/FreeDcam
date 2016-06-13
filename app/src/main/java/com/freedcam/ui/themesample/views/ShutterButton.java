@@ -73,11 +73,11 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
 
     public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper, UserMessageHandler messageHandler)
     {
-        if (this.cameraUiWrapper == cameraUiWrapper || cameraUiWrapper.GetModuleHandler() == null || cameraUiWrapper.GetModuleHandler().moduleEventHandler == null)
+        if (this.cameraUiWrapper == cameraUiWrapper || cameraUiWrapper.GetModuleHandler() == null)
             return;
         this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.GetModuleHandler().SetWorkListner(this);
-        cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(this);
+        cameraUiWrapper.GetModuleHandler().addListner(this);
         if (cameraUiWrapper.GetParameterHandler().ContShootMode != null)
             cameraUiWrapper.GetParameterHandler().ContShootMode.addEventListner(this.contshotListner);
 

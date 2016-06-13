@@ -79,7 +79,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraWrapperEven
         this.cameraUiWrapper = cameraUiWrapper;
         this.context = context;
         this.renderScriptHandler = renderScriptHandler;
-        this.cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(this);
+        this.cameraUiWrapper.GetModuleHandler().addListner(this);
         output.setSurfaceTextureListener(previewSurfaceListner);
 
 

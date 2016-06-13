@@ -53,7 +53,7 @@ public class Moto_MSM8982_8994 extends Alcatel_Idol3 {
     public AbstractManualParameter getSkintoneParameter() {
         AbstractManualParameter Skintone = new SkintoneManualPrameter(parameters, cameraUiWrapper);
         parametersHandler.PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
-        cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(((BaseManualParameter) Skintone).GetModuleListner());
+        cameraUiWrapper.GetModuleHandler().addListner(((BaseManualParameter) Skintone).GetModuleListner());
         return Skintone;
     }
 }

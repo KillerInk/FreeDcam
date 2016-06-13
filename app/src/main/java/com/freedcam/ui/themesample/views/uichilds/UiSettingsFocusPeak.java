@@ -51,7 +51,7 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements I_MenuItemCl
     public void SetCameraUiWrapper(CameraWrapperInterface cameraUiWrapper)
     {
 
-        cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(this);
+        cameraUiWrapper.GetModuleHandler().addListner(this);
 
         ModuleChanged(cameraUiWrapper.GetModuleHandler().GetCurrentModuleName());
 

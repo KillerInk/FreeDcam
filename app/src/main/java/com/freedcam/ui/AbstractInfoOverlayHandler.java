@@ -75,8 +75,8 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
     public void setCameraUIWrapper(CameraWrapperInterface cameraUIWrapper)
     {
         cameraUiWrapper = cameraUIWrapper;
-        if (cameraUIWrapper != null && cameraUIWrapper.GetModuleHandler() != null && cameraUIWrapper.GetModuleHandler().moduleEventHandler != null)
-            cameraUIWrapper.GetModuleHandler().moduleEventHandler.addListner(this);
+        if (cameraUIWrapper != null && cameraUIWrapper.GetModuleHandler() != null)
+            cameraUIWrapper.GetModuleHandler().addListner(this);
     }
 
     @Override

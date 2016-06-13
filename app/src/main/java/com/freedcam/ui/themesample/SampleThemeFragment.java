@@ -95,7 +95,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
         if (wrapper != null)
             wrapper.GetParameterHandler().AddParametersLoadedListner(this);
         if (wrapper.GetModuleHandler() != null)
-            wrapper.GetModuleHandler().moduleEventHandler.AddWorkFinishedListner(newImageRecieved);
+            wrapper.GetModuleHandler().AddWorkFinishedListner(newImageRecieved);
         if (cameraUiFragment != null) {
             cameraUiFragment.SetCameraUIWrapper(wrapper);
         }
@@ -216,13 +216,17 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
     }
 
 
-    private final I_WorkEvent newImageRecieved = new I_WorkEvent() {
+    private final I_WorkEvent newImageRecieved = new I_WorkEvent()
+    {
         @Override
-        public void WorkHasFinished(final File filePath) {
+        public void WorkHasFinished(final File filePath)
+        {
+            Logger.d(TAG, "newImageRecieved:" + filePath);
             FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run()
-                {   int mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size);
+                {
+                    int mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size);
                     bitmapHelper.getBitmap(filePath, true, mImageThumbSize, mImageThumbSize);
                     if (screenSlideFragment != null)
                     {

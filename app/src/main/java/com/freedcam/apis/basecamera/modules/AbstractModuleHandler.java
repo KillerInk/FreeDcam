@@ -20,6 +20,7 @@
 package com.freedcam.apis.basecamera.modules;
 
 import android.os.Handler;
+import android.os.Looper;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
@@ -60,7 +61,6 @@ public abstract class AbstractModuleHandler implements ModuleHandlerInterface
     private final ArrayList<CaptureStateChanged> onCaptureStateChangedListners;
 
     private final String TAG = AbstractModuleHandler.class.getSimpleName();
-    public ModuleEventHandler moduleEventHandler;
     public AbstractMap<String, ModuleInterface> moduleList;
     protected ModuleInterface currentModule;
     protected CameraWrapperInterface cameraUiWrapper;
@@ -87,9 +87,8 @@ public abstract class AbstractModuleHandler implements ModuleHandlerInterface
         WorkFinishedListners = new ArrayList<>();
         RecorderStateListners = new ArrayList<>();
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
-
-        moduleEventHandler = new ModuleEventHandler();
         onCaptureStateChangedListners = new ArrayList<>();
+        uihandler = new Handler(Looper.getMainLooper());
 
         workerListner = new CaptureStateChanged() {
             @Override
@@ -122,7 +121,7 @@ public abstract class AbstractModuleHandler implements ModuleHandlerInterface
         }
         currentModule = moduleList.get(name);
         currentModule.InitModule();
-        moduleEventHandler.ModuleHasChanged(currentModule.ModuleName());
+        ModuleHasChanged(currentModule.ModuleName());
         currentModule.SetCaptureStateChangedListner(workerListner);
         Logger.d(TAG, "Set Module to " + name);
     }

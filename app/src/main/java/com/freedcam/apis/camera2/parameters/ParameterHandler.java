@@ -144,8 +144,6 @@ public class ParameterHandler extends AbstractParameterHandler
             }
         });
         SetAppSettingsToParameters();
-        setMode(Module, AppSettingsManager.SETTING_CURRENTMODULE);
-
     }
 
 
