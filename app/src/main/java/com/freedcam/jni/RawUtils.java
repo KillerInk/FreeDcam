@@ -21,7 +21,7 @@ import java.util.HashMap;
 public class RawUtils {
 
     static final String TAG = RawUtils.class.getSimpleName();
-    private static int DEFAULT_JPG_QUALITY = 85;
+    private static final int DEFAULT_JPG_QUALITY = 85;
 
     public RawUtils() {
 
@@ -120,7 +120,7 @@ public class RawUtils {
     }
 
     /**
-     * 
+     *
      * @param rawFileName
      * @param thumbFileName
      * @return
@@ -213,7 +213,7 @@ public class RawUtils {
     private HashMap<String, String> parseExif(String fileName) {
         HashMap<String, String> exif = new HashMap<>();
 
-            parseExif(fileName, exif);
+        parseExif(fileName, exif);
         return exif;
     }
 

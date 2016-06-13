@@ -47,7 +47,7 @@ public class DenoiseModeApi2 extends BaseModeApi2
 
     @Override
     public boolean IsSupported() {
-        return cameraUiWrapper.GetCameraHolder() != null && ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.NOISE_REDUCTION_MODE) != null;
+        return cameraUiWrapper.GetCameraHolder() != null && ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.NOISE_REDUCTION_MODE) != null;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class DenoiseModeApi2 extends BaseModeApi2
         if (valueToSet.contains("unknown Scene"))
             return;
         DeNoiseModes sceneModes = Enum.valueOf(DeNoiseModes.class, valueToSet);
-        ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.NOISE_REDUCTION_MODE, sceneModes.ordinal());
+        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.NOISE_REDUCTION_MODE, sceneModes.ordinal());
         BackgroundValueHasChanged(valueToSet);
     }
 
@@ -64,7 +64,7 @@ public class DenoiseModeApi2 extends BaseModeApi2
     @Override
     public String GetValue()
     {
-        int i = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.NOISE_REDUCTION_MODE);
+        int i = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.NOISE_REDUCTION_MODE);
         DeNoiseModes sceneModes = DeNoiseModes.values()[i];
         return sceneModes.toString();
 
@@ -74,7 +74,7 @@ public class DenoiseModeApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        int[] values = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.NOISE_REDUCTION_AVAILABLE_NOISE_REDUCTION_MODES);
+        int[] values = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.NOISE_REDUCTION_AVAILABLE_NOISE_REDUCTION_MODES);
         String[] retvals = new String[values.length];
         for (int i = 0; i < values.length; i++)
         {

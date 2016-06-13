@@ -29,7 +29,7 @@ public class BaseHolder
 {
     protected ViewStates currentstate = GridViewFragment.ViewStates.normal;
     protected EventHandler handler;
-    protected boolean selected = false;
+    protected boolean selected;
 
 
     public GridViewFragment.ViewStates GetCurrentViewState()
@@ -62,7 +62,7 @@ public class BaseHolder
     public void SetSelected(boolean selected)
     {
         this.selected = selected;
-        if (handler!=null)
+        if (handler !=null)
             handler.onSelectionChanged(selected);
     }
 }

@@ -57,7 +57,7 @@ public class BaseISOManual extends BaseManualParameter {
         {
             set_manual();
         }
-        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 
 

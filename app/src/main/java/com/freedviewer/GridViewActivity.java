@@ -40,7 +40,7 @@ public class GridViewActivity extends AbstractFragmentActivity
         {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             GridViewFragment fragment = new GridViewFragment();
-            fragment.SetBitmapHelperAndAppSettings(bitmapHelper,appSettingsManager);
+            fragment.SetBitmapHelperAndAppSettings(bitmapHelper, appSettingsManager);
             ft.add(id.content, fragment, TAG);
             ft.commit();
         }

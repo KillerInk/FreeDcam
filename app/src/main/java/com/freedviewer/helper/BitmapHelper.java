@@ -154,7 +154,7 @@ public class BitmapHelper
     {
         if (fileListners == null)
             return;
-        for (int i= 0; i<fileListners.size(); i++)
+        for (int i = 0; i< fileListners.size(); i++)
         {
             if (fileListners.get(i) !=null)
                 fileListners.get(i).onFileDeleted(file);
@@ -189,7 +189,7 @@ public class BitmapHelper
     {
         if (fileListners == null)
             return;
-        for (int i= 0; i<fileListners.size(); i++)
+        for (int i = 0; i< fileListners.size(); i++)
         {
             if (fileListners.get(i) !=null)
                 fileListners.get(i).onFileAdded(file);

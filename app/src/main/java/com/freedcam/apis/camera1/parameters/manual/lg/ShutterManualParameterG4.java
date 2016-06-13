@@ -36,8 +36,8 @@ import java.util.Arrays;
  */
 public class ShutterManualParameterG4 extends BaseManualParameter
 {
-    private static String TAG = ShutterManualParameterG4.class.getSimpleName();
-    private AeManualEvent manualevent;
+    private final String TAG = ShutterManualParameterG4.class.getSimpleName();
+    private final AeManualEvent manualevent;
 
     public ShutterManualParameterG4(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AeManualEvent manualevent)
     {

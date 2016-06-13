@@ -65,7 +65,7 @@ public class ZTE_ADV extends BaseQcomDevice {
 
     @Override
     public ManualParameterInterface getSkintoneParameter() {
-        AbstractManualParameter Skintone = new SkintoneManualPrameter(parameters,cameraUiWrapper);
+        AbstractManualParameter Skintone = new SkintoneManualPrameter(parameters, cameraUiWrapper);
         parametersHandler.PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
         cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(((BaseManualParameter) Skintone).GetModuleListner());
         return Skintone;
@@ -73,7 +73,7 @@ public class ZTE_ADV extends BaseQcomDevice {
 
     @Override
     public ModeParameterInterface getNightMode() {
-        return new NightModeZTE(parameters,cameraUiWrapper);
+        return new NightModeZTE(parameters, cameraUiWrapper);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class ZTE_ADV extends BaseQcomDevice {
             case 6721536:
                 return new DngProfile(64,2592,1296,DngProfile.Qcom,DngProfile.BGGR,0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));
             case 16424960:
-                return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.G4));
+                return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.G4));
             case 17522688:
                 return new DngProfile(64, 4212, 3120, DngProfile.Qcom, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.G4));
         }
@@ -121,6 +121,6 @@ public class ZTE_ADV extends BaseQcomDevice {
         parameters.set("touch-aec","on");
         parameters.set("raw-size","4208x3120");
         parameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);
-        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 }

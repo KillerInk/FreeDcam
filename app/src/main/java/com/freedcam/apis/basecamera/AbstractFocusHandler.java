@@ -39,9 +39,9 @@ public abstract class AbstractFocusHandler
         this.cameraUiWrapper = cameraUiWrapper;
     }
 
-    public void StartFocus(){}
-    public void StartTouchToFocus(FocusRect rect,int width, int height){}
-    public void SetMeteringAreas(FocusRect meteringRect, int width, int height){}
+    public abstract void StartFocus();
+    public abstract void StartTouchToFocus(FocusRect rect,int width, int height);
+    public abstract void SetMeteringAreas(FocusRect meteringRect, int width, int height);
     public FocusHandlerInterface focusEvent;
     public abstract boolean isAeMeteringSupported();
     public abstract void SetMotionEvent(MotionEvent event);

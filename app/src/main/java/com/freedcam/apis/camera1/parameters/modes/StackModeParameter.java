@@ -40,7 +40,6 @@ public class StackModeParameter extends AbstractModeParameter
     private String current = AVARAGE;
 
     public StackModeParameter() {
-        super();
     }
 
     @Override
@@ -65,6 +64,6 @@ public class StackModeParameter extends AbstractModeParameter
 
     @Override
     public String[] GetValues() {
-        return new String[] {AVARAGE, AVARAGE1x2, AVARAGE1x3, AVARAGE3x3, LIGHTEN, LIGHTEN_V,MEDIAN };
+        return new String[] {AVARAGE, AVARAGE1x2, AVARAGE1x3, AVARAGE3x3, LIGHTEN, LIGHTEN_V, MEDIAN};
     }
 }

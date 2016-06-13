@@ -60,7 +60,7 @@ public class SimpleSsdpClient {
         void onErrorFinished();
     }
 
-    private boolean mSearching = false;
+    private boolean mSearching;
 
     /**
      * Search API server device.

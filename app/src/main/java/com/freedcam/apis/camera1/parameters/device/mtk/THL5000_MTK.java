@@ -43,6 +43,6 @@ public class THL5000_MTK extends BaseMTKDevice {
 
     @Override
     public DngProfile getDngProfile(int filesize) {
-        return new DngProfile(64, 4192, 3104, DngProfile.Plain, DngProfile.RGGB, 0,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+        return new DngProfile(64, 4192, 3104, DngProfile.Plain, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
     }
 }

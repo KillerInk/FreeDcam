@@ -35,10 +35,10 @@ import com.troop.freedcam.R.id;
  */
 public class UserMessageHandler implements CameraWrapperEventInterface
 {
-    private LinearLayout messageHolder;
-    private TextView messageTextView;
+    private final LinearLayout messageHolder;
+    private final TextView messageTextView;
     private CameraWrapperInterface cameraUiWrapper;
-    private Handler handler;
+    private final Handler handler;
 
     public UserMessageHandler(View view)
     {
@@ -63,7 +63,7 @@ public class UserMessageHandler implements CameraWrapperEventInterface
         handler.postDelayed(hideTextView, 3000);
     }
 
-    private Runnable hideTextView = new Runnable() {
+    private final Runnable hideTextView = new Runnable() {
         @Override
         public void run()
         {

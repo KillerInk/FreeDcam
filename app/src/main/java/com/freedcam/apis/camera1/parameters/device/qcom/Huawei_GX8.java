@@ -42,7 +42,7 @@ public class Huawei_GX8 extends BaseQcomDevice {
 
     @Override
     public AbstractManualParameter getManualFocusParameter() {
-        return new FocusManualHuawei(parameters,cameraUiWrapper);
+        return new FocusManualHuawei(parameters, cameraUiWrapper);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class Huawei_GX8 extends BaseQcomDevice {
         switch (filesize)
         {
             case 16424960:
-                return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
         }
         return null;
     }

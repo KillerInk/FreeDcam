@@ -64,7 +64,7 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent , I_P
     private void SetViewG(final String str)
     {
 
-            img.post(new Runnable() {
+        img.post(new Runnable() {
                 @Override
                 public void run() {
                     if (quckRationMath < 1.44f) {
@@ -210,7 +210,7 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent , I_P
 
     }
 
-    private I_ModeParameterEvent previewSizeChanged = new I_ModeParameterEvent() {
+    private final I_ModeParameterEvent previewSizeChanged = new I_ModeParameterEvent() {
         @Override
         public void onValueChanged(String val) {
             String img = appSettingsManager.getString(AppSettingsManager.SETTING_GUIDE);

@@ -84,7 +84,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
     private RequestModes requestMode = RequestModes.none;
 
     private TextView filesSelected;
-    private int filesSelectedCount =0;
+    private int filesSelectedCount;
     private boolean isRootDir = true;
     private AppSettingsManager appSettingsManager;
     private BitmapHelper bitmapHelper;
@@ -117,14 +117,14 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container, savedInstanceState);
-        deleteButton = (Button)view.findViewById(id.button_deltePics);
+        deleteButton = (Button) view.findViewById(id.button_deltePics);
         deleteButton.setVisibility(View.GONE);
         deleteButton.setOnClickListener(onDeltedButtonClick);
 
         ImageButton gobackButton = (ImageButton) view.findViewById(id.button_goback);
         gobackButton.setOnClickListener(onGobBackClick);
 
-        filetypeButton = (Button)view.findViewById(id.button_filetype);
+        filetypeButton = (Button) view.findViewById(id.button_filetype);
         filetypeButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,9 +132,9 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
             }
         });
 
-        filesSelected = (TextView)view.findViewById(id.textView_filesSelected);
+        filesSelected = (TextView) view.findViewById(id.textView_filesSelected);
 
-        rawToDngButton = (Button)view.findViewById(id.button_rawToDng);
+        rawToDngButton = (Button) view.findViewById(id.button_rawToDng);
         rawToDngButton.setVisibility(View.GONE);
         rawToDngButton.setOnClickListener(onRawToDngClick);
 
@@ -213,19 +213,19 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 {
                     Intent i = new Intent(getActivity(), ScreenSlideActivity.class);
                     i.putExtra(ScreenSlideActivity.EXTRA_IMAGE, position);
-                    if (mPagerAdapter.getFiles() != null &&mPagerAdapter.getFiles().size() >0)
+                    if (mPagerAdapter.getFiles() != null && mPagerAdapter.getFiles().size() >0)
                     {
                         if (!mPagerAdapter.GetFileHolder(position).IsFolder())
                             i.putExtra(ScreenSlideActivity.IMAGE_PATH, mPagerAdapter.GetFileHolder(position).getFile().getParentFile().getAbsolutePath());
                         else
-                            i.putExtra(ScreenSlideActivity.IMAGE_PATH,  mPagerAdapter.GetFileHolder(position).getFile().getAbsolutePath());
+                            i.putExtra(ScreenSlideActivity.IMAGE_PATH, mPagerAdapter.GetFileHolder(position).getFile().getAbsolutePath());
                     }
                     i.putExtra(ScreenSlideActivity.FileType, formatsToShow.name());
                     startActivity(i);
                 }
                 else
                 {
-                    savedInstanceFilePath =  mPagerAdapter.GetFileHolder(position).getFile().getAbsolutePath();
+                    savedInstanceFilePath = mPagerAdapter.GetFileHolder(position).getFile().getAbsolutePath();
                     mPagerAdapter.loadFiles(mPagerAdapter.GetFileHolder(position).getFile());
                     isRootDir = false;
                     setViewMode(currentViewState);
@@ -316,7 +316,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
             switch (viewState)
             {
                 case normal:
-                    if ((formatsToShow == FormatTypes.raw && lastFormat != FormatTypes.raw)) {
+                    if (formatsToShow == FormatTypes.raw && lastFormat != FormatTypes.raw) {
                         formatsToShow = lastFormat;
                         mPagerAdapter.SetFormatToShow(formatsToShow);
                         mPagerAdapter.loadFiles(new File(savedInstanceFilePath));
@@ -382,7 +382,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                     if (mPagerAdapter.getFiles().get(i).IsSelected())
                     {
                         FileHolder f = mPagerAdapter.getFiles().get(i);
-                        boolean del = bitmapHelper.DeleteFile(f,appSettingsManager, getContext());
+                        boolean del = bitmapHelper.DeleteFile(f, appSettingsManager, getContext());
                         MediaScannerManager.ScanMedia(getContext(), f.getFile());
                         Logger.d(TAG, "file: " + f.getFile().getName() + " deleted:" + del);
                         if (del) {
@@ -406,7 +406,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
         });
     }
 
-    private OnClickListener onGobBackClick = new OnClickListener() {
+    private final OnClickListener onGobBackClick = new OnClickListener() {
         @Override
         public void onClick(View view)
         {
@@ -414,7 +414,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
             {
                 if (mPagerAdapter.getFiles() != null && mPagerAdapter.getFiles().size() > 0)
                 {
-                    File topPath =  mPagerAdapter.GetFileHolder(0).getFile().getParentFile().getParentFile();
+                    File topPath = mPagerAdapter.GetFileHolder(0).getFile().getParentFile().getParentFile();
                     if (topPath.getName().equals("DCIM") && !isRootDir)
                     {
                         savedInstanceFilePath = null;
@@ -430,7 +430,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                     {
                         isRootDir = false;
                         mPagerAdapter.loadFiles(mPagerAdapter.GetFileHolder(0).getFile());
-                        savedInstanceFilePath =  mPagerAdapter.GetFileHolder(0).getFile().getAbsolutePath();
+                        savedInstanceFilePath = mPagerAdapter.GetFileHolder(0).getFile().getAbsolutePath();
                         setViewMode(currentViewState);
                     }
                 }
@@ -445,7 +445,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
             {
                 for (int i = 0; i< mPagerAdapter.getFiles().size(); i++)
                 {
-                    FileHolder f =  mPagerAdapter.GetFileHolder(i);
+                    FileHolder f = mPagerAdapter.GetFileHolder(i);
                     f.SetSelected(false);
                 }
                 setViewMode(ViewStates.normal);
@@ -461,7 +461,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
 
     }
 
-    private OnClickListener onRawToDngClick = new OnClickListener() {
+    private final OnClickListener onRawToDngClick = new OnClickListener() {
         @Override
         public void onClick(View v)
         {
@@ -497,7 +497,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
     /*
     DELTE FILES STUFF
      */
-    private DialogInterface.OnClickListener dialogDeleteClickListener = new DialogInterface.OnClickListener() {
+    private final DialogInterface.OnClickListener dialogDeleteClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
@@ -509,7 +509,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                     setViewMode(ViewStates.normal);
                     for (int i = 0; i< mPagerAdapter.getFiles().size(); i++)
                     {
-                        FileHolder f =  mPagerAdapter.GetFileHolder(i);
+                        FileHolder f = mPagerAdapter.GetFileHolder(i);
                         f.SetSelected(false);
                     }
                     break;
@@ -517,7 +517,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
         }
     };
 
-    private OnClickListener onDeltedButtonClick = new OnClickListener() {
+    private final OnClickListener onDeltedButtonClick = new OnClickListener() {
         @Override
         public void onClick(View v)
         {
@@ -549,7 +549,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 }
                 else
                 {
-                    DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(appSettingsManager,getContext());
+                    DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(appSettingsManager, getContext());
                     if (sdDir == null) {
                         I_Activity i_activity = (I_Activity) getActivity();
                         i_activity.ChooseSDCard(GridViewFragment.this);

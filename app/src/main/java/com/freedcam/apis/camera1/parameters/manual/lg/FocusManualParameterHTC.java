@@ -70,12 +70,12 @@ public class FocusManualParameterHTC extends BaseManualParameter
         if(valueToSet != 0)
         {
             parameters.set(key_value, stringvalues[valueToSet]);
-            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         }
         else if (valueToSet == 0)
         {
             parameters.set(key_value, valueToSet+"");
-            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         }
     }
 

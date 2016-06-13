@@ -22,6 +22,7 @@ package com.freedviewer.screenslide;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.SparseArray;
 import android.view.ViewGroup;
@@ -45,14 +46,14 @@ import java.util.List;
 class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
 {
     private List<FileHolder> files;
-    private FragmentClickClistner fragmentclickListner;
-    private ViewPager mPager;
+    private final FragmentClickClistner fragmentclickListner;
+    private final ViewPager mPager;
     private final String TAG = ScreenSlidePagerAdapter.class.getSimpleName();
     private String FilePathToLoad = "";
     private FormatTypes filestoshow = FormatTypes.all;
-    private AppSettingsManager appSettingsManager;
-    private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
-    private BitmapHelper bitmapHelper;
+    private final AppSettingsManager appSettingsManager;
+    private final SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
+    private final BitmapHelper bitmapHelper;
 
     public ScreenSlidePagerAdapter(FragmentManager fm, ViewPager mPager, FragmentClickClistner fragmentclickListner, FormatTypes filestoshow,AppSettingsManager appSettingsManager, BitmapHelper bitmapHelper)
     {
@@ -103,7 +104,7 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
         if (files == null)
             return;
         mPager.setAdapter(null);
-        Logger.d(TAG, "addfile:" +file.getName() + " currentCount:"+files.size());
+        Logger.d(TAG, "addfile:" +file.getName() + " currentCount:"+ files.size());
         if (files.size() >0)
             files.add(new FileHolder(file, files.get(0).isExternalSD()));
         else
@@ -113,7 +114,7 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
                 return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
             }
         });
-        Logger.d(TAG, "currentCount:"+files.size());
+        Logger.d(TAG, "currentCount:"+ files.size());
         notifyDataSetChanged();
         mPager.setAdapter(this);
         mPager.setCurrentItem(0);
@@ -142,7 +143,7 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
             files = null;
             return;
         }
-        FileHolder.readFilesFromFolder(folder, images, filestoshow,appSettingsManager.GetWriteExternal());
+        FileHolder.readFilesFromFolder(folder, images, filestoshow, appSettingsManager.GetWriteExternal());
         files = images;
         Logger.d(TAG, "readFiles sucess, FilesCount" + files.size());
         notifyDataSetChanged();
@@ -184,7 +185,7 @@ class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
             return position;
         } else {
             // Returning POSITION_NONE means the current data does not matches the data this fragment is showing right now.  Returning POSITION_NONE constant will force the fragment to redraw its view layout all over again and show new data.
-            return POSITION_NONE;
+            return PagerAdapter.POSITION_NONE;
         }
     }
 

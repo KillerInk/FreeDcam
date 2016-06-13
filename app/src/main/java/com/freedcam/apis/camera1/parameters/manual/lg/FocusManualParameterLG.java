@@ -33,7 +33,7 @@ import com.freedcam.utils.DeviceUtils.Devices;
  */
 public class FocusManualParameterLG extends BaseManualParameter
 {
-    private static String TAG =FocusManualParameterLG.class.getSimpleName();
+    private final String TAG =FocusManualParameterLG.class.getSimpleName();
 
     public FocusManualParameterLG(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, "", "", "", cameraUiWrapper,1);
@@ -47,7 +47,7 @@ public class FocusManualParameterLG extends BaseManualParameter
                 max = 60;
             else
                 max = 79;
-            stringvalues = createStringArray(0,max,step);
+            stringvalues = createStringArray(0,max, step);
         }
 
     }
@@ -63,7 +63,7 @@ public class FocusManualParameterLG extends BaseManualParameter
                 cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(KEYS.FOCUS_MODE_NORMAL, true);
             }
             parameters.set(KEYS.MANUALFOCUS_STEP, stringvalues[valueToSet]);
-            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         }
         else if (valueToSet == 0)
         {

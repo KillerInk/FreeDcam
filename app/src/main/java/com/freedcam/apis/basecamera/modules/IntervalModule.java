@@ -30,15 +30,15 @@ import com.freedcam.utils.Logger;
  */
 public class IntervalModule extends AbstractModule implements CaptureStateChanged
 {
-    private AbstractModule picModule;
-    private IntervalHandler intervalHandler;
+    private final AbstractModule picModule;
+    private final IntervalHandler intervalHandler;
     private  final String TAG  = IntervalModule.class.getSimpleName();
 
     public IntervalModule(AbstractModule picModule, CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
         this.picModule = picModule;
 
-        intervalHandler = new IntervalHandler(picModule,appSettingsManager);
+        intervalHandler = new IntervalHandler(picModule, appSettingsManager);
         name = KEYS.MODULE_INTERVAL;
     }
 

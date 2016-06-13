@@ -49,11 +49,11 @@ public class ApiHandler
     }
 
     private final  String TAG = ApiHandler.class.getSimpleName();
-    private Context context;
-    private AppSettingsManager appSettingsManager;
-    private RenderScriptHandler renderScriptHandler;
+    private final Context context;
+    private final AppSettingsManager appSettingsManager;
+    private final RenderScriptHandler renderScriptHandler;
 
-    private ApiEvent event;
+    private final ApiEvent event;
 
     public ApiHandler(Context context, ApiEvent event, AppSettingsManager appSettingsManager, RenderScriptHandler renderScriptHandler) {
         this.event = event;
@@ -76,7 +76,7 @@ public class ApiHandler
                 FreeDPool.Execute(new Runnable() {
                     @Override
                     public void run() {
-                        boolean legacy = CameraHolderApi2.IsLegacy(appSettingsManager,context);
+                        boolean legacy = CameraHolderApi2.IsLegacy(appSettingsManager, context);
                         if (legacy) {
                             appSettingsManager.SetCamera2FullSupported("false");
                             appSettingsManager.setCamApi(AppSettingsManager.API_1);

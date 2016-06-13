@@ -37,7 +37,7 @@ public class AbstractModeParameter implements ModeParameterInterface
 {
     //Holds the ui thread to invoke ui items
     Handler uihandler;
-    private static String TAG = AbstractModeParameter.class.getSimpleName();
+    private final String TAG = AbstractModeParameter.class.getSimpleName();
 
     public AbstractModeParameter()
     {
@@ -78,7 +78,7 @@ public class AbstractModeParameter implements ModeParameterInterface
         void onVisibilityChanged(boolean visible);
     }
 
-    private List<I_ModeParameterEvent> events;
+    private final List<I_ModeParameterEvent> events;
 
     public void addEventListner(I_ModeParameterEvent eventListner)
     {
@@ -135,7 +135,7 @@ public class AbstractModeParameter implements ModeParameterInterface
             return;
         //Log.d(TAG, "BackgroundValueHasCHanged:" + key_value);
 
-        for (int i= 0; i< events.size(); i ++)
+        for (int i = 0; i< events.size(); i ++)
         {
             if (events.get(i) == null)
             {
@@ -159,7 +159,7 @@ public class AbstractModeParameter implements ModeParameterInterface
     }
     public void BackgroundValuesHasChanged(final String[] value)
     {
-        for (int i= 0; i< events.size(); i ++)
+        for (int i = 0; i< events.size(); i ++)
         {
             if (events.get(i) == null)
             {
@@ -187,7 +187,7 @@ public class AbstractModeParameter implements ModeParameterInterface
      */
     public void BackgroundIsSupportedChanged(final boolean value)
     {
-        for (int i= 0; i< events.size(); i ++)
+        for (int i = 0; i< events.size(); i ++)
         {
             if (events.get(i) == null)
             {
@@ -217,7 +217,7 @@ public class AbstractModeParameter implements ModeParameterInterface
      */
     public void BackgroundSetIsSupportedHasChanged(final boolean value)
     {
-        for (int i= 0; i< events.size(); i ++)
+        for (int i = 0; i< events.size(); i ++)
         {
             if (events.get(i) == null)
             {
@@ -243,7 +243,7 @@ public class AbstractModeParameter implements ModeParameterInterface
 
     public void BackgroundVisibilityChanged(final boolean value)
     {
-        for (int i= 0; i< events.size(); i ++)
+        for (int i = 0; i< events.size(); i ++)
         {
             if (events.get(i) == null)
             {

@@ -41,10 +41,10 @@ import java.util.List;
  */
 public class FileHolder extends BaseHolder
 {
-    private File file;
+    private final File file;
     private static final String TAG = FileHolder.class.getSimpleName();
-    private boolean isFolder = false;
-    private boolean isSDCard = false;
+    private boolean isFolder;
+    private final boolean isSDCard;
 
     public FileHolder(File file, boolean external)
     {
@@ -161,7 +161,7 @@ public class FileHolder extends BaseHolder
         }
         else
         {
-            File[] files =  getStorageDirectory().listFiles();
+            File[] files = getStorageDirectory().listFiles();
             boolean internalfound = false;
             boolean externalfound = false;
             for (File file : files)

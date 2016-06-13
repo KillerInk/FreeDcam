@@ -64,7 +64,7 @@ import java.util.List;
 @TargetApi(VERSION_CODES.LOLLIPOP)
 public class ParameterHandler extends AbstractParameterHandler
 {
-    private static String TAG = ParameterHandler.class.getSimpleName();
+    private final String TAG = ParameterHandler.class.getSimpleName();
     private ManualToneMapCurveApi2 manualToneMapCurveApi2;
 
     private CameraHolderApi2 cameraHolder;
@@ -83,7 +83,7 @@ public class ParameterHandler extends AbstractParameterHandler
         {
             Logger.d(TAG, keys.get(i).getName());
         }
-        Module = new ModuleParameters(cameraUiWrapper,appSettingsManager);
+        Module = new ModuleParameters(cameraUiWrapper, appSettingsManager);
         FlashMode = new FlashModeApi2(cameraUiWrapper);
         SceneMode = new SceneModeApi2(cameraUiWrapper);
         ColorMode = new ColorModeApi2(cameraUiWrapper);
@@ -116,7 +116,7 @@ public class ParameterHandler extends AbstractParameterHandler
 
         PictureFormat = new PictureFormatParameterApi2(cameraUiWrapper);
 
-        FocusMode.addEventListner(((FocusHandler)cameraUiWrapper.getFocusHandler()).focusModeListner);
+        FocusMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).focusModeListner);
         ExposureMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).aeModeListner);
         ((FocusHandler) cameraUiWrapper.getFocusHandler()).ParametersLoaded();
 

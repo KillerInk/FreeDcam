@@ -53,10 +53,10 @@ import java.io.IOException;
 public class PictureModule extends AbstractModule implements Camera.PictureCallback
 {
 
-    private static String TAG = PictureModule.class.getSimpleName();
-    private int burstcount = 0;
+    private final String TAG = PictureModule.class.getSimpleName();
+    private int burstcount;
     protected CameraHolder cameraHolder;
-    protected boolean waitForPicture = false;
+    protected boolean waitForPicture;
 
 
     public PictureModule(CameraWrapperInterface cameraUiWrapper)
@@ -85,26 +85,26 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     @Override
     public boolean DoWork()
     {
-        Logger.d(TAG, "DoWork:isWorking:"+isWorking);
+        Logger.d(this.TAG, "DoWork:isWorking:"+ isWorking);
         if (!isWorking)
         {
             isWorking = true;
             String picformat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
-            Logger.d(TAG,"DoWork:picformat:" + picformat);
+            Logger.d(this.TAG,"DoWork:picformat:" + picformat);
             if (picformat.equals(KEYS.DNG) ||picformat.equals(KEYS.BAYER))
             {
                 if (cameraUiWrapper.GetParameterHandler().ZSL != null && cameraUiWrapper.GetParameterHandler().ZSL.IsSupported() && cameraUiWrapper.GetParameterHandler().ZSL.GetValue().equals("on"))
                 {
-                    Logger.d(TAG,"ZSL is on turning it off");
+                    Logger.d(this.TAG,"ZSL is on turning it off");
                     cameraUiWrapper.GetParameterHandler().ZSL.SetValue("off", true);
-                    Logger.d(TAG,"ZSL state after turning it off:" + cameraUiWrapper.GetParameterHandler().ZSL.GetValue());
+                    Logger.d(this.TAG,"ZSL state after turning it off:" + cameraUiWrapper.GetParameterHandler().ZSL.GetValue());
                 }
             }
             changeCaptureState(CaptureStates.image_capture_start);
             waitForPicture = true;
             burstcount = 0;
             cameraHolder.TakePicture(this);
-            Logger.d(TAG,"TakePicture");
+            Logger.d(this.TAG,"TakePicture");
         }
         return true;
 
@@ -117,8 +117,8 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("yuv420sp",true);
         if (cameraUiWrapper.GetParameterHandler().VideoHDR != null && cameraUiWrapper.GetParameterHandler().VideoHDR.IsSupported() && !cameraUiWrapper.GetParameterHandler().VideoHDR.GetValue().equals("off"))
             cameraUiWrapper.GetParameterHandler().VideoHDR.SetValue("off", true);
-        if(appSettingsManager.getDevice() == Devices.ZTE_ADV || appSettingsManager.getDevice() == Devices.ZTEADV234 ||appSettingsManager.getDevice() == Devices.ZTEADVIMX214) {
-            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetZTESlowShutter();
+        if(appSettingsManager.getDevice() == Devices.ZTE_ADV || appSettingsManager.getDevice() == Devices.ZTEADV234 || appSettingsManager.getDevice() == Devices.ZTEADVIMX214) {
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetZTESlowShutter();
         }
     }
 
@@ -130,10 +130,10 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     @Override
     public void onPictureTaken(final byte[] data, Camera camera)
     {
-        Logger.d(TAG, "onPictureTaken():"+data.length);
+        Logger.d(this.TAG, "onPictureTaken():"+data.length);
         if (!waitForPicture)
         {
-            Logger.d(TAG, "Got pic data but did not wait for pic");
+            Logger.d(this.TAG, "Got pic data but did not wait for pic");
             waitForPicture = false;
             changeCaptureState(CaptureStates.image_capture_stop);
             cameraHolder.StartPreview();
@@ -151,10 +151,10 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         //Handel Burst capture
         if (cameraUiWrapper.GetParameterHandler().Burst != null && cameraUiWrapper.GetParameterHandler().Burst.IsSupported() && cameraUiWrapper.GetParameterHandler().Burst.GetValue() > 1)
         {
-            Logger.d(TAG, "BurstCapture Count:" + burstcount + "/"+cameraUiWrapper.GetParameterHandler().Burst.GetValue());
+            Logger.d(this.TAG, "BurstCapture Count:" + burstcount + "/"+ cameraUiWrapper.GetParameterHandler().Burst.GetValue());
             if (burstcount == cameraUiWrapper.GetParameterHandler().Burst.GetValue())
             {
-                Logger.d(TAG, "BurstCapture done");
+                Logger.d(this.TAG, "BurstCapture done");
                 waitForPicture = false;
                 isWorking = false;
                 cameraHolder.StartPreview();
@@ -175,7 +175,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     protected void saveImage(byte[]data, String picFormat)
     {
         File toSave = getFile(getFileEnding(picFormat));
-        Logger.d(TAG, "saveImage:"+toSave.getName() + " Filesize: "+data.length);
+        Logger.d(this.TAG, "saveImage:"+toSave.getName() + " Filesize: "+data.length);
         if (picFormat.equals(FileEnding.DNG))
             saveDng(data,toSave);
         else
@@ -208,7 +208,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
     protected void saveDng(byte[] data, File file)
     {
         RawToDng dngConverter = RawToDng.GetInstance();
-        Logger.d(TAG,"saveDng");
+        Logger.d(this.TAG,"saveDng");
         double Altitude = 0;
         double Latitude = 0;
         double Longitude = 0;
@@ -216,7 +216,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         long gpsTime = 0;
         if (cameraHolder.gpsLocation != null)
         {
-            Logger.d(TAG, "Has GPS");
+            Logger.d(this.TAG, "Has GPS");
             Altitude = cameraHolder.gpsLocation.getAltitude();
             Latitude = cameraHolder.gpsLocation.getLatitude();
             Longitude = cameraHolder.gpsLocation.getLongitude();
@@ -231,7 +231,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         if (cameraUiWrapper.GetParameterHandler().CCT != null && cameraUiWrapper.GetParameterHandler().CCT.IsSupported())
         {
             String wb = cameraUiWrapper.GetParameterHandler().CCT.GetStringValue();
-            Logger.d(TAG,"Set Manual WhiteBalance:"+ wb);
+            Logger.d(this.TAG,"Set Manual WhiteBalance:"+ wb);
             if (!wb.equals(KEYS.AUTO))
             {
                 dngConverter.SetWBCT(wb);
@@ -240,7 +240,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
 
         if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP && !appSettingsManager.GetWriteExternal())
         {
-            Logger.d(TAG, "Write To internal or kitkat<");
+            Logger.d(this.TAG, "Write To internal or kitkat<");
             checkFileExists(file);
             dngConverter.SetBayerData(data, file.getAbsolutePath());
             dngConverter.WriteDngWithProfile(cameraUiWrapper.GetParameterHandler().getDevice().getDngProfile(data.length));
@@ -248,10 +248,10 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         }
         else
         {
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,cameraUiWrapper.getContext());
-            Logger.d(TAG,"Filepath: " + df.getUri());
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, cameraUiWrapper.getContext());
+            Logger.d(this.TAG,"Filepath: " + df.getUri());
             DocumentFile wr = df.createFile("image/dng", file.getName().replace(".jpg", ".dng"));
-            Logger.d(TAG,"Filepath: " + wr.getUri());
+            Logger.d(this.TAG,"Filepath: " + wr.getUri());
             ParcelFileDescriptor pfd = null;
             try {
                 pfd = cameraUiWrapper.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");

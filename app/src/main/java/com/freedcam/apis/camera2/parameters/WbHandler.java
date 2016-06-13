@@ -38,10 +38,10 @@ import java.util.HashMap;
  */
 public class WbHandler
 {
-    private CameraWrapperInterface cameraUiWrapper;
-    private WhiteBalanceApi2 whiteBalanceApi2;
-    private ColorCorrectionModeApi2 colorCorrectionMode;
-    private ManualWbCtApi2 manualWbCt;
+    private final CameraWrapperInterface cameraUiWrapper;
+    private final WhiteBalanceApi2 whiteBalanceApi2;
+    private final ColorCorrectionModeApi2 colorCorrectionMode;
+    private final ManualWbCtApi2 manualWbCt;
 
     private WhiteBalanceValues activeWbMode = WhiteBalanceValues.AUTO;
 
@@ -114,12 +114,12 @@ public class WbHandler
     public class WhiteBalanceApi2 extends BaseModeApi2
     {
         private String lastcctmode = "FAST";
-        private boolean isSupported = false;
+        private boolean isSupported;
 
         public WhiteBalanceApi2()
         {
             super(WbHandler.this.cameraUiWrapper);
-            int[] values = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES);
+            int[] values = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES);
             if (values.length > 1)
                 isSupported = true;
             lastcctmode = colorCorrectionMode.GetValue();
@@ -142,13 +142,13 @@ public class WbHandler
             {
                 String t = valueToSet.substring(valueToSet.length() -2);
                 int i = Integer.parseInt(t);
-                ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AWB_MODE, i);
+                ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AWB_MODE, i);
             }
             else
             {
                 WhiteBalanceValues sceneModes = Enum.valueOf(WhiteBalanceValues.class, valueToSet);
                 setWbMode(sceneModes);
-                ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AWB_MODE, sceneModes.ordinal());
+                ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AWB_MODE, sceneModes.ordinal());
             }
             BackgroundValueHasChanged(valueToSet);
         }
@@ -156,10 +156,10 @@ public class WbHandler
         @Override
         public String GetValue()
         {
-            if (cameraUiWrapper.GetCameraHolder() != null || !((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.CONTROL_AWB_MODE).equals("null"))
+            if (cameraUiWrapper.GetCameraHolder() != null || !((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.CONTROL_AWB_MODE).equals("null"))
             {
                 try {
-                    int i = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.CONTROL_AWB_MODE);
+                    int i = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.CONTROL_AWB_MODE);
                     WhiteBalanceValues sceneModes = WhiteBalanceValues.values()[i];
                     return sceneModes.toString();
                 }
@@ -177,7 +177,7 @@ public class WbHandler
         @Override
         public String[] GetValues()
         {
-            int[] values = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES);
+            int[] values = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AWB_AVAILABLE_MODES);
             String[] retvals = new String[values.length];
             for (int i = 0; i < values.length; i++)
             {
@@ -205,8 +205,8 @@ public class WbHandler
     public class ManualWbCtApi2  extends AbstractManualParameter
     {
         private RggbChannelVector wbChannelVector;
-        private boolean isSupported = false;
-        private HashMap<String, int[]> cctLookup;
+        private boolean isSupported;
+        private final HashMap<String, int[]> cctLookup;
 
         private final String TAG = ManualWbCtApi2.class.getSimpleName();
 
@@ -251,9 +251,9 @@ public class WbHandler
             }
             float rf,gf,bf = 0;
 
-            rf = (float)getRGBToDouble(rgb[0]);
-            gf = (float)getRGBToDouble(rgb[1])/2;//we have two green channels
-            bf = (float)getRGBToDouble(rgb[2]);
+            rf = (float) getRGBToDouble(rgb[0]);
+            gf = (float) getRGBToDouble(rgb[1])/2;//we have two green channels
+            bf = (float) getRGBToDouble(rgb[2]);
             rf = rf/gf;
             bf = bf/gf;
             gf = 1;
@@ -261,7 +261,7 @@ public class WbHandler
             Logger.d(TAG, "r:" +rgb[0] +" g:"+rgb[1] +" b:"+rgb[2]);
             Logger.d(TAG, "ColorTemp=" + valueToSet + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
             wbChannelVector =  new RggbChannelVector(rf,gf,gf,bf);
-            ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_GAINS, wbChannelVector);
+            ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_GAINS, wbChannelVector);
 
         }
 
@@ -319,7 +319,7 @@ public class WbHandler
 
         @Override
         public boolean IsSupported() {
-            return cameraUiWrapper.GetCameraHolder() != null && ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.COLOR_CORRECTION_MODE) != null;
+            return cameraUiWrapper.GetCameraHolder() != null && ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.COLOR_CORRECTION_MODE) != null;
         }
 
         @Override
@@ -333,7 +333,7 @@ public class WbHandler
 
         private void setValue(ColorCorrectionModes modes)
         {
-            ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_MODE, modes.ordinal());
+            ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.COLOR_CORRECTION_MODE, modes.ordinal());
         }
 
 
@@ -341,7 +341,7 @@ public class WbHandler
         public String GetValue()
         {
             try {
-                int i = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.COLOR_CORRECTION_MODE);
+                int i = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.COLOR_CORRECTION_MODE);
                 ColorCorrectionModes sceneModes = ColorCorrectionModes.values()[i];
                 return sceneModes.toString();
             }

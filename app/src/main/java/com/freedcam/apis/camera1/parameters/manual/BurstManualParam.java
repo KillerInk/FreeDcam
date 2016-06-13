@@ -134,7 +134,7 @@ public class BurstManualParam extends BaseManualParameter
             Logger.d(TAG, KEYS.BURST_NUM+ stringvalues[currentInt]);
         }
 
-        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
 
     }
 
@@ -148,7 +148,7 @@ public class BurstManualParam extends BaseManualParameter
         return moduleListner;
     }
 
-    private I_ModuleEvent moduleListner =new I_ModuleEvent() {
+    private final I_ModuleEvent moduleListner =new I_ModuleEvent() {
         @Override
         public void ModuleChanged(String module)
         {

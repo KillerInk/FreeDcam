@@ -201,7 +201,7 @@ public class JsonUtils
      *
      * @param replyJson
      * @return
-     * @throws org.json.JSONException
+     * @throws JSONException
      */
     public static int findErrorCode(JSONObject replyJson) throws JSONException {
         int code = 0; // 0 means no error.
@@ -218,7 +218,7 @@ public class JsonUtils
      *
      * @param replyJson
      * @return
-     * @throws org.json.JSONException
+     * @throws JSONException
      */
     public static List<String> findAvailableApiList(JSONObject replyJson) throws JSONException {
         List<String> availableApis = new ArrayList<>();
@@ -245,7 +245,7 @@ public class JsonUtils
      *
      * @param replyJson
      * @return
-     * @throws org.json.JSONException
+     * @throws JSONException
      */
     public static String findCameraStatus(JSONObject replyJson) throws JSONException {
         String cameraStatus = null;
@@ -269,7 +269,7 @@ public class JsonUtils
      *
      * @param replyJson
      * @return
-     * @throws org.json.JSONException
+     * @throws JSONException
      */
     public static Boolean findLiveviewStatus(JSONObject replyJson) throws JSONException {
         Boolean liveviewStatus = null;
@@ -293,7 +293,7 @@ public class JsonUtils
      *
      * @param replyJson
      * @return
-     * @throws org.json.JSONException
+     * @throws JSONException
      */
     public static String findShootMode(JSONObject replyJson) throws JSONException {
         String shootMode = null;
@@ -317,7 +317,7 @@ public class JsonUtils
      *
      * @param replyJson
      * @return
-     * @throws org.json.JSONException
+     * @throws JSONException
      */
     public static int findZoomInformation(JSONObject replyJson) throws JSONException {
         int zoomPosition = -1;
@@ -345,7 +345,7 @@ public class JsonUtils
      *
      * @param replyJson
      * @return
-     * @throws org.json.JSONException
+     * @throws JSONException
      */
     public static String findStorageId(JSONObject replyJson) throws JSONException {
         String storageId = null;

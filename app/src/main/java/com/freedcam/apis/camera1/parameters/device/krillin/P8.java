@@ -27,7 +27,6 @@ import com.freedcam.apis.basecamera.FocusRect;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
-import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.device.AbstractDevice;
 import com.troop.androiddng.DngProfile;
 
@@ -89,6 +88,6 @@ public class P8 extends AbstractDevice {
         ArrayList<Camera.Area> ar = new ArrayList<>();
         ar.add(a);
         parameters.setFocusAreas(ar);
-        ((ParametersHandler)parametersHandler).SetParametersToCamera(parameters);
+        parametersHandler.SetParametersToCamera(parameters);
     }
 }

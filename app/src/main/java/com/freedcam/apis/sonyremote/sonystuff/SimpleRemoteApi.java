@@ -26,7 +26,7 @@ public class SimpleRemoteApi {
     private static final boolean FULL_LOG = true;
 
     // API server device you want to send requests.
-    private ServerDevice mTargetServer;
+    private final ServerDevice mTargetServer;
 
     // Request ID of API calling. This will be counted up by each API calling.
     private int mRequestId;
@@ -52,7 +52,7 @@ public class SimpleRemoteApi {
      * 
      * @param service
      * @return
-     * @throws java.io.IOException
+     * @throws IOException
      */
     private String findActionListUrl(String service) throws IOException {
         List<ApiService> services = mTargetServer.getApiServices();
@@ -138,7 +138,7 @@ public class SimpleRemoteApi {
      * </pre>
      *
      * @return JSON data of response
-     * @throws java.io.IOException all errors and exception are wrapped by this
+     * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
     public JSONObject getAvailableApiList() throws IOException {
@@ -160,7 +160,7 @@ public class SimpleRemoteApi {
      * </pre>
      *
      * @return JSON data of response
-     * @throws java.io.IOException all errors and exception are wrapped by this
+     * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
     public JSONObject getApplicationInfo() throws IOException {
@@ -182,7 +182,7 @@ public class SimpleRemoteApi {
      * </pre>
      *
      * @return JSON data of response
-     * @throws java.io.IOException all errors and exception are wrapped by this
+     * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
     public JSONObject getShootMode() throws IOException {
@@ -205,7 +205,7 @@ public class SimpleRemoteApi {
      *
      * @param shootMode shoot mode (ex. "still")
      * @return JSON data of response
-     * @throws java.io.IOException all errors and exception are wrapped by this
+     * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
     public JSONObject setShootMode(String shootMode) throws IOException {
@@ -248,7 +248,7 @@ public class SimpleRemoteApi {
      * </pre>
      *
      * @return JSON data of response
-     * @throws java.io.IOException all errors and exception are wrapped by this
+     * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
     public JSONObject getSupportedShootMode() throws IOException {
@@ -270,7 +270,7 @@ public class SimpleRemoteApi {
      * </pre>
      *
      * @return JSON data of response
-     * @throws java.io.IOException all errors and exception are wrapped by this
+     * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
     public JSONObject startLiveview() throws IOException {
@@ -292,7 +292,7 @@ public class SimpleRemoteApi {
      * </pre>
      *
      * @return JSON data of response
-     * @throws java.io.IOException all errors and exception are wrapped by this
+     * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
     public void stopLiveview() throws IOException {
@@ -314,7 +314,7 @@ public class SimpleRemoteApi {
      * </pre>
      *
      * @return JSON data of response
-     * @throws java.io.IOException all errors and exception are wrapped by this
+     * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
     public JSONObject startRecMode() throws IOException {
@@ -336,7 +336,7 @@ public class SimpleRemoteApi {
      * </pre>
      *
      * @return JSON data of response
-     * @throws java.io.IOException all errors and exception are wrapped by this
+     * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
     public void stopRecMode() throws IOException {
@@ -358,7 +358,7 @@ public class SimpleRemoteApi {
      * </pre>
      *
      * @return JSON data of response
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public JSONObject actTakePicture() throws IOException {
         String service = CAMERA;
@@ -371,7 +371,7 @@ public class SimpleRemoteApi {
     }
 
     public JSONObject startContShoot() throws IOException {
-        String service =CAMERA;
+        String service = CAMERA;
         return executeGetMethod(service, "startContShooting");
     }
 
@@ -394,7 +394,7 @@ public class SimpleRemoteApi {
      * </pre>
      *
      * @return JSON data of response
-     * @throws java.io.IOException all errors and exception are wrapped by this
+     * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
     public JSONObject startMovieRec() throws IOException {
@@ -416,7 +416,7 @@ public class SimpleRemoteApi {
      * </pre>
      *
      * @return JSON data of response
-     * @throws java.io.IOException all errors and exception are wrapped by this
+     * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
     public JSONObject stopMovieRec() throws IOException {
@@ -440,7 +440,7 @@ public class SimpleRemoteApi {
      * @param direction direction of zoom ("in" or "out")
      * @param movement zoom movement ("start", "stop", or "1shot")
      * @return JSON data of response
-     * @throws java.io.IOException all errors and exception are wrapped by this
+     * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
     public JSONObject actZoom(String direction, String movement) throws IOException {
@@ -463,7 +463,7 @@ public class SimpleRemoteApi {
      *
      * @param longPollingFlag true means long polling request.
      * @return JSON data of response
-     * @throws java.io.IOException all errors and exception are wrapped by this
+     * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
     public JSONObject getEvent(boolean longPollingFlag, String eventVersion) throws IOException {
@@ -500,7 +500,7 @@ public class SimpleRemoteApi {
      * </pre>
      *
      * @return JSON data of response
-     * @throws java.io.IOException all errors and exception are wrapped by this
+     * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
     public JSONObject setCameraFunction() throws IOException {
@@ -522,7 +522,7 @@ public class SimpleRemoteApi {
      * </pre>
      *
      * @return JSON data of response
-     * @throws java.io.IOException all errors and exception are wrapped by this
+     * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
     public JSONObject getCameraMethodTypes() throws IOException {
@@ -553,7 +553,7 @@ public class SimpleRemoteApi {
      * </pre>
      *
      * @return JSON data of response
-     * @throws java.io.IOException all errors and exception are wrapped by this
+     * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
     public JSONObject getAvcontentMethodTypes() throws IOException {
@@ -575,7 +575,7 @@ public class SimpleRemoteApi {
      * </pre>
      *
      * @return JSON data of response
-     * @throws java.io.IOException all errors and exception are wrapped by this
+     * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
 
@@ -601,7 +601,7 @@ public class SimpleRemoteApi {
      *
      * @param scheme target scheme to get source
      * @return JSON data of response
-     * @throws java.io.IOException all errors and exception are wrapped by this
+     * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
 
@@ -635,7 +635,7 @@ public class SimpleRemoteApi {
      *
      * @param params request JSON parameter of "params" object.
      * @return JSON data of response
-     * @throws java.io.IOException all errors and exception are wrapped by this
+     * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
 
@@ -676,7 +676,7 @@ public class SimpleRemoteApi {
      *
      * @param uri streaming contents uri
      * @return JSON data of response
-     * @throws java.io.IOException all errors and exception are wrapped by this
+     * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
 
@@ -716,7 +716,7 @@ public class SimpleRemoteApi {
      * </pre>
      *
      * @return JSON data of response
-     * @throws java.io.IOException all errors and exception are wrapped by this
+     * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
 
@@ -751,7 +751,7 @@ public class SimpleRemoteApi {
      * </pre>
      *
      * @return JSON data of response
-     * @throws java.io.IOException all errors and exception are wrapped by this
+     * @throws IOException all errors and exception are wrapped by this
      *             Exception.
      */
 

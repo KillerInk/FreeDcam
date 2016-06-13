@@ -50,57 +50,57 @@ public class VirtualLensFilter extends  BaseModeParameter {
         switch (valueToSet)
         {
             case "Off":
-                parameters.set("color-filter-type", ""+asT[0]);
+                parameters.set("color-filter-type", ""+ asT[0]);
                 break;
             case "Red":
-                parameters.set("color-filter-type", ""+asT[1]);
+                parameters.set("color-filter-type", ""+ asT[1]);
                 parameters.set("color-filter-param", asU[1]);
                 break;
 
             case "Orange":
-                parameters.set("color-filter-type", ""+asT[1]);
+                parameters.set("color-filter-type", ""+ asT[1]);
                 parameters.set("color-filter-param", asU[2]);
                 break;
             case "Yellow":
-                parameters.set("color-filter-type", ""+asT[1]);
+                parameters.set("color-filter-type", ""+ asT[1]);
                 parameters.set("color-filter-param", asU[3]);
                 break;
             case "Green":
-                parameters.set("color-filter-type", ""+asT[1]);
+                parameters.set("color-filter-type", ""+ asT[1]);
                 parameters.set("color-filter-param", asU[4]);
                 break;
             case "Cyan":
-                parameters.set("color-filter-type", ""+asT[1]);
+                parameters.set("color-filter-type", ""+ asT[1]);
                 parameters.set("color-filter-param", asU[5]);
                 break;
             case "Blue":
-                parameters.set("color-filter-type", ""+asT[1]);
+                parameters.set("color-filter-type", ""+ asT[1]);
                 parameters.set("color-filter-param", asU[6]);
                 break;
             case "Purple":
-                parameters.set("color-filter-type", ""+asT[1]);
+                parameters.set("color-filter-type", ""+ asT[1]);
                 parameters.set("color-filter-param", asU[7]);
                 break;
             case "Grad Left":
-                parameters.set("color-filter-type", ""+asT[4]);
+                parameters.set("color-filter-type", ""+ asT[4]);
                 parameters.set("color-filter-param", asU[8]);
                 break;
             case "Grad Right":
-                parameters.set("color-filter-type", ""+asT[3]);
+                parameters.set("color-filter-type", ""+ asT[3]);
                 parameters.set("color-filter-param", asU[9]);
                 break;
             case "Grad Top":
-                parameters.set("color-filter-type", ""+asT[5]);
+                parameters.set("color-filter-type", ""+ asT[5]);
                 parameters.set("color-filter-param", asU[10]);
                 break;
             case "Grad Bottom":
-                parameters.set("color-filter-type", ""+asT[6]);
+                parameters.set("color-filter-type", ""+ asT[6]);
                 parameters.set("color-filter-param", asU[11]);
                 break;
 
 
         }
-        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 
     @Override

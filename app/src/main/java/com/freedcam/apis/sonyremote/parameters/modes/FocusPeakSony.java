@@ -31,8 +31,8 @@ import java.util.Set;
  */
 public class FocusPeakSony extends BaseModeParameterSony {
 
-    private String currentval = KEYS.OFF;
-    private SimpleStreamSurfaceView simpleStreamSurfaceView;
+    private final String currentval = KEYS.OFF;
+    private final SimpleStreamSurfaceView simpleStreamSurfaceView;
 
 
     public FocusPeakSony(SimpleStreamSurfaceView simpleStreamSurfaceView) {

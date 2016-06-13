@@ -52,7 +52,7 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
     private ImageView lineImage;
     private ImageView upImage;
     private ImageView downImage;
-    private float RotateDegree = 0f;
+    private float RotateDegree;
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private Sensor magnetometer;
@@ -65,7 +65,7 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
     private final float rad2deg = (float)(180.0f/Math.PI);
     private final Handler handler = new Handler();
     private Handler sensorHandler;
-    private MySensorListener msl =new MySensorListener();
+    private final MySensorListener msl =new MySensorListener();
 
     public static HorizontLineFragment GetInstance(I_Activity i_activity, AppSettingsManager appSettingsManager)
     {
@@ -80,9 +80,9 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
     {
         super.onCreateView(inflater,container,null);
         view = inflater.inflate(layout.horizontline, container, false);
-        lineImage = (ImageView)view.findViewById(id.horizontlevelline);
-        upImage = (ImageView)view.findViewById(id.horizontlevelup);
-        downImage = (ImageView)view.findViewById(id.horizontleveldown);
+        lineImage = (ImageView) view.findViewById(id.horizontlevelline);
+        upImage = (ImageView) view.findViewById(id.horizontlevelup);
+        downImage = (ImageView) view.findViewById(id.horizontleveldown);
         upImage.setVisibility(View.GONE);
         downImage.setVisibility(View.GONE);
         HandlerThread sensorThread = new HandlerThread("Sensor thread", Thread.MAX_PRIORITY);
@@ -181,7 +181,7 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
 
         public void onSensorChanged(SensorEvent event) {
             if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER)
-                mGravity = lowPass(event.values.clone(),mGravity);
+                mGravity = lowPass(event.values.clone(), mGravity);
             if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
                 mGeomagnetic = event.values.clone();
             if (mGravity != null && mGeomagnetic != null) {

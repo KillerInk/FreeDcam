@@ -40,7 +40,7 @@ import com.freedcam.utils.Logger;
  */
 public class VideoModule extends AbstractVideoModule
 {
-    private static String TAG = VideoModule.class.getSimpleName();
+    private final String TAG = VideoModule.class.getSimpleName();
     private VideoMediaProfile currentProfile;
 
     public VideoModule(CameraWrapperInterface cameraUiWrapper) {
@@ -53,7 +53,7 @@ public class VideoModule extends AbstractVideoModule
     {
         recorder = new MediaRecorder();
         recorder.reset();
-        recorder.setCamera(((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCamera());
+        recorder.setCamera(((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera());
 
         recorder.setVideoSource(VideoSource.CAMERA);
 
@@ -117,7 +117,7 @@ public class VideoModule extends AbstractVideoModule
 
     private void loadProfileSpecificParameters()
     {
-        VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter)cameraUiWrapper.GetParameterHandler().VideoProfiles;
+        VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter) cameraUiWrapper.GetParameterHandler().VideoProfiles;
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         if (currentProfile.Mode == VideoMode.Highspeed)
         {
@@ -132,7 +132,7 @@ public class VideoModule extends AbstractVideoModule
                     && appSettingsManager.getDevice() == Devices.XiaomiMI3W
                     || appSettingsManager.getDevice() == Devices.ZTE_ADV
                     || appSettingsManager.getDevice() == Devices.ZTEADV234
-                    ||appSettingsManager.getDevice() == Devices.ZTEADVIMX214)
+                    || appSettingsManager.getDevice() == Devices.ZTEADVIMX214)
             {
                 cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("120",true);
                 cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus", true);

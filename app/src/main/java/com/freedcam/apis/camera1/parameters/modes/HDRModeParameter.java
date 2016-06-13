@@ -38,8 +38,8 @@ public class HDRModeParameter extends BaseModeParameter
 {
     final String TAG = HDRModeParameter.class.getSimpleName();
     private boolean visible = true;
-    private boolean supportauto = false;
-    private boolean supporton = false;
+    private boolean supportauto;
+    private boolean supporton;
     private String state = "";
     private String format = "";
     private String curmodule = "";
@@ -93,15 +93,15 @@ public class HDRModeParameter extends BaseModeParameter
     @Override
     public boolean IsSupported()
     {
-        return  isSupported;
+        return isSupported;
     }
 
     @Override
     public void SetValue(String valueToSet, boolean setToCam) {
         if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W
                 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W
-                ||cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI_Note_Pro
-                ||cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Xiaomi_RedmiNote)
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI_Note_Pro
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Xiaomi_RedmiNote)
         {
             if (valueToSet.equals(KEYS.ON)) {
                 cameraUiWrapper.GetParameterHandler().morphoHHT.SetValue(KEYS.FALSE, true);
@@ -145,7 +145,7 @@ public class HDRModeParameter extends BaseModeParameter
             }
         }
         try {
-            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
             BackgroundValueHasChanged(valueToSet);
         }
         catch (Exception ex)
@@ -158,8 +158,8 @@ public class HDRModeParameter extends BaseModeParameter
     public String GetValue() {
         if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W
                 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W
-                ||cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI_Note_Pro
-                ||cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Xiaomi_RedmiNote) {
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI_Note_Pro
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Xiaomi_RedmiNote) {
             if (parameters.get(KEYS.MORPHO_HDR).equals(KEYS.TRUE) && parameters.get(KEYS.AE_BRACKET_HDR).equals(KEYS.AE_BRACKET_HDR_VALUES_AE_BRACKET))
                 return KEYS.ON;
             else
@@ -251,10 +251,10 @@ public class HDRModeParameter extends BaseModeParameter
     public void onValueChanged(String val)
     {
         format = val;
-        if (val.contains(KEYS.JPEG)&&!visible&&!curmodule.equals(KEYS.MODULE_HDR))
+        if (val.contains(KEYS.JPEG)&&!visible &&!curmodule.equals(KEYS.MODULE_HDR))
             Show();
 
-        else if (!val.contains(KEYS.JPEG)&&visible) {
+        else if (!val.contains(KEYS.JPEG)&& visible) {
             Hide();
         }
     }

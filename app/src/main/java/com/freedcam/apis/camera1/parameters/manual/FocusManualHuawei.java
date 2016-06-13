@@ -29,7 +29,9 @@ import com.freedcam.utils.Logger;
 /**
  * Created by GeorgeKiarie on 02/04/2016.
  */
-public class FocusManualHuawei extends BaseFocusManual {
+public class FocusManualHuawei extends BaseFocusManual
+{
+    private final String TAG = FocusManualHuawei.class.getSimpleName();
     public FocusManualHuawei(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, KEYS.HW_MANUAL_FOCUS_STEP_VALUE, KEYS.HW_VCM_END_VALUE, KEYS.HW_VCM_START_VALUE, KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper, (float) 10, 0);
     }
@@ -53,7 +55,7 @@ public class FocusManualHuawei extends BaseFocusManual {
             parameters.set(KEYS.HW_MANUAL_FOCUS_MODE,KEYS.ON);
             parameters.set(key_value, stringvalues[currentInt]);
             Logger.d(TAG, "Set " + key_value + " to : " + stringvalues[currentInt]);
-            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         }
     }
 }

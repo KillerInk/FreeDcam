@@ -31,13 +31,13 @@ import com.troop.freedcam.R.id;
  */
 public class SampleInfoOverlayHandler extends AbstractInfoOverlayHandler
 {
-    private TextView tbattery;
-    private TextView tsize;
-    private TextView tformat;
-    private TextView tTime;
-    private TextView tStorage;
-    private TextView tdngsupported;
-    private TextView tbuidlmodel;
+    private final TextView tbattery;
+    private final TextView tsize;
+    private final TextView tformat;
+    private final TextView tTime;
+    private final TextView tStorage;
+    private final TextView tdngsupported;
+    private final TextView tbuidlmodel;
     TextView tappversion;
     public SampleInfoOverlayHandler(View view, AppSettingsManager appSettingsManager)
     {
@@ -47,7 +47,7 @@ public class SampleInfoOverlayHandler extends AbstractInfoOverlayHandler
         tformat = (TextView)view.findViewById(id.textView_format);
         tTime = (TextView)view.findViewById(id.textView_time);
         tStorage = (TextView)view.findViewById(id.textView_storage);
-        tdngsupported=(TextView)view.findViewById(id.textView_dngsupported);
+        tdngsupported =(TextView)view.findViewById(id.textView_dngsupported);
         tdngsupported.setVisibility(View.GONE);
         /* if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_1))
         {

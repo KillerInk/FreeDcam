@@ -113,7 +113,7 @@ public class VideoProfileEditorFragment extends Fragment
         }
     }
 
-    private OnClickListener profileClickListner = new OnClickListener() {
+    private final OnClickListener profileClickListner = new OnClickListener() {
         @Override
         public void onClick(View v)
         {
@@ -125,7 +125,7 @@ public class VideoProfileEditorFragment extends Fragment
         }
     };
 
-    private OnMenuItemClickListener profileMenuitemListner = new OnMenuItemClickListener() {
+    private final OnMenuItemClickListener profileMenuitemListner = new OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item)
         {
@@ -136,7 +136,7 @@ public class VideoProfileEditorFragment extends Fragment
     };
 
 
-    private OnClickListener recordModeClickListner = new OnClickListener() {
+    private final OnClickListener recordModeClickListner = new OnClickListener() {
         @Override
         public void onClick(View v)
         {
@@ -149,7 +149,7 @@ public class VideoProfileEditorFragment extends Fragment
         }
     };
 
-    private OnMenuItemClickListener recordModeMenuitemListner = new OnMenuItemClickListener() {
+    private final OnMenuItemClickListener recordModeMenuitemListner = new OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item)
         {
@@ -158,7 +158,7 @@ public class VideoProfileEditorFragment extends Fragment
         }
     };
 
-    private OnClickListener ondeleteButtonClick = new OnClickListener() {
+    private final OnClickListener ondeleteButtonClick = new OnClickListener() {
         @Override
         public void onClick(View v) {
             Builder builder = new Builder(getContext());
@@ -167,7 +167,7 @@ public class VideoProfileEditorFragment extends Fragment
         }
     };
 
-    private DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+    private final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
@@ -219,7 +219,7 @@ public class VideoProfileEditorFragment extends Fragment
         button_recordMode.setText(profile.Mode.toString());
     }
 
-    private OnClickListener onSavebuttonClick = new OnClickListener() {
+    private final OnClickListener onSavebuttonClick = new OnClickListener() {
         @Override
         public void onClick(View v)
         {
@@ -234,7 +234,7 @@ public class VideoProfileEditorFragment extends Fragment
             currentProfile.videoFrameRate = Integer.parseInt(editText_videoframerate.getText().toString());
             currentProfile.duration = Integer.parseInt(editText_maxrecordtime.getText().toString());
             currentProfile.isAudioActive = switch_Audio.isChecked();
-            currentProfile.Mode = VideoMode.valueOf((String)button_recordMode.getText());
+            currentProfile.Mode = VideoMode.valueOf((String) button_recordMode.getText());
             //if currentprofile has no new name the the profile in videomediaprofiles gets updated
             if (videoMediaProfiles.containsKey(editText_profilename.getText().toString()))
             {

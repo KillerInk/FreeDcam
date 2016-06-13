@@ -55,7 +55,7 @@ public class ManualFocus extends AbstractManualParameter
 
     @Override
     public int GetValue() {
-        return (int)(((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.LENS_FOCUS_DISTANCE)* 10);
+        return (int)(((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.LENS_FOCUS_DISTANCE)* 10);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class ManualFocus extends AbstractManualParameter
             return KEYS.AUTO;
         else {
             if (isSupported)
-                return StringUtils.TrimmFloatString4Places(((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.LENS_FOCUS_DISTANCE) + "");
+                return StringUtils.TrimmFloatString4Places(((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.LENS_FOCUS_DISTANCE) + "");
         }
         return "";
     }
@@ -83,7 +83,7 @@ public class ManualFocus extends AbstractManualParameter
         {
             if (!cameraUiWrapper.GetParameterHandler().FocusMode.GetValue().equals("off"))
                 cameraUiWrapper.GetParameterHandler().FocusMode.SetValue("off",true);
-            ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.LENS_FOCUS_DISTANCE, (float) valueToSet / 10);
+            ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.LENS_FOCUS_DISTANCE, (float) valueToSet / 10);
         }
     }
 
@@ -91,7 +91,7 @@ public class ManualFocus extends AbstractManualParameter
     @Override
     public boolean IsSupported()
     {
-        int[] af = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
+        int[] af = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
         isSupported = false;
         for (int i : af)
         {
@@ -99,19 +99,19 @@ public class ManualFocus extends AbstractManualParameter
                 isSupported = true;
         }
         try {
-            Logger.d(TAG, "LensFocusDistance" + ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.LENS_FOCUS_DISTANCE));
+            Logger.d(TAG, "LensFocusDistance" + ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.LENS_FOCUS_DISTANCE));
         }
         catch (NullPointerException ex){Logger.exception(ex);}
         try {
-            Logger.d(TAG, "LensMinFocusDistance" + ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE));
+            Logger.d(TAG, "LensMinFocusDistance" + ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE));
         }
         catch (NullPointerException ex){Logger.exception(ex);}
 
 
-        if (((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.LENS_FOCUS_DISTANCE) == null
-                || ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE) == 0)
+        if (((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.LENS_FOCUS_DISTANCE) == null
+                || ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE) == 0)
             isSupported = false;
-        return  isSupported;
+        return isSupported;
     }
 
     @Override

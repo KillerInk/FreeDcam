@@ -54,5 +54,5 @@ public interface I_Device
     float getCurrentExposuretime();
     int getCurrentIso();
     void Set_RAWFNAME(String filename);
-    void SetFocusArea(final FocusRect focusAreas);
+    void SetFocusArea(FocusRect focusAreas);
 }

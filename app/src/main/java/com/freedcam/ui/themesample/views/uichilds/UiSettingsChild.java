@@ -59,7 +59,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, I_Mo
     protected String settingsname;
     protected I_MenuItemClick onItemClick;
     private final boolean logging =false;
-    private boolean fromleft = false;
+    private boolean fromleft;
     protected   AppSettingsManager appSettingsManager;
 
     public UiSettingsChild(Context context) {
@@ -123,7 +123,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, I_Mo
         //headerText = (TextView)findViewById(R.id.textView);
         //headerText.setSelected(true);
 
-        laybg = (LinearLayout)findViewById(id.LAYbg);
+        laybg = (LinearLayout) findViewById(id.LAYbg);
        // laybg.setBackgroundDrawable(switchICOn(headerText));
 
         if(context.getResources().getString(string.uisetting_wb_header) == headerText)
@@ -131,7 +131,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, I_Mo
             laybg.setBackgroundDrawable(context.getResources().getDrawable(drawable.quck_set_wb));
         }
 
-        valueText = (TextView)findViewById(id.textView2);
+        valueText = (TextView) findViewById(id.textView2);
         valueText.setSelected(true);
         setOnClickListener(this);
 
@@ -234,14 +234,14 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, I_Mo
     {
         sendLog("isSupported:" + isSupported);
         if (isSupported) {
-            setVisibility(VISIBLE);
+            setVisibility(View.VISIBLE);
             animate().setListener(null).scaleY(1f).setDuration(300);
         }
         else
             animate().setListener(hideListner).scaleY(0f).setDuration(300);
     }
 
-    private AnimatorListener hideListner = new AnimatorListener() {
+    private final AnimatorListener hideListner = new AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animation) {
 
@@ -249,7 +249,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, I_Mo
 
         @Override
         public void onAnimationEnd(Animator animation) {
-            setVisibility(GONE);
+            setVisibility(View.GONE);
         }
 
         @Override

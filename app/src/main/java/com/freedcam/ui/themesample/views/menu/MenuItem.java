@@ -25,7 +25,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -41,7 +40,7 @@ import com.troop.freedcam.R.styleable;
 /**
  * Created by troop on 14.06.2015.
  */
-public class MenuItem extends UiSettingsChild implements OnClickListener, I_swipe
+public class MenuItem extends UiSettingsChild implements I_swipe
 {
     private TextView description;
 
@@ -86,10 +85,10 @@ public class MenuItem extends UiSettingsChild implements OnClickListener, I_swip
     protected void init(Context context) {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflateTheme(inflater);
-        headerText = (TextView)findViewById(id.textview_menuitem_header);
-        valueText = (TextView)findViewById(id.textview_menuitem_header_value);
-        description = (TextView)findViewById(id.textview_menuitem_description);
-        toplayout = (LinearLayout)findViewById(id.menu_item_toplayout);
+        headerText = (TextView) findViewById(id.textview_menuitem_header);
+        valueText = (TextView) findViewById(id.textview_menuitem_header_value);
+        description = (TextView) findViewById(id.textview_menuitem_description);
+        toplayout = (LinearLayout) findViewById(id.menu_item_toplayout);
         //toplayout.setOnClickListener(this);
         controlswipeListner = new SwipeMenuListner(this);
         toplayout.setOnTouchListener(new OnTouchListener() {
@@ -162,9 +161,9 @@ public class MenuItem extends UiSettingsChild implements OnClickListener, I_swip
     {
         sendLog("isSupported:" + isSupported);
         if (isSupported) {
-            setVisibility(VISIBLE);
+            setVisibility(View.VISIBLE);
         }
         else
-            setVisibility(GONE);
+            setVisibility(View.GONE);
     }
 }

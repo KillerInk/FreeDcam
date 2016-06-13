@@ -44,7 +44,7 @@ public class ShutterManualMeizu extends BaseManualParameter
         super(parameters, "", "", "", cameraUiWrapper,1);
         this.baseCameraHolder = baseCameraHolder;
 
-            stringvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.shutter_values_meizu);
+        stringvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.shutter_values_meizu);
 
         isSupported = true;
     }
@@ -56,7 +56,7 @@ public class ShutterManualMeizu extends BaseManualParameter
 
     @Override
     public boolean IsVisible() {
-        return  IsSupported();
+        return IsSupported();
     }
 
     @Override
@@ -91,7 +91,7 @@ public class ShutterManualMeizu extends BaseManualParameter
     private String setExposureTimeToParameter(String shutterstring)
     {
         parameters.set("shutter-value", shutterstring);
-        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
 
 
         baseCameraHolder.StopPreview();

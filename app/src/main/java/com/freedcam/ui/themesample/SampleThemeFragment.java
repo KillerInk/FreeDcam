@@ -65,7 +65,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
     private CameraUiFragment cameraUiFragment;
     private SettingsMenuFragment settingsMenuFragment;
     private ScreenSlideFragment screenSlideFragment;
-    private boolean pagerTouchAllowed = true;
+    private final boolean pagerTouchAllowed = true;
     private AppSettingsManager appSettingsManager;
     private BitmapHelper bitmapHelper;
 
@@ -109,7 +109,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container, savedInstanceState);
-        i_activity = (I_Activity)getActivity();
+        i_activity = (I_Activity) getActivity();
         View view = inflater.inflate(layout.samplethemefragment, container, false);
         mPager = (PagingView)view.findViewById(id.viewPager_fragmentHolder);
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
@@ -120,7 +120,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
     }
 
 
-    private I_ThumbClick onThumbClick = new I_ThumbClick() {
+    private final I_ThumbClick onThumbClick = new I_ThumbClick() {
         @Override
         public void onThumbClick() {
             mPager.setCurrentItem(2);
@@ -133,7 +133,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
         }
     };
 
-    private I_ThumbClick onThumbBackClick = new I_ThumbClick() {
+    private final I_ThumbClick onThumbBackClick = new I_ThumbClick() {
         @Override
         public void onThumbClick()
         {
@@ -184,7 +184,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
             {
                 if (settingsMenuFragment == null)
                 {
-                    settingsMenuFragment = SettingsMenuFragment.GetInstance(i_activity,appSettingsManager);
+                    settingsMenuFragment = SettingsMenuFragment.GetInstance(i_activity, appSettingsManager);
                     settingsMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
                 }
                 return settingsMenuFragment;
@@ -202,7 +202,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
             else
             {
                 if (cameraUiFragment == null)
-                    cameraUiFragment = CameraUiFragment.GetInstance(i_activity,onThumbClick,appSettingsManager,cameraUiWrapper, bitmapHelper);
+                    cameraUiFragment = CameraUiFragment.GetInstance(i_activity, onThumbClick, appSettingsManager, cameraUiWrapper, bitmapHelper);
                 return cameraUiFragment;
             }
         }
@@ -216,7 +216,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
     }
 
 
-    private I_WorkEvent newImageRecieved = new I_WorkEvent() {
+    private final I_WorkEvent newImageRecieved = new I_WorkEvent() {
         @Override
         public void WorkHasFinished(final File filePath) {
             FreeDPool.Execute(new Runnable() {
@@ -234,7 +234,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
                         });
 
                     }
-                    bitmapHelper.AddFile(new FileHolder(filePath,appSettingsManager.GetWriteExternal()));
+                    bitmapHelper.AddFile(new FileHolder(filePath, appSettingsManager.GetWriteExternal()));
                 }
             });
 

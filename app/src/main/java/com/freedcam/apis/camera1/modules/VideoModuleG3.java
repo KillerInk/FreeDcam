@@ -42,7 +42,7 @@ public class VideoModuleG3 extends AbstractVideoModule
     private MediaRecorderEx recorder;
     private VideoMediaProfile currentProfile;
 
-    static final String TAG = VideoModuleG3.class.getSimpleName();
+    private final String TAG = VideoModuleG3.class.getSimpleName();
 
     public VideoModuleG3(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
@@ -54,7 +54,7 @@ public class VideoModuleG3 extends AbstractVideoModule
         try {
             recorder = new MediaRecorderEx();
             recorder.reset();
-            recorder.setCamera(((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCamera());
+            recorder.setCamera(((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera());
             recorder.setVideoSource(VideoSource.CAMERA);
             switch (currentProfile.Mode)
             {
@@ -123,7 +123,7 @@ public class VideoModuleG3 extends AbstractVideoModule
 
     private void loadProfileSpecificParameters()
     {
-        VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter)cameraUiWrapper.GetParameterHandler().VideoProfiles;
+        VideoProfilesG3Parameter videoProfilesG3Parameter = (VideoProfilesG3Parameter) cameraUiWrapper.GetParameterHandler().VideoProfiles;
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         if (currentProfile.Mode == VideoMode.Highspeed || currentProfile.ProfileName.contains("4kUHD"))
         {

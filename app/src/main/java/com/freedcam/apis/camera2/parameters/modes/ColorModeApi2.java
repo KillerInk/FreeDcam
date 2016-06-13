@@ -78,7 +78,7 @@ public class ColorModeApi2 extends BaseModeApi2
         if (valueToSet.contains("unknown Scene"))
             return;
         ColorModes sceneModes = Enum.valueOf(ColorModes.class, valueToSet);
-        ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_EFFECT_MODE, sceneModes.ordinal());
+        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_EFFECT_MODE, sceneModes.ordinal());
         //cameraHolder.mPreviewRequestBuilder.build();
     }
 
@@ -87,7 +87,7 @@ public class ColorModeApi2 extends BaseModeApi2
     {
         int i = 0;
         try {
-            i = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.CONTROL_EFFECT_MODE);
+            i = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.CONTROL_EFFECT_MODE);
         }
         catch (Exception ex)
         {
@@ -101,7 +101,7 @@ public class ColorModeApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        int[] values = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS);
+        int[] values = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AVAILABLE_EFFECTS);
         String[] retvals = new String[values.length];
         for (int i = 0; i < values.length; i++)
         {

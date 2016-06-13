@@ -124,7 +124,6 @@ public class CameraHolder extends CameraHolderAbstract
         }
         isRdy = false;
         cameraUiWrapper.onCameraClose("");
-        super.CloseCamera();
     }
 
 
@@ -235,7 +234,7 @@ public class CameraHolder extends CameraHolderAbstract
                 return;
             Size s = new Size(cameraUiWrapper.GetParameterHandler().PreviewSize.GetValue());
             //Add 5 pre allocated buffers. that avoids that the camera create with each frame a new one
-            for (int i = 0; i<BUFFERCOUNT;i++)
+            for (int i = 0; i< BUFFERCOUNT; i++)
             {
                 mCamera.addCallbackBuffer(new byte[s.height * s.width *
                         ImageFormat.getBitsPerPixel(ImageFormat.NV21) / 8]);

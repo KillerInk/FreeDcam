@@ -151,7 +151,7 @@ public class BaseQcomDevice extends AbstractDevice {
             ArrayList<Camera.Area> ar = new ArrayList<>();
             ar.add(a);
             parameters.setFocusAreas(ar);
-            ((ParametersHandler)parametersHandler).SetParametersToCamera(parameters);
+            parametersHandler.SetParametersToCamera(parameters);
         }
     }
 }

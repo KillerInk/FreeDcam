@@ -45,11 +45,11 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
     private int mCount;
     long mLastTime;
     private float mFps;
-    private HandlerThread mProcessingThread;
-    private Handler mProcessingHandler;
+    private final HandlerThread mProcessingThread;
+    private final Handler mProcessingHandler;
     private ProcessingTask mProcessingTask;
-    private boolean peak = false;
-    private RenderScriptHandler renderScriptHandler;
+    private boolean peak;
+    private final RenderScriptHandler renderScriptHandler;
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
     public FocuspeakProcessorApi2(RenderScriptHandler renderScriptHandler)
@@ -154,8 +154,8 @@ public class FocuspeakProcessorApi2 implements FocuspeakProcessor
      */
     @TargetApi(VERSION_CODES.KITKAT)
     class ProcessingTask implements Runnable, OnBufferAvailableListener {
-        private int mPendingFrames = 0;
-        private boolean working = false;
+        private int mPendingFrames;
+        private boolean working;
         public ProcessingTask() {
             renderScriptHandler.GetIn().setOnBufferAvailableListener(this);
         }

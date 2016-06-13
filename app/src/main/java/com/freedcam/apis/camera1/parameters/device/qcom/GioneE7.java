@@ -47,10 +47,10 @@ public class GioneE7 extends BaseQcomDevice {
         switch (filesize)
         {
             case 9990144://e7 front mipi
-                return new DngProfile(16, 3264, 2448, DngProfile.Mipi, DngProfile.BGGR, 4080,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(16, 3264, 2448, DngProfile.Mipi, DngProfile.BGGR, 4080, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 10653696://e7 front qcom
                 //TODO somethings wrong with it;
-                return new DngProfile(16, 3264, 2448, DngProfile.Qcom, DngProfile.BGGR, 0,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(16, 3264, 2448, DngProfile.Qcom, DngProfile.BGGR, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 19906560://e7mipi
                 return new DngProfile(16, 4608, 3456, DngProfile.Mipi, DngProfile.BGGR, 0,
                         matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));

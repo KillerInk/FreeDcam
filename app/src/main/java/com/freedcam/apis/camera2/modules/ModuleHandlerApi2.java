@@ -29,8 +29,8 @@ import com.freedcam.utils.RenderScriptHandler;
  */
 public class ModuleHandlerApi2 extends AbstractModuleHandler
 {
-    private static String TAG = "freedcam.ModuleHandler";
-    private RenderScriptHandler renderScriptHandler;
+    private final String TAG = "freedcam.ModuleHandler";
+    private final RenderScriptHandler renderScriptHandler;
 
 
     public  ModuleHandlerApi2 (CameraWrapperInterface cameraUiWrapper, RenderScriptHandler renderScriptHandler)
@@ -44,7 +44,7 @@ public class ModuleHandlerApi2 extends AbstractModuleHandler
     {
         PictureModuleApi2 pictureModuleApi2 = new PictureModuleApi2(cameraUiWrapper);
         moduleList.put(pictureModuleApi2.ModuleName(), pictureModuleApi2);
-        IntervalModule intervalModule = new IntervalApi2(pictureModuleApi2,cameraUiWrapper);
+        IntervalModule intervalModule = new IntervalApi2(pictureModuleApi2, cameraUiWrapper);
         moduleList.put(intervalModule.ModuleName(), intervalModule);
         VideoModuleApi2 videoModuleApi2 = new VideoModuleApi2(cameraUiWrapper);
         moduleList.put(videoModuleApi2.ModuleName(), videoModuleApi2);

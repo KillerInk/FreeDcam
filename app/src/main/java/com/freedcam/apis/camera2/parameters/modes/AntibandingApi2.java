@@ -48,7 +48,7 @@ public class AntibandingApi2 extends BaseModeApi2
     @Override
     public boolean IsSupported()
     {
-        return ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES) != null;
+        return ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES) != null;
     }
 
 
@@ -58,7 +58,7 @@ public class AntibandingApi2 extends BaseModeApi2
         if (valueToSet.contains("unknown Focus"))
             return;
         AntibandingModes sceneModes = Enum.valueOf(AntibandingModes.class, valueToSet);
-        ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AE_ANTIBANDING_MODE, sceneModes.ordinal());
+        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AE_ANTIBANDING_MODE, sceneModes.ordinal());
         BackgroundValueHasChanged(valueToSet);
         //cameraHolder.mPreviewRequestBuilder.build();
     }
@@ -67,7 +67,7 @@ public class AntibandingApi2 extends BaseModeApi2
     public String GetValue()
     {
 
-        int i = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.CONTROL_AE_ANTIBANDING_MODE);
+        int i = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.CONTROL_AE_ANTIBANDING_MODE);
         AntibandingModes sceneModes = AntibandingModes.values()[i];
         return sceneModes.toString();
 
@@ -78,7 +78,7 @@ public class AntibandingApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        int[] values = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES);
+        int[] values = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_ANTIBANDING_MODES);
         String[] retvals = new String[values.length];
         for (int i = 0; i < values.length; i++)
         {

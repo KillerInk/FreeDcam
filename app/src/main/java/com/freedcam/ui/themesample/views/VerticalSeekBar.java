@@ -31,8 +31,8 @@ import android.widget.SeekBar;
 public class VerticalSeekBar extends SeekBar
 {
     private OnSeekBarChangeListener listner;
-    private boolean fromUser = false;
-    private int lastcurrent = 0;
+    private boolean fromUser;
+    private int lastcurrent;
 
     public VerticalSeekBar(Context context) {
         super(context);
@@ -89,7 +89,7 @@ public class VerticalSeekBar extends SeekBar
                     listner.onStartTrackingTouch(this);
                 break;
             case MotionEvent.ACTION_MOVE:
-                int i=getMax() - (int) (getMax() * event.getY() / getHeight());
+                int i= getMax() - (int) (getMax() * event.getY() / getHeight());
                 /*if (event.getY() >= getItemPos() + itemlength()/2)
                     i++;
                 if (event.getY() < getItemPos() + itemlength()/2)
@@ -121,7 +121,7 @@ public class VerticalSeekBar extends SeekBar
 
     private int itemlength()
     {
-        return getHeight()/getMax();
+        return getHeight()/ getMax();
     }
 
     private int getItemPos()

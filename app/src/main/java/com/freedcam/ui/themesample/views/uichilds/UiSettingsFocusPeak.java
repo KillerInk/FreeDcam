@@ -21,6 +21,7 @@ package com.freedcam.ui.themesample.views.uichilds;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
@@ -78,8 +79,8 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements I_MenuItemCl
     public void ModuleChanged(String module)
     {
         if ((module.equals(KEYS.MODULE_PICTURE) || module.equals(KEYS.MODULE_HDR)|| module.equals(KEYS.MODULE_INTERVAL)) && parameter != null && parameter.IsSupported())
-            setVisibility(VISIBLE);
+            setVisibility(View.VISIBLE);
         else
-            setVisibility(GONE);
+            setVisibility(View.GONE);
     }
 }

@@ -50,9 +50,9 @@ public class VideoMediaProfile
     //Default recording duration in seconds before the session is terminated.
     public int duration;
     //The file output format of the camcorder profile see MediaRecorder.OutputFormat
-    private int fileFormat;
+    private final int fileFormat;
     //The quality level of the camcorder profile
-    private int quality;
+    private final int quality;
     public int videoBitRate;
     public int videoCodec;
     public int videoFrameHeight;
@@ -62,7 +62,7 @@ public class VideoMediaProfile
     public String ProfileName;
     public VideoMode Mode;
 
-    public boolean isAudioActive = false;
+    public boolean isAudioActive;
 
     public enum VideoMode
     {
@@ -88,9 +88,9 @@ public class VideoMediaProfile
         this.ProfileName = ProfileName;
         Mode = mode;
         this.isAudioActive = isAudioActive;
-        Logger.d(TAG, "ProfileName:"+ ProfileName+ "Duration:"+duration +"FileFormat:"+fileFormat+"Quality:"+quality);
-        Logger.d(TAG, "ABR:"+audioBitRate +"AChannels:"+audioChannels+"Acodec:"+audioCodec +"AsampleRate"+audioSampleRate+"audio_active:" + isAudioActive);
-        Logger.d(TAG,"VBitrate:"+videoBitRate+"VCodec:"+videoCodec+"VFrameRate:"+videoFrameRate+"VWidth:"+videoFrameWidth+"Vheight:"+videoFrameHeight);
+        Logger.d(TAG, "ProfileName:"+ ProfileName+ "Duration:"+ duration +"FileFormat:"+ fileFormat +"Quality:"+ quality);
+        Logger.d(TAG, "ABR:"+ audioBitRate +"AChannels:"+ audioChannels +"Acodec:"+ audioCodec +"AsampleRate"+ audioSampleRate +"audio_active:" + isAudioActive);
+        Logger.d(TAG,"VBitrate:"+ videoBitRate +"VCodec:"+ videoCodec +"VFrameRate:"+ videoFrameRate +"VWidth:"+ videoFrameWidth +"Vheight:"+ videoFrameHeight);
     }
 
     protected VideoMediaProfile(int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8, int v9, int v10, int v11, int v12, String ProfileName, VideoMode mode, boolean isAudioActive)
@@ -110,9 +110,9 @@ public class VideoMediaProfile
         this.ProfileName = ProfileName;
         Mode = mode;
         this.isAudioActive = isAudioActive;
-        Logger.d(TAG, "ProfileName:"+ ProfileName+ "Duration:"+duration +"FileFormat:"+fileFormat+"Quality:"+quality);
-        Logger.d(TAG, "ABR:"+audioBitRate +"AChannels:"+audioChannels+"Acodec:"+audioCodec +"AsampleRate"+audioSampleRate+"audio_active:" + isAudioActive);
-        Logger.d(TAG,"VBitrate:"+videoBitRate+"VCodec:"+videoCodec+"VFrameRate:"+videoFrameRate+"VWidth:"+videoFrameWidth+"Vheight:"+videoFrameHeight);
+        Logger.d(TAG, "ProfileName:"+ ProfileName+ "Duration:"+ duration +"FileFormat:"+ fileFormat +"Quality:"+ quality);
+        Logger.d(TAG, "ABR:"+ audioBitRate +"AChannels:"+ audioChannels +"Acodec:"+ audioCodec +"AsampleRate"+ audioSampleRate +"audio_active:" + isAudioActive);
+        Logger.d(TAG,"VBitrate:"+ videoBitRate +"VCodec:"+ videoCodec +"VFrameRate:"+ videoFrameRate +"VWidth:"+ videoFrameWidth +"Vheight:"+ videoFrameHeight);
     }
 
     private VideoMediaProfile(String t) {
@@ -160,7 +160,7 @@ public class VideoMediaProfile
 
     public VideoMediaProfile clone()
     {
-        return new VideoMediaProfile(audioBitRate,audioChannels, audioCodec, audioSampleRate, duration, fileFormat,quality,videoBitRate,videoCodec,videoFrameRate, videoFrameHeight,videoFrameWidth, ProfileName, Mode, isAudioActive);
+        return new VideoMediaProfile(audioBitRate, audioChannels, audioCodec, audioSampleRate, duration, fileFormat, quality, videoBitRate, videoCodec, videoFrameRate, videoFrameHeight, videoFrameWidth, ProfileName, Mode, isAudioActive);
     }
 
 

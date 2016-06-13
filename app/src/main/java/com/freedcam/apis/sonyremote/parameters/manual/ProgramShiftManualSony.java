@@ -39,8 +39,8 @@ import java.util.Set;
 public class ProgramShiftManualSony extends BaseManualParameterSony
 {
     private final String TAG = ProgramShiftManualSony.class.getSimpleName();
-    private BaseManualParameterSony shutter;
-    private BaseManualParameterSony fnumber;
+    private final BaseManualParameterSony shutter;
+    private final BaseManualParameterSony fnumber;
     public ProgramShiftManualSony(CameraWrapperInterface cameraUiWrapper) {
         super("", "getSupportedProgramShift", "setProgramShift", cameraUiWrapper);
         shutter = (BaseManualParameterSony) cameraUiWrapper.GetParameterHandler().ManualShutter;
@@ -93,7 +93,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                     try
                     {
                         Logger.d(TAG, "Trying to get String Values from: " + VALUES_TO_GET);
-                        JSONObject object =  ((ParameterHandler)cameraUiWrapper.GetParameterHandler()).mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
+                        JSONObject object =  ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                         JSONArray array = object.getJSONArray("result");
                         JSONArray subarray = array.getJSONArray(0);
                         stringvalues = JsonUtils.ConvertJSONArrayToStringArray(subarray);
@@ -128,7 +128,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
 
                     } catch (IOException | JSONException e) {
                         Logger.exception(e);
-                        Logger.e(TAG, "Error Trying to get String Values from: " +VALUES_TO_GET);
+                        Logger.e(TAG, "Error Trying to get String Values from: " + VALUES_TO_GET);
                         stringvalues = new String[0];
                     }
                 }
@@ -153,7 +153,7 @@ public class ProgramShiftManualSony extends BaseManualParameterSony
                 JSONArray array = null;
                 try {
                     array = new JSONArray().put(0, Integer.parseInt(stringvalues[currentInt]));
-                    JSONObject object =  mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
+                    JSONObject object = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
                     ThrowCurrentValueChanged(valueToSet);
                 } catch (JSONException | IOException e) {
                     Logger.exception(e);

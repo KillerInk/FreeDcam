@@ -19,6 +19,7 @@
 
 package com.freedcam;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -63,14 +64,7 @@ public class ShareActivity extends MainActivity implements I_WorkEvent
     @Override
     public void WorkHasFinished(File filePath)
     {
-
-        //shareIntent.setData(Uri.fromFile(filePath));
-        //callerIntent.setAction(Intent.ACTION_SEND);
-
-        //callerIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(filePath));
-        //callerIntent.setType("image/jpeg");
-
-        setResult(RESULT_OK, callerIntent);
+        setResult(Activity.RESULT_OK, callerIntent);
         finish();
     }
 }

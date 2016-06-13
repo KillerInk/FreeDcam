@@ -28,6 +28,7 @@ import android.graphics.PorterDuff.Mode;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -62,8 +63,8 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
     private final int backgroundColor = Color.parseColor("#00000000");
     private final int stringColor = Color.parseColor("#FFFFFFFF");
     private final int stringColorActive = Color.parseColor("#FF000000");
-    private boolean imageusing = false;
-    private int pos = 0;
+    private boolean imageusing;
+    private int pos;
     private AppSettingsManager appSettingsManager;
 
     private final BlockingQueue<Integer> valueQueue = new ArrayBlockingQueue<>(3);
@@ -87,7 +88,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
             headerTextView.setText(a.getText(styleable.ManualButton_Header));
             imageView.setImageDrawable(a.getDrawable(styleable.ManualButton_Image));
             if (imageView.getDrawable() != null) {
-                headerTextView.setVisibility(GONE);
+                headerTextView.setVisibility(View.GONE);
                 imageusing = true;
             }
 
@@ -107,11 +108,11 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
         handler = new Handler();
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(layout.manualbutton, this);
-        headerTextView = (TextView)findViewById(id.manualbutton_headertext);
+        headerTextView = (TextView) findViewById(id.manualbutton_headertext);
         headerTextView.setSelected(true);
-        valueTextView = (TextView)findViewById(id.manualbutton_valuetext);
+        valueTextView = (TextView) findViewById(id.manualbutton_valuetext);
         valueTextView.setSelected(true);
-        imageView = (ImageView)findViewById(id.imageView_ManualButton);
+        imageView = (ImageView) findViewById(id.imageView_ManualButton);
     }
 
     public void RemoveParameterListner( I_ManualParameterEvent t)
@@ -168,7 +169,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
                 String txt = headerTextView.getText().toString();
                 Logger.d(txt, "isSupported:" + value);
                 if (value) {
-                    setVisibility(VISIBLE);
+                    setVisibility(View.VISIBLE);
                     animate().setListener(null).scaleX(1f).setDuration(300);
                 }
                 else
@@ -179,7 +180,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
         });
     }
 
-    private AnimatorListener hideListner = new AnimatorListener() {
+    private final AnimatorListener hideListner = new AnimatorListener() {
         @Override
         public void onAnimationStart(Animator animation) {
 
@@ -187,7 +188,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
 
         @Override
         public void onAnimationEnd(Animator animation) {
-            setVisibility(GONE);
+            setVisibility(View.GONE);
         }
 
         @Override
@@ -224,7 +225,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
 
         pos = current;
 
-        Logger.d(TAG, "onCurrentValueChanged current:"+current +" pos:" +pos);
+        Logger.d(TAG, "onCurrentValueChanged current:"+current +" pos:" + pos);
         setTextValue(current);
     }
 
@@ -286,7 +287,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
         return parameter.GetValue();
     }
 
-    private boolean currentlysettingsparameter = false;
+    private boolean currentlysettingsparameter;
     public void setValueToParameters(int value)
     {
         if (valueQueue.size() == 3)

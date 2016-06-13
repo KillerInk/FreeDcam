@@ -27,7 +27,6 @@ import com.freedcam.apis.basecamera.FocusRect;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
-import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.device.AbstractDevice;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.parameters.manual.FocusManualHuawei;
@@ -92,7 +91,7 @@ public class P8Lite extends AbstractDevice {
         ArrayList<Camera.Area> ar = new ArrayList<>();
         ar.add(a);
         parameters.setFocusAreas(ar);
-        ((ParametersHandler)parametersHandler).SetParametersToCamera(parameters);
+        parametersHandler.SetParametersToCamera(parameters);
     }
 
     @Override
@@ -102,6 +101,6 @@ public class P8Lite extends AbstractDevice {
 
     @Override
     public AbstractManualParameter getManualContrast() {
-        return new BaseManualParameter(parameters,"contrast", "max-contrast", "min-contrast",cameraUiWrapper,25);
+        return new BaseManualParameter(parameters,"contrast", "max-contrast", "min-contrast", cameraUiWrapper,25);
     }
 }

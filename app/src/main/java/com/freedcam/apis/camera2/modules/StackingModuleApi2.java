@@ -62,9 +62,9 @@ public class StackingModuleApi2 extends AbstractModuleApi2
     private ProcessingTask mProcessingTask;
     private HandlerThread mProcessingThread;
     private Handler mProcessingHandler;
-    private boolean keepstacking = false;
-    private boolean afterFilesave = false;
-    private RenderScriptHandler renderScriptHandler;
+    private boolean keepstacking;
+    private boolean afterFilesave;
+    private final RenderScriptHandler renderScriptHandler;
 
 
     public StackingModuleApi2(CameraWrapperInterface cameraUiWrapper, RenderScriptHandler renderScriptHandler) {
@@ -223,9 +223,9 @@ public class StackingModuleApi2 extends AbstractModuleApi2
      */
     @TargetApi(VERSION_CODES.KITKAT)
     class ProcessingTask implements Runnable, OnBufferAvailableListener {
-        private int mPendingFrames = 0;
-        private Allocation mInputAllocation;
-        private boolean working = false;
+        private int mPendingFrames;
+        private final Allocation mInputAllocation;
+        private boolean working;
         public ProcessingTask(Allocation input) {
             mInputAllocation = input;
             mInputAllocation.setOnBufferAvailableListener(this);

@@ -28,7 +28,6 @@ import com.freedcam.apis.basecamera.FocusRect;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.interfaces.ManualParameterInterface;
 import com.freedcam.apis.basecamera.interfaces.ModeParameterInterface;
-import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK;
 import com.freedcam.apis.camera1.parameters.manual.mtk.BaseManualParamMTK;
 import com.freedcam.apis.camera1.parameters.manual.mtk.FocusManualMTK;
@@ -97,23 +96,23 @@ public class BaseMTKDevice extends AbstractDevice
     @Override
     public ManualParameterInterface getManualSaturation() {
         if (parameters.get(KEYS.SATURATION)!= null && parameters.get(KEYS.SATURATION_VALUES)!= null)
-                return new BaseManualParamMTK(parameters,KEYS.SATURATION, KEYS.SATURATION_VALUES,cameraUiWrapper);
+                return new BaseManualParamMTK(parameters,KEYS.SATURATION, KEYS.SATURATION_VALUES, cameraUiWrapper);
         return null;
     }
 
     @Override
     public ManualParameterInterface getManualSharpness() {
-        return new BaseManualParamMTK(parameters,"edge","edge-values",cameraUiWrapper);
+        return new BaseManualParamMTK(parameters,"edge","edge-values", cameraUiWrapper);
     }
 
     @Override
     public ManualParameterInterface getManualBrightness() {
-        return new BaseManualParamMTK(parameters,"brightness", "brightness-values",cameraUiWrapper);
+        return new BaseManualParamMTK(parameters,"brightness", "brightness-values", cameraUiWrapper);
     }
 
     @Override
     public ManualParameterInterface getManualContrast() {
-        return  new BaseManualParamMTK(parameters,"contrast","contrast-values",cameraUiWrapper);
+        return  new BaseManualParamMTK(parameters,"contrast","contrast-values", cameraUiWrapper);
     }
 
     @Override
@@ -181,6 +180,6 @@ public class BaseMTKDevice extends AbstractDevice
         ArrayList<Camera.Area> ar = new ArrayList<>();
         ar.add(a);
         parameters.setFocusAreas(ar);
-        ((ParametersHandler)parametersHandler).SetParametersToCamera(parameters);
+        parametersHandler.SetParametersToCamera(parameters);
     }
 }

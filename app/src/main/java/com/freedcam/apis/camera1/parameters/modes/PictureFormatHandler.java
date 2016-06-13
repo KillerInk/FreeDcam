@@ -40,7 +40,7 @@ import static com.freedcam.apis.KEYS.BAYER;
 public class PictureFormatHandler extends BaseModeParameter
 {
     private final String TAG = PictureFormatHandler.class.getSimpleName();
-    private boolean rawSupported = false;
+    private boolean rawSupported;
     private String captureMode = KEYS.JPEG;
     private String rawFormat;
 
@@ -51,7 +51,7 @@ public class PictureFormatHandler extends BaseModeParameter
     private static final int DNG = 2;
 
     private BayerFormat BayerFormats;
-    private ParametersHandler parametersHandler;
+    private final ParametersHandler parametersHandler;
 
     public static final String[] CaptureMode =
     {
@@ -133,7 +133,7 @@ public class PictureFormatHandler extends BaseModeParameter
                 }
             }
         }
-        Logger.d(TAG, "rawsupported:" + rawSupported + "isSupported:"+isSupported);
+        Logger.d(TAG, "rawsupported:" + rawSupported + "isSupported:"+ isSupported);
     }
 
     @Override
@@ -141,7 +141,7 @@ public class PictureFormatHandler extends BaseModeParameter
     {
         Logger.d(TAG, "SetValue:" + valueToSet);
         captureMode = valueToSet;
-        if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != Frameworks.MTK)
+        if (((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != Frameworks.MTK)
         {
             switch (valueToSet)
             {
@@ -165,13 +165,13 @@ public class PictureFormatHandler extends BaseModeParameter
     {
         Logger.d(TAG, "setString:" +val);
         parameters.set(KEYS.PICTURE_FORMAT, val);
-        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 
     @Override
     public boolean IsSupported()
     {
-        Logger.d(TAG,"IsSupported:"+isSupported);
+        Logger.d(TAG,"IsSupported:"+ isSupported);
         return isSupported;
     }
 
@@ -184,9 +184,9 @@ public class PictureFormatHandler extends BaseModeParameter
     public String[] GetValues()
     {
         if (rawSupported && parametersHandler != null && parametersHandler.getDevice() != null && !parametersHandler.getDevice().IsDngSupported())
-            return new String[]{CaptureMode[JPEG],CaptureMode[RAW]};
+            return new String[]{CaptureMode[JPEG], CaptureMode[RAW]};
         else if(rawSupported && parametersHandler != null && parametersHandler.getDevice() != null && parametersHandler.getDevice().IsDngSupported())
-            return new String[]{CaptureMode[JPEG],CaptureMode[DNG],CaptureMode[RAW]};
+            return new String[]{CaptureMode[JPEG], CaptureMode[DNG], CaptureMode[RAW]};
         else
             return new String[]{CaptureMode[JPEG]};
     }
@@ -242,7 +242,7 @@ public class PictureFormatHandler extends BaseModeParameter
 
         @Override
         public boolean IsVisible() {
-            return  rawFormats != null && rawFormats.length>0;
+            return rawFormats != null && rawFormats.length>0;
         }
 
         @Override

@@ -67,7 +67,7 @@ public class ExposureManualParameter extends BaseManualParameter
         parameters.setExposureCompensation(currentInt);
         try
         {
-            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         }
         catch (Exception ex)
         {
@@ -79,11 +79,11 @@ public class ExposureManualParameter extends BaseManualParameter
 
     @Override
     public int GetValue() {
-        return currentInt+stringvalues.length/2;
+        return currentInt + stringvalues.length/2;
     }
 
     @Override
     public String GetStringValue() {
-        return stringvalues[currentInt+stringvalues.length/2];
+        return stringvalues[currentInt + stringvalues.length/2];
     }
 }

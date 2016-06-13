@@ -45,7 +45,7 @@ public class FlashModeApi2 extends BaseModeApi2 {
 
     @Override
     public boolean IsSupported() {
-        return ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
+        return ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class FlashModeApi2 extends BaseModeApi2 {
         if (valueToSet.contains("unknown Scene"))
             return;
         FlashModes sceneModes = Enum.valueOf(FlashModes.class, valueToSet);
-        ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.FLASH_MODE, sceneModes.ordinal());
+        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.FLASH_MODE, sceneModes.ordinal());
     }
 
 
@@ -63,9 +63,9 @@ public class FlashModeApi2 extends BaseModeApi2 {
     {
         if (cameraUiWrapper.GetCameraHolder() == null)
             return null;
-        if (((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.FLASH_MODE) == null)
+        if (((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.FLASH_MODE) == null)
             return "error";
-        int i = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.FLASH_MODE);
+        int i = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.FLASH_MODE);
         FlashModes sceneModes = FlashModes.values()[i];
         return sceneModes.toString();
 

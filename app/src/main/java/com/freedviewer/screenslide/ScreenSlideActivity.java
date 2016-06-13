@@ -31,20 +31,20 @@ import com.freedviewer.gridview.GridViewFragment.FormatTypes;
  */
 public class ScreenSlideActivity extends AbstractFragmentActivity
 {
-    private static final String TAG = ScreenSlideActivity.class.getSimpleName();
+    private final String TAG = ScreenSlideActivity.class.getSimpleName();
     public static final String EXTRA_IMAGE = "extra_image";
     public static final String IMAGE_PATH = "image_path";
     public static final String FileType = "filetype";
-    private int extra = 0;
+    private int extra;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ScreenSlideFragment fragment = (ScreenSlideFragment) getSupportFragmentManager().findFragmentByTag(ScreenSlideFragment.TAG);
+        ScreenSlideFragment fragment = (ScreenSlideFragment) getSupportFragmentManager().findFragmentByTag(TAG);
         if (fragment == null)
         {
             fragment = new ScreenSlideFragment();
-            fragment.SetAppSettingsManagerAndBitmapHelper(appSettingsManager,bitmapHelper);
+            fragment.SetAppSettingsManagerAndBitmapHelper(appSettingsManager, bitmapHelper);
             int extraCurrentItem = getIntent().getIntExtra(EXTRA_IMAGE, -1);
             String path = getIntent().getStringExtra(IMAGE_PATH);
             if (extraCurrentItem != -1) {

@@ -44,11 +44,11 @@ public class ZoomApi2 extends AbstractManualParameter
     }
 
 
-    private int zoom = 0;
+    private int zoom;
 
     @Override
     public boolean IsSupported() {
-        return ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM) > 0;
+        return ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM) > 0;
     }
 
     @Override
@@ -71,18 +71,18 @@ public class ZoomApi2 extends AbstractManualParameter
     public void SetValue(int valueToSet)
     {
         zoom = valueToSet;
-        float maxzoom = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM);
-        Rect m = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        float maxzoom = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM);
+        Rect m = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         int minW = (int) (m.width() / maxzoom);
         int minH = (int) (m.height() / maxzoom);
         int difW = m.width() - minW;
         int difH = m.height() - minH;
-        int cropW = difW /100 *zoom;
-        int cropH = difH /100 *zoom;
+        int cropW = difW /100 * zoom;
+        int cropH = difH /100 * zoom;
         cropW -= cropW & 3;
         cropH -= cropH & 3;
         Rect zoom = new Rect(cropW, cropH,m.width()-cropW, m.height() - cropH);
-        ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.SCALER_CROP_REGION, zoom);
+        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.SCALER_CROP_REGION, zoom);
     }
 
     public Rect getZoomRect(float zoom, int imgWidth, int imgHeight)

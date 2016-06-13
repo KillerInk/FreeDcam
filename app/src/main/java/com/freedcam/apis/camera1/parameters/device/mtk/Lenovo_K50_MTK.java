@@ -47,7 +47,7 @@ public class Lenovo_K50_MTK extends BaseMTKDevice {
         switch (filesize)
         {
             case 26023936:
-                return new DngProfile(16, 4192, 3104, DngProfile.Plain, DngProfile.BGGR, 0,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(16, 4192, 3104, DngProfile.Plain, DngProfile.BGGR, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
         }
         return null;
     }

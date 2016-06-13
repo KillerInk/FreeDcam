@@ -48,7 +48,7 @@ public abstract class AbstractParameterHandler
      * Holds the UI/Main Thread
      */
     protected Handler uiHandler;
-    private ArrayList<I_ParametersLoaded> parametersLoadedListner;
+    private final ArrayList<I_ParametersLoaded> parametersLoadedListner;
 
     public AppSettingsManager appSettingsManager;
 
@@ -133,8 +133,8 @@ public abstract class AbstractParameterHandler
     public ModeParameterInterface Module;
     public ModeParameterInterface ZoomSetting;
     //public AbstractModeParameter PreviewZoom;
-    public boolean isExposureAndWBLocked = false;
-    private boolean isDngActive = false;
+    public boolean isExposureAndWBLocked;
+    private boolean isDngActive;
     public boolean IsDngActive(){ return isDngActive; }
     public void SetDngActive(boolean active) {
         isDngActive = active;}
@@ -154,8 +154,8 @@ public abstract class AbstractParameterHandler
 
     public ModeParameterInterface locationParameter;
 
-    public boolean IntervalCapture = false;
-    public boolean IntervalCaptureFocusSet = false;
+    public boolean IntervalCapture;
+    public boolean IntervalCaptureFocusSet;
 
     public ModeParameterInterface IntervalDuration;
     public ModeParameterInterface IntervalShutterSleep;
@@ -175,7 +175,6 @@ public abstract class AbstractParameterHandler
     public ModeParameterInterface imageStackMode;
 
     public AbstractParameterHandler(CameraWrapperInterface cameraUiWrapper) {
-        super();
         this.cameraUiWrapper = cameraUiWrapper;
         uiHandler = new Handler(Looper.getMainLooper());
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
@@ -331,7 +330,7 @@ public abstract class AbstractParameterHandler
     {
         if (parametersLoadedListner == null)
             return;
-        for(int i= 0; i< parametersLoadedListner.size(); i++)
+        for(int i = 0; i< parametersLoadedListner.size(); i++)
         {
 
             if (parametersLoadedListner.get(i) == null) {

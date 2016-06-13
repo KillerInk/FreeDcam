@@ -45,7 +45,7 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
     final String TAG = VideoProfilesG3Parameter.class.getSimpleName();
     private HashMap<String, VideoMediaProfile> supportedProfiles;
     private String profile;
-    private CameraHolder cameraHolder;
+    private final CameraHolder cameraHolder;
 
     public VideoProfilesG3Parameter(Parameters parameters,CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);

@@ -59,7 +59,7 @@ public class ShutterManualG2pro extends BaseManualParameter
 
     @Override
     public boolean IsVisible() {
-        return  IsSupported();
+        return IsSupported();
     }
 
     @Override
@@ -100,7 +100,7 @@ public class ShutterManualG2pro extends BaseManualParameter
                 public void run() {
 
                     parameters.set("exposure-time", shutterstring);
-                    ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+                    ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
                 }
             };
             handler.post(r);

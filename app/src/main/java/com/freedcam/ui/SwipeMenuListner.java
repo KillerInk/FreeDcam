@@ -27,7 +27,7 @@ import android.view.MotionEvent;
  */
 public class SwipeMenuListner extends TouchHandler
 {
-    private I_swipe swipehandler;
+    private final I_swipe swipehandler;
 
     public SwipeMenuListner(I_swipe swipehandler)
     {
@@ -36,25 +36,25 @@ public class SwipeMenuListner extends TouchHandler
 
     protected void doLeftToRightSwipe()
     {
-        if (swipehandler!= null)
+        if (swipehandler != null)
             swipehandler.doLeftToRightSwipe();
     }
 
     protected void doRightToLeftSwipe()
     {
-        if (swipehandler!= null)
+        if (swipehandler != null)
             swipehandler.doRightToLeftSwipe();
     }
 
     protected void doTopToBottomSwipe()
     {
-        if (swipehandler!= null)
+        if (swipehandler != null)
             swipehandler.doTopToBottomSwipe();
     }
 
     protected void doBottomToTopSwipe()
     {
-        if (swipehandler!= null)
+        if (swipehandler != null)
             swipehandler.doBottomToTopSwipe();
     }
 
@@ -71,25 +71,25 @@ public class SwipeMenuListner extends TouchHandler
 
     public void LeftToRightSwipe()
     {
-        if (swipehandler!= null)
+        if (swipehandler != null)
             swipehandler.doLeftToRightSwipe();
     }
 
     public void RightToLeftSwipe()
     {
-        if (swipehandler!= null)
+        if (swipehandler != null)
             swipehandler.doRightToLeftSwipe();
     }
 
     public void TopToBottomSwipe()
     {
-        if (swipehandler!= null)
+        if (swipehandler != null)
             swipehandler.doTopToBottomSwipe();
     }
 
     public void BottomToTopSwipe()
     {
-        if (swipehandler!= null)
+        if (swipehandler != null)
             swipehandler.doBottomToTopSwipe();
     }
 }

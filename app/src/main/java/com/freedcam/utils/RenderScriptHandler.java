@@ -43,7 +43,7 @@ public class RenderScriptHandler
 {
     private Allocation mAllocationOut;
     private Allocation mAllocationIn;
-    private RenderScript mRS;
+    private final RenderScript mRS;
     private Builder inputbuilder;
     private Builder outputbuilder;
     public ScriptC_focus_peak ScriptFocusPeakApi2;
@@ -71,7 +71,7 @@ public class RenderScriptHandler
 
     public Allocation GetOut()
     {
-        return  mAllocationOut;
+        return mAllocationOut;
     }
 
     public Allocation GetIn()

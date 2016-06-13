@@ -71,13 +71,13 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
     public String[] GetValues()
     {
         ArrayList<String> ret = new ArrayList<>();
-        if (((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).map.isOutputSupportedFor(ImageFormat.RAW10))
+        if (((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).map.isOutputSupportedFor(ImageFormat.RAW10))
             ret.add(CameraHolderApi2.RAW10);
-        if (((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).map.isOutputSupportedFor(ImageFormat.RAW_SENSOR))
+        if (((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).map.isOutputSupportedFor(ImageFormat.RAW_SENSOR))
             ret.add(CameraHolderApi2.RAW_SENSOR);
-        if(((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).map.isOutputSupportedFor(ImageFormat.JPEG))
+        if(((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).map.isOutputSupportedFor(ImageFormat.JPEG))
             ret.add(KEYS.JPEG);
-        if (Build.VERSION.SDK_INT >= VERSION_CODES.M &&((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).map.isOutputSupportedFor(ImageFormat.RAW12))
+        if (Build.VERSION.SDK_INT >= VERSION_CODES.M &&((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).map.isOutputSupportedFor(ImageFormat.RAW12))
             ret.add(CameraHolderApi2.RAW12);
         return ret.toArray(new String[ret.size()]);
     }

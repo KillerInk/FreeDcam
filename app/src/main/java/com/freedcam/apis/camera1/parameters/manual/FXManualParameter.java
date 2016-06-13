@@ -37,7 +37,7 @@ public class FXManualParameter extends BaseManualParameter {
     public boolean IsSupported()
     {
         if(cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214
-                ||cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV
                 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214)
         {
             isSupported = true;
@@ -75,9 +75,9 @@ public class FXManualParameter extends BaseManualParameter {
 
     @Override
     public void SetValue(int valueToSet)
-    {   
-    	parameters.set(KEYS.MORPHO_EFFECT_TYPE, String.valueOf(valueToSet));
-        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+    {
+        parameters.set(KEYS.MORPHO_EFFECT_TYPE, String.valueOf(valueToSet));
+        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
 
     }
 

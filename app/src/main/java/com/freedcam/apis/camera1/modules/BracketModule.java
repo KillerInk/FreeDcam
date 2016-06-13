@@ -40,11 +40,11 @@ public class BracketModule extends PictureModule
 
     private final String TAG = BracketModule.class.getSimpleName();
 
-    int hdrCount = 0;
-    boolean aeBrackethdr = false;
+    int hdrCount;
+    boolean aeBrackethdr;
     File[] files;
-    boolean isManualExpo = false;
-    int ogExpoValue = 0;
+    boolean isManualExpo;
+    int ogExpoValue;
 
     public BracketModule(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
@@ -123,7 +123,7 @@ public class BracketModule extends PictureModule
 
     private void setExposureToCamera()
     {
-        ogExpoValue =  cameraUiWrapper.GetParameterHandler().ManualExposure.GetValue();
+        ogExpoValue = cameraUiWrapper.GetParameterHandler().ManualExposure.GetValue();
 
         if(isManualExpo)
         {
@@ -196,7 +196,7 @@ public class BracketModule extends PictureModule
         else
             StoppedShift = shutterString * (stop*4);
 
-        return "1/"+String.valueOf(shutterString);
+        return "1/"+ shutterString;
     }
 
     private void checkAEMODE()

@@ -111,7 +111,7 @@ public final class ServerDevice {
 
     /**
      * Returns URL of Device Description XML
-     * 
+     *
      * @return URL string
      */
     public String getDDUrl() {
@@ -120,7 +120,7 @@ public final class ServerDevice {
 
     /**
      * Returns a value of friendlyName in DD.
-     * 
+     *
      * @return friendlyName
      */
     public String getFriendlyName() {
@@ -138,7 +138,7 @@ public final class ServerDevice {
 
     /**
      * Returns a value of UDN in DD.
-     * 
+     *
      * @return UDN
      */
     public String getUDN() {
@@ -147,7 +147,7 @@ public final class ServerDevice {
 
     /**
      * Returns URL of icon in DD.
-     * 
+     *
      * @return URL of icon
      */
     public String getIconUrl() {
@@ -156,7 +156,7 @@ public final class ServerDevice {
 
     /**
      * Returns IP address of the DD.
-     * 
+     *
      * @return IP address
      */
     public String getIpAddres() {
@@ -169,7 +169,7 @@ public final class ServerDevice {
 
     /**
      * Returns a list of categories that the server supports.
-     * 
+     *
      * @return a list of categories
      */
     public List<ApiService> getApiServices() {
@@ -178,7 +178,7 @@ public final class ServerDevice {
 
     /**
      * Checks to see whether the server supports the category.
-     * 
+     *
      * @return true if it's supported.
      */
     public boolean hasApiService() {
@@ -195,7 +195,7 @@ public final class ServerDevice {
 
     /**
      * Returns a ApiService object.
-     * 
+     *
      * @param serviceName category name
      * @return ApiService object
      */
@@ -213,7 +213,7 @@ public final class ServerDevice {
 
     /**
      * Adds a ApiService object.
-     * 
+     *
      * @param name
      * @param actionUrl
      */

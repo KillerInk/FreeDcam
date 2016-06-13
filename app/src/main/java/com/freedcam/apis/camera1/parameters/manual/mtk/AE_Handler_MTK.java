@@ -33,11 +33,11 @@ public class AE_Handler_MTK
     {
         public ISOManualParameterMTK isoManualParameter;
         public ShutterManualMtk shutterPrameter;
-        private int currentIso = 0;
-        private int currentShutter = 0;
-        private Parameters parameters;
+        private int currentIso;
+        private int currentShutter;
+        private final Parameters parameters;
         boolean auto = true;
-        private CameraWrapperInterface cameraUiWrapper;
+        private final CameraWrapperInterface cameraUiWrapper;
 
         final String TAG = AE_Handler_MTK.class.getSimpleName();
 
@@ -111,7 +111,7 @@ public class AE_Handler_MTK
                     }
                    // parameters.put("lg-manual-mode-reset", "0");
                 }
-                ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+                ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
                 if (automode) {
                     String t = cameraUiWrapper.GetParameterHandler().IsoMode.GetValue();
                     if (!t.equals(KEYS.ISO100))

@@ -61,6 +61,7 @@ import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.CameraHolderAbstract;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.interfaces.FocusEvents;
+import com.freedcam.apis.camera2.parameters.ParameterHandler;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
@@ -78,16 +79,16 @@ import java.util.concurrent.TimeUnit;
 @TargetApi(VERSION_CODES.LOLLIPOP)
 public class CameraHolderApi2 extends CameraHolderAbstract
 {
-    private static String TAG = CameraHolderApi2.class.getSimpleName();
+    private final String TAG = CameraHolderApi2.class.getSimpleName();
     public static String RAW_SENSOR = "raw_sensor";
     public static String RAW10 = "raw10";
     public static String RAW12 = "raw12";
 
-    public boolean isWorking = false;
+    public boolean isWorking;
 
     public CameraManager manager;
     public CameraDevice mCameraDevice;
-    private Semaphore mCameraOpenCloseLock = new Semaphore(1);
+    private final Semaphore mCameraOpenCloseLock = new Semaphore(1);
     private AutoFitTextureView textureView;
 
     //this is needed for the previewSize...
@@ -104,7 +105,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     int afState;
     int aeState;
 
-    boolean errorRecieved = false;
+    boolean errorRecieved;
 
     @TargetApi(VERSION_CODES.LOLLIPOP)
     public CameraHolderApi2(CameraWrapperInterface cameraUiWrapper)
@@ -221,7 +222,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                 });
             Logger.d(TAG, "camera closed");
         }
-        super.CloseCamera();
     }
 
     @Override
@@ -356,7 +356,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
     CameraDevice.StateCallback mStateCallback = new CameraDevice.StateCallback() {
         @Override
-        public void onOpened(@NonNull final CameraDevice cameraDevice) {
+        public void onOpened(@NonNull CameraDevice cameraDevice) {
             // This method is called when the camera is opened.  We start camera previewSize here.
             mCameraOpenCloseLock.release();
             mCameraDevice = cameraDevice;
@@ -552,7 +552,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     }
 
 
-    public static Size getSizeForPreviewDependingOnImageSize(Size[] choices, CameraCharacteristics characteristics, int mImageWidth, int mImageHeight)
+    public Size getSizeForPreviewDependingOnImageSize(Size[] choices, CameraCharacteristics characteristics, int mImageWidth, int mImageHeight)
     {
         List<Size> sizes = new ArrayList<>();
         Rect rect = characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
@@ -612,13 +612,13 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
     public class CaptureSessionHandler
     {
-        private String TAG = CaptureSessionHandler.class.getSimpleName();
-        private List<Surface> surfaces;
-        private Point displaySize;
+        private final String TAG = CaptureSessionHandler.class.getSimpleName();
+        private final List<Surface> surfaces;
+        private final Point displaySize;
         public CaptureSessionHandler()
         {
             surfaces = new ArrayList<>();
-            Display display = ((WindowManager)cameraUiWrapper.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+            Display display = ((WindowManager) cameraUiWrapper.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
             displaySize = new Point();
             display.getRealSize(displaySize);
         }
@@ -632,7 +632,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         {
             try {
                 mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-                ((com.freedcam.apis.camera2.parameters.ParameterHandler)cameraUiWrapper.GetParameterHandler()).Init();
+                ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).Init();
             } catch (CameraAccessException e) {
                 Logger.exception(e);
             }

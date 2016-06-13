@@ -33,6 +33,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
@@ -50,20 +51,20 @@ import javax.net.ssl.X509TrustManager;
 public class OpCodeParameter extends AbstractModeParameter
 {
     private final String TAG = OpCodeParameter.class.getSimpleName();
-    private boolean hasOp2 = false;
-    private boolean hasOp3 = false;
+    private boolean hasOp2;
+    private boolean hasOp3;
     private boolean OpcodeEnabled = true;
-    private boolean isSupported = false;
-    private AppSettingsManager appSettingsManager;
+    private final boolean isSupported;
+    private final AppSettingsManager appSettingsManager;
     public OpCodeParameter(AppSettingsManager appSettingsManager)
     {
         this.appSettingsManager = appSettingsManager;
         File op2 = new File(StringUtils.GetFreeDcamConfigFolder+"opc2.bin");
         if (op2.exists())
-            hasOp2=true;
+            hasOp2 =true;
         File op3 = new File(StringUtils.GetFreeDcamConfigFolder+"opc3.bin");
         if (op3.exists())
-            hasOp3=true;
+            hasOp3 =true;
         isSupported = true;
 
     }
@@ -98,12 +99,7 @@ public class OpCodeParameter extends AbstractModeParameter
                 }
             });
         }
-        else if(valueToSet.equals("Disabled"))
-        {
-            OpcodeEnabled = false;
-        }
-        else
-            OpcodeEnabled = true;
+        else OpcodeEnabled = !valueToSet.equals("Disabled");
     }
 
     @Override
@@ -113,7 +109,7 @@ public class OpCodeParameter extends AbstractModeParameter
 
     @Override
     public String GetValue() {
-        return (hasOp2|| hasOp3) +"";
+        return (hasOp2 || hasOp3) +"";
     }
 
     @Override
@@ -135,7 +131,7 @@ public class OpCodeParameter extends AbstractModeParameter
             trustAllHosts();
             URL urlObj = new URL(url);
             httpConn = (HttpsURLConnection ) urlObj.openConnection();
-            httpConn.setHostnameVerifier(DO_NOT_VERIFY);
+            httpConn.setHostnameVerifier(OpCodeParameter.DO_NOT_VERIFY);
             httpConn.setRequestMethod("GET");
             httpConn.setConnectTimeout(15000);
             httpConn.setReadTimeout(3000);
@@ -226,7 +222,7 @@ public class OpCodeParameter extends AbstractModeParameter
         // Install the all-trusting trust manager
         try {
             SSLContext sc = SSLContext.getInstance("TLS");
-            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            sc.init(null, trustAllCerts, new SecureRandom());
             HttpsURLConnection
                     .setDefaultSSLSocketFactory(sc.getSocketFactory());
         } catch (Exception e) {

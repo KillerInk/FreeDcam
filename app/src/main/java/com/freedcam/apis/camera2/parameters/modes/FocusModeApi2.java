@@ -50,7 +50,7 @@ public class FocusModeApi2 extends BaseModeApi2
     @Override
     public boolean IsSupported()
     {
-        return ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES) != null;
+        return ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES) != null;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class FocusModeApi2 extends BaseModeApi2
         if (valueToSet.contains("unknown Focus"))
             return;
         FocusModes sceneModes = Enum.valueOf(FocusModes.class, valueToSet);
-        ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AF_MODE, sceneModes.ordinal());
+        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AF_MODE, sceneModes.ordinal());
         BackgroundValueHasChanged(valueToSet);
         //cameraHolder.mPreviewRequestBuilder.build();
     }
@@ -68,7 +68,7 @@ public class FocusModeApi2 extends BaseModeApi2
     public String GetValue()
     {
 
-        int i = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.CONTROL_AF_MODE);
+        int i = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.CONTROL_AF_MODE);
         FocusModes sceneModes = FocusModes.values()[i];
         return sceneModes.toString();
     }
@@ -76,7 +76,7 @@ public class FocusModeApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        int[] values = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
+        int[] values = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES);
         String[] retvals = new String[values.length];
         for (int i = 0; i < values.length; i++)
         {

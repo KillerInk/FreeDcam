@@ -33,9 +33,9 @@ import java.util.ArrayList;
  */
 public class BaseFocusManual extends BaseManualParameter
 {
-    static final String TAG = BaseFocusManual.class.getSimpleName();
+    private final String TAG = BaseFocusManual.class.getSimpleName();
     protected String manualFocusModeString;
-    private int manualFocusType = 0;
+    private final int manualFocusType;
 
     /**
      * checks if the key_value maxvalue and minvalues are contained in the cameraparameters
@@ -101,11 +101,11 @@ public class BaseFocusManual extends BaseManualParameter
         {
             if ((!manualFocusModeString.equals("") || manualFocusModeString == null)&& !cameraUiWrapper.GetParameterHandler().FocusMode.GetValue().equals(manualFocusModeString)) //do not set "manual" to "manual"
                 cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(manualFocusModeString, false);
-            parameters.set(KEYS.KEY_MANUAL_FOCUS_TYPE, manualFocusType+"");
+            parameters.set(KEYS.KEY_MANUAL_FOCUS_TYPE, manualFocusType +"");
 
             parameters.set(key_value, stringvalues[currentInt]);
             Logger.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
-            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         }
     }
 

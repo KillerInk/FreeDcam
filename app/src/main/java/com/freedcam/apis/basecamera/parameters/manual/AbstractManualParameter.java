@@ -35,7 +35,7 @@ public abstract class AbstractManualParameter implements ManualParameterInterfac
     /**
      * Listners that attached to that parameter
      */
-    private List<I_ManualParameterEvent> listners;
+    private final List<I_ManualParameterEvent> listners;
     /**
      * the parameterhandler
      */
@@ -56,11 +56,11 @@ public abstract class AbstractManualParameter implements ManualParameterInterfac
     /**
      * holds the state if the parameter is supported
      */
-    protected boolean isSupported = false;
+    protected boolean isSupported;
     /**
      * holds the state if the parameter should be visible to ui
      */
-    protected boolean isVisible = false;
+    protected boolean isVisible;
 
     public AbstractManualParameter(CameraWrapperInterface cameraUiWrapper)
     {
@@ -254,7 +254,7 @@ public abstract class AbstractManualParameter implements ManualParameterInterfac
      * @return returns all values as StringArray
      */
     @Override
-    public String[] getStringValues() { return  stringvalues;}
+    public String[] getStringValues() { return stringvalues;}
 
     @Override
     public void SetValue(int valueToSet)

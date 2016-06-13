@@ -47,7 +47,7 @@ public class NightModeXiaomi extends BaseModeParameter
     @Override
     public boolean IsSupported()
     {
-        return  isSupported;
+        return isSupported;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class NightModeXiaomi extends BaseModeParameter
             parameters.set(KEYS.AE_BRACKET_HDR, KEYS.AE_BRACKET_HDR_VALUES_OFF);
             parameters.set(KEYS.MORPHO_HHT, KEYS.FALSE);
         }
-        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         BackgroundValueHasChanged(valueToSet);
 
     }
@@ -104,10 +104,10 @@ public class NightModeXiaomi extends BaseModeParameter
     public void onValueChanged(String val)
     {
         format = val;
-        if (val.contains(KEYS.JPEG)&&!visible&&!curmodule.equals(KEYS.MODULE_HDR))
+        if (val.contains(KEYS.JPEG)&&!visible &&!curmodule.equals(KEYS.MODULE_HDR))
             Show();
 
-        else if (!val.contains(KEYS.JPEG)&&visible) {
+        else if (!val.contains(KEYS.JPEG)&& visible) {
             Hide();
         }
     }

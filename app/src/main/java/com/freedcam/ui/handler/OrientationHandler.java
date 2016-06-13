@@ -13,9 +13,9 @@ import com.freedcam.utils.Logger;
  */
 public class OrientationHandler implements CaptureStateChanged
 {
-    private int currentOrientation = 0;
-    private OrientationEventListener orientationEventListener;
-    private I_orientation orientationListner;
+    private int currentOrientation;
+    private final OrientationEventListener orientationEventListener;
+    private final I_orientation orientationListner;
 
     public OrientationHandler(FragmentActivity activity, final I_orientation orientationListner)
     {

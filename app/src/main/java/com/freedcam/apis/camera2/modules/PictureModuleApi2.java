@@ -82,7 +82,7 @@ import java.util.List;
 @TargetApi(VERSION_CODES.LOLLIPOP)
 public class PictureModuleApi2 extends AbstractModuleApi2
 {
-    private static String TAG = PictureModuleApi2.class.getSimpleName();
+    private final String TAG = PictureModuleApi2.class.getSimpleName();
     private TotalCaptureResult mDngResult;
     private Size largestImageSize;
     private String picFormat;
@@ -93,8 +93,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private Size previewSize;
     private Surface previewsurface;
     private Surface camerasurface;
-    private Handler handler;
-    private int imagecount = 0;
+    private final Handler handler;
+    private int imagecount;
 
     public PictureModuleApi2(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
@@ -217,14 +217,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             catch (NullPointerException ex)
             {Logger.exception(ex);}
             List<CaptureRequest> captureList = new ArrayList<>();
-            for (int i=0; i< ParameterHandler.Burst.GetValue()+1; i++)
+            for (int i = 0; i< ParameterHandler.Burst.GetValue()+1; i++)
             {
                 captureList.add(captureBuilder.build());
             }
             imagecount = 0;
             mDngResult = null;
             changeCaptureState(CaptureStates.image_capture_start);
-            cameraHolder.CaptureSessionH.StartCapture(captureBuilder,CaptureCallback,handler);
+            cameraHolder.CaptureSessionH.StartCapture(captureBuilder, CaptureCallback, handler);
         } catch (CameraAccessException e) {
             Logger.exception(e);
         }
@@ -232,7 +232,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
 
 
-    private CaptureCallback CaptureCallback
+    private final CaptureCallback CaptureCallback
             = new CaptureCallback()
     {
 
@@ -394,7 +394,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 dngCreator.writeImage(new FileOutputStream(file), image);
             else
             {
-                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,cameraUiWrapper.getContext());
+                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, cameraUiWrapper.getContext());
                 DocumentFile wr = df.createFile("image/*", file.getName());
                 dngCreator.writeImage(cameraUiWrapper.getContext().getContentResolver().openOutputStream(wr.getUri()), image);
             }
@@ -428,7 +428,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             dngConverter.SetBayerData(bytes, file.getAbsolutePath());
         else
         {
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,cameraUiWrapper.getContext());
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, cameraUiWrapper.getContext());
             DocumentFile wr = df.createFile("image/*", file.getName());
             try {
 
@@ -496,7 +496,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         float[]finalnoise;
         String cmat = appSettingsManager.getString(AppSettingsManager.SETTTING_CUSTOMMATRIX);
         if (cmat != null && !cmat.equals("") &&!cmat.equals("off")) {
-            CustomMatrix mat  = ((MatrixChooserParameter)ParameterHandler.matrixChooser).GetCustomMatrix(cmat);
+            CustomMatrix mat  = ((MatrixChooserParameter) ParameterHandler.matrixChooser).GetCustomMatrix(cmat);
             color1 = mat.ColorMatrix1;
             color2 = mat.ColorMatrix2;
             neutral = mat.NeutralMatrix;
@@ -510,7 +510,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         {
             color1 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM1));
             color2 = getFloatMatrix(cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_COLOR_TRANSFORM2));
-            Rational[] n =  mDngResult.get(CaptureResult.SENSOR_NEUTRAL_COLOR_POINT);
+            Rational[] n = mDngResult.get(CaptureResult.SENSOR_NEUTRAL_COLOR_POINT);
             neutral[0] = n[0].floatValue();
             neutral[1] = n[1].floatValue();
             neutral[2] = n[2].floatValue();
@@ -689,13 +689,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         try {
             Logger.d(TAG, "Set Burst to:" + burst);
-            previewSize = CameraHolderApi2.getSizeForPreviewDependingOnImageSize(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), cameraHolder.characteristics, mImageWidth, mImageHeight);
+            previewSize = cameraHolder.getSizeForPreviewDependingOnImageSize(cameraHolder.map.getOutputSizes(ImageFormat.YUV_420_888), cameraHolder.characteristics, mImageWidth, mImageHeight);
             if (cameraUiWrapper.getFocusPeakProcessor() != null)
             {
                 cameraUiWrapper.getFocusPeakProcessor().kill();
             }
 
-            cameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(),previewSize.getHeight(),0,180,false);
+            cameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(), previewSize.getHeight(),0,180,false);
             SurfaceTexture texture = cameraHolder.CaptureSessionH.getSurfaceTexture();
             texture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
             previewsurface = new Surface(texture);
@@ -713,7 +713,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             else if (picFormat.equals(CameraHolderApi2.RAW_SENSOR))
                 mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW_SENSOR, burst);
             else if (picFormat.equals(CameraHolderApi2.RAW12))
-                mImageReader = ImageReader.newInstance(mImageWidth,mImageHeight, ImageFormat.RAW12,burst);
+                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW12,burst);
             cameraHolder.CaptureSessionH.AddSurface(mImageReader.getSurface(),false);
             cameraHolder.CaptureSessionH.CreateCaptureSession();
         }
@@ -726,7 +726,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     }
 
     /**
-     * Saves a JPEG {@link android.media.Image} into the specified {@link File}.
+     * Saves a JPEG {@link Image} into the specified {@link File}.
      */
     private class ImageSaver implements Runnable {
 
@@ -757,7 +757,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 else
                 {
 
-                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,cameraUiWrapper.getContext());
+                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, cameraUiWrapper.getContext());
                     DocumentFile wr = df.createFile("*/*", mFile.getName());
                     output = cameraUiWrapper.getContext().getContentResolver().openOutputStream(wr.getUri(),"rw");
                 }

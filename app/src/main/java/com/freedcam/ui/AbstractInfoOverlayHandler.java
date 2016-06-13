@@ -45,15 +45,15 @@ import java.util.Date;
  */
 public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
 {
-    private Handler handler;
+    private final Handler handler;
     protected CameraWrapperInterface cameraUiWrapper;
-    boolean started = false;
-    private Context context;
+    boolean started;
+    private final Context context;
 
     protected String batteryLevel;
-    private BatteryBroadCastListner batteryBroadCastListner;
+    private final BatteryBroadCastListner batteryBroadCastListner;
 
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
     protected String timeString;
 
     //this holds the format for video or picture
@@ -170,7 +170,7 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
             if(!cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
                 storageSpace = Avail4PIC();
             else
-                storageSpace =readableFileSize(SDspace());
+                storageSpace = readableFileSize(SDspace());
         }
         catch (Exception ex)
         {

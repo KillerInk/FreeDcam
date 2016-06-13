@@ -35,7 +35,7 @@ import com.freedcam.utils.Logger;
  */
 public class ModuleHandler extends AbstractModuleHandler
 {
-    private static String TAG = "freedcam.ModuleHandler";
+    private final String TAG = "freedcam.ModuleHandler";
 
 
     public  ModuleHandler (CameraWrapperInterface cameraUiWrapper)
@@ -48,12 +48,12 @@ public class ModuleHandler extends AbstractModuleHandler
     {
         //init the Modules DeviceDepending
         //splitting modules make the code foreach device cleaner
-        if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.MTK)
+        if (((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.MTK)
         {
             Logger.d(TAG, "load mtk picmodule");
             PictureModuleMTK thl5000 = new PictureModuleMTK(cameraUiWrapper);
             moduleList.put(thl5000.ModuleName(), thl5000);
-            IntervalModule intervalModule = new IntervalModule(thl5000,cameraUiWrapper);
+            IntervalModule intervalModule = new IntervalModule(thl5000, cameraUiWrapper);
             moduleList.put(intervalModule.ModuleName(), intervalModule);
         }
         else//else //use default pictureModule
@@ -61,11 +61,11 @@ public class ModuleHandler extends AbstractModuleHandler
             Logger.d(TAG, "load default picmodule");
             PictureModule pictureModule = new PictureModule(cameraUiWrapper);
             moduleList.put(pictureModule.ModuleName(), pictureModule);
-            IntervalModule intervalModule = new IntervalModule(pictureModule,cameraUiWrapper);
+            IntervalModule intervalModule = new IntervalModule(pictureModule, cameraUiWrapper);
             moduleList.put(intervalModule.ModuleName(), intervalModule);
         }
 
-        if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.LG)
+        if (((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.LG)
         {
             Logger.d(TAG, "load lg videomodule");
             VideoModuleG3 videoModuleG3 = new VideoModuleG3(cameraUiWrapper);

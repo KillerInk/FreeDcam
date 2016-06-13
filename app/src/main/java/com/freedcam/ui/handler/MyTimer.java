@@ -8,13 +8,13 @@ import android.widget.TextView;
  */
 public class MyTimer
 {
-    private TextView textView;
+    private final TextView textView;
     private Integer secondsDone = 0;
-    private boolean stop = false;
+    private boolean stop;
 
     private final int interval = 1000; // 1 Second
-    private Handler handler = new Handler();
-    private Runnable runnable = new Runnable()
+    private final Handler handler = new Handler();
+    private final Runnable runnable = new Runnable()
     {
         public void run()
         {

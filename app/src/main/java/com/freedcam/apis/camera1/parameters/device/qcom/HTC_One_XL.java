@@ -45,7 +45,7 @@ public class HTC_One_XL extends BaseQcomDevice {
         switch (filesize)
         {
             case 10782464: //HTC one xl
-                return new DngProfile(0, 3282, 2448, DngProfile.Qcom, DngProfile.GRBG, 0,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(0, 3282, 2448, DngProfile.Qcom, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
         }
         return null;
     }

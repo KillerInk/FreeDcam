@@ -28,12 +28,12 @@ public class SimpleCameraEventObserver {
 
     private static final String TAG = SimpleCameraEventObserver.class.getSimpleName();
 
-    private boolean LOGGING = true;
+    private final boolean LOGGING = true;
 
     private void sendLog(String msg)
     {
-        if (LOGGING)
-            Logger.d(TAG, msg);
+        if (this.LOGGING)
+            Logger.d(SimpleCameraEventObserver.TAG, msg);
     }
 
     /**
@@ -180,13 +180,13 @@ public class SimpleCameraEventObserver {
 
     private final Handler mUiHandler;
 
-    private SimpleRemoteApi mRemoteApi;
+    private final SimpleRemoteApi mRemoteApi;
 
     private ChangeListener mListener;
 
-    private boolean mWhileEventMonitoring = false;
+    private boolean mWhileEventMonitoring;
 
-    private boolean mIsActive = false;
+    private boolean mIsActive;
 
     // Current Liveview Status value.
     private boolean mLiveviewStatus;
@@ -219,7 +219,7 @@ public class SimpleCameraEventObserver {
 
     /**
      * Constructor.
-     * 
+     *
      * @param context context to notify the changes by UI thread.
      * @param apiClient API client
      */
@@ -230,8 +230,8 @@ public class SimpleCameraEventObserver {
         if (apiClient == null) {
             throw new IllegalArgumentException("apiClient is null.");
         }
-        mRemoteApi = apiClient;
-        mUiHandler = new Handler(context.getMainLooper());
+        this.mRemoteApi = apiClient;
+        this.mUiHandler = new Handler(context.getMainLooper());
     }
 
 
@@ -247,29 +247,29 @@ public class SimpleCameraEventObserver {
     // WHERE THE FUCK IS THIS DESCRIPED IN THE FUCKING API? "sceneRecognition":"None","type":"sceneRecognition","motionRecognition":"None","steadyRecognition":"Tripod"
     /**
      * Starts monitoring by continuously calling getEvent API.
-     * 
+     *
      * @return true if it successfully started, false if a monitoring is already
      *         started.
      */
     public void start() {
-        if (!mIsActive) {
-            sendLog("start() observer is not active.");
+        if (!this.mIsActive) {
+            this.sendLog("start() observer is not active.");
             return;
         }
 
-        if (mWhileEventMonitoring) {
-            sendLog("start() already starting.");
+        if (this.mWhileEventMonitoring) {
+            this.sendLog("start() already starting.");
             return;
         }
 
-        mWhileEventMonitoring = true;
+        this.mWhileEventMonitoring = true;
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-                sendLog("start() exec.");
+                SimpleCameraEventObserver.this.sendLog("start() exec.");
                 // Call getEvent API continuously.
                 boolean firstCall = true;
-                MONITORLOOP: while (mWhileEventMonitoring) {
+                MONITORLOOP: while (SimpleCameraEventObserver.this.mWhileEventMonitoring) {
 
                     // At first, call as non-Long Polling.
                     boolean longPolling = !firstCall;
@@ -277,20 +277,20 @@ public class SimpleCameraEventObserver {
                     try {
                         // Call getEvent API.
                         JSONObject replyJson;
-                        if(version == null || version == "")
+                        if(SimpleCameraEventObserver.this.version == null || SimpleCameraEventObserver.this.version == "")
                         {
-                            sendLog("Request version");
-                            replyJson = mRemoteApi.getVersions();
+                            SimpleCameraEventObserver.this.sendLog("Request version");
+                            replyJson = SimpleCameraEventObserver.this.mRemoteApi.getVersions();
                             JSONArray array = replyJson.getJSONArray("result");
                             array = array.getJSONArray(0);
-                            version = array.getString(array.length()-1);
+                            SimpleCameraEventObserver.this.version = array.getString(array.length()-1);
                         }
 
-                        replyJson = mRemoteApi.getEvent(longPolling, version);
+                        replyJson = SimpleCameraEventObserver.this.mRemoteApi.getEvent(longPolling, SimpleCameraEventObserver.this.version);
 
                         // Check error code at first.
                         int errorCode = JsonUtils.findErrorCode(replyJson);
-                        sendLog("getEvent errorCode: " + errorCode);
+                        SimpleCameraEventObserver.this.sendLog("getEvent errorCode: " + errorCode);
                         switch (errorCode) {
                             case 0: // no error
                                 // Pass through.
@@ -310,27 +310,27 @@ public class SimpleCameraEventObserver {
                                 }
                                 continue MONITORLOOP;
                             default:
-                                sendLog("SimpleCameraEventObserver: Unexpected error: "
+                                SimpleCameraEventObserver.this.sendLog("SimpleCameraEventObserver: Unexpected error: "
                                         + errorCode);
                                 break MONITORLOOP; // end monitoring.
                         }
 
-                        processEvents(replyJson);
+                        SimpleCameraEventObserver.this.processEvents(replyJson);
 
                     } catch (IOException e) {
                         // Occurs when the server is not available now.
-                        sendLog("getEvent timeout by client trigger.");
-                        fireTimeoutListener();
+                        SimpleCameraEventObserver.this.sendLog("getEvent timeout by client trigger.");
+                        SimpleCameraEventObserver.this.fireTimeoutListener();
                         break MONITORLOOP;
                     } catch (JSONException e) {
-                        sendLog("getEvent: JSON format error. " + e.getMessage());
+                        SimpleCameraEventObserver.this.sendLog("getEvent: JSON format error. " + e.getMessage());
                         break MONITORLOOP;
                     }
 
                     firstCall = false;
                 } // MONITORLOOP end.
 
-                mWhileEventMonitoring = false;
+                SimpleCameraEventObserver.this.mWhileEventMonitoring = false;
             }
         });
     }
@@ -340,7 +340,7 @@ public class SimpleCameraEventObserver {
         //1
         List<String> availableApis = JsonUtils.findAvailableApiList(replyJson);
         if (!availableApis.isEmpty()) {
-            fireApiListModifiedListener(availableApis);
+            this.fireApiListModifiedListener(availableApis);
         }
 
         //2 CameraStatus
@@ -348,34 +348,34 @@ public class SimpleCameraEventObserver {
 
         if (cameraStatus != null && !cameraStatus.equals(""))
         {
-            sendLog("getEvent cameraStatus: " + cameraStatus);
-            fireCameraStatusChangeListener(cameraStatus);
+            this.sendLog("getEvent cameraStatus: " + cameraStatus);
+            this.fireCameraStatusChangeListener(cameraStatus);
         }
 
         //3 zoomPosition
         int zoomPosition = JsonUtils.findZoomInformation(replyJson);
 
         if (zoomPosition != -1) {
-            mZoomPosition = zoomPosition;
-            sendLog("getEvent zoomPosition: " + zoomPosition);
-            fireZoomInformationChangeListener(0, zoomPosition, 0);
+            this.mZoomPosition = zoomPosition;
+            this.sendLog("getEvent zoomPosition: " + zoomPosition);
+            this.fireZoomInformationChangeListener(0, zoomPosition, 0);
         }
 
         //3 LiveviewStatus
         Boolean liveviewStatus = JsonUtils.findLiveviewStatus(replyJson);
 
-        if (liveviewStatus != null && !liveviewStatus.equals(mLiveviewStatus))
+        if (liveviewStatus != null && !liveviewStatus.equals(this.mLiveviewStatus))
         {
-            sendLog("getEvent liveviewStatus: " + liveviewStatus);
-            mLiveviewStatus = liveviewStatus;
-            fireLiveviewStatusChangeListener(liveviewStatus);
+            this.sendLog("getEvent liveviewStatus: " + liveviewStatus);
+            this.mLiveviewStatus = liveviewStatus;
+            this.fireLiveviewStatusChangeListener(liveviewStatus);
         }
 
         //4 liveview Orientation
         //TODO add orientation
 
         //5
-        processActShotImage(replyJson);
+        this.processActShotImage(replyJson);
 
         //6-9 emtpy
 
@@ -383,10 +383,10 @@ public class SimpleCameraEventObserver {
         // storageId
         String storageId = JsonUtils.findStorageId(replyJson);
 
-        if (storageId != null && !storageId.equals(mStorageId)) {
-            mStorageId = storageId;
-            sendLog("getEvent storageId:" + storageId);
-            fireStorageIdChangeListener(storageId);
+        if (storageId != null && !storageId.equals(this.mStorageId)) {
+            this.mStorageId = storageId;
+            this.sendLog("getEvent storageId:" + storageId);
+            this.fireStorageIdChangeListener(storageId);
         }
 
         //11 beepmode
@@ -400,8 +400,8 @@ public class SimpleCameraEventObserver {
         String imagesize = JsonUtils.findStringInformation(replyJson, 14, "stillSize", "currentSize");
         if (imagesize != null || imagesize.equals(""))
         {
-            sendLog("getEvent imagesize: " +imagesize);
-            fireImageSizeChangedListener(imagesize);
+            this.sendLog("getEvent imagesize: " +imagesize);
+            this.fireImageSizeChangedListener(imagesize);
         }
 
         //15 cameraFunctionResult
@@ -414,30 +414,30 @@ public class SimpleCameraEventObserver {
         String expoMode = JsonUtils.findStringInformation(replyJson, 18, "exposureMode", "currentExposureMode");
         if (expoMode != null && !expoMode.equals(""))
         {
-            sendLog("getEvent expoMode: " + expoMode);
-            fireExpoModeChangedListener(expoMode);
+            this.sendLog("getEvent expoMode: " + expoMode);
+            this.fireExpoModeChangedListener(expoMode);
         }
 
         String[] expomodes = JsonUtils.findStringArrayInformation(replyJson, 18, "exposureMode", "exposureModeCandidates");
         if (expomodes != null && expomodes.length > 0)
         {
-            sendLog("getEvent expoModes: " + expomodes.length);
-            fireExpoModesChangedListener(expomodes);
+            this.sendLog("getEvent expoModes: " + expomodes.length);
+            this.fireExpoModesChangedListener(expomodes);
         }
 
         //19 PostView Image Size
         String postview = JsonUtils.findStringInformation(replyJson, 19, "postviewImageSize", "currentPostviewImageSize");
         if (postview != null && !postview.equals(""))
         {
-            sendLog("getEvent postviewSize: " + postview);
-            firePostviewChangedListener(postview);
+            this.sendLog("getEvent postviewSize: " + postview);
+            this.firePostviewChangedListener(postview);
         }
 
         String[] postviews = JsonUtils.findStringArrayInformation(replyJson, 19, "postviewImageSize", "postviewImageSizeCandidates");
         if (postviews != null && postviews.length > 0)
         {
-            sendLog("getEvent postviewmodes: " + postviews.length);
-            firePostViewModesChangedListener(postviews);
+            this.sendLog("getEvent postviewmodes: " + postviews.length);
+            this.firePostViewModesChangedListener(postviews);
         }
 
         //20 selftimer
@@ -446,8 +446,8 @@ public class SimpleCameraEventObserver {
         String shootMode = JsonUtils.findShootMode(replyJson);
 
         if (shootMode != null) {
-            sendLog("getEvent shootMode: " + shootMode);
-            fireShootModeChangeListener(shootMode);
+            this.sendLog("getEvent shootMode: " + shootMode);
+            this.fireShootModeChangeListener(shootMode);
         }
 
         //22-24 reserved/emtpy
@@ -455,137 +455,137 @@ public class SimpleCameraEventObserver {
         //25 exposure comepensation
         int minexpo = JsonUtils.findIntInformation(replyJson, "exposureCompensation", "minExposureCompensation");
 
-        if (minexpo != -5000 && minexpo != mExposureCompMin)
+        if (minexpo != -5000 && minexpo != this.mExposureCompMin)
         {
-            sendLog("getEvent minExposure: " + minexpo);
-            mExposureCompMin = minexpo;
-            fireExposurCompMinChangeListener(minexpo);
+            this.sendLog("getEvent minExposure: " + minexpo);
+            this.mExposureCompMin = minexpo;
+            this.fireExposurCompMinChangeListener(minexpo);
         }
         int maxexpo = JsonUtils.findIntInformation(replyJson, "exposureCompensation", "maxExposureCompensation");
 
-        if (maxexpo != -5000 && maxexpo != mExposureCompMax)
+        if (maxexpo != -5000 && maxexpo != this.mExposureCompMax)
         {
-            sendLog("getEvent maxExposure: " + maxexpo);
-            mExposureCompMax = maxexpo;
-            fireExposurCompMaxChangeListener(maxexpo);
+            this.sendLog("getEvent maxExposure: " + maxexpo);
+            this.mExposureCompMax = maxexpo;
+            this.fireExposurCompMaxChangeListener(maxexpo);
         }
 
         int cexpo = JsonUtils.findIntInformation(replyJson, "exposureCompensation", "currentExposureCompensation");
 
         if (cexpo != -5000)
         {
-            sendLog("getEvent currentExposure: " + cexpo);
-            mExposureComp = cexpo;
-            fireExposurCompChangeListener(cexpo + minexpo * -1);
+            this.sendLog("getEvent currentExposure: " + cexpo);
+            this.mExposureComp = cexpo;
+            this.fireExposurCompChangeListener(cexpo + minexpo * -1);
         }
 
         //26 flash
         String mflash = JsonUtils.findStringInformation(replyJson, 26, "flashMode", "currentFlashMode");
-        if (mflash != null && !mflash.equals("") && !mflash.equals(flash))
+        if (mflash != null && !mflash.equals("") && !mflash.equals(this.flash))
         {
-            flash = mflash;
-            sendLog("getEvent flash:" + flash);
-            fireFlashChangeListener(flash);
+            this.flash = mflash;
+            this.sendLog("getEvent flash:" + this.flash);
+            this.fireFlashChangeListener(this.flash);
         }
 
         //27fnumber
-        processFnumberStuff(replyJson);
+        this.processFnumberStuff(replyJson);
 
         //28 focusmode
         String focus = JsonUtils.findStringInformation(replyJson, 28, "focusMode", "currentFocusMode");
         if (focus != null && !focus.equals(""))
         {
-            sendLog("getEvent focusmode: " +focus);
-            fireFocusChangedListener(focus);
+            this.sendLog("getEvent focusmode: " +focus);
+            this.fireFocusChangedListener(focus);
         }
 
         String[] focusmodes = JsonUtils.findStringArrayInformation(replyJson, 28, "focusMode", "focusModeCandidates");
         if (focusmodes != null && focusmodes.length > 0)
         {
-            sendLog("getEvent focusmodes: " + Arrays.toString(focusmodes));
-            fireFocusModesChangedListener(focusmodes);
+            this.sendLog("getEvent focusmodes: " + Arrays.toString(focusmodes));
+            this.fireFocusModesChangedListener(focusmodes);
         }
         //29 iso
-        processIsoStuff(replyJson);
+        this.processIsoStuff(replyJson);
 
 
         //30 reserved/emtpy
         //31 program mode shifte
 
         //32 shutter
-        processShutterSpeedStuff(replyJson);
+        this.processShutterSpeedStuff(replyJson);
 
         //33 whitebalance
         String wbval = JsonUtils.findStringInformation(replyJson,33, "whiteBalance", "currentWhiteBalanceMode");
         if (!wbval.equals(""))
         {
-            fireWbChangeListener(wbval);
-            sendLog("WB mode: " + wbval);
+            this.fireWbChangeListener(wbval);
+            this.sendLog("WB mode: " + wbval);
         }
 
         //34touch af position
         String touchSuccess = JsonUtils.findStringInformation(replyJson, 34, "touchAFPosition", "currentSet");
         if (touchSuccess != null || !touchSuccess.equals(""))
-            sendLog("got focus sucess:" + touchSuccess);
+            this.sendLog("got focus sucess:" + touchSuccess);
 
         //35 focus status
         String focusStatus = JsonUtils.findStringInformation(replyJson, 35, "focusStatus", "focusStatus");
         if (!focusStatus.equals(""))
         {
-            sendLog("focusstate: " + focusStatus);
+            this.sendLog("focusstate: " + focusStatus);
             if (focusStatus.equals("Not Focusing"))
-                fireFocusLockedChangeListener(false);
+                this.fireFocusLockedChangeListener(false);
             if (focusStatus.equals("Focused"))
-                fireFocusLockedChangeListener(true);
+                this.fireFocusLockedChangeListener(true);
 
         }
 
         //36 zoom settings
         String zoomSetting = JsonUtils.findStringInformation(replyJson, 36, "zoomSetting", "zoom");
         if (zoomSetting != null && !zoomSetting.equals("")) {
-            sendLog("getEvent imageformat: " + zoomSetting);
-            fireZoomSettingChangedListener(zoomSetting);
+            this.sendLog("getEvent imageformat: " + zoomSetting);
+            this.fireZoomSettingChangedListener(zoomSetting);
         }
         String[] zoomSettings = JsonUtils.findStringArrayInformation(replyJson, 36, "zoomSetting", "candidate");
         if (zoomSettings != null && zoomSettings.length > 0)
         {
-            sendLog("getEvent imageformats: " + Arrays.toString(zoomSettings));
-            fireZoomSettingsChangedListener(zoomSettings);
+            this.sendLog("getEvent imageformats: " + Arrays.toString(zoomSettings));
+            this.fireZoomSettingsChangedListener(zoomSettings);
         }
 
         //37 still quality
         String imageFormat = JsonUtils.findStringInformation(replyJson, 37, "stillQuality", "stillQuality");
         if (imageFormat != null && !imageFormat.equals("")) {
-            sendLog("getEvent imageformat: " + imageFormat);
-            fireImageFormatChangedListener(imageFormat);
+            this.sendLog("getEvent imageformat: " + imageFormat);
+            this.fireImageFormatChangedListener(imageFormat);
         }
 
         String[] imageformats = JsonUtils.findStringArrayInformation(replyJson, 37, "stillQuality", "candidate");
         if (imageformats != null && imageformats.length > 0)
         {
-            sendLog("getEvent imageformats: " + Arrays.toString(imageformats));
-            fireImageFormatsChangedListener(imageformats);
+            this.sendLog("getEvent imageformats: " + Arrays.toString(imageformats));
+            this.fireImageFormatsChangedListener(imageformats);
         }
 
         //38 cont shot
         String contshot = JsonUtils.findStringInformation(replyJson, 38, "contShootingMode", "contShootingMode");
         if (contshot != null && !contshot.equals(""))
         {
-            sendLog("getEvent contshot: " +contshot);
-            fireContShotModeChangedListener(contshot);
+            this.sendLog("getEvent contshot: " +contshot);
+            this.fireContShotModeChangedListener(contshot);
         }
 
         String[] contshots = JsonUtils.findStringArrayInformation(replyJson, 38, "contShootingMode", "candidate");
         if (contshots != null && contshots.length > 0)
         {
-            sendLog("getEvent contshots: " + contshot);
-            fireContShotModesChangedListener(contshots);
+            this.sendLog("getEvent contshots: " + contshot);
+            this.fireContShotModesChangedListener(contshots);
         }
 
         //39 cont shot speed
 
         //40 cont shot urls
-        processContShootImage(replyJson);
+        this.processContShootImage(replyJson);
 
         //41 flipsettings
 
@@ -600,25 +600,25 @@ public class SimpleCameraEventObserver {
         String trackingFocusStatus = JsonUtils.findStringInformation(replyJson, 54, "trackingFocusStatus","trackingFocusStatus");
         if (!trackingFocusStatus.equals(""))
         {
-            sendLog("tracking focusstate: " + trackingFocusStatus);
+            this.sendLog("tracking focusstate: " + trackingFocusStatus);
             if (trackingFocusStatus.equals("Tracking"))
-                fireFocusLockedChangeListener(true);
+                this.fireFocusLockedChangeListener(true);
             if (trackingFocusStatus.equals("Not Tracking"))
-                fireFocusLockedChangeListener(false);
+                this.fireFocusLockedChangeListener(false);
         }
         //55Tracking focus setting
         String tf = JsonUtils.findStringInformation(replyJson, 55, "trackingFocus", "trackingFocus");
         if (tf != null && !tf.equals(""))
         {
-            sendLog("getEvent contshot: " +tf);
-            fireTrackingFocusChangedListener(tf);
+            this.sendLog("getEvent contshot: " +tf);
+            this.fireTrackingFocusChangedListener(tf);
         }
 
         String[] tfs= JsonUtils.findStringArrayInformation(replyJson, 55, "trackingFocus", "candidate");
         if (tfs != null && contshots.length > 0)
         {
-            sendLog("getEvent contshots: " + Arrays.toString(tfs));
-            fireTrackingFocusModesChangedListener(tfs);
+            this.sendLog("getEvent contshots: " + Arrays.toString(tfs));
+            this.fireTrackingFocusModesChangedListener(tfs);
         }
         //56 BatteryStatus
         //57 Recording time
@@ -649,7 +649,7 @@ public class SimpleCameraEventObserver {
                         for (int i = 0; i < val.getJSONArray("takePictureUrl").length(); i++) {
                             values.add(val.getJSONArray("takePictureUrl").getString(i));
                         }
-                        fireImageListener(values.toArray(new String[values.size()]));
+                        this.fireImageListener(values.toArray(new String[values.size()]));
                     }
                 }
             }
@@ -678,7 +678,7 @@ public class SimpleCameraEventObserver {
                     JSONObject ob = array.getJSONObject(i);
                     values.add(ob.getString("postviewUrl"));
                 }
-                fireImageListener(values.toArray(new String[values.size()]));
+                this.fireImageListener(values.toArray(new String[values.size()]));
             }
         }
         } catch (JSONException e) {
@@ -689,57 +689,57 @@ public class SimpleCameraEventObserver {
     private void processShutterSpeedStuff(JSONObject replyJson) throws JSONException
     {
         String[] shuttervals = JsonUtils.findStringArrayInformation(replyJson, 32, "shutterSpeed", "shutterSpeedCandidates");
-        if (shuttervals != null && !Arrays.equals(shuttervals, mShuttervals) && shuttervals.length > 0)
+        if (shuttervals != null && !Arrays.equals(shuttervals, this.mShuttervals) && shuttervals.length > 0)
         {
-            mShuttervals = shuttervals;
-            fireShutterValuesChangeListener(mShuttervals);
+            this.mShuttervals = shuttervals;
+            this.fireShutterValuesChangeListener(this.mShuttervals);
         }
         String shutterv = JsonUtils.findStringInformation(replyJson,32, "shutterSpeed", "currentShutterSpeed");
-        if (shutterv != null && !shutterv.equals("") && !shutterv.equals(shutter))
+        if (shutterv != null && !shutterv.equals("") && !shutterv.equals(this.shutter))
         {
-            shutter = shutterv;
-            sendLog("getEvent shutter:" + shutter);
-            fireShutterSpeedChangeListener(shutter);
+            this.shutter = shutterv;
+            this.sendLog("getEvent shutter:" + this.shutter);
+            this.fireShutterSpeedChangeListener(this.shutter);
         }
     }
 
     private void processFnumberStuff(JSONObject replyJson) throws JSONException {
         String[] fnumbervals = JsonUtils.findStringArrayInformation(replyJson, 27, "fNumber", "fNumberCandidates");
 
-        if (fnumbervals != null && !Arrays.equals(fnumbervals, mFnumbervals) && fnumbervals.length > 0)
+        if (fnumbervals != null && !Arrays.equals(fnumbervals, this.mFnumbervals) && fnumbervals.length > 0)
         {
-            sendLog("getEvent fnumber vals: " + fnumbervals.length);
-            mFnumbervals = fnumbervals;
-            fireFnumberValuesChangeListener(mFnumbervals);
+            this.sendLog("getEvent fnumber vals: " + fnumbervals.length);
+            this.mFnumbervals = fnumbervals;
+            this.fireFnumberValuesChangeListener(this.mFnumbervals);
         }
 
         String fnumberv = JsonUtils.findStringInformation(replyJson,27, "fNumber", "currentFNumber");
 
-        if (fnumberv != null && !fnumberv.equals("") && !fnumberv.equals(fnumber))
+        if (fnumberv != null && !fnumberv.equals("") && !fnumberv.equals(this.fnumber))
         {
-            fnumber = fnumberv;
-            sendLog("getEvent fnumber:" + fnumber);
-            fireFNumberChangeListener(fnumber);
+            this.fnumber = fnumberv;
+            this.sendLog("getEvent fnumber:" + this.fnumber);
+            this.fireFNumberChangeListener(this.fnumber);
         }
     }
 
     private void processIsoStuff(JSONObject replyJson) throws JSONException {
         String[] isovals = JsonUtils.findStringArrayInformation(replyJson, 29, "isoSpeedRate", "isoSpeedRateCandidates");
 
-        if (isovals != null && !Arrays.equals(isovals, mIsovals) && isovals.length > 0)
+        if (isovals != null && !Arrays.equals(isovals, this.mIsovals) && isovals.length > 0)
         {
-            mIsovals = isovals;
-            sendLog("getEvent isovalues: " + Arrays.toString(isovals));
-            fireIsoValuesChangeListener(mIsovals);
+            this.mIsovals = isovals;
+            this.sendLog("getEvent isovalues: " + Arrays.toString(isovals));
+            this.fireIsoValuesChangeListener(this.mIsovals);
         }
         String isoval = JsonUtils.findStringInformation(replyJson,29, "isoSpeedRate", "currentIsoSpeedRate");
 
-        if (isoval != null && !isoval.equals("") && !isoval.equals(iso))
+        if (isoval != null && !isoval.equals("") && !isoval.equals(this.iso))
         {
 
-            iso = isoval;
-            sendLog( "getEvent isoVal:" + iso);
-            fireIsoChangeListener(iso);
+            this.iso = isoval;
+            this.sendLog( "getEvent isoVal:" + this.iso);
+            this.fireIsoChangeListener(this.iso);
         }
     }
 
@@ -747,24 +747,24 @@ public class SimpleCameraEventObserver {
      * Requests to stop the monitoring.
      */
     public void stop() {
-        mWhileEventMonitoring = false;
+        this.mWhileEventMonitoring = false;
     }
 
     /**
      * Requests to release resource.
      */
     public void release() {
-        mWhileEventMonitoring = false;
-        mIsActive = false;
+        this.mWhileEventMonitoring = false;
+        this.mIsActive = false;
     }
 
     public void activate() {
-        mIsActive = true;
+        this.mIsActive = true;
     }
 
     /**
      * Checks to see whether a monitoring is already started.
-     * 
+     *
      * @return true when monitoring is started.
      */
     public boolean isStarted() {
@@ -773,7 +773,7 @@ public class SimpleCameraEventObserver {
 
     /**
      * Sets a listener object.
-     * 
+     *
      * @param listener
      */
     public void setEventChangeListener(ChangeListener listener) {

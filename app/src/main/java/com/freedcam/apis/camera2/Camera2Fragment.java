@@ -69,12 +69,12 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         this.textureView.setSurfaceTextureListener(this);
         super.cameraHolder = cameraHolder;
         parametersHandler = new ParameterHandler(this);
-        moduleHandler = new ModuleHandlerApi2(this,renderScriptHandler);
+        moduleHandler = new ModuleHandlerApi2(this, renderScriptHandler);
         Focus = new FocusHandler(this);
         cameraHolder = new CameraHolderApi2(this);
         mProcessor = new FocuspeakProcessorApi2(renderScriptHandler);
         Logger.d(TAG, "Constructor done");
-        ((MainActivity)getActivity()).onCameraUiWrapperRdy(this);
+        ((MainActivity) getActivity()).onCameraUiWrapperRdy(this);
 
         return view;
     }
@@ -95,14 +95,14 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     @Override
     public void StartPreview() {
         Logger.d(TAG, "Stop Preview");
-        ((I_PreviewWrapper)moduleHandler.GetCurrentModule()).startPreview();
+        ((I_PreviewWrapper) moduleHandler.GetCurrentModule()).startPreview();
     }
 
     @Override
     public void StopPreview()
     {
         Logger.d(TAG, "Stop Preview");
-        ((I_PreviewWrapper)moduleHandler.GetCurrentModule()).stopPreview();
+        ((I_PreviewWrapper) moduleHandler.GetCurrentModule()).stopPreview();
     }
 
     @Override

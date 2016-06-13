@@ -28,6 +28,7 @@ import com.freedcam.apis.basecamera.FocusRect;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.interfaces.ManualParameterInterface;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
+import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.CameraHolder.Frameworks;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.manual.BaseISOManual;
@@ -40,14 +41,13 @@ import com.troop.androiddng.DngProfile;
 
 import java.util.ArrayList;
 
-import static com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter.NEXUS6;
 
 /**
  * Created by troop on 31.05.2016.
  */
 public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
 {
-    private Frameworks frameworks;
+    private final Frameworks frameworks;
     private AE_Handler_MTK ae_handler_mtk;
     public Xiaomi_Redmi_Note3_QC_MTK(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
@@ -76,7 +76,7 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
         if (frameworks == Frameworks.MTK)
             return ae_handler_mtk.isoManualParameter;
         else
-            return new BaseISOManual(parameters,"continuous-iso",parameters.getInt("min-iso"),parameters.getInt("max-iso"), cameraUiWrapper,1);
+            return new BaseISOManual(parameters,"continuous-iso", parameters.getInt("min-iso"), parameters.getInt("max-iso"), cameraUiWrapper,1);
     }
 
     @Override
@@ -99,9 +99,9 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
         switch (filesize)
         {
             case 26023936://xiaomi redmi note3 mtk
-                return new DngProfile(64, 4192, 3104, DngProfile.Plain, DngProfile.GBRG, 0, matrixChooserParameter.GetCustomMatrix(NEXUS6));
+                return new DngProfile(64, 4192, 3104, DngProfile.Plain, DngProfile.GBRG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 20389888: //xiaomi redmi note3 / pro
-                return new DngProfile(64, 4632, 3480, DngProfile.Mipi16, DngProfile.GRBG, 0,matrixChooserParameter.GetCustomMatrix(NEXUS6));
+                return new DngProfile(64, 4632, 3480, DngProfile.Mipi16, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
         }
         return null;
     }
@@ -134,7 +134,7 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
             ArrayList<Camera.Area> ar = new ArrayList<>();
             ar.add(a);
             parameters.setFocusAreas(ar);
-            ((ParametersHandler)parametersHandler).SetParametersToCamera(parameters);
+            parametersHandler.SetParametersToCamera(parameters);
         }
     }
 }

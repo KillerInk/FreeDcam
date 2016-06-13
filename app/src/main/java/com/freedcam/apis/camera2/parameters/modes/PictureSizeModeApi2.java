@@ -20,7 +20,6 @@
 package com.freedcam.apis.camera2.parameters.modes;
 
 import android.annotation.TargetApi;
-import android.graphics.ImageFormat;
 import android.media.ImageReader;
 import android.os.Build.VERSION_CODES;
 import android.util.Size;
@@ -65,7 +64,7 @@ public class PictureSizeModeApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        Size[] sizes = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).map.getOutputSizes(ImageReader.class);
+        Size[] sizes = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).map.getOutputSizes(ImageReader.class);
         String[] ret = new String[sizes.length];
         for(int i = 0; i < sizes.length; i++)
         {

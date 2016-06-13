@@ -39,9 +39,9 @@ public class MatrixChooserParameter extends AbstractModeParameter
     public static final String IMX230 = "IMX230";
     public static final String OmniVision = "OmniVision";
     public static final String Neutral = "Neutral";
-    private HashMap<String, CustomMatrix> custommatrixes;
+    private final HashMap<String, CustomMatrix> custommatrixes;
     private String currentval = "off";
-    private boolean isSupported =false;
+    private boolean isSupported;
 
     final String TAG = MatrixChooserParameter.class.getSimpleName();
     public MatrixChooserParameter()
@@ -399,7 +399,7 @@ public class MatrixChooserParameter extends AbstractModeParameter
                     -1, 1, 1
             };*/
 
-    private float[] OV_NREDUCTION_Matrix =
+    private final float[] OV_NREDUCTION_Matrix =
             {
                     0.003127599148f, 3.56840528e-005f, 0.003127599148f, 3.56840528e-005f, 0.003127599148f, 3.56840528e-005f
             };

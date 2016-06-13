@@ -30,7 +30,7 @@ import com.freedcam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
  */
 public class PreviewZoomSony extends AbstractModeParameter
 {
-    private SimpleStreamSurfaceView surfaceView;
+    private final SimpleStreamSurfaceView surfaceView;
     private int zoomFactor = 8;
     public PreviewZoomSony( SimpleStreamSurfaceView surfaceView) {
         this.surfaceView = surfaceView;
@@ -50,7 +50,7 @@ public class PreviewZoomSony extends AbstractModeParameter
 
     @Override
     public String GetValue() {
-        return zoomFactor+"";
+        return zoomFactor +"";
     }
 
     @Override

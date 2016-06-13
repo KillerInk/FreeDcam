@@ -52,8 +52,8 @@ public class ThumbView extends ImageView implements I_WorkEvent, OnClickListener
     private final  String TAG = ThumbView.class.getSimpleName();
     private Bitmap mask;
     private I_ThumbClick click;
-    private int mImageThumbSize = 0;
-    private Context context;
+    private int mImageThumbSize;
+    private final Context context;
     private BitmapHelper bitmapHelper;
 
     public ThumbView(Context context) {
@@ -105,9 +105,9 @@ public class ThumbView extends ImageView implements I_WorkEvent, OnClickListener
         });
     }
 
-    private void showThumb(final File filePath)
+    private void showThumb(File filePath)
     {
-        final Bitmap bitmap = bitmapHelper.getBitmap(filePath, true, mImageThumbSize, mImageThumbSize);
+        Bitmap bitmap = bitmapHelper.getBitmap(filePath, true, mImageThumbSize, mImageThumbSize);
         final Bitmap drawMap = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Config.ARGB_8888);
         Canvas drawc = new Canvas(drawMap);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);

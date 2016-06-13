@@ -49,12 +49,12 @@ public abstract class AbstractVideoModule extends AbstractModule
 {
     protected MediaRecorder recorder;
     protected String mediaSavePath;
-    private String TAG = AbstractVideoModule.class.getSimpleName();
+    private final String TAG = AbstractVideoModule.class.getSimpleName();
     private ParcelFileDescriptor fileDescriptor;
 
     public AbstractVideoModule(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
-        name  = KEYS.MODULE_VIDEO;
+        name = KEYS.MODULE_VIDEO;
     }
 
     @Override
@@ -104,8 +104,8 @@ public abstract class AbstractVideoModule extends AbstractModule
         {
             Logger.d(TAG, "InitMediaRecorder");
             isWorking = true;
-            ((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCamera().unlock();
-            recorder =  initRecorder();
+            ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera().unlock();
+            recorder = initRecorder();
             recorder.setOnErrorListener(new OnErrorListener() {
                 @Override
                 public void onError(MediaRecorder mr, int what, int extra) {
@@ -125,7 +125,7 @@ public abstract class AbstractVideoModule extends AbstractModule
             // cameraHolder.StopPreview();
             //ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
 
-            recorder.setPreviewDisplay(((CameraHolder)cameraUiWrapper.GetCameraHolder()).getSurfaceHolder());
+            recorder.setPreviewDisplay(((CameraHolder) cameraUiWrapper.GetCameraHolder()).getSurfaceHolder());
             // cameraHolder.StartPreview();
 
             try {
@@ -144,7 +144,7 @@ public abstract class AbstractVideoModule extends AbstractModule
                 recorder.reset();
                 cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
                 isWorking = false;
-                ((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCamera().lock();
+                ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera().lock();
                 recorder.release();
                 isWorking = false;
                 changeCaptureState(CaptureStates.video_recording_stop);
@@ -157,7 +157,7 @@ public abstract class AbstractVideoModule extends AbstractModule
             recorder.reset();
             cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
             isWorking = false;
-            ((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCamera().lock();
+            ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera().lock();
             recorder.release();
             isWorking = false;
             changeCaptureState(CaptureStates.video_recording_stop);
@@ -181,7 +181,7 @@ public abstract class AbstractVideoModule extends AbstractModule
         finally
         {
             recorder.reset();
-            ((CameraHolder)cameraUiWrapper.GetCameraHolder()).GetCamera().lock();
+            ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera().lock();
             recorder.release();
             isWorking = false;
             try {

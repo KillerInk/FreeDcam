@@ -30,7 +30,7 @@ import com.troop.freedcam.R;
  */
 public class ShutterManualKrillin extends BaseManualParameter {
 
-    private static String TAG = ShutterManualKrillin.class.getSimpleName();
+    private final String TAG = ShutterManualKrillin.class.getSimpleName();
 
     public ShutterManualKrillin(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, "", "", "", cameraUiWrapper, 1);

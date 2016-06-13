@@ -61,7 +61,7 @@ public class Xiaomi_Mi3W extends BaseQcomDevice {
 
     @Override
     public ManualParameterInterface getSkintoneParameter() {
-        AbstractManualParameter Skintone = new SkintoneManualPrameter(parameters,cameraUiWrapper);
+        AbstractManualParameter Skintone = new SkintoneManualPrameter(parameters, cameraUiWrapper);
         parametersHandler.PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
         cameraUiWrapper.GetModuleHandler().moduleEventHandler.addListner(((BaseManualParameter) Skintone).GetModuleListner());
         return Skintone;
@@ -78,9 +78,9 @@ public class Xiaomi_Mi3W extends BaseQcomDevice {
         switch (filesize)
         {
             case 17522688:
-                return new DngProfile(0, 4212, 3120, DngProfile.Qcom, DngProfile.RGGB, DngProfile.ROWSIZE,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(0, 4212, 3120, DngProfile.Qcom, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 16424960:
-                return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 2969600:
                 return new DngProfile(64,1976,1200,DngProfile.Mipi16,DngProfile.RGGB,0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 3170304://Xiaomi_mi3 front Qcom
@@ -96,6 +96,6 @@ public class Xiaomi_Mi3W extends BaseQcomDevice {
 
     @Override
     public ModeParameterInterface getNightMode() {
-        return new NightModeXiaomi(parameters,cameraUiWrapper);
+        return new NightModeXiaomi(parameters, cameraUiWrapper);
     }
 }

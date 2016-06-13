@@ -26,12 +26,12 @@ import com.freedcam.utils.AppSettingsManager;
  */
 public class ParameterExternalShutter extends AbstractModeParameter
 {
-    private static String VoLP = "Vol+";
-    private static String VoLM = "Vol-";
-    private static String Hook = "Hook";
-    private AppSettingsManager appSettingsManager;
+    private static final String VoLP = "Vol+";
+    private static final String VoLM = "Vol-";
+    private static final String Hook = "Hook";
+    private final AppSettingsManager appSettingsManager;
 
-    private String[] values = {VoLP, VoLM, Hook};
+    private final String[] values = {VoLP, VoLM, Hook};
 
     public ParameterExternalShutter(AppSettingsManager appSettingsManager)
     {

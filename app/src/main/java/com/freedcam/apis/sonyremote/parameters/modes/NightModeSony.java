@@ -26,17 +26,13 @@ import com.freedcam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 
 import java.util.Set;
 
-import static com.freedcam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.NightPreviewModes.grayscale;
-import static com.freedcam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.NightPreviewModes.off;
-import static com.freedcam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.NightPreviewModes.on;
-
 /**
  * Created by troop on 04.12.2015.
  */
 public class NightModeSony extends BaseModeParameterSony
 {
-    private String currentval = KEYS.OFF;
-    private SimpleStreamSurfaceView simpleStreamSurfaceView;
+    private final String currentval = KEYS.OFF;
+    private final SimpleStreamSurfaceView simpleStreamSurfaceView;
     private final String GRAYSCALE = "GrayScale";
     final String ZOOMPREVIEW = "ZoomPreview";
 
@@ -49,13 +45,13 @@ public class NightModeSony extends BaseModeParameterSony
     {
         switch (valueToSet) {
             case KEYS.ON:
-                simpleStreamSurfaceView.nightmode = on;
+                simpleStreamSurfaceView.nightmode = SimpleStreamSurfaceView.NightPreviewModes.on;
                 break;
             case GRAYSCALE:
-                simpleStreamSurfaceView.nightmode = grayscale;
+                simpleStreamSurfaceView.nightmode = SimpleStreamSurfaceView.NightPreviewModes.grayscale;
                 break;
             default:
-                simpleStreamSurfaceView.nightmode = off;
+                simpleStreamSurfaceView.nightmode = SimpleStreamSurfaceView.NightPreviewModes.off;
                 break;
         }
     }

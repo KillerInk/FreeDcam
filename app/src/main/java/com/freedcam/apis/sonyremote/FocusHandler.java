@@ -33,7 +33,7 @@ import com.freedcam.utils.Logger;
 public class FocusHandler extends AbstractFocusHandler implements FocusEvents
 {
     private final String TAG = FocusHandler.class.getSimpleName();
-    private boolean isFocusing = false;
+    private boolean isFocusing;
 
     public FocusHandler(CameraWrapperInterface cameraUiWrapper)
     {
@@ -42,18 +42,18 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
 
     @Override
     public void StartFocus() {
-        super.StartFocus();
+
     }
 
     @Override
     public void StartTouchToFocus(FocusRect rect, int width, int height)
     {
-        if (cameraUiWrapper.GetParameterHandler() == null)
+        if (this.cameraUiWrapper.GetParameterHandler() == null)
             return;
-        if (isFocusing)
+        if (this.isFocusing)
         {
-            cameraUiWrapper.GetCameraHolder().CancelFocus();
-            Logger.d(TAG, "Canceld Focus");
+            this.cameraUiWrapper.GetCameraHolder().CancelFocus();
+            Logger.d(this.TAG, "Canceld Focus");
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -65,12 +65,17 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
         double y = rect.top + (rect.bottom - rect.top )  /2;
         double xproz = x / (double)width * 100;
         double yproz = y / (double)height *100;
-        Logger.d(TAG, "set focus to: x: " + xproz + " y: " +yproz);
-        ((CameraHolderSony)cameraUiWrapper.GetCameraHolder()).StartFocus(this);
-        ((CameraHolderSony)cameraUiWrapper.GetCameraHolder()).SetTouchFocus(xproz, yproz);
-        isFocusing = true;
-        if (focusEvent != null)
-            focusEvent.FocusStarted(rect);
+        Logger.d(this.TAG, "set focus to: x: " + xproz + " y: " +yproz);
+        ((CameraHolderSony) this.cameraUiWrapper.GetCameraHolder()).StartFocus(this);
+        ((CameraHolderSony) this.cameraUiWrapper.GetCameraHolder()).SetTouchFocus(xproz, yproz);
+        this.isFocusing = true;
+        if (this.focusEvent != null)
+            this.focusEvent.FocusStarted(rect);
+    }
+
+    @Override
+    public void SetMeteringAreas(FocusRect meteringRect, int width, int height) {
+
     }
 
     @Override
@@ -80,24 +85,24 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
 
     @Override
     public void SetMotionEvent(MotionEvent event) {
-        ((SonyCameraFragment)cameraUiWrapper).getSurfaceView().onTouchEvent(event);
+        this.cameraUiWrapper.getSurfaceView().onTouchEvent(event);
     }
 
 
     @Override
     public void onFocusEvent(boolean success)
     {
-        isFocusing = false;
-        if (focusEvent != null) {
-            focusEvent.FocusFinished(success);
-            focusEvent.FocusLocked(((CameraHolderSony)cameraUiWrapper.GetCameraHolder()).canCancelFocus());
+        this.isFocusing = false;
+        if (this.focusEvent != null) {
+            this.focusEvent.FocusFinished(success);
+            this.focusEvent.FocusLocked(((CameraHolderSony) this.cameraUiWrapper.GetCameraHolder()).canCancelFocus());
         }
 
     }
 
     @Override
     public void onFocusLock(boolean locked) {
-        if (focusEvent != null) {
+        if (this.focusEvent != null) {
             focusEvent.FocusLocked(locked);
         }
     }

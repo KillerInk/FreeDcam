@@ -41,7 +41,7 @@ import java.io.IOException;
 public class PictureModuleMTK extends PictureModule
 {
     private final String TAG = PictureModuleMTK.class.getSimpleName();
-    private File holdFile = null;
+    private File holdFile;
     public PictureModuleMTK(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
@@ -103,7 +103,7 @@ public class PictureModuleMTK extends PictureModule
                 }
                 waitForPicture = false;
                 cameraHolder.StartPreview();
-                MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(),holdFile);
+                MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(), holdFile);
                 cameraUiWrapper.GetModuleHandler().WorkFinished(holdFile);
                 isWorking = false;
                 changeCaptureState(CaptureStates.image_capture_stop);
@@ -111,7 +111,7 @@ public class PictureModuleMTK extends PictureModule
         });
     }
 
-    private int loopBreaker = 0;
+    private int loopBreaker;
     private void CreateDNG_DeleteRaw()
     {
         byte[] data = null;

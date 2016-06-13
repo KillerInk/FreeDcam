@@ -20,6 +20,7 @@
 package com.freedcam.ui.themesample.subfragments;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,11 +101,11 @@ public class SettingsMenuFragment extends AbstractFragment implements I_CloseNot
     private void loadLeftFragment()
     {
         if (leftMenuFragment == null) {
-            leftMenuFragment = LeftMenuFragment.GetInstance(i_activity,appSettingsManager);
+            leftMenuFragment = LeftMenuFragment.GetInstance(i_activity, appSettingsManager);
             leftMenuFragment.SetMenuItemClickListner(this);
         }
         try {
-            android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.setCustomAnimations(anim.empty, anim.empty);
             transaction.replace(id.left_holder, leftMenuFragment);
             transaction.commitAllowingStateLoss();
@@ -117,11 +118,11 @@ public class SettingsMenuFragment extends AbstractFragment implements I_CloseNot
     {
         if (rightMenuFragment == null)
         {
-            rightMenuFragment = RightMenuFragment.GetInstance(i_activity,appSettingsManager);
+            rightMenuFragment = RightMenuFragment.GetInstance(i_activity, appSettingsManager);
             rightMenuFragment.SetMenuItemClickListner(this);
         }
         try {
-            android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.setCustomAnimations(anim.empty, anim.empty);
             transaction.replace(id.right_holder, rightMenuFragment);
             transaction.commitAllowingStateLoss();
@@ -176,7 +177,7 @@ public class SettingsMenuFragment extends AbstractFragment implements I_CloseNot
         if (fromLeftFragment)
         {
             value_menu_status = VALUE_MENU_RIGHT_OPEN;
-            android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.setCustomAnimations(anim.left_to_right_enter, anim.left_to_right_exit);
             transaction.replace(id.right_holder, valuesMenuFragment);
             transaction.addToBackStack(null);
@@ -185,7 +186,7 @@ public class SettingsMenuFragment extends AbstractFragment implements I_CloseNot
         else
         {
             value_menu_status = VALUE_MENU_LEFT_OPEN;
-            android.support.v4.app.FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.setCustomAnimations(anim.right_to_left_enter, anim.right_to_left_exit);
             transaction.replace(id.left_holder, valuesMenuFragment);
             transaction.addToBackStack(null);

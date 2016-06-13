@@ -84,7 +84,7 @@ public class CDS_Mode_Parameter extends BaseModeParameter
     {
         parameters.set("cds-mode", valueToSet);
         try {
-            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         }
         catch (Exception ex)
         {

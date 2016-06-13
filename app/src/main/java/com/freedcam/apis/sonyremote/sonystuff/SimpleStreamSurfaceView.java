@@ -22,31 +22,25 @@ package com.freedcam.apis.sonyremote.sonystuff;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Paint.Style;
 import android.graphics.Rect;
-import android.os.Build.VERSION;
+import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.renderscript.Allocation;
-import android.renderscript.Allocation.MipmapControl;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
-import android.renderscript.Type.Builder;
+import android.renderscript.Type;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 
-import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
-import com.freedcam.apis.sonyremote.sonystuff.DataExtractor.FrameInfo;
+import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.StreamErrorListener.StreamErrorReason;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
@@ -65,22 +59,22 @@ import java.util.concurrent.BlockingQueue;
 /**
  * A SurfaceView based class to draw liveview frames serially.
  */
-public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_ModeParameterEvent {
+public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolder.Callback, AbstractModeParameter.I_ModeParameterEvent {
 
     private static final String TAG = SimpleStreamSurfaceView.class.getSimpleName();
 
     private boolean mWhileFetching;
     private final BlockingQueue<DataExtractor> mJpegQueue = new ArrayBlockingQueue<>(2);
     private final BlockingQueue<DataExtractor> frameQueue = new ArrayBlockingQueue<>(2);
-    private final boolean mInMutableAvailable = VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB;
-    private int mPreviousWidth = 0;
-    private int mPreviousHeight = 0;
+    private final boolean mInMutableAvailable = Build.VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB;
+    private int mPreviousWidth;
+    private int mPreviousHeight;
     private final Paint mFramePaint;
     private  Paint paint;
     private StreamErrorListener mErrorListener;
-    public boolean focuspeak = false;
+    public boolean focuspeak;
     public NightPreviewModes nightmode = NightPreviewModes.off;
-    private int currentImageStackCount = 0;
+    private int currentImageStackCount;
 
     private RenderScript mRS;
     private Allocation mInputAllocation;
@@ -95,8 +89,8 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
     private Bitmap drawBitmap;
     private Bitmap stackBitmap;
 
-    private int zoomPreviewMagineLeft =0;
-    private int zoomPreviewMargineTop = 0;
+    private int zoomPreviewMagineLeft;
+    private int zoomPreviewMargineTop;
 
     public int PreviewZOOMFactor = 1;
 
@@ -110,81 +104,81 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
 
     private void initRenderScript()
     {
-        drawBitmap = Bitmap.createBitmap(mPreviousWidth, mPreviousHeight, Config.ARGB_8888);
-        stackBitmap = Bitmap.createBitmap(mPreviousWidth, mPreviousHeight, Config.ARGB_8888);
-        Builder tbIn = new Builder(mRS, Element.RGBA_8888(mRS));
-        tbIn.setX(mPreviousWidth);
-        tbIn.setY(mPreviousHeight);
-        Builder tbIn2 = new Builder(mRS, Element.RGBA_8888(mRS));
-        tbIn2.setX(mPreviousWidth);
-        tbIn2.setY(mPreviousHeight);
+        this.drawBitmap = Bitmap.createBitmap(this.mPreviousWidth, this.mPreviousHeight, Bitmap.Config.ARGB_8888);
+        this.stackBitmap = Bitmap.createBitmap(this.mPreviousWidth, this.mPreviousHeight, Bitmap.Config.ARGB_8888);
+        Type.Builder tbIn = new Type.Builder(this.mRS, Element.RGBA_8888(this.mRS));
+        tbIn.setX(this.mPreviousWidth);
+        tbIn.setY(this.mPreviousHeight);
+        Type.Builder tbIn2 = new Type.Builder(this.mRS, Element.RGBA_8888(this.mRS));
+        tbIn2.setX(this.mPreviousWidth);
+        tbIn2.setY(this.mPreviousHeight);
 
-        Builder tbOut = new Builder(mRS, Element.RGBA_8888(mRS));
-        tbOut.setX(mPreviousWidth);
-        tbOut.setY(mPreviousHeight);
+        Type.Builder tbOut = new Type.Builder(this.mRS, Element.RGBA_8888(this.mRS));
+        tbOut.setX(this.mPreviousWidth);
+        tbOut.setY(this.mPreviousHeight);
 
-        mInputAllocation = Allocation.createTyped(mRS, tbIn.create(), MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
-        mInputAllocation2 = Allocation.createTyped(mRS, tbIn.create(), MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
-        mOutputAllocation = Allocation.createTyped(mRS, tbOut.create(), MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT);
+        this.mInputAllocation = Allocation.createTyped(this.mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+        this.mInputAllocation2 = Allocation.createTyped(this.mRS, tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+        this.mOutputAllocation = Allocation.createTyped(this.mRS, tbOut.create(), Allocation.MipmapControl.MIPMAP_NONE,  Allocation.USAGE_SCRIPT);
     }
 
 
     /**
      * Constructor
-     * 
+     *
      * @param context
      */
     public SimpleStreamSurfaceView(Context context) {
         super(context);
-        getHolder().addCallback(this);
-        mFramePaint = new Paint();
-        mFramePaint.setDither(true);
-        initBitmaps(context);
+        this.getHolder().addCallback(this);
+        this.mFramePaint = new Paint();
+        this.mFramePaint.setDither(true);
+        this.initBitmaps(context);
     }
 
     /**
      * Constructor
-     * 
+     *
      * @param context
      * @param attrs
      */
     public SimpleStreamSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        getHolder().addCallback(this);
-        mFramePaint = new Paint();
-        mFramePaint.setDither(true);
-        initBitmaps(context);
+        this.getHolder().addCallback(this);
+        this.mFramePaint = new Paint();
+        this.mFramePaint.setDither(true);
+        this.initBitmaps(context);
     }
 
     /**
      * Constructor
-     * 
+     *
      * @param context
      * @param attrs
      * @param defStyle
      */
     public SimpleStreamSurfaceView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        getHolder().addCallback(this);
-        mFramePaint = new Paint();
-        mFramePaint.setDither(true);
-        initBitmaps(context);
+        this.getHolder().addCallback(this);
+        this.mFramePaint = new Paint();
+        this.mFramePaint.setDither(true);
+        this.initBitmaps(context);
     }
 
     private void initBitmaps(Context context)
     {
-        paint = new Paint();
-        paint.setColor(Color.WHITE);
-        paint.setStrokeWidth(5);
-        paint.setStyle(Style.STROKE);
-        if (VERSION.SDK_INT >= 18) {
-            mRS = RenderScript.create(context);
-            focuspeak_argb = new ScriptC_focuspeak_argb(mRS);
-            imagestack_argb = new ScriptC_imagestack(mRS);
-            brightnessRS = new ScriptC_brightness(mRS);
-            contrastRS = new ScriptC_contrast(mRS);
-            blurRS = ScriptIntrinsicBlur.create(mRS, Element.U8_4(mRS));
-            starfinderRS = new ScriptC_starfinder(mRS);
+        this.paint = new Paint();
+        this.paint.setColor(Color.WHITE);
+        this.paint.setStrokeWidth(5);
+        this.paint.setStyle(Paint.Style.STROKE);
+        if (Build.VERSION.SDK_INT >= 18) {
+            this.mRS = RenderScript.create(context);
+            this.focuspeak_argb = new ScriptC_focuspeak_argb(this.mRS);
+            this.imagestack_argb = new ScriptC_imagestack(this.mRS);
+            this.brightnessRS = new ScriptC_brightness(this.mRS);
+            this.contrastRS = new ScriptC_contrast(this.mRS);
+            this.blurRS = ScriptIntrinsicBlur.create(this.mRS, Element.U8_4(this.mRS));
+            this.starfinderRS = new ScriptC_starfinder(this.mRS);
         }
 
     }
@@ -201,12 +195,12 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        mWhileFetching = false;
+        this.mWhileFetching = false;
     }
 
     /**
      * Start retrieving and drawing liveview frame data by new threads.
-     * 
+     *
      * @return true if the starting is completed successfully, false otherwise.
 
      */
@@ -219,18 +213,18 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
             mErrorListener.onError(StreamErrorReason.OPEN_ERROR);
             return;
         }
-        if (mWhileFetching) {
-            Logger.d(TAG, "start() already starting.");
+        if (this.mWhileFetching) {
+            Logger.d(SimpleStreamSurfaceView.TAG, "start() already starting.");
             return;
         }
 
-        mWhileFetching = true;
+        this.mWhileFetching = true;
 
         // A thread for retrieving liveview data from server.
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-                Logger.d(TAG, "Starting retrieving streaming data from server.");
+                Logger.d(SimpleStreamSurfaceView.TAG, "Starting retrieving streaming data from server.");
                 SimpleLiveviewSlicer slicer = null;
 
                 try {
@@ -239,7 +233,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
                     slicer = new SimpleLiveviewSlicer();
                     slicer.open(streamUrl);
 
-                    while (mWhileFetching)
+                    while (SimpleStreamSurfaceView.this.mWhileFetching)
                     {
                         fetchPayLoad(slicer);
                     }
@@ -252,9 +246,9 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
                     }
 
 
-                    mJpegQueue.clear();
-                    frameQueue.clear();
-                    mWhileFetching = false;
+                    SimpleStreamSurfaceView.this.mJpegQueue.clear();
+                    SimpleStreamSurfaceView.this.frameQueue.clear();
+                    SimpleStreamSurfaceView.this.mWhileFetching = false;
                 }
             }
         });
@@ -263,47 +257,47 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-                Logger.d(TAG, "Starting drawing stream frame.");
+                Logger.d(SimpleStreamSurfaceView.TAG, "Starting drawing stream frame.");
                 Bitmap frameBitmap = null;
 
-                Options factoryOptions = new Options();
+                BitmapFactory.Options factoryOptions = new BitmapFactory.Options();
                 factoryOptions.inSampleSize = 1;
                 factoryOptions.inPreferQualityOverSpeed = true;
                 factoryOptions.inDither = false;
                 factoryOptions.inScaled = false;
 
-                if (mInMutableAvailable) {
-                    initInBitmap(factoryOptions);
+                if (SimpleStreamSurfaceView.this.mInMutableAvailable) {
+                    SimpleStreamSurfaceView.this.initInBitmap(factoryOptions);
                 }
 
-                while (mWhileFetching)
+                while (SimpleStreamSurfaceView.this.mWhileFetching)
                 {
                     DataExtractor dataExtractor = null;
                     DataExtractor frameExtractor =null;
                     try {
-                        dataExtractor = mJpegQueue.take();
-                        if (!frameQueue.isEmpty())
-                            frameExtractor = frameQueue.take();
+                        dataExtractor = SimpleStreamSurfaceView.this.mJpegQueue.take();
+                        if (!SimpleStreamSurfaceView.this.frameQueue.isEmpty())
+                            frameExtractor = SimpleStreamSurfaceView.this.frameQueue.take();
 
 
                     } catch (IllegalArgumentException e) {
-                        if (mInMutableAvailable) {
-                            clearInBitmap(factoryOptions);
+                        if (SimpleStreamSurfaceView.this.mInMutableAvailable) {
+                            SimpleStreamSurfaceView.this.clearInBitmap(factoryOptions);
                         }
                         continue;
                     } catch (InterruptedException e) {
-                        Logger.e(TAG, "Drawer thread is Interrupted.");
+                        Logger.e(SimpleStreamSurfaceView.TAG, "Drawer thread is Interrupted.");
                         break;
                     }
                     frameBitmap = BitmapFactory.decodeByteArray(dataExtractor.jpegData, 0, dataExtractor.jpegData.length, factoryOptions);
 
-                    drawFrame(frameBitmap, dataExtractor, frameExtractor);
+                    SimpleStreamSurfaceView.this.drawFrame(frameBitmap, dataExtractor, frameExtractor);
                 }
 
                 if (frameBitmap != null) {
                     frameBitmap.recycle();
                 }
-                mWhileFetching = false;
+                SimpleStreamSurfaceView.this.mWhileFetching = false;
             }
         });
     }
@@ -315,16 +309,16 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
         }
         if (payload.commonHeader.PayloadType == 1)
         {
-            if (mJpegQueue.size() == 2) {
-                mJpegQueue.remove();
+            if (this.mJpegQueue.size() == 2) {
+                this.mJpegQueue.remove();
             }
-            mJpegQueue.add(payload);
+            this.mJpegQueue.add(payload);
         }
         if (payload.commonHeader.PayloadType == 2) {
-            if (frameQueue.size() == 2) {
-                frameQueue.remove();
+            if (this.frameQueue.size() == 2) {
+                this.frameQueue.remove();
             }
-            frameQueue.add(payload);
+            this.frameQueue.add(payload);
         }
     }
 
@@ -340,27 +334,27 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
      * Request to stop retrieving and drawing liveview data.
      */
     public void stop() {
-        mWhileFetching = false;
+        this.mWhileFetching = false;
 
     }
 
     /**
      * Check to see whether start() is already called.
-     * 
+     *
      * @return true if start() is already called, false otherwise.
      */
     public boolean isStarted() {
-        return mWhileFetching;
+        return this.mWhileFetching;
     }
 
     @TargetApi(VERSION_CODES.HONEYCOMB)
-    private void initInBitmap(Options options) {
+    private void initInBitmap(BitmapFactory.Options options) {
         options.inBitmap = null;
         options.inMutable = true;
     }
 
     @TargetApi(VERSION_CODES.HONEYCOMB)
-    private void clearInBitmap(Options options) {
+    private void clearInBitmap(BitmapFactory.Options options) {
         if (options.inBitmap != null) {
             options.inBitmap.recycle();
             options.inBitmap = null;
@@ -368,21 +362,21 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
     }
 
     @TargetApi(VERSION_CODES.HONEYCOMB)
-    private void setInBitmap(Options options, Bitmap bitmap) {
+    private void setInBitmap(BitmapFactory.Options options, Bitmap bitmap) {
         options.inBitmap = bitmap;
     }
 
     /**
      * Draw frame bitmap onto a canvas.
-     * 
+     *
      * @param frame
      */
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR2)
     private void drawFrame(Bitmap frame, DataExtractor dataExtractor, DataExtractor frameExtractor)
     {
         try {
-            if (frame.getWidth() != mPreviousWidth || frame.getHeight() != mPreviousHeight) {
-                onDetectedFrameSizeChanged(frame.getWidth(), frame.getHeight());
+            if (frame.getWidth() != this.mPreviousWidth || frame.getHeight() != this.mPreviousHeight) {
+                this.onDetectedFrameSizeChanged(frame.getWidth(), frame.getHeight());
                 return;
             }
 
@@ -390,72 +384,72 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
             int w = frame.getWidth();
             int h = frame.getHeight();
             Rect src = new Rect(0, 0, w, h);
-            if (PreviewZOOMFactor > 1)
+            if (this.PreviewZOOMFactor > 1)
             {
-                int w4 = w /PreviewZOOMFactor;
-                int h4 = h/PreviewZOOMFactor;
+                int w4 = w / this.PreviewZOOMFactor;
+                int h4 = h/ this.PreviewZOOMFactor;
                 int wCenter = w/2;
                 int hCenter = h/2;
-                int frameleft = wCenter -w4 + zoomPreviewMagineLeft;
-                int frameright = wCenter +w4 + zoomPreviewMagineLeft;
-                int frametop = hCenter -h4 + zoomPreviewMargineTop;
-                int framebottom = hCenter +h4 + zoomPreviewMargineTop;
+                int frameleft = wCenter -w4 + this.zoomPreviewMagineLeft;
+                int frameright = wCenter +w4 + this.zoomPreviewMagineLeft;
+                int frametop = hCenter -h4 + this.zoomPreviewMargineTop;
+                int framebottom = hCenter +h4 + this.zoomPreviewMargineTop;
 
                 if (frameleft < 0)
                 {
                     int dif = frameleft * -1;
                     frameleft +=dif;
                     frameright +=dif;
-                    Logger.d(TAG, "zoommargineLeft = " + zoomPreviewMagineLeft);
-                    zoomPreviewMagineLeft +=dif;
-                    Logger.d(TAG, "zoommargineLeft = " + zoomPreviewMagineLeft);
-                    Log.d(TAG, "frameleft < 0");
+                    Logger.d(SimpleStreamSurfaceView.TAG, "zoommargineLeft = " + this.zoomPreviewMagineLeft);
+                    this.zoomPreviewMagineLeft +=dif;
+                    Logger.d(SimpleStreamSurfaceView.TAG, "zoommargineLeft = " + this.zoomPreviewMagineLeft);
+                    Log.d(SimpleStreamSurfaceView.TAG, "frameleft < 0");
                 }
                 if (frameright > w)
                 {
                     int dif = frameright - w;
                     frameright -=dif;
                     frameleft -=dif;
-                    Logger.d(TAG, "zoommargineLeft = " + zoomPreviewMagineLeft);
-                    zoomPreviewMagineLeft -=dif;
-                    Logger.d(TAG, "zoommargineLeft = " + zoomPreviewMagineLeft);
-                    Log.d(TAG, "frameright > w");
+                    Logger.d(SimpleStreamSurfaceView.TAG, "zoommargineLeft = " + this.zoomPreviewMagineLeft);
+                    this.zoomPreviewMagineLeft -=dif;
+                    Logger.d(SimpleStreamSurfaceView.TAG, "zoommargineLeft = " + this.zoomPreviewMagineLeft);
+                    Log.d(SimpleStreamSurfaceView.TAG, "frameright > w");
                 }
                 if (frametop < 0)
                 {
                     int dif = frametop * -1;
                     frametop +=dif;
                     framebottom +=dif;
-                    Logger.d(TAG, "zoomPreviewMargineTop = " + zoomPreviewMargineTop);
-                    zoomPreviewMargineTop +=dif;
-                    Logger.d(TAG, "zoomPreviewMargineTop = " + zoomPreviewMargineTop);
-                    Log.d(TAG, "framebottom < 0");
+                    Logger.d(SimpleStreamSurfaceView.TAG, "zoomPreviewMargineTop = " + this.zoomPreviewMargineTop);
+                    this.zoomPreviewMargineTop +=dif;
+                    Logger.d(SimpleStreamSurfaceView.TAG, "zoomPreviewMargineTop = " + this.zoomPreviewMargineTop);
+                    Log.d(SimpleStreamSurfaceView.TAG, "framebottom < 0");
                 }
                 if (framebottom > h)
                 {
                     int dif = framebottom -h;
                     framebottom -=dif;
                     frametop -= dif;
-                    Logger.d(TAG, "zoomPreviewMargineTop = " + zoomPreviewMargineTop);
-                    zoomPreviewMargineTop -=dif;
-                    Logger.d(TAG, "zoomPreviewMargineTop = " + zoomPreviewMargineTop);
-                    Log.d(TAG, "framebottom > h");
+                    Logger.d(SimpleStreamSurfaceView.TAG, "zoomPreviewMargineTop = " + this.zoomPreviewMargineTop);
+                    this.zoomPreviewMargineTop -=dif;
+                    Logger.d(SimpleStreamSurfaceView.TAG, "zoomPreviewMargineTop = " + this.zoomPreviewMargineTop);
+                    Log.d(SimpleStreamSurfaceView.TAG, "framebottom > h");
                 }
 
                 src = new Rect(frameleft,frametop,frameright,framebottom);
                 //Logger.d(TAG, src.flattenToString());
-                mInputAllocation.copyFrom(frame);
-                blurRS.setInput(mInputAllocation);
-                blurRS.setRadius(0.3f);
-                blurRS.forEach(mOutputAllocation);
-                mOutputAllocation.copyTo(drawBitmap);
+                this.mInputAllocation.copyFrom(frame);
+                this.blurRS.setInput(this.mInputAllocation);
+                this.blurRS.setRadius(0.3f);
+                this.blurRS.forEach(this.mOutputAllocation);
+                this.mOutputAllocation.copyTo(this.drawBitmap);
             }
 
 
-            float by = Math.min((float) getWidth() / w, (float) getHeight() / h);
-            int offsetX = (getWidth() - (int) (w * by)) / 2;
-            int offsetY = (getHeight() - (int) (h * by)) / 2;
-            Rect dst = new Rect(offsetX, offsetY, getWidth() - offsetX, getHeight() - offsetY);
+            float by = Math.min((float) this.getWidth() / w, (float) this.getHeight() / h);
+            int offsetX = (this.getWidth() - (int) (w * by)) / 2;
+            int offsetY = (this.getHeight() - (int) (h * by)) / 2;
+            Rect dst = new Rect(offsetX, offsetY, this.getWidth() - offsetX, this.getHeight() - offsetY);
             if (nightmode == NightPreviewModes.on)
             {
                 if(!drawNightPreview(frame, frameExtractor, src, dst))
@@ -463,23 +457,23 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
             }
             else if (nightmode == NightPreviewModes.grayscale)
             {
-                mInputAllocation.copyFrom(frame);
-                blurRS.setInput(mInputAllocation);
-                blurRS.setRadius(1.5f);
-                blurRS.forEach(mOutputAllocation);
-                mInputAllocation.copyFrom(mOutputAllocation);
-                starfinderRS.set_gCurrentFrame(mInputAllocation);
-                starfinderRS.forEach_processBrightness(mOutputAllocation);
+                this.mInputAllocation.copyFrom(frame);
+                this.blurRS.setInput(this.mInputAllocation);
+                this.blurRS.setRadius(1.5f);
+                this.blurRS.forEach(this.mOutputAllocation);
+                this.mInputAllocation.copyFrom(this.mOutputAllocation);
+                this.starfinderRS.set_gCurrentFrame(this.mInputAllocation);
+                this.starfinderRS.forEach_processBrightness(this.mOutputAllocation);
                 mOutputAllocation.copyTo(drawBitmap);
 
             }
             if (focuspeak) {
-                if (nightmode != NightPreviewModes.off || PreviewZOOMFactor > 1)
-                    mInputAllocation.copyFrom(drawBitmap);
+                if (nightmode != NightPreviewModes.off || this.PreviewZOOMFactor > 1)
+                    this.mInputAllocation.copyFrom(this.drawBitmap);
                 else
-                    mInputAllocation.copyFrom(frame);
-                focuspeak_argb.set_gCurrentFrame(mInputAllocation);
-                focuspeak_argb.forEach_peak(mOutputAllocation);
+                    this.mInputAllocation.copyFrom(frame);
+                this.focuspeak_argb.set_gCurrentFrame(this.mInputAllocation);
+                this.focuspeak_argb.forEach_peak(this.mOutputAllocation);
                 mOutputAllocation.copyTo(drawBitmap);
 
             }
@@ -487,14 +481,14 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
             if (canvas == null) {
                 return;
             }
-            if (nightmode != NightPreviewModes.off || focuspeak)
-                canvas.drawBitmap(drawBitmap, src, dst, mFramePaint);
+            if (nightmode != NightPreviewModes.off || this.focuspeak)
+                canvas.drawBitmap(this.drawBitmap, src, dst, this.mFramePaint);
             else
-                canvas.drawBitmap(frame, src, dst, mFramePaint);
+                canvas.drawBitmap(frame, src, dst, this.mFramePaint);
             if (frameExtractor != null)
-                drawFrameInformation(frameExtractor, canvas, dst);
+                this.drawFrameInformation(frameExtractor, canvas, dst);
 
-            getHolder().unlockCanvasAndPost(canvas);
+            this.getHolder().unlockCanvasAndPost(canvas);
         }
         catch(IllegalStateException ex)
         {Logger.exception(ex);}
@@ -502,38 +496,38 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR2)
     private boolean drawNightPreview(Bitmap frame, DataExtractor frameExtractor, Rect src, Rect dst) {
-        mInputAllocation.copyFrom(frame);
-        blurRS.setInput(mInputAllocation);
-        blurRS.setRadius(1.5f);
-        blurRS.forEach(mOutputAllocation);
-        mInputAllocation.copyFrom(mOutputAllocation);
-        if (currentImageStackCount == 0)
-            mInputAllocation2.copyFrom(frame);
+        this.mInputAllocation.copyFrom(frame);
+        this.blurRS.setInput(this.mInputAllocation);
+        this.blurRS.setRadius(1.5f);
+        this.blurRS.forEach(this.mOutputAllocation);
+        this.mInputAllocation.copyFrom(this.mOutputAllocation);
+        if (this.currentImageStackCount == 0)
+            this.mInputAllocation2.copyFrom(frame);
         else
-            mInputAllocation2.copyFrom(drawBitmap);
-        imagestack_argb.set_gCurrentFrame(mInputAllocation);
-        imagestack_argb.set_gLastFrame(mInputAllocation2);
-        imagestack_argb.forEach_stackimage_avarage(mOutputAllocation);
-        mOutputAllocation.copyTo(drawBitmap);
+            this.mInputAllocation2.copyFrom(this.drawBitmap);
+        this.imagestack_argb.set_gCurrentFrame(this.mInputAllocation);
+        this.imagestack_argb.set_gLastFrame(this.mInputAllocation2);
+        this.imagestack_argb.forEach_stackimage_avarage(this.mOutputAllocation);
+        this.mOutputAllocation.copyTo(this.drawBitmap);
 
-        if (currentImageStackCount < 3)
-            currentImageStackCount++;
+        if (this.currentImageStackCount < 3)
+            this.currentImageStackCount++;
         else
-            currentImageStackCount = 0;
-        if (currentImageStackCount < 3)
+            this.currentImageStackCount = 0;
+        if (this.currentImageStackCount < 3)
             return false;
         else
         {
-            mInputAllocation.copyFrom(drawBitmap);
-            brightnessRS.set_gCurrentFrame(mInputAllocation);
-            brightnessRS.set_brightness(100 / 255.0f);
-            brightnessRS.forEach_processBrightness(mOutputAllocation);
-            mOutputAllocation.copyTo(drawBitmap);
-            mInputAllocation.copyFrom(drawBitmap);
-            contrastRS.set_gCurrentFrame(mInputAllocation);
-            contrastRS.invoke_setBright(200f);
-            contrastRS.forEach_processContrast(mOutputAllocation);
-            mOutputAllocation.copyTo(drawBitmap);
+            this.mInputAllocation.copyFrom(this.drawBitmap);
+            this.brightnessRS.set_gCurrentFrame(this.mInputAllocation);
+            this.brightnessRS.set_brightness(100 / 255.0f);
+            this.brightnessRS.forEach_processBrightness(this.mOutputAllocation);
+            this.mOutputAllocation.copyTo(this.drawBitmap);
+            this.mInputAllocation.copyFrom(this.drawBitmap);
+            this.contrastRS.set_gCurrentFrame(this.mInputAllocation);
+            this.contrastRS.invoke_setBright(200f);
+            this.contrastRS.forEach_processContrast(this.mOutputAllocation);
+            this.mOutputAllocation.copyTo(this.drawBitmap);
             return true;
         }
     }
@@ -544,51 +538,51 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
             return;
         for (int i=0; i< dataExtractor.frameInfoList.size(); i++)
         {
-            FrameInfo frameInfo =  dataExtractor.frameInfoList.get(i);
-            int w = getWidth();
-            int h = getHeight();
-            int top = convert(h, frameInfo.Top);
-            int left = convert(w, frameInfo.Left);
-            int right =convert(w,frameInfo.Right);
-            int bottom = convert(h,frameInfo.Bottom);
+            DataExtractor.FrameInfo frameInfo =  dataExtractor.frameInfoList.get(i);
+            int w = this.getWidth();
+            int h = this.getHeight();
+            int top = this.convert(h, frameInfo.Top);
+            int left = this.convert(w, frameInfo.Left);
+            int right = this.convert(w,frameInfo.Right);
+            int bottom = this.convert(h,frameInfo.Bottom);
             if (frameInfo.Category == 0x01)
             {
                 dst = new Rect(left, top, right, bottom);
                 //Rect src = new Rect(0, 0, crosshairs[0].getWidth(), crosshairs[0].getHeight());
                 if (frameInfo.Status == 0x01)
-                    paint.setColor(Color.BLUE);
+                    this.paint.setColor(Color.BLUE);
                     //canvas.drawBitmap(crosshairs[0], src, dst, mFramePaint);
                 if (frameInfo.Status == 0x00)
-                    paint.setColor(Color.RED);
+                    this.paint.setColor(Color.RED);
                     //canvas.drawBitmap(crosshairs[1], src, dst, mFramePaint);
                 if (frameInfo.Status == 0x04)
-                    paint.setColor(Color.GREEN);
+                    this.paint.setColor(Color.GREEN);
                     //canvas.drawBitmap(crosshairs[2], src, dst, mFramePaint);
             }
             else if (frameInfo.Category == 0x05 ||frameInfo.Category == 0x04)
             {
-                paint.setColor(Color.BLUE);
+                this.paint.setColor(Color.BLUE);
 
             }
-            canvas.drawRect(left, top, right, bottom, paint);
+            canvas.drawRect(left, top, right, bottom, this.paint);
 
         }
     }
 
     /**
      * Called when the width or height of liveview frame image is changed.
-     * 
+     *
      * @param width
      * @param height
      */
     private void onDetectedFrameSizeChanged(int width, int height) {
-        Logger.d(TAG, "Change of aspect ratio detected");
-        mPreviousWidth = width;
-        mPreviousHeight = height;
-        initRenderScript();
-        drawBlackFrame();
-        drawBlackFrame();
-        drawBlackFrame(); // delete triple buffers
+        Logger.d(SimpleStreamSurfaceView.TAG, "Change of aspect ratio detected");
+        this.mPreviousWidth = width;
+        this.mPreviousHeight = height;
+        this.initRenderScript();
+        this.drawBlackFrame();
+        this.drawBlackFrame();
+        this.drawBlackFrame(); // delete triple buffers
 
     }
 
@@ -597,17 +591,17 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
      * Draw black screen.
      */
     private void drawBlackFrame() {
-        Canvas canvas = getHolder().lockCanvas();
+        Canvas canvas = this.getHolder().lockCanvas();
         if (canvas == null) {
             return;
         }
 
         Paint paint = new Paint();
         paint.setColor(Color.BLACK);
-        paint.setStyle(Style.FILL);
+        paint.setStyle(Paint.Style.FILL);
 
-        canvas.drawRect(new Rect(0, 0, getWidth(), getHeight()), paint);
-        getHolder().unlockCanvasAndPost(canvas);
+        canvas.drawRect(new Rect(0, 0, this.getWidth(), this.getHeight()), paint);
+        this.getHolder().unlockCanvasAndPost(canvas);
     }
 
     @Override
@@ -669,14 +663,14 @@ public class SimpleStreamSurfaceView extends SurfaceView implements Callback, I_
                 currentY = (int) event.getY();
                 if (startX > currentX)
                 {
-                    zoomPreviewMagineLeft -= (startX - currentX)/PreviewZOOMFactor;
+                    zoomPreviewMagineLeft -= (startX - currentX)/ PreviewZOOMFactor;
                 }
                 else
-                    zoomPreviewMagineLeft += (currentX -startX)/PreviewZOOMFactor;
+                    zoomPreviewMagineLeft += (currentX - startX)/ PreviewZOOMFactor;
                 if (startY > currentY)
-                    zoomPreviewMargineTop -= (startY - currentY)/PreviewZOOMFactor;
+                    zoomPreviewMargineTop -= (startY - currentY)/ PreviewZOOMFactor;
                 else
-                    zoomPreviewMargineTop+= (currentY - startY)/PreviewZOOMFactor;
+                    zoomPreviewMargineTop += (currentY - startY)/ PreviewZOOMFactor;
                 startX = currentX;
                 startY = currentY;
                 //detect swipeDetected. if swipeDetected detected return false else true

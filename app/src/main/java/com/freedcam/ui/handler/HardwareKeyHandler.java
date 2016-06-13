@@ -17,7 +17,7 @@ public class HardwareKeyHandler
     private final MainActivity activity;
     private CameraWrapperInterface cameraUiWrapper;
     private final String TAG = HardwareKeyHandler.class.getSimpleName();
-    private AppSettingsManager appSettingsManager;
+    private final AppSettingsManager appSettingsManager;
 
 
     public HardwareKeyHandler(MainActivity activity, AppSettingsManager appSettingsManager)

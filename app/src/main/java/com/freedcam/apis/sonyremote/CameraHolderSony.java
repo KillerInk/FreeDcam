@@ -24,7 +24,6 @@ import android.location.Location;
 
 import com.freedcam.apis.basecamera.CameraHolderAbstract;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
-
 import com.freedcam.apis.basecamera.interfaces.FocusEvents;
 import com.freedcam.apis.sonyremote.modules.I_CameraStatusChanged;
 import com.freedcam.apis.sonyremote.modules.I_PictureCallback;
@@ -60,7 +59,7 @@ import java.util.Set;
  */
 public class CameraHolderSony extends CameraHolderAbstract
 {
-    private static String TAG =CameraHolderSony.class.getSimpleName();
+    private final String TAG =CameraHolderSony.class.getSimpleName();
 
     Context context;
 
@@ -86,7 +85,7 @@ public class CameraHolderSony extends CameraHolderAbstract
     { return cameraStatus;}
 
 
-    private ChangeListener mEventListener = new ChangeListenerTmpl()
+    private final ChangeListener mEventListener = new ChangeListenerTmpl()
     {
 
         @Override
@@ -133,7 +132,7 @@ public class CameraHolderSony extends CameraHolderAbstract
         @Override
         public void onZoomPositionChanged(int zoomPosition)
         {
-            ((ZoomManualSony)cameraUiWrapper.GetParameterHandler().Zoom).setZoomsHasChanged(zoomPosition);
+            ((ZoomManualSony) cameraUiWrapper.GetParameterHandler().Zoom).setZoomsHasChanged(zoomPosition);
         }
 
         @Override
@@ -186,7 +185,7 @@ public class CameraHolderSony extends CameraHolderAbstract
 
         @Override
         public void onFocusLocked(boolean locked) {
-            ((FocusHandler)cameraUiWrapper.getFocusHandler()).onFocusLock(locked);
+            ((FocusHandler) cameraUiWrapper.getFocusHandler()).onFocusLock(locked);
         }
 
         @Override
@@ -209,7 +208,7 @@ public class CameraHolderSony extends CameraHolderAbstract
                     {
                         if (moduleHandlerSony.GetCurrentModule() instanceof PictureModuleSony)
                         {
-                            PictureModuleSony pictureModuleSony = (PictureModuleSony)moduleHandlerSony.GetCurrentModule();
+                            PictureModuleSony pictureModuleSony = (PictureModuleSony) moduleHandlerSony.GetCurrentModule();
                             try {
                                 pictureModuleSony.onPictureTaken(new URL(s));
                             }catch (MalformedURLException e) {
@@ -342,6 +341,11 @@ public class CameraHolderSony extends CameraHolderAbstract
 
 
         StartPreview();
+    }
+
+    @Override
+    public boolean OpenCamera(int camera) {
+        return false;
     }
 
     @Override

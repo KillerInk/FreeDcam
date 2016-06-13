@@ -38,7 +38,7 @@ public abstract class AbstractModuleApi2 extends AbstractModule implements I_Pre
 {
     protected com.freedcam.apis.camera2.parameters.ParameterHandler ParameterHandler;
 
-    protected boolean isWorking = false;
+    protected boolean isWorking;
     protected CameraHolderApi2 cameraHolder;
     protected Point displaySize;
 
@@ -71,7 +71,7 @@ public abstract class AbstractModuleApi2 extends AbstractModule implements I_Pre
     @Override
     public void InitModule()
     {
-        this.cameraHolder = (CameraHolderApi2)cameraUiWrapper.GetCameraHolder();
+        this.cameraHolder = (CameraHolderApi2) cameraUiWrapper.GetCameraHolder();
     }
 
     @Override

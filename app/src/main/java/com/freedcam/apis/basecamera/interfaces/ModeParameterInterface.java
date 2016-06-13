@@ -39,10 +39,10 @@ public interface ModeParameterInterface
     void addEventListner(AbstractModeParameter.I_ModeParameterEvent eventListner);
     void removeEventListner(AbstractModeParameter.I_ModeParameterEvent parameterEvent);
 
-    void BackgroundValueHasChanged(final String value);
-    void BackgroundValuesHasChanged(final String[] value);
-    void BackgroundIsSupportedChanged(final boolean value);
-    void BackgroundSetIsSupportedHasChanged(final boolean value);
-    void BackgroundVisibilityChanged(final boolean value);
+    void BackgroundValueHasChanged(String value);
+    void BackgroundValuesHasChanged(String[] value);
+    void BackgroundIsSupportedChanged(boolean value);
+    void BackgroundSetIsSupportedHasChanged(boolean value);
+    void BackgroundVisibilityChanged(boolean value);
 
 }

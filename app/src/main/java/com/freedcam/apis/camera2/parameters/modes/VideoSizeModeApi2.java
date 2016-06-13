@@ -43,7 +43,7 @@ public class VideoSizeModeApi2 extends BaseModeApi2 {
     public void SetValue(String valueToSet, boolean setToCamera)
     {
         BackgroundValueHasChanged(valueToSet);
-        ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).VideoSize = valueToSet;
+        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).VideoSize = valueToSet;
         if (setToCamera)
         {
             cameraUiWrapper.StopPreview();
@@ -55,14 +55,14 @@ public class VideoSizeModeApi2 extends BaseModeApi2 {
     public String GetValue()
     {
 
-        return ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).VideoSize;
+        return ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).VideoSize;
     }
 
     @TargetApi(VERSION_CODES.LOLLIPOP)
     @Override
     public String[] GetValues()
     {
-        Size[] sizes = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).map.getOutputSizes(MediaRecorder.class);
+        Size[] sizes = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).map.getOutputSizes(MediaRecorder.class);
         String[] ret = new String[sizes.length];
         for(int i = 0; i < sizes.length; i++)
         {

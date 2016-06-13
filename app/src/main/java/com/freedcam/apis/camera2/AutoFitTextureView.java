@@ -24,12 +24,12 @@ import android.util.AttributeSet;
 import android.view.TextureView;
 
 /**
- * A {@link android.view.TextureView} that can be adjusted to a specified aspect ratio.
+ * A {@link TextureView} that can be adjusted to a specified aspect ratio.
  */
 public class AutoFitTextureView extends TextureView /*implements  AbstractModeParameter.I_ModeParameterEvent*/ {
 
-    private int mRatioWidth = 0;
-    private int mRatioHeight = 0;
+    private int mRatioWidth;
+    private int mRatioHeight;
     Context context;
 
     public AutoFitTextureView(Context context) {

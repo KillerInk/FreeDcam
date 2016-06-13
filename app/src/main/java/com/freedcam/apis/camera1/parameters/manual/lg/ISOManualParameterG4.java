@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 public class ISOManualParameterG4 extends BaseManualParameter
 {
-    private AeManualEvent manualEvent;
+    private final AeManualEvent manualEvent;
 
     public ISOManualParameterG4(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AeManualEvent manualevent) {
         super(parameters, cameraUiWrapper,1);
@@ -63,7 +63,7 @@ public class ISOManualParameterG4 extends BaseManualParameter
 
     @Override
     public int GetValue() {
-        return  currentInt;
+        return currentInt;
     }
 
     @Override

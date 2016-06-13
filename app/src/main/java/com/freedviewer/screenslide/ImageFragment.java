@@ -54,11 +54,11 @@ public class ImageFragment extends Fragment
     private final String TAG = ImageFragment.class.getSimpleName();
     private TouchImageView imageView;
     private FileHolder file;
-    private int mImageThumbSize = 0;
+    private int mImageThumbSize;
     private FragmentClickClistner onClickListener;
     private ProgressBar progressBar;
     private int [] histogramData;
-    private boolean isWorking = false;
+    private boolean isWorking;
     private I_WaitForWorkFinish waitForWorkFinish;
     private int position = -1;
     private BitmapHelper bitmapHelper;
@@ -108,7 +108,7 @@ public class ImageFragment extends Fragment
 
     public int[] GetHistogramData()
     {
-        return  histogramData;
+        return histogramData;
     }
 
     public void SetOnclickLisnter(FragmentClickClistner onClickListener)
@@ -147,7 +147,7 @@ public class ImageFragment extends Fragment
         super.onResume();
     }
 
-    private OnClickListener onImageClick = new OnClickListener() {
+    private final OnClickListener onImageClick = new OnClickListener() {
         @Override
         public void onClick(View v)
         {
@@ -170,7 +170,7 @@ public class ImageFragment extends Fragment
             }
         });
         if (waitForWorkFinish != null && position >-1)
-            waitForWorkFinish.HistograRdyToSet(histogramData,position);
+            waitForWorkFinish.HistograRdyToSet(histogramData, position);
         waitForWorkFinish = null;
         isWorking = false;
     }
@@ -179,7 +179,7 @@ public class ImageFragment extends Fragment
     {
         Bitmap response =null;
         try {
-            response = bitmapHelper.getBitmap(file.getFile(),false,mImageThumbSize,mImageThumbSize);
+            response = bitmapHelper.getBitmap(file.getFile(),false, mImageThumbSize, mImageThumbSize);
             createHistogramm(response);
         }
         catch (IllegalArgumentException ex)

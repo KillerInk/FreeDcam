@@ -45,7 +45,7 @@ public class ImageStabApi2 extends BaseModeApi2
 
     @Override
     public boolean IsSupported() {
-        return cameraUiWrapper.GetCameraHolder() != null && ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE) != null;
+        return cameraUiWrapper.GetCameraHolder() != null && ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE) != null;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ImageStabApi2 extends BaseModeApi2
         if (valueToSet.contains("unknown Scene"))
             return;
         ImageStabsValues sceneModes = Enum.valueOf(ImageStabsValues.class, valueToSet);
-        ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, sceneModes.ordinal());
+        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, sceneModes.ordinal());
         BackgroundValueHasChanged(valueToSet);
     }
 
@@ -62,7 +62,7 @@ public class ImageStabApi2 extends BaseModeApi2
     @Override
     public String GetValue()
     {
-        int i = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE);
+        int i = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE);
         ImageStabsValues sceneModes = ImageStabsValues.values()[i];
         return sceneModes.toString();
 
@@ -71,7 +71,7 @@ public class ImageStabApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        int[] values = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION);
+        int[] values = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.LENS_INFO_AVAILABLE_OPTICAL_STABILIZATION);
         String[] retvals = new String[values.length];
         for (int i = 0; i < values.length; i++)
         {

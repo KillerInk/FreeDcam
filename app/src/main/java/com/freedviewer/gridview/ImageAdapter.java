@@ -45,9 +45,9 @@ class ImageAdapter extends BaseAdapter
     private List<FileHolder> files;
     private FormatTypes formatsToShow = FormatTypes.all;
     private ViewStates currentViewState = ViewStates.normal;
-    private int mImageThumbSize = 0;
-    private ExecutorService executor;
-    private BitmapHelper bitmapHelper;
+    private final int mImageThumbSize;
+    private final ExecutorService executor;
+    private final BitmapHelper bitmapHelper;
 
     private final String TAG = ImageAdapter.class.getSimpleName();
 
@@ -87,12 +87,12 @@ class ImageAdapter extends BaseAdapter
     public View getView(int position, View convertView, ViewGroup container) {
         GridImageView imageView;
         if (convertView == null) { // if it's not recycled, initialize some attributes
-            imageView = new GridImageView(mContext,executor,bitmapHelper);
+            imageView = new GridImageView(mContext, executor, bitmapHelper);
         } else {
             imageView = (GridImageView) convertView;
-            imageView.SetThreadPoolAndBitmapHelper(executor,bitmapHelper);
+            imageView.SetThreadPoolAndBitmapHelper(executor, bitmapHelper);
         }
-        Logger.d(TAG, "filessize:" +files.size() + " position:"+position);
+        Logger.d(TAG, "filessize:" + files.size() + " position:"+position);
         if (files.size() <= position)
             position = files.size() -1;
         if (imageView.getFileHolder() == null || !imageView.getFileHolder().equals(files.get(position)) /*||imageView.viewstate != currentViewState*/)
@@ -133,7 +133,7 @@ class ImageAdapter extends BaseAdapter
     public void loadFiles(File file)
     {
         files.clear();
-        FileHolder.readFilesFromFolder(file,files,formatsToShow, false);
+        FileHolder.readFilesFromFolder(file, files, formatsToShow, false);
 
         notifyDataSetChanged();
     }

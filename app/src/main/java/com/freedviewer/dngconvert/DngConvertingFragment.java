@@ -92,10 +92,10 @@ public class DngConvertingFragment extends Fragment
             appSettingsManager.SetDevice(new DeviceUtils().getDevice(getContext()));
         handler = new Handler();
         view = inflater.inflate(R.layout.dngconvertingfragment, container, false);
-        editTextwidth = (EditText)view.findViewById(id.editText_width);
-        editTextheight = (EditText)view.findViewById(id.editText_height);
-        editTextblacklvl = (EditText)view.findViewById(id.editText_blacklevel);
-        spinnerMatrixProfile = (Spinner)view.findViewById(id.spinner_MatrixProfile);
+        editTextwidth = (EditText) view.findViewById(id.editText_width);
+        editTextheight = (EditText) view.findViewById(id.editText_height);
+        editTextblacklvl = (EditText) view.findViewById(id.editText_blacklevel);
+        spinnerMatrixProfile = (Spinner) view.findViewById(id.spinner_MatrixProfile);
         matrixChooserParameter = new MatrixChooserParameter();
         String[] items = matrixChooserParameter.GetValues();
         ArrayAdapter<String> matrixadapter = new ArrayAdapter<>(getContext(), layout.simple_spinner_item, items);
@@ -104,21 +104,21 @@ public class DngConvertingFragment extends Fragment
         spinnerMatrixProfile.setAdapter(matrixadapter);
 
 
-        buttonconvertToDng = (Button)view.findViewById(id.button_convertDng);
+        buttonconvertToDng = (Button) view.findViewById(id.button_convertDng);
         buttonconvertToDng.setOnClickListener(convertToDngClick);
 
-        spinnerColorPattern =(Spinner)view.findViewById(id.spinner_ColorPattern);
+        spinnerColorPattern =(Spinner) view.findViewById(id.spinner_ColorPattern);
         ArrayAdapter<CharSequence> coloradapter = ArrayAdapter.createFromResource(getContext(),
                 array.color_pattern, layout.simple_spinner_item);
         coloradapter.setDropDownViewResource(layout.simple_spinner_dropdown_item);
         spinnerColorPattern.setAdapter(coloradapter);
 
-        spinnerrawFormat = (Spinner)view.findViewById(id.spinner_rawFormat);
+        spinnerrawFormat = (Spinner) view.findViewById(id.spinner_rawFormat);
         ArrayAdapter<CharSequence> rawadapter = ArrayAdapter.createFromResource(getContext(),
                 array.raw_format, layout.simple_spinner_item);
         rawadapter.setDropDownViewResource(layout.simple_spinner_dropdown_item);
         spinnerrawFormat.setAdapter(rawadapter);
-        closeButton = (Button)view.findViewById(id.button_goback_from_conv);
+        closeButton = (Button) view.findViewById(id.button_goback_from_conv);
         closeButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -225,7 +225,7 @@ public class DngConvertingFragment extends Fragment
         }
     }
 
-    private OnClickListener convertToDngClick = new OnClickListener() {
+    private final OnClickListener convertToDngClick = new OnClickListener() {
         @Override
         public void onClick(View v) {
             if (filesToConvert == null || filesToConvert.length == 0) {

@@ -31,9 +31,9 @@ import com.freedcam.utils.Logger;
  */
 public class TextureViewRatio extends TextureView implements I_AspectRatio
 {
-    private int mRatioWidth = 0;
-    private int mRatioHeight = 0;
-    private static String TAG = TextureViewRatio.class.getSimpleName();
+    private int mRatioWidth;
+    private int mRatioHeight;
+    private final String TAG = TextureViewRatio.class.getSimpleName();
 
     public TextureViewRatio(Context context) {
         super(context);
@@ -54,7 +54,7 @@ public class TextureViewRatio extends TextureView implements I_AspectRatio
         }
         mRatioWidth = width;
         mRatioHeight = height;
-        Logger.d(TAG, "new size: " + width + "x" + height);
+        Logger.d(this.TAG, "new size: " + width + "x" + height);
         requestLayout();
     }
 

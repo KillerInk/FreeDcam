@@ -39,9 +39,9 @@ public class ZoomManualSony extends BaseManualParameterSony
 {
     final String TAG = ZoomManualSony.class.getSimpleName();
     private int zoomToSet;
-    private boolean isZooming = false;
+    private boolean isZooming;
 
-    private boolean fromUser = false;
+    private boolean fromUser;
 
     public ZoomManualSony(CameraWrapperInterface cameraUiWrapper) {
         super("actZoom", "", "actZoom", cameraUiWrapper);
@@ -53,9 +53,9 @@ public class ZoomManualSony extends BaseManualParameterSony
         this.mAvailableCameraApiSet = mAvailableCameraApiSet;
         //if (isSupported != JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet))
         //{
-            isSupported = JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet);
-            ThrowBackgroundIsSupportedChanged(isSupported);
-            ThrowBackgroundIsSetSupportedChanged(isSupported);
+        isSupported = JsonUtils.isCameraApiAvailable("actZoom", mAvailableCameraApiSet);
+        ThrowBackgroundIsSupportedChanged(isSupported);
+        ThrowBackgroundIsSetSupportedChanged(isSupported);
         stringvalues = createStringArray(0,100,1);
         //}
 
@@ -64,7 +64,7 @@ public class ZoomManualSony extends BaseManualParameterSony
 
     @Override
     public boolean IsSupported() {
-        return ((ParameterHandler)cameraUiWrapper.GetParameterHandler()).mAvailableCameraApiSet != null && JsonUtils.isCameraApiAvailable("actZoom", ((ParameterHandler)cameraUiWrapper.GetParameterHandler()).mAvailableCameraApiSet);
+        return ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).mAvailableCameraApiSet != null && JsonUtils.isCameraApiAvailable("actZoom", ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).mAvailableCameraApiSet);
     }
 
     @Override

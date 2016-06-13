@@ -130,7 +130,7 @@ public abstract class AbstractDevice implements I_Device {
         else if (parameters.get("max-brightness")!= null)
             return new BaseManualParameter(parameters, "brightness", "max-brightness", "min-brightness", cameraUiWrapper, 1);
         else if (parameters.get("luma-adaptation")!= null)
-             return   new BaseManualParameter(parameters,"luma-adaptation","max-brightness","min-brightness",cameraUiWrapper,1);
+             return   new BaseManualParameter(parameters,"luma-adaptation","max-brightness","min-brightness", cameraUiWrapper,1);
         return null;
     }
 
@@ -143,9 +143,9 @@ public abstract class AbstractDevice implements I_Device {
             parameters.set("min-contrast", "0");
         }
         if (parameters.get("contrast-max")!= null)
-             return  new BaseManualParameter(parameters,"contrast", "contrast-max", "contrast-min",cameraUiWrapper,1);
+             return  new BaseManualParameter(parameters,"contrast", "contrast-max", "contrast-min", cameraUiWrapper,1);
         else if (parameters.get("max-contrast")!= null)
-             return new BaseManualParameter(parameters,"contrast", "max-contrast", "min-contrast",cameraUiWrapper,1);
+             return new BaseManualParameter(parameters,"contrast", "max-contrast", "min-contrast", cameraUiWrapper,1);
         return null;
     }
 
@@ -155,7 +155,7 @@ public abstract class AbstractDevice implements I_Device {
     @Override
     public ModeParameterInterface getVideoProfileMode()
     {
-        return new VideoProfilesParameter(parameters,cameraUiWrapper);
+        return new VideoProfilesParameter(parameters, cameraUiWrapper);
     }
     @Override
     public ModeParameterInterface getNonZslManualMode()

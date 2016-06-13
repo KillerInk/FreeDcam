@@ -74,7 +74,7 @@ public class FocusManual_QcomM extends BaseManualParameter
         if (valueToSet == 0)
         {
             parameters.set(KEYS.MANUAL_FOCUS, KEYS.OFF);
-            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
             cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(KEYS.AUTO, true);
             Logger.d(TAG, "Set Focusmode to : auto");
         }
@@ -83,12 +83,12 @@ public class FocusManual_QcomM extends BaseManualParameter
             if (!cameraUiWrapper.GetParameterHandler().FocusMode.GetValue().equals(KEYS.KEY_FOCUS_MODE_MANUAL)) {//do not set "manual" to "manual"
                 cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(KEYS.KEY_FOCUS_MODE_MANUAL, false);
                 parameters.set(KEYS.MANUAL_FOCUS, KEYS.MANUAL_FOCUS_SCALE_MODE);
-                ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+                ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
             }
 
             parameters.set(key_value, stringvalues[currentInt]);
             Logger.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
-            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         }
     }
 }

@@ -36,7 +36,7 @@ import java.util.ArrayList;
 public class ISOManualParameterMTK extends BaseManualParameter
 {
     private CameraHolder cameraHolder;
-    private AeManualEvent manualEvent;
+    private final AeManualEvent manualEvent;
 
     public ISOManualParameterMTK(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AeManualEvent manualevent, int maxiso) {
         super(parameters, "", "", "", cameraUiWrapper,1);
@@ -68,7 +68,7 @@ public class ISOManualParameterMTK extends BaseManualParameter
 
     @Override
     public int GetValue() {
-        return  currentInt;
+        return currentInt;
     }
 
     @Override
@@ -96,7 +96,7 @@ public class ISOManualParameterMTK extends BaseManualParameter
         {
             currentInt = value;
             //cap-isp-g= 1024 == iso100? cause cap-sr-g=7808 / 1024 *100 = 762,5 same with 256 = 3050
-            parameters.set("m-sr-g", String.valueOf(Integer.valueOf( stringvalues[value])/100 *1024));
+            parameters.set("m-sr-g", String.valueOf(Integer.valueOf(stringvalues[value])/100 *1024));
         }
         ThrowCurrentValueStringCHanged(stringvalues[value]);
     }

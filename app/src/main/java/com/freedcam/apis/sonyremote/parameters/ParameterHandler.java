@@ -55,18 +55,18 @@ import java.util.Set;
  */
 public class ParameterHandler extends AbstractParameterHandler
 {
-    private static String TAG = ParameterHandler.class.getSimpleName();
+    private final String TAG = ParameterHandler.class.getSimpleName();
     public SimpleRemoteApi mRemoteApi;
     public Set<String> mAvailableCameraApiSet;
-    private List<I_SonyApi> parametersChangedList;
-    private SimpleStreamSurfaceView surfaceView;
-    private CameraWrapperInterface cameraUiWrapper;
+    private final List<I_SonyApi> parametersChangedList;
+    private final SimpleStreamSurfaceView surfaceView;
+    private final CameraWrapperInterface cameraUiWrapper;
 
 
     public ParameterHandler(CameraWrapperInterface cameraUiWrapper, SimpleStreamSurfaceView surfaceView, Context context)
     {
         super(cameraUiWrapper);
-        parametersChangedList  = new ArrayList<>();
+        parametersChangedList = new ArrayList<>();
         this.surfaceView = surfaceView;
         this.cameraUiWrapper =cameraUiWrapper;
     }
@@ -95,40 +95,40 @@ public class ParameterHandler extends AbstractParameterHandler
 
     private void createParameters()
     {
-        Module = new ModuleParameters(cameraUiWrapper,appSettingsManager);
+        Module = new ModuleParameters(cameraUiWrapper, appSettingsManager);
         PictureSize = new PictureSizeSony(mRemoteApi);
-        parametersChangedList.add((BaseModeParameterSony)PictureSize);
+        parametersChangedList.add((BaseModeParameterSony) PictureSize);
 
         PictureFormat = new PictureFormatSony(mRemoteApi);
-        parametersChangedList.add((BaseModeParameterSony)PictureFormat);
+        parametersChangedList.add((BaseModeParameterSony) PictureFormat);
 
         FlashMode = new BaseModeParameterSony("getFlashMode", "setFlashMode", "getAvailableFlashMode", mRemoteApi);
-        parametersChangedList.add((BaseModeParameterSony)FlashMode);
+        parametersChangedList.add((BaseModeParameterSony) FlashMode);
 
         ExposureMode = new BaseModeParameterSony("getExposureMode", "setExposureMode", "getAvailableExposureMode", mRemoteApi);
-        parametersChangedList.add((BaseModeParameterSony)ExposureMode);
+        parametersChangedList.add((BaseModeParameterSony) ExposureMode);
 
         ContShootMode = new ContShootModeParameterSony(mRemoteApi);
-        parametersChangedList.add((BaseModeParameterSony)ContShootMode);
+        parametersChangedList.add((BaseModeParameterSony) ContShootMode);
 
         ContShootModeSpeed = new BaseModeParameterSony("getContShootingSpeed", "setContShootingSpeed", "getAvailableContShootingSpeed", mRemoteApi);
-        parametersChangedList.add((BaseModeParameterSony)ContShootModeSpeed);
+        parametersChangedList.add((BaseModeParameterSony) ContShootModeSpeed);
 
         FocusMode = new BaseModeParameterSony("getFocusMode", "setFocusMode", "getAvailableFocusMode", mRemoteApi);
-        parametersChangedList.add((BaseModeParameterSony)FocusMode);
+        parametersChangedList.add((BaseModeParameterSony) FocusMode);
 
         ObjectTracking = new ObjectTrackingSony(mRemoteApi);
-        parametersChangedList.add((BaseModeParameterSony)ObjectTracking);
+        parametersChangedList.add((BaseModeParameterSony) ObjectTracking);
 
         ZoomSetting = new ZoomSettingSony(mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony) ZoomSetting);
 
 
         Zoom = new ZoomManualSony(cameraUiWrapper);
-        parametersChangedList.add((ZoomManualSony)Zoom);
+        parametersChangedList.add((ZoomManualSony) Zoom);
         ManualShutter = new BaseManualParameterSony("getShutterSpeed", "getAvailableShutterSpeed","setShutterSpeed", cameraUiWrapper);
         parametersChangedList.add((BaseManualParameterSony) ManualShutter);
-        ManualFNumber = new BaseManualParameterSony("getFNumber","getAvailableFNumber","setFNumber",cameraUiWrapper);
+        ManualFNumber = new BaseManualParameterSony("getFNumber","getAvailableFNumber","setFNumber", cameraUiWrapper);
         parametersChangedList.add((BaseManualParameterSony) ManualFNumber);
         ManualIso = new BaseManualParameterSony("getIsoSpeedRate", "getAvailableIsoSpeedRate","setIsoSpeedRate", cameraUiWrapper);
         parametersChangedList.add((BaseManualParameterSony) ManualIso);
@@ -137,16 +137,16 @@ public class ParameterHandler extends AbstractParameterHandler
         parametersChangedList.add((BaseManualParameterSony) ManualExposure);
 
         ProgramShift = new ProgramShiftManualSony(cameraUiWrapper);
-        parametersChangedList.add((BaseManualParameterSony)ProgramShift);
+        parametersChangedList.add((BaseManualParameterSony) ProgramShift);
 
         CCT = new WbCTManualSony(cameraUiWrapper);
         parametersChangedList.add((BaseManualParameterSony) CCT);
 
-        WhiteBalanceMode = new WhiteBalanceModeSony(mRemoteApi, (WbCTManualSony)CCT);
+        WhiteBalanceMode = new WhiteBalanceModeSony(mRemoteApi, (WbCTManualSony) CCT);
         parametersChangedList.add((BaseModeParameterSony) WhiteBalanceMode);
 
         PostViewSize = new BaseModeParameterSony("getPostviewImageSize","setPostviewImageSize","getAvailablePostviewImageSize", mRemoteApi);
-        parametersChangedList.add((BaseModeParameterSony)PostViewSize);
+        parametersChangedList.add((BaseModeParameterSony) PostViewSize);
 
         VideoSize = new BaseModeParameterSony("getMovieQuality", "setMovieQuality", "getAvailableMovieQuality", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony) VideoSize);
@@ -157,14 +157,14 @@ public class ParameterHandler extends AbstractParameterHandler
         NightMode = new NightModeSony(surfaceView);
         parametersChangedList.add((BaseModeParameterSony) NightMode);
 
-        PreviewZoom = new PreviewZoomManual(surfaceView,cameraUiWrapper);
+        PreviewZoom = new PreviewZoomManual(surfaceView, cameraUiWrapper);
 
         uiHandler.post(new Runnable() {
             @Override
             public void run()
             {
                     Logger.d(TAG, "Throw ParametersHasLoaded");
-                    ParametersHasLoaded();
+                ParametersHasLoaded();
                 }
 
         });

@@ -26,7 +26,7 @@ import java.net.URL;
  */
 class UrlHolder extends BaseHolder
 {
-    private URL url;
+    private final URL url;
 
     public UrlHolder(URL url)
     {

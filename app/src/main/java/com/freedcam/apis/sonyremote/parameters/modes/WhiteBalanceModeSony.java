@@ -33,7 +33,7 @@ import java.io.IOException;
 public class WhiteBalanceModeSony extends BaseModeParameterSony
 {
     final String TAG = WhiteBalanceModeSony.class.getSimpleName();
-    private WbCTManualSony wb;
+    private final WbCTManualSony wb;
     public WhiteBalanceModeSony(SimpleRemoteApi mRemoteApi, WbCTManualSony wb) {
         super("getWhiteBalance", "setWhiteBalance", "getAvailableWhiteBalance", mRemoteApi);
         this.wb = wb;

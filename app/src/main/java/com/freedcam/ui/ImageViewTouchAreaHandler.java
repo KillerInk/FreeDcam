@@ -38,14 +38,14 @@ import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
  */
 public class ImageViewTouchAreaHandler implements OnTouchListener
 {
-    private CameraWrapperInterface cameraUiWrapper;
-    private I_TouchListnerEvent touchListnerEvent;
-    private ImageView imageView;
+    private final CameraWrapperInterface cameraUiWrapper;
+    private final I_TouchListnerEvent touchListnerEvent;
+    private final ImageView imageView;
     private float x;
     private float y;
     private float difx;
     private float dify;
-    private Handler longClickHandler;
+    private final Handler longClickHandler;
 
     public interface I_TouchListnerEvent
     {
@@ -73,7 +73,7 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
     /**
      * if set to true the imageview is dragable
      */
-    private boolean allowDrag = false;
+    private final boolean allowDrag;
     /**
      * distance in pixel? to move bevor it gets detected as move
      */
@@ -95,7 +95,7 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
     /**
      * true if a move was detected
      */
-    private boolean moving = false;
+    private boolean moving;
     /**
      * half size from the imageview to calculate the center postion
      */
@@ -109,7 +109,7 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
         return dis;
     }
 
-    private boolean longClickHappen = false;
+    private boolean longClickHappen;
 
     @Override
     public boolean onTouch(View v, MotionEvent event)
@@ -120,18 +120,18 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
             case MotionEvent.ACTION_DOWN:
                 x = event.getX();
                 y = event.getY();
-                startX = (int)event.getX() - (int)imageView.getX();
-                startY =(int) event.getY() - (int)imageView.getY();
+                startX = (int)event.getX() - (int) imageView.getX();
+                startY =(int) event.getY() - (int) imageView.getY();
                 start = System.currentTimeMillis();
-                longClickHandler.postDelayed(longClickRunnable,MAX_DURATION);
+                longClickHandler.postDelayed(longClickRunnable, MAX_DURATION);
                 longClickHappen = false;
                 break;
             case MotionEvent.ACTION_MOVE:
 
                 difx = x - imageView.getX();
                 dify = y - imageView.getY();
-                int xd = getDistance(startX, (int)difx);
-                int yd = getDistance(startY, (int)dify);
+                int xd = getDistance(startX, (int) difx);
+                int yd = getDistance(startY, (int) dify);
 
                 if (allowDrag) {
                     if (event.getX() - difx > cameraUiWrapper.getMargineLeft() && event.getX() - difx + imageView.getWidth() < cameraUiWrapper.getMargineLeft() + cameraUiWrapper.getPreviewWidth())
@@ -159,11 +159,11 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
                     y = 0;
                     difx = 0;
                     dify = 0;
-                    recthalf = (int)imageView.getWidth()/2;
-                    imageRect = new FocusRect((int) imageView.getX() - recthalf, (int) imageView.getX() + recthalf, (int) imageView.getY() - recthalf, (int) imageView.getY() + recthalf,(int)imageView.getX(),(int)imageView.getY());
+                    recthalf = imageView.getWidth() /2;
+                    imageRect = new FocusRect((int) imageView.getX() - recthalf, (int) imageView.getX() + recthalf, (int) imageView.getY() - recthalf, (int) imageView.getY() + recthalf,(int) imageView.getX(),(int) imageView.getY());
                     if (touchListnerEvent != null) {
                         touchListnerEvent.onAreaCHanged(imageRect, cameraUiWrapper.getPreviewWidth(), cameraUiWrapper.getPreviewHeight());
-                            touchListnerEvent.IsMoving(false);
+                        touchListnerEvent.IsMoving(false);
                     }
                 }
                 else
@@ -171,7 +171,7 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
                     if (!longClickHappen)
                     {
                         longClickHandler.removeCallbacks(longClickRunnable);
-                        touchListnerEvent.OnAreaClick(((int) imageView.getX() + (int) event.getX()), ((int) imageView.getY() + (int) event.getY()));
+                        touchListnerEvent.OnAreaClick((int) imageView.getX() + (int) event.getX(), (int) imageView.getY() + (int) event.getY());
                     }
                 }
                 ret = false;
@@ -181,7 +181,7 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
         return ret;
     }
 
-    private Runnable longClickRunnable = new Runnable()
+    private final Runnable longClickRunnable = new Runnable()
     {
         @Override
         public void run()

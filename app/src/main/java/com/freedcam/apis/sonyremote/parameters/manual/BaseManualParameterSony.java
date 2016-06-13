@@ -47,12 +47,12 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
     protected String VALUE_TO_SET;
     protected SimpleRemoteApi mRemoteApi;
     protected Set<String> mAvailableCameraApiSet;
-    boolean isSupported = false;
-    boolean isSetSupported = false;
+    boolean isSupported;
+    boolean isSetSupported;
     String value;
     final boolean logging =false;
 
-    private static String TAG = BaseManualParameterSony.class.getSimpleName();
+    private final String TAG = BaseManualParameterSony.class.getSimpleName();
 
     public BaseManualParameterSony(String VALUE_TO_GET, String VALUES_TO_GET, String VALUE_TO_SET, CameraWrapperInterface cameraUiWrapper)
     {
@@ -110,8 +110,8 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                 {
                     try
                     {
-                        sendLog("Trying to get String Values from: " +VALUES_TO_GET);
-                        JSONObject object =  mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
+                        sendLog("Trying to get String Values from: " + VALUES_TO_GET);
+                        JSONObject object = mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                         JSONArray array = object.getJSONArray("result");
                         JSONArray subarray = array.getJSONArray(1);
                         stringvalues = JsonUtils.ConvertJSONArrayToStringArray(subarray);
@@ -119,7 +119,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
 
                     } catch (IOException | JSONException e) {
                         Logger.exception(e);
-                        sendLog( "Error Trying to get String Values from: " +VALUES_TO_GET);
+                        sendLog( "Error Trying to get String Values from: " + VALUES_TO_GET);
                         stringvalues = new String[0];
                     }
                 }
@@ -147,7 +147,7 @@ public class BaseManualParameterSony extends AbstractManualParameter implements 
                 JSONArray array = null;
                 try {
                     array = new JSONArray().put(0, val);
-                    JSONObject object =  mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
+                    JSONObject object = mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
                     ThrowCurrentValueChanged(valueToSet);
                 } catch (JSONException | IOException e) {
                     Logger.exception(e);

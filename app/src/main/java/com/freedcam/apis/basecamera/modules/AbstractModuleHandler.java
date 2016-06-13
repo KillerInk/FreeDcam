@@ -57,9 +57,9 @@ public abstract class AbstractModuleHandler implements ModuleHandlerInterface
         void onCaptureStateChanged(CaptureStates captureStates);
     }
 
-    private ArrayList<CaptureStateChanged> onCaptureStateChangedListners;
+    private final ArrayList<CaptureStateChanged> onCaptureStateChangedListners;
 
-    private String TAG = AbstractModuleHandler.class.getSimpleName();
+    private final String TAG = AbstractModuleHandler.class.getSimpleName();
     public ModuleEventHandler moduleEventHandler;
     public AbstractMap<String, ModuleInterface> moduleList;
     protected ModuleInterface currentModule;
@@ -68,11 +68,11 @@ public abstract class AbstractModuleHandler implements ModuleHandlerInterface
     protected CaptureStateChanged workerListner;
 
     //holds all listner for the modulechanged event
-    private ArrayList<I_ModuleEvent> moduleChangedListner;
+    private final ArrayList<I_ModuleEvent> moduleChangedListner;
     //holds all listner for workfinishedlistner
-    private ArrayList<I_WorkEvent> WorkFinishedListners;
+    private final ArrayList<I_WorkEvent> WorkFinishedListners;
     //holds all listner for recorstatechanged
-    private ArrayList<I_RecorderStateChanged> RecorderStateListners;
+    private final ArrayList<I_RecorderStateChanged> RecorderStateListners;
     private Handler uihandler;
 
 
@@ -82,7 +82,7 @@ public abstract class AbstractModuleHandler implements ModuleHandlerInterface
     public AbstractModuleHandler(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        moduleList  = new HashMap<>();
+        moduleList = new HashMap<>();
         moduleChangedListner = new ArrayList<>();
         WorkFinishedListners = new ArrayList<>();
         RecorderStateListners = new ArrayList<>();
@@ -183,7 +183,7 @@ public abstract class AbstractModuleHandler implements ModuleHandlerInterface
     {
         if (moduleChangedListner.size() == 0)
             return;
-        for (int i =0; i < moduleChangedListner.size(); i++)
+        for (int i = 0; i < moduleChangedListner.size(); i++)
         {
             if (moduleChangedListner.get(i) == null) {
                 moduleChangedListner.remove(i);

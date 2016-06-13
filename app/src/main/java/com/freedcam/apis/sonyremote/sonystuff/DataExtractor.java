@@ -31,7 +31,7 @@ public class DataExtractor
 {
     public static int commonHeaderlength = 1 + 1 + 2 + 4;
     public static int payloadHeaderlength = 128;
-    private String TAG = DataExtractor.class.getSimpleName();
+    private final String TAG = DataExtractor.class.getSimpleName();
 
     public byte[] jpegData;
     public byte[] paddingData;
@@ -106,7 +106,7 @@ public class DataExtractor
         {
             frameInfoList = new ArrayList<>();
             //int framC = frameDataSize /singelFrameDataSize;
-            for (int i = 0; i<frameCount; i++)
+            for (int i = 0; i< frameCount; i++)
             {
                 byte[] framebytes = SimpleLiveviewSlicer.readBytes(mInputStream, singelFrameDataSize);
                 if (framebytes.length == singelFrameDataSize)

@@ -60,7 +60,7 @@ public class ShutterManualZTE extends BaseManualParameter
 
     @Override
     public boolean IsVisible() {
-        return  IsSupported();
+        return IsSupported();
     }
 
     @Override
@@ -97,7 +97,7 @@ public class ShutterManualZTE extends BaseManualParameter
             Handler handler = new Handler();
             Runnable r = new Runnable() {
                 public void run() {
-                    ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetZTESlowShutter();
+                    ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetZTESlowShutter();
                     baseCameraHolder.StopPreview();
                     baseCameraHolder.StartPreview();
                 }
@@ -121,7 +121,7 @@ public class ShutterManualZTE extends BaseManualParameter
 
                     parameters.set("slow_shutter", shutterstring);
                     parameters.set("slow_shutter_addition", "1");
-                    ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+                    ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
 
                     if(Double.parseDouble(shutterstring) <= 0.5 && Double.parseDouble(shutterstring) >= 0.0005 ){
                         baseCameraHolder.StopPreview();

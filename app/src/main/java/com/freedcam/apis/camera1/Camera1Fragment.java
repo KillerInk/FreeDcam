@@ -63,9 +63,9 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
 {
     protected ExtendedSurfaceView extendedSurfaceView;
     protected TextureViewRatio preview;
-    private static String TAG = Camera1Fragment.class.getSimpleName();
+    private final String TAG = Camera1Fragment.class.getSimpleName();
     public FocusPeakProcessorAp1 focusPeakProcessorAp1;
-    boolean cameraRdy = false;
+    boolean cameraRdy;
 
     @Override
     public String CameraApiName() {
@@ -102,11 +102,11 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
         else if (isMTKDevice())
             cameraHolder = new CameraHolderMTK(this, CameraHolder.Frameworks.MTK);
         else
-            cameraHolder = new CameraHolder(this,CameraHolder.Frameworks.Normal);
+            cameraHolder = new CameraHolder(this, CameraHolder.Frameworks.Normal);
         moduleHandler.initModules();
 
         if (Build.VERSION.SDK_INT >= 18) {
-            focusPeakProcessorAp1 = new FocusPeakProcessorAp1(preview,this, getContext(),renderScriptHandler);
+            focusPeakProcessorAp1 = new FocusPeakProcessorAp1(preview,this, getContext(), renderScriptHandler);
             SetCameraChangedListner(focusPeakProcessorAp1);
         }
         else
@@ -114,7 +114,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
         Logger.d(TAG, "Ctor done");
 
         extendedSurfaceView.getHolder().addCallback(this);
-        ((MainActivity)getActivity()).onCameraUiWrapperRdy(this);
+        ((MainActivity) getActivity()).onCameraUiWrapperRdy(this);
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -251,7 +251,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
         ((ParametersHandler) parametersHandler).LoadParametersFromCamera();
         cameraHolder.SetSurface(extendedSurfaceView.getHolder());
         cameraHolder.StartPreview();
-        super.onCameraOpenFinish("");
+        this.onCameraOpenFinish("");
     }
 
     @Override

@@ -41,9 +41,9 @@ public class AppSettingsManager
 {
     private final String TAG = AppSettingsManager.class.getSimpleName();
     private final String appsettingspath;
-    private int currentcamera = 0;
-    private String camApiString = API_1;
-    private Devices device = null;
+    private int currentcamera;
+    private String camApiString = AppSettingsManager.API_1;
+    private Devices device;
 
 
     public static final String SETTING_CURRENTCAMERA = "currentcamera";

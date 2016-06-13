@@ -35,14 +35,14 @@ import com.freedcam.utils.Logger;
  */
 public class AE_Handler_LGG4 implements CameraWrapperEventInterface
 {
-    private ISOManualParameterG4 isoManualParameter;
-    private ShutterManualParameterG4 shutterPrameter;
-    private int currentIso = 0;
-    private int currentShutter = 0;
-    private Parameters parameters;
+    private final ISOManualParameterG4 isoManualParameter;
+    private final ShutterManualParameterG4 shutterPrameter;
+    private int currentIso;
+    private int currentShutter;
+    private final Parameters parameters;
     boolean auto = true;
     private ParametersHandler parametersHandler;
-    private boolean readMetaData = false;
+    private boolean readMetaData;
     private CameraHolder cameraHolder;
 
     final String TAG = AE_Handler_LGG4.class.getSimpleName();
@@ -199,7 +199,7 @@ public class AE_Handler_LGG4 implements CameraWrapperEventInterface
                 while (readMetaData && auto)
                 {
                     try {
-                        shutterPrameter.ThrowCurrentValueStringCHanged("1/"+(int)parametersHandler.getDevice().getCurrentExposuretime());
+                        shutterPrameter.ThrowCurrentValueStringCHanged("1/"+(int) parametersHandler.getDevice().getCurrentExposuretime());
                         isoManualParameter.ThrowCurrentValueStringCHanged(parametersHandler.getDevice().getCurrentIso()+"");
                     }
                     catch (RuntimeException ex)

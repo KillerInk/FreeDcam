@@ -56,7 +56,7 @@ public class OisParameter extends BaseModeParameter {
             parameters.set("ois", valueToSet);
         else
             parameters.set("hw_ois_enable", valueToSet);
-        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 
     @Override

@@ -98,7 +98,7 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
             Logger.exception(ex);
             isSupported = false;
         }
-        Logger.d(TAG, "isSupported:" +isSupported);
+        Logger.d(TAG, "isSupported:" + isSupported);
     }
 
     @Override
@@ -128,6 +128,6 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
             parameters.set(key_value, "0");
             Logger.d(TAG, "set exposure time to auto");
         }
-        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 }

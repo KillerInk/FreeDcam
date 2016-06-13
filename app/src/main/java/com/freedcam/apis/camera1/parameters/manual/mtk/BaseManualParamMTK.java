@@ -32,9 +32,9 @@ import com.freedcam.utils.Logger;
  */
 public class BaseManualParamMTK extends BaseManualParameter
 {
-    private static String TAG = BaseManualParamMTK.class.getSimpleName();
+    private final String TAG = BaseManualParamMTK.class.getSimpleName();
 
-    private int default_value = 0;
+    private int default_value;
 
     public BaseManualParamMTK(Parameters  parameters, String value, String values, CameraWrapperInterface cameraUiWrapper) {
         super(parameters,value,"","", cameraUiWrapper,1);
@@ -69,7 +69,7 @@ public class BaseManualParamMTK extends BaseManualParameter
         ThrowCurrentValueStringCHanged(stringvalues[valueToset]);
         try
         {
-            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         }
         catch (Exception ex)
         {

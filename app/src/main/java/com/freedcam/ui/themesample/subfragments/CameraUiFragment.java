@@ -22,6 +22,7 @@ package com.freedcam.ui.themesample.subfragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -91,7 +92,7 @@ public class CameraUiFragment extends AbstractFragment implements I_MenuItemClic
     private ThumbView thumbView;
     private ManualFragmentRotatingSeekbar manualModesFragment;
     private FrameLayout manualModes_holder;
-    private boolean manualsettingsIsOpen = false;
+    private boolean manualsettingsIsOpen;
     private FocusImageHandler focusImageHandler;
     private View view;
     private I_Activity i_activity;
@@ -104,7 +105,7 @@ public class CameraUiFragment extends AbstractFragment implements I_MenuItemClic
     private AppSettingsManager appSettingsManager;
 
     private HorizontLineFragment horizontLineFragment;
-    private int LeftWidth = 0;
+    private int LeftWidth;
     private BitmapHelper bitmapHelper;
 
     public static CameraUiFragment GetInstance(I_Activity i_activity, I_ThumbClick thumbClick, AppSettingsManager appSettingsManager, CameraWrapperInterface cameraUiWrapper, BitmapHelper bitmapHelper)
@@ -137,7 +138,7 @@ public class CameraUiFragment extends AbstractFragment implements I_MenuItemClic
         focus.SetParameter(cameraUiWrapper.GetParameterHandler().FocusMode);
         night.SetParameter(cameraUiWrapper.GetParameterHandler().NightMode);
         aepriority.SetParameter(cameraUiWrapper.GetParameterHandler().AE_PriorityMode);
-        thumbView.INIT(cameraUiWrapper,bitmapHelper);
+        thumbView.INIT(cameraUiWrapper, bitmapHelper);
 
         cameraSwitch.SetCameraUiWrapper(cameraUiWrapper);
         focusImageHandler.SetCamerUIWrapper(cameraUiWrapper);
@@ -174,79 +175,79 @@ public class CameraUiFragment extends AbstractFragment implements I_MenuItemClic
         LinearLayout left_cameraUI_holder = (LinearLayout) view.findViewById(id.left_ui_holder);
         LeftWidth = left_cameraUI_holder.getWidth();
         RelativeLayout right_camerUI_holder = (RelativeLayout) view.findViewById(id.right_ui_holder);
-        manualModes_holder = (FrameLayout)view.findViewById(id.manualModesHolder);
+        manualModes_holder = (FrameLayout) view.findViewById(id.manualModesHolder);
         LinearLayout LC = (LinearLayout) view.findViewById(id.LCover);
 
-        flash = (UiSettingsChild)view.findViewById(id.Flash);
-        flash.SetStuff(i_activity, AppSettingsManager.SETTING_FLASHMODE,appSettingsManager);
+        flash = (UiSettingsChild) view.findViewById(id.Flash);
+        flash.SetStuff(i_activity, AppSettingsManager.SETTING_FLASHMODE, appSettingsManager);
         flash.SetMenuItemListner(this, true);
 
-        iso = (UiSettingsChild)view.findViewById(id.ui_settings_iso);
-        iso.SetStuff(i_activity, AppSettingsManager.SETTING_ISOMODE,appSettingsManager);
+        iso = (UiSettingsChild) view.findViewById(id.ui_settings_iso);
+        iso.SetStuff(i_activity, AppSettingsManager.SETTING_ISOMODE, appSettingsManager);
         iso.SetMenuItemListner(this,true);
 
-        autoexposure =(UiSettingsChild)view.findViewById(id.Ae);
-        autoexposure.SetStuff(i_activity,AppSettingsManager.SETTING_EXPOSUREMODE,appSettingsManager);
+        autoexposure =(UiSettingsChild) view.findViewById(id.Ae);
+        autoexposure.SetStuff(i_activity,AppSettingsManager.SETTING_EXPOSUREMODE, appSettingsManager);
         autoexposure.SetMenuItemListner(this,true);
 
-        aepriority = (UiSettingsChild)view.findViewById(id.AePriority);
-        aepriority.SetStuff(i_activity,AppSettingsManager.SETTTING_AE_PRIORITY,appSettingsManager);
+        aepriority = (UiSettingsChild) view.findViewById(id.AePriority);
+        aepriority.SetStuff(i_activity,AppSettingsManager.SETTTING_AE_PRIORITY, appSettingsManager);
         aepriority.SetMenuItemListner(this,true);
 
-        whitebalance = (UiSettingsChild)view.findViewById(id.wb);
-        whitebalance.SetStuff(i_activity, AppSettingsManager.SETTING_WHITEBALANCEMODE,appSettingsManager);
+        whitebalance = (UiSettingsChild) view.findViewById(id.wb);
+        whitebalance.SetStuff(i_activity, AppSettingsManager.SETTING_WHITEBALANCEMODE, appSettingsManager);
         whitebalance.SetMenuItemListner(this,true);
 
-        focus = (UiSettingsChild)view.findViewById(id.focus_uisetting);
-        focus.SetStuff(i_activity, AppSettingsManager.SETTING_FOCUSMODE,appSettingsManager);
+        focus = (UiSettingsChild) view.findViewById(id.focus_uisetting);
+        focus.SetStuff(i_activity, AppSettingsManager.SETTING_FOCUSMODE, appSettingsManager);
         focus.SetMenuItemListner(this,true);
 
-        contShot = (UiSettingsChild)view.findViewById(id.continousShot);
-        contShot.SetStuff(i_activity, null,appSettingsManager);
+        contShot = (UiSettingsChild) view.findViewById(id.continousShot);
+        contShot.SetStuff(i_activity, null, appSettingsManager);
         contShot.SetMenuItemListner(this,true);
 
-        night = (UiSettingsChild)view.findViewById(id.night);
-        night.SetStuff(i_activity, AppSettingsManager.SETTING_NIGHTEMODE,appSettingsManager);
+        night = (UiSettingsChild) view.findViewById(id.night);
+        night.SetStuff(i_activity, AppSettingsManager.SETTING_NIGHTEMODE, appSettingsManager);
         night.SetMenuItemListner(this,true);
 
-        format = (UiSettingsChild)view.findViewById(id.format);
-        format.SetStuff(i_activity, AppSettingsManager.SETTING_PICTUREFORMAT,appSettingsManager);
+        format = (UiSettingsChild) view.findViewById(id.format);
+        format.SetStuff(i_activity, AppSettingsManager.SETTING_PICTUREFORMAT, appSettingsManager);
         format.SetMenuItemListner(this,true);
 
-        thumbView = (ThumbView)view.findViewById(id.thumbview);
+        thumbView = (ThumbView) view.findViewById(id.thumbview);
         thumbView.SetOnThumbClickListener(thumbClick);
 
-        modeSwitch = (UiSettingsChildModuleSwitch)view.findViewById(id.mode_switch);
-        modeSwitch.SetStuff(i_activity, AppSettingsManager.SETTING_CURRENTMODULE,appSettingsManager);
+        modeSwitch = (UiSettingsChildModuleSwitch) view.findViewById(id.mode_switch);
+        modeSwitch.SetStuff(i_activity, AppSettingsManager.SETTING_CURRENTMODULE, appSettingsManager);
         modeSwitch.SetMenuItemListner(this,false);
 
         UiSettingsChildExit exit = (UiSettingsChildExit) view.findViewById(id.exit);
-        exit.SetStuff(i_activity, "",appSettingsManager);
+        exit.SetStuff(i_activity, "", appSettingsManager);
 
-        cameraSwitch = (UiSettingsChildCameraSwitch)view.findViewById(id.camera_switch);
-        cameraSwitch.SetStuff(i_activity, AppSettingsManager.SETTING_CURRENTCAMERA,appSettingsManager);
+        cameraSwitch = (UiSettingsChildCameraSwitch) view.findViewById(id.camera_switch);
+        cameraSwitch.SetStuff(i_activity, AppSettingsManager.SETTING_CURRENTCAMERA, appSettingsManager);
 
-        infoOverlayHandler = new SampleInfoOverlayHandler(view,appSettingsManager);
+        infoOverlayHandler = new SampleInfoOverlayHandler(view, appSettingsManager);
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
 
         focusImageHandler = new FocusImageHandler(view, this);
 
-        shutterButton = (ShutterButton)view.findViewById(id.shutter_button);
+        shutterButton = (ShutterButton) view.findViewById(id.shutter_button);
         view.setOnTouchListener(onTouchListener);
 
-        focuspeak = (UiSettingsFocusPeak)view.findViewById(id.ui_focuspeak);
+        focuspeak = (UiSettingsFocusPeak) view.findViewById(id.ui_focuspeak);
 
-        focuspeak.SetStuff(i_activity, AppSettingsManager.SETTING_FOCUSPEAK,appSettingsManager);
+        focuspeak.SetStuff(i_activity, AppSettingsManager.SETTING_FOCUSPEAK, appSettingsManager);
         focuspeak.SetMenuItemListner(this);
 
         //adding hdr switch log test v1.0 1-29-2016 6:13 - Defcomk
-        hdr_switch = (UiSettingsChild)view.findViewById(id.hdr_toggle);
-        hdr_switch.SetStuff(i_activity, AppSettingsManager.SETTING_HDRMODE,appSettingsManager);
+        hdr_switch = (UiSettingsChild) view.findViewById(id.hdr_toggle);
+        hdr_switch.SetStuff(i_activity, AppSettingsManager.SETTING_HDRMODE, appSettingsManager);
         hdr_switch.SetMenuItemListner(this,true);
 
-        manualModesFragment = ManualFragmentRotatingSeekbar.GetInstance(appSettingsManager,i_activity);
+        manualModesFragment = ManualFragmentRotatingSeekbar.GetInstance(appSettingsManager, i_activity);
 
-        horizontLineFragment = HorizontLineFragment.GetInstance(i_activity,appSettingsManager);
+        horizontLineFragment = HorizontLineFragment.GetInstance(i_activity, appSettingsManager);
 
         guideHandler =GuideHandler.GetInstance(appSettingsManager);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
@@ -268,7 +269,7 @@ public class CameraUiFragment extends AbstractFragment implements I_MenuItemClic
         if (showhelp) {
             transaction = getChildFragmentManager().beginTransaction();
             transaction.setCustomAnimations(anim.empty, anim.empty);
-            transaction.replace(id.helpfragment_container, HelpFragment.getFragment(helpfragmentCloser,appSettingsManager));
+            transaction.replace(id.helpfragment_container, HelpFragment.getFragment(helpfragmentCloser, appSettingsManager));
             transaction.addToBackStack(null);
             transaction.commitAllowingStateLoss();
         }
@@ -291,7 +292,7 @@ public class CameraUiFragment extends AbstractFragment implements I_MenuItemClic
     public void onPause()
     {
         infoOverlayHandler.StopUpdating();
-        sharedPref.edit().putBoolean(KEY_MANUALMENUOPEN,manualsettingsIsOpen).commit();
+        sharedPref.edit().putBoolean(KEY_MANUALMENUOPEN, manualsettingsIsOpen).commit();
         boolean settingsOpen = false;
         String KEY_SETTINGSOPEN = "key_settingsopen";
         sharedPref.edit().putBoolean(KEY_SETTINGSOPEN, settingsOpen).commit();
@@ -354,7 +355,7 @@ public class CameraUiFragment extends AbstractFragment implements I_MenuItemClic
         if (tmo != null && tmo.length >0)
             horizontalValuesFragment.SetStringValues(tmo, this);
         else
-           horizontalValuesFragment.ListenToParameter(item.GetParameter());
+            horizontalValuesFragment.ListenToParameter(item.GetParameter());
         infalteIntoHolder(id.cameraui_values_fragment_holder, horizontalValuesFragment);
 
     }
@@ -432,12 +433,12 @@ public class CameraUiFragment extends AbstractFragment implements I_MenuItemClic
 
     interface i_HelpFragment
     {
-        void Close(android.support.v4.app.Fragment fragment);
+        void Close(Fragment fragment);
     }
 
-    private i_HelpFragment helpfragmentCloser = new i_HelpFragment() {
+    private final i_HelpFragment helpfragmentCloser = new i_HelpFragment() {
         @Override
-        public void Close(android.support.v4.app.Fragment fragment) {
+        public void Close(Fragment fragment) {
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.remove(fragment);
             transaction.addToBackStack(null);

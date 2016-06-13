@@ -31,7 +31,7 @@ import com.freedcam.apis.camera1.renderscript.FocusPeakProcessorAp1;
  */
 public class FocusPeakModeParameter extends BaseModeParameter {
 
-    private FocusPeakProcessorAp1 focusPeakProcessorAp1;
+    private final FocusPeakProcessorAp1 focusPeakProcessorAp1;
     public FocusPeakModeParameter(CameraWrapperInterface cameraUiWrapper, FocusPeakProcessorAp1 focusPeakProcessorAp1)
     {
         super(null, cameraUiWrapper);

@@ -38,7 +38,6 @@ import com.freedcam.MainActivity;
 import com.freedcam.apis.basecamera.AbstractFocusHandler;
 import com.freedcam.apis.basecamera.CameraFragmentAbstract;
 import com.freedcam.apis.basecamera.interfaces.CameraHolderInterface;
-import com.freedcam.apis.basecamera.interfaces.CameraWrapperEventInterface;
 import com.freedcam.apis.basecamera.interfaces.FocuspeakProcessor;
 import com.freedcam.apis.basecamera.interfaces.ModuleInterface;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
@@ -60,7 +59,7 @@ import com.troop.freedcam.R.layout;
 /**
  * Created by troop on 06.06.2015.
  */
-public class SonyCameraFragment extends CameraFragmentAbstract implements CameraWrapperEventInterface,SurfaceHolder.Callback
+public class SonyCameraFragment extends CameraFragmentAbstract implements SurfaceHolder.Callback
 {
     private final String TAG = SonyCameraFragment.class.getSimpleName();
     private SimpleStreamSurfaceView surfaceView;
@@ -76,9 +75,9 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Camera
     private final int WAITING_FOR_DEVICECONNECTION = 2;
     private int STATE = IDEL;
 
-    private String[] configuredNetworks = null;
+    private String[] configuredNetworks;
     private String deviceNetworkToConnect;
-    private boolean connected = false;
+    private boolean connected;
     //private CameraHolderSony cameraHolder;
 
     @Override
@@ -88,7 +87,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Camera
         view = inflater.inflate(layout.cameraholdersony, container, false);
         surfaceView = (SimpleStreamSurfaceView) view.findViewById(id.view);
 
-        textView_wifi =(TextView)view.findViewById(id.textView_wificonnect);
+        textView_wifi =(TextView) view.findViewById(id.textView_wificonnect);
         wifiReciever = new WifiScanReceiver();
         wifiConnectedReceiver = new WifiConnectedReceiver();
         wifiUtils = new WifiUtils(view.getContext());
@@ -171,7 +170,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Camera
             public void onFinished()
             {
                 if (serverDevice == null)
-                   setTextFromWifi("Cant find a sony remote Device");
+                    setTextFromWifi("Cant find a sony remote Device");
 
             }
 
@@ -403,7 +402,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Camera
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-                ((CameraHolderSony)cameraHolder).OpenCamera(serverDevice);
+                ((CameraHolderSony) cameraHolder).OpenCamera(serverDevice);
                 onCameraOpen("");
             }
         });
@@ -490,7 +489,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Camera
 
     @Override
     public RenderScriptHandler getRenderScriptHandler() {
-        return  renderScriptHandler;
+        return renderScriptHandler;
     }
 
     @Override

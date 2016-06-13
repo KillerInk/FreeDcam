@@ -160,7 +160,7 @@ public final class DiskLruCache implements Closeable {
     private final int appVersion;
     private final long maxSize;
     private final int valueCount;
-    private long size = 0;
+    private long size;
     private Writer journalWriter;
     private final LinkedHashMap<String, Entry> lruEntries
             = new LinkedHashMap<>(0, 0.75f, true);
@@ -171,7 +171,7 @@ public final class DiskLruCache implements Closeable {
      * a sequence number each time an edit is committed. A snapshot is stale if
      * its sequence number is not equal to its entry's sequence number.
      */
-    private long nextSequenceNumber = 0;
+    private long nextSequenceNumber;
 
     /* From java.util.Arrays */
     @SuppressWarnings("unchecked")
@@ -911,7 +911,7 @@ public final class DiskLruCache implements Closeable {
 
         private Entry(String key) {
             this.key = key;
-            lengths = new long[valueCount];
+            lengths = new long[DiskLruCache.this.valueCount];
         }
 
         public String getLengths() throws IOException {

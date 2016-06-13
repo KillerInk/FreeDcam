@@ -40,7 +40,7 @@ public class BaseGridViewFragment extends Fragment  implements OnItemClickListen
 {
     protected GridView gridView;
     protected View view;
-    protected boolean pos0ret = false;
+    protected boolean pos0ret;
     protected ViewStates currentViewState = ViewStates.normal;
 
     public enum ViewStates

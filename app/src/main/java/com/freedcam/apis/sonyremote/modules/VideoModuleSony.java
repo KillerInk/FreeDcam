@@ -30,8 +30,8 @@ import com.freedcam.apis.sonyremote.CameraHolderSony;
  */
 public class VideoModuleSony extends AbstractModule implements I_CameraStatusChanged
 {
-    private static String TAG = VideoModuleSony.class.getSimpleName();
-    private CameraHolderSony cameraHolder;
+    private final String TAG = VideoModuleSony.class.getSimpleName();
+    private final CameraHolderSony cameraHolder;
 
     public VideoModuleSony(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);

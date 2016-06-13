@@ -32,10 +32,10 @@ import com.freedcam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK.AeManualEv
  */
 public class ShutterManualMtk extends BaseManualParameter
 {
-    private static String TAG = ShutterManualMtk.class.getSimpleName();
-    private AeManualEvent manualevent;
+    private final String TAG = ShutterManualMtk.class.getSimpleName();
+    private final AeManualEvent manualevent;
 
-    private String MTKShutter = "1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,1,2";
+    private final String MTKShutter = "1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,1,2";
 
     public ShutterManualMtk(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AeManualEvent manualevent) {
         super(parameters, "", "", "", cameraUiWrapper,1);

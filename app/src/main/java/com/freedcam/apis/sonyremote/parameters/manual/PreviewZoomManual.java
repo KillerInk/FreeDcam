@@ -32,7 +32,7 @@ import java.util.Set;
  */
 public class PreviewZoomManual extends BaseManualParameterSony
 {
-    private SimpleStreamSurfaceView surfaceView;
+    private final SimpleStreamSurfaceView surfaceView;
     private int zoomFactor = 1;
 
     public PreviewZoomManual(SimpleStreamSurfaceView surfaceView, CameraWrapperInterface cameraUiWrapper) {

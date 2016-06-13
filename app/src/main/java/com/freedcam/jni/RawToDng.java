@@ -23,7 +23,7 @@ public class RawToDng
         System.loadLibrary("freedcam");
     }
 
-    private static final String TAG = RawToDng.class.getSimpleName();
+    private final String TAG = RawToDng.class.getSimpleName();
 
     private String wbct;
     private byte[] opcode2;
@@ -35,7 +35,7 @@ public class RawToDng
     }
 
 
-    private ByteBuffer nativeHandler = null;
+    private ByteBuffer nativeHandler;
     private native long GetRawBytesSize(ByteBuffer nativeHandler);
     private native int GetRawHeight(ByteBuffer nativeHandler);
     private native void SetGPSData(ByteBuffer nativeHandler,double Altitude,float[] Latitude,float[] Longitude, String Provider, long gpsTime);
@@ -145,9 +145,9 @@ public class RawToDng
         Logger.d(TAG, "ColorTemp=" + (double) wb + " WBCT = r:" + r + " g:" + g + " b:" + b);
         float rf,gf,bf = 0;
 
-        rf = (float)getRGBToDouble(checkminmax((int)r))/2;
-        gf = (float)getRGBToDouble(checkminmax((int)g));
-        bf = (float)getRGBToDouble(checkminmax((int)b))/2;
+        rf = (float) getRGBToDouble(checkminmax((int)r))/2;
+        gf = (float) getRGBToDouble(checkminmax((int)g));
+        bf = (float) getRGBToDouble(checkminmax((int)b))/2;
         Logger.d(TAG, "ColorTemp=" + (double) wb + " WBCT = r:" +rf +" g:"+gf +" b:"+bf);
             rf = rf / gf;
             bf = bf / gf;
@@ -238,9 +238,9 @@ public class RawToDng
         if (nativeHandler != null) {
             SetBayerData(nativeHandler, fileBytes, fileout);
             if (opcode2 != null)
-                SetOpCode2(nativeHandler,opcode2);
+                SetOpCode2(nativeHandler, opcode2);
             if (opcode3 != null)
-                SetOpCode3(nativeHandler,opcode3);
+                SetOpCode3(nativeHandler, opcode3);
         }
     }
 
@@ -252,9 +252,9 @@ public class RawToDng
         if (nativeHandler != null) {
             SetBayerDataFD(nativeHandler, fileBytes, fileout.getFd(), filename);
             if (opcode2 != null)
-                SetOpCode2(nativeHandler,opcode2);
+                SetOpCode2(nativeHandler, opcode2);
             if (opcode3 != null)
-                SetOpCode3(nativeHandler,opcode3);
+                SetOpCode3(nativeHandler, opcode3);
         }
     }
 
@@ -283,7 +283,7 @@ public class RawToDng
         if (nativeHandler != null && wbct.equals(""))
             SetBayerInfo(nativeHandler, colorMatrix1, colorMatrix2, neutralColor, fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel, bayerformat, rowSize, Build.MODEL, tight, width, height);
         else if (!wbct.equals(""))
-            SetBayerInfo(nativeHandler, colorMatrix1, colorMatrix2,getWbCtMatrix(wbct), fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel, bayerformat, rowSize, Build.MODEL, tight, width, height);
+            SetBayerInfo(nativeHandler, colorMatrix1, colorMatrix2, getWbCtMatrix(wbct), fowardMatrix1, fowardMatrix2, reductionMatrix1, reductionMatrix2, noise, blacklevel, bayerformat, rowSize, Build.MODEL, tight, width, height);
 
     }
 

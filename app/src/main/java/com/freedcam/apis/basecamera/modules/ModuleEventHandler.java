@@ -31,12 +31,12 @@ import java.util.ArrayList;
 public class ModuleEventHandler
 {
     //holds all listner for the modulechanged event
-    private ArrayList<I_ModuleEvent> moduleChangedListner;
+    private final ArrayList<I_ModuleEvent> moduleChangedListner;
     //holds all listner for workfinishedlistner
-    private ArrayList<I_WorkEvent> WorkFinishedListners;
+    private final ArrayList<I_WorkEvent> WorkFinishedListners;
     //holds all listner for recorstatechanged
-    private ArrayList<I_RecorderStateChanged> RecorderStateListners;
-    private Handler uihandler;
+    private final ArrayList<I_RecorderStateChanged> RecorderStateListners;
+    private final Handler uihandler;
 
     public  ModuleEventHandler()
     {
@@ -64,7 +64,7 @@ public class ModuleEventHandler
     {
         if (moduleChangedListner.size() == 0)
             return;
-        for (int i =0; i < moduleChangedListner.size(); i++)
+        for (int i = 0; i < moduleChangedListner.size(); i++)
         {
             if (moduleChangedListner.get(i) == null) {
                 moduleChangedListner.remove(i);

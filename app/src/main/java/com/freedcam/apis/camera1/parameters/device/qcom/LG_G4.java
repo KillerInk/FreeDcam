@@ -36,7 +36,7 @@ import com.troop.androiddng.DngProfile;
  */
 public class LG_G4 extends LG_G2
 {
-    private AE_Handler_LGG4 ae_handler_lgg4;
+    private final AE_Handler_LGG4 ae_handler_lgg4;
     public LG_G4(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters,cameraUiWrapper);
         ae_handler_lgg4 = new AE_Handler_LGG4(parameters, cameraUiWrapper);
@@ -55,7 +55,7 @@ public class LG_G4 extends LG_G2
 
     @Override
     public AbstractManualParameter getManualFocusParameter() {
-        return new FocusManualParameterLG(parameters,cameraUiWrapper);
+        return new FocusManualParameterLG(parameters, cameraUiWrapper);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class LG_G4 extends LG_G2
 
     @Override
     public AbstractManualParameter getManualSaturation() {
-        return new BaseManualParameter(parameters, KEYS.LG_COLOR_ADJUST,KEYS.LG_COLOR_ADJUST_MAX,KEYS.LG_COLOR_ADJUST_MIN,cameraUiWrapper,1);
+        return new BaseManualParameter(parameters, KEYS.LG_COLOR_ADJUST,KEYS.LG_COLOR_ADJUST_MAX,KEYS.LG_COLOR_ADJUST_MIN, cameraUiWrapper,1);
     }
 
     @Override

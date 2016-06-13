@@ -55,8 +55,8 @@ import java.io.IOException;
 @TargetApi(VERSION_CODES.LOLLIPOP)
 public class VideoModuleApi2 extends AbstractModuleApi2
 {
-    private static String TAG = VideoModuleApi2.class.getSimpleName();
-    private boolean isRecording = false;
+    private final String TAG = VideoModuleApi2.class.getSimpleName();
+    private boolean isRecording;
     private Size previewSize;
     private VideoMediaProfile currentVideoProfile;
     private Surface previewsurface;
@@ -141,12 +141,12 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     public void startPreview()
     {
 
-        previewSize = new Size(currentVideoProfile.videoFrameWidth,currentVideoProfile.videoFrameHeight);
+        previewSize = new Size(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
         cameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(), previewSize.getHeight(), 270,90,true);
 
         SurfaceTexture texture = cameraHolder.CaptureSessionH.getSurfaceTexture();
 
-        texture.setDefaultBufferSize(currentVideoProfile.videoFrameWidth,currentVideoProfile.videoFrameHeight);
+        texture.setDefaultBufferSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
         previewsurface = new Surface(texture);
        /* if (cameraHolder.mProcessor != null) {
             cameraHolder.mProcessor.kill();
@@ -186,7 +186,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         else
         {
             Uri uri = Uri.parse(appSettingsManager.GetBaseFolder());
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,cameraUiWrapper.getContext());
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, cameraUiWrapper.getContext());
             DocumentFile wr = df.createFile("*/*", new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), ".mp4")).getName());
             ParcelFileDescriptor fileDescriptor = null;
             try {
@@ -225,7 +225,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         cameraHolder.CaptureSessionH.CreateCaptureSession(previewrdy);
     }
 
-    private StateCallback previewrdy = new StateCallback()
+    private final StateCallback previewrdy = new StateCallback()
     {
 
         @Override

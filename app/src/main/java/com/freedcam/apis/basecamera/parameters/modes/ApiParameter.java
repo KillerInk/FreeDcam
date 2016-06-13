@@ -30,9 +30,9 @@ import com.freedcam.utils.DeviceUtils.Devices;
  */
 public class ApiParameter extends AbstractModeParameter
 {
-    private I_Activity i_activity;
+    private final I_Activity i_activity;
     private final boolean DEBUG = false;
-    private AppSettingsManager appSettingsManager;
+    private final AppSettingsManager appSettingsManager;
 
     public ApiParameter(I_Activity i_activity,AppSettingsManager appSettingsManager) {
         this.i_activity = i_activity;

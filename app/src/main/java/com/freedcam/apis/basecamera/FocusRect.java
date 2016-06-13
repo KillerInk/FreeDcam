@@ -47,7 +47,7 @@ public class FocusRect
 
     public Rect getRect()
     {
-        return new Rect(left,right,top,bottom);
+        return new Rect(left, right, top, bottom);
     }
 
 }

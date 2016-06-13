@@ -32,9 +32,9 @@ public class XmlElement {
 
     private String mValue;
 
-    private LinkedList<XmlElement> mChildElements;
+    private final LinkedList<XmlElement> mChildElements;
 
-    private Map<String, String> mAttributes;
+    private final Map<String, String> mAttributes;
 
     private XmlElement mParentElement;
 

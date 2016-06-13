@@ -27,8 +27,6 @@ import android.view.SurfaceHolder;
 import com.freedcam.apis.basecamera.interfaces.CameraHolderInterface;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.interfaces.FocusEvents;
-import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
-
 import com.freedcam.utils.AppSettingsManager;
 
 /**
@@ -37,7 +35,7 @@ import com.freedcam.utils.AppSettingsManager;
  */
 public abstract class CameraHolderAbstract implements CameraHolderInterface
 {
-    protected boolean isRdy = false;
+    protected boolean isRdy;
     //handler wich runs in mainthread
     protected Handler UIHandler;
     //holds the appsettings
@@ -45,7 +43,7 @@ public abstract class CameraHolderAbstract implements CameraHolderInterface
 
     protected CameraWrapperInterface cameraUiWrapper;
 
-    protected AbstractModuleHandler moduleHandler;
+    //protected AbstractModuleHandler moduleHandler;
 
     /**
      *
@@ -55,7 +53,7 @@ public abstract class CameraHolderAbstract implements CameraHolderInterface
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
-        this.moduleHandler = cameraUiWrapper.GetModuleHandler();
+        //this.moduleHandler = cameraUiWrapper.GetModuleHandler();
         UIHandler = new Handler(Looper.getMainLooper());
     }
 
@@ -70,15 +68,10 @@ public abstract class CameraHolderAbstract implements CameraHolderInterface
     }
 
     @Override
-    public boolean OpenCamera(int camera)
-    {
-        return false;
-    }
+    public abstract boolean OpenCamera(int camera);
 
     @Override
-    public void CloseCamera() {
-
-    }
+    public abstract void CloseCamera();
 
     /**
      *

@@ -53,7 +53,7 @@ public class Lenovo_K920 extends BaseQcomDevice {
         switch (filesize)
         {
             case 19992576:  //lenovo k920
-                return new DngProfile(64, 5328,3000, DngProfile.Mipi, DngProfile.GBRG, 0,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(64, 5328,3000, DngProfile.Mipi, DngProfile.GBRG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
         }
         return null;
     }

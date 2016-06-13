@@ -35,7 +35,7 @@ import java.io.IOException;
  */
 public class ExposureCompManualParameterSony extends BaseManualParameterSony
 {
-    private static String TAG = ExposureCompManualParameterSony.class.getSimpleName();
+    private final String TAG = ExposureCompManualParameterSony.class.getSimpleName();
     public ExposureCompManualParameterSony(CameraWrapperInterface cameraUiWrapper) {
         super("getExposureCompensation", "getAvailableExposureCompensation", "setExposureCompensation", cameraUiWrapper);
         currentInt = -200;
@@ -56,14 +56,14 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                     return;
                 }
                 try {
-                    final int toset;
+                    int toset;
                     Logger.d(TAG, "SetValue " + valueToSet);
                     if (valueToSet > stringvalues.length)
                         toset = stringvalues.length -1;
                     else
                         toset = valueToSet;
                     array = new JSONArray().put(0, Integer.parseInt(stringvalues[toset]));
-                    JSONObject object =  ((ParameterHandler)cameraUiWrapper.GetParameterHandler()).mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
+                    JSONObject object =  ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).mRemoteApi.setParameterToCamera(VALUE_TO_SET, array);
 
                         //ThrowCurrentValueChanged(valueToSet);
                 } catch (JSONException e) {
@@ -89,7 +89,7 @@ public class ExposureCompManualParameterSony extends BaseManualParameterSony
                 {
                     try {
                         Logger.d(TAG, "try get min max values ");
-                        JSONObject object =  ((ParameterHandler)cameraUiWrapper.GetParameterHandler()).mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
+                        JSONObject object =  ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).mRemoteApi.getParameterFromCamera(VALUES_TO_GET);
                         JSONArray array = object.getJSONArray("result");
                         int min = array.getInt(2);
                         int max = array.getInt(1);

@@ -48,7 +48,7 @@ public class HotPixelModeApi2 extends BaseModeApi2
 
     @Override
     public boolean IsSupported() {
-        return cameraUiWrapper.GetCameraHolder() != null && ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.HOT_PIXEL_MODE) != null;
+        return cameraUiWrapper.GetCameraHolder() != null && ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.HOT_PIXEL_MODE) != null;
     }
 
     @Override
@@ -57,14 +57,14 @@ public class HotPixelModeApi2 extends BaseModeApi2
         if (valueToSet.contains("unknown Scene"))
             return;
         HotPixelModes sceneModes = Enum.valueOf(HotPixelModes.class, valueToSet);
-        ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.HOT_PIXEL_MODE, sceneModes.ordinal());
+        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.HOT_PIXEL_MODE, sceneModes.ordinal());
     }
 
 
     @Override
     public String GetValue()
     {
-        int i = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.HOT_PIXEL_MODE);
+        int i = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.HOT_PIXEL_MODE);
         HotPixelModes sceneModes = HotPixelModes.values()[i];
         return sceneModes.toString();
 
@@ -73,7 +73,7 @@ public class HotPixelModeApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        int[] values = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES);
+        int[] values = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.HOT_PIXEL_AVAILABLE_HOT_PIXEL_MODES);
         String[] retvals = new String[values.length];
         for (int i = 0; i < values.length; i++)
         {

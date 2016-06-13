@@ -67,7 +67,7 @@ public class LG_G2 extends AbstractDevice
 
     @Override
     public ManualParameterInterface getManualFocusParameter() {
-        return new FocusManualParameterLG(parameters,cameraUiWrapper);
+        return new FocusManualParameterLG(parameters, cameraUiWrapper);
     }
 
     @Override
@@ -85,9 +85,9 @@ public class LG_G2 extends AbstractDevice
         switch (filesize)
         {
             case 16224256:
-                return new DngProfile(64, 4208, 3082, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(64, 4208, 3082, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 16424960:
-                return new DngProfile(64, 4212, 3120, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(64, 4212, 3120, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
         }
         return null;
     }
@@ -98,7 +98,7 @@ public class LG_G2 extends AbstractDevice
     public ModeParameterInterface getVideoProfileMode()
     {
         if (cameraHolder.DeviceFrameWork == Frameworks.LG /*&& Build.VERSION.SDK_INT < 21*/)
-            return new VideoProfilesG3Parameter(parameters,cameraUiWrapper);
+            return new VideoProfilesG3Parameter(parameters, cameraUiWrapper);
         else
             return super.getVideoProfileMode();
     }

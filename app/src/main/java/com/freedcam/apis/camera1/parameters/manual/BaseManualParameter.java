@@ -36,7 +36,7 @@ import com.freedcam.utils.Logger;
 public class BaseManualParameter extends AbstractManualParameter
 {
 
-    private static String TAG = BaseManualParameter.class.getSimpleName();
+    private final String TAG = BaseManualParameter.class.getSimpleName();
     /**
      * Holds the list of Supported parameters
      */
@@ -57,8 +57,9 @@ public class BaseManualParameter extends AbstractManualParameter
 
     protected float step;
 
-    private int default_value = 0;
-    public void Set_Default_Value(int val){default_value = val; Logger.d(TAG, "set default to:" + val);}
+    private int default_value;
+    public void Set_Default_Value(int val){
+        default_value = val; Logger.d(TAG, "set default to:" + val);}
     public int Get_Default_Value(){return default_value;}
 
     public void ResetToDefault()
@@ -166,7 +167,7 @@ public class BaseManualParameter extends AbstractManualParameter
         ThrowCurrentValueStringCHanged(stringvalues[valueToset]);
         try
         {
-            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
         }
         catch (Exception ex)
         {
@@ -180,7 +181,7 @@ public class BaseManualParameter extends AbstractManualParameter
         return picformatListner;
     }
 
-    private I_ModeParameterEvent picformatListner = new I_ModeParameterEvent()
+    private final I_ModeParameterEvent picformatListner = new I_ModeParameterEvent()
     {
 
         @Override
@@ -224,7 +225,7 @@ public class BaseManualParameter extends AbstractManualParameter
         return moduleListner;
     }
 
-    private I_ModuleEvent moduleListner =new I_ModuleEvent() {
+    private final I_ModuleEvent moduleListner =new I_ModuleEvent() {
         @Override
         public void ModuleChanged(String module)
         {

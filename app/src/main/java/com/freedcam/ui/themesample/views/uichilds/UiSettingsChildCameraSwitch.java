@@ -35,7 +35,7 @@ import com.freedcam.utils.AppSettingsManager;
 public class UiSettingsChildCameraSwitch extends UiSettingsChild
 {
     private CameraWrapperInterface cameraUiWrapper;
-    private int currentCamera = 0;
+    private int currentCamera;
     public UiSettingsChildCameraSwitch(Context context) {
         super(context);
     }
@@ -69,10 +69,10 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
         this.cameraUiWrapper = cameraUiWrapper;
         if (cameraUiWrapper instanceof Camera1Fragment)
         {
-            setVisibility(GONE);
+            setVisibility(View.GONE);
         }
         else {
-            setVisibility(VISIBLE);
+            setVisibility(View.VISIBLE);
         }
     }
 
@@ -84,9 +84,9 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
 
         appSettingsManager.SetCurrentCamera(currentCamera);
         sendLog("Stop Preview and Camera");
-        if (cameraUiWrapper.GetCameraHolder() != null &&  cameraUiWrapper.getSurfaceView() instanceof ExtendedSurfaceView)
+        if (cameraUiWrapper.GetCameraHolder() != null && cameraUiWrapper.getSurfaceView() instanceof ExtendedSurfaceView)
         {
-            ((ExtendedSurfaceView)cameraUiWrapper.getSurfaceView()).SwitchViewMode();
+            ((ExtendedSurfaceView) cameraUiWrapper.getSurfaceView()).SwitchViewMode();
         }
         cameraUiWrapper.StopCamera();
         cameraUiWrapper.StartCamera();

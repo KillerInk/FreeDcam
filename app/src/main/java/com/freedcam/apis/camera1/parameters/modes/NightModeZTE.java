@@ -32,10 +32,10 @@ import com.freedcam.utils.Logger;
 public class NightModeZTE extends BaseModeParameter
 {
     final String TAG = NightModeZTE.class.getSimpleName();
-    private boolean visible = true;
-    private String state = "";
+    private final boolean visible = true;
+    private final String state = "";
     private String format = "";
-    private String curmodule = "";
+    private final String curmodule = "";
     public NightModeZTE(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
         isSupported = true;
@@ -47,7 +47,7 @@ public class NightModeZTE extends BaseModeParameter
     @Override
     public boolean IsSupported()
     {
-        return  isSupported;
+        return isSupported;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class NightModeZTE extends BaseModeParameter
     {
         parameters.set(KEYS.NIGHT_KEY, valueToSet);
         try {
-            ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
             BackgroundValueHasChanged(valueToSet);
         }
         catch (Exception ex)

@@ -56,14 +56,14 @@ public class ControlModesApi2 extends BaseModeApi2
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {
         ControlModes modes = Enum.valueOf(ControlModes.class, valueToSet);
-        ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_MODE, modes.ordinal());
+        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_MODE, modes.ordinal());
     }
 
     @Override
     public String GetValue() {
         int i = 0;
         try {
-            i = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.CONTROL_MODE);
+            i = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.CONTROL_MODE);
         }
         catch (Exception ex)
         {
@@ -78,7 +78,7 @@ public class ControlModesApi2 extends BaseModeApi2
     @Override
     public String[] GetValues()
     {
-        int device = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
+        int device = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
         if (device == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL) {
             return new String[]{"off",
                     "auto",

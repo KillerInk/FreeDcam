@@ -38,8 +38,8 @@ import com.freedcam.utils.Logger;
  */
 public class LocationParameter extends AbstractModeParameter implements LocationListener
 {
-    private LocationManager locationManager;
-    private CameraWrapperInterface cameraUiWrapper;
+    private final LocationManager locationManager;
+    private final CameraWrapperInterface cameraUiWrapper;
 
 
     private final int updateTime = 60*1000;

@@ -49,17 +49,17 @@ public class Xiaomi_Mi_Note_Pro extends BaseQcomDevice {
         switch (filesize)
         {
             case 17612800:
-                return new DngProfile(64, 4212, 3120, DngProfile.Qcom, DngProfile.RGGB, 0,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(64, 4212, 3120, DngProfile.Qcom, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 6721536:
                 return new DngProfile(64,2592,1296,DngProfile.Qcom,DngProfile.BGGR,0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 16560128:
-                return new DngProfile(64, 4208, 3120, DngProfile.Mipi16, DngProfile.RGGB, 0,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(64, 4208, 3120, DngProfile.Mipi16, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
         }
         return null;
     }
 
     @Override
     public ModeParameterInterface getNightMode() {
-        return new NightModeXiaomi(parameters,cameraUiWrapper);
+        return new NightModeXiaomi(parameters, cameraUiWrapper);
     }
 }

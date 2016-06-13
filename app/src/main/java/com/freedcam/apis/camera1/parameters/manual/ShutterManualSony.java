@@ -32,7 +32,7 @@ import com.freedcam.utils.Logger;
 public class ShutterManualSony extends AbstractManualShutter
 {
     final String TAG = ShutterManualSony.class.getSimpleName();
-    private Parameters parameters;
+    private final Parameters parameters;
     /**
      * @param parameters
      * @param maxValue
@@ -73,6 +73,6 @@ public class ShutterManualSony extends AbstractManualShutter
         currentInt = valueToSet;
         parameters.set("sony-ae-mode", "manual");
         parameters.set("sony-shutter-speed", stringvalues[currentInt]);
-        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 }

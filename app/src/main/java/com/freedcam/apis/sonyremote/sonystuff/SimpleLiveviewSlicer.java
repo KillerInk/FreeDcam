@@ -30,7 +30,7 @@ class SimpleLiveviewSlicer {
      * 
      * @param liveviewUrl Liveview data url that is obtained by DD.xml or result
      *            of startLiveview API.
-     * @throws java.io.IOException generic errors or exception.
+     * @throws IOException generic errors or exception.
      */
     public void open(String liveviewUrl) throws IOException {
         if (mInputStream != null || mHttpConn != null) {
@@ -51,7 +51,7 @@ class SimpleLiveviewSlicer {
     /**
      * Closes the connection.
      *
-     * @throws java.io.IOException generic errors or exception.
+     * @throws IOException generic errors or exception.
      */
     public void close() {
         try {
@@ -103,7 +103,7 @@ class SimpleLiveviewSlicer {
      * @param in
      * @param length
      * @return
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public static byte[] readBytes(InputStream in, int length) throws IOException {
         ByteArrayOutputStream tmpByteArray = new ByteArrayOutputStream();

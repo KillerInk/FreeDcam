@@ -39,19 +39,19 @@ import com.lge.real3d.Real3DInfo;
  */
 public class ExtendedSurfaceView extends SurfaceView
 {
-    private boolean hasReal3d = false;
-    private boolean hasOpenSense = false;
-    private static String TAG = ExtendedSurfaceView.class.getSimpleName();
+    private boolean hasReal3d;
+    private boolean hasOpenSense;
+    private final String TAG = ExtendedSurfaceView.class.getSimpleName();
     private Context context;
 
     private SurfaceHolder mHolder;
     private SharedPreferences preferences;
 
     private Real3D mReal3D;
-    private boolean is3D = false;
+    private boolean is3D;
 
-    private int mRatioWidth = 0;
-    private int mRatioHeight = 0;
+    private int mRatioWidth;
+    private int mRatioHeight;
     public AbstractParameterHandler ParametersHandler;
 
     public ExtendedSurfaceView(Context context) {
@@ -140,13 +140,13 @@ public class ExtendedSurfaceView extends SurfaceView
             {
                 is3D = true;
                 mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_SS, Real3D.REAL3D_ORDER_LR));
-                Logger.d(TAG, "Set 3d");
+                Logger.d(this.TAG, "Set 3d");
             }
             else
             {
                 is3D = false;
                 mReal3D.setReal3DInfo(new Real3DInfo(true, Real3D.REAL3D_TYPE_NONE, 0));
-                Logger.d(TAG, "Set 2d");
+                Logger.d(this.TAG, "Set 2d");
             }
         }
     }

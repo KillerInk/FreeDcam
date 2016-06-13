@@ -41,13 +41,13 @@ import java.util.ArrayList;
  */
 public class AeHandler
 {
-    private CameraHolderApi2 cameraHolder;
-    private CameraWrapperInterface cameraUiWrapper;
-    private ParameterHandler parameterHandler;
-    private AeModeApi2 aeModeApi2;
-    private ManualExposureApi2 manualExposureApi2;
-    private ManualExposureTimeApi2 manualExposureTimeApi2;
-    private ManualISoApi2 manualISoApi2;
+    private final CameraHolderApi2 cameraHolder;
+    private final CameraWrapperInterface cameraUiWrapper;
+    private final ParameterHandler parameterHandler;
+    private final AeModeApi2 aeModeApi2;
+    private final ManualExposureApi2 manualExposureApi2;
+    private final ManualExposureTimeApi2 manualExposureTimeApi2;
+    private final ManualISoApi2 manualISoApi2;
 
     private AEModes activeAeMode = AEModes.on;
 
@@ -113,12 +113,12 @@ public class AeHandler
     @TargetApi(VERSION_CODES.LOLLIPOP)
     public class AeModeApi2 extends BaseModeApi2
     {
-        private boolean isSupported = false;
-        private String[] aemodeStringValues;
+        private boolean isSupported;
+        private final String[] aemodeStringValues;
         public AeModeApi2(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper);
             int[] values = AeHandler.this.cameraHolder.characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES);
-            aemodeStringValues= new String[values.length];
+            aemodeStringValues = new String[values.length];
             for (int i = 0; i < values.length; i++)
             {
                 try {
@@ -229,7 +229,7 @@ public class AeHandler
     public class ManualExposureTimeApi2 extends AbstractManualShutter
     {
         final String TAG = ManualExposureTimeApi2.class.getSimpleName();
-        private int millimax = 0;
+        private int millimax;
         public ManualExposureTimeApi2(CameraWrapperInterface cameraUiWrapper) {
             super(cameraUiWrapper);
             isSupported = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE) != null;
@@ -293,14 +293,14 @@ public class AeHandler
                 valueToSet = stringvalues.length - 1;
             currentInt = valueToSet;
             if (valueToSet > 0) {
-                long val = (long) (getMilliSecondStringFromShutterString(stringvalues[valueToSet]) * 1000f);
+                long val = (long) (AbstractManualShutter.getMilliSecondStringFromShutterString(stringvalues[valueToSet]) * 1000f);
                 Logger.d(TAG, "ExposureTimeToSet:" + val);
                 if (val > 800000000 &&!cameraUiWrapper.GetParameterHandler().Module.GetValue().equals("Stack")) {
                     Logger.d(TAG, "ExposureTime Exceed 0,8sec for preview, set it to 0,8sec");
                     val = 800000000;
                 }
                 //check if calced value is not bigger then max returned from cam
-                if (val > millimax*1000)
+                if (val > millimax *1000)
                     val = millimax *1000;
                 cameraHolder.SetParameterRepeating(CaptureRequest.SENSOR_EXPOSURE_TIME, val);
                 ThrowCurrentValueChanged(valueToSet);

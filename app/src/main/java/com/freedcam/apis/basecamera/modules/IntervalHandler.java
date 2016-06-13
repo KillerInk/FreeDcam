@@ -31,17 +31,17 @@ import java.util.Date;
  */
 class IntervalHandler
 {
-    private AbstractModule picmodule;
+    private final AbstractModule picmodule;
 
     private final String TAG = IntervalHandler.class.getSimpleName();
 
-    private int intervalDuration = 0;
-    private int shutterDelay = 0;
-    private int intervalToEndDuration = 0;
-    private Handler handler;
-    private long startTime = 0;
-    private boolean working = false;
-    private AppSettingsManager appSettingsManager;
+    private int intervalDuration;
+    private int shutterDelay;
+    private int intervalToEndDuration;
+    private final Handler handler;
+    private long startTime;
+    private boolean working;
+    private final AppSettingsManager appSettingsManager;
 
     public boolean IsWorking() {return working;}
 
@@ -57,7 +57,7 @@ class IntervalHandler
         Logger.d(TAG, "Start Interval");
         working = true;
         startTime = new Date().getTime();
-        String interval =  picmodule.cameraUiWrapper.GetParameterHandler().IntervalShutterSleep.GetValue().replace(" sec", "");
+        String interval = picmodule.cameraUiWrapper.GetParameterHandler().IntervalShutterSleep.GetValue().replace(" sec", "");
         intervalDuration = Integer.parseInt(interval)*1000;
 
         String endDuration = picmodule.cameraUiWrapper.GetParameterHandler().IntervalDuration.GetValue().replace(" min","");
@@ -83,12 +83,12 @@ class IntervalHandler
     {
 
         String t = "Time:"+String.format("%.2f ", (double) (new Date().getTime() - startTime) /1000 / 60);
-        t+= "/"+intervalToEndDuration+ " NextIn:" + shuttercounter +"/" + intervalDuration/1000;
+        t+= "/"+ intervalToEndDuration + " NextIn:" + shuttercounter +"/" + intervalDuration /1000;
         picmodule.cameraUiWrapper.GetCameraHolder().SendUIMessage(t);
 
     }
 
-    private int shuttercounter = 0;
+    private int shuttercounter;
     public void DoNextInterval()
     {
         long dif = new Date().getTime() - startTime;
@@ -107,7 +107,7 @@ class IntervalHandler
     }
 
     private int intervalDelayCounter;
-    private Runnable intervalDelayRunner =new Runnable() {
+    private final Runnable intervalDelayRunner =new Runnable() {
         @Override
         public void run()
         {
@@ -124,7 +124,7 @@ class IntervalHandler
         }
     };
 
-    private Runnable shutterDelayRunner =new Runnable() {
+    private final Runnable shutterDelayRunner =new Runnable() {
         @Override
         public void run()
         {
@@ -135,10 +135,10 @@ class IntervalHandler
 
     private void msg()
     {
-        picmodule.cameraUiWrapper.GetCameraHolder().SendUIMessage(shutterWaitCounter+"");
+        picmodule.cameraUiWrapper.GetCameraHolder().SendUIMessage(shutterWaitCounter +"");
     }
 
-    private int shutterWaitCounter =0;
+    private int shutterWaitCounter;
     private void startShutterDelay()
     {
         Logger.d(TAG, "Start ShutterDelay in " + shutterDelay);

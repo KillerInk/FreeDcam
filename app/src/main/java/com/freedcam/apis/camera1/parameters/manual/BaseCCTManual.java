@@ -33,9 +33,9 @@ import java.util.ArrayList;
  */
 public class BaseCCTManual extends BaseManualParameter
 {
-    static final String TAG = BaseCCTManual.class.getSimpleName();
+    private final String TAG = BaseCCTManual.class.getSimpleName();
 
-    private String manual_WbMode;
+    private final String manual_WbMode;
     /**
      * @param parameters
      * @param value
@@ -70,7 +70,7 @@ public class BaseCCTManual extends BaseManualParameter
         {
             set_manual();
         }
-        ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 
     protected void set_manual()

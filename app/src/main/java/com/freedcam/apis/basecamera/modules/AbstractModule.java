@@ -45,7 +45,7 @@ import java.io.OutputStream;
 public abstract class AbstractModule implements ModuleInterface
 {
 
-    protected boolean isWorking = false;
+    protected boolean isWorking;
     public String name;
 
     protected CaptureStateChanged captureStateChangedListner;
@@ -124,7 +124,7 @@ public abstract class AbstractModule implements ModuleInterface
             }
             else
             {
-                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,cameraUiWrapper.getContext());
+                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, cameraUiWrapper.getContext());
                 Logger.d(TAG,"Filepath: " + df.getUri());
                 DocumentFile wr = df.createFile("image/*", fileName.getName());
                 Logger.d(TAG,"Filepath: " + wr.getUri());
@@ -158,7 +158,7 @@ public abstract class AbstractModule implements ModuleInterface
         }
         else
         {
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,cameraUiWrapper.getContext());
+            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, cameraUiWrapper.getContext());
             Logger.d(TAG,"Filepath: " + df.getUri());
             DocumentFile wr = df.createFile("image/*", file.getName());
             Logger.d(TAG,"Filepath: " + wr.getUri());

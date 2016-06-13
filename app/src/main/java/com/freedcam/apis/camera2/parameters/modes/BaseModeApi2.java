@@ -34,7 +34,7 @@ public class BaseModeApi2 extends AbstractModeParameter
 {
     private final String TAG = BaseModeApi2.class.getSimpleName();
     protected CameraWrapperInterface cameraUiWrapper;
-    boolean isSupported = false;
+    boolean isSupported;
 
     public BaseModeApi2(CameraWrapperInterface cameraUiWrapper)
     {
@@ -67,7 +67,7 @@ public class BaseModeApi2 extends AbstractModeParameter
     @TargetApi(VERSION_CODES.LOLLIPOP)
     private void setIntKey(Key<Integer> key, int value)
     {
-        ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(key, value);
+        ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(key, value);
     }
 
 

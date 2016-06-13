@@ -160,7 +160,7 @@ public class MenuItemSaveCamParams extends MenuItem
     private void saveCamParameters()
     {
         String[] paras = null;
-        CameraHolder holder = (CameraHolder)cameraUiWrapper.GetCameraHolder();
+        CameraHolder holder = (CameraHolder) cameraUiWrapper.GetCameraHolder();
 
         paras = holder.GetCamera().getParameters().flatten().split(";");
 

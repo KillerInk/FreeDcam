@@ -46,11 +46,10 @@ import java.util.List;
 /**
  * Created by GeorgeKiarie on 13/04/2016.
  */
-public class StackingModule extends PictureModule implements Camera.PictureCallback
-{
+public class StackingModule extends PictureModule {
     final String TAG = StackingModule.class.getSimpleName();
-    private boolean KeepStacking = false;
-    private int FrameCount = 0;
+    private boolean KeepStacking;
+    private int FrameCount;
     private String SessionFolder="";
     private List<File> capturedPics;
 
@@ -166,7 +165,7 @@ public class StackingModule extends PictureModule implements Camera.PictureCallb
         Logger.d(TAG, "start preview");
         Logger.d(TAG,"The Data Is " + data.length + " bytes Long" + " and the path is " + file.getAbsolutePath());
         //create file to save
-        File f = new File(SessionFolder+StringUtils.getStringDatePAttern().format(new Date())+".jpg");
+        File f = new File(SessionFolder +StringUtils.getStringDatePAttern().format(new Date())+".jpg");
         //save file
         saveBytesToFile(data,f);
         //add file for later stack

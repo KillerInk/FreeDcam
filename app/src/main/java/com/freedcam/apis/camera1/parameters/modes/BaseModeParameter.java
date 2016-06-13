@@ -48,13 +48,13 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
      */
     protected String key_values;
     //if the parameter is supported
-    boolean isSupported = false;
+    boolean isSupported;
     //if the parameter is visibile to ui
     boolean isVisible = true;
     //the parameters from the android.Camera
     protected Parameters  parameters;
     protected CameraWrapperInterface cameraUiWrapper;
-    private static String TAG = BaseModeParameter.class.getSimpleName();
+    private final String TAG = BaseModeParameter.class.getSimpleName();
 
     /*
     The stored StringValues from the parameter
@@ -104,7 +104,7 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
         else
             isSupported =false;
         isVisible = isSupported;
-        Logger.d(TAG, key_value + ":" +isSupported);
+        Logger.d(TAG, key_value + ":" + isSupported);
     }
 
     @Override
@@ -128,7 +128,7 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
         BackgroundValueHasChanged(valueToSet);
         if (setToCam) {
             try {
-                ((ParametersHandler)cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+                ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
 
             } catch (Exception ex) {
                 Logger.exception(ex);

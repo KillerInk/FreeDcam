@@ -46,9 +46,7 @@ import com.freedcam.ui.ImageViewTouchAreaHandler;
 import com.freedcam.ui.ImageViewTouchAreaHandler.I_TouchListnerEvent;
 import com.freedcam.ui.themesample.SampleThemeFragment;
 import com.troop.freedcam.R;
-import com.troop.freedcam.R.dimen;
-import com.troop.freedcam.R.drawable;
-import com.troop.freedcam.R.id;
+
 
 
 /**
@@ -57,23 +55,23 @@ import com.troop.freedcam.R.id;
 public class FocusImageHandler extends AbstractFocusImageHandler
 {
     private CameraWrapperInterface wrapper;
-    private ImageView focusImageView;
+    private final ImageView focusImageView;
     private int disHeight;
     private int disWidth;
     private int marginLeft;
     private int marginRight;
-    private int recthalf;
-    private ImageView cancelFocus;
-    private ImageView meteringArea;
+    private final int recthalf;
+    private final ImageView cancelFocus;
+    private final ImageView meteringArea;
     private FocusRect meteringRect;
 
     public FocusImageHandler(View view, Fragment fragment)
     {
         super(view, fragment);
-        focusImageView = (ImageView)view.findViewById(id.imageView_Crosshair);
-        cancelFocus = (ImageView)view.findViewById(id.imageViewFocusClose);
-        meteringArea = (ImageView)view.findViewById(id.imageView_meteringarea);
-        recthalf = fragment.getResources().getDimensionPixelSize(dimen.crosshairwidth)/2;
+        focusImageView = (ImageView)view.findViewById(R.id.imageView_Crosshair);
+        cancelFocus = (ImageView)view.findViewById(R.id.imageViewFocusClose);
+        meteringArea = (ImageView)view.findViewById(R.id.imageView_meteringarea);
+        recthalf = fragment.getResources().getDimensionPixelSize(R.dimen.crosshairwidth)/2;
 
         cancelFocus.setVisibility(View.GONE);
         cancelFocus.setOnClickListener(new OnClickListener() {
@@ -135,7 +133,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                 @Override
                 public void run() {
                     focusImageView.setLayoutParams(mParams);
-                    focusImageView.setBackgroundResource(drawable.crosshair_circle_normal);
+                    focusImageView.setBackgroundResource(R.drawable.crosshair_circle_normal);
                     focusImageView.setVisibility(View.VISIBLE);
                     Animation anim = AnimationUtils.loadAnimation(focusImageView.getContext(), R.anim.scale_focusimage);
                     focusImageView.startAnimation(anim);
@@ -153,9 +151,9 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                 @Override
                 public void run() {
                     if (success)
-                        focusImageView.setBackgroundResource(drawable.crosshair_circle_success);
+                        focusImageView.setBackgroundResource(R.drawable.crosshair_circle_success);
                     else
-                        focusImageView.setBackgroundResource(drawable.crosshair_circle_failed);
+                        focusImageView.setBackgroundResource(R.drawable.crosshair_circle_failed);
 
                     focusImageView.setAnimation(null);
                 }
@@ -209,7 +207,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         return false;
     }
 
-    private I_TouchListnerEvent meteringTouch = new I_TouchListnerEvent() {
+    private final I_TouchListnerEvent meteringTouch = new I_TouchListnerEvent() {
         @Override
         public void onAreaCHanged(FocusRect imageRect, int previewWidth, int previewHeight) {
             if (wrapper != null)
@@ -265,7 +263,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         disHeight = wrapper.getPreviewHeight();
         marginLeft = wrapper.getMargineLeft();
         marginRight = wrapper.getMargineRight();
-        if (x > marginLeft && x < disWidth + marginLeft ) {
+        if (x > marginLeft && x < disWidth + marginLeft) {
             if (x < marginLeft + recthalf)
                 x = marginLeft + recthalf;
             if (x > marginRight - recthalf)
@@ -293,7 +291,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             return null;
         if (VERSION.SDK_INT >= 17)
         {
-            WindowManager wm = (WindowManager)fragment.getActivity().getSystemService(Context.WINDOW_SERVICE);
+            WindowManager wm = (WindowManager) fragment.getActivity().getSystemService(Context.WINDOW_SERVICE);
             Point size =  new Point();
             wm.getDefaultDisplay().getRealSize(size);
             if (fragment.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {

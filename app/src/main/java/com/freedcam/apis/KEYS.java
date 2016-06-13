@@ -207,10 +207,10 @@ public final class KEYS {
     public static final String MTK_NOISE_REDUCTION_MODE = "3dnr-mode";
     public static final String MTK_NOISE_REDUCTION_MODE_VALUES = "3dnr-mode-values";
 
-    public final static String CUR_ISO_MTK  = "eng-capture-sensor-gain";
-    public final static String CUR_ISO_MTK2  = "cap-isp-g";
-    public final static String CUR_EXPOSURE_TIME_MTK  = "eng-capture-shutter-speed";
-    public final static String CUR_EXPOSURE_TIME_MTK1  = "cap-ss";
+    public static final String CUR_ISO_MTK  = "eng-capture-sensor-gain";
+    public static final String CUR_ISO_MTK2  = "cap-isp-g";
+    public static final String CUR_EXPOSURE_TIME_MTK  = "eng-capture-shutter-speed";
+    public static final String CUR_EXPOSURE_TIME_MTK1  = "cap-ss";
 
 
 
@@ -246,8 +246,8 @@ public final class KEYS {
     public static final String LG_SHUTTER_SPEED = "shutter-speed";
 
     //ZTE
-    public final static String NIGHT_KEY = "night_key";
-    public final static String NIGHT_MODE_TRIPOD = "tripod";
+    public static final String NIGHT_KEY = "night_key";
+    public static final String NIGHT_MODE_TRIPOD = "tripod";
 
     //HTC
     public static final String MAX_FOCUS = "max-focus";

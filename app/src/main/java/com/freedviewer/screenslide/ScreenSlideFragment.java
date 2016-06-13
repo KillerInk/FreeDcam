@@ -73,7 +73,7 @@ import java.io.IOException;
 public class ScreenSlideFragment extends Fragment implements OnPageChangeListener, I_OnActivityResultCallback, I_WaitForWorkFinish
 {
 
-    public static final String TAG = ScreenSlideFragment.class.getSimpleName();
+    public final String TAG = ScreenSlideFragment.class.getSimpleName();
     public interface I_ThumbClick
     {
         void onThumbClick();
@@ -85,7 +85,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         void onClick(Fragment fragment);
     }
 
-    private int mImageThumbSize = 0;
+    private int mImageThumbSize;
     private AppSettingsManager appSettingsManager;
 
     /**
@@ -122,7 +122,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
     private FileHolder file;
     private BitmapHelper bitmapHelper;
 
-    private boolean waitForCameraHasLoaded = false;
+    private boolean waitForCameraHasLoaded;
 
     public void SetAppSettingsManagerAndBitmapHelper(AppSettingsManager appSettingsManager, BitmapHelper helper)
     {
@@ -204,7 +204,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
                     builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
                             .setNegativeButton("No", dialogClickListener).show();
                 } else {
-                    DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(appSettingsManager,getContext());
+                    DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(appSettingsManager, getContext());
                     if (sdDir == null) {
                         I_Activity i_activity = (I_Activity) getActivity();
                         i_activity.ChooseSDCard(ScreenSlideFragment.this);
@@ -218,7 +218,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
 
             }
         });
-        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(),mPager,fragmentclickListner,filestoshow,appSettingsManager,bitmapHelper);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager(), mPager, fragmentclickListner, filestoshow, appSettingsManager, bitmapHelper);
         mPager.setAdapter(mPagerAdapter);
         mPager.addOnPageChangeListener(this);
         if (!waitForCameraHasLoaded)
@@ -266,7 +266,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
     {
         updateUi(mPagerAdapter.getCurrentFile());
-        ImageFragment fragment = (ImageFragment)mPagerAdapter.getRegisteredFragment(position);
+        ImageFragment fragment = (ImageFragment) mPagerAdapter.getRegisteredFragment(position);
         if (fragment == null)
         {
             histogram.setVisibility(View.GONE);
@@ -320,7 +320,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
 
     }
 
-    private FragmentClickClistner fragmentclickListner = new FragmentClickClistner() {
+    private final FragmentClickClistner fragmentclickListner = new FragmentClickClistner() {
         @Override
         public void onClick(Fragment v) {
             if (topbar.getVisibility() == View.GONE) {
@@ -357,12 +357,12 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         }
     }
 
-    private OnClickListener dialogClickListener = new OnClickListener() {
+    private final OnClickListener dialogClickListener = new OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
-                    bitmapHelper.DeleteFile(file,appSettingsManager,getContext());
+                    bitmapHelper.DeleteFile(file, appSettingsManager, getContext());
                     MediaScannerManager.ScanMedia(getContext(), file.getFile());
                     reloadFilesAndSetLastPos();
                     break;

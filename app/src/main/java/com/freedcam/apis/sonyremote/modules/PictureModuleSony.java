@@ -47,8 +47,8 @@ import java.net.URL;
  */
 public class PictureModuleSony extends AbstractModule implements I_PictureCallback, I_CameraStatusChanged
 {
-    private static String TAG = PictureModuleSony.class.getSimpleName();
-    private CameraHolderSony cameraHolder;
+    private final String TAG = PictureModuleSony.class.getSimpleName();
+    private final CameraHolderSony cameraHolder;
 
     public PictureModuleSony(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
@@ -141,7 +141,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
                 output = new FileOutputStream(file);
             else
             {
-                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager,cameraUiWrapper.getContext());
+                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, cameraUiWrapper.getContext());
                 DocumentFile wr = df.createFile("image/jpeg", file.getName());
                 output = cameraUiWrapper.getContext().getContentResolver().openOutputStream(wr.getUri());
             }

@@ -44,10 +44,10 @@ public class TouchHandler
     private int startY;
     private int currentX;
     private int currentY;
-    private boolean swipeDetected = false;
-    private boolean newActionBlocked = false;
+    private boolean swipeDetected;
+    private boolean newActionBlocked;
     private final int blockTime = 500;
-    private Handler handler;
+    private final Handler handler;
 
 
     TouchHandler()
@@ -92,7 +92,7 @@ public class TouchHandler
                     L("On Click happen");
                     OnClick((int) event.getX(), (int) event.getY());
                     newActionBlocked = true;
-                    handler.postDelayed(resetActionBlock,blockTime);
+                    handler.postDelayed(resetActionBlock, blockTime);
                 }
                 swipeDetected = false;
                 fireagain = false;
@@ -131,13 +131,13 @@ public class TouchHandler
                     doBottomToTopSwipe();
             }
             newActionBlocked = true;
-            handler.postDelayed(resetActionBlock,blockTime);
+            handler.postDelayed(resetActionBlock, blockTime);
             return false;
         }
         return false;
     }
 
-    private Runnable resetActionBlock = new Runnable() {
+    private final Runnable resetActionBlock = new Runnable() {
         @Override
         public void run() {
             newActionBlocked = false;

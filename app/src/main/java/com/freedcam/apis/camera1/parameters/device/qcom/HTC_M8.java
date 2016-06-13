@@ -29,7 +29,6 @@ import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
-import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.device.AbstractDevice;
 import com.freedcam.apis.camera1.parameters.manual.htc.CCTManualHtc;
 import com.freedcam.apis.camera1.parameters.manual.htc.ShutterManualParameterHTC;
@@ -87,7 +86,7 @@ public class HTC_M8 extends AbstractDevice {
         if (filesize < 6000000 && filesize > 5382641) //qcom
             return new DngProfile(0, 2688, 1520, DngProfile.Qcom, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));
         else if (filesize <= 5382641 && filesize > 5000000)//M8 mipi
-            return new DngProfile(0, 2688, 1520, DngProfile.Mipi16, DngProfile.GRBG, DngProfile.HTCM8_rowSize,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));
+            return new DngProfile(0, 2688, 1520, DngProfile.Mipi16, DngProfile.GRBG, DngProfile.HTCM8_rowSize, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));
         return null;
     }
 
@@ -112,6 +111,6 @@ public class HTC_M8 extends AbstractDevice {
         ArrayList<Camera.Area> ar = new ArrayList<>();
         ar.add(a);
         parameters.setFocusAreas(ar);
-        ((ParametersHandler)parametersHandler).SetParametersToCamera(parameters);
+        parametersHandler.SetParametersToCamera(parameters);
     }
 }

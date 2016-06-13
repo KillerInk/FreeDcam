@@ -24,6 +24,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.AbsoluteLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -93,11 +94,11 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         inflater.inflate(layout.gridimageview, this);
         imageView = (ImageView) findViewById(id.gridimageviewholder);
         imageView.setScaleType(ScaleType.CENTER_CROP);
-        textView = (TextView)findViewById(id.filetypetextbox);
-        folderTextView = (TextView)findViewById(id.foldertextbox);
-        checkBox = (ImageView)findViewById(id.checkBox_gridviewimage);
-        sdcard = (ImageView)findViewById(id.imageView_sd);
-        progressBar = (ProgressBar)findViewById(id.progressBar_gridimageview);
+        textView = (TextView) findViewById(id.filetypetextbox);
+        folderTextView = (TextView) findViewById(id.foldertextbox);
+        checkBox = (ImageView) findViewById(id.checkBox_gridviewimage);
+        sdcard = (ImageView) findViewById(id.imageView_sd);
+        progressBar = (ProgressBar) findViewById(id.progressBar_gridimageview);
         /*checkBox.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,11 +148,11 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         switch (state)
         {
             case normal:
-                checkBox.setVisibility(GONE);
+                checkBox.setVisibility(View.GONE);
                 setChecked(false);
                 break;
             case selection:
-                checkBox.setVisibility(VISIBLE);
+                checkBox.setVisibility(View.VISIBLE);
                 if (fileHolder.IsSelected())
                 {
                     setChecked(true);
@@ -190,11 +191,11 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         if (!fileHolder.getFile().isDirectory())
         {
             imageView.setImageResource(drawable.noimage);
-            progressBar.setVisibility(VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
             executor.execute(new BitmapLoadRunnable(this,fileHolder));
         }
         else {
-            progressBar.setVisibility(GONE);
+            progressBar.setVisibility(View.GONE);
             imageView.setImageResource(drawable.folder);
         }
         String f = fileHolder.getFile().getName();
@@ -207,9 +208,9 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
             SetFolderName(f);
         }
         if (fileHolder.isExternalSD())
-            sdcard.setVisibility(VISIBLE);
+            sdcard.setVisibility(View.VISIBLE);
         else
-            sdcard.setVisibility(GONE);
+            sdcard.setVisibility(View.GONE);
         invalidate();
 
     }
@@ -239,7 +240,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
                     imageView.post(new Runnable() {
                         @Override
                         public void run() {
-                            progressBar.setVisibility(GONE);
+                            progressBar.setVisibility(View.GONE);
                             imageView.imageView.setImageBitmap(bitmap);
                         }
                     });

@@ -67,7 +67,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
     //holds the current api camerafragment
     private CameraFragmentAbstract cameraFragment;
     //hold the state if logging to file is true when folder /sdcard/DCIM/DEBUG/ is created
-    private boolean savelogtofile = false;
+    private boolean savelogtofile;
     //holds the default UncaughtExecptionHandler from activity wich get replaced with own to have a change to save
     //fc to file and pass it back when done and let app crash as it should
     private UncaughtExceptionHandler defaultEXhandler;
@@ -184,11 +184,11 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         //setup apihandler and register listner for apiDetectionDone
         //api handler itself checks first if its a camera2 full device
         //and if yes loads camera2fragment else load camera1fragment
-        apiHandler = new ApiHandler(getApplicationContext(),this,appSettingsManager,renderScriptHandler);
+        apiHandler = new ApiHandler(getApplicationContext(),this, appSettingsManager, renderScriptHandler);
         //check if camera is camera2 full device
         apiHandler.CheckApi();
         //listen to phone hw keys events
-        hardwareKeyHandler = new HardwareKeyHandler(this,appSettingsManager);
+        hardwareKeyHandler = new HardwareKeyHandler(this, appSettingsManager);
     }
 
     //if a DEBUG folder is inside /DCIM/FreeDcam/ logging to file gets started
@@ -315,7 +315,7 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
         return haskey;
     }
 
-    private int currentorientation = 0;
+    private int currentorientation;
 
 
     /**

@@ -46,11 +46,11 @@ public class MyHistogram extends View {
         super(context, attrs, defStyleAttr);
     }
 
-    private Paint mPaint = new Paint ();
+    private final Paint mPaint = new Paint ();
     private int [] redHistogram = new int [ 256 ];
     private int [] greenHistogram = new int [ 256 ];
     private int [] blueHistogram = new int [ 256 ];
-    private Path mHistoPath = new Path ();
+    private final Path mHistoPath = new Path ();
 
     private void drawHistogram(Canvas canvas, int[] histogram, int color) {
         int max = 0 ;
@@ -59,8 +59,8 @@ public class MyHistogram extends View {
                 max = histogram [ i ];
             }
         }
-        float w = getWidth (); // - Spline.curveHandleSize();
-        float h = getHeight (); // - Spline.curveHandleSize() / 2.0f;
+        float w = getWidth(); // - Spline.curveHandleSize();
+        float h = getHeight(); // - Spline.curveHandleSize() / 2.0f;
         float dx = 0 ; // Spline.curveHandleSize() / 2.0f;
         float wl = w / histogram.length ;
         float wh = h / max ;
@@ -72,9 +72,9 @@ public class MyHistogram extends View {
 
 // Draw grid
         mPaint.setStyle(Style.STROKE );
-        canvas.drawRect( dx, 0 , dx + w , h , mPaint );
-        canvas.drawLine( dx + w / 3 , 0 , dx + w / 3 , h , mPaint );
-        canvas.drawLine( dx + 2 * w / 3 , 0 , dx + 2 * w / 3 , h , mPaint );
+        canvas.drawRect( dx, 0 , dx + w , h , mPaint);
+        canvas.drawLine( dx + w / 3 , 0 , dx + w / 3 , h , mPaint);
+        canvas.drawLine( dx + 2 * w / 3 , 0 , dx + 2 * w / 3 , h , mPaint);
 
         mPaint.setStyle(Style.FILL );
         mPaint.setColor( color );
@@ -106,7 +106,7 @@ public class MyHistogram extends View {
         mPaint.setStrokeWidth(2);
         mPaint.setStyle ( Style . STROKE );
         mPaint.setARGB( 255 , 200 , 200 , 200 );
-        canvas.drawPath ( mHistoPath , mPaint );
+        canvas.drawPath (mHistoPath, mPaint);
     }
 
     public void SetRgbArrays(int[] r, int[]g, int[] b)
@@ -121,9 +121,9 @@ public class MyHistogram extends View {
     {
         if (histo == null)
             return;
-        System.arraycopy( histo , 0 , redHistogram , 0 , 256 );
-        System.arraycopy( histo , 256 , greenHistogram , 0 , 256 );
-        System.arraycopy( histo , 512 , blueHistogram , 0 , 256 );
+        System.arraycopy( histo , 0 , redHistogram, 0 , 256 );
+        System.arraycopy( histo , 256 , greenHistogram, 0 , 256 );
+        System.arraycopy( histo , 512 , blueHistogram, 0 , 256 );
         invalidate();
     }
 
@@ -134,9 +134,9 @@ public class MyHistogram extends View {
         try {
 
         canvas.drawARGB ( 0 , 0 , 0 , 0 );
-        drawHistogram(canvas ,redHistogram , Color.RED);
-        drawHistogram(canvas ,greenHistogram , Color.GREEN);
-        drawHistogram(canvas ,blueHistogram , Color.BLUE);
+            drawHistogram(canvas , redHistogram, Color.RED);
+            drawHistogram(canvas , greenHistogram, Color.GREEN);
+            drawHistogram(canvas , blueHistogram, Color.BLUE);
         }
         catch (RuntimeException ex)
         {

@@ -43,7 +43,7 @@ public class VideoProfilesParameter extends BaseModeParameter
 {
     private final String TAG = VideoProfilesParameter.class.getSimpleName();
     private HashMap<String, VideoMediaProfile> supportedProfiles;
-    private CameraHolder cameraHolder;
+    private final CameraHolder cameraHolder;
     private String profile;
     private static final String _720phfr = "720HFR";
     public static final String _4kUHD = "4kUHD";
