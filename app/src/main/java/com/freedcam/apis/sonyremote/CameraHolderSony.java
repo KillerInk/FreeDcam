@@ -74,7 +74,7 @@ public class CameraHolderSony extends CameraHolderAbstract
     private String cameraStatus = "IDLE";
 
     public I_CameraShotMode cameraShotMode;
-    JSONObject FullUiSetup;
+    private JSONObject FullUiSetup;
 
     public interface I_CameraShotMode
     {
@@ -125,6 +125,7 @@ public class CameraHolderSony extends CameraHolderAbstract
                     if (mLiveviewSurface != null && !mLiveviewSurface.isStarted()) {
                         startLiveview();
                     }
+                    else SendUIMessage("failed to start live view");
                 }
             }
         }
@@ -209,17 +210,12 @@ public class CameraHolderSony extends CameraHolderAbstract
                         if (moduleHandlerSony.GetCurrentModule() instanceof PictureModuleSony)
                         {
                             PictureModuleSony pictureModuleSony = (PictureModuleSony)moduleHandlerSony.GetCurrentModule();
-
-
                             try {
                                 pictureModuleSony.onPictureTaken(new URL(s));
                             }catch (MalformedURLException e) {
                                 Logger.exception(e);
                             }
-
                         }
-
-
                     }
                 }});
         }
@@ -491,7 +487,13 @@ public class CameraHolderSony extends CameraHolderAbstract
                         } else {
                             // set Listener
                             Logger.d(TAG,"Change function to remote shooting");
-                            startOpenConnectionAfterChangeCameraState();
+                            mEventObserver.setEventChangeListener(mEventListener);
+                            mEventObserver.start();
+                            try {
+                                mEventObserver.processEvents(FullUiSetup);
+                            } catch (JSONException e) {
+                                Logger.exception(e);
+                            }
 
                             // set Camera function to Remote Shooting
                             replyJson = mRemoteApi.setCameraFunction();
@@ -616,13 +618,7 @@ public class CameraHolderSony extends CameraHolderAbstract
 
         //  @Override
         //public void run() {
-        mEventObserver.setEventChangeListener(mEventListener);
-        mEventObserver.start();
-        try {
-            mEventObserver.processEvents(FullUiSetup);
-        } catch (JSONException e) {
-            Logger.exception(e);
-        }
+
         //}
         //});
     }
