@@ -99,11 +99,11 @@ public abstract class AE_Handler_Abstract implements I_ParametersLoaded
                 switch (fromManual) {
                     case shutter:
                         currentIso = iso.GetValue();
-                        iso.setValue(0);
+                        iso.setValue(-1);
                         break;
                     case iso:
                         currentShutter = shutter.GetValue();
-                        shutter.setValue(0);
+                        shutter.setValue(-1);
                         shutter.ThrowBackgroundIsSetSupportedChanged(false);
                         break;
                 }

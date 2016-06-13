@@ -78,7 +78,7 @@ public class ShutterManualParameterG4 extends BaseManualParameter implements Man
     public void setValue(int value)
     {
 
-        if (value == 0)
+        if (value == -1)
         {
             parameters.set(KEYS.LG_SHUTTER_SPEED, "0");
         }
@@ -86,8 +86,9 @@ public class ShutterManualParameterG4 extends BaseManualParameter implements Man
         {
             currentInt = value;
             parameters.set(KEYS.LG_SHUTTER_SPEED, stringvalues[value]);
+            ThrowCurrentValueStringCHanged(stringvalues[value]);
         }
-        ThrowCurrentValueStringCHanged(stringvalues[value]);
+
     }
 
     @Override

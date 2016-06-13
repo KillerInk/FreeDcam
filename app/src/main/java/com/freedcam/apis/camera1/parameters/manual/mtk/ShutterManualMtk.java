@@ -52,21 +52,13 @@ public class ShutterManualMtk extends BaseManualParameter implements ManualParam
     @Override
     public void SetValue(int valueToSet)
     {
-        if (valueToSet == 0)
-        {
-            manualevent.onManualChanged(AE_Handler_Abstract.AeManual.shutter, true, valueToSet);
-        }
-        else
-        {
-            manualevent.onManualChanged(AE_Handler_Abstract.AeManual.shutter, false, valueToSet);
-        }
-
+        manualevent.onManualChanged(AE_Handler_Abstract.AeManual.shutter, false, valueToSet);
     }
     @Override
     public void setValue(int value)
     {
 
-        if (value == 0)
+        if (value == -1)
         {
             parameters.set("m-ss", "0");
         }
@@ -80,8 +72,9 @@ public class ShutterManualMtk extends BaseManualParameter implements ManualParam
             }
             currentInt = value;
             parameters.set("m-ss", FLOATtoThirty(shutterstring));
+            ThrowCurrentValueStringCHanged(stringvalues[value]);
         }
-        ThrowCurrentValueStringCHanged(stringvalues[value]);
+
     }
 
     private String FLOATtoThirty(String a)
