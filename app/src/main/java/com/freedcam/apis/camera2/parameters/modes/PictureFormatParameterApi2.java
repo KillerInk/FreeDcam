@@ -21,6 +21,7 @@ package com.freedcam.apis.camera2.parameters.modes;
 
 import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
+import android.os.Build;
 import android.os.Build.VERSION_CODES;
 
 import com.freedcam.apis.KEYS;
@@ -76,7 +77,7 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
             ret.add(CameraHolderApi2.RAW_SENSOR);
         if(((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).map.isOutputSupportedFor(ImageFormat.JPEG))
             ret.add(KEYS.JPEG);
-        if (((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).map.isOutputSupportedFor(ImageFormat.RAW12))
+        if (Build.VERSION.SDK_INT >= VERSION_CODES.M &&((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).map.isOutputSupportedFor(ImageFormat.RAW12))
             ret.add(CameraHolderApi2.RAW12);
         return ret.toArray(new String[ret.size()]);
     }
