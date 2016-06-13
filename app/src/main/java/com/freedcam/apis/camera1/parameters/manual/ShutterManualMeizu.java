@@ -24,6 +24,7 @@ import android.hardware.Camera.Parameters;
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.CameraHolderInterface;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.Logger;
 import com.troop.freedcam.R;
@@ -31,19 +32,18 @@ import com.troop.freedcam.R;
 /**
  * Created by GeorgeKiarie on 6/3/2016.
  */
-public class ShutterManualMeizu extends BaseManualParameter
+public class ShutterManualMeizu extends AbstractManualShutter
 {
-    private CameraHolderInterface baseCameraHolder;
     private final String TAG = ShutterManualMeizu.class.getSimpleName();
+    private Parameters parameters;
 
     /**
      * @param parameters
      * @param cameraUiWrapper
      */
     public ShutterManualMeizu(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
-        super(parameters, "", "", "", cameraUiWrapper,1);
-        this.baseCameraHolder = baseCameraHolder;
-
+        super(cameraUiWrapper);
+        this.parameters = parameters;
         stringvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.shutter_values_meizu);
 
         isSupported = true;
@@ -92,10 +92,8 @@ public class ShutterManualMeizu extends BaseManualParameter
     {
         parameters.set("shutter-value", shutterstring);
         ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
-
-
-        baseCameraHolder.StopPreview();
-        baseCameraHolder.StartPreview();
+        cameraUiWrapper.StopPreview();
+        cameraUiWrapper.StartPreview();
 
         return shutterstring;
     }

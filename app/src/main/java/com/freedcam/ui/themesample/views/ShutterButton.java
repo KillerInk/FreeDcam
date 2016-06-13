@@ -29,7 +29,7 @@ import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
-import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
+import com.freedcam.apis.basecamera.modules.ModuleChangedEvent;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.ui.themesample.handler.UserMessageHandler;
 import com.freedcam.utils.Logger;
@@ -38,7 +38,7 @@ import com.troop.freedcam.R;
 /**
  * Created by troop on 20.06.2015.
  */
-public class ShutterButton extends Button implements I_ModuleEvent, AbstractModuleHandler.CaptureStateChanged
+public class ShutterButton extends Button implements ModuleChangedEvent, AbstractModuleHandler.CaptureStateChanged
 {
     private CameraWrapperInterface cameraUiWrapper;
     private AnimationDrawable shutterOpenAnimation;
@@ -81,7 +81,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
         if (cameraUiWrapper.GetParameterHandler().ContShootMode != null)
             cameraUiWrapper.GetParameterHandler().ContShootMode.addEventListner(this.contshotListner);
 
-        this.ModuleChanged("");
+        this.onModuleChanged("");
         Logger.d(this.TAG, "Set cameraUiWrapper to ShutterButton");
     }
 
@@ -141,7 +141,7 @@ public class ShutterButton extends Button implements I_ModuleEvent, AbstractModu
     }
 
     @Override
-    public void ModuleChanged(String module) {
+    public void onModuleChanged(String module) {
 
         Logger.d(this.TAG, "Module Changed");
         if (this.cameraUiWrapper.GetParameterHandler().ContShootMode != null && this.cameraUiWrapper.GetParameterHandler().ContShootMode.IsSupported())

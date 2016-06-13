@@ -192,7 +192,7 @@ public class PictureFormatHandler extends BaseModeParameter
     }
 
     @Override
-    public void ModuleChanged(String module)
+    public void onModuleChanged(String module)
     {
         switch (module)
         {

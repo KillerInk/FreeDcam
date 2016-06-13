@@ -31,7 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.freedcam.apis.basecamera.interfaces.ModeParameterInterface;
-import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
+import com.freedcam.apis.basecamera.modules.ModuleChangedEvent;
 import com.freedcam.apis.basecamera.parameters.I_ParametersLoaded;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.ui.I_Activity;
@@ -47,7 +47,7 @@ import com.troop.freedcam.R.styleable;
 /**
  * Created by troop on 11.06.2015.
  */
-public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, I_ModeParameterEvent ,I_ParametersLoaded ,OnClickListener
+public class UiSettingsChild extends LinearLayout implements ModuleChangedEvent, I_ModeParameterEvent ,I_ParametersLoaded ,OnClickListener
 {
     protected Context context;
     private String headerText;
@@ -281,7 +281,7 @@ public class UiSettingsChild extends LinearLayout implements I_ModuleEvent, I_Mo
     }
 
     @Override
-    public void ModuleChanged(String module) {
+    public void onModuleChanged(String module) {
     }
 
     @Override

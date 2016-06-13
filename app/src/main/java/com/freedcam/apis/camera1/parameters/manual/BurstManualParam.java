@@ -28,7 +28,7 @@ import android.os.Build.VERSION;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
-import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
+import com.freedcam.apis.basecamera.modules.ModuleChangedEvent;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.utils.DeviceUtils.Devices;
 import com.freedcam.utils.Logger;
@@ -144,13 +144,13 @@ public class BurstManualParam extends BaseManualParameter
     }
 
     @Override
-    public I_ModuleEvent GetModuleListner() {
+    public ModuleChangedEvent GetModuleListner() {
         return moduleListner;
     }
 
-    private final I_ModuleEvent moduleListner =new I_ModuleEvent() {
+    private final ModuleChangedEvent moduleListner =new ModuleChangedEvent() {
         @Override
-        public void ModuleChanged(String module)
+        public void onModuleChanged(String module)
         {
             if ((module.equals(KEYS.MODULE_VIDEO) || module.equals(KEYS.MODULE_HDR)) && isSupported)
                 ThrowBackgroundIsSupportedChanged(false);

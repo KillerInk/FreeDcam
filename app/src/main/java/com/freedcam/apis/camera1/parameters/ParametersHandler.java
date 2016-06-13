@@ -26,7 +26,7 @@ import android.os.Handler;
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.FocusRect;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
-import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
+import com.freedcam.apis.basecamera.modules.ModuleChangedEvent;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.parameters.modes.LocationParameter;
 import com.freedcam.apis.basecamera.parameters.modes.ModuleParameters;
@@ -115,7 +115,7 @@ public class ParametersHandler extends AbstractParameterHandler
         // register their listners there if its postprocessing parameter
         try {
             PictureFormat = new PictureFormatHandler(cameraParameters, cameraUiWrapper, this);
-            cameraUiWrapper.GetModuleHandler().addListner((I_ModuleEvent) PictureFormat);
+            cameraUiWrapper.GetModuleHandler().addListner((ModuleChangedEvent) PictureFormat);
         } catch (Exception e) {
             Logger.exception(e);
         }

@@ -22,11 +22,11 @@ package com.freedcam.apis.basecamera.modules;
 /**
  * Created by troop on 23.08.2014.
  */
-public interface I_ModuleEvent
+public interface ModuleChangedEvent
 {
     /**
      * Gets called when the module has changed
      * @param module
      */
-    void ModuleChanged(String module);
+    void onModuleChanged(String module);
 }

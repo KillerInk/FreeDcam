@@ -53,7 +53,7 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements I_MenuItemCl
 
         cameraUiWrapper.GetModuleHandler().addListner(this);
 
-        ModuleChanged(cameraUiWrapper.GetModuleHandler().GetCurrentModuleName());
+        onModuleChanged(cameraUiWrapper.GetModuleHandler().GetCurrentModuleName());
 
     }
 
@@ -76,7 +76,7 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements I_MenuItemCl
     }
 
     @Override
-    public void ModuleChanged(String module)
+    public void onModuleChanged(String module)
     {
         if ((module.equals(KEYS.MODULE_PICTURE) || module.equals(KEYS.MODULE_HDR)|| module.equals(KEYS.MODULE_INTERVAL)) && parameter != null && parameter.IsSupported())
             setVisibility(View.VISIBLE);

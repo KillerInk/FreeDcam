@@ -23,17 +23,20 @@ package com.freedcam.apis.camera1.parameters.manual;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import com.troop.freedcam.R;
 
 /**
  * Created by GeorgeKiarie on 02/04/2016.
  */
-public class ShutterManualKrillin extends BaseManualParameter {
+public class ShutterManualKrillin extends AbstractManualShutter {
 
     private final String TAG = ShutterManualKrillin.class.getSimpleName();
+    private final Parameters parameters;
 
     public ShutterManualKrillin(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
-        super(parameters, "", "", "", cameraUiWrapper, 1);
+        super(cameraUiWrapper);
+        this.parameters =  parameters;
         isSupported = true;
         isVisible = isSupported;
         stringvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.shutter_values_krillin);

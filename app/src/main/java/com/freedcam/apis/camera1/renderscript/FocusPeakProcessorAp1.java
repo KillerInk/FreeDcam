@@ -39,7 +39,7 @@ import com.freedcam.apis.basecamera.interfaces.CameraWrapperEventInterface;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.interfaces.FocuspeakProcessor;
 import com.freedcam.apis.basecamera.interfaces.ModuleInterface;
-import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
+import com.freedcam.apis.basecamera.modules.ModuleChangedEvent;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.ui.I_AspectRatio;
 import com.freedcam.utils.FreeDPool;
@@ -54,7 +54,7 @@ import java.util.concurrent.BlockingQueue;
  * Created by troop on 24.08.2015.
  */
 @TargetApi(VERSION_CODES.KITKAT)
-public class FocusPeakProcessorAp1 implements PreviewCallback, CameraWrapperEventInterface,I_ModuleEvent, FocuspeakProcessor
+public class FocusPeakProcessorAp1 implements PreviewCallback, CameraWrapperEventInterface,ModuleChangedEvent, FocuspeakProcessor
 {
     private final String TAG = FocusPeakProcessorAp1.class.getSimpleName();
     private final I_AspectRatio output;
@@ -329,9 +329,9 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraWrapperEven
     }
 
     @Override
-    public void ModuleChanged(String module)
+    public void onModuleChanged(String module)
     {
-        Logger.d(TAG, "ModuleChanged(String):" + module + " enabled:" + enable);
+        Logger.d(TAG, "onModuleChanged(String):" + module + " enabled:" + enable);
         if (module.equals(KEYS.MODULE_PICTURE)
                 ||module.equals(KEYS.MODULE_HDR)
                 ||module.equals(KEYS.MODULE_INTERVAL))

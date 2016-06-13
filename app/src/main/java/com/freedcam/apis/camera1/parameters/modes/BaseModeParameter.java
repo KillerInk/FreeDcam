@@ -22,7 +22,7 @@ package com.freedcam.apis.camera1.parameters.modes;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
-import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
+import com.freedcam.apis.basecamera.modules.ModuleChangedEvent;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
@@ -37,7 +37,7 @@ import java.util.ArrayList;
  * if one of the key is empty the parameters is set as unsupported
  * when extending that class make sure you set isSupported and isVisible
  */
-public class BaseModeParameter extends AbstractModeParameter implements I_ModuleEvent, I_ModeParameterEvent
+public class BaseModeParameter extends AbstractModeParameter implements ModuleChangedEvent, I_ModeParameterEvent
 {
     /*
     The Key to set/get a value from the parameters
@@ -149,7 +149,7 @@ public class BaseModeParameter extends AbstractModeParameter implements I_Module
     }
 
     @Override
-    public void ModuleChanged(String module) {
+    public void onModuleChanged(String module) {
 
     }
 

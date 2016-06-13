@@ -216,7 +216,7 @@ public class HDRModeParameter extends BaseModeParameter
     }
 
     @Override
-    public void ModuleChanged(String module)
+    public void onModuleChanged(String module)
     {
         if(cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W
                 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W

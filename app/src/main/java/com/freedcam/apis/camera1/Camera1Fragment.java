@@ -35,7 +35,7 @@ import com.freedcam.apis.basecamera.Size;
 import com.freedcam.apis.basecamera.interfaces.CameraHolderInterface;
 import com.freedcam.apis.basecamera.interfaces.FocuspeakProcessor;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
-import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
+import com.freedcam.apis.basecamera.modules.ModuleChangedEvent;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
 import com.freedcam.apis.basecamera.parameters.I_ParametersLoaded;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter;
@@ -59,7 +59,7 @@ import java.util.List;
 /**
  * Created by troop on 06.06.2015.
  */
-public class Camera1Fragment extends CameraFragmentAbstract implements I_ParametersLoaded, I_ModuleEvent, SurfaceHolder.Callback
+public class Camera1Fragment extends CameraFragmentAbstract implements I_ParametersLoaded, ModuleChangedEvent, SurfaceHolder.Callback
 {
     protected ExtendedSurfaceView extendedSurfaceView;
     protected TextureViewRatio preview;
@@ -411,7 +411,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
     }
 
     @Override
-    public void ModuleChanged(String module)
+    public void onModuleChanged(String module)
     {
         onPreviewSizeShouldChange.onValueChanged("");
     }

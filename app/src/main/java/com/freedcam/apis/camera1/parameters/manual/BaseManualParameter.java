@@ -23,7 +23,7 @@ import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
-import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
+import com.freedcam.apis.basecamera.modules.ModuleChangedEvent;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
@@ -204,14 +204,14 @@ public class BaseManualParameter extends AbstractManualParameter
         }
     };
 
-    public I_ModuleEvent GetModuleListner()
+    public ModuleChangedEvent GetModuleListner()
     {
         return moduleListner;
     }
 
-    private final I_ModuleEvent moduleListner =new I_ModuleEvent() {
+    private final ModuleChangedEvent moduleListner =new ModuleChangedEvent() {
         @Override
-        public void ModuleChanged(String module)
+        public void onModuleChanged(String module)
         {
             if (module.equals(KEYS.MODULE_VIDEO) && isSupported)
                 ThrowBackgroundIsSupportedChanged(true);

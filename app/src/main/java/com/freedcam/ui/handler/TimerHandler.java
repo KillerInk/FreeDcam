@@ -5,14 +5,14 @@ import android.widget.TextView;
 
 import com.freedcam.MainActivity;
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
+import com.freedcam.apis.basecamera.modules.ModuleChangedEvent;
 import com.freedcam.apis.basecamera.modules.I_RecorderStateChanged;
 import com.troop.freedcam.R.id;
 
 /**
  * Created by troop on 26.11.2014.
  */
-public class TimerHandler implements I_ModuleEvent, I_RecorderStateChanged
+public class TimerHandler implements ModuleChangedEvent, I_RecorderStateChanged
 {
     private final TextView timerText;
 
@@ -28,7 +28,7 @@ public class TimerHandler implements I_ModuleEvent, I_RecorderStateChanged
     }
 
     @Override
-    public void ModuleChanged(final String module)
+    public void onModuleChanged(final String module)
     {
         mainActivity.runOnUiThread(new Runnable() {
             @Override

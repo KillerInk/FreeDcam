@@ -61,7 +61,7 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
     }
 
     @Override
-    public void ModuleChanged(String module)
+    public void onModuleChanged(String module)
     {
         valueText.post(new Runnable() {
             @Override

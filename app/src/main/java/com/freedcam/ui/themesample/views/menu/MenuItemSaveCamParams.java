@@ -139,7 +139,7 @@ public class MenuItemSaveCamParams extends MenuItem
     }
 
     @Override
-    public void ModuleChanged(String module) {
+    public void onModuleChanged(String module) {
     }
 
     @Override

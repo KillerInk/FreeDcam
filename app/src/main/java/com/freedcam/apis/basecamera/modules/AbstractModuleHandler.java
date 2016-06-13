@@ -68,7 +68,7 @@ public abstract class AbstractModuleHandler implements ModuleHandlerInterface
     protected CaptureStateChanged workerListner;
 
     //holds all listner for the modulechanged event
-    private final ArrayList<I_ModuleEvent> moduleChangedListner;
+    private final ArrayList<ModuleChangedEvent> moduleChangedListner;
     //holds all listner for workfinishedlistner
     private final ArrayList<I_WorkEvent> WorkFinishedListners;
     //holds all listner for recorstatechanged
@@ -168,7 +168,7 @@ public abstract class AbstractModuleHandler implements ModuleHandlerInterface
      * Add a listner for Moudlechanged events
      * @param listner the listner for the event
      */
-    public  void addListner(I_ModuleEvent listner)
+    public  void addListner(ModuleChangedEvent listner)
     {
         if (!moduleChangedListner.contains(listner))
             moduleChangedListner.add(listner);
@@ -194,7 +194,7 @@ public abstract class AbstractModuleHandler implements ModuleHandlerInterface
                 uihandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        moduleChangedListner.get(toget).ModuleChanged(module);
+                        moduleChangedListner.get(toget).onModuleChanged(module);
                     }
                 });
 

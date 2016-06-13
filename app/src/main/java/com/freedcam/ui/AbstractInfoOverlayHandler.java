@@ -32,7 +32,7 @@ import android.os.StatFs;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
-import com.freedcam.apis.basecamera.modules.I_ModuleEvent;
+import com.freedcam.apis.basecamera.modules.ModuleChangedEvent;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 
@@ -43,7 +43,7 @@ import java.util.Date;
 /**
  * Created by troop on 14.06.2015.
  */
-public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
+public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
 {
     private final Handler handler;
     protected CameraWrapperInterface cameraUiWrapper;
@@ -80,7 +80,7 @@ public abstract class AbstractInfoOverlayHandler implements I_ModuleEvent
     }
 
     @Override
-    public void ModuleChanged(String module) {
+    public void onModuleChanged(String module) {
     }
 
     private void startLooperThread()
