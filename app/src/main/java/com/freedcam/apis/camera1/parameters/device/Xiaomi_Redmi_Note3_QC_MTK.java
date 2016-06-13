@@ -66,7 +66,7 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
     public ManualParameterInterface getExposureTimeParameter()
     {
         if (frameworks == Frameworks.MTK)
-            return ae_handler_mtk.shutterPrameter;
+            return ae_handler_mtk.getShutterManual();
         else
             return new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME,false);
     }
@@ -74,7 +74,7 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
     @Override
     public ManualParameterInterface getIsoParameter() {
         if (frameworks == Frameworks.MTK)
-            return ae_handler_mtk.isoManualParameter;
+            return ae_handler_mtk.getManualIso();
         else
             return new BaseISOManual(parameters,"continuous-iso", parameters.getInt("min-iso"), parameters.getInt("max-iso"), cameraUiWrapper,1);
     }

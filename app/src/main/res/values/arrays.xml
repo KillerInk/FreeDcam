@@ -598,5 +598,23 @@
         <item>@string/shutter_120</item>
         <item>@string/shutter_240</item>
     </string-array>
+
+    <string-array name="mtk_shutter" translatable="false">
+        <item>@string/shutter_1_6000</item>
+        <item>@string/shutter_1_4000</item>
+        <item>@string/shutter_1_2000</item>
+        <item>@string/shutter_1_1000</item>
+        <item>@string/shutter_1_500</item>
+        <item>@string/shutter_1_250</item>
+        <item>@string/shutter_1_125</item>
+        <item>@string/shutter_1_60</item>
+        <item>@string/shutter_1_30</item>
+        <item>@string/shutter_1_15</item>
+        <item>@string/shutter_1_8</item>
+        <item>@string/shutter_1_4</item>
+        <item>@string/shutter_1_2</item>
+        <item>@string/shutter_1</item>
+        <item>@string/shutter_2</item>
+        </string-array>
     <!-- DO NOT TRANSLATE END -->
 </resources>

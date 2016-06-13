@@ -29,157 +29,28 @@ import com.freedcam.apis.basecamera.parameters.I_ParametersLoaded;
 import com.freedcam.apis.camera1.Camera1Fragment;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
+import com.freedcam.apis.camera1.parameters.manual.AE_Handler_Abstract;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 
 /**
  * Created by troop on 27.01.2016.
  */
-public class AE_Handler_LGG4 implements I_ParametersLoaded
+public class AE_Handler_LGG4 extends AE_Handler_Abstract
 {
-    private final ISOManualParameterG4 isoManualParameter;
-    private final ShutterManualParameterG4 shutterPrameter;
-    private final CameraWrapperInterface cameraWrapper;
-    private int currentIso;
-    private int currentShutter;
-    private final Parameters parameters;
-    boolean auto = true;
-    private boolean readMetaData;
 
     final String TAG = AE_Handler_LGG4.class.getSimpleName();
 
-    @Override
-    public void ParametersLoaded() {
-        aeevent.onManualChanged(AeManual.shutter,true,0);
-    }
-
-    enum AeManual
-    {
-        shutter,
-        iso,
-    }
-
     public AE_Handler_LGG4(Parameters parameters, CameraWrapperInterface cameraUiWrapper)
     {
-        isoManualParameter = new ISOManualParameterG4(parameters,cameraUiWrapper, aeevent);
-        shutterPrameter = new ShutterManualParameterG4(parameters, cameraUiWrapper, aeevent);
-        this.parameters = parameters;
-        this.cameraWrapper = cameraUiWrapper;
-        cameraWrapper.GetParameterHandler().AddParametersLoadedListner(this);
+        super(parameters,cameraUiWrapper);
+        iso = new ISOManualParameterG4(parameters,cameraUiWrapper, aeevent);
+        shutter = new ShutterManualParameterG4(parameters, cameraUiWrapper, aeevent);
     }
 
-    public ISOManualParameterG4 getManualIso()
-    {
-        return isoManualParameter;
-    }
-
-    public ShutterManualParameterG4 getShutterManual()
-    {
-        return shutterPrameter;
-    }
-
-    public interface AeManualEvent
-    {
-        void onManualChanged(AeManual fromManual, boolean automode, int value);
-    }
-
-    AeManualEvent aeevent =  new AeManualEvent() {
-        @Override
-        public void onManualChanged(AeManual fromManual, boolean automode, int value)
-        {
-            if (automode)
-            {
-                Logger.d(TAG, "AutomodeActive");
-                auto = automode;
-
-
-                switch (fromManual) {
-                    case shutter:
-                        currentIso = isoManualParameter.GetValue();
-                        isoManualParameter.setValue(0);
-                        break;
-                    case iso:
-                        currentShutter = shutterPrameter.GetValue();
-                        shutterPrameter.setValue(0);
-                        shutterPrameter.ThrowBackgroundIsSetSupportedChanged(false);
-                        break;
-                }
-                parameters.set(KEYS.LG_MANUAL_MODE_RESET, "1");
-                parameters.set(KEYS.LG_MANUAL_MODE_RESET, "0");
-                startReadingMeta();
-
-            }
-            else
-            {
-                if (auto)
-                {
-                    Logger.d(TAG, "Automode Deactivated, set last values");
-                    auto = false;
-                    switch (fromManual) {
-                        case shutter:
-                            isoManualParameter.setValue(currentIso);
-                            break;
-                        case iso:
-                            if (currentShutter == 0) currentShutter =9;
-                            shutterPrameter.setValue(currentShutter);
-                            shutterPrameter.ThrowBackgroundIsSetSupportedChanged(true);
-                            break;
-                    }
-                    startReadingMeta();
-                }
-                else
-                {
-                    readMetaData = false;
-                    Logger.d(TAG, "Automode Deactivated, set UserValues");
-                    switch (fromManual) {
-                        case shutter:
-                            shutterPrameter.setValue(value);
-
-                            break;
-                        case iso:
-                            isoManualParameter.setValue(value);
-
-                            break;
-                    }
-                }
-                parameters.set(KEYS.LG_MANUAL_MODE_RESET, "0");
-            }
-            ((ParametersHandler)cameraWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
-            if (automode) {
-                String t = cameraWrapper.GetParameterHandler().IsoMode.GetValue();
-                if (!t.equals(KEYS.ISO100))
-                    cameraWrapper.GetParameterHandler().IsoMode.SetValue(KEYS.ISO100, true);
-                else
-                    cameraWrapper.GetParameterHandler().IsoMode.SetValue(KEYS.AUTO, true);
-                cameraWrapper.GetParameterHandler().IsoMode.SetValue(t, true);
-            }
-        }
-    };
-
-    private void startReadingMeta()
-    {
-        readMetaData = true;
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                while (readMetaData && auto)
-                {
-                    try {
-                        shutterPrameter.ThrowCurrentValueStringCHanged("1/"+(int) ((ParametersHandler)cameraWrapper.GetParameterHandler()).getDevice().getCurrentExposuretime());
-                        isoManualParameter.ThrowCurrentValueStringCHanged(((ParametersHandler)cameraWrapper.GetParameterHandler()).getDevice().getCurrentIso()+"");
-                    }
-                    catch (RuntimeException ex)
-                    {
-                        readMetaData = false;
-                        return;
-                    }
-                    try {
-                        Thread.sleep(200);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
+    @Override
+    protected void resetManualMode() {
+        parameters.set(KEYS.LG_MANUAL_MODE_RESET, "1");
+        parameters.set(KEYS.LG_MANUAL_MODE_RESET, "0");
     }
 }

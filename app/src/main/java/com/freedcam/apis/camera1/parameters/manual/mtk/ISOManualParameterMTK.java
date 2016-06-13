@@ -23,25 +23,21 @@ import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
-import com.freedcam.apis.camera1.CameraHolder;
+import com.freedcam.apis.camera1.parameters.manual.AE_Handler_Abstract;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
-import com.freedcam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK.AeManual;
-import com.freedcam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK.AeManualEvent;
+import com.freedcam.apis.camera1.parameters.manual.ManualParameterAEHandlerInterface;
 
 import java.util.ArrayList;
 
 /**
  * Created by GeorgeKiarie on 20/04/2016.
  */
-public class ISOManualParameterMTK extends BaseManualParameter
+public class ISOManualParameterMTK extends BaseManualParameter implements ManualParameterAEHandlerInterface
 {
-    private CameraHolder cameraHolder;
-    private final AeManualEvent manualEvent;
+    private final AE_Handler_Abstract.AeManualEvent manualEvent;
 
-    public ISOManualParameterMTK(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AeManualEvent manualevent, int maxiso) {
+    public ISOManualParameterMTK(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AE_Handler_Abstract.AeManualEvent manualevent, int maxiso) {
         super(parameters, "", "", "", cameraUiWrapper,1);
-
-        this.cameraHolder = cameraHolder;
 
         isSupported = true;
         isVisible = isSupported;
@@ -57,34 +53,20 @@ public class ISOManualParameterMTK extends BaseManualParameter
     }
 
     @Override
-    public boolean IsSupported() {
-        return super.IsSupported();
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return super.IsSupported();
-    }
-
-    @Override
-    public int GetValue() {
-        return currentInt;
-    }
-
-    @Override
     public void SetValue(int valueToSet)
     {
         currentInt = valueToSet;
         if (valueToSet == 0)
         {
-            manualEvent.onManualChanged(AeManual.iso, true, valueToSet);
+            manualEvent.onManualChanged(AE_Handler_Abstract.AeManual.iso, true, valueToSet);
         }
         else
         {
-            manualEvent.onManualChanged(AeManual.iso, false,valueToSet);
+            manualEvent.onManualChanged(AE_Handler_Abstract.AeManual.iso, false,valueToSet);
         }
     }
 
+    @Override
     public void setValue(int value)
     {
 
@@ -110,8 +92,4 @@ public class ISOManualParameterMTK extends BaseManualParameter
         }
     }
 
-    @Override
-    public String[] getStringValues() {
-        return stringvalues;
-    }
 }

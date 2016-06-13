@@ -23,6 +23,7 @@ import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.interfaces.ManualParameterInterface;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
@@ -44,12 +45,12 @@ public class LG_G4 extends LG_G2
     }
 
     @Override
-    public AbstractManualParameter getExposureTimeParameter() {
+    public ManualParameterInterface getExposureTimeParameter() {
         return ae_handler_lgg4.getShutterManual();
     }
 
     @Override
-    public AbstractManualParameter getIsoParameter() {
+    public ManualParameterInterface getIsoParameter() {
         return ae_handler_lgg4.getManualIso();
     }
 

@@ -23,35 +23,24 @@ package com.freedcam.apis.camera1.parameters.manual.mtk;
 import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.camera1.parameters.manual.AE_Handler_Abstract;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
-import com.freedcam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK.AeManual;
-import com.freedcam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK.AeManualEvent;
+import com.freedcam.apis.camera1.parameters.manual.ManualParameterAEHandlerInterface;
+import com.troop.freedcam.R;
 
 /**
  * Created by troop on 28.03.2016.
  */
-public class ShutterManualMtk extends BaseManualParameter
+public class ShutterManualMtk extends BaseManualParameter implements ManualParameterAEHandlerInterface
 {
     private final String TAG = ShutterManualMtk.class.getSimpleName();
-    private final AeManualEvent manualevent;
+    private final AE_Handler_Abstract.AeManualEvent manualevent;
 
-    private final String MTKShutter = "1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,1,2";
-
-    public ShutterManualMtk(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AeManualEvent manualevent) {
+    public ShutterManualMtk(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AE_Handler_Abstract.AeManualEvent manualevent) {
         super(parameters, "", "", "", cameraUiWrapper,1);
         isSupported = true;
-        stringvalues = MTKShutter.split(",");
+        stringvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.mtk_shutter);
         this.manualevent =manualevent;
-    }
-
-    @Override
-    public boolean IsSupported() {
-        return super.IsSupported();
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return super.IsSupported();
     }
 
 
@@ -65,15 +54,15 @@ public class ShutterManualMtk extends BaseManualParameter
     {
         if (valueToSet == 0)
         {
-            manualevent.onManualChanged(AeManual.shutter, true, valueToSet);
+            manualevent.onManualChanged(AE_Handler_Abstract.AeManual.shutter, true, valueToSet);
         }
         else
         {
-            manualevent.onManualChanged(AeManual.shutter, false, valueToSet);
+            manualevent.onManualChanged(AE_Handler_Abstract.AeManual.shutter, false, valueToSet);
         }
 
     }
-
+    @Override
     public void setValue(int value)
     {
 
@@ -93,22 +82,6 @@ public class ShutterManualMtk extends BaseManualParameter
             parameters.set("m-ss", FLOATtoThirty(shutterstring));
         }
         ThrowCurrentValueStringCHanged(stringvalues[value]);
-    }
-
-
-    public Double getMicroSec(String shutterString)
-    {
-        Double a = Double.parseDouble(shutterString);
-
-        return a * 1000;
-
-    }
-
-    public String FLOATtoSixty4(String a)
-    {
-        Float b =  Float.parseFloat(a);
-        float c = b * 1000000;
-        return String.valueOf(c);
     }
 
     private String FLOATtoThirty(String a)

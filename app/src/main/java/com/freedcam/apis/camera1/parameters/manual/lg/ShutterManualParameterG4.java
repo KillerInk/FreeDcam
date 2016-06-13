@@ -24,9 +24,9 @@ import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.camera1.parameters.manual.AE_Handler_Abstract;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
-import com.freedcam.apis.camera1.parameters.manual.lg.AE_Handler_LGG4.AeManual;
-import com.freedcam.apis.camera1.parameters.manual.lg.AE_Handler_LGG4.AeManualEvent;
+import com.freedcam.apis.camera1.parameters.manual.ManualParameterAEHandlerInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,12 +34,12 @@ import java.util.Arrays;
 /**
  * Created by troop on 17.08.2014.
  */
-public class ShutterManualParameterG4 extends BaseManualParameter
+public class ShutterManualParameterG4 extends BaseManualParameter implements ManualParameterAEHandlerInterface
 {
     private final String TAG = ShutterManualParameterG4.class.getSimpleName();
-    private final AeManualEvent manualevent;
+    private final AE_Handler_Abstract.AeManualEvent manualevent;
 
-    public ShutterManualParameterG4(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AeManualEvent manualevent)
+    public ShutterManualParameterG4(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AE_Handler_Abstract.AeManualEvent manualevent)
     {
         super(parameters, cameraUiWrapper,1);
         isSupported = true;
@@ -72,7 +72,7 @@ public class ShutterManualParameterG4 extends BaseManualParameter
     @Override
     public void SetValue(int valueToSet)
     {
-        manualevent.onManualChanged(AeManual.shutter, false, valueToSet);
+        manualevent.onManualChanged(AE_Handler_Abstract.AeManual.shutter, false, valueToSet);
     }
 
     public void setValue(int value)

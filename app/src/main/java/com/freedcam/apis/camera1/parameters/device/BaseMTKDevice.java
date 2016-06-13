@@ -64,12 +64,12 @@ public class BaseMTKDevice extends AbstractDevice
     //set by aehandler to camparametershandler direct
     @Override
     public ManualParameterInterface getExposureTimeParameter() {
-        return ae_handler_mtk.shutterPrameter;
+        return ae_handler_mtk.getShutterManual();
     }
     //set by aehandler to camparametershandler direct
     @Override
     public ManualParameterInterface getIsoParameter() {
-        return ae_handler_mtk.isoManualParameter;
+        return ae_handler_mtk.getManualIso();
     }
 
     @Override

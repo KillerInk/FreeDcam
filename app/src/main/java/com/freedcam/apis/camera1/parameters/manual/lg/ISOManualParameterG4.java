@@ -23,17 +23,17 @@ import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.camera1.parameters.manual.AE_Handler_Abstract;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
-import com.freedcam.apis.camera1.parameters.manual.lg.AE_Handler_LGG4.AeManual;
-import com.freedcam.apis.camera1.parameters.manual.lg.AE_Handler_LGG4.AeManualEvent;
+import com.freedcam.apis.camera1.parameters.manual.ManualParameterAEHandlerInterface;
 
 import java.util.ArrayList;
 
-public class ISOManualParameterG4 extends BaseManualParameter
+public class ISOManualParameterG4 extends BaseManualParameter implements ManualParameterAEHandlerInterface
 {
-    private final AeManualEvent manualEvent;
+    private final AE_Handler_Abstract.AeManualEvent manualEvent;
 
-    public ISOManualParameterG4(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AeManualEvent manualevent) {
+    public ISOManualParameterG4(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AE_Handler_Abstract.AeManualEvent manualevent) {
         super(parameters, cameraUiWrapper,1);
 
         isSupported = true;
@@ -52,31 +52,16 @@ public class ISOManualParameterG4 extends BaseManualParameter
     }
 
     @Override
-    public boolean IsSupported() {
-        return super.IsSupported();
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return super.IsSupported();
-    }
-
-    @Override
-    public int GetValue() {
-        return currentInt;
-    }
-
-    @Override
     public void SetValue(int valueToSet)
     {
         currentInt = valueToSet;
         if (valueToSet == 0)
         {
-            manualEvent.onManualChanged(AeManual.iso, true, valueToSet);
+            manualEvent.onManualChanged(AE_Handler_Abstract.AeManual.iso, true, valueToSet);
         }
         else
         {
-            manualEvent.onManualChanged(AeManual.iso, false,valueToSet);
+            manualEvent.onManualChanged(AE_Handler_Abstract.AeManual.iso, false,valueToSet);
         }
     }
 
@@ -102,11 +87,6 @@ public class ISOManualParameterG4 extends BaseManualParameter
         } catch (NullPointerException ex) {
             return KEYS.AUTO;
         }
-    }
-
-    @Override
-    public String[] getStringValues() {
-        return stringvalues;
     }
 }
 

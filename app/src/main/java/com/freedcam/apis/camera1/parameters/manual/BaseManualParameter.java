@@ -133,26 +133,10 @@ public class BaseManualParameter extends AbstractManualParameter
         else
             Logger.d(TAG, "failed to lookup value, key_max_value or key_min_value are empty");
     }
-    @Override
-    public boolean IsSupported()
-    {
-        return isSupported;
-    }
 
     @Override
     public boolean IsSetSupported() {
         return true;
-    }
-
-    @Override
-    public boolean IsVisible() {
-        return isVisible;
-    }
-
-    @Override
-    public int GetValue()
-    {
-        return super.GetValue();
     }
 
     @Override
