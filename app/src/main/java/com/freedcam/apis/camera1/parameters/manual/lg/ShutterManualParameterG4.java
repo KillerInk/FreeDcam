@@ -24,6 +24,7 @@ import android.hardware.Camera.Parameters;
 
 import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
+import com.freedcam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import com.freedcam.apis.camera1.parameters.manual.AE_Handler_Abstract;
 import com.freedcam.apis.camera1.parameters.manual.BaseManualParameter;
 import com.freedcam.apis.camera1.parameters.manual.ManualParameterAEHandlerInterface;
@@ -34,14 +35,17 @@ import java.util.Arrays;
 /**
  * Created by troop on 17.08.2014.
  */
-public class ShutterManualParameterG4 extends BaseManualParameter implements ManualParameterAEHandlerInterface
+public class ShutterManualParameterG4 extends AbstractManualShutter implements ManualParameterAEHandlerInterface
 {
     private final String TAG = ShutterManualParameterG4.class.getSimpleName();
     private final AE_Handler_Abstract.AeManualEvent manualevent;
+    private Parameters parameters;
 
     public ShutterManualParameterG4(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AE_Handler_Abstract.AeManualEvent manualevent)
     {
-        super(parameters, cameraUiWrapper,1);
+        super(cameraUiWrapper);
+        this.parameters = parameters;
+        this.manualevent = manualevent;
         isSupported = true;
         stringvalues = parameters.get(KEYS.LG_SHUTTER_SPEED_VALUES).replace(",0","").split(",");
         stringvalues[0] = KEYS.AUTO;
@@ -50,17 +54,13 @@ public class ShutterManualParameterG4 extends BaseManualParameter implements Man
         stringvalues = new String[l.size()];
         l.toArray(stringvalues);
 
-        this.manualevent =manualevent;
+
     }
 
-    @Override
-    public boolean IsSupported() {
-        return super.IsSupported();
-    }
 
     @Override
     public boolean IsVisible() {
-        return super.IsSupported();
+        return isSupported;
     }
 
 

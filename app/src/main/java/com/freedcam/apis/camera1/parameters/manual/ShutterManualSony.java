@@ -64,7 +64,7 @@ public class ShutterManualSony extends AbstractManualShutter
 
     @Override
     public boolean IsVisible() {
-        return IsSupported();
+        return isSupported;
     }
 
     @Override
