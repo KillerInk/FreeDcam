@@ -48,6 +48,7 @@ public final class KEYS {
     public static final String JPEG_QUALITY = "jpeg-quality";
 
     public static final String ISO100 = "ISO100";
+    public static final String ISO_MANUAL = "manual";
     public static final String CUR_ISO  = "cur-iso";
     public static final String CUR_EXPOSURE_TIME = "cur-exposure-time";
 
@@ -193,6 +194,7 @@ public final class KEYS {
     public static final String MORPHO_EFFECT_TYPE = "morpho_effect_type";
 
     public static final String ISO = "iso";
+    public static final String CONTINUOUS_ISO = "continuous-iso";
     public static final String MIN_ISO = "min-iso";
     public static final String MAX_ISO = "max-iso";
 

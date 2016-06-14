@@ -50,7 +50,7 @@ public abstract class AbstractParameterHandler
     protected Handler uiHandler;
     private final ArrayList<I_ParametersLoaded> parametersLoadedListner;
 
-    public AppSettingsManager appSettingsManager;
+    protected AppSettingsManager appSettingsManager;
 
     protected CameraWrapperInterface cameraUiWrapper;
 

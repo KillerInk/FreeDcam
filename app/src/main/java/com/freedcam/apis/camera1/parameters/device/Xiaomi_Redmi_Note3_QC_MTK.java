@@ -76,7 +76,7 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
         if (frameworks == Frameworks.MTK)
             return ae_handler_mtk.getManualIso();
         else
-            return new BaseISOManual(parameters,"continuous-iso", parameters.getInt("min-iso"), parameters.getInt("max-iso"), cameraUiWrapper,1);
+            return new BaseISOManual(parameters,KEYS.CONTINUOUS_ISO, parameters.getInt(KEYS.MIN_ISO), parameters.getInt(KEYS.MAX_ISO), cameraUiWrapper,1);
     }
 
     @Override

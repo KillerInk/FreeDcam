@@ -57,7 +57,7 @@ public class BaseQcomNew extends AbstractDevice
     //set by aehandler
     @Override
     public ManualParameterInterface getIsoParameter() {
-        return new BaseISOManual(parameters,"continuous-iso", parameters.getInt("min-iso"), parameters.getInt("max-iso"), cameraUiWrapper,1);
+        return new BaseISOManual(parameters,KEYS.CONTINUOUS_ISO, parameters.getInt(KEYS.MIN_ISO), parameters.getInt(KEYS.MAX_ISO), cameraUiWrapper,1);
     }
 
     @Override

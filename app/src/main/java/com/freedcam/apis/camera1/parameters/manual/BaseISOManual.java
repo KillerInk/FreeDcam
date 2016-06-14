@@ -65,8 +65,8 @@ public class BaseISOManual extends BaseManualParameter {
     {
         cur_iso_mode = cameraUiWrapper.GetParameterHandler().IsoMode.GetValue();
 
-        if (!cameraUiWrapper.GetParameterHandler().IsoMode.GetValue().equals(KEYS.KEY_MANUAL_FOCUS_POSITION))
-            cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(KEYS.KEY_MANUAL_FOCUS_POSITION, true);
+        if (!cameraUiWrapper.GetParameterHandler().IsoMode.GetValue().equals(KEYS.ISO_MANUAL))
+            cameraUiWrapper.GetParameterHandler().IsoMode.SetValue(KEYS.ISO_MANUAL, true);
         parameters.set(key_value, stringvalues[currentInt]);
 
 
@@ -74,7 +74,9 @@ public class BaseISOManual extends BaseManualParameter {
 
     protected void set_to_auto()
     {
-        cameraUiWrapper.GetParameterHandler().FocusMode.SetValue(cur_iso_mode, true);
+        if (cameraUiWrapper.GetParameterHandler().IsoMode.GetValue().equals(KEYS.ISO_MANUAL))
+            cameraUiWrapper.GetParameterHandler().IsoMode.SetValue(KEYS.AUTO, true);
+        cameraUiWrapper.GetParameterHandler().IsoMode.SetValue(cur_iso_mode, true);
 
     }
 
