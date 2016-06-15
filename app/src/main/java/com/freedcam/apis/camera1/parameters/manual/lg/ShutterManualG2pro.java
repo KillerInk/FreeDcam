@@ -53,13 +53,13 @@ public class ShutterManualG2pro extends BaseManualParameter
     }
 
     @Override
-    public boolean IsSupported() {
-        return super.IsSupported();
+    public boolean IsVisible() {
+        return IsSupported();
     }
 
     @Override
-    public boolean IsVisible() {
-        return IsSupported();
+    public boolean IsSetSupported() {
+        return true;
     }
 
     @Override

@@ -43,8 +43,8 @@ public class ShutterManualKrillin extends AbstractManualShutter {
     }
 
     @Override
-    public int GetValue() {
-        return currentInt;
+    public boolean IsSetSupported() {
+        return true;
     }
 
     @Override
@@ -62,13 +62,4 @@ public class ShutterManualKrillin extends AbstractManualShutter {
         ThrowCurrentValueStringCHanged(stringvalues[valueToSet]);
     }
 
-    @Override
-    public String GetStringValue() {
-        return stringvalues[currentInt];
-    }
-
-    @Override
-    public String[] getStringValues() {
-        return stringvalues;
-    }
 }

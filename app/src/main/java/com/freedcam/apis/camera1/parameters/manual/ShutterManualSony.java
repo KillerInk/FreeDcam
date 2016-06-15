@@ -68,6 +68,11 @@ public class ShutterManualSony extends AbstractManualShutter
     }
 
     @Override
+    public boolean IsSetSupported() {
+        return true;
+    }
+
+    @Override
     public void SetValue(int valueToSet)
     {
         currentInt = valueToSet;
