@@ -61,6 +61,7 @@ import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
+import com.freedviewer.holder.FileHolder;
 import com.troop.androiddng.CustomMatrix;
 import com.troop.androiddng.DngProfile;
 
@@ -340,7 +341,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
                     isWorking = false;
                     MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(), file);
-                    cameraUiWrapper.GetModuleHandler().WorkFinished(file);
+                    cameraUiWrapper.GetModuleHandler().WorkFinished(new FileHolder(file, appSettingsManager.GetWriteExternal()));
                     changeCaptureState(CaptureStates.image_capture_stop);
                     if (burstcount == imagecount) {
                         handler.post(new Runnable() {

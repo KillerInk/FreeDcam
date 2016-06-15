@@ -24,13 +24,12 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
-import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.AppSettingsManager;
 
 /**
  * Created by troop on 22.12.2015.
  */
-public class DngConvertingActivity extends FragmentActivity implements I_Activity
+public class DngConvertingActivity extends FragmentActivity
 {
     private final String TAG = DngConvertingActivity.class.getSimpleName();
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,22 +40,6 @@ public class DngConvertingActivity extends FragmentActivity implements I_Activit
             ft.add(id.content, new DngConvertingFragment(), TAG);
             ft.commit();
         }
-
-    }
-
-    @Override
-    public void SwitchCameraAPI(String Api) {
-
-    }
-
-
-    @Override
-    public void closeActivity() {
-
-    }
-
-    @Override
-    public void ChooseSDCard(I_OnActivityResultCallback callback) {
 
     }
 }

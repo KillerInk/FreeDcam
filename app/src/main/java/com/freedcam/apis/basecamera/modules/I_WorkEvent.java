@@ -19,7 +19,7 @@
 
 package com.freedcam.apis.basecamera.modules;
 
-import java.io.File;
+import com.freedviewer.holder.FileHolder;
 
 /**
  * Created by troop on 25.08.2014.
@@ -28,5 +28,5 @@ import java.io.File;
  */
 public interface I_WorkEvent
 {
-    void WorkHasFinished(File filePath);
+    void WorkHasFinished(FileHolder fileHolder);
 }

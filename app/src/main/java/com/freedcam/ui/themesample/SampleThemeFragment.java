@@ -19,6 +19,7 @@
 
 package com.freedcam.ui.themesample;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -49,8 +50,6 @@ import com.troop.freedcam.R;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import java.io.File;
-
 /**
  * Created by troop on 09.06.2015.
  */
@@ -66,8 +65,6 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
     private SettingsMenuFragment settingsMenuFragment;
     private ScreenSlideFragment screenSlideFragment;
     private final boolean pagerTouchAllowed = true;
-    private AppSettingsManager appSettingsManager;
-    private BitmapHelper bitmapHelper;
 
     public SampleThemeFragment()
     {
@@ -76,16 +73,10 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
     public static SampleThemeFragment GetInstance(AppSettingsManager appSettingsManager, CameraWrapperInterface cameraUiWrapper, BitmapHelper bitmapHelper)
     {
         SampleThemeFragment sampleThemeFragment = new SampleThemeFragment();
-        sampleThemeFragment.SetAppSettingsManagerAndBitmapHelper(appSettingsManager, bitmapHelper);
         sampleThemeFragment.cameraUiWrapper = cameraUiWrapper;
         return sampleThemeFragment;
     }
 
-    public void SetAppSettingsManagerAndBitmapHelper(AppSettingsManager appSettingsManager, BitmapHelper bitmapHelper)
-    {
-        this.appSettingsManager = appSettingsManager;
-        this.bitmapHelper =bitmapHelper;
-    }
 
     @Override
     public void SetCameraUIWrapper(CameraWrapperInterface wrapper)
@@ -122,29 +113,21 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
 
     private final I_ThumbClick onThumbClick = new I_ThumbClick() {
         @Override
-        public void onThumbClick() {
+        public void onThumbClick(int position) {
             mPager.setCurrentItem(2);
         }
 
-        @Override
-        public void newImageRecieved(File file) {
-            if (screenSlideFragment != null)
-                screenSlideFragment.addFile(file);
-        }
+
     };
 
     private final I_ThumbClick onThumbBackClick = new I_ThumbClick() {
         @Override
-        public void onThumbClick()
+        public void onThumbClick(int position)
         {
             if (mPager != null)
                 mPager.setCurrentItem(1);
         }
 
-        @Override
-        public void newImageRecieved(File file) {
-
-        }
     };
 
 
@@ -165,7 +148,6 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
             settingsMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
         if (screenSlideFragment != null)
             screenSlideFragment.LoadFiles();
-        bitmapHelper.LoadFiles();
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
@@ -184,7 +166,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
             {
                 if (settingsMenuFragment == null)
                 {
-                    settingsMenuFragment = SettingsMenuFragment.GetInstance(i_activity, appSettingsManager);
+                    settingsMenuFragment = new SettingsMenuFragment();
                     settingsMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
                 }
                 return settingsMenuFragment;
@@ -194,15 +176,15 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
                 if (screenSlideFragment == null) {
                     screenSlideFragment = new ScreenSlideFragment();
                     screenSlideFragment.setWaitForCameraHasLoaded();
-                    screenSlideFragment.SetAppSettingsManagerAndBitmapHelper(appSettingsManager, bitmapHelper);
                     screenSlideFragment.SetOnThumbClick(onThumbBackClick);
                 }
+
                 return screenSlideFragment;
             }
             else
             {
                 if (cameraUiFragment == null)
-                    cameraUiFragment = CameraUiFragment.GetInstance(i_activity, onThumbClick, appSettingsManager, cameraUiWrapper, bitmapHelper);
+                    cameraUiFragment = CameraUiFragment.GetInstance(onThumbClick, cameraUiWrapper);
                 return cameraUiFragment;
             }
         }
@@ -219,26 +201,26 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
     private final I_WorkEvent newImageRecieved = new I_WorkEvent()
     {
         @Override
-        public void WorkHasFinished(final File filePath)
+        public void WorkHasFinished(final FileHolder fileHolder)
         {
-            Logger.d(TAG, "newImageRecieved:" + filePath);
+            Logger.d(TAG, "newImageRecieved:" + fileHolder.getFile().getAbsolutePath());
             FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run()
                 {
                     int mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size);
-                    bitmapHelper.getBitmap(filePath, true, mImageThumbSize, mImageThumbSize);
-                    if (screenSlideFragment != null)
-                    {
-                        new Handler(Looper.getMainLooper()).post(new Runnable() {
-                            @Override
-                            public void run() {
-                                screenSlideFragment.addFile(filePath);
-                            }
-                        });
+                    final Bitmap b = i_activity.getBitmapHelper().getBitmap(fileHolder.getFile(), true, mImageThumbSize, mImageThumbSize);
 
-                    }
-                    bitmapHelper.AddFile(new FileHolder(filePath, appSettingsManager.GetWriteExternal()));
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            i_activity.AddFile(fileHolder);
+                            if (screenSlideFragment != null)
+                                screenSlideFragment.NotifyDATAhasChanged();
+                            if (cameraUiFragment != null)
+                                cameraUiFragment.SetThumbImage(b);
+                        }
+                    });
                 }
             });
 

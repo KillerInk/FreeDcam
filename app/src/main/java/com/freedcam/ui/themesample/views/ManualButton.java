@@ -36,7 +36,7 @@ import android.widget.TextView;
 import com.freedcam.apis.basecamera.interfaces.ManualParameterInterface;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualParameter.I_ManualParameterEvent;
 import com.freedcam.apis.sonyremote.parameters.manual.BaseManualParameterSony;
-import com.freedcam.utils.AppSettingsManager;
+import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.Logger;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
@@ -65,9 +65,15 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
     private final int stringColorActive = Color.parseColor("#FF000000");
     private boolean imageusing;
     private int pos;
-    private AppSettingsManager appSettingsManager;
+    protected  I_Activity i_activity;
 
     private final BlockingQueue<Integer> valueQueue = new ArrayBlockingQueue<>(3);
+
+    public void SetStuff(I_Activity i_activity, String settingsName)
+    {
+        settingsname = settingsName;
+        this.i_activity = i_activity;
+    }
 
     public ManualButton(Context context) {
         super(context);
@@ -155,11 +161,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
         parameterValues = parameter.getStringValues();
     }
 
-    public void SetStuff(String settingsName, AppSettingsManager appSettingsManager)
-    {
-        this.appSettingsManager = appSettingsManager;
-        settingsname = settingsName;
-    }
+
 
     @Override
     public void onIsSupportedChanged(final boolean value) {
@@ -326,7 +328,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
             return;
         parameter.SetValue(runValue);
         if (!(parameter instanceof BaseManualParameterSony) && settingsname != null) {
-            appSettingsManager.setString(settingsname, runValue + "");
+            i_activity.getAppSettings().setString(settingsname, runValue + "");
         }
         currentlysettingsparameter = false;
     }

@@ -36,6 +36,7 @@ import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.RenderScriptHandler;
 import com.freedcam.utils.StringUtils;
+import com.freedviewer.holder.FileHolder;
 import com.imageconverter.ScriptField_MinMaxPixel;
 
 import java.io.File;
@@ -207,7 +208,7 @@ public class StackingModule extends PictureModule {
             isWorking = false;
             changeCaptureState(CaptureStates.continouse_capture_stop);
             MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(), stackedImg);
-            cameraUiWrapper.GetModuleHandler().WorkFinished(file);
+            cameraUiWrapper.GetModuleHandler().WorkFinished(new FileHolder(file, appSettingsManager.GetWriteExternal()));
         }
     }
 

@@ -21,12 +21,8 @@ package com.freedcam.apis.camera1.parameters.manual.mtk;
 
 import android.hardware.Camera.Parameters;
 
-import com.freedcam.apis.KEYS;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
-import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.parameters.manual.AE_Handler_Abstract;
-import com.freedcam.apis.camera1.parameters.manual.lg.AE_Handler_LGG4;
-import com.freedcam.utils.Logger;
 
 /**
  * Created by GeorgeKiarie on 20/04/2016.

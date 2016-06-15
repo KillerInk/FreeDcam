@@ -30,6 +30,7 @@ import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 import com.freedcam.utils.StringUtils.FileEnding;
+import com.freedviewer.holder.FileHolder;
 
 import java.io.File;
 import java.io.FileReader;
@@ -104,7 +105,7 @@ public class PictureModuleMTK extends PictureModule
                 waitForPicture = false;
                 cameraHolder.StartPreview();
                 MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(), holdFile);
-                cameraUiWrapper.GetModuleHandler().WorkFinished(holdFile);
+                cameraUiWrapper.GetModuleHandler().WorkFinished(new FileHolder(holdFile, appSettingsManager.GetWriteExternal()));
                 isWorking = false;
                 changeCaptureState(CaptureStates.image_capture_stop);
             }

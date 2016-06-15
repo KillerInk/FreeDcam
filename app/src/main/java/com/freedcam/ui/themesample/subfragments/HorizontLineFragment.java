@@ -67,18 +67,12 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
     private Handler sensorHandler;
     private final MySensorListener msl =new MySensorListener();
 
-    public static HorizontLineFragment GetInstance(I_Activity i_activity, AppSettingsManager appSettingsManager)
-    {
-        HorizontLineFragment horizontLineFragment = new HorizontLineFragment();
-        horizontLineFragment.i_activity = i_activity;
-        horizontLineFragment.appSettingsManager = appSettingsManager;
-        return horizontLineFragment;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,null);
+        i_activity = (I_Activity)getActivity();
         view = inflater.inflate(layout.horizontline, container, false);
         lineImage = (ImageView) view.findViewById(id.horizontlevelline);
         upImage = (ImageView) view.findViewById(id.horizontlevelup);
@@ -97,7 +91,7 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
 
     @Override
     public void onValueChanged(String val) {
-        if(appSettingsManager.getString(AppSettingsManager.SETTING_HORIZONT).equals("On"))
+        if(i_activity.getAppSettings().getString(AppSettingsManager.SETTING_HORIZONT).equals("On"))
         {
             startSensorListing();
             view.setVisibility(View.VISIBLE);
@@ -137,7 +131,7 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
     }
     private void startSensorListing()
     {
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_HORIZONT).equals("On")) {
+        if (i_activity.getAppSettings().getString(AppSettingsManager.SETTING_HORIZONT).equals("On")) {
             sensorManager.registerListener(msl, accelerometer, 1000000, sensorHandler);
             sensorManager.registerListener(msl, magnetometer, 1000000, sensorHandler);
         }
@@ -157,7 +151,7 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
     @Override
     public void onResume(){
         super.onResume();
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_HORIZONT).equals("Off") || appSettingsManager.getString(AppSettingsManager.SETTING_HORIZONT).equals(""))
+        if (i_activity.getAppSettings().getString(AppSettingsManager.SETTING_HORIZONT).equals("Off") || i_activity.getAppSettings().getString(AppSettingsManager.SETTING_HORIZONT).equals(""))
             view.setVisibility(View.GONE);
         else
             startSensorListing();

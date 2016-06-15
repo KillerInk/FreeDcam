@@ -28,8 +28,8 @@ import com.freedcam.apis.basecamera.interfaces.ModuleHandlerInterface;
 import com.freedcam.apis.basecamera.interfaces.ModuleInterface;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
+import com.freedviewer.holder.FileHolder;
 
-import java.io.File;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -212,10 +212,10 @@ public abstract class AbstractModuleHandler implements ModuleHandlerInterface
             WorkFinishedListners.add(i_workEvent);
     }
 
-    public void WorkFinished(File filePath)
+    public void WorkFinished(FileHolder fileholder)
     {
         for (I_WorkEvent listner : WorkFinishedListners)
-            listner.WorkHasFinished(filePath);
+            listner.WorkHasFinished(fileholder);
     }
 
     public void AddRecoderChangedListner(I_RecorderStateChanged recorderStateChanged)

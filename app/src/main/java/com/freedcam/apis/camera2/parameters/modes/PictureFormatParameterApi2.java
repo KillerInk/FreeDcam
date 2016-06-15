@@ -54,8 +54,8 @@ public class PictureFormatParameterApi2 extends BaseModeApi2
         format = valueToSet;
         if (setToCamera)
         {
-            cameraUiWrapper.GetCameraHolder().StopPreview();
-            cameraUiWrapper.GetCameraHolder().StartPreview();
+            cameraUiWrapper.StopPreview();
+            cameraUiWrapper.StartPreview();
         }
 
 

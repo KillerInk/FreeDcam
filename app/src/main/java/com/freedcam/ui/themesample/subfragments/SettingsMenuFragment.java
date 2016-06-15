@@ -27,11 +27,9 @@ import android.view.ViewGroup;
 
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.ui.AbstractFragment;
-import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.themesample.subfragments.Interfaces.I_CloseNotice;
 import com.freedcam.ui.themesample.subfragments.Interfaces.I_MenuItemClick;
 import com.freedcam.ui.themesample.views.uichilds.UiSettingsChild;
-import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.id;
@@ -55,13 +53,6 @@ public class SettingsMenuFragment extends AbstractFragment implements I_CloseNot
 
     private UiSettingsChild currentOpendItem;
 
-    public static SettingsMenuFragment GetInstance(I_Activity i_activity, AppSettingsManager appSettingsManager)
-    {
-        SettingsMenuFragment settingsMenuFragment = new SettingsMenuFragment();
-        settingsMenuFragment.i_activity = i_activity;
-        settingsMenuFragment.appSettingsManager = appSettingsManager;
-        return settingsMenuFragment;
-    }
 
     @Override
     public void SetCameraUIWrapper(CameraWrapperInterface wrapper)
@@ -101,7 +92,7 @@ public class SettingsMenuFragment extends AbstractFragment implements I_CloseNot
     private void loadLeftFragment()
     {
         if (leftMenuFragment == null) {
-            leftMenuFragment = LeftMenuFragment.GetInstance(i_activity, appSettingsManager);
+            leftMenuFragment = new LeftMenuFragment();
             leftMenuFragment.SetMenuItemClickListner(this);
         }
         try {
@@ -118,7 +109,7 @@ public class SettingsMenuFragment extends AbstractFragment implements I_CloseNot
     {
         if (rightMenuFragment == null)
         {
-            rightMenuFragment = RightMenuFragment.GetInstance(i_activity, appSettingsManager);
+            rightMenuFragment = new RightMenuFragment();
             rightMenuFragment.SetMenuItemClickListner(this);
         }
         try {

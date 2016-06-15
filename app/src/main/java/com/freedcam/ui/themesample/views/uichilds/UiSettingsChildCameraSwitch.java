@@ -27,7 +27,6 @@ import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.camera1.Camera1Fragment;
 import com.freedcam.apis.camera1.ExtendedSurfaceView;
 import com.freedcam.ui.I_Activity;
-import com.freedcam.utils.AppSettingsManager;
 
 /**
  * Created by troop on 13.06.2015.
@@ -57,10 +56,10 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
     }
 
     @Override
-    public void SetStuff(I_Activity i_activity, String settingvalue,AppSettingsManager appSettingsManager) {
-        super.SetStuff(i_activity, settingvalue,appSettingsManager);
+    public void SetStuff(I_Activity i_activity, String settingvalue) {
+        super.SetStuff(i_activity, settingvalue);
 
-        currentCamera = appSettingsManager.GetCurrentCamera();
+        currentCamera = i_activity.getAppSettings().GetCurrentCamera();
         valueText.setText(getCamera(currentCamera));
     }
 
@@ -82,7 +81,7 @@ public class UiSettingsChildCameraSwitch extends UiSettingsChild
         if (currentCamera++ >= maxcams - 1)
             currentCamera = 0;
 
-        appSettingsManager.SetCurrentCamera(currentCamera);
+        i_activity.getAppSettings().SetCurrentCamera(currentCamera);
         sendLog("Stop Preview and Camera");
         if (cameraUiWrapper.GetCameraHolder() != null && cameraUiWrapper.getSurfaceView() instanceof ExtendedSurfaceView)
         {

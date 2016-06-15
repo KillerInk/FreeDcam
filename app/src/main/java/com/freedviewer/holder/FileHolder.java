@@ -18,20 +18,7 @@
  */
 
 package com.freedviewer.holder;
-
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
-
-import com.freedcam.utils.Logger;
-import com.freedcam.utils.StringUtils;
-import com.freedcam.utils.StringUtils.FileEnding;
-import com.freedviewer.gridview.GridViewFragment.FormatTypes;
-
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 /**
  * Created by troop on 12.12.2015.
@@ -65,7 +52,12 @@ public class FileHolder extends BaseHolder
     }
     public boolean isExternalSD() { return isSDCard; }
 
-    public static void readFilesFromFolder(File folder, List<FileHolder> list, FormatTypes formatsToShow, boolean external) {
+    public FileHolder getParent()
+    {
+        return new FileHolder(file.getParentFile(), isSDCard);
+    }
+
+    /*public static void readFilesFromFolder(File folder, List<FileHolder> list, FormatTypes formatsToShow, boolean external) {
         File[] folderfiles = folder.listFiles();
         if (folderfiles == null)
             return;
@@ -242,5 +234,5 @@ public class FileHolder extends BaseHolder
                 return Long.valueOf(f2.getFile().lastModified()).compareTo(f1.getFile().lastModified());
             }
         });
-    }
+    }*/
 }

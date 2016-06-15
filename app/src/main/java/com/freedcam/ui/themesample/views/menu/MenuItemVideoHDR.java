@@ -55,7 +55,7 @@ public class MenuItemVideoHDR extends MenuItem
         if (parameter != null && parameter.IsSupported() && moduleHandler.GetCurrentModule() != null)
         {
             if (settingsname != null && !settingsname.equals(""))
-                appSettingsManager.setString(settingsname, value);
+                i_activity.getAppSettings().setString(settingsname, value);
             if (modulesToShow.contains(moduleHandler.GetCurrentModuleName()))
                 parameter.SetValue(value, true);
             onValueChanged(value);

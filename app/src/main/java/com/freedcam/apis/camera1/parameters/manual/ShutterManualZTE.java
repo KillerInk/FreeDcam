@@ -23,7 +23,6 @@ import android.hardware.Camera.Parameters;
 import android.os.Handler;
 
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.interfaces.CameraHolderInterface;
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
 import com.freedcam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;

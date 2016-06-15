@@ -68,15 +68,14 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements O
 
     private ManualButton previewZoom;
 
+
     private final String TAG = ManualFragmentRotatingSeekbar.class.getSimpleName();
 
-    public static ManualFragmentRotatingSeekbar GetInstance(AppSettingsManager appSettingsManager, I_Activity activity)
+    public ManualFragmentRotatingSeekbar()
     {
-        ManualFragmentRotatingSeekbar mf = new ManualFragmentRotatingSeekbar();
-        mf.appSettingsManager = appSettingsManager;
-        mf.i_activity = activity;
-        return mf;
+        i_activity = (I_Activity)getActivity();
     }
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -91,67 +90,67 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements O
         seekbar.setVisibility(View.GONE);
 
         mf = (ManualButton)view.findViewById(id.manual_mf);
-        mf.SetStuff(AppSettingsManager.MF, appSettingsManager);
+        mf.SetStuff(i_activity,AppSettingsManager.MF);
         mf.setOnClickListener(manualButtonClickListner);
 
         iso = (ManualButton)view.findViewById(id.manual_iso);
-        iso.SetStuff( AppSettingsManager.MISO, appSettingsManager);
+        iso.SetStuff(i_activity, AppSettingsManager.MISO);
         iso.setOnClickListener(manualButtonClickListner);
 
         shutter = (ManualButton)view.findViewById(id.manual_shutter);
-        shutter.SetStuff(AppSettingsManager.MSHUTTERSPEED, appSettingsManager);
+        shutter.SetStuff(i_activity,AppSettingsManager.MSHUTTERSPEED);
         shutter.setOnClickListener(manualButtonClickListner);
 
         aperture = (ManualButton)view.findViewById(id.manual_aperture);
-        aperture.SetStuff("", appSettingsManager);
+        aperture.SetStuff(i_activity,"");
         aperture.setOnClickListener(manualButtonClickListner);
 
         exposure = (ManualButton)view.findViewById(id.manual_exposure);
-        exposure.SetStuff(AppSettingsManager.MEXPOSURE, appSettingsManager);
+        exposure.SetStuff(i_activity,AppSettingsManager.MEXPOSURE);
         exposure.setOnClickListener(manualButtonClickListner);
 
         brightness = (ManualButton)view.findViewById(id.manual_brightness);
-        brightness.SetStuff(AppSettingsManager.MBRIGHTNESS, appSettingsManager);
+        brightness.SetStuff(i_activity,AppSettingsManager.MBRIGHTNESS);
         brightness.setOnClickListener(manualButtonClickListner);
 
         burst = (ManualButton)view.findViewById(id.manual_burst);
-        burst.SetStuff(AppSettingsManager.MBURST, appSettingsManager);
+        burst.SetStuff(i_activity,AppSettingsManager.MBURST);
         burst.setOnClickListener(manualButtonClickListner);
 
         wb = (ManualButton)view.findViewById(id.manual_wb);
-        wb.SetStuff(AppSettingsManager.MCCT, appSettingsManager);
+        wb.SetStuff(i_activity,AppSettingsManager.MCCT);
         wb.setOnClickListener(manualButtonClickListner);
 
         contrast = (ManualButton)view.findViewById(id.manual_contrast);
-        contrast.SetStuff(AppSettingsManager.MCONTRAST, appSettingsManager);
+        contrast.SetStuff(i_activity,AppSettingsManager.MCONTRAST);
         contrast.setOnClickListener(manualButtonClickListner);
 
         saturation = (ManualButton)view.findViewById(id.manual_saturation);
-        saturation.SetStuff(AppSettingsManager.MSATURATION, appSettingsManager);
+        saturation.SetStuff(i_activity,AppSettingsManager.MSATURATION);
         saturation.setOnClickListener(manualButtonClickListner);
 
         sharpness = (ManualButton)view.findViewById(id.manual_sharpness);
-        sharpness.SetStuff(AppSettingsManager.MSHARPNESS, appSettingsManager);
+        sharpness.SetStuff(i_activity,AppSettingsManager.MSHARPNESS);
         sharpness.setOnClickListener(manualButtonClickListner);
 
         programshift = (ManualButton)view.findViewById(id.manual_program_shift);
-        programshift.SetStuff("", appSettingsManager);
+        programshift.SetStuff(i_activity,"");
         programshift.setOnClickListener(manualButtonClickListner);
 
         zoom = (ManualButton)view.findViewById(id.manual_zoom);
-        zoom.SetStuff("", appSettingsManager);
+        zoom.SetStuff(i_activity,"");
         zoom.setOnClickListener(manualButtonClickListner);
 
         skintone = (ManualButton)view.findViewById(id.manual_skintone);
-        skintone.SetStuff("", appSettingsManager);
+        skintone.SetStuff(i_activity,"");
         skintone.setOnClickListener(manualButtonClickListner);
 
         fx = (ManualButton)view.findViewById(id.manual_fx);
-        fx.SetStuff("", appSettingsManager);
+        fx.SetStuff(i_activity,"");
         fx.setOnClickListener(manualButtonClickListner);
 
         convergence = (ManualButton)view.findViewById(id.manual_convergence);
-        convergence.SetStuff(AppSettingsManager.MCONVERGENCE, appSettingsManager);
+        convergence.SetStuff(i_activity,AppSettingsManager.MCONVERGENCE);
         convergence.setOnClickListener(manualButtonClickListner);
 
         previewZoom = (ManualButton)view.findViewById(id.manual_zoom_preview);

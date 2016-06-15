@@ -5,8 +5,8 @@ import android.widget.TextView;
 
 import com.freedcam.MainActivity;
 import com.freedcam.apis.KEYS;
-import com.freedcam.apis.basecamera.modules.ModuleChangedEvent;
 import com.freedcam.apis.basecamera.modules.I_RecorderStateChanged;
+import com.freedcam.apis.basecamera.modules.ModuleChangedEvent;
 import com.troop.freedcam.R.id;
 
 /**

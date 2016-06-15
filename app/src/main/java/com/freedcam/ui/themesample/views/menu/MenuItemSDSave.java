@@ -73,7 +73,7 @@ public class MenuItemSDSave extends MenuItem implements I_OnActivityResultCallba
                 lastval = value;
                 i_activity.ChooseSDCard(this);
             } else {
-                appSettingsManager.SetWriteExternal(false);
+                i_activity.getAppSettings().SetWriteExternal(false);
                 onValueChanged(value);
             }
         }
@@ -98,14 +98,14 @@ public class MenuItemSDSave extends MenuItem implements I_OnActivityResultCallba
                 Logger.exception(ex);
             }
             if (canWriteExternal) {
-                appSettingsManager.SetWriteExternal(true);
+                i_activity.getAppSettings().SetWriteExternal(true);
                 onValueChanged(SDModeParameter.external);
             } else {
                 Toast.makeText(context, "Cant write to External SD, pls insert SD or apply SD fix", Toast.LENGTH_LONG).show();
                 onValueChanged(SDModeParameter.internal);
             }
         } else {
-            appSettingsManager.SetWriteExternal(false);
+            i_activity.getAppSettings().SetWriteExternal(false);
             onValueChanged(value);
         }
     }
@@ -122,12 +122,12 @@ public class MenuItemSDSave extends MenuItem implements I_OnActivityResultCallba
         DocumentFile f = DocumentFile.fromTreeUri(context, uri);
         if (f.canWrite() && lastval.equals(SDModeParameter.external))
         {
-            appSettingsManager.SetWriteExternal(true);
+            i_activity.getAppSettings().SetWriteExternal(true);
             onValueChanged(SDModeParameter.external);
         }
         else
         {
-            appSettingsManager.SetWriteExternal(false);
+            i_activity.getAppSettings().SetWriteExternal(false);
             onValueChanged(SDModeParameter.internal);
         }
         lastval = "";

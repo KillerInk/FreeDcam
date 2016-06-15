@@ -33,6 +33,7 @@ import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
+import com.freedviewer.holder.FileHolder;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -173,7 +174,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
         }
 
         MediaScannerManager.ScanMedia(cameraUiWrapper.getContext().getApplicationContext(), file);
-        cameraUiWrapper.GetModuleHandler().WorkFinished(file);
+        cameraUiWrapper.GetModuleHandler().WorkFinished(new FileHolder(file, appSettingsManager.GetWriteExternal()));
     }
 
 

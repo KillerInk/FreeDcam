@@ -30,9 +30,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
-import com.freedviewer.helper.BitmapHelper;
 import com.freedviewer.holder.FileHolder;
 import com.freedviewer.screenslide.ScreenSlideFragment.FragmentClickClistner;
 import com.ortiz.touch.TouchImageView;
@@ -51,6 +51,8 @@ public class ImageFragment extends Fragment
         void HistograRdyToSet(int[] histodata, int position);
     }
 
+    public int getPosition;
+
     private final String TAG = ImageFragment.class.getSimpleName();
     private TouchImageView imageView;
     private FileHolder file;
@@ -61,12 +63,6 @@ public class ImageFragment extends Fragment
     private boolean isWorking;
     private I_WaitForWorkFinish waitForWorkFinish;
     private int position = -1;
-    private BitmapHelper bitmapHelper;
-
-    public void SetBitmapHelper(BitmapHelper bitmapHelper)
-    {
-        this.bitmapHelper =bitmapHelper;
-    }
 
     /**
      * Set the file to load by this fragment
@@ -75,7 +71,7 @@ public class ImageFragment extends Fragment
     public void SetFilePath(FileHolder filepath)
     {
         file = filepath;
-        if (imageView != null) {
+        /*if (imageView != null) {
             FreeDPool.Execute(new Runnable() {
                 @Override
                 public void run() {
@@ -83,7 +79,7 @@ public class ImageFragment extends Fragment
                 }
             });
 
-        }
+        }*/
     }
 
     public boolean IsWorking()
@@ -138,14 +134,9 @@ public class ImageFragment extends Fragment
             });
         }
 
-
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 
     private final OnClickListener onImageClick = new OnClickListener() {
         @Override
@@ -169,6 +160,7 @@ public class ImageFragment extends Fragment
                 imageView.setImageBitmap(response);
             }
         });
+
         if (waitForWorkFinish != null && position >-1)
             waitForWorkFinish.HistograRdyToSet(histogramData, position);
         waitForWorkFinish = null;
@@ -179,7 +171,7 @@ public class ImageFragment extends Fragment
     {
         Bitmap response =null;
         try {
-            response = bitmapHelper.getBitmap(file.getFile(),false, mImageThumbSize, mImageThumbSize);
+            response = ((I_Activity)getActivity()).getBitmapHelper().getBitmap(file.getFile(),false, mImageThumbSize, mImageThumbSize);
             createHistogramm(response);
         }
         catch (IllegalArgumentException ex)

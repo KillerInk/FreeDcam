@@ -27,7 +27,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
-import com.freedcam.utils.AppSettingsManager;
 
 /**
  * Created by troop on 25.03.2015.
@@ -37,7 +36,6 @@ public abstract class AbstractFragment extends Fragment implements I_Fragment
     protected CameraWrapperInterface cameraUiWrapper;
     protected I_Activity i_activity;
     protected View view;
-    protected AppSettingsManager appSettingsManager;
 
     public void SetCameraUIWrapper(CameraWrapperInterface wrapper)
     {

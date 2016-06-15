@@ -39,6 +39,7 @@ import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 import com.freedcam.utils.StringUtils.FileEnding;
+import com.freedviewer.holder.FileHolder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -181,7 +182,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         else
             saveBytesToFile(data,toSave);
         MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(),toSave);
-        cameraUiWrapper.GetModuleHandler().WorkFinished(toSave);
+        cameraUiWrapper.GetModuleHandler().WorkFinished(new FileHolder(toSave, appSettingsManager.GetWriteExternal()));
     }
 
     private String getFileEnding(String picFormat)

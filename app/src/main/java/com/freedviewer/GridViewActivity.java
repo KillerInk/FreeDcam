@@ -25,31 +25,54 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.AbstractFragmentActivity;
 import com.freedviewer.gridview.GridViewFragment;
+import com.freedviewer.screenslide.ScreenSlideFragment;
 
 /**
  * Created by troop on 11.12.2015.
  */
 public class GridViewActivity extends AbstractFragmentActivity
 {
-    private final String TAG = GridViewActivity.class.getSimpleName();
+    private final String TAGGrid = GridViewFragment.class.getSimpleName();
+    private final String TAGSlide = ScreenSlideFragment.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getSupportFragmentManager().findFragmentByTag(TAG) == null)
+        files = getDCIMDirs();
+        loadGridViewFragment();
+    }
+
+    private void loadGridViewFragment() {
+        if (getSupportFragmentManager().findFragmentByTag(TAGGrid) == null)
         {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             GridViewFragment fragment = new GridViewFragment();
-            fragment.SetBitmapHelperAndAppSettings(bitmapHelper, appSettingsManager);
-            ft.add(id.content, fragment, TAG);
+            fragment.SetOnGridItemClick(onGridItemClick);
+            ft.replace(id.content, fragment, TAGGrid);
             ft.commit();
         }
     }
 
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-    }
+    private final ScreenSlideFragment.I_ThumbClick onScreenSlideBackClick = new ScreenSlideFragment.I_ThumbClick() {
+        @Override
+        public void onThumbClick(int position)
+        {
+            loadGridViewFragment();
+        }
+    };
+
+    private final ScreenSlideFragment.I_ThumbClick onGridItemClick = new ScreenSlideFragment.I_ThumbClick() {
+        @Override
+        public void onThumbClick(int position)
+        {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ScreenSlideFragment fragment = new ScreenSlideFragment();
+            fragment.SetOnThumbClick(onScreenSlideBackClick);
+            fragment.defitem  = position;
+            ft.replace(id.content, fragment, TAGSlide);
+            ft.commit();
+        }
+    };
+
 
 }

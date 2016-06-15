@@ -43,6 +43,7 @@ import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.RenderScriptHandler;
 import com.freedcam.utils.StringUtils;
+import com.freedviewer.holder.FileHolder;
 import com.imageconverter.ScriptField_MinMaxPixel;
 
 import java.io.File;
@@ -172,7 +173,7 @@ public class StackingModuleApi2 extends AbstractModuleApi2
                 SaveBitmapToFile(outputBitmap,stackedImg);
                 changeCaptureState(CaptureStates.continouse_capture_stop);
                 MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(), stackedImg);
-                cameraUiWrapper.GetModuleHandler().WorkFinished(stackedImg);
+                cameraUiWrapper.GetModuleHandler().WorkFinished(new FileHolder(stackedImg, appSettingsManager.GetWriteExternal()));
                 isWorking = false;
             }
         });

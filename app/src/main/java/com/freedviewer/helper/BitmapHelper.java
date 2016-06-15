@@ -24,20 +24,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.media.ThumbnailUtils;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 import android.provider.MediaStore.Video.Thumbnails;
 
 import com.freedcam.jni.RawUtils;
-import com.freedcam.utils.AppSettingsManager;
-import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils.FileEnding;
-import com.freedviewer.holder.FileHolder;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by troop on 09.03.2016.
@@ -45,34 +38,15 @@ import java.util.List;
 public class BitmapHelper
 {
     public  CacheHelper CACHE;
-    private  List<FileEvent> fileListners;
-    private  List<FileHolder> files;
+
+
 
     public BitmapHelper(Context context)
     {
         CACHE = new CacheHelper(context);
-        fileListners =  new ArrayList<>();
+
 
     }
-
-    public void LoadFiles()
-    {
-        files = FileHolder.getDCIMFiles();
-        throwOnFileAdded(files.get(0).getFile());
-    }
-
-    public  void DESTROY()
-    {
-        CACHE = null;
-        if (fileListners != null)
-            fileListners.clear();
-        fileListners = null;
-        if (files != null)
-            files.clear();
-        files = null;
-    }
-
-    private BitmapHelper(){}
 
     public Bitmap getBitmap(File file, boolean thumb, int mImageThumbSizeW, int  mImageThumbSizeH)
     {
@@ -144,87 +118,13 @@ public class BitmapHelper
         CACHE.deleteFileFromDiskCache(file.getName()+"_thumb");
     }
 
-    public interface FileEvent
-    {
-        void onFileDeleted(File file);
-        void onFileAdded(File file);
-    }
 
-    private void throwOnFileDeleted(File file)
-    {
-        if (fileListners == null)
-            return;
-        for (int i = 0; i< fileListners.size(); i++)
-        {
-            if (fileListners.get(i) !=null)
-                fileListners.get(i).onFileDeleted(file);
-            else
-            {
-                fileListners.remove(i);
-                i--;
-            }
-        }
-    }
 
-    public boolean DeleteFile(FileHolder file, AppSettingsManager appSettingsManager,Context context) throws NullPointerException
-    {
-        boolean del = false;
-        DeleteCache(file.getFile());
-        if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || file.getFile().canWrite())
-        {
-            del = file.getFile().delete();
-        }
-        if (!del && VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP)
-            del =FileUtils.delteDocumentFile(file.getFile(),appSettingsManager,context);
-        if (del)
-        {
-            if (files != null)
-                files.remove(file);
-            throwOnFileDeleted(file.getFile());
-        }
-        return del;
-    }
 
-    private void throwOnFileAdded(File file)
-    {
-        if (fileListners == null)
-            return;
-        for (int i = 0; i< fileListners.size(); i++)
-        {
-            if (fileListners.get(i) !=null)
-                fileListners.get(i).onFileAdded(file);
-            else
-            {
-                fileListners.remove(i);
-                i--;
-            }
-        }
-    }
 
-    public void AddFile(FileHolder file)
-    {
-        if (files == null)
-            return;
-        files.add(file);
-        throwOnFileAdded(file.getFile());
-    }
 
-    public void AddFileListner(FileEvent event)
-    {
-        if (fileListners == null)
-            return;
-        else
-        {
-            if (!fileListners.contains(event))
-                fileListners.add(event);
-            return;
-        }
-    }
 
-    public List<FileHolder> getFiles()
-    {
-        return files;
-    }
+
 
 }
 

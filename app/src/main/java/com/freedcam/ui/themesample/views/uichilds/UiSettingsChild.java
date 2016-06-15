@@ -36,7 +36,6 @@ import com.freedcam.apis.basecamera.parameters.I_ParametersLoaded;
 import com.freedcam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.themesample.subfragments.Interfaces.I_MenuItemClick;
-import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.troop.freedcam.R.drawable;
 import com.troop.freedcam.R.id;
@@ -60,7 +59,6 @@ public class UiSettingsChild extends LinearLayout implements ModuleChangedEvent,
     protected I_MenuItemClick onItemClick;
     private final boolean logging =false;
     private boolean fromleft;
-    protected   AppSettingsManager appSettingsManager;
 
     public UiSettingsChild(Context context) {
         super(context);
@@ -68,11 +66,10 @@ public class UiSettingsChild extends LinearLayout implements ModuleChangedEvent,
         init(context);
     }
 
-    public void SetStuff(I_Activity i_activity, String settingvalue, AppSettingsManager appSettingsManager)
+    public void SetStuff(I_Activity i_activity, String settingvalue)
     {
         this.i_activity = i_activity;
         settingsname = settingvalue;
-        this.appSettingsManager = appSettingsManager;
     }
 
     public UiSettingsChild(Context context, AttributeSet attrs)
@@ -209,7 +206,7 @@ public class UiSettingsChild extends LinearLayout implements ModuleChangedEvent,
         if (parameter != null && parameter.IsSupported())
         {
             if (settingsname != null && !settingsname.equals(""))
-                appSettingsManager.setString(settingsname, value);
+                i_activity.getAppSettings().setString(settingsname, value);
             try {
                 parameter.SetValue(value, true);
             }

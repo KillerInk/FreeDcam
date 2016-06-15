@@ -22,7 +22,8 @@ package com.freedcam.apis.basecamera.modules;
 import android.os.Handler;
 import android.os.Looper;
 
-import java.io.File;
+import com.freedviewer.holder.FileHolder;
+
 import java.util.ArrayList;
 
 /**
@@ -94,10 +95,10 @@ public class ModuleEventHandler
             WorkFinishedListners.add(i_workEvent);
     }
 
-    public void WorkFinished(File filePath)
+    public void WorkFinished(FileHolder fileHolder)
     {
         for (I_WorkEvent listner : WorkFinishedListners)
-            listner.WorkHasFinished(filePath);
+            listner.WorkHasFinished(fileHolder);
     }
 
     public void AddRecoderChangedListner(I_RecorderStateChanged recorderStateChanged)

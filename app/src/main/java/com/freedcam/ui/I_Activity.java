@@ -19,7 +19,15 @@
 
 package com.freedcam.ui;
 
+import android.content.Context;
 import android.net.Uri;
+
+import com.AbstractFragmentActivity;
+import com.freedcam.utils.AppSettingsManager;
+import com.freedviewer.helper.BitmapHelper;
+import com.freedviewer.holder.FileHolder;
+
+import java.util.List;
 
 /**
  * Created by troop on 22.03.2015.
@@ -33,6 +41,37 @@ public interface I_Activity
     {
         void onActivityResultCallback(Uri uri);
     }
+
+    /**
+     * @return all files from /DCIM/FreeDcam from internal and external
+     */
+    List<FileHolder> getFreeDcamDCIMFiles();
+
+    /**
+     * Lists all Folders stored in DCIM on internal and external SD
+     * @return folders from DCIM dirs
+     */
+    List<FileHolder> getDCIMDirs();
+
+
+    BitmapHelper getBitmapHelper();
+
+    Context getContext();
+
+    AppSettingsManager getAppSettings();
+
+    boolean DeleteFile(FileHolder file);
+
+    void AddFile(FileHolder file);
+
+    void AddFileListner(AbstractFragmentActivity.FileEvent event);
+
+    List<FileHolder> getFiles();
+
+    void LoadDCIMDirs();
+    void LoadFreeDcamDCIMDirsFiles();
+
+    void LoadFolder(FileHolder fileHolder, AbstractFragmentActivity.FormatTypes types);
 }
 
 

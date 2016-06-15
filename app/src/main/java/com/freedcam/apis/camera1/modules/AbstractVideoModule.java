@@ -37,6 +37,7 @@ import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
+import com.freedviewer.holder.FileHolder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -194,7 +195,8 @@ public abstract class AbstractVideoModule extends AbstractModule
             }
             File file = new File(mediaSavePath);
             MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(), file);
-            cameraUiWrapper.GetModuleHandler().WorkFinished(file);
+
+            cameraUiWrapper.GetModuleHandler().WorkFinished(new FileHolder(file, appSettingsManager.GetWriteExternal()));
             cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
             isWorking = false;
         }

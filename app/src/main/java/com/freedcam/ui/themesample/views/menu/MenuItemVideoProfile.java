@@ -39,7 +39,7 @@ public class MenuItemVideoProfile extends MenuItem
 
     @Override
     public void SetValue(String value) {
-        appSettingsManager.setString(AppSettingsManager.SETTING_VIDEPROFILE, value);
+        i_activity.getAppSettings().setString(AppSettingsManager.SETTING_VIDEPROFILE, value);
         onValueChanged(value);
         parameter.SetValue(value, true);
     }

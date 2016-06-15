@@ -85,7 +85,6 @@ public class MainActivity extends AbstractFragmentActivity implements I_orientat
 
         //load the camera ui
         sampleThemeFragment = new SampleThemeFragment();
-        sampleThemeFragment.SetAppSettingsManagerAndBitmapHelper(appSettingsManager, bitmapHelper);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(anim.left_to_right_enter, anim.left_to_right_exit);
         transaction.add(id.themeFragmentholder, sampleThemeFragment, "CameraFragment");

@@ -26,8 +26,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 
 import com.freedcam.apis.basecamera.modules.I_WorkEvent;
-
-import java.io.File;
+import com.freedviewer.holder.FileHolder;
 
 /**
  * Created by troop on 18.10.2014.
@@ -62,7 +61,7 @@ public class ShareActivity extends MainActivity implements I_WorkEvent
     }
 
     @Override
-    public void WorkHasFinished(File filePath)
+    public void WorkHasFinished(FileHolder fileHolder)
     {
         setResult(Activity.RESULT_OK, callerIntent);
         finish();

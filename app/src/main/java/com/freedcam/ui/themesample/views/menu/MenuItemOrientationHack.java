@@ -46,9 +46,9 @@ public class MenuItemOrientationHack extends MenuItem
     public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(""))
-            appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack, KEYS.OFF);
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
+        if (i_activity.getAppSettings().getString(AppSettingsManager.SETTING_OrientationHack).equals(""))
+            i_activity.getAppSettings().setString(AppSettingsManager.SETTING_OrientationHack, KEYS.OFF);
+        if (i_activity.getAppSettings().getString(AppSettingsManager.SETTING_OrientationHack).equals(KEYS.ON))
             onValueChanged(KEYS.ON);
         else
             onValueChanged(KEYS.OFF);
@@ -62,7 +62,7 @@ public class MenuItemOrientationHack extends MenuItem
     @Override
     public void SetValue(String value)
     {
-        appSettingsManager.setString(AppSettingsManager.SETTING_OrientationHack, value);
+        i_activity.getAppSettings().setString(AppSettingsManager.SETTING_OrientationHack, value);
         if (cameraUiWrapper instanceof Camera1Fragment) {
             ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetCameraRotation();
             cameraUiWrapper.GetParameterHandler().SetPictureOrientation(0);

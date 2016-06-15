@@ -32,12 +32,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
-import com.freedcam.apis.basecamera.interfaces.CameraWrapperInterface;
-import com.freedcam.apis.basecamera.modules.I_WorkEvent;
-import com.freedcam.utils.FreeDPool;
-import com.freedcam.utils.Logger;
-import com.freedviewer.helper.BitmapHelper;
-import com.freedviewer.helper.BitmapHelper.FileEvent;
+import com.AbstractFragmentActivity;
 import com.freedviewer.screenslide.ScreenSlideFragment.I_ThumbClick;
 import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.drawable;
@@ -47,20 +42,19 @@ import java.io.File;
 /**
  * Created by troop on 13.06.2015.
  */
-public class ThumbView extends ImageView implements I_WorkEvent, OnClickListener, FileEvent
+public class ThumbView extends ImageView implements OnClickListener, AbstractFragmentActivity.FileEvent
 {
     private final  String TAG = ThumbView.class.getSimpleName();
     private Bitmap mask;
     private I_ThumbClick click;
     private int mImageThumbSize;
-    private final Context context;
-    private BitmapHelper bitmapHelper;
+    private Context context;
 
     public ThumbView(Context context) {
         super(context);
         setOnClickListener(this);
         setBackgroundDrawable(context.getResources().getDrawable(drawable.thumbnail));
-        this.context = context;
+        init(context);
     }
 
     public ThumbView(Context context, AttributeSet attrs)
@@ -68,46 +62,19 @@ public class ThumbView extends ImageView implements I_WorkEvent, OnClickListener
         super(context, attrs);
         setOnClickListener(this);
         setBackgroundDrawable(context.getResources().getDrawable(drawable.thumbnail));
+        init(context);
+    }
+
+    private void init(Context context)
+    {
         this.context = context;
+        mask = BitmapFactory.decodeResource(getContext().getResources(), drawable.maskthumb);
+        mImageThumbSize = context.getResources().getDimensionPixelSize(dimen.image_thumbnails_size);
     }
 
 
-    public void INIT(CameraWrapperInterface cameraUiWrapper, BitmapHelper bitmapHelper)
+    public void showThumb(Bitmap bitmap)
     {
-        this.bitmapHelper = bitmapHelper;
-        bitmapHelper.AddFileListner(this);
-        try {
-            mask = BitmapFactory.decodeResource(getContext().getResources(), drawable.maskthumb);
-            mImageThumbSize = context.getResources().getDimensionPixelSize(dimen.image_thumbnails_size);
-
-
-            //WorkHasFinished(bitmapHelper.getFiles().get(0).getFile());
-        }
-        catch (NullPointerException | IndexOutOfBoundsException ex)
-        {Logger.exception(ex);}
-
-
-    }
-
-    @Override
-    public void WorkHasFinished(final File filePath)
-    {
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run() {
-                Logger.d(TAG, "Load Thumb " + filePath.getName());
-                try {
-                    showThumb(filePath);
-                } catch (NullPointerException ex) {
-                    Logger.exception(ex);
-                }
-            }
-        });
-    }
-
-    private void showThumb(File filePath)
-    {
-        Bitmap bitmap = bitmapHelper.getBitmap(filePath, true, mImageThumbSize, mImageThumbSize);
         final Bitmap drawMap = Bitmap.createBitmap(mask.getWidth(), mask.getHeight(), Config.ARGB_8888);
         Canvas drawc = new Canvas(drawMap);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -133,18 +100,17 @@ public class ThumbView extends ImageView implements I_WorkEvent, OnClickListener
     public void onClick(View v)
     {
         if (click != null)
-            click.onThumbClick();
-
-
+            click.onThumbClick(0);
     }
 
     @Override
-    public void onFileDeleted(File file) {
-        WorkHasFinished(bitmapHelper.getFiles().get(0).getFile());
+    public void onFileDeleted(File file)
+    {
+        //showThumb(newBitmapToShow);
     }
 
     @Override
     public void onFileAdded(File file) {
-        showThumb(file);
+        //showThumb(bitmap);
     }
 }
