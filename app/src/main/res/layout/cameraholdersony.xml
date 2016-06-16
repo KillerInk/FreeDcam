@@ -7,7 +7,7 @@
     <view
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        class="com.freedcam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView"
+        class="freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView"
         android:id="@+id/view"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="0dp"

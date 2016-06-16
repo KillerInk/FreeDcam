@@ -27,7 +27,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemAntiBanding"
@@ -39,7 +39,7 @@
                 android:layout_marginRight="0dp"
                 android:alpha="0.9" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/LensFilter"
@@ -50,7 +50,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp"/>
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemColor"
@@ -61,7 +61,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemScene"
@@ -72,7 +72,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemCorrelatedDoubleSampling"
@@ -83,7 +83,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemDigitalImageStab"
@@ -94,7 +94,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemOIS"
@@ -105,7 +105,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/MenuItemLensShade"
@@ -116,7 +116,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemMemoryColorEnhanc"
@@ -127,7 +127,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemRedEye"
@@ -138,7 +138,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemSceneDetection"
@@ -149,7 +149,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemTemporalDenoise"
@@ -160,7 +160,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemWaveletDenoise"
@@ -172,7 +172,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemZSL"
@@ -183,7 +183,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemCCTMode"
@@ -194,7 +194,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemControlMode"
@@ -205,7 +205,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemEdgeMode"
@@ -216,7 +216,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemHotPixelMode"
@@ -227,7 +227,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemTonemap"
@@ -238,7 +238,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemObjectTracking"
@@ -249,7 +249,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemZoomSetting"
@@ -260,7 +260,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemPostViewSize"
@@ -271,7 +271,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemIpp"
@@ -282,7 +282,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
-            <com.freedcam.ui.themesample.views.menu.MenuItem
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/MenuItemNonManualZSL"

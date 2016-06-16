@@ -39,7 +39,7 @@ import android.widget.ImageView;
 import android.widget.OverScroller;
 import android.widget.Scroller;
 
-import com.freedcam.utils.Logger;
+import freed.utils.Logger;
 
 public class TouchImageView extends ImageView {
 

@@ -32,7 +32,7 @@
         android:largeHeap="true">
 
         <activity
-            android:name="com.freedcam.MainActivity"
+            android:name="freed.cam.ActivityFreeDcamMain"
             android:label="FreeDCam"
             android:icon="@drawable/launcher_freedcam"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection"
@@ -45,7 +45,7 @@
         </activity>
 
         <activity
-            android:name="com.freedcam.ShareActivity"
+            android:name="freed.cam.ActivityFreeDcamShare"
             android:label="FreeDCam"
             android:screenOrientation="landscape"
             android:icon="@drawable/launcher_freedcam"
@@ -57,7 +57,7 @@
         </activity>
 
         <activity
-            android:name="com.freedviewer.GridViewActivity"
+            android:name="freed.viewer.ActivityFreeDviewer"
             android:label="FreeDCam Viewer"
             android:taskAffinity="com.freedviewer.GridViewActivity"
             android:icon="@drawable/launcher_imageviewer"
@@ -70,7 +70,7 @@
         </activity>
 
         <activity
-            android:name="com.freedviewer.dngconvert.DngConvertingActivity"
+            android:name="freed.viewer.dngconvert.DngConvertingActivity"
             android:label="GridView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -78,7 +78,7 @@
         </activity>
 
         <activity
-            android:name="com.freedcam.ui.themesample.subfragments.VideoProfileEditorActivity"
+            android:name="freed.cam.ui.videoprofileeditor.VideoProfileEditorActivity"
             android:label="GridView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

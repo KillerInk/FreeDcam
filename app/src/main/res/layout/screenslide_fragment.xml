@@ -136,7 +136,7 @@
             android:autoText="true" />
     </LinearLayout>
 
-    <com.freedcam.ui.views.MyHistogram
+    <freed.viewer.screenslide.MyHistogram
         android:layout_width="@dimen/screenslide_histogram_width"
         android:layout_height="@dimen/screenslide_histogram_height"
         android:id="@+id/screenslide_histogram"

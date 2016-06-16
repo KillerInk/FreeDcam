@@ -5,7 +5,7 @@
         <attr name="HeaderText" format="string"/>
         <attr name="ValueText" format="string"/>
     </declare-styleable>
-    <declare-styleable name="MenuItem">
+    <declare-styleable name="SettingsChildMenu">
         <attr name="Description" format="string"/>
     </declare-styleable>
     <declare-styleable name="ManualButton">
