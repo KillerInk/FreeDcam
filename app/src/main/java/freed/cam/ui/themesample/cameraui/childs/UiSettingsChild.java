@@ -35,7 +35,7 @@ import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.string;
 import com.troop.freedcam.R.styleable;
 
-import freed.cam.apis.basecamera.interfaces.ModeParameterInterface;
+import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.utils.Logger;
 

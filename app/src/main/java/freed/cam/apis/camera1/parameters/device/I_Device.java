@@ -20,8 +20,8 @@
 package freed.cam.apis.camera1.parameters.device;
 
 import freed.cam.apis.basecamera.FocusRect;
-import freed.cam.apis.basecamera.interfaces.ManualParameterInterface;
-import freed.cam.apis.basecamera.interfaces.ModeParameterInterface;
+import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
+import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.dng.DngProfile;
 
 /**

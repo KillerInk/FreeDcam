@@ -41,8 +41,8 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import freed.ActivityInterface;
-import freed.cam.apis.basecamera.interfaces.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter.I_ManualParameterEvent;
+import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.sonyremote.parameters.manual.BaseManualParameterSony;
 import freed.utils.Logger;
 

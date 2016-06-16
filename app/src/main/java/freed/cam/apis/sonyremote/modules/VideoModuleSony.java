@@ -20,15 +20,15 @@
 package freed.cam.apis.sonyremote.modules;
 
 import freed.cam.apis.KEYS;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.AbstractModule;
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.modules.ModuleAbstract;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.sonyremote.CameraHolderSony;
 
 /**
  * Created by troop on 08.06.2015.
  */
-public class VideoModuleSony extends AbstractModule implements I_CameraStatusChanged
+public class VideoModuleSony extends ModuleAbstract implements I_CameraStatusChanged
 {
     private final String TAG = VideoModuleSony.class.getSimpleName();
     private final CameraHolderSony cameraHolder;

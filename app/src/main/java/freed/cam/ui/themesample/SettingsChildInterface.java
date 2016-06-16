@@ -22,10 +22,10 @@ package freed.cam.ui.themesample;
 import android.view.View;
 
 import freed.ActivityInterface;
-import freed.cam.apis.basecamera.interfaces.ModeParameterInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
 import freed.cam.apis.basecamera.parameters.I_ParametersLoaded;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
+import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 
 /**
  * Created by troop on 16.06.2016.

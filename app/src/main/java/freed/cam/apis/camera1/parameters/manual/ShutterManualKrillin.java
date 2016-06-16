@@ -24,7 +24,7 @@ import android.hardware.Camera.Parameters;
 
 import com.troop.freedcam.R;
 
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 
 /**

@@ -27,7 +27,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import freed.cam.apis.KEYS;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;
 

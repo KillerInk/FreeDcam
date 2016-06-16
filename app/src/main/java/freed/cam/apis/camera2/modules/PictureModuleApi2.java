@@ -58,8 +58,8 @@ import java.util.Collections;
 import java.util.List;
 
 import freed.cam.apis.KEYS;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera2.CameraHolderApi2;

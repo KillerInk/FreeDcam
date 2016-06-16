@@ -23,7 +23,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
 
-import freed.cam.apis.basecamera.interfaces.FocusHandlerInterface;
+import freed.cam.apis.basecamera.FocusHandlerInterface;
 
 /**
  * Created by troop on 09.06.2015.

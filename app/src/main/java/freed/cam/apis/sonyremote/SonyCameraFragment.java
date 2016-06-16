@@ -41,10 +41,10 @@ import freed.ActivityInterface;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
-import freed.cam.apis.basecamera.interfaces.CameraHolderInterface;
-import freed.cam.apis.basecamera.interfaces.FocuspeakProcessor;
-import freed.cam.apis.basecamera.interfaces.ModuleInterface;
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler;
+import freed.cam.apis.basecamera.CameraHolderInterface;
+import freed.cam.apis.basecamera.FocuspeakProcessor;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
+import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.sonyremote.modules.ModuleHandlerSony;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
@@ -432,7 +432,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
     }
 
     @Override
-    public AbstractModuleHandler GetModuleHandler() {
+    public ModuleHandlerAbstract GetModuleHandler() {
         return moduleHandler;
     }
 

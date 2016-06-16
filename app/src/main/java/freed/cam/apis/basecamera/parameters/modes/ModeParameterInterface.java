@@ -17,9 +17,7 @@
  * /
  */
 
-package freed.cam.apis.basecamera.interfaces;
-
-import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
+package freed.cam.apis.basecamera.parameters.modes;
 
 /**
  * Created by troop on 17.08.2014.

@@ -27,7 +27,7 @@ import android.os.Build.VERSION_CODES;
 import java.util.ArrayList;
 
 import freed.cam.apis.KEYS;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera2.CameraHolderApi2;
 
 /**

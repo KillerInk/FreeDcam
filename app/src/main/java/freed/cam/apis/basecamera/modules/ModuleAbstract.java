@@ -31,30 +31,29 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.interfaces.ModuleInterface;
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler.CaptureStateChanged;
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;
 
 /**
  * Created by troop on 15.08.2014.
  */
-public abstract class AbstractModule implements ModuleInterface
+public abstract class ModuleAbstract implements ModuleInterface
 {
 
     protected boolean isWorking;
     public String name;
 
     protected CaptureStateChanged captureStateChangedListner;
-    private final String TAG = AbstractModule.class.getSimpleName();
+    private final String TAG = ModuleAbstract.class.getSimpleName();
     protected AppSettingsManager appSettingsManager;
     protected CaptureStates currentWorkState;
     protected CameraWrapperInterface cameraUiWrapper;
 
 
-    public AbstractModule(CameraWrapperInterface cameraUiWrapper)
+    public ModuleAbstract(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();

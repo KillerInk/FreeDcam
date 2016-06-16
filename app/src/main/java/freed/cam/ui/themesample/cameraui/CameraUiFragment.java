@@ -42,7 +42,7 @@ import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.ActivityInterface;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.I_swipe;
 import freed.cam.ui.SwipeMenuListner;
 import freed.cam.ui.guide.GuideHandler;

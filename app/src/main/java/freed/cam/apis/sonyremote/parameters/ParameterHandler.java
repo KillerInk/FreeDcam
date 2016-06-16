@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.modes.ModuleParameters;
 import freed.cam.apis.camera1.parameters.device.I_Device;

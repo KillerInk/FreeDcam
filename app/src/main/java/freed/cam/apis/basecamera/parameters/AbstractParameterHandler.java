@@ -24,15 +24,15 @@ import android.os.Looper;
 
 import java.util.ArrayList;
 
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.interfaces.ManualParameterInterface;
-import freed.cam.apis.basecamera.interfaces.ModeParameterInterface;
+import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.GuideList;
 import freed.cam.apis.basecamera.parameters.modes.Horizont;
 import freed.cam.apis.basecamera.parameters.modes.IntervalDurationParameter;
 import freed.cam.apis.basecamera.parameters.modes.IntervalShutterSleepParameter;
 import freed.cam.apis.basecamera.parameters.modes.LocationParameter;
+import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
 import freed.cam.apis.camera1.parameters.device.I_Device;
 import freed.utils.AppSettingsManager;

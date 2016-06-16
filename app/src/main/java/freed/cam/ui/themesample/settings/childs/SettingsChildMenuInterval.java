@@ -23,7 +23,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import freed.ActivityInterface;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.utils.AppSettingsManager;
 
 /**

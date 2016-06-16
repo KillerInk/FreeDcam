@@ -30,7 +30,7 @@ import android.widget.Toast;
 import java.io.File;
 
 import freed.ActivityInterface.I_OnActivityResultCallback;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.SDModeParameter;
 import freed.utils.Logger;
 import freed.utils.StringUtils;

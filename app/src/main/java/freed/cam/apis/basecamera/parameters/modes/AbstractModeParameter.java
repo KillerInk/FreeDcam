@@ -25,8 +25,6 @@ import android.os.Looper;
 import java.util.ArrayList;
 import java.util.List;
 
-import freed.cam.apis.basecamera.interfaces.ModeParameterInterface;
-
 /**
  * Created by Ingo on 26.12.2014.
  *
@@ -103,7 +101,7 @@ public class AbstractModeParameter implements ModeParameterInterface
     /**
      *
      * @param valueToSet to the camera
-     * @param setToCamera not needed anymore
+     * @param setToCamera not needed anymore?
      */
     @Override
     public void SetValue(String valueToSet, boolean setToCamera) {

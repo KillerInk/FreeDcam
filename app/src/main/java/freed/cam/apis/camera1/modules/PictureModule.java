@@ -30,9 +30,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import freed.cam.apis.KEYS;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.AbstractModule;
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.modules.ModuleAbstract;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.ui.handler.MediaScannerManager;
@@ -50,7 +50,7 @@ import freed.viewer.holder.FileHolder;
 /**
  * Created by troop on 15.08.2014.
  */
-public class PictureModule extends AbstractModule implements Camera.PictureCallback
+public class PictureModule extends ModuleAbstract implements Camera.PictureCallback
 {
 
     private final String TAG = PictureModule.class.getSimpleName();

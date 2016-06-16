@@ -23,9 +23,9 @@ package freed.cam.apis.camera1.modules;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.IntervalModule;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.utils.Logger;
@@ -33,7 +33,7 @@ import freed.utils.Logger;
 /**
  * Created by troop on 16.08.2014.
  */
-public class ModuleHandler extends AbstractModuleHandler
+public class ModuleHandler extends ModuleHandlerAbstract
 {
     private final String TAG = "cam.ModuleHandler";
 

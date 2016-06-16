@@ -19,7 +19,7 @@
 
 package freed.cam.apis.camera1.parameters.manual;
 
-import freed.cam.apis.basecamera.interfaces.ManualParameterInterface;
+import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 
 /**
  * Created by troop on 13.06.2016.

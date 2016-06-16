@@ -31,8 +31,8 @@ import android.widget.LinearLayout;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import freed.cam.apis.basecamera.interfaces.ModeParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
+import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.cam.ui.themesample.cameraui.childs.SimpleValueChild;
 

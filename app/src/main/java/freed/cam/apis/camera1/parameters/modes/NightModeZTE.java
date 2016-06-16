@@ -22,7 +22,7 @@ package freed.cam.apis.camera1.parameters.modes;
 import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.KEYS;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.Logger;
 

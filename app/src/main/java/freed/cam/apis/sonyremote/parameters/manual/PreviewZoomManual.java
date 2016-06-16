@@ -24,7 +24,7 @@ import android.os.Build.VERSION_CODES;
 
 import java.util.Set;
 
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 
 /**

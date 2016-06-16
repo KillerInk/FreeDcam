@@ -22,9 +22,9 @@ package freed.cam.apis.camera1;
 import android.view.MotionEvent;
 
 import freed.cam.apis.basecamera.AbstractFocusHandler;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.basecamera.FocusRect;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.interfaces.FocusEvents;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.utils.DeviceUtils.Devices;

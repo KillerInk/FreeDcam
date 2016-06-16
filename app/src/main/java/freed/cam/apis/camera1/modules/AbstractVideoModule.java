@@ -31,10 +31,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import freed.cam.apis.KEYS;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.AbstractModule;
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.I_RecorderStateChanged;
+import freed.cam.apis.basecamera.modules.ModuleAbstract;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.AppSettingsManager;
@@ -45,7 +45,7 @@ import freed.viewer.holder.FileHolder;
 /**
  * Created by troop on 06.01.2016.
  */
-public abstract class AbstractVideoModule extends AbstractModule
+public abstract class AbstractVideoModule extends ModuleAbstract
 {
     protected MediaRecorder recorder;
     protected String mediaSavePath;

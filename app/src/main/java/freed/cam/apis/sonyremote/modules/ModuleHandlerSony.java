@@ -20,8 +20,8 @@
 package freed.cam.apis.sonyremote.modules;
 
 import freed.cam.apis.KEYS;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.CameraHolderSony.I_CameraShotMode;
 import freed.utils.Logger;
@@ -29,7 +29,7 @@ import freed.utils.Logger;
 /**
  * Created by troop on 13.12.2014.
  */
-public class ModuleHandlerSony extends AbstractModuleHandler implements I_CameraShotMode
+public class ModuleHandlerSony extends ModuleHandlerAbstract implements I_CameraShotMode
 {
     private CameraHolderSony cameraHolder;
     private final String TAG = ModuleHandlerSony.class.getSimpleName();

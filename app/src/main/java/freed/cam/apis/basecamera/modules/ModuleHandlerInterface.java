@@ -17,9 +17,9 @@
  * /
  */
 
-package freed.cam.apis.basecamera.interfaces;
+package freed.cam.apis.basecamera.modules;
 
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler.CaptureStateChanged;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
 
 /**
  * Created by troop on 09.12.2014.

@@ -30,7 +30,7 @@ import android.widget.LinearLayout;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.utils.AppSettingsManager;
 
 /**

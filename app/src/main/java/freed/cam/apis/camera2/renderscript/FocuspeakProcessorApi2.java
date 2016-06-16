@@ -31,7 +31,7 @@ import android.renderscript.RenderScript.RSErrorHandler;
 import android.renderscript.Type.Builder;
 import android.view.Surface;
 
-import freed.cam.apis.basecamera.interfaces.FocuspeakProcessor;
+import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.utils.Logger;
 import freed.utils.RenderScriptHandler;
 

@@ -21,7 +21,7 @@ package freed.cam.apis.camera1.parameters.manual.mtk;
 
 import android.hardware.Camera.Parameters;
 
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.manual.AE_Handler_Abstract;
 
 /**

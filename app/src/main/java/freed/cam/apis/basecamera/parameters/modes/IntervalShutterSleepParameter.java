@@ -21,7 +21,7 @@ package freed.cam.apis.basecamera.parameters.modes;
 
 import com.troop.freedcam.R;
 
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 
 /**
  * Created by troop on 08.01.2016.

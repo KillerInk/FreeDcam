@@ -23,7 +23,7 @@ import android.annotation.TargetApi;
 import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build.VERSION_CODES;
 
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.camera2.CameraHolderApi2;
 

@@ -17,42 +17,51 @@
  * /
  */
 
-package freed.cam.apis.basecamera.interfaces;
-
-import android.location.Location;
-import android.view.SurfaceHolder;
+package freed.cam.apis.basecamera.modules;
 
 /**
  * Created by troop on 15.08.2014.
  */
-public interface CameraHolderInterface
+public interface ModuleInterface
 {
+    void SetCaptureStateChangedListner(ModuleHandlerAbstract.CaptureStateChanged captureStateChangedListner);
     /**
-     * open the camera
-     * @param camera to open
-     * @return true when open sucessfull, false when something went wrong
+     * holds the modulename
+     * @return the name of the module
      */
-    boolean OpenCamera(int camera);
-    void CloseCamera();
-    /**
-     *
-     * @return the count of avail cameras
-     */
-    int CameraCout();
-    boolean IsRdy();
+    String ModuleName();
 
     /**
-     * The the surface to camera
-     * @param texture to set
+     * Let the Module start its work
+     */
+    boolean DoWork();
+
+    /**
+     * The workstate of the module
+     * @return true if it has work to process
+     */
+    boolean IsWorking();
+
+    /**
+     * Short name of the module
      * @return
      */
-    boolean SetSurface(SurfaceHolder texture);
-    void StartPreview();
-    void StopPreview();
-    void SetLocation(Location location);
-    void StartFocus();
-    void CancelFocus();
-    void ResetPreviewCallback();
-    void SendUIMessage(String msg);
+    String LongName();
+    /**
+     * Full name of the module
+     * @return
+     */
+    String ShortName();
+
+
+    /**
+     * geht thrown when the module gets loaded
+     */
+    void InitModule();
+
+    /**
+     * get thrown when the module get unloaded and a new gets loaded
+     */
+    void DestroyModule();
 
 }

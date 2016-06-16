@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.interfaces.ModuleInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.utils.AppSettingsManager;
 
 /**

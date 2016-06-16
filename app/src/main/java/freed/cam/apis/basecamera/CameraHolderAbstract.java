@@ -24,9 +24,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.SurfaceHolder;
 
-import freed.cam.apis.basecamera.interfaces.CameraHolderInterface;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.interfaces.FocusEvents;
 import freed.utils.AppSettingsManager;
 
 /**
@@ -43,7 +40,7 @@ public abstract class CameraHolderAbstract implements CameraHolderInterface
 
     protected CameraWrapperInterface cameraUiWrapper;
 
-    //protected AbstractModuleHandler moduleHandler;
+    //protected ModuleHandlerAbstract moduleHandler;
 
     /**
      *

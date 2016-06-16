@@ -34,9 +34,9 @@ import freed.ActivityInterface;
 import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
-import freed.cam.apis.basecamera.interfaces.CameraHolderInterface;
-import freed.cam.apis.basecamera.interfaces.FocuspeakProcessor;
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler;
+import freed.cam.apis.basecamera.CameraHolderInterface;
+import freed.cam.apis.basecamera.FocuspeakProcessor;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.camera2.modules.I_PreviewWrapper;
 import freed.cam.apis.camera2.modules.ModuleHandlerApi2;
@@ -118,7 +118,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     }
 
     @Override
-    public AbstractModuleHandler GetModuleHandler() {
+    public ModuleHandlerAbstract GetModuleHandler() {
         return moduleHandler;
     }
 

@@ -27,9 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import freed.cam.apis.KEYS;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.interfaces.ModuleHandlerInterface;
-import freed.cam.apis.basecamera.interfaces.ModuleInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;
 import freed.viewer.holder.FileHolder;
@@ -37,7 +35,7 @@ import freed.viewer.holder.FileHolder;
 /**
  * Created by troop on 09.12.2014.
  */
-public abstract class AbstractModuleHandler implements ModuleHandlerInterface
+public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
 {
     public enum CaptureStates
     {
@@ -60,7 +58,7 @@ public abstract class AbstractModuleHandler implements ModuleHandlerInterface
 
     private final ArrayList<CaptureStateChanged> onCaptureStateChangedListners;
 
-    private final String TAG = AbstractModuleHandler.class.getSimpleName();
+    private final String TAG = ModuleHandlerAbstract.class.getSimpleName();
     public AbstractMap<String, ModuleInterface> moduleList;
     protected ModuleInterface currentModule;
     protected CameraWrapperInterface cameraUiWrapper;
@@ -79,7 +77,7 @@ public abstract class AbstractModuleHandler implements ModuleHandlerInterface
 
     protected AppSettingsManager appSettingsManager;
 
-    public AbstractModuleHandler(CameraWrapperInterface cameraUiWrapper)
+    public ModuleHandlerAbstract(CameraWrapperInterface cameraUiWrapper)
     {
         this.cameraUiWrapper = cameraUiWrapper;
         moduleList = new HashMap<>();

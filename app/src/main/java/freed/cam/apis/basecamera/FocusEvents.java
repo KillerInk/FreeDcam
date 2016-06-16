@@ -17,21 +17,15 @@
  * /
  */
 
-package freed.cam.apis.basecamera.interfaces;
-
-import android.view.MotionEvent;
-
-import freed.cam.apis.basecamera.FocusRect;
+package freed.cam.apis.basecamera;
 
 /**
- * Created by troop on 02.09.2014.
+ * Created by troop on 06.01.2015.
  */
-public interface FocusHandlerInterface
+public interface FocusEvents
 {
-    void FocusStarted(FocusRect rect);
-    void FocusFinished(boolean success);
-    void FocusLocked(boolean locked);
-    void TouchToFocusSupported(boolean isSupported);
-    void AEMeteringSupported(boolean isSupported);
-    boolean onTouchEvent(MotionEvent event);
+    void onFocusEvent(boolean success);
+    void onFocusLock(boolean locked);
 }
+
+

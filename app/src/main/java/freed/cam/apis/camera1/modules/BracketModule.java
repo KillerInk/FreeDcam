@@ -24,8 +24,8 @@ import android.hardware.Camera;
 import java.io.File;
 
 import freed.cam.apis.KEYS;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.utils.AppSettingsManager;
 import freed.utils.FreeDPool;
 import freed.utils.Logger;

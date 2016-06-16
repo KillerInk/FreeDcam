@@ -19,9 +19,9 @@
 
 package freed.cam.apis.camera2.modules;
 
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.AbstractModule;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.IntervalModule;
+import freed.cam.apis.basecamera.modules.ModuleAbstract;
 
 /**
  * Created by troop on 26.02.2016.
@@ -29,7 +29,7 @@ import freed.cam.apis.basecamera.modules.IntervalModule;
 public class IntervalApi2 extends IntervalModule implements I_PreviewWrapper
 {
     private final PictureModuleApi2 picModule;
-    public IntervalApi2(AbstractModule picModule,CameraWrapperInterface cameraUiWrapper) {
+    public IntervalApi2(ModuleAbstract picModule, CameraWrapperInterface cameraUiWrapper) {
         super(picModule,cameraUiWrapper);
         this.picModule = (PictureModuleApi2)picModule;
     }

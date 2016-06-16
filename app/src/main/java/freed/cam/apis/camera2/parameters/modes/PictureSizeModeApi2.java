@@ -24,7 +24,7 @@ import android.media.ImageReader;
 import android.os.Build.VERSION_CODES;
 import android.util.Size;
 
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera2.CameraHolderApi2;
 
 /**

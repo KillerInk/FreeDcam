@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import freed.cam.apis.KEYS;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
 import freed.cam.apis.camera1.CameraHolder;

@@ -38,8 +38,8 @@ import android.widget.RelativeLayout.LayoutParams;
 
 import com.troop.freedcam.R;
 
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.sonyremote.SonyCameraFragment;

@@ -22,10 +22,10 @@ package freed.cam.apis.camera1.parameters.device.qcom;
 import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.KEYS;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.interfaces.ManualParameterInterface;
-import freed.cam.apis.basecamera.interfaces.ModeParameterInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
+import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.camera1.parameters.device.BaseQcomDevice;
 import freed.cam.apis.camera1.parameters.manual.BaseFocusManual;
 import freed.cam.apis.camera1.parameters.modes.NightModeXiaomi;

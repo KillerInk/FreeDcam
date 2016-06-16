@@ -26,7 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import freed.cam.apis.KEYS;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.DeviceUtils.Devices;
 import freed.utils.Logger;

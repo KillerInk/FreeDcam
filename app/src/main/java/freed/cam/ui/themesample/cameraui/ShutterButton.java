@@ -28,10 +28,10 @@ import android.widget.Button;
 import com.troop.freedcam.R;
 
 import freed.cam.apis.KEYS;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler;
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.ui.themesample.handler.UserMessageHandler;
 import freed.utils.Logger;
@@ -39,7 +39,7 @@ import freed.utils.Logger;
 /**
  * Created by troop on 20.06.2015.
  */
-public class ShutterButton extends Button implements ModuleChangedEvent, AbstractModuleHandler.CaptureStateChanged
+public class ShutterButton extends Button implements ModuleChangedEvent, ModuleHandlerAbstract.CaptureStateChanged
 {
     private CameraWrapperInterface cameraUiWrapper;
     private AnimationDrawable shutterOpenAnimation;

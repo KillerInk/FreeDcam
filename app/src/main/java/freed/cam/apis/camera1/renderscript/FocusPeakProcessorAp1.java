@@ -37,12 +37,12 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import freed.cam.apis.KEYS;
+import freed.cam.apis.basecamera.CameraWrapperEvent;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.Size;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperEventInterface;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.interfaces.FocuspeakProcessor;
-import freed.cam.apis.basecamera.interfaces.ModuleInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
+import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.I_AspectRatio;
 import freed.utils.FreeDPool;
@@ -54,7 +54,7 @@ import freed.utils.RenderScriptHandler;
  * Created by troop on 24.08.2015.
  */
 @TargetApi(VERSION_CODES.KITKAT)
-public class FocusPeakProcessorAp1 implements PreviewCallback, CameraWrapperEventInterface,ModuleChangedEvent, FocuspeakProcessor
+public class FocusPeakProcessorAp1 implements PreviewCallback, CameraWrapperEvent,ModuleChangedEvent, FocuspeakProcessor
 {
     private final String TAG = FocusPeakProcessorAp1.class.getSimpleName();
     private final I_AspectRatio output;

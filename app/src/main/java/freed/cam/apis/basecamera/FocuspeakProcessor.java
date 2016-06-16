@@ -17,7 +17,7 @@
  * /
  */
 
-package freed.cam.apis.basecamera.interfaces;
+package freed.cam.apis.basecamera;
 
 import android.view.Surface;
 

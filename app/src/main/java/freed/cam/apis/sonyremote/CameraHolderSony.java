@@ -34,8 +34,8 @@ import java.util.List;
 import java.util.Set;
 
 import freed.cam.apis.basecamera.CameraHolderAbstract;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.interfaces.FocusEvents;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.sonyremote.modules.I_CameraStatusChanged;
 import freed.cam.apis.sonyremote.modules.I_PictureCallback;
 import freed.cam.apis.sonyremote.modules.ModuleHandlerSony;

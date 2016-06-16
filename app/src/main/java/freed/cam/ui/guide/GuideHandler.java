@@ -11,7 +11,7 @@ import com.troop.freedcam.R.drawable;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.I_ParametersLoaded;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.utils.AppSettingsManager;

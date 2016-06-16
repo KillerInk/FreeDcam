@@ -26,15 +26,15 @@ import android.widget.TextView;
 
 import com.troop.freedcam.R.id;
 
-import freed.cam.apis.basecamera.interfaces.CameraWrapperEventInterface;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.interfaces.ModuleInterface;
+import freed.cam.apis.basecamera.CameraWrapperEvent;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.modules.ModuleInterface;
 
 
 /**
  * Created by troop on 04.10.2015.
  */
-public class UserMessageHandler implements CameraWrapperEventInterface
+public class UserMessageHandler implements CameraWrapperEvent
 {
     private final LinearLayout messageHolder;
     private final TextView messageTextView;

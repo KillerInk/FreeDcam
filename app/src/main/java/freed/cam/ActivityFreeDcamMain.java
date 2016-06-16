@@ -42,7 +42,7 @@ import freed.cam.apis.ApiHandler;
 import freed.cam.apis.ApiHandler.ApiEvent;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraFragmentAbstract.CamerUiWrapperRdy;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.handler.HardwareKeyHandler;
 import freed.cam.ui.handler.I_orientation;
 import freed.cam.ui.handler.OrientationHandler;

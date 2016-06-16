@@ -22,8 +22,7 @@ package freed.cam.apis.basecamera.parameters.manual;
 import java.util.ArrayList;
 import java.util.List;
 
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.interfaces.ManualParameterInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 
 /**
  * Created by troop on 17.12.2014.

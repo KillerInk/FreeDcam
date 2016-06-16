@@ -17,14 +17,13 @@
  * /
  */
 
-package freed.cam.apis.basecamera.interfaces;
+package freed.cam.apis.basecamera;
 
 import android.content.Context;
 import android.view.SurfaceView;
 
 import freed.ActivityInterface;
-import freed.cam.apis.basecamera.AbstractFocusHandler;
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.utils.AppSettingsManager;
 import freed.utils.RenderScriptHandler;
@@ -32,7 +31,7 @@ import freed.utils.RenderScriptHandler;
 /**
  * Created by troop on 09.12.2014.
  */
-public interface CameraWrapperInterface extends CameraWrapperEventInterface
+public interface CameraWrapperInterface extends CameraWrapperEvent
 {
     /**
      * Start the Camera
@@ -66,7 +65,7 @@ public interface CameraWrapperInterface extends CameraWrapperEventInterface
      * get the appsettings
      */
     AppSettingsManager GetAppSettingsManager();
-    AbstractModuleHandler GetModuleHandler();
+    ModuleHandlerAbstract GetModuleHandler();
     SurfaceView getSurfaceView();
     AbstractFocusHandler getFocusHandler();
 
@@ -74,7 +73,7 @@ public interface CameraWrapperInterface extends CameraWrapperEventInterface
      * set the listner that get notifyed when camera state has changed
      * @param cameraChangedListner to notify
      */
-    void SetCameraChangedListner(CameraWrapperEventInterface cameraChangedListner);
+    void SetCameraChangedListner(CameraWrapperEvent cameraChangedListner);
 
 
     /**

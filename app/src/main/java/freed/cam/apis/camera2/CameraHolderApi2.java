@@ -66,8 +66,8 @@ import java.util.concurrent.TimeUnit;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraHolderAbstract;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.interfaces.FocusEvents;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.camera2.parameters.ParameterHandler;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;

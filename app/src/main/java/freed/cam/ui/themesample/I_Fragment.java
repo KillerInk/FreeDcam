@@ -18,7 +18,7 @@
  */
 
 package freed.cam.ui.themesample;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 
 /**
  * Created by troop on 24.03.2015.

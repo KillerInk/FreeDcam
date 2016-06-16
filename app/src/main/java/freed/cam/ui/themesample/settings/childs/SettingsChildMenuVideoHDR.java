@@ -24,7 +24,7 @@ import android.util.AttributeSet;
 
 import java.util.ArrayList;
 
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 
 /**
  * Created by troop on 17.08.2015.
@@ -34,7 +34,7 @@ public class SettingsChildMenuVideoHDR extends SettingsChildMenu
 
     private ArrayList<String> modulesToShow;
     private String currentModule;
-    private AbstractModuleHandler moduleHandler;
+    private ModuleHandlerAbstract moduleHandler;
     public SettingsChildMenuVideoHDR(Context context) {
         super(context);
     }
@@ -43,7 +43,7 @@ public class SettingsChildMenuVideoHDR extends SettingsChildMenu
         super(context, attrs);
     }
 
-    public void SetModulesToShow(ArrayList<String> modulesToShow, AbstractModuleHandler moduleHandler)
+    public void SetModulesToShow(ArrayList<String> modulesToShow, ModuleHandlerAbstract moduleHandler)
     {
         this.modulesToShow = modulesToShow;
         this.moduleHandler = moduleHandler;

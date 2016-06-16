@@ -31,7 +31,7 @@ import freed.utils.Logger;
  */
 class IntervalHandler
 {
-    private final AbstractModule picmodule;
+    private final ModuleAbstract picmodule;
 
     private final String TAG = IntervalHandler.class.getSimpleName();
 
@@ -45,7 +45,7 @@ class IntervalHandler
 
     public boolean IsWorking() {return working;}
 
-    public IntervalHandler(AbstractModule picmodule, AppSettingsManager appSettingsManager)
+    public IntervalHandler(ModuleAbstract picmodule, AppSettingsManager appSettingsManager)
     {
         this.picmodule = picmodule;
         handler = new Handler();

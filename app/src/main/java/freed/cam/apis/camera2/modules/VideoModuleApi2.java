@@ -40,7 +40,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import freed.cam.apis.KEYS;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.I_RecorderStateChanged;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;

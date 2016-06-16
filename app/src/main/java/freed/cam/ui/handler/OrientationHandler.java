@@ -4,8 +4,8 @@ import android.hardware.SensorManager;
 import android.support.v4.app.FragmentActivity;
 import android.view.OrientationEventListener;
 
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler.CaptureStateChanged;
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.utils.Logger;
 
 /**

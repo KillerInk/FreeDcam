@@ -26,7 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import freed.ActivityInterface;
-import freed.cam.apis.basecamera.interfaces.ModeParameterInterface;
+import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
 import freed.utils.Logger;
 

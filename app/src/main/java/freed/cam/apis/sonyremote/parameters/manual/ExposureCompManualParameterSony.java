@@ -25,7 +25,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.utils.FreeDPool;
 import freed.utils.Logger;

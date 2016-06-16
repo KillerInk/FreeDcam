@@ -23,7 +23,7 @@ import android.annotation.TargetApi;
 import android.os.Build.VERSION_CODES;
 
 import freed.cam.apis.KEYS;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 
 /**
  * Created by troop on 10.09.2015.

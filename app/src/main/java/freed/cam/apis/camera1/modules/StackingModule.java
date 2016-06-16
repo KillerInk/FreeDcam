@@ -35,8 +35,8 @@ import java.util.Date;
 import java.util.List;
 
 import freed.cam.apis.KEYS;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.parameters.modes.StackModeParameter;
 import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.FreeDPool;

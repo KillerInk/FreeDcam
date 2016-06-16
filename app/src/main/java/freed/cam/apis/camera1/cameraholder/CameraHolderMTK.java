@@ -24,7 +24,7 @@ import android.hardware.Camera;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.Logger;

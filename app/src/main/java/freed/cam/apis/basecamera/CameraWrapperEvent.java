@@ -17,12 +17,14 @@
  * /
  */
 
-package freed.cam.apis.basecamera.interfaces;
+package freed.cam.apis.basecamera;
+
+import freed.cam.apis.basecamera.modules.ModuleInterface;
 
 /**
  * Created by troop on 17.12.2014.
  */
-public interface CameraWrapperEventInterface
+public interface CameraWrapperEvent
 {
     /**
      * gets thrown when camera starts open

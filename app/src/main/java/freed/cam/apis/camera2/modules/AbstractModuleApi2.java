@@ -26,15 +26,15 @@ import android.os.Build.VERSION_CODES;
 import android.view.Display;
 import android.view.WindowManager;
 
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.AbstractModule;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.camera2.CameraHolderApi2;
 
 
 /**
  * Created by troop on 12.12.2014.
  */
-public abstract class AbstractModuleApi2 extends AbstractModule implements I_PreviewWrapper
+public abstract class AbstractModuleApi2 extends ModuleAbstract implements I_PreviewWrapper
 {
     protected freed.cam.apis.camera2.parameters.ParameterHandler ParameterHandler;
 

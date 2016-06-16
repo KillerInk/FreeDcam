@@ -17,9 +17,7 @@
  * /
  */
 
-package freed.cam.apis.basecamera.interfaces;
-
-import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
+package freed.cam.apis.basecamera.parameters.manual;
 
 /**
  * Created by troop on 01.09.2014.

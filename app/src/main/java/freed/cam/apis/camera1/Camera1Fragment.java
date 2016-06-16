@@ -39,11 +39,11 @@ import freed.cam.ActivityFreeDcamMain;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
+import freed.cam.apis.basecamera.CameraHolderInterface;
+import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.Size;
-import freed.cam.apis.basecamera.interfaces.CameraHolderInterface;
-import freed.cam.apis.basecamera.interfaces.FocuspeakProcessor;
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.basecamera.parameters.I_ParametersLoaded;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
@@ -213,7 +213,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
     }
 
     @Override
-    public AbstractModuleHandler GetModuleHandler() {
+    public ModuleHandlerAbstract GetModuleHandler() {
         return moduleHandler;
     }
 

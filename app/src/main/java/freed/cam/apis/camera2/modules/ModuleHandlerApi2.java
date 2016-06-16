@@ -19,15 +19,15 @@
 
 package freed.cam.apis.camera2.modules;
 
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.IntervalModule;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.utils.RenderScriptHandler;
 
 /**
  * Created by troop on 12.12.2014.
  */
-public class ModuleHandlerApi2 extends AbstractModuleHandler
+public class ModuleHandlerApi2 extends ModuleHandlerAbstract
 {
     private final String TAG = "cam.ModuleHandler";
     private final RenderScriptHandler renderScriptHandler;

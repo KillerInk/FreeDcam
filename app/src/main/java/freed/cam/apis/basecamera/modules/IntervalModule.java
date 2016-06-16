@@ -20,21 +20,21 @@
 package freed.cam.apis.basecamera.modules;
 
 import freed.cam.apis.KEYS;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler.CaptureStateChanged;
-import freed.cam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.utils.Logger;
 
 /**
  * Created by troop on 08.01.2016.
  */
-public class IntervalModule extends AbstractModule implements CaptureStateChanged
+public class IntervalModule extends ModuleAbstract implements CaptureStateChanged
 {
-    private final AbstractModule picModule;
+    private final ModuleAbstract picModule;
     private final IntervalHandler intervalHandler;
     private  final String TAG  = IntervalModule.class.getSimpleName();
 
-    public IntervalModule(AbstractModule picModule, CameraWrapperInterface cameraUiWrapper) {
+    public IntervalModule(ModuleAbstract picModule, CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
         this.picModule = picModule;
 

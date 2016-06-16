@@ -22,8 +22,6 @@ package freed.cam.apis.basecamera;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.interfaces.FocusHandlerInterface;
 import freed.utils.Logger;
 
 /**

@@ -22,7 +22,7 @@ package freed.cam.apis.camera1.parameters.modes;
 import android.os.Build.VERSION;
 
 import freed.cam.apis.KEYS;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.renderscript.FocusPeakProcessorAp1;
 
 

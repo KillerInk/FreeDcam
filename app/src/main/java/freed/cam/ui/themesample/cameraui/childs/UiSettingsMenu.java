@@ -22,7 +22,7 @@ package freed.cam.ui.themesample.cameraui.childs;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import freed.cam.apis.basecamera.interfaces.ModeParameterInterface;
+import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 
 /**
  * Created by troop on 14.06.2015.

@@ -26,9 +26,9 @@ import android.hardware.Camera.Parameters;
 import java.util.ArrayList;
 
 import freed.cam.apis.KEYS;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.interfaces.ManualParameterInterface;
+import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;

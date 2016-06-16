@@ -33,8 +33,8 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import freed.ActivityInterface;
-import freed.cam.apis.basecamera.interfaces.CameraWrapperInterface;
-import freed.cam.apis.basecamera.interfaces.ModeParameterInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.utils.Logger;
