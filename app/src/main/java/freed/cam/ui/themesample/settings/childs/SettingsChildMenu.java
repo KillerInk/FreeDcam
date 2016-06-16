@@ -83,6 +83,7 @@ public class SettingsChildMenu extends UiSettingsChild
         valueText = (TextView) findViewById(id.textview_menuitem_header_value);
         description = (TextView) findViewById(id.textview_menuitem_description);
         toplayout = (LinearLayout) findViewById(id.menu_item_toplayout);
+        setOnClickListener(this);
     }
 
     @Override

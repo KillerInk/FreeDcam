@@ -160,7 +160,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
         fragment_activityInterface = (ActivityInterface)getActivity();
         touchHandler = new SwipeMenuListner(this);
-        view = inflater.inflate(layout.cameraui, container, false);
+        view = inflater.inflate(layout.cameraui_fragment, container, false);
 
         sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         manualsettingsIsOpen = sharedPref.getBoolean(KEY_MANUALMENUOPEN, false);

@@ -37,7 +37,7 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent , I_P
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container,null);
-        view = inflater.inflate(layout.guides, container,false);
+        view = inflater.inflate(layout.guides_fragment, container,false);
         img = (ImageView) view.findViewById(id.imageViewGyide);
 
         return view;

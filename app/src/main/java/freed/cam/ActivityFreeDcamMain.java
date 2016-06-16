@@ -30,6 +30,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 
+import com.troop.freedcam.R;
 import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
@@ -85,11 +86,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
             renderScriptHandler = new RenderScriptHandler(getApplicationContext());
 
         //load the camera ui
-        sampleThemeFragment = new SampleThemeFragment();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(anim.left_to_right_enter, anim.left_to_right_exit);
-        transaction.add(id.themeFragmentholder, sampleThemeFragment, "CameraFragment");
-        transaction.commitAllowingStateLoss();
+        sampleThemeFragment = (SampleThemeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_sampletheme);
 
         //check for permission on M>
         if (VERSION.SDK_INT >= VERSION_CODES.M)

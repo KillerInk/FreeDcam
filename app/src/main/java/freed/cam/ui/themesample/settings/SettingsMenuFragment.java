@@ -66,7 +66,7 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,savedInstanceState);
-        view = inflater.inflate(layout.settingsmenufragment, container, false);
+        view = inflater.inflate(layout.settings_fragment, container, false);
         loadLeftFragment();
         loadRightFragment();
         return view;
