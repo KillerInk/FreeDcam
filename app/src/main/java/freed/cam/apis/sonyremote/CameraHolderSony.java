@@ -38,7 +38,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.sonyremote.modules.I_CameraStatusChanged;
 import freed.cam.apis.sonyremote.modules.I_PictureCallback;
-import freed.cam.apis.sonyremote.modules.ModuleHandlerSony;
 import freed.cam.apis.sonyremote.modules.PictureModuleSony;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.parameters.manual.ZoomManualSony;

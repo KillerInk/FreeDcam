@@ -17,13 +17,14 @@
  * /
  */
 
-package freed.cam.apis.sonyremote.modules;
+package freed.cam.apis.sonyremote;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
-import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.CameraHolderSony.I_CameraShotMode;
+import freed.cam.apis.sonyremote.modules.PictureModuleSony;
+import freed.cam.apis.sonyremote.modules.VideoModuleSony;
 import freed.utils.Logger;
 
 /**

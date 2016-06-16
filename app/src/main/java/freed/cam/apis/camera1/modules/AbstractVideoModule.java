@@ -177,6 +177,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract
             Logger.e(TAG, "Stop Recording failed, was called bevor start");
             cameraUiWrapper.GetCameraHolder().SendUIMessage("Stop Recording failed, was called bevor start");
             Logger.e(TAG,ex.getMessage());
+            isWorking = false;
         }
         finally
         {
@@ -197,7 +198,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract
 
             cameraUiWrapper.GetModuleHandler().WorkFinished(new FileHolder(file, appSettingsManager.GetWriteExternal()));
             cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
-            isWorking = false;
+
         }
         changeCaptureState(CaptureStates.video_recording_stop);
     }

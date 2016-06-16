@@ -50,7 +50,6 @@ import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLG;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMotoX;
-import freed.cam.apis.camera1.modules.ModuleHandler;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.renderscript.FocusPeakProcessorAp1;
 import freed.utils.AppSettingsManager;

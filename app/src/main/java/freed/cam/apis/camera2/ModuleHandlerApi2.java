@@ -17,11 +17,15 @@
  * /
  */
 
-package freed.cam.apis.camera2.modules;
+package freed.cam.apis.camera2;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.IntervalModule;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
+import freed.cam.apis.camera2.modules.IntervalApi2;
+import freed.cam.apis.camera2.modules.PictureModuleApi2;
+import freed.cam.apis.camera2.modules.StackingModuleApi2;
+import freed.cam.apis.camera2.modules.VideoModuleApi2;
 import freed.utils.RenderScriptHandler;
 
 /**

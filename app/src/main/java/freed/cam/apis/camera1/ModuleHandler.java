@@ -17,7 +17,7 @@
  * /
  */
 
-package freed.cam.apis.camera1.modules;
+package freed.cam.apis.camera1;
 
 
 import android.os.Build.VERSION;
@@ -28,6 +28,12 @@ import freed.cam.apis.basecamera.modules.IntervalModule;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
+import freed.cam.apis.camera1.modules.BracketModule;
+import freed.cam.apis.camera1.modules.PictureModule;
+import freed.cam.apis.camera1.modules.PictureModuleMTK;
+import freed.cam.apis.camera1.modules.StackingModule;
+import freed.cam.apis.camera1.modules.VideoModule;
+import freed.cam.apis.camera1.modules.VideoModuleG3;
 import freed.utils.Logger;
 
 /**

@@ -46,7 +46,6 @@ import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
-import freed.cam.apis.sonyremote.modules.ModuleHandlerSony;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.cam.apis.sonyremote.sonystuff.ServerDevice;
 import freed.cam.apis.sonyremote.sonystuff.SimpleSsdpClient;
