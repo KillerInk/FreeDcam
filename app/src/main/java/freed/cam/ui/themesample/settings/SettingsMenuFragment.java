@@ -98,7 +98,7 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
         }
         try {
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(anim.empty, anim.empty);
+            transaction.setCustomAnimations(anim.left_to_right_enter, anim.left_to_right_exit);
             transaction.replace(id.left_holder, leftMenuFragment);
             transaction.commitAllowingStateLoss();
         }catch (NullPointerException | IllegalStateException ex)
@@ -115,7 +115,7 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
         }
         try {
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(anim.empty, anim.empty);
+            transaction.setCustomAnimations(anim.right_to_left_enter, anim.right_to_left_exit);
             transaction.replace(id.right_holder, rightMenuFragment);
             transaction.commitAllowingStateLoss();
         }

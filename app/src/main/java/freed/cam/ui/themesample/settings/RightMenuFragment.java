@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
+import freed.ActivityInterface;
 import freed.cam.ui.themesample.AbstractFragment;
 import freed.cam.ui.themesample.SettingsChildAbstract.SettingsChildClick;
 import freed.cam.ui.themesample.cameraui.childs.UiSettingsChild;
@@ -72,6 +73,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,savedInstanceState);
+        fragment_activityInterface = (ActivityInterface)getActivity();
         view = inflater.inflate(layout.rightmenufragment, container, false);
         scene = (SettingsChildMenu) view.findViewById(id.MenuItemScene);
         color = (SettingsChildMenu) view.findViewById(id.MenuItemColor);
