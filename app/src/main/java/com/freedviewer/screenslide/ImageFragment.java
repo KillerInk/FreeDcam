@@ -174,7 +174,7 @@ public class ImageFragment extends Fragment
             response = ((I_Activity)getActivity()).getBitmapHelper().getBitmap(file.getFile(),false, mImageThumbSize, mImageThumbSize);
             createHistogramm(response);
         }
-        catch (IllegalArgumentException ex)
+        catch (IllegalArgumentException | NullPointerException ex)
         {
             Logger.exception(ex);
         }
