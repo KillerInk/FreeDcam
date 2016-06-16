@@ -331,7 +331,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                             file = process_rawWithDngConverter(burstcount, reader,DngProfile.Mipi12);
                             break;
                         case ImageFormat.RAW_SENSOR:
-                            if(appSettingsManager.getDevice() == Devices.Moto_MSM8974 || appSettingsManager.getDevice() == Devices.OnePlusTwo)
+                            if(appSettingsManager.getDevice() == Devices.Moto_X2k14 || appSettingsManager.getDevice() == Devices.OnePlusTwo)
                                 file = process_rawWithDngConverter(burstcount, reader,DngProfile.Mipi16);
                             else
                                 file = process_rawSensor(burstcount, reader);

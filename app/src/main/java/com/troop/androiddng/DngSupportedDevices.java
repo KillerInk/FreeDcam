@@ -252,7 +252,7 @@ public class DngSupportedDevices
                 return new DngProfile(64, 5388, 3752, DngProfile.Qcom, DngProfile.GRBG, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 41312256: // Meizu MX4/5
                 return new DngProfile(64, 5248, 3936, DngProfile.Plain, DngProfile.BGGR, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-            case 42923008://Moto_MSM8982_8994
+            case 42923008://Moto_X_Style_Pure_Play
                 return new DngProfile(64, 5344, 4016, DngProfile.Plain, DngProfile.RGGB, 0, matrixChooser.GetCustomMatrix(MatrixChooserParameter.IMX230));
         }
         if (device == Devices.LG_G4)

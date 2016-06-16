@@ -45,6 +45,7 @@ import com.freedcam.apis.camera1.parameters.device.mtk.Xiaomi_Redmi_Note2_MTK;
 import com.freedcam.apis.camera1.parameters.device.qcom.Alcatel_Idol3;
 import com.freedcam.apis.camera1.parameters.device.qcom.Alcatel_Idol3_small;
 import com.freedcam.apis.camera1.parameters.device.qcom.Aquaris_E5;
+import com.freedcam.apis.camera1.parameters.device.qcom.Blackberry_Priv;
 import com.freedcam.apis.camera1.parameters.device.qcom.GioneE7;
 import com.freedcam.apis.camera1.parameters.device.qcom.HTC_Desire500;
 import com.freedcam.apis.camera1.parameters.device.qcom.HTC_M8;
@@ -56,12 +57,15 @@ import com.freedcam.apis.camera1.parameters.device.qcom.HTC_One_XL;
 import com.freedcam.apis.camera1.parameters.device.qcom.Huawei_GX8;
 import com.freedcam.apis.camera1.parameters.device.qcom.Huawei_Honor5x;
 import com.freedcam.apis.camera1.parameters.device.qcom.LG_G2;
+import com.freedcam.apis.camera1.parameters.device.qcom.LG_G2pro;
 import com.freedcam.apis.camera1.parameters.device.qcom.LG_G3;
 import com.freedcam.apis.camera1.parameters.device.qcom.LG_G4;
 import com.freedcam.apis.camera1.parameters.device.qcom.Lenovo_K910;
 import com.freedcam.apis.camera1.parameters.device.qcom.Lenovo_K920;
 import com.freedcam.apis.camera1.parameters.device.qcom.Lenovo_VibeP1;
-import com.freedcam.apis.camera1.parameters.device.qcom.Moto_MSM8982_8994;
+import com.freedcam.apis.camera1.parameters.device.qcom.Lenovo_VibeShot_Z90;
+import com.freedcam.apis.camera1.parameters.device.qcom.Moto_X2k14;
+import com.freedcam.apis.camera1.parameters.device.qcom.Moto_X_Style_Pure_Play;
 import com.freedcam.apis.camera1.parameters.device.qcom.OnePlusOne;
 import com.freedcam.apis.camera1.parameters.device.qcom.OnePlusTwo;
 import com.freedcam.apis.camera1.parameters.device.qcom.Sony_M4;
@@ -94,14 +98,13 @@ public class DeviceSelector {
         Logger.d(DeviceSelector.class.getSimpleName(), "getDevice " + cameraUiWrapper.GetAppSettingsManager().getDevice());
         switch (cameraUiWrapper.GetAppSettingsManager().getDevice())
         {
+           case UNKNOWN:
+               return getDefault(cameraUiWrapper,cameraParameters);
             case Alcatel_985n:
                 return new Alcatel_985n(cameraParameters, cameraUiWrapper);
-//                case p8:
-//                    
-//                case p8lite:
-//                    
-//                case honor6:
-//                    
+
+            case Blackberry_Priv:
+                return new Blackberry_Priv(cameraParameters,cameraUiWrapper);
             case Aquaris_E5:
                 return new Aquaris_E5(cameraParameters,cameraUiWrapper);
 
@@ -111,6 +114,8 @@ public class DeviceSelector {
             case Alcatel_Idol3_small:
                return new Alcatel_Idol3_small(cameraParameters,cameraUiWrapper);
 
+            case Asus_Zenfon2:
+                return getDefault(cameraUiWrapper,cameraParameters);
             case Elephone_P9000:
                 return new Elephone_P9000(cameraParameters,cameraUiWrapper);
 
@@ -119,13 +124,17 @@ public class DeviceSelector {
                 
             case ForwardArt_MTK:
                return new ForwardArt_MTK(cameraParameters,cameraUiWrapper);
-                
+
+            case Htc_Evo3d:
+                return getDefault(cameraUiWrapper,cameraParameters);
             case Htc_M8:
                return new HTC_M8(cameraParameters,cameraUiWrapper);
                 
             case Htc_M9:
                return new HTC_M9(cameraParameters,cameraUiWrapper);
-                
+
+            case Htc_M10:
+                return getDefault(cameraUiWrapper,cameraParameters);
             case Htc_One_Sv:
                return new HTC_One_SV(cameraParameters,cameraUiWrapper);
                 
@@ -146,7 +155,9 @@ public class DeviceSelector {
                 
             case Huawei_HONOR5x:
                return new Huawei_Honor5x(cameraParameters,cameraUiWrapper);
-                
+
+            case huawei_honor6:
+                return getDefault(cameraUiWrapper,cameraParameters);
             case I_Mobile_I_StyleQ6:
                return new I_Mobile_IStyleQ6(cameraParameters,cameraUiWrapper);
                 
@@ -167,12 +178,14 @@ public class DeviceSelector {
                 
             case Lenovo_VibeP1:
                return new Lenovo_VibeP1(cameraParameters,cameraUiWrapper);
-                
+
+            case Lenovo_VibeShot_Z90:
+                return new Lenovo_VibeShot_Z90(cameraParameters,cameraUiWrapper);
             case LG_G2:
                return new LG_G2(cameraParameters,cameraUiWrapper);
-                
-//                case LG_G2pro:
-//                    
+
+            case LG_G2pro:
+                return new LG_G2pro(cameraParameters,cameraUiWrapper);
             case LG_G3:
                return new LG_G3(cameraParameters,cameraUiWrapper);
                 
@@ -185,24 +198,28 @@ public class DeviceSelector {
                 
             case Meizu_m2Note_MTK:
                return new Meizu_M2_Note_MTK(cameraParameters,cameraUiWrapper);
-                
-//                case Moto_MSM8974:
-//                    
-            case Moto_MSM8982_8994:
-               return new Moto_MSM8982_8994(cameraParameters,cameraUiWrapper);
-                
-//                case MotoG3:
-//                    
-//                case MotoG_Turbo:
-//                    
-//                case Nexus4:
-//                    
+
+            case Moto_X2k14:
+                return new Moto_X2k14(cameraParameters,cameraUiWrapper);
+            case Moto_X_Style_Pure_Play:
+               return new Moto_X_Style_Pure_Play(cameraParameters,cameraUiWrapper);
+
+            case MotoG3:
+                return getDefault(cameraUiWrapper,cameraParameters);
+            case MotoG_Turbo:
+                return getDefault(cameraUiWrapper,cameraParameters);
+            case Nexus4:
+                return getDefault(cameraUiWrapper,cameraParameters);
             case OnePlusOne:
                return new OnePlusOne(cameraParameters,cameraUiWrapper);
                 
             case OnePlusTwo:
                return new OnePlusTwo(cameraParameters,cameraUiWrapper);
-                
+
+            case p8:
+                return getDefault(cameraUiWrapper,cameraParameters);
+            case p8lite:
+                return getDefault(cameraUiWrapper,cameraParameters);
             case Xiaomi_RedmiNote:
                return new Xiaomi_Redmi_Note(cameraParameters,cameraUiWrapper);
                 
@@ -211,13 +228,13 @@ public class DeviceSelector {
                 
             case Retro_MTK:
                return new Retro_MTK(cameraParameters,cameraUiWrapper);
-                
-//                case Samsung_S6_edge:
-//                    
-//                case Samsung_S6_edge_plus:
-//                    
-//                case SonyADV:
-//                    
+
+            case Samsung_S6_edge:
+                return getDefault(cameraUiWrapper,cameraParameters);
+            case Samsung_S6_edge_plus:
+                return getDefault(cameraUiWrapper,cameraParameters);
+            case SonyADV:
+                return getDefault(cameraUiWrapper,cameraParameters);
             case SonyM5_MTK:
                return new Sony_M5_MTK(cameraParameters,cameraUiWrapper);
                 
@@ -244,9 +261,8 @@ public class DeviceSelector {
                 
             case XiaomiMI4C:
                return new Xiaomi_Mi4c(cameraParameters,cameraUiWrapper);
-                
-//                case XiaomiMI5:
-//                    
+            case XiaomiMI5:
+                return getDefault(cameraUiWrapper,cameraParameters);
             case XiaomiMI_Note_Pro:
                return new Xiaomi_Mi_Note_Pro(cameraParameters,cameraUiWrapper);
                 
@@ -265,16 +281,21 @@ public class DeviceSelector {
             case ZTEADV234:
                return new ZTE_ADV_IMX234(cameraParameters,cameraUiWrapper);
             default:
-                if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.MTK)
-                {
-                    Logger.d(DeviceSelector.class.getSimpleName(), "USE DEFAULT MTK DEVICE");
-                    return new BaseMTKDevice(cameraParameters, cameraUiWrapper);
-                }
-                else {
-                    Logger.d(DeviceSelector.class.getSimpleName(), "USE DEFAULT QCOM DEVICE");
-                    return new BaseQcomDevice(cameraParameters, cameraUiWrapper);
-                }
+                return getDefault(cameraUiWrapper,cameraParameters);
         }
-        
+        //return getDefault(cameraUiWrapper,cameraParameters);
+    }
+
+    private AbstractDevice getDefault(CameraWrapperInterface cameraUiWrapper, Parameters parameters)
+    {
+        if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.MTK)
+        {
+            Logger.d(DeviceSelector.class.getSimpleName(), "USE DEFAULT MTK DEVICE");
+            return new BaseMTKDevice(parameters, cameraUiWrapper);
+        }
+        else {
+            Logger.d(DeviceSelector.class.getSimpleName(), "USE DEFAULT QCOM DEVICE");
+            return new BaseQcomDevice(parameters, cameraUiWrapper);
+        }
     }
 }

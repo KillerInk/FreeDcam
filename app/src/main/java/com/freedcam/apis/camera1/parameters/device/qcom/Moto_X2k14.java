@@ -37,10 +37,10 @@ import java.util.ArrayList;
 /**
  * Created by troop on 01.06.2016.
  */
-public class Moto_MSM8974 extends AbstractDevice {
+public class Moto_X2k14 extends AbstractDevice {
 
 
-    public Moto_MSM8974(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
+    public Moto_X2k14(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 

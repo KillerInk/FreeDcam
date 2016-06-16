@@ -89,11 +89,10 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
         super.onCreate(savedInstanceState);
         Logger.d(TAG, "createHandlers()");
         appSettingsManager = new AppSettingsManager(getApplicationContext());
-        Context ctx = getApplicationContext();
         bitmapHelper =new BitmapHelper(getApplicationContext());
         fileListners =  new ArrayList<>();
         if (appSettingsManager.getDevice() == null)
-            appSettingsManager.SetDevice(new DeviceUtils().getDevice(ctx));
+            appSettingsManager.SetDevice(new DeviceUtils().getDevice(getResources()));
         HIDENAVBAR();
     }
 

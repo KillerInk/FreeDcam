@@ -255,7 +255,7 @@ public class AeHandler
                 millimax = 45000000;
             else if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Samsung_S6_edge_plus)
                 millimax = 10000000;
-            else if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Moto_MSM8982_8994)
+            else if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Moto_X_Style_Pure_Play)
                 millimax = 10000000;
             else
                 millimax = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper().intValue() / 1000;

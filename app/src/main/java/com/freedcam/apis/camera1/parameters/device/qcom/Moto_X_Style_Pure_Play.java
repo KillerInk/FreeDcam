@@ -31,10 +31,10 @@ import com.troop.androiddng.DngProfile;
 /**
  * Created by troop on 01.06.2016.
  */
-public class Moto_MSM8982_8994 extends Alcatel_Idol3 {
+public class Moto_X_Style_Pure_Play extends Alcatel_Idol3 {
 
 
-    public Moto_MSM8982_8994(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
+    public Moto_X_Style_Pure_Play(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 
@@ -43,7 +43,7 @@ public class Moto_MSM8982_8994 extends Alcatel_Idol3 {
     {
         switch (filesize)
         {
-            case 42923008://Moto_MSM8982_8994
+            case 42923008://Moto_X_Style_Pure_Play
                 return new DngProfile(64, 5344, 4016, DngProfile.Plain, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX230));
         }
         return null;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="g2">
+    <string-array name="lg_g2">
         <item>LG-D800</item>
         <item>LG-D801</item>
         <item>LG-D802</item>
@@ -22,10 +22,10 @@
         <item>g2</item>
         <item>VS980 4G</item>
     </string-array>
-    <string-array name="g2pro">
+    <string-array name="lg_g2pro">
         <item>LG-D838</item>
     </string-array>
-    <string-array name="g3">
+    <string-array name="lg_g3">
         <item>AS985</item>
         <item>LG-AS990</item>
         <item>LG-D850</item>
@@ -49,7 +49,7 @@
         <item>LG VS985</item>
         <item>L-02F</item>
     </string-array>
-    <string-array name="g4">
+    <string-array name="lg_g4">
         <item>LG-AS986</item>
         <item>LG-AS811</item>
         <item>LG-AS991</item>
@@ -72,30 +72,30 @@
         <item>VS986</item>
     </string-array>
 
-    <string-array name="evo3d">
+    <string-array name="htc_evo3d">
         <item>HTC EVO 3D X515m"</item>
         <item>HTC X515d</item>
         <item>HTC ShooterU</item>
         <item>HTC Shooter</item>
     </string-array>
 
-    <string-array name="Desire500">
+    <string-array name="HTC_Desire500">
         <item>HTC Desire 500</item>
     </string-array>
 
-    <string-array name="p8Lite">
+    <string-array name="Huawei_p8Lite">
         <item>hi6210sft</item>
     </string-array>
 
-    <string-array name="p8">
+    <string-array name="Huawei_p8">
         <item>hi6210sft</item>
     </string-array>
 
-    <string-array name="Honor6">
+    <string-array name="Huawei_Honor6">
         <item>hi6210sft</item>
     </string-array>
 
-    <string-array name="Honor5X">
+    <string-array name="Huawei_Honor5X">
         <item>KIW-L21</item>
         <item>KIW-L22</item>
         <item>KIW-L23</item>
@@ -118,7 +118,7 @@
         <item>HUAWEI KII-L24</item>
     </string-array>
 
-    <string-array name="GX8">
+    <string-array name="Huawei_GX8">
         <item>HUAWEI RIO-L01</item>
         <item>HUAWEI RIO-L02</item>
         <item>HUAWEI RIO-L03</item>
@@ -165,7 +165,7 @@
 
     </string-array>
 
-    <string-array name="BB_PRIV">
+    <string-array name="Blackberry_Priv">
         <item>STV100</item>
         <item>STV100-0</item>
         <item>STV100-1</item>
@@ -214,7 +214,7 @@
         <item>A0001</item>
     </string-array>
 
-    <string-array name="isX_Style_Pure_Play">
+    <string-array name="Moto_X_Style_Pure_Play">
         <item>XT1560</item>
         <item>XT1561</item>
         <item>XT1562</item>
@@ -235,7 +235,7 @@
         <item>XT1578</item>
     </string-array>
 
-    <string-array name="isX2k14">
+    <string-array name="Moto_X2k14">
         <item>XT1090</item>
         <item>XT1091</item>
         <item>XT1092</item>
@@ -256,7 +256,7 @@
         <item>MX4</item>
     </string-array>
 
-    <string-array name="G_Turbo">
+    <string-array name="MotoG_Turbo">
         <item>MotoG3-TE</item>
     </string-array>
 
@@ -265,7 +265,7 @@
         <item>MotoG3-TE</item>
     </string-array>
 
-    <string-array name="One_E8">
+    <string-array name="HTC_One_E8">
         <item>HTC One_E8</item>
     </string-array>
 
@@ -300,12 +300,12 @@
         <item>E2353</item>
     </string-array>
 
-    <string-array name="K50">
+    <string-array name="Lenovo_K50">
         <item>Lenovo K50-t5</item>
         <item>K50-t5</item>
     </string-array>
 
-    <string-array name="OneA9">
+    <string-array name="HTC_OneA9">
         <item>HTC One A9</item>
         <item>HTC One_A9</item>
         <item>One A9</item>
@@ -346,7 +346,7 @@
         <item>Jiayu_S3</item>
     </string-array>
 
-    <string-array name="Nex4">
+    <string-array name="Nexus4">
         <item>Nexus 4</item>
     </string-array>
 
@@ -415,7 +415,7 @@
         <item>6045I</item>
         <item>6045K</item>
     </string-array>
-    <string-array name="AQ_E5">
+    <string-array name="Aquaris_E5">
         <item>Aquaris E5</item>
         <item>Aquaris_E5</item>
     </string-array>
@@ -466,7 +466,11 @@
         <item>Lenovo_P1a42</item>
     </string-array>
 
-    <string-array name="EL9000">
+    <string-array name="Elephone9000">
         <item>P9000</item>
+    </string-array>
+
+    <string-array name="Lenovo_VibeShot_Z90">
+        <item>Lenovo Z90a40</item>
     </string-array>
 </resources>
