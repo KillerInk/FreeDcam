@@ -174,11 +174,16 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
                 if (!folder_to_show.getFile().getName().endsWith(FileEnding.RAW) || !folder_to_show.getFile().getName().endsWith(FileEnding.BAYER)) {
                     Uri uri = Uri.fromFile(folder_to_show.getFile());
 
-                    Intent i = new Intent(Intent.ACTION_EDIT);
+                    Intent i;
                     if (folder_to_show.getFile().getName().endsWith(FileEnding.MP4))
+                    {
+                        i = new Intent(Intent.ACTION_VIEW);
                         i.setDataAndType(uri, "video/*");
-                    else
+                    }
+                    else {
+                        i = new Intent(Intent.ACTION_EDIT);
                         i.setDataAndType(uri, "image/*");
+                    }
                     Intent chooser = Intent.createChooser(i, "Choose App");
                     //startActivity(i);
                     if (i.resolveActivity(getActivity().getPackageManager()) != null) {
