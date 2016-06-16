@@ -54,10 +54,6 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
     private ImageView checkBox;
     private ImageView sdcard;
     private BaseHolder fileHolder;
-    final String NOIMAGE = "noimage_thumb";
-    final String FOLDER = "folder_thumb";
-    private Bitmap noimg;
-    private Bitmap fold;
     private int mImageThumbSize;
     private ProgressBar progressBar;
     private final String TAG = GridImageView.class.getSimpleName();
@@ -99,15 +95,6 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         checkBox = (ImageView) findViewById(id.checkBox_gridviewimage);
         sdcard = (ImageView) findViewById(id.imageView_sd);
         progressBar = (ProgressBar) findViewById(id.progressBar_gridimageview);
-        /*checkBox.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (fileHolder.IsSelected())
-                    fileHolder.SetSelected(false);
-                else
-                    fileHolder.SetSelected(true);
-            }
-        });*/
     }
 
     public void SetThreadPoolAndBitmapHelper(ExecutorService executor, BitmapHelper bitmapHelper)
@@ -249,8 +236,15 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
                 else
                     Logger.d(TAG, "Imageview has new file already, skipping it");
             }
-            else
+            else {
                 Logger.d(TAG, "Imageview or bitmap null");
+                imageView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
+            }
         }
     }
 }
