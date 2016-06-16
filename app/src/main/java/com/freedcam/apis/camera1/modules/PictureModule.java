@@ -34,7 +34,6 @@ import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.jni.RawToDng;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.DeviceUtils.Devices;
-import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
@@ -249,7 +248,7 @@ public class PictureModule extends AbstractModule implements Camera.PictureCallb
         }
         else
         {
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, cameraUiWrapper.getContext());
+            DocumentFile df = cameraUiWrapper.getActivityInterface().getFreeDcamDocumentFolder();
             Logger.d(this.TAG,"Filepath: " + df.getUri());
             DocumentFile wr = df.createFile("image/dng", file.getName().replace(".jpg", ".dng"));
             Logger.d(this.TAG,"Filepath: " + wr.getUri());

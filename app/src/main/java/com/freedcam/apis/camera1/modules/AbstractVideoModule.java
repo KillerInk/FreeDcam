@@ -34,7 +34,6 @@ import com.freedcam.apis.basecamera.modules.I_RecorderStateChanged;
 import com.freedcam.apis.camera1.CameraHolder;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.AppSettingsManager;
-import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 import com.freedviewer.holder.FileHolder;
@@ -211,7 +210,7 @@ public abstract class AbstractVideoModule extends AbstractModule
         else
         {
             File f = new File(s);
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, cameraUiWrapper.getContext());
+            DocumentFile df = cameraUiWrapper.getActivityInterface().getFreeDcamDocumentFolder();
             DocumentFile wr = df.createFile("*/*", f.getName());
             try {
                 fileDescriptor = cameraUiWrapper.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");

@@ -24,12 +24,13 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
+import com.AbstractFragmentActivity;
 import com.freedcam.utils.AppSettingsManager;
 
 /**
  * Created by troop on 22.12.2015.
  */
-public class DngConvertingActivity extends FragmentActivity
+public class DngConvertingActivity extends AbstractFragmentActivity
 {
     private final String TAG = DngConvertingActivity.class.getSimpleName();
     protected void onCreate(Bundle savedInstanceState) {

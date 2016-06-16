@@ -41,7 +41,6 @@ import com.freedcam.apis.basecamera.modules.I_RecorderStateChanged;
 import com.freedcam.apis.basecamera.modules.VideoMediaProfile;
 import com.freedcam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import com.freedcam.utils.AppSettingsManager;
-import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 
@@ -186,7 +185,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         else
         {
             Uri uri = Uri.parse(appSettingsManager.GetBaseFolder());
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, cameraUiWrapper.getContext());
+            DocumentFile df = cameraUiWrapper.getActivityInterface().getFreeDcamDocumentFolder();
             DocumentFile wr = df.createFile("*/*", new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), ".mp4")).getName());
             ParcelFileDescriptor fileDescriptor = null;
             try {

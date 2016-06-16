@@ -25,6 +25,7 @@ import android.view.SurfaceView;
 import com.freedcam.apis.basecamera.AbstractFocusHandler;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler;
 import com.freedcam.apis.basecamera.parameters.AbstractParameterHandler;
+import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.RenderScriptHandler;
 
@@ -109,5 +110,7 @@ public interface CameraWrapperInterface extends CameraWrapperEventInterface
     FocuspeakProcessor getFocusPeakProcessor();
 
     RenderScriptHandler getRenderScriptHandler();
+
+    I_Activity getActivityInterface();
 
 }

@@ -39,14 +39,15 @@ public class GridViewActivity extends AbstractFragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         files = getDCIMDirs();
-        loadGridViewFragment();
+        loadGridViewFragment(0);
     }
 
-    private void loadGridViewFragment() {
+    private void loadGridViewFragment(int position) {
         if (getSupportFragmentManager().findFragmentByTag(TAGGrid) == null)
         {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             GridViewFragment fragment = new GridViewFragment();
+            fragment.DEFAULT_ITEM_TO_SET = position;
             fragment.SetOnGridItemClick(onGridItemClick);
             ft.replace(id.content, fragment, TAGGrid);
             ft.commit();
@@ -57,7 +58,7 @@ public class GridViewActivity extends AbstractFragmentActivity
         @Override
         public void onThumbClick(int position)
         {
-            loadGridViewFragment();
+            loadGridViewFragment(position);
         }
     };
 

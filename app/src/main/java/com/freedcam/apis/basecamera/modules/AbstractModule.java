@@ -31,7 +31,6 @@ import com.freedcam.apis.basecamera.interfaces.ModuleInterface;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStateChanged;
 import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
 import com.freedcam.utils.AppSettingsManager;
-import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
 
 import java.io.File;
@@ -124,7 +123,7 @@ public abstract class AbstractModule implements ModuleInterface
             }
             else
             {
-                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, cameraUiWrapper.getContext());
+                DocumentFile df = cameraUiWrapper.getActivityInterface().getFreeDcamDocumentFolder();
                 Logger.d(TAG,"Filepath: " + df.getUri());
                 DocumentFile wr = df.createFile("image/*", fileName.getName());
                 Logger.d(TAG,"Filepath: " + wr.getUri());
@@ -158,7 +157,7 @@ public abstract class AbstractModule implements ModuleInterface
         }
         else
         {
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, cameraUiWrapper.getContext());
+            DocumentFile df =  cameraUiWrapper.getActivityInterface().getFreeDcamDocumentFolder();
             Logger.d(TAG,"Filepath: " + df.getUri());
             DocumentFile wr = df.createFile("image/*", file.getName());
             Logger.d(TAG,"Filepath: " + wr.getUri());

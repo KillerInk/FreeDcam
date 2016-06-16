@@ -38,6 +38,7 @@ import com.freedcam.apis.camera2.modules.I_PreviewWrapper;
 import com.freedcam.apis.camera2.modules.ModuleHandlerApi2;
 import com.freedcam.apis.camera2.parameters.ParameterHandler;
 import com.freedcam.apis.camera2.renderscript.FocuspeakProcessorApi2;
+import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.RenderScriptHandler;
@@ -215,6 +216,11 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     @Override
     public RenderScriptHandler getRenderScriptHandler() {
         return renderScriptHandler;
+    }
+
+    @Override
+    public I_Activity getActivityInterface() {
+        return (I_Activity) getActivity();
     }
 
     @Override

@@ -28,7 +28,9 @@ import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.provider.DocumentFile;
 import android.view.View;
 import android.view.View.OnSystemUiVisibilityChangeListener;
 import android.view.WindowManager.LayoutParams;
@@ -36,7 +38,6 @@ import android.view.WindowManager.LayoutParams;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
-import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 import com.freedviewer.helper.BitmapHelper;
@@ -400,7 +401,7 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
             del = file.getFile().delete();
         }
         if (!del && VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP)
-            del = FileUtils.delteDocumentFile(file.getFile(),appSettingsManager,getContext());
+            del = delteDocumentFile(file.getFile());
         if (del)
         {
             if (files != null)
@@ -470,6 +471,98 @@ public abstract class AbstractFragmentActivity extends FragmentActivity implemen
     private  File getStorageDirectory() {
         String path = System.getenv("ANDROID_STORAGE");
         return path == null ? new File("/storage") : new File(path);
+    }
+
+    private void readSubFolderFromFolder(File folder, List<File> folderList) {
+        File[] folderfiles = folder.listFiles();
+        for (File f : folderfiles) {
+            if (f.isDirectory() && !f.isHidden())
+                folderList.add(f);
+        }
+    }
+
+    @Override
+    public DocumentFile getExternalSdDocumentFile()
+    {
+        DocumentFile sdDir = null;
+        String extSdFolder =  appSettingsManager.GetBaseFolder();
+        if (extSdFolder == null || extSdFolder.equals(""))
+            return null;
+        Uri uri = Uri.parse(extSdFolder);
+        sdDir = DocumentFile.fromTreeUri(getContext(), uri);
+        return sdDir;
+    }
+
+    private DocumentFile getDCIMDocumentFolder(boolean create) {
+        DocumentFile documentFile = null;
+        DocumentFile sdDir;
+        if ((sdDir = getExternalSdDocumentFile()) != null) {
+            documentFile = sdDir.findFile("DCIM");
+            if (documentFile == null && create)
+                documentFile = sdDir.createDirectory("DCIM");
+        }
+        return documentFile;
+    }
+
+    @Override
+    public DocumentFile getFreeDcamDocumentFolder()
+    {
+        DocumentFile dcimfolder;
+        DocumentFile freedcamfolder = null;
+        if((dcimfolder = getDCIMDocumentFolder(true)) !=null)
+        {
+            freedcamfolder = dcimfolder.findFile("FreeDcam");
+            if (freedcamfolder == null)
+                freedcamfolder = dcimfolder.createDirectory("FreeDcam");
+        }
+        return freedcamfolder;
+    }
+
+    private boolean delteDocumentFile(File file) throws NullPointerException
+    {
+        if (file.isDirectory())
+        {
+            File[] files = file.listFiles();
+            for (File f : files)
+                deletFile(f);
+            deletFile(file);
+        }
+        else
+        {
+            Boolean d = deletFile(file);
+            if (d != null) return d;
+        }
+        return true;
+    }
+
+    @Nullable
+    private boolean deletFile(File file) {
+        if (!file.delete())
+        {
+            DocumentFile sdDir = getExternalSdDocumentFile();
+            if (sdDir == null)
+                return false;
+            String baseS = sdDir.getName();
+            String fileFolder = file.getAbsolutePath();
+            String[] split = fileFolder.split("/");
+            DocumentFile tmpdir = null;
+            boolean append = false;
+            for (String aSplit : split) {
+                if (aSplit.equals(baseS) || append) {
+                    if (!append) {
+                        append = true;
+                        tmpdir = sdDir;
+                    } else {
+                        tmpdir = tmpdir.findFile(aSplit);
+                    }
+                }
+            }
+            boolean d = false;
+            d = !(tmpdir != null && tmpdir.exists()) || tmpdir.delete();
+            Logger.d("delteDocumentFile", "file delted:" + d);
+            return d;
+        }
+        return true;
     }
 
     private void throwOnFileDeleted(File file)

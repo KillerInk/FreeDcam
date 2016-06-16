@@ -30,7 +30,6 @@ import com.freedcam.apis.basecamera.modules.AbstractModuleHandler.CaptureStates;
 import com.freedcam.apis.sonyremote.CameraHolderSony;
 import com.freedcam.apis.sonyremote.parameters.ParameterHandler;
 import com.freedcam.ui.handler.MediaScannerManager;
-import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
 import com.freedviewer.holder.FileHolder;
@@ -142,7 +141,7 @@ public class PictureModuleSony extends AbstractModule implements I_PictureCallba
                 output = new FileOutputStream(file);
             else
             {
-                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, cameraUiWrapper.getContext());
+                DocumentFile df = cameraUiWrapper.getActivityInterface().getFreeDcamDocumentFolder();
                 DocumentFile wr = df.createFile("image/jpeg", file.getName());
                 output = cameraUiWrapper.getContext().getContentResolver().openOutputStream(wr.getUri());
             }

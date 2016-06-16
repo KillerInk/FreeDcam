@@ -57,7 +57,6 @@ import com.freedcam.jni.RawToDng;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils.Devices;
-import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils;
@@ -395,7 +394,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 dngCreator.writeImage(new FileOutputStream(file), image);
             else
             {
-                DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, cameraUiWrapper.getContext());
+                DocumentFile df = cameraUiWrapper.getActivityInterface().getFreeDcamDocumentFolder();
                 DocumentFile wr = df.createFile("image/*", file.getName());
                 dngCreator.writeImage(cameraUiWrapper.getContext().getContentResolver().openOutputStream(wr.getUri()), image);
             }
@@ -429,7 +428,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             dngConverter.SetBayerData(bytes, file.getAbsolutePath());
         else
         {
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, cameraUiWrapper.getContext());
+            DocumentFile df = cameraUiWrapper.getActivityInterface().getFreeDcamDocumentFolder();
             DocumentFile wr = df.createFile("image/*", file.getName());
             try {
 
@@ -758,7 +757,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 else
                 {
 
-                    DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, cameraUiWrapper.getContext());
+                    DocumentFile df = cameraUiWrapper.getActivityInterface().getFreeDcamDocumentFolder();
                     DocumentFile wr = df.createFile("*/*", mFile.getName());
                     output = cameraUiWrapper.getContext().getContentResolver().openOutputStream(wr.getUri(),"rw");
                 }

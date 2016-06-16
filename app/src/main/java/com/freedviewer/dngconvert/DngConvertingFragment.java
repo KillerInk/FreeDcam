@@ -44,9 +44,9 @@ import android.widget.Toast;
 
 import com.freedcam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import com.freedcam.jni.RawToDng;
+import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
-import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils.FileEnding;
 import com.troop.androiddng.DngProfile;
@@ -288,7 +288,7 @@ public class DngConvertingFragment extends Fragment
             dng.SetBayerData(data, out);
         else
         {
-            DocumentFile df = FileUtils.getFreeDcamDocumentFolder(appSettingsManager, getContext());
+            DocumentFile df = ((I_Activity)getActivity()).getFreeDcamDocumentFolder();
             DocumentFile wr = df.createFile("image/dng", file.getName().replace(FileEnding.JPG, FileEnding.DNG));
             ParcelFileDescriptor pfd = null;
             try {

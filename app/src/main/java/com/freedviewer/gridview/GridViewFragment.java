@@ -48,7 +48,6 @@ import com.AbstractFragmentActivity.FormatTypes;
 import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.I_Activity.I_OnActivityResultCallback;
 import com.freedcam.ui.handler.MediaScannerManager;
-import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils.FileEnding;
@@ -79,8 +78,6 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
     private Button deleteButton;
     private Button filetypeButton;
     private Button rawToDngButton;
-    private final String savedInstanceString = "lastpath";
-    private String savedInstanceFilePath;
     private FormatTypes formatsToShow = FormatTypes.all;
     private FormatTypes lastFormat = FormatTypes.all;
     private RequestModes requestMode = RequestModes.none;
@@ -93,6 +90,8 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
     private  ExecutorService executor;
     private I_Activity viewerActivityInterface;
     private ScreenSlideFragment.I_ThumbClick onGridItemClick;
+
+    public int DEFAULT_ITEM_TO_SET = 0;
 
 
     public enum RequestModes
@@ -168,6 +167,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
             setViewMode(ViewStates.normal);
             if (viewerActivityInterface.getFiles() == null && viewerActivityInterface.getFiles().size() ==0)
                 mPagerAdapter.loadDCIMFolders();
+            gridView.smoothScrollToPosition(DEFAULT_ITEM_TO_SET);
         }
     }
 
@@ -211,7 +211,6 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 }
                 else
                 {   //handel folder click
-                    savedInstanceFilePath = viewerActivityInterface.getFiles().get(position).getFile().getAbsolutePath();
                     mPagerAdapter.loadFiles(viewerActivityInterface.getFiles().get(position));
                     isRootDir = false;
                     setViewMode(currentViewState);
@@ -327,11 +326,6 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                             filetypeButton.setVisibility(View.GONE);
                             break;
                         case rawToDng:
-                            if (savedInstanceFilePath == null)
-                                break;
-                            File toload = new File(savedInstanceFilePath);
-                            if (toload == null)
-                                break;
                             lastFormat = formatsToShow;
                             formatsToShow = FormatTypes.raw;
                             mPagerAdapter.loadFiles(viewerActivityInterface.getFiles().get(0).getParent());
@@ -370,7 +364,6 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                         Logger.d(TAG, "file: " + f.getFile().getName() + " deleted:" + del);
                         if (del) {
                             i--;
-                            viewerActivityInterface.DeleteFile(f);
                         }
                         filesdeletedCount++;
                     }
@@ -400,7 +393,6 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                     File topPath = viewerActivityInterface.getFiles().get(0).getFile().getParentFile().getParentFile();
                     if (topPath.getName().equals("DCIM") && !isRootDir)
                     {
-                        savedInstanceFilePath = null;
                         mPagerAdapter.loadDCIMFolders();
                         isRootDir = true;
                         setViewMode(currentViewState);
@@ -413,7 +405,6 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                     {
                         isRootDir = false;
                         mPagerAdapter.loadFiles(viewerActivityInterface.getFiles().get(0));
-                        savedInstanceFilePath = viewerActivityInterface.getFiles().get(0).getFile().getAbsolutePath();
                         setViewMode(currentViewState);
                     }
                 }
@@ -532,10 +523,10 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 }
                 else
                 {
-                    DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(viewerActivityInterface.getAppSettings(), getContext());
+                    DocumentFile sdDir = viewerActivityInterface.getExternalSdDocumentFile();
                     if (sdDir == null) {
-                        I_Activity i_activity = (I_Activity) getActivity();
-                        i_activity.ChooseSDCard(GridViewFragment.this);
+                        //I_Activity i_activity = (I_Activity) getActivity();
+                        viewerActivityInterface.ChooseSDCard(GridViewFragment.this);
                     }
                     else
                     {

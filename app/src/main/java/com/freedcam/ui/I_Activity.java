@@ -21,6 +21,7 @@ package com.freedcam.ui;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.v4.provider.DocumentFile;
 
 import com.AbstractFragmentActivity;
 import com.freedcam.utils.AppSettingsManager;
@@ -72,6 +73,9 @@ public interface I_Activity
     void LoadFreeDcamDCIMDirsFiles();
 
     void LoadFolder(FileHolder fileHolder, AbstractFragmentActivity.FormatTypes types);
+
+    DocumentFile getFreeDcamDocumentFolder();
+    DocumentFile getExternalSdDocumentFile();
 }
 
 

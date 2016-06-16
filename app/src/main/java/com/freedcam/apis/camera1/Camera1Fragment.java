@@ -45,6 +45,7 @@ import com.freedcam.apis.camera1.cameraholder.CameraHolderMotoX;
 import com.freedcam.apis.camera1.modules.ModuleHandler;
 import com.freedcam.apis.camera1.parameters.ParametersHandler;
 import com.freedcam.apis.camera1.renderscript.FocusPeakProcessorAp1;
+import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.DeviceUtils;
 import com.freedcam.utils.Logger;
@@ -454,6 +455,11 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
     @Override
     public RenderScriptHandler getRenderScriptHandler() {
         return renderScriptHandler;
+    }
+
+    @Override
+    public I_Activity getActivityInterface() {
+        return (I_Activity)getActivity();
     }
 
     @Override

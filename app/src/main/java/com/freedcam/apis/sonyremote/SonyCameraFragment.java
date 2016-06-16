@@ -49,6 +49,7 @@ import com.freedcam.apis.sonyremote.sonystuff.SimpleSsdpClient;
 import com.freedcam.apis.sonyremote.sonystuff.SimpleSsdpClient.SearchResultHandler;
 import com.freedcam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 import com.freedcam.apis.sonyremote.sonystuff.WifiUtils;
+import com.freedcam.ui.I_Activity;
 import com.freedcam.utils.AppSettingsManager;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
@@ -490,6 +491,11 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
     @Override
     public RenderScriptHandler getRenderScriptHandler() {
         return renderScriptHandler;
+    }
+
+    @Override
+    public I_Activity getActivityInterface() {
+        return (I_Activity)getActivity();
     }
 
     @Override

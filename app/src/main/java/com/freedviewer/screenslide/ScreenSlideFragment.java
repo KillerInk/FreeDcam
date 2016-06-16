@@ -55,7 +55,6 @@ import com.freedcam.ui.I_Activity;
 import com.freedcam.ui.I_Activity.I_OnActivityResultCallback;
 import com.freedcam.ui.handler.MediaScannerManager;
 import com.freedcam.ui.views.MyHistogram;
-import com.freedcam.utils.FileUtils;
 import com.freedcam.utils.FreeDPool;
 import com.freedcam.utils.Logger;
 import com.freedcam.utils.StringUtils.FileEnding;
@@ -142,7 +141,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
             @Override
             public void onClick(View v) {
                 if (thumbclick != null) {
-                    thumbclick.onThumbClick(0);
+                    thumbclick.onThumbClick(mPager.getCurrentItem());
                     mPager.setCurrentItem(0);
                 } else
                     getActivity().finish();
@@ -203,10 +202,10 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
                     builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
                             .setNegativeButton("No", dialogClickListener).show();
                 } else {
-                    DocumentFile sdDir = FileUtils.getExternalSdDocumentFile(activityInterface.getAppSettings(), getContext());
+                    DocumentFile sdDir = activityInterface.getExternalSdDocumentFile();
                     if (sdDir == null) {
-                        I_Activity i_activity = (I_Activity) getActivity();
-                        i_activity.ChooseSDCard(ScreenSlideFragment.this);
+
+                        activityInterface.ChooseSDCard(ScreenSlideFragment.this);
                     } else {
                         Builder builder = new Builder(getContext());
                         builder.setMessage("Delete File?").setPositiveButton("Yes", dialogClickListener)
