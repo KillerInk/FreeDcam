@@ -70,10 +70,6 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements O
 
     private final String TAG = ManualFragmentRotatingSeekbar.class.getSimpleName();
 
-    public ManualFragmentRotatingSeekbar()
-    {
-        fragment_activityInterface = (ActivityInterface)getActivity();
-    }
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -84,6 +80,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements O
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        fragment_activityInterface = (ActivityInterface)getActivity();
         seekbar = (RotatingSeekbar)view.findViewById(id.seekbar);
         seekbar.setOnSeekBarChangeListener(this);
         seekbar.setVisibility(View.GONE);
