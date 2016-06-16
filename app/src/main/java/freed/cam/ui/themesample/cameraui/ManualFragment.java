@@ -41,7 +41,7 @@ import freed.utils.Logger;
 /**
  * Created by troop on 08.12.2015.
  */
-public class ManualFragmentRotatingSeekbar extends AbstractFragment implements OnSeekBarChangeListener, I_ManualParameterEvent
+public class ManualFragment extends AbstractFragment implements OnSeekBarChangeListener, I_ManualParameterEvent
 {
     private int currentValuePos;
 
@@ -68,7 +68,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements O
     private ManualButton previewZoom;
 
 
-    private final String TAG = ManualFragmentRotatingSeekbar.class.getSimpleName();
+    private final String TAG = ManualFragment.class.getSimpleName();
 
 
 
@@ -154,7 +154,8 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements O
     }
 
     @Override
-    protected void setCameraUiWrapperToUi() {
+    protected void setCameraUiWrapperToUi()
+    {
         contrast.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualContrast);
         burst.SetManualParameter(cameraUiWrapper.GetParameterHandler().Burst);
         brightness.SetManualParameter(cameraUiWrapper.GetParameterHandler().ManualBrightness);
@@ -172,6 +173,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements O
         skintone.SetManualParameter(cameraUiWrapper.GetParameterHandler().Skintone);
         programshift.SetManualParameter(cameraUiWrapper.GetParameterHandler().ProgramShift);
         previewZoom.SetManualParameter(cameraUiWrapper.GetParameterHandler().PreviewZoom);
+        seekbar.setVisibility(View.GONE);
     }
 
     //######## ManualButton Stuff#####
@@ -180,7 +182,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements O
         public void onClick(View v)
         {
             if (currentButton != null)
-                currentButton.RemoveParameterListner(ManualFragmentRotatingSeekbar.this);
+                currentButton.RemoveParameterListner(ManualFragment.this);
             //when same button gets clicked second time
             if(v == currentButton && seekbar.getVisibility() == View.VISIBLE)
             {
@@ -199,7 +201,7 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements O
                 //set the returned view as active and fill seekbar
                 currentButton = (ManualButton) v;
                 currentButton.SetActive(true);
-                currentButton.SetParameterListner(ManualFragmentRotatingSeekbar.this);
+                currentButton.SetParameterListner(ManualFragment.this);
                 String[]vals = currentButton.getStringValues();
                 if (vals == null || vals.length == 0) {
                     currentButton.SetActive(false);
@@ -264,13 +266,14 @@ public class ManualFragmentRotatingSeekbar extends AbstractFragment implements O
 
 
     @Override
-    public void onCurrentValueChanged(int current) {
-
+    public void onCurrentValueChanged(int current)
+    {
+        seekbar.setProgress(current,false);
     }
 
     @Override
     public void onValuesChanged(String[] values) {
-
+        seekbar.SetStringValues(values);
     }
 
     @Override

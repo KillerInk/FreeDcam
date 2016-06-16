@@ -84,7 +84,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private UiSettingsFocusPeak focuspeak;
     private UiSettingsChild hdr_switch;
     private ThumbView thumbView;
-    private ManualFragmentRotatingSeekbar manualModesFragment;
+    private ManualFragment manualModesFragment;
     private FrameLayout manualModes_holder;
     private boolean manualsettingsIsOpen;
     private FocusImageHandler focusImageHandler;
@@ -236,7 +236,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         hdr_switch.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_HDRMODE);
         hdr_switch.SetMenuItemClickListner(this,true);
 
-        manualModesFragment = new ManualFragmentRotatingSeekbar();
+        manualModesFragment = new ManualFragment();
 
         horizontLineFragment = new HorizontLineFragment();
 
