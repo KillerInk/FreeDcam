@@ -17,7 +17,7 @@
  * /
  */
 
-package freed.cam.apis.camera1.parameters.manual.qcom_new;
+package freed.cam.apis.camera1.parameters.manual.qcom;
 
 import android.hardware.Camera.Parameters;
 

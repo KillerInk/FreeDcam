@@ -17,7 +17,7 @@
  * /
  */
 
-package freed.cam.apis.camera1.parameters.manual;
+package freed.cam.apis.camera1.parameters.manual.whitebalance;
 
 import android.hardware.Camera.Parameters;
 
@@ -26,25 +26,39 @@ import java.util.ArrayList;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
+import freed.utils.Logger;
 
 /**
- * Created by GeorgeKiarie on 6/2/2016.
+ * Created by Ingo on 06.03.2016.
  */
-public class BaseISOManual extends BaseManualParameter {
+public class BaseCCTManual extends BaseManualParameter
+{
+    private final String TAG = BaseCCTManual.class.getSimpleName();
 
-    private String cur_iso_mode = KEYS.AUTO;
+    private final String manual_WbMode;
+    /**
+     * @param parameters
+     * @param value
+     * @param maxValue
+     * @param MinValue
+     * @param cameraUiWrapper
+     * @param step
+     */
+    public BaseCCTManual(Parameters parameters, String value, String maxValue, String MinValue
+            , CameraWrapperInterface cameraUiWrapper, float step,
+                         String wbmode) {
+        super(parameters, value, maxValue, MinValue, cameraUiWrapper, step);
+        manual_WbMode = wbmode;
+    }
 
-    public BaseISOManual(Parameters parameters, String value, int min, int max
-            , CameraWrapperInterface cameraUiWrapper, float step) {
+    public BaseCCTManual(Parameters parameters, String value, int max, int min
+            , CameraWrapperInterface cameraUiWrapper, float step, String wbmode) {
         super(parameters, value, "", "", cameraUiWrapper, step);
         isSupported = true;
         isVisible = true;
         stringvalues = createStringArray(min,max,step);
-    }
-
-    @Override
-    public int GetValue() {
-        return currentInt;
+        manual_WbMode =wbmode;
     }
 
     @Override
@@ -60,26 +74,20 @@ public class BaseISOManual extends BaseManualParameter {
         ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 
-
     protected void set_manual()
     {
-        cur_iso_mode = cameraUiWrapper.GetParameterHandler().IsoMode.GetValue();
-
-        if (!cameraUiWrapper.GetParameterHandler().IsoMode.GetValue().equals(KEYS.ISO_MANUAL))
-            cameraUiWrapper.GetParameterHandler().IsoMode.SetValue(KEYS.ISO_MANUAL, true);
+        if (!cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.GetValue().equals(manual_WbMode) && manual_WbMode != "")
+            cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.SetValue(manual_WbMode, true);
         parameters.set(key_value, stringvalues[currentInt]);
-
+        Logger.d(TAG, "Set "+ key_value +" to : " + stringvalues[currentInt]);
 
     }
 
     protected void set_to_auto()
     {
-        if (cameraUiWrapper.GetParameterHandler().IsoMode.GetValue().equals(KEYS.ISO_MANUAL))
-            cameraUiWrapper.GetParameterHandler().IsoMode.SetValue(KEYS.AUTO, true);
-        cameraUiWrapper.GetParameterHandler().IsoMode.SetValue(cur_iso_mode, true);
-
+        cameraUiWrapper.GetParameterHandler().WhiteBalanceMode.SetValue("auto", true);
+        Logger.d(TAG, "Set  to : auto");
     }
-
 
     @Override
     protected String[] createStringArray(int min, int max, float step)

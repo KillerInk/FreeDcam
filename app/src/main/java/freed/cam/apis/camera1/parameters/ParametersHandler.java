@@ -21,7 +21,6 @@ package freed.cam.apis.camera1.parameters;
 
 import android.hardware.Camera.Parameters;
 import android.os.Build;
-import android.os.Handler;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -36,9 +35,9 @@ import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.cam.apis.camera1.FocusHandler;
 import freed.cam.apis.camera1.parameters.device.I_Device;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
-import freed.cam.apis.camera1.parameters.manual.BurstManualParam;
+import freed.cam.apis.camera1.parameters.manual.qcom.BurstManualParam;
 import freed.cam.apis.camera1.parameters.manual.ExposureManualParameter;
-import freed.cam.apis.camera1.parameters.manual.FXManualParameter;
+import freed.cam.apis.camera1.parameters.manual.zte.FXManualParameter;
 import freed.cam.apis.camera1.parameters.manual.ZoomManualParameter;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.cam.apis.camera1.parameters.modes.CDS_Mode_Parameter;
@@ -316,7 +315,7 @@ public class ParametersHandler extends AbstractParameterHandler
             Logger.exception(e);
         }
 
-        //Video Denoise
+
         try {
             RdiMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, "rdi-mode", "rdi-mode-values");
         } catch (Exception e) {
@@ -329,7 +328,7 @@ public class ParametersHandler extends AbstractParameterHandler
             Logger.exception(e);
         }
 
-        //Temporal Noise Reduction http://nofilmschool.com/2012/03/temporal-noise-reduction-ipad-its-improvement
+
         try {
             TnrMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, "tnr-mode", "tnr-mode-values");
         } catch (Exception e) {
@@ -507,25 +506,18 @@ public class ParametersHandler extends AbstractParameterHandler
     }
 
     @Override
-    public void SetMeterAREA(FocusRect meteringAreas)
+    public void SetMeterAREA(final FocusRect meteringAreas)
     {
         if(appSettingsManager.getDevice() == Devices.ZTE_ADV || appSettingsManager.getDevice() == Devices.ZTEADV234 || appSettingsManager.getDevice() == Devices.ZTEADVIMX214)
         {
             try
             {
-                final FocusRect lF = meteringAreas;
-                Handler handler = new Handler();
-                Runnable r = new Runnable() {
-                    public void run() {
-                        //cameraParameters.put("metering-areas", "(" + lF.left + "," + lF.top + "," + lF.right + "," + lF.bottom + ",100)");
-                        cameraParameters.set("touch-aec","on");
-                        cameraParameters.set("selectable-zone-af","spot-metering");
-                        cameraParameters.set("raw-size","4208x3120");
-                        cameraParameters.set("touch-index-aec", lF.x + "," + lF.y);
-                        ((CameraHolder) cameraUiWrapper.GetCameraHolder()).SetCameraParameters(cameraParameters);
-                    }
-                };
-               handler.post(r);
+
+                cameraParameters.set("touch-aec","on");
+                cameraParameters.set("selectable-zone-af","spot-metering");
+                cameraParameters.set("raw-size","4208x3120");
+                cameraParameters.set("touch-index-aec", meteringAreas.x + "," + meteringAreas.y);
+                SetParametersToCamera(cameraParameters);
 
 
             }
@@ -589,7 +581,7 @@ public class ParametersHandler extends AbstractParameterHandler
             ((CameraHolder) cameraUiWrapper.GetCameraHolder()).SetCameraRotation(180);
     }
 
-    public void initMTKSHit()    {
+    public void SetupMTK()    {
 
 
         cameraParameters.set("afeng_raw_dump_flag", "1");
@@ -606,7 +598,7 @@ public class ParametersHandler extends AbstractParameterHandler
 
 
 
-    public void SetZTESlowShutter()
+    public void SetZTE_AE()
     {
         cameraParameters.set("slow_shutter", "-1");
         SetParametersToCamera(cameraParameters);

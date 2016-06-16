@@ -17,14 +17,14 @@
  * /
  */
 
-package freed.cam.apis.camera1.parameters.manual;
+package freed.cam.apis.camera1.parameters.manual.shutter;
 
 import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.cam.apis.camera1.parameters.manual.qcom_new.ShutterManual_ExposureTime_Micro;
+import freed.cam.apis.camera1.parameters.manual.qcom.ShutterManual_ExposureTime_Micro;
 import freed.utils.Logger;
 
 /**

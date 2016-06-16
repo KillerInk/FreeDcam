@@ -17,7 +17,7 @@
  * /
  */
 
-package freed.cam.apis.camera1.parameters.manual;
+package freed.cam.apis.camera1.parameters.manual.shutter;
 
 
 import android.hardware.Camera.Parameters;

@@ -27,10 +27,10 @@ import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.cam.apis.camera1.parameters.manual.BaseFocusManual;
-import freed.cam.apis.camera1.parameters.manual.BaseISOManual;
-import freed.cam.apis.camera1.parameters.manual.BaseWB_CCT_QC;
-import freed.cam.apis.camera1.parameters.manual.qcom_new.ShutterManual_ExposureTime_Micro;
+import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
+import freed.cam.apis.camera1.parameters.manual.qcom.BaseISOManual;
+import freed.cam.apis.camera1.parameters.manual.whitebalance.BaseWB_CCT_QC;
+import freed.cam.apis.camera1.parameters.manual.qcom.ShutterManual_ExposureTime_Micro;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.dng.DngProfile;
 

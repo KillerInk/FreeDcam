@@ -31,8 +31,8 @@ import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.camera1.parameters.device.AbstractDevice;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
-import freed.cam.apis.camera1.parameters.manual.FocusManualHuawei;
-import freed.cam.apis.camera1.parameters.manual.ShutterManualKrillin;
+import freed.cam.apis.camera1.parameters.manual.focus.FocusManualHuawei;
+import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManualKrillin;
 import freed.dng.DngProfile;
 
 /**

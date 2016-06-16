@@ -62,7 +62,7 @@ public class CameraHolderMTK extends CameraHolder
     public void StartPreview()
     {
         //not sure if that is realy needed. same stuff gets applied when BaseMTKDevice.java gets created
-        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).initMTKSHit();
+        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetupMTK();
         super.StartPreview();
     }
 

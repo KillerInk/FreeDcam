@@ -17,7 +17,7 @@
  * /
  */
 
-package freed.cam.apis.camera1.parameters.manual;
+package freed.cam.apis.camera1.parameters.manual.focus;
 
 import android.hardware.Camera.Parameters;
 
@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.utils.Logger;
 
 /**

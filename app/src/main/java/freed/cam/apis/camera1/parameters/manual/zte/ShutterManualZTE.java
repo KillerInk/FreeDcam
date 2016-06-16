@@ -17,9 +17,10 @@
  * /
  */
 
-package freed.cam.apis.camera1.parameters.manual;
+package freed.cam.apis.camera1.parameters.manual.zte;
 
 import android.hardware.Camera.Parameters;
+import android.os.Handler;
 
 import com.troop.freedcam.R;
 
@@ -27,24 +28,27 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.utils.DeviceUtils.Devices;
 import freed.utils.Logger;
 
 /**
- * Created by GeorgeKiarie on 6/3/2016.
+ * Created by troop on 25.11.2015.
  */
-public class ShutterManualMeizu extends AbstractManualShutter
+public class ShutterManualZTE extends AbstractManualShutter
 {
-    private final String TAG = ShutterManualMeizu.class.getSimpleName();
+    private final String TAG = ShutterManualZTE.class.getSimpleName();
     private Parameters parameters;
-
     /**
      * @param parameters
      * @param cameraUiWrapper
      */
-    public ShutterManualMeizu(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
+    public ShutterManualZTE(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
         this.parameters = parameters;
-        stringvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.shutter_values_meizu);
+        if(cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV)
+            stringvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.shutter_values_zte_z5s);
+        else
+            stringvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.shutter_values_zte_z7);
 
         isSupported = true;
     }
@@ -56,7 +60,7 @@ public class ShutterManualMeizu extends AbstractManualShutter
 
     @Override
     public boolean IsSetSupported() {
-        return true;
+        return  true;
     }
 
     @Override
@@ -67,7 +71,7 @@ public class ShutterManualMeizu extends AbstractManualShutter
         if (shutterstring.contains("/")) {
             String[] split = shutterstring.split("/");
             Double a = Double.parseDouble(split[0]) / Double.parseDouble(split[1]);
-            shutterstring = "" + a*1000000;
+            shutterstring = "" + a;
         }
         if(!stringvalues[currentInt].equals(KEYS.AUTO))
         {
@@ -81,20 +85,56 @@ public class ShutterManualMeizu extends AbstractManualShutter
         }
         else
         {
-            shutterstring = setExposureTimeToParameter("0");
+            setShutterToAuto();
         }
         Logger.e(TAG, shutterstring);
     }
 
-
-
-    private String setExposureTimeToParameter(String shutterstring)
+    private void setShutterToAuto()
     {
-        parameters.set("shutter-value", shutterstring);
-        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
-        cameraUiWrapper.StopPreview();
-        cameraUiWrapper.StartPreview();
+        try
+        {
+            Handler handler = new Handler();
+            Runnable r = new Runnable() {
+                public void run() {
+                    ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetZTE_AE();
+                    cameraUiWrapper.StopPreview();
+                    cameraUiWrapper.StartPreview();
+                }
+            };
+            handler.postDelayed(r, 1);
+        }
+        catch (Exception ex)
+        {
+            Logger.exception(ex);
+        }
 
+    }
+
+    private String setExposureTimeToParameter(final String shutterstring)
+    {
+        try {
+
+            Handler handler = new Handler();
+            Runnable r = new Runnable() {
+                public void run() {
+
+                    parameters.set("slow_shutter", shutterstring);
+                    parameters.set("slow_shutter_addition", "1");
+                    ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+
+                    if(Double.parseDouble(shutterstring) <= 0.5 && Double.parseDouble(shutterstring) >= 0.0005 ){
+                        cameraUiWrapper.StopPreview();
+                        cameraUiWrapper.StartPreview();
+                    }
+                }
+            };
+            handler.post(r);
+        }
+        catch (Exception ex)
+        {
+            Logger.exception(ex);
+        }
         return shutterstring;
     }
 }

@@ -25,7 +25,7 @@ import android.hardware.Camera.Parameters;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.cam.apis.camera1.parameters.manual.BaseFocusManual;
+import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
 import freed.utils.Logger;
 
 /**

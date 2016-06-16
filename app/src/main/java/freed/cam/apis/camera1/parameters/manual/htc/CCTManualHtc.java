@@ -23,7 +23,7 @@ import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.camera1.parameters.manual.BaseCCTManual;
+import freed.cam.apis.camera1.parameters.manual.whitebalance.BaseCCTManual;
 
 /**
  * Created by Ingo on 06.03.2016.

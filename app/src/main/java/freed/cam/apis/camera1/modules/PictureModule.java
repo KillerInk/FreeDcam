@@ -118,7 +118,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         if (cameraUiWrapper.GetParameterHandler().VideoHDR != null && cameraUiWrapper.GetParameterHandler().VideoHDR.IsSupported() && !cameraUiWrapper.GetParameterHandler().VideoHDR.GetValue().equals("off"))
             cameraUiWrapper.GetParameterHandler().VideoHDR.SetValue("off", true);
         if(appSettingsManager.getDevice() == Devices.ZTE_ADV || appSettingsManager.getDevice() == Devices.ZTEADV234 || appSettingsManager.getDevice() == Devices.ZTEADVIMX214) {
-            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetZTESlowShutter();
+            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetZTE_AE();
         }
     }
 

@@ -25,7 +25,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.parameters.device.BaseMTKDevice;
-import freed.cam.apis.camera1.parameters.manual.ShutterManual_ExposureTime_FloatToSixty;
+import freed.cam.apis.camera1.parameters.manual.shutter.ShutterManual_ExposureTime_FloatToSixty;
 import freed.dng.DngProfile;
 
 /**
