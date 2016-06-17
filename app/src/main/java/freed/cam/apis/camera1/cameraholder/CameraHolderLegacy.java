@@ -44,9 +44,6 @@ public class CameraHolderLegacy extends CameraHolder
     {
         try {
             mCamera = openWrapper(camera);
-            Parameters paras = mCamera.getParameters();
-            paras.set("mot-app", "true");
-            mCamera.setParameters(paras);
             isRdy = true;
         }
         catch (RuntimeException ex)
