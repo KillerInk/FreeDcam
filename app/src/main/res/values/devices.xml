@@ -474,4 +474,9 @@
     <string-array name="Lenovo_VibeShot_Z90">
         <item>Lenovo Z90a40</item>
     </string-array>
+
+    <string-array name="Zoppo_8speed">
+        <item>ZP955</item>
+    </string-array>
+
 </resources>

@@ -42,6 +42,7 @@ import freed.cam.apis.camera1.parameters.device.mtk.Sony_C5;
 import freed.cam.apis.camera1.parameters.device.mtk.Sony_M5_MTK;
 import freed.cam.apis.camera1.parameters.device.mtk.THL5000_MTK;
 import freed.cam.apis.camera1.parameters.device.mtk.Xiaomi_Redmi_Note2_MTK;
+import freed.cam.apis.camera1.parameters.device.mtk.Zoppo_8speed;
 import freed.cam.apis.camera1.parameters.device.qcom.Alcatel_Idol3;
 import freed.cam.apis.camera1.parameters.device.qcom.Alcatel_Idol3_small;
 import freed.cam.apis.camera1.parameters.device.qcom.Aquaris_E5;
@@ -280,10 +281,11 @@ public class DeviceSelector {
                 
             case ZTEADV234:
                return new ZTE_ADV_IMX234(cameraParameters,cameraUiWrapper);
+            case Zoppo_8speed:
+                return new Zoppo_8speed(cameraParameters,cameraUiWrapper);
             default:
                 return getDefault(cameraUiWrapper,cameraParameters);
         }
-        //return getDefault(cameraUiWrapper,cameraParameters);
     }
 
     private AbstractDevice getDefault(CameraWrapperInterface cameraUiWrapper, Parameters parameters)

@@ -102,6 +102,7 @@ public class DeviceUtils
         ZTE_ADV,
         ZTEADVIMX214,
         ZTEADV234,
+        Zoppo_8speed,
     }
 
     public static boolean isCyanogenMod() {
@@ -261,6 +262,8 @@ public class DeviceUtils
             return Devices.Blackberry_Priv;
         else if(isDevice(res.getStringArray(array.Lenovo_VibeShot_Z90)))
             return Devices.Lenovo_VibeShot_Z90;
+        else if(isDevice(res.getStringArray(array.Zoppo_8speed)))
+            return Devices.Zoppo_8speed;
         else
             return Devices.UNKNOWN;
 
