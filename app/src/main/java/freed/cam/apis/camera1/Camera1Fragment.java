@@ -49,7 +49,7 @@ import freed.cam.apis.basecamera.parameters.I_ParametersLoaded;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.camera1.cameraholder.CameraHolderLG;
 import freed.cam.apis.camera1.cameraholder.CameraHolderMTK;
-import freed.cam.apis.camera1.cameraholder.CameraHolderMotoX;
+import freed.cam.apis.camera1.cameraholder.CameraHolderLegacy;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.renderscript.FocusPeakProcessorAp1;
 import freed.utils.AppSettingsManager;
@@ -99,8 +99,8 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
         if (hasLGFramework())
             cameraHolder = new CameraHolderLG(this, CameraHolder.Frameworks.LG);
         else if (isMotoExt())
-            cameraHolder = new CameraHolderMotoX(this, CameraHolder.Frameworks.MotoX);
-        else if (isMTKDevice())
+            cameraHolder = new CameraHolderLegacy(this, CameraHolder.Frameworks.MotoX);
+        else if (parametersHandler.getDevice().isLegacy())
             cameraHolder = new CameraHolderMTK(this, CameraHolder.Frameworks.MTK);
         else
             cameraHolder = new CameraHolder(this, CameraHolder.Frameworks.Normal);

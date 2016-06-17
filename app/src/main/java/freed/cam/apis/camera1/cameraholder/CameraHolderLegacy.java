@@ -32,10 +32,10 @@ import freed.utils.Logger;
 /**
  * Created by troop on 08.06.2016.
  */
-public class CameraHolderMotoX extends CameraHolder
+public class CameraHolderLegacy extends CameraHolder
 {
-    private final String TAG = CameraHolderMotoX.class.getSimpleName();
-    public CameraHolderMotoX(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks) {
+    private final String TAG = CameraHolderLegacy.class.getSimpleName();
+    public CameraHolderLegacy(CameraWrapperInterface cameraUiWrapper, Frameworks frameworks) {
         super(cameraUiWrapper,frameworks);
     }
 

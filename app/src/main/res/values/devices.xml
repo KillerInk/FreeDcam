@@ -154,15 +154,16 @@
         <item>HTC6535LVW</item>
         <item>0PJA2</item>
     </string-array>
+
     <string-array name="Htc_One_SV">
         <item>HTC One SV</item>
-
     </string-array>
 
     <string-array name="htc_m10">
         <item>HTC One M10</item>
         <item>HTC 10</item>
-
+        <item>pmewl_00617</item>
+        <item>htc_pmewl</item>
     </string-array>
 
     <string-array name="Blackberry_Priv">
