@@ -24,10 +24,12 @@ import android.os.Build.VERSION;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
+import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.device.BaseQcomDevice;
 import freed.cam.apis.camera1.parameters.manual.whitebalance.BaseCCTManual;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
@@ -97,5 +99,12 @@ public class Xiaomi_Mi3W extends BaseQcomDevice {
     @Override
     public ModeParameterInterface getNightMode() {
         return new NightModeXiaomi(parameters, cameraUiWrapper);
+    }
+
+    @Override
+    public void SetFocusArea(FocusRect focusAreas) {
+        parameters.set("touch-aec", "on");
+        parameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);
+        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 }

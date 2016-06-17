@@ -22,6 +22,11 @@ package freed.cam.apis.camera1.parameters.device.qcom;
 import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
+import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
+import freed.cam.apis.camera1.parameters.modes.NightModeXiaomi;
+import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
+import freed.dng.DngProfile;
 
 /**
  * Created by troop on 01.06.2016.
@@ -30,5 +35,30 @@ public class Xiaomi_Mi4W extends Xiaomi_Mi3W {
 
     public Xiaomi_Mi4W(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
+    }
+
+    @Override
+    public DngProfile getDngProfile(int filesize) {
+        switch (filesize)
+        {
+            case 16510976://mi 4c
+                return new DngProfile(64,4208,3120,DngProfile.Mipi16,DngProfile.BGGR,0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+        }
+        return null;
+    }
+
+    @Override
+    public boolean IsDngSupported() {
+        return true;
+    }
+
+    @Override
+    public ModeParameterInterface getOpCodeParameter() {
+        return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
+    }
+
+    @Override
+    public ModeParameterInterface getNightMode() {
+        return new NightModeXiaomi(parameters, cameraUiWrapper);
     }
 }

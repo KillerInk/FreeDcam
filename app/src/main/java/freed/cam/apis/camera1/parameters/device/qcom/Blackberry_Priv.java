@@ -22,7 +22,9 @@ package freed.cam.apis.camera1.parameters.device.qcom;
 import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
+import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.device.BaseQcomNew;
 import freed.dng.DngProfile;
 
@@ -47,5 +49,12 @@ public class Blackberry_Priv extends BaseQcomNew
         if (filesize < 23472640 && filesize > 22472640) //qcom
             return new DngProfile(0, 4896, 3672, DngProfile.Qcom, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));
         return null;
+    }
+
+    @Override
+    public void SetFocusArea(FocusRect focusAreas) {
+        parameters.set("touch-aec", "on");
+        parameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);
+        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 }

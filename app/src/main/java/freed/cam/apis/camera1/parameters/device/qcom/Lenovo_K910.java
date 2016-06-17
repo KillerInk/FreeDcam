@@ -22,7 +22,9 @@ package freed.cam.apis.camera1.parameters.device.qcom;
 import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
+import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.device.BaseQcomDevice;
 import freed.dng.DngProfile;
 
@@ -54,5 +56,12 @@ public class Lenovo_K910 extends BaseQcomDevice {
                 return new DngProfile(64, 4212, 3120, DngProfile.Qcom, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.G4));
         }
         return null;
+    }
+
+    @Override
+    public void SetFocusArea(FocusRect focusAreas) {
+        parameters.set("touch-aec", "on");
+        parameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);
+        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 }
