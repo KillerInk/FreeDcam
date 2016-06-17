@@ -40,19 +40,13 @@ public class ApiParameter extends AbstractModeParameter
     @Override
     public String[] GetValues()
     {
-        if (fragment_activityInterface.getAppSettings().getDevice() == Devices.LG_G4 || fragment_activityInterface.getAppSettings().getDevice() == Devices.Htc_M10)
-        {
-            return new String[]{AppSettingsManager.API_SONY, AppSettingsManager.API_2, AppSettingsManager.API_1};
-        }
-        else {
-            if (VERSION.SDK_INT >= 21) {
-                if (fragment_activityInterface.getAppSettings().IsCamera2FullSupported().equals("true"))
-                    return new String[]{AppSettingsManager.API_SONY, AppSettingsManager.API_2};
-                else
-                    return new String[]{AppSettingsManager.API_SONY, AppSettingsManager.API_1};
-            } else
+        if (VERSION.SDK_INT >= 21) {
+            if (fragment_activityInterface.getAppSettings().IsCamera2FullSupported().equals("true"))
+                return new String[]{AppSettingsManager.API_SONY, AppSettingsManager.API_2, AppSettingsManager.API_1};
+            else
                 return new String[]{AppSettingsManager.API_SONY, AppSettingsManager.API_1};
-        }
+        } else
+            return new String[]{AppSettingsManager.API_SONY, AppSettingsManager.API_1};
     }
 
     @Override
