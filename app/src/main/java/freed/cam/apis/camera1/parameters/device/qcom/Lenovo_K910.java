@@ -25,7 +25,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.parameters.device.BaseQcomDevice;
 import freed.dng.DngProfile;
-import freed.utils.SystemProperties;
 
 /**
  * Created by troop on 01.06.2016.
@@ -35,20 +34,6 @@ public class Lenovo_K910 extends BaseQcomDevice {
 
     public Lenovo_K910(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
-    }
-
-    @Override
-    public void UniqueOverride()
-    {
-        //ro.cm.releasetype
-        if(!SystemProperties.get("ro.build.host","NotCM").equals("NotCM"))
-        {
-            if(cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue().equals("dng"))
-                cameraUiWrapper.GetParameterHandler().SceneMode.SetValue("hdr",true);
-        }
-
-        //Todo When running CM scene mode needs to be set to HDR to bypass forced ZSL mode
-
     }
 
     @Override
