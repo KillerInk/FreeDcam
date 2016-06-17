@@ -23,6 +23,8 @@ import android.R.id;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
+import com.troop.freedcam.R;
+
 import freed.ActivityAbstract;
 import freed.viewer.gridview.GridViewFragment;
 import freed.viewer.screenslide.ScreenSlideFragment;
@@ -46,6 +48,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
         if (getSupportFragmentManager().findFragmentByTag(TAGGrid) == null)
         {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
             GridViewFragment fragment = new GridViewFragment();
             fragment.DEFAULT_ITEM_TO_SET = position;
             fragment.SetOnGridItemClick(onGridItemClick);
@@ -67,6 +70,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
         public void onThumbClick(int position)
         {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.setCustomAnimations(R.anim.left_to_right_enter, R.anim.left_to_right_exit);
             ScreenSlideFragment fragment = new ScreenSlideFragment();
             fragment.SetOnThumbClick(onScreenSlideBackClick);
             fragment.defitem  = position;

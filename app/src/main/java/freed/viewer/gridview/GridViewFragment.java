@@ -79,13 +79,31 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
     private Button deleteButton;
     private Button filetypeButton;
     private Button rawToDngButton;
+    /**
+     * the files that get shown by the gridview
+     */
     private FormatTypes formatsToShow = FormatTypes.all;
     private FormatTypes lastFormat = FormatTypes.all;
     private RequestModes requestMode = RequestModes.none;
 
+    /**
+     * textview that show the cound of selected files 1/12
+     */
     private TextView filesSelected;
+    /**
+     * count of selected files
+     */
     private int filesSelectedCount;
+    /**
+     * rootdir is when all folders contained from DCIM on internal and external SD card are showed.
+     * internalSD/DCIM/Camera
+     * internalSD/DCIM/FreeDcam
+     * extSD/DCIM/FreeDcam showed with sd icon
+     */
     private boolean isRootDir = true;
+    /**
+     * the current state of the gridview if items are in selection mode or normal rdy to click
+     */
     private ViewStates currentViewState = ViewStates.normal;
     private  int mImageThumbSize;
     private  ExecutorService executor;
@@ -100,7 +118,6 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
         none,
         delete,
         rawToDng,
-
     }
 
     public void SetOnGridItemClick(ScreenSlideFragment.I_ThumbClick onGridItemClick)
@@ -166,8 +183,11 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
             mPagerAdapter = new ImageAdapter();
             gridView.setAdapter(mPagerAdapter);
             setViewMode(ViewStates.normal);
+            //if its a normal startup and files are not loaded
             if (viewerActivityInterface.getFiles() == null && viewerActivityInterface.getFiles().size() ==0)
                 mPagerAdapter.loadDCIMFolders();
+            else //we return from screenslide
+                isRootDir = false;
             gridView.smoothScrollToPosition(DEFAULT_ITEM_TO_SET);
         }
     }
