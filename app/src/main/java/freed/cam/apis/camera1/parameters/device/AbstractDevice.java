@@ -55,6 +55,8 @@ public abstract class AbstractDevice implements I_Device {
         }
     }
 
+
+
     @Override
     public abstract boolean IsDngSupported();
 
@@ -220,6 +222,12 @@ public abstract class AbstractDevice implements I_Device {
 
     @Override
     public void Set_RAWFNAME(String filename) {
+
+    }
+
+    @Override
+    public void UniqueOverride()
+    {
 
     }
 }

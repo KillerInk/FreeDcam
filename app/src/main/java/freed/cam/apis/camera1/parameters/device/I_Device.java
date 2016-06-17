@@ -49,6 +49,8 @@ public interface I_Device
     ModeParameterInterface getLensFilter();
     ModeParameterInterface getNightMode();
 
+    void UniqueOverride();
+
     boolean isLegacy();
 
     float GetFnumber();
