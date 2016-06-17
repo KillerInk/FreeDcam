@@ -76,9 +76,6 @@ public abstract class AbstractDevice implements I_Device {
     }
 
     @Override
-    public boolean isLegacy(){return false;};
-
-    @Override
     public ManualParameterInterface getManualSaturation()
     {
         BaseManualParameter ManualSaturation = null;

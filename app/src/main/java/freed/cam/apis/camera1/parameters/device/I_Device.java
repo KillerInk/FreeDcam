@@ -49,8 +49,6 @@ public interface I_Device
     ModeParameterInterface getLensFilter();
     ModeParameterInterface getNightMode();
 
-    boolean isLegacy();
-
     float GetFnumber();
     float GetFocal();
     float getCurrentExposuretime();

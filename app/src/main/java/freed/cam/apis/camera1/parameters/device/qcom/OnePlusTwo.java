@@ -34,11 +34,6 @@ public class OnePlusTwo extends BaseQcomDevice {
     public OnePlusTwo(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
-    @Override
-    public boolean isLegacy()
-    {
-        return true;
-    }
 
     @Override
     public boolean IsDngSupported() {
