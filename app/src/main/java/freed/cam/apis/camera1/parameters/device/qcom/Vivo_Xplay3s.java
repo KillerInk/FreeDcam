@@ -23,10 +23,8 @@ import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
-import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.device.BaseQcomDevice;
 import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
 import freed.dng.DngProfile;
@@ -61,12 +59,5 @@ public class Vivo_Xplay3s extends BaseQcomDevice {
                 return new DngProfile(64, 4212, 3120, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
         }
         return null;
-    }
-
-    @Override
-    public void SetFocusArea(FocusRect focusAreas) {
-        parameters.set("touch-aec", "on");
-        parameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);
-        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 }

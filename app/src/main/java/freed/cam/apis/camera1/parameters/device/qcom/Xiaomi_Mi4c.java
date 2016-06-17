@@ -23,9 +23,6 @@ import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
-import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
-import freed.cam.apis.camera1.parameters.modes.NightModeXiaomi;
-import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
 import freed.dng.DngProfile;
 
 /**
@@ -47,20 +44,4 @@ public class Xiaomi_Mi4c extends Xiaomi_Mi3W {
         }
         return null;
     }
-
-    @Override
-    public boolean IsDngSupported() {
-        return true;
-    }
-
-    @Override
-    public ModeParameterInterface getOpCodeParameter() {
-        return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
-    }
-
-    @Override
-    public ModeParameterInterface getNightMode() {
-        return new NightModeXiaomi(parameters, cameraUiWrapper);
-    }
-
 }

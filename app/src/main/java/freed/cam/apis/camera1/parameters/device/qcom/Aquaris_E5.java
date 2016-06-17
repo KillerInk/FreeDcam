@@ -22,10 +22,8 @@ package freed.cam.apis.camera1.parameters.device.qcom;
 import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
-import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.device.BaseQcomNew;
 import freed.cam.apis.camera1.parameters.modes.OpCodeParameter;
 import freed.dng.DngProfile;
@@ -52,12 +50,5 @@ public class Aquaris_E5 extends BaseQcomNew
     @Override
     public AbstractModeParameter getOpCodeParameter() {
         return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
-    }
-
-    @Override
-    public void SetFocusArea(FocusRect focusAreas) {
-        parameters.set("touch-aec", "on");
-        parameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);
-        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 }

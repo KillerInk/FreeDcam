@@ -30,7 +30,6 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
-import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.device.AbstractDevice;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.dng.DngProfile;
@@ -87,10 +86,10 @@ public class Moto_X2k14 extends AbstractDevice {
 
     @Override
     public void SetFocusArea(FocusRect focusAreas) {
-        parameters.set("touch-aec", "on");
-        parameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);
-        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+        Camera.Area a = new Camera.Area(new Rect(focusAreas.left,focusAreas.top,focusAreas.right,focusAreas.bottom),1000);
+        ArrayList<Camera.Area> ar = new ArrayList<>();
+        ar.add(a);
+        parameters.setFocusAreas(ar);
+        parametersHandler.SetParametersToCamera(parameters);
     }
-
-
 }
