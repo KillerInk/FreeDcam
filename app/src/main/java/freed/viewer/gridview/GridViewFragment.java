@@ -52,6 +52,7 @@ import com.troop.freedcam.R.string;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -389,30 +390,15 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 int fileselected = filesSelectedCount;
 
                 int filesdeletedCount = 0;
+                List<FileHolder> to_del = new ArrayList<>();
                 for (int i = 0; i < viewerActivityInterface.getFiles().size(); i++)
                 {
                     if (viewerActivityInterface.getFiles().get(i).IsSelected())
                     {
-                        FileHolder f = viewerActivityInterface.getFiles().get(i);
-                        boolean del = viewerActivityInterface.DeleteFile(f);
-                        MediaScannerManager.ScanMedia(getContext(), f.getFile());
-                        Logger.d(TAG, "file: " + f.getFile().getName() + " deleted:" + del);
-                        if (del) {
-                            i--;
-                        }
-                        filesdeletedCount++;
+                        to_del.add(viewerActivityInterface.getFiles().get(i));
                     }
                 }
-
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        setViewMode(ViewStates.normal);
-                        mPagerAdapter.notifyDataSetChanged();
-                    }
-                });
-
+                viewerActivityInterface.DeleteFiles(to_del);
             }
         });
     }
@@ -643,8 +629,6 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
 
         private void loadDCIMFolders()
         {
-            if(viewerActivityInterface.getFiles().size() > 0)
-                viewerActivityInterface.getFiles().clear();
             viewerActivityInterface.LoadDCIMDirs();
 
             for (FileHolder f: viewerActivityInterface.getFiles())

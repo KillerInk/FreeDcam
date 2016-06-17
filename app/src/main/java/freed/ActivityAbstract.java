@@ -41,6 +41,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils;
 import freed.utils.Logger;
@@ -198,8 +199,7 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     /**
      * @return all files from /DCIM/FreeDcam from internal and external
      */
-    @Override
-    public List<FileHolder> getFreeDcamDCIMFiles() {
+    private List<FileHolder> getFreeDcamDCIMFiles() {
         List<FileHolder> f = new ArrayList<>();
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             File internal = new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder);
@@ -238,8 +238,7 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
      *
      * @return folders from DCIM dirs
      */
-    @Override
-    public List<FileHolder> getDCIMDirs() {
+    private List<FileHolder> getDCIMDirs() {
         ArrayList<FileHolder> list = new ArrayList<>();
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP)
         {
@@ -392,6 +391,17 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
 
     @Override
     public boolean DeleteFile(FileHolder file) {
+        return deleteFile(file);
+    }
+
+    @Override
+    public void DeleteFiles(List<FileHolder> files) {
+        for (FileHolder f : files)
+            deleteFile(f);
+    }
+
+    private boolean deleteFile(FileHolder file)
+    {
         boolean del = false;
         bitmapHelper.DeleteCache(file.getFile());
         if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || file.getFile().canWrite())
@@ -406,6 +416,7 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
                 files.remove(file);
             throwOnFileDeleted(file.getFile());
         }
+        MediaScannerManager.ScanMedia(getContext(), file.getFile());
         return del;
     }
 

@@ -42,16 +42,6 @@ public interface ActivityInterface
         void onActivityResultCallback(Uri uri);
     }
 
-    /**
-     * @return all files from /DCIM/FreeDcam from internal and external
-     */
-    List<FileHolder> getFreeDcamDCIMFiles();
-
-    /**
-     * Lists all Folders stored in DCIM on internal and external SD
-     * @return folders from DCIM dirs
-     */
-    List<FileHolder> getDCIMDirs();
 
 
     BitmapHelper getBitmapHelper();
@@ -61,6 +51,7 @@ public interface ActivityInterface
     AppSettingsManager getAppSettings();
 
     boolean DeleteFile(FileHolder file);
+    void DeleteFiles(List<FileHolder> files);
 
     void AddFile(FileHolder file);
 

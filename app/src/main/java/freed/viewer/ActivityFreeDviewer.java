@@ -59,7 +59,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        files = getDCIMDirs();
+        LoadDCIMDirs();
         mShortAnimationDuration = getResources().getInteger(
                 android.R.integer.config_shortAnimTime);
         setContentView(R.layout.activity_freedviewer);
@@ -72,13 +72,11 @@ public class ActivityFreeDviewer extends ActivityAbstract
         slideholder.setVisibility(View.GONE);
     }
 
-
     @Override
-    public List<FileHolder> getFreeDcamDCIMFiles() {
-        files = super.getFreeDcamDCIMFiles();
+    public void LoadFreeDcamDCIMDirsFiles() {
+        super.LoadFreeDcamDCIMDirsFiles();
         gridViewFragment.NotifyDataSetChanged();
         screenSlideFragment.NotifyDATAhasChanged();
-        return files;
     }
 
     @Override
@@ -88,17 +86,25 @@ public class ActivityFreeDviewer extends ActivityAbstract
         screenSlideFragment.NotifyDATAhasChanged();
     }
 
-    private void loadGridViewFragment(int position) {
-        if (getSupportFragmentManager().findFragmentByTag(TAGGrid) == null)
-        {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.setCustomAnimations(R.anim.right_to_left_enter, R.anim.right_to_left_exit);
-            GridViewFragment fragment = new GridViewFragment();
-            fragment.DEFAULT_ITEM_TO_SET = position;
-            fragment.SetOnGridItemClick(onGridItemClick);
-            ft.replace(id.content, fragment, TAGGrid);
-            ft.commit();
-        }
+    @Override
+    public void DeleteFiles(final List<FileHolder> files) {
+        super.DeleteFiles(files);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                gridViewFragment.NotifyDataSetChanged();
+                screenSlideFragment.NotifyDATAhasChanged();
+            }
+        });
+    }
+
+    @Override
+    public boolean DeleteFile(FileHolder file)
+    {
+        boolean del = super.DeleteFile(file);
+        gridViewFragment.NotifyDataSetChanged();
+        screenSlideFragment.NotifyDATAhasChanged();
+        return del;
     }
 
     private final ScreenSlideFragment.I_ThumbClick onScreenSlideBackClick = new ScreenSlideFragment.I_ThumbClick() {
@@ -117,13 +123,15 @@ public class ActivityFreeDviewer extends ActivityAbstract
         }
     };
 
-    void loadGridView(int position, View view)
+    private void loadGridView(int position, View view)
     {
         if (mCurrentAnimator != null) {
             mCurrentAnimator.cancel();
         }
 
         View griditem = gridViewFragment.GetGridItem(position);
+        if (griditem == null)
+            griditem = gridViewFragment.GetGridItem(0);
         // Calculate the starting and ending bounds for the zoomed-in image.
         // This step involves lots of math. Yay, math.
         final Rect startBounds = new Rect();
@@ -286,10 +294,6 @@ public class ActivityFreeDviewer extends ActivityAbstract
         set.start();
         mCurrentAnimator = set;
 
-        // Upon clicking the zoomed-in image, it should zoom back down
-        // to the original bounds and show the thumbnail instead of
-        // the expanded image.
-        final float startScaleFinal = startScale;
     }
 
 }
