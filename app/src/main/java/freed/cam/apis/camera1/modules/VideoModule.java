@@ -121,41 +121,36 @@ public class VideoModule extends AbstractVideoModule
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         if (currentProfile.Mode == VideoMode.Highspeed)
         {
-            if(currentProfile.ProfileName.equals("1080pHFR")
-                    && appSettingsManager.getDevice() == Devices.XiaomiMI3W
-                    || appSettingsManager.getDevice() == Devices.ZTE_ADV)
-                cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("60",true);
-            if(currentProfile.ProfileName.equals("720pHFR") && appSettingsManager.getDevice() == Devices.ZTE_ADV)
-                cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("120", true);
+            if(appSettingsManager.getDevice() == Devices.Htc_M8 ||appSettingsManager.getDevice() == Devices.Htc_M9||appSettingsManager.getDevice() == Devices.HTC_OneA9||appSettingsManager.getDevice() == Devices.HTC_OneE8 ) {
+                if (currentProfile.ProfileName.equals("1080pHFR"))
+                {
+                    cameraUiWrapper.GetParameterHandler().HTCVideoMode.SetValue("2",true);
+                    cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("off", true);
+                }
+                else if (currentProfile.ProfileName.equals("720pHFR"))
+                {
+                    if (currentProfile.videoFrameRate < 120 && currentProfile.videoFrameRate >30 )
+                    {
+                        cameraUiWrapper.GetParameterHandler().HTCVideoMode.SetValue("2",true);
+                        cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("off", true);
+                    }
+                    else {
+                        cameraUiWrapper.GetParameterHandler().HTCVideoMode.SetValue("1",true);
+                        cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("120", true);}
+                }
 
-            if(currentProfile.ProfileName.equals("720pHFR")
-                    && appSettingsManager.getDevice() == Devices.XiaomiMI3W
-                    || appSettingsManager.getDevice() == Devices.ZTE_ADV
-                    || appSettingsManager.getDevice() == Devices.ZTEADV234
-                    || appSettingsManager.getDevice() == Devices.ZTEADVIMX214)
-            {
-                cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("120",true);
-                cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus", true);
             }
+          
+            else
+            {
+            if (currentProfile.ProfileName.equals("1080pHFR")
+                        && appSettingsManager.getDevice() == Devices.XiaomiMI3W
+                        || appSettingsManager.getDevice() == Devices.ZTE_ADV)
+                    cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("60", true);
+                if (currentProfile.ProfileName.equals("720pHFR") && appSettingsManager.getDevice() == Devices.ZTE_ADV)
+                    cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("120", true);
 
-            if (cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement != null && cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.IsSupported())
-                cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.SetValue("disable", true);
-            if (cameraUiWrapper.GetParameterHandler().DigitalImageStabilization != null && cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.IsSupported())
-                cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue("disable", true);
-            if (cameraUiWrapper.GetParameterHandler().VideoStabilization != null && cameraUiWrapper.GetParameterHandler().VideoStabilization.IsSupported())
-                cameraUiWrapper.GetParameterHandler().VideoStabilization.SetValue("false", true);
-            if (cameraUiWrapper.GetParameterHandler().Denoise != null && cameraUiWrapper.GetParameterHandler().Denoise.IsSupported())
-                cameraUiWrapper.GetParameterHandler().Denoise.SetValue("denoise-off", true);
-            cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("yuv420sp", true);
-            if (cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.IsSupported())
-            {
-                cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate+"", true);
-            }
-        }
-        else
-        {
-            if (currentProfile.ProfileName.contains(VideoProfilesParameter._4kUHD))
-            {
+
                 if (cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement != null && cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.IsSupported())
                     cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.SetValue("disable", true);
                 if (cameraUiWrapper.GetParameterHandler().DigitalImageStabilization != null && cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.IsSupported())
@@ -164,10 +159,28 @@ public class VideoModule extends AbstractVideoModule
                     cameraUiWrapper.GetParameterHandler().VideoStabilization.SetValue("false", true);
                 if (cameraUiWrapper.GetParameterHandler().Denoise != null && cameraUiWrapper.GetParameterHandler().Denoise.IsSupported())
                     cameraUiWrapper.GetParameterHandler().Denoise.SetValue("denoise-off", true);
-                cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus",true);
+                cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("yuv420sp", true);
+                if (cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.IsSupported()) {
+                    cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate + "", true);
+                }
+            }
+        }
+        else
+        {
+            if (currentProfile.ProfileName.contains(VideoProfilesParameter._4kUHD) ||currentProfile.ProfileName.contains(VideoProfilesParameter._4kDCI))
+            {
+
+                if (cameraUiWrapper.GetParameterHandler().DigitalImageStabilization != null && cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.IsSupported())
+                    cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue("disable", true);
+                if (cameraUiWrapper.GetParameterHandler().VideoStabilization != null && cameraUiWrapper.GetParameterHandler().VideoStabilization.IsSupported())
+                    cameraUiWrapper.GetParameterHandler().VideoStabilization.SetValue("false", true);
+
+                if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != CameraHolder.Frameworks.MTK)
+                    cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus",true);
             }
             else
                 cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("yuv420sp", true);
+
             if (cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.IsSupported())
             {
                 cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("off", true);
@@ -183,39 +196,5 @@ public class VideoModule extends AbstractVideoModule
 
     }
 
-    private void videoTime(int VB, int AB)
-    {
-        int i = VB / 2;
 
-        long l2 = (i + AB >> 3) / 1000;
-        // long l3 = Environment.getExternalStorageDirectory().getUsableSpace() / l2;
-        Logger.d("VideoCamera Remaing", getTimeString(Environment.getExternalStorageDirectory().getUsableSpace() / l2)) ;
-
-    }
-
-    private String getTimeString(long paramLong)
-    {
-        long l1 = paramLong / 1000L;
-        long l2 = l1 / 60L;
-        long l3 = l2 / 60L;
-        long l4 = l2 - 60L * l3;
-        String str1 = Long.toString(l1 - 60L * l2);
-        if (str1.length() < 2) {
-            str1 = "0" + str1;
-        }
-        String str2 = Long.toString(l4);
-        if (str2.length() < 2) {
-            str2 = "0" + str2;
-        }
-        String str3 = str2 + ":" + str1;
-        if (l3 > 0L)
-        {
-            String str4 = Long.toString(l3);
-            if (str4.length() < 2) {
-                str4 = "0" + str4;
-            }
-            str3 = str4 + ":" + str3;
-        }
-        return str3;
-    }
 }

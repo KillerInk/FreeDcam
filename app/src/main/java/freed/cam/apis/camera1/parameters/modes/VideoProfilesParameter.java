@@ -47,6 +47,7 @@ public class VideoProfilesParameter extends BaseModeParameter
     private String profile;
     private static final String _720phfr = "720HFR";
     public static final String _4kUHD = "4kUHD";
+    public static final String _4kDCI = "4kDCI";
 
     public VideoProfilesParameter(Parameters parameters,CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);

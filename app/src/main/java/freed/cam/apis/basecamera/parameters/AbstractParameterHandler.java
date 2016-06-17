@@ -111,6 +111,7 @@ public abstract class AbstractParameterHandler
     public ModeParameterInterface ExposureLock;
     public ModeParameterInterface CDS_Mode;
 
+    public ModeParameterInterface HTCVideoMode;
     public ModeParameterInterface VideoProfiles;
     public ModeParameterInterface VideoSize;
     public ModeParameterInterface VideoHDR;
