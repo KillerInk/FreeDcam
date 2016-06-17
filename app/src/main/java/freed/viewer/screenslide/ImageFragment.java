@@ -162,6 +162,7 @@ public class ImageFragment extends Fragment
             }
         });
 
+        createHistogramm(response);
         if (waitForWorkFinish != null && position >-1)
             waitForWorkFinish.HistograRdyToSet(histogramData, position);
         waitForWorkFinish = null;
@@ -173,7 +174,7 @@ public class ImageFragment extends Fragment
         Bitmap response =null;
         try {
             response = ((ActivityInterface)getActivity()).getBitmapHelper().getBitmap(file.getFile(),false, mImageThumbSize, mImageThumbSize);
-            createHistogramm(response);
+
         }
         catch (IllegalArgumentException | NullPointerException ex)
         {

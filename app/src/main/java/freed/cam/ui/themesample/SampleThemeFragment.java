@@ -112,7 +112,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
 
     private final I_ThumbClick onThumbClick = new I_ThumbClick() {
         @Override
-        public void onThumbClick(int position) {
+        public void onThumbClick(int position,View view) {
             mPager.setCurrentItem(2);
         }
 
@@ -121,7 +121,7 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
 
     private final I_ThumbClick onThumbBackClick = new I_ThumbClick() {
         @Override
-        public void onThumbClick(int position)
+        public void onThumbClick(int position,View view)
         {
             if (mPager != null)
                 mPager.setCurrentItem(1);

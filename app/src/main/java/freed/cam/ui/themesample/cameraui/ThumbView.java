@@ -101,7 +101,7 @@ public class ThumbView extends ImageView implements OnClickListener, ActivityAbs
     public void onClick(View v)
     {
         if (click != null)
-            click.onThumbClick(0);
+            click.onThumbClick(0, v);
     }
 
     @Override

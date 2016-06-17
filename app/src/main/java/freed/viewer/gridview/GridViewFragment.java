@@ -112,6 +112,15 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
 
     public int DEFAULT_ITEM_TO_SET = 0;
 
+    public void SetPosition(int position)
+    {
+        gridView.smoothScrollToPosition(position);
+    }
+
+    public View GetGridItem(int position)
+    {
+        return gridView.getChildAt(position);
+    }
 
     public enum RequestModes
     {
@@ -123,6 +132,11 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
     public void SetOnGridItemClick(ScreenSlideFragment.I_ThumbClick onGridItemClick)
     {
         this.onGridItemClick = onGridItemClick;
+    }
+
+    public void NotifyDataSetChanged()
+    {
+        mPagerAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -228,7 +242,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 //handel normal griditem click to open screenslide when its not a folder
                 if (!viewerActivityInterface.getFiles().get(position).IsFolder())
                 {
-                    this.onGridItemClick.onThumbClick(position);
+                    this.onGridItemClick.onThumbClick(position, view);
                 }
                 else
                 {   //handel folder click

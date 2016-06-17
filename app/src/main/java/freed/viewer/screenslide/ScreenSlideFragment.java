@@ -77,7 +77,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
     public final String TAG = ScreenSlideFragment.class.getSimpleName();
     public interface I_ThumbClick
     {
-        void onThumbClick(int position);
+        void onThumbClick(int position,View view);
     }
 
     public interface FragmentClickClistner
@@ -120,12 +120,13 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
 
     private boolean waitForCameraHasLoaded;
     private ActivityInterface activityInterface;
+    View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,savedInstanceState);
-        View view = inflater.inflate(layout.screenslide_fragment, container, false);
+        view = inflater.inflate(layout.screenslide_fragment, container, false);
 
         mImageThumbSize = getResources().getDimensionPixelSize(dimen.image_thumbnail_size);
         activityInterface = (ActivityInterface) getActivity();
@@ -141,7 +142,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
             @Override
             public void onClick(View v) {
                 if (thumbclick != null) {
-                    thumbclick.onThumbClick(mPager.getCurrentItem());
+                    thumbclick.onThumbClick(mPager.getCurrentItem(), view);
                     mPager.setCurrentItem(0);
                 } else
                     getActivity().finish();
@@ -228,6 +229,11 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
     public void setWaitForCameraHasLoaded()
     {
         waitForCameraHasLoaded = true;
+    }
+
+    public void SetPostition(int position)
+    {
+        mPager.setCurrentItem(position, false);
     }
 
     public void LoadFiles()
