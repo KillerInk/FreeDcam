@@ -110,6 +110,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
     private  ExecutorService executor;
     private ActivityInterface viewerActivityInterface;
     private ScreenSlideFragment.I_ThumbClick onGridItemClick;
+    private FileHolder folderToShow;
 
     public int DEFAULT_ITEM_TO_SET = 0;
 
@@ -245,8 +246,10 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 {
                     this.onGridItemClick.onThumbClick(position, view);
                 }
-                else
-                {   //handel folder click
+                else //handel folder click
+                {
+                    //hold the current folder to show if a format is empty
+                    folderToShow = viewerActivityInterface.getFiles().get(position).getParent();
                     mPagerAdapter.loadFiles(viewerActivityInterface.getFiles().get(position));
                     isRootDir = false;
                     setViewMode(currentViewState);
@@ -309,7 +312,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                     formatsToShow = FormatTypes.mp4;
                 }
                 //if (savedInstanceFilePath != null)
-                mPagerAdapter.loadFiles(viewerActivityInterface.getFiles().get(0).getParent());
+                mPagerAdapter.loadFiles(folderToShow);
 
                 return false;
 
