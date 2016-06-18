@@ -106,7 +106,7 @@ Camera Ui Icons
                 </tr>
                 <tr>
                     <td><img src="/app/src/main/res/drawable-hdpi/quck_set_zebra.png" width="50" height="50"></td>
-                    <td>Exit App</td>
+                    <td>FocusPeak/ZebraPattern</td>
                 </tr>
                 <tr>
                     <td><img src="/app/src/main/res/drawable-hdpi/quck_set_cswitch.png" width="50" height="50"></td>
