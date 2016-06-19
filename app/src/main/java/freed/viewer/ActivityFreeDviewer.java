@@ -70,6 +70,10 @@ public class ActivityFreeDviewer extends ActivityAbstract
         slideholder.setVisibility(View.GONE);
     }
 
+    /**
+     * Loads all files stored in DCIM/FreeDcam from internal and external SD
+     * and notfiy gridview and screenslide that files got changed
+     */
     @Override
     public void LoadFreeDcamDCIMDirsFiles() {
         super.LoadFreeDcamDCIMDirsFiles();
@@ -77,6 +81,12 @@ public class ActivityFreeDviewer extends ActivityAbstract
         screenSlideFragment.NotifyDATAhasChanged();
     }
 
+    /**
+     * Loads the files stored from that folder
+     * and notfiy gridview and screenslide that files got changed
+     * @param fileHolder the folder to lookup
+     * @param types the file format to load
+     */
     @Override
     public void LoadFolder(FileHolder fileHolder, ActivityAbstract.FormatTypes types) {
         super.LoadFolder(fileHolder, types);
@@ -84,6 +94,10 @@ public class ActivityFreeDviewer extends ActivityAbstract
         screenSlideFragment.NotifyDATAhasChanged();
     }
 
+    /**
+     * Loads all Folders from DCIM dir from internal and external SD
+     * and notfiy gridview and screenslide that files got changed
+     */
     @Override
     public void LoadDCIMDirs() {
         super.LoadDCIMDirs();

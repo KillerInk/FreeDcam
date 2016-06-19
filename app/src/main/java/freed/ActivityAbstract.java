@@ -116,12 +116,6 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
         super.onPause();
     }
 
-    @Override
-    protected void onDestroy()
-    {
-        super.onDestroy();
-    }
-
     private void HIDENAVBAR()
     {
         if (VERSION.SDK_INT < 16) {
@@ -446,6 +440,11 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
         return this.files;
     }
 
+    /**
+     * Loads the files stored from that folder
+     * @param fileHolder the folder to lookup
+     * @param types the file format to load
+     */
     @Override
     public void LoadFolder(FileHolder fileHolder,FormatTypes types )
     {
@@ -453,6 +452,9 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
         readFilesFromFolder(fileHolder.getFile(),files,types,fileHolder.isExternalSD());
     }
 
+    /**
+     * Loads all Folders from DCIM dir from internal and external SD
+     */
     @Override
     public void LoadDCIMDirs()
     {
@@ -461,6 +463,9 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
         files = getDCIMDirs();
     }
 
+    /**
+     * Loads all files stored in DCIM/FreeDcam from internal and external SD
+     */
     @Override
     public void LoadFreeDcamDCIMDirsFiles() {
         if (files != null)
@@ -480,14 +485,6 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     private  File getStorageDirectory() {
         String path = System.getenv("ANDROID_STORAGE");
         return path == null ? new File("/storage") : new File(path);
-    }
-
-    private void readSubFolderFromFolder(File folder, List<File> folderList) {
-        File[] folderfiles = folder.listFiles();
-        for (File f : folderfiles) {
-            if (f.isDirectory() && !f.isHidden())
-                folderList.add(f);
-        }
     }
 
     @Override

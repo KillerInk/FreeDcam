@@ -344,12 +344,25 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         moveTaskToBack(true);
     }
 
+    /**
+     * Loads all files stored in DCIM/FreeDcam from internal and external SD
+     * and notfiy the stored screenslide fragment in sampletheme that
+     * files got changed
+     */
     @Override
     public void LoadFreeDcamDCIMDirsFiles() {
         super.LoadFreeDcamDCIMDirsFiles();
         sampleThemeFragment.NotifyDataSetChanged();
     }
 
+
+    /**
+     * Loads the files stored from that folder
+     * and notfiy the stored screenslide fragment in sampletheme that
+     * files got changed
+     * @param fileHolder the folder to lookup
+     * @param types the file format to load
+     */
     @Override
     public void LoadFolder(FileHolder fileHolder, FormatTypes types) {
         super.LoadFolder(fileHolder, types);
