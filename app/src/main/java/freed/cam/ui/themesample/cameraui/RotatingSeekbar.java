@@ -62,6 +62,10 @@ public class RotatingSeekbar extends View
     private final int scrollsubstract = 1;
     private Handler handler;
 
+    //holds the position when user touched down
+    private int startY;
+    private boolean sliderMoving;
+
     private final int VISIBLE_ITEMS_INVIEW = 16;
 
     public RotatingSeekbar(Context context) {
@@ -174,9 +178,7 @@ public class RotatingSeekbar extends View
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpi, getResources().getDisplayMetrics());
     }
 
-    //holds the position when user touched down
-    private int startY;
-    private boolean sliderMoving;
+
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
@@ -359,5 +361,15 @@ public class RotatingSeekbar extends View
     public void setOnSeekBarChangeListener(OnSeekBarChangeListener mListener)
     {
         this.mListener = mListener;
+    }
+
+    public boolean IsAutoScrolling()
+    {
+        return autoscroll;
+    }
+
+    public boolean IsMoving()
+    {
+        return sliderMoving;
     }
 }
