@@ -23,7 +23,6 @@ import android.os.Build.VERSION;
 
 import freed.ActivityInterface;
 import freed.utils.AppSettingsManager;
-import freed.utils.DeviceUtils.Devices;
 
 /**
  * Created by troop on 21.07.2015.

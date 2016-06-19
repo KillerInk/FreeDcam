@@ -59,7 +59,6 @@ import java.util.concurrent.Executors;
 import freed.ActivityAbstract.FormatTypes;
 import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
-import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.FreeDPool;
 import freed.utils.Logger;
 import freed.utils.StringUtils.FileEnding;

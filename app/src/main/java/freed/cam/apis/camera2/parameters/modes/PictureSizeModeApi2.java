@@ -21,7 +21,6 @@ package freed.cam.apis.camera2.parameters.modes;
 
 import android.annotation.TargetApi;
 import android.graphics.ImageFormat;
-import android.media.ImageReader;
 import android.os.Build.VERSION_CODES;
 import android.util.Size;
 

@@ -139,11 +139,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             }
             manager.openCamera(cam, mStateCallback, null);
             characteristics = manager.getCameraCharacteristics(CurrentCamera + "");
-            if (!isLegacyDevice())
-            {
-
-                //printCharacteristics();
-            }
             map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
 
         } catch (CameraAccessException e) {
