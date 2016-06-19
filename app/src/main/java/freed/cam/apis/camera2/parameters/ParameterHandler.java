@@ -39,6 +39,7 @@ import freed.cam.apis.camera2.FocusHandler;
 import freed.cam.apis.camera2.parameters.manual.BurstApi2;
 import freed.cam.apis.camera2.parameters.manual.ManualFocus;
 import freed.cam.apis.camera2.parameters.manual.ManualToneMapCurveApi2;
+import freed.cam.apis.camera2.parameters.manual.ZoomApi2;
 import freed.cam.apis.camera2.parameters.modes.AntibandingApi2;
 import freed.cam.apis.camera2.parameters.modes.ColorModeApi2;
 import freed.cam.apis.camera2.parameters.modes.ControlModesApi2;
@@ -129,6 +130,8 @@ public class ParameterHandler extends AbstractParameterHandler
         oismode = new OisModeApi2(cameraUiWrapper);
         matrixChooser = new MatrixChooserParameter();
         imageStackMode = new StackModeParameter();
+        Zoom = new ZoomApi2(cameraUiWrapper);
+
 
         uiHandler.post(new Runnable() {
             @Override
