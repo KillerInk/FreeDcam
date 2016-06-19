@@ -194,9 +194,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract
                 e1.printStackTrace();
             }
             File file = new File(mediaSavePath);
-            MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(), file);
-
-            cameraUiWrapper.GetModuleHandler().WorkFinished(new FileHolder(file, appSettingsManager.GetWriteExternal()));
+            scanAndFinishFile(file);
             cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
 
         }

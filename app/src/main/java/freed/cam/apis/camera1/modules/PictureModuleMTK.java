@@ -104,8 +104,7 @@ public class PictureModuleMTK extends PictureModule
                 }
                 waitForPicture = false;
                 cameraHolder.StartPreview();
-                MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(), holdFile);
-                cameraUiWrapper.GetModuleHandler().WorkFinished(new FileHolder(holdFile, appSettingsManager.GetWriteExternal()));
+                scanAndFinishFile(holdFile);
                 isWorking = false;
                 changeCaptureState(CaptureStates.image_capture_stop);
             }
@@ -137,7 +136,7 @@ public class PictureModuleMTK extends PictureModule
         }
         File dng = new File(holdFile.getAbsolutePath().replace(FileEnding.JPG, FileEnding.DNG));
         saveDng(data,dng);
-        MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(),dng);
+        scanAndFinishFile(dng);
         data = null;
         rawfile.delete();
     }

@@ -34,8 +34,10 @@ import java.io.OutputStream;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
+import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;
+import freed.viewer.holder.FileHolder;
 
 /**
  * Created by troop on 15.08.2014.
@@ -74,6 +76,12 @@ public abstract class ModuleAbstract implements ModuleInterface
         currentWorkState = captureStates;
         if (captureStateChangedListner != null)
             captureStateChangedListner.onCaptureStateChanged(captureStates);
+    }
+
+    protected void scanAndFinishFile(File file)
+    {
+        MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(),file);
+        cameraUiWrapper.GetModuleHandler().WorkFinished(new FileHolder(file, appSettingsManager.GetWriteExternal()));
     }
 
     @Override

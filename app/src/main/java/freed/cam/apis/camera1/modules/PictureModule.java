@@ -180,8 +180,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             saveDng(data,toSave);
         else
             saveBytesToFile(data,toSave);
-        MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(),toSave);
-        cameraUiWrapper.GetModuleHandler().WorkFinished(new FileHolder(toSave, appSettingsManager.GetWriteExternal()));
+        scanAndFinishFile(toSave);
     }
 
     private String getFileEnding(String picFormat)

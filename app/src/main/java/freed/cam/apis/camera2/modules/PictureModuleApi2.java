@@ -339,8 +339,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     }
 
                     isWorking = false;
-                    MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(), file);
-                    cameraUiWrapper.GetModuleHandler().WorkFinished(new FileHolder(file, appSettingsManager.GetWriteExternal()));
+                    scanAndFinishFile(file);
                     changeCaptureState(CaptureStates.image_capture_stop);
                     if (burstcount == imagecount) {
                         handler.post(new Runnable() {

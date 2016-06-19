@@ -173,7 +173,7 @@ public class StackingModule extends PictureModule {
         //add file for later stack
         capturedPics.add(f);
         //Add file to media storage that its visible by mtp
-        MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(), f);
+        scanAndFinishFile(f);
 
         isWorking = false;
         //notice ui/shutterbutton about the current workstate
@@ -208,8 +208,7 @@ public class StackingModule extends PictureModule {
             SaveBitmapToFile(outputBitmap,stackedImg);
             isWorking = false;
             changeCaptureState(CaptureStates.continouse_capture_stop);
-            MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(), stackedImg);
-            cameraUiWrapper.GetModuleHandler().WorkFinished(new FileHolder(file, appSettingsManager.GetWriteExternal()));
+            scanAndFinishFile(stackedImg);
         }
     }
 
