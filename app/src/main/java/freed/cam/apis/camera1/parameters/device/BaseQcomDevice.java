@@ -140,18 +140,11 @@ public class BaseQcomDevice extends AbstractDevice {
     @Override
     public void SetFocusArea(FocusRect focusAreas)
     {
-        if (parameters.get("touch-aec")!= null) {
-            parameters.set("touch-aec", "on");
-            parameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);
-            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
-        }
-        else
-        {
-            Camera.Area a = new Camera.Area(new Rect(focusAreas.left,focusAreas.top,focusAreas.right,focusAreas.bottom),1000);
-            ArrayList<Camera.Area> ar = new ArrayList<>();
-            ar.add(a);
-            parameters.setFocusAreas(ar);
-            parametersHandler.SetParametersToCamera(parameters);
-        }
+        Camera.Area a = new Camera.Area(new Rect(focusAreas.left,focusAreas.top,focusAreas.right,focusAreas.bottom),1000);
+        ArrayList<Camera.Area> ar = new ArrayList<>();
+        ar.add(a);
+        parameters.setFocusAreas(ar);
+        parametersHandler.SetParametersToCamera(parameters);
+
     }
 }
