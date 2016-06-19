@@ -45,11 +45,9 @@ import freed.cam.apis.basecamera.modules.I_RecorderStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
-import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;
 import freed.utils.StringUtils;
-import freed.viewer.holder.FileHolder;
 
 /**
  * Created by troop on 26.11.2015.

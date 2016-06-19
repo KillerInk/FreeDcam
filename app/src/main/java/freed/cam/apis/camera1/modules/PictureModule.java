@@ -35,14 +35,12 @@ import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.cam.ui.handler.MediaScannerManager;
 import freed.jni.RawToDng;
 import freed.utils.DeviceUtils.Devices;
 import freed.utils.FreeDPool;
 import freed.utils.Logger;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
-import freed.viewer.holder.FileHolder;
 
 
 

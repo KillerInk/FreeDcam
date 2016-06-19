@@ -28,13 +28,11 @@ import java.io.IOException;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
-import freed.cam.ui.handler.MediaScannerManager;
 import freed.jni.RawToDng;
 import freed.utils.FreeDPool;
 import freed.utils.Logger;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
-import freed.viewer.holder.FileHolder;
 
 /**
  * Created by troop on 24.11.2014.

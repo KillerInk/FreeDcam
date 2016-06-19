@@ -64,7 +64,6 @@ import freed.cam.apis.basecamera.parameters.manual.AbstractManualShutter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.CameraHolderApi2.CompareSizesByArea;
-import freed.cam.ui.handler.MediaScannerManager;
 import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
 import freed.jni.RawToDng;
@@ -73,7 +72,6 @@ import freed.utils.DeviceUtils.Devices;
 import freed.utils.FreeDPool;
 import freed.utils.Logger;
 import freed.utils.StringUtils;
-import freed.viewer.holder.FileHolder;
 
 
 /**

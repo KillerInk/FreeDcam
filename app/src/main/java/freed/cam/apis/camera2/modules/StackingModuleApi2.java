@@ -42,12 +42,10 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.parameters.modes.StackModeParameter;
-import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.FreeDPool;
 import freed.utils.Logger;
 import freed.utils.RenderScriptHandler;
 import freed.utils.StringUtils;
-import freed.viewer.holder.FileHolder;
 
 /**
  * Created by troop on 16.05.2016.
