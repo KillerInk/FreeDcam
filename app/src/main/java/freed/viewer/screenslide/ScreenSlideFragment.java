@@ -248,7 +248,6 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
             } else
                 mPager.setCurrentItem(defitem);
         }
-        mPagerAdapter.notifyDataSetChanged();
     }
 
     public ScreenSlideFragment()
@@ -350,7 +349,6 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
                     activityInterface.DeleteFile(folder_to_show);
                     MediaScannerManager.ScanMedia(getContext(), folder_to_show.getFile());
                     activityInterface.LoadFolder(activityInterface.getFiles().get(0).getParent(),FormatTypes.all);
-                    mPagerAdapter.notifyDataSetChanged();
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:

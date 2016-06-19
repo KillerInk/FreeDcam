@@ -85,6 +85,15 @@ public class ActivityFreeDviewer extends ActivityAbstract
     }
 
     @Override
+    public void LoadDCIMDirs() {
+        super.LoadDCIMDirs();
+        if (gridViewFragment != null)
+            gridViewFragment.NotifyDataSetChanged();
+        if (screenSlideFragment != null)
+            screenSlideFragment.NotifyDATAhasChanged();
+    }
+
+    @Override
     public void DeleteFiles(final List<FileHolder> files) {
         super.DeleteFiles(files);
         runOnUiThread(new Runnable() {
