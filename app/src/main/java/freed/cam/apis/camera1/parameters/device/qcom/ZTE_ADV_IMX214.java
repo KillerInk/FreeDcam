@@ -25,9 +25,11 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
+import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.camera1.parameters.manual.whitebalance.BaseCCTManual;
 import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
 import freed.cam.apis.camera1.parameters.manual.zte.ShutterManualZTE;
+import freed.cam.apis.camera1.parameters.modes.NightModeZTE;
 import freed.dng.DngProfile;
 
 /**
@@ -54,12 +56,27 @@ public class ZTE_ADV_IMX214 extends ZTE_ADV {
     }
 
     @Override
-    public DngProfile getDngProfile(int filesize) {
+    public ModeParameterInterface getNightMode() {
+        return new NightModeZTE(parameters, cameraUiWrapper);
+    }
+
+
+    @Override
+    public boolean IsDngSupported() {
+        return true;
+    }
+
+    @Override
+    public DngProfile getDngProfile(int filesize)
+    {
         switch (filesize)
         {
-            case 20041728: // IMX234 FUll no crop
-                return new DngProfile(64, 5344,3000,DngProfile.Mipi16, DngProfile.RGGB,0,
-                        matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.G4));
+            case 6721536:
+                return new DngProfile(64,2592,1296,DngProfile.Qcom,DngProfile.BGGR,0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.OmniVision));
+            case 16424960:
+                return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.G4));
+            case 17522688:
+                return new DngProfile(64, 4212, 3120, DngProfile.Qcom, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.G4));
         }
         return null;
     }
