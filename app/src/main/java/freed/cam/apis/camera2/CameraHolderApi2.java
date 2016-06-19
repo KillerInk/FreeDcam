@@ -35,6 +35,7 @@ import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCaptureSession.CaptureCallback;
 import android.hardware.camera2.CameraCaptureSession.StateCallback;
 import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraConstrainedHighSpeedCaptureSession;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
@@ -51,6 +52,7 @@ import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.test.suitebuilder.annotation.Suppress;
 import android.util.Size;
 import android.view.Display;
 import android.view.Surface;
@@ -68,6 +70,7 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
+import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.camera2.parameters.ParameterHandler;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;
@@ -95,10 +98,14 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     private Builder mPreviewRequestBuilder;
 
     private CameraCaptureSession mCaptureSession;
+
+    private CameraConstrainedHighSpeedCaptureSession mHighSpeedCaptureSession;
+
     public StreamConfigurationMap map;
     public int CurrentCamera;
     public CameraCharacteristics characteristics;
     public String VideoSize;
+    private VideoMediaProfile currentVideoProfile;
 
     public CaptureSessionHandler CaptureSessionH;
 
@@ -113,6 +120,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         super(cameraUiWrapper);
         manager = (CameraManager) cameraUiWrapper.getContext().getSystemService(Context.CAMERA_SERVICE);
         CaptureSessionH = new CaptureSessionHandler();
+
 
     }
 
@@ -628,6 +636,12 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             mCaptureSession = cameraCaptureSession;
         }
 
+        public void SetHighSpeedCaptureSession(CameraCaptureSession cameraCaptureSession)
+        {
+            mHighSpeedCaptureSession = (CameraConstrainedHighSpeedCaptureSession)cameraCaptureSession;
+        }
+
+
         public void CreatePreviewRequestBuilder()
         {
             try {
@@ -691,6 +705,18 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             }
         }
 
+        public void CreateHighSpeedCaptureSession()
+        {
+            if(mCameraDevice == null)
+                return;
+            Logger.d(TAG, "CreateCaptureSession: Surfaces Count:" + surfaces.size());
+            try {
+                mCameraDevice.createConstrainedHighSpeedCaptureSession(surfaces, previewStateCallBackRestart, null);
+            } catch (CameraAccessException | SecurityException e) {
+                Logger.exception(e);
+            }
+        }
+
         public void CreateCaptureSession(StateCallback customCallback)
         {
             Logger.d(TAG, "CreateCaptureSessionWITHCustomCallback: Surfaces Count:" + surfaces.size());
@@ -723,6 +749,41 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             try {
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
                         null);
+            } catch (CameraAccessException e) {
+                Logger.exception(e);
+            }
+        }
+
+        public void StopRepeatingBurstCaptureSession()
+        {
+            if (mHighSpeedCaptureSession != null)
+                try {
+                    mHighSpeedCaptureSession.stopRepeating();
+                } catch (CameraAccessException e) {
+                    Logger.exception(e);
+                }
+                catch (IllegalStateException ex)
+                {
+                    Logger.exception(ex);
+                    mHighSpeedCaptureSession = null;
+                }
+        }
+
+        public void StartRepeatingBurstCaptureSession()
+        {
+            if (mHighSpeedCaptureSession == null)
+                return;
+            try {
+                List<CaptureRequest> capList = mHighSpeedCaptureSession.createHighSpeedRequestList(mPreviewRequestBuilder.build());
+
+                mHighSpeedCaptureSession.setRepeatingBurst(capList, new CameraCaptureSession.CaptureCallback() {
+                    @Override
+                    public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
+                        super.onCaptureCompleted(session, request, result);
+
+                        Logger.d("Completed", "fps:" + result.getFrameNumber());
+                    }
+                }, null);
             } catch (CameraAccessException e) {
                 Logger.exception(e);
             }
