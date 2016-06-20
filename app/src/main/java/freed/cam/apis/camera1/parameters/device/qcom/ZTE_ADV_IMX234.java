@@ -25,9 +25,11 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
+import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
 import freed.cam.apis.camera1.parameters.manual.whitebalance.BaseCCTManual;
 import freed.cam.apis.camera1.parameters.manual.zte.ShutterManualZTE;
+import freed.cam.apis.camera1.parameters.modes.NightModeZTE;
 import freed.dng.DngProfile;
 
 /**
@@ -38,6 +40,7 @@ public class ZTE_ADV_IMX234 extends ZTE_ADV {
         super(parameters, cameraUiWrapper);
     }
 
+    //needs some more debug
     @Override
     public AbstractManualParameter getExposureTimeParameter() {
         return new ShutterManualZTE(parameters, cameraUiWrapper);
@@ -52,14 +55,24 @@ public class ZTE_ADV_IMX234 extends ZTE_ADV {
     public AbstractManualParameter getCCTParameter() {
         return new BaseCCTManual(parameters,KEYS.WB_MANUAL_CCT,8000,2000, cameraUiWrapper,100, KEYS.WB_MODE_MANUAL_CCT);
     }
+
+    @Override
+    public ModeParameterInterface getNightMode() {
+        return new NightModeZTE(parameters, cameraUiWrapper);
+    }
+
+    @Override
+    public boolean IsDngSupported() {
+        return true;
+    }
+
     @Override
     public DngProfile getDngProfile(int filesize) {
         switch (filesize)
         {
-            case 17522688:
-                return new DngProfile(64, 4212, 3120, DngProfile.Qcom, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-            case 16424960:
-                return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+            case 20041728:
+                return new DngProfile(64, 5344, 3000, DngProfile.Mipi16, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.G4));
+
         }
         return null;
     }

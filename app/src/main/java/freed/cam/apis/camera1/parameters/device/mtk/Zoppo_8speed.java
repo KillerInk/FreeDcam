@@ -28,8 +28,8 @@ public class Zoppo_8speed extends BaseMTKDevice {
     {
         switch (filesize)
         {
-            case 26257920:
-                return new DngProfile(64, 4208, 3120, DngProfile.Plain,DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX214));
+            case 42923008:
+                return new DngProfile(64, 5344, 4016, DngProfile.Plain, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
         }
         return null;
     }

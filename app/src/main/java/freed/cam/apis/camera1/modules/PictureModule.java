@@ -91,7 +91,8 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             Logger.d(this.TAG,"DoWork:picformat:" + picformat);
             if (picformat.equals(KEYS.DNG) ||picformat.equals(KEYS.BAYER))
             {
-                if (cameraUiWrapper.GetParameterHandler().ZSL != null && cameraUiWrapper.GetParameterHandler().ZSL.IsSupported() && cameraUiWrapper.GetParameterHandler().ZSL.GetValue().equals("on"))
+                if (cameraUiWrapper.GetParameterHandler().ZSL != null && cameraUiWrapper.GetParameterHandler().ZSL.IsSupported()
+                        && cameraUiWrapper.GetParameterHandler().ZSL.GetValue().equals("on") && ((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != CameraHolder.Frameworks.MTK)
                 {
                     Logger.d(this.TAG,"ZSL is on turning it off");
                     cameraUiWrapper.GetParameterHandler().ZSL.SetValue("off", true);

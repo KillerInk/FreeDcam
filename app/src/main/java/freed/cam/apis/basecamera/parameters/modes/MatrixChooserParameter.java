@@ -38,6 +38,7 @@ public class MatrixChooserParameter extends AbstractModeParameter
     public static final String IMX214 = "IMX214";
     public static final String IMX230 = "IMX230";
     public static final String OmniVision = "OmniVision";
+    public static final String OV5648 = "OV5648";
     public static final String Neutral = "Neutral";
     private final HashMap<String, CustomMatrix> custommatrixes;
     private String currentval = "off";
@@ -110,6 +111,15 @@ public class MatrixChooserParameter extends AbstractModeParameter
                 imx230_reduction_matrix1,
                 imx230_reduction_matrix2,
                 imx230_3x1_matrix));
+        map.put(OV5648,new CustomMatrix(
+                OVOV5648_matrix1,
+                OVOV5648_matrix2,
+                OV_ASSHOT,
+                OVOV5648_Foward,
+                OVOV5648_Foward2,
+                Nexus6_reduction_matrix1,
+                Nexus6_reduction_matrix2,
+                OV_NREDUCTION_Matrix));
         map.put(OmniVision,new CustomMatrix(
                 OV_matrix1,
                 OV_matrix2,
@@ -360,6 +370,30 @@ public class MatrixChooserParameter extends AbstractModeParameter
 
 
     ////////////////////////////////   END G4 /////////////////////////////////////////////////////
+
+    //////////////////////////////   OV5648 ////////////////////////////////////////////////////////////////
+    private final float[]  OVOV5648_matrix1 =
+            {
+                    86/128, -16/128, -13/128, -44/128, 148/128, 20/128, -5/128, 25/128, 67/128
+            };
+    private final float[] OVOV5648_matrix2 =
+            {
+                    148/128, -54/128, -42/128, -34/128, 171/128, -16/128, 0, 21/128, 81/128
+            };
+
+    private final float[] OVOV5648_Foward =
+            {
+                    86/128, 22/128, 15/128, 27/128, 122/128, -21/128, -3/128, -32/128, 140/128
+            };
+
+    private final float[] OVOV5648_Foward2 =
+            {
+                    73/128, 10/128, 41/128, 8/128, 103/128, 17/128, -8/128, -69/128, 183/128
+            };
+
+
+
+    //////////////////////////////////OV5648 END//////////////////////////////////////////////////
 
     //////////////////////////////   Omnivision ////////////////////////////////////////////////////////////////
     private final float[]  OV_matrix1 =

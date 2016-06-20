@@ -26,6 +26,7 @@ import java.io.File;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
+import freed.cam.apis.camera1.CameraHolder;
 import freed.utils.AppSettingsManager;
 import freed.utils.FreeDPool;
 import freed.utils.Logger;
@@ -67,7 +68,9 @@ public class BracketModule extends PictureModule
             String picformat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
             if (picformat.equals(KEYS.DNG) ||picformat.equals(KEYS.BAYER))
             {
-                if (cameraUiWrapper.GetParameterHandler().ZSL != null && cameraUiWrapper.GetParameterHandler().ZSL.IsSupported() && cameraUiWrapper.GetParameterHandler().ZSL.GetValue().equals("on"))
+                if (cameraUiWrapper.GetParameterHandler().ZSL != null && cameraUiWrapper.GetParameterHandler().ZSL.IsSupported()
+                        && cameraUiWrapper.GetParameterHandler().ZSL.GetValue().equals("on")
+                        && ((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != CameraHolder.Frameworks.MTK)
                     cameraUiWrapper.GetParameterHandler().ZSL.SetValue("off", true);
             }
             changeCaptureState(CaptureStates.image_capture_start);

@@ -461,6 +461,7 @@ public class ParametersHandler extends AbstractParameterHandler
                         cameraParameters.set("video-hfr-values", "off,60,120");
                 }
             }
+            //Code style break here device lookup
             if(appSettingsManager.getDevice() == Devices.Htc_M8 ||appSettingsManager.getDevice() == Devices.Htc_M9||appSettingsManager.getDevice() == Devices.HTC_OneA9||appSettingsManager.getDevice() == Devices.HTC_OneE8 )
                 HTCVideoMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, "video-mode", "video-hfr-values");
 
