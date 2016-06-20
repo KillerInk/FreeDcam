@@ -48,13 +48,11 @@ public class BaseQcomNew extends BaseQcomDevice
         return true;
     }
 
-    //set by aehandler
     @Override
     public ManualParameterInterface getExposureTimeParameter() {
         return new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME,false);
     }
 
-    //set by aehandler
     @Override
     public ManualParameterInterface getIsoParameter() {
         return new BaseISOManual(parameters,KEYS.CONTINUOUS_ISO, parameters.getInt(KEYS.MIN_ISO), parameters.getInt(KEYS.MAX_ISO), cameraUiWrapper,1);

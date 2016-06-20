@@ -21,9 +21,15 @@ package freed.cam.apis.camera1.parameters.device.qcom;
 
 import android.hardware.Camera;
 
+import com.troop.freedcam.R;
+
+import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.parameters.device.BaseQcomNew;
+import freed.cam.apis.camera1.parameters.manual.qcom.BaseISOManual;
+import freed.cam.apis.camera1.parameters.manual.qcom.ShutterManual_ExposureTime_Micro;
 import freed.dng.DngProfile;
 
 /**
@@ -48,4 +54,17 @@ public class Lenovo_VibeShot_Z90 extends BaseQcomNew {
         }
         return null;
     }
+
+
+    @Override
+    public ManualParameterInterface getExposureTimeParameter()
+    {
+        return new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,cameraUiWrapper.getContext().getResources().getStringArray(R.array.mtk_shutter), KEYS.EXPOSURE_TIME);
+    }
+
+    @Override
+    public ManualParameterInterface getIsoParameter() {
+        return new BaseISOManual(parameters,KEYS.CONTINUOUS_ISO, 100, 1600, cameraUiWrapper,1);
+    }
+
 }
