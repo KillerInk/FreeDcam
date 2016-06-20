@@ -181,6 +181,65 @@ Camera Ui Icons
 
 </table>
 
+Camera1 Dng Supported Devices
+=============================
+Y = Yes , N = No
+KK = Kitkat,L = Lollipop , M = Marshmallow
+
+| Device                |Dng   | MF    | Shutter  |Iso  |
+| --------------------- |:----:|:----:| :----:|:------:|
+|Alcatel 985n           | Y | N| N | N |
+|Alcatel Idol3/small    | Y | Y | Y  | Y  |
+|Aquaris E5             | Y | Y | Y  | Y  |
+|Blackberry Priv        | Y | Y | Y  | Y  |
+|Elephone P9000         | Y | Y | Y  | Y  |
+|FowardArt              | Y | Y | Y  | Y  |
+|Gione E7               | Y | N| N | N|
+|Htc Desire500          | Y | N| N | N|
+|Htc M8/9               | Y | Y | Y  | N|
+|Htc One A9             | Y | N| N| N|
+|Htc One E8             | Y | N| N| N|
+|Htc One SV             | Y | N| N| N|
+|Htc One XL             | Y | N| N| N|
+|Huawei GX8             | Y | Y| N| N|
+|Huawei Honor 5X        | Y | Y| N| N|
+|I Mobile IStylteQ6     | Y | Y| Y| Y|
+|Jiayu S3               | Y | Y| Y| Y|
+|Lenovo K4 Note         | Y | Y| Y| Y|
+|Lenovo K50             | Y | Y| Y| Y|
+|Lenovo K910            | Y | N| N| N|
+|Lenovo K920            | Y | Y| Y| Y|
+|Lenovo VibeP1          | Y | Y| Y| Y|
+|Lenovo VibeShot Z90    | Y | Y| Y| Y|
+|LG G2                  | Y | Y| N| N|
+|LG G2pro               | Y | Y| Y| N|
+|LG G3                  | Y |KK=Y,L=N,M=Y| N| N|
+|LG G4                  | Y | Y| Y| Y|
+|Meizu M2 Note          | Y | Y| Y| Y|
+|Lenovo MX4/5           | Y | Y| Y| Y|
+|Moto X 2015            | Y | N| N| N|
+|Moto X Style Pure Play | Y | Y| Y| Y|
+|OnePlus One            | Y | Y| Y| N|
+|OnePlus Two            | Y | Y| Y| N|
+|Retro                  | Y | N| N| N|
+|Sony C5                | Y | Y| Y| Y|
+|Sony M4                | Y | Y| Y| Y|
+|Sony M5                | Y | Y| Y| Y|
+|Sony XperiaL           | Y | N| N| N|
+|THL5000                | Y | Y| Y| Y|
+|Vivo Xplay             | Y | N| N| N|
+|Xiaomi Mi3w            | Y | Y| Y| N|
+|Xiaomi Mi4c            | Y | Y| Y| N|
+|Xiaomi Mi4w            | Y | Y| Y| N|
+|Xiaomi Mi3             | Y | Y| Y| N|
+|Xiaomi Mi Note Pro     | Y | Y| Y| N|
+|Xiaomi Redmi Note      | Y | Y| Y| N|
+|Xiaomi Redmi Note 2    | Y | Y| Y| Y|
+|Xiaomi Redmi Note 3 (Snap/MTK) | Y | Y| Y| Y|
+|Yu Yureka              | Y | N| N| N|
+|Zoppo 8Speed           | Y | Y| Y| Y|
+
+
 
 License
 =======
