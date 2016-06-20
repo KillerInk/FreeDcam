@@ -2,44 +2,45 @@ FreeDcam
 ========
 <img src="/playstoreimages/freedcam.jpg" width="500" height="280">
 
-to build use latest android studio  
-http://developer.android.com/sdk/installing/studio.html
-
-all needed libs are included
-
-for ndk build set in your local.properties
-ndk.dir=C\:\\Android\\android-ndk-r10b
-yes you need \\ that for a folderpath
+##Build
+To build use latest [Android Studio](http://developer.android.com/sdk/installing/studio.html)  
 
 
-freedcam supports now 3 different apis:
-android.hardware.camera  
-http://developer.android.com/reference/android/hardware/Camera.html
+All needed libs are included
 
-android.hardware.camera2  
-http://developer.android.com/reference/android/hardware/camera2/package-summary.html
+For ndk build set in your *local.properties*  
+`ndk.dir=C\:\\Android\\android-ndk-r10b`  
+Yes you need `\\` that for the folderpath
 
-sony camera remote api (PlayMemories)  
-https://developer.sony.com/downloads/camera-file/sony-camera-remote-api-beta-sdk/
+
+##Supported Apis:  
+[android.hardware.camera](http://developer.android.com/reference/android/hardware/Camera.html)  
+
+
+[android.hardware.camera2](http://developer.android.com/reference/android/hardware/camera2/package-summary.html)  
+
+
+[Sony Camera Remote Api (PlayMemoriesMobile)](https://developer.sony.com/downloads/camera-file/sony-camera-remote-api-beta-sdk/)  
+
 
 
 Projects used by FreeDcam
 =========================
 
-MetadataExtractor  
-https://github.com/drewnoakes/metadata-extractor
+[MetadataExtractor](https://github.com/drewnoakes/metadata-extractor)  
 
-libtiff  
-http://www.remotesensing.org/libtiff/
 
-Special Thanks @ Dave Coffin for dcraw and the bayer extracting to 16bit  
-https://www.cybercom.net/~dcoffin/dcraw/
+[Libtiff](http://www.remotesensing.org/libtiff/)
 
-libraw
-https://github.com/LibRaw/LibRaw
 
-TouchImageview
-https://github.com/MikeOrtiz/TouchImageView
+Special Thanks @ [Dave Coffin](https://www.cybercom.net/~dcoffin/dcraw/) for dcraw and the bayer extracting to 16bit  
+
+
+[Libraw](https://github.com/LibRaw/LibRaw)
+
+
+[TouchImageview](https://github.com/MikeOrtiz/TouchImageView)
+
 
 
 Camera Ui Icons
@@ -179,3 +180,20 @@ Camera Ui Icons
     </tr>
 
 </table>
+
+
+License
+=======
+This program is free software; you can redistribute it and/or modify  
+it under the terms of the GNU General Public License as published by  
+the Free Software Foundation; either version 2 of the License, or  
+(at your option) any later version.  
+
+This program is distributed in the hope that it will be useful,  
+but WITHOUT ANY WARRANTY; without even the implied warranty of  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the  
+GNU General Public License for more details.  
+
+You should have received a copy of the GNU General Public License along  
+with this program; if not, write to the Free Software Foundation, Inc.,  
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.  
