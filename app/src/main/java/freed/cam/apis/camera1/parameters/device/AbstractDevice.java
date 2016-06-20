@@ -127,10 +127,10 @@ public abstract class AbstractDevice implements I_Device {
         {
             return new BaseManualParameter(parameters, "brightness", "brightness-max", "brightness-min", cameraUiWrapper, 1);
         }
-        else if (parameters.get("max-brightness")!= null)
+        else if (parameters.get("brightness")!= null)
             return new BaseManualParameter(parameters, "brightness", "max-brightness", "min-brightness", cameraUiWrapper, 1);
         else if (parameters.get("luma-adaptation")!= null)
-             return   new BaseManualParameter(parameters,"luma-adaptation","max-brightness","min-brightness", cameraUiWrapper,1);
+            return  new BaseManualParameter(parameters,"luma-adaptation","max-brightness","min-brightness", cameraUiWrapper,1);
         return null;
     }
 

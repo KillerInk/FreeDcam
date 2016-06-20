@@ -59,7 +59,6 @@ import java.util.concurrent.Executors;
 import freed.ActivityAbstract.FormatTypes;
 import freed.ActivityInterface;
 import freed.ActivityInterface.I_OnActivityResultCallback;
-import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.FreeDPool;
 import freed.utils.Logger;
 import freed.utils.StringUtils.FileEnding;
@@ -201,7 +200,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
             setViewMode(ViewStates.normal);
             //if its a normal startup and files are not loaded
             if (viewerActivityInterface.getFiles() == null && viewerActivityInterface.getFiles().size() ==0)
-                mPagerAdapter.loadDCIMFolders();
+                viewerActivityInterface.LoadDCIMDirs();
             else //we return from screenslide
                 isRootDir = false;
             gridView.smoothScrollToPosition(DEFAULT_ITEM_TO_SET);
@@ -250,7 +249,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 {
                     //hold the current folder to show if a format is empty
                     folderToShow = viewerActivityInterface.getFiles().get(position).getParent();
-                    mPagerAdapter.loadFiles(viewerActivityInterface.getFiles().get(position));
+                    viewerActivityInterface.LoadFolder(viewerActivityInterface.getFiles().get(position),formatsToShow);
                     isRootDir = false;
                     setViewMode(currentViewState);
 
@@ -312,7 +311,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                     formatsToShow = FormatTypes.mp4;
                 }
                 //if (savedInstanceFilePath != null)
-                mPagerAdapter.loadFiles(folderToShow);
+                viewerActivityInterface.LoadFolder(folderToShow,formatsToShow);
 
                 return false;
 
@@ -327,7 +326,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
     {
         currentViewState = viewState;
         mPagerAdapter.SetViewState(currentViewState);
-        mPagerAdapter.notifyDataSetChanged();
+        //mPagerAdapter.notifyDataSetChanged();
         if (isRootDir)
         {
             deleteButton.setVisibility(View.VISIBLE);
@@ -341,7 +340,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 case normal:
                     if (formatsToShow == FormatTypes.raw && lastFormat != FormatTypes.raw) {
                         formatsToShow = lastFormat;
-                        mPagerAdapter.loadFiles(viewerActivityInterface.getFiles().get(0).getParent());
+                        viewerActivityInterface.LoadFolder(viewerActivityInterface.getFiles().get(0).getParent(),formatsToShow);
                     }
                     requestMode = RequestModes.none;
                     deleteButton.setVisibility(View.VISIBLE);
@@ -367,7 +366,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                         case rawToDng:
                             lastFormat = formatsToShow;
                             formatsToShow = FormatTypes.raw;
-                            mPagerAdapter.loadFiles(viewerActivityInterface.getFiles().get(0).getParent());
+                            viewerActivityInterface.LoadFolder(viewerActivityInterface.getFiles().get(0).getParent(),formatsToShow);
                             deleteButton.setVisibility(View.GONE);
                             rawToDngButton.setVisibility(View.VISIBLE);
                             filetypeButton.setVisibility(View.GONE);
@@ -417,7 +416,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                     File topPath = viewerActivityInterface.getFiles().get(0).getFile().getParentFile().getParentFile();
                     if (topPath.getName().equals("DCIM") && !isRootDir)
                     {
-                        mPagerAdapter.loadDCIMFolders();
+                        viewerActivityInterface.LoadDCIMDirs();
                         isRootDir = true;
                         setViewMode(currentViewState);
                     }
@@ -428,13 +427,13 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                     else
                     {
                         isRootDir = false;
-                        mPagerAdapter.loadFiles(viewerActivityInterface.getFiles().get(0));
+                        viewerActivityInterface.LoadFolder(viewerActivityInterface.getFiles().get(0),formatsToShow);
                         setViewMode(currentViewState);
                     }
                 }
                 else
                 {
-                    mPagerAdapter.loadDCIMFolders();
+                    viewerActivityInterface.LoadDCIMDirs();
                     isRootDir = true;
                     setViewMode(currentViewState);
                 }
@@ -627,26 +626,8 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 FileHolder f = viewerActivityInterface.getFiles().get(i);
                 f.SetViewState(states);
             }
-            notifyDataSetChanged();
+
         }
-
-        private void loadDCIMFolders()
-        {
-            viewerActivityInterface.LoadDCIMDirs();
-
-            for (FileHolder f: viewerActivityInterface.getFiles())
-            {
-                Logger.d(TAG, f.getFile().getAbsolutePath());
-            }
-            notifyDataSetChanged();
-        }
-
-        private void loadFiles(FileHolder file)
-        {
-            viewerActivityInterface.LoadFolder(file,formatsToShow);
-            notifyDataSetChanged();
-        }
-
     }
 }
 

@@ -37,10 +37,8 @@ import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
-import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.Logger;
 import freed.utils.StringUtils;
-import freed.viewer.holder.FileHolder;
 
 /**
  * Created by troop on 22.12.2014.
@@ -172,8 +170,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
             }
         }
 
-        MediaScannerManager.ScanMedia(cameraUiWrapper.getContext().getApplicationContext(), file);
-        cameraUiWrapper.GetModuleHandler().WorkFinished(new FileHolder(file, appSettingsManager.GetWriteExternal()));
+        scanAndFinishFile(file);
     }
 
 

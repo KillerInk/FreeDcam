@@ -41,7 +41,6 @@ public class FocusManualParameterHTC extends BaseManualParameter
         key_max_value = KEYS.MAX_FOCUS;
         key_value = KEYS.FOCUS;
         key_min_value = KEYS.MIN_FOCUS;
-        parameters.set(key_value,"0");
         isVisible = isSupported;
         if (isSupported)
         {
@@ -67,16 +66,8 @@ public class FocusManualParameterHTC extends BaseManualParameter
     @Override
     public void SetValue(int valueToSet)
     {
-        if(valueToSet != 0)
-        {
-            parameters.set(key_value, stringvalues[valueToSet]);
-            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
-        }
-        else if (valueToSet == 0)
-        {
-            parameters.set(key_value, valueToSet+"");
-            ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
-        }
+        parameters.set(key_value, valueToSet+"");
+        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 
 }

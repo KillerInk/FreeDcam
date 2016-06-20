@@ -28,13 +28,11 @@ import java.io.IOException;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
-import freed.cam.ui.handler.MediaScannerManager;
 import freed.jni.RawToDng;
 import freed.utils.FreeDPool;
 import freed.utils.Logger;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
-import freed.viewer.holder.FileHolder;
 
 /**
  * Created by troop on 24.11.2014.
@@ -104,8 +102,7 @@ public class PictureModuleMTK extends PictureModule
                 }
                 waitForPicture = false;
                 cameraHolder.StartPreview();
-                MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(), holdFile);
-                cameraUiWrapper.GetModuleHandler().WorkFinished(new FileHolder(holdFile, appSettingsManager.GetWriteExternal()));
+                scanAndFinishFile(holdFile);
                 isWorking = false;
                 changeCaptureState(CaptureStates.image_capture_stop);
             }
@@ -137,7 +134,7 @@ public class PictureModuleMTK extends PictureModule
         }
         File dng = new File(holdFile.getAbsolutePath().replace(FileEnding.JPG, FileEnding.DNG));
         saveDng(data,dng);
-        MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(),dng);
+        scanAndFinishFile(dng);
         data = null;
         rawfile.delete();
     }

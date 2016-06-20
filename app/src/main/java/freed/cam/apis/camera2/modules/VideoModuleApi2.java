@@ -42,6 +42,7 @@ import java.io.IOException;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.I_RecorderStateChanged;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.camera2.parameters.modes.VideoProfilesApi2;
 import freed.utils.AppSettingsManager;
@@ -60,6 +61,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     private VideoMediaProfile currentVideoProfile;
     private Surface previewsurface;
     private Surface recorderSurface;
+    private File recordingFile;
 
     private MediaRecorder mediaRecorder;
 
@@ -114,10 +116,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
     private void startRecording()
     {
-
-        /*int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
-        int orientation = ORIENTATIONS.get(rotation);
-        MediaRecorder.setOrientationHint(orientation);*/
+        changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_start);
         Logger.d(TAG, "startRecording");
         startPreviewVideo();
     }
@@ -132,29 +131,22 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         isRecording = false;
 
         cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
+        changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
         cameraHolder.CaptureSessionH.CreateCaptureSession();
+        scanAndFinishFile(recordingFile);
     }
 
     @TargetApi(VERSION_CODES.LOLLIPOP)
     @Override
     public void startPreview()
     {
-
         previewSize = new Size(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
         cameraHolder.CaptureSessionH.SetTextureViewSize(previewSize.getWidth(), previewSize.getHeight(), 270,90,true);
-
         SurfaceTexture texture = cameraHolder.CaptureSessionH.getSurfaceTexture();
-
         texture.setDefaultBufferSize(currentVideoProfile.videoFrameWidth, currentVideoProfile.videoFrameHeight);
         previewsurface = new Surface(texture);
-       /* if (cameraHolder.mProcessor != null) {
-            cameraHolder.mProcessor.kill();
-        }*/
         cameraHolder.CaptureSessionH.AddSurface(previewsurface,true);
-
-
         cameraHolder.CaptureSessionH.CreateCaptureSession();
-
     }
 
     @Override
@@ -166,12 +158,15 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     @TargetApi(VERSION_CODES.LOLLIPOP)
     private void startPreviewVideo()
     {
+        recordingFile = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), ".mp4"));
         mediaRecorder = new MediaRecorder();
         mediaRecorder.reset();
         mediaRecorder.setOnErrorListener(new OnErrorListener() {
             @Override
             public void onError(MediaRecorder mr, int what, int extra) {
                 Logger.d(TAG, "error MediaRecorder:" + what + "extra:" + extra);
+                cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
+                changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
             }
         });
 
@@ -180,13 +175,13 @@ public class VideoModuleApi2 extends AbstractModuleApi2
 
         mediaRecorder.setOutputFormat(OutputFormat.MPEG_4);
         if (!appSettingsManager.GetWriteExternal()) {
-            mediaRecorder.setOutputFile(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), ".mp4"));
+            mediaRecorder.setOutputFile(recordingFile.getAbsolutePath());
         }
         else
         {
             Uri uri = Uri.parse(appSettingsManager.GetBaseFolder());
             DocumentFile df = cameraUiWrapper.getActivityInterface().getFreeDcamDocumentFolder();
-            DocumentFile wr = df.createFile("*/*", new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), ".mp4")).getName());
+            DocumentFile wr = df.createFile("*/*", recordingFile.getName());
             ParcelFileDescriptor fileDescriptor = null;
             try {
                 fileDescriptor = cameraUiWrapper.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
@@ -216,6 +211,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         } catch (IOException e) {
             Logger.exception(e);
             cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
+            changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
             return;
         }
         recorderSurface = mediaRecorder.getSurface();

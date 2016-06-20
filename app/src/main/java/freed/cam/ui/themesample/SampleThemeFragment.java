@@ -76,6 +76,11 @@ public class SampleThemeFragment extends AbstractFragment implements I_Parameter
         return sampleThemeFragment;
     }
 
+    public void NotifyDataSetChanged()
+    {
+        if (screenSlideFragment != null)
+            screenSlideFragment.NotifyDATAhasChanged();
+    }
 
     @Override
     public void SetCameraUIWrapper(CameraWrapperInterface wrapper)

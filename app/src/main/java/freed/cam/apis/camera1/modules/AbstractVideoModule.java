@@ -36,11 +36,9 @@ import freed.cam.apis.basecamera.modules.I_RecorderStateChanged;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
-import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;
 import freed.utils.StringUtils;
-import freed.viewer.holder.FileHolder;
 
 /**
  * Created by troop on 06.01.2016.
@@ -194,9 +192,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract
                 e1.printStackTrace();
             }
             File file = new File(mediaSavePath);
-            MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(), file);
-
-            cameraUiWrapper.GetModuleHandler().WorkFinished(new FileHolder(file, appSettingsManager.GetWriteExternal()));
+            scanAndFinishFile(file);
             cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
 
         }

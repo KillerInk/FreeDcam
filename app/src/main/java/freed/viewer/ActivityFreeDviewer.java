@@ -19,7 +19,6 @@
 
 package freed.viewer;
 
-import android.R.id;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -27,7 +26,6 @@ import android.animation.ObjectAnimator;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
@@ -72,6 +70,10 @@ public class ActivityFreeDviewer extends ActivityAbstract
         slideholder.setVisibility(View.GONE);
     }
 
+    /**
+     * Loads all files stored in DCIM/FreeDcam from internal and external SD
+     * and notfiy gridview and screenslide that files got changed
+     */
     @Override
     public void LoadFreeDcamDCIMDirsFiles() {
         super.LoadFreeDcamDCIMDirsFiles();
@@ -79,11 +81,30 @@ public class ActivityFreeDviewer extends ActivityAbstract
         screenSlideFragment.NotifyDATAhasChanged();
     }
 
+    /**
+     * Loads the files stored from that folder
+     * and notfiy gridview and screenslide that files got changed
+     * @param fileHolder the folder to lookup
+     * @param types the file format to load
+     */
     @Override
     public void LoadFolder(FileHolder fileHolder, ActivityAbstract.FormatTypes types) {
         super.LoadFolder(fileHolder, types);
         gridViewFragment.NotifyDataSetChanged();
         screenSlideFragment.NotifyDATAhasChanged();
+    }
+
+    /**
+     * Loads all Folders from DCIM dir from internal and external SD
+     * and notfiy gridview and screenslide that files got changed
+     */
+    @Override
+    public void LoadDCIMDirs() {
+        super.LoadDCIMDirs();
+        if (gridViewFragment != null)
+            gridViewFragment.NotifyDataSetChanged();
+        if (screenSlideFragment != null)
+            screenSlideFragment.NotifyDATAhasChanged();
     }
 
     @Override

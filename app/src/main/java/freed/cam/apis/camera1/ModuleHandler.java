@@ -26,7 +26,6 @@ import android.os.Build.VERSION_CODES;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.IntervalModule;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
-import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.cam.apis.camera1.modules.BracketModule;
 import freed.cam.apis.camera1.modules.PictureModule;

@@ -35,14 +35,12 @@ import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
-import freed.cam.ui.handler.MediaScannerManager;
 import freed.jni.RawToDng;
 import freed.utils.DeviceUtils.Devices;
 import freed.utils.FreeDPool;
 import freed.utils.Logger;
 import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
-import freed.viewer.holder.FileHolder;
 
 
 
@@ -181,8 +179,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             saveDng(data,toSave);
         else
             saveBytesToFile(data,toSave);
-        MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(),toSave);
-        cameraUiWrapper.GetModuleHandler().WorkFinished(new FileHolder(toSave, appSettingsManager.GetWriteExternal()));
+        scanAndFinishFile(toSave);
     }
 
     private String getFileEnding(String picFormat)
