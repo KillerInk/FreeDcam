@@ -186,58 +186,61 @@ Camera1 Dng Supported Devices
 
 KK = Kitkat,L = Lollipop , M = Marshmallow
 
+[true]: /playstoreimages/check.png
+[false]: /playstoreimages/cross.png
+
 | Device                |Dng   | MF    | Shutter  |Iso  |
 | --------------------- |:----:|:----:| :----:|:------:|
-|Alcatel 985n           | ![check](/playstoreimages/check.png) | ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png) | ![cross](/playstoreimages/cross.png) |
-|Alcatel Idol3/small    | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)  | ![check](/playstoreimages/check.png)  |
-|Aquaris E5             | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)  | ![check](/playstoreimages/check.png)  |
-|Blackberry Priv        | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)  | ![check](/playstoreimages/check.png)  |
-|Elephone P9000         | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)  | ![check](/playstoreimages/check.png)  |
-|FowardArt              | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)  | ![check](/playstoreimages/check.png)  |
-|Gione E7               | ![check](/playstoreimages/check.png) | ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png) | ![cross](/playstoreimages/cross.png)|
-|Htc Desire500          | ![check](/playstoreimages/check.png) | ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png) | ![cross](/playstoreimages/cross.png)|
-|Htc M8/9               | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)  | ![cross](/playstoreimages/cross.png)|
-|Htc One A9             | ![check](/playstoreimages/check.png) | ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)|
-|Htc One E8             | ![check](/playstoreimages/check.png) | ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)|
-|Htc One SV             | ![check](/playstoreimages/check.png) | ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)|
-|Htc One XL             | ![check](/playstoreimages/check.png) | ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)|
-|Huawei GX8             | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)|
-|Huawei Honor 5X        | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)|
-|I Mobile IStylteQ6     | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)|
-|Jiayu S3               | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)|
-|Lenovo K4 Note         | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)|
-|Lenovo K50             | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)|
-|Lenovo K910            | ![check](/playstoreimages/check.png) | ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)|
-|Lenovo K920            | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)|
-|Lenovo VibeP1          | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)|
-|Lenovo VibeShot Z90    | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)|
-|LG G2                  | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)|
-|LG G2pro               | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![cross](/playstoreimages/cross.png)|
-|LG G3                  | ![check](/playstoreimages/check.png) |KK=![check](/playstoreimages/check.png),L=![cross](/playstoreimages/cross.png),M=![check](/playstoreimages/check.png)| ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)|
-|LG G4                  | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)|
-|Meizu M2 Note          | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)|
-|Lenovo MX4/5           | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)|
-|Moto X 2015            | ![check](/playstoreimages/check.png) | ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)|
-|Moto X Style Pure Play | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)|
-|OnePlus One            | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![cross](/playstoreimages/cross.png)|
-|OnePlus Two            | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![cross](/playstoreimages/cross.png)|
-|Retro                  | ![check](/playstoreimages/check.png) | ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)|
-|Sony C5                | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)|
-|Sony M4                | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)|
-|Sony M5                | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)|
-|Sony XperiaL           | ![check](/playstoreimages/check.png) | ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)|
-|THL5000                | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)|
-|Vivo Xplay             | ![check](/playstoreimages/check.png) | ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)|
-|Xiaomi Mi3w            | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![cross](/playstoreimages/cross.png)|
-|Xiaomi Mi4c            | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![cross](/playstoreimages/cross.png)|
-|Xiaomi Mi4w            | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![cross](/playstoreimages/cross.png)|
-|Xiaomi Mi3             | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![cross](/playstoreimages/cross.png)|
-|Xiaomi Mi Note Pro     | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![cross](/playstoreimages/cross.png)|
-|Xiaomi Redmi Note      | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![cross](/playstoreimages/cross.png)|
-|Xiaomi Redmi Note 2    | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)|
-|Xiaomi Redmi Note 3 (Snap/MTK) | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)|
-|Yu Yureka              | ![check](/playstoreimages/check.png) | ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)| ![cross](/playstoreimages/cross.png)|
-|Zoppo 8Speed           | ![check](/playstoreimages/check.png) | ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)| ![check](/playstoreimages/check.png)|
+|Alcatel 985n           | ![true] | ![false]| ![false] | ![false] |
+|Alcatel Idol3/small    | ![true] | ![true] | ![true]  | ![true]  |
+|Aquaris E5             | ![true] | ![true] | ![true]  | ![true]  |
+|Blackberry Priv        | ![true] | ![true] | ![true]  | ![true]  |
+|Elephone P9000         | ![true] | ![true] | ![true]  | ![true]  |
+|FowardArt              | ![true] | ![true] | ![true]  | ![true]  |
+|Gione E7               | ![true] | ![false]| ![false] | ![false]|
+|Htc Desire500          | ![true] | ![false]| ![false] | ![false]|
+|Htc M8/9               | ![true] | ![true] | ![true]  | ![false]|
+|Htc One A9             | ![true] | ![false]| ![false]| ![false]|
+|Htc One E8             | ![true] | ![false]| ![false]| ![false]|
+|Htc One SV             | ![true] | ![false]| ![false]| ![false]|
+|Htc One XL             | ![true] | ![false]| ![false]| ![false]|
+|Huawei GX8             | ![true] | ![true]| ![false]| ![false]|
+|Huawei Honor 5X        | ![true] | ![true]| ![false]| ![false]|
+|I Mobile IStylteQ6     | ![true] | ![true]| ![true]| ![true]|
+|Jiayu S3               | ![true] | ![true]| ![true]| ![true]|
+|Lenovo K4 Note         | ![true] | ![true]| ![true]| ![true]|
+|Lenovo K50             | ![true] | ![true]| ![true]| ![true]|
+|Lenovo K910            | ![true] | ![false]| ![false]| ![false]|
+|Lenovo K920            | ![true] | ![true]| ![true]| ![true]|
+|Lenovo VibeP1          | ![true] | ![true]| ![true]| ![true]|
+|Lenovo VibeShot Z90    | ![true] | ![true]| ![true]| ![true]|
+|LG G2                  | ![true] | ![true]| ![false]| ![false]|
+|LG G2pro               | ![true] | ![true]| ![true]| ![false]|
+|LG G3                  | ![true] |KK=![true],L=![false],M=![true]| ![false]| ![false]|
+|LG G4                  | ![true] | ![true]| ![true]| ![true]|
+|Meizu M2 Note          | ![true] | ![true]| ![true]| ![true]|
+|Lenovo MX4/5           | ![true] | ![true]| ![true]| ![true]|
+|Moto X 2015            | ![true] | ![false]| ![false]| ![false]|
+|Moto X Style Pure Play | ![true] | ![true]| ![true]| ![true]|
+|OnePlus One            | ![true] | ![true]| ![true]| ![false]|
+|OnePlus Two            | ![true] | ![true]| ![true]| ![false]|
+|Retro                  | ![true] | ![false]| ![false]| ![false]|
+|Sony C5                | ![true] | ![true]| ![true]| ![true]|
+|Sony M4                | ![true] | ![true]| ![true]| ![true]|
+|Sony M5                | ![true] | ![true]| ![true]| ![true]|
+|Sony XperiaL           | ![true] | ![false]| ![false]| ![false]|
+|THL5000                | ![true] | ![true]| ![true]| ![true]|
+|Vivo Xplay             | ![true] | ![false]| ![false]| ![false]|
+|Xiaomi Mi3w            | ![true] | ![true]| ![true]| ![false]|
+|Xiaomi Mi4c            | ![true] | ![true]| ![true]| ![false]|
+|Xiaomi Mi4w            | ![true] | ![true]| ![true]| ![false]|
+|Xiaomi Mi3             | ![true] | ![true]| ![true]| ![false]|
+|Xiaomi Mi Note Pro     | ![true] | ![true]| ![true]| ![false]|
+|Xiaomi Redmi Note      | ![true] | ![true]| ![true]| ![false]|
+|Xiaomi Redmi Note 2    | ![true] | ![true]| ![true]| ![true]|
+|Xiaomi Redmi Note 3 (Snap/MTK) | ![true] | ![true]| ![true]| ![true]|
+|Yu Yureka              | ![true] | ![false]| ![false]| ![false]|
+|Zoppo 8Speed           | ![true] | ![true]| ![true]| ![true]|
 
 
 
