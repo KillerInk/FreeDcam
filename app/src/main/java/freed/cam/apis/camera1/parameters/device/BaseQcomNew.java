@@ -30,14 +30,14 @@ import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
 import freed.cam.apis.camera1.parameters.manual.qcom.BaseISOManual;
 import freed.cam.apis.camera1.parameters.manual.qcom.ShutterManual_ExposureTime_Micro;
-import freed.cam.apis.camera1.parameters.manual.whitebalance.BaseWB_CCT_QC;
+import freed.cam.apis.camera1.parameters.manual.whitebalance.BaseCCTManual;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.dng.DngProfile;
 
 /**
  * Created by troop on 02.06.2016.
  */
-public class BaseQcomNew extends AbstractDevice
+public class BaseQcomNew extends BaseQcomDevice
 {
     public BaseQcomNew(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
@@ -48,13 +48,11 @@ public class BaseQcomNew extends AbstractDevice
         return true;
     }
 
-    //set by aehandler
     @Override
     public ManualParameterInterface getExposureTimeParameter() {
-        return new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME,false);
+        return new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME,true);
     }
 
-    //set by aehandler
     @Override
     public ManualParameterInterface getIsoParameter() {
         return new BaseISOManual(parameters,KEYS.CONTINUOUS_ISO, parameters.getInt(KEYS.MIN_ISO), parameters.getInt(KEYS.MAX_ISO), cameraUiWrapper,1);
@@ -65,10 +63,6 @@ public class BaseQcomNew extends AbstractDevice
         return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0, 100,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,1,2);
     }
 
-    @Override
-    public ManualParameterInterface getCCTParameter() {
-        return new BaseWB_CCT_QC(parameters, 8000,2000, cameraUiWrapper,100, KEYS.WB_MODE_MANUAL_CCT);
-    }
 
     @Override
     public ManualParameterInterface getSkintoneParameter() {

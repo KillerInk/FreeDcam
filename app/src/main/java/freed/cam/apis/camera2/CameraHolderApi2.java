@@ -700,6 +700,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             }
         }
 
+        @TargetApi(VERSION_CODES.M)
         public void CreateHighSpeedCaptureSession()
         {
             if(mCameraDevice == null)
@@ -749,7 +750,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             }
         }
 
-        public void StopRepeatingBurstCaptureSession()
+        public void StopHighspeedCaptureSession()
         {
             if (mHighSpeedCaptureSession != null)
                 try {
@@ -764,7 +765,8 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                 }
         }
 
-        public void StartRepeatingBurstCaptureSession()
+        @TargetApi(VERSION_CODES.M)
+        public void StartHighspeedCaptureSession()
         {
             if (mHighSpeedCaptureSession == null)
                 return;

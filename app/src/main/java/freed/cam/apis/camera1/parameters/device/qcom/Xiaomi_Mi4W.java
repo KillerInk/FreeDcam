@@ -26,7 +26,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 /**
  * Created by troop on 01.06.2016.
  */
-public class Xiaomi_Mi4W extends Xiaomi_Mi3W {
+public class Xiaomi_Mi4W extends Xiaomi_Mi4c {
 
     public Xiaomi_Mi4W(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);

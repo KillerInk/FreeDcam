@@ -2,44 +2,45 @@ FreeDcam
 ========
 <img src="/playstoreimages/freedcam.jpg" width="500" height="280">
 
-to build use latest android studio  
-http://developer.android.com/sdk/installing/studio.html
-
-all needed libs are included
-
-for ndk build set in your local.properties
-ndk.dir=C\:\\Android\\android-ndk-r10b
-yes you need \\ that for a folderpath
+##Build
+To build use latest [Android Studio](http://developer.android.com/sdk/installing/studio.html)  
 
 
-freedcam supports now 3 different apis:
-android.hardware.camera  
-http://developer.android.com/reference/android/hardware/Camera.html
+All needed libs are included
 
-android.hardware.camera2  
-http://developer.android.com/reference/android/hardware/camera2/package-summary.html
+For ndk build set in your *local.properties*  
+`ndk.dir=C\:\\Android\\android-ndk-r10b`  
+Yes you need `\\` that for the folderpath
 
-sony camera remote api (PlayMemories)  
-https://developer.sony.com/downloads/camera-file/sony-camera-remote-api-beta-sdk/
+
+##Supported Apis:  
+[android.hardware.camera](http://developer.android.com/reference/android/hardware/Camera.html)  
+
+
+[android.hardware.camera2](http://developer.android.com/reference/android/hardware/camera2/package-summary.html)  
+
+
+[Sony Camera Remote Api (PlayMemoriesMobile)](https://developer.sony.com/downloads/camera-file/sony-camera-remote-api-beta-sdk/)  
+
 
 
 Projects used by FreeDcam
 =========================
 
-MetadataExtractor  
-https://github.com/drewnoakes/metadata-extractor
+[MetadataExtractor](https://github.com/drewnoakes/metadata-extractor)  
 
-libtiff  
-http://www.remotesensing.org/libtiff/
 
-Special Thanks @ Dave Coffin for dcraw and the bayer extracting to 16bit  
-https://www.cybercom.net/~dcoffin/dcraw/
+[Libtiff](http://www.remotesensing.org/libtiff/)
 
-libraw
-https://github.com/LibRaw/LibRaw
 
-TouchImageview
-https://github.com/MikeOrtiz/TouchImageView
+Special Thanks @ [Dave Coffin](https://www.cybercom.net/~dcoffin/dcraw/) for dcraw and the bayer extracting to 16bit  
+
+
+[Libraw](https://github.com/LibRaw/LibRaw)
+
+
+[TouchImageview](https://github.com/MikeOrtiz/TouchImageView)
+
 
 
 Camera Ui Icons
@@ -179,3 +180,82 @@ Camera Ui Icons
     </tr>
 
 </table>
+
+Camera1 Dng Supported Devices
+=============================
+
+KK = Kitkat,L = Lollipop , M = Marshmallow
+
+[true]: /playstoreimages/check.png
+[false]: /playstoreimages/cross.png
+
+| Device                |Dng   | MF    | Shutter  |Iso  |
+| --------------------- |:----:|:----:| :----:|:------:|
+|Alcatel 985n           | ![true] | ![false]| ![false] | ![false] |
+|Alcatel Idol3/small    | ![true] | ![true] | ![true]  | ![true]  |
+|Aquaris E5             | ![true] | ![true] | ![true]  | ![true]  |
+|Blackberry Priv        | ![true] | ![true] | ![true]  | ![true]  |
+|Elephone P9000         | ![true] | ![true] | ![true]  | ![true]  |
+|FowardArt              | ![true] | ![true] | ![true]  | ![true]  |
+|Gione E7               | ![true] | ![false]| ![false] | ![false]|
+|Htc Desire500          | ![true] | ![false]| ![false] | ![false]|
+|Htc M8/9               | ![true] | ![true] | ![true]  | ![false]|
+|Htc One A9             | ![true] | ![false]| ![false]| ![false]|
+|Htc One E8             | ![true] | ![false]| ![false]| ![false]|
+|Htc One SV             | ![true] | ![false]| ![false]| ![false]|
+|Htc One XL             | ![true] | ![false]| ![false]| ![false]|
+|Huawei GX8             | ![true] | ![true]| ![false]| ![false]|
+|Huawei Honor 5X        | ![true] | ![true]| ![false]| ![false]|
+|I Mobile IStylteQ6     | ![true] | ![true]| ![true]| ![true]|
+|Jiayu S3               | ![true] | ![true]| ![true]| ![true]|
+|Lenovo K4 Note         | ![true] | ![true]| ![true]| ![true]|
+|Lenovo K50             | ![true] | ![true]| ![true]| ![true]|
+|Lenovo K910            | ![true] | ![false]| ![false]| ![false]|
+|Lenovo K920            | ![true] | ![true]| ![true]| ![true]|
+|Lenovo VibeP1          | ![true] | ![true]| ![true]| ![true]|
+|Lenovo VibeShot Z90    | ![true] | ![true]| ![true]| ![true]|
+|LG G2                  | ![true] | ![true]| ![false]| ![false]|
+|LG G2pro               | ![true] | ![true]| ![true]| ![false]|
+|LG G3                  | ![true] |KK=![true],L=![false],M=![true]| ![false]| ![false]|
+|LG G4                  | ![true] | ![true]| ![true]| ![true]|
+|Meizu M2 Note          | ![true] | ![true]| ![true]| ![true]|
+|Lenovo MX4/5           | ![true] | ![true]| ![true]| ![true]|
+|Moto X 2015            | ![true] | ![false]| ![false]| ![false]|
+|Moto X Style Pure Play | ![true] | ![true]| ![true]| ![true]|
+|OnePlus One            | ![true] | ![true]| ![true]| ![false]|
+|OnePlus Two            | ![true] | ![true]| ![true]| ![false]|
+|Retro                  | ![true] | ![false]| ![false]| ![false]|
+|Sony C5                | ![true] | ![true]| ![true]| ![true]|
+|Sony M4                | ![true] | ![true]| ![true]| ![true]|
+|Sony M5                | ![true] | ![true]| ![true]| ![true]|
+|Sony XperiaL           | ![true] | ![false]| ![false]| ![false]|
+|THL5000                | ![true] | ![true]| ![true]| ![true]|
+|Vivo Xplay             | ![true] | ![false]| ![false]| ![false]|
+|Xiaomi Mi3w            | ![true] | ![true]| ![true]| ![false]|
+|Xiaomi Mi4c            | ![true] | ![true]| ![true]| ![false]|
+|Xiaomi Mi4w            | ![true] | ![true]| ![true]| ![false]|
+|Xiaomi Mi3             | ![true] | ![true]| ![true]| ![false]|
+|Xiaomi Mi Note Pro     | ![true] | ![true]| ![true]| ![false]|
+|Xiaomi Redmi Note      | ![true] | ![true]| ![true]| ![false]|
+|Xiaomi Redmi Note 2    | ![true] | ![true]| ![true]| ![true]|
+|Xiaomi Redmi Note 3 (Snap/MTK) | ![true] | ![true]| ![true]| ![true]|
+|Yu Yureka              | ![true] | ![false]| ![false]| ![false]|
+|Zoppo 8Speed           | ![true] | ![true]| ![true]| ![true]|
+
+
+
+License
+=======
+This program is free software; you can redistribute it and/or modify  
+it under the terms of the GNU General Public License as published by  
+the Free Software Foundation; either version 2 of the License, or  
+(at your option) any later version.  
+
+This program is distributed in the hope that it will be useful,  
+but WITHOUT ANY WARRANTY; without even the implied warranty of  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the  
+GNU General Public License for more details.  
+
+You should have received a copy of the GNU General Public License along  
+with this program; if not, write to the Free Software Foundation, Inc.,  
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.  
