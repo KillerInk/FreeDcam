@@ -68,7 +68,7 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
         if (frameworks == Frameworks.MTK)
             return ae_handler_mtk.getShutterManual();
         else
-            return new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME,false);
+            return new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME,true);
     }
     //gets set due ae handler
     @Override
