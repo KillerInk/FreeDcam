@@ -477,7 +477,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                     case 2:
                         state = "PASSIVE_FOCUSED";
                         SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,
-                                CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
+                                CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
                         break;
                     case 3:
                         state="ACTIVE_SCAN";
@@ -496,7 +496,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                     case 6:
                         state ="PASSIVE_UNFOCUSED";
                         SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,
-                                CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
+                                CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
                         break;
                 }
                 Logger.d(TAG, "new AF_STATE :"+state);
