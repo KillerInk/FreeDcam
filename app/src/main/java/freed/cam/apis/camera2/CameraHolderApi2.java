@@ -349,7 +349,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         if (device == null) {
             throw new IllegalStateException("Can't get requests when no camera is open");
         }
-        return device.createCaptureRequest(CameraDevice.TEMPLATE_MANUAL);
+        return device.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
     }
 
 
