@@ -44,17 +44,14 @@ public class CameraHolderMTK extends CameraHolder
     {
         try {
             setMtkAppMode();
-            mCamera = Camera.open(camera);
-            isRdy = true;
+            isRdy = super.OpenCamera(camera);
+            cameraUiWrapper.onCameraOpen("");
         }
         catch (RuntimeException ex)
         {
             cameraUiWrapper.onCameraError("Fail to connect to camera service");
             isRdy = false;
         }
-
-        cameraUiWrapper.onCameraOpen("");
-        super.OpenCamera(0);
         return isRdy;
     }
 
