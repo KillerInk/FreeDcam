@@ -42,6 +42,7 @@ public class ShutterManualMtk extends AbstractManualShutter implements ManualPar
         super(cameraUiWrapper);
         this.parameters = parameters;
         isSupported = true;
+        isVisible = isSupported;
         stringvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.mtk_shutter);
         this.manualevent =manualevent;
     }
