@@ -25,6 +25,7 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.I_ParametersLoaded;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
+import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.utils.FreeDPool;
 import freed.utils.Logger;
@@ -166,6 +167,8 @@ public abstract class AE_Handler_Abstract implements I_ParametersLoaded
      */
     private void startReadingMeta()
     {
+        if (((CameraHolder)cameraWrapper.GetCameraHolder()).DeviceFrameWork == CameraHolder.Frameworks.MTK)
+            return;
         readMetaData = true;
         FreeDPool.Execute(new Runnable() {
             @Override

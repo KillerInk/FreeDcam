@@ -37,7 +37,7 @@ public class ISOManualParameterMTK extends BaseManualParameter implements Manual
     private final AE_Handler_Abstract.AeManualEvent manualEvent;
 
     public ISOManualParameterMTK(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AE_Handler_Abstract.AeManualEvent manualevent, int maxiso) {
-        super(parameters, "", "", "", cameraUiWrapper,1);
+        super(parameters, cameraUiWrapper,1);
 
         isSupported = true;
         isVisible = isSupported;
