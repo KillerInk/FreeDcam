@@ -38,10 +38,7 @@ public class ForwardArt_MTK extends BaseMTKDevice {
         super(parameters, cameraUiWrapper);
     }
 
-    @Override
-    public AbstractManualParameter getExposureTimeParameter() {
-        return new ShutterManual_ExposureTime_FloatToSixty(parameters, cameraUiWrapper,true);
-    }
+
 
     @Override
     public boolean IsDngSupported() {

@@ -251,6 +251,8 @@ public class AeHandler
             //866 975 130 = 0,8sec
             if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G4 && VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP_MR1)
                 millimax = 60000000;
+            else if(cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.OnePlusTwo)
+                millimax = 32000000;
             else if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LG_G4 && VERSION.SDK_INT == VERSION_CODES.M)
                 millimax = 45000000;
             else if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Samsung_S6_edge_plus)
