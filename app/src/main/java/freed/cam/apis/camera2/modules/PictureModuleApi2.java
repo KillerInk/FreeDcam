@@ -214,6 +214,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             }
             catch (NullPointerException ex)
             {Logger.exception(ex);}
+            try {
+                captureBuilder.set(CaptureRequest.SCALER_CROP_REGION, cameraHolder.get(CaptureRequest.SCALER_CROP_REGION));
+            }
+            catch (NullPointerException ex)
+            {Logger.exception(ex);}
             List<CaptureRequest> captureList = new ArrayList<>();
             for (int i = 0; i< ParameterHandler.Burst.GetValue()+1; i++)
             {
