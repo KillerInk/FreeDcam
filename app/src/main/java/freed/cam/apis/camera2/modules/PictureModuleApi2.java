@@ -131,7 +131,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
         FreeDPool.Execute(new Runnable() {
             @Override
-            public void run() {
+            public void run()
+            {
                 captureStillPicture();
             }
         });
@@ -147,6 +148,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             // This is the CaptureRequest.Builder that we use to take a picture.
             Builder captureBuilder = cameraHolder.createCaptureRequest();
             captureBuilder.addTarget(mImageReader.getSurface());
+
             // Use the same AE and AF modes as the preview.
             try {
                 captureBuilder.set(CaptureRequest.CONTROL_AF_MODE, cameraHolder.get(CaptureRequest.CONTROL_AF_MODE));
@@ -226,6 +228,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             }
             imagecount = 0;
             mDngResult = null;
+            cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
             changeCaptureState(CaptureStates.image_capture_start);
             cameraHolder.CaptureSessionH.StartCapture(captureBuilder, CaptureCallback, handler);
         } catch (CameraAccessException e) {
@@ -672,7 +675,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         else
             cameraHolder.SetParameterRepeating(CaptureRequest.JPEG_ORIENTATION, 0);
 
-        // Here, we create a CameraCaptureSession for camera previewSize.
+        // Here, we create a CameraCaptureSession for camera preview
         if (ParameterHandler.Burst == null)
             SetBurst(1);
         else
