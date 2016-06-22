@@ -155,7 +155,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraWrapperEven
                         renderScriptHandler.GetOut().ioSend();
                         //pass frame back to camera that it get reused
                         ((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera().addCallbackBuffer(tmp);
-                    } catch (InterruptedException e) {
+                    } catch (InterruptedException | NullPointerException e) {
                         e.printStackTrace();
                     }
                     finally
