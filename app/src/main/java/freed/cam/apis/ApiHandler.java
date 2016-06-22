@@ -111,6 +111,7 @@ public class ApiHandler
         if (appSettingsManager.getCamApi().equals(AppSettingsManager.API_SONY))
         {
             ret = new SonyCameraFragment();
+            ret.SetRenderScriptHandler(renderScriptHandler);
 
         }
         //create Camera2Fragment

@@ -87,6 +87,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(layout.cameraholdersony, container, false);
         surfaceView = (SimpleStreamSurfaceView) view.findViewById(id.view);
+        surfaceView.SetRenderScriptHandler(renderScriptHandler);
 
         textView_wifi =(TextView) view.findViewById(id.textView_wificonnect);
         wifiReciever = new WifiScanReceiver();

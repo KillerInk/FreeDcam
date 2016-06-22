@@ -67,7 +67,6 @@ public class CameraHolderSony extends CameraHolderAbstract
     FocusEvents autoFocusCallback;
 
     private SimpleCameraEventObserver mEventObserver;
-    public ModuleHandlerSony moduleHandlerSony;
 
     private String cameraStatus = "IDLE";
 
@@ -205,9 +204,9 @@ public class CameraHolderSony extends CameraHolderAbstract
                 public void run() {
                     for (String s : url)
                     {
-                        if (moduleHandlerSony.GetCurrentModule() instanceof PictureModuleSony)
+                        if (cameraUiWrapper.GetModuleHandler().GetCurrentModule() instanceof PictureModuleSony)
                         {
-                            PictureModuleSony pictureModuleSony = (PictureModuleSony) moduleHandlerSony.GetCurrentModule();
+                            PictureModuleSony pictureModuleSony = (PictureModuleSony) cameraUiWrapper.GetModuleHandler().GetCurrentModule();
                             try {
                                 pictureModuleSony.onPictureTaken(new URL(s));
                             }catch (MalformedURLException e) {
@@ -572,15 +571,18 @@ public class CameraHolderSony extends CameraHolderAbstract
      */
     private void closeConnection() {
 
+        // getEvent stop
+
+        Logger.d(TAG, "closeConnection(): EventObserver.release()");
+        if(mEventObserver != null)
+            mEventObserver.release();
 
         Logger.d(TAG, "closeConnection(): exec.");
-        if (mLiveviewSurface == null || mEventObserver == null || mAvailableCameraApiSet == null)
-            return;
         // Liveview stop
         Logger.d(TAG, "closeConnection(): LiveviewSurface.stop()");
         if (mLiveviewSurface != null)
         {
-            if((serverDevice.getFriendlyName().contains("ILCE-QX1") || serverDevice.getFriendlyName().contains("ILCE-QX30")) && JsonUtils.isApiSupported("setLiveviewFrameInfo", mAvailableCameraApiSet))
+            if((serverDevice != null && serverDevice.getFriendlyName().contains("ILCE-QX1") || serverDevice.getFriendlyName().contains("ILCE-QX30")) && JsonUtils.isApiSupported("setLiveviewFrameInfo", mAvailableCameraApiSet))
             {
                 SetLiveViewFrameInfo(false);
             }
@@ -589,9 +591,7 @@ public class CameraHolderSony extends CameraHolderAbstract
             stopLiveview();
         }
 
-        // getEvent stop
-        Logger.d(TAG, "closeConnection(): EventObserver.release()");
-        mEventObserver.release();
+
 
         // stopRecMode if necessary.
         if (JsonUtils.isCameraApiAvailable("stopRecMode", mAvailableCameraApiSet))
@@ -610,20 +610,6 @@ public class CameraHolderSony extends CameraHolderAbstract
         }
 
         Logger.d(TAG, "closeConnection(): completed.");
-    }
-
-
-
-    private void startOpenConnectionAfterChangeCameraState() {
-        Logger.d(TAG, "startOpenConectiontAfterChangeCameraState() exec");
-
-        //context.runOnUiThread(new Runnable() {
-
-        //  @Override
-        //public void run() {
-
-        //}
-        //});
     }
 
 

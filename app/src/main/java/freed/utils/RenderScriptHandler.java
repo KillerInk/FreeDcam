@@ -27,12 +27,17 @@ import android.renderscript.Allocation.MipmapControl;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.RenderScript.Priority;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.renderscript.ScriptIntrinsicYuvToRGB;
 import android.renderscript.Type.Builder;
 import android.view.Surface;
 
 import com.freedcam.apis.camera1.renderscript.ScriptC_focus_peak_cam1;
+import com.imageconverter.ScriptC_brightness;
+import com.imageconverter.ScriptC_contrast;
+import com.imageconverter.ScriptC_focuspeak_argb;
 import com.imageconverter.ScriptC_imagestack;
+import com.imageconverter.ScriptC_starfinder;
 
 import cam.apis.camera2.renderscript.ScriptC_focus_peak;
 
@@ -52,6 +57,12 @@ public class RenderScriptHandler
     public ScriptC_focus_peak_cam1 ScriptFocusPeakApi1;
     public ScriptC_imagestack imagestack;
 
+    public ScriptC_focuspeak_argb focuspeak_argb;
+    public ScriptC_brightness brightnessRS;
+    public ScriptC_contrast contrastRS;
+    public ScriptC_starfinder starfinderRS;
+    public ScriptIntrinsicBlur blurRS;
+
     public RenderScriptHandler(Context context)
     {
         mRS = RenderScript.create(context);
@@ -60,6 +71,11 @@ public class RenderScriptHandler
         yuvToRgbIntrinsic = ScriptIntrinsicYuvToRGB.create(mRS, Element.U8_4(mRS));
         ScriptFocusPeakApi1 = new ScriptC_focus_peak_cam1(mRS);
         imagestack = new ScriptC_imagestack(mRS);
+        this.focuspeak_argb = new ScriptC_focuspeak_argb(this.mRS);
+        this.brightnessRS = new ScriptC_brightness(this.mRS);
+        this.contrastRS = new ScriptC_contrast(this.mRS);
+        this.blurRS = ScriptIntrinsicBlur.create(this.mRS, Element.U8_4(this.mRS));
+        this.starfinderRS = new ScriptC_starfinder(this.mRS);
     }
 
     public void SetAllocsTypeBuilder(Builder inputBuilder, Builder outputBuilder, int inputUsage, int outputUsage)
