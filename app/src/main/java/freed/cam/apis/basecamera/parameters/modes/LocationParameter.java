@@ -62,6 +62,8 @@ public class LocationParameter extends AbstractModeParameter implements Location
     @Override
     public String GetValue()
     {
+        if (cameraUiWrapper == null ||cameraUiWrapper.GetAppSettingsManager() == null)
+            return null;
         if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(""))
             cameraUiWrapper.GetAppSettingsManager().setString(AppSettingsManager.SETTING_LOCATION, KEYS.OFF);
         return cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION);
