@@ -331,14 +331,16 @@ public class CameraHolderSony extends CameraHolderAbstract
 
     public void OpenCamera(ServerDevice serverDevice)
     {
-        this.serverDevice = serverDevice;
-        mRemoteApi = new SimpleRemoteApi(serverDevice);
-        ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).SetRemoteApi(mRemoteApi);
-        mEventObserver = new SimpleCameraEventObserver(context, mRemoteApi);
+        if (this.serverDevice == null) {
+            this.serverDevice = serverDevice;
+            mRemoteApi = new SimpleRemoteApi(serverDevice);
+            ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).SetRemoteApi(mRemoteApi);
+            mEventObserver = new SimpleCameraEventObserver(context, mRemoteApi);
+        }
         mEventObserver.activate();
 
 
-        StartPreview();
+        prepareOpenConnection();
     }
 
     @Override
@@ -366,13 +368,12 @@ public class CameraHolderSony extends CameraHolderAbstract
     @Override
     public void StartPreview()
     {
-        prepareOpenConnection();
+
     }
 
     @Override
     public void StopPreview()
     {
-        stopLiveview();
     }
 
 
@@ -422,7 +423,8 @@ public class CameraHolderSony extends CameraHolderAbstract
             @Override
             public void run() {
                 try {
-                    mRemoteApi.stopLiveview();
+                    if (mRemoteApi != null)
+                        mRemoteApi.stopLiveview();
 
                 } catch (IOException e) {
                     Logger.w(TAG, "stopLiveview IOException: " + e.getMessage());
@@ -582,12 +584,11 @@ public class CameraHolderSony extends CameraHolderAbstract
         Logger.d(TAG, "closeConnection(): LiveviewSurface.stop()");
         if (mLiveviewSurface != null)
         {
-            if((serverDevice != null && serverDevice.getFriendlyName().contains("ILCE-QX1") || serverDevice.getFriendlyName().contains("ILCE-QX30")) && JsonUtils.isApiSupported("setLiveviewFrameInfo", mAvailableCameraApiSet))
+            if(serverDevice != null &&( serverDevice.getFriendlyName().contains("ILCE-QX1") || serverDevice.getFriendlyName().contains("ILCE-QX30")) && JsonUtils.isApiSupported("setLiveviewFrameInfo", mAvailableCameraApiSet))
             {
                 SetLiveViewFrameInfo(false);
             }
             mLiveviewSurface.stop();
-            mLiveviewSurface = null;
             stopLiveview();
         }
 

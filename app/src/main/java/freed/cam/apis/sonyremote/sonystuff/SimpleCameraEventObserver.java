@@ -257,19 +257,20 @@ public class SimpleCameraEventObserver {
             return;
         }
 
-        if (this.mWhileEventMonitoring) {
-            this.sendLog("start() already starting.");
+        if (mWhileEventMonitoring) {
+            sendLog("start() already starting.");
             return;
         }
 
-        this.mWhileEventMonitoring = true;
+        mWhileEventMonitoring = true;
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 SimpleCameraEventObserver.this.sendLog("start() exec.");
                 // Call getEvent API continuously.
                 boolean firstCall = true;
-                MONITORLOOP: while (SimpleCameraEventObserver.this.mWhileEventMonitoring) {
+                while (mWhileEventMonitoring)
+                {
 
                     // At first, call as non-Long Polling.
                     boolean longPolling = !firstCall;
@@ -291,29 +292,6 @@ public class SimpleCameraEventObserver {
                         // Check error code at first.
                         int errorCode = JsonUtils.findErrorCode(replyJson);
                         SimpleCameraEventObserver.this.sendLog("getEvent errorCode: " + errorCode);
-                        switch (errorCode) {
-                            case 0: // no error
-                                // Pass through.
-                                break;
-                            case 1: // "Any" error
-                            case 12: // "No such method" error
-                                break MONITORLOOP; // end monitoring.
-                            case 2: // "Timeout" error
-                                // Re-call immediately.
-                                continue MONITORLOOP;
-                            case 40402: // "Already polling" error
-                                // Retry after 5 sec.
-                                try {
-                                    Thread.sleep(5000);
-                                } catch (InterruptedException e) {
-                                    // do nothing.
-                                }
-                                continue MONITORLOOP;
-                            default:
-                                SimpleCameraEventObserver.this.sendLog("SimpleCameraEventObserver: Unexpected error: "
-                                        + errorCode);
-                                break MONITORLOOP; // end monitoring.
-                        }
 
                         SimpleCameraEventObserver.this.processEvents(replyJson);
 
@@ -321,10 +299,9 @@ public class SimpleCameraEventObserver {
                         // Occurs when the server is not available now.
                         SimpleCameraEventObserver.this.sendLog("getEvent timeout by client trigger.");
                         SimpleCameraEventObserver.this.fireTimeoutListener();
-                        break MONITORLOOP;
+
                     } catch (JSONException e) {
                         SimpleCameraEventObserver.this.sendLog("getEvent: JSON format error. " + e.getMessage());
-                        break MONITORLOOP;
                     }
 
                     firstCall = false;

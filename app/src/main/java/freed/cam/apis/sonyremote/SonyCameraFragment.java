@@ -181,12 +181,12 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
             {
                 if (serverDevice == null)
                     setTextFromWifi("Error happend while searching for sony remote device \n pls restart remote");
-                startScanning();
+                startWifiScanning();
             }
         });
     }
 
-    private void startScanning()
+    private void startWifiScanning()
     {
         connected = false;
         if (getActivity() != null) {
@@ -200,12 +200,13 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
     @Override
     public void onResume() {
         super.onResume();
-        startScanning();
+            startWifiScanning();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        StopCamera();
         getActivity().unregisterReceiver(wifiReciever);
     }
 
@@ -268,7 +269,10 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
         else {
             Logger.d("Wifi", "Connect to:" + deviceNetworkToConnect);
             STATE = IDEL;
-            searchSsdpClient();
+            if (serverDevice == null)
+                searchSsdpClient();
+            else
+                StartCamera();
         }
     }
 
@@ -310,7 +314,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
                 try {
                     SetCameraChangedListner(SonyCameraFragment.this);
                     ((ActivityFreeDcamMain) getActivity()).onCameraUiWrapperRdy(SonyCameraFragment.this);
-                    startScanning();
+                    startWifiScanning();
                 }
                 catch (NullPointerException ex)
                 {
