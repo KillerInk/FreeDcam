@@ -616,5 +616,12 @@
         <item>@string/shutter_1</item>
         <item>@string/shutter_2</item>
         </string-array>
+    <string-array name="lenovo_vibeshot_z90" translatable="false">
+        <item>@string/shutter_1_15</item>
+        <item>@string/shutter_1_8</item>
+        <item>@string/shutter_1_4</item>
+        <item>@string/shutter_1_2</item>
+        <item>@string/shutter_1</item>
+    </string-array>
     <!-- DO NOT TRANSLATE END -->
 </resources>

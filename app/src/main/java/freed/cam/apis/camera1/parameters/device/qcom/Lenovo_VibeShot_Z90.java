@@ -59,7 +59,7 @@ public class Lenovo_VibeShot_Z90 extends BaseQcomNew {
     @Override
     public ManualParameterInterface getExposureTimeParameter()
     {
-        return new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,cameraUiWrapper.getContext().getResources().getStringArray(R.array.mtk_shutter), KEYS.EXPOSURE_TIME);
+        return new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,cameraUiWrapper.getContext().getResources().getStringArray(R.array.lenovo_vibeshot_z90), KEYS.EXPOSURE_TIME);
     }
 
     @Override
