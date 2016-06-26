@@ -31,8 +31,6 @@ import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
 import android.renderscript.Type;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -40,16 +38,11 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.imageconverter.ScriptC_brightness;
-import com.imageconverter.ScriptC_contrast;
-import com.imageconverter.ScriptC_focuspeak_argb;
-import com.imageconverter.ScriptC_imagestack;
-import com.imageconverter.ScriptC_starfinder;
-
 import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView.StreamErrorListener.StreamErrorReason;
 import freed.utils.FreeDPool;
@@ -84,6 +77,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private int zoomPreviewMagineLeft;
     private int zoomPreviewMargineTop;
     private RenderScriptHandler renderScriptHandler;
+    private ActivityInterface activityInterface;
 
     public int PreviewZOOMFactor = 1;
 
@@ -95,9 +89,10 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         zoompreview,
     }
 
-    public void SetRenderScriptHandler(RenderScriptHandler renderScriptHandler)
+    public void SetRenderScriptHandlerAndInterface(RenderScriptHandler renderscripthandler, ActivityInterface activityInterface)
     {
-        this.renderScriptHandler =renderScriptHandler;
+        this.renderScriptHandler =renderscripthandler;
+        this.activityInterface = activityInterface;
     }
 
     private void initRenderScript()
@@ -126,7 +121,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         this.getHolder().addCallback(this);
         this.mFramePaint = new Paint();
         this.mFramePaint.setDither(true);
-        this.initBitmaps(context);
+        this.initPaint(context);
     }
 
     /**
@@ -140,7 +135,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         this.getHolder().addCallback(this);
         this.mFramePaint = new Paint();
         this.mFramePaint.setDither(true);
-        this.initBitmaps(context);
+        this.initPaint(context);
     }
 
     /**
@@ -155,10 +150,10 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         this.getHolder().addCallback(this);
         this.mFramePaint = new Paint();
         this.mFramePaint.setDither(true);
-        this.initBitmaps(context);
+        this.initPaint(context);
     }
 
-    private void initBitmaps(Context context)
+    private void initPaint(Context context)
     {
         this.paint = new Paint();
         this.paint.setColor(Color.WHITE);
@@ -364,19 +359,19 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             }
 
             //canvas.drawColor(Color.BLACK);
-            int w = frame.getWidth();
-            int h = frame.getHeight();
-            Rect src = new Rect(0, 0, w, h);
+            int frameWidth = frame.getWidth();
+            int frameHeight = frame.getHeight();
+            Rect src = new Rect(0, 0, frameWidth, frameHeight);
             if (this.PreviewZOOMFactor > 1)
             {
-                int w4 = w / this.PreviewZOOMFactor;
-                int h4 = h/ this.PreviewZOOMFactor;
-                int wCenter = w/2;
-                int hCenter = h/2;
-                int frameleft = wCenter -w4 + this.zoomPreviewMagineLeft;
-                int frameright = wCenter +w4 + this.zoomPreviewMagineLeft;
-                int frametop = hCenter -h4 + this.zoomPreviewMargineTop;
-                int framebottom = hCenter +h4 + this.zoomPreviewMargineTop;
+                int zoomedWidth = frameWidth / this.PreviewZOOMFactor;
+                int zoomedHeight = frameHeight/ this.PreviewZOOMFactor;
+                int halfFrameWidth = frameWidth/2;
+                int halfFrameHeight = frameHeight/2;
+                int frameleft = halfFrameWidth -zoomedWidth + this.zoomPreviewMagineLeft;
+                int frameright = halfFrameWidth +zoomedWidth + this.zoomPreviewMagineLeft;
+                int frametop = halfFrameHeight -zoomedHeight + this.zoomPreviewMargineTop;
+                int framebottom = halfFrameHeight +zoomedHeight + this.zoomPreviewMargineTop;
 
                 if (frameleft < 0)
                 {
@@ -388,9 +383,9 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                     Logger.d(SimpleStreamSurfaceView.TAG, "zoommargineLeft = " + this.zoomPreviewMagineLeft);
                     Log.d(SimpleStreamSurfaceView.TAG, "frameleft < 0");
                 }
-                if (frameright > w)
+                if (frameright > frameWidth)
                 {
-                    int dif = frameright - w;
+                    int dif = frameright - frameWidth;
                     frameright -=dif;
                     frameleft -=dif;
                     Logger.d(SimpleStreamSurfaceView.TAG, "zoommargineLeft = " + this.zoomPreviewMagineLeft);
@@ -408,9 +403,9 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                     Logger.d(SimpleStreamSurfaceView.TAG, "zoomPreviewMargineTop = " + this.zoomPreviewMargineTop);
                     Log.d(SimpleStreamSurfaceView.TAG, "framebottom < 0");
                 }
-                if (framebottom > h)
+                if (framebottom > frameHeight)
                 {
-                    int dif = framebottom -h;
+                    int dif = framebottom -frameHeight;
                     framebottom -=dif;
                     frametop -= dif;
                     Logger.d(SimpleStreamSurfaceView.TAG, "zoomPreviewMargineTop = " + this.zoomPreviewMargineTop);
@@ -429,9 +424,9 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             }
 
 
-            float by = Math.min((float) this.getWidth() / w, (float) this.getHeight() / h);
-            int offsetX = (this.getWidth() - (int) (w * by)) / 2;
-            int offsetY = (this.getHeight() - (int) (h * by)) / 2;
+            float by = Math.min((float) this.getWidth() / frameWidth, (float) this.getHeight() / frameHeight);
+            int offsetX = (this.getWidth() - (int) (frameWidth * by)) / 2;
+            int offsetY = (this.getHeight() - (int) (frameHeight * by)) / 2;
             Rect dst = new Rect(offsetX, offsetY, this.getWidth() - offsetX, this.getHeight() - offsetY);
             if (nightmode == NightPreviewModes.on)
             {
@@ -629,6 +624,8 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                if (PreviewZOOMFactor > 1)
+                    activityInterface.DisablePagerTouch(true);
                 //action down resets all already set values and get the new one from the event
                 startX = (int) event.getX();
                 startY = (int) event.getY();
@@ -636,6 +633,8 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 break;
             case MotionEvent.ACTION_MOVE:
                 //in case action down never happend
+
+
                 if (startX == 0 && startY == 0) {
                     startX = (int) event.getX();
                     startY = (int) event.getY();
@@ -643,21 +642,21 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 }
                 currentX = (int) event.getX();
                 currentY = (int) event.getY();
-                if (startX > currentX)
+                if (startX < currentX)
                 {
                     zoomPreviewMagineLeft -= (startX - currentX)/ PreviewZOOMFactor;
                 }
                 else
                     zoomPreviewMagineLeft += (currentX - startX)/ PreviewZOOMFactor;
-                if (startY > currentY)
+                if (startY < currentY)
                     zoomPreviewMargineTop -= (startY - currentY)/ PreviewZOOMFactor;
                 else
                     zoomPreviewMargineTop += (currentY - startY)/ PreviewZOOMFactor;
                 startX = currentX;
                 startY = currentY;
-                //detect swipeDetected. if swipeDetected detected return false else true
                 break;
             case MotionEvent.ACTION_UP:
+                activityInterface.DisablePagerTouch(false);
                 startY = 0;
                 startX = 0;
                 break;
