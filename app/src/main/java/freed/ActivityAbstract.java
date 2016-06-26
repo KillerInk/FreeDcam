@@ -602,4 +602,10 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
             }
         }
     }
+
+    @Override
+    public void DisablePagerTouch(boolean disable)
+    {
+
+    }
 }

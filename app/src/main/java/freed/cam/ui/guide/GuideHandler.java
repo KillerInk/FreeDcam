@@ -244,7 +244,7 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent , I_P
     };
 
     @Override
-    public void ParametersLoaded()
+    public void ParametersLoaded(CameraWrapperInterface cameraWrapper)
     {
         if (cameraUiWrapper.GetParameterHandler().PreviewSize != null)
             cameraUiWrapper.GetParameterHandler().PreviewSize.addEventListner(previewSizeChanged);

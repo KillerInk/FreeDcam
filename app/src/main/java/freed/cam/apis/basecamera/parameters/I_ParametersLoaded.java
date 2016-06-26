@@ -19,10 +19,12 @@
 
 package freed.cam.apis.basecamera.parameters;
 
+import freed.cam.apis.basecamera.CameraWrapperInterface;
+
 /**
  * Created by troop on 19.08.2014.
  */
 public interface I_ParametersLoaded
 {
-    void ParametersLoaded();
+    void ParametersLoaded(CameraWrapperInterface cameraWrapper);
 }

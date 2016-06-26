@@ -41,6 +41,7 @@ import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
+import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.ui.I_swipe;
@@ -221,7 +222,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         infoOverlayHandler = new SampleInfoOverlayHandler(view, fragment_activityInterface.getAppSettings());
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
 
-        focusImageHandler = new FocusImageHandler(view, this);
+        focusImageHandler = new FocusImageHandler(view, (ActivityAbstract) getActivity());
 
         shutterButton = (ShutterButton) view.findViewById(id.shutter_button);
         view.setOnTouchListener(onTouchListener);

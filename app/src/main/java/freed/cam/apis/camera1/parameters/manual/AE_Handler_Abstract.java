@@ -82,7 +82,7 @@ public abstract class AE_Handler_Abstract implements I_ParametersLoaded
     }
 
     @Override
-    public void ParametersLoaded()
+    public void ParametersLoaded(CameraWrapperInterface cameraWrapper)
     {
         aeevent.onManualChanged(AeManual.iso,true,0);
     }

@@ -40,6 +40,7 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.AbstractFocusHandler;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraHolderInterface;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.Size;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
@@ -240,7 +241,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
     }
 
     @Override
-    public void ParametersLoaded()
+    public void ParametersLoaded(CameraWrapperInterface cameraWrapper)
     {
         parametersHandler.PictureSize.addEventListner(onPreviewSizeShouldChange);
         //parametersHandler.VideoSize.addEventListner(onPreviewSizeShouldChange);

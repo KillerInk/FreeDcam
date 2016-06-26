@@ -127,7 +127,7 @@ public class SettingsChildMenuSaveCamParams extends SettingsChildMenu
     }
 
     @Override
-    public void ParametersLoaded()
+    public void ParametersLoaded(CameraWrapperInterface cameraWrapper)
     {
     }
 

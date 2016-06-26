@@ -66,6 +66,8 @@ public interface ActivityInterface
 
     DocumentFile getFreeDcamDocumentFolder();
     DocumentFile getExternalSdDocumentFile();
+
+    void DisablePagerTouch(boolean disable);
 }
 
 

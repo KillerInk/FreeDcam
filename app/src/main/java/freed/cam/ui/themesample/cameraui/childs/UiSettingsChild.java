@@ -35,6 +35,7 @@ import com.troop.freedcam.R.layout;
 import com.troop.freedcam.R.string;
 import com.troop.freedcam.R.styleable;
 
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.ui.themesample.SettingsChildAbstract;
 import freed.utils.Logger;
@@ -217,7 +218,7 @@ public class UiSettingsChild extends SettingsChildAbstract
     }
 
     @Override
-    public void ParametersLoaded()
+    public void ParametersLoaded(CameraWrapperInterface cameraWrapper)
     {
         sendLog("Parameters Loaded");
         if (parameter != null && parameter.IsSupported()) {

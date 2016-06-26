@@ -26,6 +26,9 @@ import android.view.MotionEvent;
 
 /**
  * Created by troop on 18.03.2016.
+ * This class allows to disable ViewPagers touch events.
+ * when the metering rectangle gets moved left or right it tends to switch fragments
+ * with disabling touch while metering is moved that is avoided
  */
 public class PagingView extends ViewPager
 {

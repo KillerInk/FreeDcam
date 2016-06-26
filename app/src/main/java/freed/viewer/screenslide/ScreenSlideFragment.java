@@ -238,7 +238,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
 
     public void LoadFiles()
     {
-        if (activityInterface.getFiles() == null) {
+        if (activityInterface.getFiles() == null || activityInterface.getFiles().size() == 0) {
             activityInterface.LoadFreeDcamDCIMDirsFiles();
         }
 

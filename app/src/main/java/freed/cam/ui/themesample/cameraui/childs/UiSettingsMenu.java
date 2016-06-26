@@ -22,6 +22,7 @@ package freed.cam.ui.themesample.cameraui.childs;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 
 /**
@@ -62,7 +63,7 @@ public class UiSettingsMenu extends UiSettingsChild {
     }
 
     @Override
-    public void ParametersLoaded() {
+    public void ParametersLoaded(CameraWrapperInterface cameraWrapper) {
 
     }
 }

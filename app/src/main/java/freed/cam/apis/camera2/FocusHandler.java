@@ -193,7 +193,7 @@ public class FocusHandler extends AbstractFocusHandler implements I_ParametersLo
     }
 
     @Override
-    public void ParametersLoaded()
+    public void ParametersLoaded(CameraWrapperInterface cameraWrapper)
     {
         if (focusEvent == null
                 || ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.CONTROL_MAX_REGIONS_AE) == null

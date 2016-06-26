@@ -27,7 +27,8 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:id="@+id/imageView_meteringarea"
-        android:background="@drawable/exposure_metering" />
+        android:background="@drawable/exposure_metering"
+        android:visibility="gone" />
 
     <ImageView
         android:layout_width="40dp"

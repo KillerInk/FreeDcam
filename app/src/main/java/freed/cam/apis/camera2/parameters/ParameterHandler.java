@@ -119,7 +119,7 @@ public class ParameterHandler extends AbstractParameterHandler
 
         FocusMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).focusModeListner);
         ExposureMode.addEventListner(((FocusHandler) cameraUiWrapper.getFocusHandler()).aeModeListner);
-        ((FocusHandler) cameraUiWrapper.getFocusHandler()).ParametersLoaded();
+        ((FocusHandler) cameraUiWrapper.getFocusHandler()).ParametersLoaded(cameraUiWrapper);
 
         ControlMode = new ControlModesApi2(cameraUiWrapper);
 

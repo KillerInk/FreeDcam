@@ -38,12 +38,13 @@ import android.widget.RelativeLayout.LayoutParams;
 
 import com.troop.freedcam.R;
 
+import freed.ActivityAbstract;
+import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.sonyremote.SonyCameraFragment;
-import freed.cam.ui.themesample.SampleThemeFragment;
 import freed.cam.ui.themesample.handler.ImageViewTouchAreaHandler.I_TouchListnerEvent;
 
 
@@ -64,7 +65,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     private final ImageView meteringArea;
     private FocusRect meteringRect;
 
-    public FocusImageHandler(View view, Fragment fragment)
+    public FocusImageHandler(View view, ActivityAbstract fragment)
     {
         super(view, fragment);
         focusImageView = (ImageView)view.findViewById(R.id.imageView_Crosshair);
@@ -244,9 +245,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
                 wrapper.GetParameterHandler().ExposureLock.SetValue("false",true);
             }
             //enable/disable viewpager touch
-            SampleThemeFragment sampleThemeFragment = (SampleThemeFragment) fragment.getParentFragment();
-            if(sampleThemeFragment != null)
-                sampleThemeFragment.DisablePagerTouch(moving);
+            fragment.DisablePagerTouch(moving);
         }
     };
 
@@ -286,11 +285,11 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         int width = 0;
         int height = 0;
 
-        if(fragment == null || fragment.getActivity() == null)
+        if(fragment == null)
             return null;
         if (VERSION.SDK_INT >= 17)
         {
-            WindowManager wm = (WindowManager) fragment.getActivity().getSystemService(Context.WINDOW_SERVICE);
+            WindowManager wm = (WindowManager) fragment.getSystemService(Context.WINDOW_SERVICE);
             Point size =  new Point();
             wm.getDefaultDisplay().getRealSize(size);
             if (fragment.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -305,7 +304,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
         }
         else
         {
-            DisplayMetrics metrics = fragment.getActivity().getResources().getDisplayMetrics();
+            DisplayMetrics metrics = fragment.getResources().getDisplayMetrics();
             if (fragment.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
             {
                 width = metrics.widthPixels;

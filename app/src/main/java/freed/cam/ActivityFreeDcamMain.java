@@ -22,13 +22,20 @@ package freed.cam;
 
 import android.Manifest.permission;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.PagerAdapter;
 import android.view.KeyEvent;
+import android.view.View;
 
 import com.troop.freedcam.R;
 import com.troop.freedcam.R.anim;
@@ -44,26 +51,31 @@ import freed.cam.apis.ApiHandler.ApiEvent;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraFragmentAbstract.CamerUiWrapperRdy;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.modules.I_WorkEvent;
+import freed.cam.apis.basecamera.parameters.I_ParametersLoaded;
 import freed.cam.ui.handler.HardwareKeyHandler;
 import freed.cam.ui.handler.I_orientation;
 import freed.cam.ui.handler.OrientationHandler;
 import freed.cam.ui.handler.TimerHandler;
-import freed.cam.ui.themesample.SampleThemeFragment;
+import freed.cam.ui.themesample.PagingView;
+import freed.cam.ui.themesample.cameraui.CameraUiFragment;
+import freed.cam.ui.themesample.settings.SettingsMenuFragment;
+import freed.utils.AppSettingsManager;
+import freed.utils.FreeDPool;
 import freed.utils.Logger;
 import freed.utils.RenderScriptHandler;
 import freed.utils.StringUtils;
 import freed.viewer.holder.FileHolder;
+import freed.viewer.screenslide.ScreenSlideFragment;
 
 /**
  * Created by troop on 18.08.2014.
  */
-public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientation, CamerUiWrapperRdy, ApiEvent
+public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientation, CamerUiWrapperRdy, ApiEvent,I_ParametersLoaded
 {
     private final String TAG =ActivityFreeDcamMain.class.getSimpleName();
     //listen to orientation changes
     private OrientationHandler orientationHandler;
-    //listen to hardwarekeys
-    private HardwareKeyHandler hardwareKeyHandler;
     //handels/load the api camerafragments
     private ApiHandler apiHandler;
     private TimerHandler timerHandler;
@@ -74,8 +86,14 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     //holds the default UncaughtExecptionHandler from activity wich get replaced with own to have a change to save
     //fc to file and pass it back when done and let app crash as it should
     private UncaughtExceptionHandler defaultEXhandler;
-    private SampleThemeFragment sampleThemeFragment;
+    //private SampleThemeFragment sampleThemeFragment;
     private RenderScriptHandler renderScriptHandler;
+
+    private PagingView mPager;
+    private PagerAdapter mPagerAdapter;
+    private CameraUiFragment cameraUiFragment;
+    private SettingsMenuFragment settingsMenuFragment;
+    private ScreenSlideFragment screenSlideFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -87,7 +105,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
             renderScriptHandler = new RenderScriptHandler(getApplicationContext());
 
         //load the camera ui
-        sampleThemeFragment = (SampleThemeFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_sampletheme);
+        mPager = (PagingView)findViewById(id.viewPager_fragmentHolder);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPager.setOffscreenPageLimit(2);
+        mPager.setAdapter(mPagerAdapter);
+        mPager.setCurrentItem(1);
 
         //check for permission on M>
         if (VERSION.SDK_INT >= VERSION_CODES.M)
@@ -138,6 +160,9 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         {
             //yes we have it
             createHandlers();
+            //when screenslide fragment gets created it looks up already the files bevor permissions are granted.
+            //if its the first start the viewer show "no files". to avoid that, load files again when permissions are set
+            screenSlideFragment.LoadFiles();
         }
         else //woot using camera and deny perms close app
             finish();
@@ -185,8 +210,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         apiHandler = new ApiHandler(getApplicationContext(),this, appSettingsManager, renderScriptHandler);
         //check if camera is camera2 full device
         apiHandler.CheckApi();
-        //listen to phone hw keys events
-        hardwareKeyHandler = new HardwareKeyHandler(this, appSettingsManager);
     }
 
     //if a DEBUG folder is inside /DCIM/FreeDcam/ logging to file gets started
@@ -250,9 +273,15 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         //to avoid that orientation gets set while working
         cameraUiWrapper.GetModuleHandler().SetWorkListner(orientationHandler);
         //note the ui that cameraFragment is loaded
-        sampleThemeFragment.SetCameraUIWrapper(cameraUiWrapper);
-        //set the wrapper to hwkeyhandler that it can use its methods
-        hardwareKeyHandler.SetCameraUIWrapper(cameraUiWrapper);
+        if (cameraUiWrapper != null)
+            cameraUiWrapper.GetParameterHandler().AddParametersLoadedListner(this);
+        if (cameraUiWrapper.GetModuleHandler() != null)
+            cameraUiWrapper.GetModuleHandler().AddWorkFinishedListner(newImageRecieved);
+        if (cameraUiFragment != null) {
+            cameraUiFragment.SetCameraUIWrapper(cameraUiWrapper);
+        }
+        if (settingsMenuFragment != null)
+            settingsMenuFragment.SetCameraUIWrapper(cameraUiWrapper);
         Logger.d(TAG, "add events");
         //register timer to to moduleevent handler that it get shown/hidden when its video or not
         //and start/stop working when recording starts/stops
@@ -286,32 +315,34 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     }
 
 
-
-    //pass events to hardwarekey handler
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event)
-    {
-        boolean haskey = hardwareKeyHandler.OnKeyUp(keyCode, event);
-        if (!haskey)
-            haskey = super.onKeyUp(keyCode, event);
-        return haskey;
-    }
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
-        hardwareKeyHandler.OnKeyDown(keyCode, event);
+        int appSettingsKeyShutter = 0;
+
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLP))
+            appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_UP;
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLM))
+            appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_DOWN;
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.Hook) || appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(""))
+            appSettingsKeyShutter = KeyEvent.KEYCODE_HEADSETHOOK;
+
+        if(keyCode == KeyEvent.KEYCODE_3D_MODE ||keyCode == KeyEvent.KEYCODE_POWER || keyCode == appSettingsKeyShutter || keyCode == KeyEvent.KEYCODE_UNKNOWN)
+        {
+            Logger.d(TAG, "KeyUp");
+            cameraFragment.GetModuleHandler().DoWork();
+        }
+        //shutterbutton full pressed
+        if (keyCode == KeyEvent.KEYCODE_CAMERA)
+        {
+            cameraFragment.GetModuleHandler().DoWork();
+        }
+        // shutterbutton half pressed
+       /* if (keyCode == KeyEvent.KEYCODE_FOCUS)
+            cameraUiWrapper.StartFocus();*/
         return true;
     }
 
-    @Override
-    public boolean onKeyLongPress(int keyCode, KeyEvent event)
-    {
-        boolean haskey = hardwareKeyHandler.OnKeyLongPress(keyCode, event);
-        if (!haskey)
-            haskey = super.onKeyLongPress(keyCode, event);
-        return haskey;
-    }
 
     private int currentorientation;
 
@@ -352,7 +383,16 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     @Override
     public void LoadFreeDcamDCIMDirsFiles() {
         super.LoadFreeDcamDCIMDirsFiles();
-        sampleThemeFragment.NotifyDataSetChanged();
+        screenSlideFragment.NotifyDATAhasChanged();
+    }
+
+    @Override
+    public void DisablePagerTouch(boolean disable)
+    {
+        if (disable)
+            mPager.EnableScroll(false);
+        else
+            mPager.EnableScroll(true);
     }
 
 
@@ -366,6 +406,113 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     @Override
     public void LoadFolder(FileHolder fileHolder, FormatTypes types) {
         super.LoadFolder(fileHolder, types);
-        sampleThemeFragment.NotifyDataSetChanged();
+        screenSlideFragment.NotifyDATAhasChanged();
     }
+
+
+    private final ScreenSlideFragment.I_ThumbClick onThumbClick = new ScreenSlideFragment.I_ThumbClick() {
+        @Override
+        public void onThumbClick(int position,View view) {
+            mPager.setCurrentItem(2);
+        }
+    };
+
+    private final ScreenSlideFragment.I_ThumbClick onThumbBackClick = new ScreenSlideFragment.I_ThumbClick() {
+        @Override
+        public void onThumbClick(int position,View view)
+        {
+            if (mPager != null)
+                mPager.setCurrentItem(1);
+        }
+
+    };
+
+
+    @Override
+    public void ParametersLoaded(CameraWrapperInterface cameraWrapper) {
+        if (cameraUiFragment != null) {
+            cameraUiFragment.SetCameraUIWrapper(cameraWrapper);
+        }
+        if (settingsMenuFragment != null)
+            settingsMenuFragment.SetCameraUIWrapper(cameraWrapper);
+        if (screenSlideFragment != null)
+            screenSlideFragment.LoadFiles();
+    }
+
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
+    {
+
+        public ScreenSlidePagerAdapter(FragmentManager fm)
+        {
+            super(fm);
+
+        }
+
+        @Override
+        public Fragment getItem(int position)
+        {
+            if (position == 0)
+            {
+                if (settingsMenuFragment == null)
+                {
+                    settingsMenuFragment = new SettingsMenuFragment();
+                    settingsMenuFragment.SetCameraUIWrapper(cameraFragment);
+                }
+                return settingsMenuFragment;
+            }
+            else if (position == 2)
+            {
+                if (screenSlideFragment == null) {
+                    screenSlideFragment = new ScreenSlideFragment();
+                    screenSlideFragment.setWaitForCameraHasLoaded();
+                    screenSlideFragment.SetOnThumbClick(onThumbBackClick);
+                }
+
+                return screenSlideFragment;
+            }
+            else
+            {
+                if (cameraUiFragment == null)
+                    cameraUiFragment = CameraUiFragment.GetInstance(onThumbClick,cameraFragment);
+                return cameraUiFragment;
+            }
+        }
+
+        @Override
+        public int getCount()
+        {
+            return 3;
+        }
+
+    }
+
+
+    private final I_WorkEvent newImageRecieved = new I_WorkEvent()
+    {
+        @Override
+        public void WorkHasFinished(final FileHolder fileHolder)
+        {
+            Logger.d(TAG, "newImageRecieved:" + fileHolder.getFile().getAbsolutePath());
+            FreeDPool.Execute(new Runnable() {
+                @Override
+                public void run()
+                {
+                    int mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size);
+                    final Bitmap b = getBitmapHelper().getBitmap(fileHolder.getFile(), true, mImageThumbSize, mImageThumbSize);
+
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            AddFile(fileHolder);
+                            if (screenSlideFragment != null)
+                                screenSlideFragment.NotifyDATAhasChanged();
+                            if (cameraUiFragment != null)
+                                cameraUiFragment.SetThumbImage(b);
+                        }
+                    });
+                }
+            });
+
+        }
+    };
 }

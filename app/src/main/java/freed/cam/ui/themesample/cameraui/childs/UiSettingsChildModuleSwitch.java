@@ -52,7 +52,7 @@ public class UiSettingsChildModuleSwitch extends UiSettingsChild {
     }
 
     @Override
-    public void ParametersLoaded() {
+    public void ParametersLoaded(CameraWrapperInterface cameraWrapper) {
         if (cameraUiWrapper.GetModuleHandler() == null)
             return;
 

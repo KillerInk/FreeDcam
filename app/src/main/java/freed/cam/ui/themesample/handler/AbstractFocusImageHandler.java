@@ -23,6 +23,8 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
 
+import freed.ActivityAbstract;
+import freed.ActivityInterface;
 import freed.cam.apis.basecamera.FocusHandlerInterface;
 
 /**
@@ -34,14 +36,14 @@ public abstract class AbstractFocusImageHandler implements FocusHandlerInterface
     /**
      * Holds toplayerd fragment that has created this
      */
-    protected Fragment fragment;
+    protected ActivityAbstract fragment;
 
     /**
      *
      * @param view the view that contains the focus imageviews
      * @param fragment the toplayerd fragment wich create this
      */
-    protected AbstractFocusImageHandler(View view, Fragment fragment)
+    protected AbstractFocusImageHandler(View view, ActivityAbstract fragment)
     {
         this.fragment = fragment;
     }

@@ -344,7 +344,7 @@ public abstract class AbstractParameterHandler
                     @Override
                     public void run() {
                         if (parametersLoadedListner.size()> 0 && t < parametersLoadedListner.size())
-                            parametersLoadedListner.get(t).ParametersLoaded();
+                            parametersLoadedListner.get(t).ParametersLoaded(cameraUiWrapper);
                     }
                 });
 
