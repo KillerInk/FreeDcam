@@ -74,11 +74,12 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
     private final int IDEL = 0;
     private final int WAITING_FOR_SCANRESULT = 1;
     private final int WAITING_FOR_DEVICECONNECTION = 2;
+    private final int DEVICE_CONNECTED = 3;
     private int STATE = IDEL;
 
     private String[] configuredNetworks;
     private String deviceNetworkToConnect;
-    private boolean connected;
+    //private boolean connected;
     //private CameraHolderSony cameraHolder;
 
     @Override
@@ -141,7 +142,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
 
     private void searchSsdpClient()
     {
-        if(connected)
+        if(STATE == DEVICE_CONNECTED)
         {
             Log.d(TAG,"already connected");
             return;
@@ -160,10 +161,10 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
             @Override
             public void onDeviceFound(ServerDevice device)
             {
-                if(connected)
+                if(STATE == DEVICE_CONNECTED)
                     return;
                 setTextFromWifi("Found SSDP Client... Connecting");
-                connected = true;
+                STATE = DEVICE_CONNECTED;
                 serverDevice = device;
                 StartCamera();
                 hideTextViewWifi(true);
@@ -181,14 +182,14 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
             {
                 if (serverDevice == null)
                     setTextFromWifi("Error happend while searching for sony remote device \n pls restart remote");
-                startWifiScanning();
+                //startWifiScanning();
             }
         });
     }
 
     private void startWifiScanning()
     {
-        connected = false;
+        STATE = IDEL;
         if (getActivity() != null) {
             getActivity().registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
             getConfiguredNetworks();
@@ -212,7 +213,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
 
     private void getConfiguredNetworks()
     {
-        if(connected)
+        if(STATE == DEVICE_CONNECTED)
             return;
         setTextFromWifi("Looking up Configured Wifi Networks");
         try {
@@ -272,7 +273,10 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
             if (serverDevice == null)
                 searchSsdpClient();
             else
+            {
+                setTextFromWifi("");
                 StartCamera();
+            }
         }
     }
 
@@ -304,7 +308,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
     @Override
     public void onCameraError(String error)
     {
-        connected = false;
+        STATE = IDEL;
         Logger.d(TAG, "Camera error:" +error );
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -390,7 +394,10 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
             if (STATE == WAITING_FOR_DEVICECONNECTION && wifiUtils.getWifiConnected())
             {
                 STATE = IDEL;
-                searchSsdpClient();
+                if (serverDevice == null)
+                    searchSsdpClient();
+                else
+                    StartCamera();
             }
         }
     }
@@ -405,6 +412,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
     @Override
     public void StartCamera()
     {
+        STATE = DEVICE_CONNECTED;
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
@@ -415,8 +423,10 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
     }
 
     @Override
-    public void StopCamera() {
+    public void StopCamera()
+    {
         cameraHolder.CloseCamera();
+        STATE = IDEL;
     }
 
 

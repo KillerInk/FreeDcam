@@ -739,6 +739,11 @@ public class SimpleCameraEventObserver {
         this.mIsActive = true;
     }
 
+    public boolean isActive()
+    {
+        return mIsActive;
+    }
+
     /**
      * Checks to see whether a monitoring is already started.
      *

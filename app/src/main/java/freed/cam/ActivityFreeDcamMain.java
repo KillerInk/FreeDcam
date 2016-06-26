@@ -53,7 +53,6 @@ import freed.cam.apis.basecamera.CameraFragmentAbstract.CamerUiWrapperRdy;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.cam.apis.basecamera.parameters.I_ParametersLoaded;
-import freed.cam.ui.handler.HardwareKeyHandler;
 import freed.cam.ui.handler.I_orientation;
 import freed.cam.ui.handler.OrientationHandler;
 import freed.cam.ui.handler.TimerHandler;

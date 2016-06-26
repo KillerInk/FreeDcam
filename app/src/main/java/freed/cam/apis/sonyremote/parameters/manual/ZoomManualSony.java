@@ -19,8 +19,6 @@
 
 package freed.cam.apis.sonyremote.parameters.manual;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -70,7 +68,7 @@ public class ZoomManualSony extends BaseManualParameterSony
     @Override
     public int GetValue()
     {
-        if (currentInt == -1) {
+        /*if (currentInt == -1) {
             currentInt = -1;
             FreeDPool.Execute(new Runnable() {
                 @Override
@@ -94,7 +92,7 @@ public class ZoomManualSony extends BaseManualParameterSony
                     Logger.exception(e);
                 }
             }
-        }
+        }*/
         return currentInt;
     }
 

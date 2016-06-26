@@ -44,6 +44,7 @@ public class MyTimer
     {
         stop = true;
         secondsDone = 0;
+        textView.setText(String.format("%d:%02d:%02d", 0, 0, 0));
     }
 
 

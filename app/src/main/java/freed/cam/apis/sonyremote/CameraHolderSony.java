@@ -331,14 +331,15 @@ public class CameraHolderSony extends CameraHolderAbstract
 
     public void OpenCamera(ServerDevice serverDevice)
     {
-        if (this.serverDevice == null) {
+        if (this.serverDevice == null)
+        {
             this.serverDevice = serverDevice;
             mRemoteApi = new SimpleRemoteApi(serverDevice);
             ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).SetRemoteApi(mRemoteApi);
             mEventObserver = new SimpleCameraEventObserver(context, mRemoteApi);
         }
-        mEventObserver.activate();
-
+        if (!mEventObserver.isActive())
+            mEventObserver.activate();
 
         prepareOpenConnection();
     }
@@ -378,9 +379,10 @@ public class CameraHolderSony extends CameraHolderAbstract
 
 
 
-    private void startLiveview() {
-        if (mLiveviewSurface == null) {
-            Logger.d(TAG, "startLiveview mLiveviewSurface is null.");
+    private void startLiveview()
+    {
+        if (mLiveviewSurface == null || mEventObserver.getLiveviewStatus()) {
+            Logger.d(TAG, "startLiveview mLiveviewSurface is null or already started.");
             return;
         }
         FreeDPool.Execute(new Runnable() {
@@ -445,6 +447,8 @@ public class CameraHolderSony extends CameraHolderAbstract
                     Logger.d(TAG, "get event longpool false");
                     /*JSONObject replyJsonsystemMeth = mRemoteApi.getMethodTypes(SimpleRemoteApi.SYSTEM);
                     JSONObject replyJsonguideMeth = mRemoteApi.getMethodTypes(SimpleRemoteApi.GUIDE);*/
+                    if (mEventObserver.isStarted())
+                        mEventObserver.stop();
                     JSONObject replyJson = mRemoteApi.getEvent(false, "1.0");
                     JSONArray resultsObj = replyJson.getJSONArray("result");
                     JsonUtils.loadSupportedApiListFromEvent(resultsObj.getJSONObject(0), mAvailableCameraApiSet);
@@ -492,7 +496,8 @@ public class CameraHolderSony extends CameraHolderAbstract
                             // set Listener
                             Logger.d(TAG,"Change function to remote shooting");
                             mEventObserver.setEventChangeListener(mEventListener);
-                            mEventObserver.start();
+                            if (!mEventObserver.isStarted())
+                                mEventObserver.start();
                             try {
                                 mEventObserver.processEvents(FullUiSetup);
                             } catch (JSONException e) {
@@ -540,7 +545,8 @@ public class CameraHolderSony extends CameraHolderAbstract
                     Logger.d(TAG, "openConnection(): getEvent");
                     if (JsonUtils.isCameraApiAvailable("getEvent", mAvailableCameraApiSet)) {
                         Logger.d(TAG, "openConnection(): EventObserver.start()");
-                        mEventObserver.start();
+                        if (!mEventObserver.isStarted())
+                            mEventObserver.start();
 
                     }
 

@@ -25,7 +25,6 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Build.VERSION;
 import android.os.Vibrator;
-import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,7 +38,6 @@ import android.widget.RelativeLayout.LayoutParams;
 import com.troop.freedcam.R;
 
 import freed.ActivityAbstract;
-import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.camera1.Camera1Fragment;

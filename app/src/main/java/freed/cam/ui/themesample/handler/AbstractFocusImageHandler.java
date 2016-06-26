@@ -19,12 +19,10 @@
 
 package freed.cam.ui.themesample.handler;
 
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
 
 import freed.ActivityAbstract;
-import freed.ActivityInterface;
 import freed.cam.apis.basecamera.FocusHandlerInterface;
 
 /**

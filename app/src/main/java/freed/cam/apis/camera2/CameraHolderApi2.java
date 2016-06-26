@@ -52,7 +52,6 @@ import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.test.suitebuilder.annotation.Suppress;
 import android.util.Size;
 import android.view.Display;
 import android.view.Surface;
