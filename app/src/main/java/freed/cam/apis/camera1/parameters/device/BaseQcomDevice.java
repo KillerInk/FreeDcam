@@ -70,7 +70,7 @@ public class BaseQcomDevice extends AbstractDevice {
     @Override
     public ManualParameterInterface getManualFocusParameter()
     {
-        if (parameters.get(KEYS.KEY_MANUAL_FOCUS_POSITION) != null && arrayContainsString(parametersHandler.FocusMode.GetValues(), KEYS.KEY_FOCUS_MODE_MANUAL))
+        if (parameters.get(KEYS.MAX_FOCUS_POS_INDEX) != null && arrayContainsString(parametersHandler.FocusMode.GetValues(), KEYS.KEY_FOCUS_MODE_MANUAL))
             return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,1000,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,10,1);
         return null;
     }
