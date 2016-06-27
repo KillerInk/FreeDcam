@@ -244,6 +244,40 @@ KK = Kitkat,L = Lollipop , M = Marshmallow
 
 
 
+How to create a Custom Matrix
+=============================
+First you need a *Colorchecker Passport* without it, its useless to continue
+
+![colorchecker](/playstoreimages/cc_passport.jpg)
+
+Set it somewhere in the Scene and capture a Dng from it.  
+When done you need [Adobes Dng Profile Editor](https://www.adobe.com/support/downloads/product.jsp?product=195&platform=Windows)  
+Load there the Dng and choose Chart tab and place the dots to the edges of the chart.  
+Then click *Create Color Table*. Now you can tune the matrixes. When done save the dcp profile into camera raw appData folder.  
+C:\Users\ *UserName*\AppData\Roaming\Adobe\CameraRaw\CameraProfiles.  
+Then open the Dng into CameraRaw and go to tab *Camera Calibration*.  
+Select there the created dcp profile and click on *Save Image...* and save the Dng with the choosen profile, do not open the image!  
+
+Open the saved Dng now into exiftools or a simliar tool, wich can read metadata, and copy out the matrixes into a txt file in the bottom order.
+
+```
+0.9581,0.0274,-0.1154,-0.3463,1.2258,0.1311,-0.0565,0.2411,0.2431 colormatrix1 is needed
+0.6291,0.018,-0.0758,-0.3463,1.2258,0.1311,-0.0887,0.3788,0.3819  colormatrix2 is needed
+0.581421,1,0.565397                                               neutral matrix is needed
+0.6328,0.0469,0.2813,0.1641,0.7578,0.0781,-0.0469,-0.6406,1.5078  forwardmatrix1 is optional
+0.7578,0.0859,0.1172,0.2734,0.8281,-0.1016,0.0156,-0.2813,1.0859  forwardmatrix2 is optional
+                                                                  reductionmatrix1 is optional
+                                                                  reductionmatrix2 is optional
+                                                                  noise reduction is optional
+```
+                                                                                                                                
+
+
+Copy that file now on your phones internalSD/DCIM/FreeDcam/config/matrix and you can select it inside Freedcam.  
+Its gets then applied to each new dng
+
+
+
 License
 =======
 This program is free software; you can redistribute it and/or modify  
