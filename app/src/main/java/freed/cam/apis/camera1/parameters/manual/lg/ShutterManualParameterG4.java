@@ -45,13 +45,17 @@ public class ShutterManualParameterG4 extends AbstractManualShutter implements M
         super(cameraUiWrapper);
         this.parameters = parameters;
         this.manualevent = manualevent;
-        isSupported = true;
-        stringvalues = parameters.get(KEYS.LG_SHUTTER_SPEED_VALUES).replace(",0","").split(",");
-        stringvalues[0] = KEYS.AUTO;
-        ArrayList<String> l = new ArrayList(Arrays.asList(stringvalues));
-        l.remove(0);
-        stringvalues = new String[l.size()];
-        l.toArray(stringvalues);
+        if (parameters.get(KEYS.LG_SHUTTER_SPEED) != null) {
+            isSupported = true;
+            stringvalues = parameters.get(KEYS.LG_SHUTTER_SPEED_VALUES).replace(",0", "").split(",");
+            stringvalues[0] = KEYS.AUTO;
+            ArrayList<String> l = new ArrayList(Arrays.asList(stringvalues));
+            l.remove(0);
+            stringvalues = new String[l.size()];
+            l.toArray(stringvalues);
+        }
+        else
+            isSupported = false;
 
 
     }

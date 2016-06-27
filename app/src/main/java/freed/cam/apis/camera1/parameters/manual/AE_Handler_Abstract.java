@@ -89,72 +89,68 @@ public abstract class AE_Handler_Abstract implements I_ParametersLoaded
 
     protected final AeManualEvent aeevent =  new AeManualEvent() {
         @Override
-        public void onManualChanged(AeManual fromManual, boolean automode, int value)
-        {
-            if (automode)
+        public void onManualChanged(AeManual fromManual, boolean automode, int value) {
+            if (shutter.IsSupported() && iso.IsSupported() && cameraWrapper.GetAppSettingsManager().GetCurrentCamera() == 0)
             {
-                Logger.d(TAG, "AutomodeActive");
-                auto = automode;
+                if (automode) {
+                    Logger.d(TAG, "AutomodeActive");
+                    auto = automode;
 
 
-                switch (fromManual) {
-                    case shutter:
-                        currentIso = iso.GetValue();
-                        iso.setValue(-1);
-                        break;
-                    case iso:
-                        currentShutter = shutter.GetValue();
-                        shutter.setValue(-1);
-                        shutter.ThrowBackgroundIsSetSupportedChanged(false);
-                        break;
-                }
-                resetManualMode();
-                startReadingMeta();
-
-            }
-            else
-            {
-                if (auto)
-                {
-                    Logger.d(TAG, "Automode Deactivated, set last values");
-                    auto = false;
                     switch (fromManual) {
                         case shutter:
-                            iso.setValue(currentIso);
+                            currentIso = iso.GetValue();
+                            iso.setValue(-1);
                             break;
                         case iso:
-                            if (currentShutter == 0) currentShutter =9;
-                            shutter.setValue(currentShutter);
-                            shutter.ThrowBackgroundIsSetSupportedChanged(true);
+                            currentShutter = shutter.GetValue();
+                            shutter.setValue(-1);
+                            shutter.ThrowBackgroundIsSetSupportedChanged(false);
                             break;
                     }
+                    resetManualMode();
                     startReadingMeta();
-                }
-                else
-                {
-                    readMetaData = false;
-                    Logger.d(TAG, "Automode Deactivated, set UserValues");
-                    switch (fromManual) {
-                        case shutter:
-                            shutter.setValue(value);
 
-                            break;
-                        case iso:
-                            iso.setValue(value);
+                } else {
+                    if (auto) {
+                        Logger.d(TAG, "Automode Deactivated, set last values");
+                        auto = false;
+                        switch (fromManual) {
+                            case shutter:
+                                iso.setValue(currentIso);
+                                break;
+                            case iso:
+                                if (currentShutter == 0) currentShutter = 9;
+                                shutter.setValue(currentShutter);
+                                shutter.ThrowBackgroundIsSetSupportedChanged(true);
+                                break;
+                        }
+                        startReadingMeta();
+                    } else {
+                        readMetaData = false;
+                        Logger.d(TAG, "Automode Deactivated, set UserValues");
+                        switch (fromManual) {
+                            case shutter:
+                                shutter.setValue(value);
 
-                            break;
+                                break;
+                            case iso:
+                                iso.setValue(value);
+
+                                break;
+                        }
                     }
+                    resetManualMode();
                 }
-                resetManualMode();
-            }
-            ((ParametersHandler)cameraWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
-            if (automode) {
-                String t = cameraWrapper.GetParameterHandler().IsoMode.GetValue();
-                if (!t.equals(KEYS.ISO100))
-                    cameraWrapper.GetParameterHandler().IsoMode.SetValue(KEYS.ISO100, true);
-                else
-                    cameraWrapper.GetParameterHandler().IsoMode.SetValue(KEYS.AUTO, true);
-                cameraWrapper.GetParameterHandler().IsoMode.SetValue(t, true);
+                ((ParametersHandler) cameraWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+                if (automode) {
+                    String t = cameraWrapper.GetParameterHandler().IsoMode.GetValue();
+                    if (!t.equals(KEYS.ISO100))
+                        cameraWrapper.GetParameterHandler().IsoMode.SetValue(KEYS.ISO100, true);
+                    else
+                        cameraWrapper.GetParameterHandler().IsoMode.SetValue(KEYS.AUTO, true);
+                    cameraWrapper.GetParameterHandler().IsoMode.SetValue(t, true);
+                }
             }
         }
     };

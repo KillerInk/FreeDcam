@@ -35,19 +35,21 @@ public class ISOManualParameterG4 extends BaseManualParameter implements ManualP
 
     public ISOManualParameterG4(Parameters parameters, CameraWrapperInterface cameraUiWrapper, AE_Handler_Abstract.AeManualEvent manualevent) {
         super(parameters, cameraUiWrapper,1);
-
-        isSupported = true;
-        isVisible = isSupported;
-        ArrayList<String> s = new ArrayList<>();
-        for (int i =0; i <= 2700; i +=50)
-        {
-            if (i == 0)
-                s.add(KEYS.AUTO);
-            else
-                s.add(i + "");
+        if (parameters.get(KEYS.LG_ISO) != null) {
+            isSupported = true;
+            isVisible = isSupported;
+            ArrayList<String> s = new ArrayList<>();
+            for (int i = 0; i <= 2700; i += 50) {
+                if (i == 0)
+                    s.add(KEYS.AUTO);
+                else
+                    s.add(i + "");
+            }
+            stringvalues = new String[s.size()];
+            s.toArray(stringvalues);
         }
-        stringvalues = new String[s.size()];
-        s.toArray(stringvalues);
+        else
+            isSupported = false;
         manualEvent = manualevent;
     }
 
