@@ -82,7 +82,10 @@ public class ManualFocus extends AbstractManualParameter
         else
         {
             if (!cameraUiWrapper.GetParameterHandler().FocusMode.GetValue().equals("off"))
-                cameraUiWrapper.GetParameterHandler().FocusMode.SetValue("off",true);
+            {
+                ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
+                cameraUiWrapper.GetParameterHandler().FocusMode.SetValue("off", true);
+            }
             ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.LENS_FOCUS_DISTANCE, (float) valueToSet / 10);
         }
     }

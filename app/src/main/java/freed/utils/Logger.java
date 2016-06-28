@@ -204,7 +204,7 @@ public class Logger
                 writer.write(b);
                 writer.newLine();
             } catch (IOException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
 
@@ -218,7 +218,7 @@ public class Logger
                 writer.write(b);
                 writer.newLine();
             } catch (IOException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
 
@@ -236,10 +236,10 @@ public class Logger
                         fr.write(errors.toString());
                         fr.close();
                     } catch (IOException e1) {
-                        e1.printStackTrace();
+                        //e1.printStackTrace();
                     }
                 }
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
     }

@@ -108,6 +108,8 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
     public CaptureSessionHandler CaptureSessionH;
 
+    public boolean flashRequired = false;
+
     int afState;
     int aeState;
 
@@ -296,9 +298,8 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         if (mPreviewRequestBuilder == null)
             return;
         Logger.d(TAG, "Set :" + key.getName() + " to " + value);
-        mPreviewRequestBuilder.set(key,value);
+        SetParameterRepeating(key,value);
         SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_START);
-        SetParameterRepeating(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
     }
 
     public <T> T get(Key<T> key)
@@ -476,14 +477,14 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                         break;
                     case 2:
                         state = "PASSIVE_FOCUSED";
-                        SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,
-                                CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
+                        SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
                         break;
                     case 3:
                         state="ACTIVE_SCAN";
                         break;
                     case 4:
                         state = "FOCUSED_LOCKED";
+                        SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
                         if (cameraUiWrapper.getFocusHandler().focusEvent != null)
                             cameraUiWrapper.getFocusHandler().focusEvent.FocusFinished(true);
 
@@ -495,8 +496,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                         break;
                     case 6:
                         state ="PASSIVE_UNFOCUSED";
-                        SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,
-                                CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
+                        SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
                         break;
                 }
                 Logger.d(TAG, "new AF_STATE :"+state);
@@ -505,12 +505,16 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             {
 
                 aeState = result.get(CaptureResult.CONTROL_AE_STATE);
+                flashRequired = false;
                 switch (aeState)
                 {
                     case CaptureResult.CONTROL_AE_STATE_CONVERGED:
+                        //SetParameter(CaptureRequest.CONTROL_AE_LOCK, true);
                         Logger.d(TAG, "AESTATE: Converged");
                         break;
                     case CaptureResult.CONTROL_AE_STATE_FLASH_REQUIRED:
+                        flashRequired = true;
+                        //SetParameter(CaptureRequest.CONTROL_AE_LOCK, true);
                         Logger.d(TAG, "AESTATE: FLASH_REQUIRED");
                         break;
                     case CaptureResult.CONTROL_AE_STATE_INACTIVE:
@@ -750,6 +754,18 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             }
         }
 
+        public void StartRepeatingCaptureSession(@Nullable CaptureCallback listener)
+        {
+            if (mCaptureSession == null)
+                return;
+            try {
+                mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), listener,
+                        null);
+            } catch (CameraAccessException e) {
+                Logger.exception(e);
+            }
+        }
+
         public void StopHighspeedCaptureSession()
         {
             if (mHighSpeedCaptureSession != null)
@@ -798,11 +814,23 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             }
         }
 
+        public void StartCaptureSession(@Nullable CaptureCallback listener)
+        {
+            if (mCaptureSession == null)
+                return;
+            try {
+                mCaptureSession.capture(mPreviewRequestBuilder.build(), listener,
+                        null);
+            } catch (CameraAccessException e) {
+                Logger.exception(e);
+            }
+        }
+
         public void StartCapture(@NonNull Builder request,
-                                 @Nullable CaptureCallback listener, @Nullable Handler handler)
+                                 @Nullable CaptureCallback listener)
         {
             try {
-                mCaptureSession.capture(request.build(),listener,handler);
+                mCaptureSession.capture(request.build(),listener,null);
             } catch (CameraAccessException e) {
                 e.printStackTrace();
             }

@@ -26,6 +26,7 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCaptureSession.CaptureCallback;
 import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Builder;
 import android.hardware.camera2.CaptureResult;
@@ -35,6 +36,7 @@ import android.hardware.camera2.params.ColorSpaceTransform;
 import android.media.Image;
 import android.media.ImageReader;
 import android.media.ImageReader.OnImageAvailableListener;
+import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.Looper;
@@ -93,6 +95,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private Surface camerasurface;
     private final Handler handler;
     private int imagecount;
+    private Builder captureBuilder;
+    private final int STATE_WAIT_FOR_PRECAPTURE = 0;
+    private final int STATE_WAIT_FOR_NONPRECAPTURE = 1;
+    private final int STATE_PICTURE_TAKEN = 2;
+    private int mState = STATE_PICTURE_TAKEN;
 
     public PictureModuleApi2(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
@@ -129,13 +136,17 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
         mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener,null);
 
-        FreeDPool.Execute(new Runnable() {
-            @Override
-            public void run()
-            {
-                captureStillPicture();
-            }
-        });
+        if (appSettingsManager.IsCamera2FullSupported().equals(KEYS.TRUE) && cameraHolder.get(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
+            mState = STATE_WAIT_FOR_PRECAPTURE;
+            cameraHolder.CaptureSessionH.StartRepeatingCaptureSession(aecallback);
+            cameraHolder.SetParameter(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
+        }
+        else
+        {
+            captureStillPicture();
+        }
+
+
     }
 
     /**
@@ -146,7 +157,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         try {
             Logger.d(TAG, "StartStillCapture");
             // This is the CaptureRequest.Builder that we use to take a picture.
-            Builder captureBuilder = cameraHolder.createCaptureRequest();
+            captureBuilder = cameraHolder.createCaptureRequest();
             captureBuilder.addTarget(mImageReader.getSurface());
 
             // Use the same AE and AF modes as the preview.
@@ -171,6 +182,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             try {
                 captureBuilder.set(CaptureRequest.TONEMAP_CURVE, cameraHolder.get(CaptureRequest.TONEMAP_CURVE));
             }catch (NullPointerException ex){Logger.exception(ex);}
+            try {
+                if (Build.VERSION.SDK_INT >= VERSION_CODES.M)
+                    captureBuilder.set(CaptureRequest.TONEMAP_GAMMA, cameraHolder.get(CaptureRequest.TONEMAP_GAMMA));
+            }
+            catch (NullPointerException ex) {Logger.exception(ex);}
+
             try {
                 int awb = cameraHolder.get(CaptureRequest.CONTROL_AWB_MODE);
                 captureBuilder.set(CaptureRequest.CONTROL_AWB_MODE, awb );
@@ -221,6 +238,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             }
             catch (NullPointerException ex)
             {Logger.exception(ex);}
+
+
             List<CaptureRequest> captureList = new ArrayList<>();
             for (int i = 0; i< ParameterHandler.Burst.GetValue()+1; i++)
             {
@@ -228,14 +247,54 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             }
             imagecount = 0;
             mDngResult = null;
+
             cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
             changeCaptureState(CaptureStates.image_capture_start);
-            cameraHolder.CaptureSessionH.StartCapture(captureBuilder, CaptureCallback, handler);
+            cameraHolder.CaptureSessionH.StartCapture(captureBuilder, CaptureCallback);
+
+
         } catch (CameraAccessException e) {
             Logger.exception(e);
         }
     }
 
+    private CaptureCallback aecallback = new CaptureCallback()
+    {
+        @Override
+        public void onCaptureProgressed(CameraCaptureSession session, CaptureRequest request, CaptureResult partialResult)
+        {
+            Integer aeState = partialResult.get(CaptureResult.CONTROL_AE_STATE);
+            switch (mState)
+            {
+                case STATE_WAIT_FOR_PRECAPTURE:
+                    Logger.d(TAG,"STATE_WAIT_FOR_PRECAPTURE  AESTATE:" + aeState);
+                    if (aeState == null)
+                    {
+                        mState = STATE_PICTURE_TAKEN;
+                        captureStillPicture();
+                    }
+                    else if (aeState == CaptureResult.CONTROL_AE_STATE_PRECAPTURE ||
+                            aeState == CaptureRequest.CONTROL_AE_STATE_FLASH_REQUIRED) {
+                        mState = STATE_WAIT_FOR_NONPRECAPTURE;
+                    }
+                    else if (aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED)
+                    {
+                        mState = STATE_PICTURE_TAKEN;
+                        captureStillPicture();
+                    }
+                    break;
+                case STATE_WAIT_FOR_NONPRECAPTURE:
+                    Logger.d(TAG,"STATE_WAIT_FOR_NONPRECAPTURE");
+                    if (aeState == null || aeState != CaptureResult.CONTROL_AE_STATE_PRECAPTURE)
+                    {
+                        cameraHolder.SetParameter(CaptureRequest.CONTROL_AE_LOCK, true);
+                        mState = STATE_PICTURE_TAKEN;
+                        captureStillPicture();
+                    }
+                    break;
+            }
+        }
+    };
 
 
     private final CaptureCallback CaptureCallback
@@ -299,6 +358,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         {
             Logger.d(TAG, "CaptureDone");
             cameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
+            cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,true);
+            cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_LOCK,false);
         }
         catch (NullPointerException ex) {
             Logger.exception(ex);

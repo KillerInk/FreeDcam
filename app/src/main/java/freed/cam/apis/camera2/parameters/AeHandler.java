@@ -39,6 +39,7 @@ import freed.utils.Logger;
  * Created by troop on 18.05.2016.
  * Handels all related stuff when ae gets turned off/on and hide/show in that case the manual stuff in ui
  */
+@TargetApi(VERSION_CODES.LOLLIPOP)
 public class AeHandler
 {
     private final CameraHolderApi2 cameraHolder;
@@ -84,13 +85,25 @@ public class AeHandler
         {
             //hide manualexposuretime ui item
             manualExposureApi2.ThrowBackgroundIsSupportedChanged(false);
+            //turn flash off when ae is off. else on some devices it applys only manual stuff only for a few frames
+            //apply it direct to the preview that old value can get loaded from FocusModeParameter when Ae gets set back to auto
+            cameraHolder.SetParameterRepeating(CaptureRequest.FLASH_MODE, CaptureRequest.FLASH_MODE_OFF);
+            //hide flash ui item its not supported in manual mode
+            cameraUiWrapper.GetParameterHandler().FlashMode.BackgroundIsSupportedChanged(false);
             //enable manualiso item in ui
             manualISoApi2.ThrowBackgroundIsSetSupportedChanged(true);
             //enable manual exposuretime in ui
             manualExposureTimeApi2.ThrowBackgroundIsSetSupportedChanged(true);
+            manualExposureTimeApi2.ThrowCurrentValueStringCHanged(manualExposureTimeApi2.GetStringValue());
         }
         else
         {
+            //back in auto mode
+            //set flash back to its old state
+            cameraUiWrapper.GetParameterHandler().FlashMode.SetValue(cameraUiWrapper.GetParameterHandler().FlashMode.GetValue(),true);
+            //show flashmode ui item
+            cameraUiWrapper.GetParameterHandler().FlashMode.BackgroundIsSupportedChanged(true);
+            //set exposure ui item to enable
             manualExposureApi2.ThrowBackgroundIsSupportedChanged(true);
             manualExposureApi2.ThrowBackgroundIsSetSupportedChanged(true);
             manualISoApi2.ThrowBackgroundIsSetSupportedChanged(true);
