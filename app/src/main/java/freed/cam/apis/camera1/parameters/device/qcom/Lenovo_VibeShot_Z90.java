@@ -59,12 +59,12 @@ public class Lenovo_VibeShot_Z90 extends BaseQcomNew {
     @Override
     public ManualParameterInterface getExposureTimeParameter()
     {
-        return new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,cameraUiWrapper.getContext().getResources().getStringArray(R.array.lenovo_vibeshot_z90), KEYS.EXPOSURE_TIME);
+        return new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,cameraUiWrapper.getContext().getResources().getStringArray(R.array.lenovo_vibeshot_z90), "aec-force-snap-exp");
     }
 
     @Override
     public ManualParameterInterface getIsoParameter() {
-        return new BaseISOManual(parameters,KEYS.CONTINUOUS_ISO, 100, 1600, cameraUiWrapper,1);
+        return new BaseISOManual(parameters,"aec-force-snap-gain", 100, 1600, cameraUiWrapper,1);
     }
 
 }
