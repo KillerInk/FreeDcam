@@ -143,6 +143,19 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (cameraFragment != null && orientationHandler != null)
+            orientationHandler.Start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        orientationHandler.Stop();
+    }
+
     //gets called when permission was request
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
@@ -257,7 +270,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         transaction.add(id.cameraFragmentHolder, cameraFragment, "CameraFragment");
         transaction.commitAllowingStateLoss();
         Logger.d(TAG, "loaded cameraWrapper");
-        orientationHandler.Start();
+
     }
 
     /**
@@ -269,6 +282,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     public void onCameraUiWrapperRdy(CameraWrapperInterface cameraUiWrapper)
     {
         //set orientatiohandler to module handler that it knows when a work is in progress
+        orientationHandler.Start();
         //to avoid that orientation gets set while working
         cameraUiWrapper.GetModuleHandler().SetWorkListner(orientationHandler);
         //note the ui that cameraFragment is loaded
