@@ -24,6 +24,7 @@ import android.media.MediaRecorder.AudioSource;
 import android.media.MediaRecorder.OutputFormat;
 import android.media.MediaRecorder.VideoSource;
 
+import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
@@ -120,60 +121,15 @@ public class VideoModule extends AbstractVideoModule
         if (currentProfile.Mode == VideoMode.Highspeed)
         {
             if(appSettingsManager.getDevice() == Devices.Htc_M8 ||appSettingsManager.getDevice() == Devices.Htc_M9||appSettingsManager.getDevice() == Devices.HTC_OneA9||appSettingsManager.getDevice() == Devices.HTC_OneE8 ) {
-                if (currentProfile.ProfileName.equals("1080pHFR"))
-                {
-                    cameraUiWrapper.GetParameterHandler().HTCVideoMode.SetValue("2",true);
-                    cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("off", true);
-                }
-                else if (currentProfile.ProfileName.equals("720pHFR"))
-                {
-                    if (currentProfile.videoFrameRate < 120 && currentProfile.videoFrameRate >30 )
-                    {
-                        cameraUiWrapper.GetParameterHandler().HTCVideoMode.SetValue("2",true);
-                        cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("off", true);
-                    }
-                    else {
-                        cameraUiWrapper.GetParameterHandler().HTCVideoMode.SetValue("1",true);
-                        cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("120", true);}
-                }
-
+                loadHtcHighspeed();
             }
-
             else if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == CameraHolder.Frameworks.MTK)
             {
-                if(cameraUiWrapper.GetParameterHandler().PreviewFPS.GetValues().toString().contains(currentProfile.videoFrameRate+""))
-                {
-                    cameraUiWrapper.GetParameterHandler().PreviewFPS.SetValue(currentProfile.videoFrameRate+"",true);
-
-                    if (cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.IsSupported()) {
-                        cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate + "", true);
-                    }
-
-                }
+                loadMtkHighspeed();
             }
-
             else
             {
-            if (currentProfile.ProfileName.equals("1080pHFR")
-                        && appSettingsManager.getDevice() == Devices.XiaomiMI3W
-                        || appSettingsManager.getDevice() == Devices.ZTE_ADV)
-                    cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("60", true);
-                if (currentProfile.ProfileName.equals("720pHFR") && appSettingsManager.getDevice() == Devices.ZTE_ADV)
-                    cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("120", true);
-
-
-                if (cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement != null && cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.IsSupported())
-                    cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.SetValue("disable", true);
-                if (cameraUiWrapper.GetParameterHandler().DigitalImageStabilization != null && cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.IsSupported())
-                    cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue("disable", true);
-                if (cameraUiWrapper.GetParameterHandler().VideoStabilization != null && cameraUiWrapper.GetParameterHandler().VideoStabilization.IsSupported())
-                    cameraUiWrapper.GetParameterHandler().VideoStabilization.SetValue("false", true);
-                if (cameraUiWrapper.GetParameterHandler().Denoise != null && cameraUiWrapper.GetParameterHandler().Denoise.IsSupported())
-                    cameraUiWrapper.GetParameterHandler().Denoise.SetValue("denoise-off", true);
-                cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("yuv420sp", true);
-                if (cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.IsSupported()) {
-                    cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate + "", true);
-                }
+                loadDefaultHighspeed();
             }
         }
         else
@@ -186,7 +142,7 @@ public class VideoModule extends AbstractVideoModule
                 if (cameraUiWrapper.GetParameterHandler().VideoStabilization != null && cameraUiWrapper.GetParameterHandler().VideoStabilization.IsSupported())
                     cameraUiWrapper.GetParameterHandler().VideoStabilization.SetValue("false", true);
 
-                if (((CameraHolder)cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != CameraHolder.Frameworks.MTK)
+                if (appSettingsManager.IsCamera2FullSupported().equals(KEYS.FALSE))
                     cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus",true);
             }
             else
@@ -201,10 +157,60 @@ public class VideoModule extends AbstractVideoModule
         String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
         cameraUiWrapper.GetParameterHandler().PreviewSize.SetValue(size,true);
         cameraUiWrapper.GetParameterHandler().VideoSize.SetValue(size, true);
-        //cameraUiWrapper.GetParameterHandler().SetParametersToCamera(cameraUiWrapper.GetParameterHandler().getParameters());
         cameraUiWrapper.StopPreview();
         cameraUiWrapper.StartPreview();
 
+    }
+
+    private void loadDefaultHighspeed()
+    {
+        //turn off all blocking/postprocessing parameters wich avoid highframes
+        if (cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement != null && cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.IsSupported())
+            cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.SetValue("disable", true);
+        if (cameraUiWrapper.GetParameterHandler().DigitalImageStabilization != null && cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.IsSupported())
+            cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue("disable", true);
+        if (cameraUiWrapper.GetParameterHandler().VideoStabilization != null && cameraUiWrapper.GetParameterHandler().VideoStabilization.IsSupported())
+            cameraUiWrapper.GetParameterHandler().VideoStabilization.SetValue("false", true);
+        if (cameraUiWrapper.GetParameterHandler().Denoise != null && cameraUiWrapper.GetParameterHandler().Denoise.IsSupported())
+            cameraUiWrapper.GetParameterHandler().Denoise.SetValue("denoise-off", true);
+        //full camera2 devices dont use hardware preview format so set it only for legacy devices
+        if (appSettingsManager.IsCamera2FullSupported().equals(KEYS.FALSE))
+            cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus", true);
+        //set the profile defined frames per seconds
+        if (cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.IsSupported()) {
+            cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate + "", true);
+        }
+    }
+
+    private void loadMtkHighspeed() {
+        if(cameraUiWrapper.GetParameterHandler().PreviewFPS.GetValues().toString().contains(currentProfile.videoFrameRate+""))
+        {
+            cameraUiWrapper.GetParameterHandler().PreviewFPS.SetValue(currentProfile.videoFrameRate+"",true);
+
+            if (cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.IsSupported()) {
+                cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate + "", true);
+            }
+
+        }
+    }
+
+    private void loadHtcHighspeed() {
+        if (currentProfile.ProfileName.equals("1080pHFR"))
+        {
+            cameraUiWrapper.GetParameterHandler().HTCVideoMode.SetValue("2",true);
+            cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("off", true);
+        }
+        else if (currentProfile.ProfileName.equals("720pHFR"))
+        {
+            if (currentProfile.videoFrameRate < 120 && currentProfile.videoFrameRate >30 )
+            {
+                cameraUiWrapper.GetParameterHandler().HTCVideoMode.SetValue("2",true);
+                cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("off", true);
+            }
+            else {
+                cameraUiWrapper.GetParameterHandler().HTCVideoMode.SetValue("1",true);
+                cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("120", true);}
+        }
     }
 
 

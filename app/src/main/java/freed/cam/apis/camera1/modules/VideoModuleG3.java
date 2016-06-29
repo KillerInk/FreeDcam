@@ -26,6 +26,7 @@ import android.media.MediaRecorder.VideoSource;
 
 import com.lge.media.MediaRecorderEx;
 
+import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile.VideoMode;
@@ -131,7 +132,7 @@ public class VideoModuleG3 extends AbstractVideoModule
             cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.SetValue("disable",true);
             cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue("disable", true);
             cameraUiWrapper.GetParameterHandler().Denoise.SetValue("denoise-off", true);
-            if(appSettingsManager.getDevice() != Devices.LG_G4)
+            if(appSettingsManager.IsCamera2FullSupported().equals(KEYS.FALSE))
                 cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus",true);
             if (currentProfile.Mode == VideoMode.Highspeed)
             {
