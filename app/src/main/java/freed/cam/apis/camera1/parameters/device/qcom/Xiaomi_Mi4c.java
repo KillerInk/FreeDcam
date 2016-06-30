@@ -36,12 +36,12 @@ public class Xiaomi_Mi4c extends Xiaomi_Mi3W {
     }
 
     @Override
-    public DngProfile getDngProfile(int filesize) {
-        switch (filesize)
-        {
+    public DngProfile getDngProfile(int filesize)
+    {
+        switch (filesize) {
             case 16510976://mi 4c
-                return new DngProfile(64,4208,3120,DngProfile.Mipi16,DngProfile.BGGR,0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(64, 4208, 3120, DngProfile.Mipi16, DngProfile.BGGR, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
         }
-        return null;
+        return super.getDngProfile(filesize);
     }
 }
