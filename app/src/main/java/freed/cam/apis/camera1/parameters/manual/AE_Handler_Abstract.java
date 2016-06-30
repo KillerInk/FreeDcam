@@ -58,8 +58,8 @@ public abstract class AE_Handler_Abstract implements I_ParametersLoaded
 
     protected ManualParameterAEHandlerInterface shutter;
     protected ManualParameterAEHandlerInterface iso;
-    private int currentIso;
-    private int currentShutter;
+    protected int currentIso;
+    protected int currentShutter;
 
     protected boolean auto = true;
     private boolean readMetaData;
