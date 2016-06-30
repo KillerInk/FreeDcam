@@ -40,10 +40,10 @@ import freed.utils.DeviceUtils;
 /**
  * Created by troop on 01.06.2016.
  */
-public class Xiaomi_Mi3W extends BaseQcomDevice {
+public class Xiaomi_Mi3_4 extends BaseQcomDevice {
 
 
-    public Xiaomi_Mi3W(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
+    public Xiaomi_Mi3_4(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 
@@ -81,6 +81,8 @@ public class Xiaomi_Mi3W extends BaseQcomDevice {
                 return new DngProfile(0, 4212, 3120, DngProfile.Qcom, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 16424960:
                 return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.RGGB, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+            case 16510976://mi 4c
+                return new DngProfile(64, 4208, 3120, DngProfile.Mipi16, DngProfile.BGGR, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 2969600:
                 return new DngProfile(64,1976,1200,DngProfile.Mipi16,DngProfile.RGGB,0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 3170304://Xiaomi_mi3 front Qcom

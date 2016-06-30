@@ -72,9 +72,7 @@ import freed.cam.apis.camera1.parameters.device.qcom.OnePlusTwo;
 import freed.cam.apis.camera1.parameters.device.qcom.Sony_M4;
 import freed.cam.apis.camera1.parameters.device.qcom.Sony_XperiaL;
 import freed.cam.apis.camera1.parameters.device.qcom.Vivo_Xplay3s;
-import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Mi3W;
-import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Mi4W;
-import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Mi4c;
+import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Mi3_4;
 import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Mi_Note_Pro;
 import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Redmi_Note;
 import freed.cam.apis.camera1.parameters.device.qcom.Yu_Yureka;
@@ -255,13 +253,13 @@ public class DeviceSelector {
                return new Vivo_Xplay3s(cameraParameters,cameraUiWrapper);
                 
             case XiaomiMI3W:
-               return new Xiaomi_Mi3W(cameraParameters,cameraUiWrapper);
+               return new Xiaomi_Mi3_4(cameraParameters,cameraUiWrapper);
                 
             case XiaomiMI4W:
-               return new Xiaomi_Mi4W(cameraParameters,cameraUiWrapper);
+                return new Xiaomi_Mi3_4(cameraParameters,cameraUiWrapper);
                 
             case XiaomiMI4C:
-               return new Xiaomi_Mi4c(cameraParameters,cameraUiWrapper);
+                return new Xiaomi_Mi3_4(cameraParameters,cameraUiWrapper);
             case XiaomiMI5:
                 return getDefault(cameraUiWrapper,cameraParameters);
             case XiaomiMI_Note_Pro:
