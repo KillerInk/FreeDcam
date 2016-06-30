@@ -211,8 +211,9 @@ public class Lenovo_VibeShot_Z90 extends BaseQcomNew
             }
             else
             {
-                parameters.set("aec-force-gain", stringvalues[value]);
-                parameters.set("aec-force-snap-gain", stringvalues[value]);
+                int iso = Integer.parseInt(stringvalues[value])/100;
+                parameters.set("aec-force-gain", iso);
+                parameters.set("aec-force-snap-gain", iso);
                 currentInt = value;
             }
             ThrowCurrentValueStringCHanged(stringvalues[value]);
@@ -239,7 +240,7 @@ public class Lenovo_VibeShot_Z90 extends BaseQcomNew
             this.parameters = parameters;
             isSupported = true;
             isVisible = isSupported;
-            stringvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.mtk_shutter);
+            stringvalues = cameraUiWrapper.getContext().getResources().getStringArray(R.array.shutter_values_zte_z5s);
             this.manualevent =manualevent;
         }
 
@@ -277,7 +278,7 @@ public class Lenovo_VibeShot_Z90 extends BaseQcomNew
         private String FLOATtoThirty(String a)
         {
             Float b =  Float.parseFloat(a);
-            float c = b * 1000;
+            float c = b * 1000000;
             return String.valueOf(c);
         }
 

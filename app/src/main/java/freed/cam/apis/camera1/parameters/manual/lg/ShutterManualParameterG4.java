@@ -81,7 +81,7 @@ public class ShutterManualParameterG4 extends AbstractManualShutter implements M
     public void setValue(int value)
     {
 
-        if (value == -1)
+        if (value == 0)
         {
             parameters.set(KEYS.LG_SHUTTER_SPEED, "0");
         }

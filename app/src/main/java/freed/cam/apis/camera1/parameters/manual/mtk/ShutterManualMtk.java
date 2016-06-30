@@ -57,7 +57,7 @@ public class ShutterManualMtk extends AbstractManualShutter implements ManualPar
     public void setValue(int value)
     {
 
-        if (value == -1)
+        if (value == 0)
         {
             parameters.set("m-ss", "0");
         }
