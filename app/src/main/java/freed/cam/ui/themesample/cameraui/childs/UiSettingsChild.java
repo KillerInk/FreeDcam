@@ -23,6 +23,8 @@ import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -200,6 +202,13 @@ public class UiSettingsChild extends SettingsChildAbstract
     public void onParameterIsSetSupportedChanged(boolean isSupported)
     {
         sendLog("isSetSupported:" + isSupported);
+        if (isSupported) {
+            setEnabled(true);
+            this.getBackground().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_ATOP);
+        } else {
+            setEnabled(false);
+            this.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+        }
         setEnabled(isSupported);
     }
 

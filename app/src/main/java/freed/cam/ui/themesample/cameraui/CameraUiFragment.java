@@ -44,6 +44,7 @@ import com.troop.freedcam.R.layout;
 import freed.ActivityAbstract;
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.ui.I_swipe;
 import freed.cam.ui.SwipeMenuListner;
 import freed.cam.ui.guide.GuideHandler;
@@ -64,7 +65,7 @@ import freed.viewer.screenslide.ScreenSlideFragment.I_ThumbClick;
 /**
  * Created by troop on 14.06.2015.
  */
-public class CameraUiFragment extends AbstractFragment implements SettingsChildAbstract.SettingsChildClick, SettingsChildAbstract.CloseChildClick, I_swipe, OnClickListener
+public class CameraUiFragment extends AbstractFragment implements SettingsChildAbstract.SettingsChildClick, SettingsChildAbstract.CloseChildClick, I_swipe, OnClickListener, ModuleHandlerAbstract.CaptureStateChanged
 {
     final String TAG = CameraUiFragment.class.getSimpleName();
     private UiSettingsChild flash;
@@ -79,11 +80,12 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private UiSettingsChild contShot;
     private UiSettingsChild currentOpendChild;
     private UiSettingsChild aepriority;
+    private UiSettingsFocusPeak focuspeak;
+    private UiSettingsChild hdr_switch;
+
     private HorizontalValuesFragment horizontalValuesFragment;
     private SwipeMenuListner touchHandler;
     private ShutterButton shutterButton;
-    private UiSettingsFocusPeak focuspeak;
-    private UiSettingsChild hdr_switch;
     private ThumbView thumbView;
     private ManualFragment manualModesFragment;
     private FrameLayout manualModes_holder;
@@ -124,6 +126,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
             Logger.d(TAG, "failed to set cameraUiWrapper");
             return;
         }
+        cameraUiWrapper.GetModuleHandler().SetWorkListner(this);
         flash.SetParameter(cameraUiWrapper.GetParameterHandler().FlashMode);
         iso.SetParameter(cameraUiWrapper.GetParameterHandler().IsoMode);
         autoexposure.SetParameter(cameraUiWrapper.GetParameterHandler().ExposureMode);
@@ -421,6 +424,84 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     @Override
     public void onClick(View v) {
 
+    }
+
+    @Override
+    public void onCaptureStateChanged(ModuleHandlerAbstract.CaptureStates captureStates)
+    {
+        switch (captureStates)
+        {
+            case image_capture_stop:
+                enableUiItems();
+                break;
+            case image_capture_start:
+                disableUiItems();
+                break;
+            case continouse_capture_start:
+                break;
+            case continouse_capture_stop:
+                break;
+            case continouse_capture_work_start:
+                break;
+            case continouse_capture_work_stop:
+                break;
+            case cont_capture_stop_while_working:
+                break;
+            case cont_capture_stop_while_notworking:
+                break;
+        }
+
+
+    }
+
+    private void enableUiItems()
+    {
+        if (flash.GetParameter() != null)
+            flash.onParameterIsSetSupportedChanged(flash.GetParameter().IsSupported());
+        if (iso.GetParameter() != null)
+            iso.onParameterIsSetSupportedChanged(iso.GetParameter().IsSupported());
+        if (autoexposure.GetParameter() != null)
+            autoexposure.onParameterIsSetSupportedChanged(whitebalance.GetParameter().IsSupported());
+        if (whitebalance.GetParameter() != null)
+            whitebalance.onParameterIsSetSupportedChanged(whitebalance.GetParameter().IsSupported());
+        if (focus.GetParameter() != null)
+            focus.onParameterIsSetSupportedChanged(focus.GetParameter().IsSupported());
+        if (night.GetParameter() != null)
+            night.onParameterIsSetSupportedChanged(night.GetParameter().IsSupported());
+        if (format.GetParameter() != null)
+            format.onParameterIsSetSupportedChanged(format.GetParameter().IsSupported());
+        cameraSwitch.onParameterIsSetSupportedChanged(true);
+        if (modeSwitch.GetParameter() != null)
+            modeSwitch.onParameterIsSetSupportedChanged(modeSwitch.GetParameter().IsSupported());
+        if (flash.GetParameter() != null)
+            flash.onParameterIsSetSupportedChanged(flash.GetParameter().IsSupported());
+        if (modeSwitch.GetParameter() != null)
+            modeSwitch.onParameterIsSetSupportedChanged(flash.GetParameter().IsSupported());
+        if (contShot.GetParameter() != null)
+            flash.onParameterIsSetSupportedChanged(contShot.GetParameter().IsSupported());
+        if (aepriority.GetParameter() != null)
+            aepriority.onParameterIsSetSupportedChanged(aepriority.GetParameter().IsSupported());
+        if (focuspeak.GetParameter() != null)
+            focuspeak.onParameterIsSetSupportedChanged(flash.GetParameter().IsSupported());
+        if (hdr_switch.GetParameter() != null)
+            hdr_switch.onParameterIsSetSupportedChanged(hdr_switch.GetParameter().IsSupported());
+    }
+
+    private void disableUiItems()
+    {
+        flash.onParameterIsSetSupportedChanged(false);
+        iso.onParameterIsSetSupportedChanged(false);
+        autoexposure.onParameterIsSetSupportedChanged(false);
+        whitebalance.onParameterIsSetSupportedChanged(false);
+        focus.onParameterIsSetSupportedChanged(false);
+        night.onParameterIsSetSupportedChanged(false);
+        format.onParameterIsSetSupportedChanged(false);
+        cameraSwitch.onParameterIsSetSupportedChanged(false);
+        modeSwitch.onParameterIsSetSupportedChanged(false);
+        contShot.onParameterIsSetSupportedChanged(false);
+        aepriority.onParameterIsSetSupportedChanged(false);
+        focuspeak.onParameterIsSetSupportedChanged(false);
+        hdr_switch.onParameterIsSetSupportedChanged(false);
     }
 
     interface i_HelpFragment
