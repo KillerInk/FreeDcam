@@ -90,16 +90,25 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
 
         workerListner = new CaptureStateChanged() {
             @Override
-            public void onCaptureStateChanged(CaptureStates captureStates) {
+            public void onCaptureStateChanged(final CaptureStates captureStates)
+            {
                 for (int i = 0; i < onCaptureStateChangedListners.size(); i++)
                 {
+
                     if (onCaptureStateChangedListners.get(i) == null) {
                         onCaptureStateChangedListners.remove(i);
                         i--;
                     }
                     else
                     {
-                        onCaptureStateChangedListners.get(i).onCaptureStateChanged(captureStates);
+                        final int pos = i;
+                        uihandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                onCaptureStateChangedListners.get(pos).onCaptureStateChanged(captureStates);
+                            }
+                        });
+
                     }
                 }
             }
