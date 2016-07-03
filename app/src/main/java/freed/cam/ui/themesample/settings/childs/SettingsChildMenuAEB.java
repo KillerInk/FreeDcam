@@ -65,7 +65,7 @@ public class SettingsChildMenuAEB extends LinearLayout {
     {
         this.context = context;
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(layout.expandable_childs_number, this);
+        inflater.inflate(layout.settings_expandable_childs_number, this);
         plus = (Button) findViewById(id.button_plus);
         minus = (Button) findViewById(id.button_minus);
         editText = (EditText) findViewById(id.editText_number);

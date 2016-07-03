@@ -180,7 +180,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
 
     @Override
     protected void inflate(LayoutInflater inflater, ViewGroup container) {
-        view = inflater.inflate(layout.gridviewfragment, container, false);
+        view = inflater.inflate(layout.freedviewer_gridviewfragment, container, false);
     }
 
     @Override

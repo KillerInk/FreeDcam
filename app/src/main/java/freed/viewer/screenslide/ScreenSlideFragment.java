@@ -126,7 +126,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,savedInstanceState);
-        view = inflater.inflate(layout.screenslide_fragment, container, false);
+        view = inflater.inflate(layout.freedviewer_screenslide_fragment, container, false);
 
         mImageThumbSize = getResources().getDimensionPixelSize(dimen.image_thumbnail_size);
         activityInterface = (ActivityInterface) getActivity();

@@ -47,7 +47,7 @@ public class GridViewHttpFragment extends BaseGridViewFragment
 
     @Override
     protected void inflate(LayoutInflater inflater, ViewGroup container) {
-        view = inflater.inflate(layout.gridviewfragment, container, false);
+        view = inflater.inflate(layout.freedviewer_gridviewfragment, container, false);
     }
 
     private class HttpImageAdapter extends BaseAdapter

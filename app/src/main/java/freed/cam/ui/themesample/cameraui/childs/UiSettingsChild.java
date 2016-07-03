@@ -120,7 +120,7 @@ public class UiSettingsChild extends SettingsChildAbstract
     @Override
     protected void inflateTheme(LayoutInflater inflater)
     {
-        inflater.inflate(layout.ui_settingschild, this);
+        inflater.inflate(layout.cameraui_uisettingschild, this);
     }
 
     public void SetMenuItemClickListner(SettingsChildClick menuItemClick, boolean fromleft)

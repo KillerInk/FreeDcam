@@ -74,7 +74,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        return inflater.inflate(layout.manual_fragment_rotatingseekbar, container, false);
+        return inflater.inflate(layout.cameraui_manual_fragment_rotatingseekbar, container, false);
     }
 
     @Override

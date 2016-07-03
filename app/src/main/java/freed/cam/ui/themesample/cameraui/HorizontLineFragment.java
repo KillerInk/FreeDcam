@@ -74,7 +74,7 @@ public class HorizontLineFragment extends AbstractFragment implements I_ModePara
     {
         super.onCreateView(inflater,container,null);
         fragment_activityInterface = (ActivityInterface)getActivity();
-        view = inflater.inflate(layout.horizontline, container, false);
+        view = inflater.inflate(layout.cameraui_horizontline, container, false);
         lineImage = (ImageView) view.findViewById(id.horizontlevelline);
         upImage = (ImageView) view.findViewById(id.horizontlevelup);
         downImage = (ImageView) view.findViewById(id.horizontleveldown);

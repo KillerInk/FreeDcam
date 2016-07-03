@@ -3,12 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/basegridview" />
+    <include layout="@layout/freedviewer_gridview_base" />
 
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/gridview_topbar_height"
+        android:layout_height="@dimen/freedviewer_topbar_height"
         android:background="#50000000">
 
         <ImageButton
@@ -32,7 +32,7 @@
                 android:text="@string/files_selected"
                 android:id="@+id/textView_filesSelected"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="@dimen/gridview_topbar_itemMargin" />
+                android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine" />
 
             <Button
             android:layout_width="50dp"
@@ -40,7 +40,7 @@
             android:text="@string/ALL"
             android:id="@+id/button_filetype"
             android:textSize="18dp"
-            android:layout_marginRight="@dimen/gridview_topbar_itemMargin"
+            android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
             android:background="#00000000"
             android:textStyle="bold"
             android:layout_gravity="center_vertical"/>
@@ -51,17 +51,17 @@
             android:text="RAWTODNG"
             android:id="@+id/button_rawToDng"
             android:textSize="18dp"
-            android:layout_marginRight="@dimen/gridview_topbar_itemMargin"
+            android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
             android:background="#00000000"
             android:textStyle="bold"
             android:layout_gravity="center_vertical"/>
 
         <Button
-            android:layout_width="@dimen/gridview_topbar_height"
-            android:layout_height="@dimen/gridview_topbar_height"
+            android:layout_width="@dimen/freedviewer_topbar_height"
+            android:layout_height="@dimen/freedviewer_topbar_height"
             android:id="@+id/button_deltePics"
             android:background="@drawable/delte_button_pressed"
-            android:layout_marginRight="@dimen/gridview_topbar_itemMargin"
+            android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine"
             android:layout_gravity="center_vertical"/>
         </LinearLayout>
 

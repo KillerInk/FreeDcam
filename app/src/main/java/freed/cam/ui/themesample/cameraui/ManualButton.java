@@ -114,7 +114,7 @@ public class ManualButton extends LinearLayout implements I_ManualParameterEvent
     {
         handler = new Handler();
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(layout.manualbutton, this);
+        inflater.inflate(layout.cameraui_manualbutton, this);
         headerTextView = (TextView) findViewById(id.manualbutton_headertext);
         headerTextView.setSelected(true);
         valueTextView = (TextView) findViewById(id.manualbutton_valuetext);

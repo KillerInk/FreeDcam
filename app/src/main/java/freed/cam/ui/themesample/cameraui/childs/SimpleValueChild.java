@@ -54,7 +54,7 @@ public class SimpleValueChild extends FrameLayout implements OnClickListener
     private void init(Context context)
     {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(layout.simplevaluechild, this);
+        inflater.inflate(layout.cameraui_simplevaluechild, this);
         textView = (TextView) findViewById(id.simplevaluetext);
         setOnClickListener(this);
     }

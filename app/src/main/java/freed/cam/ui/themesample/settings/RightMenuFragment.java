@@ -74,7 +74,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
     {
         super.onCreateView(inflater,container,savedInstanceState);
         fragment_activityInterface = (ActivityInterface)getActivity();
-        view = inflater.inflate(layout.rightmenufragment, container, false);
+        view = inflater.inflate(layout.settings_rightmenufragment, container, false);
         scene = (SettingsChildMenu) view.findViewById(id.MenuItemScene);
         color = (SettingsChildMenu) view.findViewById(id.MenuItemColor);
         cctMode = (SettingsChildMenu) view.findViewById(id.MenuItemCCTMode);

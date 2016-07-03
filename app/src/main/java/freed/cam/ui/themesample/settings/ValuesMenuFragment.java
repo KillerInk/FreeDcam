@@ -45,7 +45,7 @@ public class ValuesMenuFragment extends Fragment implements ListView.OnItemClick
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(layout.valuesmenufragment, container, false);
+        return inflater.inflate(layout.settings_menuvalues_fragment, container, false);
     }
 
     @Override

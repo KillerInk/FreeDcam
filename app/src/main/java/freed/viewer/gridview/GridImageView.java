@@ -88,7 +88,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
     private void init(Context context)
     {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(layout.gridimageview, this);
+        inflater.inflate(layout.freedviewer_gridview_imageview, this);
         imageView = (ImageView) findViewById(id.gridimageviewholder);
         imageView.setScaleType(ScaleType.CENTER_CROP);
         textView = (TextView) findViewById(id.filetypetextbox);

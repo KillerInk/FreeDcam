@@ -50,7 +50,7 @@ public class HorizontalValuesFragment extends Fragment implements SettingsChildA
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,null);
-        view = inflater.inflate(layout.horizontal_values_fragment, container, false);
+        view = inflater.inflate(layout.cameraui_horizontal_values_fragment, container, false);
         valuesHolder = (LinearLayout) view.findViewById(id.horizontal_values_holder);
         return view;
     }

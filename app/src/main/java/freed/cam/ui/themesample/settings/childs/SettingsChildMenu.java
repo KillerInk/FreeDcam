@@ -88,7 +88,7 @@ public class SettingsChildMenu extends UiSettingsChild
 
     @Override
     protected void inflateTheme(LayoutInflater inflater) {
-        inflater.inflate(layout.menu_item, this);
+        inflater.inflate(layout.settings_menu_item, this);
     }
 
     @Override

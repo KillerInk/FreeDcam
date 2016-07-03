@@ -60,7 +60,7 @@ public class ActivityFreeDviewer extends ActivityAbstract
         LoadDCIMDirs();
         mShortAnimationDuration = getResources().getInteger(
                 android.R.integer.config_shortAnimTime);
-        setContentView(R.layout.activity_freedviewer);
+        setContentView(R.layout.freedviewer_activity);
         gridViewFragment = (GridViewFragment) getSupportFragmentManager().findFragmentById(R.id.freedviewer_gridview);
         gridViewFragment.SetOnGridItemClick(onGridItemClick);
         screenSlideFragment = (ScreenSlideFragment)getSupportFragmentManager().findFragmentById(R.id.freedviewer_screenslide_fragment);

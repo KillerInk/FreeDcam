@@ -120,7 +120,7 @@ public class ImageFragment extends Fragment
         super.onCreateView(inflater,container,savedInstanceState);
 
         mImageThumbSize = getResources().getDimensionPixelSize(dimen.image_thumbnail_size);
-        View view = inflater.inflate(layout.imageframent, container, false);
+        View view = inflater.inflate(layout.freedviewer_screenslide_imageframent, container, false);
         imageView = (TouchImageView) view.findViewById(id.imageView_PicView);
 
         progressBar = (ProgressBar) view.findViewById(id.progressBar_screenslideImageview);

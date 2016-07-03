@@ -104,7 +104,7 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
     {
         super.onCreateView(inflater,container,savedInstanceState);
         fragment_activityInterface = (ActivityInterface)getActivity();
-        View view = inflater.inflate(layout.leftmenufragment, container, false);
+        View view = inflater.inflate(layout.settings_leftmenufragment, container, false);
 
         videoProfileEditor = (SettingsChildMenu_VideoProfEditor)view.findViewById(id.MenuItem_VideoProfileEditor);
 

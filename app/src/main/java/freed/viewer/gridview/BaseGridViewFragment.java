@@ -55,7 +55,7 @@ public class BaseGridViewFragment extends Fragment  implements OnItemClickListen
     {
         super.onCreateView(inflater,container,savedInstanceState);
         inflate(inflater, container);
-        view = inflater.inflate(layout.gridviewfragment, container, false);
+        view = inflater.inflate(layout.freedviewer_gridviewfragment, container, false);
         gridView = (GridView) view.findViewById(id.gridView);
         gridView.setOnItemClickListener(this);
         gridView.setOnItemLongClickListener(this);
@@ -64,7 +64,7 @@ public class BaseGridViewFragment extends Fragment  implements OnItemClickListen
 
     protected void inflate(LayoutInflater inflater, ViewGroup container)
     {
-        view = inflater.inflate(layout.basegridview, container, false);
+        view = inflater.inflate(layout.freedviewer_gridview_base, container, false);
     }
 
     @Override

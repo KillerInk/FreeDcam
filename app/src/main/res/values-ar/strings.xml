@@ -1,5 +1,5 @@
 <resources>
-    <!-- leftmenufragment  -->
+    <!-- settings_leftmenufragment  -->
     <string name="app_name">themesample</string>
     <string name="setting_picture_group_header">Picture Settings</string>
     <string name="setting_bayerformat_description">Sensor raw format mode to be encoded as DNG</string>
@@ -39,7 +39,7 @@
     <string name="setting_savecamparams_header">Save Camera Parameters</string>
     <string name="setting_savecamparams_description"> </string>
 
-    <!-- rightmenufragment  -->
+    <!-- settings_rightmenufragment  -->
     <string name="setting_camera_">Legacy Camera Settings</string>
     <string name="setting_antiflicker_header">Anti Flicker: </string>
     <string name="setting_antiflicker_description">Reduce flickering on artificial light sources</string>

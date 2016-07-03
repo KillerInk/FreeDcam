@@ -85,8 +85,8 @@ public class Lenovo_VibeShot_Z90 extends BaseQcomNew
 
         public AeHandlerVibeShotZ90(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
             super(parameters, cameraUiWrapper);
-            iso = new IsoManual(parameters,cameraUiWrapper, aeevent);
-            shutter = new ShutterManualZ90(parameters,cameraUiWrapper,aeevent);
+            iso = new IsoManual(parameters,cameraUiWrapper, this.aeevent);
+            shutter = new ShutterManualZ90(parameters,cameraUiWrapper,this.aeevent);
         }
 
         @Override
@@ -137,6 +137,11 @@ public class Lenovo_VibeShot_Z90 extends BaseQcomNew
                         } else {
                             //readMetaData = false;
                             Logger.d(TAG, "Automode Deactivated, set UserValues");
+                            if (parameters.get("force-aec-enable").equals("0"))
+                            {
+                                parameters.set("force-aec-enable",1);
+                                ((ParametersHandler)cameraWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
+                            }
                             switch (fromManual) {
                                 case shutter:
                                     shutter.setValue(value);

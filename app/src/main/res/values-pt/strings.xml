@@ -1,5 +1,5 @@
 <resources>
-    <!-- leftmenufragment  -->
+    <!-- settings_leftmenufragment  -->
     <string name="all_perms_granted">Todas as Permissões Concedidas</string>
     <string name="all_perms_denied">Todas as Permissões Negadas, Tente Novamente</string>
     <string name="app_name">Tema Simples</string>
@@ -62,7 +62,7 @@
     <string name="setting_savecamparams_header">Salvar os Parâmetros da Câmara</string>
     <string name="setting_savecamparams_description"> </string>
 
-    <!-- rightmenufragment  -->
+    <!-- settings_rightmenufragment  -->
     <string name="setting_camera_">Configurações da Câmera</string>
     <string name="setting_antiflicker_header">Anti Flicker: </string>
     <string name="setting_antiflicker_description">Reduzir a Instabilidade em Fontes de Luz Artificial</string>
