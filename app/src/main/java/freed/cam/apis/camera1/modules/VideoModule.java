@@ -118,6 +118,13 @@ public class VideoModule extends AbstractVideoModule
     {
         VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter) cameraUiWrapper.GetParameterHandler().VideoProfiles;
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE));
+
+        String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
+        cameraUiWrapper.GetParameterHandler().PreviewSize.SetValue(size,true);
+        cameraUiWrapper.GetParameterHandler().VideoSize.SetValue(size, true);
+        /*cameraUiWrapper.StopPreview();
+        cameraUiWrapper.StartPreview();*/
+
         if (currentProfile.Mode == VideoMode.Highspeed)
         {
             if(appSettingsManager.getDevice() == Devices.Htc_M8 ||appSettingsManager.getDevice() == Devices.Htc_M9||appSettingsManager.getDevice() == Devices.HTC_OneA9||appSettingsManager.getDevice() == Devices.HTC_OneE8 ) {
@@ -154,11 +161,7 @@ public class VideoModule extends AbstractVideoModule
             }
         }
 
-        String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
-        cameraUiWrapper.GetParameterHandler().PreviewSize.SetValue(size,true);
-        cameraUiWrapper.GetParameterHandler().VideoSize.SetValue(size, true);
-        cameraUiWrapper.StopPreview();
-        cameraUiWrapper.StartPreview();
+
 
     }
 
@@ -189,6 +192,7 @@ public class VideoModule extends AbstractVideoModule
 
             if (cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.IsSupported()) {
                 cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate + "", true);
+                cameraUiWrapper.GetParameterHandler().PreviewFPS.SetValue(currentProfile.videoFrameRate+"",true);
             }
 
         }
