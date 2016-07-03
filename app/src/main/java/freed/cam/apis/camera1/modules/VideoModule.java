@@ -67,7 +67,7 @@ public class VideoModule extends AbstractVideoModule
                 break;
         }
         recorder.setOutputFormat(OutputFormat.MPEG_4);
-        recorder.setVideoFrameRate(currentProfile.videoFrameRate);
+        recorder.setVideoFrameRate(30);
         recorder.setVideoSize(currentProfile.videoFrameWidth, currentProfile.videoFrameHeight);
         recorder.setVideoEncodingBitRate(currentProfile.videoBitRate);
         recorder.setVideoEncoder(currentProfile.videoCodec);

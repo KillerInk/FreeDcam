@@ -71,7 +71,7 @@ public class VideoModuleG3 extends AbstractVideoModule
             }
 
             recorder.setOutputFormat(OutputFormat.MPEG_4);
-            recorder.setVideoFrameRate(currentProfile.videoFrameRate);
+            recorder.setVideoFrameRate(30);
             recorder.setVideoSize(currentProfile.videoFrameWidth, currentProfile.videoFrameHeight);
             recorder.setVideoEncodingBitRate(currentProfile.videoBitRate);
             recorder.setVideoEncoder(currentProfile.videoCodec);
