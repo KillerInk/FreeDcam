@@ -19,7 +19,12 @@
 
 package freed.cam.apis.camera1.parameters.device.qcom;
 
+import android.graphics.Rect;
+import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -115,8 +120,14 @@ public class LG_G2 extends AbstractDevice
 
     @Override
     public void SetFocusArea(FocusRect focusAreas) {
-        parameters.set("touch-aec", "on");
-        parameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);
+        if (focusAreas != null) {
+            Camera.Area a = new Camera.Area(new Rect(focusAreas.left, focusAreas.top, focusAreas.right, focusAreas.bottom), 1000);
+            ArrayList<Camera.Area> ar = new ArrayList<>();
+            ar.add(a);
+            parameters.setFocusAreas(ar);
+        }
+        else
+            parameters.setFocusAreas(null);
         ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 }

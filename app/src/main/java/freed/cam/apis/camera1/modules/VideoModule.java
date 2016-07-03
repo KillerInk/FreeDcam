@@ -116,15 +116,9 @@ public class VideoModule extends AbstractVideoModule
 
     private void loadProfileSpecificParameters()
     {
+
         VideoProfilesParameter videoProfilesG3Parameter = (VideoProfilesParameter) cameraUiWrapper.GetParameterHandler().VideoProfiles;
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE));
-
-        String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
-        cameraUiWrapper.GetParameterHandler().PreviewSize.SetValue(size,true);
-        cameraUiWrapper.GetParameterHandler().VideoSize.SetValue(size, true);
-        /*cameraUiWrapper.StopPreview();
-        cameraUiWrapper.StartPreview();*/
-
         if (currentProfile.Mode == VideoMode.Highspeed)
         {
             if(appSettingsManager.getDevice() == Devices.Htc_M8 ||appSettingsManager.getDevice() == Devices.Htc_M9||appSettingsManager.getDevice() == Devices.HTC_OneA9||appSettingsManager.getDevice() == Devices.HTC_OneE8 ) {
@@ -162,36 +156,41 @@ public class VideoModule extends AbstractVideoModule
         }
 
 
-
+        String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
+        cameraUiWrapper.GetParameterHandler().PreviewSize.SetValue(size,false);
+        //video size applies the parameters to the camera
+        cameraUiWrapper.GetParameterHandler().VideoSize.SetValue(size, true);
+        cameraUiWrapper.StopPreview();
+        cameraUiWrapper.StartPreview();
     }
 
     private void loadDefaultHighspeed()
     {
         //turn off all blocking/postprocessing parameters wich avoid highframes
         if (cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement != null && cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.IsSupported())
-            cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.SetValue("disable", true);
+            cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.SetValue("disable", false);
         if (cameraUiWrapper.GetParameterHandler().DigitalImageStabilization != null && cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.IsSupported())
-            cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue("disable", true);
+            cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue("disable", false);
         if (cameraUiWrapper.GetParameterHandler().VideoStabilization != null && cameraUiWrapper.GetParameterHandler().VideoStabilization.IsSupported())
-            cameraUiWrapper.GetParameterHandler().VideoStabilization.SetValue("false", true);
+            cameraUiWrapper.GetParameterHandler().VideoStabilization.SetValue("false", false);
         if (cameraUiWrapper.GetParameterHandler().Denoise != null && cameraUiWrapper.GetParameterHandler().Denoise.IsSupported())
-            cameraUiWrapper.GetParameterHandler().Denoise.SetValue("denoise-off", true);
+            cameraUiWrapper.GetParameterHandler().Denoise.SetValue("denoise-off", false);
         //full camera2 devices dont use hardware preview format so set it only for legacy devices
         if (appSettingsManager.IsCamera2FullSupported().equals(KEYS.FALSE))
-            cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus", true);
+            cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus", false);
         //set the profile defined frames per seconds
         if (cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.IsSupported()) {
-            cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate + "", true);
+            cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate + "", false);
         }
     }
 
     private void loadMtkHighspeed() {
         if(cameraUiWrapper.GetParameterHandler().PreviewFPS.GetValues().toString().contains(currentProfile.videoFrameRate+""))
         {
-            cameraUiWrapper.GetParameterHandler().PreviewFPS.SetValue(currentProfile.videoFrameRate+"",true);
+            cameraUiWrapper.GetParameterHandler().PreviewFPS.SetValue(currentProfile.videoFrameRate+"",false);
 
             if (cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.IsSupported()) {
-                cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate + "", true);
+                cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate + "", false);
                 cameraUiWrapper.GetParameterHandler().PreviewFPS.SetValue(currentProfile.videoFrameRate+"",true);
             }
 
@@ -201,15 +200,15 @@ public class VideoModule extends AbstractVideoModule
     private void loadHtcHighspeed() {
         if (currentProfile.ProfileName.equals("1080pHFR"))
         {
-            cameraUiWrapper.GetParameterHandler().HTCVideoMode.SetValue("2",true);
-            cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("off", true);
+            cameraUiWrapper.GetParameterHandler().HTCVideoMode.SetValue("2",false);
+            cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("off", false);
         }
         else if (currentProfile.ProfileName.equals("720pHFR"))
         {
             if (currentProfile.videoFrameRate < 120 && currentProfile.videoFrameRate >30 )
             {
-                cameraUiWrapper.GetParameterHandler().HTCVideoMode.SetValue("2",true);
-                cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("off", true);
+                cameraUiWrapper.GetParameterHandler().HTCVideoMode.SetValue("2",false);
+                cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("off", false);
             }
             else {
                 cameraUiWrapper.GetParameterHandler().HTCVideoMode.SetValue("1",true);

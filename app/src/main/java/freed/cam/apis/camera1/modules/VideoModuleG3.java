@@ -129,25 +129,25 @@ public class VideoModuleG3 extends AbstractVideoModule
         currentProfile = videoProfilesG3Parameter.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         if (currentProfile.Mode == VideoMode.Highspeed || currentProfile.ProfileName.contains("4kUHD"))
         {
-            cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.SetValue("disable",true);
-            cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue("disable", true);
-            cameraUiWrapper.GetParameterHandler().Denoise.SetValue("denoise-off", true);
+            cameraUiWrapper.GetParameterHandler().MemoryColorEnhancement.SetValue("disable",false);
+            cameraUiWrapper.GetParameterHandler().DigitalImageStabilization.SetValue("disable", false);
+            cameraUiWrapper.GetParameterHandler().Denoise.SetValue("denoise-off", false);
             if(appSettingsManager.IsCamera2FullSupported().equals(KEYS.FALSE))
-                cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus",true);
+                cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus",false);
             if (currentProfile.Mode == VideoMode.Highspeed)
             {
                 if (cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.IsSupported())
                 {
-                    cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate+"", true);
+                    cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate+"", false);
                 }
             }
         }
         else
         {
-            cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("yuv420sp", true);
+            cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("yuv420sp", false);
         }
         String size = currentProfile.videoFrameWidth + "x" + currentProfile.videoFrameHeight;
-        cameraUiWrapper.GetParameterHandler().PreviewSize.SetValue(size,true);
+        cameraUiWrapper.GetParameterHandler().PreviewSize.SetValue(size,false);
         cameraUiWrapper.GetParameterHandler().VideoSize.SetValue(size,true);
         cameraUiWrapper.StopPreview();
         cameraUiWrapper.StartPreview();

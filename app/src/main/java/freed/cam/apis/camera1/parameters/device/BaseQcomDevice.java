@@ -139,10 +139,14 @@ public class BaseQcomDevice extends AbstractDevice {
     @Override
     public void SetFocusArea(FocusRect focusAreas)
     {
-        Camera.Area a = new Camera.Area(new Rect(focusAreas.left,focusAreas.top,focusAreas.right,focusAreas.bottom),1000);
-        ArrayList<Camera.Area> ar = new ArrayList<>();
-        ar.add(a);
-        parameters.setFocusAreas(ar);
+        if (focusAreas != null) {
+            Camera.Area a = new Camera.Area(new Rect(focusAreas.left, focusAreas.top, focusAreas.right, focusAreas.bottom), 1000);
+            ArrayList<Camera.Area> ar = new ArrayList<>();
+            ar.add(a);
+            parameters.setFocusAreas(ar);
+        }
+        else
+            parameters.setFocusAreas(null);
         parametersHandler.SetParametersToCamera(parameters);
 
     }

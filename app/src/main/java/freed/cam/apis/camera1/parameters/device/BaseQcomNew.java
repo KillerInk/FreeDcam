@@ -89,10 +89,4 @@ public class BaseQcomNew extends BaseQcomDevice
         return Integer.parseInt(cameraHolder.GetParamsDirect("cur-iso"));
     }
 
-    @Override
-    public void SetFocusArea(FocusRect focusAreas) {
-        parameters.set("touch-aec", "on");
-        parameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);
-        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
-    }
 }
