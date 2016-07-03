@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
@@ -141,6 +142,12 @@ public class CameraHolder extends CameraHolderAbstract
     public void SetCameraParameters(Parameters parameters)
     {
         mCamera.setParameters(parameters);
+        Parameters parameters1 = mCamera.getParameters();
+        Logger.d(TAG, "PreviewFPS:" + parameters1.get(KEYS.PREVIEW_FRAME_RATE));
+        Logger.d(TAG, "PreviewFPS_Range:" + parameters1.get("preview-fps-range"));
+        Logger.d(TAG, "PreviewSize:" + parameters1.get("preview-size"));
+        Logger.d(TAG, "VideoSize:" + parameters1.get("video-size"));
+
     }
 
     @Override
