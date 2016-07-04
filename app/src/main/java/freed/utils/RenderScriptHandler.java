@@ -59,15 +59,23 @@ public class RenderScriptHandler
     {
         mRS = RenderScript.create(context);
         mRS.setPriority(Priority.LOW);
-        ScriptFocusPeakApi2 = new ScriptC_focus_peak(mRS);
-        yuvToRgbIntrinsic = ScriptIntrinsicYuvToRGB.create(mRS, Element.U8_4(mRS));
-        ScriptFocusPeakApi1 = new ScriptC_focus_peak_cam1(mRS);
-        imagestack = new ScriptC_imagestack(mRS);
-        this.focuspeak_argb = new ScriptC_focuspeak_argb(this.mRS);
-        this.brightnessRS = new ScriptC_brightness(this.mRS);
-        this.contrastRS = new ScriptC_contrast(this.mRS);
-        this.blurRS = ScriptIntrinsicBlur.create(this.mRS, Element.U8_4(this.mRS));
-        this.starfinderRS = new ScriptC_starfinder(this.mRS);
+        FreeDPool.Execute(new Runnable() {
+            @Override
+            public void run() {
+
+
+                ScriptFocusPeakApi2 = new ScriptC_focus_peak(mRS);
+                yuvToRgbIntrinsic = ScriptIntrinsicYuvToRGB.create(mRS, Element.U8_4(mRS));
+                ScriptFocusPeakApi1 = new ScriptC_focus_peak_cam1(mRS);
+                imagestack = new ScriptC_imagestack(mRS);
+                focuspeak_argb = new ScriptC_focuspeak_argb(mRS);
+                brightnessRS = new ScriptC_brightness(mRS);
+                contrastRS = new ScriptC_contrast(mRS);
+                blurRS = ScriptIntrinsicBlur.create(mRS, Element.U8_4(mRS));
+                starfinderRS = new ScriptC_starfinder(mRS);
+            }
+        });
+
     }
 
     public void SetAllocsTypeBuilder(Builder inputBuilder, Builder outputBuilder, int inputUsage, int outputUsage)
