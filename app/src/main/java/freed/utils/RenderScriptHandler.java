@@ -32,14 +32,6 @@ import android.renderscript.ScriptIntrinsicYuvToRGB;
 import android.renderscript.Type.Builder;
 import android.view.Surface;
 
-import com.freedcam.apis.camera1.renderscript.ScriptC_focus_peak_cam1;
-import com.imageconverter.ScriptC_brightness;
-import com.imageconverter.ScriptC_contrast;
-import com.imageconverter.ScriptC_focuspeak_argb;
-import com.imageconverter.ScriptC_imagestack;
-import com.imageconverter.ScriptC_starfinder;
-
-import cam.apis.camera2.renderscript.ScriptC_focus_peak;
 
 /**
  * Created by troop on 23.05.2016.

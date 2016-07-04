@@ -1,6 +1,6 @@
 
 #pragma version(1)
-    #pragma rs java_package_name(com.imageconverter)
+    #pragma rs java_package_name(freed.utils)
     #pragma rs_fp_relaxed
 
 rs_allocation gCurrentFrame;

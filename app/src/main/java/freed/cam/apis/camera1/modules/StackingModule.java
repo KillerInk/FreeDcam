@@ -27,7 +27,6 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.Type.Builder;
 
-import com.imageconverter.ScriptField_MinMaxPixel;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -41,6 +40,7 @@ import freed.cam.apis.camera1.parameters.modes.StackModeParameter;
 import freed.utils.FreeDPool;
 import freed.utils.Logger;
 import freed.utils.RenderScriptHandler;
+import freed.utils.ScriptField_MinMaxPixel;
 import freed.utils.StringUtils;
 
 /**
