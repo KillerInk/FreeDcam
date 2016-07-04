@@ -27,7 +27,6 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.Type.Builder;
 
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;

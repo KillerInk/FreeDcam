@@ -24,7 +24,6 @@ import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;

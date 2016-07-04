@@ -25,7 +25,6 @@ import android.view.View;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.camera1.Camera1Fragment;
 import freed.cam.apis.camera1.ExtendedSurfaceView;
 import freed.cam.apis.sonyremote.SonyCameraFragment;
 
