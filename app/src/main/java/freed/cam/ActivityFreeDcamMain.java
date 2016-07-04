@@ -153,7 +153,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     @Override
     protected void onPause() {
         super.onPause();
-        orientationHandler.Stop();
+        if(orientationHandler != null)
+            orientationHandler.Stop();
     }
 
     //gets called when permission was request
