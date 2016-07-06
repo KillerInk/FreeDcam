@@ -94,6 +94,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     private SettingsMenuFragment settingsMenuFragment;
     private ScreenSlideFragment screenSlideFragment;
 
+    private boolean activityIsResumed= false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -148,6 +150,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         super.onResume();
         if (cameraFragment != null && orientationHandler != null)
             orientationHandler.Start();
+        activityIsResumed = true;
     }
 
     @Override
@@ -155,6 +158,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         super.onPause();
         if(orientationHandler != null)
             orientationHandler.Stop();
+        activityIsResumed = false;
     }
 
     //gets called when permission was request
@@ -332,29 +336,31 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
-        int appSettingsKeyShutter = 0;
+        if (activityIsResumed) {
+            int appSettingsKeyShutter = 0;
 
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLP))
-            appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_UP;
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLM))
-            appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_DOWN;
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.Hook) || appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(""))
-            appSettingsKeyShutter = KeyEvent.KEYCODE_HEADSETHOOK;
+            if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLP))
+                appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_UP;
+            if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLM))
+                appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_DOWN;
+            if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.Hook) || appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(""))
+                appSettingsKeyShutter = KeyEvent.KEYCODE_HEADSETHOOK;
 
-        if(keyCode == KeyEvent.KEYCODE_3D_MODE ||keyCode == KeyEvent.KEYCODE_POWER || keyCode == appSettingsKeyShutter || keyCode == KeyEvent.KEYCODE_UNKNOWN)
-        {
-            Logger.d(TAG, "KeyUp");
-            cameraFragment.GetModuleHandler().DoWork();
-        }
-        //shutterbutton full pressed
-        if (keyCode == KeyEvent.KEYCODE_CAMERA)
-        {
-            cameraFragment.GetModuleHandler().DoWork();
-        }
-        // shutterbutton half pressed
+            if (keyCode == KeyEvent.KEYCODE_3D_MODE || keyCode == KeyEvent.KEYCODE_POWER || keyCode == appSettingsKeyShutter || keyCode == KeyEvent.KEYCODE_UNKNOWN) {
+                Logger.d(TAG, "KeyUp");
+                cameraFragment.GetModuleHandler().DoWork();
+            }
+            //shutterbutton full pressed
+            if (keyCode == KeyEvent.KEYCODE_CAMERA) {
+                cameraFragment.GetModuleHandler().DoWork();
+            }
+            // shutterbutton half pressed
        /* if (keyCode == KeyEvent.KEYCODE_FOCUS)
             cameraUiWrapper.StartFocus();*/
-        return true;
+            return true;
+        }
+        else
+            return super.onKeyDown(keyCode,event);
     }
 
 
