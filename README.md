@@ -5,8 +5,8 @@ FreeDcam
 [Projects used by FreeDcam](#projects-used-by-freedcam)  
 [Q&A](#qa)  
 [Camera Ui Icon](#camera-ui-icons)  
-[Camera1 Dng Supported Devices](#camera1-dng-supported-devices) 
-[How to create a Custom Matrix](#how-to-create-a-custom-matrix) 
+[Camera1 Dng Supported Devices](#camera1-dng-supported-devices)  
+[How to create a Custom Matrix](#how-to-create-a-custom-matrix)  
 [License](#license) 
 
 <img src="/playstoreimages/freedcam.jpg" width="500" height="280">
