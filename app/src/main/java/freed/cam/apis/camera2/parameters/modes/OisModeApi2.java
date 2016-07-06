@@ -64,10 +64,18 @@ public class OisModeApi2 extends BaseModeApi2
     @Override
     public String GetValue()
     {
+        //workaround for oems lazyness seen on Hibook
+        //it returns not null from characteristics but the call to the CaptureRequest returns null.
+        try {
+            int i = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE);
+            OISModes sceneModes = OISModes.values()[i];
+            return sceneModes.toString();
+        }
+        catch (NullPointerException ex)
+        {
+            return  OISModes.off.toString();
+        }
 
-        int i = ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).get(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE);
-        OISModes sceneModes = OISModes.values()[i];
-        return sceneModes.toString();
 
 
     }
