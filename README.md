@@ -2,6 +2,15 @@ FreeDcam
 ========
 <img src="/playstoreimages/freedcam.jpg" width="500" height="280">
 
+[Build](#build)  
+[Supported Apis](#supported-apis)    
+[Projects used by FreeDcam](#projects-used-by-freedcam)  
+[Q&A](#q&a)  
+[Camera Ui Icon](#camera-ui-icons)  
+[Camera1 Dng Supported Devices](#camera1-dng-supported-devices) 
+[How to create a Custom Matrix](#how-to-create-a-custom-matrix) 
+[License](#license) 
+
 ##Build
 To build use latest [Android Studio](http://developer.android.com/sdk/installing/studio.html)  
 
@@ -41,6 +50,15 @@ Special Thanks @ [Dave Coffin](https://www.cybercom.net/~dcoffin/dcraw/) for dcr
 
 [TouchImageview](https://github.com/MikeOrtiz/TouchImageView)
 
+Q&A
+===
+**Q:**  I'm able to choose camera2 api, but many things are missing. Why?﻿  
+**A:** because its not fully supported by your device. such devices are called legacy devices. they support just basic image capture and recording features.﻿
+
+**Q** Why can't i open raw/bayer files?  
+**A** Because its the pure data. the decoder cant read it because it does not know how to open it.  
+To tell the decoder how the data is stored, the dng container is needed.
+In that case send us the raw/bayer file and it will work soon.
 
 
 Camera Ui Icons
