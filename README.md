@@ -1,15 +1,15 @@
 FreeDcam
 ========
-<img src="/playstoreimages/freedcam.jpg" width="500" height="280">
-
 [Build](#build)  
 [Supported Apis](#supported-apis)    
 [Projects used by FreeDcam](#projects-used-by-freedcam)  
-[Q&A](#q&a)  
+[Q&A](#qa)  
 [Camera Ui Icon](#camera-ui-icons)  
 [Camera1 Dng Supported Devices](#camera1-dng-supported-devices) 
 [How to create a Custom Matrix](#how-to-create-a-custom-matrix) 
 [License](#license) 
+
+<img src="/playstoreimages/freedcam.jpg" width="500" height="280">
 
 ##Build
 To build use latest [Android Studio](http://developer.android.com/sdk/installing/studio.html)  
