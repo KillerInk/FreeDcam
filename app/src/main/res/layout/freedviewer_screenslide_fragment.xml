@@ -51,9 +51,8 @@
             android:textSize="10dp"
             android:layout_alignParentLeft="false"
             android:background="@drawable/ic_play"
-            android:layout_alignParentRight="false"
-            android:layout_toLeftOf="@+id/button_delete"
-            android:layout_marginRight="@dimen/freedviewer_screenslide_topBarItemMargine" />
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp" />
 
         <Button
             android:layout_width="@dimen/freedviewer_topbar_height"

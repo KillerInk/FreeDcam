@@ -43,6 +43,7 @@ import java.util.Date;
 
 import freed.ActivityAbstract;
 import freed.cam.apis.camera1.parameters.modes.StackModeParameter;
+import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.Logger;
 import freed.utils.RenderScriptHandler;
 import freed.utils.ScriptField_MinMaxPixel;
@@ -178,5 +179,6 @@ public class StackActivity extends ActivityAbstract
                 e.printStackTrace();
             }
         }
+        MediaScannerManager.ScanMedia(getContext(), file);
     }
 }

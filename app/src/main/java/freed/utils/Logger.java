@@ -120,6 +120,7 @@ public class Logger
 
     public static void LogUncaughtEX(Throwable throwable)
     {
+        throwable.printStackTrace();
         boolean logwasnull =false;
         if (logwasnull = fileLogger == null)
         {
