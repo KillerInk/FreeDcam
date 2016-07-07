@@ -14,8 +14,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 90
-        versionName '3.3.134'
+        versionCode 91
+        versionName '3.3.135'
         applicationId "troop.com.freedcam"
         renderscriptTargetApi 18
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
