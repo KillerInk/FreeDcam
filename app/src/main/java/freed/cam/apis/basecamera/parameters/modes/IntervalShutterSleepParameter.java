@@ -30,7 +30,9 @@ public class IntervalShutterSleepParameter extends AbstractModeParameter
 {
     private String current = "1 sec";
     private CameraWrapperInterface cameraUiWrapper;
-    public IntervalShutterSleepParameter(CameraWrapperInterface cameraUiWrapper) {
+    public IntervalShutterSleepParameter(CameraWrapperInterface cameraUiWrapper)
+    {
+        this.cameraUiWrapper = cameraUiWrapper;
     }
 
     @Override
