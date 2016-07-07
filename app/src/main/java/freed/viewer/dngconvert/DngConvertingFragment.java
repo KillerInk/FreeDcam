@@ -61,6 +61,7 @@ import freed.jni.RawToDng;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils;
 import freed.utils.Logger;
+import freed.utils.StringUtils;
 import freed.utils.StringUtils.FileEnding;
 
 /**
@@ -284,8 +285,9 @@ public class DngConvertingFragment extends Fragment
         if (file.getName().endsWith(FileEnding.BAYER))
             out = file.getAbsolutePath().replace(FileEnding.BAYER, FileEnding.DNG);
         RawToDng dng = RawToDng.GetInstance();
+        String intsd = StringUtils.GetInternalSDCARD();
         if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP
-                || file.canWrite())
+                || file.getAbsolutePath().contains(intsd))
             dng.SetBayerData(data, out);
         else
         {

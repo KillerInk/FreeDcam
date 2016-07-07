@@ -288,6 +288,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         else
         {
             histogram.setVisibility(View.GONE);
+            deleteButton.setVisibility(View.GONE);
             fragment.SetWaitForWorkFinishLisnter(this, position);
         }
     }
@@ -310,6 +311,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
                     if (topbar.getVisibility() == View.VISIBLE)
                         histogram.setVisibility(View.VISIBLE);
                     histogram.SetHistogramData(histodata);
+                    deleteButton.setVisibility(View.VISIBLE);
                 }
             }
         });
