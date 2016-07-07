@@ -34,7 +34,6 @@ public class DngConvertingActivity extends ActivityAbstract
     private final String TAG = DngConvertingActivity.class.getSimpleName();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new AppSettingsManager(getApplicationContext());
         if (getSupportFragmentManager().findFragmentByTag(TAG) == null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(id.content, new DngConvertingFragment(), TAG);

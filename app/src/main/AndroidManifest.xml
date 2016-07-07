@@ -78,6 +78,14 @@
         </activity>
 
         <activity
+            android:name="freed.viewer.stack.StackActivity"
+            android:label="GridView">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name="freed.cam.ui.videoprofileeditor.VideoProfileEditorActivity"
             android:label="GridView">
             <intent-filter>

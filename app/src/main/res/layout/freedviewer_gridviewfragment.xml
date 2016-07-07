@@ -45,7 +45,14 @@
             android:textStyle="bold"
             android:layout_gravity="center_vertical"/>
 
-        <Button
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Stack"
+                android:id="@+id/button_stack"
+                android:background="#00000000" />
+
+            <Button
             android:layout_width="wrap_content"
             android:layout_height="@dimen/app_icon_size"
             android:text="RAWTODNG"
