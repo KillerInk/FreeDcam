@@ -153,7 +153,9 @@ public class StackActivity extends ActivityAbstract
     private void saveBitmapToFile(Bitmap bitmap, File file)
     {
         OutputStream outStream = null;
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || file.canWrite() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        String intsd = StringUtils.GetInternalSDCARD();
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || file.getAbsolutePath().contains(intsd) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
             try {
                 outStream= new FileOutputStream(file);
