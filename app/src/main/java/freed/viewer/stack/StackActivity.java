@@ -65,7 +65,7 @@ public class StackActivity extends ActivityAbstract
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stack_activity);
         Spinner stackvaluesButton = (Spinner)findViewById(R.id.freedviewer_stack_stackvalues_button);
-        String[] items =  new String[] {AVARAGE, AVARAGE1x2, AVARAGE1x3, AVARAGE3x3, LIGHTEN, LIGHTEN_V, MEDIAN, "Focus"};
+        String[] items =  new String[] {AVARAGE, AVARAGE1x2, AVARAGE1x3, AVARAGE3x3, LIGHTEN, LIGHTEN_V, MEDIAN};
         ArrayAdapter<String> stackadapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, items);
         stackvaluesButton.setAdapter(stackadapter);
         filesToStack = getIntent().getStringArrayExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT);
@@ -139,8 +139,6 @@ public class StackActivity extends ActivityAbstract
                     break;
                 case 6: //MEDIAN
                     renderScriptHandler.imagestack.forEach_stackimage_median(renderScriptHandler.GetOut());
-                    break;
-                case 7: //focus
                     break;
             }
         }
