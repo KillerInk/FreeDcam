@@ -41,4 +41,9 @@
         android:layout_height="wrap_content"
         android:text="Stack"
         android:id="@+id/button_stackPics" />
+
+    <com.ortiz.touch.TouchImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/freedviewer_stack_imageview" />
 </LinearLayout>

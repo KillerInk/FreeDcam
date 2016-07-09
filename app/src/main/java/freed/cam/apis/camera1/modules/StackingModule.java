@@ -232,6 +232,10 @@ public class StackingModule extends PictureModule {
         {
             rsh.imagestack.forEach_stackimage_median(rsh.GetOut());
         }
+        else if (cameraUiWrapper.GetParameterHandler().imageStackMode.GetValue().equals(StackModeParameter.EXPOSURE))
+        {
+            rsh.imagestack.forEach_stackimage_exposure(rsh.GetOut());
+        }
     }
 
 

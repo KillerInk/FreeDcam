@@ -36,6 +36,7 @@ public class StackModeParameter extends AbstractModeParameter
     public static String LIGHTEN = "lighten";
     public static String LIGHTEN_V = "lighten_v";
     public static String MEDIAN = "median";
+    public static String EXPOSURE = "exposure";
 
     private String current = AVARAGE;
 
@@ -64,6 +65,6 @@ public class StackModeParameter extends AbstractModeParameter
 
     @Override
     public String[] GetValues() {
-        return new String[] {AVARAGE, AVARAGE1x2, AVARAGE1x3, AVARAGE3x3, LIGHTEN, LIGHTEN_V, MEDIAN};
+        return new String[] {AVARAGE, AVARAGE1x2, AVARAGE1x3, AVARAGE3x3, LIGHTEN, LIGHTEN_V, MEDIAN, EXPOSURE};
     }
 }

@@ -274,6 +274,10 @@ public class StackingModuleApi2 extends AbstractModuleApi2
                 {
                     renderScriptHandler.imagestack.forEach_stackimage_median(renderScriptHandler.GetOut());
                 }
+                else if (cameraUiWrapper.GetParameterHandler().imageStackMode.GetValue().equals(StackModeParameter.EXPOSURE))
+                {
+                    renderScriptHandler.imagestack.forEach_stackimage_exposure(renderScriptHandler.GetOut());
+                }
             }
             else
             {

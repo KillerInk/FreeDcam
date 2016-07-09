@@ -61,6 +61,19 @@
         return rgb;
     }
 
+    uchar4 __attribute__((kernel)) stackimage_exposure(uint32_t x, uint32_t y) {
+            float4 curPixel, lastPixel, merged;
+            uchar4 rgb;
+            curPixel = getRgb(x,y);
+            lastPixel = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x, y));
+            merged = (curPixel + lastPixel*2)/2;
+            rgb = rsPackColorTo8888(merged);
+            if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
+            if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
+            if (rgb.b > 255) rgb.b = 255; if(rgb.b < 0) rgb.b = 0;
+            return rgb;
+        }
+
     // takes two pixel sample shows a 3x3 array PIX are the used one
     // PIX PIX pix
     // pix pix pix
