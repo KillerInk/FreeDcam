@@ -350,7 +350,13 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
                 case DialogInterface.BUTTON_POSITIVE:
                     activityInterface.DeleteFile(folder_to_show);
                     MediaScannerManager.ScanMedia(getContext(), folder_to_show.getFile());
-                    activityInterface.LoadFolder(activityInterface.getFiles().get(0).getParent(),FormatTypes.all);
+                    if (activityInterface.getFiles() != null && activityInterface.getFiles().size() >0)
+                        activityInterface.LoadFolder(activityInterface.getFiles().get(0).getParent(),FormatTypes.all);
+                    else
+                    {
+                        activityInterface.LoadFreeDcamDCIMDirsFiles();
+                        updateUi(null);
+                    }
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:
@@ -391,6 +397,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
             filename.setText("No Files");
             histogram.setVisibility(View.GONE);
             deleteButton.setVisibility(View.GONE);
+            exifinfo.setVisibility(View.GONE);
             play.setVisibility(View.GONE);
         }
     }
