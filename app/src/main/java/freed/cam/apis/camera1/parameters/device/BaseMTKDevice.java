@@ -155,7 +155,7 @@ public class BaseMTKDevice extends AbstractDevice
             if (Integer.parseInt(parameters.get(KEYS.CUR_ISO_MTK)) == 0) {
                 return 0;
             }
-            return Integer.parseInt(parameters.get(KEYS.CUR_ISO_MTK2)) / 256 * 100;
+            return Integer.parseInt(parameters.get(KEYS.CUR_ISO_MTK)) / 256 * 100;
         }
         else if(parameters.get(KEYS.CUR_ISO_MTK2)!= null)
         {
