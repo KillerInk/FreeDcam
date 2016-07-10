@@ -73,7 +73,6 @@ public class StackingModule extends PictureModule {
             KeepStacking = true;
             capturedPics = new ArrayList<>();
             initRsStuff();
-            cameraUiWrapper.GetParameterHandler().ZSL.SetValue("off", true);
             changeCaptureState(CaptureStates.continouse_capture_start);
             String picFormat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
             if (!picFormat.equals(KEYS.JPEG))
