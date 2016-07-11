@@ -728,6 +728,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
         public void StopRepeatingCaptureSession()
         {
+            Logger.d(TAG, "StopRepeatingCaptureSession");
             if (mCaptureSession != null)
             try {
                 mCaptureSession.stopRepeating();
@@ -743,6 +744,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
         public void StartRepeatingCaptureSession()
         {
+            Logger.d(TAG, "StartRepeatingCaptureSession");
             if (mCaptureSession == null)
                 return;
             try {
@@ -755,6 +757,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
         public void StartRepeatingCaptureSession(@Nullable CaptureCallback listener)
         {
+            Logger.d(TAG, "StartRepeatingCaptureSession with Custom CaptureCallback");
             if (mCaptureSession == null)
                 return;
             try {
@@ -803,6 +806,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
         public void StartCaptureSession()
         {
+            Logger.d(TAG, "StartCaptureSession");
             if (mCaptureSession == null)
                 return;
             try {
@@ -815,6 +819,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
         public void StartCaptureSession(@Nullable CaptureCallback listener)
         {
+            Logger.d(TAG, "StartCaptureSession with Custom CaptureCallback");
             if (mCaptureSession == null)
                 return;
             try {
