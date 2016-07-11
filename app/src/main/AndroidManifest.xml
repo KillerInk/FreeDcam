@@ -29,6 +29,7 @@
         android:label="FreeDCam"
         android:supportsRtl="false"
         android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
+        android:hardwareAccelerated="true"
         android:largeHeap="true">
 
         <activity
@@ -40,7 +41,6 @@
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="com.freedcam.MainActivity"/>
             </intent-filter>
         </activity>
 
@@ -49,6 +49,8 @@
             android:label="FreeDCam"
             android:screenOrientation="landscape"
             android:icon="@drawable/launcher_freedcam"
+            android:hardwareAccelerated="true"
+            android:largeHeap="true"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.media.action.IMAGE_CAPTURE" />
