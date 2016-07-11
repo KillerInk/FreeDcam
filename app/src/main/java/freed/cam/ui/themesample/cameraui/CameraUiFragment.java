@@ -154,6 +154,9 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         hdr_switch.SetParameter(cameraUiWrapper.GetParameterHandler().HDRMode);
         horizontLineFragment.setCameraUiWrapper(cameraUiWrapper);
         infoOverlayHandler.setCameraUIWrapper(cameraUiWrapper);
+        shutterButton.setVisibility(View.VISIBLE);
+        if(manualsettingsIsOpen)
+            manualModes_holder.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -168,10 +171,8 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
         sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         manualsettingsIsOpen = sharedPref.getBoolean(KEY_MANUALMENUOPEN, false);
-        LinearLayout left_cameraUI_holder = (LinearLayout) view.findViewById(id.left_ui_holder);
-        RelativeLayout right_camerUI_holder = (RelativeLayout) view.findViewById(id.right_ui_holder);
+
         manualModes_holder = (FrameLayout) view.findViewById(id.manualModesHolder);
-        LinearLayout LC = (LinearLayout) view.findViewById(id.LCover);
 
         flash = (UiSettingsChild) view.findViewById(id.Flash);
         flash.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_FLASHMODE);
@@ -188,6 +189,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         aepriority = (UiSettingsChild) view.findViewById(id.AePriority);
         aepriority.SetStuff(fragment_activityInterface,AppSettingsManager.SETTTING_AE_PRIORITY);
         aepriority.SetMenuItemClickListner(this,true);
+
 
         whitebalance = (UiSettingsChild) view.findViewById(id.wb);
         whitebalance.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_WHITEBALANCEMODE);
@@ -228,17 +230,20 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         focusImageHandler = new FocusImageHandler(view, (ActivityAbstract) getActivity());
 
         shutterButton = (ShutterButton) view.findViewById(id.shutter_button);
+
         view.setOnTouchListener(onTouchListener);
 
         focuspeak = (UiSettingsFocusPeak) view.findViewById(id.ui_focuspeak);
 
         focuspeak.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_FOCUSPEAK);
         focuspeak.SetUiItemClickListner(this);
+        focuspeak.setVisibility(View.GONE);
 
-        //adding hdr switch log test v1.0 1-29-2016 6:13 - Defcomk
         hdr_switch = (UiSettingsChild) view.findViewById(id.hdr_toggle);
         hdr_switch.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_HDRMODE);
         hdr_switch.SetMenuItemClickListner(this,true);
+
+        hideUiItems();
 
         manualModesFragment = new ManualFragment();
 
@@ -268,9 +273,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
             transaction.addToBackStack(null);
             transaction.commitAllowingStateLoss();
         }
-
-        if(!manualsettingsIsOpen)
-            manualModes_holder.setVisibility(View.GONE);
+        manualModes_holder.setVisibility(View.GONE);
 
         return view;
     }
@@ -502,6 +505,24 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         aepriority.onParameterIsSetSupportedChanged(false);
         focuspeak.onParameterIsSetSupportedChanged(false);
         hdr_switch.onParameterIsSetSupportedChanged(false);
+    }
+
+    private void hideUiItems()
+    {
+        flash.setVisibility(View.GONE);
+        iso.setVisibility(View.GONE);
+        autoexposure.setVisibility(View.GONE);
+        aepriority.setVisibility(View.GONE);
+        whitebalance.setVisibility(View.GONE);
+        focus.setVisibility(View.GONE);
+        contShot.setVisibility(View.GONE);
+        night.setVisibility(View.GONE);
+        format.setVisibility(View.GONE);
+        modeSwitch.setVisibility(View.GONE);
+        cameraSwitch.setVisibility(View.GONE);
+        shutterButton.setVisibility(View.GONE);
+        hdr_switch.setVisibility(View.GONE);
+
     }
 
     interface i_HelpFragment
