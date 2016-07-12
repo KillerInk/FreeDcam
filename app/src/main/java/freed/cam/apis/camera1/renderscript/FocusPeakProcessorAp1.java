@@ -81,8 +81,6 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraWrapperEven
         this.renderScriptHandler = renderScriptHandler;
         this.cameraUiWrapper.GetModuleHandler().addListner(this);
         output.setSurfaceTextureListener(previewSurfaceListner);
-
-
         clear_preview("Ctor");
     }
 
@@ -261,6 +259,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraWrapperEven
             Logger.d(TAG, "onPreviewFrame enabled:" + enable);
             camera.addCallbackBuffer(data);
             cameraUiWrapper.GetCameraHolder().ResetPreviewCallback();
+            clear_preview("onPreviewFrame();");
             return;
         }
         else if (!doWork) {
@@ -361,6 +360,7 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraWrapperEven
                 renderScriptHandler.GetOut().setSurface(mSurface);
             else
                 Logger.d(TAG, "Allocout null");
+            clear_preview("onSurfaceTextureAvailable");
         }
 
         @Override
