@@ -432,7 +432,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     @Override
     public void onCaptureStateChanged(ModuleHandlerAbstract.CaptureStates captureStates)
     {
-        switch (captureStates)
+        /*switch (captureStates)
         {
             case image_capture_stop:
                 enableUiItems();
@@ -453,7 +453,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
             case cont_capture_stop_while_notworking:
                 break;
         }
-
+*/
 
     }
 
