@@ -341,20 +341,22 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
 
             if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLP))
                 appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_UP;
-            if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLM))
+            else if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLM))
                 appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_DOWN;
-            if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.Hook) || appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(""))
+            else if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.Hook) || appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(""))
                 appSettingsKeyShutter = KeyEvent.KEYCODE_HEADSETHOOK;
 
-            if (keyCode == KeyEvent.KEYCODE_3D_MODE || keyCode == KeyEvent.KEYCODE_POWER || keyCode == appSettingsKeyShutter || keyCode == KeyEvent.KEYCODE_UNKNOWN) {
-                Logger.d(TAG, "KeyUp");
+            if (keyCode == KeyEvent.KEYCODE_3D_MODE
+                    || keyCode == KeyEvent.KEYCODE_POWER
+                    || keyCode == appSettingsKeyShutter
+                    || keyCode == KeyEvent.KEYCODE_UNKNOWN || keyCode == KeyEvent.KEYCODE_CAMERA)
+            {
                 cameraFragment.GetModuleHandler().DoWork();
             }
+            else
+                return super.onKeyDown(keyCode,event);
             //shutterbutton full pressed
-            if (keyCode == KeyEvent.KEYCODE_CAMERA) {
-                cameraFragment.GetModuleHandler().DoWork();
-            }
-            // shutterbutton half pressed
+
        /* if (keyCode == KeyEvent.KEYCODE_FOCUS)
             cameraUiWrapper.StartFocus();*/
             return true;
