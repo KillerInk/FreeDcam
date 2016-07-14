@@ -260,6 +260,8 @@ public class Lenovo_VibeShot_Z90 extends BaseQcomNew
             {
                 parameters.set("aec-force-linecount", "0");
                 parameters.set("aec-force-snap-linecount", "0");
+                parameters.set("aec-force-snap-exp", "0");
+                parameters.set("aec-force-exp", "0");
             }
             else
             {
@@ -272,6 +274,8 @@ public class Lenovo_VibeShot_Z90 extends BaseQcomNew
                 currentInt = value;
                 parameters.set("aec-force-linecount", FLOATtoThirty(shutterstring));
                 parameters.set("aec-force-snap-linecount", FLOATtoThirty(shutterstring));
+                parameters.set("aec-force-snap-exp", FLOATtoSixty4(shutterstring));
+                parameters.set("aec-force-exp", FLOATtoSixty4(shutterstring));
                 ThrowCurrentValueStringCHanged(stringvalues[value]);
             }
 
