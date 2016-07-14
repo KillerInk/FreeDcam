@@ -237,7 +237,8 @@ KK = Kitkat,L = Lollipop , M = Marshmallow
 |LG G3                  | ![true] |KK=![true],L=![false],M=![true]| ![false]| ![false]|
 |LG G4                  | ![true] | ![true]| ![true]| ![true]|
 |Meizu M2 Note          | ![true] | ![true]| ![true]| ![true]|
-|Lenovo MX4/5           | ![true] | ![true]| ![true]| ![true]|
+|Meizu MX4/5            | ![true] | ![true]| ![true]| ![true]|
+|Mlais M52 Red Note     | ![true] | ![true]| ![true]| ![true]|
 |Moto X 2015            | ![true] | ![false]| ![false]| ![false]|
 |Moto X Style Pure Play | ![true] | ![true]| ![true]| ![true]|
 |OnePlus One            | ![true] | ![true]| ![true]| ![false]|

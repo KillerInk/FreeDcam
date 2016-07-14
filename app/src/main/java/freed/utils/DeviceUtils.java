@@ -71,6 +71,7 @@ public class DeviceUtils
         MeizuMX4_MTK,
         MeizuMX5_MTK,
         Meizu_m2Note_MTK,
+        Mlais_M52_Red_Note_MTK,
         Moto_X2k14,
         Moto_X_Style_Pure_Play,
         MotoG3,
