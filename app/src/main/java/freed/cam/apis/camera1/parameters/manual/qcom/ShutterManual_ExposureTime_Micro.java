@@ -54,6 +54,7 @@ public class ShutterManual_ExposureTime_Micro extends AbstractManualShutter
         super(cameraUiWrapper);
         stringvalues = shuttervalues;
         this.key_value = key_value;
+        this.parameters = parameters;
         parameters.set(key_value, "0");
         isSupported = true;
         isVisible = true;
