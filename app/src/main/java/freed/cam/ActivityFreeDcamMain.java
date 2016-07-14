@@ -352,14 +352,16 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
                     || keyCode == KeyEvent.KEYCODE_UNKNOWN || keyCode == KeyEvent.KEYCODE_CAMERA)
             {
                 cameraFragment.GetModuleHandler().DoWork();
+                return true;
+            }
+            else if (keyCode == KeyEvent.KEYCODE_BACK)
+            {
+                closeActivity();
+                return true;
             }
             else
                 return super.onKeyDown(keyCode,event);
-            //shutterbutton full pressed
 
-       /* if (keyCode == KeyEvent.KEYCODE_FOCUS)
-            cameraUiWrapper.StartFocus();*/
-            return true;
         }
         else
             return super.onKeyDown(keyCode,event);
