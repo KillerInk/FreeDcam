@@ -272,10 +272,10 @@ public class Lenovo_VibeShot_Z90 extends BaseQcomNew
                     shutterstring = "" + a;
                 }
                 currentInt = value;
-                parameters.set("aec-force-linecount", FLOATtoThirty(shutterstring));
-                parameters.set("aec-force-snap-linecount", FLOATtoThirty(shutterstring));
-                parameters.set("aec-force-snap-exp", FLOATtoSixty4(shutterstring));
-                parameters.set("aec-force-exp", FLOATtoSixty4(shutterstring));
+                parameters.set("aec-force-linecount", 1642);
+                parameters.set("aec-force-snap-linecount", 1642);
+                parameters.set("aec-force-snap-exp", FLOATtoThirty(shutterstring));
+                parameters.set("aec-force-exp", FLOATtoThirty(shutterstring));
                 ThrowCurrentValueStringCHanged(stringvalues[value]);
             }
 
