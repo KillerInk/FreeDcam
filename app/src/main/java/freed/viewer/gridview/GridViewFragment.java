@@ -151,7 +151,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
         super.onCreateView(inflater, container, savedInstanceState);
         this.mImageThumbSize = getResources().getDimensionPixelSize(dimen.image_thumbnail_size);
         viewerActivityInterface = (ActivityInterface) getActivity();
-        executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()-1);
         deleteButton = (Button) view.findViewById(id.button_deltePics);
         deleteButton.setVisibility(View.GONE);
         deleteButton.setOnClickListener(onDeltedButtonClick);
@@ -286,7 +286,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 else //handel folder click
                 {
                     //hold the current folder to show if a format is empty
-                    folderToShow = viewerActivityInterface.getFiles().get(position).getParent();
+                    folderToShow = viewerActivityInterface.getFiles().get(position);
                     viewerActivityInterface.LoadFolder(viewerActivityInterface.getFiles().get(position),formatsToShow);
                     isRootDir = false;
                     setViewMode(currentViewState);
@@ -439,6 +439,15 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
 
     private void deleteFiles()
     {
+        executor.shutdown();
+        while (!executor.isShutdown())
+        {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         FreeDPool.Execute(new Runnable()
         {
             @Override
@@ -458,6 +467,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 viewerActivityInterface.DeleteFiles(to_del);
             }
         });
+        executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()-1);
     }
 
     private final OnClickListener onGobBackClick = new OnClickListener() {
