@@ -407,7 +407,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     @Override
     public void LoadFreeDcamDCIMDirsFiles() {
         super.LoadFreeDcamDCIMDirsFiles();
-        screenSlideFragment.NotifyDATAhasChanged();
+        if(screenSlideFragment != null)
+            screenSlideFragment.NotifyDATAhasChanged();
     }
 
     @Override
@@ -430,14 +431,17 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     @Override
     public void LoadFolder(FileHolder fileHolder, FormatTypes types) {
         super.LoadFolder(fileHolder, types);
-        screenSlideFragment.NotifyDATAhasChanged();
+        if (screenSlideFragment != null)
+            screenSlideFragment.NotifyDATAhasChanged();
     }
 
 
     private final ScreenSlideFragment.I_ThumbClick onThumbClick = new ScreenSlideFragment.I_ThumbClick() {
         @Override
-        public void onThumbClick(int position,View view) {
-            mPager.setCurrentItem(2);
+        public void onThumbClick(int position,View view)
+        {
+            if (mPager != null)
+                mPager.setCurrentItem(2);
         }
     };
 
@@ -469,7 +473,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         public ScreenSlidePagerAdapter(FragmentManager fm)
         {
             super(fm);
-
         }
 
         @Override
