@@ -25,6 +25,7 @@ import android.os.Build.VERSION_CODES;
 import android.renderscript.Allocation;
 import android.renderscript.Allocation.MipmapControl;
 import android.renderscript.Element;
+import android.renderscript.RSRuntimeException;
 import android.renderscript.RenderScript;
 import android.renderscript.RenderScript.Priority;
 import android.renderscript.ScriptIntrinsicBlur;
@@ -62,17 +63,21 @@ public class RenderScriptHandler
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-
-
-                ScriptFocusPeakApi2 = new ScriptC_focus_peak(mRS);
-                yuvToRgbIntrinsic = ScriptIntrinsicYuvToRGB.create(mRS, Element.U8_4(mRS));
-                ScriptFocusPeakApi1 = new ScriptC_focus_peak_cam1(mRS);
-                imagestack = new ScriptC_imagestack(mRS);
-                focuspeak_argb = new ScriptC_focuspeak_argb(mRS);
-                brightnessRS = new ScriptC_brightness(mRS);
-                contrastRS = new ScriptC_contrast(mRS);
-                blurRS = ScriptIntrinsicBlur.create(mRS, Element.U8_4(mRS));
-                starfinderRS = new ScriptC_starfinder(mRS);
+                try {
+                    ScriptFocusPeakApi2 = new ScriptC_focus_peak(mRS);
+                    yuvToRgbIntrinsic = ScriptIntrinsicYuvToRGB.create(mRS, Element.U8_4(mRS));
+                    ScriptFocusPeakApi1 = new ScriptC_focus_peak_cam1(mRS);
+                    imagestack = new ScriptC_imagestack(mRS);
+                    focuspeak_argb = new ScriptC_focuspeak_argb(mRS);
+                    brightnessRS = new ScriptC_brightness(mRS);
+                    contrastRS = new ScriptC_contrast(mRS);
+                    blurRS = ScriptIntrinsicBlur.create(mRS, Element.U8_4(mRS));
+                    starfinderRS = new ScriptC_starfinder(mRS);
+                }
+                catch (RSRuntimeException ex)
+                {
+                    Logger.exception(ex);
+                }
             }
         });
 
