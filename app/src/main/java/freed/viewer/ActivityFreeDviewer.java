@@ -35,6 +35,7 @@ import com.troop.freedcam.R;
 import java.util.List;
 
 import freed.ActivityAbstract;
+import freed.utils.FreeDPool;
 import freed.viewer.gridview.GridViewFragment;
 import freed.viewer.holder.FileHolder;
 import freed.viewer.screenslide.ScreenSlideFragment;
@@ -57,7 +58,13 @@ public class ActivityFreeDviewer extends ActivityAbstract
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        LoadDCIMDirs();
+        FreeDPool.Execute(new Runnable() {
+            @Override
+            public void run() {
+                LoadDCIMDirs();
+            }
+        });
+
         mShortAnimationDuration = getResources().getInteger(
                 android.R.integer.config_shortAnimTime);
         setContentView(R.layout.freedviewer_activity);
@@ -99,12 +106,19 @@ public class ActivityFreeDviewer extends ActivityAbstract
      * and notfiy gridview and screenslide that files got changed
      */
     @Override
-    public void LoadDCIMDirs() {
+    public void LoadDCIMDirs()
+    {
         super.LoadDCIMDirs();
-        if (gridViewFragment != null)
-            gridViewFragment.NotifyDataSetChanged();
-        if (screenSlideFragment != null)
-            screenSlideFragment.NotifyDATAhasChanged();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (gridViewFragment != null)
+                    gridViewFragment.NotifyDataSetChanged();
+                if (screenSlideFragment != null)
+                    screenSlideFragment.NotifyDATAhasChanged();
+            }
+        });
+
     }
 
     @Override

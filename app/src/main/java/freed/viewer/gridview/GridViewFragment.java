@@ -239,8 +239,8 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
             //if its a normal startup and files are not loaded
             if (viewerActivityInterface.getFiles() == null && viewerActivityInterface.getFiles().size() ==0)
                 viewerActivityInterface.LoadDCIMDirs();
-            else //we return from screenslide
-                isRootDir = false;
+            /*else //we return from screenslide
+                isRootDir = false;*/
             gridView.smoothScrollToPosition(DEFAULT_ITEM_TO_SET);
         }
     }
@@ -590,7 +590,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
             }
             else if (requestMode == RequestModes.delete)
             {
-                //check if files are selceted
+                //check if files are selected
                 boolean hasfilesSelected = false;
                 for (FileHolder f : viewerActivityInterface.getFiles()) {
                     if (f.IsSelected()) {
