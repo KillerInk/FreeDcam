@@ -617,7 +617,7 @@
         <item>@string/shutter_2</item>
         </string-array>
 
-    <string-array name="Aquaris_E5" translatable="false">
+    <string-array name="aquaris_e5_shuttervalues" translatable="false">
         <item>@string/shutter_auto</item>
         <item>@string/shutter_1_6000</item>
         <item>@string/shutter_1_4000</item>
@@ -632,8 +632,8 @@
         <item>@string/shutter_1_8</item>
         <item>@string/shutter_1_4</item>
         <item>@string/shutter_1_2</item>
-        <item>@string/shutter_1</item>
-        <item>@string/shutter_2</item>
+        <item>@string/shutter_0_6</item>
+        <item>@string/shutter_0_8</item>
     </string-array>
     <string-array name="lenovo_vibeshot_z90" translatable="false">
         <item>@string/shutter_1_15</item>
