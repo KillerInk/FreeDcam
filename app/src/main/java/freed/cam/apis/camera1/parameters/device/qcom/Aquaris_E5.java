@@ -61,7 +61,7 @@ public class Aquaris_E5 extends BaseQcomNew
     @Override
     public ManualParameterInterface getExposureTimeParameter()
     {
-        return new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,cameraUiWrapper.getContext().getResources().getStringArray(R.array.mtk_shutter), KEYS.EXPOSURE_TIME);
+        return new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,cameraUiWrapper.getContext().getResources().getStringArray(R.array.Aquaris_E5), KEYS.EXPOSURE_TIME);
     }
 
     @Override
