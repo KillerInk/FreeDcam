@@ -645,8 +645,11 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
         }
 
         @Override
-        public int getCount() {
-            return viewerActivityInterface.getFiles().size();
+        public int getCount()
+        {
+            if (viewerActivityInterface.getFiles() != null)
+                return viewerActivityInterface.getFiles().size();
+            else return 0;
         }
 
         @Override

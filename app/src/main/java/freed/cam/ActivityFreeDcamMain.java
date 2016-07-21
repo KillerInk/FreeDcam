@@ -177,9 +177,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         {
             //yes we have it
             createHandlers();
-            //when screenslide fragment gets created it looks up already the files bevor permissions are granted.
-            //if its the first start the viewer show "no files". to avoid that, load files again when permissions are set
-            screenSlideFragment.LoadFiles();
         }
         else //woot using camera and deny perms close app
             finish();
@@ -227,6 +224,9 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         apiHandler = new ApiHandler(getApplicationContext(),this, appSettingsManager, renderScriptHandler);
         //check if camera is camera2 full device
         apiHandler.CheckApi();
+
+        LoadFreeDcamDCIMDirsFiles();
+
     }
 
     //if a DEBUG folder is inside /DCIM/FreeDcam/ logging to file gets started
@@ -253,7 +253,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
 
             }
         });
-
     }
 
     /*
@@ -407,8 +406,14 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     @Override
     public void LoadFreeDcamDCIMDirsFiles() {
         super.LoadFreeDcamDCIMDirsFiles();
-        if(screenSlideFragment != null)
-            screenSlideFragment.NotifyDATAhasChanged();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(screenSlideFragment != null)
+                    screenSlideFragment.NotifyDATAhasChanged();
+            }
+        });
+
     }
 
     @Override
@@ -429,10 +434,18 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
      * @param types the file format to load
      */
     @Override
-    public void LoadFolder(FileHolder fileHolder, FormatTypes types) {
+    public void LoadFolder(FileHolder fileHolder, FormatTypes types)
+    {
         super.LoadFolder(fileHolder, types);
-        if (screenSlideFragment != null)
-            screenSlideFragment.NotifyDATAhasChanged();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (screenSlideFragment != null)
+                    screenSlideFragment.NotifyDATAhasChanged();
+            }
+        });
+
+
     }
 
 
@@ -463,8 +476,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         }
         if (settingsMenuFragment != null)
             settingsMenuFragment.SetCameraUIWrapper(cameraWrapper);
-        if (screenSlideFragment != null)
-            screenSlideFragment.LoadFiles();
+        /*if (screenSlideFragment != null)
+            screenSlideFragment.LoadFiles();*/
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
@@ -491,7 +504,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
             {
                 if (screenSlideFragment == null) {
                     screenSlideFragment = new ScreenSlideFragment();
-                    screenSlideFragment.setWaitForCameraHasLoaded();
                     screenSlideFragment.SetOnThumbClick(onThumbBackClick);
                 }
 
