@@ -333,7 +333,9 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
-        if (activityIsResumed) {
+        if (activityIsResumed)
+        {
+            Logger.d(TAG, "KeyCode Pressed:" + keyCode);
             int appSettingsKeyShutter = 0;
 
             if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLP))
