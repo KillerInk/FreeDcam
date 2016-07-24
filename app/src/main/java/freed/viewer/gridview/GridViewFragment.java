@@ -205,13 +205,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 }
             }
         });
-
-        if (VERSION.SDK_INT >= VERSION_CODES.M)
-        {
-            checkMarshmallowPermissions();
-        }
-        else
-            firstload();
+        firstload();
 
         return view;
     }
@@ -236,41 +230,11 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
             mPagerAdapter = new ImageAdapter();
             gridView.setAdapter(mPagerAdapter);
             setViewMode(ViewStates.normal);
-            //if its a normal startup and files are not loaded
-            if (viewerActivityInterface.getFiles() == null && viewerActivityInterface.getFiles().size() ==0)
+            if (viewerActivityInterface.getFiles() == null)
                 viewerActivityInterface.LoadDCIMDirs();
-            /*else //we return from screenslide
-                isRootDir = false;*/
             gridView.smoothScrollToPosition(DEFAULT_ITEM_TO_SET);
         }
     }
-
-    @TargetApi(VERSION_CODES.M)
-    private void checkMarshmallowPermissions() {
-        if (getActivity().checkSelfPermission(permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{
-                            permission.READ_EXTERNAL_STORAGE,
-
-                    },
-                    1);
-        }
-        else
-            firstload();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
-    {
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-        {
-            firstload();
-        }
-        else
-            getActivity().finish();
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
@@ -373,7 +337,8 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
             filesSelected.setVisibility(View.GONE);
             stackButton.setVisibility(View.GONE);
         }
-        else {
+        else
+        {
             switch (viewState)
             {
                 case normal:

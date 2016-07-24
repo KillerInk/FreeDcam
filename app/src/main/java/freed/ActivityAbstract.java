@@ -19,15 +19,18 @@
 
 package freed;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.provider.DocumentFile;
@@ -76,6 +79,8 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     protected  List<FileHolder> files;
     private  List<FileEvent> fileListners;
 
+    protected boolean RequestPermission = false;
+
 
     private final int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -101,6 +106,13 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus)
             HIDENAVBAR();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (appSettingsManager == null)
+            appSettingsManager = new AppSettingsManager(getApplicationContext());
     }
 
     @Override
@@ -608,4 +620,122 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     {
 
     }
+
+    @Override
+    public boolean hasCameraPermission()
+    {
+        if (VERSION.SDK_INT >= VERSION_CODES.M)
+        {
+            if (checkSelfPermission(Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED)
+            {
+                RequestPermission = true;
+                Logger.d(TAG, "Request cameraPermission");
+                requestPermissions(new String[]{
+                        Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO},1);
+                return false;
+            }
+            return true;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean hasExternalSDPermission() {
+        if (VERSION.SDK_INT >= VERSION_CODES.M)
+        {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED)
+            {
+                RequestPermission = true;
+                Logger.d(TAG, "Request externalSdPermission");
+                requestPermissions(new String[]{
+                        Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+                return false;
+            }
+            return true;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean hasWifiPermission() {
+        if (VERSION.SDK_INT >= VERSION_CODES.M)
+        {
+            if (checkSelfPermission(Manifest.permission.ACCESS_WIFI_STATE)
+                    != PackageManager.PERMISSION_GRANTED)
+            {
+                RequestPermission = true;
+                Logger.d(TAG, "Request wifiPermission");
+                requestPermissions(new String[]{
+                        Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.CHANGE_WIFI_STATE},1);
+                return false;
+            }
+            return true;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean hasLocationPermission() {
+        if (VERSION.SDK_INT >= VERSION_CODES.M)
+        {
+            if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED)
+            {
+                RequestPermission = true;
+                Logger.d(TAG, "Request LocationPermission");
+                requestPermissions(new String[]{
+                        Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},1);
+                return false;
+            }
+            return true;
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        if (permissions[0].equals(Manifest.permission.CAMERA))
+        {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                cameraPermsissionGranted(true);
+            else
+                cameraPermsissionGranted(false);
+        }
+        else if (permissions[0].equals(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                externalSDPermissionGranted(true);
+            else
+                externalSDPermissionGranted(false);
+        }
+        else if (permissions[0].equals(Manifest.permission.ACCESS_WIFI_STATE)) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                wifiPermissionGranted(true);
+            else
+                wifiPermissionGranted(false);
+        }
+        else if (permissions[0].equals(Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                locationPermissionGranted(true);
+            else
+                locationPermissionGranted(false);
+        }
+        RequestPermission = false;
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    protected void cameraPermsissionGranted(boolean granted)
+    {}
+
+    protected void wifiPermissionGranted(boolean granted)
+    {}
+
+    protected void locationPermissionGranted(boolean granted)
+    {
+    }
+
+    protected void externalSDPermissionGranted(boolean granted)
+    {}
 }

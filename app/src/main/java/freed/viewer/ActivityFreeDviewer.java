@@ -58,6 +58,22 @@ public class ActivityFreeDviewer extends ActivityAbstract
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        if (hasExternalSDPermission())
+            init();
+    }
+
+    @Override
+    protected void externalSDPermissionGranted(boolean granted)
+    {
+        if (granted)
+            init();
+        else
+            finish();
+    }
+
+    private void init()
+    {
+
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
