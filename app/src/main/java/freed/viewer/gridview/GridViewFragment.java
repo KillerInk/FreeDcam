@@ -689,6 +689,8 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
         public void SetViewState(ViewStates states)
         {
             currentViewState = states;
+            if (viewerActivityInterface.getFiles() == null)
+                return;
             for (int i = 0; i< viewerActivityInterface.getFiles().size(); i++)
             {
                 FileHolder f = viewerActivityInterface.getFiles().get(i);
