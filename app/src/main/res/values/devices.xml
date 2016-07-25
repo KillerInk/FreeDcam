@@ -381,7 +381,23 @@
         <item>Redmi Note 2</item>
     </string-array>
     <string-array name="Xiaomi_Redmi2">
+        <item>HM2014811</item>
+        <item>HM2014812</item>
+        <item>HM2014813</item>
+        <item>HM2014815</item>
+        <item>HM2014816</item>
+        <item>HM2014817</item>
+        <item>HM2014818</item>
+        <item>HM2014819</item>
+        <item>2014811</item>
+        <item>2014812</item>
         <item>2014813</item>
+        <item>2014814</item>
+        <item>2014815</item>
+        <item>2014816</item>
+        <item>2014817</item>
+        <item>2014818</item>
+        <item>2014819</item>
     </string-array>
     <string-array name="Xiaomi_Mi3">
         <item>MI 3W</item>
