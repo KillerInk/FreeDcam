@@ -94,7 +94,7 @@ public class BitmapHelper
                         public void run()
                         {
                             workInProgress = true;
-                            while(filesToProcess.size() > 1)
+                            while(filesToProcess.size() >= 1)
                             {
                                 final FileHolder f = filesToProcess.get(0);
                                 if (null != f) {

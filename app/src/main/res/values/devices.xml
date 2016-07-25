@@ -380,6 +380,9 @@
     <string-array name="Xiaomi_RedmiNote2">
         <item>Redmi Note 2</item>
     </string-array>
+    <string-array name="Xiaomi_Redmi2">
+        <item>2014813</item>
+    </string-array>
     <string-array name="Xiaomi_Mi3">
         <item>MI 3W</item>
     </string-array>

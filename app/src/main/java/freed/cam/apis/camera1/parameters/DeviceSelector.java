@@ -75,6 +75,7 @@ import freed.cam.apis.camera1.parameters.device.qcom.Sony_XperiaL;
 import freed.cam.apis.camera1.parameters.device.qcom.Vivo_Xplay3s;
 import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Mi3_4;
 import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Mi_Note_Pro;
+import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Redmi2;
 import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Redmi_Note;
 import freed.cam.apis.camera1.parameters.device.qcom.Yu_Yureka;
 import freed.cam.apis.camera1.parameters.device.qcom.ZTE_ADV;
@@ -225,7 +226,9 @@ public class DeviceSelector {
                 return getDefault(cameraUiWrapper,cameraParameters);
             case Xiaomi_RedmiNote:
                return new Xiaomi_Redmi_Note(cameraParameters,cameraUiWrapper);
-                
+
+            case Xiaomi_Redmi2:
+                return new Xiaomi_Redmi2(cameraParameters,cameraUiWrapper);
             case Xiaomi_RedmiNote2_MTK:
                return new Xiaomi_Redmi_Note2_MTK(cameraParameters,cameraUiWrapper);
                 

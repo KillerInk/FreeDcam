@@ -82,6 +82,7 @@ public class DeviceUtils
         p8,
         p8lite,
         Xiaomi_RedmiNote,
+        Xiaomi_Redmi2,
         Xiaomi_RedmiNote2_MTK,
         Retro_MTK,
         Samsung_S6_edge,
@@ -185,6 +186,8 @@ public class DeviceUtils
             return Devices.OnePlusTwo;
         else if (isDevice(res.getStringArray(array.Xiaomi_RedmiNote)))
             return Devices.Xiaomi_RedmiNote;
+        else if(isDevice(res.getStringArray(array.Xiaomi_Redmi2)))
+            return Devices.Xiaomi_Redmi2;
         else if (isDevice(res.getStringArray(array.Xiaomi_RedmiNote2)))
             return Devices.Xiaomi_RedmiNote2_MTK;
         else if (isDevice(res.getStringArray(array.Retro)))
