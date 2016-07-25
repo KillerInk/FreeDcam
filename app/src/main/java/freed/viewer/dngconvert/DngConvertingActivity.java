@@ -25,6 +25,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import freed.ActivityAbstract;
 import freed.utils.AppSettingsManager;
+import freed.viewer.holder.FileHolder;
 
 /**
  * Created by troop on 22.12.2015.
@@ -39,6 +40,11 @@ public class DngConvertingActivity extends ActivityAbstract
             ft.add(id.content, new DngConvertingFragment(), TAG);
             ft.commit();
         }
+
+    }
+
+    @Override
+    public void WorkHasFinished(FileHolder fileHolder) {
 
     }
 }

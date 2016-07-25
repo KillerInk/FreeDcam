@@ -291,7 +291,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         if (cameraUiWrapper != null)
             cameraUiWrapper.GetParameterHandler().AddParametersLoadedListner(this);
         if (cameraUiWrapper.GetModuleHandler() != null)
-            cameraUiWrapper.GetModuleHandler().AddWorkFinishedListner(newImageRecieved);
+            cameraUiWrapper.GetModuleHandler().AddWorkFinishedListner(this);
         if (cameraUiFragment != null) {
             cameraUiFragment.SetCameraUIWrapper(cameraUiWrapper);
         }
@@ -480,6 +480,27 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
             screenSlideFragment.LoadFiles();*/
     }
 
+    @Override
+    public void WorkHasFinished(final FileHolder fileHolder) {
+        Logger.d(TAG, "newImageRecieved:" + fileHolder.getFile().getAbsolutePath());
+        int mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size);
+        final Bitmap b = getBitmapHelper().getBitmap(fileHolder, true);
+        if (b == null)
+            return;
+
+        new Handler(Looper.getMainLooper()).post(new Runnable()
+        {
+            @Override
+            public void run() {
+                AddFile(fileHolder);
+                if (screenSlideFragment != null)
+                    screenSlideFragment.NotifyDATAhasChanged();
+                if (cameraUiFragment != null)
+                    cameraUiFragment.SetThumbImage(b);
+            }
+        });
+    }
+
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     {
 
@@ -525,35 +546,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
 
     }
 
-
-    private final I_WorkEvent newImageRecieved = new I_WorkEvent()
-    {
-        @Override
-        public void WorkHasFinished(final FileHolder fileHolder)
-        {
-            Logger.d(TAG, "newImageRecieved:" + fileHolder.getFile().getAbsolutePath());
-            FreeDPool.Execute(new Runnable() {
-                @Override
-                public void run()
-                {
-                    int mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size);
-                    final Bitmap b = getBitmapHelper().getBitmap(fileHolder.getFile(), true, mImageThumbSize, mImageThumbSize);
-
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            AddFile(fileHolder);
-                            if (screenSlideFragment != null)
-                                screenSlideFragment.NotifyDATAhasChanged();
-                            if (cameraUiFragment != null)
-                                cameraUiFragment.SetThumbImage(b);
-                        }
-                    });
-                }
-            });
-
-        }
-    };
 
     @Override
     protected void cameraPermsissionGranted(boolean granted)

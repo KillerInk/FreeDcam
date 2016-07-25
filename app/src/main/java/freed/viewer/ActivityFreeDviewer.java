@@ -347,4 +347,15 @@ public class ActivityFreeDviewer extends ActivityAbstract
 
     }
 
+    @Override
+    public void WorkHasFinished(final FileHolder fileHolder)
+    {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                fileHolder.UpdateImage();
+            }
+        });
+
+    }
 }

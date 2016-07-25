@@ -27,10 +27,16 @@ import android.media.ThumbnailUtils;
 import android.provider.MediaStore.Video.Thumbnails;
 
 import java.io.File;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
+import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.jni.RawUtils;
 import freed.utils.Logger;
 import freed.utils.StringUtils.FileEnding;
+import freed.viewer.holder.FileHolder;
 
 /**
  * Created by troop on 09.03.2016.
@@ -39,16 +45,21 @@ public class BitmapHelper
 {
     public  CacheHelper CACHE;
 
+    private ArrayList<FileHolder> filesToProcess;
+    private boolean workInProgress = false;
+    private int mImageThumbSizeW;
+    private I_WorkEvent done;
 
 
-    public BitmapHelper(Context context)
+    public BitmapHelper(Context context, int mImageThumbSizeW, I_WorkEvent done)
     {
         CACHE = new CacheHelper(context);
-
-
+        filesToProcess = new ArrayList<>();
+        this.mImageThumbSizeW = mImageThumbSizeW;
+        this.done = done;
     }
 
-    public Bitmap getBitmap(File file, boolean thumb, int mImageThumbSizeW, int  mImageThumbSizeH)
+    public Bitmap getBitmap(final FileHolder file, boolean thumb)
     {
         Bitmap response = null;
         try {
@@ -57,53 +68,48 @@ public class BitmapHelper
             response = null;
             if (thumb)
             {
-                response = CACHE.getBitmapFromMemCache(file.getName() + "_thumb");
-                if (response == null) {
+                //response = CACHE.getBitmapFromMemCache(file.getName() + "_thumb");
+                if (response == null)
+                {
                     //Logger.d(TAG,"No image in memory try from disk");
-                    response = CACHE.getBitmapFromDiskCache(file.getName() + "_thumb");
+                    response = CACHE.getBitmapFromDiskCache(file.getFile().getName() + "_thumb");
                 }
             }
             else
             {
-                response = CACHE.getBitmapFromMemCache(file.getName());
+                //sresponse = CACHE.getBitmapFromMemCache(file.getName());
                 if (response == null) {
                     //Logger.d(TAG,"No image in memory try from disk");
-                    response = CACHE.getBitmapFromDiskCache(file.getName());
+                    response = CACHE.getBitmapFromDiskCache(file.getFile().getName());
                 }
             }
-            if (response == null && file.exists())
+            if (response == null)
             {
-                if (file.getAbsolutePath().endsWith(FileEnding.JPG) || file.getAbsolutePath().endsWith(FileEnding.JPS))
+                if (!filesToProcess.contains(file))
+                    filesToProcess.add(file);
+                if (!workInProgress)
                 {
-                    Options options = new Options();
-                    options.inSampleSize = 2;
-                    response = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
-                }
-                else if (file.getAbsolutePath().endsWith(FileEnding.MP4))
-                    response = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), Thumbnails.FULL_SCREEN_KIND);
-                else if (file.getAbsolutePath().endsWith(FileEnding.DNG)
-                        || file.getAbsolutePath().endsWith(FileEnding.RAW) || file.getAbsolutePath().endsWith(FileEnding.BAYER))
-                {
-                    try {
-                        response = new RawUtils().UnPackRAW(file.getAbsolutePath());
-                    }
-                    catch (IllegalArgumentException ex)
-                    {
-                        Logger.exception(ex);
-
-                    }
-                }
-                if (response != null && CACHE != null)
-                {
-                    CACHE.addBitmapToCache(file.getName(), response);
-                    if (thumb)
-                    {
-                        response = ThumbnailUtils.extractThumbnail(response, mImageThumbSizeW, mImageThumbSizeH);
-                        CACHE.addBitmapToCache(file.getName() + "_thumb", response);
-                    } else
-                        CACHE.addBitmapToCache(file.getName() + "_thumb", ThumbnailUtils.extractThumbnail(response, mImageThumbSizeW, mImageThumbSizeH));
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run()
+                        {
+                            workInProgress = true;
+                            while(filesToProcess.size() > 1)
+                            {
+                                final FileHolder f = filesToProcess.get(0);
+                                if (null != f) {
+                                    createCacheImage(f.getFile());
+                                    done.WorkHasFinished(f);
+                                }
+                                if (filesToProcess.size() > 1)
+                                    filesToProcess.remove(0);
+                            }
+                            workInProgress = false;
+                        }
+                    }).start();
                 }
             }
+
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -118,13 +124,39 @@ public class BitmapHelper
         CACHE.deleteFileFromDiskCache(file.getName()+"_thumb");
     }
 
+    private void createCacheImage(File file)
+    {
+        Bitmap response = null;
+        if (response == null && file.exists())
+        {
+            if (file.getAbsolutePath().endsWith(FileEnding.JPG) || file.getAbsolutePath().endsWith(FileEnding.JPS))
+            {
+                Options options = new Options();
+                options.inSampleSize = 2;
+                response = BitmapFactory.decodeFile(file.getAbsolutePath(), options);
+            }
+            else if (file.getAbsolutePath().endsWith(FileEnding.MP4))
+                response = ThumbnailUtils.createVideoThumbnail(file.getAbsolutePath(), Thumbnails.FULL_SCREEN_KIND);
+            else if (file.getAbsolutePath().endsWith(FileEnding.DNG)
+                    || file.getAbsolutePath().endsWith(FileEnding.RAW) || file.getAbsolutePath().endsWith(FileEnding.BAYER))
+            {
+                try {
+                    response = new RawUtils().UnPackRAW(file.getAbsolutePath());
+                }
+                catch (IllegalArgumentException ex)
+                {
+                    Logger.exception(ex);
 
-
-
-
-
-
-
+                }
+            }
+            if (response != null && CACHE != null)
+            {
+                CACHE.addBitmapToCache(file.getName(), response);
+                CACHE.addBitmapToCache(file.getName() + "_thumb", ThumbnailUtils.extractThumbnail(response, mImageThumbSizeW, mImageThumbSizeW));
+                response = null;
+            }
+        }
+    }
 
 }
 

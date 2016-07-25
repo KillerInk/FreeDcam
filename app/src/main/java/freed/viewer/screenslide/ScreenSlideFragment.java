@@ -218,6 +218,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         });
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+        mPager.setOffscreenPageLimit(0);
         mPager.addOnPageChangeListener(this);
         return view;
     }

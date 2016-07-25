@@ -49,10 +49,16 @@ public class BaseHolder
         this.handler = handler;
     }
 
+    public void UpdateImage()
+    {
+        handler.updateImage();
+    }
+
     public interface EventHandler
     {
         void onViewStateChanged(GridViewFragment.ViewStates state);
         void onSelectionChanged(boolean selected);
+        void updateImage();
     }
 
     public boolean IsSelected()

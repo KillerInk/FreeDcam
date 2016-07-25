@@ -38,12 +38,15 @@ import android.view.View;
 import android.view.View.OnSystemUiVisibilityChangeListener;
 import android.view.WindowManager.LayoutParams;
 
+import com.troop.freedcam.R;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils;
@@ -55,7 +58,7 @@ import freed.viewer.holder.FileHolder;
 /**
  * Created by troop on 28.03.2016.
  */
-public abstract class ActivityAbstract extends FragmentActivity implements ActivityInterface {
+public abstract class ActivityAbstract extends FragmentActivity implements ActivityInterface, I_WorkEvent {
 
     public enum FormatTypes
     {
@@ -94,7 +97,7 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
         super.onCreate(savedInstanceState);
         Logger.d(TAG, "createHandlers()");
         appSettingsManager = new AppSettingsManager(getApplicationContext());
-        bitmapHelper =new BitmapHelper(getApplicationContext());
+        bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
         fileListners =  new ArrayList<>();
         if (appSettingsManager.getDevice() == null)
             appSettingsManager.SetDevice(new DeviceUtils().getDevice(getResources()));
