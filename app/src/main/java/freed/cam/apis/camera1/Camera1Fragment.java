@@ -104,7 +104,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
             cameraHolder = new CameraHolderMotoX(this, CameraHolder.Frameworks.MotoX);
         else if (isMTKDevice())
             cameraHolder = new CameraHolderMTK(this, CameraHolder.Frameworks.MTK);
-        else if (appSettingsManager.IsCamera2FullSupported().equals(KEYS.TRUE))
+        else if (appSettingsManager.IsCamera2FullSupported().equals(KEYS.TRUE) && appSettingsManager.getDevice() != DeviceUtils.Devices.OnePlusOne)
             cameraHolder = new CameraHolderLegacy(this, CameraHolder.Frameworks.Normal);
         else
             cameraHolder = new CameraHolder(this, CameraHolder.Frameworks.Normal);
