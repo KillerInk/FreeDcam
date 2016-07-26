@@ -104,6 +104,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
 
         if (VERSION.SDK_INT >= VERSION_CODES.KITKAT)
             renderScriptHandler = new RenderScriptHandler(getApplicationContext());
+        bitmapHelper.SetWorkDoneListner(cacheImageRdy);
 
         //load the camera ui
         mPager = (PagingView)findViewById(id.viewPager_fragmentHolder);
@@ -483,7 +484,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     @Override
     public void WorkHasFinished(final FileHolder fileHolder) {
         Logger.d(TAG, "newImageRecieved:" + fileHolder.getFile().getAbsolutePath());
-        int mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size);
         final Bitmap b = getBitmapHelper().getBitmap(fileHolder, true);
         if (b == null)
             return;
@@ -500,6 +500,27 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
             }
         });
     }
+
+    private I_WorkEvent cacheImageRdy = new I_WorkEvent() {
+        @Override
+        public void WorkHasFinished(final FileHolder fileHolder) {
+            final Bitmap b = getBitmapHelper().getCacheBitmap(fileHolder, true);
+            if (b == null)
+                return;
+
+            new Handler(Looper.getMainLooper()).post(new Runnable()
+            {
+                @Override
+                public void run() {
+                    AddFile(fileHolder);
+                    if (screenSlideFragment != null)
+                        screenSlideFragment.NotifyDATAhasChanged();
+                    if (cameraUiFragment != null)
+                        cameraUiFragment.SetThumbImage(b);
+                }
+            });
+        }
+    };
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     {

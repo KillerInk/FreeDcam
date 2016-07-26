@@ -59,30 +59,19 @@ public class BitmapHelper
         this.done = done;
     }
 
+    public void SetWorkDoneListner(I_WorkEvent event)
+    {
+        this.done = event;
+    }
+
     public Bitmap getBitmap(final FileHolder file, boolean thumb)
     {
         Bitmap response = null;
         try {
             if (CACHE == null)
                 return null;
-            response = null;
-            if (thumb)
-            {
-                //response = CACHE.getBitmapFromMemCache(file.getName() + "_thumb");
-                if (response == null)
-                {
-                    //Logger.d(TAG,"No image in memory try from disk");
-                    response = CACHE.getBitmapFromDiskCache(file.getFile().getName() + "_thumb");
-                }
-            }
-            else
-            {
-                //sresponse = CACHE.getBitmapFromMemCache(file.getName());
-                if (response == null) {
-                    //Logger.d(TAG,"No image in memory try from disk");
-                    response = CACHE.getBitmapFromDiskCache(file.getFile().getName());
-                }
-            }
+
+            response = getCacheBitmap(file,thumb);
             if (response == null)
             {
                 if (!filesToProcess.contains(file))
@@ -101,12 +90,39 @@ public class BitmapHelper
                                     createCacheImage(f.getFile());
                                     done.WorkHasFinished(f);
                                 }
-                                if (filesToProcess.size() > 1)
+                                if (filesToProcess.size() >= 1)
                                     filesToProcess.remove(0);
                             }
                             workInProgress = false;
                         }
                     }).start();
+                }
+            }
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        return  response;
+    }
+
+    public Bitmap getCacheBitmap(final FileHolder file, boolean thumb)
+    {
+        Bitmap response = null;
+        try {
+            if (CACHE == null)
+                return null;
+            response = null;
+            if (thumb)
+            {
+                if (response == null)
+                {
+                    response = CACHE.getBitmapFromDiskCache(file.getFile().getName() + "_thumb");
+                }
+            }
+            else
+            {
+                if (response == null) {
+                    response = CACHE.getBitmapFromDiskCache(file.getFile().getName());
                 }
             }
 
