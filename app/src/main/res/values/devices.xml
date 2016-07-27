@@ -272,6 +272,7 @@
 
     <string-array name="meizu_m2note">
     <item>m2 note</item>
+        <item>m2</item>
     </string-array>
     <string-array name="meizu_mx5">
         <item>MX5</item>
@@ -501,6 +502,10 @@
 
     <string-array name="Mlais_M52_Red_Note">
         <item>M52_Red_Note</item>
+    </string-array>
+
+    <string-array name="mi_max">
+        <item>MI MAX</item>
     </string-array>
 
 </resources>

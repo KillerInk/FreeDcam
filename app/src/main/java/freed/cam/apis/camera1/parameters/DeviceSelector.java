@@ -66,6 +66,7 @@ import freed.cam.apis.camera1.parameters.device.qcom.Lenovo_K910;
 import freed.cam.apis.camera1.parameters.device.qcom.Lenovo_K920;
 import freed.cam.apis.camera1.parameters.device.qcom.Lenovo_VibeP1;
 import freed.cam.apis.camera1.parameters.device.qcom.Lenovo_VibeShot_Z90;
+import freed.cam.apis.camera1.parameters.device.qcom.Mi_Max;
 import freed.cam.apis.camera1.parameters.device.qcom.Moto_X2k14;
 import freed.cam.apis.camera1.parameters.device.qcom.Moto_X_Style_Pure_Play;
 import freed.cam.apis.camera1.parameters.device.qcom.OnePlusOne;
@@ -258,7 +259,10 @@ public class DeviceSelector {
                 
             case Vivo_Xplay3s:
                return new Vivo_Xplay3s(cameraParameters,cameraUiWrapper);
-                
+
+            case Mi_Max:
+                return new Mi_Max(cameraParameters,cameraUiWrapper);
+
             case XiaomiMI3W:
                return new Xiaomi_Mi3_4(cameraParameters,cameraUiWrapper);
                 
