@@ -46,12 +46,19 @@ public class HorizontalValuesFragment extends Fragment implements SettingsChildA
     private String[] values;
     private SettingsChildAbstract.CloseChildClick rdytoclose;
 
+    public void SetStringValues(String[] values, SettingsChildAbstract.CloseChildClick rdytoclose)
+    {
+        this.values = values;
+        this.rdytoclose = rdytoclose;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,null);
         view = inflater.inflate(layout.cameraui_horizontal_values_fragment, container, false);
         valuesHolder = (LinearLayout) view.findViewById(id.horizontal_values_holder);
+        setValueToView();
         return view;
     }
 
@@ -59,7 +66,7 @@ public class HorizontalValuesFragment extends Fragment implements SettingsChildA
     @Override
     public void onResume() {
         super.onResume();
-        setValueToView();
+
     }
 
     public void Clear()
@@ -73,7 +80,7 @@ public class HorizontalValuesFragment extends Fragment implements SettingsChildA
             return;
         for (String s : values)
         {
-            SimpleValueChild child = new SimpleValueChild(view.getContext());
+            SimpleValueChild child = new SimpleValueChild(getContext());
             child.SetString(s, this);
             valuesHolder.addView(child);
         }
@@ -81,7 +88,7 @@ public class HorizontalValuesFragment extends Fragment implements SettingsChildA
 
     private LinearLayout getNewLayout()
     {
-        LinearLayout linearLayout = new LinearLayout(view.getContext());
+        LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
 
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
@@ -91,12 +98,6 @@ public class HorizontalValuesFragment extends Fragment implements SettingsChildA
         return linearLayout;
     }
 
-
-    public void SetStringValues(String[] values, SettingsChildAbstract.CloseChildClick rdytoclose)
-    {
-        this.values = values;
-        this.rdytoclose = rdytoclose;
-    }
 
     public void ListenToParameter(ModeParameterInterface parameter)
     {
