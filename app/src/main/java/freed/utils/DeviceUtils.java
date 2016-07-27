@@ -94,6 +94,7 @@ public class DeviceUtils
         Sony_XperiaL,
         THL5000_MTK,
         Vivo_Xplay3s,
+        Wileyfox_Swift,
         Mi_Max,
         XiaomiMI3W,
         XiaomiMI4W,
@@ -211,6 +212,8 @@ public class DeviceUtils
             return Devices.THL5000_MTK;
         else if (isDevice(res.getStringArray(array.Vivo_Xplay3s)))
             return Devices.Vivo_Xplay3s;
+        else if(isDevice(res.getStringArray(array.wilexfox_swift)))
+            return Devices.Wileyfox_Swift;
         else if (isDevice(res.getStringArray(array.mi_max)))
             return Devices.Mi_Max;
         else if (isDevice(res.getStringArray(array.Xiaomi_Mi3)))

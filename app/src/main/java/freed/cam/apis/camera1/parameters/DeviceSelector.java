@@ -74,6 +74,7 @@ import freed.cam.apis.camera1.parameters.device.qcom.OnePlusTwo;
 import freed.cam.apis.camera1.parameters.device.qcom.Sony_M4;
 import freed.cam.apis.camera1.parameters.device.qcom.Sony_XperiaL;
 import freed.cam.apis.camera1.parameters.device.qcom.Vivo_Xplay3s;
+import freed.cam.apis.camera1.parameters.device.qcom.WileyFox_Swift;
 import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Mi3_4;
 import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Mi_Note_Pro;
 import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Redmi2;
@@ -260,6 +261,8 @@ public class DeviceSelector {
             case Vivo_Xplay3s:
                return new Vivo_Xplay3s(cameraParameters,cameraUiWrapper);
 
+            case Wileyfox_Swift:
+                return new WileyFox_Swift(cameraParameters,cameraUiWrapper);
             case Mi_Max:
                 return new Mi_Max(cameraParameters,cameraUiWrapper);
 

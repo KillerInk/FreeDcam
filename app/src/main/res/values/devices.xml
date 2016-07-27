@@ -507,5 +507,8 @@
     <string-array name="mi_max">
         <item>MI MAX</item>
     </string-array>
+    <string-array name="wilexfox_swift">
+        <item>Wileyfox Swift</item>
+    </string-array>
 
 </resources>
