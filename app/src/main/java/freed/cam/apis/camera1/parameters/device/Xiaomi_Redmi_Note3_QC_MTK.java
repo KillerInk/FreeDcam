@@ -68,7 +68,7 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
         if (frameworks == Frameworks.MTK)
             return ae_handler_mtk.getShutterManual();
         else
-            return new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME,true);
+            return null; // new ShutterManual_ExposureTime_Micro(parameters, cameraUiWrapper,KEYS.EXPOSURE_TIME, KEYS.MAX_EXPOSURE_TIME, KEYS.MIN_EXPOSURE_TIME,true);
     }
     //gets set due ae handler
     @Override
@@ -76,7 +76,7 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
         if (frameworks == Frameworks.MTK)
             return ae_handler_mtk.getManualIso();
         else
-            return new BaseISOManual(parameters,KEYS.CONTINUOUS_ISO, parameters.getInt(KEYS.MIN_ISO), parameters.getInt(KEYS.MAX_ISO), cameraUiWrapper,1);
+            return null; //new BaseISOManual(parameters,KEYS.CONTINUOUS_ISO, parameters.getInt(KEYS.MIN_ISO), parameters.getInt(KEYS.MAX_ISO), cameraUiWrapper,1);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
         if (frameworks == Frameworks.MTK)
             return new FocusManualMTK(parameters, cameraUiWrapper);
         else
-            return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0, 100,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,1,2);
+            return null;// new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0, 100,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,1,2);
     }
 
     @Override
