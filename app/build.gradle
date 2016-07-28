@@ -9,8 +9,8 @@ android {
             storePassword 'freedcam'
         }
     }
-    compileSdkVersion 24
-    buildToolsVersion '24.0.0 rc2'
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 23
@@ -76,7 +76,7 @@ android {
 
 dependencies {
     provided files('libs/com.lge.frameworks.jar')
-    compile 'com.android.support:support-v4:24.0.0'
+    compile 'com.android.support:support-v4:23.2.0'
     compile files('libs/xmpcore-5.1.2.jar')
     compile files('libs/metadata-extractor-2.7.0.jar')
     provided files('libs/real3d.jar')

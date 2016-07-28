@@ -200,8 +200,9 @@ public class VideoModule extends AbstractVideoModule
     private void loadHtcHighspeed() {
         if (currentProfile.ProfileName.equals("1080pHFR"))
         {
-            cameraUiWrapper.GetParameterHandler().HTCVideoMode.SetValue("2",false);
-            cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("off", false);
+            cameraUiWrapper.GetParameterHandler().HTCVideoMode.SetValue("2",true);
+            cameraUiWrapper.GetParameterHandler().HTCVideoModeHSR.SetValue("60",true);
+            cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("60", true);
         }
         else if (currentProfile.ProfileName.equals("720pHFR"))
         {

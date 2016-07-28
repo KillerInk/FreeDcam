@@ -617,9 +617,8 @@
         <item>@string/shutter_2</item>
         </string-array>
 
-    <string-array name="Aquaris_E5" translatable="false">
+    <string-array name="Aquaris_E5s" translatable="false">
         <item>@string/shutter_auto</item>
-        <item>@string/shutter_1_6000</item>
         <item>@string/shutter_1_4000</item>
         <item>@string/shutter_1_2000</item>
         <item>@string/shutter_1_1000</item>
