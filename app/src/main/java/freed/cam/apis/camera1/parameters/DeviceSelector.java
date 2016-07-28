@@ -66,6 +66,7 @@ import freed.cam.apis.camera1.parameters.device.qcom.Lenovo_K910;
 import freed.cam.apis.camera1.parameters.device.qcom.Lenovo_K920;
 import freed.cam.apis.camera1.parameters.device.qcom.Lenovo_VibeP1;
 import freed.cam.apis.camera1.parameters.device.qcom.Lenovo_VibeShot_Z90;
+import freed.cam.apis.camera1.parameters.device.qcom.Mi_Max;
 import freed.cam.apis.camera1.parameters.device.qcom.Moto_X2k14;
 import freed.cam.apis.camera1.parameters.device.qcom.Moto_X_Style_Pure_Play;
 import freed.cam.apis.camera1.parameters.device.qcom.OnePlusOne;
@@ -73,8 +74,10 @@ import freed.cam.apis.camera1.parameters.device.qcom.OnePlusTwo;
 import freed.cam.apis.camera1.parameters.device.qcom.Sony_M4;
 import freed.cam.apis.camera1.parameters.device.qcom.Sony_XperiaL;
 import freed.cam.apis.camera1.parameters.device.qcom.Vivo_Xplay3s;
+import freed.cam.apis.camera1.parameters.device.qcom.WileyFox_Swift;
 import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Mi3_4;
 import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Mi_Note_Pro;
+import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Redmi2;
 import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Redmi_Note;
 import freed.cam.apis.camera1.parameters.device.qcom.Yu_Yureka;
 import freed.cam.apis.camera1.parameters.device.qcom.ZTE_ADV;
@@ -225,7 +228,9 @@ public class DeviceSelector {
                 return getDefault(cameraUiWrapper,cameraParameters);
             case Xiaomi_RedmiNote:
                return new Xiaomi_Redmi_Note(cameraParameters,cameraUiWrapper);
-                
+
+            case Xiaomi_Redmi2:
+                return new Xiaomi_Redmi2(cameraParameters,cameraUiWrapper);
             case Xiaomi_RedmiNote2_MTK:
                return new Xiaomi_Redmi_Note2_MTK(cameraParameters,cameraUiWrapper);
                 
@@ -255,7 +260,12 @@ public class DeviceSelector {
                 
             case Vivo_Xplay3s:
                return new Vivo_Xplay3s(cameraParameters,cameraUiWrapper);
-                
+
+            case Wileyfox_Swift:
+                return new WileyFox_Swift(cameraParameters,cameraUiWrapper);
+            case Mi_Max:
+                return new Mi_Max(cameraParameters,cameraUiWrapper);
+
             case XiaomiMI3W:
                return new Xiaomi_Mi3_4(cameraParameters,cameraUiWrapper);
                 

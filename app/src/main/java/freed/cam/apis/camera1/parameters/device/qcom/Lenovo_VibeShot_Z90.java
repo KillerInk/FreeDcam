@@ -43,10 +43,10 @@ import freed.utils.Logger;
  */
 public class Lenovo_VibeShot_Z90 extends BaseQcomNew
 {
-    private AeHandlerVibeShotZ90 aeHandlerVibeShotZ90;
+    //private AeHandlerVibeShotZ90 aeHandlerVibeShotZ90;
     public Lenovo_VibeShot_Z90(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
-        aeHandlerVibeShotZ90 = new AeHandlerVibeShotZ90(parameters,cameraUiWrapper);
+        //aeHandlerVibeShotZ90 = new AeHandlerVibeShotZ90(parameters,cameraUiWrapper);
     }
 
     @Override
@@ -68,12 +68,12 @@ public class Lenovo_VibeShot_Z90 extends BaseQcomNew
     @Override
     public ManualParameterInterface getExposureTimeParameter()
     {
-        return aeHandlerVibeShotZ90.getShutterManual();
+        return null;// aeHandlerVibeShotZ90.getShutterManual();
     }
 
     @Override
     public ManualParameterInterface getIsoParameter() {
-        return aeHandlerVibeShotZ90.getManualIso();
+        return null;// aeHandlerVibeShotZ90.getManualIso();
     }
 
     class AeHandlerVibeShotZ90 extends AE_Handler_Abstract

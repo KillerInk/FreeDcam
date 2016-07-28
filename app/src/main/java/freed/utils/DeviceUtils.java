@@ -82,6 +82,7 @@ public class DeviceUtils
         p8,
         p8lite,
         Xiaomi_RedmiNote,
+        Xiaomi_Redmi2,
         Xiaomi_RedmiNote2_MTK,
         Retro_MTK,
         Samsung_S6_edge,
@@ -93,6 +94,8 @@ public class DeviceUtils
         Sony_XperiaL,
         THL5000_MTK,
         Vivo_Xplay3s,
+        Wileyfox_Swift,
+        Mi_Max,
         XiaomiMI3W,
         XiaomiMI4W,
         XiaomiMI4C,
@@ -185,6 +188,8 @@ public class DeviceUtils
             return Devices.OnePlusTwo;
         else if (isDevice(res.getStringArray(array.Xiaomi_RedmiNote)))
             return Devices.Xiaomi_RedmiNote;
+        else if(isDevice(res.getStringArray(array.Xiaomi_Redmi2)))
+            return Devices.Xiaomi_Redmi2;
         else if (isDevice(res.getStringArray(array.Xiaomi_RedmiNote2)))
             return Devices.Xiaomi_RedmiNote2_MTK;
         else if (isDevice(res.getStringArray(array.Retro)))
@@ -207,6 +212,10 @@ public class DeviceUtils
             return Devices.THL5000_MTK;
         else if (isDevice(res.getStringArray(array.Vivo_Xplay3s)))
             return Devices.Vivo_Xplay3s;
+        else if(isDevice(res.getStringArray(array.wilexfox_swift)))
+            return Devices.Wileyfox_Swift;
+        else if (isDevice(res.getStringArray(array.mi_max)))
+            return Devices.Mi_Max;
         else if (isDevice(res.getStringArray(array.Xiaomi_Mi3)))
             return Devices.XiaomiMI3W;
         else if (isDevice(res.getStringArray(array.Xiaomi_Mi4)))

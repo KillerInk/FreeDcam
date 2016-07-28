@@ -33,10 +33,10 @@ import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
 import freed.cam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK;
 import freed.cam.apis.camera1.parameters.manual.mtk.FocusManualMTK;
 import freed.cam.apis.camera1.parameters.manual.qcom.BaseISOManual;
-import freed.cam.apis.camera1.parameters.manual.qcom.FocusManual_QcomM;
 import freed.cam.apis.camera1.parameters.manual.qcom.ShutterManual_ExposureTime_Micro;
 import freed.cam.apis.camera1.parameters.modes.BaseModeParameter;
 import freed.dng.DngProfile;
@@ -85,7 +85,7 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
         if (frameworks == Frameworks.MTK)
             return new FocusManualMTK(parameters, cameraUiWrapper);
         else
-            return new FocusManual_QcomM(parameters, cameraUiWrapper,1);
+            return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0, 100,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,1,2);
     }
 
     @Override

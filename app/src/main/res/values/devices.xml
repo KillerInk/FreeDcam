@@ -272,6 +272,7 @@
 
     <string-array name="meizu_m2note">
     <item>m2 note</item>
+        <item>m2</item>
     </string-array>
     <string-array name="meizu_mx5">
         <item>MX5</item>
@@ -380,6 +381,25 @@
     <string-array name="Xiaomi_RedmiNote2">
         <item>Redmi Note 2</item>
     </string-array>
+    <string-array name="Xiaomi_Redmi2">
+        <item>HM2014811</item>
+        <item>HM2014812</item>
+        <item>HM2014813</item>
+        <item>HM2014815</item>
+        <item>HM2014816</item>
+        <item>HM2014817</item>
+        <item>HM2014818</item>
+        <item>HM2014819</item>
+        <item>2014811</item>
+        <item>2014812</item>
+        <item>2014813</item>
+        <item>2014814</item>
+        <item>2014815</item>
+        <item>2014816</item>
+        <item>2014817</item>
+        <item>2014818</item>
+        <item>2014819</item>
+    </string-array>
     <string-array name="Xiaomi_Mi3">
         <item>MI 3W</item>
     </string-array>
@@ -409,6 +429,7 @@
         <item>Xiaomi Redmi Note 3</item>
         <item>kenzo</item>
         <item>Kenzo</item>
+        <item>Redmi 3</item>
     </string-array>
     <string-array name="Alcatel_Idol_3">
         <item>6045Y</item>
@@ -482,6 +503,13 @@
 
     <string-array name="Mlais_M52_Red_Note">
         <item>M52_Red_Note</item>
+    </string-array>
+
+    <string-array name="mi_max">
+        <item>MI MAX</item>
+    </string-array>
+    <string-array name="wilexfox_swift">
+        <item>Wileyfox Swift</item>
     </string-array>
 
 </resources>

@@ -35,6 +35,7 @@ import com.troop.freedcam.R.drawable;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.concurrent.ExecutorService;
 
@@ -54,7 +55,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
     private TextView folderTextView;
     private ImageView checkBox;
     private ImageView sdcard;
-    private BaseHolder fileHolder;
+    private FileHolder fileHolder;
     private int mImageThumbSize;
     private ProgressBar progressBar;
     private final String TAG = GridImageView.class.getSimpleName();
@@ -107,7 +108,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
     public BaseHolder getFileHolder(){return fileHolder;}
 
 
-    public void SetEventListner(BaseHolder fileHolder)
+    public void SetEventListner(FileHolder fileHolder)
     {
         this.fileHolder = fileHolder;
         SetViewState(fileHolder.GetCurrentViewState());
@@ -163,6 +164,16 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
 //        invalidate();
     }
 
+    @Override
+    public void updateImage() {
+        final Bitmap bitmap = bitmapHelper.getBitmap(fileHolder, true);
+        if (bitmap != null)
+        {
+            imageView.setImageBitmap(bitmap);
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
     private void setChecked(boolean checked) {
         if (checked)
             checkBox.setImageDrawable(getResources().getDrawable(drawable.cust_cb_sel));
@@ -180,7 +191,13 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         {
             imageView.setImageResource(drawable.noimage);
             progressBar.setVisibility(View.VISIBLE);
-            executor.execute(new BitmapLoadRunnable(this,fileHolder));
+            final Bitmap bitmap = bitmapHelper.getBitmap(fileHolder, true);
+            if (bitmap != null)
+            {
+                imageView.setImageBitmap(bitmap);
+                progressBar.setVisibility(View.GONE);
+            }
+            //executor.execute(new BitmapLoadRunnable(this,fileHolder));
         }
         else {
             progressBar.setVisibility(View.GONE);
@@ -219,7 +236,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         public void run()
         {
             Logger.d(TAG, "load file:" + fileHolder.getFile().getName());
-            final Bitmap bitmap = bitmapHelper.getBitmap(fileHolder.getFile(), true, mImageThumbSize, mImageThumbSize);
+            final Bitmap bitmap = bitmapHelper.getBitmap(fileHolder, true);
             if (imageviewRef != null && bitmap != null) {
                 final GridImageView imageView = imageviewRef.get();
                 if (imageView != null && imageView.getFileHolder() == fileHolder)

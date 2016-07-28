@@ -51,6 +51,7 @@ import freed.utils.RenderScriptHandler;
 import freed.utils.ScriptField_MinMaxPixel;
 import freed.utils.StringUtils;
 import freed.viewer.dngconvert.DngConvertingFragment;
+import freed.viewer.holder.FileHolder;
 
 import static freed.cam.apis.camera1.parameters.modes.StackModeParameter.*;
 
@@ -208,5 +209,10 @@ public class StackActivity extends ActivityAbstract
             }
         }
         MediaScannerManager.ScanMedia(getContext(), file);
+    }
+
+    @Override
+    public void WorkHasFinished(FileHolder fileHolder) {
+
     }
 }

@@ -151,7 +151,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
         super.onCreateView(inflater, container, savedInstanceState);
         this.mImageThumbSize = getResources().getDimensionPixelSize(dimen.image_thumbnail_size);
         viewerActivityInterface = (ActivityInterface) getActivity();
-        executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()-1);
         deleteButton = (Button) view.findViewById(id.button_deltePics);
         deleteButton.setVisibility(View.GONE);
         deleteButton.setOnClickListener(onDeltedButtonClick);
@@ -205,13 +205,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 }
             }
         });
-
-        if (VERSION.SDK_INT >= VERSION_CODES.M)
-        {
-            checkMarshmallowPermissions();
-        }
-        else
-            firstload();
+        firstload();
 
         return view;
     }
@@ -236,41 +230,11 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
             mPagerAdapter = new ImageAdapter();
             gridView.setAdapter(mPagerAdapter);
             setViewMode(ViewStates.normal);
-            //if its a normal startup and files are not loaded
-            if (viewerActivityInterface.getFiles() == null && viewerActivityInterface.getFiles().size() ==0)
+            if (viewerActivityInterface.getFiles() == null)
                 viewerActivityInterface.LoadDCIMDirs();
-            else //we return from screenslide
-                isRootDir = false;
             gridView.smoothScrollToPosition(DEFAULT_ITEM_TO_SET);
         }
     }
-
-    @TargetApi(VERSION_CODES.M)
-    private void checkMarshmallowPermissions() {
-        if (getActivity().checkSelfPermission(permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{
-                            permission.READ_EXTERNAL_STORAGE,
-
-                    },
-                    1);
-        }
-        else
-            firstload();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
-    {
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-        {
-            firstload();
-        }
-        else
-            getActivity().finish();
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
@@ -286,7 +250,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 else //handel folder click
                 {
                     //hold the current folder to show if a format is empty
-                    folderToShow = viewerActivityInterface.getFiles().get(position).getParent();
+                    folderToShow = viewerActivityInterface.getFiles().get(position);
                     viewerActivityInterface.LoadFolder(viewerActivityInterface.getFiles().get(position),formatsToShow);
                     isRootDir = false;
                     setViewMode(currentViewState);
@@ -373,7 +337,8 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
             filesSelected.setVisibility(View.GONE);
             stackButton.setVisibility(View.GONE);
         }
-        else {
+        else
+        {
             switch (viewState)
             {
                 case normal:
@@ -439,6 +404,15 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
 
     private void deleteFiles()
     {
+        executor.shutdown();
+        while (!executor.isShutdown())
+        {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         FreeDPool.Execute(new Runnable()
         {
             @Override
@@ -458,6 +432,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 viewerActivityInterface.DeleteFiles(to_del);
             }
         });
+        executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()-1);
     }
 
     private final OnClickListener onGobBackClick = new OnClickListener() {
@@ -580,7 +555,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
             }
             else if (requestMode == RequestModes.delete)
             {
-                //check if files are selceted
+                //check if files are selected
                 boolean hasfilesSelected = false;
                 for (FileHolder f : viewerActivityInterface.getFiles()) {
                     if (f.IsSelected()) {
@@ -635,8 +610,11 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
         }
 
         @Override
-        public int getCount() {
-            return viewerActivityInterface.getFiles().size();
+        public int getCount()
+        {
+            if (viewerActivityInterface.getFiles() != null)
+                return viewerActivityInterface.getFiles().size();
+            else return 0;
         }
 
         @Override
@@ -676,6 +654,8 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
         public void SetViewState(ViewStates states)
         {
             currentViewState = states;
+            if (viewerActivityInterface.getFiles() == null)
+                return;
             for (int i = 0; i< viewerActivityInterface.getFiles().size(); i++)
             {
                 FileHolder f = viewerActivityInterface.getFiles().get(i);

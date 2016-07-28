@@ -118,7 +118,6 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
     //hold the showed folder_to_show
     private FileHolder folder_to_show;
 
-    private boolean waitForCameraHasLoaded;
     private ActivityInterface activityInterface;
     View view;
 
@@ -219,36 +218,17 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
         });
         mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+        mPager.setOffscreenPageLimit(0);
         mPager.addOnPageChangeListener(this);
-        if (!waitForCameraHasLoaded || activityInterface.getFiles() == null || activityInterface.getFiles().size() ==0)
-            LoadFiles();
-
         return view;
     }
 
-    public void setWaitForCameraHasLoaded()
-    {
-        waitForCameraHasLoaded = true;
-    }
 
     public void SetPostition(int position)
     {
         mPager.setCurrentItem(position, false);
     }
 
-    public void LoadFiles()
-    {
-        if (activityInterface.getFiles() == null || activityInterface.getFiles().size() == 0) {
-            activityInterface.LoadFreeDcamDCIMDirsFiles();
-        }
-
-        if(activityInterface.getFiles() != null ) {
-            if (activityInterface.getFiles().size() > 0 && defitem == -1) {
-                mPager.setCurrentItem(0);
-            } else
-                mPager.setCurrentItem(defitem);
-        }
-    }
 
     public ScreenSlideFragment()
     {

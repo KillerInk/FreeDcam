@@ -50,7 +50,7 @@ public class LocationParameter extends AbstractModeParameter implements Location
     {
         this.cameraUiWrapper = cameraUiWrapper;
         locationManager = (LocationManager) cameraUiWrapper.getContext().getSystemService(Context.LOCATION_SERVICE);
-        if (GetValue().equals(KEYS.ON))
+        if (null != GetValue() && GetValue().equals(KEYS.ON))
             startLocationListing();
     }
 

@@ -68,6 +68,11 @@ public interface ActivityInterface
     DocumentFile getExternalSdDocumentFile();
 
     void DisablePagerTouch(boolean disable);
+
+    boolean hasExternalSDPermission();
+    boolean hasCameraPermission();
+    boolean hasLocationPermission();
+    boolean hasWifiPermission();
 }
 
 

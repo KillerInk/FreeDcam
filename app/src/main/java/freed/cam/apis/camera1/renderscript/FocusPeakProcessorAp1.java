@@ -356,10 +356,13 @@ public class FocusPeakProcessorAp1 implements PreviewCallback, CameraWrapperEven
             mHeight = height;
             Logger.d(TAG, "SurfaceSizeAvail");
             mSurface = new Surface(surface);
-            if (renderScriptHandler.GetOut() != null)
+            if (renderScriptHandler.GetOut() != null && renderScriptHandler.GetOut().getUsage() == Allocation.USAGE_IO_OUTPUT)
                 renderScriptHandler.GetOut().setSurface(mSurface);
-            else
-                Logger.d(TAG, "Allocout null");
+            else {
+                Logger.d(TAG, "Allocout null or not USAGE_IO_OUTPUT");
+                Size size = new Size(cameraUiWrapper.GetParameterHandler().PreviewSize.GetValue());
+                reset(size.width, size.height);
+            }
             clear_preview("onSurfaceTextureAvailable");
         }
 

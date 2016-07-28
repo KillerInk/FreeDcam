@@ -197,6 +197,8 @@ public class Logger
 
         public void WriteLogDebug(String TAG, String msg)
         {
+            if (writer == null)
+                return;
             try {
                 String b = DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime()) +
                         ":(D) " +
@@ -211,6 +213,8 @@ public class Logger
 
         public void WriteLogErrorDebug(String TAG, String msg)
         {
+            if (writer == null)
+                return;
             try {
                 String b = DateFormat.format("hh.mm.ss", Calendar.getInstance().getTime()) +
                         ":(E) " +

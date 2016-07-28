@@ -104,6 +104,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
 
         if (VERSION.SDK_INT >= VERSION_CODES.KITKAT)
             renderScriptHandler = new RenderScriptHandler(getApplicationContext());
+        bitmapHelper.SetWorkDoneListner(cacheImageRdy);
 
         //load the camera ui
         mPager = (PagingView)findViewById(id.viewPager_fragmentHolder);
@@ -111,29 +112,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         mPager.setOffscreenPageLimit(2);
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(1);
-
-        //check for permission on M>
-        if (VERSION.SDK_INT >= VERSION_CODES.M)
-        {
-            if (checkSelfPermission(permission.CAMERA)
-                    != PackageManager.PERMISSION_GRANTED || checkSelfPermission(permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-            {
-                //ask for permissions and wait for onRequestPermissionsResult()
-                requestPermissions(new String[]{
-                        permission.CAMERA,
-                        permission.READ_EXTERNAL_STORAGE,
-                        permission.WRITE_EXTERNAL_STORAGE,
-                        permission.RECORD_AUDIO,
-                        permission.ACCESS_COARSE_LOCATION,
-                        permission.ACCESS_FINE_LOCATION,
-                        permission.ACCESS_WIFI_STATE,
-                        permission.CHANGE_WIFI_STATE,}, 1);
-            }
-            else
-                createHandlers();
-        }
-        else
-            createHandlers();
+        createHandlers();
     }
 
     @Override
@@ -161,70 +140,90 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         activityIsResumed = false;
     }
 
-    //gets called when permission was request
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
-        //we have permissions?
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED
-                && grantResults[1] == PackageManager.PERMISSION_GRANTED
-                && grantResults[2] == PackageManager.PERMISSION_GRANTED
-                && grantResults[3] == PackageManager.PERMISSION_GRANTED
-                && grantResults[4] == PackageManager.PERMISSION_GRANTED
-                && grantResults[5] == PackageManager.PERMISSION_GRANTED
-                && grantResults[6] == PackageManager.PERMISSION_GRANTED
-                && grantResults[7] == PackageManager.PERMISSION_GRANTED)
-        {
-            //yes we have it
-            createHandlers();
-            //when screenslide fragment gets created it looks up already the files bevor permissions are granted.
-            //if its the first start the viewer show "no files". to avoid that, load files again when permissions are set
-            screenSlideFragment.LoadFiles();
-        }
-        else //woot using camera and deny perms close app
-            finish();
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
     //that finaly create all stuff needed
-    private void createHandlers()
-    {
-        Logger.d(TAG, "createHandlers()");
-        //Get default handler for uncaught exceptions. to let fc app as it should
-        defaultEXhandler = Thread.getDefaultUncaughtExceptionHandler();
-        //set up own ex handler to have a change to catch the fc bevor app dies
-        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread thread,final Throwable e)
-            {
-                //yeahaw app crash print ex to logger
-                if (thread != Looper.getMainLooper().getThread())
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run()
-                        {
-                            Logger.LogUncaughtEX(e);
-                        }
-                    });
-                else
-                    Logger.LogUncaughtEX(e);
+    private void createHandlers()  {
+        if (hasExternalSDPermission())
+        {
+            Logger.d(TAG, "createHandlers()");
+            //Get default handler for uncaught exceptions. to let fc app as it should
+            defaultEXhandler = Thread.getDefaultUncaughtExceptionHandler();
+            //set up own ex handler to have a change to catch the fc bevor app dies
+            Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+                @Override
+                public void uncaughtException(Thread thread,final Throwable e)
+                {
+                    //yeahaw app crash print ex to logger
+                    if (thread != Looper.getMainLooper().getThread())
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run()
+                            {
+                                Logger.LogUncaughtEX(e);
+                            }
+                        });
+                    else
+                        Logger.LogUncaughtEX(e);
 
-                //set back default exhandler and let app die
-                defaultEXhandler.uncaughtException(thread,e);
-            }
-        });
+                    //set back default exhandler and let app die
+                    defaultEXhandler.uncaughtException(thread,e);
+                }
+            });
 
-        //check if DEBUG folder exist for log to file
-        checkSaveLogToFile();
+            //check if DEBUG folder exist for log to file
+
+            checkSaveLogToFile();
+            LoadFreeDcamDCIMDirsFiles();
+        }
         //listen to phone orientation changes
         orientationHandler = new OrientationHandler(this, this);
         //used for videorecording timer
         //TODO move that into camerauifragment
         timerHandler = new TimerHandler(this);
-        //setup apihandler and register listner for apiDetectionDone
-        //api handler itself checks first if its a camera2 full device
-        //and if yes loads camera2fragment else load camera1fragment
-        apiHandler = new ApiHandler(getApplicationContext(),this, appSettingsManager, renderScriptHandler);
+
+        //no permission request is running
+        if (!RequestPermission)
+        {
+            if (hasCameraPermission())
+            {
+                initApiHandler();
+            }
+        }
+        else //permission request is running
+        {
+            //wait for permission request finish
+            FreeDPool.Execute(new Runnable() {
+                @Override
+                public void run()
+                {
+                    while (RequestPermission)
+                    {
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    //last permission request has done ask for next permission
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (hasCameraPermission())
+                            {
+                                initApiHandler();
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    //setup apihandler and register listner for apiDetectionDone
+    //api handler itself checks first if its a camera2 full device
+    //and if yes loads camera2fragment else load camera1fragment
+    private void initApiHandler()
+    {
+        apiHandler = new ApiHandler(getApplicationContext(), this, appSettingsManager, renderScriptHandler);
         //check if camera is camera2 full device
         apiHandler.CheckApi();
     }
@@ -253,7 +252,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
 
             }
         });
-
     }
 
     /*
@@ -294,7 +292,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         if (cameraUiWrapper != null)
             cameraUiWrapper.GetParameterHandler().AddParametersLoadedListner(this);
         if (cameraUiWrapper.GetModuleHandler() != null)
-            cameraUiWrapper.GetModuleHandler().AddWorkFinishedListner(newImageRecieved);
+            cameraUiWrapper.GetModuleHandler().AddWorkFinishedListner(this);
         if (cameraUiFragment != null) {
             cameraUiFragment.SetCameraUIWrapper(cameraUiWrapper);
         }
@@ -336,7 +334,9 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
-        if (activityIsResumed) {
+        if (activityIsResumed)
+        {
+            Logger.d(TAG, "KeyCode Pressed:" + keyCode);
             int appSettingsKeyShutter = 0;
 
             if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLP))
@@ -396,7 +396,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     @Override
     public void closeActivity()
     {
-        moveTaskToBack(true);
+        finish();//moveTaskToBack(true);
     }
 
     /**
@@ -407,7 +407,14 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     @Override
     public void LoadFreeDcamDCIMDirsFiles() {
         super.LoadFreeDcamDCIMDirsFiles();
-        screenSlideFragment.NotifyDATAhasChanged();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(screenSlideFragment != null)
+                    screenSlideFragment.NotifyDATAhasChanged();
+            }
+        });
+
     }
 
     @Override
@@ -428,16 +435,27 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
      * @param types the file format to load
      */
     @Override
-    public void LoadFolder(FileHolder fileHolder, FormatTypes types) {
+    public void LoadFolder(FileHolder fileHolder, FormatTypes types)
+    {
         super.LoadFolder(fileHolder, types);
-        screenSlideFragment.NotifyDATAhasChanged();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (screenSlideFragment != null)
+                    screenSlideFragment.NotifyDATAhasChanged();
+            }
+        });
+
+
     }
 
 
     private final ScreenSlideFragment.I_ThumbClick onThumbClick = new ScreenSlideFragment.I_ThumbClick() {
         @Override
-        public void onThumbClick(int position,View view) {
-            mPager.setCurrentItem(2);
+        public void onThumbClick(int position,View view)
+        {
+            if (mPager != null)
+                mPager.setCurrentItem(2);
         }
     };
 
@@ -459,9 +477,50 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         }
         if (settingsMenuFragment != null)
             settingsMenuFragment.SetCameraUIWrapper(cameraWrapper);
-        if (screenSlideFragment != null)
-            screenSlideFragment.LoadFiles();
+        /*if (screenSlideFragment != null)
+            screenSlideFragment.LoadFiles();*/
     }
+
+    @Override
+    public void WorkHasFinished(final FileHolder fileHolder) {
+        Logger.d(TAG, "newImageRecieved:" + fileHolder.getFile().getAbsolutePath());
+        final Bitmap b = getBitmapHelper().getBitmap(fileHolder, true);
+        if (b == null)
+            return;
+
+        new Handler(Looper.getMainLooper()).post(new Runnable()
+        {
+            @Override
+            public void run() {
+                AddFile(fileHolder);
+                if (screenSlideFragment != null)
+                    screenSlideFragment.NotifyDATAhasChanged();
+                if (cameraUiFragment != null)
+                    cameraUiFragment.SetThumbImage(b);
+            }
+        });
+    }
+
+    private I_WorkEvent cacheImageRdy = new I_WorkEvent() {
+        @Override
+        public void WorkHasFinished(final FileHolder fileHolder) {
+            final Bitmap b = getBitmapHelper().getCacheBitmap(fileHolder, true);
+            if (b == null)
+                return;
+
+            new Handler(Looper.getMainLooper()).post(new Runnable()
+            {
+                @Override
+                public void run() {
+                    AddFile(fileHolder);
+                    if (screenSlideFragment != null)
+                        screenSlideFragment.NotifyDATAhasChanged();
+                    if (cameraUiFragment != null)
+                        cameraUiFragment.SetThumbImage(b);
+                }
+            });
+        }
+    };
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
     {
@@ -469,7 +528,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         public ScreenSlidePagerAdapter(FragmentManager fm)
         {
             super(fm);
-
         }
 
         @Override
@@ -488,7 +546,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
             {
                 if (screenSlideFragment == null) {
                     screenSlideFragment = new ScreenSlideFragment();
-                    screenSlideFragment.setWaitForCameraHasLoaded();
                     screenSlideFragment.SetOnThumbClick(onThumbBackClick);
                 }
 
@@ -511,32 +568,27 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     }
 
 
-    private final I_WorkEvent newImageRecieved = new I_WorkEvent()
+    @Override
+    protected void cameraPermsissionGranted(boolean granted)
     {
-        @Override
-        public void WorkHasFinished(final FileHolder fileHolder)
+        Logger.d(TAG, "cameraPermission Granted:" + granted);
+        if (granted)
         {
-            Logger.d(TAG, "newImageRecieved:" + fileHolder.getFile().getAbsolutePath());
-            FreeDPool.Execute(new Runnable() {
-                @Override
-                public void run()
-                {
-                    int mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size);
-                    final Bitmap b = getBitmapHelper().getBitmap(fileHolder.getFile(), true, mImageThumbSize, mImageThumbSize);
-
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            AddFile(fileHolder);
-                            if (screenSlideFragment != null)
-                                screenSlideFragment.NotifyDATAhasChanged();
-                            if (cameraUiFragment != null)
-                                cameraUiFragment.SetThumbImage(b);
-                        }
-                    });
-                }
-            });
-
+            initApiHandler();
         }
-    };
+        else
+            finish();
+    }
+
+    @Override
+    protected void externalSDPermissionGranted(boolean granted)
+    {
+        Logger.d(TAG, "externalSdPermission Granted:" + granted);
+        if (granted) {
+            checkSaveLogToFile();
+            LoadFreeDcamDCIMDirsFiles();
+        }
+        else
+            finish();
+    }
 }

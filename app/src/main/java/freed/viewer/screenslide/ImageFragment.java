@@ -173,7 +173,7 @@ public class ImageFragment extends Fragment
     {
         Bitmap response =null;
         try {
-            response = ((ActivityInterface)getActivity()).getBitmapHelper().getBitmap(file.getFile(),false, mImageThumbSize, mImageThumbSize);
+            response = ((ActivityInterface)getActivity()).getBitmapHelper().getBitmap(file,false);
 
         }
         catch (IllegalArgumentException | NullPointerException ex)
