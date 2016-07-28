@@ -34,6 +34,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.provider.DocumentFile;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnSystemUiVisibilityChangeListener;
 import android.view.WindowManager.LayoutParams;
@@ -499,7 +500,7 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
 
     private  File getStorageDirectory() {
         String path = System.getenv("ANDROID_STORAGE");
-        return path == null ? new File("/storage") : new File(path);
+        return (path == null || TextUtils.isEmpty(path)) ? new File("/storage") : new File(path);
     }
 
     @Override
