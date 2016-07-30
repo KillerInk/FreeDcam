@@ -37,6 +37,7 @@ import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraHolderInterface;
 import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
+import freed.cam.apis.basecamera.modules.ModuleInterface;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.camera2.modules.I_PreviewWrapper;
 import freed.cam.apis.camera2.parameters.ParameterHandler;
@@ -96,14 +97,20 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     @Override
     public void StartPreview() {
         Logger.d(TAG, "Stop Preview");
-        ((I_PreviewWrapper) moduleHandler.GetCurrentModule()).startPreview();
+        I_PreviewWrapper mi = ((I_PreviewWrapper) moduleHandler.GetCurrentModule());
+        if (mi != null) {
+            mi.startPreview();
+        }
     }
 
     @Override
     public void StopPreview()
     {
         Logger.d(TAG, "Stop Preview");
-        ((I_PreviewWrapper) moduleHandler.GetCurrentModule()).stopPreview();
+        I_PreviewWrapper mi = ((I_PreviewWrapper) moduleHandler.GetCurrentModule());
+        if (mi != null) {
+            mi.stopPreview();
+        }
     }
 
     @Override
