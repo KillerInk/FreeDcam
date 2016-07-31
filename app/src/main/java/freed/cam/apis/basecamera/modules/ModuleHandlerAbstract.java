@@ -21,6 +21,7 @@ package freed.cam.apis.basecamera.modules;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -141,7 +142,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     }
 
     @Override
-    public ModuleInterface GetCurrentModule() {
+    public @Nullable ModuleInterface GetCurrentModule() {
         if (currentModule != null)
             return currentModule;
         return null;

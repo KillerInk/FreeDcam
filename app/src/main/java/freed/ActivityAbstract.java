@@ -701,30 +701,18 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
     {
-        if (permissions[0].equals(Manifest.permission.CAMERA))
-        {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                cameraPermsissionGranted(true);
-            else
-                cameraPermsissionGranted(false);
-        }
-        else if (permissions[0].equals(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                externalSDPermissionGranted(true);
-            else
-                externalSDPermissionGranted(false);
-        }
-        else if (permissions[0].equals(Manifest.permission.ACCESS_WIFI_STATE)) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                wifiPermissionGranted(true);
-            else
-                wifiPermissionGranted(false);
-        }
-        else if (permissions[0].equals(Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                locationPermissionGranted(true);
-            else
-                locationPermissionGranted(false);
+        for (int i = 0; i < permissions.length; ++i) {
+            String perm = permissions[i];
+            boolean wasGranted = grantResults[i] == PackageManager.PERMISSION_GRANTED;
+            if (Manifest.permission.CAMERA.equals(perm)) {
+                cameraPermsissionGranted(wasGranted);
+            } else if (Manifest.permission.READ_EXTERNAL_STORAGE.equals(perm)) {
+                externalSDPermissionGranted(wasGranted);
+            } else if (Manifest.permission.ACCESS_WIFI_STATE.equals(perm)) {
+                wifiPermissionGranted(wasGranted);
+            } else if (Manifest.permission.ACCESS_COARSE_LOCATION.equals(perm)) {
+                locationPermissionGranted(wasGranted);
+            }
         }
         RequestPermission = false;
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

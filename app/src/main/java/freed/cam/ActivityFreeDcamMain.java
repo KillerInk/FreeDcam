@@ -127,6 +127,9 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     @Override
     protected void onResume() {
         super.onResume();
+        if (!hasCameraPermission()) {
+            return;
+        }
         if (cameraFragment != null && orientationHandler != null)
             orientationHandler.Start();
         activityIsResumed = true;
@@ -180,42 +183,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         //TODO move that into camerauifragment
         timerHandler = new TimerHandler(this);
 
-        //no permission request is running
-        if (!RequestPermission)
-        {
-            if (hasCameraPermission())
-            {
-                initApiHandler();
-            }
-        }
-        else //permission request is running
-        {
-            //wait for permission request finish
-            FreeDPool.Execute(new Runnable() {
-                @Override
-                public void run()
-                {
-                    while (RequestPermission)
-                    {
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    //last permission request has done ask for next permission
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (hasCameraPermission())
-                            {
-                                initApiHandler();
-                            }
-                        }
-                    });
-                }
-            });
-        }
+        initApiHandler();
     }
 
     //setup apihandler and register listner for apiDetectionDone
@@ -572,12 +540,12 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     protected void cameraPermsissionGranted(boolean granted)
     {
         Logger.d(TAG, "cameraPermission Granted:" + granted);
-        if (granted)
-        {
+        if (granted) {
             initApiHandler();
         }
-        else
+        else {
             finish();
+        }
     }
 
     @Override
