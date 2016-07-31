@@ -37,8 +37,7 @@ import freed.utils.DeviceUtils.Devices;
 /**
  * Created by troop on 19.08.2014.
  */
-public class AppSettingsManager
-{
+public class AppSettingsManager {
     private final String TAG = AppSettingsManager.class.getSimpleName();
     private final String appsettingspath;
     private int currentcamera;
@@ -61,7 +60,7 @@ public class AppSettingsManager
     public static final String SETTING_HDRMODE = "hdrmode";
     // 1-29-2016 11:49
     public static final String SETTING_VideoBitrate = "videobitrate";
-    public static final String SETTING_HELP ="help";
+    public static final String SETTING_HELP = "help";
     //
     public static final String SETTING_GUIDE = "guide";
     //done
@@ -92,12 +91,12 @@ public class AppSettingsManager
     public static final String SETTING_HighSpeedVideo = "highspeedvideo";
     public static final String SETTING_VIDEOSTABILIZATION = "videostabilization";
     ///                  Video Override
-   // public static String SETTING_VIDEOHDR = "videohfr";
-   // public static String SETTING_VIDEOHDR = "videohsr";
+    // public static String SETTING_VIDEOHDR = "videohfr";
+    // public static String SETTING_VIDEOHDR = "videohsr";
 
-    public static final String SETTTING_BAYERFORMAT ="bayerformat";
-    public static final String SETTTING_AE_PRIORITY ="aepriority";
-    public static final String SETTTING_CUSTOMMATRIX ="custommatrix";
+    public static final String SETTTING_BAYERFORMAT = "bayerformat";
+    public static final String SETTTING_AE_PRIORITY = "aepriority";
+    public static final String SETTTING_CUSTOMMATRIX = "custommatrix";
     ////////// overide end
     public static final String SETTING_VIDEOTIMELAPSEFRAME = "timelapseframe";
     public static final String SETTING_API = "sonyapi";
@@ -158,45 +157,40 @@ public class AppSettingsManager
     public static final String SETTING_CAPTUREBURSTEXPOSURES = "captureburstexposures";
     public static final String SETTING_MORPHOHDR = "morphohdr";
     public static final String SETTING_MORPHOHHT = "morphohht";
-    public static final String SETTING_AEB1= "aeb1";
-    public static final String SETTING_AEB2= "aeb2";
-    public static final String SETTING_AEB3= "aeb3";
+    public static final String SETTING_AEB1 = "aeb1";
+    public static final String SETTING_AEB2 = "aeb2";
+    public static final String SETTING_AEB3 = "aeb3";
     public static final String SETTING_STACKMODE = "stackmode";
 
     public static final String SETTINGS_PREVIEWZOOM = "previewzoom";
 
     public static final String SETTING_BASE_FOLDER = "base_folder";
 
-    private HashMap<String,String> appsettingsList;
+    private HashMap<String, String> appsettingsList;
 
-    public AppSettingsManager(Context context)
-    {
+    public AppSettingsManager(Context context) {
         appsettingsList = new HashMap<>();
-        appsettingspath = context.getCacheDir().getPath() +File.separator +"setting.txt";
+        appsettingspath = context.getCacheDir().getPath() + File.separator + "setting.txt";
         loadAppSettings();
     }
 
-    public void setCamApi(String api)
-    {
+    public void setCamApi(String api) {
         camApiString = api;
-        appsettingsList.put(SETTING_API,api);
+        appsettingsList.put(SETTING_API, api);
     }
 
-    public String getCamApi()
-    {
+    public String getCamApi() {
         camApiString = appsettingsList.get(SETTING_API);
         return camApiString;
     }
 
-    public void SetDevice(Devices device)
-    {
+    public void SetDevice(Devices device) {
         this.device = device;
         String t = device.name();
         appsettingsList.put("DEVICE", t);
     }
 
-    public Devices getDevice()
-    {
+    public Devices getDevice() {
         String t = appsettingsList.get("DEVICE");
         if (t == null || t.equals(""))
             return null;
@@ -204,9 +198,8 @@ public class AppSettingsManager
             return Devices.valueOf(t);
     }
 
-    public void setshowHelpOverlay(boolean value)
-    {
-        appsettingsList.put("showhelpoverlay",value+"");
+    public void setshowHelpOverlay(boolean value) {
+        appsettingsList.put("showhelpoverlay", value + "");
     }
 
     public boolean getShowHelpOverlay() {
@@ -214,36 +207,31 @@ public class AppSettingsManager
         return !(tmp != null && !tmp.equals("")) || Boolean.parseBoolean(tmp);
     }
 
-    public void SetBaseFolder(String uri)
-    {
-        appsettingsList.put(SETTING_BASE_FOLDER,uri);
+    public void SetBaseFolder(String uri) {
+        appsettingsList.put(SETTING_BASE_FOLDER, uri);
     }
 
     public String GetBaseFolder() {
         return appsettingsList.get(SETTING_BASE_FOLDER);
     }
 
-    public void SetCurrentCamera(int currentcamera)
-    {
+    public void SetCurrentCamera(int currentcamera) {
         this.currentcamera = currentcamera;
-        appsettingsList.put(SETTING_CURRENTCAMERA, currentcamera+"");
+        appsettingsList.put(SETTING_CURRENTCAMERA, currentcamera + "");
     }
 
-    public int GetCurrentCamera()
-    {
+    public int GetCurrentCamera() {
         String cam = appsettingsList.get(SETTING_CURRENTCAMERA);
         if (cam == null || cam.equals(""))
             return 0;
         return Integer.parseInt(cam);
     }
 
-    public void SetCurrentModule(String modulename)
-    {
+    public void SetCurrentModule(String modulename) {
         appsettingsList.put(getApiSettingString(SETTING_CURRENTMODULE), modulename);
     }
 
-    public String GetCurrentModule()
-    {
+    public String GetCurrentModule() {
         String mod = appsettingsList.get(getApiSettingString(SETTING_CURRENTMODULE));
         if (mod != null && !mod.equals(""))
             return mod;
@@ -257,15 +245,15 @@ public class AppSettingsManager
      * camera1 is the api
      * mexposure is the settingsName
      * 0 is the camera to that the settings belong
+     *
      * @param settingsName to use
      * @return
      */
-    private String getApiSettingString(String settingsName)
-    {
+    private String getApiSettingString(String settingsName) {
         StringBuilder newstring = new StringBuilder();
         if (API_SONY.equals(camApiString))
             newstring.append(API_SONY).append(settingsName);
-        else if(API_1.equals(camApiString))
+        else if (API_1.equals(camApiString))
             newstring.append(API_1).append(settingsName).append(currentcamera);
         else
             newstring.append(API_2).append(settingsName).append(currentcamera);
@@ -273,52 +261,42 @@ public class AppSettingsManager
     }
 
 
-
-    public boolean GetWriteExternal()
-    {
+    public boolean GetWriteExternal() {
         return getBoolean(SETTING_EXTERNALSD, false);
     }
 
-    public void SetWriteExternal(boolean write)
-    {
-        setBoolean(SETTING_EXTERNALSD,write);
+    public void SetWriteExternal(boolean write) {
+        setBoolean(SETTING_EXTERNALSD, write);
 
     }
 
-    public void SetCamera2FullSupported(String value)
-    {
+    public void SetCamera2FullSupported(String value) {
         appsettingsList.put(CAMERA2FULLSUPPORTED, value);
     }
 
-    public String IsCamera2FullSupported()
-    {
+    public String IsCamera2FullSupported() {
         String t = appsettingsList.get(CAMERA2FULLSUPPORTED);
         if (t != null)
             return t;
         return "";
     }
 
-    private void loadAppSettings()
-    {
+    private void loadAppSettings() {
         File appsettings = new File(appsettingspath);
-        if (appsettings.exists())
-        {
+        if (appsettings.exists()) {
             BufferedReader br = null;
 
             try {
                 br = new BufferedReader(new FileReader(appsettings));
                 String line;
-                while ((line = br.readLine()) != null)
-                {
-                    String[]split = line.split("=");
-                    appsettingsList.put(split[0],split[1]);
+                while ((line = br.readLine()) != null) {
+                    String[] split = line.split("=");
+                    appsettingsList.put(split[0], split[1]);
                 }
-            } catch (IOException  | ArrayIndexOutOfBoundsException e)
-            {
+            } catch (IOException | ArrayIndexOutOfBoundsException e) {
                 appsettingsList = new HashMap<>();
                 e.printStackTrace();
-            }
-            finally {
+            } finally {
                 if (br != null) {
                     try {
                         br.close();
@@ -333,11 +311,10 @@ public class AppSettingsManager
             device = Devices.valueOf(t);
     }
 
-    public void SaveAppSettings()
-    {
+    public void SaveAppSettings() {
         File mprof = new File(appsettingspath);
 
-        if(!mprof.exists()) {
+        if (!mprof.exists()) {
             try {
                 mprof.createNewFile();
             } catch (IOException e) {
@@ -346,59 +323,52 @@ public class AppSettingsManager
         }
 
         BufferedWriter br = null;
-        try
-        {
+        try {
             br = new BufferedWriter(new FileWriter(mprof));
 
-            for (Entry<String,String> entry : appsettingsList.entrySet()) {
-                br.write(entry.getKey() + "=" + entry.getValue()+"\n");
+            for (Entry<String, String> entry : appsettingsList.entrySet()) {
+                br.write(entry.getKey() + "=" + entry.getValue() + "\n");
             }
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             Logger.exception(e);
-        }
-        finally
-        {
+        } finally {
             try {
                 br.close();
             } catch (IOException e) {
                 Logger.exception(e);
             }
         }
-
     }
 
-    public String getString(String valueToGet, String defaultValue)
-    {
+    public String getString(String valueToGet, String defaultValue) {
         String ret = appsettingsList.get(getApiSettingString(valueToGet));
-        if (ret!=null && !ret.equals(""))
+        if (ret != null && !ret.equals(""))
             return appsettingsList.get(ret);
-        else return defaultValue;
+        else
+            return defaultValue;
     }
 
-    public String getString(String valueToGet)
-    {
+    public String getString(String valueToGet) {
         String ret = appsettingsList.get(getApiSettingString(valueToGet));
-        if (ret!=null && !ret.equals(""))
+        if (ret != null && !ret.equals(""))
             return ret;
-        else return "";
+        else
+            return "";
     }
 
-    public void setString(String settingsName, String Value)
-    {
-        appsettingsList.put(getApiSettingString(settingsName),Value);
+    public void setString(String settingsName, String Value) {
+        appsettingsList.put(getApiSettingString(settingsName), Value);
     }
 
-    public boolean getBoolean(String valueToGet, boolean defaultValue)
-    {
+    public boolean getBoolean(String valueToGet, boolean defaultValue) {
         String tmp = appsettingsList.get(getApiSettingString(valueToGet));
-        if (tmp!=null && !tmp.equals(""))
+        if (tmp != null && !tmp.equals(""))
             return Boolean.parseBoolean(tmp);
-        else return defaultValue;
+        else
+            return defaultValue;
     }
 
-    public void setBoolean(String valueToSet, boolean defaultValue)
-    {
-        setString(valueToSet,defaultValue+"");
+    public void setBoolean(String valueToSet, boolean defaultValue) {
+        setString(valueToSet, defaultValue + "");
     }
 }
