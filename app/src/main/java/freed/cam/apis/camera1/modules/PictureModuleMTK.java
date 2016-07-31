@@ -117,17 +117,20 @@ public class PictureModuleMTK extends PictureModule
         try {
             while (!checkFileCanRead(DeviceSwitcher()))
             {
+                Logger.d(TAG,"try to read raw");
                 if (loopBreaker < 20) {
                     Thread.sleep(100);
                     loopBreaker++;
                 }
                 else {
+                    Logger.d(TAG,"############ Failed to read Raw #########" );
+                    cameraUiWrapper.GetCameraHolder().SendUIMessage("Timout:Failed to read Raw");
                     return;
                 }
             }
             rawfile = DeviceSwitcher();
             data = RawToDng.readFile(rawfile);
-            Logger.d(TAG, "Filesize: " + data.length + " File:" + rawfile.getAbsolutePath());
+            Logger.d(TAG, "Found Raw: Filesize: " + data.length + " File:" + rawfile.getAbsolutePath());
 
         } catch (InterruptedException | IOException e) {
             Logger.exception(e);
