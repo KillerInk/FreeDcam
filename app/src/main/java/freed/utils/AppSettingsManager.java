@@ -20,6 +20,7 @@
 package freed.utils;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -192,10 +193,7 @@ public class AppSettingsManager {
 
     public Devices getDevice() {
         String t = appsettingsList.get("DEVICE");
-        if (t == null || t.equals(""))
-            return null;
-        else
-            return Devices.valueOf(t);
+        return TextUtils.isEmpty(t) ? null : Devices.valueOf(t);
     }
 
     public void setshowHelpOverlay(boolean value) {
@@ -204,7 +202,7 @@ public class AppSettingsManager {
 
     public boolean getShowHelpOverlay() {
         String tmp = appsettingsList.get("showhelpoverlay");
-        return !(tmp != null && !tmp.equals("")) || Boolean.parseBoolean(tmp);
+        return !TextUtils.isEmpty(tmp);
     }
 
     public void SetBaseFolder(String uri) {
@@ -222,9 +220,7 @@ public class AppSettingsManager {
 
     public int GetCurrentCamera() {
         String cam = appsettingsList.get(SETTING_CURRENTCAMERA);
-        if (cam == null || cam.equals(""))
-            return 0;
-        return Integer.parseInt(cam);
+        return TextUtils.isEmpty(cam) ? 0 : Integer.parseInt(cam);
     }
 
     public void SetCurrentModule(String modulename) {
@@ -260,14 +256,12 @@ public class AppSettingsManager {
         return newstring.toString();
     }
 
-
     public boolean GetWriteExternal() {
         return getBoolean(SETTING_EXTERNALSD, false);
     }
 
     public void SetWriteExternal(boolean write) {
         setBoolean(SETTING_EXTERNALSD, write);
-
     }
 
     public void SetCamera2FullSupported(String value) {
@@ -276,9 +270,7 @@ public class AppSettingsManager {
 
     public String IsCamera2FullSupported() {
         String t = appsettingsList.get(CAMERA2FULLSUPPORTED);
-        if (t != null)
-            return t;
-        return "";
+        return TextUtils.isEmpty(t) ? "" : t;
     }
 
     private void loadAppSettings() {
@@ -307,7 +299,7 @@ public class AppSettingsManager {
             }
         }
         String t = appsettingsList.get("DEVICE");
-        if (t != null && !t.equals(""))
+        if (!TextUtils.isEmpty(t))
             device = Devices.valueOf(t);
     }
 
@@ -333,27 +325,24 @@ public class AppSettingsManager {
             Logger.exception(e);
         } finally {
             try {
-                br.close();
+                if (br != null) {
+                    br.close();
+                }
             } catch (IOException e) {
                 Logger.exception(e);
             }
         }
+
     }
 
     public String getString(String valueToGet, String defaultValue) {
         String ret = appsettingsList.get(getApiSettingString(valueToGet));
-        if (ret != null && !ret.equals(""))
-            return appsettingsList.get(ret);
-        else
-            return defaultValue;
+        return TextUtils.isEmpty(ret) ? defaultValue : appsettingsList.get(ret);
     }
 
     public String getString(String valueToGet) {
         String ret = appsettingsList.get(getApiSettingString(valueToGet));
-        if (ret != null && !ret.equals(""))
-            return ret;
-        else
-            return "";
+        return TextUtils.isEmpty(ret) ? "" : ret;
     }
 
     public void setString(String settingsName, String Value) {
@@ -362,10 +351,7 @@ public class AppSettingsManager {
 
     public boolean getBoolean(String valueToGet, boolean defaultValue) {
         String tmp = appsettingsList.get(getApiSettingString(valueToGet));
-        if (tmp != null && !tmp.equals(""))
-            return Boolean.parseBoolean(tmp);
-        else
-            return defaultValue;
+        return TextUtils.isEmpty(tmp) ? defaultValue : Boolean.parseBoolean(tmp);
     }
 
     public void setBoolean(String valueToSet, boolean defaultValue) {
