@@ -39,6 +39,7 @@ import freed.cam.apis.camera1.parameters.device.mtk.Meizu_M2_Note_MTK;
 import freed.cam.apis.camera1.parameters.device.mtk.Meizu_MX4_5_MTK;
 import freed.cam.apis.camera1.parameters.device.mtk.Mlais_M52_Red_Note;
 import freed.cam.apis.camera1.parameters.device.mtk.Retro_MTK;
+import freed.cam.apis.camera1.parameters.device.mtk.Rome_X;
 import freed.cam.apis.camera1.parameters.device.mtk.Sony_C5;
 import freed.cam.apis.camera1.parameters.device.mtk.Sony_M5_MTK;
 import freed.cam.apis.camera1.parameters.device.mtk.THL5000_MTK;
@@ -257,7 +258,10 @@ public class DeviceSelector {
                 
             case THL5000_MTK:
                return new THL5000_MTK(cameraParameters,cameraUiWrapper);
-                
+
+            case Umi_Rome_X:
+                return new Rome_X(cameraParameters,cameraUiWrapper);
+
             case Vivo_Xplay3s:
                return new Vivo_Xplay3s(cameraParameters,cameraUiWrapper);
 

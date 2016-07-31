@@ -93,6 +93,7 @@ public class DeviceUtils
         SonyC5_MTK,
         Sony_XperiaL,
         THL5000_MTK,
+        Umi_Rome_X,
         Vivo_Xplay3s,
         Wileyfox_Swift,
         Mi_Max,
@@ -210,6 +211,8 @@ public class DeviceUtils
             return Devices.Sony_XperiaL;
         else if (isDevice(res.getStringArray(array.thl5000)))
             return Devices.THL5000_MTK;
+        else if (isDevice(res.getStringArray(array.umi_rome_x)))
+            return Devices.Umi_Rome_X;
         else if (isDevice(res.getStringArray(array.Vivo_Xplay3s)))
             return Devices.Vivo_Xplay3s;
         else if(isDevice(res.getStringArray(array.wilexfox_swift)))
