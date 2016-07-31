@@ -165,7 +165,6 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
 
     @Override
     public void closeActivity() {
-
     }
 
     @Override
