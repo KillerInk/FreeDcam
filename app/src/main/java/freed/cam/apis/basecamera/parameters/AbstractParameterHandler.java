@@ -41,6 +41,12 @@ import freed.utils.Logger;
 /**
  * Created by troop on 09.12.2014.
  */
+
+/**
+ * This class holds all availible parameters supported by the camera
+ * Parameter can be null when unsupported.
+ * Bevor accessing it, check if is not null or IsSupported
+ */
 public abstract class AbstractParameterHandler
 {
     final String TAG = AbstractParameterHandler.class.getSimpleName();
@@ -48,6 +54,11 @@ public abstract class AbstractParameterHandler
      * Holds the UI/Main Thread
      */
     protected Handler uiHandler;
+
+    /**
+     * a list of listners that wait for ParametersHasLoaded() event
+     * when that get thrown the parameters are fully created and rdy to use
+     */
     private final ArrayList<I_ParametersLoaded> parametersLoadedListner;
 
     protected AppSettingsManager appSettingsManager;
