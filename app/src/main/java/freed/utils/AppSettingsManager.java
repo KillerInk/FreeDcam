@@ -197,12 +197,12 @@ public class AppSettingsManager {
     }
 
     public void setshowHelpOverlay(boolean value) {
-        appsettingsList.put("showhelpoverlay", value + "");
+        appsettingsList.put("showhelpoverlay", Boolean.toString(value));
     }
 
     public boolean getShowHelpOverlay() {
         String tmp = appsettingsList.get("showhelpoverlay");
-        return !TextUtils.isEmpty(tmp);
+        return TextUtils.isEmpty(tmp) || Boolean.valueOf(tmp);
     }
 
     public void SetBaseFolder(String uri) {
