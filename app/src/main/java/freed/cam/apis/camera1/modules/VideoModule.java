@@ -19,7 +19,6 @@
 
 package freed.cam.apis.camera1.modules;
 
-import android.hardware.Camera;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.AudioSource;
 import android.media.MediaRecorder.OutputFormat;
@@ -132,14 +131,6 @@ public class VideoModule extends AbstractVideoModule
             else
             {
                 loadDefaultHighspeed();
-                try {
-                    cameraUiWrapper.GetParameterHandler().HTCVideoModeHSR.SetValue("on",true);
-                }
-                catch (Exception e)
-                {
-
-                }
-
             }
         }
         else
@@ -185,8 +176,8 @@ public class VideoModule extends AbstractVideoModule
         if (cameraUiWrapper.GetParameterHandler().Denoise != null && cameraUiWrapper.GetParameterHandler().Denoise.IsSupported())
             cameraUiWrapper.GetParameterHandler().Denoise.SetValue("denoise-off", false);
         //full camera2 devices dont use hardware preview format so set it only for legacy devices
-        //if (appSettingsManager.IsCamera2FullSupported().equals(KEYS.FALSE))
-           // cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus", false);
+        if (appSettingsManager.IsCamera2FullSupported().equals(KEYS.FALSE))
+            cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("nv12-venus", false);
         //set the profile defined frames per seconds
         if (cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.IsSupported()) {
             cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate + "", false);
@@ -210,7 +201,7 @@ public class VideoModule extends AbstractVideoModule
         if (currentProfile.ProfileName.equals("1080pHFR"))
         {
             cameraUiWrapper.GetParameterHandler().HTCVideoMode.SetValue("2",true);
-            cameraUiWrapper.GetParameterHandler().HTCVideoModeHSR.SetValue("on",true);
+            cameraUiWrapper.GetParameterHandler().HTCVideoModeHSR.SetValue("60",true);
             cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue("60", true);
         }
         else if (currentProfile.ProfileName.equals("720pHFR"))
