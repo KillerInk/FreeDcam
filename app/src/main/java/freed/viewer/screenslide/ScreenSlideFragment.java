@@ -238,7 +238,7 @@ public class ScreenSlideFragment extends Fragment implements OnPageChangeListene
 
     public void NotifyDATAhasChanged()
     {
-        if (mPagerAdapter != null)
+        if (mPagerAdapter != null || mPager != null)
             mPagerAdapter.notifyDataSetChanged();
     }
 

@@ -29,7 +29,6 @@ import android.renderscript.Type.Builder;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import freed.cam.apis.KEYS;
@@ -40,7 +39,6 @@ import freed.utils.FreeDPool;
 import freed.utils.Logger;
 import freed.utils.RenderScriptHandler;
 import freed.utils.ScriptField_MinMaxPixel;
-import freed.utils.StringUtils;
 
 /**
  * Created by GeorgeKiarie on 13/04/2016.
@@ -68,7 +66,7 @@ public class StackingModule extends PictureModule {
         if (!isWorking && !KeepStacking)
         {
             FrameCount = 0;
-            SessionFolder = StringUtils.GetDCIMFolder(appSettingsManager.GetWriteExternal())+ StringUtils.getStringDatePAttern().format(new Date()) + "/";
+            SessionFolder = cameraUiWrapper.getActivityInterface().getStorageHandler().getNewSessionFolderPath(appSettingsManager.GetWriteExternal());
             Logger.d(TAG,"Start Stacking");
             KeepStacking = true;
             capturedPics = new ArrayList<>();
@@ -101,7 +99,7 @@ public class StackingModule extends PictureModule {
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
-                File f = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), ".jpg"));
+                File f = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), ".jpg"));
                 processData(data, f);
             }
         });
@@ -163,7 +161,7 @@ public class StackingModule extends PictureModule {
         Logger.d(TAG, "start preview");
         Logger.d(TAG,"The Data Is " + data.length + " bytes Long" + " and the path is " + file.getAbsolutePath());
         //create file to save
-        File f = new File(SessionFolder +StringUtils.getStringDatePAttern().format(new Date())+".jpg");
+        File f = new File(SessionFolder +cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFileDatedName(".jpg"));
         //save file
         saveBytesToFile(data,f);
         //add file for later stack
@@ -200,7 +198,7 @@ public class StackingModule extends PictureModule {
             int mHeight = Integer.parseInt(cameraUiWrapper.GetParameterHandler().PictureSize.GetValue().split("x")[1]);
             Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Config.ARGB_8888);
             cameraUiWrapper.getRenderScriptHandler().GetOut().copyTo(outputBitmap);
-            File stackedImg = new File(SessionFolder + StringUtils.getStringDatePAttern().format(new Date()) + "_Stack.jpg");
+            File stackedImg = new File(SessionFolder + cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFileDatedName("_Stack.jpg"));
             SaveBitmapToFile(outputBitmap,stackedImg);
             isWorking = false;
             changeCaptureState(CaptureStates.continouse_capture_stop);

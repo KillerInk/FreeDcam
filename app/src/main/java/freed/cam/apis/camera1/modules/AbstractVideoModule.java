@@ -38,7 +38,6 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;
-import freed.utils.StringUtils;
 
 /**
  * Created by troop on 06.01.2016.
@@ -111,7 +110,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract
                 }
             });
 
-            mediaSavePath = StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), ".mp4");
+            mediaSavePath = cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), ".mp4");
 
             setRecorderOutPutFile(mediaSavePath);
 

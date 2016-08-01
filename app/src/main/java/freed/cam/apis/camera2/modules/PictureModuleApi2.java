@@ -72,7 +72,6 @@ import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils.Devices;
 import freed.utils.FreeDPool;
 import freed.utils.Logger;
-import freed.utils.StringUtils;
 
 
 /**
@@ -425,9 +424,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         File file;
         Logger.d(TAG, "Create JPEG");
         if (burstcount > 1)
-            file = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), "_" + imagecount + ".jpg"));
+            file = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), "_" + imagecount + ".jpg"));
         else
-            file = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), ".jpg"));
+            file = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), ".jpg"));
         checkFileExists(file);
         Image image = reader.acquireNextImage();
         while (image == null) {
@@ -443,9 +442,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         File file;
         Logger.d(TAG, "Create DNG");
         /*if (burstcount > 1)
-            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_" + imagecount + ".dng"));
+            file = new File(StringUtils.getNewFilePath(Settings.GetWriteExternal(), "_" + imagecount + ".dng"));
         else*/
-            file = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), ".dng"));
+            file = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), ".dng"));
         //checkFileExists(file);
         Image image = reader.acquireNextImage();
         while (image == null) {
@@ -476,9 +475,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         File file;
         Logger.d(TAG, "Create DNG VIA RAw2DNG");
         if (burstcount > 1)
-            file = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), "_" + imagecount + ".dng"));
+            file = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), "_" + imagecount + ".dng"));
         else
-            file = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), ".dng"));
+            file = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), ".dng"));
         checkFileExists(file);
         Image image = reader.acquireNextImage();
         while (image == null) {

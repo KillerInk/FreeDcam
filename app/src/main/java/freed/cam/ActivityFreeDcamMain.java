@@ -418,20 +418,22 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     public void WorkHasFinished(final FileHolder fileHolder) {
         Logger.d(TAG, "newImageRecieved:" + fileHolder.getFile().getAbsolutePath());
         final Bitmap b = getBitmapHelper().getBitmap(fileHolder, true);
-        if (b == null)
+        if (b == null) {
             return;
+        }
+        else {
+            AddFile(fileHolder);
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
 
-        new Handler(Looper.getMainLooper()).post(new Runnable()
-        {
-            @Override
-            public void run() {
-                AddFile(fileHolder);
-                if (screenSlideFragment != null)
-                    screenSlideFragment.NotifyDATAhasChanged();
-                if (cameraUiFragment != null)
-                    cameraUiFragment.SetThumbImage(b);
-            }
-        });
+                    if (screenSlideFragment != null)
+                        screenSlideFragment.NotifyDATAhasChanged();
+                    if (cameraUiFragment != null)
+                        cameraUiFragment.SetThumbImage(b);
+                }
+            });
+        }
     }
 
     private I_WorkEvent cacheImageRdy = new I_WorkEvent() {

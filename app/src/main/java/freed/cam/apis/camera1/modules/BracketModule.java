@@ -30,7 +30,6 @@ import freed.cam.apis.camera1.CameraHolder;
 import freed.utils.AppSettingsManager;
 import freed.utils.FreeDPool;
 import freed.utils.Logger;
-import freed.utils.StringUtils;
 
 
 /**
@@ -304,7 +303,7 @@ public class BracketModule extends PictureModule
 
     protected File getFile(String fileending)
     {
-        return new File(StringUtils.getFilePathHDR(appSettingsManager.GetWriteExternal(), fileending, hdrCount));
+        return new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePathHDR(appSettingsManager.GetWriteExternal(), fileending, hdrCount));
     }
 
 }

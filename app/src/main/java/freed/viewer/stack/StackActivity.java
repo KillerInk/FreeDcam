@@ -40,13 +40,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Date;
 
 import freed.ActivityAbstract;
-import freed.cam.apis.camera1.parameters.modes.StackModeParameter;
 import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.FreeDPool;
-import freed.utils.Logger;
 import freed.utils.RenderScriptHandler;
 import freed.utils.ScriptField_MinMaxPixel;
 import freed.utils.StringUtils;
@@ -162,7 +159,7 @@ public class StackActivity extends ActivityAbstract
                 }
                 File file = new File(filesToStack[0]);
                 String parent = file.getParent();
-                saveBitmapToFile(outputBitmap,new File(parent+"/" + StringUtils.getStringDatePAttern().format(new Date()) + "_Stack.jpg"));
+                saveBitmapToFile(outputBitmap,new File(parent+"/" + getStorageHandler().getNewFileDatedName("_Stack.jpg")));
             }
         }
         );
