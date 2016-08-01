@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="layout_main_counter_size">50dp</dimen>
+    <dimen name="layout_cameraui_left_icon_size">64dp</dimen>
+    <dimen name="layout_cameraui_child_icon_size_w">128dp</dimen>
+    <dimen name="layout_cameraui_child_icon_size_h">156dp</dimen>
+    <dimen name="layout_cameraui_child_icon_size_sq">75dp</dimen>
+    <dimen name="layout_cameraui_child_icon_size_r_sq">65dp</dimen>
+    <dimen name="layout_cameraui_review_thumb_size">75dp</dimen>
+
+    <dimen name="shuttericon_size">150dp</dimen>
+    <dimen name="uiSettingsWidth">55dp</dimen>
+    <dimen name="infoOverlayTextSize">10dip</dimen>
+    <dimen name="infoOverlayTextMargine">3dp</dimen>
+    <dimen name="uiSettingsHeight">30dp</dimen>
+    <dimen name="crosshairwidth">80dp</dimen>
+    <dimen name="manualitemtextsize">8dp</dimen>
+    <dimen name="manualitemwidth">45dp</dimen>
+    <dimen name="thumbviewsize">65dp</dimen>
+    <dimen name="uiSettingsWidthRight">65dp</dimen>
+    <dimen name="menu_margin">3dp</dimen>
+    <dimen name="left_ui_holder_width">40dp</dimen>
+    <dimen name="manualSettingsHeight">50dp</dimen>
+    <dimen name="image_thumbnails_size">90dp</dimen>
+    <dimen name="ui_settings_item_width">32dp</dimen>
+    <dimen name="ui_settings_item_height">39dp</dimen>
+
+    <dimen name="image_thumbnail_size">120dp</dimen>
+    <dimen name="freedviewer_gridview_topBarHeight">38dp</dimen>
+    <dimen name="freedviewer_screenslide_topBarItemMargine">10dp</dimen>
+    <dimen name="freedviewer_screenslide_exifInfoHeight">20dp</dimen>
+    <dimen name="freedviewer_screenslide_exifInfoItemMargine">4dp</dimen>
+    <dimen name="freedviewer_screenslide_bottomBarHeight">40dp</dimen>
+    <dimen name="freedviewer_topbar_height">40dp</dimen>
+    <dimen name="freedviewer_screenslide_histogram_width">130dp</dimen>
+    <dimen name="freedviewer_screenslide_histogram_height">100dp</dimen>
+    <dimen name="app_icon_size">30dp</dimen>
+    <dimen name="settings_menu_item_description">11dp</dimen>
+    <dimen name="settings_menu_item_header_value">13dp</dimen>
+    <dimen name="settings_menu_item_header">15dp</dimen>
+</resources>

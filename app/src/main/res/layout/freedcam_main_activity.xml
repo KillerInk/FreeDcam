@@ -19,26 +19,25 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/counter"
-        android:gravity="center_horizontal">
+        android:id="@+id/counter">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="0:00:00"
+            android:text="0:00:00:000"
             android:id="@+id/textView_RecCounter"
             android:layout_alignParentLeft="false"
             android:layout_alignParentRight="false"
             android:layout_alignParentTop="false"
             android:rotation="0"
-            android:textSize="20dp"
-            android:background="@drawable/video_time_bg"
+            android:textSize="@dimen/layout_main_counter_size"
             android:paddingLeft="15dp"
             android:paddingRight="10dp"
             android:paddingTop="3.5dp"
             android:layout_marginTop="20dp"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:typeface="monospace" />
 
     </LinearLayout>
 
