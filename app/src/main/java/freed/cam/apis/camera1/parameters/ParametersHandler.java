@@ -464,13 +464,17 @@ public class ParametersHandler extends AbstractParameterHandler
             //Code style break here device lookup
             if(appSettingsManager.getDevice() == Devices.Htc_M8 ||appSettingsManager.getDevice() == Devices.Htc_M9||appSettingsManager.getDevice() == Devices.HTC_OneA9||appSettingsManager.getDevice() == Devices.HTC_OneE8 ) {
                 HTCVideoMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, "video-mode", "video-hfr-values");
-                HTCVideoModeHSR = new BaseModeParameter(cameraParameters, cameraUiWrapper, "video-hsr", "video-hfr-values");
+
             }
 
             if (((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.MTK)
                 VideoHighFramerateVideo = new BaseModeParameter(cameraParameters, cameraUiWrapper, "hsvr-prv-fps", "hsvr-prv-fps-values");
-            else
+            else {
+                if (cameraParameters.get("video-hsr")!= null)
+                    HTCVideoModeHSR = new BaseModeParameter(cameraParameters, cameraUiWrapper, "video-hsr", "video-hfr-values");
                 VideoHighFramerateVideo = new BaseModeParameter(cameraParameters, cameraUiWrapper, "video-hfr", "video-hfr-values");
+
+            }
 
         } catch (Exception e) {
             Logger.exception(e);
