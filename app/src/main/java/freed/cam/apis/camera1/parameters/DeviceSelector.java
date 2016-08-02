@@ -70,6 +70,7 @@ import freed.cam.apis.camera1.parameters.device.qcom.Lenovo_VibeShot_Z90;
 import freed.cam.apis.camera1.parameters.device.qcom.Mi_Max;
 import freed.cam.apis.camera1.parameters.device.qcom.Moto_X2k14;
 import freed.cam.apis.camera1.parameters.device.qcom.Moto_X_Style_Pure_Play;
+import freed.cam.apis.camera1.parameters.device.qcom.Nexus6p_5x;
 import freed.cam.apis.camera1.parameters.device.qcom.OnePlusOne;
 import freed.cam.apis.camera1.parameters.device.qcom.OnePlusTwo;
 import freed.cam.apis.camera1.parameters.device.qcom.Sony_M4;
@@ -217,6 +218,9 @@ public class DeviceSelector {
                 return getDefault(cameraUiWrapper,cameraParameters);
             case Nexus4:
                 return getDefault(cameraUiWrapper,cameraParameters);
+            case Nexus5x:
+            case Nexus6p:
+                return new Nexus6p_5x(cameraParameters,cameraUiWrapper);
             case OnePlusOne:
                return new OnePlusOne(cameraParameters,cameraUiWrapper);
                 

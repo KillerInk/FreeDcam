@@ -352,6 +352,18 @@
         <item>Nexus 4</item>
     </string-array>
 
+    <string-array name="Nexus6">
+        <item>Nexus 6</item>
+    </string-array>
+
+    <string-array name="Nexus6p">
+        <item>Nexus 6P</item>
+    </string-array>
+
+    <string-array name="Nexus5x">
+        <item>Nexus 5X</item>
+    </string-array>
+
     <string-array name="GioneE7">
         <item>E7</item>
     </string-array>
