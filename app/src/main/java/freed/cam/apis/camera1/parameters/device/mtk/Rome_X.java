@@ -17,39 +17,35 @@
  * /
  */
 
-package freed.viewer.dngconvert;
+package freed.cam.apis.camera1.parameters.device.mtk;
 
-import android.R.id;
-import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
+import android.hardware.Camera;
 
-import freed.ActivityAbstract;
-import freed.utils.LocationHandler;
-import freed.viewer.holder.FileHolder;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
+import freed.cam.apis.camera1.parameters.device.BaseMTKDevice;
+import freed.dng.DngProfile;
 
 /**
- * Created by troop on 22.12.2015.
+ * Created by troop on 31.07.2016.
  */
-public class DngConvertingActivity extends ActivityAbstract
-{
-    private final String TAG = DngConvertingActivity.class.getSimpleName();
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getSupportFragmentManager().findFragmentByTag(TAG) == null) {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(id.content, new DngConvertingFragment(), TAG);
-            ft.commit();
+public class Rome_X extends BaseMTKDevice {
+    public Rome_X(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
+        super(parameters, cameraUiWrapper);
+    }
+
+    @Override
+    public boolean IsDngSupported() {
+        return true;
+    }
+
+    @Override
+    public DngProfile getDngProfile(int filesize) {
+        switch (filesize)
+        {
+            case 15360000:
+                return new DngProfile(64, 3200, 2400, DngProfile.Plain, DngProfile.BGGR, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.IMX214));
         }
-
-    }
-
-    @Override
-    public void WorkHasFinished(FileHolder fileHolder) {
-
-    }
-
-    @Override
-    public LocationHandler getLocationHandler() {
         return null;
     }
 }

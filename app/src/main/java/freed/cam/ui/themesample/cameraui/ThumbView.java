@@ -32,7 +32,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
-import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.drawable;
 
 import java.io.File;
@@ -48,29 +47,25 @@ public class ThumbView extends ImageView implements OnClickListener, ActivityAbs
     private final  String TAG = ThumbView.class.getSimpleName();
     private Bitmap mask;
     private I_ThumbClick click;
-    private int mImageThumbSize;
-    private Context context;
 
     public ThumbView(Context context) {
         super(context);
         setOnClickListener(this);
-        setBackgroundDrawable(context.getResources().getDrawable(drawable.thumbnail));
-        init(context);
+        setBackgroundResource(drawable.thumbnail);
+        init();
     }
 
     public ThumbView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         setOnClickListener(this);
-        setBackgroundDrawable(context.getResources().getDrawable(drawable.thumbnail));
-        init(context);
+        setBackgroundResource(drawable.thumbnail);
+        init();
     }
 
-    private void init(Context context)
+    private void init()
     {
-        this.context = context;
         mask = BitmapFactory.decodeResource(getContext().getResources(), drawable.maskthumb);
-        mImageThumbSize = context.getResources().getDimensionPixelSize(dimen.image_thumbnails_size);
     }
 
 

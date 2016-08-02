@@ -32,6 +32,7 @@ import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.DngCreator;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.ColorSpaceTransform;
+import android.location.Location;
 import android.media.Image;
 import android.media.ImageReader;
 import android.media.ImageReader.OnImageAvailableListener;
@@ -72,7 +73,6 @@ import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils.Devices;
 import freed.utils.FreeDPool;
 import freed.utils.Logger;
-import freed.utils.StringUtils;
 
 
 /**
@@ -234,6 +234,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             {Logger.exception(ex);}
             try {
                 captureBuilder.set(CaptureRequest.SCALER_CROP_REGION, cameraHolder.get(CaptureRequest.SCALER_CROP_REGION));
+            }
+            catch (NullPointerException ex)
+            {Logger.exception(ex);}
+            try {
+                if (appSettingsManager.getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+                captureBuilder.set(CaptureRequest.JPEG_GPS_LOCATION, cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
             }
             catch (NullPointerException ex)
             {Logger.exception(ex);}
@@ -425,9 +431,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         File file;
         Logger.d(TAG, "Create JPEG");
         if (burstcount > 1)
-            file = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), "_" + imagecount + ".jpg"));
+            file = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), "_" + imagecount + ".jpg"));
         else
-            file = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), ".jpg"));
+            file = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), ".jpg"));
         checkFileExists(file);
         Image image = reader.acquireNextImage();
         while (image == null) {
@@ -443,9 +449,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         File file;
         Logger.d(TAG, "Create DNG");
         /*if (burstcount > 1)
-            file = new File(StringUtils.getFilePath(Settings.GetWriteExternal(), "_" + imagecount + ".dng"));
+            file = new File(StringUtils.getNewFilePath(Settings.GetWriteExternal(), "_" + imagecount + ".dng"));
         else*/
-            file = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), ".dng"));
+            file = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), ".dng"));
         //checkFileExists(file);
         Image image = reader.acquireNextImage();
         while (image == null) {
@@ -453,6 +459,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         }
         DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, mDngResult);
         dngCreator.setOrientation(mDngResult.get(CaptureResult.JPEG_ORIENTATION));
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+            dngCreator.setLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
         try
         {
             if (!appSettingsManager.GetWriteExternal())
@@ -476,9 +484,9 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         File file;
         Logger.d(TAG, "Create DNG VIA RAw2DNG");
         if (burstcount > 1)
-            file = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), "_" + imagecount + ".dng"));
+            file = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), "_" + imagecount + ".dng"));
         else
-            file = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), ".dng"));
+            file = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), ".dng"));
         checkFileExists(file);
         Image image = reader.acquireNextImage();
         while (image == null) {
@@ -515,6 +523,26 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         double exposurecompensation= mDngResult.get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION).doubleValue();
 
         dngConverter.setExifData(mISO, mExposuretime, mFlash, fnum, focal, "0", cameraHolder.get(CaptureRequest.JPEG_ORIENTATION).toString(), exposurecompensation);
+
+        double Altitude = 0;
+        double Latitude = 0;
+        double Longitude = 0;
+        String Provider = "ASCII";
+        long gpsTime = 0;
+        if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+        {
+            if (cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation() != null)
+            {
+                Location location = cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation();
+                Logger.d(this.TAG, "Has GPS");
+                Altitude = location.getAltitude();
+                Latitude = location.getLatitude();
+                Longitude = location.getLongitude();
+                Provider = location.getProvider();
+                gpsTime = location.getTime();
+                dngConverter.SetGPSData(Altitude, Latitude, Longitude, Provider, gpsTime);
+            }
+        }
 
         int black  = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_BLACK_LEVEL_PATTERN).getOffsetForIndex(0,0);
         int c= cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_COLOR_FILTER_ARRANGEMENT);

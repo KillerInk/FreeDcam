@@ -46,7 +46,7 @@ public class Meizu_M2_Note_MTK extends BaseMTKDevice {
     {
         switch (filesize) {
             case 26023936:
-                return new DngProfile(64, 4192, 3104, DngProfile.Plain, DngProfile.RGGB, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+                return new DngProfile(64, 4192, 3104, DngProfile.Plain, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
         }
         return null;
     }

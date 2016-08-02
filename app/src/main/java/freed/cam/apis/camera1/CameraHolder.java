@@ -57,7 +57,6 @@ public class CameraHolder extends CameraHolderAbstract
     private Surface previewSurfaceHolder;
 
     public Frameworks DeviceFrameWork = Frameworks.Normal;
-    public Location gpsLocation;
     public int Orientation;
 
     public int CurrentCamera;
@@ -325,7 +324,6 @@ public class CameraHolder extends CameraHolderAbstract
     @Override
     public void SetLocation(Location loc)
     {
-        gpsLocation = loc;
         if(!isRdy)
             return;
 

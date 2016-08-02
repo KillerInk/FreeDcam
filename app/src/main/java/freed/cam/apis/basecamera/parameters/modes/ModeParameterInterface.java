@@ -21,19 +21,45 @@ package freed.cam.apis.basecamera.parameters.modes;
 
 /**
  * Created by troop on 17.08.2014.
+ * represents the Basic mode parameter that get used in cameraui and settings
  */
 public interface ModeParameterInterface
 {
+    /**
+     * if the parameter is supported or not
+     * @return true when the parameter can get used.
+     */
     boolean IsSupported();
 
+    /**
+     * Set the value to the parameters
+     * @param valueToSet the value to set
+     * @param setToCamera true when it should get direct applied to the camera
+     */
     void SetValue(String valueToSet, boolean setToCamera);
 
+    /**
+     *
+     * @return the current value set to the cameraparameters
+     */
     String GetValue();
 
+    /**
+     *
+     * @return all values supported by that parameters
+     */
     String[] GetValues();
 
+    /**
+     * visible state to the ui
+     * @return true when visible, false when it should be hidden
+     */
     boolean IsVisible();
 
+    /**
+     * add an listner that listen to value/s changes
+     * @param eventListner to notify when background changes happen
+     */
     void addEventListner(AbstractModeParameter.I_ModeParameterEvent eventListner);
     void removeEventListner(AbstractModeParameter.I_ModeParameterEvent parameterEvent);
 

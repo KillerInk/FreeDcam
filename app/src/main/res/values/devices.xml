@@ -512,4 +512,8 @@
         <item>Wileyfox Swift</item>
     </string-array>
 
+    <string-array name="umi_rome_x">
+        <item>ROME_X</item>
+    </string-array>
+
 </resources>

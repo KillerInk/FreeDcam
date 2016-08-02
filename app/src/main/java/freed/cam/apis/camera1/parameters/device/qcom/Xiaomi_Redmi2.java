@@ -47,6 +47,9 @@ public class Xiaomi_Redmi2 extends BaseQcomDevice
         switch (filesize) {
             case 9990144:
                 return new DngProfile(0, 3264, 2448, DngProfile.Mipi, DngProfile.BGGR, 4080, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+            case 10653696:
+                return new DngProfile(16, 3264, 2448, DngProfile.Qcom, DngProfile.BGGR, 0,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
+
         }
         return null;
     }

@@ -2,95 +2,95 @@
     <!-- settings_leftmenufragment  -->
     <string name="app_name">themesample</string>
     <string name="setting_picture_group_header">Bild Einstellungen</string>
-    <string name="setting_bayerformat_description">Sensor raw format welches genutzt wird zum DNG konvertieren</string>
-    <string name="setting_bayerformat_header">Bayer Format: </string>
+    <string name="setting_bayerformat_description">Sensor Raw Format für die DNG Konvertierung</string>
+    <string name="setting_bayerformat_header">Bayer Format:</string>
     <string name="setting_jpegquality_description">Qualität in %</string>
-    <string name="setting_jpegquality_header">JPEG Kompression: </string>
-    <string name="setting_picturesize_description">Bildgröße für Jpeg: </string>
-    <string name="setting_picturesize_header">Größe: </string>
+    <string name="setting_jpegquality_header">JPEG Kompression:</string>
+    <string name="setting_picturesize_description">Bildgröße für Jpeg:</string>
+    <string name="setting_picturesize_header">Größe:</string>
 
     <string name="setting_video_group_header">Video</string>
-    <string name="setting_videoprofile_description">Media Profile für Videoaufzeichnung</string>
-    <string name="setting_videoprofile_header">Video Profile: </string>
+    <string name="setting_videoprofile_description">Medien Profile für Videoaufzeichnung</string>
+    <string name="setting_videoprofile_header">Video Profile:</string>
     <string name="setting_videohdr_description">Aktvieren für HDR Videos</string>
-    <string name="setting_videohdr_header">Video HDR: </string>
+    <string name="setting_videohdr_header">Video HDR:</string>
 
     <string name="setting_hdr_">Bracket</string>
-    <string name="setting_aebracket_header">AE-Bracket: </string>
+    <string name="setting_aebracket_header">AE-Bracket:</string>
     <string name="setting_aebracket_description">Wenn aktivert, werden 3 Bilder auf einmal aufgenommen.</string>
 
-    <string name="setting_freedcam_">Freedcam Einstellungen</string>
+    <string name="setting_freedcam_">FreeDcam Einstellungen</string>
     <string name="setting_api_header">API:</string>
-    <string name="setting_api_description">Wähle die Api die genutzt werden soll</string>
-    <string name="setting_externalshutter_header">Externer Auslöser: </string>
-    <string name="setting_location_description">Gps Daten für Bilder und Videos</string>
-    <string name="setting_location_header">GPSInfo: </string>
-    <string name="setting_guide_description">Kompositorische Guides</string>
-    <string name="setting_guide_header">Guide: </string>
+    <string name="setting_api_description">Zu verwendende Kamera API</string>
+    <string name="setting_externalshutter_header">Externer Auslöser:</string>
+    <string name="setting_location_description">GPS Daten für Bilder und Videos</string>
+    <string name="setting_location_header">GPS Info:</string>
+    <string name="setting_guide_description">Kompositorische Hilfslinien</string>
+    <string name="setting_guide_header">Hilfslinien:</string>
     <string name="setting_focuspeak_description">Aktiviert FocusPeak in der Vorschau</string>
-    <string name="setting_focuspeak_header">Focuspeak: </string>
-    <string name="setting_orientation_header">Orientierungs Korrektur: </string>
+    <string name="setting_focuspeak_header">FocusPeak:</string>
+    <string name="setting_orientation_header">Orientierungs-Korrektur:</string>
     <string name="setting_orientation_description">Rotiert die Kamera um 180° wenn aktiviert</string>
-    <string name="setting_sdcard_header">SD Card: </string>
-    <string name="setting_theme_header">Theme: </string>
-    <string name="setting_theme_description">Choose your favorite Theme</string>
+    <string name="setting_sdcard_header">SD Karte:</string>
+    <string name="setting_theme_header">Erscheinungsbild:</string>
+    <string name="setting_theme_description">Das Erscheinungsbild auswählen</string>
 
     <!-- settings_rightmenufragment  -->
-    <string name="setting_camera_">Allgemeine Kamera Einstellungen</string>
-    <string name="setting_antiflicker_header">Anti Flicker: </string>
+    <string name="setting_camera_">Allgemeine Kameraeinstellungen</string>
+    <string name="setting_antiflicker_header">Anti Flicker:</string>
     <string name="setting_antiflicker_description">Reduziert das Flimmern von künstlichen Lichtquellen</string>
-    <string name="setting_color_header">Farb Effekt: </string>
-    <string name="setting_color_description">Farb Effekt Stil</string>
-    <string name="setting_scene_header">Szene: </string>
-    <string name="setting_scene_description">Wähle die Szene die am besten passt zur aktuellen Belichtung</string>
+    <string name="setting_color_header">Farbeffekt:</string>
+    <string name="setting_color_description">Farbeffekt Stil</string>
+    <string name="setting_scene_header">Szene:</string>
+    <string name="setting_scene_description">Wähle die Szene die am besten zur aktuellen Beleuchtung passt</string>
 
     <string name="setting_qcom_">Qualcomm Einstellungen</string>
-    <string name="setting_cds_header">Korrelierte Doppelabtastung: </string>
-    <string name="setting_cds_description">Sensor elektrische Abtastung zweimal gemessen</string>
-    <string name="setting_dis_header">Digital Bild Stabilisierung: </string>
-    <string name="setting_dis_description">Versucht digital das Bild zustabilisieren</string>
-    <string name="setting_lensshade_header">Linsen abschattung: </string>
-    <string name="setting_mce_header">Farbverstärkung: </string>
+    <string name="setting_cds_header">Korrelierte Doppelabtastung:</string>
+    <string name="setting_cds_description">Sensor zweimal auslesen</string>
+    <string name="setting_dis_header">Digitale Bildstabilisierung:</string>
+    <string name="setting_dis_description">Versucht digital das Bild zu stabilisieren</string>
+    <string name="setting_lensshade_header">Linsenabschattung:</string>
+    <string name="setting_mce_header">Farbverstärkung:</string>
     <string name="setting_mce_description">Verstärkt die Farben</string>
-    <string name="setting_redeye_header">Rote Augen Reduzieren: </string>
-    <string name="setting_redeye_description">Feuert einen  Vorblitz vor dem Hauptblitz</string>
-    <string name="setting_scenedec_header">Szenen Detector: </string>
-    <string name="setting_scenedec_description">Autmatischer Szenen wechsel</string>
-    <string name="setting_temporaldenoise_header">Temporale Rauschunterdrückung: </string>
+    <string name="setting_redeye_header">Rote Augen reduzieren:</string>
+    <string name="setting_redeye_description">Löst einen Vorblitz vor dem Hauptblitz aus</string>
+    <string name="setting_scenedec_header">Szenenerkennung:</string>
+    <string name="setting_scenedec_description">Autmatischer Szenenwechsel</string>
+    <string name="setting_temporaldenoise_header">Temporale Rauschunterdrückung:</string>
     <string name="setting_temporaldenoise_description">Rauschunterdrückung für Video, nicht mit Wavelet benutzen!</string>
-    <string name="setting_waveletdenoise_header">Wavelet Rauschunterdrückung: </string>
-    <string name="setting_waveletdenoise_description">Deaktiveren um die Jpeg Rauschunterdrückung zu deaktivieren, nicht mit Temporal benutzen!</string>
-    <string name="setting_zsl_header">Zero Shutter Lag: </string>
-    <string name="setting_zsl_description">Nutz die Bilder aus den KameraStream der Vorschau, muss ausgeschaltet sein für RAW!</string>
+    <string name="setting_waveletdenoise_header">Wavelet Rauschunterdrückung:</string>
+    <string name="setting_waveletdenoise_description">Deaktiveren, um die JPEG Rauschunterdrückung zu deaktivieren, nicht mit Temporal benutzen!</string>
+    <string name="setting_zsl_header">Zero Shutter Lag:</string>
+    <string name="setting_zsl_description">Nutzt direkt die Vorschau-Bilder, muss ausgeschaltet sein für RAW!</string>
 
-    <string name="setting_camera2_">Camera 2 Einstellungen</string>
-    <string name="setting_colorcorrection_header">Farbkorrektur: </string>
-    <string name="setting_colorcorrection_description">Manual auswählen um die Farbkorrektur einzustellen</string>
-    <string name="setting_controlmode_header">Camera Funktion: </string>
-    <string name="setting_controlmode_description">Kontrolliert die Hauptfunktionen der Kamera, auschalten für Manuellekontrolle</string>
+    <string name="setting_camera2_">Camera API 2 Einstellungen</string>
+    <string name="setting_colorcorrection_header">Farbkorrektur:</string>
+    <string name="setting_colorcorrection_description">Auswählen um die Farbkorrektur einzustellen</string>
+    <string name="setting_controlmode_header">Camera Funktion:</string>
+    <string name="setting_controlmode_description">Kontrolliert die Hauptfunktionen der Kamera, auschalten für manuelle Kontrolle</string>
     <string name="setting_edge_description"></string>
-    <string name="setting_hotpixel_header">HotPixel Correction: </string>
+    <string name="setting_hotpixel_header">HotPixel Korrektur:</string>
     <string name="setting_hotpixel_description"></string>
-    <string name="setting_tonemap_header">Farbanpassung: </string>
+    <string name="setting_tonemap_header">Farbanpassung:</string>
     <string name="setting_tonemap_description"></string>
 
     <string name="setting_sonycameraremote_">Sony Camera Remote Einstellungen</string>
-    <string name="setting_objecttrack_header">Objekt Verfolgung: </string>
-    <string name="setting_objecttrack_description">Aktivieren um den Fokus auf ein Objekt zusetzen und scharf zuhalten</string>
-    <string name="setting_postview_header">Vorschau Bild Größe: </string>
-    <string name="setting_postview_description">Größe der Bilder die von der RemoteKamera übertragen werden</string>
+    <string name="setting_objecttrack_header">Objekt Verfolgung:</string>
+    <string name="setting_objecttrack_description">Aktivieren, um den Fokus auf ein Objekt zusetzen und scharf zuhalten</string>
+    <string name="setting_postview_header">Bildgröße der Vorschau:</string>
+    <string name="setting_postview_description">Größe der Bilder, die von der Kamera übertragen werden</string>
 
     <string name="setting_omap_">OMAP Einstellungen</string>
-    <string name="setting_ipp_header">BildNachBearbeitung: </string>
-    <string name="setting_ipp_description">Die Qualität des PostProcessing</string>
+    <string name="setting_ipp_header">Bildnachbearbeitung:</string>
+    <string name="setting_ipp_description">Qualität der Nachbearbietung</string>
 
     <string name="setting_lg_">LG Einstellungen</string>
-    <string name="setting_ois_header">Optische Bild Stabilisierung: </string>
+    <string name="setting_ois_header">Optische Bildstabilisierung:</string>
     <string name="setting_ois_description"></string>
 
     <string name="setting_htc_">HTC Settings</string>
-    <string name="setting_nonzsl_header">Manuellekontrolle(ZSL= OFF): </string>
-    <string name="setting_nonzsl_description">Aktivieren für Manuellekontrolle wenn ZSL deaktiviert ist</string>
+    <string name="setting_nonzsl_header">Manuelle Kontrolle (ZSL = OFF):</string>
+    <string name="setting_nonzsl_description">Aktivieren für Manuelle Kontrolle, wenn ZSL deaktiviert ist</string>
 
     <!-- cameraui  -->
     <string name="uisetting_wb_header">WB</string>
@@ -105,8 +105,8 @@
     <string name="uisetting_camerswitch_header">Camera</string>
     <string name="uisetting_mode_header">Modus</string>
     <string name="uisetting_exit_header">Exit</string>
-    <string name="setting_edge_header">Vignettierung: </string>
-    <string name="setting_externalshutter_description">Die Taste welche als Externer Auslöser dient</string>
+    <string name="setting_edge_header">Vignettierung:</string>
+    <string name="setting_externalshutter_description">Die Taste welche als externer Auslöser dient</string>
     <string name="setting_lensshade_description">Reduziert die Vignettierung an den Ecken</string>
     <string name="setting_savecamparams_description"> </string>
     <string name="setting_savecamparams_header">Kameraparameter speichern</string>

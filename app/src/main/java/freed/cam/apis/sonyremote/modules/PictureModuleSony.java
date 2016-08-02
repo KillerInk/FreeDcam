@@ -38,7 +38,6 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.sonyremote.CameraHolderSony;
 import freed.cam.apis.sonyremote.parameters.ParameterHandler;
 import freed.utils.Logger;
-import freed.utils.StringUtils;
 
 /**
  * Created by troop on 22.12.2014.
@@ -125,7 +124,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
     @Override
     public void onPictureTaken(URL url)
     {
-        File file = new File(StringUtils.getFilePath(appSettingsManager.GetWriteExternal(), ".jpg"));
+        File file = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), ".jpg"));
         try {
             file.createNewFile();
         } catch (IOException e) {

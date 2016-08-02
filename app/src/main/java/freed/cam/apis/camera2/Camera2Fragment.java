@@ -96,14 +96,20 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     @Override
     public void StartPreview() {
         Logger.d(TAG, "Stop Preview");
-        ((I_PreviewWrapper) moduleHandler.GetCurrentModule()).startPreview();
+        I_PreviewWrapper mi = ((I_PreviewWrapper) moduleHandler.GetCurrentModule());
+        if (mi != null) {
+            mi.startPreview();
+        }
     }
 
     @Override
     public void StopPreview()
     {
         Logger.d(TAG, "Stop Preview");
-        ((I_PreviewWrapper) moduleHandler.GetCurrentModule()).stopPreview();
+        I_PreviewWrapper mi = ((I_PreviewWrapper) moduleHandler.GetCurrentModule());
+        if (mi != null) {
+            mi.stopPreview();
+        }
     }
 
     @Override

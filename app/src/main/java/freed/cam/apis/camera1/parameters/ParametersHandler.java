@@ -62,6 +62,7 @@ import freed.utils.StringUtils.FileEnding;
 
 /**
  * Created by troop on 17.08.2014.
+ * this class handels all camera1 releated parameters.
  */
 public class ParametersHandler extends AbstractParameterHandler
 {
@@ -103,7 +104,9 @@ public class ParametersHandler extends AbstractParameterHandler
     }
 
 
-
+    /**
+     * init and check the parameters used by camera1
+     */
     private void initParameters()
     {
 
@@ -401,7 +404,9 @@ public class ParametersHandler extends AbstractParameterHandler
         Module = new ModuleParameters(cameraUiWrapper, appSettingsManager);
 
 
-        try {
+        try
+        {
+            //set last used settings
             SetAppSettingsToParameters();
             SetParametersToCamera(cameraParameters);
         } catch (Exception e) {
@@ -409,6 +414,7 @@ public class ParametersHandler extends AbstractParameterHandler
         }
 
 
+        //parameters are setup notfiy ui that its rdy to use
         ParametersHasLoaded();
 
         cameraUiWrapper.GetModuleHandler().SetModule(appSettingsManager.GetCurrentModule());
@@ -517,14 +523,11 @@ public class ParametersHandler extends AbstractParameterHandler
         {
             try
             {
-
                 cameraParameters.set("touch-aec","on");
                 cameraParameters.set("selectable-zone-af","spot-metering");
                 cameraParameters.set("raw-size","4208x3120");
                 cameraParameters.set("touch-index-aec", meteringAreas.x + "," + meteringAreas.y);
                 SetParametersToCamera(cameraParameters);
-
-
             }
             catch (Exception e)
             {

@@ -26,7 +26,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
@@ -34,6 +33,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.provider.DocumentFile;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnSystemUiVisibilityChangeListener;
 import android.view.WindowManager.LayoutParams;
@@ -51,7 +51,7 @@ import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils;
 import freed.utils.Logger;
-import freed.utils.StringUtils;
+import freed.utils.StorageFileHandler;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.FileHolder;
 
@@ -81,6 +81,7 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     protected BitmapHelper bitmapHelper;
     protected  List<FileHolder> files;
     private  List<FileEvent> fileListners;
+    protected StorageFileHandler storageHandler;
 
     protected boolean RequestPermission = false;
 
@@ -99,6 +100,7 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
         appSettingsManager = new AppSettingsManager(getApplicationContext());
         bitmapHelper =new BitmapHelper(getApplicationContext(),getResources().getDimensionPixelSize(R.dimen.image_thumbnails_size),this);
         fileListners =  new ArrayList<>();
+        storageHandler = new StorageFileHandler(this);
         if (appSettingsManager.getDevice() == null)
             appSettingsManager.SetDevice(new DeviceUtils().getDevice(getResources()));
         HIDENAVBAR();
@@ -164,7 +166,6 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
 
     @Override
     public void closeActivity() {
-
     }
 
     @Override
@@ -205,184 +206,6 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
         }
     }
 
-    /**
-     * @return all files from /DCIM/FreeDcam from internal and external
-     */
-    private List<FileHolder> getFreeDcamDCIMFiles() {
-        List<FileHolder> f = new ArrayList<>();
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
-            File internal = new File(StringUtils.GetInternalSDCARD() + StringUtils.freedcamFolder);
-            if (internal != null)
-                Logger.d(TAG, "InternalSDPath:" + internal.getAbsolutePath());
-            readFilesFromFolder(internal, f,FormatTypes.all, false);
-            try {
-                File fs = new File(StringUtils.GetExternalSDCARD());
-                if (fs != null && fs.exists()) {
-                    File external = new File(fs + StringUtils.freedcamFolder);
-                    if (external != null && external.exists())
-                        Logger.d(TAG, "ExternalSDPath:" + external.getAbsolutePath());
-                    else
-                        Logger.d(TAG, "No ExternalSDFound");
-                    readFilesFromFolder(external, f, FormatTypes.all, true);
-                }
-            } catch (NullPointerException ex) {
-                Logger.e(TAG, "Looks like there is no External SD");
-            }
-        }
-        else
-        {
-            List<FileHolder> dcims= getDCIMDirs();
-            for (FileHolder fileHolder : dcims)
-            {
-                readFilesFromFolder(fileHolder.getFile(),f, FormatTypes.all, fileHolder.isExternalSD());
-            }
-        }
-
-        SortFileHolder(f);
-        return f;
-    }
-
-    /**
-     * Lists all Folders stored in DCIM on internal and external SD
-     *
-     * @return folders from DCIM dirs
-     */
-    private List<FileHolder> getDCIMDirs() {
-        ArrayList<FileHolder> list = new ArrayList<>();
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP)
-        {
-            File internalSDCIM = new File(StringUtils.GetInternalSDCARD() + StringUtils.DCIMFolder);
-            File[] f = internalSDCIM.listFiles();
-            if (f != null) {
-                for (File aF : f) {
-                    if (!aF.isHidden())
-                        list.add(new FileHolder(aF, false));
-                }
-            }
-            try {
-                File fs = new File(StringUtils.GetExternalSDCARD());
-                if (fs != null && fs.exists()) {
-                    File externalSDCIM = new File(StringUtils.GetExternalSDCARD() + StringUtils.DCIMFolder);
-                    f = externalSDCIM.listFiles();
-                    for (File aF : f) {
-                        if (!aF.isHidden())
-                            list.add(new FileHolder(aF, true));
-                    }
-                }
-            } catch (Exception ex) {
-                Logger.d(TAG, "No external SD!");
-            }
-        }
-        else
-        {
-            File[] files = getStorageDirectory().listFiles();
-            boolean internalfound = false;
-            boolean externalfound = false;
-            for (File file : files)
-            {
-                if (file.getName().toLowerCase().equals("emulated"))
-                {
-
-                    File intDcim = new File(file.getAbsolutePath()+"/0/" + StringUtils.DCIMFolder);
-                    if (intDcim.exists()  && !internalfound) {
-                        internalfound = true;
-                        list.add(new FileHolder(intDcim, false));
-                    }
-                    File extDcim = new File(file.getAbsolutePath()+"/1/" + StringUtils.DCIMFolder);
-                    if (extDcim.exists() && !externalfound) {
-                        externalfound = true;
-                        list.add(new FileHolder(extDcim, true));
-                    }
-                }
-                if (file.getName().toLowerCase().equals("sdcard0") && !internalfound)
-                {
-                    File intDcim = new File(file.getAbsolutePath() + StringUtils.DCIMFolder);
-                    internalfound = true;
-                    list.add(new FileHolder(intDcim, false));
-                }
-                if (file.getName().toLowerCase().equals("sdcard1") && !externalfound)
-                {
-                    File extDcim = new File(file.getAbsolutePath() + StringUtils.DCIMFolder);
-                    if (extDcim.exists())
-                    {
-                        externalfound = true;
-                        list.add(new FileHolder(extDcim, true));
-                    }
-                }
-                if (!file.getName().toLowerCase().equals("emulated") && !file.getName().toLowerCase().equals("sdcard0") &&  !file.getName().toLowerCase().equals("sdcard1"))
-                {
-                    File extDcim = new File(file.getAbsolutePath() + StringUtils.DCIMFolder);
-                    if (extDcim.exists())
-                    {
-                        externalfound = true;
-                        list.add(new FileHolder(extDcim, true));
-                    }
-                }
-
-            }
-            ArrayList<FileHolder> subDcimFolders= new ArrayList<>();
-            for (FileHolder dcim : list)
-            {
-                File[] subfolders = dcim.getFile().listFiles();
-                if (subfolders != null)
-                {
-                    for (File f : subfolders)
-                    {
-                        if (!f.isHidden())
-                            subDcimFolders.add(new FileHolder(f, dcim.isExternalSD()));
-                    }
-                }
-            }
-            list = subDcimFolders;
-
-        }
-        SortFileHolder(list);
-        Logger.d(TAG,"#############Found DCIM Folders:");
-        for (FileHolder fileHolder : list)
-            Logger.d(TAG,fileHolder.getFile().getAbsolutePath());
-        Logger.d(TAG,"#############END DCIM Folders:");
-        return list;
-    }
-
-    /**
-     * reads all files from a folder
-     * @param folder to read
-     * @param list to fill
-     * @param formatsToShow that get added the the list
-     * @param external is on external SD
-     */
-    private void readFilesFromFolder(File folder, List<FileHolder> list, FormatTypes formatsToShow, boolean external) {
-        File[] folderfiles = folder.listFiles();
-        if (folderfiles == null)
-            return;
-        for (File f : folderfiles) {
-            if (!f.isHidden()) {
-                if (formatsToShow == FormatTypes.all && (
-                        f.getName().toLowerCase().endsWith(StringUtils.FileEnding.JPG)
-                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.JPS)
-                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.RAW)
-                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.BAYER)
-                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.DNG)
-                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.MP4)
-                ))
-                    list.add(new FileHolder(f,external));
-                else if (formatsToShow == FormatTypes.dng && f.getName().toLowerCase().endsWith(StringUtils.FileEnding.DNG))
-                    list.add(new FileHolder(f,external));
-                else if (formatsToShow == FormatTypes.raw && f.getName().toLowerCase().endsWith(StringUtils.FileEnding.RAW))
-                    list.add(new FileHolder(f,external));
-                else if (formatsToShow == FormatTypes.raw && f.getName().toLowerCase().endsWith(StringUtils.FileEnding.BAYER))
-                    list.add(new FileHolder(f,external));
-                else if (formatsToShow == FormatTypes.jps && f.getName().toLowerCase().endsWith(StringUtils.FileEnding.JPS))
-                    list.add(new FileHolder(f,external));
-                else if (formatsToShow == FormatTypes.jpg && f.getName().toLowerCase().endsWith(StringUtils.FileEnding.JPG))
-                    list.add(new FileHolder(f,external));
-                else if (formatsToShow == FormatTypes.mp4 && f.getName().toLowerCase().endsWith(StringUtils.FileEnding.MP4))
-                    list.add(new FileHolder(f,external));
-            }
-        }
-        SortFileHolder(list);
-    }
-
     @Override
     public BitmapHelper getBitmapHelper() {
         return bitmapHelper;
@@ -396,6 +219,11 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     @Override
     public AppSettingsManager getAppSettings() {
         return appSettingsManager;
+    }
+
+    @Override
+    public StorageFileHandler getStorageHandler() {
+        return this.storageHandler;
     }
 
     @Override
@@ -464,7 +292,7 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     public void LoadFolder(FileHolder fileHolder,FormatTypes types )
     {
         files.clear();
-        readFilesFromFolder(fileHolder.getFile(),files,types,fileHolder.isExternalSD());
+        storageHandler.readFilesFromFolder(fileHolder.getFile(),files,types,fileHolder.isExternalSD());
     }
 
     /**
@@ -475,7 +303,7 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     {
         if (files != null)
             files.clear();
-        files = getDCIMDirs();
+        files = storageHandler.getDCIMDirs();
     }
 
     /**
@@ -485,7 +313,7 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     public void LoadFreeDcamDCIMDirsFiles() {
         if (files != null)
             files.clear();
-        files = getFreeDcamDCIMFiles();
+        files = storageHandler.getFreeDcamDCIMDirsFiles();
     }
 
     private void SortFileHolder(List<FileHolder> f)
@@ -499,7 +327,7 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
 
     private  File getStorageDirectory() {
         String path = System.getenv("ANDROID_STORAGE");
-        return path == null ? new File("/storage") : new File(path);
+        return (path == null || TextUtils.isEmpty(path)) ? new File("/storage") : new File(path);
     }
 
     @Override
@@ -700,30 +528,18 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
     {
-        if (permissions[0].equals(Manifest.permission.CAMERA))
-        {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                cameraPermsissionGranted(true);
-            else
-                cameraPermsissionGranted(false);
-        }
-        else if (permissions[0].equals(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                externalSDPermissionGranted(true);
-            else
-                externalSDPermissionGranted(false);
-        }
-        else if (permissions[0].equals(Manifest.permission.ACCESS_WIFI_STATE)) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                wifiPermissionGranted(true);
-            else
-                wifiPermissionGranted(false);
-        }
-        else if (permissions[0].equals(Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                locationPermissionGranted(true);
-            else
-                locationPermissionGranted(false);
+        for (int i = 0; i < permissions.length; ++i) {
+            String perm = permissions[i];
+            boolean wasGranted = grantResults[i] == PackageManager.PERMISSION_GRANTED;
+            if (Manifest.permission.CAMERA.equals(perm)) {
+                cameraPermsissionGranted(wasGranted);
+            } else if (Manifest.permission.READ_EXTERNAL_STORAGE.equals(perm)) {
+                externalSDPermissionGranted(wasGranted);
+            } else if (Manifest.permission.ACCESS_WIFI_STATE.equals(perm)) {
+                wifiPermissionGranted(wasGranted);
+            } else if (Manifest.permission.ACCESS_COARSE_LOCATION.equals(perm)) {
+                locationPermissionGranted(wasGranted);
+            }
         }
         RequestPermission = false;
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
