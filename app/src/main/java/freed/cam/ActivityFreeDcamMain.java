@@ -423,7 +423,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         }
         else {
             AddFile(fileHolder);
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
+            runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
 
