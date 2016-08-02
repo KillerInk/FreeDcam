@@ -24,7 +24,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
 import freed.ActivityAbstract;
-import freed.utils.AppSettingsManager;
+import freed.utils.LocationHandler;
 import freed.viewer.holder.FileHolder;
 
 /**
@@ -46,5 +46,10 @@ public class DngConvertingActivity extends ActivityAbstract
     @Override
     public void WorkHasFinished(FileHolder fileHolder) {
 
+    }
+
+    @Override
+    public LocationHandler getLocationHandler() {
+        return null;
     }
 }

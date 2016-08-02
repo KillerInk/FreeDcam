@@ -44,13 +44,21 @@ import java.io.OutputStream;
 import freed.ActivityAbstract;
 import freed.cam.ui.handler.MediaScannerManager;
 import freed.utils.FreeDPool;
+import freed.utils.LocationHandler;
 import freed.utils.RenderScriptHandler;
 import freed.utils.ScriptField_MinMaxPixel;
 import freed.utils.StringUtils;
 import freed.viewer.dngconvert.DngConvertingFragment;
 import freed.viewer.holder.FileHolder;
 
-import static freed.cam.apis.camera1.parameters.modes.StackModeParameter.*;
+import static freed.cam.apis.camera1.parameters.modes.StackModeParameter.AVARAGE;
+import static freed.cam.apis.camera1.parameters.modes.StackModeParameter.AVARAGE1x2;
+import static freed.cam.apis.camera1.parameters.modes.StackModeParameter.AVARAGE1x3;
+import static freed.cam.apis.camera1.parameters.modes.StackModeParameter.AVARAGE3x3;
+import static freed.cam.apis.camera1.parameters.modes.StackModeParameter.EXPOSURE;
+import static freed.cam.apis.camera1.parameters.modes.StackModeParameter.LIGHTEN;
+import static freed.cam.apis.camera1.parameters.modes.StackModeParameter.LIGHTEN_V;
+import static freed.cam.apis.camera1.parameters.modes.StackModeParameter.MEDIAN;
 
 /**
  * Created by troop on 06.07.2016.
@@ -211,5 +219,10 @@ public class StackActivity extends ActivityAbstract
     @Override
     public void WorkHasFinished(FileHolder fileHolder) {
 
+    }
+
+    @Override
+    public LocationHandler getLocationHandler() {
+        return null;
     }
 }

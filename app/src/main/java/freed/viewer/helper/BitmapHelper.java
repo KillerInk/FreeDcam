@@ -27,10 +27,7 @@ import android.media.ThumbnailUtils;
 import android.provider.MediaStore.Video.Thumbnails;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.jni.RawUtils;

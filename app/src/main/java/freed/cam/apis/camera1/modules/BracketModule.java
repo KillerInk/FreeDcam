@@ -62,6 +62,8 @@ public class BracketModule extends PictureModule
     {
         if (!isWorking)
         {
+            if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+                cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
             files = new File[3];
             hdrCount = 0;
             String picformat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();

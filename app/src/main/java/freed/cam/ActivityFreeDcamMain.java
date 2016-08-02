@@ -20,15 +20,12 @@
 package freed.cam;
 
 
-import android.Manifest.permission;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -37,7 +34,6 @@ import android.support.v4.view.PagerAdapter;
 import android.view.KeyEvent;
 import android.view.View;
 
-import com.troop.freedcam.R;
 import com.troop.freedcam.R.anim;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
@@ -48,6 +44,7 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import freed.ActivityAbstract;
 import freed.cam.apis.ApiHandler;
 import freed.cam.apis.ApiHandler.ApiEvent;
+import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
 import freed.cam.apis.basecamera.CameraFragmentAbstract.CamerUiWrapperRdy;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -60,7 +57,7 @@ import freed.cam.ui.themesample.PagingView;
 import freed.cam.ui.themesample.cameraui.CameraUiFragment;
 import freed.cam.ui.themesample.settings.SettingsMenuFragment;
 import freed.utils.AppSettingsManager;
-import freed.utils.FreeDPool;
+import freed.utils.LocationHandler;
 import freed.utils.Logger;
 import freed.utils.RenderScriptHandler;
 import freed.utils.StringUtils;
@@ -93,6 +90,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     private CameraUiFragment cameraUiFragment;
     private SettingsMenuFragment settingsMenuFragment;
     private ScreenSlideFragment screenSlideFragment;
+    private LocationHandler locationHandler;
 
     private boolean activityIsResumed= false;
 
@@ -104,6 +102,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         if (VERSION.SDK_INT >= VERSION_CODES.KITKAT)
             renderScriptHandler = new RenderScriptHandler(getApplicationContext());
         bitmapHelper.SetWorkDoneListner(cacheImageRdy);
+        locationHandler = new LocationHandler(this);
 
         //load the camera ui
         mPager = (PagingView)findViewById(id.viewPager_fragmentHolder);
@@ -130,14 +129,19 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         }
         if (cameraFragment != null && orientationHandler != null)
             orientationHandler.Start();
+        if (appSettingsManager.getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON) && hasLocationPermission())
+            locationHandler.startLocationListing();
         activityIsResumed = true;
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
         super.onPause();
         if(orientationHandler != null)
             orientationHandler.Stop();
+        if (locationHandler != null)
+            locationHandler.stopLocationListining();
         activityIsResumed = false;
     }
 
@@ -306,7 +310,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
                 cameraFragment.GetModuleHandler().DoWork();
                 return true;
             }
-            if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME)
+            {
                 closeActivity();
                 return true;
             }
@@ -336,7 +341,15 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     }
 
     @Override
-    public void closeActivity() {
+    public void closeActivity()
+    {
+        if (cameraFragment.GetModuleHandler() != null) {
+            if (cameraFragment.GetModuleHandler().GetCurrentModule() != null) {
+                if (cameraFragment.GetModuleHandler().GetCurrentModule().IsWorking()) {
+                    return;
+                }
+            }
+        }
         finish();//moveTaskToBack(true);
     }
 
@@ -360,6 +373,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     @Override
     public void DisablePagerTouch(boolean disable) {
         mPager.EnableScroll(!disable);
+    }
+
+    @Override
+    public LocationHandler getLocationHandler() {
+        return locationHandler;
     }
 
 
@@ -513,5 +531,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
         else {
             finish();
         }
+    }
+
+    @Override
+    protected void locationPermissionGranted(boolean granted) {
+        if (granted)
+            locationHandler.startLocationListing();
     }
 }

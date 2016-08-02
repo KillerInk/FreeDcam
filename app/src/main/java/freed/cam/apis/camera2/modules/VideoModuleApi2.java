@@ -23,6 +23,7 @@ import android.annotation.TargetApi;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCaptureSession.StateCallback;
+import android.location.Location;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.AudioSource;
 import android.media.MediaRecorder.OnErrorListener;
@@ -168,6 +169,12 @@ public class VideoModuleApi2 extends AbstractModuleApi2
                 changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
             }
         });
+
+        if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON)){
+            Location location = cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation();
+            if (location != null)
+                mediaRecorder.setLocation((float) location.getLatitude(), (float) location.getLongitude());
+        }
 
         mediaRecorder.setAudioSource(AudioSource.CAMCORDER);
         mediaRecorder.setVideoSource(VideoSource.SURFACE);

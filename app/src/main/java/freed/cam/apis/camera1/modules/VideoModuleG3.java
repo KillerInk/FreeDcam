@@ -19,6 +19,7 @@
 
 package freed.cam.apis.camera1.modules;
 
+import android.location.Location;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.AudioSource;
 import android.media.MediaRecorder.OutputFormat;
@@ -56,6 +57,11 @@ public class VideoModuleG3 extends AbstractVideoModule
             recorder = new MediaRecorderEx();
             recorder.reset();
             recorder.setCamera(((CameraHolder) cameraUiWrapper.GetCameraHolder()).GetCamera());
+            if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON)){
+                Location location = cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation();
+                if (location != null)
+                    recorder.setLocation((float) location.getLatitude(), (float) location.getLongitude());
+            }
             recorder.setVideoSource(VideoSource.CAMERA);
             switch (currentProfile.Mode)
             {

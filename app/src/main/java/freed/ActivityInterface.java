@@ -26,6 +26,7 @@ import android.support.v4.provider.DocumentFile;
 import java.util.List;
 
 import freed.utils.AppSettingsManager;
+import freed.utils.LocationHandler;
 import freed.utils.StorageFileHandler;
 import freed.viewer.helper.BitmapHelper;
 import freed.viewer.holder.FileHolder;
@@ -76,6 +77,8 @@ public interface ActivityInterface
     boolean hasCameraPermission();
     boolean hasLocationPermission();
     boolean hasWifiPermission();
+
+    LocationHandler getLocationHandler();
 }
 
 

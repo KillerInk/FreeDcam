@@ -32,7 +32,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
-import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.drawable;
 
 import java.io.File;

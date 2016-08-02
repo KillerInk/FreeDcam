@@ -90,6 +90,8 @@ public abstract class AbstractVideoModule extends ModuleAbstract
 
     protected void startRecording()
     {
+        if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+            cameraUiWrapper.GetCameraHolder().SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
         prepareRecorder();
         changeCaptureState(CaptureStates.video_recording_start);
 

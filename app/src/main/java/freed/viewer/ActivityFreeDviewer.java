@@ -36,6 +36,7 @@ import java.util.List;
 
 import freed.ActivityAbstract;
 import freed.utils.FreeDPool;
+import freed.utils.LocationHandler;
 import freed.viewer.gridview.GridViewFragment;
 import freed.viewer.holder.FileHolder;
 import freed.viewer.screenslide.ScreenSlideFragment;
@@ -115,6 +116,11 @@ public class ActivityFreeDviewer extends ActivityAbstract
         super.LoadFolder(fileHolder, types);
         gridViewFragment.NotifyDataSetChanged();
         screenSlideFragment.NotifyDATAhasChanged();
+    }
+
+    @Override
+    public LocationHandler getLocationHandler() {
+        return null;
     }
 
     /**

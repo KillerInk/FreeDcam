@@ -21,10 +21,6 @@ package freed.utils;
 
 import android.os.Environment;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * Created by Ingo on 04.10.2014.
  */
