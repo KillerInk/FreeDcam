@@ -79,6 +79,7 @@ import freed.cam.apis.camera1.parameters.device.qcom.WileyFox_Swift;
 import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Mi3_4;
 import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Mi_Note_Pro;
 import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Redmi2;
+import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Redmi3;
 import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Redmi_Note;
 import freed.cam.apis.camera1.parameters.device.qcom.Yu_Yureka;
 import freed.cam.apis.camera1.parameters.device.qcom.ZTE_ADV;
@@ -285,7 +286,9 @@ public class DeviceSelector {
                 
             case Xiaomi_Redmi_Note3:
                return new Xiaomi_Redmi_Note3_QC_MTK(cameraParameters,cameraUiWrapper);
-                
+
+            case Xiaomi_Redmi3:
+                return new Xiaomi_Redmi3(cameraParameters,cameraUiWrapper);
             case Yu_Yureka:
                return new Yu_Yureka(cameraParameters,cameraUiWrapper);
                 
