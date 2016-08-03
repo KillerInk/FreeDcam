@@ -50,6 +50,7 @@ import freed.cam.apis.basecamera.CameraFragmentAbstract.CamerUiWrapperRdy;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.cam.apis.basecamera.parameters.I_ParametersLoaded;
+import freed.cam.ui.SecureCamera;
 import freed.cam.ui.handler.I_orientation;
 import freed.cam.ui.handler.OrientationHandler;
 import freed.cam.ui.handler.TimerHandler;
@@ -67,7 +68,9 @@ import freed.viewer.screenslide.ScreenSlideFragment;
 /**
  * Created by troop on 18.08.2014.
  */
-public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientation, CamerUiWrapperRdy, ApiEvent,I_ParametersLoaded
+public class ActivityFreeDcamMain extends ActivityAbstract
+        implements I_orientation, CamerUiWrapperRdy, ApiEvent, I_ParametersLoaded,
+            SecureCamera.SecureCameraActivity
 {
     private final String TAG =ActivityFreeDcamMain.class.getSimpleName();
     //listen to orientation changes
@@ -94,10 +97,14 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
 
     private boolean activityIsResumed= false;
 
+    private SecureCamera mSecureCamera = new SecureCamera(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(layout.freedcam_main_activity);
+
+        mSecureCamera.onCreate();
 
         if (VERSION.SDK_INT >= VERSION_CODES.KITKAT)
             renderScriptHandler = new RenderScriptHandler(getApplicationContext());
@@ -124,20 +131,35 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     @Override
     protected void onResume() {
         super.onResume();
+        Logger.d(TAG, "onResume()");
+        // forward to secure camera to handle resume bug
+        mSecureCamera.onResume();
+    }
+
+    @Override
+    public void onResumeTasks() {
+        Logger.d(TAG, "onResumeTasks()");
         if (!hasCameraPermission()) {
             return;
         }
-        if (cameraFragment != null && orientationHandler != null)
-            orientationHandler.Start();
-        if (appSettingsManager.getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON) && hasLocationPermission())
-            locationHandler.startLocationListing();
+        apiHandler.CheckApi();
         activityIsResumed = true;
+        if (getAppSettings().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON) && hasLocationPermission())
+            locationHandler.startLocationListing();
     }
 
     @Override
     protected void onPause()
     {
         super.onPause();
+        Logger.d(TAG, "onPause()");
+        // forward to secure camera to handle resume bug
+        mSecureCamera.onPause();
+    }
+
+    @Override
+    public void onPauseTasks() {
+        Logger.d(TAG, "onPauseTasks()");
         if(orientationHandler != null)
             orientationHandler.Stop();
         if (locationHandler != null)
