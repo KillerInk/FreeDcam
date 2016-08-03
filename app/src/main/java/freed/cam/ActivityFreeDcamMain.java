@@ -190,9 +190,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
     //api handler itself checks first if its a camera2 full device
     //and if yes loads camera2fragment else load camera1fragment
     private void initApiHandler() {
-        apiHandler = new ApiHandler(getApplicationContext(), this, appSettingsManager, renderScriptHandler);
+        apiHandler = new ApiHandler(getApplicationContext(), this, getAppSettings(), renderScriptHandler);
         //check if camera is camera2 full device
-        apiHandler.CheckApi();
     }
 
     //if a DEBUG folder is inside /DCIM/FreeDcam/ logging to file gets started
@@ -210,13 +209,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
      */
     @Override
     public void apiDetectionDone() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                loadCameraFragment();
-
-            }
-        });
+        loadCameraFragment();
+        orientationHandler.Start();
     }
 
     /*

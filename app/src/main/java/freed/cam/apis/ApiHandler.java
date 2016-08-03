@@ -20,6 +20,7 @@
 package freed.cam.apis;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Build.VERSION;
 
 import freed.cam.apis.basecamera.CameraFragmentAbstract;
@@ -62,41 +63,49 @@ public class ApiHandler
         this.renderScriptHandler = renderScriptHandler;
     }
 
+    private class AsyncCheckApi2 extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... unused) {
+            boolean legacy = CameraHolderApi2.IsLegacy(context);
+            if (legacy) {
+                appSettingsManager.SetCamera2FullSupported("false");
+                appSettingsManager.setCamApi(AppSettingsManager.API_1);
+            } else {
+                appSettingsManager.SetCamera2FullSupported("true");
+                appSettingsManager.setCamApi(AppSettingsManager.API_2);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void s) {
+            event.apiDetectionDone();
+        }
+    }
+
     /**
      * Check the device supported api
      */
     public void CheckApi()
     {
         //if its the first start of the app settings are empty
-        if (appSettingsManager.IsCamera2FullSupported().equals(""))
-        {
-            //camera2 is avail since L
-            if (VERSION.SDK_INT >= 21)
-            {
-                FreeDPool.Execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        boolean legacy = CameraHolderApi2.IsLegacy(appSettingsManager, context);
-                        if (legacy) {
-                            appSettingsManager.SetCamera2FullSupported("false");
-                            appSettingsManager.setCamApi(AppSettingsManager.API_1);
-                        } else {
-                            appSettingsManager.SetCamera2FullSupported("true");
-                            appSettingsManager.setCamApi(AppSettingsManager.API_2);
-                        }
-                        event.apiDetectionDone();
-                    }
-                });
-
-            }//older android version dont support it
+        if (appSettingsManager.IsCamera2FullSupported().equals("")) {
+            if (VERSION.SDK_INT >= 21) {
+                //camera2 is avail since L
+                new AsyncCheckApi2().execute();
+            }
             else {
+                //older android version dont support it
                 appSettingsManager.SetCamera2FullSupported("false");
                 appSettingsManager.setCamApi(AppSettingsManager.API_1);
                 event.apiDetectionDone();
             }
         }
-        else //appsetting was not empty
+        else {
+            //appsetting was not empty
             event.apiDetectionDone();
+        }
     }
 
 
