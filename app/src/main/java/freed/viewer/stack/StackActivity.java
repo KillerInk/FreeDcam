@@ -19,6 +19,8 @@
 
 package freed.viewer.stack;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -99,6 +101,16 @@ public class StackActivity extends ActivityAbstract
             @Override
             public void onClick(View v) {
                 processStack();
+            }
+        });
+
+        Button close = (Button)findViewById(R.id.button_stack_close);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_CANCELED, returnIntent);
+                finish();
             }
         });
     }

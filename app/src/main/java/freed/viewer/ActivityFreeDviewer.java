@@ -23,6 +23,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -362,6 +363,18 @@ public class ActivityFreeDviewer extends ActivityAbstract
                 fileHolder.UpdateImage();
             }
         });
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        //super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == gridViewFragment.STACK_REQUEST || requestCode == gridViewFragment.DNGCONVERT_REQUEST)
+        {
+            FileHolder f = getFiles().get(0).getParent();
+            LoadFolder(f, gridViewFragment.formatsToShow);
+        }
 
     }
 }
