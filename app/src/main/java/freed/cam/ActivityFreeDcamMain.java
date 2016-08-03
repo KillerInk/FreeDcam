@@ -295,11 +295,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract implements I_orientat
             Logger.d(TAG, "KeyCode Pressed:" + keyCode);
             int appSettingsKeyShutter = 0;
 
-            if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLP))
+            if (getAppSettings().getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLP))
                 appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_UP;
-            else if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLM))
+            else if (getAppSettings().getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.VoLM))
                 appSettingsKeyShutter = KeyEvent.KEYCODE_VOLUME_DOWN;
-            else if (appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.Hook) || appSettingsManager.getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(""))
+            else if (getAppSettings().getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(StringUtils.Hook) || getAppSettings().getString(AppSettingsManager.SETTING_EXTERNALSHUTTER).equals(""))
                 appSettingsKeyShutter = KeyEvent.KEYCODE_HEADSETHOOK;
 
             if (keyCode == KeyEvent.KEYCODE_3D_MODE

@@ -77,7 +77,7 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     }
 
     private final String TAG = ActivityAbstract.class.getSimpleName();
-    protected AppSettingsManager appSettingsManager;
+    private AppSettingsManager appSettingsManager;
     protected BitmapHelper bitmapHelper;
     protected  List<FileHolder> files;
     private  List<FileEvent> fileListners;
@@ -114,15 +114,9 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        if (appSettingsManager == null)
-            appSettingsManager = new AppSettingsManager(getApplicationContext());
-    }
-
-    @Override
     protected void onPause()
     {
+        super.onPause();
         try {
             appSettingsManager.SaveAppSettings();
         }
@@ -130,7 +124,6 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
         {
             ex.printStackTrace();
         }
-        super.onPause();
     }
 
     private void HIDENAVBAR()
