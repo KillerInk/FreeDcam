@@ -46,7 +46,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:background="#da000000"
         android:layout_centerHorizontal="true">
 
         <TextView
@@ -57,7 +56,8 @@
             android:id="@+id/textView_time"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:visibility="invisible" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -67,7 +67,8 @@
             android:id="@+id/textView_format"
             android:textSize="@dimen/infoOverlayTextSize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:visibility="invisible" />
 
         <TextView
             android:layout_width="wrap_content"
