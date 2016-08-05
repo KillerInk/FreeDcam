@@ -19,6 +19,7 @@
 
 package freed.cam.apis.basecamera.parameters;
 
+import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -206,6 +207,9 @@ public abstract class AbstractParameterHandler
     public abstract I_Device getDevice();
 
     public abstract void SetFocusAREA(FocusRect focusAreas);
+
+    public abstract void SetFocusAREATest(Rect focusAreas);
+
     public abstract void SetMeterAREA(FocusRect meteringAreas);
 
     public abstract void SetPictureOrientation(int or);
