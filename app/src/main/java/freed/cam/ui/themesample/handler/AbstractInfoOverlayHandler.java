@@ -53,8 +53,8 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
     protected String batteryLevel;
     private final BatteryBroadCastListner batteryBroadCastListner;
 
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-    protected String timeString;
+  //  private final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+   // protected String timeString;
 
     //this holds the format for video or picture
     protected String format;
@@ -124,7 +124,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
         {
             if (cameraUiWrapper == null)
                 return;
-            timeString = dateFormat.format(new Date());
+            //timeString = dateFormat.format(new Date());
             getFormat();
             getStorageSpace();
             UpdateViews();
@@ -146,8 +146,31 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
     {
         if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_VIDEO))
         {
-            format = "H264";
-            size = appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE);
+            format = "AVC ";
+            if(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("4k"))
+            {
+                size = "4K";
+            }
+            else if(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("1080"))
+            {
+                size = "FHD";
+            }
+            else if(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("720"))
+            {
+                size = "HD";
+            }
+            else if(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("1080")&&appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("HFR"))
+            {
+                size = "FHD 60p";
+            }
+            else if(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("720")&&appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("HFR"))
+            {
+                size = "HD 60p";
+            }
+            else
+            {
+                size = "SD";
+            }
         }
         else
         {
@@ -155,8 +178,14 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
                 format = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
             else
                 format = "";
-            if (cameraUiWrapper.GetParameterHandler().PictureSize != null)
-                size = cameraUiWrapper.GetParameterHandler().PictureSize.GetValue();
+
+            if (cameraUiWrapper.GetParameterHandler().PictureSize != null) {
+                int calcRES = Integer.parseInt(cameraUiWrapper.GetParameterHandler().PictureSize.GetValue().split("x")[0])*Integer.parseInt(cameraUiWrapper.GetParameterHandler().PictureSize.GetValue().split("x")[1]);
+                float qucik = calcRES/1000000;
+
+                size = String.valueOf(Math.round(qucik))+"MP";
+                //size = cameraUiWrapper.GetParameterHandler().PictureSize.GetValue();
+            }
             else
                 size = "";
         }
