@@ -24,6 +24,7 @@ import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -176,10 +177,13 @@ public class BaseMTKDevice extends AbstractDevice
 
     @Override
     public void SetFocusArea(FocusRect focusAreas) {
-        Camera.Area a = new Camera.Area(new Rect(focusAreas.left,focusAreas.top,focusAreas.right,focusAreas.bottom),1000);
-        ArrayList<Camera.Area> ar = new ArrayList<>();
-        ar.add(a);
-        parameters.setFocusAreas(ar);
+      //  Camera.Area a = new Camera.Area(new Rect(focusAreas.left,focusAreas.top,focusAreas.right,focusAreas.bottom),1000);
+       // ArrayList<Camera.Area> ar = new ArrayList<>();
+       // ar.add(a);
+      // new ArrayList<Camera.Area>()
+        List<Camera.Area> l = new ArrayList<>();
+        l.add(new Camera.Area(new Rect(focusAreas.left,focusAreas.top,focusAreas.right,focusAreas.bottom), 1000));
+        parameters.setFocusAreas(l);
         parametersHandler.SetParametersToCamera(parameters);
     }
 }

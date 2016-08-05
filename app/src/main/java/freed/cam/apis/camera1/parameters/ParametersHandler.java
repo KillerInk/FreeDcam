@@ -19,8 +19,13 @@
 
 package freed.cam.apis.camera1.parameters;
 
+import android.graphics.Rect;
+import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Build;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -545,6 +550,33 @@ public class ParametersHandler extends AbstractParameterHandler
     public void SetFocusAREA(FocusRect focusAreas)
     {
         getDevice().SetFocusArea(focusAreas);
+    }
+
+    @Override
+    public void SetFocusAREATest(Rect focusAreas)
+    {
+        List<Camera.Area> l = new ArrayList<>();
+        l.add(new Camera.Area(focusAreas, 1000));
+
+        cameraParameters.setFocusAreas(l);
+        SetParametersToCamera(cameraParameters);
+
+        System.out.println(" Vokuz "+l);
+      //  getDevice().SetFocusArea(focusAreas);
+    }
+
+
+
+    public static Rect viewToCameraArea(Rect v,int xPrev,int yPrev)
+    {
+
+        Rect rect = new Rect();
+
+        rect.left = v.left * 2000 / xPrev  - 1000;
+        rect.top = v.top * 2000/ yPrev - 1000;
+        rect.right = v.right * 2000/xPrev -1000;
+        rect.bottom = v.bottom * 2000/yPrev -1000;
+        return rect;
     }
 
     @Override

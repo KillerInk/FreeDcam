@@ -20,10 +20,13 @@
 package freed.cam.apis.camera2.parameters;
 
 import android.annotation.TargetApi;
+import android.graphics.Rect;
+import android.hardware.Camera;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build.VERSION_CODES;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import freed.cam.apis.KEYS;
@@ -162,6 +165,12 @@ public class ParameterHandler extends AbstractParameterHandler
 
     @Override
     public void SetMeterAREA(FocusRect meteringAreas) {
+
+    }
+
+    @Override
+    public void SetFocusAREATest(Rect focusAreas)
+    {
 
     }
 

@@ -61,6 +61,7 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
             return;
         if (parameter.GetValue().equals(KEYS.ON)) {
             try {
+                ClampRes(true);
                 parameter.SetValue(KEYS.OFF, false);
             }
             catch (Exception ex)
@@ -68,9 +69,20 @@ public class UiSettingsFocusPeak extends UiSettingsChild implements SettingsChil
                 Logger.d("Freedcam", ex.getMessage());
             }
         }
-        else
-            parameter.SetValue(KEYS.ON,false);
+        else{
+            ClampRes(false);
+            parameter.SetValue(KEYS.ON,false);}
+
     }
+
+    private void ClampRes(boolean doClamp)
+    {
+        if(doClamp)
+            onParameterValueChanged("CLAMP");
+        else
+            onParameterValueChanged("RELEASE");
+    }
+
 
     @Override
     public void onModuleChanged(String module)
