@@ -445,6 +445,8 @@
         <item>Xiaomi Redmi Note 3</item>
         <item>kenzo</item>
         <item>Kenzo</item>
+    </string-array>
+    <string-array name="xiaomi_redmi3">
         <item>Redmi 3</item>
     </string-array>
     <string-array name="Alcatel_Idol_3">

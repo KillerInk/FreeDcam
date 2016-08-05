@@ -20,6 +20,7 @@
 package freed.viewer.dngconvert;
 
 import android.R.layout;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -123,7 +124,10 @@ public class DngConvertingFragment extends Fragment
         closeButton = (Button) view.findViewById(id.button_goback_from_conv);
         closeButton.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
+                Intent returnIntent = new Intent();
+                getActivity().setResult(Activity.RESULT_CANCELED, returnIntent);
                 getActivity().finish();
             }
         });

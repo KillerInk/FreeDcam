@@ -45,6 +45,25 @@
         </activity>
 
         <activity
+            android:name="freed.cam.ActivityFreeDcamMainSecure"
+            android:label="FreeDCam"
+            android:icon="@drawable/launcher_freedcam"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|touchscreen|layoutDirection"
+            android:screenOrientation="landscape"
+            android:clearTaskOnLaunch="true"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="android.media.action.STILL_IMAGE_CAMERA_SECURE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.media.action.IMAGE_CAPTURE_SECURE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name="freed.cam.ActivityFreeDcamShare"
             android:label="FreeDCam"
             android:screenOrientation="landscape"

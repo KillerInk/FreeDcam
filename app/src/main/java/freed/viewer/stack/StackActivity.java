@@ -19,6 +19,8 @@
 
 package freed.viewer.stack;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -32,6 +34,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.R;
@@ -69,6 +72,8 @@ public class StackActivity extends ActivityAbstract
     private RenderScriptHandler renderScriptHandler;
     private int stackMode = 0;
     private TouchImageView imageView;
+    private TextView stackcounter;
+    private Button closeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,11 +106,25 @@ public class StackActivity extends ActivityAbstract
                 processStack();
             }
         });
+
+        closeButton = (Button)findViewById(R.id.button_stack_close);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_CANCELED, returnIntent);
+                finish();
+            }
+        });
+        stackcounter = (TextView)findViewById(R.id.textView_stack_count);
+        updateCounter(0);
     }
 
     private void processStack()
     {
-        BitmapFactory.Options options = new BitmapFactory.Options();
+        stackcounter.setText("0/"+ filesToStack.length);
+        closeButton.setVisibility(View.GONE);
+        final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(filesToStack[0],options);
         final int mWidth = options.outWidth;
@@ -132,8 +151,13 @@ public class StackActivity extends ActivityAbstract
             @Override
             public void run()
             {
+                int count = 0;
                 for (String f : filesToStack)
                 {
+                    updateCounter(count++);
+                    BitmapFactory.decodeFile(f,options);
+                    if(mWidth != options.outWidth || mHeight != options.outHeight)
+                        return;
                     renderScriptHandler.GetIn().copyFrom(BitmapFactory.decodeFile(f));
                     switch (stackMode)
                     {
@@ -168,6 +192,12 @@ public class StackActivity extends ActivityAbstract
                 File file = new File(filesToStack[0]);
                 String parent = file.getParent();
                 saveBitmapToFile(outputBitmap,new File(parent+"/" + getStorageHandler().getNewFileDatedName("_Stack.jpg")));
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        closeButton.setVisibility(View.VISIBLE);
+                    }
+                });
             }
         }
         );
@@ -224,5 +254,16 @@ public class StackActivity extends ActivityAbstract
     @Override
     public LocationHandler getLocationHandler() {
         return null;
+    }
+
+    private void updateCounter(final int count)
+    {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                stackcounter.setText(count+"/"+(filesToStack.length-1));
+            }
+        });
+
     }
 }

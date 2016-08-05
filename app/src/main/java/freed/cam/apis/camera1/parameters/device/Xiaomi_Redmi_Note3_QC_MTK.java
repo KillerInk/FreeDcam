@@ -31,10 +31,13 @@ import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
+import freed.cam.apis.basecamera.parameters.modes.ModeParameterInterface;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
 import freed.cam.apis.camera1.parameters.manual.mtk.AE_Handler_MTK;
+import freed.cam.apis.camera1.parameters.manual.mtk.BaseManualParamMTK;
 import freed.cam.apis.camera1.parameters.manual.mtk.FocusManualMTK;
 import freed.cam.apis.camera1.parameters.manual.qcom.BaseISOManual;
 import freed.cam.apis.camera1.parameters.manual.qcom.ShutterManual_ExposureTime_Micro;
@@ -102,12 +105,6 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
                 return new DngProfile(64, 4192, 3104, DngProfile.Plain, DngProfile.GBRG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 20389888: //xiaomi redmi note3 / pro
                 return new DngProfile(64, 4632, 3480, DngProfile.Mipi16, DngProfile.GRBG, 0, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-            case 16424960:
-                return new DngProfile(64, 4208, 3120, DngProfile.Mipi, DngProfile.GRBG, DngProfile.ROWSIZE,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-            case 17522688:
-                return new DngProfile(64, 4208, 3120, DngProfile.Qcom, DngProfile.GRBG, DngProfile.ROWSIZE,matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
-
-
         }
         return null;
     }
@@ -143,4 +140,45 @@ public class Xiaomi_Redmi_Note3_QC_MTK extends AbstractDevice
             parametersHandler.SetParametersToCamera(parameters);
         }
     }
+
+
+    @Override
+    public ManualParameterInterface getSkintoneParameter() {
+        return null;
+    }
+
+    @Override
+    public ManualParameterInterface getManualSaturation() {
+        if (parameters.get(KEYS.SATURATION)!= null && parameters.get(KEYS.SATURATION_VALUES)!= null)
+            return new BaseManualParamMTK(parameters,KEYS.SATURATION, KEYS.SATURATION_VALUES, cameraUiWrapper);
+        else {
+            return  super.getManualSaturation();
+        }
+    }
+
+    @Override
+    public ManualParameterInterface getManualSharpness()
+    {
+        if (frameworks == Frameworks.MTK)
+            return new BaseManualParamMTK(parameters,"edge","edge-values", cameraUiWrapper);
+        else
+            return super.getManualSharpness();
+    }
+
+    @Override
+    public ManualParameterInterface getManualBrightness() {
+        if (frameworks == Frameworks.MTK)
+            return new BaseManualParamMTK(parameters,"brightness", "brightness-values", cameraUiWrapper);
+        else
+            return super.getManualBrightness();
+    }
+
+    @Override
+    public ManualParameterInterface getManualContrast() {
+        if (frameworks == Frameworks.MTK)
+            return  new BaseManualParamMTK(parameters,"contrast","contrast-values", cameraUiWrapper);
+        else
+            return super.getManualContrast();
+    }
+
 }

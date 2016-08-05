@@ -70,6 +70,9 @@ import freed.viewer.stack.StackActivity;
  */
 public class GridViewFragment extends BaseGridViewFragment implements I_OnActivityResultCallback
 {
+    public final int STACK_REQUEST = 44;
+    public final int DNGCONVERT_REQUEST = 45;
+
     private ImageAdapter mPagerAdapter;
 
     private final String TAG = GridViewFragment.class.getSimpleName();
@@ -81,7 +84,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
     /**
      * the files that get shown by the gridview
      */
-    private FormatTypes formatsToShow = FormatTypes.all;
+    public FormatTypes formatsToShow = FormatTypes.all;
     private FormatTypes lastFormat = FormatTypes.all;
     private RequestModes requestMode = RequestModes.none;
 
@@ -196,7 +199,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                     String[] t = new String[ar.size()];
                     ar.toArray(t);
                     i.putExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT, t);
-                    startActivity(i);
+                    getActivity().startActivityForResult(i, STACK_REQUEST);
                 }
             }
         });
@@ -339,7 +342,10 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 case normal:
                     if (formatsToShow == FormatTypes.raw && lastFormat != FormatTypes.raw) {
                         formatsToShow = lastFormat;
-                        viewerActivityInterface.LoadFolder(viewerActivityInterface.getFiles().get(0).getParent(),formatsToShow);
+                        if (viewerActivityInterface.getFiles().size() > 0)
+                            viewerActivityInterface.LoadFolder(viewerActivityInterface.getFiles().get(0).getParent(),formatsToShow);
+                        else
+                            viewerActivityInterface.LoadFolder(folderToShow,formatsToShow);
                     }
                     requestMode = RequestModes.none;
                     deleteButton.setVisibility(View.VISIBLE);
@@ -483,6 +489,15 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        //super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == STACK_REQUEST || requestCode == DNGCONVERT_REQUEST)
+            viewerActivityInterface.LoadFolder(viewerActivityInterface.getFiles().get(0),formatsToShow);
+
+    }
+
     private final OnClickListener onRawToDngClick = new OnClickListener() {
         @Override
         public void onClick(View v)
@@ -510,7 +525,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 String[] t = new String[ar.size()];
                 ar.toArray(t);
                 i.putExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT, t);
-                startActivity(i);
+                getActivity().startActivityForResult(i, DNGCONVERT_REQUEST);
             }
         }
 

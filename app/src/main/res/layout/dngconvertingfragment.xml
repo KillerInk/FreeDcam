@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#424242">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:background="#50000000">
+        <Button
+            android:layout_width="@dimen/app_icon_size"
+            android:layout_height="@dimen/app_icon_size"
+            android:id="@+id/button_goback_from_conv"
+            android:background="@drawable/go_back"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="4dp"
+            />
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
@@ -10,10 +25,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp">
+            android:layout_height="match_parent">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -22,23 +36,23 @@
                 android:text="@string/width"
                 android:id="@+id/textView2"
                 android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                android:layout_weight="1" />
 
             <EditText
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
                 android:id="@+id/editText_width"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"/>
-        </RelativeLayout>
+                android:layout_weight="1" />
+        </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp">
+            android:layout_height="match_parent">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -47,23 +61,23 @@
                 android:text="@string/height"
                 android:id="@+id/textView3"
                 android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                android:layout_weight="1" />
 
             <EditText
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
                 android:id="@+id/editText_height"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"/>
-        </RelativeLayout>
+                android:layout_weight="1" />
+        </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true">
 
@@ -74,46 +88,85 @@
                 android:text="@string/blacklevel"
                 android:id="@+id/textView4"
                 android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                android:layout_weight="1" />
 
             <EditText
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
                 android:id="@+id/editText_blacklevel"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"/>
-        </RelativeLayout>
+                android:layout_weight="1" />
+        </LinearLayout>
 
-    <RelativeLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <Spinner
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner_MatrixProfile"
-            android:spinnerMode="dropdown"
-            android:layout_marginLeft="20dp"
-            android:layout_alignParentLeft="true"/>
+            android:layout_height="match_parent">
 
-        <Spinner
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="ColorMatrix:"
+                android:id="@+id/textview_dngconvert_ColorMatrix"
+                android:layout_weight="1" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_MatrixProfile"
+                android:spinnerMode="dropdown"
+                android:layout_alignParentLeft="true"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="ColorPattern"
+                android:id="@+id/textView7"
+                android:layout_weight="1" />
+
+            <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/spinner_ColorPattern"
             android:spinnerMode="dropdown"
             android:layout_centerInParent="true"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+                android:layout_weight="1" />
+        </LinearLayout>
 
-        <Spinner
+        <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="DngOutput"
+                android:id="@+id/textView8"
+                android:layout_weight="1" />
+
+            <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/spinner_rawFormat"
             android:spinnerMode="dropdown"
-            android:layout_marginRight="20dp"
-            android:layout_alignParentRight="true"/>
-    </RelativeLayout>
+                android:layout_alignParentRight="true"
+                android:layout_weight="1" />
+    </LinearLayout>
 
     </LinearLayout>
 
@@ -123,22 +176,8 @@
         android:text="@string/converttodng"
         android:textStyle="bold"
         android:id="@+id/button_convertDng"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentBottom="false"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:background="#00000000"/>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="38dp"
-    android:background="#50000000">
-    <Button
-        android:layout_width="@dimen/app_icon_size"
-        android:layout_height="@dimen/app_icon_size"
-        android:id="@+id/button_goback_from_conv"
-        android:background="@drawable/go_back"
-        android:layout_marginLeft="10dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="4dp"
-        />
+        android:background="#00000000"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>
-</RelativeLayout>
