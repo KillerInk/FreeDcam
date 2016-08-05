@@ -23,6 +23,7 @@ package freed.cam.ui.themesample.handler;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Build.VERSION;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
@@ -41,8 +42,11 @@ import freed.ActivityAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.camera1.Camera1Fragment;
+import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.sonyremote.SonyCameraFragment;
+import freed.cam.ui.themesample.cameraui.ExposureSelector;
+import freed.cam.ui.themesample.cameraui.FocusSelector;
 import freed.cam.ui.themesample.handler.ImageViewTouchAreaHandler.I_TouchListnerEvent;
 
 
@@ -63,10 +67,17 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     private final ImageView meteringArea;
     private FocusRect meteringRect;
 
+    private FocusSelector fs;
+    private ExposureSelector es;
+
     public FocusImageHandler(View view, ActivityAbstract fragment)
     {
         super(view, fragment);
         focusImageView = (ImageView)view.findViewById(R.id.imageView_Crosshair);
+
+        fs = (FocusSelector)view.findViewById(R.id.custFocus);
+        es = (ExposureSelector) view.findViewById(R.id.custExpo);
+
         cancelFocus = (ImageView)view.findViewById(R.id.imageViewFocusClose);
         meteringArea = (ImageView)view.findViewById(R.id.imageView_meteringarea);
         recthalf = fragment.getResources().getDimensionPixelSize(R.dimen.crosshairwidth)/2;
@@ -200,6 +211,17 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
+        try {
+
+System.out.println(" Vokuz ");
+            //Rect r = new Rect((int) focusImageView.getX(), (int) focusImageView.getY(), (int) focusImageView.getX() + focusImageView.getWidth(), (int) focusImageView.getY() + focusImageView.getHeight());
+
+           //wrapper.GetParameterHandler().SetFocusAREATest(ParametersHandler.viewToCameraArea(r, wrapper.getPreviewWidth(), wrapper.getPreviewHeight()));
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         if (wrapper instanceof SonyCameraFragment)
             wrapper.getFocusHandler().SetMotionEvent(event);
         return false;
@@ -269,6 +291,7 @@ public class FocusImageHandler extends AbstractFocusImageHandler
             if (y > disHeight - recthalf)
                 y = disHeight - recthalf;
             FocusRect rect = new FocusRect(x - recthalf, x + recthalf, y - recthalf, y + recthalf,x,y);
+
             if (wrapper.getFocusHandler() != null)
                 wrapper.getFocusHandler().StartTouchToFocus(rect, disWidth, disHeight);
         }
