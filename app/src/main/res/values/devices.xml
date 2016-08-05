@@ -368,6 +368,10 @@
         <item>E7</item>
     </string-array>
 
+    <string-array name="Lumigon_T3">
+        <item>Lumigon_T3</item>
+    </string-array>
+
     <string-array name="OnePlusOne">
         <item>A0001</item>
         <item>One</item>

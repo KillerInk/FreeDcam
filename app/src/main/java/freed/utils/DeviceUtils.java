@@ -68,6 +68,7 @@ public class DeviceUtils
         LG_G2pro,
         LG_G3,
         LG_G4,
+        Lumigon_T3,
         MeizuMX4_MTK,
         MeizuMX5_MTK,
         Meizu_m2Note_MTK,
@@ -174,6 +175,8 @@ public class DeviceUtils
             return Devices.LG_G3;
         else if (isDevice(res.getStringArray(array.lg_g4)))
             return Devices.LG_G4;
+        else if(isDevice(res.getStringArray(array.Lumigon_T3)))
+            return Devices.Lumigon_T3;
         else if (isDevice(res.getStringArray(array.meizu_mx4)))
             return Devices.MeizuMX4_MTK;
         else if (isDevice(res.getStringArray(array.meizu_mx5)))

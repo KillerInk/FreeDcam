@@ -35,6 +35,7 @@ import freed.cam.apis.camera1.parameters.device.mtk.I_Mobile_IStyleQ6;
 import freed.cam.apis.camera1.parameters.device.mtk.Jiayu_S3;
 import freed.cam.apis.camera1.parameters.device.mtk.Lenovo_K4Note_MTK;
 import freed.cam.apis.camera1.parameters.device.mtk.Lenovo_K50_MTK;
+import freed.cam.apis.camera1.parameters.device.mtk.Lumigon_T3;
 import freed.cam.apis.camera1.parameters.device.mtk.Meizu_M2_Note_MTK;
 import freed.cam.apis.camera1.parameters.device.mtk.Meizu_MX4_5_MTK;
 import freed.cam.apis.camera1.parameters.device.mtk.Mlais_M52_Red_Note;
@@ -196,6 +197,8 @@ public class DeviceSelector {
                 
             case LG_G4:
                return new LG_G4(cameraParameters,cameraUiWrapper);
+            case Lumigon_T3:
+                return new Lumigon_T3(cameraParameters,cameraUiWrapper);
                 
             case MeizuMX4_MTK:
             case MeizuMX5_MTK:
