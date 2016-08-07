@@ -342,10 +342,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 case normal:
                     if (formatsToShow == FormatTypes.raw && lastFormat != FormatTypes.raw) {
                         formatsToShow = lastFormat;
-                        if (viewerActivityInterface.getFiles().size() > 0)
-                            viewerActivityInterface.LoadFolder(viewerActivityInterface.getFiles().get(0).getParent(),formatsToShow);
-                        else
-                            viewerActivityInterface.LoadFolder(folderToShow,formatsToShow);
+                        viewerActivityInterface.LoadFolder(folderToShow,formatsToShow);
                     }
                     requestMode = RequestModes.none;
                     deleteButton.setVisibility(View.VISIBLE);

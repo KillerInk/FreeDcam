@@ -190,13 +190,7 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
         {
             imageView.setImageResource(drawable.noimage);
             progressBar.setVisibility(View.VISIBLE);
-            final Bitmap bitmap = bitmapHelper.getBitmap(fileHolder, true);
-            if (bitmap != null)
-            {
-                imageView.setImageBitmap(bitmap);
-                progressBar.setVisibility(View.GONE);
-            }
-            //executor.execute(new BitmapLoadRunnable(this,fileHolder));
+            executor.execute(new BitmapLoadRunnable(this,fileHolder));
         }
         else {
             progressBar.setVisibility(View.GONE);
@@ -258,7 +252,8 @@ public class GridImageView extends AbsoluteLayout implements FileHolder.EventHan
                 imageView.post(new Runnable() {
                     @Override
                     public void run() {
-                        progressBar.setVisibility(View.GONE);
+                        if (bitmap != null)
+                            progressBar.setVisibility(View.GONE);
                     }
                 });
             }
