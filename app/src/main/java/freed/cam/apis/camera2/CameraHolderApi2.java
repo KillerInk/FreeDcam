@@ -585,7 +585,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             CameraCharacteristics characteristics = manager.getCameraCharacteristics("0");
             legacy = characteristics.get(CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL) == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY;
         }
-        catch (Exception ex) {
+        catch (Throwable ex) {
             Logger.exception(ex);
         }
         return legacy;
