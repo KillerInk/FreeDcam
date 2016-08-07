@@ -201,6 +201,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
     @Override
     public void onResume() {
         super.onResume();
+        if(getActivityInterface().hasLocationPermission())
             startWifiScanning();
     }
 
