@@ -28,6 +28,7 @@ import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
 import freed.utils.DeviceUtils.Devices;
+import freed.utils.Logger;
 
 /**
  * Created by troop on 02.09.2014.
@@ -36,6 +37,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
 {
     final String TAG = FocusHandler.class.getSimpleName();
     private boolean aeMeteringSupported;
+    private boolean isFocusing;
 
     public FocusHandler(CameraWrapperInterface cameraUiWrapper)
     {
@@ -149,6 +151,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
     @Override
     public void onFocusEvent(boolean event)
     {
+        this.isFocusing = false;
         if (focusEvent != null)
             focusEvent.FocusFinished(event);
     }
@@ -184,9 +187,20 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
                     && targetFocusRect.right <= 1000)
             {
 
+                if (this.isFocusing)
+                {
+                    this.cameraUiWrapper.GetCameraHolder().CancelFocus();
+                    Logger.d(this.TAG, "Canceld Focus");
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        Logger.exception(e);
+                    }
+                }
                 cameraUiWrapper.GetParameterHandler().SetFocusAREA(targetFocusRect);
                 if (cameraUiWrapper.GetCameraHolder() != null)
                     ((CameraHolder) cameraUiWrapper.GetCameraHolder()).StartFocus(this);
+                this.isFocusing = true;
                 if (focusEvent != null)
                     focusEvent.FocusStarted(rect);
             }
