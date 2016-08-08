@@ -251,18 +251,18 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         guideHandler =GuideHandler.GetInstance(fragment_activityInterface.getAppSettings());
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(id.guideHolder, guideHandler, "Guide");
-        transaction.commitAllowingStateLoss();
+        transaction.commit();
 
         transaction = getChildFragmentManager().beginTransaction();
         transaction.setCustomAnimations(anim.bottom_to_top_enter, anim.empty);
         transaction.replace(id.manualModesHolder, manualModesFragment);
-        transaction.commitAllowingStateLoss();
+        transaction.commit();
 
         transaction = getChildFragmentManager().beginTransaction();
         transaction.setCustomAnimations(anim.empty, anim.empty);
         transaction.replace(id.horHolder, horizontLineFragment);
         transaction.addToBackStack(null);
-        transaction.commitAllowingStateLoss();
+        transaction.commit();
 
         boolean showhelp = fragment_activityInterface.getAppSettings().getShowHelpOverlay();
         if (showhelp) {
@@ -270,7 +270,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
             transaction.setCustomAnimations(anim.empty, anim.empty);
             transaction.replace(id.helpfragment_container, HelpFragment.getFragment(helpfragmentCloser, fragment_activityInterface.getAppSettings()));
             transaction.addToBackStack(null);
-            transaction.commitAllowingStateLoss();
+            transaction.commit();
         }
         manualModes_holder.setVisibility(View.GONE);
 
@@ -363,7 +363,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.setCustomAnimations(anim.left_to_right_enter, 0);
         transaction.replace(id, fragment);
-        transaction.commitAllowingStateLoss();
+        transaction.commit();
     }
 
     private void removeHorizontalFragment()
@@ -535,7 +535,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.remove(fragment);
             transaction.addToBackStack(null);
-            transaction.commitAllowingStateLoss();
+            transaction.commit();
         }
     };
 }

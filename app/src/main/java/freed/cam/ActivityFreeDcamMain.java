@@ -251,7 +251,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(anim.left_to_right_enter, anim.left_to_right_exit);
         transaction.add(id.cameraFragmentHolder, cameraFragment, "CameraFragment");
-        transaction.commitAllowingStateLoss();
+        transaction.commit();
         Logger.d(TAG, "loaded cameraWrapper");
     }
 
@@ -299,7 +299,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(anim.right_to_left_enter, anim.right_to_left_exit);
             transaction.remove(cameraFragment);
-            transaction.commitAllowingStateLoss();
+            transaction.commit();
             cameraFragment = null;
         }
         Logger.d(TAG, "destroyed cameraWrapper");
@@ -380,7 +380,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(screenSlideFragment != null)
+                if(screenSlideFragment != null && activityIsResumed)
                     screenSlideFragment.NotifyDATAhasChanged();
             }
         });
@@ -410,7 +410,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (screenSlideFragment != null)
+                if (screenSlideFragment != null && activityIsResumed)
                     screenSlideFragment.NotifyDATAhasChanged();
             }
         });
@@ -461,7 +461,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                 @Override
                 public void run() {
 
-                    if (screenSlideFragment != null)
+                    if (screenSlideFragment != null && activityIsResumed)
                         screenSlideFragment.NotifyDATAhasChanged();
                     if (cameraUiFragment != null)
                         cameraUiFragment.SetThumbImage(b);
@@ -482,7 +482,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                 @Override
                 public void run() {
                     AddFile(fileHolder);
-                    if (screenSlideFragment != null)
+                    if (screenSlideFragment != null && activityIsResumed)
                         screenSlideFragment.NotifyDATAhasChanged();
                     if (cameraUiFragment != null)
                         cameraUiFragment.SetThumbImage(b);
