@@ -11,7 +11,7 @@ import freed.utils.Logger;
 /**
  * Created by troop on 17.09.2014.
  */
-public class OrientationHandler implements CaptureStateChanged
+public class OrientationHandler
 {
     private int currentOrientation;
     private final OrientationEventListener orientationEventListener;
@@ -62,32 +62,6 @@ public class OrientationHandler implements CaptureStateChanged
         else if (orientation >= 135 && orientation < 230)
             orientationToRet = 270;
         return orientationToRet;
-    }
-
-    @Override
-    public void onCaptureStateChanged(CaptureStates modes)
-    {
-        switch (modes)
-        {
-            case video_recording_stop:
-                Start();
-                break;
-            case video_recording_start:
-                Stop();
-                break;
-            case image_capture_stop:
-                Start();
-                break;
-            case image_capture_start:
-                Stop();
-                break;
-            case continouse_capture_start:
-                Stop();
-                break;
-            case continouse_capture_stop:
-                Start();
-                break;
-        }
     }
 
 }

@@ -225,7 +225,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 captureBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, cameraHolder.get(CaptureRequest.LENS_FOCUS_DISTANCE));
             }catch (NullPointerException ex){Logger.exception(ex);}
             try {
-                    captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, cameraHolder.get(CaptureRequest.JPEG_ORIENTATION));
+                    captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, cameraUiWrapper.getActivityInterface().getOrientation());
             }catch (NullPointerException ex){Logger.exception(ex);}
             try {
                 captureBuilder.set(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE, cameraHolder.get(CaptureRequest.LENS_OPTICAL_STABILIZATION_MODE));
@@ -458,7 +458,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             image = reader.acquireNextImage();
         }
         DngCreator dngCreator = new DngCreator(cameraHolder.characteristics, mDngResult);
-        dngCreator.setOrientation(mDngResult.get(CaptureResult.JPEG_ORIENTATION));
+        dngCreator.setOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
         if (appSettingsManager.getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
             dngCreator.setLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
         try
@@ -522,7 +522,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         int mFlash = mDngResult.get(CaptureResult.FLASH_STATE).intValue();
         double exposurecompensation= mDngResult.get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION).doubleValue();
 
-        dngConverter.setExifData(mISO, mExposuretime, mFlash, fnum, focal, "0", cameraHolder.get(CaptureRequest.JPEG_ORIENTATION).toString(), exposurecompensation);
+        dngConverter.setExifData(mISO, mExposuretime, mFlash, fnum, focal, "0", cameraUiWrapper.getActivityInterface().getOrientation()+"", exposurecompensation);
 
         double Altitude = 0;
         double Latitude = 0;
@@ -885,6 +885,4 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         cameraHolder.CaptureSessionH.CloseCaptureSession();
         cameraUiWrapper.getFocusPeakProcessor().kill();
     }
-
-
 }

@@ -100,6 +100,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
                     Logger.d(this.TAG,"ZSL state after turning it off:" + cameraUiWrapper.GetParameterHandler().ZSL.GetValue());
                 }
             }
+            cameraUiWrapper.GetParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
             changeCaptureState(CaptureStates.image_capture_start);
             waitForPicture = true;
             burstcount = 0;

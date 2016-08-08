@@ -349,19 +349,6 @@ public class CameraHolder extends CameraHolderAbstract
         cameraUiWrapper.getFocusHandler().StartFocus();
     }
 
-    public void SetOrientation(int or)
-    {
-        if (!isRdy || or == Orientation)
-            return;
-        Orientation = or;
-
-        if (mCamera != null) {
-            Parameters paras = mCamera.getParameters();
-            paras.setRotation(or);
-            mCamera.setParameters(paras);
-        }
-    }
-
     public void SetCameraRotation(int rotation)
     {
         if (!isRdy)

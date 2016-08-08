@@ -72,6 +72,7 @@ public class StackingModule extends PictureModule {
             capturedPics = new ArrayList<>();
             initRsStuff();
             changeCaptureState(CaptureStates.continouse_capture_start);
+            cameraUiWrapper.GetParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
             String picFormat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
             if (!picFormat.equals(KEYS.JPEG))
                 cameraUiWrapper.GetParameterHandler().PictureFormat.SetValue(KEYS.JPEG,true);

@@ -96,6 +96,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     private LocationHandler locationHandler;
 
     private boolean activityIsResumed= false;
+    private int currentorientation;
 
     private SecureCamera mSecureCamera = new SecureCamera(this);
 
@@ -201,6 +202,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         }
         //listen to phone orientation changes
         orientationHandler = new OrientationHandler(this, this);
+        orientationHandler.Start();
         //used for videorecording timer
         //TODO move that into camerauifragment
         timerHandler = new TimerHandler(this);
@@ -262,10 +264,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
      */
     @Override
     public void onCameraUiWrapperRdy(CameraWrapperInterface cameraUiWrapper) {
-        //set orientatiohandler to module handler that it knows when a work is in progress
-        orientationHandler.Start();
-        //to avoid that orientation gets set while working
-        cameraUiWrapper.GetModuleHandler().SetWorkListner(orientationHandler);
         //note the ui that cameraFragment is loaded
         cameraUiWrapper.GetParameterHandler().AddParametersLoadedListner(this);
         if (cameraUiWrapper.GetModuleHandler() != null)
@@ -335,7 +333,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         return super.onKeyDown(keyCode,event);
     }
 
-    private int currentorientation;
+
 
     /**
      * Set the orientaion to the current camerafragment
@@ -346,9 +344,12 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         if (orientation != currentorientation)
         {
             currentorientation = orientation;
-            if (cameraFragment.GetCameraUiWrapper() != null && cameraFragment.GetCameraUiWrapper().GetCameraHolder() != null && cameraFragment.GetCameraUiWrapper().GetParameterHandler() != null)
-                cameraFragment.GetCameraUiWrapper().GetParameterHandler().SetPictureOrientation(orientation);
         }
+    }
+
+    @Override
+    public int getOrientation() {
+        return currentorientation;
     }
 
     @Override

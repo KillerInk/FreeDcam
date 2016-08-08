@@ -567,7 +567,8 @@ public class ParametersHandler extends AbstractParameterHandler
         }
         try
         {
-            ((CameraHolder) cameraUiWrapper.GetCameraHolder()).SetOrientation(orientation);
+            cameraParameters.setRotation(orientation);
+            SetParametersToCamera(cameraParameters);
         }
         catch (Exception e)
         {

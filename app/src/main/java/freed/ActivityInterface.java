@@ -79,6 +79,8 @@ public interface ActivityInterface
     boolean hasWifiPermission();
 
     LocationHandler getLocationHandler();
+
+    int getOrientation();
 }
 
 

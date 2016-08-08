@@ -550,4 +550,9 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
 
     protected void externalSDPermissionGranted(boolean granted)
     {}
+
+    @Override
+    public int getOrientation() {
+        return 0;
+    }
 }
