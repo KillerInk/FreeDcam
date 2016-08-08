@@ -43,16 +43,17 @@ public interface ModuleInterface
     boolean IsWorking();
 
     /**
-     * Short name of the module
+     * Full name of the module
+
      * @return
      */
     String LongName();
+
     /**
-     * Full name of the module
+     * Short name of the module
      * @return
      */
     String ShortName();
-
 
     /**
      * geht thrown when the module gets loaded

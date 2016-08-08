@@ -24,6 +24,8 @@ import android.util.AttributeSet;
 
 import java.util.ArrayList;
 
+import freed.cam.apis.KEYS;
+import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 
 /**
@@ -31,10 +33,7 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
  */
 public class SettingsChildMenuVideoHDR extends SettingsChildMenu
 {
-
-    private ArrayList<String> modulesToShow;
-    private String currentModule;
-    private ModuleHandlerAbstract moduleHandler;
+    private CameraWrapperInterface cameraWrapperInterface;
     public SettingsChildMenuVideoHDR(Context context) {
         super(context);
     }
@@ -43,27 +42,22 @@ public class SettingsChildMenuVideoHDR extends SettingsChildMenu
         super(context, attrs);
     }
 
-    public void SetModulesToShow(ArrayList<String> modulesToShow, ModuleHandlerAbstract moduleHandler)
+    public void SetCameraInterface(CameraWrapperInterface cameraWrapperInterface)
     {
-        this.modulesToShow = modulesToShow;
-        this.moduleHandler = moduleHandler;
+        this.cameraWrapperInterface = cameraWrapperInterface;
     }
 
     @Override
     public void SetValue(String value)
     {
-        if (parameter != null && parameter.IsSupported() && moduleHandler.GetCurrentModule() != null)
+        if (parameter != null && parameter.IsSupported() &&  cameraWrapperInterface.GetModuleHandler().GetCurrentModule() != null)
         {
             if (key_appsettings != null && !key_appsettings.equals(""))
                 fragment_activityInterface.getAppSettings().setString(key_appsettings, value);
-            if (modulesToShow.contains(moduleHandler.GetCurrentModuleName()))
+            if (cameraWrapperInterface.GetModuleHandler().GetCurrentModule().ModuleName().equals(KEYS.MODULE_VIDEO))
                 parameter.SetValue(value, true);
             onParameterValueChanged(value);
         }
     }
 
-    @Override
-    public void onModuleChanged(String module) {
-        currentModule = module;
-    }
 }
