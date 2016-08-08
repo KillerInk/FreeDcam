@@ -87,7 +87,7 @@ public class ModuleHandler extends ModuleHandlerAbstract
         BracketModule bracketModule = new BracketModule(cameraUiWrapper);
         moduleList.put(bracketModule.ModuleName(), bracketModule);
 
-        if (VERSION.SDK_INT >= VERSION_CODES.KITKAT) {
+        if (VERSION.SDK_INT >= VERSION_CODES.KITKAT && cameraUiWrapper.getRenderScriptHandler().isSucessfullLoaded()) {
             StackingModule sTax = new StackingModule(cameraUiWrapper);
             moduleList.put(sTax.ModuleName(), sTax);
         }

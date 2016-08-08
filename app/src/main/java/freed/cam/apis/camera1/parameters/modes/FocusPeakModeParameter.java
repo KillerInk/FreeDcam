@@ -40,7 +40,7 @@ public class FocusPeakModeParameter extends BaseModeParameter {
 
     @Override
     public boolean IsSupported() {
-        return VERSION.SDK_INT >= 18;
+        return VERSION.SDK_INT >= 18 && cameraUiWrapper.getRenderScriptHandler().isSucessfullLoaded();
     }
 
     @Override

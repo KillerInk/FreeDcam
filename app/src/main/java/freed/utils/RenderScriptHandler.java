@@ -56,6 +56,12 @@ public class RenderScriptHandler
     public ScriptC_starfinder starfinderRS;
     public ScriptIntrinsicBlur blurRS;
 
+    private boolean sucessfullLoaded = false;
+
+    public boolean isSucessfullLoaded() {
+        return this.sucessfullLoaded;
+    }
+
     public RenderScriptHandler(Context context)
     {
         mRS = RenderScript.create(context);
@@ -73,10 +79,12 @@ public class RenderScriptHandler
                     contrastRS = new ScriptC_contrast(mRS);
                     blurRS = ScriptIntrinsicBlur.create(mRS, Element.U8_4(mRS));
                     starfinderRS = new ScriptC_starfinder(mRS);
+                    sucessfullLoaded = true;
                 }
                 catch (RSRuntimeException ex)
                 {
                     Logger.exception(ex);
+                    sucessfullLoaded = false;
                 }
             }
         });
