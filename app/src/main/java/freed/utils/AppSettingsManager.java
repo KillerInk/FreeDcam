@@ -171,7 +171,7 @@ public class AppSettingsManager {
 
     public AppSettingsManager(Context context) {
         appsettingsList = new HashMap<>();
-        appsettingspath = context.getCacheDir().getPath() + File.separator + "setting.txt";
+        appsettingspath = context.getFilesDir().getPath() + File.separator + "setting.txt";
         loadAppSettings();
     }
 
