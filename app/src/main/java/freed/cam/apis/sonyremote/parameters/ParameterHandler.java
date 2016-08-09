@@ -38,6 +38,7 @@ import freed.cam.apis.sonyremote.parameters.manual.WbCTManualSony;
 import freed.cam.apis.sonyremote.parameters.manual.ZoomManualSony;
 import freed.cam.apis.sonyremote.parameters.modes.BaseModeParameterSony;
 import freed.cam.apis.sonyremote.parameters.modes.ContShootModeParameterSony;
+import freed.cam.apis.sonyremote.parameters.modes.FocusModeSony;
 import freed.cam.apis.sonyremote.parameters.modes.FocusPeakSony;
 import freed.cam.apis.sonyremote.parameters.modes.I_SonyApi;
 import freed.cam.apis.sonyremote.parameters.modes.NightModeSony;
@@ -114,7 +115,7 @@ public class ParameterHandler extends AbstractParameterHandler
         ContShootModeSpeed = new BaseModeParameterSony("getContShootingSpeed", "setContShootingSpeed", "getAvailableContShootingSpeed", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony) ContShootModeSpeed);
 
-        FocusMode = new BaseModeParameterSony("getFocusMode", "setFocusMode", "getAvailableFocusMode", mRemoteApi);
+        FocusMode = new FocusModeSony("getFocusMode", "setFocusMode", "getAvailableFocusMode", mRemoteApi);
         parametersChangedList.add((BaseModeParameterSony) FocusMode);
 
         ObjectTracking = new ObjectTrackingSony(mRemoteApi);

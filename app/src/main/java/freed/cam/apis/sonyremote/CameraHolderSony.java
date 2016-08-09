@@ -562,7 +562,10 @@ public class CameraHolderSony extends CameraHolderAbstract
                             && JsonUtils.isApiSupported("setLiveviewFrameInfo", mAvailableCameraApiSet)
                             && cameraStatus.equals("IDLE"))
                     {
-                        SetLiveViewFrameInfo(true);
+                        if (!cameraUiWrapper.GetParameterHandler().FocusMode.GetValue().equals("MF"))
+                            SetLiveViewFrameInfo(true);
+                        else
+                            SetLiveViewFrameInfo(false);
                     }
 
                     Logger.d(TAG, "openConnection(): completed.");
