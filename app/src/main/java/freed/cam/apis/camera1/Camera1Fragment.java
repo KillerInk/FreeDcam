@@ -26,6 +26,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
@@ -69,6 +70,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
     private final String TAG = Camera1Fragment.class.getSimpleName();
     public FocusPeakProcessorAp1 focusPeakProcessorAp1;
     boolean cameraRdy;
+    private RelativeLayout PrevCointainer;
 
     @Override
     public String CameraApiName() {
@@ -88,6 +90,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
 
         extendedSurfaceView = (ExtendedSurfaceView) view.findViewById(id.exSurface);
         preview = (TextureViewRatio) view.findViewById(id.textureView_preview);
+        PrevCointainer = (RelativeLayout)view.findViewById(id.movable);
 
 
         parametersHandler = new ParametersHandler(this);
@@ -287,8 +290,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
             if(moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_PICTURE)
                     || moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_HDR)
                     || moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_INTERVAL)
-                    || moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_STACKING))
-            {
+                    || moduleHandler.GetCurrentModuleName().equals(KEYS.MODULE_STACKING)) {
                 Size sizefromCam = new Size(parametersHandler.PictureSize.GetValue());
                 List<Size> sizes = new ArrayList<>();
                 String[] stringsSizes = parametersHandler.PreviewSize.GetValues();
@@ -296,13 +298,23 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
                 for (String s : stringsSizes) {
                     sizes.add(new Size(s));
                 }
-                if(val.equals("CLAMP")) {
-                     size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height, true);
-                }
-                else {
-                      size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height, false);
+                if (val.equals("CLAMP")) {
+                    size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height, true);
+                } else {
+                    size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height, false);
                 }
                 Logger.d(TAG, "set size to " + size.width + "x" + size.height);
+
+                float ar = size.width / size.height;
+
+                if (ar < 1.7)
+                {
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(size.width
+                            , size.height);
+                    params.setMargins(140,0,0,0);
+                    PrevCointainer.setLayoutParams(params);
+                }
+
 
                 parametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
                 uiHandler.post(new Runnable() {
@@ -330,6 +342,14 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
                 Logger.d(TAG, "set size to " + size.width + "x" + size.height);
                 if (appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("4k") &&parametersHandler.PreviewSize.GetValues().toString().contains("3840x"))
                 {
+                    float ar = size.width / size.height;
+
+                    if (ar >= 1.7)
+                    {
+                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(size.width
+                                , size.height);
+                        PrevCointainer.setLayoutParams(params);
+                    }
                     parametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
                     uiHandler.post(new Runnable() {
                         @Override
@@ -342,6 +362,14 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
                     });
 
                 }else {
+                    float ar = size.width / size.height;
+
+                    if (ar >= 1.7)
+                    {
+                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
+                                , ViewGroup.LayoutParams.MATCH_PARENT);
+                        PrevCointainer.setLayoutParams(params);
+                    }
                     parametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
                     uiHandler.post(new Runnable() {
                         @Override
