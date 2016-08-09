@@ -855,11 +855,11 @@ public class SimpleRemoteApi {
         }
     }
 
-    public void setLiveviewFrameInfo() throws IOException
+    public void setLiveviewFrameInfo(boolean enable) throws IOException
     {
         String service = "camera";
         try {
-            executeSetMethod(service, "setLiveviewFrameInfo",  new JSONArray().put(new JSONObject().put("frameInfo", true)));
+            executeSetMethod(service, "setLiveviewFrameInfo",  new JSONArray().put(new JSONObject().put("frameInfo", enable)));
         } catch (JSONException e) {
             throw new IOException(e);
         }

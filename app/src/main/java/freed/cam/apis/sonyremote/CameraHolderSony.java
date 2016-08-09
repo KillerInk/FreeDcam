@@ -949,13 +949,13 @@ public class CameraHolderSony extends CameraHolderAbstract
         });
     }
 
-    public void SetLiveViewFrameInfo(boolean val)
+    public void SetLiveViewFrameInfo(final boolean val)
     {
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    mRemoteApi.setLiveviewFrameInfo();
+                    mRemoteApi.setLiveviewFrameInfo(val);
                 } catch (IOException e) {
                     Logger.exception(e);
                 }
