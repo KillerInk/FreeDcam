@@ -96,6 +96,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         this.activityInterface = activityInterface;
     }
 
+    @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
     private void initRenderScript()
     {
         this.drawBitmap = Bitmap.createBitmap(this.mPreviousWidth, this.mPreviousHeight, Bitmap.Config.ARGB_8888);
@@ -108,6 +109,13 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         tbOut.setY(this.mPreviousHeight);
 
         renderScriptHandler.SetAllocsTypeBuilder(tbIn,tbOut,Allocation.USAGE_SCRIPT,Allocation.USAGE_SCRIPT);
+        renderScriptHandler.imagestack.set_gLastFrame(renderScriptHandler.GetOut());
+        renderScriptHandler.imagestack.set_gCurrentFrame(renderScriptHandler.GetIn());
+        renderScriptHandler.blurRS.setInput(renderScriptHandler.GetIn());
+        renderScriptHandler.starfinderRS.set_gCurrentFrame(renderScriptHandler.GetIn());
+        renderScriptHandler.focuspeak_argb.set_gCurrentFrame(renderScriptHandler.GetIn());
+        renderScriptHandler.contrastRS.set_gCurrentFrame(renderScriptHandler.GetIn());
+        renderScriptHandler.brightnessRS.set_gCurrentFrame(renderScriptHandler.GetIn());
 
     }
 
@@ -418,7 +426,6 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 src = new Rect(frameleft,frametop,frameright,framebottom);
                 //Logger.d(TAG, src.flattenToString());
                 renderScriptHandler.GetIn().copyFrom(frame);
-                renderScriptHandler.blurRS.setInput(renderScriptHandler.GetIn());
                 renderScriptHandler.blurRS.setRadius(0.3f);
                 renderScriptHandler.blurRS.forEach(renderScriptHandler.GetOut());
                 renderScriptHandler.GetOut().copyTo(this.drawBitmap);
@@ -437,11 +444,9 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             else if (nightmode == NightPreviewModes.grayscale)
             {
                 renderScriptHandler.GetIn().copyFrom(frame);
-                renderScriptHandler.blurRS.setInput(renderScriptHandler.GetIn());
                 renderScriptHandler.blurRS.setRadius(1.5f);
                 renderScriptHandler.blurRS.forEach(renderScriptHandler.GetOut());
                 renderScriptHandler.GetIn().copyFrom(renderScriptHandler.GetOut());
-                renderScriptHandler.starfinderRS.set_gCurrentFrame(renderScriptHandler.GetIn());
                 renderScriptHandler.starfinderRS.forEach_processBrightness(renderScriptHandler.GetOut());
                 renderScriptHandler.GetOut().copyTo(drawBitmap);
 
@@ -456,7 +461,6 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                     renderScriptHandler.GetIn().copyFrom(this.drawBitmap);
                 else
                     renderScriptHandler.GetIn().copyFrom(frame);
-                renderScriptHandler.focuspeak_argb.set_gCurrentFrame(renderScriptHandler.GetIn());
                 renderScriptHandler.focuspeak_argb.forEach_peak(renderScriptHandler.GetOut());
                 renderScriptHandler.GetOut().copyTo(drawBitmap);
 
@@ -488,8 +492,6 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             Log.d(TAG,"Stackcount reset");
         }
         currentImageStackCount++;
-        renderScriptHandler.imagestack.set_gCurrentFrame(renderScriptHandler.GetIn());
-        renderScriptHandler.imagestack.set_gLastFrame(renderScriptHandler.GetOut());
         renderScriptHandler.imagestack.forEach_stackimage_exposure(renderScriptHandler.GetOut());
         renderScriptHandler.GetOut().copyTo(drawBitmap);
         if (currentImageStackCount == 6)
@@ -500,15 +502,10 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR2)
     private boolean drawNightPreview(Bitmap frame, DataExtractor frameExtractor, Rect src, Rect dst) {
         renderScriptHandler.GetIn().copyFrom(frame);
-        renderScriptHandler.blurRS.setInput(renderScriptHandler.GetIn());
         renderScriptHandler.blurRS.setRadius(1.5f);
         renderScriptHandler.blurRS.forEach(renderScriptHandler.GetOut());
-        if (this.currentImageStackCount == 0)
-            renderScriptHandler.GetIn().copyFrom(frame);
-        else
-            renderScriptHandler.GetIn().copyFrom(this.drawBitmap);
-        renderScriptHandler.imagestack.set_gCurrentFrame(renderScriptHandler.GetIn());
-        renderScriptHandler.imagestack.set_gLastFrame(renderScriptHandler.GetOut());
+        renderScriptHandler.GetIn().copyFrom(renderScriptHandler.GetOut());
+        renderScriptHandler.GetOut().copyFrom(drawBitmap);
         renderScriptHandler.imagestack.forEach_stackimage_avarage(renderScriptHandler.GetOut());
         renderScriptHandler.GetOut().copyTo(this.drawBitmap);
 
@@ -521,12 +518,10 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         else
         {
             renderScriptHandler.GetIn().copyFrom(this.drawBitmap);
-            renderScriptHandler.brightnessRS.set_gCurrentFrame(renderScriptHandler.GetOut());
             renderScriptHandler.brightnessRS.set_brightness(100 / 255.0f);
             renderScriptHandler.brightnessRS.forEach_processBrightness(renderScriptHandler.GetOut());
             renderScriptHandler.GetOut().copyTo(this.drawBitmap);
             renderScriptHandler.GetIn().copyFrom(this.drawBitmap);
-            renderScriptHandler.contrastRS.set_gCurrentFrame(renderScriptHandler.GetIn());
             renderScriptHandler.contrastRS.invoke_setBright(200f);
             renderScriptHandler.contrastRS.forEach_processContrast(renderScriptHandler.GetOut());
             renderScriptHandler.GetOut().copyTo(this.drawBitmap);
