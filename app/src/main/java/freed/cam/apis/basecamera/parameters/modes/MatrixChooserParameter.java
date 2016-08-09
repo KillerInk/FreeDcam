@@ -39,6 +39,7 @@ public class MatrixChooserParameter extends AbstractModeParameter
     public static final String IMX230 = "IMX230";
     public static final String OmniVision = "OmniVision";
     public static final String OV5648 = "OV5648";
+    public static final String LumingonOV = "LumingonOV";
     public static final String Neutral = "Neutral";
     private final HashMap<String, CustomMatrix> custommatrixes;
     private String currentval = "off";
@@ -113,6 +114,15 @@ public class MatrixChooserParameter extends AbstractModeParameter
                 imx230_3x1_matrix));
         map.put(OV5648,new CustomMatrix(
                 OVOV5648_matrix1,
+                OVOV5648_matrix2,
+                OV_ASSHOT,
+                OVOV5648_Foward,
+                OVOV5648_Foward2,
+                Nexus6_reduction_matrix1,
+                Nexus6_reduction_matrix2,
+                OV_NREDUCTION_Matrix));
+        map.put(LumingonOV,new CustomMatrix(
+                OVLUMING_matrix1,
                 OVOV5648_matrix2,
                 OV_ASSHOT,
                 OVOV5648_Foward,
@@ -370,6 +380,11 @@ public class MatrixChooserParameter extends AbstractModeParameter
 
 
     ////////////////////////////////   END G4 /////////////////////////////////////////////////////
+    private final float[]  OVLUMING_matrix1 =
+            {
+                    0.044400f, 0.099100f, 0.670600f, -0.085700f, 0.819900f, 0.318500f, 0.850600f, -0.346200f, -0.017600f
+            };
+
 
     //////////////////////////////   OV5648 ////////////////////////////////////////////////////////////////
     private final float[]  OVOV5648_matrix1 =
