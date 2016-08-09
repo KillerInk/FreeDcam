@@ -48,7 +48,7 @@
         android:layout_alignParentLeft="false"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="100dp"
+        android:layout_marginRight="@dimen/shuttericon_size"
         android:layout_alignParentStart="false">
 
         <TextView
@@ -292,13 +292,6 @@
     </LinearLayout>
 
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="160px"
-        android:layout_height="match_parent"
-        android:background="@drawable/ic_opt_l"
-        android:clickable="true"
-        android:id="@+id/leftCover"></LinearLayout>
 
     <RelativeLayout
         android:orientation="vertical"
@@ -353,18 +346,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|top"
-            android:id="@+id/rightCover"
-            android:background="@drawable/ic_opt_r"
-            android:layout_alignParentEnd="true"
-            android:layout_above="@+id/shutter_button"
-            android:layout_alignParentTop="true"
-            android:clickable="true"></LinearLayout>
-
         <freed.cam.ui.themesample.cameraui.ShutterButton
             android:layout_width="@dimen/shuttericon_size"
             android:layout_height="@dimen/shuttericon_size"
@@ -401,8 +382,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="3dp"
-                android:layout_marginBottom="5dp"
-                android:visibility="gone" />
+                android:layout_marginBottom="5dp" />
 
         </LinearLayout>
 
