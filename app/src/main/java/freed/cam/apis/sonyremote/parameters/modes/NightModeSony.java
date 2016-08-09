@@ -34,6 +34,7 @@ public class NightModeSony extends BaseModeParameterSony
     private final String currentval = KEYS.OFF;
     private final SimpleStreamSurfaceView simpleStreamSurfaceView;
     private final String GRAYSCALE = "GrayScale";
+    private final String EXPOSURE = "Exposure";
     final String ZOOMPREVIEW = "ZoomPreview";
 
     public NightModeSony(SimpleStreamSurfaceView simpleStreamSurfaceView) {
@@ -49,6 +50,9 @@ public class NightModeSony extends BaseModeParameterSony
                 break;
             case GRAYSCALE:
                 simpleStreamSurfaceView.nightmode = SimpleStreamSurfaceView.NightPreviewModes.grayscale;
+                break;
+            case EXPOSURE:
+                simpleStreamSurfaceView.nightmode = SimpleStreamSurfaceView.NightPreviewModes.exposure;
                 break;
             default:
                 simpleStreamSurfaceView.nightmode = SimpleStreamSurfaceView.NightPreviewModes.off;
@@ -67,6 +71,8 @@ public class NightModeSony extends BaseModeParameterSony
                 return KEYS.OFF;
             case grayscale:
                 return GRAYSCALE;
+            case exposure:
+                return EXPOSURE;
            /* case zoompreview:
                 return ZOOMPREVIEW;*/
             default:
@@ -76,7 +82,7 @@ public class NightModeSony extends BaseModeParameterSony
 
     @Override
     public String[] GetValues() {
-        return new String[] {KEYS.ON, KEYS.OFF, GRAYSCALE/*, ZOOMPREVIEW*/};
+        return new String[] {KEYS.ON, KEYS.OFF, GRAYSCALE, EXPOSURE /*, ZOOMPREVIEW*/};
     }
 
     @Override

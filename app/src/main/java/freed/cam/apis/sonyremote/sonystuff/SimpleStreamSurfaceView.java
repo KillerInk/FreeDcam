@@ -86,6 +86,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         on,
         off,
         grayscale,
+        exposure,
         zoompreview,
     }
 
@@ -445,6 +446,11 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 renderScriptHandler.GetOut().copyTo(drawBitmap);
 
             }
+            else if (nightmode == NightPreviewModes.exposure)
+            {
+                if(!drawExposureStack(frame))
+                    return;
+            }
             if (focuspeak) {
                 if (nightmode != NightPreviewModes.off || this.PreviewZOOMFactor > 1)
                     renderScriptHandler.GetIn().copyFrom(this.drawBitmap);
@@ -470,6 +476,25 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         }
         catch(IllegalStateException ex)
         {Logger.exception(ex);}
+    }
+
+    private boolean drawExposureStack(Bitmap frame) {
+        renderScriptHandler.GetIn().copyFrom(frame);
+        boolean draw = false;
+        if (currentImageStackCount > 6)
+        {
+            renderScriptHandler.GetOut().copyFrom(frame);
+            currentImageStackCount = 0;
+            Log.d(TAG,"Stackcount reset");
+        }
+        currentImageStackCount++;
+        renderScriptHandler.imagestack.set_gCurrentFrame(renderScriptHandler.GetIn());
+        renderScriptHandler.imagestack.set_gLastFrame(renderScriptHandler.GetOut());
+        renderScriptHandler.imagestack.forEach_stackimage_exposure(renderScriptHandler.GetOut());
+        renderScriptHandler.GetOut().copyTo(drawBitmap);
+        if (currentImageStackCount == 6)
+            draw = true;
+        return draw;
     }
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR2)

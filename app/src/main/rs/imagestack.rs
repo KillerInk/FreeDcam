@@ -66,7 +66,7 @@
             uchar4 rgb;
             curPixel = getRgb(x,y);
             lastPixel = rsUnpackColor8888(rsGetElementAt_uchar4(gLastFrame, x, y));
-            merged = (curPixel + lastPixel*2)/2;
+            merged = (curPixel*2 + lastPixel*4)/4;
             rgb = rsPackColorTo8888(merged);
             if (rgb.r > 255) rgb.r = 255; if(rgb.r < 0) rgb.r = 0;
             if (rgb.g > 255) rgb.g = 255; if(rgb.g < 0) rgb.g = 0;
