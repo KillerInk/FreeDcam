@@ -188,6 +188,9 @@ public class VideoModule extends AbstractVideoModule
         if (cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo != null && cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.IsSupported()) {
             cameraUiWrapper.GetParameterHandler().VideoHighFramerateVideo.SetValue(currentProfile.videoFrameRate + "", false);
         }
+        if (cameraUiWrapper.GetParameterHandler().HTCVideoModeHSR != null && cameraUiWrapper.GetParameterHandler().HTCVideoModeHSR.IsSupported()) {
+            cameraUiWrapper.GetParameterHandler().HTCVideoModeHSR.SetValue(currentProfile.videoFrameRate + "", false);
+        }
     }
 
     private void loadMtkHighspeed() {
