@@ -120,6 +120,7 @@ public class VideoModuleG3 extends AbstractVideoModule
     @Override
     public void InitModule()
     {
+        super.InitModule();
         loadProfileSpecificParameters();
     }
 

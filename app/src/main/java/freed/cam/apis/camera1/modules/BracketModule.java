@@ -113,6 +113,7 @@ public class BracketModule extends PictureModule
     @Override
     public void InitModule()
     {
+        super.InitModule();
         loade_ae_bracket();
     }
 

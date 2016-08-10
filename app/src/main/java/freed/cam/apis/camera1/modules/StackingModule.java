@@ -124,7 +124,7 @@ public class StackingModule extends PictureModule {
     @Override
     public void InitModule()
     {
-
+        super.InitModule();
     }
 
     @Override

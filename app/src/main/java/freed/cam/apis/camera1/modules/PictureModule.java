@@ -116,6 +116,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
     @Override
     public void InitModule()
     {
+        super.InitModule();
         Logger.d(TAG,"InitModule");
         cameraUiWrapper.GetParameterHandler().PreviewFormat.SetValue("yuv420sp",true);
         if (cameraUiWrapper.GetParameterHandler().VideoHDR != null && cameraUiWrapper.GetParameterHandler().VideoHDR.IsSupported() && !cameraUiWrapper.GetParameterHandler().VideoHDR.GetValue().equals("off"))

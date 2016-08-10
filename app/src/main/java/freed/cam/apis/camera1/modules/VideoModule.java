@@ -107,7 +107,7 @@ public class VideoModule extends AbstractVideoModule
     @Override
     public void InitModule()
     {
-
+        super.InitModule();
         if (cameraUiWrapper.GetParameterHandler().VideoHDR != null)
             if(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEOHDR).equals("on") && cameraUiWrapper.GetParameterHandler().VideoHDR.IsSupported())
                 cameraUiWrapper.GetParameterHandler().VideoHDR.SetValue("on", true);
