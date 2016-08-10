@@ -280,6 +280,8 @@ public class AeHandler
                     break;
                 default:
                     millimax = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getUpper().intValue() / 1000;
+                    if (millimax == 0)
+                        millimax = 800000;
                     break;
             }
             int millimin = cameraHolder.characteristics.get(CameraCharacteristics.SENSOR_INFO_EXPOSURE_TIME_RANGE).getLower().intValue() / 1000;
