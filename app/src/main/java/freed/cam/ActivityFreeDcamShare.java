@@ -24,8 +24,18 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URI;
 
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
+import freed.utils.Logger;
 import freed.viewer.holder.FileHolder;
 
 /**
@@ -33,37 +43,48 @@ import freed.viewer.holder.FileHolder;
  */
 public class ActivityFreeDcamShare extends ActivityFreeDcamMain implements I_WorkEvent
 {
-    private Intent callerIntent;
-    private Uri data;
+    private final String TAG = ActivityFreeDcamShare.class.getSimpleName();
+    private File toreturnFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        callerIntent = getIntent();
-        data = callerIntent.getData();
-        Uri imageUri = callerIntent.getParcelableExtra(MediaStore.EXTRA_OUTPUT);
+        Intent callerIntent = getIntent();
+        Logger.d(TAG, callerIntent.getAction());
+        if (callerIntent.getAction().equals(MediaStore.ACTION_IMAGE_CAPTURE)) {
+            Uri imageUri = callerIntent.getParcelableExtra(MediaStore.EXTRA_OUTPUT);
+            toreturnFile = new File(imageUri.getPath());
+            Logger.d(TAG, imageUri.getPath());
+        }
 
-        /*cameraUiWrapper.moduleHandler.moduleEventHandler.AddWorkFinishedListner(this);
-        if(!cameraUiWrapper.moduleHandler.GetCurrentModuleName().equals(ModuleHandler.MODULE_PICTURE))
-            cameraUiWrapper.moduleHandler.SetModule(ModuleHandler.MODULE_PICTURE);
-        PictureModule pictureModule = (PictureModule)cameraUiWrapper.moduleHandler.GetCurrentModule();
-        pictureModule.OverRidePath = imageUri.getPath();
-        if (pictureModule.OverRidePath.endsWith(".jpg"))
-        {
-            appSettingsManager.setString(AppSettingsManager.SETTING_PICTUREFORMAT, KEYS.JPEG);
-        }*/
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
     }
 
     @Override
     public void WorkHasFinished(FileHolder fileHolder)
     {
-        setResult(Activity.RESULT_OK, callerIntent);
-        finish();
+        if (toreturnFile != null) {
+            try {
+                copy(fileHolder.getFile(), toreturnFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Intent intent = new Intent();
+            setResult(Activity.RESULT_OK, intent);
+            finish();
+        }
+        else
+            super.WorkHasFinished(fileHolder);
+    }
+
+    private void copy(File src, File dst) throws IOException {
+        InputStream in = new FileInputStream(src);
+        OutputStream out = new FileOutputStream(dst);
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = in.read(buf)) > 0) {
+            out.write(buf, 0, len);
+        }
+        in.close();
+        out.close();
     }
 }
