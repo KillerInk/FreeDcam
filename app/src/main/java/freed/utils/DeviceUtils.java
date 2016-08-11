@@ -82,6 +82,7 @@ public class DeviceUtils
         OnePlusTwo,
         p8,
         p8lite,
+        Prestigio_Multipad_Color,
         Xiaomi_RedmiNote,
         Xiaomi_Redmi2,
         Xiaomi_RedmiNote2_MTK,
@@ -255,6 +256,8 @@ public class DeviceUtils
             return Devices.p8lite;
         else if(isDevice(res.getStringArray(array.Huawei_p8)))
             return Devices.p8;
+        else if (isDevice(res.getStringArray(array.prestigio_multipad_color)))
+            return Devices.Prestigio_Multipad_Color;
         else if(isDevice(res.getStringArray(array.Huawei_Honor6)))
             return Devices.huawei_honor6;
         else if(isDevice(res.getStringArray(array.Alcatel_985N)))

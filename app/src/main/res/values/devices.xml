@@ -522,4 +522,8 @@
         <item>ROME_X</item>
     </string-array>
 
+    <string-array name="prestigio_multipad_color">
+        <item>PMT5777_3G</item>
+    </string-array>
+
 </resources>

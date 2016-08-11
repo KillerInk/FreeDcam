@@ -39,6 +39,7 @@ import freed.cam.apis.camera1.parameters.device.mtk.Lumigon_T3;
 import freed.cam.apis.camera1.parameters.device.mtk.Meizu_M2_Note_MTK;
 import freed.cam.apis.camera1.parameters.device.mtk.Meizu_MX4_5_MTK;
 import freed.cam.apis.camera1.parameters.device.mtk.Mlais_M52_Red_Note;
+import freed.cam.apis.camera1.parameters.device.mtk.Prestigio_Multipad_Color;
 import freed.cam.apis.camera1.parameters.device.mtk.Retro_MTK;
 import freed.cam.apis.camera1.parameters.device.mtk.Rome_X;
 import freed.cam.apis.camera1.parameters.device.mtk.Sony_C5;
@@ -231,6 +232,8 @@ public class DeviceSelector {
                 return getDefault(cameraUiWrapper,cameraParameters);
             case p8lite:
                 return getDefault(cameraUiWrapper,cameraParameters);
+            case Prestigio_Multipad_Color:
+                return new Prestigio_Multipad_Color(cameraParameters,cameraUiWrapper);
             case Xiaomi_RedmiNote:
                return new Xiaomi_Redmi_Note(cameraParameters,cameraUiWrapper);
 
