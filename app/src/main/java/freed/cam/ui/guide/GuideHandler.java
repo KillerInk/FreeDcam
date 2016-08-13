@@ -39,7 +39,6 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent , I_P
         super.onCreateView(inflater, container,null);
         view = inflater.inflate(layout.cameraui_guides_fragment, container,false);
         img = (ImageView) view.findViewById(id.imageViewGyide);
-
         return view;
     }
 
@@ -60,6 +59,7 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent , I_P
         this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.GetParameterHandler().GuideList.addEventListner(this);
         cameraUiWrapper.GetParameterHandler().AddParametersLoadedListner(this);
+        SetViewG(cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_GUIDE));
     }
 
     private void SetViewG(final String str)
