@@ -279,10 +279,13 @@ public class LeftMenuFragment extends AbstractFragment  implements SettingsChild
 
         if(cameraUiWrapper instanceof Camera1Fragment)
         {
+            AEB1.setVisibility(View.VISIBLE);
             AEB1.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB1);
             AEB1.SetCameraUIWrapper(cameraUiWrapper);
+            AEB2.setVisibility(View.VISIBLE);
             AEB2.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB2);
             AEB2.SetCameraUIWrapper(cameraUiWrapper);
+            AEB3.setVisibility(View.VISIBLE);
             AEB3.SetStuff(fragment_activityInterface.getAppSettings(), AppSettingsManager.SETTING_AEB3);
             AEB3.SetCameraUIWrapper(cameraUiWrapper);
         }

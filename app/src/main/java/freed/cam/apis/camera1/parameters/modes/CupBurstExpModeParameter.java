@@ -62,19 +62,15 @@ public class CupBurstExpModeParameter extends BaseModeParameter
             Logger.exception(ex);
         }
         String[] newvalue = "0,0,0".split(",");
-        if (valueToSet.equals("on")) {
-            //if (cameraHolder.ParameterHandler.aeb1.GetValue() != null) {
-                //newvalue[0] = cameraHolder.ParameterHandler.aeb1.GetValue();
-            newvalue[0] = appSettingsManager.getString(AppSettingsManager.SETTING_AEB1);
-            if(newvalue[0] == null || newvalue[0].equals(""))
-                newvalue[0] = "5";
-            newvalue[1] = appSettingsManager.getString(AppSettingsManager.SETTING_AEB2);
-            if(newvalue[1] == null || newvalue[1].equals(""))
-                newvalue[1] = "0";
-            newvalue[2] = appSettingsManager.getString(AppSettingsManager.SETTING_AEB3);
-            if(newvalue[2] == null || newvalue[2].equals(""))
-                newvalue[2] = "-5";
-        }
+        newvalue[0] = appSettingsManager.getString(AppSettingsManager.SETTING_AEB1);
+        if(newvalue[0] == null || newvalue[0].equals(""))
+            newvalue[0] = "5";
+        newvalue[1] = appSettingsManager.getString(AppSettingsManager.SETTING_AEB2);
+        if(newvalue[1] == null || newvalue[1].equals(""))
+            newvalue[1] = "0";
+        newvalue[2] = appSettingsManager.getString(AppSettingsManager.SETTING_AEB3);
+        if(newvalue[2] == null || newvalue[2].equals(""))
+            newvalue[2] = "-5";
 
         parameters.set("capture-burst-exposures",newvalue[0]+","+newvalue[1]+","+newvalue[2]);
         try {

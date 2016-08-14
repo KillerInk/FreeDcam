@@ -177,10 +177,6 @@ public abstract class AbstractParameterHandler
     public ModeParameterInterface morphoHDR;
     public ModeParameterInterface morphoHHT;
 
-    public ModeParameterInterface aeb1;
-    public ModeParameterInterface aeb2;
-    public ModeParameterInterface aeb3;
-
     public ModeParameterInterface opcode;
     public ModeParameterInterface bayerformat;
     public ModeParameterInterface matrixChooser;
@@ -258,9 +254,6 @@ public abstract class AbstractParameterHandler
         setMode(Horizont, AppSettingsManager.SETTING_HORIZONT);
 
         setMode(HDRMode, AppSettingsManager.SETTING_HDRMODE);
-        setMode(aeb1, AppSettingsManager.SETTING_AEB1);
-        setMode(aeb2, AppSettingsManager.SETTING_AEB2);
-        setMode(aeb3, AppSettingsManager.SETTING_AEB3);
         setMode(captureBurstExposures, AppSettingsManager.SETTING_CAPTUREBURSTEXPOSURES);
         //setMode(AE_Bracket, AppSettingsManager.SETTING_AEBRACKET);
 

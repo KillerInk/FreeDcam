@@ -120,6 +120,10 @@ public class SettingsChildMenuAEB extends LinearLayout {
             if (cameraUiWrapper.GetParameterHandler().captureBurstExposures.IsSupported()) {
                 cameraUiWrapper.GetParameterHandler().captureBurstExposures.SetValue("on", true);
             }
+            else
+            {
+                cameraUiWrapper.GetParameterHandler().captureBurstExposures.SetValue("off", true);
+            }
             editText.setText(current +"");
         }
     }
