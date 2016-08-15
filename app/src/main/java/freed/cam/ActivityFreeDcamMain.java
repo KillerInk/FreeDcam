@@ -464,8 +464,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
                     if (screenSlideFragment != null && activityIsResumed)
                         screenSlideFragment.NotifyDATAhasChanged();
-                    if (cameraUiFragment != null)
-                        cameraUiFragment.SetThumbImage(b);
                 }
             });
         }
@@ -485,8 +483,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                     AddFile(fileHolder);
                     if (screenSlideFragment != null && activityIsResumed)
                         screenSlideFragment.NotifyDATAhasChanged();
-                    if (cameraUiFragment != null)
-                        cameraUiFragment.SetThumbImage(b);
                 }
             });
         }

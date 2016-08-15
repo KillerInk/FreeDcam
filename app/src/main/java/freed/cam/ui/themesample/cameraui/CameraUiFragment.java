@@ -85,7 +85,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private HorizontalValuesFragment horizontalValuesFragment;
     private SwipeMenuListner touchHandler;
     private ShutterButton shutterButton;
-    private ThumbView thumbView;
     private ManualFragment manualModesFragment;
     private FrameLayout manualModes_holder;
     private boolean manualsettingsIsOpen;
@@ -111,11 +110,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     public CameraUiFragment()
     {
 
-    }
-
-    public void SetThumbImage(Bitmap bitmap)
-    {
-        thumbView.showThumb(bitmap);
     }
 
     @Override
@@ -209,9 +203,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         format = (UiSettingsChild) view.findViewById(id.format);
         format.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_PICTUREFORMAT);
         format.SetMenuItemClickListner(this,true);
-
-        thumbView = (ThumbView) view.findViewById(id.thumbview);
-        thumbView.SetOnThumbClickListener(thumbClick);
 
         modeSwitch = (UiSettingsChildModuleSwitch) view.findViewById(id.mode_switch);
         modeSwitch.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_CURRENTMODULE);

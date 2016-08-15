@@ -335,19 +335,6 @@
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/quck_set_cswitch" />
 
-            <freed.cam.ui.themesample.cameraui.ThumbView
-                android:layout_width="@dimen/thumbviewsize"
-                android:layout_height="@dimen/thumbviewsize"
-                android:id="@+id/thumbview"
-                android:background="@drawable/thumbnail"
-                android:layout_gravity="center_horizontal"
-                android:layout_alignParentLeft="false"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginBottom="5dp" />
-
         </LinearLayout>
 
     </RelativeLayout>
