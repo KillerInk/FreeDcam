@@ -380,8 +380,12 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             if (renderScriptHandler.isSucessfullLoaded())
             {
                 mAllocationIn.copyFrom(frame);
-                renderScriptHandler.interpolateimage2x.forEach_stackimage_avarage(mAllocationIn);
-                renderScriptHandler.GetIn().copyTo(drawBitmap);
+                renderScriptHandler.interpolateimage2x.forEach_fillPixel(mAllocationIn);
+                renderScriptHandler.interpolateimage2x.forEach_interpolatePixel(renderScriptHandler.GetOut());
+                renderScriptHandler.GetIn().copyFrom(renderScriptHandler.GetOut());
+                renderScriptHandler.blurRS.setRadius(0.5f);
+                renderScriptHandler.blurRS.forEach(renderScriptHandler.GetOut());
+                renderScriptHandler.GetOut().copyTo(this.drawBitmap);
 
                 int frameWidth = frame.getWidth()*2;
                 int frameHeight = frame.getHeight()*2;
@@ -416,7 +420,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 if (canvas == null) {
                     return;
                 }
-                if ((nightmode != NightPreviewModes.off || this.focuspeak) || renderScriptHandler.isSucessfullLoaded())
+                //if ((nightmode != NightPreviewModes.off || this.focuspeak) || renderScriptHandler.isSucessfullLoaded())
                     canvas.drawBitmap(this.drawBitmap, src, dst, this.mFramePaint);
             }
             else
