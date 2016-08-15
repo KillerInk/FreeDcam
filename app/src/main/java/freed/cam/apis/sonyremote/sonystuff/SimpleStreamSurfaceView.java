@@ -373,51 +373,70 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 this.onDetectedFrameSizeChanged(frame.getWidth(), frame.getHeight());
                 return;
             }
-
+            Canvas canvas = null;
+            Rect dst = null;
             //canvas.drawColor(Color.BLACK);
-            int frameWidth = frame.getWidth()*2;
-            int frameHeight = frame.getHeight()*2;
-            int fragmentwidth = this.getWidth();
-            int fragmentheight = this.getHeight();
-            Rect src = new Rect(0, 0, frameWidth, frameHeight);
+
             if (renderScriptHandler.isSucessfullLoaded())
+            {
+                mAllocationIn.copyFrom(frame);
                 renderScriptHandler.interpolateimage2x.forEach_stackimage_avarage(mAllocationIn);
+                renderScriptHandler.GetIn().copyTo(drawBitmap);
 
-            src = drawZoomPreview(frame, frameWidth, frameHeight, src);
+                int frameWidth = frame.getWidth()*2;
+                int frameHeight = frame.getHeight()*2;
+                int fragmentwidth = this.getWidth();
+                int fragmentheight = this.getHeight();
+                Rect src = new Rect(0, 0, frameWidth, frameHeight);
+                src = drawZoomPreview(frame, frameWidth, frameHeight, src);
 
 
-            float by = Math.min((float) fragmentwidth / frameWidth, (float) fragmentheight / frameHeight);
-            int offsetX = (fragmentwidth - (int) (frameWidth * by)) / 2;
-            int offsetY = (fragmentheight - (int) (frameHeight * by)) / 2;
-            Rect dst = new Rect(offsetX, offsetY, fragmentwidth - offsetX, fragmentheight - offsetY);
-            if (renderScriptHandler.isSucessfullLoaded()) {
-                if (nightmode == NightPreviewModes.on) {
-                    if (!drawNightPreview(frame))
-                        return;
-                } else if (nightmode == NightPreviewModes.grayscale) {
-                    drawGrayScale(frame);
-                } else if (nightmode == NightPreviewModes.exposure) {
-                    if (!drawExposureStack(frame))
-                        return;
-                }
-                if (focuspeak) {
-                    if (nightmode != NightPreviewModes.off || this.PreviewZOOMFactor > 1)
+                float by = Math.min((float) fragmentwidth / frameWidth, (float) fragmentheight / frameHeight);
+                int offsetX = (fragmentwidth - (int) (frameWidth * by)) / 2;
+                int offsetY = (fragmentheight - (int) (frameHeight * by)) / 2;
+                dst = new Rect(offsetX, offsetY, fragmentwidth - offsetX, fragmentheight - offsetY);
+                if (renderScriptHandler.isSucessfullLoaded()) {
+                    if (nightmode == NightPreviewModes.on) {
+                        if (!drawNightPreview(drawBitmap))
+                            return;
+                    } else if (nightmode == NightPreviewModes.grayscale) {
+                        drawGrayScale(drawBitmap);
+                    } else if (nightmode == NightPreviewModes.exposure) {
+                        if (!drawExposureStack(drawBitmap))
+                            return;
+                    }
+                    if (focuspeak) {
                         renderScriptHandler.GetIn().copyFrom(this.drawBitmap);
-                    else
-                        renderScriptHandler.GetIn().copyFrom(frame);
-                    renderScriptHandler.focuspeak_argb.forEach_peak(renderScriptHandler.GetOut());
-                    renderScriptHandler.GetOut().copyTo(drawBitmap);
+                        renderScriptHandler.focuspeak_argb.forEach_peak(renderScriptHandler.GetOut());
+                        renderScriptHandler.GetOut().copyTo(drawBitmap);
 
+                    }
                 }
+                canvas = getHolder().lockCanvas();
+                if (canvas == null) {
+                    return;
+                }
+                if ((nightmode != NightPreviewModes.off || this.focuspeak) || renderScriptHandler.isSucessfullLoaded())
+                    canvas.drawBitmap(this.drawBitmap, src, dst, this.mFramePaint);
             }
-            Canvas canvas = getHolder().lockCanvas();
+            else
+            {
+                int frameWidth = frame.getWidth();
+                int frameHeight = frame.getHeight();
+                int fragmentwidth = this.getWidth();
+                int fragmentheight = this.getHeight();
+                Rect src = new Rect(0, 0, frameWidth, frameHeight);
+                float by = Math.min((float) fragmentwidth / frameWidth, (float) fragmentheight / frameHeight);
+                int offsetX = (fragmentwidth - (int) (frameWidth * by)) / 2;
+                int offsetY = (fragmentheight - (int) (frameHeight * by)) / 2;
+                dst = new Rect(offsetX, offsetY, fragmentwidth - offsetX, fragmentheight - offsetY);
+
+
+                canvas.drawBitmap(frame, src, dst, this.mFramePaint);
+            }
             if (canvas == null) {
                 return;
             }
-            if ((nightmode != NightPreviewModes.off || this.focuspeak) && renderScriptHandler.isSucessfullLoaded())
-                canvas.drawBitmap(this.drawBitmap, src, dst, this.mFramePaint);
-            else
-                canvas.drawBitmap(frame, src, dst, this.mFramePaint);
             if (frameExtractor != null)
                 this.drawFrameInformation(frameExtractor, canvas, dst);
 
@@ -567,13 +586,13 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 //Rect src = new Rect(0, 0, crosshairs[0].getWidth(), crosshairs[0].getHeight());
                 if (frameInfo.Status == 0x01)
                     this.paint.setColor(Color.BLUE);
-                    //canvas.drawBitmap(crosshairs[0], src, dst, mFramePaint);
+                //canvas.drawBitmap(crosshairs[0], src, dst, mFramePaint);
                 if (frameInfo.Status == 0x00)
                     this.paint.setColor(Color.RED);
-                    //canvas.drawBitmap(crosshairs[1], src, dst, mFramePaint);
+                //canvas.drawBitmap(crosshairs[1], src, dst, mFramePaint);
                 if (frameInfo.Status == 0x04)
                     this.paint.setColor(Color.GREEN);
-                    //canvas.drawBitmap(crosshairs[2], src, dst, mFramePaint);
+                //canvas.drawBitmap(crosshairs[2], src, dst, mFramePaint);
             }
             else if (frameInfo.Category == 0x05 ||frameInfo.Category == 0x04)
             {
