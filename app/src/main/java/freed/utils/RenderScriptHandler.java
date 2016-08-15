@@ -55,6 +55,7 @@ public class RenderScriptHandler
     public ScriptC_contrast contrastRS;
     public ScriptC_starfinder starfinderRS;
     public ScriptIntrinsicBlur blurRS;
+    public ScriptC_interpolateimage2x interpolateimage2x;
 
     private boolean sucessfullLoaded = false;
 
@@ -79,6 +80,7 @@ public class RenderScriptHandler
                     contrastRS = new ScriptC_contrast(mRS);
                     blurRS = ScriptIntrinsicBlur.create(mRS, Element.U8_4(mRS));
                     starfinderRS = new ScriptC_starfinder(mRS);
+                    interpolateimage2x = new ScriptC_interpolateimage2x(mRS);
                     sucessfullLoaded = true;
                 }
                 catch (RSRuntimeException ex)

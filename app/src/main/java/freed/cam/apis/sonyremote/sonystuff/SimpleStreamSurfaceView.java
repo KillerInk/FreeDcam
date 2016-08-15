@@ -69,10 +69,10 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     public boolean focuspeak;
     public NightPreviewModes nightmode = NightPreviewModes.off;
     private int currentImageStackCount;
+    private Allocation mAllocationIn;
 
 
     private Bitmap drawBitmap;
-    private Bitmap stackBitmap;
 
     private int zoomPreviewMagineLeft;
     private int zoomPreviewMargineTop;
@@ -99,14 +99,17 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
     private void initRenderScript()
     {
-        this.drawBitmap = Bitmap.createBitmap(this.mPreviousWidth, this.mPreviousHeight, Bitmap.Config.ARGB_8888);
-        this.stackBitmap = Bitmap.createBitmap(this.mPreviousWidth, this.mPreviousHeight, Bitmap.Config.ARGB_8888);
         Type.Builder tbIn = new Type.Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
         tbIn.setX(this.mPreviousWidth);
         tbIn.setY(this.mPreviousHeight);
+        mAllocationIn = Allocation.createTyped(renderScriptHandler.GetRS(), tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE,   Allocation.USAGE_SCRIPT);
+        this.drawBitmap = Bitmap.createBitmap(this.mPreviousWidth*2, this.mPreviousHeight*2, Bitmap.Config.ARGB_8888);
+        tbIn = new Type.Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
+        tbIn.setX(this.mPreviousWidth*2);
+        tbIn.setY(this.mPreviousHeight*2);
         Type.Builder tbOut = new Type.Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
-        tbOut.setX(this.mPreviousWidth);
-        tbOut.setY(this.mPreviousHeight);
+        tbOut.setX(this.mPreviousWidth*2);
+        tbOut.setY(this.mPreviousHeight*2);
 
         renderScriptHandler.SetAllocsTypeBuilder(tbIn,tbOut,Allocation.USAGE_SCRIPT,Allocation.USAGE_SCRIPT);
         renderScriptHandler.imagestack.set_gLastFrame(renderScriptHandler.GetOut());
@@ -116,6 +119,11 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         renderScriptHandler.focuspeak_argb.set_gCurrentFrame(renderScriptHandler.GetIn());
         renderScriptHandler.contrastRS.set_gCurrentFrame(renderScriptHandler.GetIn());
         renderScriptHandler.brightnessRS.set_gCurrentFrame(renderScriptHandler.GetIn());
+
+        renderScriptHandler.interpolateimage2x.set_height(mPreviousHeight);
+        renderScriptHandler.interpolateimage2x.set_width(mPreviousWidth);
+        renderScriptHandler.interpolateimage2x.set_inputFrame(mAllocationIn);
+        renderScriptHandler.interpolateimage2x.set_scaledFrame(renderScriptHandler.GetIn());
 
     }
 
@@ -367,19 +375,24 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             }
 
             //canvas.drawColor(Color.BLACK);
-            int frameWidth = frame.getWidth();
-            int frameHeight = frame.getHeight();
+            int frameWidth = frame.getWidth()*2;
+            int frameHeight = frame.getHeight()*2;
+            int fragmentwidth = this.getWidth();
+            int fragmentheight = this.getHeight();
             Rect src = new Rect(0, 0, frameWidth, frameHeight);
+            if (renderScriptHandler.isSucessfullLoaded())
+                renderScriptHandler.interpolateimage2x.forEach_stackimage_avarage(mAllocationIn);
+
             src = drawZoomPreview(frame, frameWidth, frameHeight, src);
 
 
-            float by = Math.min((float) this.getWidth() / frameWidth, (float) this.getHeight() / frameHeight);
-            int offsetX = (this.getWidth() - (int) (frameWidth * by)) / 2;
-            int offsetY = (this.getHeight() - (int) (frameHeight * by)) / 2;
-            Rect dst = new Rect(offsetX, offsetY, this.getWidth() - offsetX, this.getHeight() - offsetY);
+            float by = Math.min((float) fragmentwidth / frameWidth, (float) fragmentheight / frameHeight);
+            int offsetX = (fragmentwidth - (int) (frameWidth * by)) / 2;
+            int offsetY = (fragmentheight - (int) (frameHeight * by)) / 2;
+            Rect dst = new Rect(offsetX, offsetY, fragmentwidth - offsetX, fragmentheight - offsetY);
             if (renderScriptHandler.isSucessfullLoaded()) {
                 if (nightmode == NightPreviewModes.on) {
-                    if (!drawNightPreview(frame, frameExtractor, src, dst))
+                    if (!drawNightPreview(frame))
                         return;
                 } else if (nightmode == NightPreviewModes.grayscale) {
                     drawGrayScale(frame);
@@ -480,7 +493,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
 
             src = new Rect(frameleft,frametop,frameright,framebottom);
             //Logger.d(TAG, src.flattenToString());
-            renderScriptHandler.GetIn().copyFrom(frame);
+            //renderScriptHandler.GetIn().copyFrom(frame);
             renderScriptHandler.blurRS.setRadius(0.3f);
             renderScriptHandler.blurRS.forEach(renderScriptHandler.GetOut());
             renderScriptHandler.GetOut().copyTo(this.drawBitmap);
@@ -506,7 +519,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     }
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR2)
-    private boolean drawNightPreview(Bitmap frame, DataExtractor frameExtractor, Rect src, Rect dst) {
+    private boolean drawNightPreview(Bitmap frame) {
         renderScriptHandler.GetIn().copyFrom(frame);
         renderScriptHandler.blurRS.setRadius(1.5f);
         renderScriptHandler.blurRS.forEach(renderScriptHandler.GetOut());
@@ -550,7 +563,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             int bottom = this.convert(h,frameInfo.Bottom);
             if (frameInfo.Category == 0x01)
             {
-                dst = new Rect(left, top, right, bottom);
+                //dst = new Rect(left, top, right, bottom);
                 //Rect src = new Rect(0, 0, crosshairs[0].getWidth(), crosshairs[0].getHeight());
                 if (frameInfo.Status == 0x01)
                     this.paint.setColor(Color.BLUE);
