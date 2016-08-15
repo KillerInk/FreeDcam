@@ -233,7 +233,9 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         }
         float fnum = cameraUiWrapper.GetParameterHandler().getDevice().GetFnumber();
         float focal = cameraUiWrapper.GetParameterHandler().getDevice().GetFocal();
-        dngConverter.setExifData(0, 0, 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
+        float exposuretime = cameraUiWrapper.GetParameterHandler().getDevice().getCurrentExposuretime();
+        int iso = cameraUiWrapper.GetParameterHandler().getDevice().getCurrentIso();
+        dngConverter.setExifData(iso, exposuretime, 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
 
         if (cameraUiWrapper.GetParameterHandler().CCT != null && cameraUiWrapper.GetParameterHandler().CCT.IsSupported())
         {
