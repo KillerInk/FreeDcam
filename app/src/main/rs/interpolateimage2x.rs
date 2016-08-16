@@ -27,9 +27,25 @@ uchar4 __attribute__((kernel)) fillPixelInterpolate(uint32_t x, uint32_t y)
     int outpixPosX= x *2;
     int outpixPosY= y*2;
     inPixel1 = rsGetElementAt_uchar4(inputFrame,x, y);
-    inPixel2 = (rsGetElementAt_uchar4(inputFrame,x+1, y) + inPixel1)/2;
+
     rsSetElementAt_uchar4(scaledFrame, inPixel1, outpixPosX, outpixPosY);
-    rsSetElementAt_uchar4(scaledFrame, inPixel2, outpixPosX+1, outpixPosY);
+    if(x+1 < width){
+        /*inPixel2 = (rsGetElementAt_uchar4(inputFrame,x+1, y) + inPixel1)/2;
+        if (inPixel2.r > 255) inPixel2.r = 255; if(inPixel2.r < 0) inPixel2.r = 0;
+        if (inPixel2.g > 255) inPixel2.g = 255; if(inPixel2.g < 0) inPixel2.g = 0;
+        if (inPixel2.b > 255) inPixel2.b = 255; if(inPixel2.b < 0) inPixel2.b = 0;*/
+        rsSetElementAt_uchar4(scaledFrame, inPixel1, outpixPosX+1, outpixPosY);
+    }
+    return inPixel1;
+}
+
+uchar4 __attribute__((kernel)) clear(uint32_t x, uint32_t y)
+{
+    uchar4 inPixel1,inPixel2, outpix;
+    inPixel1 = rsGetElementAt_uchar4(scaledFrame,x, y);
+    inPixel1.r = 0;
+    inPixel1.g = 0;
+    inPixel1.b = 0;
     return inPixel1;
 }
 

@@ -70,7 +70,6 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     public NightPreviewModes nightmode = NightPreviewModes.off;
     private int currentImageStackCount;
     private Allocation mAllocationIn;
-    private Allocation mAllocationOut;
 
 
     private Bitmap drawBitmap;
@@ -338,7 +337,6 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         tbIn.setX(this.mPreviousWidth);
         tbIn.setY(this.mPreviousHeight);
         mAllocationIn = Allocation.createTyped(renderScriptHandler.GetRS(), tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE,   Allocation.USAGE_SCRIPT);
-        mAllocationOut = Allocation.createTyped(renderScriptHandler.GetRS(), tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE,   Allocation.USAGE_SCRIPT);
         this.drawBitmap = Bitmap.createBitmap(this.mPreviousWidth*2, this.mPreviousHeight*2, Bitmap.Config.ARGB_8888);
         tbIn = new Type.Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
         tbIn.setX(this.mPreviousWidth*2);
@@ -382,13 +380,14 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             if (renderScriptHandler.isSucessfullLoaded())
             {
                 mAllocationIn.copyFrom(frame);
+                renderScriptHandler.interpolateimage2x.forEach_clear(renderScriptHandler.GetIn());
                 renderScriptHandler.interpolateimage2x.forEach_fillPixelInterpolate(mAllocationIn);
                 //renderScriptHandler.interpolateimage2x.forEach_interpolatePixel(renderScriptHandler.GetIn());
                 //renderScriptHandler.GetIn().copyFrom(renderScriptHandler.GetOut());
-                renderScriptHandler.GetIn().copyTo(drawBitmap);
-                /*renderScriptHandler.blurRS.setRadius(0.5f);
+                //renderScriptHandler.GetIn().copyTo(drawBitmap);
+                renderScriptHandler.blurRS.setRadius(0.5f);
                 renderScriptHandler.blurRS.forEach(renderScriptHandler.GetOut());
-                renderScriptHandler.GetOut().copyTo(this.drawBitmap);*/
+                renderScriptHandler.GetOut().copyTo(this.drawBitmap);
 
                 int frameWidth = frame.getWidth()*2;
                 int frameHeight = frame.getHeight()*2;
