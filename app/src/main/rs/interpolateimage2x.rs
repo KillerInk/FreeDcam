@@ -21,6 +21,17 @@ uchar4 __attribute__((kernel)) stackPixel(uchar4 inPixel, uint32_t x, uint32_t y
     return outpix;
 }
 
+uchar4 __attribute__((kernel)) fillPixelInterpolate(uint32_t x, uint32_t y)
+{
+    uchar4 inPixel1,inPixel2, outpix;
+    int outpixPosX= x *2;
+    int outpixPosY= y*2;
+    inPixel1 = rsGetElementAt_uchar4(inputFrame,x, y);
+    inPixel2 = (rsGetElementAt_uchar4(inputFrame,x+1, y) + inPixel1)/2;
+    rsSetElementAt_uchar4(scaledFrame, inPixel1, outpixPosX, outpixPosY);
+    rsSetElementAt_uchar4(scaledFrame, inPixel2, outpixPosX+1, outpixPosY);
+    return inPixel1;
+}
 
 uchar4 __attribute__((kernel)) fillPixel(uint32_t x, uint32_t y) {
     uchar4 inPixel, outpix;

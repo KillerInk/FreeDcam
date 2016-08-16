@@ -70,6 +70,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     public NightPreviewModes nightmode = NightPreviewModes.off;
     private int currentImageStackCount;
     private Allocation mAllocationIn;
+    private Allocation mAllocationOut;
 
 
     private Bitmap drawBitmap;
@@ -95,38 +96,6 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         this.renderScriptHandler =renderscripthandler;
         this.activityInterface = activityInterface;
     }
-
-    @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
-    private void initRenderScript()
-    {
-        Type.Builder tbIn = new Type.Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
-        tbIn.setX(this.mPreviousWidth);
-        tbIn.setY(this.mPreviousHeight);
-        mAllocationIn = Allocation.createTyped(renderScriptHandler.GetRS(), tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE,   Allocation.USAGE_SCRIPT);
-        this.drawBitmap = Bitmap.createBitmap(this.mPreviousWidth*2, this.mPreviousHeight*2, Bitmap.Config.ARGB_8888);
-        tbIn = new Type.Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
-        tbIn.setX(this.mPreviousWidth*2);
-        tbIn.setY(this.mPreviousHeight*2);
-        Type.Builder tbOut = new Type.Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
-        tbOut.setX(this.mPreviousWidth*2);
-        tbOut.setY(this.mPreviousHeight*2);
-
-        renderScriptHandler.SetAllocsTypeBuilder(tbIn,tbOut,Allocation.USAGE_SCRIPT,Allocation.USAGE_SCRIPT);
-        renderScriptHandler.imagestack.set_gLastFrame(renderScriptHandler.GetOut());
-        renderScriptHandler.imagestack.set_gCurrentFrame(renderScriptHandler.GetIn());
-        renderScriptHandler.blurRS.setInput(renderScriptHandler.GetIn());
-        renderScriptHandler.starfinderRS.set_gCurrentFrame(renderScriptHandler.GetIn());
-        renderScriptHandler.focuspeak_argb.set_gCurrentFrame(renderScriptHandler.GetIn());
-        renderScriptHandler.contrastRS.set_gCurrentFrame(renderScriptHandler.GetIn());
-        renderScriptHandler.brightnessRS.set_gCurrentFrame(renderScriptHandler.GetIn());
-
-        renderScriptHandler.interpolateimage2x.set_height(mPreviousHeight);
-        renderScriptHandler.interpolateimage2x.set_width(mPreviousWidth);
-        renderScriptHandler.interpolateimage2x.set_inputFrame(mAllocationIn);
-        renderScriptHandler.interpolateimage2x.set_scaledFrame(renderScriptHandler.GetIn());
-
-    }
-
 
     /**
      * Constructor
@@ -361,6 +330,39 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         options.inBitmap = bitmap;
     }
 
+
+    @TargetApi(VERSION_CODES.JELLY_BEAN_MR1)
+    private void initRenderScript()
+    {
+        Type.Builder tbIn = new Type.Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
+        tbIn.setX(this.mPreviousWidth);
+        tbIn.setY(this.mPreviousHeight);
+        mAllocationIn = Allocation.createTyped(renderScriptHandler.GetRS(), tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE,   Allocation.USAGE_SCRIPT);
+        mAllocationOut = Allocation.createTyped(renderScriptHandler.GetRS(), tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE,   Allocation.USAGE_SCRIPT);
+        this.drawBitmap = Bitmap.createBitmap(this.mPreviousWidth*2, this.mPreviousHeight*2, Bitmap.Config.ARGB_8888);
+        tbIn = new Type.Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
+        tbIn.setX(this.mPreviousWidth*2);
+        tbIn.setY(this.mPreviousHeight*2);
+        Type.Builder tbOut = new Type.Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
+        tbOut.setX(this.mPreviousWidth*2);
+        tbOut.setY(this.mPreviousHeight*2);
+
+        renderScriptHandler.SetAllocsTypeBuilder(tbIn,tbOut,Allocation.USAGE_SCRIPT,Allocation.USAGE_SCRIPT);
+        renderScriptHandler.imagestack.set_gLastFrame(renderScriptHandler.GetOut());
+        renderScriptHandler.imagestack.set_gCurrentFrame(renderScriptHandler.GetIn());
+        renderScriptHandler.blurRS.setInput(renderScriptHandler.GetIn());
+        renderScriptHandler.starfinderRS.set_gCurrentFrame(renderScriptHandler.GetIn());
+        renderScriptHandler.focuspeak_argb.set_gCurrentFrame(renderScriptHandler.GetIn());
+        renderScriptHandler.contrastRS.set_gCurrentFrame(renderScriptHandler.GetIn());
+        renderScriptHandler.brightnessRS.set_gCurrentFrame(renderScriptHandler.GetIn());
+
+        renderScriptHandler.interpolateimage2x.set_height(mPreviousHeight);
+        renderScriptHandler.interpolateimage2x.set_width(mPreviousWidth);
+        renderScriptHandler.interpolateimage2x.set_inputFrame(mAllocationIn);
+        renderScriptHandler.interpolateimage2x.set_scaledFrame(renderScriptHandler.GetIn());
+
+    }
+
     /**
      * Draw frame bitmap onto a canvas.
      *
@@ -380,12 +382,13 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             if (renderScriptHandler.isSucessfullLoaded())
             {
                 mAllocationIn.copyFrom(frame);
-                renderScriptHandler.interpolateimage2x.forEach_fillPixel(mAllocationIn);
-                renderScriptHandler.interpolateimage2x.forEach_interpolatePixel(renderScriptHandler.GetOut());
-                renderScriptHandler.GetIn().copyFrom(renderScriptHandler.GetOut());
-                renderScriptHandler.blurRS.setRadius(0.5f);
+                renderScriptHandler.interpolateimage2x.forEach_fillPixelInterpolate(mAllocationIn);
+                //renderScriptHandler.interpolateimage2x.forEach_interpolatePixel(renderScriptHandler.GetIn());
+                //renderScriptHandler.GetIn().copyFrom(renderScriptHandler.GetOut());
+                renderScriptHandler.GetIn().copyTo(drawBitmap);
+                /*renderScriptHandler.blurRS.setRadius(0.5f);
                 renderScriptHandler.blurRS.forEach(renderScriptHandler.GetOut());
-                renderScriptHandler.GetOut().copyTo(this.drawBitmap);
+                renderScriptHandler.GetOut().copyTo(this.drawBitmap);*/
 
                 int frameWidth = frame.getWidth()*2;
                 int frameHeight = frame.getHeight()*2;
