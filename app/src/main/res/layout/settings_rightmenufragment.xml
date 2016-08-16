@@ -293,6 +293,17 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp" />
 
+            <freed.cam.ui.themesample.settings.childs.SettingsChildMenu
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/MenuItemScalePreview"
+                app:Description="@string/setting_scalepreview_description"
+                app:HeaderText="@string/setting_scalepreview_header"
+                app:ValueText="Test"
+                android:layout_marginBottom="1dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

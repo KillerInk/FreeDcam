@@ -181,6 +181,7 @@ public abstract class AbstractParameterHandler
     public ModeParameterInterface bayerformat;
     public ModeParameterInterface matrixChooser;
     public ModeParameterInterface imageStackMode;
+    public ModeParameterInterface scalePreview;
 
     public AbstractParameterHandler(CameraWrapperInterface cameraUiWrapper) {
         this.cameraUiWrapper = cameraUiWrapper;
