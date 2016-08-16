@@ -45,6 +45,7 @@ import freed.cam.apis.sonyremote.parameters.modes.NightModeSony;
 import freed.cam.apis.sonyremote.parameters.modes.ObjectTrackingSony;
 import freed.cam.apis.sonyremote.parameters.modes.PictureFormatSony;
 import freed.cam.apis.sonyremote.parameters.modes.PictureSizeSony;
+import freed.cam.apis.sonyremote.parameters.modes.ScalePreviewModeSony;
 import freed.cam.apis.sonyremote.parameters.modes.WhiteBalanceModeSony;
 import freed.cam.apis.sonyremote.parameters.modes.ZoomSettingSony;
 import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
@@ -159,6 +160,8 @@ public class ParameterHandler extends AbstractParameterHandler
         parametersChangedList.add((BaseModeParameterSony) NightMode);
 
         PreviewZoom = new PreviewZoomManual(surfaceView, cameraUiWrapper);
+
+        scalePreview = new ScalePreviewModeSony(surfaceView);
 
         uiHandler.post(new Runnable() {
             @Override

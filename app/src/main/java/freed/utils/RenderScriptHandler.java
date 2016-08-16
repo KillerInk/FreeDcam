@@ -29,6 +29,7 @@ import android.renderscript.RSRuntimeException;
 import android.renderscript.RenderScript;
 import android.renderscript.RenderScript.Priority;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.renderscript.ScriptIntrinsicConvolve3x3;
 import android.renderscript.ScriptIntrinsicYuvToRGB;
 import android.renderscript.Type.Builder;
 import android.view.Surface;
@@ -56,6 +57,7 @@ public class RenderScriptHandler
     public ScriptC_starfinder starfinderRS;
     public ScriptIntrinsicBlur blurRS;
     public ScriptC_interpolateimage2x interpolateimage2x;
+    public ScriptIntrinsicConvolve3x3 convolve3x3;
 
     private boolean sucessfullLoaded = false;
 
@@ -81,6 +83,7 @@ public class RenderScriptHandler
                     blurRS = ScriptIntrinsicBlur.create(mRS, Element.U8_4(mRS));
                     starfinderRS = new ScriptC_starfinder(mRS);
                     interpolateimage2x = new ScriptC_interpolateimage2x(mRS);
+                    convolve3x3 = ScriptIntrinsicConvolve3x3.create(mRS,Element.U8_4(mRS));
                     sucessfullLoaded = true;
                 }
                 catch (RSRuntimeException ex)

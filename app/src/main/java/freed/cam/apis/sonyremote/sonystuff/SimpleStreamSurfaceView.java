@@ -70,6 +70,8 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     public NightPreviewModes nightmode = NightPreviewModes.off;
     private int currentImageStackCount;
     private Allocation mAllocationIn;
+    private boolean scalePreview =false;
+    private final int SCALEFACTOR = 2;
 
 
     private Bitmap drawBitmap;
@@ -79,7 +81,17 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     private RenderScriptHandler renderScriptHandler;
     private ActivityInterface activityInterface;
 
+    //Tells the drawing Thread that it can draw
+    private boolean DODRAW = false;
+    //state if the drawing thread draws;
+    private boolean IS_DRAWING = false;
+
+
     public int PreviewZOOMFactor = 1;
+
+    private final float[] SHARPMATRIX = {-0f, -1f, -0f,
+                                         -1f,  5f, -1f,
+                                         -0f, -1f, -0f };
 
     public enum NightPreviewModes
     {
@@ -136,6 +148,27 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         this.mFramePaint = new Paint();
         this.mFramePaint.setDither(true);
         this.initPaint(context);
+    }
+
+    public void ScalePreview(boolean enable)
+    {
+        DODRAW = false;
+        while (IS_DRAWING)
+        {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        scalePreview = enable;
+        initRenderScript();
+        startDrawingThread();
+    }
+
+    public boolean isScalePreview()
+    {
+        return scalePreview;
     }
 
     private void initPaint(Context context)
@@ -215,11 +248,18 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 }
             }
         });
+        startDrawingThread();
 
+
+    }
+
+    private void startDrawingThread() {
+        DODRAW = true;
         // A thread for drawing liveview frame fetched by above thread.
         FreeDPool.Execute(new Runnable() {
             @Override
             public void run() {
+                IS_DRAWING = true;
                 Logger.d(SimpleStreamSurfaceView.TAG, "Starting drawing stream frame.");
                 Bitmap frameBitmap = null;
 
@@ -233,7 +273,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                     SimpleStreamSurfaceView.this.initInBitmap(factoryOptions);
                 }
 
-                while (SimpleStreamSurfaceView.this.mWhileFetching)
+                while (SimpleStreamSurfaceView.this.mWhileFetching && DODRAW)
                 {
                     DataExtractor dataExtractor = null;
                     DataExtractor frameExtractor =null;
@@ -260,7 +300,8 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 if (frameBitmap != null) {
                     frameBitmap.recycle();
                 }
-                SimpleStreamSurfaceView.this.mWhileFetching = false;
+                //SimpleStreamSurfaceView.this.mWhileFetching = false;
+                IS_DRAWING = false;
             }
         });
     }
@@ -336,16 +377,33 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         Type.Builder tbIn = new Type.Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
         tbIn.setX(this.mPreviousWidth);
         tbIn.setY(this.mPreviousHeight);
-        mAllocationIn = Allocation.createTyped(renderScriptHandler.GetRS(), tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE,   Allocation.USAGE_SCRIPT);
-        this.drawBitmap = Bitmap.createBitmap(this.mPreviousWidth*2, this.mPreviousHeight*2, Bitmap.Config.ARGB_8888);
-        tbIn = new Type.Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
-        tbIn.setX(this.mPreviousWidth*2);
-        tbIn.setY(this.mPreviousHeight*2);
         Type.Builder tbOut = new Type.Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
-        tbOut.setX(this.mPreviousWidth*2);
-        tbOut.setY(this.mPreviousHeight*2);
 
-        renderScriptHandler.SetAllocsTypeBuilder(tbIn,tbOut,Allocation.USAGE_SCRIPT,Allocation.USAGE_SCRIPT);
+        if (scalePreview) {
+            mAllocationIn = Allocation.createTyped(renderScriptHandler.GetRS(), tbIn.create(), Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+            this.drawBitmap = Bitmap.createBitmap(this.mPreviousWidth * SCALEFACTOR, this.mPreviousHeight * SCALEFACTOR, Bitmap.Config.ARGB_8888);
+            tbIn = new Type.Builder(renderScriptHandler.GetRS(), Element.RGBA_8888(renderScriptHandler.GetRS()));
+            tbIn.setX(this.mPreviousWidth * SCALEFACTOR);
+            tbIn.setY(this.mPreviousHeight * SCALEFACTOR);
+            tbOut.setX(this.mPreviousWidth * SCALEFACTOR);
+            tbOut.setY(this.mPreviousHeight * SCALEFACTOR);
+            renderScriptHandler.SetAllocsTypeBuilder(tbIn,tbOut,Allocation.USAGE_SCRIPT,Allocation.USAGE_SCRIPT);
+            renderScriptHandler.interpolateimage2x.set_height(mPreviousHeight);
+            renderScriptHandler.interpolateimage2x.set_width(mPreviousWidth);
+            renderScriptHandler.interpolateimage2x.set_inputFrame(mAllocationIn);
+            renderScriptHandler.interpolateimage2x.set_scaledFrame(renderScriptHandler.GetIn());
+            renderScriptHandler.convolve3x3.setInput(renderScriptHandler.GetIn());
+            renderScriptHandler.convolve3x3.setCoefficients(SHARPMATRIX);
+        }
+        else
+        {
+            tbOut.setX(this.mPreviousWidth);
+            tbOut.setY(this.mPreviousHeight);
+            this.drawBitmap = Bitmap.createBitmap(this.mPreviousWidth, this.mPreviousHeight, Bitmap.Config.ARGB_8888);
+            renderScriptHandler.SetAllocsTypeBuilder(tbIn,tbOut,Allocation.USAGE_SCRIPT,Allocation.USAGE_SCRIPT);
+        }
+
+
         renderScriptHandler.imagestack.set_gLastFrame(renderScriptHandler.GetOut());
         renderScriptHandler.imagestack.set_gCurrentFrame(renderScriptHandler.GetIn());
         renderScriptHandler.blurRS.setInput(renderScriptHandler.GetIn());
@@ -354,10 +412,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
         renderScriptHandler.contrastRS.set_gCurrentFrame(renderScriptHandler.GetIn());
         renderScriptHandler.brightnessRS.set_gCurrentFrame(renderScriptHandler.GetIn());
 
-        renderScriptHandler.interpolateimage2x.set_height(mPreviousHeight);
-        renderScriptHandler.interpolateimage2x.set_width(mPreviousWidth);
-        renderScriptHandler.interpolateimage2x.set_inputFrame(mAllocationIn);
-        renderScriptHandler.interpolateimage2x.set_scaledFrame(renderScriptHandler.GetIn());
+
 
     }
 
@@ -366,7 +421,8 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
      *
      * @param frame
      */
-    private void drawFrame(Bitmap frame,DataExtractor frameExtractor)
+    @TargetApi(VERSION_CODES.JELLY_BEAN_MR2)
+    private void drawFrame(Bitmap frame, DataExtractor frameExtractor)
     {
         try {
             if (frame.getWidth() != this.mPreviousWidth || frame.getHeight() != this.mPreviousHeight) {
@@ -376,25 +432,36 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             Canvas canvas = null;
             Rect dst = null;
             //canvas.drawColor(Color.BLACK);
+            int frameWidth = frame.getWidth();
+            int frameHeight = frame.getHeight();
+            int fragmentwidth = this.getWidth();
+            int fragmentheight = this.getHeight();
 
             if (renderScriptHandler.isSucessfullLoaded())
             {
-                mAllocationIn.copyFrom(frame);
-                renderScriptHandler.interpolateimage2x.forEach_clear(renderScriptHandler.GetIn());
-                renderScriptHandler.interpolateimage2x.forEach_fillPixelInterpolate(mAllocationIn);
-                //renderScriptHandler.interpolateimage2x.forEach_interpolatePixel(renderScriptHandler.GetIn());
-                //renderScriptHandler.GetIn().copyFrom(renderScriptHandler.GetOut());
-                //renderScriptHandler.GetIn().copyTo(drawBitmap);
-                renderScriptHandler.blurRS.setRadius(0.5f);
-                renderScriptHandler.blurRS.forEach(renderScriptHandler.GetOut());
-                renderScriptHandler.GetOut().copyTo(this.drawBitmap);
 
-                int frameWidth = frame.getWidth()*2;
-                int frameHeight = frame.getHeight()*2;
-                int fragmentwidth = this.getWidth();
-                int fragmentheight = this.getHeight();
+                if (scalePreview) {
+                    mAllocationIn.copyFrom(frame);
+                    renderScriptHandler.interpolateimage2x.forEach_clear(renderScriptHandler.GetIn());
+                    renderScriptHandler.interpolateimage2x.forEach_fillPixelInterpolate(mAllocationIn);
+                    renderScriptHandler.blurRS.setRadius(1.5f);
+                    renderScriptHandler.blurRS.forEach(renderScriptHandler.GetOut());
+                    renderScriptHandler.GetIn().copyFrom(renderScriptHandler.GetOut());
+                    renderScriptHandler.convolve3x3.forEach(renderScriptHandler.GetOut());
+                    renderScriptHandler.GetIn().copyFrom(renderScriptHandler.GetOut());
+                    frameWidth = frame.getWidth() * SCALEFACTOR;
+                    frameHeight = frame.getHeight() * SCALEFACTOR;
+                    //renderScriptHandler.GetOut().copyFrom(renderScriptHandler.GetIn());
+
+                }
+                else
+                {
+                    renderScriptHandler.GetIn().copyFrom(frame);
+                    renderScriptHandler.GetOut().copyFrom(renderScriptHandler.GetIn());
+                }
+
                 Rect src = new Rect(0, 0, frameWidth, frameHeight);
-                src = drawZoomPreview(frame, frameWidth, frameHeight, src);
+                src = drawZoomPreview(frameWidth, frameHeight, src);
 
 
                 float by = Math.min((float) fragmentwidth / frameWidth, (float) fragmentheight / frameHeight);
@@ -403,18 +470,16 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 dst = new Rect(offsetX, offsetY, fragmentwidth - offsetX, fragmentheight - offsetY);
                 if (renderScriptHandler.isSucessfullLoaded()) {
                     if (nightmode == NightPreviewModes.on) {
-                        if (!drawNightPreview(drawBitmap))
+                        if (!drawNightPreview())
                             return;
                     } else if (nightmode == NightPreviewModes.grayscale) {
-                        drawGrayScale(drawBitmap);
+                        drawGrayScale();
                     } else if (nightmode == NightPreviewModes.exposure) {
-                        if (!drawExposureStack(drawBitmap))
+                        if (!drawExposureStack())
                             return;
                     }
                     if (focuspeak) {
-                        renderScriptHandler.GetIn().copyFrom(this.drawBitmap);
                         renderScriptHandler.focuspeak_argb.forEach_peak(renderScriptHandler.GetOut());
-                        renderScriptHandler.GetOut().copyTo(drawBitmap);
 
                     }
                 }
@@ -422,15 +487,11 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
                 if (canvas == null) {
                     return;
                 }
-                //if ((nightmode != NightPreviewModes.off || this.focuspeak) || renderScriptHandler.isSucessfullLoaded())
-                    canvas.drawBitmap(this.drawBitmap, src, dst, this.mFramePaint);
+                renderScriptHandler.GetOut().copyTo(drawBitmap);
+                canvas.drawBitmap(this.drawBitmap, src, dst, this.mFramePaint);
             }
             else
             {
-                int frameWidth = frame.getWidth();
-                int frameHeight = frame.getHeight();
-                int fragmentwidth = this.getWidth();
-                int fragmentheight = this.getHeight();
                 Rect src = new Rect(0, 0, frameWidth, frameHeight);
                 float by = Math.min((float) fragmentwidth / frameWidth, (float) fragmentheight / frameHeight);
                 int offsetX = (fragmentwidth - (int) (frameWidth * by)) / 2;
@@ -453,17 +514,16 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     }
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR2)
-    private void drawGrayScale(Bitmap frame) {
-        renderScriptHandler.GetIn().copyFrom(frame);
+    private void drawGrayScale() {
         renderScriptHandler.blurRS.setRadius(1.5f);
         renderScriptHandler.blurRS.forEach(renderScriptHandler.GetOut());
         renderScriptHandler.GetIn().copyFrom(renderScriptHandler.GetOut());
         renderScriptHandler.starfinderRS.forEach_processBrightness(renderScriptHandler.GetOut());
-        renderScriptHandler.GetOut().copyTo(drawBitmap);
+        renderScriptHandler.GetIn().copyFrom(renderScriptHandler.GetOut());
     }
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR2)
-    private Rect drawZoomPreview(Bitmap frame, int frameWidth, int frameHeight, Rect src) {
+    private Rect drawZoomPreview(int frameWidth, int frameHeight, Rect src) {
         if (renderScriptHandler.isSucessfullLoaded() && this.PreviewZOOMFactor > 1)
         {
             int zoomedWidth = frameWidth / this.PreviewZOOMFactor;
@@ -517,21 +577,19 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
             }
 
             src = new Rect(frameleft,frametop,frameright,framebottom);
-            //Logger.d(TAG, src.flattenToString());
-            //renderScriptHandler.GetIn().copyFrom(frame);
             renderScriptHandler.blurRS.setRadius(0.3f);
             renderScriptHandler.blurRS.forEach(renderScriptHandler.GetOut());
-            renderScriptHandler.GetOut().copyTo(this.drawBitmap);
+            renderScriptHandler.GetIn().copyFrom(renderScriptHandler.GetOut());
         }
         return src;
     }
 
-    private boolean drawExposureStack(Bitmap frame) {
-        renderScriptHandler.GetIn().copyFrom(frame);
+    @TargetApi(VERSION_CODES.JELLY_BEAN_MR2)
+    private boolean drawExposureStack() {
         boolean draw = false;
         if (currentImageStackCount > 6)
         {
-            renderScriptHandler.GetOut().copyFrom(frame);
+            renderScriptHandler.GetOut().copyFrom(renderScriptHandler.GetIn());
             currentImageStackCount = 0;
             Log.d(TAG,"Stackcount reset");
         }
@@ -544,8 +602,7 @@ public class SimpleStreamSurfaceView extends SurfaceView implements SurfaceHolde
     }
 
     @TargetApi(VERSION_CODES.JELLY_BEAN_MR2)
-    private boolean drawNightPreview(Bitmap frame) {
-        renderScriptHandler.GetIn().copyFrom(frame);
+    private boolean drawNightPreview() {
         renderScriptHandler.blurRS.setRadius(1.5f);
         renderScriptHandler.blurRS.forEach(renderScriptHandler.GetOut());
         renderScriptHandler.GetIn().copyFrom(renderScriptHandler.GetOut());

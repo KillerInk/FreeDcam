@@ -68,6 +68,8 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
 
     private SettingsChildMenu LensFilter;
 
+    private SettingsChildMenu scalePreview;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -99,6 +101,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
         opticalImageStabilization = (SettingsChildMenu) view.findViewById(id.MenuItemOIS);
         LensFilter = (SettingsChildMenu) view.findViewById(id.LensFilter);
         zoomSetting = (SettingsChildMenu) view.findViewById(id.MenuItemZoomSetting);
+        scalePreview = (SettingsChildMenu)view.findViewById(id.MenuItemScalePreview);
         setCameraUiWrapperToUi();
         return view;
     }
@@ -204,6 +207,10 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
         zoomSetting.SetStuff(fragment_activityInterface, null);
         zoomSetting.SetParameter(cameraUiWrapper.GetParameterHandler().ZoomSetting);
         zoomSetting.SetUiItemClickListner(this);
+
+        scalePreview.SetStuff(fragment_activityInterface, null);
+        scalePreview.SetParameter(cameraUiWrapper.GetParameterHandler().scalePreview);
+        scalePreview.SetUiItemClickListner(this);
     }
 
     public void SetMenuItemClickListner(SettingsChildClick menuItemClick)

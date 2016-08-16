@@ -138,6 +138,9 @@
     <string name="setting_nonzsl_header">ManualControl(ZSL= OFF): </string>
     <string name="setting_nonzsl_description">Turn on to enable ManualControl when ZSL is off</string>
 
+    <string name="setting_scalepreview_header">Scale Preview</string>
+    <string name="setting_scalepreview_description">Turn on to Scale the preview x2</string>
+
 
     <!-- cameraui  -->
     <string name="uisetting_wb_header">WB</string>
