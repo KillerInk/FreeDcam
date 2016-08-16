@@ -51,7 +51,7 @@ public class RotatingSeekbar extends View
     private int realMax;
     private int currentPosToDraw;
     private OnSeekBarChangeListener mListener;
-    private int textsize = 8;
+    private int textsize = 10;
     //holds the distance from the last swipe(how faster it was how bigger is the vale) and is used as base gravity for autoscroll how fast it moves
     private int distanceInPixelFromLastSwipe;
     private boolean autoscroll;
