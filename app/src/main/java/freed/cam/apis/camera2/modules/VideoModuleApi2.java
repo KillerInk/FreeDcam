@@ -99,6 +99,8 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     @Override
     public void DestroyModule()
     {
+        if (isRecording)
+            stopRecording();
         Logger.d(TAG, "DestroyModule");
         cameraHolder.CaptureSessionH.CloseCaptureSession();
         previewsurface = null;

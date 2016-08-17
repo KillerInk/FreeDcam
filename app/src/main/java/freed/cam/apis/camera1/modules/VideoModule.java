@@ -116,6 +116,8 @@ public class VideoModule extends AbstractVideoModule
 
     @Override
     public void DestroyModule() {
+        if (isWorking)
+            stopRecording();
         if (cameraUiWrapper.GetParameterHandler().VideoHDR != null && cameraUiWrapper.GetParameterHandler().VideoHDR.IsSupported())
             cameraUiWrapper.GetParameterHandler().VideoHDR.SetValue("off", true);
     }

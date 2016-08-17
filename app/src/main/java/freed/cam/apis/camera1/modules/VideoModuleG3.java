@@ -126,7 +126,8 @@ public class VideoModuleG3 extends AbstractVideoModule
 
     @Override
     public void DestroyModule() {
-
+        if (isWorking)
+            stopRecording();
     }
 
     private void loadProfileSpecificParameters()
