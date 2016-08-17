@@ -36,7 +36,7 @@ import freed.cam.apis.camera2.CameraHolderApi2;
  */
 public abstract class AbstractModuleApi2 extends ModuleAbstract implements I_PreviewWrapper
 {
-    protected freed.cam.apis.camera2.parameters.ParameterHandler ParameterHandler;
+    protected freed.cam.apis.camera2.parameters.ParameterHandler parameterHandler;
 
     protected boolean isWorking;
     protected CameraHolderApi2 cameraHolder;
@@ -46,7 +46,7 @@ public abstract class AbstractModuleApi2 extends ModuleAbstract implements I_Pre
     public AbstractModuleApi2(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
-        ParameterHandler = (freed.cam.apis.camera2.parameters.ParameterHandler) cameraUiWrapper.GetParameterHandler();
+        parameterHandler = (freed.cam.apis.camera2.parameters.ParameterHandler) cameraUiWrapper.GetParameterHandler();
         Display display = ((WindowManager)cameraUiWrapper.getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         displaySize = new Point();
 

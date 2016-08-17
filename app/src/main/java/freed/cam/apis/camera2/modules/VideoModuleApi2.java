@@ -90,7 +90,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
     {
         Logger.d(TAG, "InitModule");
         super.InitModule();
-        VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) ParameterHandler.VideoProfiles;
+        VideoProfilesApi2 profilesApi2 = (VideoProfilesApi2) parameterHandler.VideoProfiles;
         currentVideoProfile = profilesApi2.GetCameraProfile(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE));
         startPreview();
     }

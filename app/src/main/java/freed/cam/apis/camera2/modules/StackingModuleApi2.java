@@ -91,7 +91,7 @@ public class StackingModuleApi2 extends AbstractModuleApi2
         }
         else
         {
-            previewSize = new Size(ParameterHandler.PictureSize.GetValue());
+            previewSize = new Size(parameterHandler.PictureSize.GetValue());
             mHeight = previewSize.height;
             mWidth = previewSize.width;
             Builder yuvTypeBuilder = new Builder(renderScriptHandler.GetRS(), Element.YUV(renderScriptHandler.GetRS()));
@@ -257,19 +257,19 @@ public class StackingModuleApi2 extends AbstractModuleApi2
                 if (keepstacking) {
 
                     // Run processing pass
-                    if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE))
+                    if (parameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE))
                         renderScriptHandler.imagestack.forEach_stackimage_avarage(renderScriptHandler.GetOut());
-                    else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE1x2))
+                    else if (parameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE1x2))
                         renderScriptHandler.imagestack.forEach_stackimage_avarage1x2(renderScriptHandler.GetOut());
-                    else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE1x3))
+                    else if (parameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE1x3))
                         renderScriptHandler.imagestack.forEach_stackimage_avarage1x3(renderScriptHandler.GetOut());
-                    else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE3x3))
+                    else if (parameterHandler.imageStackMode.GetValue().equals(StackModeParameter.AVARAGE3x3))
                         renderScriptHandler.imagestack.forEach_stackimage_avarage3x3(renderScriptHandler.GetOut());
-                    else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.LIGHTEN))
+                    else if (parameterHandler.imageStackMode.GetValue().equals(StackModeParameter.LIGHTEN))
                         renderScriptHandler.imagestack.forEach_stackimage_lighten(renderScriptHandler.GetOut());
-                    else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.LIGHTEN_V))
+                    else if (parameterHandler.imageStackMode.GetValue().equals(StackModeParameter.LIGHTEN_V))
                         renderScriptHandler.imagestack.forEach_stackimage_lightenV(renderScriptHandler.GetOut());
-                    else if (ParameterHandler.imageStackMode.GetValue().equals(StackModeParameter.MEDIAN)) {
+                    else if (parameterHandler.imageStackMode.GetValue().equals(StackModeParameter.MEDIAN)) {
                         renderScriptHandler.imagestack.forEach_stackimage_median(renderScriptHandler.GetOut());
                     } else if (cameraUiWrapper.GetParameterHandler().imageStackMode.GetValue().equals(StackModeParameter.EXPOSURE)) {
                         renderScriptHandler.imagestack.forEach_stackimage_exposure(renderScriptHandler.GetOut());

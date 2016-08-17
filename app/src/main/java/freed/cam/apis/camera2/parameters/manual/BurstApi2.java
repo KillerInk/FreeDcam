@@ -31,7 +31,7 @@ import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModePa
  */
 public class BurstApi2 extends AbstractManualParameter implements I_ModeParameterEvent
 {
-    int current = 1;
+    int current = 0;
 
     public BurstApi2(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
@@ -64,7 +64,12 @@ public class BurstApi2 extends AbstractManualParameter implements I_ModeParamete
 
     @Override
     public boolean IsSupported() {
-        return false;
+        return true;
+    }
+
+    @Override
+    public boolean IsVisible() {
+        return true;
     }
 
     @Override
@@ -84,7 +89,7 @@ public class BurstApi2 extends AbstractManualParameter implements I_ModeParamete
 
     @Override
     public String[] getStringValues() {
-        return null;
+        return new String[] {"1","2","3","4","5"};
     }
 
     @Override
@@ -97,7 +102,7 @@ public class BurstApi2 extends AbstractManualParameter implements I_ModeParamete
             public void run() {
                 cameraUiWrapper.StopPreview();
                 //TODO FIX BURST
-                //cameraHolder.SetBurst(current+1);
+                cameraUiWrapper.StartPreview();
             }
         });
 

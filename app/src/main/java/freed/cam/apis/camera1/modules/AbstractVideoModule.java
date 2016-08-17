@@ -122,7 +122,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract
                 recorder.setOrientationHint(0);
 
             // cameraHolder.StopPreview();
-            //ParameterHandler.PreviewFormat.SetValue("nv12-venus", true);
+            //parameterHandler.PreviewFormat.SetValue("nv12-venus", true);
 
             recorder.setPreviewDisplay(((CameraHolder) cameraUiWrapper.GetCameraHolder()).getSurfaceHolder());
             // cameraHolder.StartPreview();

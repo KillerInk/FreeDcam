@@ -131,7 +131,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         isWorking = true;
         Logger.d(TAG, appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
-        Logger.d(TAG, "dng:" + Boolean.toString(ParameterHandler.IsDngActive()));
+        Logger.d(TAG, "dng:" + Boolean.toString(parameterHandler.IsDngActive()));
 
         mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener,null);
 
@@ -205,8 +205,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             }catch (NullPointerException ex){Logger.exception(ex);}
             try {
                 long val = 0;
-                if(!ParameterHandler.ManualIso.GetStringValue().equals(KEYS.AUTO))
-                    val = (long)(AbstractManualShutter.getMilliSecondStringFromShutterString(ParameterHandler.ManualShutter.getStringValues()[ParameterHandler.ManualShutter.GetValue()]) * 1000f);
+                if(!parameterHandler.ManualIso.GetStringValue().equals(KEYS.AUTO))
+                    val = (long)(AbstractManualShutter.getMilliSecondStringFromShutterString(parameterHandler.ManualShutter.getStringValues()[parameterHandler.ManualShutter.GetValue()]) * 1000f);
                 else
                     val= cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
                 Logger.d(TAG, "Set ExposureTime for Capture to:" + val);
@@ -245,17 +245,23 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             {Logger.exception(ex);}
 
 
-            List<CaptureRequest> captureList = new ArrayList<>();
-            for (int i = 0; i< ParameterHandler.Burst.GetValue()+1; i++)
-            {
-                captureList.add(captureBuilder.build());
-            }
             imagecount = 0;
             mDngResult = null;
-
-            cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
-            changeCaptureState(CaptureStates.image_capture_start);
-            cameraHolder.CaptureSessionH.StartCapture(captureBuilder, CaptureCallback);
+            if (parameterHandler.Burst != null && parameterHandler.Burst.GetValue() > 0) {
+                List<CaptureRequest> captureList = new ArrayList<>();
+                for (int i = 0; i < parameterHandler.Burst.GetValue()+1; i++) {
+                    captureList.add(captureBuilder.build());
+                }
+                cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
+                changeCaptureState(CaptureStates.image_capture_start);
+                cameraHolder.CaptureSessionH.StartCaptureBurst(captureList, CaptureCallback);
+            }
+            else
+            {
+                cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
+                changeCaptureState(CaptureStates.image_capture_start);
+                cameraHolder.CaptureSessionH.StartCapture(captureBuilder, CaptureCallback);
+            }
 
 
         } catch (CameraAccessException e) {
@@ -387,7 +393,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                         } catch (InterruptedException e) {
                             Logger.exception(e);
                         }
-                    int burstcount = ParameterHandler.Burst.GetValue();
+                    int burstcount = parameterHandler.Burst.GetValue()+1;
                     File file = null;
                     Handler handler = new Handler(Looper.getMainLooper());
                     imagecount++;
@@ -589,7 +595,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         float[]finalnoise;
         String cmat = appSettingsManager.getString(AppSettingsManager.SETTTING_CUSTOMMATRIX);
         if (cmat != null && !cmat.equals("") &&!cmat.equals("off")) {
-            CustomMatrix mat  = ((MatrixChooserParameter) ParameterHandler.matrixChooser).GetCustomMatrix(cmat);
+            CustomMatrix mat  = ((MatrixChooserParameter) parameterHandler.matrixChooser).GetCustomMatrix(cmat);
             color1 = mat.ColorMatrix1;
             color2 = mat.ColorMatrix2;
             neutral = mat.NeutralMatrix;
@@ -720,7 +726,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         if (picFormat.equals("")) {
             picFormat = KEYS.JPEG;
             appSettingsManager.setString(AppSettingsManager.SETTING_PICTUREFORMAT, KEYS.JPEG);
-            ParameterHandler.PictureFormat.BackgroundValueHasChanged(KEYS.JPEG);
+            parameterHandler.PictureFormat.BackgroundValueHasChanged(KEYS.JPEG);
 
         }
 
@@ -764,10 +770,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             cameraHolder.SetParameterRepeating(CaptureRequest.JPEG_ORIENTATION, 0);
 
         // Here, we create a CameraCaptureSession for camera preview
-        if (ParameterHandler.Burst == null)
+        if (parameterHandler.Burst == null)
             SetBurst(1);
         else
-            SetBurst(ParameterHandler.Burst.GetValue());
+            SetBurst(parameterHandler.Burst.GetValue());
 
 
     }
@@ -800,13 +806,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             cameraHolder.CaptureSessionH.AddSurface(camerasurface,true);
 
             if (picFormat.equals(KEYS.JPEG))
-                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, burst);
+                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.JPEG, burst+1);
             else if (picFormat.equals(CameraHolderApi2.RAW10))
-                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW10, burst);
+                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW10, burst+1);
             else if (picFormat.equals(CameraHolderApi2.RAW_SENSOR))
-                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW_SENSOR, burst);
+                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW_SENSOR, burst+1);
             else if (picFormat.equals(CameraHolderApi2.RAW12))
-                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW12,burst);
+                mImageReader = ImageReader.newInstance(mImageWidth, mImageHeight, ImageFormat.RAW12,burst+1);
             cameraHolder.CaptureSessionH.AddSurface(mImageReader.getSurface(),false);
             cameraHolder.CaptureSessionH.CreateCaptureSession();
         }
@@ -814,8 +820,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         {
             Logger.exception(ex);
         }
-        if (ParameterHandler.Burst != null)
-            ParameterHandler.Burst.ThrowCurrentValueChanged(ParameterHandler.Burst.GetValue());
+        if (parameterHandler.Burst != null)
+            parameterHandler.Burst.ThrowCurrentValueChanged(parameterHandler.Burst.GetValue());
     }
 
     /**
