@@ -10,14 +10,14 @@
         android:layout_alignParentRight="true">
 
         <freed.cam.ui.themesample.cameraui.RotatingSeekbar
-            android:layout_width="64dp"
+            android:layout_width="@dimen/rotatingseekbar_width"
             android:layout_height="fill_parent"
             android:id="@+id/seekbar"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:background="@drawable/rs_background"
-            android:layout_marginTop="60dp"
-            android:layout_marginBottom="60dp" />
+            android:layout_marginTop="@dimen/rotatingseekbar_margine"
+            android:layout_marginBottom="@dimen/rotatingseekbar_margine" />
     </FrameLayout>
 
     <HorizontalScrollView
