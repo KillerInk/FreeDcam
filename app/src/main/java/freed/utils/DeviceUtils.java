@@ -106,6 +106,7 @@ public class DeviceUtils
         XiaomiMI_Note_Pro,
         Xiaomi_Redmi_Note3,
         Xiaomi_Redmi3,
+        Xolo_Omega5,
         Yu_Yureka,
         ZTE_ADV,
         ZTEADVIMX214,
@@ -238,6 +239,8 @@ public class DeviceUtils
             return Devices.Xiaomi_Redmi_Note3;
         else if (isDevice(res.getStringArray(array.xiaomi_redmi3)))
             return Devices.Xiaomi_Redmi3;
+        else if (isDevice(res.getStringArray(array.xolo_omega5)))
+            return Devices.Xolo_Omega5;
         else if (isDevice(res.getStringArray(array.YuYureka)))
             return Devices.Yu_Yureka;
         else if (isDevice(res.getStringArray(array.zteadv)))

@@ -526,4 +526,8 @@
         <item>PMT5777_3G</item>
     </string-array>
 
+    <string-array name="xolo_omega5">
+        <item>Omega 5.0</item>
+    </string-array>
+
 </resources>

@@ -46,6 +46,7 @@ import freed.cam.apis.camera1.parameters.device.mtk.Sony_C5;
 import freed.cam.apis.camera1.parameters.device.mtk.Sony_M5_MTK;
 import freed.cam.apis.camera1.parameters.device.mtk.THL5000_MTK;
 import freed.cam.apis.camera1.parameters.device.mtk.Xiaomi_Redmi_Note2_MTK;
+import freed.cam.apis.camera1.parameters.device.mtk.Xolo_Omega5;
 import freed.cam.apis.camera1.parameters.device.mtk.Zoppo_8speed;
 import freed.cam.apis.camera1.parameters.device.qcom.Alcatel_Idol3;
 import freed.cam.apis.camera1.parameters.device.qcom.Alcatel_Idol3_small;
@@ -295,6 +296,8 @@ public class DeviceSelector {
 
             case Xiaomi_Redmi3:
                 return new Xiaomi_Redmi3(cameraParameters,cameraUiWrapper);
+            case Xolo_Omega5:
+                return new Xolo_Omega5(cameraParameters,cameraUiWrapper);
             case Yu_Yureka:
                return new Yu_Yureka(cameraParameters,cameraUiWrapper);
                 
