@@ -145,6 +145,8 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         }
         apiHandler.CheckApi();
         activityIsResumed = true;
+        if (screenSlideFragment != null)
+            screenSlideFragment.NotifyDATAhasChanged();
         if (getAppSettings().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON) && hasLocationPermission())
             locationHandler.startLocationListing();
     }
