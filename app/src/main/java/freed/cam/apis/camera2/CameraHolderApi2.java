@@ -85,6 +85,11 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     public static String RAW10 = "raw10";
     public static String RAW12 = "raw12";
 
+    public interface AeCompensationListner
+    {
+        void onAeCompensationChanged(int aecompensation);
+    }
+
     public boolean isWorking;
 
     public CameraManager manager;
@@ -113,6 +118,14 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     int aeState;
 
     boolean errorRecieved;
+
+    public void SetAeCompensationListner(AeCompensationListner aeCompensationListner)
+    {
+        this.aeCompensationListner = aeCompensationListner;
+    }
+    private AeCompensationListner aeCompensationListner;
+
+
 
     @TargetApi(VERSION_CODES.LOLLIPOP)
     public CameraHolderApi2(CameraWrapperInterface cameraUiWrapper)
@@ -530,6 +543,11 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                         Logger.d(TAG, "AESTATE: SEARCHING");
                         break;
                 }
+            }
+            if (result.get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION)!= null && aeCompensationListner != null)
+            {
+                aeCompensationListner.onAeCompensationChanged(result.get(CaptureResult.CONTROL_AE_EXPOSURE_COMPENSATION));
+                //Logger.d(TAG,"ExpoCompensation:" + );
             }
         }
 

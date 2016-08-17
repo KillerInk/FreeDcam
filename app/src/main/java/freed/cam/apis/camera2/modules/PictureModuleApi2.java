@@ -152,7 +152,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
      * Capture a still picture. This method should be called when we get a response in
      *
      */
-    private void captureStillPicture() {
+    protected void captureStillPicture() {
         try {
             Logger.d(TAG, "StartStillCapture");
             // This is the CaptureRequest.Builder that we use to take a picture.
@@ -244,17 +244,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             catch (NullPointerException ex)
             {Logger.exception(ex);}
 
-
+            prepareCaptureBuilder(captureBuilder);
             imagecount = 0;
             mDngResult = null;
             if (parameterHandler.Burst != null && parameterHandler.Burst.GetValue() > 0) {
-                List<CaptureRequest> captureList = new ArrayList<>();
-                for (int i = 0; i < parameterHandler.Burst.GetValue()+1; i++) {
-                    captureList.add(captureBuilder.build());
-                }
-                cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
-                changeCaptureState(CaptureStates.image_capture_start);
-                cameraHolder.CaptureSessionH.StartCaptureBurst(captureList, CaptureCallback);
+                initBurstCapture(captureBuilder, CaptureCallback);
             }
             else
             {
@@ -267,6 +261,22 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         } catch (CameraAccessException e) {
             Logger.exception(e);
         }
+    }
+
+    protected void prepareCaptureBuilder(Builder captureBuilder)
+    {
+
+    }
+
+    protected void initBurstCapture(Builder captureBuilder, CaptureCallback captureCallback)
+    {
+        List<CaptureRequest> captureList = new ArrayList<>();
+        for (int i = 0; i < parameterHandler.Burst.GetValue()+1; i++) {
+            captureList.add(captureBuilder.build());
+        }
+        cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
+        changeCaptureState(CaptureStates.image_capture_start);
+        cameraHolder.CaptureSessionH.StartCaptureBurst(captureList, captureCallback);
     }
 
     private CaptureCallback aecallback = new CaptureCallback()
@@ -306,7 +316,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             }
         }
     };
-
 
     private final CaptureCallback CaptureCallback
             = new CaptureCallback()
@@ -364,7 +373,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         }
     };
 
-    private void finishCapture() {
+    protected void finishCapture(Builder captureBuilder) {
         try
         {
             Logger.d(TAG, "CaptureDone");
@@ -423,7 +432,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
-                                finishCapture();
+                                finishCapture(captureBuilder);
                             }
                         });
                     }
