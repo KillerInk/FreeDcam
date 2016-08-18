@@ -43,7 +43,7 @@ public class ManualFocus extends AbstractManualParameter
         super(cameraUiWrapper);
         try {
             int max = (int)(((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE)*10);
-            stringvalues = createStringArray(0, max,1);
+            stringvalues = createStringArray(-1, max,1);
             currentInt = -1;
         }
         catch (NullPointerException ex)

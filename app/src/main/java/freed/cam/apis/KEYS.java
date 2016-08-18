@@ -279,4 +279,5 @@ public final class KEYS {
     public static final String MODULE_BURST = "module_burst";
     public static final String MODULE_STACKING = "module_stacking";
     public static final String MODULE_INTERVAL = "module_interval";
+    public static final String MODULE_AFBRACKET = "module_afbracket";
 }
