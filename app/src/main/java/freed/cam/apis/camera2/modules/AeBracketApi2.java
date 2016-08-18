@@ -73,9 +73,14 @@ public class AeBracketApi2 extends PictureModuleApi2 implements CameraHolderApi2
     }
 
     @Override
+    public boolean DoWork() {
+        Logger.d(TAG,"NEW BRACKET CAPTURE START");
+        return super.DoWork();
+    }
+
+    @Override
     protected void captureStillPicture()
     {
-        imagecount++;
         Logger.d(TAG,"captureStillPicture:"+imagecount);
         super.captureStillPicture();
     }
@@ -91,28 +96,33 @@ public class AeBracketApi2 extends PictureModuleApi2 implements CameraHolderApi2
     {
         super.finishCapture(captureBuilder);
         Logger.d(TAG,"finishCapture:"+imagecount);
+        imagecount++;
         if (imagecount < 3)
         {
             cameraHolder.SetAeCompensationListner(this);
             WAIT_EXPOSURE_STATE = WAIT_FOR_EXPO_SET;
+            Logger.d(TAG,"Set next Exposure for Image: "+ imagecount);
             switch (imagecount)
             {
+                case 0:
+                    Logger.d(TAG, "should not happen");
+                    break;
                 case 1:
                     cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, -10);
+                    Logger.d(TAG,"SetExposure to: -10");
                     break;
                 case 2:
-                    cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, 0);
-                    break;
-                case 3:
                     cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, 10);
+                    Logger.d(TAG,"SetExposure to: 10");
                     break;
             }
-            //captureStillPicture();
         }
         else
         {
+            Logger.d(TAG,"Finished Capture");
             cameraHolder.SetAeCompensationListner(null);
             imagecount = 0;
+            cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, 0);
         }
     }
 
@@ -133,19 +143,15 @@ public class AeBracketApi2 extends PictureModuleApi2 implements CameraHolderApi2
             {
                 case 1:
                     if (aecompensation == -10) {
+                        Logger.d(TAG,"AE:-10 Capture Image " + imagecount);
                         WAIT_EXPOSURE_STATE = WAIT_NOTHING;
                         captureStillPicture();
                     }
                     break;
                 case 2:
-                    if (aecompensation == 0) {
-
-                        captureStillPicture();
-                    }
-                    break;
-                case 3:
                     if (aecompensation == 10) {
                         WAIT_EXPOSURE_STATE = WAIT_NOTHING;
+                        Logger.d(TAG,"AE:10 Capture Image " + imagecount);
                         captureStillPicture();
                     }
                     break;
