@@ -179,7 +179,13 @@ public class StorageFileHandler
         {
             for (File f : subfolders)
             {
-                if (!f.isHidden())
+                if (!f.isHidden() &&
+                        (f.getName().toLowerCase().endsWith(StringUtils.FileEnding.JPG)
+                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.JPS)
+                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.RAW)
+                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.BAYER)
+                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.DNG)
+                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.MP4)))
                     listToAdd.add(new FileHolder(f, external));
             }
         }
