@@ -115,9 +115,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         //load the camera ui
         mPager = (PagingView)findViewById(id.viewPager_fragmentHolder);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPager.setOffscreenPageLimit(2);
-        mPager.setAdapter(mPagerAdapter);
-        mPager.setCurrentItem(1);
+
         createHandlers();
     }
 
@@ -234,7 +232,11 @@ public class ActivityFreeDcamMain extends ActivityAbstract
      * thats loads the CameraFragment
      */
     @Override
-    public void apiDetectionDone() {
+    public void apiDetectionDone()
+    {
+        mPager.setOffscreenPageLimit(2);
+        mPager.setAdapter(mPagerAdapter);
+        mPager.setCurrentItem(1);
         loadCameraFragment();
         orientationHandler.Start();
     }

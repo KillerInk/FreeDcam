@@ -79,6 +79,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
 
     private String[] configuredNetworks;
     private String deviceNetworkToConnect;
+    private boolean isWifiListnerRegistered = false;
     //private boolean connected;
     //private CameraHolderSony cameraHolder;
 
@@ -192,6 +193,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
         STATE = IDEL;
         if (getActivity() != null) {
             getActivity().registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+            isWifiListnerRegistered = true;
             getConfiguredNetworks();
             lookupAvailNetworks();
         }
@@ -209,7 +211,10 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
     public void onPause() {
         super.onPause();
         StopCamera();
-        getActivity().unregisterReceiver(wifiReciever);
+        if (isWifiListnerRegistered) {
+            getActivity().unregisterReceiver(wifiReciever);
+            isWifiListnerRegistered = false;
+        }
     }
 
     private void getConfiguredNetworks()
