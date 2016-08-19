@@ -86,12 +86,6 @@ public class AeBracketApi2 extends PictureModuleApi2 implements CameraHolderApi2
     }
 
     @Override
-    protected void prepareCaptureBuilder(Builder captureBuilder)
-    {
-        super.prepareCaptureBuilder(captureBuilder);
-    }
-
-    @Override
     protected void finishCapture(Builder captureBuilder)
     {
         super.finishCapture(captureBuilder);

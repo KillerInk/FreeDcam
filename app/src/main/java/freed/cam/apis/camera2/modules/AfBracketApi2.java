@@ -62,9 +62,9 @@ public class AfBracketApi2 extends PictureModuleApi2
     @Override
     public void InitModule() {
         cameraUiWrapper.GetParameterHandler().Burst.SetValue(6);
-        focuslength = parameterHandler.ManualFocus.getStringValues().length;
+        focuslength = parameterHandler.ManualFocus.getStringValues().length -1;
         focusStep =  focuslength/7;
-        currentFocusPos = 0;
+        currentFocusPos = 1;
         super.InitModule();
     }
 
@@ -72,7 +72,7 @@ public class AfBracketApi2 extends PictureModuleApi2
     @Override
     protected void initBurstCapture(Builder captureBuilder, CaptureCallback captureCallback)
     {
-        currentFocusPos = 0;
+        currentFocusPos = 1;
         List<CaptureRequest> captureList = new ArrayList<>();
         captureBuilder.set(CaptureRequest.CONTROL_AF_MODE, FocusModeApi2.FocusModes.off.ordinal());
         for (int i = 0; i < parameterHandler.Burst.GetValue()+1; i++)
