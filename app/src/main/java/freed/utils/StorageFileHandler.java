@@ -84,13 +84,14 @@ public class StorageFileHandler
         ArrayList<FileHolder> f = new ArrayList<>();
         File intDcimFreed = new File(internalSD, StringUtils.freedcamFolder);
         if (intDcimFreed != null && intDcimFreed.exists())
-            readSubFolders(f, intDcimFreed, false);
+            readFilesFromFolder(intDcimFreed, f, ActivityAbstract.FormatTypes.all, false);
         if (externalSD != null)
         {
             File extDcimFreed = new File(externalSD, StringUtils.freedcamFolder);
             if (extDcimFreed != null && extDcimFreed.exists())
-                readSubFolders(f, extDcimFreed, true);
+                readFilesFromFolder(extDcimFreed, f, ActivityAbstract.FormatTypes.all, true);
         }
+
         sortFileHolder(f);
         return f;
     }
@@ -179,13 +180,7 @@ public class StorageFileHandler
         {
             for (File f : subfolders)
             {
-                if (!f.isHidden() &&
-                        (f.getName().toLowerCase().endsWith(StringUtils.FileEnding.JPG)
-                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.JPS)
-                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.RAW)
-                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.BAYER)
-                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.DNG)
-                                || f.getName().toLowerCase().endsWith(StringUtils.FileEnding.MP4)))
+                if (!f.isHidden() && f.isDirectory())
                     listToAdd.add(new FileHolder(f, external));
             }
         }
