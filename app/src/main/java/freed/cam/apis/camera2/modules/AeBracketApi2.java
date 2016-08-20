@@ -34,13 +34,15 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera2.CameraHolderApi2;
+import freed.cam.apis.camera2.parameters.AeHandler;
+import freed.cam.apis.camera2.parameters.modes.FocusModeApi2;
 import freed.utils.Logger;
 
 /**
  * Created by troop on 17.08.2016.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class AeBracketApi2 extends PictureModuleApi2 implements CameraHolderApi2.AeCompensationListner
+public class AeBracketApi2 extends PictureModuleApi2
 {
 
     private final String TAG = AeBracketApi2.class.getSimpleName();
@@ -49,6 +51,8 @@ public class AeBracketApi2 extends PictureModuleApi2 implements CameraHolderApi2
     private final int WAIT_FOR_EXPO_SET = 2;
     private final int WAIT_NOTHING = 3;
     private int WAIT_EXPOSURE_STATE = WAIT_NOTHING;
+    long currentExposureTime = 0;
+    long exposureTimeStep = 0;
 
 
     public AeBracketApi2(CameraWrapperInterface cameraUiWrapper) {
@@ -68,88 +72,31 @@ public class AeBracketApi2 extends PictureModuleApi2 implements CameraHolderApi2
 
     @Override
     public void InitModule() {
-        cameraUiWrapper.GetParameterHandler().Burst.SetValue(0);
+        cameraUiWrapper.GetParameterHandler().Burst.SetValue(2);
         super.InitModule();
     }
 
     @Override
-    public boolean DoWork() {
-        Logger.d(TAG,"NEW BRACKET CAPTURE START");
-        return super.DoWork();
+    protected void initBurstCapture(Builder captureBuilder, CameraCaptureSession.CaptureCallback captureCallback)
+    {
+        currentExposureTime = cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME);
+        exposureTimeStep = currentExposureTime/2;
+        List<CaptureRequest> captureList = new ArrayList<>();
+        captureBuilder.set(CaptureRequest.CONTROL_AE_MODE, AeHandler.AEModes.off.ordinal());
+        captureBuilder.set(CaptureRequest.SENSOR_SENSITIVITY, cameraHolder.get(CaptureRequest.SENSOR_SENSITIVITY));
+        for (int i = 0; i < parameterHandler.Burst.GetValue()+1; i++)
+        {
+            if (0 == i)
+                captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, currentExposureTime - exposureTimeStep);
+            else if (1== i)
+                captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, currentExposureTime);
+            else if (2 == i)
+                captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME,currentExposureTime + exposureTimeStep);
+            captureList.add(captureBuilder.build());
+        }
+        cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
+        changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_start);
+        cameraHolder.CaptureSessionH.StartCaptureBurst(captureList, captureCallback);
     }
 
-    @Override
-    protected void captureStillPicture()
-    {
-        Logger.d(TAG,"captureStillPicture:"+imagecount);
-        super.captureStillPicture();
-    }
-
-    @Override
-    protected void finishCapture(Builder captureBuilder)
-    {
-        super.finishCapture(captureBuilder);
-        Logger.d(TAG,"finishCapture:"+imagecount);
-        imagecount++;
-        if (imagecount < 3)
-        {
-            cameraHolder.SetAeCompensationListner(this);
-            WAIT_EXPOSURE_STATE = WAIT_FOR_EXPO_SET;
-            Logger.d(TAG,"Set next Exposure for Image: "+ imagecount);
-            switch (imagecount)
-            {
-                case 0:
-                    Logger.d(TAG, "should not happen");
-                    break;
-                case 1:
-                    cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, -10);
-                    Logger.d(TAG,"SetExposure to: -10");
-                    break;
-                case 2:
-                    cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, 10);
-                    Logger.d(TAG,"SetExposure to: 10");
-                    break;
-            }
-        }
-        else
-        {
-            Logger.d(TAG,"Finished Capture");
-            cameraHolder.SetAeCompensationListner(null);
-            imagecount = 0;
-            cameraHolder.SetParameterRepeating(CaptureRequest.CONTROL_AE_EXPOSURE_COMPENSATION, 0);
-        }
-    }
-
-    @Override
-    public void onAeCompensationChanged(int aecompensation)
-    {
-        Logger.d(TAG, "FrameExposureCompensation:" + aecompensation);
-        if (WAIT_EXPOSURE_STATE == WAIT_NOTHING)
-        {
-            Logger.d(TAG, "onAeCompensationChanged:WAIT_FORNOTHING");
-            cameraHolder.SetAeCompensationListner(null);
-            return;
-        }
-        else
-        {
-            Logger.d(TAG, "onAeCompensationChanged:WAIT_FOR_EXPO");
-            switch (imagecount)
-            {
-                case 1:
-                    if (aecompensation == -10) {
-                        Logger.d(TAG,"AE:-10 Capture Image " + imagecount);
-                        WAIT_EXPOSURE_STATE = WAIT_NOTHING;
-                        captureStillPicture();
-                    }
-                    break;
-                case 2:
-                    if (aecompensation == 10) {
-                        WAIT_EXPOSURE_STATE = WAIT_NOTHING;
-                        Logger.d(TAG,"AE:10 Capture Image " + imagecount);
-                        captureStillPicture();
-                    }
-                    break;
-            }
-        }
-    }
 }
