@@ -256,7 +256,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         //are created and calls then onCameraUiWrapperRdy(I_CameraUiWrapper cameraUiWrapper)
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(anim.left_to_right_enter, anim.left_to_right_exit);
-        transaction.add(id.cameraFragmentHolder, cameraFragment, "CameraFragment");
+        transaction.replace(id.cameraFragmentHolder, cameraFragment, "CameraFragment");
         transaction.commit();
         Logger.d(TAG, "loaded cameraWrapper");
     }
