@@ -367,27 +367,14 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
         // Try to find an size match aspect ratio and size
         for (Size size : sizes)
         {
-            if(appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV) {
-                if (size.width <= 1440 && size.height <= 1080 && size.width >= 640 && size.height >= 480) {
-                    double ratio = (double) size.width / size.height;
-                    if (ratio < targetRatio + ASPECT_TOLERANCE && ratio > targetRatio - ASPECT_TOLERANCE) {
-                        optimalSize = size;
-                        minDiff = Math.abs(size.height - h);
-                        break;
-                    }
-
+            if (size.width <= 1440 && size.height <= 1080 && size.width >= 640 && size.height >= 480) {
+                double ratio = (double) size.width / size.height;
+                if (ratio < targetRatio + ASPECT_TOLERANCE && ratio > targetRatio - ASPECT_TOLERANCE) {
+                    optimalSize = size;
+                    minDiff = Math.abs(size.height - h);
+                    break;
                 }
-            }
-            else {
-                if (size.width <= 1280 && size.height <= 720 && size.width >= 640 && size.height >= 480) {
-                    double ratio = (double) size.width / size.height;
-                    if (ratio < targetRatio + ASPECT_TOLERANCE && ratio > targetRatio - ASPECT_TOLERANCE) {
-                        optimalSize = size;
-                        minDiff = Math.abs(size.height - h);
-                        break;
-                    }
 
-                }
             }
         }
         // Cannot find the one match the aspect ratio, ignore the requirement
@@ -395,20 +382,10 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
             minDiff = Double.MAX_VALUE;
             for (Size size : sizes)
             {
-                if(appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV) {
-                    if (size.width <= 1440 && size.height <= 1080 && size.width >= 640 && size.height >= 480) {
-                        if (Math.abs(size.height - h) < minDiff) {
-                            optimalSize = size;
-                            minDiff = Math.abs(size.height - h);
-                        }
-                    }
-                }
-                else {
-                    if (size.width <= 1280 && size.height <= 720 && size.width >= 640 && size.height >= 480) {
-                        if (Math.abs(size.height - h) < minDiff) {
-                            optimalSize = size;
-                            minDiff = Math.abs(size.height - h);
-                        }
+                if (size.width <= 1440 && size.height <= 1080 && size.width >= 640 && size.height >= 480) {
+                    if (Math.abs(size.height - h) < minDiff) {
+                        optimalSize = size;
+                        minDiff = Math.abs(size.height - h);
                     }
                 }
             }

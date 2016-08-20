@@ -583,7 +583,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         double ratio = (double)mImageWidth/mImageHeight;
         for (Size s : choices)
         {
-            if (s.getWidth() <= 1280 && s.getHeight() <= 720 && (double)s.getWidth()/s.getHeight() == ratio)
+            if (s.getWidth() <= 1920 && s.getHeight() <= 1080 && (double)s.getWidth()/s.getHeight() == ratio)
                 sizes.add(s);
 
         }
