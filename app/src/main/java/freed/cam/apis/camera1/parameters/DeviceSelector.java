@@ -51,6 +51,7 @@ import freed.cam.apis.camera1.parameters.device.mtk.Zoppo_8speed;
 import freed.cam.apis.camera1.parameters.device.qcom.Alcatel_Idol3;
 import freed.cam.apis.camera1.parameters.device.qcom.Alcatel_Idol3_small;
 import freed.cam.apis.camera1.parameters.device.qcom.Aquaris_E5;
+import freed.cam.apis.camera1.parameters.device.qcom.Aquaris_M5;
 import freed.cam.apis.camera1.parameters.device.qcom.Blackberry_Priv;
 import freed.cam.apis.camera1.parameters.device.qcom.GioneE7;
 import freed.cam.apis.camera1.parameters.device.qcom.HTC_Desire500;
@@ -115,6 +116,9 @@ public class DeviceSelector {
                 return new Blackberry_Priv(cameraParameters,cameraUiWrapper);
             case Aquaris_E5:
                 return new Aquaris_E5(cameraParameters,cameraUiWrapper);
+
+            case Aquaris_M5:
+                return new Aquaris_M5(cameraParameters,cameraUiWrapper);
 
             case Alcatel_Idol3:
                return new Alcatel_Idol3(cameraParameters,cameraUiWrapper);

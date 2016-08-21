@@ -38,6 +38,7 @@ public class DeviceUtils
         Alcatel_985n,
         Blackberry_Priv,
         Aquaris_E5,
+        Aquaris_M5,
         Alcatel_Idol3,
         Alcatel_Idol3_small,
         Asus_Zenfon2,
@@ -141,6 +142,10 @@ public class DeviceUtils
             return Devices.Alcatel_Idol3;
         if (isDevice(res.getStringArray(array.Alcatel_Idol_3_small)))
             return Devices.Alcatel_Idol3_small;
+        else if(isDevice(res.getStringArray(array.Aquaris_E5)))
+            return Devices.Aquaris_E5;
+        else if(isDevice(res.getStringArray(array.aquaris_m5)))
+            return Devices.Aquaris_M5;
         else if (isDevice(res.getStringArray(array.Asus_Zenfon2)))
             return Devices.Asus_Zenfon2;
         else if(isDevice(res.getStringArray(array.Elephone9000)))
@@ -267,8 +272,6 @@ public class DeviceUtils
             return Devices.Alcatel_985n;
         else if(isDevice(res.getStringArray(array.Jiayu_S3)))
             return Devices.Jiayu_S3;
-        else if(isDevice(res.getStringArray(array.Aquaris_E5)))
-            return Devices.Aquaris_E5;
         else if(isDevice(res.getStringArray(array.Lenovo_VibeP1)))
             return Devices.Lenovo_VibeP1;
         else if(isDevice(res.getStringArray(array.Huawei_GX8)))

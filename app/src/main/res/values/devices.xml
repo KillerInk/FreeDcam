@@ -530,4 +530,8 @@
         <item>Omega 5.0</item>
     </string-array>
 
+    <string-array name="aquaris_m5">
+        <item>Aquaris M5</item>
+    </string-array>
+
 </resources>
