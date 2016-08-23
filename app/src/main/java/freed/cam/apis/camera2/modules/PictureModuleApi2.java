@@ -43,7 +43,6 @@ import android.os.Looper;
 import android.os.ParcelFileDescriptor;
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
-import android.util.Log;
 import android.util.Pair;
 import android.util.Rational;
 import android.util.Size;
@@ -162,7 +161,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         try {
             Logger.d(TAG, "StartStillCapture");
             // This is the CaptureRequest.Builder that we use to take a picture.
-            captureBuilder = cameraHolder.createCaptureRequest();
+            captureBuilder = cameraHolder.createCaptureRequestStillCapture();
             captureBuilder.addTarget(mImageReader.getSurface());
 
             // Use the same AE and AF modes as the preview.
@@ -378,6 +377,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 Logger.d(TAG, "Orientation" + mDngResult.get(CaptureResult.JPEG_ORIENTATION));
             }
             catch (NullPointerException ex){Logger.exception(ex);}
+            try {
+                Logger.d(TAG, "FOCUS POS: " + mDngResult.get(CaptureResult.LENS_FOCUS_DISTANCE));
+            }
+            catch (NullPointerException ex){Logger.exception(ex);}
 
         }
     };
@@ -413,7 +416,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                         }
                     int burstcount = parameterHandler.Burst.GetValue()+1;
                     File file = null;
-                    Handler handler = new Handler(Looper.getMainLooper());
                     imagecount++;
                     switch (reader.getImageFormat())
                     {
@@ -438,6 +440,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     scanAndFinishFile(file);
                     changeCaptureState(CaptureStates.image_capture_stop);
                     if (burstcount == imagecount) {
+                        Handler handler = new Handler(Looper.getMainLooper());
                         handler.post(new Runnable() {
                             @Override
                             public void run() {

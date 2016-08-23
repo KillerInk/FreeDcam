@@ -45,6 +45,8 @@ public class AfBracketApi2 extends PictureModuleApi2
         name = KEYS.MODULE_AFBRACKET;
     }
 
+    private final int PICSTOTAKE = 7;
+
     private int focusStep;
     private int currentFocusPos;
     private int focuslength;
@@ -61,9 +63,9 @@ public class AfBracketApi2 extends PictureModuleApi2
 
     @Override
     public void InitModule() {
-        cameraUiWrapper.GetParameterHandler().Burst.SetValue(6);
+        cameraUiWrapper.GetParameterHandler().Burst.SetValue(PICSTOTAKE-1);
         focuslength = parameterHandler.ManualFocus.getStringValues().length -1;
-        focusStep =  focuslength/7;
+        focusStep =  focuslength/PICSTOTAKE;
         currentFocusPos = 1;
         super.InitModule();
     }
@@ -77,11 +79,11 @@ public class AfBracketApi2 extends PictureModuleApi2
         captureBuilder.set(CaptureRequest.CONTROL_AF_MODE, FocusModeApi2.FocusModes.off.ordinal());
         for (int i = 0; i < parameterHandler.Burst.GetValue()+1; i++)
         {
+            captureBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, (float) currentFocusPos / 10);
+            captureList.add(captureBuilder.build());
             currentFocusPos +=focusStep;
             if (currentFocusPos > focuslength)
                 currentFocusPos = focuslength;
-            captureBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, (float) currentFocusPos / 10);
-            captureList.add(captureBuilder.build());
         }
         cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_start);

@@ -357,7 +357,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     }
 
 
-    public Builder createCaptureRequest() throws CameraAccessException {
+    public Builder createCaptureRequestStillCapture() throws CameraAccessException {
         CameraDevice device = mCameraDevice;
         if (device == null) {
             throw new IllegalStateException("Can't get requests when no camera is open");
