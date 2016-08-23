@@ -93,6 +93,7 @@ public class DeviceUtils
         SonyADV,
         SonyM5_MTK,
         SonyM4_QC,
+        SonyC4_MTK,
         SonyC5_MTK,
         Sony_XperiaL,
         THL5000_MTK,
@@ -216,6 +217,8 @@ public class DeviceUtils
             return Devices.SonyM5_MTK;
         else if(isDevice(res.getStringArray(array.SonyM4)))
             return Devices.SonyM4_QC;
+        else if (isDevice(res.getStringArray(array.sony_c4)))
+            return Devices.SonyC4_MTK;
         else if(isDevice(res.getStringArray(array.SonyC5)))
             return Devices.SonyC5_MTK;
         else if (isDevice(res.getStringArray(array.Sony_XperiaL)))

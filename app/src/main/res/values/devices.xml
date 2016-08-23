@@ -534,4 +534,7 @@
         <item>Aquaris M5</item>
     </string-array>
 
+    <string-array name="sony_c4">
+        <item>E5363</item>
+    </string-array>
 </resources>
