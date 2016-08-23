@@ -66,6 +66,8 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
                 {
                     ShutterButton.this.cameraUiWrapper.GetModuleHandler().GetCurrentModule().DoWork();
                 }
+                else
+                    throw new NullPointerException("CameraUiWrapper is null");
             }
         });
     }

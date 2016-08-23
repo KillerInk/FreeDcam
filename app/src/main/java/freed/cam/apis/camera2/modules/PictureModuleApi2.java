@@ -43,6 +43,7 @@ import android.os.Looper;
 import android.os.ParcelFileDescriptor;
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
+import android.util.Log;
 import android.util.Pair;
 import android.util.Rational;
 import android.util.Size;
@@ -122,8 +123,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     {
         if (!isWorking)
         {
+            Logger.d(TAG, "DoWork: start new progress");
             TakePicture();
         }
+        else
+            Logger.d(TAG, "DoWork: work is in progress");
         return true;
     }
 
@@ -138,10 +142,12 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         if (appSettingsManager.IsCamera2FullSupported().equals(KEYS.TRUE) && cameraHolder.get(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
             mState = STATE_WAIT_FOR_PRECAPTURE;
             cameraHolder.CaptureSessionH.StartRepeatingCaptureSession(aecallback);
+            Logger.d(TAG,"Start AE Precapture");
             cameraHolder.SetParameter(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
         }
         else
         {
+            Logger.d(TAG, "captureStillPicture");
             captureStillPicture();
         }
 
@@ -295,11 +301,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                         captureStillPicture();
                     }
                     else if (aeState == CaptureResult.CONTROL_AE_STATE_PRECAPTURE ||
-                            aeState == CaptureRequest.CONTROL_AE_STATE_FLASH_REQUIRED) {
+                            aeState == CaptureRequest.CONTROL_AE_STATE_FLASH_REQUIRED)
+                    {
+                        Logger.d(TAG,"Wait For nonprecapture");
                         mState = STATE_WAIT_FOR_NONPRECAPTURE;
                     }
                     else if (aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED)
                     {
+                        Logger.d(TAG,"CONTROL_AE_STATE_CONVERGED captureStillPicture");
                         mState = STATE_PICTURE_TAKEN;
                         captureStillPicture();
                     }
