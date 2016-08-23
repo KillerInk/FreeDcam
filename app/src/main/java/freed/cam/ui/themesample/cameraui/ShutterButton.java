@@ -158,7 +158,8 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
                     switchBackground(CaptureStates.video_recording_stop, true);
                 }
                 else  if((cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_PICTURE)
-                        || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_HDR))
+                        || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_HDR)
+                        || cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_AFBRACKET))
                         && !contshot) {
                     switchBackground(CaptureStates.image_capture_stop,true);
                 }
