@@ -19,7 +19,7 @@
 
 package freed.cam.apis.camera1.parameters.device.mtk;
 
-import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
@@ -29,8 +29,10 @@ import freed.dng.DngProfile;
 /**
  * Created by troop on 23.08.2016.
  */
-public class SonyXperiaC4 extends BaseMTKDevice {
-    public SonyXperiaC4(Camera.Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
+public class Sony_C4 extends BaseMTKDevice {
+    
+    
+    public Sony_C4(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
 
