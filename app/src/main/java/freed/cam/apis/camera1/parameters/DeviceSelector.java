@@ -42,7 +42,7 @@ import freed.cam.apis.camera1.parameters.device.mtk.Mlais_M52_Red_Note;
 import freed.cam.apis.camera1.parameters.device.mtk.Prestigio_Multipad_Color;
 import freed.cam.apis.camera1.parameters.device.mtk.Retro_MTK;
 import freed.cam.apis.camera1.parameters.device.mtk.Rome_X;
-import freed.cam.apis.camera1.parameters.device.mtk.SonyXperiaC4;
+import freed.cam.apis.camera1.parameters.device.mtk.Sony_C4;
 import freed.cam.apis.camera1.parameters.device.mtk.Sony_C5;
 import freed.cam.apis.camera1.parameters.device.mtk.Sony_M5_MTK;
 import freed.cam.apis.camera1.parameters.device.mtk.THL5000_MTK;
@@ -264,7 +264,7 @@ public class DeviceSelector {
                return new Sony_M4(cameraParameters,cameraUiWrapper);
 
             case SonyC4_MTK:
-                return new SonyXperiaC4(cameraParameters,cameraUiWrapper);
+               return new Sony_C4(cameraParameters,cameraUiWrapper);
             case SonyC5_MTK:
                return new Sony_C5(cameraParameters,cameraUiWrapper);
                 
