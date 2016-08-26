@@ -219,7 +219,7 @@ public class DeviceUtils
             return Devices.SonyM5_MTK;
         else if(isDevice(res.getStringArray(array.SonyM4)))
             return Devices.SonyM4_QC;
-        else if (isDevice(res.getStringArray(array.sony_c4)))
+        else if (isDevice(res.getStringArray(array.SonyC4)))
             return Devices.SonyC4_MTK;
         else if(isDevice(res.getStringArray(array.SonyC5)))
             return Devices.SonyC5_MTK;
