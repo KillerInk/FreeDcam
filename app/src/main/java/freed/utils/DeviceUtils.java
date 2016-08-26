@@ -65,11 +65,13 @@ public class DeviceUtils
         Lenovo_K50_MTK,
         Lenovo_VibeP1,
         Lenovo_VibeShot_Z90,
+        Lenovo_Vibe_X3,
         LG_G2,
         LG_G2pro,
         LG_G3,
         LG_G4,
         Lumigon_T3,
+        MeizuM1Metal_MTK,
         MeizuMX4_MTK,
         MeizuMX5_MTK,
         Meizu_m2Note_MTK,
@@ -295,6 +297,10 @@ public class DeviceUtils
             return Devices.Lenovo_VibeShot_Z90;
         else if(isDevice(res.getStringArray(array.Zoppo_8speed)))
             return Devices.Zoppo_8speed;
+        else if (isDevice(res.getStringArray(array.lenovo_vibe_x3)))
+            return Devices.Lenovo_Vibe_X3;
+        else if (isDevice(res.getStringArray(array.meizu_m1_metal)))
+            return Devices.MeizuM1Metal_MTK;
         else
             return Devices.UNKNOWN;
 

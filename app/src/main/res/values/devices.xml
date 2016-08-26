@@ -539,4 +539,10 @@
         <item>E5343</item>
         <item>E5363</item>
     </string-array>
+    <string-array name="meizu_m1_metal">
+        <item>m1 metal</item>
+    </string-array>
+    <string-array name="lenovo_vibe_x3">
+        <item>Lenovo X3a40</item>
+    </string-array>
 </resources>
