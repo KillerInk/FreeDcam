@@ -36,6 +36,7 @@ import freed.cam.apis.camera1.parameters.device.mtk.Jiayu_S3;
 import freed.cam.apis.camera1.parameters.device.mtk.Lenovo_K4Note_MTK;
 import freed.cam.apis.camera1.parameters.device.mtk.Lenovo_K50_MTK;
 import freed.cam.apis.camera1.parameters.device.mtk.Lumigon_T3;
+import freed.cam.apis.camera1.parameters.device.mtk.MeizuM1Metal;
 import freed.cam.apis.camera1.parameters.device.mtk.Meizu_M2_Note_MTK;
 import freed.cam.apis.camera1.parameters.device.mtk.Meizu_MX4_5_MTK;
 import freed.cam.apis.camera1.parameters.device.mtk.Mlais_M52_Red_Note;
@@ -72,6 +73,7 @@ import freed.cam.apis.camera1.parameters.device.qcom.Lenovo_K910;
 import freed.cam.apis.camera1.parameters.device.qcom.Lenovo_K920;
 import freed.cam.apis.camera1.parameters.device.qcom.Lenovo_VibeP1;
 import freed.cam.apis.camera1.parameters.device.qcom.Lenovo_VibeShot_Z90;
+import freed.cam.apis.camera1.parameters.device.qcom.Lenovo_Vibe_X3;
 import freed.cam.apis.camera1.parameters.device.qcom.Mi_Max;
 import freed.cam.apis.camera1.parameters.device.qcom.Moto_X2k14;
 import freed.cam.apis.camera1.parameters.device.qcom.Moto_X_Style_Pure_Play;
@@ -194,6 +196,8 @@ public class DeviceSelector {
 
             case Lenovo_VibeShot_Z90:
                 return new Lenovo_VibeShot_Z90(cameraParameters,cameraUiWrapper);
+            case Lenovo_Vibe_X3:
+                return new Lenovo_Vibe_X3(cameraParameters,cameraUiWrapper);
             case LG_G2:
                return new LG_G2(cameraParameters,cameraUiWrapper);
 
@@ -206,7 +210,9 @@ public class DeviceSelector {
                return new LG_G4(cameraParameters,cameraUiWrapper);
             case Lumigon_T3:
                 return new Lumigon_T3(cameraParameters,cameraUiWrapper);
-                
+
+            case MeizuM1Metal_MTK:
+                return new MeizuM1Metal(cameraParameters,cameraUiWrapper);
             case MeizuMX4_MTK:
             case MeizuMX5_MTK:
                return new Meizu_MX4_5_MTK(cameraParameters,cameraUiWrapper);
