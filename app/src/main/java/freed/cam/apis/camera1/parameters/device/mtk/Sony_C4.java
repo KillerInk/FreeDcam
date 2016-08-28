@@ -52,4 +52,9 @@ public class Sony_C4 extends BaseMTKDevice {
         }
         return null;
     }
+    
+    @Override
+    public AbstractModeParameter getOpCodeParameter() {
+        return new OpCodeParameter(cameraUiWrapper.GetAppSettingsManager());
+    }    
 }
