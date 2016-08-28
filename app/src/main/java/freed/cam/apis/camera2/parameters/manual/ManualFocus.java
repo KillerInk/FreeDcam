@@ -28,6 +28,7 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.camera2.CameraHolderApi2;
+import freed.utils.DeviceUtils;
 import freed.utils.Logger;
 import freed.utils.StringUtils;
 
@@ -42,7 +43,11 @@ public class ManualFocus extends AbstractManualParameter
     {
         super(cameraUiWrapper);
         try {
-            int max = (int)(((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE)*10);
+            float m = ((CameraHolderApi2)cameraUiWrapper.GetCameraHolder()).characteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE);
+            if (cameraUiWrapper.GetAppSettingsManager().getDevice() == DeviceUtils.Devices.LG_G4)
+                m = 14;
+            Logger.d(TAG,"MINIMUM Focus DISTANCE :" + m);
+            int max = (int)(m*10);
             stringvalues = createStringArray(-1, max,1);
             currentInt = -1;
         }
@@ -86,7 +91,9 @@ public class ManualFocus extends AbstractManualParameter
                 ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
                 cameraUiWrapper.GetParameterHandler().FocusMode.SetValue("off", true);
             }
-            ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.LENS_FOCUS_DISTANCE, (float) valueToSet / 10);
+            float valtoset= (float) valueToSet / 10;
+            Logger.d(TAG, "Set MF TO: " + valtoset+ " ValueTOSET: " + valueToSet);
+            ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.LENS_FOCUS_DISTANCE, valtoset);
         }
     }
 
