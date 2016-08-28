@@ -236,11 +236,11 @@ public class DngSupportedDevices
                     default:
                         return new DngProfile(64, 4192, 3104, DngProfile.Plain, DngProfile.RGGB, 0,matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
                 }
-            case 26257920://SOny C5 probable imx 214 rggb
+            case 26257920://Sony C4,C5 probably IMX214 rggb
                 switch (device)
                 {
+                    case SonyC4_MTK:
                     case SonyC5_MTK:
-                        return new DngProfile(64, 4206, 3120, DngProfile.Plain,DngProfile.RGGB, 0, matrixChooser.GetCustomMatrix(MatrixChooserParameter.IMX214));
                     case Jiayu_S3:
                         return new DngProfile(64, 4208, 3120, DngProfile.Plain, DngProfile.RGGB, 0, matrixChooser.GetCustomMatrix(MatrixChooserParameter.IMX214));
                 }
