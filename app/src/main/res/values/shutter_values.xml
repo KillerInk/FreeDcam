@@ -138,9 +138,6 @@
 
     <string-array name="shutter_values_autocreate" translatable="false">
         <item>@string/shutter_auto</item>
-        <item>@string/shutter_1_90000</item>
-        <item>@string/shutter_1_75000</item>
-        <item>@string/shutter_1_50000</item>
         <item>@string/shutter_1_45000</item>
         <item>@string/shutter_1_30000</item>
         <item>@string/shutter_1_20000</item>
