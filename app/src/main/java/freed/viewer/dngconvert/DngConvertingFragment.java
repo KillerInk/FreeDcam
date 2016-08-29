@@ -51,13 +51,11 @@ import com.troop.freedcam.R.string;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
 
 import freed.ActivityInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.dng.DngProfile;
 import freed.dng.DngSupportedDevices;
-import freed.dng.Matrixes;
 import freed.jni.RawToDng;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils;
@@ -99,7 +97,7 @@ public class DngConvertingFragment extends Fragment
         editTextheight = (EditText) view.findViewById(id.editText_height);
         editTextblacklvl = (EditText) view.findViewById(id.editText_blacklevel);
         spinnerMatrixProfile = (Spinner) view.findViewById(id.spinner_MatrixProfile);
-        matrixChooserParameter = new MatrixChooserParameter();
+        matrixChooserParameter = new MatrixChooserParameter(getResources());
         String[] items = matrixChooserParameter.GetValues();
         ArrayAdapter<String> matrixadapter = new ArrayAdapter<>(getContext(), layout.simple_spinner_item, items);
         //ArrayAdapter<CharSequence> matrixadapter = ArrayAdapter.createFromResource(getContext(),R.array.matrixes, android.R.layout.simple_spinner_item);
@@ -131,7 +129,7 @@ public class DngConvertingFragment extends Fragment
                 getActivity().finish();
             }
         });
-        matrixChooserParameter = new MatrixChooserParameter();
+        matrixChooserParameter = new MatrixChooserParameter(getResources());
         return view;
     }
 
@@ -140,9 +138,9 @@ public class DngConvertingFragment extends Fragment
         super.onResume();
         filesToConvert = getActivity().getIntent().getStringArrayExtra(EXTRA_FILESTOCONVERT);
         if (filesToConvert != null && filesToConvert.length > 0) {
-            dngprofile = new DngSupportedDevices().getProfile(appSettingsManager.getDevice(), (int) new File(filesToConvert[0]).length(),new MatrixChooserParameter());
+            dngprofile = new DngSupportedDevices().getProfile(appSettingsManager.getDevice(), (int) new File(filesToConvert[0]).length(),matrixChooserParameter);
             if (dngprofile == null) {
-                dngprofile = new DngSupportedDevices().GetEmptyProfile();
+                dngprofile = new DngSupportedDevices().GetEmptyProfile(matrixChooserParameter);
                 Toast.makeText(getContext(), string.unknown_raw_add_manual_stuff, Toast.LENGTH_LONG).show();
             }
             editTextwidth.setText(dngprofile.widht + "");
@@ -160,10 +158,7 @@ public class DngConvertingFragment extends Fragment
             else if (dngprofile.BayerPattern.equals(DngProfile.RGBW))
                 spinnerColorPattern.setSelection(4);
 
-            if (Arrays.equals(dngprofile.matrixes.ColorMatrix1, Matrixes.Nex6CCM1))
-                spinnerMatrixProfile.setSelection(0);
-            else
-                spinnerMatrixProfile.setSelection(1);
+            spinnerMatrixProfile.setSelection(0);
             spinnerrawFormat.setSelection(dngprofile.rawType);
             if (dngprofile != null){
                 spinnerMatrixProfile.setOnItemSelectedListener(new OnItemSelectedListener() {

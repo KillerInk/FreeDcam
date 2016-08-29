@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ /*
+  ~     Copyright (C) 2015 Ingo Fuchs
+  ~     This program is free software; you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation; either version 2 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License along
+  ~     with this program; if not, write to the Free Software Foundation, Inc.,
+  ~     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+  ~ */
+  -->
+
+<resources>
+    <string-array name="matrix_nexus6">
+        <!-- Colormatrix 1  -->
+        <item> 1.140700,-0.402200,-0.234000,-0.431400,1.404000,0.014600,-0.043900,0.204700,0.570400</item>
+        <!-- Colormatrix 2  -->
+        <item>0.722800,-0.089300,-0.097500,-0.479200,1.348100,0.138100,-0.113700,0.268000,0.560400</item>
+        <!-- Neutralmatrix  -->
+        <item>0.5391,1.0000,0.6641</item>
+        <!-- Fowardmatrix 1  -->
+        <item>0.6328, 0.0469, 0.2813, 0.1641, 0.7578, 0.0781, -0.0469, -0.6406, 1.5078</item>
+        <!-- Fowardmatrix 2  -->
+        <item> 0.7578, 0.0859, 0.1172, 0.2734, 0.8281, -0.1016, 0.0156, -0.2813, 1.0859</item>
+        <!-- Reduction 1  -->
+        <item> 1, -1, -1, -1, 1, 1, -1, 1, 1</item>
+        <!-- Reduction 2  -->
+        <item>1, -1, -1,-1, 1, 1,-1, 1, 1</item>
+        <!-- Noise  -->
+        <item>0.00051471478, 0, 0.00051471478, 0, 0.00051471478, 0</item>
+    </string-array>
+    <string-array name="matrix_lg_g4">
+        <!-- Colormatrix 1  -->
+        <item> 1.15625, -0.2890625, -0.3203125, -0.53125, 1.5625f,.0625, -0.078125, 0.28125, 0.5625</item>
+        <!-- Colormatrix 2  -->
+        <item>0.5859375, 0.0546875, -0.125, -0.6484375, 1.5546875, 0.0546875, -0.2421875, 0.5625, 0.390625</item>
+        <!-- Neutralmatrix  -->
+        <item>0.53125, 1, 0.640625</item>
+        <!-- Fowardmatrix 1  -->
+        <item>0.820300, -0.218800, 0.359400, 0.343800, 0.570300,0.093800, 0.015600, -0.726600, 1.539100</item>
+        <!-- Fowardmatrix 2  -->
+        <item>0.679700, -0.078100, 0.359400, 0.210900, 0.703100,0.085900, -0.046900, -0.828100, 1.695300</item>
+        <!-- Reduction 1  -->
+        <item> 1, -1, -1, -1, 1, 1, -1, 1, 1</item>
+        <!-- Reduction 2  -->
+        <item>1, -1, -1,-1, 1, 1,-1, 1, 1</item>
+        <!-- Noise  -->
+        <item>0.8853462669953089, 0,  0.8853462669953089f, 0, 0.8853462669953089f,0</item>
+    </string-array>
+    <string-array name="matrix_imx214">
+        <!-- Colormatrix 1  -->
+        <item>1.198400, -0.692100, 0.181800, -0.166300, 0.885600, 0.333000, 0.001700, 0.119500, 0.573700</item>
+        <!-- Colormatrix 2  -->
+        <item>0.858600, -0.200200, -0.068700, -0.386900, 1.203400, 0.205600, -0.052900, 0.212400, 0.521500</item>
+        <!-- Neutralmatrix  -->
+        <item>0.6295, 1, 0.5108</item>
+        <!-- Fowardmatrix 1  -->
+        <item>0.664800, 0.256600, 0.042900, 0.197000, 0.999400, -0.196400, -0.089400, -0.230400, 1.145000</item>
+        <!-- Fowardmatrix 2  -->
+        <item>0.661700, 0.384900, -0.082300, 0.240000, 1.113800, -0.353800, -0.006200, -0.114700, 0.946000</item>
+        <!-- Reduction 1  -->
+        <item> 1, -1, -1, -1, 1, 1, -1, 1, 1</item>
+        <!-- Reduction 2  -->
+        <item>1, -1, -1,-1, 1, 1,-1, 1, 1</item>
+        <!-- Noise  -->
+        <item> 0.00072030654f,0,0.00072030654, 0,0.00072030654,0</item>
+    </string-array>
+    <string-array name="matrix_imx230">
+        <!-- Colormatrix 1  -->
+        <item>0.609375, 0.015625, -0.1328125, -0.9296875, 1.828125, 0.0546875, -0.4375, 0.6015625, 0.5</item>
+        <!-- Colormatrix 2  -->
+        <item>0.875, -0.0390625, -0.421875, -0.890625, 2.1328125, -0.4140625, -0.1875, 0.421875, 0.453125</item>
+        <!-- Neutralmatrix  -->
+        <item>0.6295, 1, 0.5108</item>
+        <!-- Fowardmatrix 1  -->
+        <item>0.8046875, -0.140625, 0.296875, 0.3984375, 0.484375, 0.1171875, 0.15625, -0.5390625, 1.2109375</item>
+        <!-- Fowardmatrix 2  -->
+        <item>0.765625, -0.2734375, 0.46875, 0.3203125, 0.34375, 0.3359375, 0.0546875, -0.9375, 1.703125</item>
+        <!-- Reduction 1  -->
+        <item> 1, -1, -1, -1, 1, 1, -1, 1, 1</item>
+        <!-- Reduction 2  -->
+        <item>1, -1, -1,-1, 1, 1,-1, 1, 1</item>
+        <!-- Noise  -->
+        <item>0.00072030654, 0, 0.00072030654, 0f,0.00072030654,0</item>
+    </string-array>
+
+    <string-array name="matrix_ov5648">
+        <!-- Colormatrix 1  -->
+        <item>86/128, -16/128, -13/128, -44/128, 148/128, 20/128, -5/128, 25/128, 67/128</item>
+        <!-- Colormatrix 2  -->
+        <item>148/128, -54/128, -42/128, -34/128, 171/128, -16/128, 0, 21/128, 81/128</item>
+        <!-- Neutralmatrix  -->
+        <item>0.5546875, 1, 0.515625</item>
+        <!-- Fowardmatrix 1  -->
+        <item>86/128, 22/128, 15/128, 27/128, 122/128, -21/128, -3/128, -32/128, 140/128</item>
+        <!-- Fowardmatrix 2  -->
+        <item>73/128, 10/128, 41/128, 8/128, 103/128, 17/128, -8/128, -69/128, 183/128</item>
+        <!-- Reduction 1  -->
+        <item> 1, -1, -1, -1, 1, 1, -1, 1, 1</item>
+        <!-- Reduction 2  -->
+        <item>1, -1, -1,-1, 1, 1,-1, 1, 1</item>
+        <!-- Noise  -->
+        <item>0.003127599148, 3.56840528e-005, 0.003127599148f, 3.56840528e-005, 0.003127599148, 3.56840528e-005</item>
+    </string-array>
+
+    <string-array name="matrix_omnivision">
+        <!-- Colormatrix 1  -->
+        <item>1.15625, -0.421875, -0.328125, -0.265625, 1.3359375, -0.125, 0, 0.1640625, 0.6328125</item>
+        <!-- Colormatrix 2  -->
+        <item>0.671875, -0.125, -0.1015625, -0.34375, 1.15625, 0.15625, -0.0390625, 0.1953125, 0.5234375</item>
+        <!-- Neutralmatrix  -->
+        <item>0.5546875, 1, 0.515625</item>
+        <!-- Fowardmatrix 1  -->
+        <item>0.5703125, 0.078125, 0.3203125, 0.0625, 0.8046875, 0.1328125, -0.0625, -0.5390625, 1.4296875</item>
+        <!-- Fowardmatrix 2  -->
+        <item>0.671875, 0.171875, 0.1171875, 0.2109375, 0.953125, -0.1640625, -0.0234375, -0.25, 1.09375</item>
+        <!-- Reduction 1  -->
+        <item> 1, -1, -1, -1, 1, 1, -1, 1, 1</item>
+        <!-- Reduction 2  -->
+        <item>1, -1, -1,-1, 1, 1,-1, 1, 1</item>
+        <!-- Noise  -->
+        <item>0.003127599148, 3.56840528e-005, 0.003127599148f, 3.56840528e-005, 0.003127599148, 3.56840528e-005</item>
+    </string-array>
+
+    <string-array name="matrix_neutral">
+        <!-- Colormatrix 1  -->
+        <item>1,0,0,0,1,0,0,0,1</item>
+        <!-- Colormatrix 2  -->
+        <item>1,0,0,0,1,0,0,0,1</item>
+        <!-- Neutralmatrix  -->
+        <item>1,1,1</item>
+    </string-array>
+</resources>

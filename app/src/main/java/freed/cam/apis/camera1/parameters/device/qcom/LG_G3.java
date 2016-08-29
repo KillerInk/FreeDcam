@@ -29,9 +29,7 @@ import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.parameters.manual.focus.BaseFocusManual;
 import freed.cam.apis.camera1.parameters.manual.lg.FocusManualParameterLG;
-import freed.dng.CustomMatrix;
 import freed.dng.DngProfile;
-import freed.dng.Matrixes;
 
 /**
  * Created by troop on 01.06.2016.
@@ -82,25 +80,11 @@ public class LG_G3 extends LG_G2
         {
             case 2658304: //g3 front mipi
                 return new DngProfile(64, 1212, 1096, DngProfile.Mipi, DngProfile.BGGR, 2424,
-                        new CustomMatrix(Matrixes.CC_A_FRONT,
-                                Matrixes.CC_D65_FRONT,
-                                Matrixes.neutral_light_front,
-                                Matrixes.G4_foward_matrix1,
-                                Matrixes.G4_foward_matrix2,
-                                Matrixes.G4_reduction_matrix1,
-                                Matrixes.G4_reduction_matrix2,
-                                Matrixes.G4_noise_3x1_matrix));
+                        matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 2842624://g3 front qcom
                 //TODO somethings wrong with it;
                 return new DngProfile(64, 1296, 1096, DngProfile.Qcom, DngProfile.BGGR, 0,
-                        new CustomMatrix(Matrixes.CC_A_FRONT,
-                                Matrixes.CC_D65_FRONT,
-                                Matrixes.neutral_light_front,
-                                Matrixes.G4_foward_matrix1,
-                                Matrixes.G4_foward_matrix2,
-                                Matrixes.G4_reduction_matrix1,
-                                Matrixes.G4_reduction_matrix2,
-                                Matrixes.G4_noise_3x1_matrix));
+                        matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 16224256:
 				return new DngProfile(64, 4208, 3082, DngProfile.Mipi, DngProfile.BGGR, DngProfile.ROWSIZE, matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 16424960:

@@ -20,6 +20,7 @@
 package freed.cam.apis.camera2.parameters;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build.VERSION_CODES;
@@ -128,7 +129,7 @@ public class ParameterHandlerApi2 extends AbstractParameterHandler
         //VideoSize = new VideoSizeModeApi2(uiHandler,cameraHolder);
         VideoProfiles = new VideoProfilesApi2(cameraUiWrapper);
         oismode = new OisModeApi2(cameraUiWrapper);
-        matrixChooser = new MatrixChooserParameter();
+        matrixChooser = new MatrixChooserParameter(((Activity)cameraUiWrapper.getActivityInterface()).getResources());
         imageStackMode = new StackModeParameter();
         Zoom = new ZoomApi2(cameraUiWrapper);
 

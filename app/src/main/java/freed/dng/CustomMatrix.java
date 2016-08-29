@@ -59,14 +59,59 @@ public class CustomMatrix
         NoiseReductionMatrix = noise;
     }
 
+    public static CustomMatrix getMatrixFromStringArray(String[] ar)
+    {
+        CustomMatrix matrix = new CustomMatrix();
+        for (int i = 0; i < ar.length; i++)
+        {
+            switch (i)
+            {
+                case 0:
+                    matrix.ColorMatrix1 = getMatrixFromString(ar[i]);
+                    break;
+                case 1:
+                    matrix.ColorMatrix2 = getMatrixFromString(ar[i]);
+                    break;
+                case 2:
+                    matrix.NeutralMatrix = getMatrixFromString(ar[i]);
+                    break;
+                case 3:
+                    matrix.ForwardMatrix1 = getMatrixFromString(ar[i]);
+                    break;
+                case 4:
+                    matrix.ForwardMatrix2 = getMatrixFromString(ar[i]);
+                    break;
+                case 5:
+                    matrix.ReductionMatrix1 = getMatrixFromString(ar[i]);
+                    break;
+                case 6:
+                    matrix.ReductionMatrix2 = getMatrixFromString(ar[i]);
+                    break;
+                case 7:
+                    matrix.NoiseReductionMatrix = getMatrixFromString(ar[i]);
+                    break;
+            }
+        }
+        return matrix;
+    }
 
-    private static float[] getMatrixFromString(String m)
+
+    public static float[] getMatrixFromString(String m)
     {
         String[] split = m.split(",");
         float[] ar = new float[split.length];
         for (int i = 0; i< split.length; i++)
         {
-            ar[i] = Float.parseFloat(split[i]);
+            //when we was to lazy for the math and it looks like 46/128
+            if (split[i].contains("/"))
+            {
+                String[] s = split[i].split("/");
+                int left = Integer.parseInt(s[0].replace(" ",""));
+                int right = Integer.parseInt(s[1].replace(" ",""));
+                ar[i] = (float)left/right;
+            }
+            else
+                ar[i] = Float.parseFloat(split[i]);
         }
         return ar;
     }

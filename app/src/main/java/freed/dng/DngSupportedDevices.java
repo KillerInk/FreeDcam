@@ -34,25 +34,11 @@ public class DngSupportedDevices
 
             case 2658304: //g3 front mipi
                 return new DngProfile(64, 1212, 1096, DngProfile.Mipi, DngProfile.BGGR, 2424,
-                        new CustomMatrix(Matrixes.CC_A_FRONT,
-                        Matrixes.CC_D65_FRONT,
-                        Matrixes.neutral_light_front,
-                        Matrixes.G4_foward_matrix1,
-                        Matrixes.G4_foward_matrix2,
-                        Matrixes.G4_reduction_matrix1,
-                        Matrixes.G4_reduction_matrix2,
-                        Matrixes.G4_noise_3x1_matrix));
+                        matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 2842624://g3 front qcom
                 //TODO somethings wrong with it;
                 return new DngProfile(64, 1296, 1096, DngProfile.Qcom, DngProfile.BGGR, 0,
-                        new CustomMatrix(Matrixes.CC_A_FRONT,
-                        Matrixes.CC_D65_FRONT,
-                        Matrixes.neutral_light_front,
-                        Matrixes.G4_foward_matrix1,
-                        Matrixes.G4_foward_matrix2,
-                        Matrixes.G4_reduction_matrix1,
-                        Matrixes.G4_reduction_matrix2,
-                        Matrixes.G4_noise_3x1_matrix));
+                        matrixChooser.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
             case 2969600:
                 switch (device) {
                     case XiaomiMI3W:
@@ -271,16 +257,9 @@ public class DngSupportedDevices
 
     }
 
-    public DngProfile GetEmptyProfile()
+    public DngProfile GetEmptyProfile(MatrixChooserParameter matrixChooserParameter)
     {
         return new DngProfile(0,0,0,0,"bggr",0,
-            new CustomMatrix(Matrixes.Nex6CCM1,
-            Matrixes.Nex6CCM2,
-            Matrixes.Nex6NM,
-            Matrixes.Nexus6_foward_matrix1,
-            Matrixes.Nexus6_foward_matrix2,
-            Matrixes.Nexus6_reduction_matrix1,
-            Matrixes.Nexus6_reduction_matrix2,
-            Matrixes.Nexus6_noise_3x1_matrix));
+                matrixChooserParameter.GetCustomMatrix(MatrixChooserParameter.NEXUS6));
     }
 }
