@@ -320,7 +320,4 @@ public class FocusImageHandler extends AbstractFocusImageHandler
 
         return new FocusRect((int)imageview.getX() - recthalf, (int)imageview.getX() + recthalf, (int)imageview.getY() - recthalf, (int)imageview.getY() + recthalf,(int)imageview.getX(),(int)imageview.getY());
     }
-
-
-
 }
