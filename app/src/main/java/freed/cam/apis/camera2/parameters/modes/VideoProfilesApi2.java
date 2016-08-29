@@ -84,18 +84,13 @@ public class VideoProfilesApi2 extends BaseModeApi2
 
             supportedProfiles = new HashMap<>();
             File f = new File(VideoMediaProfile.MEDIAPROFILESPATH);
-            if (!f.exists())
+            if (cameraUiWrapper.GetAppSettingsManager().getMediaProfiles().size() == 0)
             {
                 lookupDefaultProfiles(supportedProfiles);
-                VideoMediaProfile.saveCustomProfiles(supportedProfiles);
+                cameraUiWrapper.GetAppSettingsManager().saveMediaProfiles(supportedProfiles);
             }
-
-            try {
-                VideoMediaProfile.loadCustomProfiles(supportedProfiles);
-            } catch (IOException e) {
-                Logger.exception(e);
-            }
-
+            else
+                supportedProfiles = cameraUiWrapper.GetAppSettingsManager().getMediaProfiles();
         }
     }
     private void lookupDefaultProfiles(HashMap<String, VideoMediaProfile> supportedProfiles)

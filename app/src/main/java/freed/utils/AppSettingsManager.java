@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import freed.cam.apis.KEYS;
+import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.utils.DeviceUtils.Devices;
 
 
@@ -166,6 +167,8 @@ public class AppSettingsManager {
     public static final String SETTINGS_PREVIEWZOOM = "previewzoom";
 
     public static final String SETTING_BASE_FOLDER = "base_folder";
+
+    public static final String SETTING_MEDIAPROFILES = "media_profiles";
 
     private HashMap<String, String> appsettingsList;
 
@@ -332,7 +335,6 @@ public class AppSettingsManager {
                 Logger.exception(e);
             }
         }
-
     }
 
     public String getString(String valueToGet, String defaultValue) {
@@ -356,5 +358,28 @@ public class AppSettingsManager {
 
     public void setBoolean(String valueToSet, boolean defaultValue) {
         setString(valueToSet, defaultValue + "");
+    }
+
+    public HashMap<String,VideoMediaProfile> getMediaProfiles()
+    {
+        String tmp = appsettingsList.get(getApiSettingString(SETTING_MEDIAPROFILES));
+        String[] split = null;
+        HashMap<String,VideoMediaProfile>  hashMap = new HashMap<>();
+        if (tmp != null) {
+            split = tmp.split(",");
+            for (int i = 0; i < split.length; i++) {
+                VideoMediaProfile mp = new VideoMediaProfile(split[i]);
+                hashMap.put(mp.ProfileName, mp);
+            }
+        }
+        return hashMap;
+    }
+
+    public void saveMediaProfiles(HashMap<String,VideoMediaProfile> mediaProfileHashMap)
+    {
+        String tmp = "";
+        for (VideoMediaProfile profile : mediaProfileHashMap.values())
+            tmp += profile.GetString() +",";
+        setString(SETTING_MEDIAPROFILES,tmp);
     }
 }

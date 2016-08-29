@@ -115,7 +115,7 @@ public class VideoMediaProfile
         Logger.d(TAG,"VBitrate:"+ videoBitRate +"VCodec:"+ videoCodec +"VFrameRate:"+ videoFrameRate +"VWidth:"+ videoFrameWidth +"Vheight:"+ videoFrameHeight);
     }
 
-    private VideoMediaProfile(String t) {
+    public VideoMediaProfile(String t) {
         String[] ar = t.split(" ");
         audioBitRate = Integer.parseInt(ar[0]);
         audioChannels = Integer.parseInt(ar[1]);
@@ -138,7 +138,7 @@ public class VideoMediaProfile
         Logger.d(TAG, "VBitrate:" + videoBitRate + "VCodec:" + videoCodec + "VFrameRate:" + videoFrameRate + "VWidth:" + videoFrameWidth + "Vheight:" + videoFrameHeight);
     }
 
-    private String GetString()
+    public String GetString()
     {
         String b = audioBitRate + " " +
                 audioChannels + " " +
@@ -166,7 +166,7 @@ public class VideoMediaProfile
 
     public static final String MEDIAPROFILESPATH = StringUtils.GetFreeDcamConfigFolder+"CustomMediaProfiles.txt";
 
-    public static void loadCustomProfiles(HashMap<String, VideoMediaProfile> list) throws IOException
+    /*public static void loadCustomProfiles(HashMap<String, VideoMediaProfile> list) throws IOException
     {
         File mprof = new File(MEDIAPROFILESPATH);
         if(mprof.exists())
@@ -213,5 +213,5 @@ public class VideoMediaProfile
                 Logger.exception(e);
             }
         }
-    }
+    }*/
 }

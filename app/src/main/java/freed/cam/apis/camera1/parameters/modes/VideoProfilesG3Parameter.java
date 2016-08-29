@@ -110,17 +110,13 @@ public class VideoProfilesG3Parameter extends BaseModeParameter
             supportedProfiles = new HashMap<>();
 
             File f = new File(VideoMediaProfile.MEDIAPROFILESPATH);
-            if (!f.exists())
+            if (cameraUiWrapper.GetAppSettingsManager().getMediaProfiles().size() == 0)
             {
                 lookupDefaultProfiles(supportedProfiles);
-                VideoMediaProfile.saveCustomProfiles(supportedProfiles);
+                cameraUiWrapper.GetAppSettingsManager().saveMediaProfiles(supportedProfiles);
             }
-            if (f.exists())
-                try {
-                    VideoMediaProfile.loadCustomProfiles(supportedProfiles);
-                } catch (IOException e) {
-                    Logger.exception(e);
-                }
+            else
+                supportedProfiles = cameraUiWrapper.GetAppSettingsManager().getMediaProfiles();
         }
     }
 

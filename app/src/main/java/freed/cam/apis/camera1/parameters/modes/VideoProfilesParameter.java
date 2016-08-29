@@ -105,34 +105,16 @@ public class VideoProfilesParameter extends BaseModeParameter
         if (supportedProfiles == null)
         {
             Logger.d(TAG, "Load supportedProfiles");
-            String current;
-
             supportedProfiles = new HashMap<>();
-            File f = new File(VideoMediaProfile.MEDIAPROFILESPATH);
-            if (!f.exists())
+            if (cameraUiWrapper.GetAppSettingsManager().getMediaProfiles().size() == 0)
             {
                 Logger.d(TAG, "new file,lookupDefaultProfiles");
                 lookupDefaultProfiles(supportedProfiles);
                 Logger.d(TAG,"Save found Profiles");
-                VideoMediaProfile.saveCustomProfiles(supportedProfiles);
+                cameraUiWrapper.GetAppSettingsManager().saveMediaProfiles(supportedProfiles);
             }
-            if (f.exists())
-            {
-                Logger.d(TAG, "file exists load from txt");
-                try {
-                    VideoMediaProfile.loadCustomProfiles(supportedProfiles);
-                }
-                catch (Exception ex)
-                {
-                    Logger.exception(ex);
-                    Logger.d(TAG, "Failed to load CustomProfiles.txt");
-                    f.delete();
-                    lookupDefaultProfiles(supportedProfiles);
-                    VideoMediaProfile.saveCustomProfiles(supportedProfiles);
-                }
-
-            }
-
+            else
+                supportedProfiles = cameraUiWrapper.GetAppSettingsManager().getMediaProfiles();
         }
     }
 

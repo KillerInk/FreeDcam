@@ -66,6 +66,7 @@ public class VideoProfileEditorFragment extends Fragment
     private Button button_delete;
     private VideoMediaProfile currentProfile;
     private Switch switch_Audio;
+    private AppSettingsManager appSettingsManager;
 
 
     private HashMap<String, VideoMediaProfile> videoMediaProfiles;
@@ -97,14 +98,8 @@ public class VideoProfileEditorFragment extends Fragment
         button_delete.setOnClickListener(ondeleteButtonClick);
         videoMediaProfiles = new HashMap<>();
 
-        File f = new File(VideoMediaProfile.MEDIAPROFILESPATH);
-        if(f.exists())
-            try {
-                VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
-            } catch (IOException e) {
-                Logger.exception(e);
-            }
-        AppSettingsManager appSettingsManager = new AppSettingsManager(getContext());
+        appSettingsManager = new AppSettingsManager(getContext());
+        videoMediaProfiles = appSettingsManager.getMediaProfiles();
         try {
             setMediaProfile(videoMediaProfiles.get(appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE)));
         }
@@ -175,15 +170,8 @@ public class VideoProfileEditorFragment extends Fragment
                 case DialogInterface.BUTTON_POSITIVE:
                     videoMediaProfiles.remove(currentProfile.ProfileName);
                     currentProfile = null;
-                    VideoMediaProfile.saveCustomProfiles(videoMediaProfiles);
-                    videoMediaProfiles.clear();
-                    File f = new File(VideoMediaProfile.MEDIAPROFILESPATH);
-                    if(f.exists())
-                        try {
-                            VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
-                        } catch (IOException e) {
-                            Logger.exception(e);
-                        }
+                    appSettingsManager.saveMediaProfiles(videoMediaProfiles);
+                    appSettingsManager.SaveAppSettings();
                     clearProfileItems();
                     break;
 
@@ -208,7 +196,7 @@ public class VideoProfileEditorFragment extends Fragment
 
     private void setMediaProfile(VideoMediaProfile profile)
     {
-        currentProfile = profile;
+        currentProfile = profile.clone();
         button_profile.setText(profile.ProfileName);
         editText_profilename.setText(profile.ProfileName);
         editText_audiobitrate.setText(profile.audioBitRate+"");
@@ -247,15 +235,9 @@ public class VideoProfileEditorFragment extends Fragment
                 p.ProfileName = editText_profilename.getText().toString().replace(" ","_");
                 videoMediaProfiles.put(p.ProfileName, p);
             }
-            VideoMediaProfile.saveCustomProfiles(videoMediaProfiles);
+            appSettingsManager.saveMediaProfiles(videoMediaProfiles);
+            appSettingsManager.SaveAppSettings();
             videoMediaProfiles.clear();
-            File f = new File(VideoMediaProfile.MEDIAPROFILESPATH);
-            if(f.exists())
-                try {
-                    VideoMediaProfile.loadCustomProfiles(videoMediaProfiles);
-                } catch (IOException e) {
-                    Logger.exception(e);
-                }
             Toast.makeText(getContext(),"Profile Saved", Toast.LENGTH_SHORT).show();
         }
     };
