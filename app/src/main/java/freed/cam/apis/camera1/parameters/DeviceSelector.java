@@ -40,6 +40,7 @@ import freed.cam.apis.camera1.parameters.device.mtk.MeizuM1Metal;
 import freed.cam.apis.camera1.parameters.device.mtk.Meizu_M2_Note_MTK;
 import freed.cam.apis.camera1.parameters.device.mtk.Meizu_MX4_5_MTK;
 import freed.cam.apis.camera1.parameters.device.mtk.Mlais_M52_Red_Note;
+import freed.cam.apis.camera1.parameters.device.mtk.MyPhoneInfinity2S;
 import freed.cam.apis.camera1.parameters.device.mtk.Prestigio_Multipad_Color;
 import freed.cam.apis.camera1.parameters.device.mtk.Retro_MTK;
 import freed.cam.apis.camera1.parameters.device.mtk.Rome_X;
@@ -232,6 +233,8 @@ public class DeviceSelector {
                 return getDefault(cameraUiWrapper,cameraParameters);
             case MotoG_Turbo:
                 return getDefault(cameraUiWrapper,cameraParameters);
+            case MyPhone_Infinity2S:
+                return new MyPhoneInfinity2S(cameraParameters,cameraUiWrapper);
             case Nexus4:
                 return getDefault(cameraUiWrapper,cameraParameters);
             case OnePlusOne:

@@ -80,6 +80,7 @@ public class DeviceUtils
         Moto_X_Style_Pure_Play,
         MotoG3,
         MotoG_Turbo,
+        MyPhone_Infinity2S,
         Nexus4,
         OnePlusOne,
         OnePlusTwo,
@@ -301,6 +302,8 @@ public class DeviceUtils
             return Devices.Lenovo_Vibe_X3;
         else if (isDevice(res.getStringArray(array.meizu_m1_metal)))
             return Devices.MeizuM1Metal_MTK;
+        else if (isDevice(res.getStringArray(array.myphone_ininity2s)))
+            return Devices.MyPhone_Infinity2S;
         else
             return Devices.UNKNOWN;
 

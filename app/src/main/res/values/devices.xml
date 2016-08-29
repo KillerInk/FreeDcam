@@ -545,4 +545,8 @@
     <string-array name="lenovo_vibe_x3">
         <item>Lenovo X3a40</item>
     </string-array>
+    
+    <string-array name="myphone_ininity2s">
+        <item>INFINITY_II_S</item>
+    </string-array>
 </resources>
