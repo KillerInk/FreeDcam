@@ -43,7 +43,7 @@ public class AeHandler
 {
     private final CameraHolderApi2 cameraHolder;
     private final CameraWrapperInterface cameraUiWrapper;
-    private final ParameterHandler parameterHandler;
+    private final ParameterHandlerApi2 parameterHandler;
     private final AeModeApi2 aeModeApi2;
     private final ManualExposureApi2 manualExposureApi2;
     private final ManualExposureTimeApi2 manualExposureTimeApi2;
@@ -55,7 +55,7 @@ public class AeHandler
     {
         this.cameraUiWrapper = cameraUiWrapper;
         this.cameraHolder = (CameraHolderApi2) cameraUiWrapper.GetCameraHolder();
-        this.parameterHandler = (ParameterHandler) cameraUiWrapper.GetParameterHandler();
+        this.parameterHandler = (ParameterHandlerApi2) cameraUiWrapper.GetParameterHandler();
         aeModeApi2 = new AeModeApi2(cameraUiWrapper);
         manualExposureApi2 = new ManualExposureApi2(cameraUiWrapper);
         manualExposureTimeApi2 = new ManualExposureTimeApi2(cameraUiWrapper);

@@ -63,14 +63,14 @@ import freed.utils.Logger;
  * Created by troop on 12.12.2014.
  */
 @TargetApi(VERSION_CODES.LOLLIPOP)
-public class ParameterHandler extends AbstractParameterHandler
+public class ParameterHandlerApi2 extends AbstractParameterHandler
 {
-    private final String TAG = ParameterHandler.class.getSimpleName();
+    private final String TAG = ParameterHandlerApi2.class.getSimpleName();
     private ManualToneMapCurveApi2 manualToneMapCurveApi2;
 
     private CameraHolderApi2 cameraHolder;
 
-    public ParameterHandler(CameraWrapperInterface wrapper)
+    public ParameterHandlerApi2(CameraWrapperInterface wrapper)
     {
         super(wrapper);
     }

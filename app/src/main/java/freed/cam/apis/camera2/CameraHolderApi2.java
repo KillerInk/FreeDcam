@@ -69,7 +69,6 @@ import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;
-import freed.cam.apis.camera2.parameters.ParameterHandler;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;
 import freed.utils.StringUtils;
@@ -96,24 +95,15 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     public CameraDevice mCameraDevice;
     private final Semaphore mCameraOpenCloseLock = new Semaphore(1);
     private AutoFitTextureView textureView;
-
-    //this is needed for the previewSize...
     private Builder mPreviewRequestBuilder;
-
     private CameraCaptureSession mCaptureSession;
-
     private CameraConstrainedHighSpeedCaptureSession mHighSpeedCaptureSession;
-
     public StreamConfigurationMap map;
     public int CurrentCamera;
     public CameraCharacteristics characteristics;
     public String VideoSize;
-    private VideoMediaProfile currentVideoProfile;
-
     public CaptureSessionHandler CaptureSessionH;
-
     public boolean flashRequired = false;
-
     int afState;
     int aeState;
 
@@ -302,7 +292,12 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             return;
         Logger.d(TAG, "Set :" + key.getName() + " to " + value);
         mPreviewRequestBuilder.set(key,value);
-        CaptureSessionH.StartCaptureSession();
+        try {
+            mCaptureSession.capture(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
+                    null);
+        } catch (CameraAccessException e) {
+            Logger.exception(e);
+        }
     }
 
     public <T> void SetFocusArea(@NonNull Key<T> key, T value)
@@ -637,7 +632,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         {
             try {
                 mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-                ((ParameterHandler) cameraUiWrapper.GetParameterHandler()).Init();
             } catch (CameraAccessException e) {
                 Logger.exception(e);
             }
@@ -797,39 +791,13 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             }
         }
 
-        public void StartCaptureSession()
-        {
-            Logger.d(TAG, "StartCaptureSession");
-            if (mCaptureSession == null)
-                return;
-            try {
-                mCaptureSession.capture(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
-                        null);
-            } catch (CameraAccessException e) {
-               Logger.exception(e);
-            }
-        }
-
-        public void StartCaptureSession(@Nullable CaptureCallback listener)
-        {
-            Logger.d(TAG, "StartCaptureSession with Custom CaptureCallback");
-            if (mCaptureSession == null)
-                return;
-            try {
-                mCaptureSession.capture(mPreviewRequestBuilder.build(), listener,
-                        null);
-            } catch (CameraAccessException e) {
-                Logger.exception(e);
-            }
-        }
-
-        public void StartCapture(@NonNull Builder request,
-                                 @Nullable CaptureCallback listener)
+        public void StartImageCapture(@NonNull Builder request,
+                                      @Nullable CaptureCallback listener)
         {
             try {
                 mCaptureSession.capture(request.build(),listener,null);
             } catch (CameraAccessException e) {
-                e.printStackTrace();
+                Logger.exception(e);
             }
         }
 
@@ -839,10 +807,9 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             try {
                 mCaptureSession.captureBurst(request,listener,null);
             } catch (CameraAccessException e) {
-                e.printStackTrace();
+                Logger.exception(e);
             }
         }
-
 
         public void CloseCaptureSession()
         {

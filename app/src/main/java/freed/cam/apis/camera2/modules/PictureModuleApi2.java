@@ -259,7 +259,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             {
                 cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
                 changeCaptureState(CaptureStates.image_capture_start);
-                cameraHolder.CaptureSessionH.StartCapture(captureBuilder, CaptureCallback);
+                cameraHolder.CaptureSessionH.StartImageCapture(captureBuilder, CaptureCallback);
             }
 
 

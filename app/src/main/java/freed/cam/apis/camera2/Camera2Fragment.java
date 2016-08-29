@@ -39,7 +39,7 @@ import freed.cam.apis.basecamera.FocuspeakProcessor;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.basecamera.parameters.AbstractParameterHandler;
 import freed.cam.apis.camera2.modules.I_PreviewWrapper;
-import freed.cam.apis.camera2.parameters.ParameterHandler;
+import freed.cam.apis.camera2.parameters.ParameterHandlerApi2;
 import freed.cam.apis.camera2.renderscript.FocuspeakProcessorApi2;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;
@@ -69,7 +69,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
         textureView = (AutoFitTextureView) view.findViewById(id.autofitview);
         this.textureView.setSurfaceTextureListener(this);
         super.cameraHolder = cameraHolder;
-        parametersHandler = new ParameterHandler(this);
+        parametersHandler = new ParameterHandlerApi2(this);
         moduleHandler = new ModuleHandlerApi2(this, renderScriptHandler);
         Focus = new FocusHandler(this);
         cameraHolder = new CameraHolderApi2(this);
@@ -130,6 +130,7 @@ public class Camera2Fragment extends CameraFragmentAbstract implements TextureVi
     @Override
     public void onCameraOpen(String message)
     {
+        ((ParameterHandlerApi2)parametersHandler).Init();
         cameraHolder.SetSurface(textureView);
 
         Logger.d(TAG, "Camera Opened and Preview Started");
