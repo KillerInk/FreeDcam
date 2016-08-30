@@ -304,6 +304,7 @@ public class BracketModule extends PictureModule
         });
     }
 
+    @Override
     protected File getFile(String fileending)
     {
         return new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePathHDR(appSettingsManager.GetWriteExternal(), fileending, hdrCount));

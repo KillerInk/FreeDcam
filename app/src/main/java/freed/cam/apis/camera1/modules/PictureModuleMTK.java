@@ -114,7 +114,7 @@ public class PictureModuleMTK extends PictureModule
     }
 
     private int loopBreaker;
-    private void CreateDNG_DeleteRaw()
+    protected void CreateDNG_DeleteRaw()
     {
         byte[] data = null;
         File rawfile = null;
@@ -147,7 +147,7 @@ public class PictureModuleMTK extends PictureModule
     }
 
 
-    private File DeviceSwitcher()
+    protected File DeviceSwitcher()
     {
         File freedcamFolder = new File(StringUtils.GetInternalSDCARD()+StringUtils.freedcamFolder);
         for (File f : freedcamFolder.listFiles())

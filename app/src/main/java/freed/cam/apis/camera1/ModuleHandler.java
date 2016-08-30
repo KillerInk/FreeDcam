@@ -27,6 +27,7 @@ import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.IntervalModule;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.camera1.CameraHolder.Frameworks;
+import freed.cam.apis.camera1.modules.AeBracketModule;
 import freed.cam.apis.camera1.modules.BracketModule;
 import freed.cam.apis.camera1.modules.PictureModule;
 import freed.cam.apis.camera1.modules.PictureModuleMTK;
@@ -84,8 +85,15 @@ public class ModuleHandler extends ModuleHandlerAbstract
         }
 
         Logger.d(TAG, "load hdr module");
-        BracketModule bracketModule = new BracketModule(cameraUiWrapper);
-        moduleList.put(bracketModule.ModuleName(), bracketModule);
+        if (((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.MTK)
+        {
+            AeBracketModule bracketModule = new AeBracketModule(cameraUiWrapper);
+            moduleList.put(bracketModule.ModuleName(), bracketModule);
+        }
+        else {
+            BracketModule bracketModule = new BracketModule(cameraUiWrapper);
+            moduleList.put(bracketModule.ModuleName(), bracketModule);
+        }
 
         if (VERSION.SDK_INT >= VERSION_CODES.KITKAT && cameraUiWrapper.getRenderScriptHandler().isSucessfullLoaded()) {
             StackingModule sTax = new StackingModule(cameraUiWrapper);
