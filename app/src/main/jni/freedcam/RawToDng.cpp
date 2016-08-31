@@ -478,9 +478,9 @@ void writeExifIfd(TIFF *tif, DngWriter *writer)
 {
     /////////////////////////////////// EXIF IFD //////////////////////////////
         LOGD("EXIF IFD DATA");
-        if (TIFFCreateEXIFDirectory(tif) != 0) {
+        /*if (TIFFCreateEXIFDirectory(tif) != 0) {
             LOGD("TIFFCreateEXIFDirectory() failed" );
-        }
+        }*/
         short iso[] = {writer->_iso};
         LOGD("EXIF dir created");
         if (!TIFFSetField( tif, EXIFTAG_ISOSPEEDRATINGS,1, iso)) {
@@ -871,7 +871,7 @@ void writeRawStuff(TIFF *tif, DngWriter *writer)
 
 JNIEXPORT void JNICALL Java_freed_jni_RawToDng_WriteDNG(JNIEnv *env, jobject thiz, jobject handler)
 {
-    uint64 dir_offset = 0, dir_offset2 = 0, gpsIFD_offset = 0;
+    uint64 dir_offset = 0, dir_offset2 = 0, gps_offset = 0;
     DngWriter* writer = (DngWriter*) env->GetDirectBufferAddress(handler);
     TIFF *tif;
     LOGD("has file description: %b", writer->hasFileDes);
@@ -883,33 +883,22 @@ JNIEXPORT void JNICALL Java_freed_jni_RawToDng_WriteDNG(JNIEnv *env, jobject thi
         tif = openfTIFF(writer->fileSavePath);
 
     writeIfd0(tif,writer);
-    TIFFSetField (tif, TIFFTAG_EXIFIFD, dir_offset);
+    const TIFFFieldArray *exif_fields = _TIFFGetExifFields();
+    _TIFFMergeFields(tif, exif_fields->fields, exif_fields->count);
+    writeExifIfd(tif,writer);
     LOGD("set exif");
-    //CheckPOINT to KEEP EXIF IFD in MEMory
-    //Try FiX DIR
+    //CheckPOINT to KEEP IFD0 in MEMory
     TIFFCheckpointDirectory(tif);
-    TIFFWriteDirectory(tif);
-    TIFFSetDirectory(tif, 0);
 
     if(writer->gps == true)
     {
         makeGPS_IFD(tif, writer);
         TIFFCheckpointDirectory(tif);
-        TIFFWriteCustomDirectory(tif, &gpsIFD_offset);
+        TIFFWriteCustomDirectory(tif, &gps_offset);
         TIFFSetDirectory(tif, 0);
+        TIFFSetField (tif, TIFFTAG_GPSIFD, gps_offset);
+        TIFFCheckpointDirectory(tif);
     }
-
-
-    writeExifIfd(tif,writer);
-    //Check Point & Write are require checkpoint to update Current IFD Write Well to Write Close And Create IFD
-    TIFFCheckpointDirectory(tif); //This Was missing it without it EXIF IFD was not being updated after adding SUB IFD
-    TIFFWriteCustomDirectory(tif, &dir_offset);
-    ///////////////////// GO Back TO IFD 0
-    TIFFSetDirectory(tif, 0);
-    if(writer->gps)
-        TIFFSetField (tif, TIFFTAG_GPSIFD, gpsIFD_offset);
-             ///////////////////////////// WRITE THE SUB IFD's SUB IFD + EXIF IFD AGain GPS IFD would also go here as well as other cust IFD
-    TIFFSetField(tif, TIFFTAG_EXIFIFD, dir_offset);
 
     writeRawStuff(tif,writer);
 
