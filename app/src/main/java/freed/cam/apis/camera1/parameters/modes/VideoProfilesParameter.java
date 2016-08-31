@@ -175,8 +175,7 @@ public class VideoProfilesParameter extends BaseModeParameter
         }
 
         try {
-            if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kDCI)
-                    || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Htc_M9 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.OnePlusOne || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W) //<--that will kill it when profile is not supported
+            if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kDCI)) //<--that will kill it when profile is not supported
             {
 
                 CamcorderProfile fourk = CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_4kDCI);
@@ -252,10 +251,7 @@ public class VideoProfilesParameter extends BaseModeParameter
             supportedProfiles.put("720pHFR",t);
         }
 
-        if (supportedProfiles.get(_4kUHD) == null && parameters.get("video-size-values") !=null&& parameters.get("video-size-values").contains("3840x2160")
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.LenovoK920)
+        if (supportedProfiles.get(_4kUHD) == null && parameters.get("video-size-values") !=null&& parameters.get("video-size-values").contains("3840x2160"))
         {
             if (supportedProfiles.containsKey("1080p"))
             {
@@ -270,11 +266,8 @@ public class VideoProfilesParameter extends BaseModeParameter
             }
         }
 
-
         if (parameters.get("video-size-values")!=null && parameters.get("video-size-values").contains("1920x1080")
-                && parameters.get("video-hfr-values")!=null&& parameters.get("video-hfr-values").contains("60")
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W) //<--- that line is not needed. when parameters contains empty hfr it gets filled!
+                && parameters.get("video-hfr-values")!=null&& parameters.get("video-hfr-values").contains("60")) //<--- that line is not needed. when parameters contains empty hfr it gets filled!
         {
             if (supportedProfiles.containsKey("1080p")) {
                 VideoMediaProfile t = supportedProfiles.get("1080p").clone();
@@ -286,22 +279,5 @@ public class VideoProfilesParameter extends BaseModeParameter
             }
 
         }
-
-        if (cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV
-                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214 || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADV234)
-        {
-            if (supportedProfiles.containsKey("4kUHD"))
-            {
-                VideoMediaProfile uhd = supportedProfiles.get("4kUHD").clone();
-                uhd.videoFrameWidth = 3840;
-                uhd.videoFrameHeight = 2160;
-                uhd.Mode = VideoMode.Timelapse;
-                //profile must contain 4kUHD else it gets not detected!
-                uhd.ProfileName = "4kUHDTimeLapse";
-                supportedProfiles.put(uhd.ProfileName, uhd);
-                Logger.d(TAG, "added custom 4kUHDTimelapse");
-            }
-        }
-
     }
 }
