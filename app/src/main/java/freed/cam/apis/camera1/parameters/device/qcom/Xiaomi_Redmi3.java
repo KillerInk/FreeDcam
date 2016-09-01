@@ -21,15 +21,10 @@ package freed.cam.apis.camera1.parameters.device.qcom;
 
 import android.hardware.Camera;
 
-import com.troop.freedcam.R;
-
-import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.parameters.manual.ManualParameterInterface;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
 import freed.cam.apis.camera1.parameters.device.BaseQcomNew;
-import freed.cam.apis.camera1.parameters.manual.qcom.BaseISOManual;
-import freed.cam.apis.camera1.parameters.manual.qcom.ShutterManual_ExposureTime_Micro;
 import freed.dng.DngProfile;
 
 /**

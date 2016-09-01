@@ -33,13 +33,11 @@ import android.widget.FrameLayout;
 
 import com.troop.freedcam.R;
 
-import java.io.File;
 import java.util.List;
 
 import freed.ActivityAbstract;
 import freed.utils.FreeDPool;
 import freed.utils.LocationHandler;
-import freed.utils.Logger;
 import freed.viewer.gridview.GridViewFragment;
 import freed.viewer.holder.FileHolder;
 import freed.viewer.screenslide.ScreenSlideFragment;

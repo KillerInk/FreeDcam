@@ -1,11 +1,9 @@
 package freed.cam.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
-import android.os.PowerManager;
 import android.provider.MediaStore;
 import android.view.Window;
 import android.view.WindowManager;

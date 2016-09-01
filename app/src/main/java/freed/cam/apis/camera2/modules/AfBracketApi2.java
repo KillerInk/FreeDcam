@@ -20,7 +20,6 @@
 package freed.cam.apis.camera2.modules;
 
 import android.annotation.TargetApi;
-import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCaptureSession.CaptureCallback;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Builder;

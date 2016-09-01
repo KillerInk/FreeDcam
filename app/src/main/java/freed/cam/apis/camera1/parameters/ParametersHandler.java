@@ -20,12 +20,8 @@
 package freed.cam.apis.camera1.parameters;
 
 import android.graphics.Rect;
-import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Build;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;

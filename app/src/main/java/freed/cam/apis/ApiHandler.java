@@ -29,7 +29,6 @@ import freed.cam.apis.camera2.Camera2Fragment;
 import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.sonyremote.SonyCameraFragment;
 import freed.utils.AppSettingsManager;
-import freed.utils.FreeDPool;
 import freed.utils.RenderScriptHandler;
 
 

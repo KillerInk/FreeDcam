@@ -68,7 +68,6 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraHolderAbstract;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusEvents;
-import freed.cam.apis.basecamera.modules.VideoMediaProfile;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;
 import freed.utils.StringUtils;

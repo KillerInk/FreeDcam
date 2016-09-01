@@ -20,7 +20,6 @@
 package freed.cam.apis.camera2.modules;
 
 import android.annotation.TargetApi;
-import android.graphics.Paint;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Builder;
@@ -32,11 +31,7 @@ import java.util.List;
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
-import freed.cam.apis.camera1.CameraHolder;
-import freed.cam.apis.camera2.CameraHolderApi2;
 import freed.cam.apis.camera2.parameters.AeHandler;
-import freed.cam.apis.camera2.parameters.modes.FocusModeApi2;
-import freed.utils.Logger;
 
 /**
  * Created by troop on 17.08.2016.

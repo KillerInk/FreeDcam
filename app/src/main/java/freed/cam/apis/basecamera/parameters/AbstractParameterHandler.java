@@ -19,7 +19,6 @@
 
 package freed.cam.apis.basecamera.parameters;
 
-import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
 

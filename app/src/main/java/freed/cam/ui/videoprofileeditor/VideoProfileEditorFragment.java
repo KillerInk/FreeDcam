@@ -39,8 +39,6 @@ import android.widget.Toast;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 
 import freed.cam.apis.basecamera.modules.VideoMediaProfile;

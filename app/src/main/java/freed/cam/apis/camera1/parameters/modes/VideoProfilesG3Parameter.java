@@ -24,7 +24,6 @@ import android.hardware.Camera.Parameters;
 import com.lge.media.CamcorderProfileEx;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;

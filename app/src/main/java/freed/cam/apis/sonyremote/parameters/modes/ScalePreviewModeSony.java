@@ -24,7 +24,6 @@ import android.os.Build;
 import java.util.Set;
 
 import freed.cam.apis.KEYS;
-import freed.cam.apis.sonyremote.sonystuff.SimpleRemoteApi;
 import freed.cam.apis.sonyremote.sonystuff.SimpleStreamSurfaceView;
 
 /**

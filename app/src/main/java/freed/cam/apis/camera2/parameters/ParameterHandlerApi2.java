@@ -21,12 +21,10 @@ package freed.cam.apis.camera2.parameters;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.hardware.Camera;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureRequest.Key;
 import android.os.Build.VERSION_CODES;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import freed.cam.apis.KEYS;

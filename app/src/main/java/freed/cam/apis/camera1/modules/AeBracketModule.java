@@ -29,9 +29,9 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.utils.AppSettingsManager;
 import freed.utils.FreeDPool;
 import freed.utils.Logger;
-import freed.utils.StringUtils;
 
-import static freed.utils.StringUtils.FileEnding.*;
+import static freed.utils.StringUtils.FileEnding.BAYER;
+import static freed.utils.StringUtils.FileEnding.DNG;
 
 /**
  * Created by troop on 26.08.2016.

@@ -23,7 +23,6 @@ package freed.cam.ui.themesample.handler;
  * Created by troop on 09.06.2015.
  */
 
-import android.graphics.Rect;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,7 +31,6 @@ import android.widget.ImageView;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
-import freed.cam.apis.camera1.parameters.ParametersHandler;
 
 /**
  * This class handles touch events that happens to the attached imageview and moves them
