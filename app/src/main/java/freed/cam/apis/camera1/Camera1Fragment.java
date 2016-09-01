@@ -294,10 +294,16 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
                 Size sizefromCam = new Size(parametersHandler.PictureSize.GetValue());
                 List<Size> sizes = new ArrayList<>();
                 String[] stringsSizes = parametersHandler.PreviewSize.GetValues();
+                final Size size;
                 for (String s : stringsSizes) {
                     sizes.add(new Size(s));
                 }
-                final Size size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height);
+                if(val.equals("CLAMP")) {
+                     size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height, true);
+                }
+                else {
+                      size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height, false);
+                }
                 Logger.d(TAG, "set size to " + size.width + "x" + size.height);
 
                 parametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
@@ -321,18 +327,34 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
                 for (String s : stringsSizes) {
                     sizes.add(new Size(s));
                 }
-                final Size size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height);
+                final Size size = getOptimalPreviewSize(sizes, sizefromCam.width, sizefromCam.height,false);
+
                 Logger.d(TAG, "set size to " + size.width + "x" + size.height);
-                parametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
-                uiHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (extendedSurfaceView != null)
-                            extendedSurfaceView.setAspectRatio(size.width, size.height);
-                        if (focusPeakProcessorAp1 != null)
-                            focusPeakProcessorAp1.SetAspectRatio(size.width,size.height);
-                    }
-                });
+                if (appSettingsManager.getString(AppSettingsManager.SETTING_VIDEPROFILE).contains("4k") &&parametersHandler.PreviewSize.GetValues().toString().contains("3840x"))
+                {
+                    parametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
+                    uiHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (extendedSurfaceView != null)
+                                extendedSurfaceView.setAspectRatio(3840, 2160);
+                            if (focusPeakProcessorAp1 != null)
+                                focusPeakProcessorAp1.SetAspectRatio(3840, 2160);
+                        }
+                    });
+
+                }else {
+                    parametersHandler.PreviewSize.SetValue(size.width + "x" + size.height, true);
+                    uiHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (extendedSurfaceView != null)
+                                extendedSurfaceView.setAspectRatio(size.width, size.height);
+                            if (focusPeakProcessorAp1 != null)
+                                focusPeakProcessorAp1.SetAspectRatio(size.width, size.height);
+                        }
+                    });
+                }
 
             }
         }
@@ -358,7 +380,7 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
         }
     };
 
-    private Size getOptimalPreviewSize(List<Size> sizes, int w, int h) {
+    private Size getOptimalPreviewSize(List<Size> sizes, int w, int h,boolean FocusPeakClamp) {
         double ASPECT_TOLERANCE = 0.2;
         double targetRatio = (double) w / h;
         if (sizes == null) return null;
@@ -367,8 +389,8 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
         // Try to find an size match aspect ratio and size
         for (Size size : sizes)
         {
-            if(appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV) {
-                if (size.width <= 1440 && size.height <= 1080 && size.width >= 640 && size.height >= 480) {
+            if(!FocusPeakClamp) {
+                if (size.width <= 2560 && size.height <= 1440 && size.width >= 640 && size.height >= 480) {
                     double ratio = (double) size.width / size.height;
                     if (ratio < targetRatio + ASPECT_TOLERANCE && ratio > targetRatio - ASPECT_TOLERANCE) {
                         optimalSize = size;
@@ -395,8 +417,8 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
             minDiff = Double.MAX_VALUE;
             for (Size size : sizes)
             {
-                if(appSettingsManager.getDevice() == DeviceUtils.Devices.ZTE_ADV) {
-                    if (size.width <= 1440 && size.height <= 1080 && size.width >= 640 && size.height >= 480) {
+                if(!FocusPeakClamp) {
+                    if (size.width <= 2560 && size.height <= 1440 && size.width >= 640 && size.height >= 480) {
                         if (Math.abs(size.height - h) < minDiff) {
                             optimalSize = size;
                             minDiff = Math.abs(size.height - h);

@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -81,6 +82,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private UiSettingsChild aepriority;
     private UiSettingsFocusPeak focuspeak;
     private UiSettingsChild hdr_switch;
+    private UiSettingsChildExit exit;
 
     private HorizontalValuesFragment horizontalValuesFragment;
     private SwipeMenuListner touchHandler;
@@ -208,7 +210,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         modeSwitch.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_CURRENTMODULE);
         modeSwitch.SetMenuItemClickListner(this,false);
 
-        UiSettingsChildExit exit = (UiSettingsChildExit) view.findViewById(id.exit);
+        exit = (UiSettingsChildExit) view.findViewById(id.exit);
         exit.SetStuff(fragment_activityInterface, "");
 
         cameraSwitch = (UiSettingsChildCameraSwitch) view.findViewById(id.camera_switch);
@@ -394,6 +396,15 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
     @Override
     public void onClick(int x, int y) {
+
+    /*    showVIdItems();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                hideVIdItems();
+            }
+        }, 5000);*/
+
         if (focusImageHandler != null)
             focusImageHandler.OnClick(x,y);
     }
@@ -422,6 +433,15 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     @Override
     public void onCaptureStateChanged(ModuleHandlerAbstract.CaptureStates captureStates)
     {
+        switch (captureStates)
+        {
+            case video_recording_start:
+                hideVIdItems();
+                break;
+            case video_recording_stop:
+                showVIdItems();
+                break;
+        }
         /*switch (captureStates)
         {
             case image_capture_stop:
@@ -495,6 +515,35 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         aepriority.onParameterIsSetSupportedChanged(false);
         focuspeak.onParameterIsSetSupportedChanged(false);
         hdr_switch.onParameterIsSetSupportedChanged(false);
+    }
+
+    private void showVIdItems()
+    {
+        exit.setVisibility(View.VISIBLE);
+        iso.setVisibility(View.VISIBLE);
+        autoexposure.setVisibility(View.VISIBLE);
+        whitebalance.setVisibility(View.VISIBLE);
+        focus.setVisibility(View.VISIBLE);
+        contShot.setVisibility(View.VISIBLE);
+        night.setVisibility(View.VISIBLE);
+        format.setVisibility(View.VISIBLE);
+        modeSwitch.setVisibility(View.VISIBLE);
+        cameraSwitch.setVisibility(View.VISIBLE);
+
+    }
+
+    private void hideVIdItems()
+    {
+        exit.setVisibility(View.INVISIBLE);
+        iso.setVisibility(View.INVISIBLE);
+        autoexposure.setVisibility(View.INVISIBLE);
+        whitebalance.setVisibility(View.INVISIBLE);
+        focus.setVisibility(View.INVISIBLE);
+        contShot.setVisibility(View.INVISIBLE);
+        night.setVisibility(View.INVISIBLE);
+        format.setVisibility(View.INVISIBLE);
+        modeSwitch.setVisibility(View.INVISIBLE);
+        cameraSwitch.setVisibility(View.INVISIBLE);
     }
 
     private void hideUiItems()

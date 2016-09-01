@@ -19,6 +19,7 @@
 
 package freed.cam.apis.basecamera.parameters;
 
+import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -123,6 +124,7 @@ public abstract class AbstractParameterHandler
     public ModeParameterInterface CDS_Mode;
 
     public ModeParameterInterface HTCVideoMode;
+    public ModeParameterInterface HTCVideoModeHSR;
     public ModeParameterInterface VideoProfiles;
     public ModeParameterInterface VideoSize;
     public ModeParameterInterface VideoHDR;
@@ -202,6 +204,7 @@ public abstract class AbstractParameterHandler
     public abstract I_Device getDevice();
 
     public abstract void SetFocusAREA(FocusRect focusAreas);
+
     public abstract void SetMeterAREA(FocusRect meteringAreas);
 
     public abstract void SetPictureOrientation(int or);

@@ -42,6 +42,7 @@ public class MatrixChooserParameter extends AbstractModeParameter
     public static final String IMX230 = "IMX230";
     public static final String OmniVision = "OmniVision";
     public static final String OV5648 = "OV5648";
+    public static final String LumingonOV = "LumingonOV";
     public static final String Neutral = "Neutral";
     private final HashMap<String, CustomMatrix> custommatrixes;
     private String currentval = "off";
@@ -84,6 +85,7 @@ public class MatrixChooserParameter extends AbstractModeParameter
         map.put(OV5648, CustomMatrix.getMatrixFromStringArray(resources.getStringArray(R.array.matrix_ov5648)));
         map.put(OmniVision,CustomMatrix.getMatrixFromStringArray(resources.getStringArray(R.array.matrix_omnivision)));
         map.put(Neutral,CustomMatrix.getMatrixFromStringArray(resources.getStringArray(R.array.matrix_neutral)));
+        map.put(LumingonOV,CustomMatrix.getMatrixFromStringArray(resources.getStringArray(R.array.matrix_ovlumingon)));
     }
 
     @Override
@@ -127,4 +129,9 @@ public class MatrixChooserParameter extends AbstractModeParameter
     {
             return custommatrixes.get(key);
     }
+    private final float[]  OVLUMING_matrix1 =
+            {
+                    0.044400f, 0.099100f, 0.670600f, -0.085700f, 0.819900f, 0.318500f, 0.850600f, -0.346200f, -0.017600f
+            };
+
  }

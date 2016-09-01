@@ -23,6 +23,7 @@ package freed.cam.ui.themesample.handler;
  * Created by troop on 09.06.2015.
  */
 
+import android.graphics.Rect;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,6 +32,7 @@ import android.widget.ImageView;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.FocusRect;
+import freed.cam.apis.camera1.parameters.ParametersHandler;
 
 /**
  * This class handles touch events that happens to the attached imageview and moves them
@@ -115,6 +117,9 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
     public boolean onTouch(View v, MotionEvent event)
     {
         boolean ret = true;
+
+
+
         switch(event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
@@ -161,6 +166,7 @@ public class ImageViewTouchAreaHandler implements OnTouchListener
                     dify = 0;
                     recthalf = imageView.getWidth() /2;
                     imageRect = new FocusRect((int) imageView.getX() , (int) imageView.getX() + imageView.getWidth(), (int) imageView.getY(), (int) imageView.getY() + imageView.getWidth(),(int) imageView.getX(),(int) imageView.getY());
+
                     if (touchListnerEvent != null) {
                         touchListnerEvent.onAreaCHanged(imageRect, cameraUiWrapper.getPreviewWidth(), cameraUiWrapper.getPreviewHeight());
                         touchListnerEvent.IsMoving(false);

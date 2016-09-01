@@ -19,8 +19,13 @@
 
 package freed.cam.apis.camera1.parameters;
 
+import android.graphics.Rect;
+import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Build;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
@@ -468,13 +473,17 @@ public class ParametersHandler extends AbstractParameterHandler
                 }
             }
             //Code style break here device lookup
-            if(appSettingsManager.getDevice() == Devices.Htc_M8 ||appSettingsManager.getDevice() == Devices.Htc_M9||appSettingsManager.getDevice() == Devices.HTC_OneA9||appSettingsManager.getDevice() == Devices.HTC_OneE8 )
+            if(appSettingsManager.getDevice() == Devices.Htc_M8 ||appSettingsManager.getDevice() == Devices.Htc_M9||appSettingsManager.getDevice() == Devices.HTC_OneA9||appSettingsManager.getDevice() == Devices.HTC_OneE8 ) {
                 HTCVideoMode = new BaseModeParameter(cameraParameters, cameraUiWrapper, "video-mode", "video-hfr-values");
+
+            }
 
             if (((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork == Frameworks.MTK)
                 VideoHighFramerateVideo = new BaseModeParameter(cameraParameters, cameraUiWrapper, "hsvr-prv-fps", "hsvr-prv-fps-values");
-            else
+            else {
+                HTCVideoModeHSR = new BaseModeParameter(cameraParameters, cameraUiWrapper, "video-hsr", "video-hfr-values");
                 VideoHighFramerateVideo = new BaseModeParameter(cameraParameters, cameraUiWrapper, "video-hfr", "video-hfr-values");
+            }
 
         } catch (Exception e) {
             Logger.exception(e);
@@ -543,6 +552,18 @@ public class ParametersHandler extends AbstractParameterHandler
     public void SetFocusAREA(FocusRect focusAreas)
     {
         getDevice().SetFocusArea(focusAreas);
+    }
+
+    public static Rect viewToCameraArea(Rect v,int xPrev,int yPrev)
+    {
+
+        Rect rect = new Rect();
+
+        rect.left = v.left * 2000 / xPrev  - 1000;
+        rect.top = v.top * 2000/ yPrev - 1000;
+        rect.right = v.right * 2000/xPrev -1000;
+        rect.bottom = v.bottom * 2000/yPrev -1000;
+        return rect;
     }
 
     @Override

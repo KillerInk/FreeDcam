@@ -39,6 +39,7 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
     private boolean aeMeteringSupported;
     private boolean isFocusing;
 
+
     public FocusHandler(CameraWrapperInterface cameraUiWrapper)
     {
         super(cameraUiWrapper);
@@ -197,10 +198,14 @@ public class FocusHandler extends AbstractFocusHandler implements FocusEvents
                         Logger.exception(e);
                     }
                 }
+
+                //tempDIS
                 cameraUiWrapper.GetParameterHandler().SetFocusAREA(targetFocusRect);
+
                 if (cameraUiWrapper.GetCameraHolder() != null)
                     ((CameraHolder) cameraUiWrapper.GetCameraHolder()).StartFocus(this);
                 this.isFocusing = true;
+
                 if (focusEvent != null)
                     focusEvent.FocusStarted(rect);
             }

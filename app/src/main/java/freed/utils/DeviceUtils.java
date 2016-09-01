@@ -82,6 +82,9 @@ public class DeviceUtils
         MotoG_Turbo,
         MyPhone_Infinity2S,
         Nexus4,
+        Nexus6,
+        Nexus6p,
+        Nexus5x,
         OnePlusOne,
         OnePlusTwo,
         p8,
@@ -198,6 +201,10 @@ public class DeviceUtils
             return Devices.Moto_X_Style_Pure_Play;
         else if (isDevice(res.getStringArray(array.Nexus4)))
             return Devices.Nexus4;
+        else if(isDevice(res.getStringArray(array.Nexus6p)))
+            return Devices.Nexus6p;
+        else if(isDevice(res.getStringArray(array.Nexus5x)))
+            return Devices.Nexus5x;
         else if (isDevice(res.getStringArray(array.OnePlusOne)))
             return Devices.OnePlusOne;
         else if (isDevice(res.getStringArray(array.OnePlusTwo)))

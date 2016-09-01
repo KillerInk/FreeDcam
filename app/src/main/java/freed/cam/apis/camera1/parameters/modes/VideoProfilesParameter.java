@@ -200,12 +200,22 @@ public class VideoProfilesParameter extends BaseModeParameter
 
         try {
             if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_4kUHD)) {
-                supportedProfiles.put("Timelapse4kUHD", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_4kUHD), "Timelapse4kUHD", VideoMode.Timelapse, false));
+                supportedProfiles.put("4k_UHD_TimeLapse", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_4kUHD), "Timelapse4kUHD", VideoMode.Timelapse, false));
                 Logger.d(TAG, "found Timelapse4kUHD");
             }
         } catch (Exception e) {
             Logger.exception(e);
         }
+
+        try {
+            if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_4kDCI)) {
+                supportedProfiles.put("4k_DCI_TimeLapse", new VideoMediaProfile(CamcorderProfile.get(cameraHolder.CurrentCamera, CAMCORDER_QUALITY_TIME_LAPSE_4kDCI), "Timelapse4kUHD", VideoMode.Timelapse, false));
+                Logger.d(TAG, "found Timelapse4kUHD");
+            }
+        } catch (Exception e) {
+            Logger.exception(e);
+        }
+
 
         try {
             if (CamcorderProfile.hasProfile(cameraHolder.CurrentCamera, CamcorderProfile.QUALITY_HIGH_SPEED_1080P))
@@ -279,5 +289,18 @@ public class VideoProfilesParameter extends BaseModeParameter
             }
 
         }
+    }
+
+    private boolean isKnownHFR_Qcom()
+    {
+        return cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTE_ADV
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADVIMX214
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.ZTEADV234
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Nexus6p
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.Nexus5x
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.OnePlusTwo
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI5
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI3W
+                || cameraUiWrapper.GetAppSettingsManager().getDevice() == Devices.XiaomiMI4W;
     }
 }

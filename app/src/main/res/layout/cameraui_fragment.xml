@@ -45,89 +45,125 @@
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:background="#da000000"
-        android:layout_centerHorizontal="true">
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/shuttericon_size"
+        android:layout_alignParentStart="false">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="-"
             android:id="@+id/textView_time"
-            android:textSize="@dimen/infoOverlayTextSize"
+            android:textSize="15dp"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:visibility="invisible"
+            android:shadowColor="#000000"
+            android:elevation="2dp"
+            android:background="#02000000"
+            android:paddingLeft="5dp"
+            android:text=" " />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="-"
             android:id="@+id/textView_format"
-            android:textSize="@dimen/infoOverlayTextSize"
+            android:textSize="15dp"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:visibility="invisible"
+            android:shadowColor="#000000"
+            android:elevation="2dp"
+            android:background="#02000000"
+            android:paddingLeft="5dp"
+            android:text=" " />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="-"
             android:id="@+id/textView_size"
-            android:textSize="@dimen/infoOverlayTextSize"
+            android:textSize="15dp"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:shadowColor="#000000"
+            android:elevation="2dp"
+            android:background="#02000000"
+            android:paddingLeft="5dp"
+            android:text=" " />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="-"
             android:id="@+id/textView_storage"
-            android:textSize="@dimen/infoOverlayTextSize"
+            android:textSize="15dp"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:shadowColor="#000000"
+            android:elevation="2dp"
+            android:background="#02000000"
+            android:paddingLeft="5dp"
+            android:text=" " />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="-"
             android:id="@+id/textView_battery"
-            android:textSize="@dimen/infoOverlayTextSize"
+            android:textSize="15dp"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:shadowColor="#000000"
+            android:elevation="2dp"
+            android:background="#02000000"
+            android:paddingLeft="5dp"
+            android:text=" " />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="-"
             android:id="@+id/textView_dngsupported"
-            android:textSize="@dimen/infoOverlayTextSize"
+            android:textSize="15dp"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:shadowColor="#000000"
+            android:elevation="2dp"
+            android:background="#02000000"
+            android:paddingLeft="5dp"
+            android:text=" " />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="-"
             android:id="@+id/textView_buildmodel"
-            android:textSize="@dimen/infoOverlayTextSize"
+            android:textSize="15dp"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:shadowColor="#000000"
+            android:elevation="2dp"
+            android:background="#02000000"
+            android:paddingLeft="5dp"
+            android:text=" " />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="-"
             android:id="@+id/textView_appversion"
-            android:textSize="@dimen/infoOverlayTextSize"
+            android:textSize="15dp"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:shadowColor="#000000"
+            android:elevation="2dp"
+            android:background="#02000000"
+            android:paddingLeft="5dp"
+            android:text=" " />
     </LinearLayout>
 
     <LinearLayout
@@ -149,7 +185,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="@dimen/left_ui_holder_width"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/left_ui_holder"
         android:gravity="center_vertical">
 
@@ -351,11 +387,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/manualModesHolder"
         android:foregroundGravity="center_horizontal"
-        android:layout_toRightOf="@+id/left_ui_holder"
-        android:layout_marginLeft="10dp"
-        android:layout_toLeftOf="@+id/right_ui_holder"
-        android:layout_toStartOf="@+id/right_ui_holder"
-        android:layout_alignParentBottom="true"></FrameLayout>
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="110dp"
+        android:layout_marginRight="110dp"></FrameLayout>
 
 
     <FrameLayout
@@ -377,9 +412,25 @@
         android:layout_toLeftOf="@+id/right_ui_holder"
         android:layout_toStartOf="@+id/right_ui_holder" />
 
+    <freed.cam.ui.themesample.cameraui.FocusSelector
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/custFocus"
+        android:layout_gravity="center"
+        android:visibility="invisible" />
+
+    <freed.cam.ui.themesample.cameraui.ExposureSelector
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/custExpo"
+        android:layout_gravity="center"
+        android:visibility="invisible" />
+
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/helpfragment_container"></FrameLayout>
+        android:id="@+id/helpfragment_container">
+
+    </FrameLayout>
 
 </RelativeLayout>

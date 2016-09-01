@@ -20,6 +20,7 @@
 package freed.cam.apis.sonyremote.parameters;
 
 import android.content.Context;
+import android.graphics.Rect;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -200,4 +201,5 @@ public class ParameterHandler extends AbstractParameterHandler
     public void SetPictureOrientation(int or) {
 
     }
+
 }
