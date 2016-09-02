@@ -201,6 +201,11 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                     i.putExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT, t);
                     getActivity().startActivityForResult(i, STACK_REQUEST);
                 }
+                else
+                {
+                    requestMode = RequestModes.none;
+                    setViewMode(ViewStates.normal);
+                }
             }
         });
         firstload();
@@ -491,7 +496,7 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
     {
         //super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == STACK_REQUEST || requestCode == DNGCONVERT_REQUEST)
-            viewerActivityInterface.LoadFolder(viewerActivityInterface.getFiles().get(0),formatsToShow);
+            viewerActivityInterface.LoadFolder(folderToShow,formatsToShow);
 
     }
 
@@ -523,6 +528,11 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                 ar.toArray(t);
                 i.putExtra(DngConvertingFragment.EXTRA_FILESTOCONVERT, t);
                 getActivity().startActivityForResult(i, DNGCONVERT_REQUEST);
+            }
+            else
+            {
+                requestMode = RequestModes.none;
+                setViewMode(ViewStates.normal);
             }
         }
 
@@ -596,6 +606,11 @@ public class GridViewFragment extends BaseGridViewFragment implements I_OnActivi
                     }
                 }
 
+            }
+            else
+            {
+                requestMode = RequestModes.none;
+                setViewMode(ViewStates.normal);
             }
         }
     };
