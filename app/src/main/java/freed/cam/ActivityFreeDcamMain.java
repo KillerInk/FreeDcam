@@ -21,7 +21,6 @@ package freed.cam;
 
 
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
@@ -199,7 +198,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
             //check if DEBUG folder exist for log to file
             checkSaveLogToFile();
-            new FileLoaderTask().execute((Void)null);
+            LoadFreeDcamDCIMDirsFiles();
         }
         //listen to phone orientation changes
         orientationHandler = new OrientationHandler(this, this);
@@ -380,19 +379,16 @@ public class ActivityFreeDcamMain extends ActivityAbstract
      * and notfiy the stored screenslide fragment in sampletheme that
      * files got changed
      */
-    class FileLoaderTask extends AsyncTask<Void, Void, Void>
-    {
-        @Override
-        protected Void doInBackground(Void... params) {
-            LoadFreeDcamDCIMDirsFiles();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            if(screenSlideFragment != null && activityIsResumed)
-                screenSlideFragment.NotifyDATAhasChanged();
-        }
+    @Override
+    public void LoadFreeDcamDCIMDirsFiles() {
+        super.LoadFreeDcamDCIMDirsFiles();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(screenSlideFragment != null && activityIsResumed)
+                    screenSlideFragment.NotifyDATAhasChanged();
+            }
+        });
     }
 
     @Override
@@ -408,7 +404,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
 
     /**
      * Loads the files stored from that folder
-     * and notfiy the stored screenslide fragment
+     * and notfiy the stored screenslide fragment in sampletheme that
      * files got changed
      * @param fileHolder the folder to lookup
      * @param types the file format to load
@@ -547,7 +543,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
         Logger.d(TAG, "externalSdPermission Granted:" + granted);
         if (granted) {
             checkSaveLogToFile();
-            new FileLoaderTask().execute((Void) null);
+            LoadFreeDcamDCIMDirsFiles();
         }
         else {
             finish();
