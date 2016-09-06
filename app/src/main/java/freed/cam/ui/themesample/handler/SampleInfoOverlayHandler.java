@@ -74,8 +74,8 @@ public class SampleInfoOverlayHandler extends AbstractInfoOverlayHandler
     protected void UpdateViews() {
         tbattery.setText(batteryLevel);
         tsize.setText(size);
-        //tTime.setText(timeString);
-        tformat.setText(format);
+        tTime.setText(timeString);
+        //tformat.setText(format);
         tStorage.setText(storageSpace);
         /*if (1 > 2)
         {

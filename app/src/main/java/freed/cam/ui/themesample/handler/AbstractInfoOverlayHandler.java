@@ -31,10 +31,13 @@ import android.os.Handler;
 import android.os.StatFs;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleChangedEvent;
+import freed.cam.apis.sonyremote.SonyCameraFragment;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;
 
@@ -50,9 +53,8 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
 
     protected String batteryLevel;
     private final BatteryBroadCastListner batteryBroadCastListner;
-
-  //  private final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-   // protected String timeString;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    protected String timeString;
 
     //this holds the format for video or picture
     protected String format;
@@ -122,7 +124,7 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
         {
             if (cameraUiWrapper == null)
                 return;
-            //timeString = dateFormat.format(new Date());
+            timeString = dateFormat.format(new Date());
             getFormat();
             getStorageSpace();
             UpdateViews();
@@ -177,13 +179,15 @@ public abstract class AbstractInfoOverlayHandler implements ModuleChangedEvent
             else
                 format = "";
 
-            if (cameraUiWrapper.GetParameterHandler().PictureSize != null) {
+            if (cameraUiWrapper.GetParameterHandler().PictureSize != null && !(cameraUiWrapper instanceof SonyCameraFragment)) {
                 int calcRES = Integer.parseInt(cameraUiWrapper.GetParameterHandler().PictureSize.GetValue().split("x")[0])*Integer.parseInt(cameraUiWrapper.GetParameterHandler().PictureSize.GetValue().split("x")[1]);
                 float qucik = calcRES/1000000;
 
                 size = String.valueOf(Math.round(qucik))+"MP";
                 //size = cameraUiWrapper.GetParameterHandler().PictureSize.GetValue();
             }
+            else if (cameraUiWrapper.GetParameterHandler().PictureSize != null)
+                size = cameraUiWrapper.GetParameterHandler().PictureSize.GetValue();
             else
                 size = "";
         }

@@ -32,4 +32,5 @@
     <dimen name="settings_menu_item_header">15dp</dimen>
     <dimen name="rotatingseekbar_width">77dp</dimen>
     <dimen name="rotatingseekbar_margine">60dp</dimen>
+    <dimen name="cameraui_infooverlay_textsize">10dp</dimen>
 </resources>

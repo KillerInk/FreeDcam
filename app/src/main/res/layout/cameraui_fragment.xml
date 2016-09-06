@@ -49,17 +49,17 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/shuttericon_size"
-        android:layout_alignParentStart="false">
+        android:layout_alignParentStart="false"
+        android:background="#75000000">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/textView_time"
-            android:textSize="15dp"
-            android:layout_marginLeft="@dimen/infoOverlayTextMargine"
+            android:textSize="@dimen/cameraui_infooverlay_textsize"
             android:textColor="#ffffff"
-            android:visibility="invisible"
+            android:visibility="visible"
             android:shadowColor="#000000"
             android:elevation="2dp"
             android:background="#02000000"
@@ -71,10 +71,10 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/textView_format"
-            android:textSize="15dp"
+            android:textSize="@dimen/cameraui_infooverlay_textsize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
             android:textColor="#ffffff"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:shadowColor="#000000"
             android:elevation="2dp"
             android:background="#02000000"
@@ -86,84 +86,90 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/textView_size"
-            android:textSize="15dp"
+            android:textSize="@dimen/cameraui_infooverlay_textsize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
             android:textColor="#ffffff"
             android:shadowColor="#000000"
             android:elevation="2dp"
             android:background="#02000000"
             android:paddingLeft="5dp"
-            android:text=" " />
+            android:text=" "
+            android:visibility="visible" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/textView_storage"
-            android:textSize="15dp"
+            android:textSize="@dimen/cameraui_infooverlay_textsize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
             android:textColor="#ffffff"
             android:shadowColor="#000000"
             android:elevation="2dp"
             android:background="#02000000"
             android:paddingLeft="5dp"
-            android:text=" " />
+            android:text=" "
+            android:visibility="visible" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/textView_battery"
-            android:textSize="15dp"
+            android:textSize="@dimen/cameraui_infooverlay_textsize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
             android:textColor="#ffffff"
             android:shadowColor="#000000"
             android:elevation="2dp"
             android:background="#02000000"
             android:paddingLeft="5dp"
-            android:text=" " />
+            android:text=" "
+            android:visibility="visible" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/textView_dngsupported"
-            android:textSize="15dp"
+            android:textSize="@dimen/cameraui_infooverlay_textsize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
             android:textColor="#ffffff"
             android:shadowColor="#000000"
             android:elevation="2dp"
             android:background="#02000000"
             android:paddingLeft="5dp"
-            android:text=" " />
+            android:text=" "
+            android:visibility="gone" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/textView_buildmodel"
-            android:textSize="15dp"
+            android:textSize="@dimen/cameraui_infooverlay_textsize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
             android:textColor="#ffffff"
             android:shadowColor="#000000"
             android:elevation="2dp"
             android:background="#02000000"
             android:paddingLeft="5dp"
-            android:text=" " />
+            android:text=" "
+            android:visibility="gone" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/textView_appversion"
-            android:textSize="15dp"
+            android:textSize="@dimen/cameraui_infooverlay_textsize"
             android:layout_marginLeft="@dimen/infoOverlayTextMargine"
             android:textColor="#ffffff"
             android:shadowColor="#000000"
             android:elevation="2dp"
             android:background="#02000000"
             android:paddingLeft="5dp"
-            android:text=" " />
+            android:text=" "
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout
