@@ -20,6 +20,7 @@
 package freed.cam.ui.themesample.settings;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,11 +67,17 @@ public class SettingsMenuFragment extends AbstractFragment implements CloseChild
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater,container,savedInstanceState);
-        view = inflater.inflate(layout.settings_fragment, container, false);
+
+        return inflater.inflate(layout.settings_fragment, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         loadLeftFragment();
         loadRightFragment();
-        return view;
     }
+
     @Override
     public void onResume() {
         super.onResume();

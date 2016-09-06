@@ -20,6 +20,7 @@
 package freed.cam.ui.themesample.settings;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +77,12 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
     {
         super.onCreateView(inflater,container,savedInstanceState);
         fragment_activityInterface = (ActivityInterface)getActivity();
-        view = inflater.inflate(layout.settings_rightmenufragment, container, false);
+        return inflater.inflate(layout.settings_rightmenufragment, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         scene = (SettingsChildMenu) view.findViewById(id.MenuItemScene);
         color = (SettingsChildMenu) view.findViewById(id.MenuItemColor);
         cctMode = (SettingsChildMenu) view.findViewById(id.MenuItemCCTMode);
@@ -103,9 +109,7 @@ public class RightMenuFragment extends AbstractFragment implements SettingsChild
         zoomSetting = (SettingsChildMenu) view.findViewById(id.MenuItemZoomSetting);
         scalePreview = (SettingsChildMenu)view.findViewById(id.MenuItemScalePreview);
         setCameraUiWrapperToUi();
-        return view;
     }
-
 
     @Override
     protected void setCameraUiWrapperToUi()

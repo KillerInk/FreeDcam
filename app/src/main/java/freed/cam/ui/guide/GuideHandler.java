@@ -1,5 +1,7 @@
 package freed.cam.ui.guide;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -28,6 +30,7 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent {
     private float quckRationMath;
     private AppSettingsManager appSettingsManager;
     private final String TAG = GuideHandler.class.getSimpleName();
+
 
     public static GuideHandler GetInstance(AppSettingsManager appSettingsManager)
     {
@@ -188,7 +191,8 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent {
 
     @Override
     public void onParameterValueChanged(String val) {
-        SetViewG(val);
+        if (isAdded())
+            SetViewG(val);
     }
 
     @Override

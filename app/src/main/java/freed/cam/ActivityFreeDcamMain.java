@@ -246,19 +246,24 @@ public class ActivityFreeDcamMain extends ActivityAbstract
      */
     private void loadCameraFragment() {
         Logger.d(TAG, "loading cameraWrapper");
-        //if a camera fragment exists stop and destroy it
-        unloadCameraFragment();
-        //get new cameraFragment
-        cameraFragment = apiHandler.getCameraFragment();
-        cameraFragment.Init(this);
-        //load the cameraFragment to ui
-        //that starts the camera represent by that fragment when the surface/textureviews
-        //are created and calls then onCameraUiWrapperRdy(I_CameraUiWrapper cameraUiWrapper)
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(anim.left_to_right_enter, anim.left_to_right_exit);
-        transaction.replace(id.cameraFragmentHolder, cameraFragment, "CameraFragment");
-        transaction.commit();
-        Logger.d(TAG, "loaded cameraWrapper");
+
+        if (cameraFragment == null) {
+            //get new cameraFragment
+            cameraFragment = apiHandler.getCameraFragment();
+            cameraFragment.Init(this);
+            //load the cameraFragment to ui
+            //that starts the camera represent by that fragment when the surface/textureviews
+            //are created and calls then onCameraUiWrapperRdy(I_CameraUiWrapper cameraUiWrapper)
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(anim.left_to_right_enter, anim.left_to_right_exit);
+            transaction.replace(id.cameraFragmentHolder, cameraFragment, "CameraFragment");
+            transaction.commit();
+            Logger.d(TAG, "loaded cameraWrapper");
+        }
+        else { //resuse fragments
+            cameraFragment.StartCamera();
+
+        }
     }
 
     /**
@@ -357,7 +362,10 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     }
 
     @Override
-    public void SwitchCameraAPI(String value) {
+    public void SwitchCameraAPI(String value)
+    {
+        //if a camera fragment exists stop and destroy it
+        unloadCameraFragment();
         loadCameraFragment();
     }
 

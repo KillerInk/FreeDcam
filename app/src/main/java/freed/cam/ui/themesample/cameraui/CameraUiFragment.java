@@ -22,6 +22,7 @@ package freed.cam.ui.themesample.cameraui;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -89,7 +90,6 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private FrameLayout manualModes_holder;
     private boolean manualsettingsIsOpen;
     private FocusImageHandler focusImageHandler;
-    private View view;
     private ActivityInterface fragment_activityInterface;
     private SampleInfoOverlayHandler infoOverlayHandler;
     private GuideHandler guideHandler;
@@ -97,7 +97,10 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
     private SharedPreferences sharedPref;
     private I_ThumbClick thumbClick;
 
+    private UserMessageHandler messageHandler;
+
     private HorizontLineFragment horizontLineFragment;
+    private View camerauiValuesFragmentHolder;
 
     public static CameraUiFragment GetInstance(I_ThumbClick thumbClick,CameraWrapperInterface cameraUiWrapper)
     {
@@ -130,7 +133,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
         cameraSwitch.SetCameraUiWrapper(cameraUiWrapper);
         focusImageHandler.SetCamerUIWrapper(cameraUiWrapper);
-        UserMessageHandler messageHandler = new UserMessageHandler(view);
+
         messageHandler.SetCameraUiWrapper(cameraUiWrapper);
         shutterButton.SetCameraUIWrapper(cameraUiWrapper, messageHandler);
         format.SetParameter(cameraUiWrapper.GetParameterHandler().PictureFormat);
@@ -160,13 +163,17 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
 
         fragment_activityInterface = (ActivityInterface)getActivity();
         touchHandler = new SwipeMenuListner(this);
-        view = inflater.inflate(layout.cameraui_fragment, container, false);
-
         sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         manualsettingsIsOpen = sharedPref.getBoolean(KEY_MANUALMENUOPEN, false);
 
-        manualModes_holder = (FrameLayout) view.findViewById(id.manualModesHolder);
+        return inflater.inflate(layout.cameraui_fragment, container, false);
+    }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        manualModes_holder = (FrameLayout) view.findViewById(id.manualModesHolder);
+        messageHandler = new UserMessageHandler(view);
         flash = (UiSettingsChild) view.findViewById(id.Flash);
         flash.SetStuff(fragment_activityInterface, AppSettingsManager.SETTING_FLASHMODE);
         flash.SetMenuItemClickListner(this, true);
@@ -240,6 +247,10 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         horizontLineFragment = new HorizontLineFragment();
 
         guideHandler =GuideHandler.GetInstance(fragment_activityInterface.getAppSettings());
+
+        manualModes_holder.setVisibility(View.GONE);
+        camerauiValuesFragmentHolder =  view.findViewById(id.cameraui_values_fragment_holder);
+
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(id.guideHolder, guideHandler, "Guide");
         transaction.commit();
@@ -263,11 +274,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
             transaction.addToBackStack(null);
             transaction.commit();
         }
-        manualModes_holder.setVisibility(View.GONE);
-
-        return view;
     }
-
 
     @Override
     public void onResume() {
@@ -322,7 +329,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         }
         if (horizontalValuesFragment != null)
             horizontalValuesFragment.Clear();
-        View l = view.findViewById(id.cameraui_values_fragment_holder);
+
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         params.leftMargin = getResources().getDimensionPixelSize(dimen.manualitemwidth);
@@ -335,7 +342,7 @@ public class CameraUiFragment extends AbstractFragment implements SettingsChildA
         if (fromLeftFragment)
             params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         else  params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        l.setLayoutParams(params);
+        camerauiValuesFragmentHolder.setLayoutParams(params);
 
         currentOpendChild = item;
         horizontalValuesFragment = new HorizontalValuesFragment();
