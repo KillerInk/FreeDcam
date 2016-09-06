@@ -49,6 +49,8 @@ public class BitmapWorkerTask extends AsyncTask<Integer, Void, Bitmap> {
     @Override
     protected Bitmap doInBackground(Integer... params) {
         data = params[0];
+        if (w == 0 || h == 0)
+            return null;
         return decodeSampledBitmapFromResource(resources,data, w, h);
     }
 
