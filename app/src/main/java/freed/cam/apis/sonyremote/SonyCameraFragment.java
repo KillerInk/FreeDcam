@@ -188,7 +188,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
         });
     }
 
-    private void startWifiScanning()
+    public void startWifiScanning()
     {
         STATE = IDEL;
         if (getActivity() != null) {
