@@ -38,12 +38,7 @@ public class Xiaomi_Redmi_Note extends BaseQcomDevice {
     public Xiaomi_Redmi_Note(Parameters parameters, CameraWrapperInterface cameraUiWrapper) {
         super(parameters, cameraUiWrapper);
     }
-
-    @Override
-    public ManualParameterInterface getManualFocusParameter()
-    {
-        return new BaseFocusManual(parameters, KEYS.KEY_MANUAL_FOCUS_POSITION,0,79,KEYS.KEY_FOCUS_MODE_MANUAL, cameraUiWrapper,1,1);
-    }
+    
     public boolean IsDngSupported() {
         return true;
     }
