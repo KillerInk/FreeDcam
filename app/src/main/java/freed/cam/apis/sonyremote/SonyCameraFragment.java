@@ -80,6 +80,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
     private String[] configuredNetworks;
     private String deviceNetworkToConnect;
     private boolean isWifiListnerRegistered = false;
+    private boolean hasLocationPermission =false;
     //private boolean connected;
     //private CameraHolderSony cameraHolder;
 
@@ -190,6 +191,7 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
 
     public void startWifiScanning()
     {
+        hasLocationPermission = true;
         STATE = IDEL;
         if (getActivity() != null) {
             getActivity().registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
@@ -203,8 +205,10 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
     @Override
     public void onResume() {
         super.onResume();
-        if(getActivityInterface().hasLocationPermission())
+        if(hasLocationPermission = getActivityInterface().hasLocationPermission() == true)
             startWifiScanning();
+        else
+            setTextFromWifi("Location Permission is needed to find the camera!");
     }
 
     @Override
@@ -323,8 +327,9 @@ public class SonyCameraFragment extends CameraFragmentAbstract implements Surfac
                 Logger.d(TAG, "StartScanning For networks after onCameraError" );
                 try {
                     SetCameraChangedListner(SonyCameraFragment.this);
-                    ((ActivityFreeDcamMain) getActivity()).onCameraUiWrapperRdy(SonyCameraFragment.this);
-                    startWifiScanning();
+                    ((ActivityFreeDcamMain) getActivity()).onCameraUiWrapperRdy(null);
+                    if(hasLocationPermission)
+                        startWifiScanning();
                 }
                 catch (NullPointerException ex)
                 {
