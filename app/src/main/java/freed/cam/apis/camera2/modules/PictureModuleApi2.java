@@ -290,6 +290,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         public void onCaptureProgressed(CameraCaptureSession session, CaptureRequest request, CaptureResult partialResult)
         {
             Integer aeState = partialResult.get(CaptureResult.CONTROL_AE_STATE);
+            Logger.d(TAG, "CurrentCaptureState:" + mState + " AE_STATE:" + aeState);
             switch (mState)
             {
                 case STATE_WAIT_FOR_PRECAPTURE:
