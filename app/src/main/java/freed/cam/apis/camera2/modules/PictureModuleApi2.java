@@ -136,7 +136,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         Logger.d(TAG, appSettingsManager.getString(AppSettingsManager.SETTING_PICTUREFORMAT));
         Logger.d(TAG, "dng:" + Boolean.toString(parameterHandler.IsDngActive()));
 
-        mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener,null);
+        mImageReader.setOnImageAvailableListener(mOnRawImageAvailableListener,cameraHolder.getmBackgroundHandler());
 
         if (appSettingsManager.IsCamera2FullSupported().equals(KEYS.TRUE) && cameraHolder.get(CaptureRequest.CONTROL_AE_MODE) != CaptureRequest.CONTROL_AE_MODE_OFF) {
             mState = STATE_WAIT_FOR_PRECAPTURE;
@@ -406,51 +406,41 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         @Override
         public void onImageAvailable(final ImageReader reader)
         {
-            FreeDPool.Execute(new Runnable() {
-                @Override
-                public void run() {
-                    while (mDngResult == null)
-                        try {
-                            Thread.sleep(1);
-                        } catch (InterruptedException e) {
-                            Logger.exception(e);
-                        }
-                    int burstcount = parameterHandler.Burst.GetValue()+1;
-                    File file = null;
-                    imagecount++;
-                    switch (reader.getImageFormat())
-                    {
-                        case ImageFormat.JPEG:
-                            file = process_jpeg(burstcount, reader);
-                            break;
-                        case ImageFormat.RAW10:
-                            file = process_rawWithDngConverter(burstcount, reader, DngProfile.Mipi);
-                            break;
-                        case ImageFormat.RAW12:
-                            file = process_rawWithDngConverter(burstcount, reader,DngProfile.Mipi12);
-                            break;
-                        case ImageFormat.RAW_SENSOR:
-                            if(appSettingsManager.getDevice() == Devices.Moto_X2k14 || appSettingsManager.getDevice() == Devices.OnePlusTwo)
-                                file = process_rawWithDngConverter(burstcount, reader,DngProfile.Mipi16);
-                            else
-                                file = process_rawSensor(burstcount, reader);
-
-                    }
-
-                    isWorking = false;
-                    scanAndFinishFile(file);
-                    changeCaptureState(CaptureStates.image_capture_stop);
-                    if (burstcount == imagecount) {
-                        Handler handler = new Handler(Looper.getMainLooper());
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                finishCapture(captureBuilder);
-                            }
-                        });
-                    }
+            while (mDngResult == null)
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    Logger.exception(e);
                 }
-            });
+            int burstcount = parameterHandler.Burst.GetValue()+1;
+            File file = null;
+            imagecount++;
+            switch (reader.getImageFormat())
+            {
+                case ImageFormat.JPEG:
+                    file = process_jpeg(burstcount, reader);
+                    break;
+                case ImageFormat.RAW10:
+                    file = process_rawWithDngConverter(burstcount, reader, DngProfile.Mipi);
+                    break;
+                case ImageFormat.RAW12:
+                    file = process_rawWithDngConverter(burstcount, reader,DngProfile.Mipi12);
+                    break;
+                case ImageFormat.RAW_SENSOR:
+                    if(appSettingsManager.getDevice() == Devices.Moto_X2k14 || appSettingsManager.getDevice() == Devices.OnePlusTwo)
+                        file = process_rawWithDngConverter(burstcount, reader,DngProfile.Mipi16);
+                    else
+                        file = process_rawSensor(burstcount, reader);
+
+            }
+
+            isWorking = false;
+            scanAndFinishFile(file);
+            changeCaptureState(CaptureStates.image_capture_stop);
+            if (burstcount == imagecount) {
+                finishCapture(captureBuilder);
+
+            }
         }
     };
 
@@ -771,14 +761,14 @@ public class PictureModuleApi2 extends AbstractModuleApi2
         }
         else if (picFormat.equals(CameraHolderApi2.RAW_SENSOR))
         {
-            Logger.d(TAG, "ImageReader RAW_SENOSR");
+            Logger.d(TAG, "ImageReader RAW_SENSOR");
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW_SENSOR)), new CompareSizesByArea());
             mImageWidth = largestImageSize.getWidth();
             mImageHeight = largestImageSize.getHeight();
         }
         else if (picFormat.equals(CameraHolderApi2.RAW10))
         {
-            Logger.d(TAG, "ImageReader RAW_SENOSR");
+            Logger.d(TAG, "ImageReader RAW10");
             largestImageSize = Collections.max(Arrays.asList(cameraHolder.map.getOutputSizes(ImageFormat.RAW10)), new CompareSizesByArea());
             mImageWidth = largestImageSize.getWidth();
             mImageHeight = largestImageSize.getHeight();

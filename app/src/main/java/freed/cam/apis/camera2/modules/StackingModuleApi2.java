@@ -161,11 +161,12 @@ public class StackingModuleApi2 extends AbstractModuleApi2
     }
 
     private void saveImageToFile() {
-        final Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Config.ARGB_8888);
-        renderScriptHandler.GetOut().copyTo(outputBitmap);
-        FreeDPool.Execute(new Runnable() {
+
+        cameraHolder.getmBackgroundHandler().post(new Runnable() {
             @Override
             public void run() {
+                final Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Config.ARGB_8888);
+                renderScriptHandler.GetOut().copyTo(outputBitmap);
                 File stackedImg = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), "_stack.jpg"));
                 SaveBitmapToFile(outputBitmap,stackedImg);
                 changeCaptureState(CaptureStates.continouse_capture_stop);
