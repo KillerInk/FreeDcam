@@ -53,7 +53,7 @@ public class BaseQcomDevice extends AbstractDevice {
     @Override
     public ManualParameterInterface getExposureTimeParameter()
     {
-        if (parameters.get(KEYS.MAX_EXPOSURE_TIME) != null && parameters.get(KEYS.EXPOSURE_TIME) != null && parameters.get(KEYS.MIN_EXPOSURE_TIME )!= null) {
+        if (parameters.get(KEYS.MAX_EXPOSURE_TIME) != null && parameters.get(KEYS.MIN_EXPOSURE_TIME )!= null) {
             if (!parameters.get(KEYS.MAX_EXPOSURE_TIME).contains("."))
                 return new ShutterManual_ExposureTime_FloatToSixty(parameters, cameraUiWrapper, true);
             else
