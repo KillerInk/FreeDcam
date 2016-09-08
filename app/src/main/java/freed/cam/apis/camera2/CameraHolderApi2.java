@@ -920,7 +920,10 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     /**
      * Stops the background thread and its {@link Handler}.
      */
-    private void stopBackgroundThread() {
+    private void stopBackgroundThread()
+    {
+        if (mBackgroundThread == null)
+            return;
         mBackgroundThread.quitSafely();
         try {
             mBackgroundThread.join();
