@@ -38,6 +38,8 @@ public class DenoiseModeApi2 extends BaseModeApi2
         OFF,
         FAST,
         HIGH_QUALITY,
+        MINIMAL,
+        ZEROSHUTTERLAG,
 
     }
 
@@ -53,7 +55,7 @@ public class DenoiseModeApi2 extends BaseModeApi2
     @Override
     public void SetValue(String valueToSet, boolean setToCamera)
     {
-        if (valueToSet.contains("unknown Scene"))
+        if (valueToSet.contains("unknown"))
             return;
         DeNoiseModes sceneModes = Enum.valueOf(DeNoiseModes.class, valueToSet);
         ((CameraHolderApi2) cameraUiWrapper.GetCameraHolder()).SetParameterRepeating(CaptureRequest.NOISE_REDUCTION_MODE, sceneModes.ordinal());
