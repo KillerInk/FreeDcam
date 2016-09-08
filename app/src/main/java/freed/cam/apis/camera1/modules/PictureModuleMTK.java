@@ -70,7 +70,7 @@ public class PictureModuleMTK extends PictureModule
     }
 
     @Override
-    public void onPictureTaken(final byte[] data, Camera camera)
+    public void onPictureTaken(final byte[] data, final Camera camera)
     {
         if (!waitForPicture)
             return;
@@ -106,7 +106,7 @@ public class PictureModuleMTK extends PictureModule
                 }
                 waitForPicture = false;
                 cameraHolder.StartPreview();
-                scanAndFinishFile(holdFile);
+                scanAndFinishFile(holdFile,cameraUiWrapper);
                 isWorking = false;
                 changeCaptureState(CaptureStates.image_capture_stop);
             }
@@ -141,7 +141,7 @@ public class PictureModuleMTK extends PictureModule
         }
         File dng = new File(holdFile.getAbsolutePath().replace(FileEnding.JPG, FileEnding.DNG));
         saveDng(data,dng);
-        scanAndFinishFile(dng);
+        scanAndFinishFile(dng,cameraUiWrapper);
         data = null;
         rawfile.delete();
     }

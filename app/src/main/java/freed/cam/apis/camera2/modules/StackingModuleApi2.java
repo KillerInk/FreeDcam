@@ -170,7 +170,7 @@ public class StackingModuleApi2 extends AbstractModuleApi2
                 File stackedImg = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), "_stack.jpg"));
                 SaveBitmapToFile(outputBitmap,stackedImg);
                 changeCaptureState(CaptureStates.continouse_capture_stop);
-                scanAndFinishFile(stackedImg);
+                scanAndFinishFile(stackedImg,cameraUiWrapper);
                 isWorking = false;
             }
         });

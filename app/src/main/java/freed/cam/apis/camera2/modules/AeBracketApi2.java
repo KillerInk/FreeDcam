@@ -87,6 +87,10 @@ public class AeBracketApi2 extends PictureModuleApi2
                 captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME, currentExposureTime);
             else if (2 == i)
                 captureBuilder.set(CaptureRequest.SENSOR_EXPOSURE_TIME,currentExposureTime + exposureTimeStep);
+            captureBuilder.setTag(i);
+            ImageSaver.ImageSaverBuilder jpegBuilder = new ImageSaver.ImageSaverBuilder(cameraUiWrapper.getContext(), cameraUiWrapper)
+                    .setCharacteristics(cameraHolder.characteristics);
+            mJpegResultQueue.put(i, jpegBuilder);
             captureList.add(captureBuilder.build());
         }
         cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();

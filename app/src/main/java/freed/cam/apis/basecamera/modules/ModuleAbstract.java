@@ -78,10 +78,10 @@ public abstract class ModuleAbstract implements ModuleInterface
             captureStateChangedListner.onCaptureStateChanged(captureStates);
     }
 
-    protected void scanAndFinishFile(File file)
+    protected static void scanAndFinishFile(File file,CameraWrapperInterface cameraWrapperInterface)
     {
-        MediaScannerManager.ScanMedia(cameraUiWrapper.getContext(),file);
-        cameraUiWrapper.GetModuleHandler().WorkFinished(new FileHolder(file, appSettingsManager.GetWriteExternal()));
+        MediaScannerManager.ScanMedia(cameraWrapperInterface.getContext(),file);
+        cameraWrapperInterface.GetModuleHandler().WorkFinished(new FileHolder(file, cameraWrapperInterface.GetAppSettingsManager().GetWriteExternal()));
     }
 
     @Override
