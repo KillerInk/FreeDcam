@@ -212,6 +212,7 @@ KK = Kitkat,L = Lollipop , M = Marshmallow
 |Alcatel 985n           | ![true] | ![false]| ![false] | ![false] |
 |Alcatel Idol3/small    | ![true] | ![true] | ![true]  | ![true]  |
 |Aquaris E5             | ![true] | ![true] | ![true]  | ![true]  |
+|Aquaris M5             | ![true] | ![true] | ![true]  | ![true]  |
 |Blackberry Priv        | ![true] | ![true] | ![true]  | ![true]  |
 |Elephone P9000         | ![true] | ![true] | ![true]  | ![true]  |
 |FowardArt              | ![true] | ![true] | ![true]  | ![true]  |
@@ -232,32 +233,42 @@ KK = Kitkat,L = Lollipop , M = Marshmallow
 |Lenovo K920            | ![true] | ![true]| ![true]| ![true]|
 |Lenovo VibeP1          | ![true] | ![true]| ![true]| ![true]|
 |Lenovo VibeShot Z90    | ![true] | ![true]| ![true]| ![true]|
+|Lumigon T3             | ![true] | ![true]| ![true]| ![true]|
 |LG G2                  | ![true] | ![true]| ![false]| ![false]|
 |LG G2pro               | ![true] | ![true]| ![true]| ![false]|
 |LG G3                  | ![true] |KK=![true],L=![false],M=![true]| ![false]| ![false]|
 |LG G4                  | ![true] | ![true]| ![true]| ![true]|
+|Meizu M1 Metal         | ![true] | ![true]| ![true]| ![true]|
 |Meizu M2 Note          | ![true] | ![true]| ![true]| ![true]|
 |Meizu MX4/5            | ![true] | ![true]| ![true]| ![true]|
 |Mlais M52 Red Note     | ![true] | ![true]| ![true]| ![true]|
 |Moto X 2015            | ![true] | ![false]| ![false]| ![false]|
 |Moto X Style Pure Play | ![true] | ![true]| ![true]| ![true]|
+|MyPhone Infinity 2S    | ![true] | ![true]| ![true]| ![true]|
 |OnePlus One            | ![true] | ![true]| ![true]| ![false]|
 |OnePlus Two            | ![true] | ![true]| ![true]| ![false]|
+|Prestigio Multipad Color | ![true] | ![true]| ![true]| ![true]|
 |Retro                  | ![true] | ![false]| ![false]| ![false]|
+|Sony C4                | ![true] | ![true]| ![true]| ![true]|
 |Sony C5                | ![true] | ![true]| ![true]| ![true]|
 |Sony M4                | ![true] | ![true]| ![true]| ![true]|
 |Sony M5                | ![true] | ![true]| ![true]| ![true]|
 |Sony XperiaL           | ![true] | ![false]| ![false]| ![false]|
 |THL5000                | ![true] | ![true]| ![true]| ![true]|
+|Umi Rome X             | ![true] | ![true]| ![true]| ![true]|
 |Vivo Xplay             | ![true] | ![false]| ![false]| ![false]|
+|WileyFox Swift         | ![true] | ![true]| ![true]| ![false]|
+|Xiaomi Mi3             | ![true] | ![true]| ![true]| ![false]|
 |Xiaomi Mi3w            | ![true] | ![true]| ![true]| ![false]|
 |Xiaomi Mi4c            | ![true] | ![true]| ![true]| ![false]|
 |Xiaomi Mi4w            | ![true] | ![true]| ![true]| ![false]|
-|Xiaomi Mi3             | ![true] | ![true]| ![true]| ![false]|
+|Xiaomi Mi 5            | ![false]broken raw stream | ![true]| ![true]| ![false]|
+|Xiaomi Mi Max          | ![true] | ![true]| ![true]| ![false]|
 |Xiaomi Mi Note Pro     | ![true] | ![true]| ![true]| ![false]|
 |Xiaomi Redmi Note      | ![true] | ![true]| ![true]| ![false]|
 |Xiaomi Redmi Note 2    | ![true] | ![true]| ![true]| ![true]|
 |Xiaomi Redmi Note 3 (Snap/MTK) | ![true] | ![true]| ![true]| ![true]|
+|Xolo Omega5            | ![true] | ![true]| ![true]| ![true]|
 |Yu Yureka              | ![true] | ![false]| ![false]| ![false]|
 |Zoppo 8Speed           | ![true] | ![true]| ![true]| ![true]|
 
