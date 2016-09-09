@@ -7,7 +7,8 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true">
+        android:layout_alignParentRight="true"
+        android:id="@+id/frameLayout">
 
         <freed.cam.ui.themesample.cameraui.RotatingSeekbar
             android:layout_width="@dimen/rotatingseekbar_width"
@@ -162,5 +163,14 @@
                 android:layout_marginRight="0dp" />
         </LinearLayout>
     </HorizontalScrollView>
+
+    <freed.cam.ui.themesample.cameraui.AfBracketSettingsView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/manualFragment_afbsettings"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/frameLayout"
+        android:layout_toStartOf="@+id/frameLayout"
+        android:layout_marginRight="5dp" />
 
 </RelativeLayout>

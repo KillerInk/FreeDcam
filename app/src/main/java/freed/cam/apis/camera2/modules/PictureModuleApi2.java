@@ -294,7 +294,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             mJpegResultQueue.put(i, jpegBuilder);
             captureList.add(captureBuilder.build());
         }
-        cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
+        if (cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) > 500000*1000)
+            cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
         changeCaptureState(CaptureStates.image_capture_start);
         cameraHolder.CaptureSessionH.StartCaptureBurst(captureList, captureCallback);
     }

@@ -170,6 +170,9 @@ public class AppSettingsManager {
 
     public static final String SETTING_MEDIAPROFILES = "media_profiles";
 
+    public static final String SETTING_AFBRACKETMAX = "afbracketmax";
+    public static final String SETTING_AFBRACKETMIN = "afbracketmin";
+
     private HashMap<String, String> appsettingsList;
 
     public AppSettingsManager(Context context) {
