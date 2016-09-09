@@ -266,7 +266,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                 ImageSaver.ImageSaverBuilder jpegBuilder = new ImageSaver.ImageSaverBuilder(cameraUiWrapper.getContext(), cameraUiWrapper)
                         .setCharacteristics(cameraHolder.characteristics);
                 mJpegResultQueue.put(0, jpegBuilder);
-                //cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
+                if (cameraHolder.get(CaptureRequest.SENSOR_EXPOSURE_TIME) > 500000*1000)
+                    cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
                 changeCaptureState(CaptureStates.image_capture_start);
                 cameraHolder.CaptureSessionH.StartImageCapture(captureBuilder, CaptureCallback);
             }
@@ -427,7 +428,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             catch (NullPointerException ex){Logger.exception(ex);}
             isWorking = false;
             changeCaptureState(CaptureStates.image_capture_stop);
-            cameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
+            if (request.get(CaptureRequest.SENSOR_EXPOSURE_TIME) > 500000*1000)
+                cameraHolder.CaptureSessionH.StartRepeatingCaptureSession();
         }
     };
 
