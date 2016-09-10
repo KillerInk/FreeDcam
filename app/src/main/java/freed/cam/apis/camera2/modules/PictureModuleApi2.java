@@ -41,6 +41,7 @@ import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.ParcelFileDescriptor;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
 import android.util.Pair;
@@ -99,6 +100,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
     private final int STATE_WAIT_FOR_NONPRECAPTURE = 1;
     private final int STATE_PICTURE_TAKEN = 2;
     private int mState = STATE_PICTURE_TAKEN;
+    private long mCaptureTimer;
+    private static final long PRECAPTURE_TIMEOUT_MS = 1000;
 
     public PictureModuleApi2(CameraWrapperInterface cameraUiWrapper) {
         super(cameraUiWrapper);
@@ -142,6 +145,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             mState = STATE_WAIT_FOR_PRECAPTURE;
             cameraHolder.CaptureSessionH.StartRepeatingCaptureSession(aecallback);
             Logger.d(TAG,"Start AE Precapture");
+            startTimerLocked();
             cameraHolder.SetParameter(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
         }
         else
@@ -289,8 +293,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2
 
     private CaptureCallback aecallback = new CaptureCallback()
     {
-        @Override
-        public void onCaptureProgressed(CameraCaptureSession session, CaptureRequest request, CaptureResult partialResult)
+
+        private void processResult(CaptureResult partialResult)
         {
             Integer aeState = partialResult.get(CaptureResult.CONTROL_AE_STATE);
             Logger.d(TAG, "CurrentCaptureState:" + mState + " AE_STATE:" + aeState);
@@ -308,6 +312,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     {
                         Logger.d(TAG,"Wait For nonprecapture");
                         mState = STATE_WAIT_FOR_NONPRECAPTURE;
+                        if (hitTimeoutLocked())
+                        {
+                            mState = STATE_PICTURE_TAKEN;
+                            captureStillPicture();
+                        }
                     }
                     else if (aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED)
                     {
@@ -326,8 +335,29 @@ public class PictureModuleApi2 extends AbstractModuleApi2
                     }
                     break;
             }
+
+        }
+
+        @Override
+        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult partialResult)
+        {
+            processResult(partialResult);
+        }
+
+        @Override
+        public void onCaptureProgressed(CameraCaptureSession session, CaptureRequest request, CaptureResult partialResult) {
+            //processResult(partialResult);
         }
     };
+
+    private void startTimerLocked() {
+        mCaptureTimer = SystemClock.elapsedRealtime();
+    }
+
+    private boolean hitTimeoutLocked() {
+        return (SystemClock.elapsedRealtime() - mCaptureTimer) > PRECAPTURE_TIMEOUT_MS;
+    }
+
 
     private final CaptureCallback CaptureCallback
             = new CaptureCallback()
