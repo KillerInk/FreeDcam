@@ -698,7 +698,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                 return;
             Logger.d(TAG, "CreateCaptureSession: Surfaces Count:" + surfaces.size());
             try {
-                mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, null);
+                mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, mBackgroundHandler);
             } catch (CameraAccessException | SecurityException e) {
                 Logger.exception(e);
             }
@@ -721,7 +721,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         {
             Logger.d(TAG, "CreateCaptureSessionWITHCustomCallback: Surfaces Count:" + surfaces.size());
             try {
-                mCameraDevice.createCaptureSession(surfaces, customCallback, null);
+                mCameraDevice.createCaptureSession(surfaces, customCallback, mBackgroundHandler);
             } catch (CameraAccessException e) {
                 Logger.exception(e);
             }
@@ -756,7 +756,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             }
         }
 
-        public void StartRepeatingCaptureSession(@Nullable CaptureCallback listener)
+        public void StartRepeatingCaptureSession(CaptureCallback listener)
         {
             Logger.d(TAG, "StartRepeatingCaptureSession with Custom CaptureCallback");
             if (mCaptureSession == null)

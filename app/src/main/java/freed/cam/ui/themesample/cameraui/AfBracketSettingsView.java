@@ -20,13 +20,9 @@
 package freed.cam.ui.themesample.cameraui;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -66,7 +62,7 @@ public class AfBracketSettingsView extends LinearLayout
     private void init(Context context)
     {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.cameraui_afbracketsettings_fragment, this);
+        inflater.inflate(R.layout.cameraui_afbracketsettings, this);
         button_setMax = (Button)findViewById(R.id.button_afbracket_fragment_setMax);
         button_setMax.setOnClickListener(onSetMaxClick);
         button_setMin = (Button)findViewById(R.id.button_afbracket_fragment_setMin);
