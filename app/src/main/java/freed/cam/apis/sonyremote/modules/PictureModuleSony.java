@@ -169,7 +169,7 @@ public class PictureModuleSony extends ModuleAbstract implements I_PictureCallba
             }
         }
 
-        scanAndFinishFile(file,cameraUiWrapper);
+        scanAndFinishFile(file);
     }
 
 

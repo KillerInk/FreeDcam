@@ -49,8 +49,6 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.location.Location;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Size;
@@ -110,17 +108,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
     boolean errorRecieved;
 
-    /**
-     * An additional thread for running tasks that shouldn't block the UI.
-     */
-    private HandlerThread mBackgroundThread;
-
-    /**
-     * A {@link Handler} for running tasks in the background.
-     */
-    private Handler mBackgroundHandler;
-
-
     public void SetAeCompensationListner(AeCompensationListner aeCompensationListner)
     {
         this.aeCompensationListner = aeCompensationListner;
@@ -146,7 +133,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
     @Override
     public boolean OpenCamera(int camera)
     {
-        startBackgroundThread();
         Logger.d(TAG, "Open Camera");
         CurrentCamera = camera;
         String cam = camera +"";
@@ -240,7 +226,6 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                     }
                 });
             Logger.d(TAG, "camera closed");
-            stopBackgroundThread();
         }
     }
 
@@ -698,7 +683,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                 return;
             Logger.d(TAG, "CreateCaptureSession: Surfaces Count:" + surfaces.size());
             try {
-                mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, mBackgroundHandler);
+                mCameraDevice.createCaptureSession(surfaces, previewStateCallBackRestart, null);
             } catch (CameraAccessException | SecurityException e) {
                 Logger.exception(e);
             }
@@ -721,7 +706,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         {
             Logger.d(TAG, "CreateCaptureSessionWITHCustomCallback: Surfaces Count:" + surfaces.size());
             try {
-                mCameraDevice.createCaptureSession(surfaces, customCallback, mBackgroundHandler);
+                mCameraDevice.createCaptureSession(surfaces, customCallback, null);
             } catch (CameraAccessException e) {
                 Logger.exception(e);
             }
@@ -750,7 +735,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                 return;
             try {
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), cameraBackroundValuesChangedListner,
-                        mBackgroundHandler);
+                        null);
             } catch (CameraAccessException e) {
                 Logger.exception(e);
             }
@@ -763,7 +748,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                 return;
             try {
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), listener,
-                        mBackgroundHandler);
+                        null);
             } catch (CameraAccessException e) {
                 Logger.exception(e);
             }
@@ -809,7 +794,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                                       @Nullable CaptureCallback listener)
         {
             try {
-                mCaptureSession.capture(request.build(),listener,mBackgroundHandler);
+                mCaptureSession.capture(request.build(),listener,null);
             } catch (CameraAccessException e) {
                 Logger.exception(e);
             }
@@ -819,7 +804,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                                  @Nullable CaptureCallback listener)
         {
             try {
-                mCaptureSession.captureBurst(request,listener,mBackgroundHandler);
+                mCaptureSession.captureBurst(request,listener,null);
             } catch (CameraAccessException e) {
                 Logger.exception(e);
             }
@@ -892,7 +877,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
             try {
                 // Finally, we start displaying the camera previewSize.
                 mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),
-                        cameraBackroundValuesChangedListner, mBackgroundHandler);
+                        cameraBackroundValuesChangedListner, null);
             } catch (CameraAccessException | IllegalStateException e) {
                 mCaptureSession =null;
             }
@@ -904,38 +889,4 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
         }
     };
-
-
-
-
-    /**
-     * Starts a background thread and its {@link Handler}.
-     */
-    private void startBackgroundThread() {
-        mBackgroundThread = new HandlerThread("CameraBackground");
-        mBackgroundThread.start();
-        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
-    }
-
-    /**
-     * Stops the background thread and its {@link Handler}.
-     */
-    private void stopBackgroundThread()
-    {
-        if (mBackgroundThread == null)
-            return;
-        mBackgroundThread.quitSafely();
-        try {
-            mBackgroundThread.join();
-            mBackgroundThread = null;
-            mBackgroundHandler = null;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public Handler getmBackgroundHandler()
-    {
-        return mBackgroundHandler;
-    }
 }

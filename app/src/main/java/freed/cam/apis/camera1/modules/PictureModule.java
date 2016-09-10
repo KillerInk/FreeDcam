@@ -184,7 +184,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             saveDng(data,toSave);
         else
             saveBytesToFile(data,toSave);
-        scanAndFinishFile(toSave,cameraUiWrapper);
+        scanAndFinishFile(toSave);
     }
 
     private String getFileEnding(String picFormat)

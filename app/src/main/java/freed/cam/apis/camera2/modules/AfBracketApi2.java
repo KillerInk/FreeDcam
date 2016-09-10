@@ -92,10 +92,6 @@ public class AfBracketApi2 extends PictureModuleApi2
         captureBuilder.set(CaptureRequest.CONTROL_AF_MODE, FocusModeApi2.FocusModes.off.ordinal());
         for (int i = 0; i < parameterHandler.Burst.GetValue()+1; i++)
         {
-            captureBuilder.setTag(i);
-            ImageSaver.ImageSaverBuilder jpegBuilder = new ImageSaver.ImageSaverBuilder(cameraUiWrapper.getContext(), cameraUiWrapper)
-                    .setCharacteristics(cameraHolder.characteristics);
-            mJpegResultQueue.put(i, jpegBuilder);
             captureBuilder.set(CaptureRequest.LENS_FOCUS_DISTANCE, (float) currentFocusPos / 10);
             captureList.add(captureBuilder.build());
             currentFocusPos +=focusStep;
