@@ -204,8 +204,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                 //hideseekbar and set color back from button
                 seekbar.setVisibility(View.GONE);
                 currentButton.SetActive(false);
-                if (currentButton == mf)
-                    afBracketSettingsView.setVisibility(View.GONE);
+                afBracketSettingsView.setVisibility(View.GONE);
             }
             //if no button was active or a different was clicked
             else
@@ -219,8 +218,10 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
                 currentButton = (ManualButton) v;
                 currentButton.SetActive(true);
                 currentButton.SetParameterListner(ManualFragment.this);
-                if (currentButton == mf)
+                if (currentButton == mf && cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_AFBRACKET))
                     afBracketSettingsView.setVisibility(View.VISIBLE);
+                else
+                    afBracketSettingsView.setVisibility(View.GONE);
                 String[]vals = currentButton.getStringValues();
                 if (vals == null || vals.length == 0) {
                     currentButton.SetActive(false);
