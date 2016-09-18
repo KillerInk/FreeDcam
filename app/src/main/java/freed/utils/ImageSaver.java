@@ -50,7 +50,7 @@ public class ImageSaver
     }
 
 
-    public void SaveJpegByteArray(File fileName, byte[] bytes)
+    public synchronized void SaveJpegByteArray(File fileName, byte[] bytes)
     {
         Logger.d(TAG, "Start Saving Bytes");
         OutputStream outStream = null;
@@ -93,7 +93,7 @@ public class ImageSaver
             }
     }
 
-    public void SaveDngWithRawToDng(File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile)
+    public synchronized void SaveDngWithRawToDng(File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile)
     {
         RawToDng dngConverter = RawToDng.GetInstance();
         Logger.d(this.TAG,"saveDng");
@@ -154,7 +154,7 @@ public class ImageSaver
         }
     }
 
-    public void SaveBitmapToFile(Bitmap bitmap, File file)
+    public synchronized void SaveBitmapToFile(Bitmap bitmap, File file)
     {
         OutputStream outStream = null;
         boolean writetoExternalSD = activityInterface.getAppSettings().GetWriteExternal();

@@ -24,6 +24,8 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.support.v4.provider.DocumentFile;
 
 import java.io.File;
@@ -53,6 +55,8 @@ public abstract class ModuleAbstract implements ModuleInterface
     protected AppSettingsManager appSettingsManager;
     protected CaptureStates currentWorkState;
     protected CameraWrapperInterface cameraUiWrapper;
+    private HandlerThread mBackgroundThread;
+    protected Handler mBackgroundHandler;
 
 
     public ModuleAbstract(CameraWrapperInterface cameraUiWrapper)
@@ -107,18 +111,52 @@ public abstract class ModuleAbstract implements ModuleInterface
     public void InitModule()
     {
         isWorking = false;
+        startBackgroundThread();
     }
 
     /**
      * this gets called when module gets unloaded reset the parameters that where set on InitModule
      */
     @Override
-    public abstract void DestroyModule();
+    public  void DestroyModule()
+    {
+        stopBackgroundThread();
+    }
 
     @Override
     public abstract String LongName();
 
     @Override
     public abstract String ShortName();
+
+    /**
+     * Starts a background thread and its {@link Handler}.
+     */
+    private void startBackgroundThread() {
+        mBackgroundThread = new HandlerThread("CameraBackground");
+        mBackgroundThread.start();
+        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
+    }
+
+    /**
+     * Stops the background thread and its {@link Handler}.
+     */
+    private void stopBackgroundThread()
+    {
+        if(mBackgroundThread == null)
+            return;
+        if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN_MR2) {
+            mBackgroundThread.quitSafely();
+        }
+        else
+            mBackgroundThread.quit();
+        try {
+            mBackgroundThread.join();
+            mBackgroundThread = null;
+            mBackgroundHandler = null;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

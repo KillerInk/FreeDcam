@@ -49,6 +49,7 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.location.Location;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Size;
@@ -806,20 +807,20 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         }
 
         public void StartImageCapture(@NonNull Builder request,
-                                      @Nullable CaptureCallback listener)
+                                      @Nullable CaptureCallback listener, Handler handler)
         {
             try {
-                mCaptureSession.capture(request.build(),listener,null);
+                mCaptureSession.capture(request.build(),listener,handler);
             } catch (CameraAccessException e) {
                 Logger.exception(e);
             }
         }
 
         public void StartCaptureBurst(@NonNull List<CaptureRequest>  request,
-                                 @Nullable CaptureCallback listener)
+                                 @Nullable CaptureCallback listener, Handler handler)
         {
             try {
-                mCaptureSession.captureBurst(request,listener,null);
+                mCaptureSession.captureBurst(request,listener,handler);
             } catch (CameraAccessException e) {
                 Logger.exception(e);
             }

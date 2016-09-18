@@ -88,27 +88,33 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         Logger.d(this.TAG, "DoWork:isWorking:"+ isWorking);
         if (!isWorking)
         {
-            isWorking = true;
-            String picformat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
-            Logger.d(this.TAG,"DoWork:picformat:" + picformat);
-            if (picformat.equals(KEYS.DNG) ||picformat.equals(KEYS.BAYER))
-            {
-                if (cameraUiWrapper.GetParameterHandler().ZSL != null && cameraUiWrapper.GetParameterHandler().ZSL.IsSupported()
-                        && cameraUiWrapper.GetParameterHandler().ZSL.GetValue().equals("on") && ((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != CameraHolder.Frameworks.MTK)
-                {
-                    Logger.d(this.TAG,"ZSL is on turning it off");
-                    cameraUiWrapper.GetParameterHandler().ZSL.SetValue("off", true);
-                    Logger.d(this.TAG,"ZSL state after turning it off:" + cameraUiWrapper.GetParameterHandler().ZSL.GetValue());
+            mBackgroundHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    isWorking = true;
+                    String picformat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
+                    Logger.d(TAG,"DoWork:picformat:" + picformat);
+                    if (picformat.equals(KEYS.DNG) ||picformat.equals(KEYS.BAYER))
+                    {
+                        if (cameraUiWrapper.GetParameterHandler().ZSL != null && cameraUiWrapper.GetParameterHandler().ZSL.IsSupported()
+                                && cameraUiWrapper.GetParameterHandler().ZSL.GetValue().equals("on") && ((CameraHolder) cameraUiWrapper.GetCameraHolder()).DeviceFrameWork != CameraHolder.Frameworks.MTK)
+                        {
+                            Logger.d(TAG,"ZSL is on turning it off");
+                            cameraUiWrapper.GetParameterHandler().ZSL.SetValue("off", true);
+                            Logger.d(TAG,"ZSL state after turning it off:" + cameraUiWrapper.GetParameterHandler().ZSL.GetValue());
+                        }
+                    }
+                    cameraUiWrapper.GetParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
+                    changeCaptureState(CaptureStates.image_capture_start);
+                    waitForPicture = true;
+                    burstcount = 0;
+                    if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+                        cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
+                    cameraHolder.TakePicture(PictureModule.this);
+                    Logger.d(TAG,"TakePicture");
                 }
-            }
-            cameraUiWrapper.GetParameterHandler().SetPictureOrientation(cameraUiWrapper.getActivityInterface().getOrientation());
-            changeCaptureState(CaptureStates.image_capture_start);
-            waitForPicture = true;
-            burstcount = 0;
-            if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
-                cameraHolder.SetLocation(cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation());
-            cameraHolder.TakePicture(this);
-            Logger.d(this.TAG,"TakePicture");
+            });
+
         }
         return true;
 
@@ -128,11 +134,6 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
     }
 
     @Override
-    public void DestroyModule()
-    {
-    }
-
-    @Override
     public void onPictureTaken(final byte[] data, Camera camera)
     {
         Logger.d(this.TAG, "onPictureTaken():"+data.length);
@@ -144,11 +145,11 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
             cameraHolder.StartPreview();
             return;
         }
-        FreeDPool.Execute(new Runnable() {
+        burstcount++;
+        mBackgroundHandler.post(new Runnable() {
             @Override
             public void run()
             {
-                burstcount++;
                 String picFormat = cameraUiWrapper.GetParameterHandler().PictureFormat.GetValue();
                 saveImage(data,picFormat);
             }

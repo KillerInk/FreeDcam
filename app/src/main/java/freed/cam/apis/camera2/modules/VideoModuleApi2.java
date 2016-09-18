@@ -104,6 +104,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         Logger.d(TAG, "DestroyModule");
         cameraHolder.CaptureSessionH.CloseCaptureSession();
         previewsurface = null;
+        super.DestroyModule();
     }
 
     @Override

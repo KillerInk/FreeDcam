@@ -212,6 +212,7 @@ public class StackingModuleApi2 extends AbstractModuleApi2
             renderScriptHandler.GetOut().setSurface(null);
             //mOutputAllocation = null;
         }
+        super.DestroyModule();
 
     }
 

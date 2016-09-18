@@ -97,7 +97,7 @@ public class StackingModule extends PictureModule {
     @Override
     public void onPictureTaken(final byte[] data, Camera camera) {
         Logger.d(TAG, "Take Picture Callback");
-        FreeDPool.Execute(new Runnable() {
+        mBackgroundHandler.post(new Runnable() {
             @Override
             public void run() {
                 File f = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), ".jpg"));
@@ -119,17 +119,6 @@ public class StackingModule extends PictureModule {
     @Override
     public boolean IsWorking() {
         return isWorking;
-    }
-
-    @Override
-    public void InitModule()
-    {
-        super.InitModule();
-    }
-
-    @Override
-    public void DestroyModule(){
-
     }
 
     private void initRsStuff()

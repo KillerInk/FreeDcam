@@ -67,8 +67,8 @@ public class AeBracketApi2 extends PictureModuleApi2
 
     @Override
     public void InitModule() {
-        cameraUiWrapper.GetParameterHandler().Burst.SetValue(2);
         super.InitModule();
+        cameraUiWrapper.GetParameterHandler().Burst.SetValue(2);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class AeBracketApi2 extends PictureModuleApi2
         }
         cameraHolder.CaptureSessionH.StopRepeatingCaptureSession();
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_start);
-        cameraHolder.CaptureSessionH.StartCaptureBurst(captureList, captureCallback);
+        cameraHolder.CaptureSessionH.StartCaptureBurst(captureList, captureCallback,mBackgroundHandler);
     }
 
 }

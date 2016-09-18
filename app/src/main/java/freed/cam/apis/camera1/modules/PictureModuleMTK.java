@@ -76,7 +76,7 @@ public class PictureModuleMTK extends PictureModule
             return;
         waitForPicture =false;
         Logger.d(TAG, "Take Picture CallBack");
-        FreeDPool.Execute(new Runnable() {
+        mBackgroundHandler.post(new Runnable() {
             @Override
             public void run()
             {

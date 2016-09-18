@@ -61,14 +61,20 @@ public class AeBracketModule extends PictureModuleMTK
     {
         if (!isWorking)
         {
-            hdrCount = 0;
-            setExposureToCamera();
-            try {
-                Thread.sleep(800);
-            } catch (InterruptedException e) {
-                Logger.exception(e);
-            }
-            super.DoWork();
+            mBackgroundHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    hdrCount = 0;
+                    setExposureToCamera();
+                    try {
+                        Thread.sleep(800);
+                    } catch (InterruptedException e) {
+                        Logger.exception(e);
+                    }
+                    AeBracketModule.super.DoWork();
+                }
+            });
+
         }
         return true;
     }
@@ -95,7 +101,7 @@ public class AeBracketModule extends PictureModuleMTK
     @Override
     public void onPictureTaken(final byte[] data, Camera camera)
     {
-        FreeDPool.Execute(new Runnable() {
+        mBackgroundHandler.post(new Runnable() {
             @Override
             public void run()
             {

@@ -120,6 +120,7 @@ public class BracketModule extends PictureModule
     @Override
     public void DestroyModule()
     {
+        super.DestroyModule();
         if (aeBrackethdr)
             cameraUiWrapper.GetParameterHandler().AE_Bracket.SetValue("Off", true);
     }
