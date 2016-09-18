@@ -209,17 +209,6 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
-        try {
-
-System.out.println(" Vokuz ");
-            //Rect r = new Rect((int) focusImageView.getX(), (int) focusImageView.getY(), (int) focusImageView.getX() + focusImageView.getWidth(), (int) focusImageView.getY() + focusImageView.getHeight());
-
-           //wrapper.GetParameterHandler().SetFocusAREATest(ParametersHandler.viewToCameraArea(r, wrapper.getPreviewWidth(), wrapper.getPreviewHeight()));
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
         if (wrapper instanceof SonyCameraFragment)
             wrapper.getFocusHandler().SetMotionEvent(event);
         return false;

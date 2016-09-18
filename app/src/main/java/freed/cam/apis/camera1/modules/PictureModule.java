@@ -36,6 +36,7 @@ import freed.cam.apis.basecamera.modules.ModuleAbstract;
 import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
+import freed.dng.DngProfile;
 import freed.jni.RawToDng;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils.Devices;
@@ -183,7 +184,7 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         if (picFormat.equals(FileEnding.DNG))
             saveDng(data,toSave);
         else
-            saveBytesToFile(data,toSave);
+            cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(toSave,data);
         scanAndFinishFile(toSave);
     }
 
@@ -210,75 +211,20 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
 
     protected void saveDng(byte[] data, File file)
     {
-        RawToDng dngConverter = RawToDng.GetInstance();
-        Logger.d(this.TAG,"saveDng");
-        double Altitude = 0;
-        double Latitude = 0;
-        double Longitude = 0;
-        String Provider = "ASCII";
-        long gpsTime = 0;
-        if (cameraUiWrapper.GetAppSettingsManager().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
-        {
-            if (cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation() != null)
-            {
-                Location location = cameraUiWrapper.getActivityInterface().getLocationHandler().getCurrentLocation();
-                Logger.d(this.TAG, "location:" + location.toString());
-                Altitude = location.getAltitude();
-                Latitude = location.getLatitude();
-                Longitude = location.getLongitude();
-                Provider = location.getProvider();
-                gpsTime = location.getTime();
-                dngConverter.SetGPSData(Altitude, Latitude, Longitude, Provider, gpsTime);
-            }
-        }
+
         float fnum = cameraUiWrapper.GetParameterHandler().getDevice().GetFnumber();
         float focal = cameraUiWrapper.GetParameterHandler().getDevice().GetFocal();
         float exposuretime = cameraUiWrapper.GetParameterHandler().getDevice().getCurrentExposuretime();
         int iso = cameraUiWrapper.GetParameterHandler().getDevice().getCurrentIso();
-        dngConverter.setExifData(iso, exposuretime, 0, fnum, focal, "0", cameraHolder.Orientation + "", 0);
-
-        if (cameraUiWrapper.GetParameterHandler().CCT != null && cameraUiWrapper.GetParameterHandler().CCT.IsSupported())
+        String wb = null;
+        if (cameraUiWrapper.GetParameterHandler().CCT != null && cameraUiWrapper.GetParameterHandler().CCT.IsSupported() && !wb.equals(KEYS.AUTO))
         {
-            String wb = cameraUiWrapper.GetParameterHandler().CCT.GetStringValue();
+            wb = cameraUiWrapper.GetParameterHandler().CCT.GetStringValue();
             Logger.d(this.TAG,"Set Manual WhiteBalance:"+ wb);
-            if (!wb.equals(KEYS.AUTO))
-            {
-                dngConverter.SetWBCT(wb);
-            }
         }
+        DngProfile dngProfile = cameraUiWrapper.GetParameterHandler().getDevice().getDngProfile(data.length);
+        int orientation = cameraUiWrapper.getActivityInterface().getOrientation();
+        cameraUiWrapper.getActivityInterface().getImageSaver().SaveDngWithRawToDng(file,data, fnum,focal,exposuretime,iso,orientation,wb,dngProfile);
 
-        if (VERSION.SDK_INT <= VERSION_CODES.LOLLIPOP || VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP && !appSettingsManager.GetWriteExternal())
-        {
-            Logger.d(this.TAG, "Write To internal or kitkat<");
-            checkFileExists(file);
-            dngConverter.SetBayerData(data, file.getAbsolutePath());
-            dngConverter.WriteDngWithProfile(cameraUiWrapper.GetParameterHandler().getDevice().getDngProfile(data.length));
-            dngConverter.RELEASE();
-        }
-        else
-        {
-            DocumentFile df = cameraUiWrapper.getActivityInterface().getFreeDcamDocumentFolder();
-            Logger.d(this.TAG,"Filepath: " + df.getUri());
-            DocumentFile wr = df.createFile("image/dng", file.getName().replace(".jpg", ".dng"));
-            Logger.d(this.TAG,"Filepath: " + wr.getUri());
-            ParcelFileDescriptor pfd = null;
-            try {
-                pfd = cameraUiWrapper.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
-            } catch (FileNotFoundException | IllegalArgumentException e) {
-                Logger.exception(e);
-            }
-            if (pfd != null)
-            {
-                dngConverter.SetBayerDataFD(data, pfd, file.getName());
-                dngConverter.WriteDngWithProfile(cameraUiWrapper.GetParameterHandler().getDevice().getDngProfile(data.length));
-                dngConverter.RELEASE();
-                try {
-                    pfd.close();
-                } catch (IOException e) {
-                    Logger.exception(e);
-                }
-                pfd = null;
-            }
-        }
     }
 }

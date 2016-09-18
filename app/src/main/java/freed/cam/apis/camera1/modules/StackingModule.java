@@ -164,7 +164,7 @@ public class StackingModule extends PictureModule {
         //create file to save
         File f = new File(SessionFolder +cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFileDatedName(".jpg"));
         //save file
-        saveBytesToFile(data,f);
+        cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(f,data);
         //add file for later stack
         capturedPics.add(f);
         //Add file to media storage that its visible by mtp
@@ -200,7 +200,7 @@ public class StackingModule extends PictureModule {
             Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Config.ARGB_8888);
             cameraUiWrapper.getRenderScriptHandler().GetOut().copyTo(outputBitmap);
             File stackedImg = new File(SessionFolder + cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFileDatedName("_Stack.jpg"));
-            SaveBitmapToFile(outputBitmap,stackedImg);
+            cameraUiWrapper.getActivityInterface().getImageSaver().SaveBitmapToFile(outputBitmap,stackedImg);
             isWorking = false;
             changeCaptureState(CaptureStates.continouse_capture_stop);
             scanAndFinishFile(stackedImg);

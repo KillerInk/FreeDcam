@@ -278,7 +278,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
     public <T> void SetParameterRepeating(@NonNull Key<T> key, T value)
     {
-        if (mPreviewRequestBuilder == null)
+        if (mPreviewRequestBuilder == null )
             return;
         Logger.d(TAG, "Set :" + key.getName() + " to " + value);
         mPreviewRequestBuilder.set(key,value);
@@ -287,7 +287,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
 
     public <T> void SetParameter(@NonNull Key<T> key, T value)
     {
-        if (mPreviewRequestBuilder == null)
+        if (mPreviewRequestBuilder == null|| mCaptureSession == null)
             return;
         Logger.d(TAG, "Set :" + key.getName() + " to " + value);
         mPreviewRequestBuilder.set(key,value);
@@ -299,13 +299,28 @@ public class CameraHolderApi2 extends CameraHolderAbstract
         }
     }
 
+    public void StartAePrecapture(CaptureCallback listener)
+    {
+        if (mPreviewRequestBuilder == null)
+            return;
+
+        Logger.d(TAG,"Start AE Precapture");
+        mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START);
+        try {
+            mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), listener,
+                    null);
+        } catch (CameraAccessException e) {
+            Logger.exception(e);
+        }
+    }
+
     public <T> void SetFocusArea(@NonNull Key<T> key, T value)
     {
         if (mPreviewRequestBuilder == null)
             return;
         Logger.d(TAG, "Set :" + key.getName() + " to " + value);
-        SetParameterRepeating(key,value);
-        SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_START);
+        SetParameter(key,value);
+        SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_START);
     }
 
     public <T> T get(Key<T> key)
@@ -483,14 +498,14 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                         break;
                     case 2:
                         state = "PASSIVE_FOCUSED";
-                        SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
+                        SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
                         break;
                     case 3:
                         state="ACTIVE_SCAN";
                         break;
                     case 4:
                         state = "FOCUSED_LOCKED";
-                        SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER,CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
+                        SetParameter(CaptureRequest.CONTROL_AF_TRIGGER,CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
                         if (cameraUiWrapper.getFocusHandler().focusEvent != null)
                             cameraUiWrapper.getFocusHandler().focusEvent.FocusFinished(true);
 
@@ -502,7 +517,7 @@ public class CameraHolderApi2 extends CameraHolderAbstract
                         break;
                     case 6:
                         state ="PASSIVE_UNFOCUSED";
-                        SetParameterRepeating(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
+                        SetParameter(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_IDLE);
                         break;
                 }
                 Logger.d(TAG, "new AF_STATE :"+state);

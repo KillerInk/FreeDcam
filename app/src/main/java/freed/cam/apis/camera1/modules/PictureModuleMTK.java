@@ -87,7 +87,7 @@ public class PictureModuleMTK extends PictureModule
                 switch (picformat) {
                     case KEYS.JPEG:
                         //savejpeg
-                        saveBytesToFile(data, holdFile);
+                        cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data);
                         try {
                             DeviceSwitcher().delete();
                         } catch (Exception ex) {
@@ -96,12 +96,12 @@ public class PictureModuleMTK extends PictureModule
                         break;
                     case FileEnding.DNG:
                         //savejpeg
-                        saveBytesToFile(data, holdFile);
+                        cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data);
                         CreateDNG_DeleteRaw();
                         break;
                     case FileEnding.BAYER:
                         //savejpeg
-                        saveBytesToFile(data, holdFile);
+                        cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data);
                         break;
                 }
                 waitForPicture = false;

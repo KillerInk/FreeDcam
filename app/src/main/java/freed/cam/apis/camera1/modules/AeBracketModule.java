@@ -111,7 +111,7 @@ public class AeBracketModule extends PictureModuleMTK
                 switch (picFormat) {
                     case KEYS.JPEG:
                         //savejpeg
-                        saveBytesToFile(data, holdFile);
+                        cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data);
                         try {
                             DeviceSwitcher().delete();
                         } catch (Exception ex) {
@@ -120,12 +120,12 @@ public class AeBracketModule extends PictureModuleMTK
                         break;
                     case DNG:
                         //savejpeg
-                        saveBytesToFile(data, holdFile);
+                        cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data);
                         CreateDNG_DeleteRaw();
                         break;
                     case BAYER:
                         //savejpeg
-                        saveBytesToFile(data, holdFile);
+                        cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(holdFile,data);
                         break;
                 }
                 scanAndFinishFile(holdFile);
