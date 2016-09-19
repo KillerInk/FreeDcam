@@ -106,7 +106,6 @@ public class PictureModuleMTK extends PictureModule
                 }
                 waitForPicture = false;
                 cameraHolder.StartPreview();
-                scanAndFinishFile(holdFile);
                 isWorking = false;
                 changeCaptureState(CaptureStates.image_capture_stop);
             }
@@ -141,7 +140,6 @@ public class PictureModuleMTK extends PictureModule
         }
         File dng = new File(holdFile.getAbsolutePath().replace(FileEnding.JPG, FileEnding.DNG));
         saveDng(data,dng);
-        scanAndFinishFile(dng);
         data = null;
         rawfile.delete();
     }

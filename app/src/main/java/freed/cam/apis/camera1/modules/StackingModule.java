@@ -156,8 +156,6 @@ public class StackingModule extends PictureModule {
         cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(f,data);
         //add file for later stack
         capturedPics.add(f);
-        //Add file to media storage that its visible by mtp
-        scanAndFinishFile(f);
 
         isWorking = false;
         //notice ui/shutterbutton about the current workstate
@@ -192,7 +190,6 @@ public class StackingModule extends PictureModule {
             cameraUiWrapper.getActivityInterface().getImageSaver().SaveBitmapToFile(outputBitmap,stackedImg);
             isWorking = false;
             changeCaptureState(CaptureStates.continouse_capture_stop);
-            scanAndFinishFile(stackedImg);
         }
     }
 

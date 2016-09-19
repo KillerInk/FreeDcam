@@ -136,7 +136,7 @@ public class VideoModuleApi2 extends AbstractModuleApi2
         cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.video_recording_stop);
         cameraHolder.CaptureSessionH.CreateCaptureSession();
-        scanAndFinishFile(recordingFile);
+        cameraUiWrapper.getActivityInterface().getImageSaver().scanFile(recordingFile);
     }
 
     @TargetApi(VERSION_CODES.LOLLIPOP)

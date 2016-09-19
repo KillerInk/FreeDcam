@@ -21,6 +21,7 @@ package freed.utils;
 
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.provider.DocumentFile;
@@ -33,8 +34,10 @@ import java.io.OutputStream;
 
 import freed.ActivityInterface;
 import freed.cam.apis.KEYS;
+import freed.cam.ui.handler.MediaScannerManager;
 import freed.dng.DngProfile;
 import freed.jni.RawToDng;
+import freed.viewer.holder.FileHolder;
 
 /**
  * Created by troop on 18.09.2016.
@@ -47,36 +50,6 @@ public class ImageSaver
     public ImageSaver(ActivityInterface activityInterface)
     {
         this.activityInterface = activityInterface;
-    }
-
-
-    public synchronized void SaveJpegByteArray(File fileName, byte[] bytes)
-    {
-        Logger.d(TAG, "Start Saving Bytes");
-        OutputStream outStream = null;
-        try {
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&& !activityInterface.getAppSettings().GetWriteExternal())
-            {
-                checkFileExists(fileName);
-                outStream = new FileOutputStream(fileName);
-            }
-            else
-            {
-                DocumentFile df = activityInterface.getFreeDcamDocumentFolder();
-                Logger.d(TAG,"Filepath: " + df.getUri());
-                DocumentFile wr = df.createFile("image/*", fileName.getName());
-                Logger.d(TAG,"Filepath: " + wr.getUri());
-                outStream = activityInterface.getContext().getContentResolver().openOutputStream(wr.getUri());
-            }
-            outStream.write(bytes);
-            outStream.flush();
-            outStream.close();
-
-
-        } catch (IOException e) {
-            Logger.exception(e);
-        }
-        Logger.d(TAG, "End Saving Bytes");
     }
 
     private void checkFileExists(File fileName)
@@ -93,95 +66,210 @@ public class ImageSaver
             }
     }
 
-    public synchronized void SaveDngWithRawToDng(File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile)
+    public void scanFile(File file)
     {
-        RawToDng dngConverter = RawToDng.GetInstance();
-        Logger.d(this.TAG,"saveDng");
-        double Altitude = 0;
-        double Latitude = 0;
-        double Longitude = 0;
-        String Provider = "ASCII";
-        long gpsTime = 0;
-        if (activityInterface.getAppSettings().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
+        MediaScannerManager.ScanMedia(activityInterface.getContext(),file);
+        activityInterface.WorkHasFinished(new FileHolder(file, activityInterface.getAppSettings().GetWriteExternal()));
+    }
+
+    public void SaveDngWithRawToDng(File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile)
+    {
+        final  DngSaver dngSaver = new DngSaver(fileName,bytes,fnumber,focal,exposuretime,iso,orientation,wb,dngProfile);
+        AsyncTask.THREAD_POOL_EXECUTOR.execute(dngSaver);
+    }
+
+    private class DngSaver implements Runnable
+    {
+        final File fileName;
+        final byte[] bytes;
+        final float fnumber;
+        final float focal;
+        final float exposuretime;
+        final int iso;
+        final int orientation;
+        final String wb;
+        final DngProfile dngProfile;
+        public DngSaver(File fileName, byte[] bytes, float fnumber, float focal, float exposuretime, int iso, int orientation, String wb, DngProfile dngProfile)
         {
-            if (activityInterface.getLocationHandler().getCurrentLocation() != null)
-            {
-                Location location = activityInterface.getLocationHandler().getCurrentLocation();
-                Logger.d(this.TAG, "location:" + location.toString());
-                Altitude = location.getAltitude();
-                Latitude = location.getLatitude();
-                Longitude = location.getLongitude();
-                Provider = location.getProvider();
-                gpsTime = location.getTime();
-                dngConverter.SetGPSData(Altitude, Latitude, Longitude, Provider, gpsTime);
-            }
+            this.fileName = fileName;
+            this.bytes =bytes;
+            this.fnumber = fnumber;
+            this.focal = focal;
+            this.exposuretime = exposuretime;
+            this.iso = iso;
+            this.orientation = orientation;
+            this.wb = wb;
+            this.dngProfile = dngProfile;
         }
-        dngConverter.setExifData(iso, exposuretime, 0, fnumber, focal, "0", orientation + "", 0);
-        if (wb != null)
-            dngConverter.SetWBCT(wb);
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !activityInterface.getAppSettings().GetWriteExternal())
-        {
-            Logger.d(this.TAG, "Write To internal or kitkat<");
-            checkFileExists(fileName);
-            dngConverter.SetBayerData(bytes, fileName.getAbsolutePath());
-            dngConverter.WriteDngWithProfile(dngProfile);
-            dngConverter.RELEASE();
-        }
-        else
-        {
-            DocumentFile df = activityInterface.getFreeDcamDocumentFolder();
-            Logger.d(this.TAG,"Filepath: " + df.getUri());
-            DocumentFile wr = df.createFile("image/dng", fileName.getName().replace(".jpg", ".dng"));
-            Logger.d(this.TAG,"Filepath: " + wr.getUri());
-            ParcelFileDescriptor pfd = null;
-            try {
-                pfd = activityInterface.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
-            } catch (FileNotFoundException | IllegalArgumentException e) {
-                Logger.exception(e);
-            }
-            if (pfd != null)
+        /**
+         * Starts executing the active part of the class' code. This method is
+         * called when a thread is started that has been created with a class which
+         * implements {@code Runnable}.
+         */
+        @Override
+        public void run() {
+            RawToDng dngConverter = RawToDng.GetInstance();
+            Logger.d(TAG,"saveDng");
+            double Altitude = 0;
+            double Latitude = 0;
+            double Longitude = 0;
+            String Provider = "ASCII";
+            long gpsTime = 0;
+            if (activityInterface.getAppSettings().getString(AppSettingsManager.SETTING_LOCATION).equals(KEYS.ON))
             {
-                dngConverter.SetBayerDataFD(bytes, pfd, fileName.getName());
+                if (activityInterface.getLocationHandler().getCurrentLocation() != null)
+                {
+                    Location location = activityInterface.getLocationHandler().getCurrentLocation();
+                    Logger.d(TAG, "location:" + location.toString());
+                    Altitude = location.getAltitude();
+                    Latitude = location.getLatitude();
+                    Longitude = location.getLongitude();
+                    Provider = location.getProvider();
+                    gpsTime = location.getTime();
+                    dngConverter.SetGPSData(Altitude, Latitude, Longitude, Provider, gpsTime);
+                }
+            }
+            dngConverter.setExifData(iso, exposuretime, 0, fnumber, focal, "0", orientation + "", 0);
+            if (wb != null)
+                dngConverter.SetWBCT(wb);
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !activityInterface.getAppSettings().GetWriteExternal())
+            {
+                Logger.d(TAG, "Write To internal or kitkat<");
+                checkFileExists(fileName);
+                dngConverter.SetBayerData(bytes, fileName.getAbsolutePath());
                 dngConverter.WriteDngWithProfile(dngProfile);
                 dngConverter.RELEASE();
+            }
+            else
+            {
+                DocumentFile df = activityInterface.getFreeDcamDocumentFolder();
+                Logger.d(TAG,"Filepath: " + df.getUri());
+                DocumentFile wr = df.createFile("image/dng", fileName.getName().replace(".jpg", ".dng"));
+                Logger.d(TAG,"Filepath: " + wr.getUri());
+                ParcelFileDescriptor pfd = null;
                 try {
-                    pfd.close();
-                } catch (IOException e) {
+                    pfd = activityInterface.getContext().getContentResolver().openFileDescriptor(wr.getUri(), "rw");
+                } catch (FileNotFoundException | IllegalArgumentException e) {
                     Logger.exception(e);
                 }
-                pfd = null;
+                if (pfd != null)
+                {
+                    dngConverter.SetBayerDataFD(bytes, pfd, fileName.getName());
+                    dngConverter.WriteDngWithProfile(dngProfile);
+                    dngConverter.RELEASE();
+                    try {
+                        pfd.close();
+                    } catch (IOException e) {
+                        Logger.exception(e);
+                    }
+                    pfd = null;
+                }
             }
+            scanFile(fileName);
         }
     }
 
-    public synchronized void SaveBitmapToFile(Bitmap bitmap, File file)
+    public void SaveBitmapToFile(Bitmap bitmap, File file)
     {
-        OutputStream outStream = null;
-        boolean writetoExternalSD = activityInterface.getAppSettings().GetWriteExternal();
-        Logger.d(TAG, "Write External " + writetoExternalSD);
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || !writetoExternalSD && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        final BitmapSaver bitmapSaver = new BitmapSaver(file,bitmap);
+        AsyncTask.THREAD_POOL_EXECUTOR.execute(bitmapSaver);
+    }
+
+    private class BitmapSaver implements Runnable
+    {
+        private final  File file;
+        private final Bitmap bitmap;
+        public BitmapSaver(File file, Bitmap bitmap)
         {
-            try {
-                outStream= new FileOutputStream(file);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
-                outStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            this.file = file;
+            this.bitmap = bitmap;
         }
-        else
-        {
-            DocumentFile df =  activityInterface.getFreeDcamDocumentFolder();
-            Logger.d(TAG,"Filepath: " + df.getUri());
-            DocumentFile wr = df.createFile("image/*", file.getName());
-            Logger.d(TAG,"Filepath: " + wr.getUri());
-            try {
-                outStream = activityInterface.getContext().getContentResolver().openOutputStream(wr.getUri());
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
-                outStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+        /**
+         * Starts executing the active part of the class' code. This method is
+         * called when a thread is started that has been created with a class which
+         * implements {@code Runnable}.
+         */
+        @Override
+        public void run() {
+            OutputStream outStream = null;
+            boolean writetoExternalSD = activityInterface.getAppSettings().GetWriteExternal();
+            Logger.d(TAG, "Write External " + writetoExternalSD);
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || !writetoExternalSD && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            {
+                try {
+                    outStream= new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+                    outStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+            else
+            {
+                DocumentFile df =  activityInterface.getFreeDcamDocumentFolder();
+                Logger.d(TAG,"Filepath: " + df.getUri());
+                DocumentFile wr = df.createFile("image/*", file.getName());
+                Logger.d(TAG,"Filepath: " + wr.getUri());
+                try {
+                    outStream = activityInterface.getContext().getContentResolver().openOutputStream(wr.getUri());
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+                    outStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            scanFile(file);
+        }
+    }
+
+    public void SaveJpegByteArray(File file, byte[]bytes)
+    {
+        final JpegSaver jpegSaver = new JpegSaver(file, bytes);
+        AsyncTask.THREAD_POOL_EXECUTOR.execute(jpegSaver);
+    }
+
+    private class JpegSaver implements Runnable {
+
+        private final  File file;
+        private final byte[] bytes;
+        public JpegSaver(File file, byte[] bytes)
+        {
+            this.file = file;
+            this.bytes = bytes;
+        }
+        /**
+         * Starts executing the active part of the class' code. This method is
+         * called when a thread is started that has been created with a class which
+         * implements {@code Runnable}.
+         */
+        @Override
+        public void run() {
+            Logger.d(TAG, "Start Saving Bytes");
+            OutputStream outStream = null;
+            try {
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP&& !activityInterface.getAppSettings().GetWriteExternal())
+                {
+                    checkFileExists(file);
+                    outStream = new FileOutputStream(file);
+                }
+                else
+                {
+                    DocumentFile df = activityInterface.getFreeDcamDocumentFolder();
+                    Logger.d(TAG,"Filepath: " + df.getUri());
+                    DocumentFile wr = df.createFile("image/*", file.getName());
+                    Logger.d(TAG,"Filepath: " + wr.getUri());
+                    outStream = activityInterface.getContext().getContentResolver().openOutputStream(wr.getUri());
+                }
+                outStream.write(bytes);
+                outStream.flush();
+                outStream.close();
+
+
+            } catch (IOException e) {
+                Logger.exception(e);
+            }
+            scanFile(file);
+            Logger.d(TAG, "End Saving Bytes");
         }
     }
 }

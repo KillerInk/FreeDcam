@@ -276,8 +276,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     public void onCameraUiWrapperRdy(CameraWrapperInterface cameraUiWrapper) {
         //note the ui that cameraFragment is loaded
         cameraUiWrapper.GetParameterHandler().AddParametersLoadedListner(this);
-        if (cameraUiWrapper.GetModuleHandler() != null)
-            cameraUiWrapper.GetModuleHandler().AddWorkFinishedListner(this);
         if (cameraUiFragment != null) {
             cameraUiFragment.SetCameraUIWrapper(cameraUiWrapper);
         }

@@ -477,7 +477,6 @@ public class PictureModuleApi2 extends AbstractModuleApi2
             }
 
             isWorking = false;
-            scanAndFinishFile(file);
             changeCaptureState(CaptureStates.image_capture_stop);
             if (burstcount == imagecount) {
                 finishCapture(captureBuilder);

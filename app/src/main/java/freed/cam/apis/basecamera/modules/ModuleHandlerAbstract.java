@@ -68,8 +68,6 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
 
     //holds all listner for the modulechanged event
     private final ArrayList<ModuleChangedEvent> moduleChangedListner;
-    //holds all listner for workfinishedlistner
-    private final ArrayList<I_WorkEvent> WorkFinishedListners;
     //holds all listner for recorstatechanged
     private final ArrayList<I_RecorderStateChanged> RecorderStateListners;
     private Handler uihandler;
@@ -83,7 +81,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         this.cameraUiWrapper = cameraUiWrapper;
         moduleList = new HashMap<>();
         moduleChangedListner = new ArrayList<>();
-        WorkFinishedListners = new ArrayList<>();
+//        WorkFinishedListners = new ArrayList<>();
         RecorderStateListners = new ArrayList<>();
         this.appSettingsManager = cameraUiWrapper.GetAppSettingsManager();
         onCaptureStateChangedListners = new ArrayList<>();
@@ -210,21 +208,6 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         }
     }
 
-    /**
-     * add listner for workfinished
-     * @param i_workEvent the listner for that event
-     */
-    public void AddWorkFinishedListner(I_WorkEvent i_workEvent)
-    {
-        if (!WorkFinishedListners.contains(i_workEvent))
-            WorkFinishedListners.add(i_workEvent);
-    }
-
-    public void WorkFinished(FileHolder fileholder)
-    {
-        for (I_WorkEvent listner : WorkFinishedListners)
-            listner.WorkHasFinished(fileholder);
-    }
 
     public void AddRecoderChangedListner(I_RecorderStateChanged recorderStateChanged)
     {
@@ -241,7 +224,6 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
     public void CLEAR()
     {
         moduleChangedListner.clear();
-        WorkFinishedListners.clear();
         RecorderStateListners.clear();
     }
 

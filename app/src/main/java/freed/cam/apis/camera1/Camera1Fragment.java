@@ -89,7 +89,6 @@ public class Camera1Fragment extends CameraFragmentAbstract implements I_Paramet
         extendedSurfaceView = (ExtendedSurfaceView) view.findViewById(id.exSurface);
         preview = (TextureViewRatio) view.findViewById(id.textureView_preview);
 
-
         parametersHandler = new ParametersHandler(this);
         parametersHandler.AddParametersLoadedListner(this);
         this.extendedSurfaceView.ParametersHandler = parametersHandler;

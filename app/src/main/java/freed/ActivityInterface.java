@@ -25,6 +25,7 @@ import android.support.v4.provider.DocumentFile;
 
 import java.util.List;
 
+import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.utils.AppSettingsManager;
 import freed.utils.ImageSaver;
 import freed.utils.LocationHandler;
@@ -35,7 +36,7 @@ import freed.viewer.holder.FileHolder;
 /**
  * Created by troop on 22.03.2015.
  */
-public interface ActivityInterface
+public interface ActivityInterface extends I_WorkEvent
 {
     void SwitchCameraAPI(String Api);
     void closeActivity();

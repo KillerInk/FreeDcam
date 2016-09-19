@@ -20,16 +20,7 @@
 package freed.cam.apis.camera1.modules;
 
 import android.hardware.Camera;
-import android.location.Location;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
-import android.os.ParcelFileDescriptor;
-import android.support.v4.provider.DocumentFile;
-
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;
@@ -37,10 +28,8 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract.CaptureStates;
 import freed.cam.apis.camera1.CameraHolder;
 import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.dng.DngProfile;
-import freed.jni.RawToDng;
 import freed.utils.AppSettingsManager;
 import freed.utils.DeviceUtils.Devices;
-import freed.utils.FreeDPool;
 import freed.utils.Logger;
 import freed.utils.StringUtils.FileEnding;
 
@@ -184,9 +173,9 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         Logger.d(this.TAG, "saveImage:"+toSave.getName() + " Filesize: "+data.length);
         if (picFormat.equals(FileEnding.DNG))
             saveDng(data,toSave);
-        else
+        else {
             cameraUiWrapper.getActivityInterface().getImageSaver().SaveJpegByteArray(toSave,data);
-        scanAndFinishFile(toSave);
+        }
     }
 
     private String getFileEnding(String picFormat)
