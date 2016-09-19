@@ -161,11 +161,12 @@ public class StackingModuleApi2 extends AbstractModuleApi2
     }
 
     private void saveImageToFile() {
+        changeCaptureState(CaptureStates.continouse_capture_work_stop);
         final Bitmap outputBitmap = Bitmap.createBitmap(mWidth, mHeight, Config.ARGB_8888);
         renderScriptHandler.GetOut().copyTo(outputBitmap);
         File stackedImg = new File(cameraUiWrapper.getActivityInterface().getStorageHandler().getNewFilePath(appSettingsManager.GetWriteExternal(), "_stack.jpg"));
         cameraUiWrapper.getActivityInterface().getImageSaver().SaveBitmapToFile(outputBitmap,stackedImg);
-        changeCaptureState(CaptureStates.continouse_capture_work_stop);
+        changeCaptureState(CaptureStates.cont_capture_stop_while_notworking);
         isWorking = false;
         keepstacking =false;
     }

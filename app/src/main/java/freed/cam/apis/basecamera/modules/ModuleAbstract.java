@@ -76,24 +76,18 @@ public abstract class ModuleAbstract implements ModuleInterface
     /**
      * throw this when camera starts working to notify ui
      */
-    protected void changeCaptureState(CaptureStates captureStates)
+    protected void changeCaptureState(final CaptureStates captureStates)
     {
         Logger.d(TAG, "work started");
         currentWorkState = captureStates;
-        Message msg = Message.obtain();
-        msg.obj = currentWorkState;
-        mMessageHandler.sendMessage(msg);
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                if (captureStateChangedListner != null)
+                    captureStateChangedListner.onCaptureStateChanged(captureStates);
+            }
+        });
     }
-
-    private final Handler mMessageHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg)
-        {
-            CaptureStates work = (CaptureStates)msg.obj;
-            if (captureStateChangedListner != null)
-                captureStateChangedListner.onCaptureStateChanged(work);
-        }
-    };
 
     @Override
     public String ModuleName() {

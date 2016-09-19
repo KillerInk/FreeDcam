@@ -60,7 +60,7 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
     //shutter_open_radius for the Transparent Radius to draw to simulate shutter open
     private float shutter_open_radius = 0.0f;
     //frames to draw
-    private final int MAXFRAMES = 10;
+    private final int MAXFRAMES = 5;
     //holds the currentframe number
     private int currentframe = 0;
     //handler to call the animaiont frames
@@ -121,7 +121,7 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
 
     public void SetCameraUIWrapper(CameraWrapperInterface cameraUiWrapper, UserMessageHandler messageHandler)
     {
-        if (this.cameraUiWrapper == cameraUiWrapper || cameraUiWrapper.GetModuleHandler() == null)
+        if (cameraUiWrapper.GetModuleHandler() == null)
             return;
         this.cameraUiWrapper = cameraUiWrapper;
         cameraUiWrapper.GetModuleHandler().SetWorkListner(this);
