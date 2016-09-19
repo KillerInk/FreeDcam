@@ -20,7 +20,9 @@
 package freed.cam.apis.camera1.modules;
 
 import android.hardware.Camera;
+
 import java.io.File;
+
 import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.cam.apis.basecamera.modules.ModuleAbstract;

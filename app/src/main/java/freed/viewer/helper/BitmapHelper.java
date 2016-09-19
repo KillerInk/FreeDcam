@@ -27,7 +27,6 @@ import android.media.ThumbnailUtils;
 import android.provider.MediaStore.Video.Thumbnails;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import freed.cam.apis.basecamera.modules.I_WorkEvent;
 import freed.jni.RawUtils;

@@ -31,7 +31,6 @@ import freed.cam.apis.KEYS;
 import freed.cam.apis.basecamera.CameraWrapperInterface;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;
-import freed.viewer.holder.FileHolder;
 
 /**
  * Created by troop on 09.12.2014.

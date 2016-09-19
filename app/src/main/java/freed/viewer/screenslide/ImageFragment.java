@@ -41,7 +41,6 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 
 import freed.ActivityInterface;
-import freed.utils.FreeDPool;
 import freed.utils.Logger;
 import freed.viewer.holder.FileHolder;
 import freed.viewer.screenslide.ScreenSlideFragment.FragmentClickClistner;
