@@ -79,6 +79,10 @@
         <item>HTC Shooter</item>
     </string-array>
 
+    <string-array name="Sony_Z5C">
+        <item>E5823</item>
+    </string-array>
+
     <string-array name="HTC_Desire500">
         <item>HTC Desire 500</item>
     </string-array>

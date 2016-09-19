@@ -102,6 +102,7 @@ public class DeviceUtils
         SonyC4_MTK,
         SonyC5_MTK,
         Sony_XperiaL,
+        Sony_Z5C,
         THL5000_MTK,
         Umi_Rome_X,
         Vivo_Xplay3s,
@@ -311,6 +312,8 @@ public class DeviceUtils
             return Devices.MeizuM1Metal_MTK;
         else if (isDevice(res.getStringArray(array.myphone_ininity2s)))
             return Devices.MyPhone_Infinity2S;
+        else if(isDevice(res.getStringArray(array.Sony_Z5C)))
+            return Devices.Sony_Z5C;
         else
             return Devices.UNKNOWN;
 
