@@ -83,6 +83,7 @@ import freed.cam.apis.camera1.parameters.device.qcom.OnePlusOne;
 import freed.cam.apis.camera1.parameters.device.qcom.OnePlusTwo;
 import freed.cam.apis.camera1.parameters.device.qcom.Sony_M4;
 import freed.cam.apis.camera1.parameters.device.qcom.Sony_XperiaL;
+import freed.cam.apis.camera1.parameters.device.qcom.Sony_Z5C;
 import freed.cam.apis.camera1.parameters.device.qcom.Vivo_Xplay3s;
 import freed.cam.apis.camera1.parameters.device.qcom.WileyFox_Swift;
 import freed.cam.apis.camera1.parameters.device.qcom.Xiaomi_Mi3_4;
@@ -280,6 +281,8 @@ public class DeviceSelector {
                return new Sony_C4(cameraParameters,cameraUiWrapper);
             case SonyC5_MTK:
                return new Sony_C5(cameraParameters,cameraUiWrapper);
+            case Sony_Z5C:
+                return new Sony_Z5C(cameraParameters,cameraUiWrapper);
                 
             case Sony_XperiaL:
                return new Sony_XperiaL(cameraParameters,cameraUiWrapper);
