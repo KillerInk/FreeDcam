@@ -40,10 +40,7 @@ import freed.viewer.holder.FileHolder;
  */
 public class BitmapHelper
 {
-    public  CacheHelper CACHE;
-
-    private ArrayList<FileHolder> filesToProcess;
-    private boolean workInProgress = false;
+    private CacheHelper CACHE;
     private int mImageThumbSizeW;
     private I_WorkEvent done;
 
@@ -51,7 +48,6 @@ public class BitmapHelper
     public BitmapHelper(Context context, int mImageThumbSizeW, I_WorkEvent done)
     {
         CACHE = new CacheHelper(context);
-        filesToProcess = new ArrayList<>();
         this.mImageThumbSizeW = mImageThumbSizeW;
         this.done = done;
     }
@@ -71,31 +67,7 @@ public class BitmapHelper
             response = getCacheBitmap(file,thumb);
             if (response == null)
             {
-                if (!filesToProcess.contains(file))
-                    filesToProcess.add(file);
-                if (!workInProgress)
-                {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run()
-                        {
-                            workInProgress = true;
-                            synchronized (filesToProcess) {
-                                while(filesToProcess.size() > 0)
-                                {
-
-                                    final FileHolder f = filesToProcess.get(0);
-                                    if (null != f) {
-                                        createCacheImage(f.getFile());
-                                        done.WorkHasFinished(f);
-                                    }
-                                    filesToProcess.remove(f);
-                                }
-                            }
-                            workInProgress = false;
-                        }
-                    }).start();
-                }
+                response = createCacheImage(file.getFile(),thumb);
             }
 
         } catch (NullPointerException e) {
@@ -139,7 +111,7 @@ public class BitmapHelper
         CACHE.deleteFileFromDiskCache(file.getName()+"_thumb");
     }
 
-    private void createCacheImage(File file)
+    private Bitmap createCacheImage(File file, boolean thumb)
     {
         Bitmap response = null;
         if (response == null && file.exists())
@@ -167,10 +139,14 @@ public class BitmapHelper
             if (response != null && CACHE != null)
             {
                 CACHE.addBitmapToCache(file.getName(), response);
-                CACHE.addBitmapToCache(file.getName() + "_thumb", ThumbnailUtils.extractThumbnail(response, mImageThumbSizeW, mImageThumbSizeW));
-                response = null;
+                Bitmap thumbbitmap = ThumbnailUtils.extractThumbnail(response, mImageThumbSizeW, mImageThumbSizeW);
+                CACHE.addBitmapToCache(file.getName() + "_thumb", thumbbitmap);
+                if (thumb)
+                    response = thumbbitmap;
+
             }
         }
+        return response;
     }
 
 }

@@ -22,18 +22,23 @@ package freed.viewer.screenslide;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.ortiz.touch.TouchImageView;
 import com.troop.freedcam.R.dimen;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
+
+import java.io.File;
+import java.lang.ref.WeakReference;
 
 import freed.ActivityInterface;
 import freed.utils.FreeDPool;
@@ -72,15 +77,6 @@ public class ImageFragment extends Fragment
     public void SetFilePath(FileHolder filepath)
     {
         file = filepath;
-        /*if (imageView != null) {
-            FreeDPool.Execute(new Runnable() {
-                @Override
-                public void run() {
-                    loadImage();
-                }
-            });
-
-        }*/
     }
 
     public boolean IsWorking()
@@ -127,17 +123,17 @@ public class ImageFragment extends Fragment
         imageView.setOnClickListener(onImageClick);
         progressBar.setVisibility(View.VISIBLE);
         if (file != null) {
-            FreeDPool.Execute(new Runnable() {
-                @Override
-                public void run() {
-                    loadImage();
-                }
-            });
+            AsyncTask.execute(new ImageLoader(imageView,file.getFile()));
         }
 
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        histogramData = null;
+    }
 
     private final OnClickListener onImageClick = new OnClickListener() {
         @Override
@@ -148,26 +144,50 @@ public class ImageFragment extends Fragment
         }
     };
 
-    private void loadImage()
-    {
-        Logger.d(TAG,"loadImage()"+ file.getFile().getName());
-        isWorking = true;
-        final Bitmap response = getBitmap();
-        imageView.post(new Runnable() {
-            @Override
-            public void run()
-            {
-                progressBar.setVisibility(View.GONE);
-                imageView.setImageBitmap(response);
-            }
-        });
 
-        createHistogramm(response);
-        if (waitForWorkFinish != null && position >-1)
-            waitForWorkFinish.HistograRdyToSet(histogramData, position);
-        waitForWorkFinish = null;
-        isWorking = false;
+    private class ImageLoader implements Runnable
+    {
+        private final WeakReference<ImageView> imageViewReference;
+        private final File file;
+
+        public ImageLoader(ImageView imageView, File file)
+        {
+            this.imageViewReference = new WeakReference<ImageView>(imageView);
+            this.file = file;
+        }
+        /**
+         * Starts executing the active part of the class' code. This method is
+         * called when a thread is started that has been created with a class which
+         * implements {@code Runnable}.
+         */
+        @Override
+        public void run() {
+            Logger.d(TAG,"loadImage()"+ file.getName());
+            isWorking = true;
+            final Bitmap response = getBitmap();
+            if (imageViewReference != null && response != null) {
+                final ImageView imageView = imageViewReference.get();
+                if (imageView != null) {
+                    imageView.post(new Runnable() {
+                        @Override
+                        public void run()
+                        {
+                            progressBar.setVisibility(View.GONE);
+                            imageView.setImageBitmap(response);
+                        }
+                    });
+                    createHistogramm(response);
+                    if (waitForWorkFinish != null && position >-1)
+                        waitForWorkFinish.HistograRdyToSet(histogramData, position);
+                    waitForWorkFinish = null;
+                }
+            }
+            else
+                histogramData = null;
+            isWorking = false;
+        }
     }
+
 
     private Bitmap getBitmap()
     {

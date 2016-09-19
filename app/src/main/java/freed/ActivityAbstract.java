@@ -262,8 +262,10 @@ public abstract class ActivityAbstract extends FragmentActivity implements Activ
     {
         if (files == null)
             return;
-        files.add(file);
-        SortFileHolder(files);
+        synchronized (files) {
+            files.add(file);
+            SortFileHolder(files);
+        }
         throwOnFileAdded(file.getFile());
     }
 

@@ -463,27 +463,36 @@ public class ActivityFreeDcamMain extends ActivityAbstract
     @Override
     public void WorkHasFinished(final FileHolder fileHolder) {
         Logger.d(TAG, "newImageRecieved:" + fileHolder.getFile().getAbsolutePath());
-        final Bitmap b = getBitmapHelper().getBitmap(fileHolder, true);
+        /*final Bitmap b = getBitmapHelper().getBitmap(fileHolder, true);
         if (b == null) {
             return;
         }
-        else {
-            AddFile(fileHolder);
+        else {*/
+        Logger.d(TAG,"WorkHasFinished:"+ fileHolder.getFile().getName());
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
 
+                    AddFile(fileHolder);
                     if (screenSlideFragment != null && activityIsResumed)
                         screenSlideFragment.NotifyDATAhasChanged();
                 }
             });
-        }
+        //}
     }
 
     private I_WorkEvent cacheImageRdy = new I_WorkEvent() {
         @Override
         public void WorkHasFinished(final FileHolder fileHolder) {
-            final Bitmap b = getBitmapHelper().getCacheBitmap(fileHolder, true);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Logger.d(TAG,"Cached Image Rdy:"+ fileHolder.getFile().getName());
+                    if (screenSlideFragment != null && activityIsResumed)
+                        screenSlideFragment.NotifyDATAhasChanged();
+                }
+            });
+            /*final Bitmap b = getBitmapHelper().getCacheBitmap(fileHolder, true);
             if (b == null)
                 return;
 
@@ -495,7 +504,7 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                     if (screenSlideFragment != null && activityIsResumed)
                         screenSlideFragment.NotifyDATAhasChanged();
                 }
-            });
+            });*/
         }
     };
 

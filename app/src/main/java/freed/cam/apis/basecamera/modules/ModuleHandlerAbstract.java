@@ -123,7 +123,7 @@ public abstract class ModuleHandlerAbstract implements ModuleHandlerInterface
         if (currentModule !=null) {
             currentModule.DestroyModule();
             currentModule.SetCaptureStateChangedListner(null);
-
+            currentModule = null;
         }
         currentModule = moduleList.get(name);
         currentModule.InitModule();

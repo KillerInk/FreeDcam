@@ -1,21 +1,17 @@
 package freed.cam.ui.guide;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TabHost;
 
 import com.troop.freedcam.R.drawable;
 import com.troop.freedcam.R.id;
 import com.troop.freedcam.R.layout;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
-import freed.cam.apis.basecamera.parameters.I_ParametersLoaded;
 import freed.cam.apis.basecamera.parameters.modes.AbstractModeParameter.I_ModeParameterEvent;
 import freed.utils.AppSettingsManager;
 import freed.utils.Logger;
@@ -71,7 +67,7 @@ public class GuideHandler extends Fragment implements I_ModeParameterEvent {
 
     private void SetViewG(final String str)
     {
-        BitmapWorkerTask task = new BitmapWorkerTask(img, getResources());
+        BitmapRessourceWorkerTask task = new BitmapRessourceWorkerTask(img, getResources());
         if (quckRationMath < 1.44f) {
             switch (str) {
                 case "Golden Spiral":
