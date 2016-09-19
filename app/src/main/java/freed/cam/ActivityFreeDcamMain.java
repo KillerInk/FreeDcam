@@ -492,19 +492,6 @@ public class ActivityFreeDcamMain extends ActivityAbstract
                         screenSlideFragment.NotifyDATAhasChanged();
                 }
             });
-            /*final Bitmap b = getBitmapHelper().getCacheBitmap(fileHolder, true);
-            if (b == null)
-                return;
-
-            new Handler(Looper.getMainLooper()).post(new Runnable()
-            {
-                @Override
-                public void run() {
-                    AddFile(fileHolder);
-                    if (screenSlideFragment != null && activityIsResumed)
-                        screenSlideFragment.NotifyDATAhasChanged();
-                }
-            });*/
         }
     };
 

@@ -26,6 +26,8 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v4.provider.DocumentFile;
 
 import java.io.File;
@@ -78,9 +80,20 @@ public abstract class ModuleAbstract implements ModuleInterface
     {
         Logger.d(TAG, "work started");
         currentWorkState = captureStates;
-        if (captureStateChangedListner != null)
-            captureStateChangedListner.onCaptureStateChanged(captureStates);
+        Message msg = Message.obtain();
+        msg.obj = currentWorkState;
+        mMessageHandler.sendMessage(msg);
     }
+
+    private final Handler mMessageHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg)
+        {
+            CaptureStates work = (CaptureStates)msg.obj;
+            if (captureStateChangedListner != null)
+                captureStateChangedListner.onCaptureStateChanged(work);
+        }
+    };
 
     @Override
     public String ModuleName() {

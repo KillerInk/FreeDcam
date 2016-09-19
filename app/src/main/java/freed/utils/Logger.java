@@ -163,7 +163,7 @@ public class Logger
 
         }
 
-        public void Destroy()
+        public synchronized void Destroy()
         {
 
             if (outputStream != null)
@@ -195,7 +195,7 @@ public class Logger
 
         }
 
-        public void WriteLogDebug(String TAG, String msg)
+        public synchronized void WriteLogDebug(String TAG, String msg)
         {
             if (writer == null)
                 return;
@@ -211,7 +211,7 @@ public class Logger
             }
         }
 
-        public void WriteLogErrorDebug(String TAG, String msg)
+        public synchronized void WriteLogErrorDebug(String TAG, String msg)
         {
             if (writer == null)
                 return;
@@ -227,7 +227,7 @@ public class Logger
             }
         }
 
-        public void WriteEx(Throwable ex)
+        public synchronized void WriteEx(Throwable ex)
         {
             StringWriter errors = new StringWriter();
             ex.printStackTrace(new PrintWriter(errors));
