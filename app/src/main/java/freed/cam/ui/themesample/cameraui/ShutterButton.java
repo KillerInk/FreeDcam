@@ -298,7 +298,7 @@ public class ShutterButton extends Button implements ModuleChangedEvent, ModuleH
                 shutter_open_radius -= shutter_open_step;
                 break;
         }
-        Logger.d(TAG,"shutter_open:" + shutter_open_radius + " recCircle:" + recordingRadiusCircle + " recRect:" + recordingRadiusRectangle +  " captureState:" + currentShow);
+        //Logger.d(TAG,"shutter_open:" + shutter_open_radius + " recCircle:" + recordingRadiusCircle + " recRect:" + recordingRadiusRectangle +  " captureState:" + currentShow);
         invalidate();
     }
 
