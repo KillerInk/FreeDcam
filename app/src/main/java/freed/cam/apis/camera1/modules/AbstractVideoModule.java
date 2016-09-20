@@ -194,6 +194,7 @@ public abstract class AbstractVideoModule extends ModuleAbstract
             }
             File file = new File(mediaSavePath);
             cameraUiWrapper.getActivityInterface().getImageSaver().scanFile(file);
+            cameraUiWrapper.GetModuleHandler().onRecorderstateChanged(I_RecorderStateChanged.STATUS_RECORDING_STOP);
 
         }
         changeCaptureState(CaptureStates.video_recording_stop);
