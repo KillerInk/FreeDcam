@@ -16,7 +16,6 @@
             android:id="@+id/seekbar"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:background="@drawable/rs_background"
             android:layout_marginTop="@dimen/rotatingseekbar_margine"
             android:layout_marginBottom="@dimen/rotatingseekbar_margine" />
     </FrameLayout>
