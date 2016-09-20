@@ -43,8 +43,9 @@ public class CompassDrawer extends View
     private float degreePerPixel;
     private final String TAG = CompassDrawer.class.getSimpleName();
     private float allitemsWidth;
+    private final float TEXTSHADOWMARGINE = 3;
 
-    private String[] directionValue = { "N", "N/E", "E","S/E", "S", "S/W", "W", "N/W"};
+    private String[] directionValue = { "N", "NE", "E","SE", "S", "SW", "W", "NW"};
 
     /**
      * Simple constructor to use when creating a view from code.
@@ -106,10 +107,13 @@ public class CompassDrawer extends View
 
     }
 
+
     @Override
     protected void onDraw(Canvas canvas)
     {
-        //super.onDraw(canvas);
+        paint.setColor(Color.BLACK);
+        canvas.drawLine(width/2+TEXTSHADOWMARGINE, 0+TEXTSHADOWMARGINE, width/2+TEXTSHADOWMARGINE, 20+TEXTSHADOWMARGINE,paint);
+        paint.setColor(Color.WHITE);
         canvas.drawLine(width/2, 0, width/2, 20,paint);
         paint.setTextSize(convertDpiToPixel(15));
         for(int i = 0; i < directionValue.length; i++)
@@ -117,8 +121,25 @@ public class CompassDrawer extends View
             float postodraw = itemwidth * i + width/2 + (int)positionRelativeToNorth * degreePerPixel;
             if (postodraw + width/2 > allitemsWidth)
                 postodraw -= allitemsWidth;
-            canvas.drawText(directionValue[i], postodraw, height/2, paint);
+            paint.setColor(Color.BLACK);
+            canvas.drawText(directionValue[i], getItemCenterMargine(postodraw), height/2 +TEXTSHADOWMARGINE, paint);
+            paint.setColor(Color.WHITE);
+            canvas.drawText(directionValue[i], getItemCenter(postodraw), height/2, paint);
+            paint.setColor(Color.BLACK);
+            canvas.drawLine(getItemCenterMargine(postodraw), 21+TEXTSHADOWMARGINE, getItemCenterMargine(postodraw), 41+TEXTSHADOWMARGINE,paint);
+            paint.setColor(Color.WHITE);
+            canvas.drawLine(getItemCenter(postodraw), 21, getItemCenter(postodraw), 41,paint);
         }
+    }
+
+    private float getItemCenter(float posTodraw)
+    {
+        return posTodraw + itemwidth/2;
+    }
+
+    private float getItemCenterMargine(float posTodraw)
+    {
+        return posTodraw + itemwidth/2 +TEXTSHADOWMARGINE;
     }
 
     @Override
