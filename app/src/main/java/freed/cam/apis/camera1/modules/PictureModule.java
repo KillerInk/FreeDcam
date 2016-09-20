@@ -209,9 +209,11 @@ public class PictureModule extends ModuleAbstract implements Camera.PictureCallb
         float exposuretime = cameraUiWrapper.GetParameterHandler().getDevice().getCurrentExposuretime();
         int iso = cameraUiWrapper.GetParameterHandler().getDevice().getCurrentIso();
         String wb = null;
-        if (cameraUiWrapper.GetParameterHandler().CCT != null && cameraUiWrapper.GetParameterHandler().CCT.IsSupported() && !wb.equals(KEYS.AUTO))
+        if (cameraUiWrapper.GetParameterHandler().CCT != null && cameraUiWrapper.GetParameterHandler().CCT.IsSupported())
         {
             wb = cameraUiWrapper.GetParameterHandler().CCT.GetStringValue();
+            if (wb.equals(KEYS.AUTO))
+                wb = null;
             Logger.d(this.TAG,"Set Manual WhiteBalance:"+ wb);
         }
         DngProfile dngProfile = cameraUiWrapper.GetParameterHandler().getDevice().getDngProfile(data.length);

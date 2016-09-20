@@ -230,6 +230,7 @@ public class Logger
         public synchronized void WriteEx(Throwable ex)
         {
             StringWriter errors = new StringWriter();
+            ex.printStackTrace();
             ex.printStackTrace(new PrintWriter(errors));
             try {
                 writer.write(errors.toString());
