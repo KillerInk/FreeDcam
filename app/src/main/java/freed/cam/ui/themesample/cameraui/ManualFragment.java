@@ -181,7 +181,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
         previewZoom.SetManualParameter(cameraUiWrapper.GetParameterHandler().PreviewZoom);
         seekbar.setVisibility(View.GONE);
         afBracketSettingsView.SetCameraWrapper(cameraUiWrapper);
-        if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_AFBRACKET) && currentButton == mf)
+        if (cameraUiWrapper.GetModuleHandler().GetCurrentModuleName().equals(KEYS.MODULE_AFBRACKET) && currentButton == mf && seekbar.getVisibility() == View.VISIBLE)
             afBracketSettingsView.setVisibility(View.VISIBLE);
         else
             afBracketSettingsView.setVisibility(View.GONE);
@@ -310,7 +310,7 @@ public class ManualFragment extends AbstractFragment implements OnSeekBarChangeL
     @Override
     public void onModuleChanged(String module)
     {
-        if (module.equals(KEYS.MODULE_AFBRACKET))
+        if (module.equals(KEYS.MODULE_AFBRACKET) && seekbar.getVisibility() == View.VISIBLE)
             afBracketSettingsView.setVisibility(View.VISIBLE);
         else
             afBracketSettingsView.setVisibility(View.GONE);
