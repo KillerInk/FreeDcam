@@ -65,16 +65,11 @@ public class FocusImageHandler extends AbstractFocusImageHandler
     private final ImageView meteringArea;
     private FocusRect meteringRect;
 
-    private FocusSelector fs;
-    private ExposureSelector es;
 
     public FocusImageHandler(View view, ActivityAbstract fragment)
     {
         super(view, fragment);
         focusImageView = (ImageView)view.findViewById(R.id.imageView_Crosshair);
-
-        fs = (FocusSelector)view.findViewById(R.id.custFocus);
-        es = (ExposureSelector) view.findViewById(R.id.custExpo);
 
         cancelFocus = (ImageView)view.findViewById(R.id.imageViewFocusClose);
         meteringArea = (ImageView)view.findViewById(R.id.imageView_meteringarea);
