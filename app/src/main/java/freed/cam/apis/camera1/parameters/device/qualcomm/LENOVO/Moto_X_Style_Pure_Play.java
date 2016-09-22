@@ -22,8 +22,10 @@ package freed.cam.apis.camera1.parameters.device.qualcomm.LENOVO;
 import android.hardware.Camera.Parameters;
 
 import freed.cam.apis.basecamera.CameraWrapperInterface;
+import freed.cam.apis.basecamera.FocusRect;
 import freed.cam.apis.basecamera.parameters.manual.AbstractManualParameter;
 import freed.cam.apis.basecamera.parameters.modes.MatrixChooserParameter;
+import freed.cam.apis.camera1.parameters.ParametersHandler;
 import freed.cam.apis.camera1.parameters.device.qualcomm.ALCATEL.Alcatel_Idol3;
 import freed.cam.apis.camera1.parameters.manual.BaseManualParameter;
 import freed.cam.apis.camera1.parameters.manual.qcom.SkintoneManualPrameter;
@@ -58,5 +60,12 @@ public class Moto_X_Style_Pure_Play extends Alcatel_Idol3 {
         parametersHandler.PictureFormat.addEventListner(((BaseManualParameter)Skintone).GetPicFormatListner());
         cameraUiWrapper.GetModuleHandler().addListner(((BaseManualParameter) Skintone).GetModuleListner());
         return Skintone;
+    }
+
+    @Override
+    public void SetFocusArea(FocusRect focusAreas) {
+        parameters.set("touch-aec","on");
+        parameters.set("touch-index-af", focusAreas.x + "," + focusAreas.y);
+        ((ParametersHandler) cameraUiWrapper.GetParameterHandler()).SetParametersToCamera(parameters);
     }
 }
